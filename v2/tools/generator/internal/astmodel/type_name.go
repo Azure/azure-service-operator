@@ -21,6 +21,14 @@ type TypeName struct {
 	name             string
 }
 
+// TODO: this is done to easily rename status types without conflicts,
+// we intend to fix this in a different way in the future
+var StatusNameSuffix = "_STATUS"
+
+func (tn TypeName) RepresentsStatusType() bool {
+	return strings.Contains(tn.name, StatusNameSuffix)
+}
+
 var EmptyTypeName TypeName = TypeName{}
 
 func SortTypeName(left, right TypeName) bool {
@@ -162,16 +170,18 @@ var typeNameSingularToPluralOverrides map[string]string
 
 // Singular returns a TypeName with the name singularized.
 func (typeName TypeName) Singular() TypeName {
+	return typeName.WithName(Singularize((typeName.Name())))
+}
+
+func Singularize(name string) string {
 	// work around bug in flect: https://github.com/Azure/azure-service-operator/issues/1454
-	name := typeName.name
 	for plural, single := range typeNamePluralToSingularOverrides {
 		if strings.HasSuffix(name, plural) {
-			n := name[0:len(name)-len(plural)] + single
-			return MakeTypeName(typeName.PackageReference, n)
+			return name[0:len(name)-len(plural)] + single
 		}
 	}
 
-	return MakeTypeName(typeName.PackageReference, flect.Singularize(typeName.name))
+	return flect.Singularize(name)
 }
 
 // Plural returns a TypeName with the name pluralized.

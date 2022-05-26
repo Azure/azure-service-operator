@@ -11,7 +11,7 @@ import (
 // Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
 	// +kubebuilder:validation:Required
-	Color *TestColor `json:"color,omitempty"`
+	Color *Test_Color `json:"color,omitempty"`
 }
 
 // AssignPropertiesFromTest populates our Test from the provided source Test
@@ -19,7 +19,7 @@ func (test *Test) AssignPropertiesFromTest(source *v20200101s.Test) error {
 
 	// Color
 	if source.Color != nil {
-		color := TestColor(*source.Color)
+		color := Test_Color(*source.Color)
 		test.Color = &color
 	} else {
 		test.Color = nil
@@ -54,10 +54,10 @@ func (test *Test) AssignPropertiesToTest(destination *v20200101s.Test) error {
 }
 
 // +kubebuilder:validation:Enum={"blue","green","red"}
-type TestColor string
+type Test_Color string
 
 const (
-	TestColorBlue  = TestColor("blue")
-	TestColorGreen = TestColor("green")
-	TestColorRed   = TestColor("red")
+	Test_ColorBlue  = Test_Color("blue")
+	Test_ColorGreen = Test_Color("green")
+	Test_ColorRed   = Test_Color("red")
 )

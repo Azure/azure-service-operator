@@ -74,23 +74,23 @@ func NamespacesEventhubsConsumerGroupGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForNamespacesEventhubsConsumerGroup is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespacesEventhubsConsumerGroup(gens map[string]gopter.Gen) {
-	gens["Spec"] = NamespacesEventhubsConsumergroupsSpecGenerator()
-	gens["Status"] = ConsumerGroupStatusGenerator()
+	gens["Spec"] = NamespacesEventhubsConsumergroup_SpecGenerator()
+	gens["Status"] = ConsumerGroup_STATUSGenerator()
 }
 
-func Test_ConsumerGroup_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ConsumerGroup_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ConsumerGroup_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForConsumerGroupStatus, ConsumerGroupStatusGenerator()))
+		"Round trip of ConsumerGroup_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForConsumerGroup_STATUS, ConsumerGroup_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForConsumerGroupStatus runs a test to see if a specific instance of ConsumerGroup_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForConsumerGroupStatus(subject ConsumerGroup_Status) string {
+// RunJSONSerializationTestForConsumerGroup_STATUS runs a test to see if a specific instance of ConsumerGroup_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForConsumerGroup_STATUS(subject ConsumerGroup_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -98,7 +98,7 @@ func RunJSONSerializationTestForConsumerGroupStatus(subject ConsumerGroup_Status
 	}
 
 	// Deserialize back into memory
-	var actual ConsumerGroup_Status
+	var actual ConsumerGroup_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -116,34 +116,34 @@ func RunJSONSerializationTestForConsumerGroupStatus(subject ConsumerGroup_Status
 	return ""
 }
 
-// Generator of ConsumerGroup_Status instances for property testing - lazily instantiated by
-// ConsumerGroupStatusGenerator()
-var consumerGroupStatusGenerator gopter.Gen
+// Generator of ConsumerGroup_STATUS instances for property testing - lazily instantiated by
+// ConsumerGroup_STATUSGenerator()
+var consumerGroup_STATUSGenerator gopter.Gen
 
-// ConsumerGroupStatusGenerator returns a generator of ConsumerGroup_Status instances for property testing.
-// We first initialize consumerGroupStatusGenerator with a simplified generator based on the
+// ConsumerGroup_STATUSGenerator returns a generator of ConsumerGroup_STATUS instances for property testing.
+// We first initialize consumerGroup_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ConsumerGroupStatusGenerator() gopter.Gen {
-	if consumerGroupStatusGenerator != nil {
-		return consumerGroupStatusGenerator
+func ConsumerGroup_STATUSGenerator() gopter.Gen {
+	if consumerGroup_STATUSGenerator != nil {
+		return consumerGroup_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForConsumerGroupStatus(generators)
-	consumerGroupStatusGenerator = gen.Struct(reflect.TypeOf(ConsumerGroup_Status{}), generators)
+	AddIndependentPropertyGeneratorsForConsumerGroup_STATUS(generators)
+	consumerGroup_STATUSGenerator = gen.Struct(reflect.TypeOf(ConsumerGroup_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForConsumerGroupStatus(generators)
-	AddRelatedPropertyGeneratorsForConsumerGroupStatus(generators)
-	consumerGroupStatusGenerator = gen.Struct(reflect.TypeOf(ConsumerGroup_Status{}), generators)
+	AddIndependentPropertyGeneratorsForConsumerGroup_STATUS(generators)
+	AddRelatedPropertyGeneratorsForConsumerGroup_STATUS(generators)
+	consumerGroup_STATUSGenerator = gen.Struct(reflect.TypeOf(ConsumerGroup_STATUS{}), generators)
 
-	return consumerGroupStatusGenerator
+	return consumerGroup_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForConsumerGroupStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForConsumerGroupStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForConsumerGroup_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForConsumerGroup_STATUS(gens map[string]gopter.Gen) {
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
@@ -153,24 +153,24 @@ func AddIndependentPropertyGeneratorsForConsumerGroupStatus(gens map[string]gopt
 	gens["UserMetadata"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForConsumerGroupStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForConsumerGroupStatus(gens map[string]gopter.Gen) {
-	gens["SystemData"] = gen.PtrOf(SystemDataStatusGenerator())
+// AddRelatedPropertyGeneratorsForConsumerGroup_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForConsumerGroup_STATUS(gens map[string]gopter.Gen) {
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
-func Test_NamespacesEventhubsConsumergroups_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_NamespacesEventhubsConsumergroup_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of NamespacesEventhubsConsumergroups_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNamespacesEventhubsConsumergroupsSpec, NamespacesEventhubsConsumergroupsSpecGenerator()))
+		"Round trip of NamespacesEventhubsConsumergroup_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespacesEventhubsConsumergroup_Spec, NamespacesEventhubsConsumergroup_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForNamespacesEventhubsConsumergroupsSpec runs a test to see if a specific instance of NamespacesEventhubsConsumergroups_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForNamespacesEventhubsConsumergroupsSpec(subject NamespacesEventhubsConsumergroups_Spec) string {
+// RunJSONSerializationTestForNamespacesEventhubsConsumergroup_Spec runs a test to see if a specific instance of NamespacesEventhubsConsumergroup_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespacesEventhubsConsumergroup_Spec(subject NamespacesEventhubsConsumergroup_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -178,7 +178,7 @@ func RunJSONSerializationTestForNamespacesEventhubsConsumergroupsSpec(subject Na
 	}
 
 	// Deserialize back into memory
-	var actual NamespacesEventhubsConsumergroups_Spec
+	var actual NamespacesEventhubsConsumergroup_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -196,28 +196,45 @@ func RunJSONSerializationTestForNamespacesEventhubsConsumergroupsSpec(subject Na
 	return ""
 }
 
-// Generator of NamespacesEventhubsConsumergroups_Spec instances for property testing - lazily instantiated by
-// NamespacesEventhubsConsumergroupsSpecGenerator()
-var namespacesEventhubsConsumergroupsSpecGenerator gopter.Gen
+// Generator of NamespacesEventhubsConsumergroup_Spec instances for property testing - lazily instantiated by
+// NamespacesEventhubsConsumergroup_SpecGenerator()
+var namespacesEventhubsConsumergroup_SpecGenerator gopter.Gen
 
-// NamespacesEventhubsConsumergroupsSpecGenerator returns a generator of NamespacesEventhubsConsumergroups_Spec instances for property testing.
-func NamespacesEventhubsConsumergroupsSpecGenerator() gopter.Gen {
-	if namespacesEventhubsConsumergroupsSpecGenerator != nil {
-		return namespacesEventhubsConsumergroupsSpecGenerator
+// NamespacesEventhubsConsumergroup_SpecGenerator returns a generator of NamespacesEventhubsConsumergroup_Spec instances for property testing.
+// We first initialize namespacesEventhubsConsumergroup_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func NamespacesEventhubsConsumergroup_SpecGenerator() gopter.Gen {
+	if namespacesEventhubsConsumergroup_SpecGenerator != nil {
+		return namespacesEventhubsConsumergroup_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroupsSpec(generators)
-	namespacesEventhubsConsumergroupsSpecGenerator = gen.Struct(reflect.TypeOf(NamespacesEventhubsConsumergroups_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroup_Spec(generators)
+	namespacesEventhubsConsumergroup_SpecGenerator = gen.Struct(reflect.TypeOf(NamespacesEventhubsConsumergroup_Spec{}), generators)
 
-	return namespacesEventhubsConsumergroupsSpecGenerator
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroup_Spec(generators)
+	AddRelatedPropertyGeneratorsForNamespacesEventhubsConsumergroup_Spec(generators)
+	namespacesEventhubsConsumergroup_SpecGenerator = gen.Struct(reflect.TypeOf(NamespacesEventhubsConsumergroup_Spec{}), generators)
+
+	return namespacesEventhubsConsumergroup_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroupsSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroupsSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroup_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroup_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
+	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+	gens["UpdatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["UserMetadata"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForNamespacesEventhubsConsumergroup_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNamespacesEventhubsConsumergroup_Spec(gens map[string]gopter.Gen) {
+	gens["SystemData"] = gen.PtrOf(SystemDataGenerator())
 }

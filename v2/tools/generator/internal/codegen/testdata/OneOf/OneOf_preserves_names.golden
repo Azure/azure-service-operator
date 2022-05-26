@@ -24,9 +24,9 @@ func (test *Test) AssignPropertiesFromTest(source *v20200101s.Test) error {
 	// Base
 	if source.Base != nil {
 		var base Test_Base
-		err := base.AssignPropertiesFromTestBase(source.Base)
+		err := base.AssignPropertiesFromTest_Base(source.Base)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromTestBase() to populate field Base")
+			return errors.Wrap(err, "calling AssignPropertiesFromTest_Base() to populate field Base")
 		}
 		test.Base = &base
 	} else {
@@ -36,9 +36,9 @@ func (test *Test) AssignPropertiesFromTest(source *v20200101s.Test) error {
 	// Inherited
 	if source.Inherited != nil {
 		var inherited Test_Inherited
-		err := inherited.AssignPropertiesFromTestInherited(source.Inherited)
+		err := inherited.AssignPropertiesFromTest_Inherited(source.Inherited)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromTestInherited() to populate field Inherited")
+			return errors.Wrap(err, "calling AssignPropertiesFromTest_Inherited() to populate field Inherited")
 		}
 		test.Inherited = &inherited
 	} else {
@@ -57,9 +57,9 @@ func (test *Test) AssignPropertiesToTest(destination *v20200101s.Test) error {
 	// Base
 	if test.Base != nil {
 		var base v20200101s.Test_Base
-		err := test.Base.AssignPropertiesToTestBase(&base)
+		err := test.Base.AssignPropertiesToTest_Base(&base)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToTestBase() to populate field Base")
+			return errors.Wrap(err, "calling AssignPropertiesToTest_Base() to populate field Base")
 		}
 		destination.Base = &base
 	} else {
@@ -69,9 +69,9 @@ func (test *Test) AssignPropertiesToTest(destination *v20200101s.Test) error {
 	// Inherited
 	if test.Inherited != nil {
 		var inherited v20200101s.Test_Inherited
-		err := test.Inherited.AssignPropertiesToTestInherited(&inherited)
+		err := test.Inherited.AssignPropertiesToTest_Inherited(&inherited)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToTestInherited() to populate field Inherited")
+			return errors.Wrap(err, "calling AssignPropertiesToTest_Inherited() to populate field Inherited")
 		}
 		destination.Inherited = &inherited
 	} else {
@@ -93,8 +93,8 @@ type Test_Base struct {
 	Width *int `json:"width,omitempty"`
 }
 
-// AssignPropertiesFromTestBase populates our Test_Base from the provided source Test_Base
-func (base *Test_Base) AssignPropertiesFromTestBase(source *v20200101s.Test_Base) error {
+// AssignPropertiesFromTest_Base populates our Test_Base from the provided source Test_Base
+func (base *Test_Base) AssignPropertiesFromTest_Base(source *v20200101s.Test_Base) error {
 
 	// Width
 	base.Width = genruntime.ClonePointerToInt(source.Width)
@@ -103,8 +103,8 @@ func (base *Test_Base) AssignPropertiesFromTestBase(source *v20200101s.Test_Base
 	return nil
 }
 
-// AssignPropertiesToTestBase populates the provided destination Test_Base from our Test_Base
-func (base *Test_Base) AssignPropertiesToTestBase(destination *v20200101s.Test_Base) error {
+// AssignPropertiesToTest_Base populates the provided destination Test_Base from our Test_Base
+func (base *Test_Base) AssignPropertiesToTest_Base(destination *v20200101s.Test_Base) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -127,8 +127,8 @@ type Test_Inherited struct {
 	Width  *int `json:"width,omitempty"`
 }
 
-// AssignPropertiesFromTestInherited populates our Test_Inherited from the provided source Test_Inherited
-func (inherited *Test_Inherited) AssignPropertiesFromTestInherited(source *v20200101s.Test_Inherited) error {
+// AssignPropertiesFromTest_Inherited populates our Test_Inherited from the provided source Test_Inherited
+func (inherited *Test_Inherited) AssignPropertiesFromTest_Inherited(source *v20200101s.Test_Inherited) error {
 
 	// Height
 	inherited.Height = genruntime.ClonePointerToInt(source.Height)
@@ -140,8 +140,8 @@ func (inherited *Test_Inherited) AssignPropertiesFromTestInherited(source *v2020
 	return nil
 }
 
-// AssignPropertiesToTestInherited populates the provided destination Test_Inherited from our Test_Inherited
-func (inherited *Test_Inherited) AssignPropertiesToTestInherited(destination *v20200101s.Test_Inherited) error {
+// AssignPropertiesToTest_Inherited populates the provided destination Test_Inherited from our Test_Inherited
+func (inherited *Test_Inherited) AssignPropertiesToTest_Inherited(destination *v20200101s.Test_Inherited) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

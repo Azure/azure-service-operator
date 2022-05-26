@@ -24,12 +24,13 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_blobServices_containers
+// Generator information:
+// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2021-04-01/blob.json
 type StorageAccountsBlobServicesContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              StorageAccountsBlobServicesContainers_Spec `json:"spec,omitempty"`
-	Status            BlobContainer_Status                       `json:"status,omitempty"`
+	Spec              StorageAccountsBlobServicesContainer_Spec `json:"spec,omitempty"`
+	Status            BlobContainer_STATUS                      `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &StorageAccountsBlobServicesContainer{}
@@ -96,7 +97,7 @@ func (container *StorageAccountsBlobServicesContainer) AzureName() string {
 	return container.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20210401"
 func (container StorageAccountsBlobServicesContainer) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -116,14 +117,14 @@ func (container *StorageAccountsBlobServicesContainer) GetStatus() genruntime.Co
 	return &container.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts/blobServices/containers"
+// GetType returns the ARM Type of the resource. This is always ""
 func (container *StorageAccountsBlobServicesContainer) GetType() string {
-	return "Microsoft.Storage/storageAccounts/blobServices/containers"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (container *StorageAccountsBlobServicesContainer) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &BlobContainer_Status{}
+	return &BlobContainer_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -139,13 +140,13 @@ func (container *StorageAccountsBlobServicesContainer) Owner() *genruntime.Resou
 // SetStatus sets the status of this resource
 func (container *StorageAccountsBlobServicesContainer) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*BlobContainer_Status); ok {
+	if st, ok := status.(*BlobContainer_STATUS); ok {
 		container.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st BlobContainer_Status
+	var st BlobContainer_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -255,18 +256,18 @@ func (container *StorageAccountsBlobServicesContainer) AssignPropertiesFromStora
 	container.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec StorageAccountsBlobServicesContainers_Spec
-	err := spec.AssignPropertiesFromStorageAccountsBlobServicesContainersSpec(&source.Spec)
+	var spec StorageAccountsBlobServicesContainer_Spec
+	err := spec.AssignPropertiesFromStorageAccountsBlobServicesContainer_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromStorageAccountsBlobServicesContainersSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromStorageAccountsBlobServicesContainer_Spec() to populate field Spec")
 	}
 	container.Spec = spec
 
 	// Status
-	var status BlobContainer_Status
-	err = status.AssignPropertiesFromBlobContainerStatus(&source.Status)
+	var status BlobContainer_STATUS
+	err = status.AssignPropertiesFromBlobContainer_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromBlobContainerStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromBlobContainer_STATUS() to populate field Status")
 	}
 	container.Status = status
 
@@ -281,18 +282,18 @@ func (container *StorageAccountsBlobServicesContainer) AssignPropertiesToStorage
 	destination.ObjectMeta = *container.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210401s.StorageAccountsBlobServicesContainers_Spec
-	err := container.Spec.AssignPropertiesToStorageAccountsBlobServicesContainersSpec(&spec)
+	var spec v20210401s.StorageAccountsBlobServicesContainer_Spec
+	err := container.Spec.AssignPropertiesToStorageAccountsBlobServicesContainer_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToStorageAccountsBlobServicesContainersSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToStorageAccountsBlobServicesContainer_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status v20210401s.BlobContainer_Status
-	err = container.Status.AssignPropertiesToBlobContainerStatus(&status)
+	var status v20210401s.BlobContainer_STATUS
+	err = container.Status.AssignPropertiesToBlobContainer_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToBlobContainerStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToBlobContainer_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -310,14 +311,15 @@ func (container *StorageAccountsBlobServicesContainer) OriginalGVK() *schema.Gro
 }
 
 // +kubebuilder:object:root=true
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_blobServices_containers
+// Generator information:
+// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2021-04-01/blob.json
 type StorageAccountsBlobServicesContainerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []StorageAccountsBlobServicesContainer `json:"items"`
 }
 
-type BlobContainer_Status struct {
+type BlobContainer_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -351,27 +353,27 @@ type BlobContainer_Status struct {
 	Id *string `json:"id,omitempty"`
 
 	// ImmutabilityPolicy: The ImmutabilityPolicy property of the container.
-	ImmutabilityPolicy *ImmutabilityPolicyProperties_Status `json:"immutabilityPolicy,omitempty"`
+	ImmutabilityPolicy *ImmutabilityPolicyProperties_STATUS `json:"immutabilityPolicy,omitempty"`
 
 	// ImmutableStorageWithVersioning: The object level immutability property of the container. The property is immutable and
 	// can only be set to true at the container creation time. Existing containers must undergo a migration process.
-	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning_Status `json:"immutableStorageWithVersioning,omitempty"`
+	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning_STATUS `json:"immutableStorageWithVersioning,omitempty"`
 
 	// LastModifiedTime: Returns the date and time the container was last modified.
 	LastModifiedTime *string `json:"lastModifiedTime,omitempty"`
 
 	// LeaseDuration: Specifies whether the lease on a container is of infinite or fixed duration, only when the container is
 	// leased.
-	LeaseDuration *ContainerPropertiesStatusLeaseDuration `json:"leaseDuration,omitempty"`
+	LeaseDuration *ContainerProperties_LeaseDuration_STATUS `json:"leaseDuration,omitempty"`
 
 	// LeaseState: Lease state of the container.
-	LeaseState *ContainerPropertiesStatusLeaseState `json:"leaseState,omitempty"`
+	LeaseState *ContainerProperties_LeaseState_STATUS `json:"leaseState,omitempty"`
 
 	// LeaseStatus: The lease status of the container.
-	LeaseStatus *ContainerPropertiesStatusLeaseStatus `json:"leaseStatus,omitempty"`
+	LeaseStatus *ContainerProperties_LeaseStatus_STATUS `json:"leaseStatus,omitempty"`
 
 	// LegalHold: The LegalHold property of the container.
-	LegalHold *LegalHoldProperties_Status `json:"legalHold,omitempty"`
+	LegalHold *LegalHoldProperties_STATUS `json:"legalHold,omitempty"`
 
 	// Metadata: A name-value pair to associate with the container as metadata.
 	Metadata map[string]string `json:"metadata,omitempty"`
@@ -380,7 +382,7 @@ type BlobContainer_Status struct {
 	Name *string `json:"name,omitempty"`
 
 	// PublicAccess: Specifies whether data in the container may be accessed publicly and the level of access.
-	PublicAccess *ContainerPropertiesStatusPublicAccess `json:"publicAccess,omitempty"`
+	PublicAccess *ContainerProperties_PublicAccess_STATUS `json:"publicAccess,omitempty"`
 
 	// RemainingRetentionDays: Remaining retention days for soft deleted blob container.
 	RemainingRetentionDays *int `json:"remainingRetentionDays,omitempty"`
@@ -392,25 +394,25 @@ type BlobContainer_Status struct {
 	Version *string `json:"version,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &BlobContainer_Status{}
+var _ genruntime.ConvertibleStatus = &BlobContainer_STATUS{}
 
-// ConvertStatusFrom populates our BlobContainer_Status from the provided source
-func (container *BlobContainer_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210401s.BlobContainer_Status)
+// ConvertStatusFrom populates our BlobContainer_STATUS from the provided source
+func (container *BlobContainer_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210401s.BlobContainer_STATUS)
 	if ok {
 		// Populate our instance from source
-		return container.AssignPropertiesFromBlobContainerStatus(src)
+		return container.AssignPropertiesFromBlobContainer_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210401s.BlobContainer_Status{}
+	src = &v20210401s.BlobContainer_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = container.AssignPropertiesFromBlobContainerStatus(src)
+	err = container.AssignPropertiesFromBlobContainer_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -418,17 +420,17 @@ func (container *BlobContainer_Status) ConvertStatusFrom(source genruntime.Conve
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our BlobContainer_Status
-func (container *BlobContainer_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210401s.BlobContainer_Status)
+// ConvertStatusTo populates the provided destination from our BlobContainer_STATUS
+func (container *BlobContainer_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210401s.BlobContainer_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return container.AssignPropertiesToBlobContainerStatus(dst)
+		return container.AssignPropertiesToBlobContainer_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210401s.BlobContainer_Status{}
-	err := container.AssignPropertiesToBlobContainerStatus(dst)
+	dst = &v20210401s.BlobContainer_STATUS{}
+	err := container.AssignPropertiesToBlobContainer_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -442,18 +444,18 @@ func (container *BlobContainer_Status) ConvertStatusTo(destination genruntime.Co
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &BlobContainer_Status{}
+var _ genruntime.FromARMConverter = &BlobContainer_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (container *BlobContainer_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BlobContainer_StatusARM{}
+func (container *BlobContainer_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &BlobContainer_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (container *BlobContainer_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BlobContainer_StatusARM)
+func (container *BlobContainer_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(BlobContainer_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BlobContainer_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BlobContainer_STATUSARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -528,7 +530,7 @@ func (container *BlobContainer_Status) PopulateFromARM(owner genruntime.Arbitrar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ImmutabilityPolicy != nil {
-			var immutabilityPolicy1 ImmutabilityPolicyProperties_Status
+			var immutabilityPolicy1 ImmutabilityPolicyProperties_STATUS
 			err := immutabilityPolicy1.PopulateFromARM(owner, *typedInput.Properties.ImmutabilityPolicy)
 			if err != nil {
 				return err
@@ -542,7 +544,7 @@ func (container *BlobContainer_Status) PopulateFromARM(owner genruntime.Arbitrar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ImmutableStorageWithVersioning != nil {
-			var immutableStorageWithVersioning1 ImmutableStorageWithVersioning_Status
+			var immutableStorageWithVersioning1 ImmutableStorageWithVersioning_STATUS
 			err := immutableStorageWithVersioning1.PopulateFromARM(owner, *typedInput.Properties.ImmutableStorageWithVersioning)
 			if err != nil {
 				return err
@@ -592,7 +594,7 @@ func (container *BlobContainer_Status) PopulateFromARM(owner genruntime.Arbitrar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LegalHold != nil {
-			var legalHold1 LegalHoldProperties_Status
+			var legalHold1 LegalHoldProperties_STATUS
 			err := legalHold1.PopulateFromARM(owner, *typedInput.Properties.LegalHold)
 			if err != nil {
 				return err
@@ -656,8 +658,8 @@ func (container *BlobContainer_Status) PopulateFromARM(owner genruntime.Arbitrar
 	return nil
 }
 
-// AssignPropertiesFromBlobContainerStatus populates our BlobContainer_Status from the provided source BlobContainer_Status
-func (container *BlobContainer_Status) AssignPropertiesFromBlobContainerStatus(source *v20210401s.BlobContainer_Status) error {
+// AssignPropertiesFromBlobContainer_STATUS populates our BlobContainer_STATUS from the provided source BlobContainer_STATUS
+func (container *BlobContainer_STATUS) AssignPropertiesFromBlobContainer_STATUS(source *v20210401s.BlobContainer_STATUS) error {
 
 	// Conditions
 	container.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -708,10 +710,10 @@ func (container *BlobContainer_Status) AssignPropertiesFromBlobContainerStatus(s
 
 	// ImmutabilityPolicy
 	if source.ImmutabilityPolicy != nil {
-		var immutabilityPolicy ImmutabilityPolicyProperties_Status
-		err := immutabilityPolicy.AssignPropertiesFromImmutabilityPolicyPropertiesStatus(source.ImmutabilityPolicy)
+		var immutabilityPolicy ImmutabilityPolicyProperties_STATUS
+		err := immutabilityPolicy.AssignPropertiesFromImmutabilityPolicyProperties_STATUS(source.ImmutabilityPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromImmutabilityPolicyPropertiesStatus() to populate field ImmutabilityPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesFromImmutabilityPolicyProperties_STATUS() to populate field ImmutabilityPolicy")
 		}
 		container.ImmutabilityPolicy = &immutabilityPolicy
 	} else {
@@ -720,10 +722,10 @@ func (container *BlobContainer_Status) AssignPropertiesFromBlobContainerStatus(s
 
 	// ImmutableStorageWithVersioning
 	if source.ImmutableStorageWithVersioning != nil {
-		var immutableStorageWithVersioning ImmutableStorageWithVersioning_Status
-		err := immutableStorageWithVersioning.AssignPropertiesFromImmutableStorageWithVersioningStatus(source.ImmutableStorageWithVersioning)
+		var immutableStorageWithVersioning ImmutableStorageWithVersioning_STATUS
+		err := immutableStorageWithVersioning.AssignPropertiesFromImmutableStorageWithVersioning_STATUS(source.ImmutableStorageWithVersioning)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromImmutableStorageWithVersioningStatus() to populate field ImmutableStorageWithVersioning")
+			return errors.Wrap(err, "calling AssignPropertiesFromImmutableStorageWithVersioning_STATUS() to populate field ImmutableStorageWithVersioning")
 		}
 		container.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
 	} else {
@@ -735,7 +737,7 @@ func (container *BlobContainer_Status) AssignPropertiesFromBlobContainerStatus(s
 
 	// LeaseDuration
 	if source.LeaseDuration != nil {
-		leaseDuration := ContainerPropertiesStatusLeaseDuration(*source.LeaseDuration)
+		leaseDuration := ContainerProperties_LeaseDuration_STATUS(*source.LeaseDuration)
 		container.LeaseDuration = &leaseDuration
 	} else {
 		container.LeaseDuration = nil
@@ -743,7 +745,7 @@ func (container *BlobContainer_Status) AssignPropertiesFromBlobContainerStatus(s
 
 	// LeaseState
 	if source.LeaseState != nil {
-		leaseState := ContainerPropertiesStatusLeaseState(*source.LeaseState)
+		leaseState := ContainerProperties_LeaseState_STATUS(*source.LeaseState)
 		container.LeaseState = &leaseState
 	} else {
 		container.LeaseState = nil
@@ -751,7 +753,7 @@ func (container *BlobContainer_Status) AssignPropertiesFromBlobContainerStatus(s
 
 	// LeaseStatus
 	if source.LeaseStatus != nil {
-		leaseStatus := ContainerPropertiesStatusLeaseStatus(*source.LeaseStatus)
+		leaseStatus := ContainerProperties_LeaseStatus_STATUS(*source.LeaseStatus)
 		container.LeaseStatus = &leaseStatus
 	} else {
 		container.LeaseStatus = nil
@@ -759,10 +761,10 @@ func (container *BlobContainer_Status) AssignPropertiesFromBlobContainerStatus(s
 
 	// LegalHold
 	if source.LegalHold != nil {
-		var legalHold LegalHoldProperties_Status
-		err := legalHold.AssignPropertiesFromLegalHoldPropertiesStatus(source.LegalHold)
+		var legalHold LegalHoldProperties_STATUS
+		err := legalHold.AssignPropertiesFromLegalHoldProperties_STATUS(source.LegalHold)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromLegalHoldPropertiesStatus() to populate field LegalHold")
+			return errors.Wrap(err, "calling AssignPropertiesFromLegalHoldProperties_STATUS() to populate field LegalHold")
 		}
 		container.LegalHold = &legalHold
 	} else {
@@ -777,7 +779,7 @@ func (container *BlobContainer_Status) AssignPropertiesFromBlobContainerStatus(s
 
 	// PublicAccess
 	if source.PublicAccess != nil {
-		publicAccess := ContainerPropertiesStatusPublicAccess(*source.PublicAccess)
+		publicAccess := ContainerProperties_PublicAccess_STATUS(*source.PublicAccess)
 		container.PublicAccess = &publicAccess
 	} else {
 		container.PublicAccess = nil
@@ -796,8 +798,8 @@ func (container *BlobContainer_Status) AssignPropertiesFromBlobContainerStatus(s
 	return nil
 }
 
-// AssignPropertiesToBlobContainerStatus populates the provided destination BlobContainer_Status from our BlobContainer_Status
-func (container *BlobContainer_Status) AssignPropertiesToBlobContainerStatus(destination *v20210401s.BlobContainer_Status) error {
+// AssignPropertiesToBlobContainer_STATUS populates the provided destination BlobContainer_STATUS from our BlobContainer_STATUS
+func (container *BlobContainer_STATUS) AssignPropertiesToBlobContainer_STATUS(destination *v20210401s.BlobContainer_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -850,10 +852,10 @@ func (container *BlobContainer_Status) AssignPropertiesToBlobContainerStatus(des
 
 	// ImmutabilityPolicy
 	if container.ImmutabilityPolicy != nil {
-		var immutabilityPolicy v20210401s.ImmutabilityPolicyProperties_Status
-		err := container.ImmutabilityPolicy.AssignPropertiesToImmutabilityPolicyPropertiesStatus(&immutabilityPolicy)
+		var immutabilityPolicy v20210401s.ImmutabilityPolicyProperties_STATUS
+		err := container.ImmutabilityPolicy.AssignPropertiesToImmutabilityPolicyProperties_STATUS(&immutabilityPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToImmutabilityPolicyPropertiesStatus() to populate field ImmutabilityPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesToImmutabilityPolicyProperties_STATUS() to populate field ImmutabilityPolicy")
 		}
 		destination.ImmutabilityPolicy = &immutabilityPolicy
 	} else {
@@ -862,10 +864,10 @@ func (container *BlobContainer_Status) AssignPropertiesToBlobContainerStatus(des
 
 	// ImmutableStorageWithVersioning
 	if container.ImmutableStorageWithVersioning != nil {
-		var immutableStorageWithVersioning v20210401s.ImmutableStorageWithVersioning_Status
-		err := container.ImmutableStorageWithVersioning.AssignPropertiesToImmutableStorageWithVersioningStatus(&immutableStorageWithVersioning)
+		var immutableStorageWithVersioning v20210401s.ImmutableStorageWithVersioning_STATUS
+		err := container.ImmutableStorageWithVersioning.AssignPropertiesToImmutableStorageWithVersioning_STATUS(&immutableStorageWithVersioning)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToImmutableStorageWithVersioningStatus() to populate field ImmutableStorageWithVersioning")
+			return errors.Wrap(err, "calling AssignPropertiesToImmutableStorageWithVersioning_STATUS() to populate field ImmutableStorageWithVersioning")
 		}
 		destination.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
 	} else {
@@ -901,10 +903,10 @@ func (container *BlobContainer_Status) AssignPropertiesToBlobContainerStatus(des
 
 	// LegalHold
 	if container.LegalHold != nil {
-		var legalHold v20210401s.LegalHoldProperties_Status
-		err := container.LegalHold.AssignPropertiesToLegalHoldPropertiesStatus(&legalHold)
+		var legalHold v20210401s.LegalHoldProperties_STATUS
+		err := container.LegalHold.AssignPropertiesToLegalHoldProperties_STATUS(&legalHold)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToLegalHoldPropertiesStatus() to populate field LegalHold")
+			return errors.Wrap(err, "calling AssignPropertiesToLegalHoldProperties_STATUS() to populate field LegalHold")
 		}
 		destination.LegalHold = &legalHold
 	} else {
@@ -945,9 +947,7 @@ func (container *BlobContainer_Status) AssignPropertiesToBlobContainerStatus(des
 	return nil
 }
 
-type StorageAccountsBlobServicesContainers_Spec struct {
-	// +kubebuilder:validation:MaxLength=63
-	// +kubebuilder:validation:MinLength=3
+type StorageAccountsBlobServicesContainer_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -955,14 +955,54 @@ type StorageAccountsBlobServicesContainers_Spec struct {
 	// DefaultEncryptionScope: Default the container to use specified encryption scope for all writes.
 	DefaultEncryptionScope *string `json:"defaultEncryptionScope,omitempty"`
 
+	// Deleted: Indicates whether the blob container was deleted.
+	Deleted *bool `json:"deleted,omitempty"`
+
+	// DeletedTime: Blob container deletion time.
+	DeletedTime *string `json:"deletedTime,omitempty"`
+
 	// DenyEncryptionScopeOverride: Block override of encryption scope from the container default.
 	DenyEncryptionScopeOverride *bool `json:"denyEncryptionScopeOverride,omitempty"`
 
-	// ImmutableStorageWithVersioning: Object level immutability properties of the container.
+	// Etag: Resource Etag.
+	Etag *string `json:"etag,omitempty"`
+
+	// HasImmutabilityPolicy: The hasImmutabilityPolicy public property is set to true by SRP if ImmutabilityPolicy has been
+	// created for this container. The hasImmutabilityPolicy public property is set to false by SRP if ImmutabilityPolicy has
+	// not been created for this container.
+	HasImmutabilityPolicy *bool `json:"hasImmutabilityPolicy,omitempty"`
+
+	// HasLegalHold: The hasLegalHold public property is set to true by SRP if there are at least one existing tag. The
+	// hasLegalHold public property is set to false by SRP if all existing legal hold tags are cleared out. There can be a
+	// maximum of 1000 blob containers with hasLegalHold=true for a given account.
+	HasLegalHold *bool `json:"hasLegalHold,omitempty"`
+
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	Id *string `json:"id,omitempty"`
+
+	// ImmutabilityPolicy: The ImmutabilityPolicy property of the container.
+	ImmutabilityPolicy *ImmutabilityPolicyProperties `json:"immutabilityPolicy,omitempty"`
+
+	// ImmutableStorageWithVersioning: The object level immutability property of the container. The property is immutable and
+	// can only be set to true at the container creation time. Existing containers must undergo a migration process.
 	ImmutableStorageWithVersioning *ImmutableStorageWithVersioning `json:"immutableStorageWithVersioning,omitempty"`
 
-	// Location: Location to deploy resource to
-	Location *string `json:"location,omitempty"`
+	// LastModifiedTime: Returns the date and time the container was last modified.
+	LastModifiedTime *string `json:"lastModifiedTime,omitempty"`
+
+	// LeaseDuration: Specifies whether the lease on a container is of infinite or fixed duration, only when the container is
+	// leased.
+	LeaseDuration *ContainerProperties_LeaseDuration `json:"leaseDuration,omitempty"`
+
+	// LeaseState: Lease state of the container.
+	LeaseState *ContainerProperties_LeaseState `json:"leaseState,omitempty"`
+
+	// LeaseStatus: The lease status of the container.
+	LeaseStatus *ContainerProperties_LeaseStatus `json:"leaseStatus,omitempty"`
+
+	// LegalHold: The LegalHold property of the container.
+	LegalHold *LegalHoldProperties `json:"legalHold,omitempty"`
 
 	// Metadata: A name-value pair to associate with the container as metadata.
 	Metadata map[string]string `json:"metadata,omitempty"`
@@ -970,100 +1010,199 @@ type StorageAccountsBlobServicesContainers_Spec struct {
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a storage.azure.com/StorageAccountsBlobService resource
-	Owner *genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner,omitempty" kind:"StorageAccountsBlobService"`
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	// PublicAccess: Specifies whether data in the container may be accessed publicly and the level of access.
-	PublicAccess *ContainerPropertiesPublicAccess `json:"publicAccess,omitempty"`
+	PublicAccess *ContainerProperties_PublicAccess `json:"publicAccess,omitempty"`
 
-	// Tags: Name-value pairs to add to the resource
-	Tags map[string]string `json:"tags,omitempty"`
+	// RemainingRetentionDays: Remaining retention days for soft deleted blob container.
+	RemainingRetentionDays *int `json:"remainingRetentionDays,omitempty"`
+
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+	Type *string `json:"type,omitempty"`
+
+	// Version: The version of the deleted blob container.
+	Version *string `json:"version,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &StorageAccountsBlobServicesContainers_Spec{}
+var _ genruntime.ARMTransformer = &StorageAccountsBlobServicesContainer_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (containers *StorageAccountsBlobServicesContainers_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if containers == nil {
+func (container *StorageAccountsBlobServicesContainer_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if container == nil {
 		return nil, nil
 	}
-	result := &StorageAccountsBlobServicesContainers_SpecARM{}
+	result := &StorageAccountsBlobServicesContainer_SpecARM{}
 
-	// Set property ‘Location’:
-	if containers.Location != nil {
-		location := *containers.Location
-		result.Location = &location
+	// Set property ‘AzureName’:
+	result.AzureName = container.AzureName
+
+	// Set property ‘Etag’:
+	if container.Etag != nil {
+		etag := *container.Etag
+		result.Etag = &etag
+	}
+
+	// Set property ‘Id’:
+	if container.Id != nil {
+		id := *container.Id
+		result.Id = &id
 	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if containers.DefaultEncryptionScope != nil ||
-		containers.DenyEncryptionScopeOverride != nil ||
-		containers.ImmutableStorageWithVersioning != nil ||
-		containers.Metadata != nil ||
-		containers.PublicAccess != nil {
+	if container.DefaultEncryptionScope != nil ||
+		container.Deleted != nil ||
+		container.DeletedTime != nil ||
+		container.DenyEncryptionScopeOverride != nil ||
+		container.HasImmutabilityPolicy != nil ||
+		container.HasLegalHold != nil ||
+		container.ImmutabilityPolicy != nil ||
+		container.ImmutableStorageWithVersioning != nil ||
+		container.LastModifiedTime != nil ||
+		container.LeaseDuration != nil ||
+		container.LeaseState != nil ||
+		container.LeaseStatus != nil ||
+		container.LegalHold != nil ||
+		container.Metadata != nil ||
+		container.PublicAccess != nil ||
+		container.RemainingRetentionDays != nil ||
+		container.Version != nil {
 		result.Properties = &ContainerPropertiesARM{}
 	}
-	if containers.DefaultEncryptionScope != nil {
-		defaultEncryptionScope := *containers.DefaultEncryptionScope
+	if container.DefaultEncryptionScope != nil {
+		defaultEncryptionScope := *container.DefaultEncryptionScope
 		result.Properties.DefaultEncryptionScope = &defaultEncryptionScope
 	}
-	if containers.DenyEncryptionScopeOverride != nil {
-		denyEncryptionScopeOverride := *containers.DenyEncryptionScopeOverride
+	if container.Deleted != nil {
+		deleted := *container.Deleted
+		result.Properties.Deleted = &deleted
+	}
+	if container.DeletedTime != nil {
+		deletedTime := *container.DeletedTime
+		result.Properties.DeletedTime = &deletedTime
+	}
+	if container.DenyEncryptionScopeOverride != nil {
+		denyEncryptionScopeOverride := *container.DenyEncryptionScopeOverride
 		result.Properties.DenyEncryptionScopeOverride = &denyEncryptionScopeOverride
 	}
-	if containers.ImmutableStorageWithVersioning != nil {
-		immutableStorageWithVersioningARM, err := (*containers.ImmutableStorageWithVersioning).ConvertToARM(resolved)
+	if container.HasImmutabilityPolicy != nil {
+		hasImmutabilityPolicy := *container.HasImmutabilityPolicy
+		result.Properties.HasImmutabilityPolicy = &hasImmutabilityPolicy
+	}
+	if container.HasLegalHold != nil {
+		hasLegalHold := *container.HasLegalHold
+		result.Properties.HasLegalHold = &hasLegalHold
+	}
+	if container.ImmutabilityPolicy != nil {
+		immutabilityPolicyARM, err := (*container.ImmutabilityPolicy).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		immutabilityPolicy := *immutabilityPolicyARM.(*ImmutabilityPolicyPropertiesARM)
+		result.Properties.ImmutabilityPolicy = &immutabilityPolicy
+	}
+	if container.ImmutableStorageWithVersioning != nil {
+		immutableStorageWithVersioningARM, err := (*container.ImmutableStorageWithVersioning).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		immutableStorageWithVersioning := *immutableStorageWithVersioningARM.(*ImmutableStorageWithVersioningARM)
 		result.Properties.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
 	}
-	if containers.Metadata != nil {
+	if container.LastModifiedTime != nil {
+		lastModifiedTime := *container.LastModifiedTime
+		result.Properties.LastModifiedTime = &lastModifiedTime
+	}
+	if container.LeaseDuration != nil {
+		leaseDuration := *container.LeaseDuration
+		result.Properties.LeaseDuration = &leaseDuration
+	}
+	if container.LeaseState != nil {
+		leaseState := *container.LeaseState
+		result.Properties.LeaseState = &leaseState
+	}
+	if container.LeaseStatus != nil {
+		leaseStatus := *container.LeaseStatus
+		result.Properties.LeaseStatus = &leaseStatus
+	}
+	if container.LegalHold != nil {
+		legalHoldARM, err := (*container.LegalHold).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		legalHold := *legalHoldARM.(*LegalHoldPropertiesARM)
+		result.Properties.LegalHold = &legalHold
+	}
+	if container.Metadata != nil {
 		result.Properties.Metadata = make(map[string]string)
-		for key, value := range containers.Metadata {
+		for key, value := range container.Metadata {
 			result.Properties.Metadata[key] = value
 		}
 	}
-	if containers.PublicAccess != nil {
-		publicAccess := *containers.PublicAccess
+	if container.PublicAccess != nil {
+		publicAccess := *container.PublicAccess
 		result.Properties.PublicAccess = &publicAccess
 	}
+	if container.RemainingRetentionDays != nil {
+		remainingRetentionDays := *container.RemainingRetentionDays
+		result.Properties.RemainingRetentionDays = &remainingRetentionDays
+	}
+	if container.Version != nil {
+		version := *container.Version
+		result.Properties.Version = &version
+	}
 
-	// Set property ‘Tags’:
-	if containers.Tags != nil {
-		result.Tags = make(map[string]string)
-		for key, value := range containers.Tags {
-			result.Tags[key] = value
-		}
+	// Set property ‘Type’:
+	if container.Type != nil {
+		typeVar := *container.Type
+		result.Type = &typeVar
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (containers *StorageAccountsBlobServicesContainers_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageAccountsBlobServicesContainers_SpecARM{}
+func (container *StorageAccountsBlobServicesContainer_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &StorageAccountsBlobServicesContainer_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (containers *StorageAccountsBlobServicesContainers_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageAccountsBlobServicesContainers_SpecARM)
+func (container *StorageAccountsBlobServicesContainer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(StorageAccountsBlobServicesContainer_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccountsBlobServicesContainers_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccountsBlobServicesContainer_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
-	containers.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	container.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘DefaultEncryptionScope’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DefaultEncryptionScope != nil {
 			defaultEncryptionScope := *typedInput.Properties.DefaultEncryptionScope
-			containers.DefaultEncryptionScope = &defaultEncryptionScope
+			container.DefaultEncryptionScope = &defaultEncryptionScope
+		}
+	}
+
+	// Set property ‘Deleted’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Deleted != nil {
+			deleted := *typedInput.Properties.Deleted
+			container.Deleted = &deleted
+		}
+	}
+
+	// Set property ‘DeletedTime’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DeletedTime != nil {
+			deletedTime := *typedInput.Properties.DeletedTime
+			container.DeletedTime = &deletedTime
 		}
 	}
 
@@ -1072,7 +1211,51 @@ func (containers *StorageAccountsBlobServicesContainers_Spec) PopulateFromARM(ow
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DenyEncryptionScopeOverride != nil {
 			denyEncryptionScopeOverride := *typedInput.Properties.DenyEncryptionScopeOverride
-			containers.DenyEncryptionScopeOverride = &denyEncryptionScopeOverride
+			container.DenyEncryptionScopeOverride = &denyEncryptionScopeOverride
+		}
+	}
+
+	// Set property ‘Etag’:
+	if typedInput.Etag != nil {
+		etag := *typedInput.Etag
+		container.Etag = &etag
+	}
+
+	// Set property ‘HasImmutabilityPolicy’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.HasImmutabilityPolicy != nil {
+			hasImmutabilityPolicy := *typedInput.Properties.HasImmutabilityPolicy
+			container.HasImmutabilityPolicy = &hasImmutabilityPolicy
+		}
+	}
+
+	// Set property ‘HasLegalHold’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.HasLegalHold != nil {
+			hasLegalHold := *typedInput.Properties.HasLegalHold
+			container.HasLegalHold = &hasLegalHold
+		}
+	}
+
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		container.Id = &id
+	}
+
+	// Set property ‘ImmutabilityPolicy’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ImmutabilityPolicy != nil {
+			var immutabilityPolicy1 ImmutabilityPolicyProperties
+			err := immutabilityPolicy1.PopulateFromARM(owner, *typedInput.Properties.ImmutabilityPolicy)
+			if err != nil {
+				return err
+			}
+			immutabilityPolicy := immutabilityPolicy1
+			container.ImmutabilityPolicy = &immutabilityPolicy
 		}
 	}
 
@@ -1086,29 +1269,73 @@ func (containers *StorageAccountsBlobServicesContainers_Spec) PopulateFromARM(ow
 				return err
 			}
 			immutableStorageWithVersioning := immutableStorageWithVersioning1
-			containers.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
+			container.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
 		}
 	}
 
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		containers.Location = &location
+	// Set property ‘LastModifiedTime’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.LastModifiedTime != nil {
+			lastModifiedTime := *typedInput.Properties.LastModifiedTime
+			container.LastModifiedTime = &lastModifiedTime
+		}
+	}
+
+	// Set property ‘LeaseDuration’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.LeaseDuration != nil {
+			leaseDuration := *typedInput.Properties.LeaseDuration
+			container.LeaseDuration = &leaseDuration
+		}
+	}
+
+	// Set property ‘LeaseState’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.LeaseState != nil {
+			leaseState := *typedInput.Properties.LeaseState
+			container.LeaseState = &leaseState
+		}
+	}
+
+	// Set property ‘LeaseStatus’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.LeaseStatus != nil {
+			leaseStatus := *typedInput.Properties.LeaseStatus
+			container.LeaseStatus = &leaseStatus
+		}
+	}
+
+	// Set property ‘LegalHold’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.LegalHold != nil {
+			var legalHold1 LegalHoldProperties
+			err := legalHold1.PopulateFromARM(owner, *typedInput.Properties.LegalHold)
+			if err != nil {
+				return err
+			}
+			legalHold := legalHold1
+			container.LegalHold = &legalHold
+		}
 	}
 
 	// Set property ‘Metadata’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Metadata != nil {
-			containers.Metadata = make(map[string]string)
+			container.Metadata = make(map[string]string)
 			for key, value := range typedInput.Properties.Metadata {
-				containers.Metadata[key] = value
+				container.Metadata[key] = value
 			}
 		}
 	}
 
 	// Set property ‘Owner’:
-	containers.Owner = &genruntime.KnownResourceReference{
+	container.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -1117,15 +1344,31 @@ func (containers *StorageAccountsBlobServicesContainers_Spec) PopulateFromARM(ow
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicAccess != nil {
 			publicAccess := *typedInput.Properties.PublicAccess
-			containers.PublicAccess = &publicAccess
+			container.PublicAccess = &publicAccess
 		}
 	}
 
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		containers.Tags = make(map[string]string)
-		for key, value := range typedInput.Tags {
-			containers.Tags[key] = value
+	// Set property ‘RemainingRetentionDays’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.RemainingRetentionDays != nil {
+			remainingRetentionDays := *typedInput.Properties.RemainingRetentionDays
+			container.RemainingRetentionDays = &remainingRetentionDays
+		}
+	}
+
+	// Set property ‘Type’:
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		container.Type = &typeVar
+	}
+
+	// Set property ‘Version’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Version != nil {
+			version := *typedInput.Properties.Version
+			container.Version = &version
 		}
 	}
 
@@ -1133,25 +1376,25 @@ func (containers *StorageAccountsBlobServicesContainers_Spec) PopulateFromARM(ow
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &StorageAccountsBlobServicesContainers_Spec{}
+var _ genruntime.ConvertibleSpec = &StorageAccountsBlobServicesContainer_Spec{}
 
-// ConvertSpecFrom populates our StorageAccountsBlobServicesContainers_Spec from the provided source
-func (containers *StorageAccountsBlobServicesContainers_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210401s.StorageAccountsBlobServicesContainers_Spec)
+// ConvertSpecFrom populates our StorageAccountsBlobServicesContainer_Spec from the provided source
+func (container *StorageAccountsBlobServicesContainer_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20210401s.StorageAccountsBlobServicesContainer_Spec)
 	if ok {
 		// Populate our instance from source
-		return containers.AssignPropertiesFromStorageAccountsBlobServicesContainersSpec(src)
+		return container.AssignPropertiesFromStorageAccountsBlobServicesContainer_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210401s.StorageAccountsBlobServicesContainers_Spec{}
+	src = &v20210401s.StorageAccountsBlobServicesContainer_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = containers.AssignPropertiesFromStorageAccountsBlobServicesContainersSpec(src)
+	err = container.AssignPropertiesFromStorageAccountsBlobServicesContainer_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -1159,17 +1402,17 @@ func (containers *StorageAccountsBlobServicesContainers_Spec) ConvertSpecFrom(so
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our StorageAccountsBlobServicesContainers_Spec
-func (containers *StorageAccountsBlobServicesContainers_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210401s.StorageAccountsBlobServicesContainers_Spec)
+// ConvertSpecTo populates the provided destination from our StorageAccountsBlobServicesContainer_Spec
+func (container *StorageAccountsBlobServicesContainer_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20210401s.StorageAccountsBlobServicesContainer_Spec)
 	if ok {
 		// Populate destination from our instance
-		return containers.AssignPropertiesToStorageAccountsBlobServicesContainersSpec(dst)
+		return container.AssignPropertiesToStorageAccountsBlobServicesContainer_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210401s.StorageAccountsBlobServicesContainers_Spec{}
-	err := containers.AssignPropertiesToStorageAccountsBlobServicesContainersSpec(dst)
+	dst = &v20210401s.StorageAccountsBlobServicesContainer_Spec{}
+	err := container.AssignPropertiesToStorageAccountsBlobServicesContainer_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -1183,21 +1426,71 @@ func (containers *StorageAccountsBlobServicesContainers_Spec) ConvertSpecTo(dest
 	return nil
 }
 
-// AssignPropertiesFromStorageAccountsBlobServicesContainersSpec populates our StorageAccountsBlobServicesContainers_Spec from the provided source StorageAccountsBlobServicesContainers_Spec
-func (containers *StorageAccountsBlobServicesContainers_Spec) AssignPropertiesFromStorageAccountsBlobServicesContainersSpec(source *v20210401s.StorageAccountsBlobServicesContainers_Spec) error {
+// AssignPropertiesFromStorageAccountsBlobServicesContainer_Spec populates our StorageAccountsBlobServicesContainer_Spec from the provided source StorageAccountsBlobServicesContainer_Spec
+func (container *StorageAccountsBlobServicesContainer_Spec) AssignPropertiesFromStorageAccountsBlobServicesContainer_Spec(source *v20210401s.StorageAccountsBlobServicesContainer_Spec) error {
 
 	// AzureName
-	containers.AzureName = source.AzureName
+	container.AzureName = source.AzureName
 
 	// DefaultEncryptionScope
-	containers.DefaultEncryptionScope = genruntime.ClonePointerToString(source.DefaultEncryptionScope)
+	container.DefaultEncryptionScope = genruntime.ClonePointerToString(source.DefaultEncryptionScope)
+
+	// Deleted
+	if source.Deleted != nil {
+		deleted := *source.Deleted
+		container.Deleted = &deleted
+	} else {
+		container.Deleted = nil
+	}
+
+	// DeletedTime
+	if source.DeletedTime != nil {
+		deletedTime := *source.DeletedTime
+		container.DeletedTime = &deletedTime
+	} else {
+		container.DeletedTime = nil
+	}
 
 	// DenyEncryptionScopeOverride
 	if source.DenyEncryptionScopeOverride != nil {
 		denyEncryptionScopeOverride := *source.DenyEncryptionScopeOverride
-		containers.DenyEncryptionScopeOverride = &denyEncryptionScopeOverride
+		container.DenyEncryptionScopeOverride = &denyEncryptionScopeOverride
 	} else {
-		containers.DenyEncryptionScopeOverride = nil
+		container.DenyEncryptionScopeOverride = nil
+	}
+
+	// Etag
+	container.Etag = genruntime.ClonePointerToString(source.Etag)
+
+	// HasImmutabilityPolicy
+	if source.HasImmutabilityPolicy != nil {
+		hasImmutabilityPolicy := *source.HasImmutabilityPolicy
+		container.HasImmutabilityPolicy = &hasImmutabilityPolicy
+	} else {
+		container.HasImmutabilityPolicy = nil
+	}
+
+	// HasLegalHold
+	if source.HasLegalHold != nil {
+		hasLegalHold := *source.HasLegalHold
+		container.HasLegalHold = &hasLegalHold
+	} else {
+		container.HasLegalHold = nil
+	}
+
+	// Id
+	container.Id = genruntime.ClonePointerToString(source.Id)
+
+	// ImmutabilityPolicy
+	if source.ImmutabilityPolicy != nil {
+		var immutabilityPolicy ImmutabilityPolicyProperties
+		err := immutabilityPolicy.AssignPropertiesFromImmutabilityPolicyProperties(source.ImmutabilityPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromImmutabilityPolicyProperties() to populate field ImmutabilityPolicy")
+		}
+		container.ImmutabilityPolicy = &immutabilityPolicy
+	} else {
+		container.ImmutabilityPolicy = nil
 	}
 
 	// ImmutableStorageWithVersioning
@@ -1207,63 +1500,160 @@ func (containers *StorageAccountsBlobServicesContainers_Spec) AssignPropertiesFr
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromImmutableStorageWithVersioning() to populate field ImmutableStorageWithVersioning")
 		}
-		containers.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
+		container.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
 	} else {
-		containers.ImmutableStorageWithVersioning = nil
+		container.ImmutableStorageWithVersioning = nil
 	}
 
-	// Location
-	containers.Location = genruntime.ClonePointerToString(source.Location)
+	// LastModifiedTime
+	if source.LastModifiedTime != nil {
+		lastModifiedTime := *source.LastModifiedTime
+		container.LastModifiedTime = &lastModifiedTime
+	} else {
+		container.LastModifiedTime = nil
+	}
+
+	// LeaseDuration
+	if source.LeaseDuration != nil {
+		leaseDuration := ContainerProperties_LeaseDuration(*source.LeaseDuration)
+		container.LeaseDuration = &leaseDuration
+	} else {
+		container.LeaseDuration = nil
+	}
+
+	// LeaseState
+	if source.LeaseState != nil {
+		leaseState := ContainerProperties_LeaseState(*source.LeaseState)
+		container.LeaseState = &leaseState
+	} else {
+		container.LeaseState = nil
+	}
+
+	// LeaseStatus
+	if source.LeaseStatus != nil {
+		leaseStatus := ContainerProperties_LeaseStatus(*source.LeaseStatus)
+		container.LeaseStatus = &leaseStatus
+	} else {
+		container.LeaseStatus = nil
+	}
+
+	// LegalHold
+	if source.LegalHold != nil {
+		var legalHold LegalHoldProperties
+		err := legalHold.AssignPropertiesFromLegalHoldProperties(source.LegalHold)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromLegalHoldProperties() to populate field LegalHold")
+		}
+		container.LegalHold = &legalHold
+	} else {
+		container.LegalHold = nil
+	}
 
 	// Metadata
-	containers.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
+	container.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
 
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
-		containers.Owner = &owner
+		container.Owner = &owner
 	} else {
-		containers.Owner = nil
+		container.Owner = nil
 	}
 
 	// PublicAccess
 	if source.PublicAccess != nil {
-		publicAccess := ContainerPropertiesPublicAccess(*source.PublicAccess)
-		containers.PublicAccess = &publicAccess
+		publicAccess := ContainerProperties_PublicAccess(*source.PublicAccess)
+		container.PublicAccess = &publicAccess
 	} else {
-		containers.PublicAccess = nil
+		container.PublicAccess = nil
 	}
 
-	// Tags
-	containers.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	// RemainingRetentionDays
+	container.RemainingRetentionDays = genruntime.ClonePointerToInt(source.RemainingRetentionDays)
+
+	// Type
+	container.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Version
+	container.Version = genruntime.ClonePointerToString(source.Version)
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToStorageAccountsBlobServicesContainersSpec populates the provided destination StorageAccountsBlobServicesContainers_Spec from our StorageAccountsBlobServicesContainers_Spec
-func (containers *StorageAccountsBlobServicesContainers_Spec) AssignPropertiesToStorageAccountsBlobServicesContainersSpec(destination *v20210401s.StorageAccountsBlobServicesContainers_Spec) error {
+// AssignPropertiesToStorageAccountsBlobServicesContainer_Spec populates the provided destination StorageAccountsBlobServicesContainer_Spec from our StorageAccountsBlobServicesContainer_Spec
+func (container *StorageAccountsBlobServicesContainer_Spec) AssignPropertiesToStorageAccountsBlobServicesContainer_Spec(destination *v20210401s.StorageAccountsBlobServicesContainer_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
-	destination.AzureName = containers.AzureName
+	destination.AzureName = container.AzureName
 
 	// DefaultEncryptionScope
-	destination.DefaultEncryptionScope = genruntime.ClonePointerToString(containers.DefaultEncryptionScope)
+	destination.DefaultEncryptionScope = genruntime.ClonePointerToString(container.DefaultEncryptionScope)
+
+	// Deleted
+	if container.Deleted != nil {
+		deleted := *container.Deleted
+		destination.Deleted = &deleted
+	} else {
+		destination.Deleted = nil
+	}
+
+	// DeletedTime
+	if container.DeletedTime != nil {
+		deletedTime := *container.DeletedTime
+		destination.DeletedTime = &deletedTime
+	} else {
+		destination.DeletedTime = nil
+	}
 
 	// DenyEncryptionScopeOverride
-	if containers.DenyEncryptionScopeOverride != nil {
-		denyEncryptionScopeOverride := *containers.DenyEncryptionScopeOverride
+	if container.DenyEncryptionScopeOverride != nil {
+		denyEncryptionScopeOverride := *container.DenyEncryptionScopeOverride
 		destination.DenyEncryptionScopeOverride = &denyEncryptionScopeOverride
 	} else {
 		destination.DenyEncryptionScopeOverride = nil
 	}
 
+	// Etag
+	destination.Etag = genruntime.ClonePointerToString(container.Etag)
+
+	// HasImmutabilityPolicy
+	if container.HasImmutabilityPolicy != nil {
+		hasImmutabilityPolicy := *container.HasImmutabilityPolicy
+		destination.HasImmutabilityPolicy = &hasImmutabilityPolicy
+	} else {
+		destination.HasImmutabilityPolicy = nil
+	}
+
+	// HasLegalHold
+	if container.HasLegalHold != nil {
+		hasLegalHold := *container.HasLegalHold
+		destination.HasLegalHold = &hasLegalHold
+	} else {
+		destination.HasLegalHold = nil
+	}
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(container.Id)
+
+	// ImmutabilityPolicy
+	if container.ImmutabilityPolicy != nil {
+		var immutabilityPolicy v20210401s.ImmutabilityPolicyProperties
+		err := container.ImmutabilityPolicy.AssignPropertiesToImmutabilityPolicyProperties(&immutabilityPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToImmutabilityPolicyProperties() to populate field ImmutabilityPolicy")
+		}
+		destination.ImmutabilityPolicy = &immutabilityPolicy
+	} else {
+		destination.ImmutabilityPolicy = nil
+	}
+
 	// ImmutableStorageWithVersioning
-	if containers.ImmutableStorageWithVersioning != nil {
+	if container.ImmutableStorageWithVersioning != nil {
 		var immutableStorageWithVersioning v20210401s.ImmutableStorageWithVersioning
-		err := containers.ImmutableStorageWithVersioning.AssignPropertiesToImmutableStorageWithVersioning(&immutableStorageWithVersioning)
+		err := container.ImmutableStorageWithVersioning.AssignPropertiesToImmutableStorageWithVersioning(&immutableStorageWithVersioning)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToImmutableStorageWithVersioning() to populate field ImmutableStorageWithVersioning")
 		}
@@ -1272,33 +1662,80 @@ func (containers *StorageAccountsBlobServicesContainers_Spec) AssignPropertiesTo
 		destination.ImmutableStorageWithVersioning = nil
 	}
 
-	// Location
-	destination.Location = genruntime.ClonePointerToString(containers.Location)
+	// LastModifiedTime
+	if container.LastModifiedTime != nil {
+		lastModifiedTime := *container.LastModifiedTime
+		destination.LastModifiedTime = &lastModifiedTime
+	} else {
+		destination.LastModifiedTime = nil
+	}
+
+	// LeaseDuration
+	if container.LeaseDuration != nil {
+		leaseDuration := string(*container.LeaseDuration)
+		destination.LeaseDuration = &leaseDuration
+	} else {
+		destination.LeaseDuration = nil
+	}
+
+	// LeaseState
+	if container.LeaseState != nil {
+		leaseState := string(*container.LeaseState)
+		destination.LeaseState = &leaseState
+	} else {
+		destination.LeaseState = nil
+	}
+
+	// LeaseStatus
+	if container.LeaseStatus != nil {
+		leaseStatus := string(*container.LeaseStatus)
+		destination.LeaseStatus = &leaseStatus
+	} else {
+		destination.LeaseStatus = nil
+	}
+
+	// LegalHold
+	if container.LegalHold != nil {
+		var legalHold v20210401s.LegalHoldProperties
+		err := container.LegalHold.AssignPropertiesToLegalHoldProperties(&legalHold)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToLegalHoldProperties() to populate field LegalHold")
+		}
+		destination.LegalHold = &legalHold
+	} else {
+		destination.LegalHold = nil
+	}
 
 	// Metadata
-	destination.Metadata = genruntime.CloneMapOfStringToString(containers.Metadata)
+	destination.Metadata = genruntime.CloneMapOfStringToString(container.Metadata)
 
 	// OriginalVersion
-	destination.OriginalVersion = containers.OriginalVersion()
+	destination.OriginalVersion = container.OriginalVersion()
 
 	// Owner
-	if containers.Owner != nil {
-		owner := containers.Owner.Copy()
+	if container.Owner != nil {
+		owner := container.Owner.Copy()
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
 	}
 
 	// PublicAccess
-	if containers.PublicAccess != nil {
-		publicAccess := string(*containers.PublicAccess)
+	if container.PublicAccess != nil {
+		publicAccess := string(*container.PublicAccess)
 		destination.PublicAccess = &publicAccess
 	} else {
 		destination.PublicAccess = nil
 	}
 
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(containers.Tags)
+	// RemainingRetentionDays
+	destination.RemainingRetentionDays = genruntime.ClonePointerToInt(container.RemainingRetentionDays)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(container.Type)
+
+	// Version
+	destination.Version = genruntime.ClonePointerToString(container.Version)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1312,25 +1749,52 @@ func (containers *StorageAccountsBlobServicesContainers_Spec) AssignPropertiesTo
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (containers *StorageAccountsBlobServicesContainers_Spec) OriginalVersion() string {
+func (container *StorageAccountsBlobServicesContainer_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (containers *StorageAccountsBlobServicesContainers_Spec) SetAzureName(azureName string) {
-	containers.AzureName = azureName
+func (container *StorageAccountsBlobServicesContainer_Spec) SetAzureName(azureName string) {
+	container.AzureName = azureName
 }
 
-// +kubebuilder:validation:Enum={"Blob","Container","None"}
-type ContainerPropertiesPublicAccess string
+// +kubebuilder:validation:Enum={"Fixed","Infinite"}
+type ContainerProperties_LeaseDuration string
 
 const (
-	ContainerPropertiesPublicAccessBlob      = ContainerPropertiesPublicAccess("Blob")
-	ContainerPropertiesPublicAccessContainer = ContainerPropertiesPublicAccess("Container")
-	ContainerPropertiesPublicAccessNone      = ContainerPropertiesPublicAccess("None")
+	ContainerProperties_LeaseDurationFixed    = ContainerProperties_LeaseDuration("Fixed")
+	ContainerProperties_LeaseDurationInfinite = ContainerProperties_LeaseDuration("Infinite")
 )
 
-type ImmutabilityPolicyProperties_Status struct {
+// +kubebuilder:validation:Enum={"Available","Breaking","Broken","Expired","Leased"}
+type ContainerProperties_LeaseState string
+
+const (
+	ContainerProperties_LeaseStateAvailable = ContainerProperties_LeaseState("Available")
+	ContainerProperties_LeaseStateBreaking  = ContainerProperties_LeaseState("Breaking")
+	ContainerProperties_LeaseStateBroken    = ContainerProperties_LeaseState("Broken")
+	ContainerProperties_LeaseStateExpired   = ContainerProperties_LeaseState("Expired")
+	ContainerProperties_LeaseStateLeased    = ContainerProperties_LeaseState("Leased")
+)
+
+// +kubebuilder:validation:Enum={"Locked","Unlocked"}
+type ContainerProperties_LeaseStatus string
+
+const (
+	ContainerProperties_LeaseStatusLocked   = ContainerProperties_LeaseStatus("Locked")
+	ContainerProperties_LeaseStatusUnlocked = ContainerProperties_LeaseStatus("Unlocked")
+)
+
+// +kubebuilder:validation:Enum={"Blob","Container","None"}
+type ContainerProperties_PublicAccess string
+
+const (
+	ContainerProperties_PublicAccessBlob      = ContainerProperties_PublicAccess("Blob")
+	ContainerProperties_PublicAccessContainer = ContainerProperties_PublicAccess("Container")
+	ContainerProperties_PublicAccessNone      = ContainerProperties_PublicAccess("None")
+)
+
+type ImmutabilityPolicyProperties struct {
 	// AllowProtectedAppendWrites: This property can only be changed for unlocked time-based retention policies. When enabled,
 	// new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks
 	// can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with
@@ -1345,24 +1809,67 @@ type ImmutabilityPolicyProperties_Status struct {
 	ImmutabilityPeriodSinceCreationInDays *int `json:"immutabilityPeriodSinceCreationInDays,omitempty"`
 
 	// State: The ImmutabilityPolicy state of a blob container, possible values include: Locked and Unlocked.
-	State *ImmutabilityPolicyPropertyStatusState `json:"state,omitempty"`
+	State *ImmutabilityPolicyProperty_State `json:"state,omitempty"`
 
 	// UpdateHistory: The ImmutabilityPolicy update history of the blob container.
-	UpdateHistory []UpdateHistoryProperty_Status `json:"updateHistory,omitempty"`
+	UpdateHistory []UpdateHistoryProperty `json:"updateHistory,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &ImmutabilityPolicyProperties_Status{}
+var _ genruntime.ARMTransformer = &ImmutabilityPolicyProperties{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (properties *ImmutabilityPolicyProperties) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if properties == nil {
+		return nil, nil
+	}
+	result := &ImmutabilityPolicyPropertiesARM{}
+
+	// Set property ‘Etag’:
+	if properties.Etag != nil {
+		etag := *properties.Etag
+		result.Etag = &etag
+	}
+
+	// Set property ‘Properties’:
+	if properties.AllowProtectedAppendWrites != nil ||
+		properties.ImmutabilityPeriodSinceCreationInDays != nil ||
+		properties.State != nil {
+		result.Properties = &ImmutabilityPolicyPropertyARM{}
+	}
+	if properties.AllowProtectedAppendWrites != nil {
+		allowProtectedAppendWrites := *properties.AllowProtectedAppendWrites
+		result.Properties.AllowProtectedAppendWrites = &allowProtectedAppendWrites
+	}
+	if properties.ImmutabilityPeriodSinceCreationInDays != nil {
+		immutabilityPeriodSinceCreationInDays := *properties.ImmutabilityPeriodSinceCreationInDays
+		result.Properties.ImmutabilityPeriodSinceCreationInDays = &immutabilityPeriodSinceCreationInDays
+	}
+	if properties.State != nil {
+		state := *properties.State
+		result.Properties.State = &state
+	}
+
+	// Set property ‘UpdateHistory’:
+	for _, item := range properties.UpdateHistory {
+		itemARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.UpdateHistory = append(result.UpdateHistory, *itemARM.(*UpdateHistoryPropertyARM))
+	}
+	return result, nil
+}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (properties *ImmutabilityPolicyProperties_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ImmutabilityPolicyProperties_StatusARM{}
+func (properties *ImmutabilityPolicyProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ImmutabilityPolicyPropertiesARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (properties *ImmutabilityPolicyProperties_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ImmutabilityPolicyProperties_StatusARM)
+func (properties *ImmutabilityPolicyProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ImmutabilityPolicyPropertiesARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImmutabilityPolicyProperties_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImmutabilityPolicyPropertiesARM, got %T", armInput)
 	}
 
 	// Set property ‘AllowProtectedAppendWrites’:
@@ -1400,7 +1907,7 @@ func (properties *ImmutabilityPolicyProperties_Status) PopulateFromARM(owner gen
 
 	// Set property ‘UpdateHistory’:
 	for _, item := range typedInput.UpdateHistory {
-		var item1 UpdateHistoryProperty_Status
+		var item1 UpdateHistoryProperty
 		err := item1.PopulateFromARM(owner, item)
 		if err != nil {
 			return err
@@ -1412,8 +1919,8 @@ func (properties *ImmutabilityPolicyProperties_Status) PopulateFromARM(owner gen
 	return nil
 }
 
-// AssignPropertiesFromImmutabilityPolicyPropertiesStatus populates our ImmutabilityPolicyProperties_Status from the provided source ImmutabilityPolicyProperties_Status
-func (properties *ImmutabilityPolicyProperties_Status) AssignPropertiesFromImmutabilityPolicyPropertiesStatus(source *v20210401s.ImmutabilityPolicyProperties_Status) error {
+// AssignPropertiesFromImmutabilityPolicyProperties populates our ImmutabilityPolicyProperties from the provided source ImmutabilityPolicyProperties
+func (properties *ImmutabilityPolicyProperties) AssignPropertiesFromImmutabilityPolicyProperties(source *v20210401s.ImmutabilityPolicyProperties) error {
 
 	// AllowProtectedAppendWrites
 	if source.AllowProtectedAppendWrites != nil {
@@ -1431,7 +1938,7 @@ func (properties *ImmutabilityPolicyProperties_Status) AssignPropertiesFromImmut
 
 	// State
 	if source.State != nil {
-		state := ImmutabilityPolicyPropertyStatusState(*source.State)
+		state := ImmutabilityPolicyProperty_State(*source.State)
 		properties.State = &state
 	} else {
 		properties.State = nil
@@ -1439,14 +1946,14 @@ func (properties *ImmutabilityPolicyProperties_Status) AssignPropertiesFromImmut
 
 	// UpdateHistory
 	if source.UpdateHistory != nil {
-		updateHistoryList := make([]UpdateHistoryProperty_Status, len(source.UpdateHistory))
+		updateHistoryList := make([]UpdateHistoryProperty, len(source.UpdateHistory))
 		for updateHistoryIndex, updateHistoryItem := range source.UpdateHistory {
 			// Shadow the loop variable to avoid aliasing
 			updateHistoryItem := updateHistoryItem
-			var updateHistory UpdateHistoryProperty_Status
-			err := updateHistory.AssignPropertiesFromUpdateHistoryPropertyStatus(&updateHistoryItem)
+			var updateHistory UpdateHistoryProperty
+			err := updateHistory.AssignPropertiesFromUpdateHistoryProperty(&updateHistoryItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromUpdateHistoryPropertyStatus() to populate field UpdateHistory")
+				return errors.Wrap(err, "calling AssignPropertiesFromUpdateHistoryProperty() to populate field UpdateHistory")
 			}
 			updateHistoryList[updateHistoryIndex] = updateHistory
 		}
@@ -1459,8 +1966,8 @@ func (properties *ImmutabilityPolicyProperties_Status) AssignPropertiesFromImmut
 	return nil
 }
 
-// AssignPropertiesToImmutabilityPolicyPropertiesStatus populates the provided destination ImmutabilityPolicyProperties_Status from our ImmutabilityPolicyProperties_Status
-func (properties *ImmutabilityPolicyProperties_Status) AssignPropertiesToImmutabilityPolicyPropertiesStatus(destination *v20210401s.ImmutabilityPolicyProperties_Status) error {
+// AssignPropertiesToImmutabilityPolicyProperties populates the provided destination ImmutabilityPolicyProperties from our ImmutabilityPolicyProperties
+func (properties *ImmutabilityPolicyProperties) AssignPropertiesToImmutabilityPolicyProperties(destination *v20210401s.ImmutabilityPolicyProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1488,14 +1995,14 @@ func (properties *ImmutabilityPolicyProperties_Status) AssignPropertiesToImmutab
 
 	// UpdateHistory
 	if properties.UpdateHistory != nil {
-		updateHistoryList := make([]v20210401s.UpdateHistoryProperty_Status, len(properties.UpdateHistory))
+		updateHistoryList := make([]v20210401s.UpdateHistoryProperty, len(properties.UpdateHistory))
 		for updateHistoryIndex, updateHistoryItem := range properties.UpdateHistory {
 			// Shadow the loop variable to avoid aliasing
 			updateHistoryItem := updateHistoryItem
-			var updateHistory v20210401s.UpdateHistoryProperty_Status
-			err := updateHistoryItem.AssignPropertiesToUpdateHistoryPropertyStatus(&updateHistory)
+			var updateHistory v20210401s.UpdateHistoryProperty
+			err := updateHistoryItem.AssignPropertiesToUpdateHistoryProperty(&updateHistory)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToUpdateHistoryPropertyStatus() to populate field UpdateHistory")
+				return errors.Wrap(err, "calling AssignPropertiesToUpdateHistoryProperty() to populate field UpdateHistory")
 			}
 			updateHistoryList[updateHistoryIndex] = updateHistory
 		}
@@ -1515,10 +2022,200 @@ func (properties *ImmutabilityPolicyProperties_Status) AssignPropertiesToImmutab
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ImmutableStorageWithVersioning
+type ImmutabilityPolicyProperties_STATUS struct {
+	// AllowProtectedAppendWrites: This property can only be changed for unlocked time-based retention policies. When enabled,
+	// new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks
+	// can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with
+	// ExtendImmutabilityPolicy API
+	AllowProtectedAppendWrites *bool `json:"allowProtectedAppendWrites,omitempty"`
+
+	// Etag: ImmutabilityPolicy Etag.
+	Etag *string `json:"etag,omitempty"`
+
+	// ImmutabilityPeriodSinceCreationInDays: The immutability period for the blobs in the container since the policy creation,
+	// in days.
+	ImmutabilityPeriodSinceCreationInDays *int `json:"immutabilityPeriodSinceCreationInDays,omitempty"`
+
+	// State: The ImmutabilityPolicy state of a blob container, possible values include: Locked and Unlocked.
+	State *ImmutabilityPolicyProperty_State_STATUS `json:"state,omitempty"`
+
+	// UpdateHistory: The ImmutabilityPolicy update history of the blob container.
+	UpdateHistory []UpdateHistoryProperty_STATUS `json:"updateHistory,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &ImmutabilityPolicyProperties_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (properties *ImmutabilityPolicyProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ImmutabilityPolicyProperties_STATUSARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (properties *ImmutabilityPolicyProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ImmutabilityPolicyProperties_STATUSARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImmutabilityPolicyProperties_STATUSARM, got %T", armInput)
+	}
+
+	// Set property ‘AllowProtectedAppendWrites’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AllowProtectedAppendWrites != nil {
+			allowProtectedAppendWrites := *typedInput.Properties.AllowProtectedAppendWrites
+			properties.AllowProtectedAppendWrites = &allowProtectedAppendWrites
+		}
+	}
+
+	// Set property ‘Etag’:
+	if typedInput.Etag != nil {
+		etag := *typedInput.Etag
+		properties.Etag = &etag
+	}
+
+	// Set property ‘ImmutabilityPeriodSinceCreationInDays’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ImmutabilityPeriodSinceCreationInDays != nil {
+			immutabilityPeriodSinceCreationInDays := *typedInput.Properties.ImmutabilityPeriodSinceCreationInDays
+			properties.ImmutabilityPeriodSinceCreationInDays = &immutabilityPeriodSinceCreationInDays
+		}
+	}
+
+	// Set property ‘State’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.State != nil {
+			state := *typedInput.Properties.State
+			properties.State = &state
+		}
+	}
+
+	// Set property ‘UpdateHistory’:
+	for _, item := range typedInput.UpdateHistory {
+		var item1 UpdateHistoryProperty_STATUS
+		err := item1.PopulateFromARM(owner, item)
+		if err != nil {
+			return err
+		}
+		properties.UpdateHistory = append(properties.UpdateHistory, item1)
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromImmutabilityPolicyProperties_STATUS populates our ImmutabilityPolicyProperties_STATUS from the provided source ImmutabilityPolicyProperties_STATUS
+func (properties *ImmutabilityPolicyProperties_STATUS) AssignPropertiesFromImmutabilityPolicyProperties_STATUS(source *v20210401s.ImmutabilityPolicyProperties_STATUS) error {
+
+	// AllowProtectedAppendWrites
+	if source.AllowProtectedAppendWrites != nil {
+		allowProtectedAppendWrite := *source.AllowProtectedAppendWrites
+		properties.AllowProtectedAppendWrites = &allowProtectedAppendWrite
+	} else {
+		properties.AllowProtectedAppendWrites = nil
+	}
+
+	// Etag
+	properties.Etag = genruntime.ClonePointerToString(source.Etag)
+
+	// ImmutabilityPeriodSinceCreationInDays
+	properties.ImmutabilityPeriodSinceCreationInDays = genruntime.ClonePointerToInt(source.ImmutabilityPeriodSinceCreationInDays)
+
+	// State
+	if source.State != nil {
+		state := ImmutabilityPolicyProperty_State_STATUS(*source.State)
+		properties.State = &state
+	} else {
+		properties.State = nil
+	}
+
+	// UpdateHistory
+	if source.UpdateHistory != nil {
+		updateHistoryList := make([]UpdateHistoryProperty_STATUS, len(source.UpdateHistory))
+		for updateHistoryIndex, updateHistoryItem := range source.UpdateHistory {
+			// Shadow the loop variable to avoid aliasing
+			updateHistoryItem := updateHistoryItem
+			var updateHistory UpdateHistoryProperty_STATUS
+			err := updateHistory.AssignPropertiesFromUpdateHistoryProperty_STATUS(&updateHistoryItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromUpdateHistoryProperty_STATUS() to populate field UpdateHistory")
+			}
+			updateHistoryList[updateHistoryIndex] = updateHistory
+		}
+		properties.UpdateHistory = updateHistoryList
+	} else {
+		properties.UpdateHistory = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToImmutabilityPolicyProperties_STATUS populates the provided destination ImmutabilityPolicyProperties_STATUS from our ImmutabilityPolicyProperties_STATUS
+func (properties *ImmutabilityPolicyProperties_STATUS) AssignPropertiesToImmutabilityPolicyProperties_STATUS(destination *v20210401s.ImmutabilityPolicyProperties_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AllowProtectedAppendWrites
+	if properties.AllowProtectedAppendWrites != nil {
+		allowProtectedAppendWrite := *properties.AllowProtectedAppendWrites
+		destination.AllowProtectedAppendWrites = &allowProtectedAppendWrite
+	} else {
+		destination.AllowProtectedAppendWrites = nil
+	}
+
+	// Etag
+	destination.Etag = genruntime.ClonePointerToString(properties.Etag)
+
+	// ImmutabilityPeriodSinceCreationInDays
+	destination.ImmutabilityPeriodSinceCreationInDays = genruntime.ClonePointerToInt(properties.ImmutabilityPeriodSinceCreationInDays)
+
+	// State
+	if properties.State != nil {
+		state := string(*properties.State)
+		destination.State = &state
+	} else {
+		destination.State = nil
+	}
+
+	// UpdateHistory
+	if properties.UpdateHistory != nil {
+		updateHistoryList := make([]v20210401s.UpdateHistoryProperty_STATUS, len(properties.UpdateHistory))
+		for updateHistoryIndex, updateHistoryItem := range properties.UpdateHistory {
+			// Shadow the loop variable to avoid aliasing
+			updateHistoryItem := updateHistoryItem
+			var updateHistory v20210401s.UpdateHistoryProperty_STATUS
+			err := updateHistoryItem.AssignPropertiesToUpdateHistoryProperty_STATUS(&updateHistory)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToUpdateHistoryProperty_STATUS() to populate field UpdateHistory")
+			}
+			updateHistoryList[updateHistoryIndex] = updateHistory
+		}
+		destination.UpdateHistory = updateHistoryList
+	} else {
+		destination.UpdateHistory = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type ImmutableStorageWithVersioning struct {
 	// Enabled: This is an immutable property, when set to true it enables object level immutability at the container level.
 	Enabled *bool `json:"enabled,omitempty"`
+
+	// MigrationState: This property denotes the container level immutability to object level immutability migration state.
+	MigrationState *ImmutableStorageWithVersioning_MigrationState `json:"migrationState,omitempty"`
+
+	// TimeStamp: Returns the date and time the object level immutability was enabled.
+	TimeStamp *string `json:"timeStamp,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ImmutableStorageWithVersioning{}
@@ -1535,6 +2232,18 @@ func (versioning *ImmutableStorageWithVersioning) ConvertToARM(resolved genrunti
 		enabled := *versioning.Enabled
 		result.Enabled = &enabled
 	}
+
+	// Set property ‘MigrationState’:
+	if versioning.MigrationState != nil {
+		migrationState := *versioning.MigrationState
+		result.MigrationState = &migrationState
+	}
+
+	// Set property ‘TimeStamp’:
+	if versioning.TimeStamp != nil {
+		timeStamp := *versioning.TimeStamp
+		result.TimeStamp = &timeStamp
+	}
 	return result, nil
 }
 
@@ -1548,80 +2257,6 @@ func (versioning *ImmutableStorageWithVersioning) PopulateFromARM(owner genrunti
 	typedInput, ok := armInput.(ImmutableStorageWithVersioningARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImmutableStorageWithVersioningARM, got %T", armInput)
-	}
-
-	// Set property ‘Enabled’:
-	if typedInput.Enabled != nil {
-		enabled := *typedInput.Enabled
-		versioning.Enabled = &enabled
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromImmutableStorageWithVersioning populates our ImmutableStorageWithVersioning from the provided source ImmutableStorageWithVersioning
-func (versioning *ImmutableStorageWithVersioning) AssignPropertiesFromImmutableStorageWithVersioning(source *v20210401s.ImmutableStorageWithVersioning) error {
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		versioning.Enabled = &enabled
-	} else {
-		versioning.Enabled = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToImmutableStorageWithVersioning populates the provided destination ImmutableStorageWithVersioning from our ImmutableStorageWithVersioning
-func (versioning *ImmutableStorageWithVersioning) AssignPropertiesToImmutableStorageWithVersioning(destination *v20210401s.ImmutableStorageWithVersioning) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Enabled
-	if versioning.Enabled != nil {
-		enabled := *versioning.Enabled
-		destination.Enabled = &enabled
-	} else {
-		destination.Enabled = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type ImmutableStorageWithVersioning_Status struct {
-	// Enabled: This is an immutable property, when set to true it enables object level immutability at the container level.
-	Enabled *bool `json:"enabled,omitempty"`
-
-	// MigrationState: This property denotes the container level immutability to object level immutability migration state.
-	MigrationState *ImmutableStorageWithVersioningStatusMigrationState `json:"migrationState,omitempty"`
-
-	// TimeStamp: Returns the date and time the object level immutability was enabled.
-	TimeStamp *string `json:"timeStamp,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &ImmutableStorageWithVersioning_Status{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (versioning *ImmutableStorageWithVersioning_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ImmutableStorageWithVersioning_StatusARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (versioning *ImmutableStorageWithVersioning_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ImmutableStorageWithVersioning_StatusARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImmutableStorageWithVersioning_StatusARM, got %T", armInput)
 	}
 
 	// Set property ‘Enabled’:
@@ -1646,8 +2281,8 @@ func (versioning *ImmutableStorageWithVersioning_Status) PopulateFromARM(owner g
 	return nil
 }
 
-// AssignPropertiesFromImmutableStorageWithVersioningStatus populates our ImmutableStorageWithVersioning_Status from the provided source ImmutableStorageWithVersioning_Status
-func (versioning *ImmutableStorageWithVersioning_Status) AssignPropertiesFromImmutableStorageWithVersioningStatus(source *v20210401s.ImmutableStorageWithVersioning_Status) error {
+// AssignPropertiesFromImmutableStorageWithVersioning populates our ImmutableStorageWithVersioning from the provided source ImmutableStorageWithVersioning
+func (versioning *ImmutableStorageWithVersioning) AssignPropertiesFromImmutableStorageWithVersioning(source *v20210401s.ImmutableStorageWithVersioning) error {
 
 	// Enabled
 	if source.Enabled != nil {
@@ -1659,7 +2294,125 @@ func (versioning *ImmutableStorageWithVersioning_Status) AssignPropertiesFromImm
 
 	// MigrationState
 	if source.MigrationState != nil {
-		migrationState := ImmutableStorageWithVersioningStatusMigrationState(*source.MigrationState)
+		migrationState := ImmutableStorageWithVersioning_MigrationState(*source.MigrationState)
+		versioning.MigrationState = &migrationState
+	} else {
+		versioning.MigrationState = nil
+	}
+
+	// TimeStamp
+	if source.TimeStamp != nil {
+		timeStamp := *source.TimeStamp
+		versioning.TimeStamp = &timeStamp
+	} else {
+		versioning.TimeStamp = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToImmutableStorageWithVersioning populates the provided destination ImmutableStorageWithVersioning from our ImmutableStorageWithVersioning
+func (versioning *ImmutableStorageWithVersioning) AssignPropertiesToImmutableStorageWithVersioning(destination *v20210401s.ImmutableStorageWithVersioning) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Enabled
+	if versioning.Enabled != nil {
+		enabled := *versioning.Enabled
+		destination.Enabled = &enabled
+	} else {
+		destination.Enabled = nil
+	}
+
+	// MigrationState
+	if versioning.MigrationState != nil {
+		migrationState := string(*versioning.MigrationState)
+		destination.MigrationState = &migrationState
+	} else {
+		destination.MigrationState = nil
+	}
+
+	// TimeStamp
+	if versioning.TimeStamp != nil {
+		timeStamp := *versioning.TimeStamp
+		destination.TimeStamp = &timeStamp
+	} else {
+		destination.TimeStamp = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type ImmutableStorageWithVersioning_STATUS struct {
+	// Enabled: This is an immutable property, when set to true it enables object level immutability at the container level.
+	Enabled *bool `json:"enabled,omitempty"`
+
+	// MigrationState: This property denotes the container level immutability to object level immutability migration state.
+	MigrationState *ImmutableStorageWithVersioning_MigrationState_STATUS `json:"migrationState,omitempty"`
+
+	// TimeStamp: Returns the date and time the object level immutability was enabled.
+	TimeStamp *string `json:"timeStamp,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &ImmutableStorageWithVersioning_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (versioning *ImmutableStorageWithVersioning_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ImmutableStorageWithVersioning_STATUSARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (versioning *ImmutableStorageWithVersioning_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ImmutableStorageWithVersioning_STATUSARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImmutableStorageWithVersioning_STATUSARM, got %T", armInput)
+	}
+
+	// Set property ‘Enabled’:
+	if typedInput.Enabled != nil {
+		enabled := *typedInput.Enabled
+		versioning.Enabled = &enabled
+	}
+
+	// Set property ‘MigrationState’:
+	if typedInput.MigrationState != nil {
+		migrationState := *typedInput.MigrationState
+		versioning.MigrationState = &migrationState
+	}
+
+	// Set property ‘TimeStamp’:
+	if typedInput.TimeStamp != nil {
+		timeStamp := *typedInput.TimeStamp
+		versioning.TimeStamp = &timeStamp
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromImmutableStorageWithVersioning_STATUS populates our ImmutableStorageWithVersioning_STATUS from the provided source ImmutableStorageWithVersioning_STATUS
+func (versioning *ImmutableStorageWithVersioning_STATUS) AssignPropertiesFromImmutableStorageWithVersioning_STATUS(source *v20210401s.ImmutableStorageWithVersioning_STATUS) error {
+
+	// Enabled
+	if source.Enabled != nil {
+		enabled := *source.Enabled
+		versioning.Enabled = &enabled
+	} else {
+		versioning.Enabled = nil
+	}
+
+	// MigrationState
+	if source.MigrationState != nil {
+		migrationState := ImmutableStorageWithVersioning_MigrationState_STATUS(*source.MigrationState)
 		versioning.MigrationState = &migrationState
 	} else {
 		versioning.MigrationState = nil
@@ -1672,8 +2425,8 @@ func (versioning *ImmutableStorageWithVersioning_Status) AssignPropertiesFromImm
 	return nil
 }
 
-// AssignPropertiesToImmutableStorageWithVersioningStatus populates the provided destination ImmutableStorageWithVersioning_Status from our ImmutableStorageWithVersioning_Status
-func (versioning *ImmutableStorageWithVersioning_Status) AssignPropertiesToImmutableStorageWithVersioningStatus(destination *v20210401s.ImmutableStorageWithVersioning_Status) error {
+// AssignPropertiesToImmutableStorageWithVersioning_STATUS populates the provided destination ImmutableStorageWithVersioning_STATUS from our ImmutableStorageWithVersioning_STATUS
+func (versioning *ImmutableStorageWithVersioning_STATUS) AssignPropertiesToImmutableStorageWithVersioning_STATUS(destination *v20210401s.ImmutableStorageWithVersioning_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1707,28 +2460,52 @@ func (versioning *ImmutableStorageWithVersioning_Status) AssignPropertiesToImmut
 	return nil
 }
 
-type LegalHoldProperties_Status struct {
+type LegalHoldProperties struct {
 	// HasLegalHold: The hasLegalHold public property is set to true by SRP if there are at least one existing tag. The
 	// hasLegalHold public property is set to false by SRP if all existing legal hold tags are cleared out. There can be a
 	// maximum of 1000 blob containers with hasLegalHold=true for a given account.
 	HasLegalHold *bool `json:"hasLegalHold,omitempty"`
 
 	// Tags: The list of LegalHold tags of a blob container.
-	Tags []TagProperty_Status `json:"tags,omitempty"`
+	Tags []TagProperty `json:"tags,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &LegalHoldProperties_Status{}
+var _ genruntime.ARMTransformer = &LegalHoldProperties{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (properties *LegalHoldProperties) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if properties == nil {
+		return nil, nil
+	}
+	result := &LegalHoldPropertiesARM{}
+
+	// Set property ‘HasLegalHold’:
+	if properties.HasLegalHold != nil {
+		hasLegalHold := *properties.HasLegalHold
+		result.HasLegalHold = &hasLegalHold
+	}
+
+	// Set property ‘Tags’:
+	for _, item := range properties.Tags {
+		itemARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Tags = append(result.Tags, *itemARM.(*TagPropertyARM))
+	}
+	return result, nil
+}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (properties *LegalHoldProperties_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LegalHoldProperties_StatusARM{}
+func (properties *LegalHoldProperties) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &LegalHoldPropertiesARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (properties *LegalHoldProperties_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LegalHoldProperties_StatusARM)
+func (properties *LegalHoldProperties) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(LegalHoldPropertiesARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LegalHoldProperties_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LegalHoldPropertiesARM, got %T", armInput)
 	}
 
 	// Set property ‘HasLegalHold’:
@@ -1739,7 +2516,7 @@ func (properties *LegalHoldProperties_Status) PopulateFromARM(owner genruntime.A
 
 	// Set property ‘Tags’:
 	for _, item := range typedInput.Tags {
-		var item1 TagProperty_Status
+		var item1 TagProperty
 		err := item1.PopulateFromARM(owner, item)
 		if err != nil {
 			return err
@@ -1751,8 +2528,8 @@ func (properties *LegalHoldProperties_Status) PopulateFromARM(owner genruntime.A
 	return nil
 }
 
-// AssignPropertiesFromLegalHoldPropertiesStatus populates our LegalHoldProperties_Status from the provided source LegalHoldProperties_Status
-func (properties *LegalHoldProperties_Status) AssignPropertiesFromLegalHoldPropertiesStatus(source *v20210401s.LegalHoldProperties_Status) error {
+// AssignPropertiesFromLegalHoldProperties populates our LegalHoldProperties from the provided source LegalHoldProperties
+func (properties *LegalHoldProperties) AssignPropertiesFromLegalHoldProperties(source *v20210401s.LegalHoldProperties) error {
 
 	// HasLegalHold
 	if source.HasLegalHold != nil {
@@ -1764,14 +2541,14 @@ func (properties *LegalHoldProperties_Status) AssignPropertiesFromLegalHoldPrope
 
 	// Tags
 	if source.Tags != nil {
-		tagList := make([]TagProperty_Status, len(source.Tags))
+		tagList := make([]TagProperty, len(source.Tags))
 		for tagIndex, tagItem := range source.Tags {
 			// Shadow the loop variable to avoid aliasing
 			tagItem := tagItem
-			var tag TagProperty_Status
-			err := tag.AssignPropertiesFromTagPropertyStatus(&tagItem)
+			var tag TagProperty
+			err := tag.AssignPropertiesFromTagProperty(&tagItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromTagPropertyStatus() to populate field Tags")
+				return errors.Wrap(err, "calling AssignPropertiesFromTagProperty() to populate field Tags")
 			}
 			tagList[tagIndex] = tag
 		}
@@ -1784,8 +2561,8 @@ func (properties *LegalHoldProperties_Status) AssignPropertiesFromLegalHoldPrope
 	return nil
 }
 
-// AssignPropertiesToLegalHoldPropertiesStatus populates the provided destination LegalHoldProperties_Status from our LegalHoldProperties_Status
-func (properties *LegalHoldProperties_Status) AssignPropertiesToLegalHoldPropertiesStatus(destination *v20210401s.LegalHoldProperties_Status) error {
+// AssignPropertiesToLegalHoldProperties populates the provided destination LegalHoldProperties from our LegalHoldProperties
+func (properties *LegalHoldProperties) AssignPropertiesToLegalHoldProperties(destination *v20210401s.LegalHoldProperties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1799,14 +2576,14 @@ func (properties *LegalHoldProperties_Status) AssignPropertiesToLegalHoldPropert
 
 	// Tags
 	if properties.Tags != nil {
-		tagList := make([]v20210401s.TagProperty_Status, len(properties.Tags))
+		tagList := make([]v20210401s.TagProperty, len(properties.Tags))
 		for tagIndex, tagItem := range properties.Tags {
 			// Shadow the loop variable to avoid aliasing
 			tagItem := tagItem
-			var tag v20210401s.TagProperty_Status
-			err := tagItem.AssignPropertiesToTagPropertyStatus(&tag)
+			var tag v20210401s.TagProperty
+			err := tagItem.AssignPropertiesToTagProperty(&tag)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToTagPropertyStatus() to populate field Tags")
+				return errors.Wrap(err, "calling AssignPropertiesToTagProperty() to populate field Tags")
 			}
 			tagList[tagIndex] = tag
 		}
@@ -1826,14 +2603,149 @@ func (properties *LegalHoldProperties_Status) AssignPropertiesToLegalHoldPropert
 	return nil
 }
 
-type ImmutabilityPolicyPropertyStatusState string
+type LegalHoldProperties_STATUS struct {
+	// HasLegalHold: The hasLegalHold public property is set to true by SRP if there are at least one existing tag. The
+	// hasLegalHold public property is set to false by SRP if all existing legal hold tags are cleared out. There can be a
+	// maximum of 1000 blob containers with hasLegalHold=true for a given account.
+	HasLegalHold *bool `json:"hasLegalHold,omitempty"`
+
+	// Tags: The list of LegalHold tags of a blob container.
+	Tags []TagProperty_STATUS `json:"tags,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &LegalHoldProperties_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (properties *LegalHoldProperties_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &LegalHoldProperties_STATUSARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (properties *LegalHoldProperties_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(LegalHoldProperties_STATUSARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LegalHoldProperties_STATUSARM, got %T", armInput)
+	}
+
+	// Set property ‘HasLegalHold’:
+	if typedInput.HasLegalHold != nil {
+		hasLegalHold := *typedInput.HasLegalHold
+		properties.HasLegalHold = &hasLegalHold
+	}
+
+	// Set property ‘Tags’:
+	for _, item := range typedInput.Tags {
+		var item1 TagProperty_STATUS
+		err := item1.PopulateFromARM(owner, item)
+		if err != nil {
+			return err
+		}
+		properties.Tags = append(properties.Tags, item1)
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromLegalHoldProperties_STATUS populates our LegalHoldProperties_STATUS from the provided source LegalHoldProperties_STATUS
+func (properties *LegalHoldProperties_STATUS) AssignPropertiesFromLegalHoldProperties_STATUS(source *v20210401s.LegalHoldProperties_STATUS) error {
+
+	// HasLegalHold
+	if source.HasLegalHold != nil {
+		hasLegalHold := *source.HasLegalHold
+		properties.HasLegalHold = &hasLegalHold
+	} else {
+		properties.HasLegalHold = nil
+	}
+
+	// Tags
+	if source.Tags != nil {
+		tagList := make([]TagProperty_STATUS, len(source.Tags))
+		for tagIndex, tagItem := range source.Tags {
+			// Shadow the loop variable to avoid aliasing
+			tagItem := tagItem
+			var tag TagProperty_STATUS
+			err := tag.AssignPropertiesFromTagProperty_STATUS(&tagItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromTagProperty_STATUS() to populate field Tags")
+			}
+			tagList[tagIndex] = tag
+		}
+		properties.Tags = tagList
+	} else {
+		properties.Tags = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToLegalHoldProperties_STATUS populates the provided destination LegalHoldProperties_STATUS from our LegalHoldProperties_STATUS
+func (properties *LegalHoldProperties_STATUS) AssignPropertiesToLegalHoldProperties_STATUS(destination *v20210401s.LegalHoldProperties_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// HasLegalHold
+	if properties.HasLegalHold != nil {
+		hasLegalHold := *properties.HasLegalHold
+		destination.HasLegalHold = &hasLegalHold
+	} else {
+		destination.HasLegalHold = nil
+	}
+
+	// Tags
+	if properties.Tags != nil {
+		tagList := make([]v20210401s.TagProperty_STATUS, len(properties.Tags))
+		for tagIndex, tagItem := range properties.Tags {
+			// Shadow the loop variable to avoid aliasing
+			tagItem := tagItem
+			var tag v20210401s.TagProperty_STATUS
+			err := tagItem.AssignPropertiesToTagProperty_STATUS(&tag)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToTagProperty_STATUS() to populate field Tags")
+			}
+			tagList[tagIndex] = tag
+		}
+		destination.Tags = tagList
+	} else {
+		destination.Tags = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// +kubebuilder:validation:Enum={"Locked","Unlocked"}
+type ImmutabilityPolicyProperty_State string
 
 const (
-	ImmutabilityPolicyPropertyStatusStateLocked   = ImmutabilityPolicyPropertyStatusState("Locked")
-	ImmutabilityPolicyPropertyStatusStateUnlocked = ImmutabilityPolicyPropertyStatusState("Unlocked")
+	ImmutabilityPolicyProperty_StateLocked   = ImmutabilityPolicyProperty_State("Locked")
+	ImmutabilityPolicyProperty_StateUnlocked = ImmutabilityPolicyProperty_State("Unlocked")
 )
 
-type TagProperty_Status struct {
+type ImmutabilityPolicyProperty_State_STATUS string
+
+const (
+	ImmutabilityPolicyProperty_State_STATUSLocked   = ImmutabilityPolicyProperty_State_STATUS("Locked")
+	ImmutabilityPolicyProperty_State_STATUSUnlocked = ImmutabilityPolicyProperty_State_STATUS("Unlocked")
+)
+
+// +kubebuilder:validation:Enum={"Completed","InProgress"}
+type ImmutableStorageWithVersioning_MigrationState string
+
+const (
+	ImmutableStorageWithVersioning_MigrationStateCompleted  = ImmutableStorageWithVersioning_MigrationState("Completed")
+	ImmutableStorageWithVersioning_MigrationStateInProgress = ImmutableStorageWithVersioning_MigrationState("InProgress")
+)
+
+type TagProperty struct {
 	// ObjectIdentifier: Returns the Object ID of the user who added the tag.
 	ObjectIdentifier *string `json:"objectIdentifier,omitempty"`
 
@@ -1850,18 +2762,57 @@ type TagProperty_Status struct {
 	Upn *string `json:"upn,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &TagProperty_Status{}
+var _ genruntime.ARMTransformer = &TagProperty{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (property *TagProperty) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if property == nil {
+		return nil, nil
+	}
+	result := &TagPropertyARM{}
+
+	// Set property ‘ObjectIdentifier’:
+	if property.ObjectIdentifier != nil {
+		objectIdentifier := *property.ObjectIdentifier
+		result.ObjectIdentifier = &objectIdentifier
+	}
+
+	// Set property ‘Tag’:
+	if property.Tag != nil {
+		tag := *property.Tag
+		result.Tag = &tag
+	}
+
+	// Set property ‘TenantId’:
+	if property.TenantId != nil {
+		tenantId := *property.TenantId
+		result.TenantId = &tenantId
+	}
+
+	// Set property ‘Timestamp’:
+	if property.Timestamp != nil {
+		timestamp := *property.Timestamp
+		result.Timestamp = &timestamp
+	}
+
+	// Set property ‘Upn’:
+	if property.Upn != nil {
+		upn := *property.Upn
+		result.Upn = &upn
+	}
+	return result, nil
+}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (property *TagProperty_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &TagProperty_StatusARM{}
+func (property *TagProperty) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &TagPropertyARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (property *TagProperty_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(TagProperty_StatusARM)
+func (property *TagProperty) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(TagPropertyARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TagProperty_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TagPropertyARM, got %T", armInput)
 	}
 
 	// Set property ‘ObjectIdentifier’:
@@ -1898,8 +2849,136 @@ func (property *TagProperty_Status) PopulateFromARM(owner genruntime.ArbitraryOw
 	return nil
 }
 
-// AssignPropertiesFromTagPropertyStatus populates our TagProperty_Status from the provided source TagProperty_Status
-func (property *TagProperty_Status) AssignPropertiesFromTagPropertyStatus(source *v20210401s.TagProperty_Status) error {
+// AssignPropertiesFromTagProperty populates our TagProperty from the provided source TagProperty
+func (property *TagProperty) AssignPropertiesFromTagProperty(source *v20210401s.TagProperty) error {
+
+	// ObjectIdentifier
+	property.ObjectIdentifier = genruntime.ClonePointerToString(source.ObjectIdentifier)
+
+	// Tag
+	property.Tag = genruntime.ClonePointerToString(source.Tag)
+
+	// TenantId
+	property.TenantId = genruntime.ClonePointerToString(source.TenantId)
+
+	// Timestamp
+	if source.Timestamp != nil {
+		timestamp := *source.Timestamp
+		property.Timestamp = &timestamp
+	} else {
+		property.Timestamp = nil
+	}
+
+	// Upn
+	property.Upn = genruntime.ClonePointerToString(source.Upn)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToTagProperty populates the provided destination TagProperty from our TagProperty
+func (property *TagProperty) AssignPropertiesToTagProperty(destination *v20210401s.TagProperty) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ObjectIdentifier
+	destination.ObjectIdentifier = genruntime.ClonePointerToString(property.ObjectIdentifier)
+
+	// Tag
+	destination.Tag = genruntime.ClonePointerToString(property.Tag)
+
+	// TenantId
+	destination.TenantId = genruntime.ClonePointerToString(property.TenantId)
+
+	// Timestamp
+	if property.Timestamp != nil {
+		timestamp := *property.Timestamp
+		destination.Timestamp = &timestamp
+	} else {
+		destination.Timestamp = nil
+	}
+
+	// Upn
+	destination.Upn = genruntime.ClonePointerToString(property.Upn)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type TagProperty_STATUS struct {
+	// ObjectIdentifier: Returns the Object ID of the user who added the tag.
+	ObjectIdentifier *string `json:"objectIdentifier,omitempty"`
+
+	// Tag: The tag value.
+	Tag *string `json:"tag,omitempty"`
+
+	// TenantId: Returns the Tenant ID that issued the token for the user who added the tag.
+	TenantId *string `json:"tenantId,omitempty"`
+
+	// Timestamp: Returns the date and time the tag was added.
+	Timestamp *string `json:"timestamp,omitempty"`
+
+	// Upn: Returns the User Principal Name of the user who added the tag.
+	Upn *string `json:"upn,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &TagProperty_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (property *TagProperty_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &TagProperty_STATUSARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (property *TagProperty_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(TagProperty_STATUSARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected TagProperty_STATUSARM, got %T", armInput)
+	}
+
+	// Set property ‘ObjectIdentifier’:
+	if typedInput.ObjectIdentifier != nil {
+		objectIdentifier := *typedInput.ObjectIdentifier
+		property.ObjectIdentifier = &objectIdentifier
+	}
+
+	// Set property ‘Tag’:
+	if typedInput.Tag != nil {
+		tag := *typedInput.Tag
+		property.Tag = &tag
+	}
+
+	// Set property ‘TenantId’:
+	if typedInput.TenantId != nil {
+		tenantId := *typedInput.TenantId
+		property.TenantId = &tenantId
+	}
+
+	// Set property ‘Timestamp’:
+	if typedInput.Timestamp != nil {
+		timestamp := *typedInput.Timestamp
+		property.Timestamp = &timestamp
+	}
+
+	// Set property ‘Upn’:
+	if typedInput.Upn != nil {
+		upn := *typedInput.Upn
+		property.Upn = &upn
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromTagProperty_STATUS populates our TagProperty_STATUS from the provided source TagProperty_STATUS
+func (property *TagProperty_STATUS) AssignPropertiesFromTagProperty_STATUS(source *v20210401s.TagProperty_STATUS) error {
 
 	// ObjectIdentifier
 	property.ObjectIdentifier = genruntime.ClonePointerToString(source.ObjectIdentifier)
@@ -1920,8 +2999,8 @@ func (property *TagProperty_Status) AssignPropertiesFromTagPropertyStatus(source
 	return nil
 }
 
-// AssignPropertiesToTagPropertyStatus populates the provided destination TagProperty_Status from our TagProperty_Status
-func (property *TagProperty_Status) AssignPropertiesToTagPropertyStatus(destination *v20210401s.TagProperty_Status) error {
+// AssignPropertiesToTagProperty_STATUS populates the provided destination TagProperty_STATUS from our TagProperty_STATUS
+func (property *TagProperty_STATUS) AssignPropertiesToTagProperty_STATUS(destination *v20210401s.TagProperty_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1951,7 +3030,7 @@ func (property *TagProperty_Status) AssignPropertiesToTagPropertyStatus(destinat
 	return nil
 }
 
-type UpdateHistoryProperty_Status struct {
+type UpdateHistoryProperty struct {
 	// ImmutabilityPeriodSinceCreationInDays: The immutability period for the blobs in the container since the policy creation,
 	// in days.
 	ImmutabilityPeriodSinceCreationInDays *int `json:"immutabilityPeriodSinceCreationInDays,omitempty"`
@@ -1966,24 +3045,69 @@ type UpdateHistoryProperty_Status struct {
 	Timestamp *string `json:"timestamp,omitempty"`
 
 	// Update: The ImmutabilityPolicy update type of a blob container, possible values include: put, lock and extend.
-	Update *UpdateHistoryPropertyStatusUpdate `json:"update,omitempty"`
+	Update *UpdateHistoryProperty_Update `json:"update,omitempty"`
 
 	// Upn: Returns the User Principal Name of the user who updated the ImmutabilityPolicy.
 	Upn *string `json:"upn,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &UpdateHistoryProperty_Status{}
+var _ genruntime.ARMTransformer = &UpdateHistoryProperty{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (property *UpdateHistoryProperty) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if property == nil {
+		return nil, nil
+	}
+	result := &UpdateHistoryPropertyARM{}
+
+	// Set property ‘ImmutabilityPeriodSinceCreationInDays’:
+	if property.ImmutabilityPeriodSinceCreationInDays != nil {
+		immutabilityPeriodSinceCreationInDays := *property.ImmutabilityPeriodSinceCreationInDays
+		result.ImmutabilityPeriodSinceCreationInDays = &immutabilityPeriodSinceCreationInDays
+	}
+
+	// Set property ‘ObjectIdentifier’:
+	if property.ObjectIdentifier != nil {
+		objectIdentifier := *property.ObjectIdentifier
+		result.ObjectIdentifier = &objectIdentifier
+	}
+
+	// Set property ‘TenantId’:
+	if property.TenantId != nil {
+		tenantId := *property.TenantId
+		result.TenantId = &tenantId
+	}
+
+	// Set property ‘Timestamp’:
+	if property.Timestamp != nil {
+		timestamp := *property.Timestamp
+		result.Timestamp = &timestamp
+	}
+
+	// Set property ‘Update’:
+	if property.Update != nil {
+		update := *property.Update
+		result.Update = &update
+	}
+
+	// Set property ‘Upn’:
+	if property.Upn != nil {
+		upn := *property.Upn
+		result.Upn = &upn
+	}
+	return result, nil
+}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (property *UpdateHistoryProperty_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UpdateHistoryProperty_StatusARM{}
+func (property *UpdateHistoryProperty) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &UpdateHistoryPropertyARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (property *UpdateHistoryProperty_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UpdateHistoryProperty_StatusARM)
+func (property *UpdateHistoryProperty) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(UpdateHistoryPropertyARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UpdateHistoryProperty_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UpdateHistoryPropertyARM, got %T", armInput)
 	}
 
 	// Set property ‘ImmutabilityPeriodSinceCreationInDays’:
@@ -2026,8 +3150,162 @@ func (property *UpdateHistoryProperty_Status) PopulateFromARM(owner genruntime.A
 	return nil
 }
 
-// AssignPropertiesFromUpdateHistoryPropertyStatus populates our UpdateHistoryProperty_Status from the provided source UpdateHistoryProperty_Status
-func (property *UpdateHistoryProperty_Status) AssignPropertiesFromUpdateHistoryPropertyStatus(source *v20210401s.UpdateHistoryProperty_Status) error {
+// AssignPropertiesFromUpdateHistoryProperty populates our UpdateHistoryProperty from the provided source UpdateHistoryProperty
+func (property *UpdateHistoryProperty) AssignPropertiesFromUpdateHistoryProperty(source *v20210401s.UpdateHistoryProperty) error {
+
+	// ImmutabilityPeriodSinceCreationInDays
+	property.ImmutabilityPeriodSinceCreationInDays = genruntime.ClonePointerToInt(source.ImmutabilityPeriodSinceCreationInDays)
+
+	// ObjectIdentifier
+	property.ObjectIdentifier = genruntime.ClonePointerToString(source.ObjectIdentifier)
+
+	// TenantId
+	property.TenantId = genruntime.ClonePointerToString(source.TenantId)
+
+	// Timestamp
+	if source.Timestamp != nil {
+		timestamp := *source.Timestamp
+		property.Timestamp = &timestamp
+	} else {
+		property.Timestamp = nil
+	}
+
+	// Update
+	if source.Update != nil {
+		update := UpdateHistoryProperty_Update(*source.Update)
+		property.Update = &update
+	} else {
+		property.Update = nil
+	}
+
+	// Upn
+	property.Upn = genruntime.ClonePointerToString(source.Upn)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToUpdateHistoryProperty populates the provided destination UpdateHistoryProperty from our UpdateHistoryProperty
+func (property *UpdateHistoryProperty) AssignPropertiesToUpdateHistoryProperty(destination *v20210401s.UpdateHistoryProperty) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// ImmutabilityPeriodSinceCreationInDays
+	destination.ImmutabilityPeriodSinceCreationInDays = genruntime.ClonePointerToInt(property.ImmutabilityPeriodSinceCreationInDays)
+
+	// ObjectIdentifier
+	destination.ObjectIdentifier = genruntime.ClonePointerToString(property.ObjectIdentifier)
+
+	// TenantId
+	destination.TenantId = genruntime.ClonePointerToString(property.TenantId)
+
+	// Timestamp
+	if property.Timestamp != nil {
+		timestamp := *property.Timestamp
+		destination.Timestamp = &timestamp
+	} else {
+		destination.Timestamp = nil
+	}
+
+	// Update
+	if property.Update != nil {
+		update := string(*property.Update)
+		destination.Update = &update
+	} else {
+		destination.Update = nil
+	}
+
+	// Upn
+	destination.Upn = genruntime.ClonePointerToString(property.Upn)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type UpdateHistoryProperty_STATUS struct {
+	// ImmutabilityPeriodSinceCreationInDays: The immutability period for the blobs in the container since the policy creation,
+	// in days.
+	ImmutabilityPeriodSinceCreationInDays *int `json:"immutabilityPeriodSinceCreationInDays,omitempty"`
+
+	// ObjectIdentifier: Returns the Object ID of the user who updated the ImmutabilityPolicy.
+	ObjectIdentifier *string `json:"objectIdentifier,omitempty"`
+
+	// TenantId: Returns the Tenant ID that issued the token for the user who updated the ImmutabilityPolicy.
+	TenantId *string `json:"tenantId,omitempty"`
+
+	// Timestamp: Returns the date and time the ImmutabilityPolicy was updated.
+	Timestamp *string `json:"timestamp,omitempty"`
+
+	// Update: The ImmutabilityPolicy update type of a blob container, possible values include: put, lock and extend.
+	Update *UpdateHistoryProperty_Update_STATUS `json:"update,omitempty"`
+
+	// Upn: Returns the User Principal Name of the user who updated the ImmutabilityPolicy.
+	Upn *string `json:"upn,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &UpdateHistoryProperty_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (property *UpdateHistoryProperty_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &UpdateHistoryProperty_STATUSARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (property *UpdateHistoryProperty_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(UpdateHistoryProperty_STATUSARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UpdateHistoryProperty_STATUSARM, got %T", armInput)
+	}
+
+	// Set property ‘ImmutabilityPeriodSinceCreationInDays’:
+	if typedInput.ImmutabilityPeriodSinceCreationInDays != nil {
+		immutabilityPeriodSinceCreationInDays := *typedInput.ImmutabilityPeriodSinceCreationInDays
+		property.ImmutabilityPeriodSinceCreationInDays = &immutabilityPeriodSinceCreationInDays
+	}
+
+	// Set property ‘ObjectIdentifier’:
+	if typedInput.ObjectIdentifier != nil {
+		objectIdentifier := *typedInput.ObjectIdentifier
+		property.ObjectIdentifier = &objectIdentifier
+	}
+
+	// Set property ‘TenantId’:
+	if typedInput.TenantId != nil {
+		tenantId := *typedInput.TenantId
+		property.TenantId = &tenantId
+	}
+
+	// Set property ‘Timestamp’:
+	if typedInput.Timestamp != nil {
+		timestamp := *typedInput.Timestamp
+		property.Timestamp = &timestamp
+	}
+
+	// Set property ‘Update’:
+	if typedInput.Update != nil {
+		update := *typedInput.Update
+		property.Update = &update
+	}
+
+	// Set property ‘Upn’:
+	if typedInput.Upn != nil {
+		upn := *typedInput.Upn
+		property.Upn = &upn
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromUpdateHistoryProperty_STATUS populates our UpdateHistoryProperty_STATUS from the provided source UpdateHistoryProperty_STATUS
+func (property *UpdateHistoryProperty_STATUS) AssignPropertiesFromUpdateHistoryProperty_STATUS(source *v20210401s.UpdateHistoryProperty_STATUS) error {
 
 	// ImmutabilityPeriodSinceCreationInDays
 	property.ImmutabilityPeriodSinceCreationInDays = genruntime.ClonePointerToInt(source.ImmutabilityPeriodSinceCreationInDays)
@@ -2043,7 +3321,7 @@ func (property *UpdateHistoryProperty_Status) AssignPropertiesFromUpdateHistoryP
 
 	// Update
 	if source.Update != nil {
-		update := UpdateHistoryPropertyStatusUpdate(*source.Update)
+		update := UpdateHistoryProperty_Update_STATUS(*source.Update)
 		property.Update = &update
 	} else {
 		property.Update = nil
@@ -2056,8 +3334,8 @@ func (property *UpdateHistoryProperty_Status) AssignPropertiesFromUpdateHistoryP
 	return nil
 }
 
-// AssignPropertiesToUpdateHistoryPropertyStatus populates the provided destination UpdateHistoryProperty_Status from our UpdateHistoryProperty_Status
-func (property *UpdateHistoryProperty_Status) AssignPropertiesToUpdateHistoryPropertyStatus(destination *v20210401s.UpdateHistoryProperty_Status) error {
+// AssignPropertiesToUpdateHistoryProperty_STATUS populates the provided destination UpdateHistoryProperty_STATUS from our UpdateHistoryProperty_STATUS
+func (property *UpdateHistoryProperty_STATUS) AssignPropertiesToUpdateHistoryProperty_STATUS(destination *v20210401s.UpdateHistoryProperty_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2094,6 +3372,15 @@ func (property *UpdateHistoryProperty_Status) AssignPropertiesToUpdateHistoryPro
 	// No error
 	return nil
 }
+
+// +kubebuilder:validation:Enum={"extend","lock","put"}
+type UpdateHistoryProperty_Update string
+
+const (
+	UpdateHistoryProperty_UpdateExtend = UpdateHistoryProperty_Update("extend")
+	UpdateHistoryProperty_UpdateLock   = UpdateHistoryProperty_Update("lock")
+	UpdateHistoryProperty_UpdatePut    = UpdateHistoryProperty_Update("put")
+)
 
 func init() {
 	SchemeBuilder.Register(&StorageAccountsBlobServicesContainer{}, &StorageAccountsBlobServicesContainerList{})

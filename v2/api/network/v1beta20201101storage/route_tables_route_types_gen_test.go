@@ -73,23 +73,23 @@ func RouteTablesRouteGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForRouteTablesRoute is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRouteTablesRoute(gens map[string]gopter.Gen) {
-	gens["Spec"] = RouteTablesRoutesSpecGenerator()
-	gens["Status"] = RouteStatusGenerator()
+	gens["Spec"] = RouteTablesRoute_SpecGenerator()
+	gens["Status"] = Route_STATUSGenerator()
 }
 
-func Test_RouteTablesRoutes_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_RouteTablesRoute_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of RouteTablesRoutes_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRouteTablesRoutesSpec, RouteTablesRoutesSpecGenerator()))
+		"Round trip of RouteTablesRoute_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRouteTablesRoute_Spec, RouteTablesRoute_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRouteTablesRoutesSpec runs a test to see if a specific instance of RouteTablesRoutes_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForRouteTablesRoutesSpec(subject RouteTablesRoutes_Spec) string {
+// RunJSONSerializationTestForRouteTablesRoute_Spec runs a test to see if a specific instance of RouteTablesRoute_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForRouteTablesRoute_Spec(subject RouteTablesRoute_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -97,7 +97,7 @@ func RunJSONSerializationTestForRouteTablesRoutesSpec(subject RouteTablesRoutes_
 	}
 
 	// Deserialize back into memory
-	var actual RouteTablesRoutes_Spec
+	var actual RouteTablesRoute_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -115,46 +115,50 @@ func RunJSONSerializationTestForRouteTablesRoutesSpec(subject RouteTablesRoutes_
 	return ""
 }
 
-// Generator of RouteTablesRoutes_Spec instances for property testing - lazily instantiated by
-// RouteTablesRoutesSpecGenerator()
-var routeTablesRoutesSpecGenerator gopter.Gen
+// Generator of RouteTablesRoute_Spec instances for property testing - lazily instantiated by
+// RouteTablesRoute_SpecGenerator()
+var routeTablesRoute_SpecGenerator gopter.Gen
 
-// RouteTablesRoutesSpecGenerator returns a generator of RouteTablesRoutes_Spec instances for property testing.
-func RouteTablesRoutesSpecGenerator() gopter.Gen {
-	if routeTablesRoutesSpecGenerator != nil {
-		return routeTablesRoutesSpecGenerator
+// RouteTablesRoute_SpecGenerator returns a generator of RouteTablesRoute_Spec instances for property testing.
+func RouteTablesRoute_SpecGenerator() gopter.Gen {
+	if routeTablesRoute_SpecGenerator != nil {
+		return routeTablesRoute_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRouteTablesRoutesSpec(generators)
-	routeTablesRoutesSpecGenerator = gen.Struct(reflect.TypeOf(RouteTablesRoutes_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForRouteTablesRoute_Spec(generators)
+	routeTablesRoute_SpecGenerator = gen.Struct(reflect.TypeOf(RouteTablesRoute_Spec{}), generators)
 
-	return routeTablesRoutesSpecGenerator
+	return routeTablesRoute_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRouteTablesRoutesSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRouteTablesRoutesSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRouteTablesRoute_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRouteTablesRoute_Spec(gens map[string]gopter.Gen) {
 	gens["AddressPrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["AzureName"] = gen.AlphaString()
+	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["HasBgpOverride"] = gen.PtrOf(gen.Bool())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["NextHopIpAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["NextHopType"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_Route_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Route_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Route_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRouteStatus, RouteStatusGenerator()))
+		"Round trip of Route_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRoute_STATUS, Route_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRouteStatus runs a test to see if a specific instance of Route_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForRouteStatus(subject Route_Status) string {
+// RunJSONSerializationTestForRoute_STATUS runs a test to see if a specific instance of Route_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForRoute_STATUS(subject Route_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -162,7 +166,7 @@ func RunJSONSerializationTestForRouteStatus(subject Route_Status) string {
 	}
 
 	// Deserialize back into memory
-	var actual Route_Status
+	var actual Route_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -180,24 +184,24 @@ func RunJSONSerializationTestForRouteStatus(subject Route_Status) string {
 	return ""
 }
 
-// Generator of Route_Status instances for property testing - lazily instantiated by RouteStatusGenerator()
-var routeStatusGenerator gopter.Gen
+// Generator of Route_STATUS instances for property testing - lazily instantiated by Route_STATUSGenerator()
+var route_STATUSGenerator gopter.Gen
 
-// RouteStatusGenerator returns a generator of Route_Status instances for property testing.
-func RouteStatusGenerator() gopter.Gen {
-	if routeStatusGenerator != nil {
-		return routeStatusGenerator
+// Route_STATUSGenerator returns a generator of Route_STATUS instances for property testing.
+func Route_STATUSGenerator() gopter.Gen {
+	if route_STATUSGenerator != nil {
+		return route_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRouteStatus(generators)
-	routeStatusGenerator = gen.Struct(reflect.TypeOf(Route_Status{}), generators)
+	AddIndependentPropertyGeneratorsForRoute_STATUS(generators)
+	route_STATUSGenerator = gen.Struct(reflect.TypeOf(Route_STATUS{}), generators)
 
-	return routeStatusGenerator
+	return route_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRouteStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRouteStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRoute_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRoute_STATUS(gens map[string]gopter.Gen) {
 	gens["AddressPrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["HasBgpOverride"] = gen.PtrOf(gen.Bool())

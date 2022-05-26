@@ -387,8 +387,8 @@ func createTestTypes(defs ...TypeDefinition) TypeDefinitionSet {
 func createTestResource(
 	name string,
 	spec TypeDefinition,
-	status TypeDefinition) TypeDefinition {
-
+	status TypeDefinition,
+) TypeDefinition {
 	resourceType := NewResourceType(spec.Name(), status.Name())
 	return MakeTypeDefinition(MakeTypeName(pkg, name), resourceType)
 }
@@ -396,7 +396,8 @@ func createTestResource(
 // createTestSpec makes a spec for testing
 func createTestSpec(
 	name string,
-	properties ...*PropertyDefinition) TypeDefinition {
+	properties ...*PropertyDefinition,
+) TypeDefinition {
 	specName := MakeTypeName(pkg, name+"_Spec")
 	return MakeTypeDefinition(
 		specName,
@@ -406,8 +407,9 @@ func createTestSpec(
 // createTestStatus makes a status for testing
 func createTestStatus(
 	name string,
-	properties ...*PropertyDefinition) TypeDefinition {
-	statusName := MakeTypeName(pkg, name+"_Status")
+	properties ...*PropertyDefinition,
+) TypeDefinition {
+	statusName := MakeTypeName(pkg, name+StatusNameSuffix)
 	return MakeTypeDefinition(
 		statusName,
 		NewObjectType().WithProperties(properties...))

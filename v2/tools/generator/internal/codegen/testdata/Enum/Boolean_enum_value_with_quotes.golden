@@ -10,7 +10,7 @@ import (
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json
 type Test struct {
-	MyEnum *TestMyEnum `json:"myEnum,omitempty"`
+	MyEnum *Test_MyEnum `json:"myEnum,omitempty"`
 }
 
 // AssignPropertiesFromTest populates our Test from the provided source Test
@@ -18,7 +18,7 @@ func (test *Test) AssignPropertiesFromTest(source *v20200101s.Test) error {
 
 	// MyEnum
 	if source.MyEnum != nil {
-		myEnum := TestMyEnum(*source.MyEnum)
+		myEnum := Test_MyEnum(*source.MyEnum)
 		test.MyEnum = &myEnum
 	} else {
 		test.MyEnum = nil
@@ -53,6 +53,6 @@ func (test *Test) AssignPropertiesToTest(destination *v20200101s.Test) error {
 }
 
 // +kubebuilder:validation:Enum={true}
-type TestMyEnum bool
+type Test_MyEnum bool
 
-const TestMyEnumTrue = TestMyEnum(true)
+const Test_MyEnumTrue = Test_MyEnum(true)

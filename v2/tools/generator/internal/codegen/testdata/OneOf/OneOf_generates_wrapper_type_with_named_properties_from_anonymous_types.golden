@@ -47,9 +47,9 @@ func (test *Test) AssignPropertiesFromTest(source *v20200101s.Test) error {
 	// Object2
 	if source.Object2 != nil {
 		var object2 Test_Object2
-		err := object2.AssignPropertiesFromTestObject2(source.Object2)
+		err := object2.AssignPropertiesFromTest_Object2(source.Object2)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromTestObject2() to populate field Object2")
+			return errors.Wrap(err, "calling AssignPropertiesFromTest_Object2() to populate field Object2")
 		}
 		test.Object2 = &object2
 	} else {
@@ -88,9 +88,9 @@ func (test *Test) AssignPropertiesToTest(destination *v20200101s.Test) error {
 	// Object2
 	if test.Object2 != nil {
 		var object2 v20200101s.Test_Object2
-		err := test.Object2.AssignPropertiesToTestObject2(&object2)
+		err := test.Object2.AssignPropertiesToTest_Object2(&object2)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToTestObject2() to populate field Object2")
+			return errors.Wrap(err, "calling AssignPropertiesToTest_Object2() to populate field Object2")
 		}
 		destination.Object2 = &object2
 	} else {
@@ -146,8 +146,8 @@ type Test_Object2 struct {
 	Foo *string `json:"foo,omitempty"`
 }
 
-// AssignPropertiesFromTestObject2 populates our Test_Object2 from the provided source Test_Object2
-func (object2 *Test_Object2) AssignPropertiesFromTestObject2(source *v20200101s.Test_Object2) error {
+// AssignPropertiesFromTest_Object2 populates our Test_Object2 from the provided source Test_Object2
+func (object2 *Test_Object2) AssignPropertiesFromTest_Object2(source *v20200101s.Test_Object2) error {
 
 	// Foo
 	object2.Foo = genruntime.ClonePointerToString(source.Foo)
@@ -156,8 +156,8 @@ func (object2 *Test_Object2) AssignPropertiesFromTestObject2(source *v20200101s.
 	return nil
 }
 
-// AssignPropertiesToTestObject2 populates the provided destination Test_Object2 from our Test_Object2
-func (object2 *Test_Object2) AssignPropertiesToTestObject2(destination *v20200101s.Test_Object2) error {
+// AssignPropertiesToTest_Object2 populates the provided destination Test_Object2 from our Test_Object2
+func (object2 *Test_Object2) AssignPropertiesToTest_Object2(destination *v20200101s.Test_Object2) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

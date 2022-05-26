@@ -159,36 +159,36 @@ func WebtestGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForWebtest is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForWebtest(gens map[string]gopter.Gen) {
-	gens["Spec"] = WebtestsSpecGenerator()
-	gens["Status"] = WebTestStatusGenerator()
+	gens["Spec"] = Webtest_SpecGenerator()
+	gens["Status"] = WebTest_STATUSGenerator()
 }
 
-func Test_WebTest_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_WebTest_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from WebTest_Status to WebTest_Status via AssignPropertiesToWebTestStatus & AssignPropertiesFromWebTestStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForWebTestStatus, WebTestStatusGenerator()))
+		"Round trip from WebTest_STATUS to WebTest_STATUS via AssignPropertiesToWebTest_STATUS & AssignPropertiesFromWebTest_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWebTest_STATUS, WebTest_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForWebTestStatus tests if a specific instance of WebTest_Status can be assigned to v1alpha1api20180501previewstorage and back losslessly
-func RunPropertyAssignmentTestForWebTestStatus(subject WebTest_Status) string {
+// RunPropertyAssignmentTestForWebTest_STATUS tests if a specific instance of WebTest_STATUS can be assigned to v1alpha1api20180501previewstorage and back losslessly
+func RunPropertyAssignmentTestForWebTest_STATUS(subject WebTest_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20180501ps.WebTest_Status
-	err := copied.AssignPropertiesToWebTestStatus(&other)
+	var other alpha20180501ps.WebTest_STATUS
+	err := copied.AssignPropertiesToWebTest_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual WebTest_Status
-	err = actual.AssignPropertiesFromWebTestStatus(&other)
+	var actual WebTest_STATUS
+	err = actual.AssignPropertiesFromWebTest_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -205,19 +205,19 @@ func RunPropertyAssignmentTestForWebTestStatus(subject WebTest_Status) string {
 	return ""
 }
 
-func Test_WebTest_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_WebTest_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of WebTest_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWebTestStatus, WebTestStatusGenerator()))
+		"Round trip of WebTest_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWebTest_STATUS, WebTest_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForWebTestStatus runs a test to see if a specific instance of WebTest_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForWebTestStatus(subject WebTest_Status) string {
+// RunJSONSerializationTestForWebTest_STATUS runs a test to see if a specific instance of WebTest_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForWebTest_STATUS(subject WebTest_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -225,7 +225,7 @@ func RunJSONSerializationTestForWebTestStatus(subject WebTest_Status) string {
 	}
 
 	// Deserialize back into memory
-	var actual WebTest_Status
+	var actual WebTest_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -243,44 +243,45 @@ func RunJSONSerializationTestForWebTestStatus(subject WebTest_Status) string {
 	return ""
 }
 
-// Generator of WebTest_Status instances for property testing - lazily instantiated by WebTestStatusGenerator()
-var webTestStatusGenerator gopter.Gen
+// Generator of WebTest_STATUS instances for property testing - lazily instantiated by WebTest_STATUSGenerator()
+var webTest_STATUSGenerator gopter.Gen
 
-// WebTestStatusGenerator returns a generator of WebTest_Status instances for property testing.
-// We first initialize webTestStatusGenerator with a simplified generator based on the
+// WebTest_STATUSGenerator returns a generator of WebTest_STATUS instances for property testing.
+// We first initialize webTest_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func WebTestStatusGenerator() gopter.Gen {
-	if webTestStatusGenerator != nil {
-		return webTestStatusGenerator
+func WebTest_STATUSGenerator() gopter.Gen {
+	if webTest_STATUSGenerator != nil {
+		return webTest_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebTestStatus(generators)
-	webTestStatusGenerator = gen.Struct(reflect.TypeOf(WebTest_Status{}), generators)
+	AddIndependentPropertyGeneratorsForWebTest_STATUS(generators)
+	webTest_STATUSGenerator = gen.Struct(reflect.TypeOf(WebTest_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebTestStatus(generators)
-	AddRelatedPropertyGeneratorsForWebTestStatus(generators)
-	webTestStatusGenerator = gen.Struct(reflect.TypeOf(WebTest_Status{}), generators)
+	AddIndependentPropertyGeneratorsForWebTest_STATUS(generators)
+	AddRelatedPropertyGeneratorsForWebTest_STATUS(generators)
+	webTest_STATUSGenerator = gen.Struct(reflect.TypeOf(WebTest_STATUS{}), generators)
 
-	return webTestStatusGenerator
+	return webTest_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForWebTestStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWebTestStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForWebTest_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWebTest_STATUS(gens map[string]gopter.Gen) {
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["Frequency"] = gen.PtrOf(gen.Int())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(
-		WebTestPropertiesStatusKindBasic,
-		WebTestPropertiesStatusKindMultistep,
-		WebTestPropertiesStatusKindPing,
-		WebTestPropertiesStatusKindStandard))
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(WebTest_Kind_STATUSMultistep, WebTest_Kind_STATUSPing))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["PropertiesKind"] = gen.PtrOf(gen.OneConstOf(
+		WebTestProperties_Kind_STATUSBasic,
+		WebTestProperties_Kind_STATUSMultistep,
+		WebTestProperties_Kind_STATUSPing,
+		WebTestProperties_Kind_STATUSStandard))
 	gens["PropertiesName"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["RetryEnabled"] = gen.PtrOf(gen.Bool())
@@ -289,40 +290,40 @@ func AddIndependentPropertyGeneratorsForWebTestStatus(gens map[string]gopter.Gen
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForWebTestStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForWebTestStatus(gens map[string]gopter.Gen) {
-	gens["Configuration"] = gen.PtrOf(WebTestPropertiesStatusConfigurationGenerator())
-	gens["Locations"] = gen.SliceOf(WebTestGeolocationStatusGenerator())
-	gens["Request"] = gen.PtrOf(WebTestPropertiesStatusRequestGenerator())
-	gens["ValidationRules"] = gen.PtrOf(WebTestPropertiesStatusValidationRulesGenerator())
+// AddRelatedPropertyGeneratorsForWebTest_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForWebTest_STATUS(gens map[string]gopter.Gen) {
+	gens["Configuration"] = gen.PtrOf(WebTestProperties_Configuration_STATUSGenerator())
+	gens["Locations"] = gen.SliceOf(WebTestGeolocation_STATUSGenerator())
+	gens["Request"] = gen.PtrOf(WebTestProperties_Request_STATUSGenerator())
+	gens["ValidationRules"] = gen.PtrOf(WebTestProperties_ValidationRules_STATUSGenerator())
 }
 
-func Test_Webtests_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_Webtest_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Webtests_Spec to Webtests_Spec via AssignPropertiesToWebtestsSpec & AssignPropertiesFromWebtestsSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForWebtestsSpec, WebtestsSpecGenerator()))
+		"Round trip from Webtest_Spec to Webtest_Spec via AssignPropertiesToWebtest_Spec & AssignPropertiesFromWebtest_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWebtest_Spec, Webtest_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForWebtestsSpec tests if a specific instance of Webtests_Spec can be assigned to v1alpha1api20180501previewstorage and back losslessly
-func RunPropertyAssignmentTestForWebtestsSpec(subject Webtests_Spec) string {
+// RunPropertyAssignmentTestForWebtest_Spec tests if a specific instance of Webtest_Spec can be assigned to v1alpha1api20180501previewstorage and back losslessly
+func RunPropertyAssignmentTestForWebtest_Spec(subject Webtest_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20180501ps.Webtests_Spec
-	err := copied.AssignPropertiesToWebtestsSpec(&other)
+	var other alpha20180501ps.Webtest_Spec
+	err := copied.AssignPropertiesToWebtest_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Webtests_Spec
-	err = actual.AssignPropertiesFromWebtestsSpec(&other)
+	var actual Webtest_Spec
+	err = actual.AssignPropertiesFromWebtest_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -339,19 +340,19 @@ func RunPropertyAssignmentTestForWebtestsSpec(subject Webtests_Spec) string {
 	return ""
 }
 
-func Test_Webtests_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Webtest_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Webtests_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWebtestsSpec, WebtestsSpecGenerator()))
+		"Round trip of Webtest_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWebtest_Spec, Webtest_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForWebtestsSpec runs a test to see if a specific instance of Webtests_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForWebtestsSpec(subject Webtests_Spec) string {
+// RunJSONSerializationTestForWebtest_Spec runs a test to see if a specific instance of Webtest_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForWebtest_Spec(subject Webtest_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -359,7 +360,7 @@ func RunJSONSerializationTestForWebtestsSpec(subject Webtests_Spec) string {
 	}
 
 	// Deserialize back into memory
-	var actual Webtests_Spec
+	var actual Webtest_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -377,56 +378,59 @@ func RunJSONSerializationTestForWebtestsSpec(subject Webtests_Spec) string {
 	return ""
 }
 
-// Generator of Webtests_Spec instances for property testing - lazily instantiated by WebtestsSpecGenerator()
-var webtestsSpecGenerator gopter.Gen
+// Generator of Webtest_Spec instances for property testing - lazily instantiated by Webtest_SpecGenerator()
+var webtest_SpecGenerator gopter.Gen
 
-// WebtestsSpecGenerator returns a generator of Webtests_Spec instances for property testing.
-// We first initialize webtestsSpecGenerator with a simplified generator based on the
+// Webtest_SpecGenerator returns a generator of Webtest_Spec instances for property testing.
+// We first initialize webtest_SpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func WebtestsSpecGenerator() gopter.Gen {
-	if webtestsSpecGenerator != nil {
-		return webtestsSpecGenerator
+func Webtest_SpecGenerator() gopter.Gen {
+	if webtest_SpecGenerator != nil {
+		return webtest_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebtestsSpec(generators)
-	webtestsSpecGenerator = gen.Struct(reflect.TypeOf(Webtests_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForWebtest_Spec(generators)
+	webtest_SpecGenerator = gen.Struct(reflect.TypeOf(Webtest_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebtestsSpec(generators)
-	AddRelatedPropertyGeneratorsForWebtestsSpec(generators)
-	webtestsSpecGenerator = gen.Struct(reflect.TypeOf(Webtests_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForWebtest_Spec(generators)
+	AddRelatedPropertyGeneratorsForWebtest_Spec(generators)
+	webtest_SpecGenerator = gen.Struct(reflect.TypeOf(Webtest_Spec{}), generators)
 
-	return webtestsSpecGenerator
+	return webtest_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForWebtestsSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWebtestsSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForWebtest_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWebtest_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["Frequency"] = gen.PtrOf(gen.Int())
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(
-		WebTestPropertiesKindBasic,
-		WebTestPropertiesKindMultistep,
-		WebTestPropertiesKindPing,
-		WebTestPropertiesKindStandard))
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(Webtest_Spec_KindMultistep, Webtest_Spec_KindPing))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["PropertiesKind"] = gen.PtrOf(gen.OneConstOf(
+		WebTestProperties_KindBasic,
+		WebTestProperties_KindMultistep,
+		WebTestProperties_KindPing,
+		WebTestProperties_KindStandard))
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["RetryEnabled"] = gen.PtrOf(gen.Bool())
 	gens["SyntheticMonitorId"] = gen.PtrOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Timeout"] = gen.PtrOf(gen.Int())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForWebtestsSpec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForWebtestsSpec(gens map[string]gopter.Gen) {
-	gens["Configuration"] = gen.PtrOf(WebTestPropertiesConfigurationGenerator())
+// AddRelatedPropertyGeneratorsForWebtest_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForWebtest_Spec(gens map[string]gopter.Gen) {
+	gens["Configuration"] = gen.PtrOf(WebTestProperties_ConfigurationGenerator())
 	gens["Locations"] = gen.SliceOf(WebTestGeolocationGenerator())
-	gens["Request"] = gen.PtrOf(WebTestPropertiesRequestGenerator())
-	gens["ValidationRules"] = gen.PtrOf(WebTestPropertiesValidationRulesGenerator())
+	gens["Request"] = gen.PtrOf(WebTestProperties_RequestGenerator())
+	gens["ValidationRules"] = gen.PtrOf(WebTestProperties_ValidationRulesGenerator())
 }
 
 func Test_WebTestGeolocation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -530,32 +534,32 @@ func AddIndependentPropertyGeneratorsForWebTestGeolocation(gens map[string]gopte
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_WebTestGeolocation_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_WebTestGeolocation_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from WebTestGeolocation_Status to WebTestGeolocation_Status via AssignPropertiesToWebTestGeolocationStatus & AssignPropertiesFromWebTestGeolocationStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForWebTestGeolocationStatus, WebTestGeolocationStatusGenerator()))
+		"Round trip from WebTestGeolocation_STATUS to WebTestGeolocation_STATUS via AssignPropertiesToWebTestGeolocation_STATUS & AssignPropertiesFromWebTestGeolocation_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWebTestGeolocation_STATUS, WebTestGeolocation_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForWebTestGeolocationStatus tests if a specific instance of WebTestGeolocation_Status can be assigned to v1alpha1api20180501previewstorage and back losslessly
-func RunPropertyAssignmentTestForWebTestGeolocationStatus(subject WebTestGeolocation_Status) string {
+// RunPropertyAssignmentTestForWebTestGeolocation_STATUS tests if a specific instance of WebTestGeolocation_STATUS can be assigned to v1alpha1api20180501previewstorage and back losslessly
+func RunPropertyAssignmentTestForWebTestGeolocation_STATUS(subject WebTestGeolocation_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20180501ps.WebTestGeolocation_Status
-	err := copied.AssignPropertiesToWebTestGeolocationStatus(&other)
+	var other alpha20180501ps.WebTestGeolocation_STATUS
+	err := copied.AssignPropertiesToWebTestGeolocation_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual WebTestGeolocation_Status
-	err = actual.AssignPropertiesFromWebTestGeolocationStatus(&other)
+	var actual WebTestGeolocation_STATUS
+	err = actual.AssignPropertiesFromWebTestGeolocation_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -572,19 +576,19 @@ func RunPropertyAssignmentTestForWebTestGeolocationStatus(subject WebTestGeoloca
 	return ""
 }
 
-func Test_WebTestGeolocation_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_WebTestGeolocation_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of WebTestGeolocation_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWebTestGeolocationStatus, WebTestGeolocationStatusGenerator()))
+		"Round trip of WebTestGeolocation_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWebTestGeolocation_STATUS, WebTestGeolocation_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForWebTestGeolocationStatus runs a test to see if a specific instance of WebTestGeolocation_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForWebTestGeolocationStatus(subject WebTestGeolocation_Status) string {
+// RunJSONSerializationTestForWebTestGeolocation_STATUS runs a test to see if a specific instance of WebTestGeolocation_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForWebTestGeolocation_STATUS(subject WebTestGeolocation_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -592,7 +596,7 @@ func RunJSONSerializationTestForWebTestGeolocationStatus(subject WebTestGeolocat
 	}
 
 	// Deserialize back into memory
-	var actual WebTestGeolocation_Status
+	var actual WebTestGeolocation_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -610,54 +614,54 @@ func RunJSONSerializationTestForWebTestGeolocationStatus(subject WebTestGeolocat
 	return ""
 }
 
-// Generator of WebTestGeolocation_Status instances for property testing - lazily instantiated by
-// WebTestGeolocationStatusGenerator()
-var webTestGeolocationStatusGenerator gopter.Gen
+// Generator of WebTestGeolocation_STATUS instances for property testing - lazily instantiated by
+// WebTestGeolocation_STATUSGenerator()
+var webTestGeolocation_STATUSGenerator gopter.Gen
 
-// WebTestGeolocationStatusGenerator returns a generator of WebTestGeolocation_Status instances for property testing.
-func WebTestGeolocationStatusGenerator() gopter.Gen {
-	if webTestGeolocationStatusGenerator != nil {
-		return webTestGeolocationStatusGenerator
+// WebTestGeolocation_STATUSGenerator returns a generator of WebTestGeolocation_STATUS instances for property testing.
+func WebTestGeolocation_STATUSGenerator() gopter.Gen {
+	if webTestGeolocation_STATUSGenerator != nil {
+		return webTestGeolocation_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebTestGeolocationStatus(generators)
-	webTestGeolocationStatusGenerator = gen.Struct(reflect.TypeOf(WebTestGeolocation_Status{}), generators)
+	AddIndependentPropertyGeneratorsForWebTestGeolocation_STATUS(generators)
+	webTestGeolocation_STATUSGenerator = gen.Struct(reflect.TypeOf(WebTestGeolocation_STATUS{}), generators)
 
-	return webTestGeolocationStatusGenerator
+	return webTestGeolocation_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForWebTestGeolocationStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWebTestGeolocationStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForWebTestGeolocation_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWebTestGeolocation_STATUS(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_WebTestPropertiesConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_WebTestProperties_Configuration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from WebTestPropertiesConfiguration to WebTestPropertiesConfiguration via AssignPropertiesToWebTestPropertiesConfiguration & AssignPropertiesFromWebTestPropertiesConfiguration returns original",
-		prop.ForAll(RunPropertyAssignmentTestForWebTestPropertiesConfiguration, WebTestPropertiesConfigurationGenerator()))
+		"Round trip from WebTestProperties_Configuration to WebTestProperties_Configuration via AssignPropertiesToWebTestProperties_Configuration & AssignPropertiesFromWebTestProperties_Configuration returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWebTestProperties_Configuration, WebTestProperties_ConfigurationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForWebTestPropertiesConfiguration tests if a specific instance of WebTestPropertiesConfiguration can be assigned to v1alpha1api20180501previewstorage and back losslessly
-func RunPropertyAssignmentTestForWebTestPropertiesConfiguration(subject WebTestPropertiesConfiguration) string {
+// RunPropertyAssignmentTestForWebTestProperties_Configuration tests if a specific instance of WebTestProperties_Configuration can be assigned to v1alpha1api20180501previewstorage and back losslessly
+func RunPropertyAssignmentTestForWebTestProperties_Configuration(subject WebTestProperties_Configuration) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20180501ps.WebTestPropertiesConfiguration
-	err := copied.AssignPropertiesToWebTestPropertiesConfiguration(&other)
+	var other alpha20180501ps.WebTestProperties_Configuration
+	err := copied.AssignPropertiesToWebTestProperties_Configuration(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual WebTestPropertiesConfiguration
-	err = actual.AssignPropertiesFromWebTestPropertiesConfiguration(&other)
+	var actual WebTestProperties_Configuration
+	err = actual.AssignPropertiesFromWebTestProperties_Configuration(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -674,19 +678,19 @@ func RunPropertyAssignmentTestForWebTestPropertiesConfiguration(subject WebTestP
 	return ""
 }
 
-func Test_WebTestPropertiesConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_WebTestProperties_Configuration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of WebTestPropertiesConfiguration via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWebTestPropertiesConfiguration, WebTestPropertiesConfigurationGenerator()))
+		"Round trip of WebTestProperties_Configuration via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWebTestProperties_Configuration, WebTestProperties_ConfigurationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForWebTestPropertiesConfiguration runs a test to see if a specific instance of WebTestPropertiesConfiguration round trips to JSON and back losslessly
-func RunJSONSerializationTestForWebTestPropertiesConfiguration(subject WebTestPropertiesConfiguration) string {
+// RunJSONSerializationTestForWebTestProperties_Configuration runs a test to see if a specific instance of WebTestProperties_Configuration round trips to JSON and back losslessly
+func RunJSONSerializationTestForWebTestProperties_Configuration(subject WebTestProperties_Configuration) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -694,7 +698,7 @@ func RunJSONSerializationTestForWebTestPropertiesConfiguration(subject WebTestPr
 	}
 
 	// Deserialize back into memory
-	var actual WebTestPropertiesConfiguration
+	var actual WebTestProperties_Configuration
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -712,54 +716,54 @@ func RunJSONSerializationTestForWebTestPropertiesConfiguration(subject WebTestPr
 	return ""
 }
 
-// Generator of WebTestPropertiesConfiguration instances for property testing - lazily instantiated by
-// WebTestPropertiesConfigurationGenerator()
-var webTestPropertiesConfigurationGenerator gopter.Gen
+// Generator of WebTestProperties_Configuration instances for property testing - lazily instantiated by
+// WebTestProperties_ConfigurationGenerator()
+var webTestProperties_ConfigurationGenerator gopter.Gen
 
-// WebTestPropertiesConfigurationGenerator returns a generator of WebTestPropertiesConfiguration instances for property testing.
-func WebTestPropertiesConfigurationGenerator() gopter.Gen {
-	if webTestPropertiesConfigurationGenerator != nil {
-		return webTestPropertiesConfigurationGenerator
+// WebTestProperties_ConfigurationGenerator returns a generator of WebTestProperties_Configuration instances for property testing.
+func WebTestProperties_ConfigurationGenerator() gopter.Gen {
+	if webTestProperties_ConfigurationGenerator != nil {
+		return webTestProperties_ConfigurationGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebTestPropertiesConfiguration(generators)
-	webTestPropertiesConfigurationGenerator = gen.Struct(reflect.TypeOf(WebTestPropertiesConfiguration{}), generators)
+	AddIndependentPropertyGeneratorsForWebTestProperties_Configuration(generators)
+	webTestProperties_ConfigurationGenerator = gen.Struct(reflect.TypeOf(WebTestProperties_Configuration{}), generators)
 
-	return webTestPropertiesConfigurationGenerator
+	return webTestProperties_ConfigurationGenerator
 }
 
-// AddIndependentPropertyGeneratorsForWebTestPropertiesConfiguration is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWebTestPropertiesConfiguration(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForWebTestProperties_Configuration is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWebTestProperties_Configuration(gens map[string]gopter.Gen) {
 	gens["WebTest"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_WebTestPropertiesRequest_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_WebTestProperties_Configuration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from WebTestPropertiesRequest to WebTestPropertiesRequest via AssignPropertiesToWebTestPropertiesRequest & AssignPropertiesFromWebTestPropertiesRequest returns original",
-		prop.ForAll(RunPropertyAssignmentTestForWebTestPropertiesRequest, WebTestPropertiesRequestGenerator()))
+		"Round trip from WebTestProperties_Configuration_STATUS to WebTestProperties_Configuration_STATUS via AssignPropertiesToWebTestProperties_Configuration_STATUS & AssignPropertiesFromWebTestProperties_Configuration_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWebTestProperties_Configuration_STATUS, WebTestProperties_Configuration_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForWebTestPropertiesRequest tests if a specific instance of WebTestPropertiesRequest can be assigned to v1alpha1api20180501previewstorage and back losslessly
-func RunPropertyAssignmentTestForWebTestPropertiesRequest(subject WebTestPropertiesRequest) string {
+// RunPropertyAssignmentTestForWebTestProperties_Configuration_STATUS tests if a specific instance of WebTestProperties_Configuration_STATUS can be assigned to v1alpha1api20180501previewstorage and back losslessly
+func RunPropertyAssignmentTestForWebTestProperties_Configuration_STATUS(subject WebTestProperties_Configuration_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20180501ps.WebTestPropertiesRequest
-	err := copied.AssignPropertiesToWebTestPropertiesRequest(&other)
+	var other alpha20180501ps.WebTestProperties_Configuration_STATUS
+	err := copied.AssignPropertiesToWebTestProperties_Configuration_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual WebTestPropertiesRequest
-	err = actual.AssignPropertiesFromWebTestPropertiesRequest(&other)
+	var actual WebTestProperties_Configuration_STATUS
+	err = actual.AssignPropertiesFromWebTestProperties_Configuration_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -776,19 +780,19 @@ func RunPropertyAssignmentTestForWebTestPropertiesRequest(subject WebTestPropert
 	return ""
 }
 
-func Test_WebTestPropertiesRequest_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_WebTestProperties_Configuration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of WebTestPropertiesRequest via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWebTestPropertiesRequest, WebTestPropertiesRequestGenerator()))
+		"Round trip of WebTestProperties_Configuration_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWebTestProperties_Configuration_STATUS, WebTestProperties_Configuration_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForWebTestPropertiesRequest runs a test to see if a specific instance of WebTestPropertiesRequest round trips to JSON and back losslessly
-func RunJSONSerializationTestForWebTestPropertiesRequest(subject WebTestPropertiesRequest) string {
+// RunJSONSerializationTestForWebTestProperties_Configuration_STATUS runs a test to see if a specific instance of WebTestProperties_Configuration_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForWebTestProperties_Configuration_STATUS(subject WebTestProperties_Configuration_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -796,7 +800,7 @@ func RunJSONSerializationTestForWebTestPropertiesRequest(subject WebTestProperti
 	}
 
 	// Deserialize back into memory
-	var actual WebTestPropertiesRequest
+	var actual WebTestProperties_Configuration_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -814,34 +818,136 @@ func RunJSONSerializationTestForWebTestPropertiesRequest(subject WebTestProperti
 	return ""
 }
 
-// Generator of WebTestPropertiesRequest instances for property testing - lazily instantiated by
-// WebTestPropertiesRequestGenerator()
-var webTestPropertiesRequestGenerator gopter.Gen
+// Generator of WebTestProperties_Configuration_STATUS instances for property testing - lazily instantiated by
+// WebTestProperties_Configuration_STATUSGenerator()
+var webTestProperties_Configuration_STATUSGenerator gopter.Gen
 
-// WebTestPropertiesRequestGenerator returns a generator of WebTestPropertiesRequest instances for property testing.
-// We first initialize webTestPropertiesRequestGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func WebTestPropertiesRequestGenerator() gopter.Gen {
-	if webTestPropertiesRequestGenerator != nil {
-		return webTestPropertiesRequestGenerator
+// WebTestProperties_Configuration_STATUSGenerator returns a generator of WebTestProperties_Configuration_STATUS instances for property testing.
+func WebTestProperties_Configuration_STATUSGenerator() gopter.Gen {
+	if webTestProperties_Configuration_STATUSGenerator != nil {
+		return webTestProperties_Configuration_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebTestPropertiesRequest(generators)
-	webTestPropertiesRequestGenerator = gen.Struct(reflect.TypeOf(WebTestPropertiesRequest{}), generators)
+	AddIndependentPropertyGeneratorsForWebTestProperties_Configuration_STATUS(generators)
+	webTestProperties_Configuration_STATUSGenerator = gen.Struct(reflect.TypeOf(WebTestProperties_Configuration_STATUS{}), generators)
+
+	return webTestProperties_Configuration_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForWebTestProperties_Configuration_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWebTestProperties_Configuration_STATUS(gens map[string]gopter.Gen) {
+	gens["WebTest"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_WebTestProperties_Request_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from WebTestProperties_Request to WebTestProperties_Request via AssignPropertiesToWebTestProperties_Request & AssignPropertiesFromWebTestProperties_Request returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWebTestProperties_Request, WebTestProperties_RequestGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForWebTestProperties_Request tests if a specific instance of WebTestProperties_Request can be assigned to v1alpha1api20180501previewstorage and back losslessly
+func RunPropertyAssignmentTestForWebTestProperties_Request(subject WebTestProperties_Request) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other alpha20180501ps.WebTestProperties_Request
+	err := copied.AssignPropertiesToWebTestProperties_Request(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual WebTestProperties_Request
+	err = actual.AssignPropertiesFromWebTestProperties_Request(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_WebTestProperties_Request_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of WebTestProperties_Request via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWebTestProperties_Request, WebTestProperties_RequestGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForWebTestProperties_Request runs a test to see if a specific instance of WebTestProperties_Request round trips to JSON and back losslessly
+func RunJSONSerializationTestForWebTestProperties_Request(subject WebTestProperties_Request) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual WebTestProperties_Request
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of WebTestProperties_Request instances for property testing - lazily instantiated by
+// WebTestProperties_RequestGenerator()
+var webTestProperties_RequestGenerator gopter.Gen
+
+// WebTestProperties_RequestGenerator returns a generator of WebTestProperties_Request instances for property testing.
+// We first initialize webTestProperties_RequestGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func WebTestProperties_RequestGenerator() gopter.Gen {
+	if webTestProperties_RequestGenerator != nil {
+		return webTestProperties_RequestGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForWebTestProperties_Request(generators)
+	webTestProperties_RequestGenerator = gen.Struct(reflect.TypeOf(WebTestProperties_Request{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebTestPropertiesRequest(generators)
-	AddRelatedPropertyGeneratorsForWebTestPropertiesRequest(generators)
-	webTestPropertiesRequestGenerator = gen.Struct(reflect.TypeOf(WebTestPropertiesRequest{}), generators)
+	AddIndependentPropertyGeneratorsForWebTestProperties_Request(generators)
+	AddRelatedPropertyGeneratorsForWebTestProperties_Request(generators)
+	webTestProperties_RequestGenerator = gen.Struct(reflect.TypeOf(WebTestProperties_Request{}), generators)
 
-	return webTestPropertiesRequestGenerator
+	return webTestProperties_RequestGenerator
 }
 
-// AddIndependentPropertyGeneratorsForWebTestPropertiesRequest is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWebTestPropertiesRequest(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForWebTestProperties_Request is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWebTestProperties_Request(gens map[string]gopter.Gen) {
 	gens["FollowRedirects"] = gen.PtrOf(gen.Bool())
 	gens["HttpVerb"] = gen.PtrOf(gen.AlphaString())
 	gens["ParseDependentRequests"] = gen.PtrOf(gen.Bool())
@@ -849,37 +955,37 @@ func AddIndependentPropertyGeneratorsForWebTestPropertiesRequest(gens map[string
 	gens["RequestUrl"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForWebTestPropertiesRequest is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForWebTestPropertiesRequest(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForWebTestProperties_Request is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForWebTestProperties_Request(gens map[string]gopter.Gen) {
 	gens["Headers"] = gen.SliceOf(HeaderFieldGenerator())
 }
 
-func Test_WebTestPropertiesValidationRules_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_WebTestProperties_Request_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from WebTestPropertiesValidationRules to WebTestPropertiesValidationRules via AssignPropertiesToWebTestPropertiesValidationRules & AssignPropertiesFromWebTestPropertiesValidationRules returns original",
-		prop.ForAll(RunPropertyAssignmentTestForWebTestPropertiesValidationRules, WebTestPropertiesValidationRulesGenerator()))
+		"Round trip from WebTestProperties_Request_STATUS to WebTestProperties_Request_STATUS via AssignPropertiesToWebTestProperties_Request_STATUS & AssignPropertiesFromWebTestProperties_Request_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWebTestProperties_Request_STATUS, WebTestProperties_Request_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForWebTestPropertiesValidationRules tests if a specific instance of WebTestPropertiesValidationRules can be assigned to v1alpha1api20180501previewstorage and back losslessly
-func RunPropertyAssignmentTestForWebTestPropertiesValidationRules(subject WebTestPropertiesValidationRules) string {
+// RunPropertyAssignmentTestForWebTestProperties_Request_STATUS tests if a specific instance of WebTestProperties_Request_STATUS can be assigned to v1alpha1api20180501previewstorage and back losslessly
+func RunPropertyAssignmentTestForWebTestProperties_Request_STATUS(subject WebTestProperties_Request_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20180501ps.WebTestPropertiesValidationRules
-	err := copied.AssignPropertiesToWebTestPropertiesValidationRules(&other)
+	var other alpha20180501ps.WebTestProperties_Request_STATUS
+	err := copied.AssignPropertiesToWebTestProperties_Request_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual WebTestPropertiesValidationRules
-	err = actual.AssignPropertiesFromWebTestPropertiesValidationRules(&other)
+	var actual WebTestProperties_Request_STATUS
+	err = actual.AssignPropertiesFromWebTestProperties_Request_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -896,19 +1002,19 @@ func RunPropertyAssignmentTestForWebTestPropertiesValidationRules(subject WebTes
 	return ""
 }
 
-func Test_WebTestPropertiesValidationRules_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_WebTestProperties_Request_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of WebTestPropertiesValidationRules via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWebTestPropertiesValidationRules, WebTestPropertiesValidationRulesGenerator()))
+		"Round trip of WebTestProperties_Request_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWebTestProperties_Request_STATUS, WebTestProperties_Request_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForWebTestPropertiesValidationRules runs a test to see if a specific instance of WebTestPropertiesValidationRules round trips to JSON and back losslessly
-func RunJSONSerializationTestForWebTestPropertiesValidationRules(subject WebTestPropertiesValidationRules) string {
+// RunJSONSerializationTestForWebTestProperties_Request_STATUS runs a test to see if a specific instance of WebTestProperties_Request_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForWebTestProperties_Request_STATUS(subject WebTestProperties_Request_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -916,7 +1022,7 @@ func RunJSONSerializationTestForWebTestPropertiesValidationRules(subject WebTest
 	}
 
 	// Deserialize back into memory
-	var actual WebTestPropertiesValidationRules
+	var actual WebTestProperties_Request_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -934,255 +1040,34 @@ func RunJSONSerializationTestForWebTestPropertiesValidationRules(subject WebTest
 	return ""
 }
 
-// Generator of WebTestPropertiesValidationRules instances for property testing - lazily instantiated by
-// WebTestPropertiesValidationRulesGenerator()
-var webTestPropertiesValidationRulesGenerator gopter.Gen
+// Generator of WebTestProperties_Request_STATUS instances for property testing - lazily instantiated by
+// WebTestProperties_Request_STATUSGenerator()
+var webTestProperties_Request_STATUSGenerator gopter.Gen
 
-// WebTestPropertiesValidationRulesGenerator returns a generator of WebTestPropertiesValidationRules instances for property testing.
-// We first initialize webTestPropertiesValidationRulesGenerator with a simplified generator based on the
+// WebTestProperties_Request_STATUSGenerator returns a generator of WebTestProperties_Request_STATUS instances for property testing.
+// We first initialize webTestProperties_Request_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func WebTestPropertiesValidationRulesGenerator() gopter.Gen {
-	if webTestPropertiesValidationRulesGenerator != nil {
-		return webTestPropertiesValidationRulesGenerator
+func WebTestProperties_Request_STATUSGenerator() gopter.Gen {
+	if webTestProperties_Request_STATUSGenerator != nil {
+		return webTestProperties_Request_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebTestPropertiesValidationRules(generators)
-	webTestPropertiesValidationRulesGenerator = gen.Struct(reflect.TypeOf(WebTestPropertiesValidationRules{}), generators)
+	AddIndependentPropertyGeneratorsForWebTestProperties_Request_STATUS(generators)
+	webTestProperties_Request_STATUSGenerator = gen.Struct(reflect.TypeOf(WebTestProperties_Request_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebTestPropertiesValidationRules(generators)
-	AddRelatedPropertyGeneratorsForWebTestPropertiesValidationRules(generators)
-	webTestPropertiesValidationRulesGenerator = gen.Struct(reflect.TypeOf(WebTestPropertiesValidationRules{}), generators)
+	AddIndependentPropertyGeneratorsForWebTestProperties_Request_STATUS(generators)
+	AddRelatedPropertyGeneratorsForWebTestProperties_Request_STATUS(generators)
+	webTestProperties_Request_STATUSGenerator = gen.Struct(reflect.TypeOf(WebTestProperties_Request_STATUS{}), generators)
 
-	return webTestPropertiesValidationRulesGenerator
+	return webTestProperties_Request_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForWebTestPropertiesValidationRules is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWebTestPropertiesValidationRules(gens map[string]gopter.Gen) {
-	gens["ExpectedHttpStatusCode"] = gen.PtrOf(gen.Int())
-	gens["IgnoreHttpsStatusCode"] = gen.PtrOf(gen.Bool())
-	gens["SSLCertRemainingLifetimeCheck"] = gen.PtrOf(gen.Int())
-	gens["SSLCheck"] = gen.PtrOf(gen.Bool())
-}
-
-// AddRelatedPropertyGeneratorsForWebTestPropertiesValidationRules is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForWebTestPropertiesValidationRules(gens map[string]gopter.Gen) {
-	gens["ContentValidation"] = gen.PtrOf(WebTestPropertiesValidationRulesContentValidationGenerator())
-}
-
-func Test_WebTestProperties_Status_Configuration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from WebTestProperties_Status_Configuration to WebTestProperties_Status_Configuration via AssignPropertiesToWebTestPropertiesStatusConfiguration & AssignPropertiesFromWebTestPropertiesStatusConfiguration returns original",
-		prop.ForAll(RunPropertyAssignmentTestForWebTestPropertiesStatusConfiguration, WebTestPropertiesStatusConfigurationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForWebTestPropertiesStatusConfiguration tests if a specific instance of WebTestProperties_Status_Configuration can be assigned to v1alpha1api20180501previewstorage and back losslessly
-func RunPropertyAssignmentTestForWebTestPropertiesStatusConfiguration(subject WebTestProperties_Status_Configuration) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20180501ps.WebTestProperties_Status_Configuration
-	err := copied.AssignPropertiesToWebTestPropertiesStatusConfiguration(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual WebTestProperties_Status_Configuration
-	err = actual.AssignPropertiesFromWebTestPropertiesStatusConfiguration(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_WebTestProperties_Status_Configuration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of WebTestProperties_Status_Configuration via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWebTestPropertiesStatusConfiguration, WebTestPropertiesStatusConfigurationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForWebTestPropertiesStatusConfiguration runs a test to see if a specific instance of WebTestProperties_Status_Configuration round trips to JSON and back losslessly
-func RunJSONSerializationTestForWebTestPropertiesStatusConfiguration(subject WebTestProperties_Status_Configuration) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual WebTestProperties_Status_Configuration
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of WebTestProperties_Status_Configuration instances for property testing - lazily instantiated by
-// WebTestPropertiesStatusConfigurationGenerator()
-var webTestPropertiesStatusConfigurationGenerator gopter.Gen
-
-// WebTestPropertiesStatusConfigurationGenerator returns a generator of WebTestProperties_Status_Configuration instances for property testing.
-func WebTestPropertiesStatusConfigurationGenerator() gopter.Gen {
-	if webTestPropertiesStatusConfigurationGenerator != nil {
-		return webTestPropertiesStatusConfigurationGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebTestPropertiesStatusConfiguration(generators)
-	webTestPropertiesStatusConfigurationGenerator = gen.Struct(reflect.TypeOf(WebTestProperties_Status_Configuration{}), generators)
-
-	return webTestPropertiesStatusConfigurationGenerator
-}
-
-// AddIndependentPropertyGeneratorsForWebTestPropertiesStatusConfiguration is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWebTestPropertiesStatusConfiguration(gens map[string]gopter.Gen) {
-	gens["WebTest"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_WebTestProperties_Status_Request_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from WebTestProperties_Status_Request to WebTestProperties_Status_Request via AssignPropertiesToWebTestPropertiesStatusRequest & AssignPropertiesFromWebTestPropertiesStatusRequest returns original",
-		prop.ForAll(RunPropertyAssignmentTestForWebTestPropertiesStatusRequest, WebTestPropertiesStatusRequestGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForWebTestPropertiesStatusRequest tests if a specific instance of WebTestProperties_Status_Request can be assigned to v1alpha1api20180501previewstorage and back losslessly
-func RunPropertyAssignmentTestForWebTestPropertiesStatusRequest(subject WebTestProperties_Status_Request) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20180501ps.WebTestProperties_Status_Request
-	err := copied.AssignPropertiesToWebTestPropertiesStatusRequest(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual WebTestProperties_Status_Request
-	err = actual.AssignPropertiesFromWebTestPropertiesStatusRequest(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_WebTestProperties_Status_Request_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of WebTestProperties_Status_Request via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWebTestPropertiesStatusRequest, WebTestPropertiesStatusRequestGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForWebTestPropertiesStatusRequest runs a test to see if a specific instance of WebTestProperties_Status_Request round trips to JSON and back losslessly
-func RunJSONSerializationTestForWebTestPropertiesStatusRequest(subject WebTestProperties_Status_Request) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual WebTestProperties_Status_Request
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of WebTestProperties_Status_Request instances for property testing - lazily instantiated by
-// WebTestPropertiesStatusRequestGenerator()
-var webTestPropertiesStatusRequestGenerator gopter.Gen
-
-// WebTestPropertiesStatusRequestGenerator returns a generator of WebTestProperties_Status_Request instances for property testing.
-// We first initialize webTestPropertiesStatusRequestGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func WebTestPropertiesStatusRequestGenerator() gopter.Gen {
-	if webTestPropertiesStatusRequestGenerator != nil {
-		return webTestPropertiesStatusRequestGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebTestPropertiesStatusRequest(generators)
-	webTestPropertiesStatusRequestGenerator = gen.Struct(reflect.TypeOf(WebTestProperties_Status_Request{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebTestPropertiesStatusRequest(generators)
-	AddRelatedPropertyGeneratorsForWebTestPropertiesStatusRequest(generators)
-	webTestPropertiesStatusRequestGenerator = gen.Struct(reflect.TypeOf(WebTestProperties_Status_Request{}), generators)
-
-	return webTestPropertiesStatusRequestGenerator
-}
-
-// AddIndependentPropertyGeneratorsForWebTestPropertiesStatusRequest is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWebTestPropertiesStatusRequest(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForWebTestProperties_Request_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWebTestProperties_Request_STATUS(gens map[string]gopter.Gen) {
 	gens["FollowRedirects"] = gen.PtrOf(gen.Bool())
 	gens["HttpVerb"] = gen.PtrOf(gen.AlphaString())
 	gens["ParseDependentRequests"] = gen.PtrOf(gen.Bool())
@@ -1190,37 +1075,37 @@ func AddIndependentPropertyGeneratorsForWebTestPropertiesStatusRequest(gens map[
 	gens["RequestUrl"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForWebTestPropertiesStatusRequest is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForWebTestPropertiesStatusRequest(gens map[string]gopter.Gen) {
-	gens["Headers"] = gen.SliceOf(HeaderFieldStatusGenerator())
+// AddRelatedPropertyGeneratorsForWebTestProperties_Request_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForWebTestProperties_Request_STATUS(gens map[string]gopter.Gen) {
+	gens["Headers"] = gen.SliceOf(HeaderField_STATUSGenerator())
 }
 
-func Test_WebTestProperties_Status_ValidationRules_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_WebTestProperties_ValidationRules_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from WebTestProperties_Status_ValidationRules to WebTestProperties_Status_ValidationRules via AssignPropertiesToWebTestPropertiesStatusValidationRules & AssignPropertiesFromWebTestPropertiesStatusValidationRules returns original",
-		prop.ForAll(RunPropertyAssignmentTestForWebTestPropertiesStatusValidationRules, WebTestPropertiesStatusValidationRulesGenerator()))
+		"Round trip from WebTestProperties_ValidationRules to WebTestProperties_ValidationRules via AssignPropertiesToWebTestProperties_ValidationRules & AssignPropertiesFromWebTestProperties_ValidationRules returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWebTestProperties_ValidationRules, WebTestProperties_ValidationRulesGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForWebTestPropertiesStatusValidationRules tests if a specific instance of WebTestProperties_Status_ValidationRules can be assigned to v1alpha1api20180501previewstorage and back losslessly
-func RunPropertyAssignmentTestForWebTestPropertiesStatusValidationRules(subject WebTestProperties_Status_ValidationRules) string {
+// RunPropertyAssignmentTestForWebTestProperties_ValidationRules tests if a specific instance of WebTestProperties_ValidationRules can be assigned to v1alpha1api20180501previewstorage and back losslessly
+func RunPropertyAssignmentTestForWebTestProperties_ValidationRules(subject WebTestProperties_ValidationRules) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20180501ps.WebTestProperties_Status_ValidationRules
-	err := copied.AssignPropertiesToWebTestPropertiesStatusValidationRules(&other)
+	var other alpha20180501ps.WebTestProperties_ValidationRules
+	err := copied.AssignPropertiesToWebTestProperties_ValidationRules(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual WebTestProperties_Status_ValidationRules
-	err = actual.AssignPropertiesFromWebTestPropertiesStatusValidationRules(&other)
+	var actual WebTestProperties_ValidationRules
+	err = actual.AssignPropertiesFromWebTestProperties_ValidationRules(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1237,19 +1122,19 @@ func RunPropertyAssignmentTestForWebTestPropertiesStatusValidationRules(subject 
 	return ""
 }
 
-func Test_WebTestProperties_Status_ValidationRules_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_WebTestProperties_ValidationRules_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of WebTestProperties_Status_ValidationRules via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWebTestPropertiesStatusValidationRules, WebTestPropertiesStatusValidationRulesGenerator()))
+		"Round trip of WebTestProperties_ValidationRules via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWebTestProperties_ValidationRules, WebTestProperties_ValidationRulesGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForWebTestPropertiesStatusValidationRules runs a test to see if a specific instance of WebTestProperties_Status_ValidationRules round trips to JSON and back losslessly
-func RunJSONSerializationTestForWebTestPropertiesStatusValidationRules(subject WebTestProperties_Status_ValidationRules) string {
+// RunJSONSerializationTestForWebTestProperties_ValidationRules runs a test to see if a specific instance of WebTestProperties_ValidationRules round trips to JSON and back losslessly
+func RunJSONSerializationTestForWebTestProperties_ValidationRules(subject WebTestProperties_ValidationRules) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1257,7 +1142,7 @@ func RunJSONSerializationTestForWebTestPropertiesStatusValidationRules(subject W
 	}
 
 	// Deserialize back into memory
-	var actual WebTestProperties_Status_ValidationRules
+	var actual WebTestProperties_ValidationRules
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1275,43 +1160,162 @@ func RunJSONSerializationTestForWebTestPropertiesStatusValidationRules(subject W
 	return ""
 }
 
-// Generator of WebTestProperties_Status_ValidationRules instances for property testing - lazily instantiated by
-// WebTestPropertiesStatusValidationRulesGenerator()
-var webTestPropertiesStatusValidationRulesGenerator gopter.Gen
+// Generator of WebTestProperties_ValidationRules instances for property testing - lazily instantiated by
+// WebTestProperties_ValidationRulesGenerator()
+var webTestProperties_ValidationRulesGenerator gopter.Gen
 
-// WebTestPropertiesStatusValidationRulesGenerator returns a generator of WebTestProperties_Status_ValidationRules instances for property testing.
-// We first initialize webTestPropertiesStatusValidationRulesGenerator with a simplified generator based on the
+// WebTestProperties_ValidationRulesGenerator returns a generator of WebTestProperties_ValidationRules instances for property testing.
+// We first initialize webTestProperties_ValidationRulesGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func WebTestPropertiesStatusValidationRulesGenerator() gopter.Gen {
-	if webTestPropertiesStatusValidationRulesGenerator != nil {
-		return webTestPropertiesStatusValidationRulesGenerator
+func WebTestProperties_ValidationRulesGenerator() gopter.Gen {
+	if webTestProperties_ValidationRulesGenerator != nil {
+		return webTestProperties_ValidationRulesGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebTestPropertiesStatusValidationRules(generators)
-	webTestPropertiesStatusValidationRulesGenerator = gen.Struct(reflect.TypeOf(WebTestProperties_Status_ValidationRules{}), generators)
+	AddIndependentPropertyGeneratorsForWebTestProperties_ValidationRules(generators)
+	webTestProperties_ValidationRulesGenerator = gen.Struct(reflect.TypeOf(WebTestProperties_ValidationRules{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebTestPropertiesStatusValidationRules(generators)
-	AddRelatedPropertyGeneratorsForWebTestPropertiesStatusValidationRules(generators)
-	webTestPropertiesStatusValidationRulesGenerator = gen.Struct(reflect.TypeOf(WebTestProperties_Status_ValidationRules{}), generators)
+	AddIndependentPropertyGeneratorsForWebTestProperties_ValidationRules(generators)
+	AddRelatedPropertyGeneratorsForWebTestProperties_ValidationRules(generators)
+	webTestProperties_ValidationRulesGenerator = gen.Struct(reflect.TypeOf(WebTestProperties_ValidationRules{}), generators)
 
-	return webTestPropertiesStatusValidationRulesGenerator
+	return webTestProperties_ValidationRulesGenerator
 }
 
-// AddIndependentPropertyGeneratorsForWebTestPropertiesStatusValidationRules is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWebTestPropertiesStatusValidationRules(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForWebTestProperties_ValidationRules is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWebTestProperties_ValidationRules(gens map[string]gopter.Gen) {
 	gens["ExpectedHttpStatusCode"] = gen.PtrOf(gen.Int())
 	gens["IgnoreHttpsStatusCode"] = gen.PtrOf(gen.Bool())
 	gens["SSLCertRemainingLifetimeCheck"] = gen.PtrOf(gen.Int())
 	gens["SSLCheck"] = gen.PtrOf(gen.Bool())
 }
 
-// AddRelatedPropertyGeneratorsForWebTestPropertiesStatusValidationRules is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForWebTestPropertiesStatusValidationRules(gens map[string]gopter.Gen) {
-	gens["ContentValidation"] = gen.PtrOf(WebTestPropertiesStatusValidationRulesContentValidationGenerator())
+// AddRelatedPropertyGeneratorsForWebTestProperties_ValidationRules is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForWebTestProperties_ValidationRules(gens map[string]gopter.Gen) {
+	gens["ContentValidation"] = gen.PtrOf(WebTestProperties_ValidationRules_ContentValidationGenerator())
+}
+
+func Test_WebTestProperties_ValidationRules_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from WebTestProperties_ValidationRules_STATUS to WebTestProperties_ValidationRules_STATUS via AssignPropertiesToWebTestProperties_ValidationRules_STATUS & AssignPropertiesFromWebTestProperties_ValidationRules_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWebTestProperties_ValidationRules_STATUS, WebTestProperties_ValidationRules_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForWebTestProperties_ValidationRules_STATUS tests if a specific instance of WebTestProperties_ValidationRules_STATUS can be assigned to v1alpha1api20180501previewstorage and back losslessly
+func RunPropertyAssignmentTestForWebTestProperties_ValidationRules_STATUS(subject WebTestProperties_ValidationRules_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other alpha20180501ps.WebTestProperties_ValidationRules_STATUS
+	err := copied.AssignPropertiesToWebTestProperties_ValidationRules_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual WebTestProperties_ValidationRules_STATUS
+	err = actual.AssignPropertiesFromWebTestProperties_ValidationRules_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_WebTestProperties_ValidationRules_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of WebTestProperties_ValidationRules_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWebTestProperties_ValidationRules_STATUS, WebTestProperties_ValidationRules_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForWebTestProperties_ValidationRules_STATUS runs a test to see if a specific instance of WebTestProperties_ValidationRules_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForWebTestProperties_ValidationRules_STATUS(subject WebTestProperties_ValidationRules_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual WebTestProperties_ValidationRules_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of WebTestProperties_ValidationRules_STATUS instances for property testing - lazily instantiated by
+// WebTestProperties_ValidationRules_STATUSGenerator()
+var webTestProperties_ValidationRules_STATUSGenerator gopter.Gen
+
+// WebTestProperties_ValidationRules_STATUSGenerator returns a generator of WebTestProperties_ValidationRules_STATUS instances for property testing.
+// We first initialize webTestProperties_ValidationRules_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func WebTestProperties_ValidationRules_STATUSGenerator() gopter.Gen {
+	if webTestProperties_ValidationRules_STATUSGenerator != nil {
+		return webTestProperties_ValidationRules_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForWebTestProperties_ValidationRules_STATUS(generators)
+	webTestProperties_ValidationRules_STATUSGenerator = gen.Struct(reflect.TypeOf(WebTestProperties_ValidationRules_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForWebTestProperties_ValidationRules_STATUS(generators)
+	AddRelatedPropertyGeneratorsForWebTestProperties_ValidationRules_STATUS(generators)
+	webTestProperties_ValidationRules_STATUSGenerator = gen.Struct(reflect.TypeOf(WebTestProperties_ValidationRules_STATUS{}), generators)
+
+	return webTestProperties_ValidationRules_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForWebTestProperties_ValidationRules_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWebTestProperties_ValidationRules_STATUS(gens map[string]gopter.Gen) {
+	gens["ExpectedHttpStatusCode"] = gen.PtrOf(gen.Int())
+	gens["IgnoreHttpsStatusCode"] = gen.PtrOf(gen.Bool())
+	gens["SSLCertRemainingLifetimeCheck"] = gen.PtrOf(gen.Int())
+	gens["SSLCheck"] = gen.PtrOf(gen.Bool())
+}
+
+// AddRelatedPropertyGeneratorsForWebTestProperties_ValidationRules_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForWebTestProperties_ValidationRules_STATUS(gens map[string]gopter.Gen) {
+	gens["ContentValidation"] = gen.PtrOf(WebTestProperties_ValidationRules_ContentValidation_STATUSGenerator())
 }
 
 func Test_HeaderField_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1416,32 +1420,32 @@ func AddIndependentPropertyGeneratorsForHeaderField(gens map[string]gopter.Gen) 
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_HeaderField_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_HeaderField_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from HeaderField_Status to HeaderField_Status via AssignPropertiesToHeaderFieldStatus & AssignPropertiesFromHeaderFieldStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForHeaderFieldStatus, HeaderFieldStatusGenerator()))
+		"Round trip from HeaderField_STATUS to HeaderField_STATUS via AssignPropertiesToHeaderField_STATUS & AssignPropertiesFromHeaderField_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForHeaderField_STATUS, HeaderField_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForHeaderFieldStatus tests if a specific instance of HeaderField_Status can be assigned to v1alpha1api20180501previewstorage and back losslessly
-func RunPropertyAssignmentTestForHeaderFieldStatus(subject HeaderField_Status) string {
+// RunPropertyAssignmentTestForHeaderField_STATUS tests if a specific instance of HeaderField_STATUS can be assigned to v1alpha1api20180501previewstorage and back losslessly
+func RunPropertyAssignmentTestForHeaderField_STATUS(subject HeaderField_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20180501ps.HeaderField_Status
-	err := copied.AssignPropertiesToHeaderFieldStatus(&other)
+	var other alpha20180501ps.HeaderField_STATUS
+	err := copied.AssignPropertiesToHeaderField_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual HeaderField_Status
-	err = actual.AssignPropertiesFromHeaderFieldStatus(&other)
+	var actual HeaderField_STATUS
+	err = actual.AssignPropertiesFromHeaderField_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1458,19 +1462,19 @@ func RunPropertyAssignmentTestForHeaderFieldStatus(subject HeaderField_Status) s
 	return ""
 }
 
-func Test_HeaderField_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_HeaderField_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of HeaderField_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForHeaderFieldStatus, HeaderFieldStatusGenerator()))
+		"Round trip of HeaderField_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForHeaderField_STATUS, HeaderField_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForHeaderFieldStatus runs a test to see if a specific instance of HeaderField_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForHeaderFieldStatus(subject HeaderField_Status) string {
+// RunJSONSerializationTestForHeaderField_STATUS runs a test to see if a specific instance of HeaderField_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForHeaderField_STATUS(subject HeaderField_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1478,7 +1482,7 @@ func RunJSONSerializationTestForHeaderFieldStatus(subject HeaderField_Status) st
 	}
 
 	// Deserialize back into memory
-	var actual HeaderField_Status
+	var actual HeaderField_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1496,54 +1500,54 @@ func RunJSONSerializationTestForHeaderFieldStatus(subject HeaderField_Status) st
 	return ""
 }
 
-// Generator of HeaderField_Status instances for property testing - lazily instantiated by HeaderFieldStatusGenerator()
-var headerFieldStatusGenerator gopter.Gen
+// Generator of HeaderField_STATUS instances for property testing - lazily instantiated by HeaderField_STATUSGenerator()
+var headerField_STATUSGenerator gopter.Gen
 
-// HeaderFieldStatusGenerator returns a generator of HeaderField_Status instances for property testing.
-func HeaderFieldStatusGenerator() gopter.Gen {
-	if headerFieldStatusGenerator != nil {
-		return headerFieldStatusGenerator
+// HeaderField_STATUSGenerator returns a generator of HeaderField_STATUS instances for property testing.
+func HeaderField_STATUSGenerator() gopter.Gen {
+	if headerField_STATUSGenerator != nil {
+		return headerField_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForHeaderFieldStatus(generators)
-	headerFieldStatusGenerator = gen.Struct(reflect.TypeOf(HeaderField_Status{}), generators)
+	AddIndependentPropertyGeneratorsForHeaderField_STATUS(generators)
+	headerField_STATUSGenerator = gen.Struct(reflect.TypeOf(HeaderField_STATUS{}), generators)
 
-	return headerFieldStatusGenerator
+	return headerField_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForHeaderFieldStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForHeaderFieldStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForHeaderField_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForHeaderField_STATUS(gens map[string]gopter.Gen) {
 	gens["Key"] = gen.PtrOf(gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_WebTestPropertiesValidationRulesContentValidation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_WebTestProperties_ValidationRules_ContentValidation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from WebTestPropertiesValidationRulesContentValidation to WebTestPropertiesValidationRulesContentValidation via AssignPropertiesToWebTestPropertiesValidationRulesContentValidation & AssignPropertiesFromWebTestPropertiesValidationRulesContentValidation returns original",
-		prop.ForAll(RunPropertyAssignmentTestForWebTestPropertiesValidationRulesContentValidation, WebTestPropertiesValidationRulesContentValidationGenerator()))
+		"Round trip from WebTestProperties_ValidationRules_ContentValidation to WebTestProperties_ValidationRules_ContentValidation via AssignPropertiesToWebTestProperties_ValidationRules_ContentValidation & AssignPropertiesFromWebTestProperties_ValidationRules_ContentValidation returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWebTestProperties_ValidationRules_ContentValidation, WebTestProperties_ValidationRules_ContentValidationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForWebTestPropertiesValidationRulesContentValidation tests if a specific instance of WebTestPropertiesValidationRulesContentValidation can be assigned to v1alpha1api20180501previewstorage and back losslessly
-func RunPropertyAssignmentTestForWebTestPropertiesValidationRulesContentValidation(subject WebTestPropertiesValidationRulesContentValidation) string {
+// RunPropertyAssignmentTestForWebTestProperties_ValidationRules_ContentValidation tests if a specific instance of WebTestProperties_ValidationRules_ContentValidation can be assigned to v1alpha1api20180501previewstorage and back losslessly
+func RunPropertyAssignmentTestForWebTestProperties_ValidationRules_ContentValidation(subject WebTestProperties_ValidationRules_ContentValidation) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20180501ps.WebTestPropertiesValidationRulesContentValidation
-	err := copied.AssignPropertiesToWebTestPropertiesValidationRulesContentValidation(&other)
+	var other alpha20180501ps.WebTestProperties_ValidationRules_ContentValidation
+	err := copied.AssignPropertiesToWebTestProperties_ValidationRules_ContentValidation(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual WebTestPropertiesValidationRulesContentValidation
-	err = actual.AssignPropertiesFromWebTestPropertiesValidationRulesContentValidation(&other)
+	var actual WebTestProperties_ValidationRules_ContentValidation
+	err = actual.AssignPropertiesFromWebTestProperties_ValidationRules_ContentValidation(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1560,19 +1564,19 @@ func RunPropertyAssignmentTestForWebTestPropertiesValidationRulesContentValidati
 	return ""
 }
 
-func Test_WebTestPropertiesValidationRulesContentValidation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_WebTestProperties_ValidationRules_ContentValidation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of WebTestPropertiesValidationRulesContentValidation via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWebTestPropertiesValidationRulesContentValidation, WebTestPropertiesValidationRulesContentValidationGenerator()))
+		"Round trip of WebTestProperties_ValidationRules_ContentValidation via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWebTestProperties_ValidationRules_ContentValidation, WebTestProperties_ValidationRules_ContentValidationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForWebTestPropertiesValidationRulesContentValidation runs a test to see if a specific instance of WebTestPropertiesValidationRulesContentValidation round trips to JSON and back losslessly
-func RunJSONSerializationTestForWebTestPropertiesValidationRulesContentValidation(subject WebTestPropertiesValidationRulesContentValidation) string {
+// RunJSONSerializationTestForWebTestProperties_ValidationRules_ContentValidation runs a test to see if a specific instance of WebTestProperties_ValidationRules_ContentValidation round trips to JSON and back losslessly
+func RunJSONSerializationTestForWebTestProperties_ValidationRules_ContentValidation(subject WebTestProperties_ValidationRules_ContentValidation) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1580,7 +1584,7 @@ func RunJSONSerializationTestForWebTestPropertiesValidationRulesContentValidatio
 	}
 
 	// Deserialize back into memory
-	var actual WebTestPropertiesValidationRulesContentValidation
+	var actual WebTestProperties_ValidationRules_ContentValidation
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1598,56 +1602,56 @@ func RunJSONSerializationTestForWebTestPropertiesValidationRulesContentValidatio
 	return ""
 }
 
-// Generator of WebTestPropertiesValidationRulesContentValidation instances for property testing - lazily instantiated
-// by WebTestPropertiesValidationRulesContentValidationGenerator()
-var webTestPropertiesValidationRulesContentValidationGenerator gopter.Gen
+// Generator of WebTestProperties_ValidationRules_ContentValidation instances for property testing - lazily instantiated
+// by WebTestProperties_ValidationRules_ContentValidationGenerator()
+var webTestProperties_ValidationRules_ContentValidationGenerator gopter.Gen
 
-// WebTestPropertiesValidationRulesContentValidationGenerator returns a generator of WebTestPropertiesValidationRulesContentValidation instances for property testing.
-func WebTestPropertiesValidationRulesContentValidationGenerator() gopter.Gen {
-	if webTestPropertiesValidationRulesContentValidationGenerator != nil {
-		return webTestPropertiesValidationRulesContentValidationGenerator
+// WebTestProperties_ValidationRules_ContentValidationGenerator returns a generator of WebTestProperties_ValidationRules_ContentValidation instances for property testing.
+func WebTestProperties_ValidationRules_ContentValidationGenerator() gopter.Gen {
+	if webTestProperties_ValidationRules_ContentValidationGenerator != nil {
+		return webTestProperties_ValidationRules_ContentValidationGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebTestPropertiesValidationRulesContentValidation(generators)
-	webTestPropertiesValidationRulesContentValidationGenerator = gen.Struct(reflect.TypeOf(WebTestPropertiesValidationRulesContentValidation{}), generators)
+	AddIndependentPropertyGeneratorsForWebTestProperties_ValidationRules_ContentValidation(generators)
+	webTestProperties_ValidationRules_ContentValidationGenerator = gen.Struct(reflect.TypeOf(WebTestProperties_ValidationRules_ContentValidation{}), generators)
 
-	return webTestPropertiesValidationRulesContentValidationGenerator
+	return webTestProperties_ValidationRules_ContentValidationGenerator
 }
 
-// AddIndependentPropertyGeneratorsForWebTestPropertiesValidationRulesContentValidation is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWebTestPropertiesValidationRulesContentValidation(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForWebTestProperties_ValidationRules_ContentValidation is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWebTestProperties_ValidationRules_ContentValidation(gens map[string]gopter.Gen) {
 	gens["ContentMatch"] = gen.PtrOf(gen.AlphaString())
 	gens["IgnoreCase"] = gen.PtrOf(gen.Bool())
 	gens["PassIfTextFound"] = gen.PtrOf(gen.Bool())
 }
 
-func Test_WebTestProperties_Status_ValidationRules_ContentValidation_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_WebTestProperties_ValidationRules_ContentValidation_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from WebTestProperties_Status_ValidationRules_ContentValidation to WebTestProperties_Status_ValidationRules_ContentValidation via AssignPropertiesToWebTestPropertiesStatusValidationRulesContentValidation & AssignPropertiesFromWebTestPropertiesStatusValidationRulesContentValidation returns original",
-		prop.ForAll(RunPropertyAssignmentTestForWebTestPropertiesStatusValidationRulesContentValidation, WebTestPropertiesStatusValidationRulesContentValidationGenerator()))
+		"Round trip from WebTestProperties_ValidationRules_ContentValidation_STATUS to WebTestProperties_ValidationRules_ContentValidation_STATUS via AssignPropertiesToWebTestProperties_ValidationRules_ContentValidation_STATUS & AssignPropertiesFromWebTestProperties_ValidationRules_ContentValidation_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForWebTestProperties_ValidationRules_ContentValidation_STATUS, WebTestProperties_ValidationRules_ContentValidation_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForWebTestPropertiesStatusValidationRulesContentValidation tests if a specific instance of WebTestProperties_Status_ValidationRules_ContentValidation can be assigned to v1alpha1api20180501previewstorage and back losslessly
-func RunPropertyAssignmentTestForWebTestPropertiesStatusValidationRulesContentValidation(subject WebTestProperties_Status_ValidationRules_ContentValidation) string {
+// RunPropertyAssignmentTestForWebTestProperties_ValidationRules_ContentValidation_STATUS tests if a specific instance of WebTestProperties_ValidationRules_ContentValidation_STATUS can be assigned to v1alpha1api20180501previewstorage and back losslessly
+func RunPropertyAssignmentTestForWebTestProperties_ValidationRules_ContentValidation_STATUS(subject WebTestProperties_ValidationRules_ContentValidation_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20180501ps.WebTestProperties_Status_ValidationRules_ContentValidation
-	err := copied.AssignPropertiesToWebTestPropertiesStatusValidationRulesContentValidation(&other)
+	var other alpha20180501ps.WebTestProperties_ValidationRules_ContentValidation_STATUS
+	err := copied.AssignPropertiesToWebTestProperties_ValidationRules_ContentValidation_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual WebTestProperties_Status_ValidationRules_ContentValidation
-	err = actual.AssignPropertiesFromWebTestPropertiesStatusValidationRulesContentValidation(&other)
+	var actual WebTestProperties_ValidationRules_ContentValidation_STATUS
+	err = actual.AssignPropertiesFromWebTestProperties_ValidationRules_ContentValidation_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1664,19 +1668,19 @@ func RunPropertyAssignmentTestForWebTestPropertiesStatusValidationRulesContentVa
 	return ""
 }
 
-func Test_WebTestProperties_Status_ValidationRules_ContentValidation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_WebTestProperties_ValidationRules_ContentValidation_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of WebTestProperties_Status_ValidationRules_ContentValidation via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWebTestPropertiesStatusValidationRulesContentValidation, WebTestPropertiesStatusValidationRulesContentValidationGenerator()))
+		"Round trip of WebTestProperties_ValidationRules_ContentValidation_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWebTestProperties_ValidationRules_ContentValidation_STATUS, WebTestProperties_ValidationRules_ContentValidation_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForWebTestPropertiesStatusValidationRulesContentValidation runs a test to see if a specific instance of WebTestProperties_Status_ValidationRules_ContentValidation round trips to JSON and back losslessly
-func RunJSONSerializationTestForWebTestPropertiesStatusValidationRulesContentValidation(subject WebTestProperties_Status_ValidationRules_ContentValidation) string {
+// RunJSONSerializationTestForWebTestProperties_ValidationRules_ContentValidation_STATUS runs a test to see if a specific instance of WebTestProperties_ValidationRules_ContentValidation_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForWebTestProperties_ValidationRules_ContentValidation_STATUS(subject WebTestProperties_ValidationRules_ContentValidation_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1684,7 +1688,7 @@ func RunJSONSerializationTestForWebTestPropertiesStatusValidationRulesContentVal
 	}
 
 	// Deserialize back into memory
-	var actual WebTestProperties_Status_ValidationRules_ContentValidation
+	var actual WebTestProperties_ValidationRules_ContentValidation_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1702,25 +1706,25 @@ func RunJSONSerializationTestForWebTestPropertiesStatusValidationRulesContentVal
 	return ""
 }
 
-// Generator of WebTestProperties_Status_ValidationRules_ContentValidation instances for property testing - lazily
-// instantiated by WebTestPropertiesStatusValidationRulesContentValidationGenerator()
-var webTestPropertiesStatusValidationRulesContentValidationGenerator gopter.Gen
+// Generator of WebTestProperties_ValidationRules_ContentValidation_STATUS instances for property testing - lazily
+// instantiated by WebTestProperties_ValidationRules_ContentValidation_STATUSGenerator()
+var webTestProperties_ValidationRules_ContentValidation_STATUSGenerator gopter.Gen
 
-// WebTestPropertiesStatusValidationRulesContentValidationGenerator returns a generator of WebTestProperties_Status_ValidationRules_ContentValidation instances for property testing.
-func WebTestPropertiesStatusValidationRulesContentValidationGenerator() gopter.Gen {
-	if webTestPropertiesStatusValidationRulesContentValidationGenerator != nil {
-		return webTestPropertiesStatusValidationRulesContentValidationGenerator
+// WebTestProperties_ValidationRules_ContentValidation_STATUSGenerator returns a generator of WebTestProperties_ValidationRules_ContentValidation_STATUS instances for property testing.
+func WebTestProperties_ValidationRules_ContentValidation_STATUSGenerator() gopter.Gen {
+	if webTestProperties_ValidationRules_ContentValidation_STATUSGenerator != nil {
+		return webTestProperties_ValidationRules_ContentValidation_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebTestPropertiesStatusValidationRulesContentValidation(generators)
-	webTestPropertiesStatusValidationRulesContentValidationGenerator = gen.Struct(reflect.TypeOf(WebTestProperties_Status_ValidationRules_ContentValidation{}), generators)
+	AddIndependentPropertyGeneratorsForWebTestProperties_ValidationRules_ContentValidation_STATUS(generators)
+	webTestProperties_ValidationRules_ContentValidation_STATUSGenerator = gen.Struct(reflect.TypeOf(WebTestProperties_ValidationRules_ContentValidation_STATUS{}), generators)
 
-	return webTestPropertiesStatusValidationRulesContentValidationGenerator
+	return webTestProperties_ValidationRules_ContentValidation_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForWebTestPropertiesStatusValidationRulesContentValidation is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWebTestPropertiesStatusValidationRulesContentValidation(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForWebTestProperties_ValidationRules_ContentValidation_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWebTestProperties_ValidationRules_ContentValidation_STATUS(gens map[string]gopter.Gen) {
 	gens["ContentMatch"] = gen.PtrOf(gen.AlphaString())
 	gens["IgnoreCase"] = gen.PtrOf(gen.Bool())
 	gens["PassIfTextFound"] = gen.PtrOf(gen.Bool())

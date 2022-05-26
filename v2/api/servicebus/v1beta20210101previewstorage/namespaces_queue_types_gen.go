@@ -22,12 +22,13 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20210101preview.NamespacesQueue
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces_queues
+// Generator information:
+// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/Queue.json
 type NamespacesQueue struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              NamespacesQueues_Spec `json:"spec,omitempty"`
-	Status            SBQueue_Status        `json:"status,omitempty"`
+	Spec              NamespacesQueue_Spec `json:"spec,omitempty"`
+	Status            SBQueue_STATUS       `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NamespacesQueue{}
@@ -49,7 +50,7 @@ func (queue *NamespacesQueue) AzureName() string {
 	return queue.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01-preview"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20210101preview"
 func (queue NamespacesQueue) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -69,14 +70,14 @@ func (queue *NamespacesQueue) GetStatus() genruntime.ConvertibleStatus {
 	return &queue.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.ServiceBus/namespaces/queues"
+// GetType returns the ARM Type of the resource. This is always ""
 func (queue *NamespacesQueue) GetType() string {
-	return "Microsoft.ServiceBus/namespaces/queues"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (queue *NamespacesQueue) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SBQueue_Status{}
+	return &SBQueue_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +93,13 @@ func (queue *NamespacesQueue) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (queue *NamespacesQueue) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SBQueue_Status); ok {
+	if st, ok := status.(*SBQueue_STATUS); ok {
 		queue.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SBQueue_Status
+	var st SBQueue_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,72 +123,79 @@ func (queue *NamespacesQueue) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20210101preview.NamespacesQueue
-// Generated from: https://schema.management.azure.com/schemas/2021-01-01-preview/Microsoft.ServiceBus.json#/resourceDefinitions/namespaces_queues
+// Generator information:
+// - Generated from: /servicebus/resource-manager/Microsoft.ServiceBus/preview/2021-01-01-preview/Queue.json
 type NamespacesQueueList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []NamespacesQueue `json:"items"`
 }
 
-// Storage version of v1beta20210101preview.NamespacesQueues_Spec
-type NamespacesQueues_Spec struct {
+// Storage version of v1beta20210101preview.NamespacesQueue_Spec
+type NamespacesQueue_Spec struct {
+	AccessedAt       *string `json:"accessedAt,omitempty"`
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
 
-	// +kubebuilder:validation:MinLength=1
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName                           string  `json:"azureName,omitempty"`
-	DeadLetteringOnMessageExpiration    *bool   `json:"deadLetteringOnMessageExpiration,omitempty"`
-	DefaultMessageTimeToLive            *string `json:"defaultMessageTimeToLive,omitempty"`
-	DuplicateDetectionHistoryTimeWindow *string `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
-	EnableBatchedOperations             *bool   `json:"enableBatchedOperations,omitempty"`
-	EnableExpress                       *bool   `json:"enableExpress,omitempty"`
-	EnablePartitioning                  *bool   `json:"enablePartitioning,omitempty"`
-	ForwardDeadLetteredMessagesTo       *string `json:"forwardDeadLetteredMessagesTo,omitempty"`
-	ForwardTo                           *string `json:"forwardTo,omitempty"`
-	Location                            *string `json:"location,omitempty"`
-	LockDuration                        *string `json:"lockDuration,omitempty"`
-	MaxDeliveryCount                    *int    `json:"maxDeliveryCount,omitempty"`
-	MaxSizeInMegabytes                  *int    `json:"maxSizeInMegabytes,omitempty"`
-	OriginalVersion                     string  `json:"originalVersion,omitempty"`
+	AzureName                           string               `json:"azureName,omitempty"`
+	CountDetails                        *MessageCountDetails `json:"countDetails,omitempty"`
+	CreatedAt                           *string              `json:"createdAt,omitempty"`
+	DeadLetteringOnMessageExpiration    *bool                `json:"deadLetteringOnMessageExpiration,omitempty"`
+	DefaultMessageTimeToLive            *string              `json:"defaultMessageTimeToLive,omitempty"`
+	DuplicateDetectionHistoryTimeWindow *string              `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
+	EnableBatchedOperations             *bool                `json:"enableBatchedOperations,omitempty"`
+	EnableExpress                       *bool                `json:"enableExpress,omitempty"`
+	EnablePartitioning                  *bool                `json:"enablePartitioning,omitempty"`
+	ForwardDeadLetteredMessagesTo       *string              `json:"forwardDeadLetteredMessagesTo,omitempty"`
+	ForwardTo                           *string              `json:"forwardTo,omitempty"`
+	Id                                  *string              `json:"id,omitempty"`
+	LockDuration                        *string              `json:"lockDuration,omitempty"`
+	MaxDeliveryCount                    *int                 `json:"maxDeliveryCount,omitempty"`
+	MaxSizeInMegabytes                  *int                 `json:"maxSizeInMegabytes,omitempty"`
+	MessageCount                        *int                 `json:"messageCount,omitempty"`
+	OriginalVersion                     string               `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a servicebus.azure.com/Namespace resource
-	Owner                      *genruntime.KnownResourceReference `group:"servicebus.azure.com" json:"owner,omitempty" kind:"Namespace"`
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner                      *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag                genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	RequiresDuplicateDetection *bool                              `json:"requiresDuplicateDetection,omitempty"`
 	RequiresSession            *bool                              `json:"requiresSession,omitempty"`
-	Tags                       map[string]string                  `json:"tags,omitempty"`
+	SizeInBytes                *int                               `json:"sizeInBytes,omitempty"`
+	SystemData                 *SystemData                        `json:"systemData,omitempty"`
+	Type                       *string                            `json:"type,omitempty"`
+	UpdatedAt                  *string                            `json:"updatedAt,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &NamespacesQueues_Spec{}
+var _ genruntime.ConvertibleSpec = &NamespacesQueue_Spec{}
 
-// ConvertSpecFrom populates our NamespacesQueues_Spec from the provided source
-func (queues *NamespacesQueues_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == queues {
+// ConvertSpecFrom populates our NamespacesQueue_Spec from the provided source
+func (queue *NamespacesQueue_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == queue {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(queues)
+	return source.ConvertSpecTo(queue)
 }
 
-// ConvertSpecTo populates the provided destination from our NamespacesQueues_Spec
-func (queues *NamespacesQueues_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == queues {
+// ConvertSpecTo populates the provided destination from our NamespacesQueue_Spec
+func (queue *NamespacesQueue_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == queue {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(queues)
+	return destination.ConvertSpecFrom(queue)
 }
 
-// Storage version of v1beta20210101preview.SBQueue_Status
-type SBQueue_Status struct {
+// Storage version of v1beta20210101preview.SBQueue_STATUS
+type SBQueue_STATUS struct {
 	AccessedAt                          *string                     `json:"accessedAt,omitempty"`
 	AutoDeleteOnIdle                    *string                     `json:"autoDeleteOnIdle,omitempty"`
 	Conditions                          []conditions.Condition      `json:"conditions,omitempty"`
-	CountDetails                        *MessageCountDetails_Status `json:"countDetails,omitempty"`
+	CountDetails                        *MessageCountDetails_STATUS `json:"countDetails,omitempty"`
 	CreatedAt                           *string                     `json:"createdAt,omitempty"`
 	DeadLetteringOnMessageExpiration    *bool                       `json:"deadLetteringOnMessageExpiration,omitempty"`
 	DefaultMessageTimeToLive            *string                     `json:"defaultMessageTimeToLive,omitempty"`
@@ -208,15 +216,15 @@ type SBQueue_Status struct {
 	RequiresSession                     *bool                       `json:"requiresSession,omitempty"`
 	SizeInBytes                         *int                        `json:"sizeInBytes,omitempty"`
 	Status                              *string                     `json:"status,omitempty"`
-	SystemData                          *SystemData_Status          `json:"systemData,omitempty"`
+	SystemData                          *SystemData_STATUS          `json:"systemData,omitempty"`
 	Type                                *string                     `json:"type,omitempty"`
 	UpdatedAt                           *string                     `json:"updatedAt,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &SBQueue_Status{}
+var _ genruntime.ConvertibleStatus = &SBQueue_STATUS{}
 
-// ConvertStatusFrom populates our SBQueue_Status from the provided source
-func (queue *SBQueue_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our SBQueue_STATUS from the provided source
+func (queue *SBQueue_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == queue {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -224,8 +232,8 @@ func (queue *SBQueue_Status) ConvertStatusFrom(source genruntime.ConvertibleStat
 	return source.ConvertStatusTo(queue)
 }
 
-// ConvertStatusTo populates the provided destination from our SBQueue_Status
-func (queue *SBQueue_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our SBQueue_STATUS
+func (queue *SBQueue_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == queue {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -233,8 +241,18 @@ func (queue *SBQueue_Status) ConvertStatusTo(destination genruntime.ConvertibleS
 	return destination.ConvertStatusFrom(queue)
 }
 
-// Storage version of v1beta20210101preview.MessageCountDetails_Status
-type MessageCountDetails_Status struct {
+// Storage version of v1beta20210101preview.MessageCountDetails
+type MessageCountDetails struct {
+	ActiveMessageCount             *int                   `json:"activeMessageCount,omitempty"`
+	DeadLetterMessageCount         *int                   `json:"deadLetterMessageCount,omitempty"`
+	PropertyBag                    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ScheduledMessageCount          *int                   `json:"scheduledMessageCount,omitempty"`
+	TransferDeadLetterMessageCount *int                   `json:"transferDeadLetterMessageCount,omitempty"`
+	TransferMessageCount           *int                   `json:"transferMessageCount,omitempty"`
+}
+
+// Storage version of v1beta20210101preview.MessageCountDetails_STATUS
+type MessageCountDetails_STATUS struct {
 	ActiveMessageCount             *int                   `json:"activeMessageCount,omitempty"`
 	DeadLetterMessageCount         *int                   `json:"deadLetterMessageCount,omitempty"`
 	PropertyBag                    genruntime.PropertyBag `json:"$propertyBag,omitempty"`

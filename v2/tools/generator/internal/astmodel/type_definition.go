@@ -45,6 +45,10 @@ func (def TypeDefinition) Description() []string {
 }
 
 func (def TypeDefinition) References() TypeNameSet {
+	if def.theType == nil {
+		panic(fmt.Sprintf("uh..., %s", def.name))
+	}
+
 	return def.theType.References()
 }
 
@@ -88,8 +92,8 @@ func (def TypeDefinition) AsDeclarations(codeGenerationContext *CodeGenerationCo
 func AsSimpleDeclarations(
 	codeGenerationContext *CodeGenerationContext,
 	declContext DeclarationContext,
-	theType Type) []dst.Decl {
-
+	theType Type,
+) []dst.Decl {
 	var docComments dst.Decorations
 	if len(declContext.Description) > 0 {
 		astbuilder.AddWrappedComments(&docComments, declContext.Description)

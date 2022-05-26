@@ -16,7 +16,7 @@ type Person struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              Person_Spec   `json:"spec,omitempty"`
-	Status            Person_Status `json:"status,omitempty"`
+	Status            Person_STATUS `json:"status,omitempty"`
 }
 
 // AssignPropertiesFromPerson populates our Person from the provided source Person
@@ -27,17 +27,17 @@ func (person *Person) AssignPropertiesFromPerson(source *v20211231s.Person) erro
 
 	// Spec
 	var spec Person_Spec
-	err := spec.AssignPropertiesFromPersonSpec(&source.Spec)
+	err := spec.AssignPropertiesFromPerson_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromPersonSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromPerson_Spec() to populate field Spec")
 	}
 	person.Spec = spec
 
 	// Status
-	var status Person_Status
-	err = status.AssignPropertiesFromPersonStatus(&source.Status)
+	var status Person_STATUS
+	err = status.AssignPropertiesFromPerson_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromPersonStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromPerson_STATUS() to populate field Status")
 	}
 	person.Status = status
 
@@ -53,17 +53,17 @@ func (person *Person) AssignPropertiesToPerson(destination *v20211231s.Person) e
 
 	// Spec
 	var spec v20211231s.Person_Spec
-	err := person.Spec.AssignPropertiesToPersonSpec(&spec)
+	err := person.Spec.AssignPropertiesToPerson_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToPersonSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToPerson_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status v20211231s.Person_Status
-	err = person.Status.AssignPropertiesToPersonStatus(&status)
+	var status v20211231s.Person_STATUS
+	err = person.Status.AssignPropertiesToPerson_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToPersonStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToPerson_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -76,6 +76,40 @@ type PersonList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Person `json:"items"`
+}
+
+type Person_STATUS struct {
+	Status string `json:"status,omitempty"`
+}
+
+// AssignPropertiesFromPerson_STATUS populates our Person_STATUS from the provided source Person_STATUS
+func (person *Person_STATUS) AssignPropertiesFromPerson_STATUS(source *v20211231s.Person_STATUS) error {
+
+	// Status
+	person.Status = genruntime.GetOptionalStringValue(source.Status)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToPerson_STATUS populates the provided destination Person_STATUS from our Person_STATUS
+func (person *Person_STATUS) AssignPropertiesToPerson_STATUS(destination *v20211231s.Person_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Status
+	status := person.Status
+	destination.Status = &status
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 type Person_Spec struct {
@@ -91,8 +125,8 @@ type Person_Spec struct {
 	ResidentialAddress Address `json:"residentialAddress,omitempty"`
 }
 
-// AssignPropertiesFromPersonSpec populates our Person_Spec from the provided source Person_Spec
-func (person *Person_Spec) AssignPropertiesFromPersonSpec(source *v20211231s.Person_Spec) error {
+// AssignPropertiesFromPerson_Spec populates our Person_Spec from the provided source Person_Spec
+func (person *Person_Spec) AssignPropertiesFromPerson_Spec(source *v20211231s.Person_Spec) error {
 
 	// FamilyName
 	person.FamilyName = genruntime.GetOptionalStringValue(source.FamilyName)
@@ -131,8 +165,8 @@ func (person *Person_Spec) AssignPropertiesFromPersonSpec(source *v20211231s.Per
 	return nil
 }
 
-// AssignPropertiesToPersonSpec populates the provided destination Person_Spec from our Person_Spec
-func (person *Person_Spec) AssignPropertiesToPersonSpec(destination *v20211231s.Person_Spec) error {
+// AssignPropertiesToPerson_Spec populates the provided destination Person_Spec from our Person_Spec
+func (person *Person_Spec) AssignPropertiesToPerson_Spec(destination *v20211231s.Person_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -163,40 +197,6 @@ func (person *Person_Spec) AssignPropertiesToPersonSpec(destination *v20211231s.
 		return errors.Wrap(err, "calling AssignPropertiesToAddress() to populate field ResidentialAddress")
 	}
 	destination.ResidentialAddress = &residentialAddress
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type Person_Status struct {
-	Status string `json:"status,omitempty"`
-}
-
-// AssignPropertiesFromPersonStatus populates our Person_Status from the provided source Person_Status
-func (person *Person_Status) AssignPropertiesFromPersonStatus(source *v20211231s.Person_Status) error {
-
-	// Status
-	person.Status = genruntime.GetOptionalStringValue(source.Status)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToPersonStatus populates the provided destination Person_Status from our Person_Status
-func (person *Person_Status) AssignPropertiesToPersonStatus(destination *v20211231s.Person_Status) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Status
-	status := person.Status
-	destination.Status = &status
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

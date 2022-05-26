@@ -22,12 +22,13 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20210401.StorageAccountsManagementPolicy
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_managementPolicies
+// Generator information:
+// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2021-04-01/storage.json
 type StorageAccountsManagementPolicy struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              StorageAccountsManagementPolicies_Spec `json:"spec,omitempty"`
-	Status            ManagementPolicy_Status                `json:"status,omitempty"`
+	Spec              StorageAccountsManagementPolicy_Spec `json:"spec,omitempty"`
+	Status            ManagementPolicy_STATUS              `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &StorageAccountsManagementPolicy{}
@@ -44,12 +45,12 @@ func (policy *StorageAccountsManagementPolicy) SetConditions(conditions conditio
 
 var _ genruntime.KubernetesResource = &StorageAccountsManagementPolicy{}
 
-// AzureName returns the Azure name of the resource (always "default")
+// AzureName returns the Azure name of the resource
 func (policy *StorageAccountsManagementPolicy) AzureName() string {
-	return "default"
+	return policy.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20210401"
 func (policy StorageAccountsManagementPolicy) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -69,14 +70,14 @@ func (policy *StorageAccountsManagementPolicy) GetStatus() genruntime.Convertibl
 	return &policy.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts/managementPolicies"
+// GetType returns the ARM Type of the resource. This is always ""
 func (policy *StorageAccountsManagementPolicy) GetType() string {
-	return "Microsoft.Storage/storageAccounts/managementPolicies"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (policy *StorageAccountsManagementPolicy) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &ManagementPolicy_Status{}
+	return &ManagementPolicy_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +93,13 @@ func (policy *StorageAccountsManagementPolicy) Owner() *genruntime.ResourceRefer
 // SetStatus sets the status of this resource
 func (policy *StorageAccountsManagementPolicy) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*ManagementPolicy_Status); ok {
+	if st, ok := status.(*ManagementPolicy_STATUS); ok {
 		policy.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st ManagementPolicy_Status
+	var st ManagementPolicy_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,28 +123,29 @@ func (policy *StorageAccountsManagementPolicy) OriginalGVK() *schema.GroupVersio
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20210401.StorageAccountsManagementPolicy
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/resourceDefinitions/storageAccounts_managementPolicies
+// Generator information:
+// - Generated from: /storage/resource-manager/Microsoft.Storage/stable/2021-04-01/storage.json
 type StorageAccountsManagementPolicyList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []StorageAccountsManagementPolicy `json:"items"`
 }
 
-// Storage version of v1beta20210401.ManagementPolicy_Status
-type ManagementPolicy_Status struct {
+// Storage version of v1beta20210401.ManagementPolicy_STATUS
+type ManagementPolicy_STATUS struct {
 	Conditions       []conditions.Condition         `json:"conditions,omitempty"`
 	Id               *string                        `json:"id,omitempty"`
 	LastModifiedTime *string                        `json:"lastModifiedTime,omitempty"`
 	Name             *string                        `json:"name,omitempty"`
-	Policy           *ManagementPolicySchema_Status `json:"policy,omitempty"`
+	Policy           *ManagementPolicySchema_STATUS `json:"policy,omitempty"`
 	PropertyBag      genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 	Type             *string                        `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &ManagementPolicy_Status{}
+var _ genruntime.ConvertibleStatus = &ManagementPolicy_STATUS{}
 
-// ConvertStatusFrom populates our ManagementPolicy_Status from the provided source
-func (policy *ManagementPolicy_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our ManagementPolicy_STATUS from the provided source
+func (policy *ManagementPolicy_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == policy {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -151,8 +153,8 @@ func (policy *ManagementPolicy_Status) ConvertStatusFrom(source genruntime.Conve
 	return source.ConvertStatusTo(policy)
 }
 
-// ConvertStatusTo populates the provided destination from our ManagementPolicy_Status
-func (policy *ManagementPolicy_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our ManagementPolicy_STATUS
+func (policy *ManagementPolicy_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == policy {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -160,55 +162,58 @@ func (policy *ManagementPolicy_Status) ConvertStatusTo(destination genruntime.Co
 	return destination.ConvertStatusFrom(policy)
 }
 
-// Storage version of v1beta20210401.StorageAccountsManagementPolicies_Spec
-type StorageAccountsManagementPolicies_Spec struct {
-	OriginalVersion string `json:"originalVersion,omitempty"`
+// Storage version of v1beta20210401.StorageAccountsManagementPolicy_Spec
+type StorageAccountsManagementPolicy_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName        string  `json:"azureName,omitempty"`
+	Id               *string `json:"id,omitempty"`
+	LastModifiedTime *string `json:"lastModifiedTime,omitempty"`
+	OriginalVersion  string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a storage.azure.com/StorageAccount resource
-	Owner       *genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner,omitempty" kind:"StorageAccount"`
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	Policy      *ManagementPolicySchema            `json:"policy,omitempty"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Tags        map[string]string                  `json:"tags,omitempty"`
+	Type        *string                            `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &StorageAccountsManagementPolicies_Spec{}
+var _ genruntime.ConvertibleSpec = &StorageAccountsManagementPolicy_Spec{}
 
-// ConvertSpecFrom populates our StorageAccountsManagementPolicies_Spec from the provided source
-func (policies *StorageAccountsManagementPolicies_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == policies {
+// ConvertSpecFrom populates our StorageAccountsManagementPolicy_Spec from the provided source
+func (policy *StorageAccountsManagementPolicy_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == policy {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(policies)
+	return source.ConvertSpecTo(policy)
 }
 
-// ConvertSpecTo populates the provided destination from our StorageAccountsManagementPolicies_Spec
-func (policies *StorageAccountsManagementPolicies_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == policies {
+// ConvertSpecTo populates the provided destination from our StorageAccountsManagementPolicy_Spec
+func (policy *StorageAccountsManagementPolicy_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == policy {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(policies)
+	return destination.ConvertSpecFrom(policy)
 }
 
 // Storage version of v1beta20210401.ManagementPolicySchema
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicySchema
 type ManagementPolicySchema struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Rules       []ManagementPolicyRule `json:"rules,omitempty"`
 }
 
-// Storage version of v1beta20210401.ManagementPolicySchema_Status
-type ManagementPolicySchema_Status struct {
+// Storage version of v1beta20210401.ManagementPolicySchema_STATUS
+type ManagementPolicySchema_STATUS struct {
 	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	Rules       []ManagementPolicyRule_Status `json:"rules,omitempty"`
+	Rules       []ManagementPolicyRule_STATUS `json:"rules,omitempty"`
 }
 
 // Storage version of v1beta20210401.ManagementPolicyRule
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyRule
 type ManagementPolicyRule struct {
 	Definition  *ManagementPolicyDefinition `json:"definition,omitempty"`
 	Enabled     *bool                       `json:"enabled,omitempty"`
@@ -217,9 +222,9 @@ type ManagementPolicyRule struct {
 	Type        *string                     `json:"type,omitempty"`
 }
 
-// Storage version of v1beta20210401.ManagementPolicyRule_Status
-type ManagementPolicyRule_Status struct {
-	Definition  *ManagementPolicyDefinition_Status `json:"definition,omitempty"`
+// Storage version of v1beta20210401.ManagementPolicyRule_STATUS
+type ManagementPolicyRule_STATUS struct {
+	Definition  *ManagementPolicyDefinition_STATUS `json:"definition,omitempty"`
 	Enabled     *bool                              `json:"enabled,omitempty"`
 	Name        *string                            `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
@@ -227,22 +232,20 @@ type ManagementPolicyRule_Status struct {
 }
 
 // Storage version of v1beta20210401.ManagementPolicyDefinition
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyDefinition
 type ManagementPolicyDefinition struct {
 	Actions     *ManagementPolicyAction `json:"actions,omitempty"`
 	Filters     *ManagementPolicyFilter `json:"filters,omitempty"`
 	PropertyBag genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210401.ManagementPolicyDefinition_Status
-type ManagementPolicyDefinition_Status struct {
-	Actions     *ManagementPolicyAction_Status `json:"actions,omitempty"`
-	Filters     *ManagementPolicyFilter_Status `json:"filters,omitempty"`
+// Storage version of v1beta20210401.ManagementPolicyDefinition_STATUS
+type ManagementPolicyDefinition_STATUS struct {
+	Actions     *ManagementPolicyAction_STATUS `json:"actions,omitempty"`
+	Filters     *ManagementPolicyFilter_STATUS `json:"filters,omitempty"`
 	PropertyBag genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210401.ManagementPolicyAction
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyAction
 type ManagementPolicyAction struct {
 	BaseBlob    *ManagementPolicyBaseBlob `json:"baseBlob,omitempty"`
 	PropertyBag genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
@@ -250,16 +253,15 @@ type ManagementPolicyAction struct {
 	Version     *ManagementPolicyVersion  `json:"version,omitempty"`
 }
 
-// Storage version of v1beta20210401.ManagementPolicyAction_Status
-type ManagementPolicyAction_Status struct {
-	BaseBlob    *ManagementPolicyBaseBlob_Status `json:"baseBlob,omitempty"`
+// Storage version of v1beta20210401.ManagementPolicyAction_STATUS
+type ManagementPolicyAction_STATUS struct {
+	BaseBlob    *ManagementPolicyBaseBlob_STATUS `json:"baseBlob,omitempty"`
 	PropertyBag genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
-	Snapshot    *ManagementPolicySnapShot_Status `json:"snapshot,omitempty"`
-	Version     *ManagementPolicyVersion_Status  `json:"version,omitempty"`
+	Snapshot    *ManagementPolicySnapShot_STATUS `json:"snapshot,omitempty"`
+	Version     *ManagementPolicyVersion_STATUS  `json:"version,omitempty"`
 }
 
 // Storage version of v1beta20210401.ManagementPolicyFilter
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyFilter
 type ManagementPolicyFilter struct {
 	BlobIndexMatch []TagFilter            `json:"blobIndexMatch,omitempty"`
 	BlobTypes      []string               `json:"blobTypes,omitempty"`
@@ -267,16 +269,15 @@ type ManagementPolicyFilter struct {
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210401.ManagementPolicyFilter_Status
-type ManagementPolicyFilter_Status struct {
-	BlobIndexMatch []TagFilter_Status     `json:"blobIndexMatch,omitempty"`
+// Storage version of v1beta20210401.ManagementPolicyFilter_STATUS
+type ManagementPolicyFilter_STATUS struct {
+	BlobIndexMatch []TagFilter_STATUS     `json:"blobIndexMatch,omitempty"`
 	BlobTypes      []string               `json:"blobTypes,omitempty"`
 	PrefixMatch    []string               `json:"prefixMatch,omitempty"`
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210401.ManagementPolicyBaseBlob
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyBaseBlob
 type ManagementPolicyBaseBlob struct {
 	Delete                      *DateAfterModification `json:"delete,omitempty"`
 	EnableAutoTierToHotFromCool *bool                  `json:"enableAutoTierToHotFromCool,omitempty"`
@@ -285,17 +286,16 @@ type ManagementPolicyBaseBlob struct {
 	TierToCool                  *DateAfterModification `json:"tierToCool,omitempty"`
 }
 
-// Storage version of v1beta20210401.ManagementPolicyBaseBlob_Status
-type ManagementPolicyBaseBlob_Status struct {
-	Delete                      *DateAfterModification_Status `json:"delete,omitempty"`
+// Storage version of v1beta20210401.ManagementPolicyBaseBlob_STATUS
+type ManagementPolicyBaseBlob_STATUS struct {
+	Delete                      *DateAfterModification_STATUS `json:"delete,omitempty"`
 	EnableAutoTierToHotFromCool *bool                         `json:"enableAutoTierToHotFromCool,omitempty"`
 	PropertyBag                 genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	TierToArchive               *DateAfterModification_Status `json:"tierToArchive,omitempty"`
-	TierToCool                  *DateAfterModification_Status `json:"tierToCool,omitempty"`
+	TierToArchive               *DateAfterModification_STATUS `json:"tierToArchive,omitempty"`
+	TierToCool                  *DateAfterModification_STATUS `json:"tierToCool,omitempty"`
 }
 
 // Storage version of v1beta20210401.ManagementPolicySnapShot
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicySnapShot
 type ManagementPolicySnapShot struct {
 	Delete        *DateAfterCreation     `json:"delete,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -303,16 +303,15 @@ type ManagementPolicySnapShot struct {
 	TierToCool    *DateAfterCreation     `json:"tierToCool,omitempty"`
 }
 
-// Storage version of v1beta20210401.ManagementPolicySnapShot_Status
-type ManagementPolicySnapShot_Status struct {
-	Delete        *DateAfterCreation_Status `json:"delete,omitempty"`
+// Storage version of v1beta20210401.ManagementPolicySnapShot_STATUS
+type ManagementPolicySnapShot_STATUS struct {
+	Delete        *DateAfterCreation_STATUS `json:"delete,omitempty"`
 	PropertyBag   genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
-	TierToArchive *DateAfterCreation_Status `json:"tierToArchive,omitempty"`
-	TierToCool    *DateAfterCreation_Status `json:"tierToCool,omitempty"`
+	TierToArchive *DateAfterCreation_STATUS `json:"tierToArchive,omitempty"`
+	TierToCool    *DateAfterCreation_STATUS `json:"tierToCool,omitempty"`
 }
 
 // Storage version of v1beta20210401.ManagementPolicyVersion
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/ManagementPolicyVersion
 type ManagementPolicyVersion struct {
 	Delete        *DateAfterCreation     `json:"delete,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -320,16 +319,15 @@ type ManagementPolicyVersion struct {
 	TierToCool    *DateAfterCreation     `json:"tierToCool,omitempty"`
 }
 
-// Storage version of v1beta20210401.ManagementPolicyVersion_Status
-type ManagementPolicyVersion_Status struct {
-	Delete        *DateAfterCreation_Status `json:"delete,omitempty"`
+// Storage version of v1beta20210401.ManagementPolicyVersion_STATUS
+type ManagementPolicyVersion_STATUS struct {
+	Delete        *DateAfterCreation_STATUS `json:"delete,omitempty"`
 	PropertyBag   genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
-	TierToArchive *DateAfterCreation_Status `json:"tierToArchive,omitempty"`
-	TierToCool    *DateAfterCreation_Status `json:"tierToCool,omitempty"`
+	TierToArchive *DateAfterCreation_STATUS `json:"tierToArchive,omitempty"`
+	TierToCool    *DateAfterCreation_STATUS `json:"tierToCool,omitempty"`
 }
 
 // Storage version of v1beta20210401.TagFilter
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/TagFilter
 type TagFilter struct {
 	Name        *string                `json:"name,omitempty"`
 	Op          *string                `json:"op,omitempty"`
@@ -337,8 +335,8 @@ type TagFilter struct {
 	Value       *string                `json:"value,omitempty"`
 }
 
-// Storage version of v1beta20210401.TagFilter_Status
-type TagFilter_Status struct {
+// Storage version of v1beta20210401.TagFilter_STATUS
+type TagFilter_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	Op          *string                `json:"op,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -346,28 +344,26 @@ type TagFilter_Status struct {
 }
 
 // Storage version of v1beta20210401.DateAfterCreation
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/DateAfterCreation
 type DateAfterCreation struct {
 	DaysAfterCreationGreaterThan *int                   `json:"daysAfterCreationGreaterThan,omitempty"`
 	PropertyBag                  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210401.DateAfterCreation_Status
-type DateAfterCreation_Status struct {
+// Storage version of v1beta20210401.DateAfterCreation_STATUS
+type DateAfterCreation_STATUS struct {
 	DaysAfterCreationGreaterThan *float64               `json:"daysAfterCreationGreaterThan,omitempty"`
 	PropertyBag                  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210401.DateAfterModification
-// Generated from: https://schema.management.azure.com/schemas/2021-04-01/Microsoft.Storage.json#/definitions/DateAfterModification
 type DateAfterModification struct {
 	DaysAfterLastAccessTimeGreaterThan *int                   `json:"daysAfterLastAccessTimeGreaterThan,omitempty"`
 	DaysAfterModificationGreaterThan   *int                   `json:"daysAfterModificationGreaterThan,omitempty"`
 	PropertyBag                        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210401.DateAfterModification_Status
-type DateAfterModification_Status struct {
+// Storage version of v1beta20210401.DateAfterModification_STATUS
+type DateAfterModification_STATUS struct {
 	DaysAfterLastAccessTimeGreaterThan *float64               `json:"daysAfterLastAccessTimeGreaterThan,omitempty"`
 	DaysAfterModificationGreaterThan   *float64               `json:"daysAfterModificationGreaterThan,omitempty"`
 	PropertyBag                        genruntime.PropertyBag `json:"$propertyBag,omitempty"`

@@ -8,7 +8,6 @@ package pipeline
 import (
 	"context"
 	"fmt"
-	"strings"
 
 	"github.com/pkg/errors"
 
@@ -97,7 +96,7 @@ func (c *armConversionApplier) transformResourceStatuses() (astmodel.TypeDefinit
 		_, ok := astmodel.AsObjectType(def.Type())
 		// TODO: We need labels
 		// Some status types are initially anonymous and then get named later (so end with a _Status_Xyz suffix)
-		return ok && strings.Contains(def.Name().Name(), "_Status") && !astmodel.ARMFlag.IsOn(def.Type())
+		return ok && def.Name().RepresentsStatusType() && !astmodel.ARMFlag.IsOn(def.Type())
 	})
 
 	for _, td := range statusDefs {
@@ -221,8 +220,8 @@ func (c *armConversionApplier) transformSpec(resourceType *astmodel.ResourceType
 func (c *armConversionApplier) addARMConversionInterface(
 	kubeDef astmodel.TypeDefinition,
 	armDef astmodel.TypeDefinition,
-	typeType armconversion.TypeKind) (astmodel.TypeDefinition, error) {
-
+	typeType armconversion.TypeKind,
+) (astmodel.TypeDefinition, error) {
 	objectType, ok := astmodel.AsObjectType(armDef.Type())
 	if !ok {
 		emptyDef := astmodel.TypeDefinition{}

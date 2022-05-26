@@ -158,36 +158,36 @@ func NamespacesQueueGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForNamespacesQueue is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespacesQueue(gens map[string]gopter.Gen) {
-	gens["Spec"] = NamespacesQueuesSpecGenerator()
-	gens["Status"] = SBQueueStatusGenerator()
+	gens["Spec"] = NamespacesQueue_SpecGenerator()
+	gens["Status"] = SBQueue_STATUSGenerator()
 }
 
-func Test_NamespacesQueues_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_NamespacesQueue_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from NamespacesQueues_Spec to NamespacesQueues_Spec via AssignPropertiesToNamespacesQueuesSpec & AssignPropertiesFromNamespacesQueuesSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForNamespacesQueuesSpec, NamespacesQueuesSpecGenerator()))
+		"Round trip from NamespacesQueue_Spec to NamespacesQueue_Spec via AssignPropertiesToNamespacesQueue_Spec & AssignPropertiesFromNamespacesQueue_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForNamespacesQueue_Spec, NamespacesQueue_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForNamespacesQueuesSpec tests if a specific instance of NamespacesQueues_Spec can be assigned to v1beta20210101previewstorage and back losslessly
-func RunPropertyAssignmentTestForNamespacesQueuesSpec(subject NamespacesQueues_Spec) string {
+// RunPropertyAssignmentTestForNamespacesQueue_Spec tests if a specific instance of NamespacesQueue_Spec can be assigned to v1beta20210101previewstorage and back losslessly
+func RunPropertyAssignmentTestForNamespacesQueue_Spec(subject NamespacesQueue_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210101ps.NamespacesQueues_Spec
-	err := copied.AssignPropertiesToNamespacesQueuesSpec(&other)
+	var other v20210101ps.NamespacesQueue_Spec
+	err := copied.AssignPropertiesToNamespacesQueue_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual NamespacesQueues_Spec
-	err = actual.AssignPropertiesFromNamespacesQueuesSpec(&other)
+	var actual NamespacesQueue_Spec
+	err = actual.AssignPropertiesFromNamespacesQueue_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -204,19 +204,19 @@ func RunPropertyAssignmentTestForNamespacesQueuesSpec(subject NamespacesQueues_S
 	return ""
 }
 
-func Test_NamespacesQueues_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_NamespacesQueue_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of NamespacesQueues_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNamespacesQueuesSpec, NamespacesQueuesSpecGenerator()))
+		"Round trip of NamespacesQueue_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespacesQueue_Spec, NamespacesQueue_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForNamespacesQueuesSpec runs a test to see if a specific instance of NamespacesQueues_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForNamespacesQueuesSpec(subject NamespacesQueues_Spec) string {
+// RunJSONSerializationTestForNamespacesQueue_Spec runs a test to see if a specific instance of NamespacesQueue_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespacesQueue_Spec(subject NamespacesQueue_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -224,7 +224,7 @@ func RunJSONSerializationTestForNamespacesQueuesSpec(subject NamespacesQueues_Sp
 	}
 
 	// Deserialize back into memory
-	var actual NamespacesQueues_Spec
+	var actual NamespacesQueue_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -242,27 +242,38 @@ func RunJSONSerializationTestForNamespacesQueuesSpec(subject NamespacesQueues_Sp
 	return ""
 }
 
-// Generator of NamespacesQueues_Spec instances for property testing - lazily instantiated by
-// NamespacesQueuesSpecGenerator()
-var namespacesQueuesSpecGenerator gopter.Gen
+// Generator of NamespacesQueue_Spec instances for property testing - lazily instantiated by
+// NamespacesQueue_SpecGenerator()
+var namespacesQueue_SpecGenerator gopter.Gen
 
-// NamespacesQueuesSpecGenerator returns a generator of NamespacesQueues_Spec instances for property testing.
-func NamespacesQueuesSpecGenerator() gopter.Gen {
-	if namespacesQueuesSpecGenerator != nil {
-		return namespacesQueuesSpecGenerator
+// NamespacesQueue_SpecGenerator returns a generator of NamespacesQueue_Spec instances for property testing.
+// We first initialize namespacesQueue_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func NamespacesQueue_SpecGenerator() gopter.Gen {
+	if namespacesQueue_SpecGenerator != nil {
+		return namespacesQueue_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespacesQueuesSpec(generators)
-	namespacesQueuesSpecGenerator = gen.Struct(reflect.TypeOf(NamespacesQueues_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForNamespacesQueue_Spec(generators)
+	namespacesQueue_SpecGenerator = gen.Struct(reflect.TypeOf(NamespacesQueue_Spec{}), generators)
 
-	return namespacesQueuesSpecGenerator
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNamespacesQueue_Spec(generators)
+	AddRelatedPropertyGeneratorsForNamespacesQueue_Spec(generators)
+	namespacesQueue_SpecGenerator = gen.Struct(reflect.TypeOf(NamespacesQueue_Spec{}), generators)
+
+	return namespacesQueue_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNamespacesQueuesSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNamespacesQueuesSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForNamespacesQueue_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespacesQueue_Spec(gens map[string]gopter.Gen) {
+	gens["AccessedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["AutoDeleteOnIdle"] = gen.PtrOf(gen.AlphaString())
 	gens["AzureName"] = gen.AlphaString()
+	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["DeadLetteringOnMessageExpiration"] = gen.PtrOf(gen.Bool())
 	gens["DefaultMessageTimeToLive"] = gen.PtrOf(gen.AlphaString())
 	gens["DuplicateDetectionHistoryTimeWindow"] = gen.PtrOf(gen.AlphaString())
@@ -271,42 +282,51 @@ func AddIndependentPropertyGeneratorsForNamespacesQueuesSpec(gens map[string]gop
 	gens["EnablePartitioning"] = gen.PtrOf(gen.Bool())
 	gens["ForwardDeadLetteredMessagesTo"] = gen.PtrOf(gen.AlphaString())
 	gens["ForwardTo"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["LockDuration"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxDeliveryCount"] = gen.PtrOf(gen.Int())
 	gens["MaxSizeInMegabytes"] = gen.PtrOf(gen.Int())
+	gens["MessageCount"] = gen.PtrOf(gen.Int())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["RequiresDuplicateDetection"] = gen.PtrOf(gen.Bool())
 	gens["RequiresSession"] = gen.PtrOf(gen.Bool())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["SizeInBytes"] = gen.PtrOf(gen.Int())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+	gens["UpdatedAt"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_SBQueue_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+// AddRelatedPropertyGeneratorsForNamespacesQueue_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNamespacesQueue_Spec(gens map[string]gopter.Gen) {
+	gens["CountDetails"] = gen.PtrOf(MessageCountDetailsGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemDataGenerator())
+}
+
+func Test_SBQueue_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from SBQueue_Status to SBQueue_Status via AssignPropertiesToSBQueueStatus & AssignPropertiesFromSBQueueStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSBQueueStatus, SBQueueStatusGenerator()))
+		"Round trip from SBQueue_STATUS to SBQueue_STATUS via AssignPropertiesToSBQueue_STATUS & AssignPropertiesFromSBQueue_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSBQueue_STATUS, SBQueue_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSBQueueStatus tests if a specific instance of SBQueue_Status can be assigned to v1beta20210101previewstorage and back losslessly
-func RunPropertyAssignmentTestForSBQueueStatus(subject SBQueue_Status) string {
+// RunPropertyAssignmentTestForSBQueue_STATUS tests if a specific instance of SBQueue_STATUS can be assigned to v1beta20210101previewstorage and back losslessly
+func RunPropertyAssignmentTestForSBQueue_STATUS(subject SBQueue_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210101ps.SBQueue_Status
-	err := copied.AssignPropertiesToSBQueueStatus(&other)
+	var other v20210101ps.SBQueue_STATUS
+	err := copied.AssignPropertiesToSBQueue_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SBQueue_Status
-	err = actual.AssignPropertiesFromSBQueueStatus(&other)
+	var actual SBQueue_STATUS
+	err = actual.AssignPropertiesFromSBQueue_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -323,19 +343,19 @@ func RunPropertyAssignmentTestForSBQueueStatus(subject SBQueue_Status) string {
 	return ""
 }
 
-func Test_SBQueue_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SBQueue_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of SBQueue_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSBQueueStatus, SBQueueStatusGenerator()))
+		"Round trip of SBQueue_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSBQueue_STATUS, SBQueue_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSBQueueStatus runs a test to see if a specific instance of SBQueue_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForSBQueueStatus(subject SBQueue_Status) string {
+// RunJSONSerializationTestForSBQueue_STATUS runs a test to see if a specific instance of SBQueue_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForSBQueue_STATUS(subject SBQueue_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -343,7 +363,7 @@ func RunJSONSerializationTestForSBQueueStatus(subject SBQueue_Status) string {
 	}
 
 	// Deserialize back into memory
-	var actual SBQueue_Status
+	var actual SBQueue_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -361,33 +381,33 @@ func RunJSONSerializationTestForSBQueueStatus(subject SBQueue_Status) string {
 	return ""
 }
 
-// Generator of SBQueue_Status instances for property testing - lazily instantiated by SBQueueStatusGenerator()
-var sbQueueStatusGenerator gopter.Gen
+// Generator of SBQueue_STATUS instances for property testing - lazily instantiated by SBQueue_STATUSGenerator()
+var sbQueue_STATUSGenerator gopter.Gen
 
-// SBQueueStatusGenerator returns a generator of SBQueue_Status instances for property testing.
-// We first initialize sbQueueStatusGenerator with a simplified generator based on the
+// SBQueue_STATUSGenerator returns a generator of SBQueue_STATUS instances for property testing.
+// We first initialize sbQueue_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func SBQueueStatusGenerator() gopter.Gen {
-	if sbQueueStatusGenerator != nil {
-		return sbQueueStatusGenerator
+func SBQueue_STATUSGenerator() gopter.Gen {
+	if sbQueue_STATUSGenerator != nil {
+		return sbQueue_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSBQueueStatus(generators)
-	sbQueueStatusGenerator = gen.Struct(reflect.TypeOf(SBQueue_Status{}), generators)
+	AddIndependentPropertyGeneratorsForSBQueue_STATUS(generators)
+	sbQueue_STATUSGenerator = gen.Struct(reflect.TypeOf(SBQueue_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSBQueueStatus(generators)
-	AddRelatedPropertyGeneratorsForSBQueueStatus(generators)
-	sbQueueStatusGenerator = gen.Struct(reflect.TypeOf(SBQueue_Status{}), generators)
+	AddIndependentPropertyGeneratorsForSBQueue_STATUS(generators)
+	AddRelatedPropertyGeneratorsForSBQueue_STATUS(generators)
+	sbQueue_STATUSGenerator = gen.Struct(reflect.TypeOf(SBQueue_STATUS{}), generators)
 
-	return sbQueueStatusGenerator
+	return sbQueue_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSBQueueStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSBQueueStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSBQueue_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSBQueue_STATUS(gens map[string]gopter.Gen) {
 	gens["AccessedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["AutoDeleteOnIdle"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
@@ -413,38 +433,38 @@ func AddIndependentPropertyGeneratorsForSBQueueStatus(gens map[string]gopter.Gen
 	gens["UpdatedAt"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForSBQueueStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSBQueueStatus(gens map[string]gopter.Gen) {
-	gens["CountDetails"] = gen.PtrOf(MessageCountDetailsStatusGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemDataStatusGenerator())
+// AddRelatedPropertyGeneratorsForSBQueue_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSBQueue_STATUS(gens map[string]gopter.Gen) {
+	gens["CountDetails"] = gen.PtrOf(MessageCountDetails_STATUSGenerator())
+	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
-func Test_MessageCountDetails_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_MessageCountDetails_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from MessageCountDetails_Status to MessageCountDetails_Status via AssignPropertiesToMessageCountDetailsStatus & AssignPropertiesFromMessageCountDetailsStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForMessageCountDetailsStatus, MessageCountDetailsStatusGenerator()))
+		"Round trip from MessageCountDetails to MessageCountDetails via AssignPropertiesToMessageCountDetails & AssignPropertiesFromMessageCountDetails returns original",
+		prop.ForAll(RunPropertyAssignmentTestForMessageCountDetails, MessageCountDetailsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForMessageCountDetailsStatus tests if a specific instance of MessageCountDetails_Status can be assigned to v1beta20210101previewstorage and back losslessly
-func RunPropertyAssignmentTestForMessageCountDetailsStatus(subject MessageCountDetails_Status) string {
+// RunPropertyAssignmentTestForMessageCountDetails tests if a specific instance of MessageCountDetails can be assigned to v1beta20210101previewstorage and back losslessly
+func RunPropertyAssignmentTestForMessageCountDetails(subject MessageCountDetails) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210101ps.MessageCountDetails_Status
-	err := copied.AssignPropertiesToMessageCountDetailsStatus(&other)
+	var other v20210101ps.MessageCountDetails
+	err := copied.AssignPropertiesToMessageCountDetails(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual MessageCountDetails_Status
-	err = actual.AssignPropertiesFromMessageCountDetailsStatus(&other)
+	var actual MessageCountDetails
+	err = actual.AssignPropertiesFromMessageCountDetails(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -461,19 +481,19 @@ func RunPropertyAssignmentTestForMessageCountDetailsStatus(subject MessageCountD
 	return ""
 }
 
-func Test_MessageCountDetails_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_MessageCountDetails_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of MessageCountDetails_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMessageCountDetailsStatus, MessageCountDetailsStatusGenerator()))
+		"Round trip of MessageCountDetails via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMessageCountDetails, MessageCountDetailsGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForMessageCountDetailsStatus runs a test to see if a specific instance of MessageCountDetails_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForMessageCountDetailsStatus(subject MessageCountDetails_Status) string {
+// RunJSONSerializationTestForMessageCountDetails runs a test to see if a specific instance of MessageCountDetails round trips to JSON and back losslessly
+func RunJSONSerializationTestForMessageCountDetails(subject MessageCountDetails) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -481,7 +501,7 @@ func RunJSONSerializationTestForMessageCountDetailsStatus(subject MessageCountDe
 	}
 
 	// Deserialize back into memory
-	var actual MessageCountDetails_Status
+	var actual MessageCountDetails
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -499,25 +519,131 @@ func RunJSONSerializationTestForMessageCountDetailsStatus(subject MessageCountDe
 	return ""
 }
 
-// Generator of MessageCountDetails_Status instances for property testing - lazily instantiated by
-// MessageCountDetailsStatusGenerator()
-var messageCountDetailsStatusGenerator gopter.Gen
+// Generator of MessageCountDetails instances for property testing - lazily instantiated by
+// MessageCountDetailsGenerator()
+var messageCountDetailsGenerator gopter.Gen
 
-// MessageCountDetailsStatusGenerator returns a generator of MessageCountDetails_Status instances for property testing.
-func MessageCountDetailsStatusGenerator() gopter.Gen {
-	if messageCountDetailsStatusGenerator != nil {
-		return messageCountDetailsStatusGenerator
+// MessageCountDetailsGenerator returns a generator of MessageCountDetails instances for property testing.
+func MessageCountDetailsGenerator() gopter.Gen {
+	if messageCountDetailsGenerator != nil {
+		return messageCountDetailsGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMessageCountDetailsStatus(generators)
-	messageCountDetailsStatusGenerator = gen.Struct(reflect.TypeOf(MessageCountDetails_Status{}), generators)
+	AddIndependentPropertyGeneratorsForMessageCountDetails(generators)
+	messageCountDetailsGenerator = gen.Struct(reflect.TypeOf(MessageCountDetails{}), generators)
 
-	return messageCountDetailsStatusGenerator
+	return messageCountDetailsGenerator
 }
 
-// AddIndependentPropertyGeneratorsForMessageCountDetailsStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMessageCountDetailsStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForMessageCountDetails is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMessageCountDetails(gens map[string]gopter.Gen) {
+	gens["ActiveMessageCount"] = gen.PtrOf(gen.Int())
+	gens["DeadLetterMessageCount"] = gen.PtrOf(gen.Int())
+	gens["ScheduledMessageCount"] = gen.PtrOf(gen.Int())
+	gens["TransferDeadLetterMessageCount"] = gen.PtrOf(gen.Int())
+	gens["TransferMessageCount"] = gen.PtrOf(gen.Int())
+}
+
+func Test_MessageCountDetails_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from MessageCountDetails_STATUS to MessageCountDetails_STATUS via AssignPropertiesToMessageCountDetails_STATUS & AssignPropertiesFromMessageCountDetails_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForMessageCountDetails_STATUS, MessageCountDetails_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForMessageCountDetails_STATUS tests if a specific instance of MessageCountDetails_STATUS can be assigned to v1beta20210101previewstorage and back losslessly
+func RunPropertyAssignmentTestForMessageCountDetails_STATUS(subject MessageCountDetails_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20210101ps.MessageCountDetails_STATUS
+	err := copied.AssignPropertiesToMessageCountDetails_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual MessageCountDetails_STATUS
+	err = actual.AssignPropertiesFromMessageCountDetails_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_MessageCountDetails_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of MessageCountDetails_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMessageCountDetails_STATUS, MessageCountDetails_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForMessageCountDetails_STATUS runs a test to see if a specific instance of MessageCountDetails_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForMessageCountDetails_STATUS(subject MessageCountDetails_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual MessageCountDetails_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of MessageCountDetails_STATUS instances for property testing - lazily instantiated by
+// MessageCountDetails_STATUSGenerator()
+var messageCountDetails_STATUSGenerator gopter.Gen
+
+// MessageCountDetails_STATUSGenerator returns a generator of MessageCountDetails_STATUS instances for property testing.
+func MessageCountDetails_STATUSGenerator() gopter.Gen {
+	if messageCountDetails_STATUSGenerator != nil {
+		return messageCountDetails_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForMessageCountDetails_STATUS(generators)
+	messageCountDetails_STATUSGenerator = gen.Struct(reflect.TypeOf(MessageCountDetails_STATUS{}), generators)
+
+	return messageCountDetails_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForMessageCountDetails_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMessageCountDetails_STATUS(gens map[string]gopter.Gen) {
 	gens["ActiveMessageCount"] = gen.PtrOf(gen.Int())
 	gens["DeadLetterMessageCount"] = gen.PtrOf(gen.Int())
 	gens["ScheduledMessageCount"] = gen.PtrOf(gen.Int())

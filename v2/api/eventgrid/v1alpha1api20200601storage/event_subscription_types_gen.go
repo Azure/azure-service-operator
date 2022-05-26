@@ -25,8 +25,8 @@ import (
 type EventSubscription struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              EventSubscriptions_Spec  `json:"spec,omitempty"`
-	Status            EventSubscription_Status `json:"status,omitempty"`
+	Spec              EventSubscription_Spec   `json:"spec,omitempty"`
+	Status            EventSubscription_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &EventSubscription{}
@@ -70,14 +70,14 @@ func (subscription *EventSubscription) AzureName() string {
 	return subscription.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20200601"
 func (subscription EventSubscription) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
 func (subscription *EventSubscription) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindExtension
+	return genruntime.ResourceKindNormal
 }
 
 // GetSpec returns the specification of this resource
@@ -90,21 +90,22 @@ func (subscription *EventSubscription) GetStatus() genruntime.ConvertibleStatus 
 	return &subscription.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.EventGrid/eventSubscriptions"
+// GetType returns the ARM Type of the resource. This is always ""
 func (subscription *EventSubscription) GetType() string {
-	return "Microsoft.EventGrid/eventSubscriptions"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (subscription *EventSubscription) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &EventSubscription_Status{}
+	return &EventSubscription_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (subscription *EventSubscription) Owner() *genruntime.ResourceReference {
+	group, kind := genruntime.LookupOwnerGroupKind(subscription.Spec)
 	return &genruntime.ResourceReference{
-		Group: subscription.Spec.Owner.Group,
-		Kind:  subscription.Spec.Owner.Kind,
+		Group: group,
+		Kind:  kind,
 		Name:  subscription.Spec.Owner.Name,
 	}
 }
@@ -112,13 +113,13 @@ func (subscription *EventSubscription) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (subscription *EventSubscription) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*EventSubscription_Status); ok {
+	if st, ok := status.(*EventSubscription_STATUS); ok {
 		subscription.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st EventSubscription_Status
+	var st EventSubscription_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -135,18 +136,18 @@ func (subscription *EventSubscription) AssignPropertiesFromEventSubscription(sou
 	subscription.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec EventSubscriptions_Spec
-	err := spec.AssignPropertiesFromEventSubscriptionsSpec(&source.Spec)
+	var spec EventSubscription_Spec
+	err := spec.AssignPropertiesFromEventSubscription_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromEventSubscriptionsSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromEventSubscription_Spec() to populate field Spec")
 	}
 	subscription.Spec = spec
 
 	// Status
-	var status EventSubscription_Status
-	err = status.AssignPropertiesFromEventSubscriptionStatus(&source.Status)
+	var status EventSubscription_STATUS
+	err = status.AssignPropertiesFromEventSubscription_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromEventSubscriptionStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromEventSubscription_STATUS() to populate field Status")
 	}
 	subscription.Status = status
 
@@ -161,18 +162,18 @@ func (subscription *EventSubscription) AssignPropertiesToEventSubscription(desti
 	destination.ObjectMeta = *subscription.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20200601s.EventSubscriptions_Spec
-	err := subscription.Spec.AssignPropertiesToEventSubscriptionsSpec(&spec)
+	var spec v20200601s.EventSubscription_Spec
+	err := subscription.Spec.AssignPropertiesToEventSubscription_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToEventSubscriptionsSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToEventSubscription_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status v20200601s.EventSubscription_Status
-	err = subscription.Status.AssignPropertiesToEventSubscriptionStatus(&status)
+	var status v20200601s.EventSubscription_STATUS
+	err = subscription.Status.AssignPropertiesToEventSubscription_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToEventSubscriptionStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToEventSubscription_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -198,45 +199,45 @@ type EventSubscriptionList struct {
 	Items           []EventSubscription `json:"items"`
 }
 
-// Storage version of v1alpha1api20200601.EventSubscription_Status
-// Deprecated version of EventSubscription_Status. Use v1beta20200601.EventSubscription_Status instead
-type EventSubscription_Status struct {
+// Storage version of v1alpha1api20200601.EventSubscription_STATUS
+// Deprecated version of EventSubscription_STATUS. Use v1beta20200601.EventSubscription_STATUS instead
+type EventSubscription_STATUS struct {
 	Conditions            []conditions.Condition               `json:"conditions,omitempty"`
-	DeadLetterDestination *DeadLetterDestination_Status        `json:"deadLetterDestination,omitempty"`
-	Destination           *EventSubscriptionDestination_Status `json:"destination,omitempty"`
+	DeadLetterDestination *DeadLetterDestination_STATUS        `json:"deadLetterDestination,omitempty"`
+	Destination           *EventSubscriptionDestination_STATUS `json:"destination,omitempty"`
 	EventDeliverySchema   *string                              `json:"eventDeliverySchema,omitempty"`
 	ExpirationTimeUtc     *string                              `json:"expirationTimeUtc,omitempty"`
-	Filter                *EventSubscriptionFilter_Status      `json:"filter,omitempty"`
+	Filter                *EventSubscriptionFilter_STATUS      `json:"filter,omitempty"`
 	Id                    *string                              `json:"id,omitempty"`
 	Labels                []string                             `json:"labels,omitempty"`
 	Name                  *string                              `json:"name,omitempty"`
 	PropertyBag           genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
 	ProvisioningState     *string                              `json:"provisioningState,omitempty"`
-	RetryPolicy           *RetryPolicy_Status                  `json:"retryPolicy,omitempty"`
-	SystemData            *SystemData_Status                   `json:"systemData,omitempty"`
+	RetryPolicy           *RetryPolicy_STATUS                  `json:"retryPolicy,omitempty"`
+	SystemData            *SystemData_STATUS                   `json:"systemData,omitempty"`
 	Topic                 *string                              `json:"topic,omitempty"`
 	Type                  *string                              `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &EventSubscription_Status{}
+var _ genruntime.ConvertibleStatus = &EventSubscription_STATUS{}
 
-// ConvertStatusFrom populates our EventSubscription_Status from the provided source
-func (subscription *EventSubscription_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20200601s.EventSubscription_Status)
+// ConvertStatusFrom populates our EventSubscription_STATUS from the provided source
+func (subscription *EventSubscription_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20200601s.EventSubscription_STATUS)
 	if ok {
 		// Populate our instance from source
-		return subscription.AssignPropertiesFromEventSubscriptionStatus(src)
+		return subscription.AssignPropertiesFromEventSubscription_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20200601s.EventSubscription_Status{}
+	src = &v20200601s.EventSubscription_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = subscription.AssignPropertiesFromEventSubscriptionStatus(src)
+	err = subscription.AssignPropertiesFromEventSubscription_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -244,17 +245,17 @@ func (subscription *EventSubscription_Status) ConvertStatusFrom(source genruntim
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our EventSubscription_Status
-func (subscription *EventSubscription_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20200601s.EventSubscription_Status)
+// ConvertStatusTo populates the provided destination from our EventSubscription_STATUS
+func (subscription *EventSubscription_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20200601s.EventSubscription_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return subscription.AssignPropertiesToEventSubscriptionStatus(dst)
+		return subscription.AssignPropertiesToEventSubscription_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20200601s.EventSubscription_Status{}
-	err := subscription.AssignPropertiesToEventSubscriptionStatus(dst)
+	dst = &v20200601s.EventSubscription_STATUS{}
+	err := subscription.AssignPropertiesToEventSubscription_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -268,8 +269,8 @@ func (subscription *EventSubscription_Status) ConvertStatusTo(destination genrun
 	return nil
 }
 
-// AssignPropertiesFromEventSubscriptionStatus populates our EventSubscription_Status from the provided source EventSubscription_Status
-func (subscription *EventSubscription_Status) AssignPropertiesFromEventSubscriptionStatus(source *v20200601s.EventSubscription_Status) error {
+// AssignPropertiesFromEventSubscription_STATUS populates our EventSubscription_STATUS from the provided source EventSubscription_STATUS
+func (subscription *EventSubscription_STATUS) AssignPropertiesFromEventSubscription_STATUS(source *v20200601s.EventSubscription_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -278,10 +279,10 @@ func (subscription *EventSubscription_Status) AssignPropertiesFromEventSubscript
 
 	// DeadLetterDestination
 	if source.DeadLetterDestination != nil {
-		var deadLetterDestination DeadLetterDestination_Status
-		err := deadLetterDestination.AssignPropertiesFromDeadLetterDestinationStatus(source.DeadLetterDestination)
+		var deadLetterDestination DeadLetterDestination_STATUS
+		err := deadLetterDestination.AssignPropertiesFromDeadLetterDestination_STATUS(source.DeadLetterDestination)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeadLetterDestinationStatus() to populate field DeadLetterDestination")
+			return errors.Wrap(err, "calling AssignPropertiesFromDeadLetterDestination_STATUS() to populate field DeadLetterDestination")
 		}
 		subscription.DeadLetterDestination = &deadLetterDestination
 	} else {
@@ -290,10 +291,10 @@ func (subscription *EventSubscription_Status) AssignPropertiesFromEventSubscript
 
 	// Destination
 	if source.Destination != nil {
-		var destination EventSubscriptionDestination_Status
-		err := destination.AssignPropertiesFromEventSubscriptionDestinationStatus(source.Destination)
+		var destination EventSubscriptionDestination_STATUS
+		err := destination.AssignPropertiesFromEventSubscriptionDestination_STATUS(source.Destination)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEventSubscriptionDestinationStatus() to populate field Destination")
+			return errors.Wrap(err, "calling AssignPropertiesFromEventSubscriptionDestination_STATUS() to populate field Destination")
 		}
 		subscription.Destination = &destination
 	} else {
@@ -308,10 +309,10 @@ func (subscription *EventSubscription_Status) AssignPropertiesFromEventSubscript
 
 	// Filter
 	if source.Filter != nil {
-		var filter EventSubscriptionFilter_Status
-		err := filter.AssignPropertiesFromEventSubscriptionFilterStatus(source.Filter)
+		var filter EventSubscriptionFilter_STATUS
+		err := filter.AssignPropertiesFromEventSubscriptionFilter_STATUS(source.Filter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEventSubscriptionFilterStatus() to populate field Filter")
+			return errors.Wrap(err, "calling AssignPropertiesFromEventSubscriptionFilter_STATUS() to populate field Filter")
 		}
 		subscription.Filter = &filter
 	} else {
@@ -332,10 +333,10 @@ func (subscription *EventSubscription_Status) AssignPropertiesFromEventSubscript
 
 	// RetryPolicy
 	if source.RetryPolicy != nil {
-		var retryPolicy RetryPolicy_Status
-		err := retryPolicy.AssignPropertiesFromRetryPolicyStatus(source.RetryPolicy)
+		var retryPolicy RetryPolicy_STATUS
+		err := retryPolicy.AssignPropertiesFromRetryPolicy_STATUS(source.RetryPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromRetryPolicyStatus() to populate field RetryPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesFromRetryPolicy_STATUS() to populate field RetryPolicy")
 		}
 		subscription.RetryPolicy = &retryPolicy
 	} else {
@@ -344,10 +345,10 @@ func (subscription *EventSubscription_Status) AssignPropertiesFromEventSubscript
 
 	// SystemData
 	if source.SystemData != nil {
-		var systemDatum SystemData_Status
-		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignPropertiesFromSystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemData_STATUS() to populate field SystemData")
 		}
 		subscription.SystemData = &systemDatum
 	} else {
@@ -371,8 +372,8 @@ func (subscription *EventSubscription_Status) AssignPropertiesFromEventSubscript
 	return nil
 }
 
-// AssignPropertiesToEventSubscriptionStatus populates the provided destination EventSubscription_Status from our EventSubscription_Status
-func (subscription *EventSubscription_Status) AssignPropertiesToEventSubscriptionStatus(destination *v20200601s.EventSubscription_Status) error {
+// AssignPropertiesToEventSubscription_STATUS populates the provided destination EventSubscription_STATUS from our EventSubscription_STATUS
+func (subscription *EventSubscription_STATUS) AssignPropertiesToEventSubscription_STATUS(destination *v20200601s.EventSubscription_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(subscription.PropertyBag)
 
@@ -381,10 +382,10 @@ func (subscription *EventSubscription_Status) AssignPropertiesToEventSubscriptio
 
 	// DeadLetterDestination
 	if subscription.DeadLetterDestination != nil {
-		var deadLetterDestination v20200601s.DeadLetterDestination_Status
-		err := subscription.DeadLetterDestination.AssignPropertiesToDeadLetterDestinationStatus(&deadLetterDestination)
+		var deadLetterDestination v20200601s.DeadLetterDestination_STATUS
+		err := subscription.DeadLetterDestination.AssignPropertiesToDeadLetterDestination_STATUS(&deadLetterDestination)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeadLetterDestinationStatus() to populate field DeadLetterDestination")
+			return errors.Wrap(err, "calling AssignPropertiesToDeadLetterDestination_STATUS() to populate field DeadLetterDestination")
 		}
 		destination.DeadLetterDestination = &deadLetterDestination
 	} else {
@@ -393,10 +394,10 @@ func (subscription *EventSubscription_Status) AssignPropertiesToEventSubscriptio
 
 	// Destination
 	if subscription.Destination != nil {
-		var destinationLocal v20200601s.EventSubscriptionDestination_Status
-		err := subscription.Destination.AssignPropertiesToEventSubscriptionDestinationStatus(&destinationLocal)
+		var destinationLocal v20200601s.EventSubscriptionDestination_STATUS
+		err := subscription.Destination.AssignPropertiesToEventSubscriptionDestination_STATUS(&destinationLocal)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEventSubscriptionDestinationStatus() to populate field Destination")
+			return errors.Wrap(err, "calling AssignPropertiesToEventSubscriptionDestination_STATUS() to populate field Destination")
 		}
 		destination.Destination = &destinationLocal
 	} else {
@@ -411,10 +412,10 @@ func (subscription *EventSubscription_Status) AssignPropertiesToEventSubscriptio
 
 	// Filter
 	if subscription.Filter != nil {
-		var filter v20200601s.EventSubscriptionFilter_Status
-		err := subscription.Filter.AssignPropertiesToEventSubscriptionFilterStatus(&filter)
+		var filter v20200601s.EventSubscriptionFilter_STATUS
+		err := subscription.Filter.AssignPropertiesToEventSubscriptionFilter_STATUS(&filter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEventSubscriptionFilterStatus() to populate field Filter")
+			return errors.Wrap(err, "calling AssignPropertiesToEventSubscriptionFilter_STATUS() to populate field Filter")
 		}
 		destination.Filter = &filter
 	} else {
@@ -435,10 +436,10 @@ func (subscription *EventSubscription_Status) AssignPropertiesToEventSubscriptio
 
 	// RetryPolicy
 	if subscription.RetryPolicy != nil {
-		var retryPolicy v20200601s.RetryPolicy_Status
-		err := subscription.RetryPolicy.AssignPropertiesToRetryPolicyStatus(&retryPolicy)
+		var retryPolicy v20200601s.RetryPolicy_STATUS
+		err := subscription.RetryPolicy.AssignPropertiesToRetryPolicy_STATUS(&retryPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToRetryPolicyStatus() to populate field RetryPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesToRetryPolicy_STATUS() to populate field RetryPolicy")
 		}
 		destination.RetryPolicy = &retryPolicy
 	} else {
@@ -447,10 +448,10 @@ func (subscription *EventSubscription_Status) AssignPropertiesToEventSubscriptio
 
 	// SystemData
 	if subscription.SystemData != nil {
-		var systemDatum v20200601s.SystemData_Status
-		err := subscription.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
+		var systemDatum v20200601s.SystemData_STATUS
+		err := subscription.SystemData.AssignPropertiesToSystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesToSystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -474,49 +475,52 @@ func (subscription *EventSubscription_Status) AssignPropertiesToEventSubscriptio
 	return nil
 }
 
-// Storage version of v1alpha1api20200601.EventSubscriptions_Spec
-type EventSubscriptions_Spec struct {
+// Storage version of v1alpha1api20200601.EventSubscription_Spec
+type EventSubscription_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName             string                            `json:"azureName,omitempty"`
-	DeadLetterDestination *StorageBlobDeadLetterDestination `json:"deadLetterDestination,omitempty"`
-	Destination           *EventSubscriptionDestination     `json:"destination,omitempty"`
-	EventDeliverySchema   *string                           `json:"eventDeliverySchema,omitempty"`
-	ExpirationTimeUtc     *string                           `json:"expirationTimeUtc,omitempty"`
-	Filter                *EventSubscriptionFilter          `json:"filter,omitempty"`
-	Labels                []string                          `json:"labels,omitempty"`
-	Location              *string                           `json:"location,omitempty"`
-	OriginalVersion       string                            `json:"originalVersion,omitempty"`
+	AzureName             string                        `json:"azureName,omitempty"`
+	DeadLetterDestination *DeadLetterDestination        `json:"deadLetterDestination,omitempty"`
+	Destination           *EventSubscriptionDestination `json:"destination,omitempty"`
+	EventDeliverySchema   *string                       `json:"eventDeliverySchema,omitempty"`
+	ExpirationTimeUtc     *string                       `json:"expirationTimeUtc,omitempty"`
+	Filter                *EventSubscriptionFilter      `json:"filter,omitempty"`
+	Id                    *string                       `json:"id,omitempty"`
+	Labels                []string                      `json:"labels,omitempty"`
+	OriginalVersion       string                        `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
-	// extension resource, which means that any other Azure resource can be its owner.
-	Owner       *genruntime.ArbitraryOwnerReference `json:"owner,omitempty"`
-	PropertyBag genruntime.PropertyBag              `json:"$propertyBag,omitempty"`
-	RetryPolicy *RetryPolicy                        `json:"retryPolicy,omitempty"`
-	Tags        map[string]string                   `json:"tags,omitempty"`
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner             *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag       genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	ProvisioningState *string                            `json:"provisioningState,omitempty"`
+	RetryPolicy       *RetryPolicy                       `json:"retryPolicy,omitempty"`
+	SystemData        *SystemData                        `json:"systemData,omitempty"`
+	Topic             *string                            `json:"topic,omitempty"`
+	Type              *string                            `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &EventSubscriptions_Spec{}
+var _ genruntime.ConvertibleSpec = &EventSubscription_Spec{}
 
-// ConvertSpecFrom populates our EventSubscriptions_Spec from the provided source
-func (subscriptions *EventSubscriptions_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20200601s.EventSubscriptions_Spec)
+// ConvertSpecFrom populates our EventSubscription_Spec from the provided source
+func (subscription *EventSubscription_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20200601s.EventSubscription_Spec)
 	if ok {
 		// Populate our instance from source
-		return subscriptions.AssignPropertiesFromEventSubscriptionsSpec(src)
+		return subscription.AssignPropertiesFromEventSubscription_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20200601s.EventSubscriptions_Spec{}
+	src = &v20200601s.EventSubscription_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = subscriptions.AssignPropertiesFromEventSubscriptionsSpec(src)
+	err = subscription.AssignPropertiesFromEventSubscription_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -524,17 +528,17 @@ func (subscriptions *EventSubscriptions_Spec) ConvertSpecFrom(source genruntime.
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our EventSubscriptions_Spec
-func (subscriptions *EventSubscriptions_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20200601s.EventSubscriptions_Spec)
+// ConvertSpecTo populates the provided destination from our EventSubscription_Spec
+func (subscription *EventSubscription_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20200601s.EventSubscription_Spec)
 	if ok {
 		// Populate destination from our instance
-		return subscriptions.AssignPropertiesToEventSubscriptionsSpec(dst)
+		return subscription.AssignPropertiesToEventSubscription_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20200601s.EventSubscriptions_Spec{}
-	err := subscriptions.AssignPropertiesToEventSubscriptionsSpec(dst)
+	dst = &v20200601s.EventSubscription_Spec{}
+	err := subscription.AssignPropertiesToEventSubscription_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -548,24 +552,24 @@ func (subscriptions *EventSubscriptions_Spec) ConvertSpecTo(destination genrunti
 	return nil
 }
 
-// AssignPropertiesFromEventSubscriptionsSpec populates our EventSubscriptions_Spec from the provided source EventSubscriptions_Spec
-func (subscriptions *EventSubscriptions_Spec) AssignPropertiesFromEventSubscriptionsSpec(source *v20200601s.EventSubscriptions_Spec) error {
+// AssignPropertiesFromEventSubscription_Spec populates our EventSubscription_Spec from the provided source EventSubscription_Spec
+func (subscription *EventSubscription_Spec) AssignPropertiesFromEventSubscription_Spec(source *v20200601s.EventSubscription_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// AzureName
-	subscriptions.AzureName = source.AzureName
+	subscription.AzureName = source.AzureName
 
 	// DeadLetterDestination
 	if source.DeadLetterDestination != nil {
-		var deadLetterDestination StorageBlobDeadLetterDestination
-		err := deadLetterDestination.AssignPropertiesFromStorageBlobDeadLetterDestination(source.DeadLetterDestination)
+		var deadLetterDestination DeadLetterDestination
+		err := deadLetterDestination.AssignPropertiesFromDeadLetterDestination(source.DeadLetterDestination)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromStorageBlobDeadLetterDestination() to populate field DeadLetterDestination")
+			return errors.Wrap(err, "calling AssignPropertiesFromDeadLetterDestination() to populate field DeadLetterDestination")
 		}
-		subscriptions.DeadLetterDestination = &deadLetterDestination
+		subscription.DeadLetterDestination = &deadLetterDestination
 	} else {
-		subscriptions.DeadLetterDestination = nil
+		subscription.DeadLetterDestination = nil
 	}
 
 	// Destination
@@ -575,16 +579,16 @@ func (subscriptions *EventSubscriptions_Spec) AssignPropertiesFromEventSubscript
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromEventSubscriptionDestination() to populate field Destination")
 		}
-		subscriptions.Destination = &destination
+		subscription.Destination = &destination
 	} else {
-		subscriptions.Destination = nil
+		subscription.Destination = nil
 	}
 
 	// EventDeliverySchema
-	subscriptions.EventDeliverySchema = genruntime.ClonePointerToString(source.EventDeliverySchema)
+	subscription.EventDeliverySchema = genruntime.ClonePointerToString(source.EventDeliverySchema)
 
 	// ExpirationTimeUtc
-	subscriptions.ExpirationTimeUtc = genruntime.ClonePointerToString(source.ExpirationTimeUtc)
+	subscription.ExpirationTimeUtc = genruntime.ClonePointerToString(source.ExpirationTimeUtc)
 
 	// Filter
 	if source.Filter != nil {
@@ -593,27 +597,30 @@ func (subscriptions *EventSubscriptions_Spec) AssignPropertiesFromEventSubscript
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromEventSubscriptionFilter() to populate field Filter")
 		}
-		subscriptions.Filter = &filter
+		subscription.Filter = &filter
 	} else {
-		subscriptions.Filter = nil
+		subscription.Filter = nil
 	}
 
-	// Labels
-	subscriptions.Labels = genruntime.CloneSliceOfString(source.Labels)
+	// Id
+	subscription.Id = genruntime.ClonePointerToString(source.Id)
 
-	// Location
-	subscriptions.Location = genruntime.ClonePointerToString(source.Location)
+	// Labels
+	subscription.Labels = genruntime.CloneSliceOfString(source.Labels)
 
 	// OriginalVersion
-	subscriptions.OriginalVersion = source.OriginalVersion
+	subscription.OriginalVersion = source.OriginalVersion
 
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
-		subscriptions.Owner = &owner
+		subscription.Owner = &owner
 	} else {
-		subscriptions.Owner = nil
+		subscription.Owner = nil
 	}
+
+	// ProvisioningState
+	subscription.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// RetryPolicy
 	if source.RetryPolicy != nil {
@@ -622,39 +629,54 @@ func (subscriptions *EventSubscriptions_Spec) AssignPropertiesFromEventSubscript
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromRetryPolicy() to populate field RetryPolicy")
 		}
-		subscriptions.RetryPolicy = &retryPolicy
+		subscription.RetryPolicy = &retryPolicy
 	} else {
-		subscriptions.RetryPolicy = nil
+		subscription.RetryPolicy = nil
 	}
 
-	// Tags
-	subscriptions.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData
+		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
+		}
+		subscription.SystemData = &systemDatum
+	} else {
+		subscription.SystemData = nil
+	}
+
+	// Topic
+	subscription.Topic = genruntime.ClonePointerToString(source.Topic)
+
+	// Type
+	subscription.Type = genruntime.ClonePointerToString(source.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		subscriptions.PropertyBag = propertyBag
+		subscription.PropertyBag = propertyBag
 	} else {
-		subscriptions.PropertyBag = nil
+		subscription.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToEventSubscriptionsSpec populates the provided destination EventSubscriptions_Spec from our EventSubscriptions_Spec
-func (subscriptions *EventSubscriptions_Spec) AssignPropertiesToEventSubscriptionsSpec(destination *v20200601s.EventSubscriptions_Spec) error {
+// AssignPropertiesToEventSubscription_Spec populates the provided destination EventSubscription_Spec from our EventSubscription_Spec
+func (subscription *EventSubscription_Spec) AssignPropertiesToEventSubscription_Spec(destination *v20200601s.EventSubscription_Spec) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(subscriptions.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(subscription.PropertyBag)
 
 	// AzureName
-	destination.AzureName = subscriptions.AzureName
+	destination.AzureName = subscription.AzureName
 
 	// DeadLetterDestination
-	if subscriptions.DeadLetterDestination != nil {
-		var deadLetterDestination v20200601s.StorageBlobDeadLetterDestination
-		err := subscriptions.DeadLetterDestination.AssignPropertiesToStorageBlobDeadLetterDestination(&deadLetterDestination)
+	if subscription.DeadLetterDestination != nil {
+		var deadLetterDestination v20200601s.DeadLetterDestination
+		err := subscription.DeadLetterDestination.AssignPropertiesToDeadLetterDestination(&deadLetterDestination)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToStorageBlobDeadLetterDestination() to populate field DeadLetterDestination")
+			return errors.Wrap(err, "calling AssignPropertiesToDeadLetterDestination() to populate field DeadLetterDestination")
 		}
 		destination.DeadLetterDestination = &deadLetterDestination
 	} else {
@@ -662,9 +684,9 @@ func (subscriptions *EventSubscriptions_Spec) AssignPropertiesToEventSubscriptio
 	}
 
 	// Destination
-	if subscriptions.Destination != nil {
+	if subscription.Destination != nil {
 		var destinationLocal v20200601s.EventSubscriptionDestination
-		err := subscriptions.Destination.AssignPropertiesToEventSubscriptionDestination(&destinationLocal)
+		err := subscription.Destination.AssignPropertiesToEventSubscriptionDestination(&destinationLocal)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToEventSubscriptionDestination() to populate field Destination")
 		}
@@ -674,15 +696,15 @@ func (subscriptions *EventSubscriptions_Spec) AssignPropertiesToEventSubscriptio
 	}
 
 	// EventDeliverySchema
-	destination.EventDeliverySchema = genruntime.ClonePointerToString(subscriptions.EventDeliverySchema)
+	destination.EventDeliverySchema = genruntime.ClonePointerToString(subscription.EventDeliverySchema)
 
 	// ExpirationTimeUtc
-	destination.ExpirationTimeUtc = genruntime.ClonePointerToString(subscriptions.ExpirationTimeUtc)
+	destination.ExpirationTimeUtc = genruntime.ClonePointerToString(subscription.ExpirationTimeUtc)
 
 	// Filter
-	if subscriptions.Filter != nil {
+	if subscription.Filter != nil {
 		var filter v20200601s.EventSubscriptionFilter
-		err := subscriptions.Filter.AssignPropertiesToEventSubscriptionFilter(&filter)
+		err := subscription.Filter.AssignPropertiesToEventSubscriptionFilter(&filter)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToEventSubscriptionFilter() to populate field Filter")
 		}
@@ -691,27 +713,30 @@ func (subscriptions *EventSubscriptions_Spec) AssignPropertiesToEventSubscriptio
 		destination.Filter = nil
 	}
 
-	// Labels
-	destination.Labels = genruntime.CloneSliceOfString(subscriptions.Labels)
+	// Id
+	destination.Id = genruntime.ClonePointerToString(subscription.Id)
 
-	// Location
-	destination.Location = genruntime.ClonePointerToString(subscriptions.Location)
+	// Labels
+	destination.Labels = genruntime.CloneSliceOfString(subscription.Labels)
 
 	// OriginalVersion
-	destination.OriginalVersion = subscriptions.OriginalVersion
+	destination.OriginalVersion = subscription.OriginalVersion
 
 	// Owner
-	if subscriptions.Owner != nil {
-		owner := subscriptions.Owner.Copy()
+	if subscription.Owner != nil {
+		owner := subscription.Owner.Copy()
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
 	}
 
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(subscription.ProvisioningState)
+
 	// RetryPolicy
-	if subscriptions.RetryPolicy != nil {
+	if subscription.RetryPolicy != nil {
 		var retryPolicy v20200601s.RetryPolicy
-		err := subscriptions.RetryPolicy.AssignPropertiesToRetryPolicy(&retryPolicy)
+		err := subscription.RetryPolicy.AssignPropertiesToRetryPolicy(&retryPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToRetryPolicy() to populate field RetryPolicy")
 		}
@@ -720,8 +745,23 @@ func (subscriptions *EventSubscriptions_Spec) AssignPropertiesToEventSubscriptio
 		destination.RetryPolicy = nil
 	}
 
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(subscriptions.Tags)
+	// SystemData
+	if subscription.SystemData != nil {
+		var systemDatum v20200601s.SystemData
+		err := subscription.SystemData.AssignPropertiesToSystemData(&systemDatum)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Topic
+	destination.Topic = genruntime.ClonePointerToString(subscription.Topic)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(subscription.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -734,15 +774,15 @@ func (subscriptions *EventSubscriptions_Spec) AssignPropertiesToEventSubscriptio
 	return nil
 }
 
-// Storage version of v1alpha1api20200601.DeadLetterDestination_Status
-// Deprecated version of DeadLetterDestination_Status. Use v1beta20200601.DeadLetterDestination_Status instead
-type DeadLetterDestination_Status struct {
+// Storage version of v1alpha1api20200601.DeadLetterDestination
+// Deprecated version of DeadLetterDestination. Use v1beta20200601.DeadLetterDestination instead
+type DeadLetterDestination struct {
 	EndpointType *string                `json:"endpointType,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromDeadLetterDestinationStatus populates our DeadLetterDestination_Status from the provided source DeadLetterDestination_Status
-func (destination *DeadLetterDestination_Status) AssignPropertiesFromDeadLetterDestinationStatus(source *v20200601s.DeadLetterDestination_Status) error {
+// AssignPropertiesFromDeadLetterDestination populates our DeadLetterDestination from the provided source DeadLetterDestination
+func (destination *DeadLetterDestination) AssignPropertiesFromDeadLetterDestination(source *v20200601s.DeadLetterDestination) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -760,8 +800,53 @@ func (destination *DeadLetterDestination_Status) AssignPropertiesFromDeadLetterD
 	return nil
 }
 
-// AssignPropertiesToDeadLetterDestinationStatus populates the provided destination DeadLetterDestination_Status from our DeadLetterDestination_Status
-func (destination *DeadLetterDestination_Status) AssignPropertiesToDeadLetterDestinationStatus(target *v20200601s.DeadLetterDestination_Status) error {
+// AssignPropertiesToDeadLetterDestination populates the provided destination DeadLetterDestination from our DeadLetterDestination
+func (destination *DeadLetterDestination) AssignPropertiesToDeadLetterDestination(target *v20200601s.DeadLetterDestination) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(destination.PropertyBag)
+
+	// EndpointType
+	target.EndpointType = genruntime.ClonePointerToString(destination.EndpointType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		target.PropertyBag = propertyBag
+	} else {
+		target.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20200601.DeadLetterDestination_STATUS
+// Deprecated version of DeadLetterDestination_STATUS. Use v1beta20200601.DeadLetterDestination_STATUS instead
+type DeadLetterDestination_STATUS struct {
+	EndpointType *string                `json:"endpointType,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignPropertiesFromDeadLetterDestination_STATUS populates our DeadLetterDestination_STATUS from the provided source DeadLetterDestination_STATUS
+func (destination *DeadLetterDestination_STATUS) AssignPropertiesFromDeadLetterDestination_STATUS(source *v20200601s.DeadLetterDestination_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// EndpointType
+	destination.EndpointType = genruntime.ClonePointerToString(source.EndpointType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToDeadLetterDestination_STATUS populates the provided destination DeadLetterDestination_STATUS from our DeadLetterDestination_STATUS
+func (destination *DeadLetterDestination_STATUS) AssignPropertiesToDeadLetterDestination_STATUS(target *v20200601s.DeadLetterDestination_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(destination.PropertyBag)
 
@@ -782,225 +867,12 @@ func (destination *DeadLetterDestination_Status) AssignPropertiesToDeadLetterDes
 // Storage version of v1alpha1api20200601.EventSubscriptionDestination
 // Deprecated version of EventSubscriptionDestination. Use v1beta20200601.EventSubscriptionDestination instead
 type EventSubscriptionDestination struct {
-	AzureFunction    *AzureFunctionEventSubscriptionDestination    `json:"azureFunctionEventSubscriptionDestination,omitempty"`
-	EventHub         *EventHubEventSubscriptionDestination         `json:"eventHubEventSubscriptionDestination,omitempty"`
-	HybridConnection *HybridConnectionEventSubscriptionDestination `json:"hybridConnectionEventSubscriptionDestination,omitempty"`
-	PropertyBag      genruntime.PropertyBag                        `json:"$propertyBag,omitempty"`
-	ServiceBusQueue  *ServiceBusQueueEventSubscriptionDestination  `json:"serviceBusQueueEventSubscriptionDestination,omitempty"`
-	ServiceBusTopic  *ServiceBusTopicEventSubscriptionDestination  `json:"serviceBusTopicEventSubscriptionDestination,omitempty"`
-	StorageQueue     *StorageQueueEventSubscriptionDestination     `json:"storageQueueEventSubscriptionDestination,omitempty"`
-	WebHook          *WebHookEventSubscriptionDestination          `json:"webHookEventSubscriptionDestination,omitempty"`
-}
-
-// AssignPropertiesFromEventSubscriptionDestination populates our EventSubscriptionDestination from the provided source EventSubscriptionDestination
-func (destination *EventSubscriptionDestination) AssignPropertiesFromEventSubscriptionDestination(source *v20200601s.EventSubscriptionDestination) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// AzureFunction
-	if source.AzureFunction != nil {
-		var azureFunction AzureFunctionEventSubscriptionDestination
-		err := azureFunction.AssignPropertiesFromAzureFunctionEventSubscriptionDestination(source.AzureFunction)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAzureFunctionEventSubscriptionDestination() to populate field AzureFunction")
-		}
-		destination.AzureFunction = &azureFunction
-	} else {
-		destination.AzureFunction = nil
-	}
-
-	// EventHub
-	if source.EventHub != nil {
-		var eventHub EventHubEventSubscriptionDestination
-		err := eventHub.AssignPropertiesFromEventHubEventSubscriptionDestination(source.EventHub)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEventHubEventSubscriptionDestination() to populate field EventHub")
-		}
-		destination.EventHub = &eventHub
-	} else {
-		destination.EventHub = nil
-	}
-
-	// HybridConnection
-	if source.HybridConnection != nil {
-		var hybridConnection HybridConnectionEventSubscriptionDestination
-		err := hybridConnection.AssignPropertiesFromHybridConnectionEventSubscriptionDestination(source.HybridConnection)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromHybridConnectionEventSubscriptionDestination() to populate field HybridConnection")
-		}
-		destination.HybridConnection = &hybridConnection
-	} else {
-		destination.HybridConnection = nil
-	}
-
-	// ServiceBusQueue
-	if source.ServiceBusQueue != nil {
-		var serviceBusQueue ServiceBusQueueEventSubscriptionDestination
-		err := serviceBusQueue.AssignPropertiesFromServiceBusQueueEventSubscriptionDestination(source.ServiceBusQueue)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromServiceBusQueueEventSubscriptionDestination() to populate field ServiceBusQueue")
-		}
-		destination.ServiceBusQueue = &serviceBusQueue
-	} else {
-		destination.ServiceBusQueue = nil
-	}
-
-	// ServiceBusTopic
-	if source.ServiceBusTopic != nil {
-		var serviceBusTopic ServiceBusTopicEventSubscriptionDestination
-		err := serviceBusTopic.AssignPropertiesFromServiceBusTopicEventSubscriptionDestination(source.ServiceBusTopic)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromServiceBusTopicEventSubscriptionDestination() to populate field ServiceBusTopic")
-		}
-		destination.ServiceBusTopic = &serviceBusTopic
-	} else {
-		destination.ServiceBusTopic = nil
-	}
-
-	// StorageQueue
-	if source.StorageQueue != nil {
-		var storageQueue StorageQueueEventSubscriptionDestination
-		err := storageQueue.AssignPropertiesFromStorageQueueEventSubscriptionDestination(source.StorageQueue)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromStorageQueueEventSubscriptionDestination() to populate field StorageQueue")
-		}
-		destination.StorageQueue = &storageQueue
-	} else {
-		destination.StorageQueue = nil
-	}
-
-	// WebHook
-	if source.WebHook != nil {
-		var webHook WebHookEventSubscriptionDestination
-		err := webHook.AssignPropertiesFromWebHookEventSubscriptionDestination(source.WebHook)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromWebHookEventSubscriptionDestination() to populate field WebHook")
-		}
-		destination.WebHook = &webHook
-	} else {
-		destination.WebHook = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToEventSubscriptionDestination populates the provided destination EventSubscriptionDestination from our EventSubscriptionDestination
-func (destination *EventSubscriptionDestination) AssignPropertiesToEventSubscriptionDestination(target *v20200601s.EventSubscriptionDestination) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(destination.PropertyBag)
-
-	// AzureFunction
-	if destination.AzureFunction != nil {
-		var azureFunction v20200601s.AzureFunctionEventSubscriptionDestination
-		err := destination.AzureFunction.AssignPropertiesToAzureFunctionEventSubscriptionDestination(&azureFunction)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAzureFunctionEventSubscriptionDestination() to populate field AzureFunction")
-		}
-		target.AzureFunction = &azureFunction
-	} else {
-		target.AzureFunction = nil
-	}
-
-	// EventHub
-	if destination.EventHub != nil {
-		var eventHub v20200601s.EventHubEventSubscriptionDestination
-		err := destination.EventHub.AssignPropertiesToEventHubEventSubscriptionDestination(&eventHub)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEventHubEventSubscriptionDestination() to populate field EventHub")
-		}
-		target.EventHub = &eventHub
-	} else {
-		target.EventHub = nil
-	}
-
-	// HybridConnection
-	if destination.HybridConnection != nil {
-		var hybridConnection v20200601s.HybridConnectionEventSubscriptionDestination
-		err := destination.HybridConnection.AssignPropertiesToHybridConnectionEventSubscriptionDestination(&hybridConnection)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToHybridConnectionEventSubscriptionDestination() to populate field HybridConnection")
-		}
-		target.HybridConnection = &hybridConnection
-	} else {
-		target.HybridConnection = nil
-	}
-
-	// ServiceBusQueue
-	if destination.ServiceBusQueue != nil {
-		var serviceBusQueue v20200601s.ServiceBusQueueEventSubscriptionDestination
-		err := destination.ServiceBusQueue.AssignPropertiesToServiceBusQueueEventSubscriptionDestination(&serviceBusQueue)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToServiceBusQueueEventSubscriptionDestination() to populate field ServiceBusQueue")
-		}
-		target.ServiceBusQueue = &serviceBusQueue
-	} else {
-		target.ServiceBusQueue = nil
-	}
-
-	// ServiceBusTopic
-	if destination.ServiceBusTopic != nil {
-		var serviceBusTopic v20200601s.ServiceBusTopicEventSubscriptionDestination
-		err := destination.ServiceBusTopic.AssignPropertiesToServiceBusTopicEventSubscriptionDestination(&serviceBusTopic)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToServiceBusTopicEventSubscriptionDestination() to populate field ServiceBusTopic")
-		}
-		target.ServiceBusTopic = &serviceBusTopic
-	} else {
-		target.ServiceBusTopic = nil
-	}
-
-	// StorageQueue
-	if destination.StorageQueue != nil {
-		var storageQueue v20200601s.StorageQueueEventSubscriptionDestination
-		err := destination.StorageQueue.AssignPropertiesToStorageQueueEventSubscriptionDestination(&storageQueue)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToStorageQueueEventSubscriptionDestination() to populate field StorageQueue")
-		}
-		target.StorageQueue = &storageQueue
-	} else {
-		target.StorageQueue = nil
-	}
-
-	// WebHook
-	if destination.WebHook != nil {
-		var webHook v20200601s.WebHookEventSubscriptionDestination
-		err := destination.WebHook.AssignPropertiesToWebHookEventSubscriptionDestination(&webHook)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToWebHookEventSubscriptionDestination() to populate field WebHook")
-		}
-		target.WebHook = &webHook
-	} else {
-		target.WebHook = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		target.PropertyBag = propertyBag
-	} else {
-		target.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20200601.EventSubscriptionDestination_Status
-// Deprecated version of EventSubscriptionDestination_Status. Use v1beta20200601.EventSubscriptionDestination_Status instead
-type EventSubscriptionDestination_Status struct {
 	EndpointType *string                `json:"endpointType,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromEventSubscriptionDestinationStatus populates our EventSubscriptionDestination_Status from the provided source EventSubscriptionDestination_Status
-func (destination *EventSubscriptionDestination_Status) AssignPropertiesFromEventSubscriptionDestinationStatus(source *v20200601s.EventSubscriptionDestination_Status) error {
+// AssignPropertiesFromEventSubscriptionDestination populates our EventSubscriptionDestination from the provided source EventSubscriptionDestination
+func (destination *EventSubscriptionDestination) AssignPropertiesFromEventSubscriptionDestination(source *v20200601s.EventSubscriptionDestination) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1018,8 +890,53 @@ func (destination *EventSubscriptionDestination_Status) AssignPropertiesFromEven
 	return nil
 }
 
-// AssignPropertiesToEventSubscriptionDestinationStatus populates the provided destination EventSubscriptionDestination_Status from our EventSubscriptionDestination_Status
-func (destination *EventSubscriptionDestination_Status) AssignPropertiesToEventSubscriptionDestinationStatus(target *v20200601s.EventSubscriptionDestination_Status) error {
+// AssignPropertiesToEventSubscriptionDestination populates the provided destination EventSubscriptionDestination from our EventSubscriptionDestination
+func (destination *EventSubscriptionDestination) AssignPropertiesToEventSubscriptionDestination(target *v20200601s.EventSubscriptionDestination) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(destination.PropertyBag)
+
+	// EndpointType
+	target.EndpointType = genruntime.ClonePointerToString(destination.EndpointType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		target.PropertyBag = propertyBag
+	} else {
+		target.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20200601.EventSubscriptionDestination_STATUS
+// Deprecated version of EventSubscriptionDestination_STATUS. Use v1beta20200601.EventSubscriptionDestination_STATUS instead
+type EventSubscriptionDestination_STATUS struct {
+	EndpointType *string                `json:"endpointType,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignPropertiesFromEventSubscriptionDestination_STATUS populates our EventSubscriptionDestination_STATUS from the provided source EventSubscriptionDestination_STATUS
+func (destination *EventSubscriptionDestination_STATUS) AssignPropertiesFromEventSubscriptionDestination_STATUS(source *v20200601s.EventSubscriptionDestination_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// EndpointType
+	destination.EndpointType = genruntime.ClonePointerToString(source.EndpointType)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToEventSubscriptionDestination_STATUS populates the provided destination EventSubscriptionDestination_STATUS from our EventSubscriptionDestination_STATUS
+func (destination *EventSubscriptionDestination_STATUS) AssignPropertiesToEventSubscriptionDestination_STATUS(target *v20200601s.EventSubscriptionDestination_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(destination.PropertyBag)
 
@@ -1150,10 +1067,10 @@ func (filter *EventSubscriptionFilter) AssignPropertiesToEventSubscriptionFilter
 	return nil
 }
 
-// Storage version of v1alpha1api20200601.EventSubscriptionFilter_Status
-// Deprecated version of EventSubscriptionFilter_Status. Use v1beta20200601.EventSubscriptionFilter_Status instead
-type EventSubscriptionFilter_Status struct {
-	AdvancedFilters        []AdvancedFilter_Status `json:"advancedFilters,omitempty"`
+// Storage version of v1alpha1api20200601.EventSubscriptionFilter_STATUS
+// Deprecated version of EventSubscriptionFilter_STATUS. Use v1beta20200601.EventSubscriptionFilter_STATUS instead
+type EventSubscriptionFilter_STATUS struct {
+	AdvancedFilters        []AdvancedFilter_STATUS `json:"advancedFilters,omitempty"`
 	IncludedEventTypes     []string                `json:"includedEventTypes,omitempty"`
 	IsSubjectCaseSensitive *bool                   `json:"isSubjectCaseSensitive,omitempty"`
 	PropertyBag            genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
@@ -1161,21 +1078,21 @@ type EventSubscriptionFilter_Status struct {
 	SubjectEndsWith        *string                 `json:"subjectEndsWith,omitempty"`
 }
 
-// AssignPropertiesFromEventSubscriptionFilterStatus populates our EventSubscriptionFilter_Status from the provided source EventSubscriptionFilter_Status
-func (filter *EventSubscriptionFilter_Status) AssignPropertiesFromEventSubscriptionFilterStatus(source *v20200601s.EventSubscriptionFilter_Status) error {
+// AssignPropertiesFromEventSubscriptionFilter_STATUS populates our EventSubscriptionFilter_STATUS from the provided source EventSubscriptionFilter_STATUS
+func (filter *EventSubscriptionFilter_STATUS) AssignPropertiesFromEventSubscriptionFilter_STATUS(source *v20200601s.EventSubscriptionFilter_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// AdvancedFilters
 	if source.AdvancedFilters != nil {
-		advancedFilterList := make([]AdvancedFilter_Status, len(source.AdvancedFilters))
+		advancedFilterList := make([]AdvancedFilter_STATUS, len(source.AdvancedFilters))
 		for advancedFilterIndex, advancedFilterItem := range source.AdvancedFilters {
 			// Shadow the loop variable to avoid aliasing
 			advancedFilterItem := advancedFilterItem
-			var advancedFilter AdvancedFilter_Status
-			err := advancedFilter.AssignPropertiesFromAdvancedFilterStatus(&advancedFilterItem)
+			var advancedFilter AdvancedFilter_STATUS
+			err := advancedFilter.AssignPropertiesFromAdvancedFilter_STATUS(&advancedFilterItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromAdvancedFilterStatus() to populate field AdvancedFilters")
+				return errors.Wrap(err, "calling AssignPropertiesFromAdvancedFilter_STATUS() to populate field AdvancedFilters")
 			}
 			advancedFilterList[advancedFilterIndex] = advancedFilter
 		}
@@ -1212,21 +1129,21 @@ func (filter *EventSubscriptionFilter_Status) AssignPropertiesFromEventSubscript
 	return nil
 }
 
-// AssignPropertiesToEventSubscriptionFilterStatus populates the provided destination EventSubscriptionFilter_Status from our EventSubscriptionFilter_Status
-func (filter *EventSubscriptionFilter_Status) AssignPropertiesToEventSubscriptionFilterStatus(destination *v20200601s.EventSubscriptionFilter_Status) error {
+// AssignPropertiesToEventSubscriptionFilter_STATUS populates the provided destination EventSubscriptionFilter_STATUS from our EventSubscriptionFilter_STATUS
+func (filter *EventSubscriptionFilter_STATUS) AssignPropertiesToEventSubscriptionFilter_STATUS(destination *v20200601s.EventSubscriptionFilter_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
 
 	// AdvancedFilters
 	if filter.AdvancedFilters != nil {
-		advancedFilterList := make([]v20200601s.AdvancedFilter_Status, len(filter.AdvancedFilters))
+		advancedFilterList := make([]v20200601s.AdvancedFilter_STATUS, len(filter.AdvancedFilters))
 		for advancedFilterIndex, advancedFilterItem := range filter.AdvancedFilters {
 			// Shadow the loop variable to avoid aliasing
 			advancedFilterItem := advancedFilterItem
-			var advancedFilter v20200601s.AdvancedFilter_Status
-			err := advancedFilterItem.AssignPropertiesToAdvancedFilterStatus(&advancedFilter)
+			var advancedFilter v20200601s.AdvancedFilter_STATUS
+			err := advancedFilterItem.AssignPropertiesToAdvancedFilter_STATUS(&advancedFilter)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToAdvancedFilterStatus() to populate field AdvancedFilters")
+				return errors.Wrap(err, "calling AssignPropertiesToAdvancedFilter_STATUS() to populate field AdvancedFilters")
 			}
 			advancedFilterList[advancedFilterIndex] = advancedFilter
 		}
@@ -1315,16 +1232,16 @@ func (policy *RetryPolicy) AssignPropertiesToRetryPolicy(destination *v20200601s
 	return nil
 }
 
-// Storage version of v1alpha1api20200601.RetryPolicy_Status
-// Deprecated version of RetryPolicy_Status. Use v1beta20200601.RetryPolicy_Status instead
-type RetryPolicy_Status struct {
+// Storage version of v1alpha1api20200601.RetryPolicy_STATUS
+// Deprecated version of RetryPolicy_STATUS. Use v1beta20200601.RetryPolicy_STATUS instead
+type RetryPolicy_STATUS struct {
 	EventTimeToLiveInMinutes *int                   `json:"eventTimeToLiveInMinutes,omitempty"`
 	MaxDeliveryAttempts      *int                   `json:"maxDeliveryAttempts,omitempty"`
 	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromRetryPolicyStatus populates our RetryPolicy_Status from the provided source RetryPolicy_Status
-func (policy *RetryPolicy_Status) AssignPropertiesFromRetryPolicyStatus(source *v20200601s.RetryPolicy_Status) error {
+// AssignPropertiesFromRetryPolicy_STATUS populates our RetryPolicy_STATUS from the provided source RetryPolicy_STATUS
+func (policy *RetryPolicy_STATUS) AssignPropertiesFromRetryPolicy_STATUS(source *v20200601s.RetryPolicy_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1345,8 +1262,8 @@ func (policy *RetryPolicy_Status) AssignPropertiesFromRetryPolicyStatus(source *
 	return nil
 }
 
-// AssignPropertiesToRetryPolicyStatus populates the provided destination RetryPolicy_Status from our RetryPolicy_Status
-func (policy *RetryPolicy_Status) AssignPropertiesToRetryPolicyStatus(destination *v20200601s.RetryPolicy_Status) error {
+// AssignPropertiesToRetryPolicy_STATUS populates the provided destination RetryPolicy_STATUS from our RetryPolicy_STATUS
+func (policy *RetryPolicy_STATUS) AssignPropertiesToRetryPolicy_STATUS(destination *v20200601s.RetryPolicy_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(policy.PropertyBag)
 
@@ -1367,424 +1284,16 @@ func (policy *RetryPolicy_Status) AssignPropertiesToRetryPolicyStatus(destinatio
 	return nil
 }
 
-// Storage version of v1alpha1api20200601.StorageBlobDeadLetterDestination
-// Deprecated version of StorageBlobDeadLetterDestination. Use v1beta20200601.StorageBlobDeadLetterDestination instead
-type StorageBlobDeadLetterDestination struct {
-	EndpointType *string                                     `json:"endpointType,omitempty"`
-	Properties   *StorageBlobDeadLetterDestinationProperties `json:"properties,omitempty"`
-	PropertyBag  genruntime.PropertyBag                      `json:"$propertyBag,omitempty"`
-}
-
-// AssignPropertiesFromStorageBlobDeadLetterDestination populates our StorageBlobDeadLetterDestination from the provided source StorageBlobDeadLetterDestination
-func (destination *StorageBlobDeadLetterDestination) AssignPropertiesFromStorageBlobDeadLetterDestination(source *v20200601s.StorageBlobDeadLetterDestination) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// EndpointType
-	destination.EndpointType = genruntime.ClonePointerToString(source.EndpointType)
-
-	// Properties
-	if source.Properties != nil {
-		var property StorageBlobDeadLetterDestinationProperties
-		err := property.AssignPropertiesFromStorageBlobDeadLetterDestinationProperties(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromStorageBlobDeadLetterDestinationProperties() to populate field Properties")
-		}
-		destination.Properties = &property
-	} else {
-		destination.Properties = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToStorageBlobDeadLetterDestination populates the provided destination StorageBlobDeadLetterDestination from our StorageBlobDeadLetterDestination
-func (destination *StorageBlobDeadLetterDestination) AssignPropertiesToStorageBlobDeadLetterDestination(target *v20200601s.StorageBlobDeadLetterDestination) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(destination.PropertyBag)
-
-	// EndpointType
-	target.EndpointType = genruntime.ClonePointerToString(destination.EndpointType)
-
-	// Properties
-	if destination.Properties != nil {
-		var property v20200601s.StorageBlobDeadLetterDestinationProperties
-		err := destination.Properties.AssignPropertiesToStorageBlobDeadLetterDestinationProperties(&property)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToStorageBlobDeadLetterDestinationProperties() to populate field Properties")
-		}
-		target.Properties = &property
-	} else {
-		target.Properties = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		target.PropertyBag = propertyBag
-	} else {
-		target.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Storage version of v1alpha1api20200601.AdvancedFilter
 // Deprecated version of AdvancedFilter. Use v1beta20200601.AdvancedFilter instead
 type AdvancedFilter struct {
-	BoolEquals                *AdvancedFilter_BoolEquals                `json:"boolEqualsAdvancedFilter,omitempty"`
-	NumberGreaterThan         *AdvancedFilter_NumberGreaterThan         `json:"numberGreaterThanAdvancedFilter,omitempty"`
-	NumberGreaterThanOrEquals *AdvancedFilter_NumberGreaterThanOrEquals `json:"numberGreaterThanOrEqualsAdvancedFilter,omitempty"`
-	NumberIn                  *AdvancedFilter_NumberIn                  `json:"numberInAdvancedFilter,omitempty"`
-	NumberLessThan            *AdvancedFilter_NumberLessThan            `json:"numberLessThanAdvancedFilter,omitempty"`
-	NumberLessThanOrEquals    *AdvancedFilter_NumberLessThanOrEquals    `json:"numberLessThanOrEqualsAdvancedFilter,omitempty"`
-	NumberNotIn               *AdvancedFilter_NumberNotIn               `json:"numberNotInAdvancedFilter,omitempty"`
-	PropertyBag               genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
-	StringBeginsWith          *AdvancedFilter_StringBeginsWith          `json:"stringBeginsWithAdvancedFilter,omitempty"`
-	StringContains            *AdvancedFilter_StringContains            `json:"stringContainsAdvancedFilter,omitempty"`
-	StringEndsWith            *AdvancedFilter_StringEndsWith            `json:"stringEndsWithAdvancedFilter,omitempty"`
-	StringIn                  *AdvancedFilter_StringIn                  `json:"stringInAdvancedFilter,omitempty"`
-	StringNotIn               *AdvancedFilter_StringNotIn               `json:"stringNotInAdvancedFilter,omitempty"`
-}
-
-// AssignPropertiesFromAdvancedFilter populates our AdvancedFilter from the provided source AdvancedFilter
-func (filter *AdvancedFilter) AssignPropertiesFromAdvancedFilter(source *v20200601s.AdvancedFilter) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// BoolEquals
-	if source.BoolEquals != nil {
-		var boolEqual AdvancedFilter_BoolEquals
-		err := boolEqual.AssignPropertiesFromAdvancedFilterBoolEquals(source.BoolEquals)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAdvancedFilterBoolEquals() to populate field BoolEquals")
-		}
-		filter.BoolEquals = &boolEqual
-	} else {
-		filter.BoolEquals = nil
-	}
-
-	// NumberGreaterThan
-	if source.NumberGreaterThan != nil {
-		var numberGreaterThan AdvancedFilter_NumberGreaterThan
-		err := numberGreaterThan.AssignPropertiesFromAdvancedFilterNumberGreaterThan(source.NumberGreaterThan)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAdvancedFilterNumberGreaterThan() to populate field NumberGreaterThan")
-		}
-		filter.NumberGreaterThan = &numberGreaterThan
-	} else {
-		filter.NumberGreaterThan = nil
-	}
-
-	// NumberGreaterThanOrEquals
-	if source.NumberGreaterThanOrEquals != nil {
-		var numberGreaterThanOrEqual AdvancedFilter_NumberGreaterThanOrEquals
-		err := numberGreaterThanOrEqual.AssignPropertiesFromAdvancedFilterNumberGreaterThanOrEquals(source.NumberGreaterThanOrEquals)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAdvancedFilterNumberGreaterThanOrEquals() to populate field NumberGreaterThanOrEquals")
-		}
-		filter.NumberGreaterThanOrEquals = &numberGreaterThanOrEqual
-	} else {
-		filter.NumberGreaterThanOrEquals = nil
-	}
-
-	// NumberIn
-	if source.NumberIn != nil {
-		var numberIn AdvancedFilter_NumberIn
-		err := numberIn.AssignPropertiesFromAdvancedFilterNumberIn(source.NumberIn)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAdvancedFilterNumberIn() to populate field NumberIn")
-		}
-		filter.NumberIn = &numberIn
-	} else {
-		filter.NumberIn = nil
-	}
-
-	// NumberLessThan
-	if source.NumberLessThan != nil {
-		var numberLessThan AdvancedFilter_NumberLessThan
-		err := numberLessThan.AssignPropertiesFromAdvancedFilterNumberLessThan(source.NumberLessThan)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAdvancedFilterNumberLessThan() to populate field NumberLessThan")
-		}
-		filter.NumberLessThan = &numberLessThan
-	} else {
-		filter.NumberLessThan = nil
-	}
-
-	// NumberLessThanOrEquals
-	if source.NumberLessThanOrEquals != nil {
-		var numberLessThanOrEqual AdvancedFilter_NumberLessThanOrEquals
-		err := numberLessThanOrEqual.AssignPropertiesFromAdvancedFilterNumberLessThanOrEquals(source.NumberLessThanOrEquals)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAdvancedFilterNumberLessThanOrEquals() to populate field NumberLessThanOrEquals")
-		}
-		filter.NumberLessThanOrEquals = &numberLessThanOrEqual
-	} else {
-		filter.NumberLessThanOrEquals = nil
-	}
-
-	// NumberNotIn
-	if source.NumberNotIn != nil {
-		var numberNotIn AdvancedFilter_NumberNotIn
-		err := numberNotIn.AssignPropertiesFromAdvancedFilterNumberNotIn(source.NumberNotIn)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAdvancedFilterNumberNotIn() to populate field NumberNotIn")
-		}
-		filter.NumberNotIn = &numberNotIn
-	} else {
-		filter.NumberNotIn = nil
-	}
-
-	// StringBeginsWith
-	if source.StringBeginsWith != nil {
-		var stringBeginsWith AdvancedFilter_StringBeginsWith
-		err := stringBeginsWith.AssignPropertiesFromAdvancedFilterStringBeginsWith(source.StringBeginsWith)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAdvancedFilterStringBeginsWith() to populate field StringBeginsWith")
-		}
-		filter.StringBeginsWith = &stringBeginsWith
-	} else {
-		filter.StringBeginsWith = nil
-	}
-
-	// StringContains
-	if source.StringContains != nil {
-		var stringContain AdvancedFilter_StringContains
-		err := stringContain.AssignPropertiesFromAdvancedFilterStringContains(source.StringContains)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAdvancedFilterStringContains() to populate field StringContains")
-		}
-		filter.StringContains = &stringContain
-	} else {
-		filter.StringContains = nil
-	}
-
-	// StringEndsWith
-	if source.StringEndsWith != nil {
-		var stringEndsWith AdvancedFilter_StringEndsWith
-		err := stringEndsWith.AssignPropertiesFromAdvancedFilterStringEndsWith(source.StringEndsWith)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAdvancedFilterStringEndsWith() to populate field StringEndsWith")
-		}
-		filter.StringEndsWith = &stringEndsWith
-	} else {
-		filter.StringEndsWith = nil
-	}
-
-	// StringIn
-	if source.StringIn != nil {
-		var stringIn AdvancedFilter_StringIn
-		err := stringIn.AssignPropertiesFromAdvancedFilterStringIn(source.StringIn)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAdvancedFilterStringIn() to populate field StringIn")
-		}
-		filter.StringIn = &stringIn
-	} else {
-		filter.StringIn = nil
-	}
-
-	// StringNotIn
-	if source.StringNotIn != nil {
-		var stringNotIn AdvancedFilter_StringNotIn
-		err := stringNotIn.AssignPropertiesFromAdvancedFilterStringNotIn(source.StringNotIn)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAdvancedFilterStringNotIn() to populate field StringNotIn")
-		}
-		filter.StringNotIn = &stringNotIn
-	} else {
-		filter.StringNotIn = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		filter.PropertyBag = propertyBag
-	} else {
-		filter.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToAdvancedFilter populates the provided destination AdvancedFilter from our AdvancedFilter
-func (filter *AdvancedFilter) AssignPropertiesToAdvancedFilter(destination *v20200601s.AdvancedFilter) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
-
-	// BoolEquals
-	if filter.BoolEquals != nil {
-		var boolEqual v20200601s.AdvancedFilter_BoolEquals
-		err := filter.BoolEquals.AssignPropertiesToAdvancedFilterBoolEquals(&boolEqual)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAdvancedFilterBoolEquals() to populate field BoolEquals")
-		}
-		destination.BoolEquals = &boolEqual
-	} else {
-		destination.BoolEquals = nil
-	}
-
-	// NumberGreaterThan
-	if filter.NumberGreaterThan != nil {
-		var numberGreaterThan v20200601s.AdvancedFilter_NumberGreaterThan
-		err := filter.NumberGreaterThan.AssignPropertiesToAdvancedFilterNumberGreaterThan(&numberGreaterThan)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAdvancedFilterNumberGreaterThan() to populate field NumberGreaterThan")
-		}
-		destination.NumberGreaterThan = &numberGreaterThan
-	} else {
-		destination.NumberGreaterThan = nil
-	}
-
-	// NumberGreaterThanOrEquals
-	if filter.NumberGreaterThanOrEquals != nil {
-		var numberGreaterThanOrEqual v20200601s.AdvancedFilter_NumberGreaterThanOrEquals
-		err := filter.NumberGreaterThanOrEquals.AssignPropertiesToAdvancedFilterNumberGreaterThanOrEquals(&numberGreaterThanOrEqual)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAdvancedFilterNumberGreaterThanOrEquals() to populate field NumberGreaterThanOrEquals")
-		}
-		destination.NumberGreaterThanOrEquals = &numberGreaterThanOrEqual
-	} else {
-		destination.NumberGreaterThanOrEquals = nil
-	}
-
-	// NumberIn
-	if filter.NumberIn != nil {
-		var numberIn v20200601s.AdvancedFilter_NumberIn
-		err := filter.NumberIn.AssignPropertiesToAdvancedFilterNumberIn(&numberIn)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAdvancedFilterNumberIn() to populate field NumberIn")
-		}
-		destination.NumberIn = &numberIn
-	} else {
-		destination.NumberIn = nil
-	}
-
-	// NumberLessThan
-	if filter.NumberLessThan != nil {
-		var numberLessThan v20200601s.AdvancedFilter_NumberLessThan
-		err := filter.NumberLessThan.AssignPropertiesToAdvancedFilterNumberLessThan(&numberLessThan)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAdvancedFilterNumberLessThan() to populate field NumberLessThan")
-		}
-		destination.NumberLessThan = &numberLessThan
-	} else {
-		destination.NumberLessThan = nil
-	}
-
-	// NumberLessThanOrEquals
-	if filter.NumberLessThanOrEquals != nil {
-		var numberLessThanOrEqual v20200601s.AdvancedFilter_NumberLessThanOrEquals
-		err := filter.NumberLessThanOrEquals.AssignPropertiesToAdvancedFilterNumberLessThanOrEquals(&numberLessThanOrEqual)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAdvancedFilterNumberLessThanOrEquals() to populate field NumberLessThanOrEquals")
-		}
-		destination.NumberLessThanOrEquals = &numberLessThanOrEqual
-	} else {
-		destination.NumberLessThanOrEquals = nil
-	}
-
-	// NumberNotIn
-	if filter.NumberNotIn != nil {
-		var numberNotIn v20200601s.AdvancedFilter_NumberNotIn
-		err := filter.NumberNotIn.AssignPropertiesToAdvancedFilterNumberNotIn(&numberNotIn)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAdvancedFilterNumberNotIn() to populate field NumberNotIn")
-		}
-		destination.NumberNotIn = &numberNotIn
-	} else {
-		destination.NumberNotIn = nil
-	}
-
-	// StringBeginsWith
-	if filter.StringBeginsWith != nil {
-		var stringBeginsWith v20200601s.AdvancedFilter_StringBeginsWith
-		err := filter.StringBeginsWith.AssignPropertiesToAdvancedFilterStringBeginsWith(&stringBeginsWith)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAdvancedFilterStringBeginsWith() to populate field StringBeginsWith")
-		}
-		destination.StringBeginsWith = &stringBeginsWith
-	} else {
-		destination.StringBeginsWith = nil
-	}
-
-	// StringContains
-	if filter.StringContains != nil {
-		var stringContain v20200601s.AdvancedFilter_StringContains
-		err := filter.StringContains.AssignPropertiesToAdvancedFilterStringContains(&stringContain)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAdvancedFilterStringContains() to populate field StringContains")
-		}
-		destination.StringContains = &stringContain
-	} else {
-		destination.StringContains = nil
-	}
-
-	// StringEndsWith
-	if filter.StringEndsWith != nil {
-		var stringEndsWith v20200601s.AdvancedFilter_StringEndsWith
-		err := filter.StringEndsWith.AssignPropertiesToAdvancedFilterStringEndsWith(&stringEndsWith)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAdvancedFilterStringEndsWith() to populate field StringEndsWith")
-		}
-		destination.StringEndsWith = &stringEndsWith
-	} else {
-		destination.StringEndsWith = nil
-	}
-
-	// StringIn
-	if filter.StringIn != nil {
-		var stringIn v20200601s.AdvancedFilter_StringIn
-		err := filter.StringIn.AssignPropertiesToAdvancedFilterStringIn(&stringIn)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAdvancedFilterStringIn() to populate field StringIn")
-		}
-		destination.StringIn = &stringIn
-	} else {
-		destination.StringIn = nil
-	}
-
-	// StringNotIn
-	if filter.StringNotIn != nil {
-		var stringNotIn v20200601s.AdvancedFilter_StringNotIn
-		err := filter.StringNotIn.AssignPropertiesToAdvancedFilterStringNotIn(&stringNotIn)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAdvancedFilterStringNotIn() to populate field StringNotIn")
-		}
-		destination.StringNotIn = &stringNotIn
-	} else {
-		destination.StringNotIn = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20200601.AdvancedFilter_Status
-// Deprecated version of AdvancedFilter_Status. Use v1beta20200601.AdvancedFilter_Status instead
-type AdvancedFilter_Status struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromAdvancedFilterStatus populates our AdvancedFilter_Status from the provided source AdvancedFilter_Status
-func (filter *AdvancedFilter_Status) AssignPropertiesFromAdvancedFilterStatus(source *v20200601s.AdvancedFilter_Status) error {
+// AssignPropertiesFromAdvancedFilter populates our AdvancedFilter from the provided source AdvancedFilter
+func (filter *AdvancedFilter) AssignPropertiesFromAdvancedFilter(source *v20200601s.AdvancedFilter) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1805,8 +1314,8 @@ func (filter *AdvancedFilter_Status) AssignPropertiesFromAdvancedFilterStatus(so
 	return nil
 }
 
-// AssignPropertiesToAdvancedFilterStatus populates the provided destination AdvancedFilter_Status from our AdvancedFilter_Status
-func (filter *AdvancedFilter_Status) AssignPropertiesToAdvancedFilterStatus(destination *v20200601s.AdvancedFilter_Status) error {
+// AssignPropertiesToAdvancedFilter populates the provided destination AdvancedFilter from our AdvancedFilter
+func (filter *AdvancedFilter) AssignPropertiesToAdvancedFilter(destination *v20200601s.AdvancedFilter) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
 
@@ -1827,1768 +1336,46 @@ func (filter *AdvancedFilter_Status) AssignPropertiesToAdvancedFilterStatus(dest
 	return nil
 }
 
-// Storage version of v1alpha1api20200601.AzureFunctionEventSubscriptionDestination
-// Deprecated version of AzureFunctionEventSubscriptionDestination. Use v1beta20200601.AzureFunctionEventSubscriptionDestination instead
-type AzureFunctionEventSubscriptionDestination struct {
-	EndpointType *string                                              `json:"endpointType,omitempty"`
-	Properties   *AzureFunctionEventSubscriptionDestinationProperties `json:"properties,omitempty"`
-	PropertyBag  genruntime.PropertyBag                               `json:"$propertyBag,omitempty"`
-}
-
-// AssignPropertiesFromAzureFunctionEventSubscriptionDestination populates our AzureFunctionEventSubscriptionDestination from the provided source AzureFunctionEventSubscriptionDestination
-func (destination *AzureFunctionEventSubscriptionDestination) AssignPropertiesFromAzureFunctionEventSubscriptionDestination(source *v20200601s.AzureFunctionEventSubscriptionDestination) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// EndpointType
-	destination.EndpointType = genruntime.ClonePointerToString(source.EndpointType)
-
-	// Properties
-	if source.Properties != nil {
-		var property AzureFunctionEventSubscriptionDestinationProperties
-		err := property.AssignPropertiesFromAzureFunctionEventSubscriptionDestinationProperties(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAzureFunctionEventSubscriptionDestinationProperties() to populate field Properties")
-		}
-		destination.Properties = &property
-	} else {
-		destination.Properties = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToAzureFunctionEventSubscriptionDestination populates the provided destination AzureFunctionEventSubscriptionDestination from our AzureFunctionEventSubscriptionDestination
-func (destination *AzureFunctionEventSubscriptionDestination) AssignPropertiesToAzureFunctionEventSubscriptionDestination(target *v20200601s.AzureFunctionEventSubscriptionDestination) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(destination.PropertyBag)
-
-	// EndpointType
-	target.EndpointType = genruntime.ClonePointerToString(destination.EndpointType)
-
-	// Properties
-	if destination.Properties != nil {
-		var property v20200601s.AzureFunctionEventSubscriptionDestinationProperties
-		err := destination.Properties.AssignPropertiesToAzureFunctionEventSubscriptionDestinationProperties(&property)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAzureFunctionEventSubscriptionDestinationProperties() to populate field Properties")
-		}
-		target.Properties = &property
-	} else {
-		target.Properties = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		target.PropertyBag = propertyBag
-	} else {
-		target.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20200601.EventHubEventSubscriptionDestination
-// Deprecated version of EventHubEventSubscriptionDestination. Use v1beta20200601.EventHubEventSubscriptionDestination instead
-type EventHubEventSubscriptionDestination struct {
-	EndpointType *string                                         `json:"endpointType,omitempty"`
-	Properties   *EventHubEventSubscriptionDestinationProperties `json:"properties,omitempty"`
-	PropertyBag  genruntime.PropertyBag                          `json:"$propertyBag,omitempty"`
-}
-
-// AssignPropertiesFromEventHubEventSubscriptionDestination populates our EventHubEventSubscriptionDestination from the provided source EventHubEventSubscriptionDestination
-func (destination *EventHubEventSubscriptionDestination) AssignPropertiesFromEventHubEventSubscriptionDestination(source *v20200601s.EventHubEventSubscriptionDestination) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// EndpointType
-	destination.EndpointType = genruntime.ClonePointerToString(source.EndpointType)
-
-	// Properties
-	if source.Properties != nil {
-		var property EventHubEventSubscriptionDestinationProperties
-		err := property.AssignPropertiesFromEventHubEventSubscriptionDestinationProperties(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEventHubEventSubscriptionDestinationProperties() to populate field Properties")
-		}
-		destination.Properties = &property
-	} else {
-		destination.Properties = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToEventHubEventSubscriptionDestination populates the provided destination EventHubEventSubscriptionDestination from our EventHubEventSubscriptionDestination
-func (destination *EventHubEventSubscriptionDestination) AssignPropertiesToEventHubEventSubscriptionDestination(target *v20200601s.EventHubEventSubscriptionDestination) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(destination.PropertyBag)
-
-	// EndpointType
-	target.EndpointType = genruntime.ClonePointerToString(destination.EndpointType)
-
-	// Properties
-	if destination.Properties != nil {
-		var property v20200601s.EventHubEventSubscriptionDestinationProperties
-		err := destination.Properties.AssignPropertiesToEventHubEventSubscriptionDestinationProperties(&property)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEventHubEventSubscriptionDestinationProperties() to populate field Properties")
-		}
-		target.Properties = &property
-	} else {
-		target.Properties = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		target.PropertyBag = propertyBag
-	} else {
-		target.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20200601.HybridConnectionEventSubscriptionDestination
-// Deprecated version of HybridConnectionEventSubscriptionDestination. Use v1beta20200601.HybridConnectionEventSubscriptionDestination instead
-type HybridConnectionEventSubscriptionDestination struct {
-	EndpointType *string                                                 `json:"endpointType,omitempty"`
-	Properties   *HybridConnectionEventSubscriptionDestinationProperties `json:"properties,omitempty"`
-	PropertyBag  genruntime.PropertyBag                                  `json:"$propertyBag,omitempty"`
-}
-
-// AssignPropertiesFromHybridConnectionEventSubscriptionDestination populates our HybridConnectionEventSubscriptionDestination from the provided source HybridConnectionEventSubscriptionDestination
-func (destination *HybridConnectionEventSubscriptionDestination) AssignPropertiesFromHybridConnectionEventSubscriptionDestination(source *v20200601s.HybridConnectionEventSubscriptionDestination) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// EndpointType
-	destination.EndpointType = genruntime.ClonePointerToString(source.EndpointType)
-
-	// Properties
-	if source.Properties != nil {
-		var property HybridConnectionEventSubscriptionDestinationProperties
-		err := property.AssignPropertiesFromHybridConnectionEventSubscriptionDestinationProperties(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromHybridConnectionEventSubscriptionDestinationProperties() to populate field Properties")
-		}
-		destination.Properties = &property
-	} else {
-		destination.Properties = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToHybridConnectionEventSubscriptionDestination populates the provided destination HybridConnectionEventSubscriptionDestination from our HybridConnectionEventSubscriptionDestination
-func (destination *HybridConnectionEventSubscriptionDestination) AssignPropertiesToHybridConnectionEventSubscriptionDestination(target *v20200601s.HybridConnectionEventSubscriptionDestination) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(destination.PropertyBag)
-
-	// EndpointType
-	target.EndpointType = genruntime.ClonePointerToString(destination.EndpointType)
-
-	// Properties
-	if destination.Properties != nil {
-		var property v20200601s.HybridConnectionEventSubscriptionDestinationProperties
-		err := destination.Properties.AssignPropertiesToHybridConnectionEventSubscriptionDestinationProperties(&property)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToHybridConnectionEventSubscriptionDestinationProperties() to populate field Properties")
-		}
-		target.Properties = &property
-	} else {
-		target.Properties = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		target.PropertyBag = propertyBag
-	} else {
-		target.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20200601.ServiceBusQueueEventSubscriptionDestination
-// Deprecated version of ServiceBusQueueEventSubscriptionDestination. Use v1beta20200601.ServiceBusQueueEventSubscriptionDestination instead
-type ServiceBusQueueEventSubscriptionDestination struct {
-	EndpointType *string                                                `json:"endpointType,omitempty"`
-	Properties   *ServiceBusQueueEventSubscriptionDestinationProperties `json:"properties,omitempty"`
-	PropertyBag  genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
-}
-
-// AssignPropertiesFromServiceBusQueueEventSubscriptionDestination populates our ServiceBusQueueEventSubscriptionDestination from the provided source ServiceBusQueueEventSubscriptionDestination
-func (destination *ServiceBusQueueEventSubscriptionDestination) AssignPropertiesFromServiceBusQueueEventSubscriptionDestination(source *v20200601s.ServiceBusQueueEventSubscriptionDestination) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// EndpointType
-	destination.EndpointType = genruntime.ClonePointerToString(source.EndpointType)
-
-	// Properties
-	if source.Properties != nil {
-		var property ServiceBusQueueEventSubscriptionDestinationProperties
-		err := property.AssignPropertiesFromServiceBusQueueEventSubscriptionDestinationProperties(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromServiceBusQueueEventSubscriptionDestinationProperties() to populate field Properties")
-		}
-		destination.Properties = &property
-	} else {
-		destination.Properties = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToServiceBusQueueEventSubscriptionDestination populates the provided destination ServiceBusQueueEventSubscriptionDestination from our ServiceBusQueueEventSubscriptionDestination
-func (destination *ServiceBusQueueEventSubscriptionDestination) AssignPropertiesToServiceBusQueueEventSubscriptionDestination(target *v20200601s.ServiceBusQueueEventSubscriptionDestination) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(destination.PropertyBag)
-
-	// EndpointType
-	target.EndpointType = genruntime.ClonePointerToString(destination.EndpointType)
-
-	// Properties
-	if destination.Properties != nil {
-		var property v20200601s.ServiceBusQueueEventSubscriptionDestinationProperties
-		err := destination.Properties.AssignPropertiesToServiceBusQueueEventSubscriptionDestinationProperties(&property)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToServiceBusQueueEventSubscriptionDestinationProperties() to populate field Properties")
-		}
-		target.Properties = &property
-	} else {
-		target.Properties = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		target.PropertyBag = propertyBag
-	} else {
-		target.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20200601.ServiceBusTopicEventSubscriptionDestination
-// Deprecated version of ServiceBusTopicEventSubscriptionDestination. Use v1beta20200601.ServiceBusTopicEventSubscriptionDestination instead
-type ServiceBusTopicEventSubscriptionDestination struct {
-	EndpointType *string                                                `json:"endpointType,omitempty"`
-	Properties   *ServiceBusTopicEventSubscriptionDestinationProperties `json:"properties,omitempty"`
-	PropertyBag  genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
-}
-
-// AssignPropertiesFromServiceBusTopicEventSubscriptionDestination populates our ServiceBusTopicEventSubscriptionDestination from the provided source ServiceBusTopicEventSubscriptionDestination
-func (destination *ServiceBusTopicEventSubscriptionDestination) AssignPropertiesFromServiceBusTopicEventSubscriptionDestination(source *v20200601s.ServiceBusTopicEventSubscriptionDestination) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// EndpointType
-	destination.EndpointType = genruntime.ClonePointerToString(source.EndpointType)
-
-	// Properties
-	if source.Properties != nil {
-		var property ServiceBusTopicEventSubscriptionDestinationProperties
-		err := property.AssignPropertiesFromServiceBusTopicEventSubscriptionDestinationProperties(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromServiceBusTopicEventSubscriptionDestinationProperties() to populate field Properties")
-		}
-		destination.Properties = &property
-	} else {
-		destination.Properties = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToServiceBusTopicEventSubscriptionDestination populates the provided destination ServiceBusTopicEventSubscriptionDestination from our ServiceBusTopicEventSubscriptionDestination
-func (destination *ServiceBusTopicEventSubscriptionDestination) AssignPropertiesToServiceBusTopicEventSubscriptionDestination(target *v20200601s.ServiceBusTopicEventSubscriptionDestination) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(destination.PropertyBag)
-
-	// EndpointType
-	target.EndpointType = genruntime.ClonePointerToString(destination.EndpointType)
-
-	// Properties
-	if destination.Properties != nil {
-		var property v20200601s.ServiceBusTopicEventSubscriptionDestinationProperties
-		err := destination.Properties.AssignPropertiesToServiceBusTopicEventSubscriptionDestinationProperties(&property)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToServiceBusTopicEventSubscriptionDestinationProperties() to populate field Properties")
-		}
-		target.Properties = &property
-	} else {
-		target.Properties = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		target.PropertyBag = propertyBag
-	} else {
-		target.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20200601.StorageBlobDeadLetterDestinationProperties
-// Deprecated version of StorageBlobDeadLetterDestinationProperties. Use v1beta20200601.StorageBlobDeadLetterDestinationProperties instead
-type StorageBlobDeadLetterDestinationProperties struct {
-	BlobContainerName *string                       `json:"blobContainerName,omitempty"`
-	PropertyBag       genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
-}
-
-// AssignPropertiesFromStorageBlobDeadLetterDestinationProperties populates our StorageBlobDeadLetterDestinationProperties from the provided source StorageBlobDeadLetterDestinationProperties
-func (properties *StorageBlobDeadLetterDestinationProperties) AssignPropertiesFromStorageBlobDeadLetterDestinationProperties(source *v20200601s.StorageBlobDeadLetterDestinationProperties) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// BlobContainerName
-	properties.BlobContainerName = genruntime.ClonePointerToString(source.BlobContainerName)
-
-	// ResourceReference
-	if source.ResourceReference != nil {
-		resourceReference := source.ResourceReference.Copy()
-		properties.ResourceReference = &resourceReference
-	} else {
-		properties.ResourceReference = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		properties.PropertyBag = propertyBag
-	} else {
-		properties.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToStorageBlobDeadLetterDestinationProperties populates the provided destination StorageBlobDeadLetterDestinationProperties from our StorageBlobDeadLetterDestinationProperties
-func (properties *StorageBlobDeadLetterDestinationProperties) AssignPropertiesToStorageBlobDeadLetterDestinationProperties(destination *v20200601s.StorageBlobDeadLetterDestinationProperties) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
-
-	// BlobContainerName
-	destination.BlobContainerName = genruntime.ClonePointerToString(properties.BlobContainerName)
-
-	// ResourceReference
-	if properties.ResourceReference != nil {
-		resourceReference := properties.ResourceReference.Copy()
-		destination.ResourceReference = &resourceReference
-	} else {
-		destination.ResourceReference = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20200601.StorageQueueEventSubscriptionDestination
-// Deprecated version of StorageQueueEventSubscriptionDestination. Use v1beta20200601.StorageQueueEventSubscriptionDestination instead
-type StorageQueueEventSubscriptionDestination struct {
-	EndpointType *string                                             `json:"endpointType,omitempty"`
-	Properties   *StorageQueueEventSubscriptionDestinationProperties `json:"properties,omitempty"`
-	PropertyBag  genruntime.PropertyBag                              `json:"$propertyBag,omitempty"`
-}
-
-// AssignPropertiesFromStorageQueueEventSubscriptionDestination populates our StorageQueueEventSubscriptionDestination from the provided source StorageQueueEventSubscriptionDestination
-func (destination *StorageQueueEventSubscriptionDestination) AssignPropertiesFromStorageQueueEventSubscriptionDestination(source *v20200601s.StorageQueueEventSubscriptionDestination) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// EndpointType
-	destination.EndpointType = genruntime.ClonePointerToString(source.EndpointType)
-
-	// Properties
-	if source.Properties != nil {
-		var property StorageQueueEventSubscriptionDestinationProperties
-		err := property.AssignPropertiesFromStorageQueueEventSubscriptionDestinationProperties(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromStorageQueueEventSubscriptionDestinationProperties() to populate field Properties")
-		}
-		destination.Properties = &property
-	} else {
-		destination.Properties = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToStorageQueueEventSubscriptionDestination populates the provided destination StorageQueueEventSubscriptionDestination from our StorageQueueEventSubscriptionDestination
-func (destination *StorageQueueEventSubscriptionDestination) AssignPropertiesToStorageQueueEventSubscriptionDestination(target *v20200601s.StorageQueueEventSubscriptionDestination) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(destination.PropertyBag)
-
-	// EndpointType
-	target.EndpointType = genruntime.ClonePointerToString(destination.EndpointType)
-
-	// Properties
-	if destination.Properties != nil {
-		var property v20200601s.StorageQueueEventSubscriptionDestinationProperties
-		err := destination.Properties.AssignPropertiesToStorageQueueEventSubscriptionDestinationProperties(&property)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToStorageQueueEventSubscriptionDestinationProperties() to populate field Properties")
-		}
-		target.Properties = &property
-	} else {
-		target.Properties = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		target.PropertyBag = propertyBag
-	} else {
-		target.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20200601.WebHookEventSubscriptionDestination
-// Deprecated version of WebHookEventSubscriptionDestination. Use v1beta20200601.WebHookEventSubscriptionDestination instead
-type WebHookEventSubscriptionDestination struct {
-	EndpointType *string                                        `json:"endpointType,omitempty"`
-	Properties   *WebHookEventSubscriptionDestinationProperties `json:"properties,omitempty"`
-	PropertyBag  genruntime.PropertyBag                         `json:"$propertyBag,omitempty"`
-}
-
-// AssignPropertiesFromWebHookEventSubscriptionDestination populates our WebHookEventSubscriptionDestination from the provided source WebHookEventSubscriptionDestination
-func (destination *WebHookEventSubscriptionDestination) AssignPropertiesFromWebHookEventSubscriptionDestination(source *v20200601s.WebHookEventSubscriptionDestination) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// EndpointType
-	destination.EndpointType = genruntime.ClonePointerToString(source.EndpointType)
-
-	// Properties
-	if source.Properties != nil {
-		var property WebHookEventSubscriptionDestinationProperties
-		err := property.AssignPropertiesFromWebHookEventSubscriptionDestinationProperties(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromWebHookEventSubscriptionDestinationProperties() to populate field Properties")
-		}
-		destination.Properties = &property
-	} else {
-		destination.Properties = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToWebHookEventSubscriptionDestination populates the provided destination WebHookEventSubscriptionDestination from our WebHookEventSubscriptionDestination
-func (destination *WebHookEventSubscriptionDestination) AssignPropertiesToWebHookEventSubscriptionDestination(target *v20200601s.WebHookEventSubscriptionDestination) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(destination.PropertyBag)
-
-	// EndpointType
-	target.EndpointType = genruntime.ClonePointerToString(destination.EndpointType)
-
-	// Properties
-	if destination.Properties != nil {
-		var property v20200601s.WebHookEventSubscriptionDestinationProperties
-		err := destination.Properties.AssignPropertiesToWebHookEventSubscriptionDestinationProperties(&property)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToWebHookEventSubscriptionDestinationProperties() to populate field Properties")
-		}
-		target.Properties = &property
-	} else {
-		target.Properties = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		target.PropertyBag = propertyBag
-	} else {
-		target.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20200601.AdvancedFilter_BoolEquals
-// Deprecated version of AdvancedFilter_BoolEquals. Use v1beta20200601.AdvancedFilter_BoolEquals instead
-type AdvancedFilter_BoolEquals struct {
+// Storage version of v1alpha1api20200601.AdvancedFilter_STATUS
+// Deprecated version of AdvancedFilter_STATUS. Use v1beta20200601.AdvancedFilter_STATUS instead
+type AdvancedFilter_STATUS struct {
 	Key          *string                `json:"key,omitempty"`
 	OperatorType *string                `json:"operatorType,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Value        *bool                  `json:"value,omitempty"`
 }
 
-// AssignPropertiesFromAdvancedFilterBoolEquals populates our AdvancedFilter_BoolEquals from the provided source AdvancedFilter_BoolEquals
-func (equals *AdvancedFilter_BoolEquals) AssignPropertiesFromAdvancedFilterBoolEquals(source *v20200601s.AdvancedFilter_BoolEquals) error {
+// AssignPropertiesFromAdvancedFilter_STATUS populates our AdvancedFilter_STATUS from the provided source AdvancedFilter_STATUS
+func (filter *AdvancedFilter_STATUS) AssignPropertiesFromAdvancedFilter_STATUS(source *v20200601s.AdvancedFilter_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// Key
-	equals.Key = genruntime.ClonePointerToString(source.Key)
+	filter.Key = genruntime.ClonePointerToString(source.Key)
 
 	// OperatorType
-	equals.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
-
-	// Value
-	if source.Value != nil {
-		value := *source.Value
-		equals.Value = &value
-	} else {
-		equals.Value = nil
-	}
+	filter.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		equals.PropertyBag = propertyBag
+		filter.PropertyBag = propertyBag
 	} else {
-		equals.PropertyBag = nil
+		filter.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToAdvancedFilterBoolEquals populates the provided destination AdvancedFilter_BoolEquals from our AdvancedFilter_BoolEquals
-func (equals *AdvancedFilter_BoolEquals) AssignPropertiesToAdvancedFilterBoolEquals(destination *v20200601s.AdvancedFilter_BoolEquals) error {
+// AssignPropertiesToAdvancedFilter_STATUS populates the provided destination AdvancedFilter_STATUS from our AdvancedFilter_STATUS
+func (filter *AdvancedFilter_STATUS) AssignPropertiesToAdvancedFilter_STATUS(destination *v20200601s.AdvancedFilter_STATUS) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(equals.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(filter.PropertyBag)
 
 	// Key
-	destination.Key = genruntime.ClonePointerToString(equals.Key)
+	destination.Key = genruntime.ClonePointerToString(filter.Key)
 
 	// OperatorType
-	destination.OperatorType = genruntime.ClonePointerToString(equals.OperatorType)
-
-	// Value
-	if equals.Value != nil {
-		value := *equals.Value
-		destination.Value = &value
-	} else {
-		destination.Value = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20200601.AdvancedFilter_NumberGreaterThan
-// Deprecated version of AdvancedFilter_NumberGreaterThan. Use v1beta20200601.AdvancedFilter_NumberGreaterThan instead
-type AdvancedFilter_NumberGreaterThan struct {
-	Key          *string                `json:"key,omitempty"`
-	OperatorType *string                `json:"operatorType,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Value        *float64               `json:"value,omitempty"`
-}
-
-// AssignPropertiesFromAdvancedFilterNumberGreaterThan populates our AdvancedFilter_NumberGreaterThan from the provided source AdvancedFilter_NumberGreaterThan
-func (than *AdvancedFilter_NumberGreaterThan) AssignPropertiesFromAdvancedFilterNumberGreaterThan(source *v20200601s.AdvancedFilter_NumberGreaterThan) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Key
-	than.Key = genruntime.ClonePointerToString(source.Key)
-
-	// OperatorType
-	than.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
-
-	// Value
-	if source.Value != nil {
-		value := *source.Value
-		than.Value = &value
-	} else {
-		than.Value = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		than.PropertyBag = propertyBag
-	} else {
-		than.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToAdvancedFilterNumberGreaterThan populates the provided destination AdvancedFilter_NumberGreaterThan from our AdvancedFilter_NumberGreaterThan
-func (than *AdvancedFilter_NumberGreaterThan) AssignPropertiesToAdvancedFilterNumberGreaterThan(destination *v20200601s.AdvancedFilter_NumberGreaterThan) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(than.PropertyBag)
-
-	// Key
-	destination.Key = genruntime.ClonePointerToString(than.Key)
-
-	// OperatorType
-	destination.OperatorType = genruntime.ClonePointerToString(than.OperatorType)
-
-	// Value
-	if than.Value != nil {
-		value := *than.Value
-		destination.Value = &value
-	} else {
-		destination.Value = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20200601.AdvancedFilter_NumberGreaterThanOrEquals
-// Deprecated version of AdvancedFilter_NumberGreaterThanOrEquals. Use v1beta20200601.AdvancedFilter_NumberGreaterThanOrEquals instead
-type AdvancedFilter_NumberGreaterThanOrEquals struct {
-	Key          *string                `json:"key,omitempty"`
-	OperatorType *string                `json:"operatorType,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Value        *float64               `json:"value,omitempty"`
-}
-
-// AssignPropertiesFromAdvancedFilterNumberGreaterThanOrEquals populates our AdvancedFilter_NumberGreaterThanOrEquals from the provided source AdvancedFilter_NumberGreaterThanOrEquals
-func (equals *AdvancedFilter_NumberGreaterThanOrEquals) AssignPropertiesFromAdvancedFilterNumberGreaterThanOrEquals(source *v20200601s.AdvancedFilter_NumberGreaterThanOrEquals) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Key
-	equals.Key = genruntime.ClonePointerToString(source.Key)
-
-	// OperatorType
-	equals.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
-
-	// Value
-	if source.Value != nil {
-		value := *source.Value
-		equals.Value = &value
-	} else {
-		equals.Value = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		equals.PropertyBag = propertyBag
-	} else {
-		equals.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToAdvancedFilterNumberGreaterThanOrEquals populates the provided destination AdvancedFilter_NumberGreaterThanOrEquals from our AdvancedFilter_NumberGreaterThanOrEquals
-func (equals *AdvancedFilter_NumberGreaterThanOrEquals) AssignPropertiesToAdvancedFilterNumberGreaterThanOrEquals(destination *v20200601s.AdvancedFilter_NumberGreaterThanOrEquals) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(equals.PropertyBag)
-
-	// Key
-	destination.Key = genruntime.ClonePointerToString(equals.Key)
-
-	// OperatorType
-	destination.OperatorType = genruntime.ClonePointerToString(equals.OperatorType)
-
-	// Value
-	if equals.Value != nil {
-		value := *equals.Value
-		destination.Value = &value
-	} else {
-		destination.Value = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20200601.AdvancedFilter_NumberIn
-// Deprecated version of AdvancedFilter_NumberIn. Use v1beta20200601.AdvancedFilter_NumberIn instead
-type AdvancedFilter_NumberIn struct {
-	Key          *string                `json:"key,omitempty"`
-	OperatorType *string                `json:"operatorType,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Values       []float64              `json:"values,omitempty"`
-}
-
-// AssignPropertiesFromAdvancedFilterNumberIn populates our AdvancedFilter_NumberIn from the provided source AdvancedFilter_NumberIn
-func (numberIn *AdvancedFilter_NumberIn) AssignPropertiesFromAdvancedFilterNumberIn(source *v20200601s.AdvancedFilter_NumberIn) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Key
-	numberIn.Key = genruntime.ClonePointerToString(source.Key)
-
-	// OperatorType
-	numberIn.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
-
-	// Values
-	if source.Values != nil {
-		valueList := make([]float64, len(source.Values))
-		for valueIndex, valueItem := range source.Values {
-			// Shadow the loop variable to avoid aliasing
-			valueItem := valueItem
-			valueList[valueIndex] = valueItem
-		}
-		numberIn.Values = valueList
-	} else {
-		numberIn.Values = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		numberIn.PropertyBag = propertyBag
-	} else {
-		numberIn.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToAdvancedFilterNumberIn populates the provided destination AdvancedFilter_NumberIn from our AdvancedFilter_NumberIn
-func (numberIn *AdvancedFilter_NumberIn) AssignPropertiesToAdvancedFilterNumberIn(destination *v20200601s.AdvancedFilter_NumberIn) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(numberIn.PropertyBag)
-
-	// Key
-	destination.Key = genruntime.ClonePointerToString(numberIn.Key)
-
-	// OperatorType
-	destination.OperatorType = genruntime.ClonePointerToString(numberIn.OperatorType)
-
-	// Values
-	if numberIn.Values != nil {
-		valueList := make([]float64, len(numberIn.Values))
-		for valueIndex, valueItem := range numberIn.Values {
-			// Shadow the loop variable to avoid aliasing
-			valueItem := valueItem
-			valueList[valueIndex] = valueItem
-		}
-		destination.Values = valueList
-	} else {
-		destination.Values = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20200601.AdvancedFilter_NumberLessThan
-// Deprecated version of AdvancedFilter_NumberLessThan. Use v1beta20200601.AdvancedFilter_NumberLessThan instead
-type AdvancedFilter_NumberLessThan struct {
-	Key          *string                `json:"key,omitempty"`
-	OperatorType *string                `json:"operatorType,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Value        *float64               `json:"value,omitempty"`
-}
-
-// AssignPropertiesFromAdvancedFilterNumberLessThan populates our AdvancedFilter_NumberLessThan from the provided source AdvancedFilter_NumberLessThan
-func (than *AdvancedFilter_NumberLessThan) AssignPropertiesFromAdvancedFilterNumberLessThan(source *v20200601s.AdvancedFilter_NumberLessThan) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Key
-	than.Key = genruntime.ClonePointerToString(source.Key)
-
-	// OperatorType
-	than.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
-
-	// Value
-	if source.Value != nil {
-		value := *source.Value
-		than.Value = &value
-	} else {
-		than.Value = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		than.PropertyBag = propertyBag
-	} else {
-		than.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToAdvancedFilterNumberLessThan populates the provided destination AdvancedFilter_NumberLessThan from our AdvancedFilter_NumberLessThan
-func (than *AdvancedFilter_NumberLessThan) AssignPropertiesToAdvancedFilterNumberLessThan(destination *v20200601s.AdvancedFilter_NumberLessThan) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(than.PropertyBag)
-
-	// Key
-	destination.Key = genruntime.ClonePointerToString(than.Key)
-
-	// OperatorType
-	destination.OperatorType = genruntime.ClonePointerToString(than.OperatorType)
-
-	// Value
-	if than.Value != nil {
-		value := *than.Value
-		destination.Value = &value
-	} else {
-		destination.Value = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20200601.AdvancedFilter_NumberLessThanOrEquals
-// Deprecated version of AdvancedFilter_NumberLessThanOrEquals. Use v1beta20200601.AdvancedFilter_NumberLessThanOrEquals instead
-type AdvancedFilter_NumberLessThanOrEquals struct {
-	Key          *string                `json:"key,omitempty"`
-	OperatorType *string                `json:"operatorType,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Value        *float64               `json:"value,omitempty"`
-}
-
-// AssignPropertiesFromAdvancedFilterNumberLessThanOrEquals populates our AdvancedFilter_NumberLessThanOrEquals from the provided source AdvancedFilter_NumberLessThanOrEquals
-func (equals *AdvancedFilter_NumberLessThanOrEquals) AssignPropertiesFromAdvancedFilterNumberLessThanOrEquals(source *v20200601s.AdvancedFilter_NumberLessThanOrEquals) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Key
-	equals.Key = genruntime.ClonePointerToString(source.Key)
-
-	// OperatorType
-	equals.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
-
-	// Value
-	if source.Value != nil {
-		value := *source.Value
-		equals.Value = &value
-	} else {
-		equals.Value = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		equals.PropertyBag = propertyBag
-	} else {
-		equals.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToAdvancedFilterNumberLessThanOrEquals populates the provided destination AdvancedFilter_NumberLessThanOrEquals from our AdvancedFilter_NumberLessThanOrEquals
-func (equals *AdvancedFilter_NumberLessThanOrEquals) AssignPropertiesToAdvancedFilterNumberLessThanOrEquals(destination *v20200601s.AdvancedFilter_NumberLessThanOrEquals) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(equals.PropertyBag)
-
-	// Key
-	destination.Key = genruntime.ClonePointerToString(equals.Key)
-
-	// OperatorType
-	destination.OperatorType = genruntime.ClonePointerToString(equals.OperatorType)
-
-	// Value
-	if equals.Value != nil {
-		value := *equals.Value
-		destination.Value = &value
-	} else {
-		destination.Value = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20200601.AdvancedFilter_NumberNotIn
-// Deprecated version of AdvancedFilter_NumberNotIn. Use v1beta20200601.AdvancedFilter_NumberNotIn instead
-type AdvancedFilter_NumberNotIn struct {
-	Key          *string                `json:"key,omitempty"`
-	OperatorType *string                `json:"operatorType,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Values       []float64              `json:"values,omitempty"`
-}
-
-// AssignPropertiesFromAdvancedFilterNumberNotIn populates our AdvancedFilter_NumberNotIn from the provided source AdvancedFilter_NumberNotIn
-func (notIn *AdvancedFilter_NumberNotIn) AssignPropertiesFromAdvancedFilterNumberNotIn(source *v20200601s.AdvancedFilter_NumberNotIn) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Key
-	notIn.Key = genruntime.ClonePointerToString(source.Key)
-
-	// OperatorType
-	notIn.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
-
-	// Values
-	if source.Values != nil {
-		valueList := make([]float64, len(source.Values))
-		for valueIndex, valueItem := range source.Values {
-			// Shadow the loop variable to avoid aliasing
-			valueItem := valueItem
-			valueList[valueIndex] = valueItem
-		}
-		notIn.Values = valueList
-	} else {
-		notIn.Values = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		notIn.PropertyBag = propertyBag
-	} else {
-		notIn.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToAdvancedFilterNumberNotIn populates the provided destination AdvancedFilter_NumberNotIn from our AdvancedFilter_NumberNotIn
-func (notIn *AdvancedFilter_NumberNotIn) AssignPropertiesToAdvancedFilterNumberNotIn(destination *v20200601s.AdvancedFilter_NumberNotIn) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(notIn.PropertyBag)
-
-	// Key
-	destination.Key = genruntime.ClonePointerToString(notIn.Key)
-
-	// OperatorType
-	destination.OperatorType = genruntime.ClonePointerToString(notIn.OperatorType)
-
-	// Values
-	if notIn.Values != nil {
-		valueList := make([]float64, len(notIn.Values))
-		for valueIndex, valueItem := range notIn.Values {
-			// Shadow the loop variable to avoid aliasing
-			valueItem := valueItem
-			valueList[valueIndex] = valueItem
-		}
-		destination.Values = valueList
-	} else {
-		destination.Values = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20200601.AdvancedFilter_StringBeginsWith
-// Deprecated version of AdvancedFilter_StringBeginsWith. Use v1beta20200601.AdvancedFilter_StringBeginsWith instead
-type AdvancedFilter_StringBeginsWith struct {
-	Key          *string                `json:"key,omitempty"`
-	OperatorType *string                `json:"operatorType,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Values       []string               `json:"values,omitempty"`
-}
-
-// AssignPropertiesFromAdvancedFilterStringBeginsWith populates our AdvancedFilter_StringBeginsWith from the provided source AdvancedFilter_StringBeginsWith
-func (with *AdvancedFilter_StringBeginsWith) AssignPropertiesFromAdvancedFilterStringBeginsWith(source *v20200601s.AdvancedFilter_StringBeginsWith) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Key
-	with.Key = genruntime.ClonePointerToString(source.Key)
-
-	// OperatorType
-	with.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
-
-	// Values
-	with.Values = genruntime.CloneSliceOfString(source.Values)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		with.PropertyBag = propertyBag
-	} else {
-		with.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToAdvancedFilterStringBeginsWith populates the provided destination AdvancedFilter_StringBeginsWith from our AdvancedFilter_StringBeginsWith
-func (with *AdvancedFilter_StringBeginsWith) AssignPropertiesToAdvancedFilterStringBeginsWith(destination *v20200601s.AdvancedFilter_StringBeginsWith) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(with.PropertyBag)
-
-	// Key
-	destination.Key = genruntime.ClonePointerToString(with.Key)
-
-	// OperatorType
-	destination.OperatorType = genruntime.ClonePointerToString(with.OperatorType)
-
-	// Values
-	destination.Values = genruntime.CloneSliceOfString(with.Values)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20200601.AdvancedFilter_StringContains
-// Deprecated version of AdvancedFilter_StringContains. Use v1beta20200601.AdvancedFilter_StringContains instead
-type AdvancedFilter_StringContains struct {
-	Key          *string                `json:"key,omitempty"`
-	OperatorType *string                `json:"operatorType,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Values       []string               `json:"values,omitempty"`
-}
-
-// AssignPropertiesFromAdvancedFilterStringContains populates our AdvancedFilter_StringContains from the provided source AdvancedFilter_StringContains
-func (contains *AdvancedFilter_StringContains) AssignPropertiesFromAdvancedFilterStringContains(source *v20200601s.AdvancedFilter_StringContains) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Key
-	contains.Key = genruntime.ClonePointerToString(source.Key)
-
-	// OperatorType
-	contains.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
-
-	// Values
-	contains.Values = genruntime.CloneSliceOfString(source.Values)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		contains.PropertyBag = propertyBag
-	} else {
-		contains.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToAdvancedFilterStringContains populates the provided destination AdvancedFilter_StringContains from our AdvancedFilter_StringContains
-func (contains *AdvancedFilter_StringContains) AssignPropertiesToAdvancedFilterStringContains(destination *v20200601s.AdvancedFilter_StringContains) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(contains.PropertyBag)
-
-	// Key
-	destination.Key = genruntime.ClonePointerToString(contains.Key)
-
-	// OperatorType
-	destination.OperatorType = genruntime.ClonePointerToString(contains.OperatorType)
-
-	// Values
-	destination.Values = genruntime.CloneSliceOfString(contains.Values)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20200601.AdvancedFilter_StringEndsWith
-// Deprecated version of AdvancedFilter_StringEndsWith. Use v1beta20200601.AdvancedFilter_StringEndsWith instead
-type AdvancedFilter_StringEndsWith struct {
-	Key          *string                `json:"key,omitempty"`
-	OperatorType *string                `json:"operatorType,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Values       []string               `json:"values,omitempty"`
-}
-
-// AssignPropertiesFromAdvancedFilterStringEndsWith populates our AdvancedFilter_StringEndsWith from the provided source AdvancedFilter_StringEndsWith
-func (with *AdvancedFilter_StringEndsWith) AssignPropertiesFromAdvancedFilterStringEndsWith(source *v20200601s.AdvancedFilter_StringEndsWith) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Key
-	with.Key = genruntime.ClonePointerToString(source.Key)
-
-	// OperatorType
-	with.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
-
-	// Values
-	with.Values = genruntime.CloneSliceOfString(source.Values)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		with.PropertyBag = propertyBag
-	} else {
-		with.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToAdvancedFilterStringEndsWith populates the provided destination AdvancedFilter_StringEndsWith from our AdvancedFilter_StringEndsWith
-func (with *AdvancedFilter_StringEndsWith) AssignPropertiesToAdvancedFilterStringEndsWith(destination *v20200601s.AdvancedFilter_StringEndsWith) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(with.PropertyBag)
-
-	// Key
-	destination.Key = genruntime.ClonePointerToString(with.Key)
-
-	// OperatorType
-	destination.OperatorType = genruntime.ClonePointerToString(with.OperatorType)
-
-	// Values
-	destination.Values = genruntime.CloneSliceOfString(with.Values)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20200601.AdvancedFilter_StringIn
-// Deprecated version of AdvancedFilter_StringIn. Use v1beta20200601.AdvancedFilter_StringIn instead
-type AdvancedFilter_StringIn struct {
-	Key          *string                `json:"key,omitempty"`
-	OperatorType *string                `json:"operatorType,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Values       []string               `json:"values,omitempty"`
-}
-
-// AssignPropertiesFromAdvancedFilterStringIn populates our AdvancedFilter_StringIn from the provided source AdvancedFilter_StringIn
-func (stringIn *AdvancedFilter_StringIn) AssignPropertiesFromAdvancedFilterStringIn(source *v20200601s.AdvancedFilter_StringIn) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Key
-	stringIn.Key = genruntime.ClonePointerToString(source.Key)
-
-	// OperatorType
-	stringIn.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
-
-	// Values
-	stringIn.Values = genruntime.CloneSliceOfString(source.Values)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		stringIn.PropertyBag = propertyBag
-	} else {
-		stringIn.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToAdvancedFilterStringIn populates the provided destination AdvancedFilter_StringIn from our AdvancedFilter_StringIn
-func (stringIn *AdvancedFilter_StringIn) AssignPropertiesToAdvancedFilterStringIn(destination *v20200601s.AdvancedFilter_StringIn) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(stringIn.PropertyBag)
-
-	// Key
-	destination.Key = genruntime.ClonePointerToString(stringIn.Key)
-
-	// OperatorType
-	destination.OperatorType = genruntime.ClonePointerToString(stringIn.OperatorType)
-
-	// Values
-	destination.Values = genruntime.CloneSliceOfString(stringIn.Values)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20200601.AdvancedFilter_StringNotIn
-// Deprecated version of AdvancedFilter_StringNotIn. Use v1beta20200601.AdvancedFilter_StringNotIn instead
-type AdvancedFilter_StringNotIn struct {
-	Key          *string                `json:"key,omitempty"`
-	OperatorType *string                `json:"operatorType,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Values       []string               `json:"values,omitempty"`
-}
-
-// AssignPropertiesFromAdvancedFilterStringNotIn populates our AdvancedFilter_StringNotIn from the provided source AdvancedFilter_StringNotIn
-func (notIn *AdvancedFilter_StringNotIn) AssignPropertiesFromAdvancedFilterStringNotIn(source *v20200601s.AdvancedFilter_StringNotIn) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Key
-	notIn.Key = genruntime.ClonePointerToString(source.Key)
-
-	// OperatorType
-	notIn.OperatorType = genruntime.ClonePointerToString(source.OperatorType)
-
-	// Values
-	notIn.Values = genruntime.CloneSliceOfString(source.Values)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		notIn.PropertyBag = propertyBag
-	} else {
-		notIn.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToAdvancedFilterStringNotIn populates the provided destination AdvancedFilter_StringNotIn from our AdvancedFilter_StringNotIn
-func (notIn *AdvancedFilter_StringNotIn) AssignPropertiesToAdvancedFilterStringNotIn(destination *v20200601s.AdvancedFilter_StringNotIn) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(notIn.PropertyBag)
-
-	// Key
-	destination.Key = genruntime.ClonePointerToString(notIn.Key)
-
-	// OperatorType
-	destination.OperatorType = genruntime.ClonePointerToString(notIn.OperatorType)
-
-	// Values
-	destination.Values = genruntime.CloneSliceOfString(notIn.Values)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20200601.AzureFunctionEventSubscriptionDestinationProperties
-// Deprecated version of AzureFunctionEventSubscriptionDestinationProperties. Use v1beta20200601.AzureFunctionEventSubscriptionDestinationProperties instead
-type AzureFunctionEventSubscriptionDestinationProperties struct {
-	MaxEventsPerBatch             *int                          `json:"maxEventsPerBatch,omitempty"`
-	PreferredBatchSizeInKilobytes *int                          `json:"preferredBatchSizeInKilobytes,omitempty"`
-	PropertyBag                   genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	ResourceReference             *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
-}
-
-// AssignPropertiesFromAzureFunctionEventSubscriptionDestinationProperties populates our AzureFunctionEventSubscriptionDestinationProperties from the provided source AzureFunctionEventSubscriptionDestinationProperties
-func (properties *AzureFunctionEventSubscriptionDestinationProperties) AssignPropertiesFromAzureFunctionEventSubscriptionDestinationProperties(source *v20200601s.AzureFunctionEventSubscriptionDestinationProperties) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// MaxEventsPerBatch
-	properties.MaxEventsPerBatch = genruntime.ClonePointerToInt(source.MaxEventsPerBatch)
-
-	// PreferredBatchSizeInKilobytes
-	properties.PreferredBatchSizeInKilobytes = genruntime.ClonePointerToInt(source.PreferredBatchSizeInKilobytes)
-
-	// ResourceReference
-	if source.ResourceReference != nil {
-		resourceReference := source.ResourceReference.Copy()
-		properties.ResourceReference = &resourceReference
-	} else {
-		properties.ResourceReference = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		properties.PropertyBag = propertyBag
-	} else {
-		properties.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToAzureFunctionEventSubscriptionDestinationProperties populates the provided destination AzureFunctionEventSubscriptionDestinationProperties from our AzureFunctionEventSubscriptionDestinationProperties
-func (properties *AzureFunctionEventSubscriptionDestinationProperties) AssignPropertiesToAzureFunctionEventSubscriptionDestinationProperties(destination *v20200601s.AzureFunctionEventSubscriptionDestinationProperties) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
-
-	// MaxEventsPerBatch
-	destination.MaxEventsPerBatch = genruntime.ClonePointerToInt(properties.MaxEventsPerBatch)
-
-	// PreferredBatchSizeInKilobytes
-	destination.PreferredBatchSizeInKilobytes = genruntime.ClonePointerToInt(properties.PreferredBatchSizeInKilobytes)
-
-	// ResourceReference
-	if properties.ResourceReference != nil {
-		resourceReference := properties.ResourceReference.Copy()
-		destination.ResourceReference = &resourceReference
-	} else {
-		destination.ResourceReference = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20200601.EventHubEventSubscriptionDestinationProperties
-// Deprecated version of EventHubEventSubscriptionDestinationProperties. Use v1beta20200601.EventHubEventSubscriptionDestinationProperties instead
-type EventHubEventSubscriptionDestinationProperties struct {
-	PropertyBag       genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
-}
-
-// AssignPropertiesFromEventHubEventSubscriptionDestinationProperties populates our EventHubEventSubscriptionDestinationProperties from the provided source EventHubEventSubscriptionDestinationProperties
-func (properties *EventHubEventSubscriptionDestinationProperties) AssignPropertiesFromEventHubEventSubscriptionDestinationProperties(source *v20200601s.EventHubEventSubscriptionDestinationProperties) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// ResourceReference
-	if source.ResourceReference != nil {
-		resourceReference := source.ResourceReference.Copy()
-		properties.ResourceReference = &resourceReference
-	} else {
-		properties.ResourceReference = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		properties.PropertyBag = propertyBag
-	} else {
-		properties.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToEventHubEventSubscriptionDestinationProperties populates the provided destination EventHubEventSubscriptionDestinationProperties from our EventHubEventSubscriptionDestinationProperties
-func (properties *EventHubEventSubscriptionDestinationProperties) AssignPropertiesToEventHubEventSubscriptionDestinationProperties(destination *v20200601s.EventHubEventSubscriptionDestinationProperties) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
-
-	// ResourceReference
-	if properties.ResourceReference != nil {
-		resourceReference := properties.ResourceReference.Copy()
-		destination.ResourceReference = &resourceReference
-	} else {
-		destination.ResourceReference = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20200601.HybridConnectionEventSubscriptionDestinationProperties
-// Deprecated version of HybridConnectionEventSubscriptionDestinationProperties. Use v1beta20200601.HybridConnectionEventSubscriptionDestinationProperties instead
-type HybridConnectionEventSubscriptionDestinationProperties struct {
-	PropertyBag       genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
-}
-
-// AssignPropertiesFromHybridConnectionEventSubscriptionDestinationProperties populates our HybridConnectionEventSubscriptionDestinationProperties from the provided source HybridConnectionEventSubscriptionDestinationProperties
-func (properties *HybridConnectionEventSubscriptionDestinationProperties) AssignPropertiesFromHybridConnectionEventSubscriptionDestinationProperties(source *v20200601s.HybridConnectionEventSubscriptionDestinationProperties) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// ResourceReference
-	if source.ResourceReference != nil {
-		resourceReference := source.ResourceReference.Copy()
-		properties.ResourceReference = &resourceReference
-	} else {
-		properties.ResourceReference = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		properties.PropertyBag = propertyBag
-	} else {
-		properties.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToHybridConnectionEventSubscriptionDestinationProperties populates the provided destination HybridConnectionEventSubscriptionDestinationProperties from our HybridConnectionEventSubscriptionDestinationProperties
-func (properties *HybridConnectionEventSubscriptionDestinationProperties) AssignPropertiesToHybridConnectionEventSubscriptionDestinationProperties(destination *v20200601s.HybridConnectionEventSubscriptionDestinationProperties) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
-
-	// ResourceReference
-	if properties.ResourceReference != nil {
-		resourceReference := properties.ResourceReference.Copy()
-		destination.ResourceReference = &resourceReference
-	} else {
-		destination.ResourceReference = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20200601.ServiceBusQueueEventSubscriptionDestinationProperties
-// Deprecated version of ServiceBusQueueEventSubscriptionDestinationProperties. Use v1beta20200601.ServiceBusQueueEventSubscriptionDestinationProperties instead
-type ServiceBusQueueEventSubscriptionDestinationProperties struct {
-	PropertyBag       genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
-}
-
-// AssignPropertiesFromServiceBusQueueEventSubscriptionDestinationProperties populates our ServiceBusQueueEventSubscriptionDestinationProperties from the provided source ServiceBusQueueEventSubscriptionDestinationProperties
-func (properties *ServiceBusQueueEventSubscriptionDestinationProperties) AssignPropertiesFromServiceBusQueueEventSubscriptionDestinationProperties(source *v20200601s.ServiceBusQueueEventSubscriptionDestinationProperties) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// ResourceReference
-	if source.ResourceReference != nil {
-		resourceReference := source.ResourceReference.Copy()
-		properties.ResourceReference = &resourceReference
-	} else {
-		properties.ResourceReference = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		properties.PropertyBag = propertyBag
-	} else {
-		properties.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToServiceBusQueueEventSubscriptionDestinationProperties populates the provided destination ServiceBusQueueEventSubscriptionDestinationProperties from our ServiceBusQueueEventSubscriptionDestinationProperties
-func (properties *ServiceBusQueueEventSubscriptionDestinationProperties) AssignPropertiesToServiceBusQueueEventSubscriptionDestinationProperties(destination *v20200601s.ServiceBusQueueEventSubscriptionDestinationProperties) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
-
-	// ResourceReference
-	if properties.ResourceReference != nil {
-		resourceReference := properties.ResourceReference.Copy()
-		destination.ResourceReference = &resourceReference
-	} else {
-		destination.ResourceReference = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20200601.ServiceBusTopicEventSubscriptionDestinationProperties
-// Deprecated version of ServiceBusTopicEventSubscriptionDestinationProperties. Use v1beta20200601.ServiceBusTopicEventSubscriptionDestinationProperties instead
-type ServiceBusTopicEventSubscriptionDestinationProperties struct {
-	PropertyBag       genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
-}
-
-// AssignPropertiesFromServiceBusTopicEventSubscriptionDestinationProperties populates our ServiceBusTopicEventSubscriptionDestinationProperties from the provided source ServiceBusTopicEventSubscriptionDestinationProperties
-func (properties *ServiceBusTopicEventSubscriptionDestinationProperties) AssignPropertiesFromServiceBusTopicEventSubscriptionDestinationProperties(source *v20200601s.ServiceBusTopicEventSubscriptionDestinationProperties) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// ResourceReference
-	if source.ResourceReference != nil {
-		resourceReference := source.ResourceReference.Copy()
-		properties.ResourceReference = &resourceReference
-	} else {
-		properties.ResourceReference = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		properties.PropertyBag = propertyBag
-	} else {
-		properties.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToServiceBusTopicEventSubscriptionDestinationProperties populates the provided destination ServiceBusTopicEventSubscriptionDestinationProperties from our ServiceBusTopicEventSubscriptionDestinationProperties
-func (properties *ServiceBusTopicEventSubscriptionDestinationProperties) AssignPropertiesToServiceBusTopicEventSubscriptionDestinationProperties(destination *v20200601s.ServiceBusTopicEventSubscriptionDestinationProperties) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
-
-	// ResourceReference
-	if properties.ResourceReference != nil {
-		resourceReference := properties.ResourceReference.Copy()
-		destination.ResourceReference = &resourceReference
-	} else {
-		destination.ResourceReference = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20200601.StorageQueueEventSubscriptionDestinationProperties
-// Deprecated version of StorageQueueEventSubscriptionDestinationProperties. Use v1beta20200601.StorageQueueEventSubscriptionDestinationProperties instead
-type StorageQueueEventSubscriptionDestinationProperties struct {
-	PropertyBag       genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	QueueName         *string                       `json:"queueName,omitempty"`
-	ResourceReference *genruntime.ResourceReference `armReference:"ResourceId" json:"resourceReference,omitempty"`
-}
-
-// AssignPropertiesFromStorageQueueEventSubscriptionDestinationProperties populates our StorageQueueEventSubscriptionDestinationProperties from the provided source StorageQueueEventSubscriptionDestinationProperties
-func (properties *StorageQueueEventSubscriptionDestinationProperties) AssignPropertiesFromStorageQueueEventSubscriptionDestinationProperties(source *v20200601s.StorageQueueEventSubscriptionDestinationProperties) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// QueueName
-	properties.QueueName = genruntime.ClonePointerToString(source.QueueName)
-
-	// ResourceReference
-	if source.ResourceReference != nil {
-		resourceReference := source.ResourceReference.Copy()
-		properties.ResourceReference = &resourceReference
-	} else {
-		properties.ResourceReference = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		properties.PropertyBag = propertyBag
-	} else {
-		properties.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToStorageQueueEventSubscriptionDestinationProperties populates the provided destination StorageQueueEventSubscriptionDestinationProperties from our StorageQueueEventSubscriptionDestinationProperties
-func (properties *StorageQueueEventSubscriptionDestinationProperties) AssignPropertiesToStorageQueueEventSubscriptionDestinationProperties(destination *v20200601s.StorageQueueEventSubscriptionDestinationProperties) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
-
-	// QueueName
-	destination.QueueName = genruntime.ClonePointerToString(properties.QueueName)
-
-	// ResourceReference
-	if properties.ResourceReference != nil {
-		resourceReference := properties.ResourceReference.Copy()
-		destination.ResourceReference = &resourceReference
-	} else {
-		destination.ResourceReference = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20200601.WebHookEventSubscriptionDestinationProperties
-// Deprecated version of WebHookEventSubscriptionDestinationProperties. Use v1beta20200601.WebHookEventSubscriptionDestinationProperties instead
-type WebHookEventSubscriptionDestinationProperties struct {
-	AzureActiveDirectoryApplicationIdOrUri *string                `json:"azureActiveDirectoryApplicationIdOrUri,omitempty"`
-	AzureActiveDirectoryTenantId           *string                `json:"azureActiveDirectoryTenantId,omitempty"`
-	EndpointUrl                            *string                `json:"endpointUrl,omitempty"`
-	MaxEventsPerBatch                      *int                   `json:"maxEventsPerBatch,omitempty"`
-	PreferredBatchSizeInKilobytes          *int                   `json:"preferredBatchSizeInKilobytes,omitempty"`
-	PropertyBag                            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// AssignPropertiesFromWebHookEventSubscriptionDestinationProperties populates our WebHookEventSubscriptionDestinationProperties from the provided source WebHookEventSubscriptionDestinationProperties
-func (properties *WebHookEventSubscriptionDestinationProperties) AssignPropertiesFromWebHookEventSubscriptionDestinationProperties(source *v20200601s.WebHookEventSubscriptionDestinationProperties) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// AzureActiveDirectoryApplicationIdOrUri
-	properties.AzureActiveDirectoryApplicationIdOrUri = genruntime.ClonePointerToString(source.AzureActiveDirectoryApplicationIdOrUri)
-
-	// AzureActiveDirectoryTenantId
-	properties.AzureActiveDirectoryTenantId = genruntime.ClonePointerToString(source.AzureActiveDirectoryTenantId)
-
-	// EndpointUrl
-	properties.EndpointUrl = genruntime.ClonePointerToString(source.EndpointUrl)
-
-	// MaxEventsPerBatch
-	properties.MaxEventsPerBatch = genruntime.ClonePointerToInt(source.MaxEventsPerBatch)
-
-	// PreferredBatchSizeInKilobytes
-	properties.PreferredBatchSizeInKilobytes = genruntime.ClonePointerToInt(source.PreferredBatchSizeInKilobytes)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		properties.PropertyBag = propertyBag
-	} else {
-		properties.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToWebHookEventSubscriptionDestinationProperties populates the provided destination WebHookEventSubscriptionDestinationProperties from our WebHookEventSubscriptionDestinationProperties
-func (properties *WebHookEventSubscriptionDestinationProperties) AssignPropertiesToWebHookEventSubscriptionDestinationProperties(destination *v20200601s.WebHookEventSubscriptionDestinationProperties) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
-
-	// AzureActiveDirectoryApplicationIdOrUri
-	destination.AzureActiveDirectoryApplicationIdOrUri = genruntime.ClonePointerToString(properties.AzureActiveDirectoryApplicationIdOrUri)
-
-	// AzureActiveDirectoryTenantId
-	destination.AzureActiveDirectoryTenantId = genruntime.ClonePointerToString(properties.AzureActiveDirectoryTenantId)
-
-	// EndpointUrl
-	destination.EndpointUrl = genruntime.ClonePointerToString(properties.EndpointUrl)
-
-	// MaxEventsPerBatch
-	destination.MaxEventsPerBatch = genruntime.ClonePointerToInt(properties.MaxEventsPerBatch)
-
-	// PreferredBatchSizeInKilobytes
-	destination.PreferredBatchSizeInKilobytes = genruntime.ClonePointerToInt(properties.PreferredBatchSizeInKilobytes)
+	destination.OperatorType = genruntime.ClonePointerToString(filter.OperatorType)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

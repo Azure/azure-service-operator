@@ -20,26 +20,26 @@
 +	parameters.MaxSize = 10
 +	properties := gopter.NewProperties(parameters)
 +	properties.Property(
-+		"Round trip from Person_Spec to Person_Spec via AssignPropertiesToPersonSpec & AssignPropertiesFromPersonSpec returns original",
-+		prop.ForAll(RunPropertyAssignmentTestForPersonSpec, PersonSpecGenerator()))
++		"Round trip from Person_Spec to Person_Spec via AssignPropertiesToPerson_Spec & AssignPropertiesFromPerson_Spec returns original",
++		prop.ForAll(RunPropertyAssignmentTestForPerson_Spec, Person_SpecGenerator()))
 +	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 +}
 +
-+// RunPropertyAssignmentTestForPersonSpec tests if a specific instance of Person_Spec can be assigned to v20211231 and back losslessly
-+func RunPropertyAssignmentTestForPersonSpec(subject Person_Spec) string {
++// RunPropertyAssignmentTestForPerson_Spec tests if a specific instance of Person_Spec can be assigned to v20211231 and back losslessly
++func RunPropertyAssignmentTestForPerson_Spec(subject Person_Spec) string {
 +	// Copy subject to make sure assignment doesn't modify it
 +	copied := subject.DeepCopy()
 +
 +	// Use AssignPropertiesTo() for the first stage of conversion
 +	var other v20211231.Person_Spec
-+	err := copied.AssignPropertiesToPersonSpec(&other)
++	err := copied.AssignPropertiesToPerson_Spec(&other)
 +	if err != nil {
 +		return err.Error()
 +	}
 +
 +	// Use AssignPropertiesFrom() to convert back to our original type
 +	var actual Person_Spec
-+	err = actual.AssignPropertiesFromPersonSpec(&other)
++	err = actual.AssignPropertiesFromPerson_Spec(&other)
 +	if err != nil {
 +		return err.Error()
 +	}

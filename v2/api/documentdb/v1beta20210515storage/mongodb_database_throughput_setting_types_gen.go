@@ -22,12 +22,13 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20210515.MongodbDatabaseThroughputSetting
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases_throughputSettings
+// Generator information:
+// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
 type MongodbDatabaseThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccountsMongodbDatabasesThroughputSettings_Spec `json:"spec,omitempty"`
-	Status            ThroughputSettingsGetResults_Status                     `json:"status,omitempty"`
+	Spec              DatabaseAccountsMongodbDatabasesThroughputSetting_Spec `json:"spec,omitempty"`
+	Status            ThroughputSettingsUpdateParameters_STATUS              `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &MongodbDatabaseThroughputSetting{}
@@ -44,12 +45,12 @@ func (setting *MongodbDatabaseThroughputSetting) SetConditions(conditions condit
 
 var _ genruntime.KubernetesResource = &MongodbDatabaseThroughputSetting{}
 
-// AzureName returns the Azure name of the resource (always "default")
+// AzureName returns the Azure name of the resource
 func (setting *MongodbDatabaseThroughputSetting) AzureName() string {
-	return "default"
+	return setting.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20210515"
 func (setting MongodbDatabaseThroughputSetting) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -69,14 +70,14 @@ func (setting *MongodbDatabaseThroughputSetting) GetStatus() genruntime.Converti
 	return &setting.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/throughputSettings"
+// GetType returns the ARM Type of the resource. This is always ""
 func (setting *MongodbDatabaseThroughputSetting) GetType() string {
-	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/throughputSettings"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (setting *MongodbDatabaseThroughputSetting) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &ThroughputSettingsGetResults_Status{}
+	return &ThroughputSettingsUpdateParameters_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +93,13 @@ func (setting *MongodbDatabaseThroughputSetting) Owner() *genruntime.ResourceRef
 // SetStatus sets the status of this resource
 func (setting *MongodbDatabaseThroughputSetting) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*ThroughputSettingsGetResults_Status); ok {
+	if st, ok := status.(*ThroughputSettingsUpdateParameters_STATUS); ok {
 		setting.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st ThroughputSettingsGetResults_Status
+	var st ThroughputSettingsUpdateParameters_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,46 +123,52 @@ func (setting *MongodbDatabaseThroughputSetting) OriginalGVK() *schema.GroupVers
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20210515.MongodbDatabaseThroughputSetting
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases_throughputSettings
+// Generator information:
+// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
 type MongodbDatabaseThroughputSettingList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []MongodbDatabaseThroughputSetting `json:"items"`
 }
 
-// Storage version of v1beta20210515.DatabaseAccountsMongodbDatabasesThroughputSettings_Spec
-type DatabaseAccountsMongodbDatabasesThroughputSettings_Spec struct {
+// Storage version of v1beta20210515.DatabaseAccountsMongodbDatabasesThroughputSetting_Spec
+type DatabaseAccountsMongodbDatabasesThroughputSetting_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName       string  `json:"azureName,omitempty"`
+	Id              *string `json:"id,omitempty"`
 	Location        *string `json:"location,omitempty"`
 	OriginalVersion string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a documentdb.azure.com/MongodbDatabase resource
-	Owner       *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"MongodbDatabase"`
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Resource    *ThroughputSettingsResource        `json:"resource,omitempty"`
 	Tags        map[string]string                  `json:"tags,omitempty"`
+	Type        *string                            `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccountsMongodbDatabasesThroughputSettings_Spec{}
+var _ genruntime.ConvertibleSpec = &DatabaseAccountsMongodbDatabasesThroughputSetting_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccountsMongodbDatabasesThroughputSettings_Spec from the provided source
-func (settings *DatabaseAccountsMongodbDatabasesThroughputSettings_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == settings {
+// ConvertSpecFrom populates our DatabaseAccountsMongodbDatabasesThroughputSetting_Spec from the provided source
+func (setting *DatabaseAccountsMongodbDatabasesThroughputSetting_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == setting {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(settings)
+	return source.ConvertSpecTo(setting)
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccountsMongodbDatabasesThroughputSettings_Spec
-func (settings *DatabaseAccountsMongodbDatabasesThroughputSettings_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == settings {
+// ConvertSpecTo populates the provided destination from our DatabaseAccountsMongodbDatabasesThroughputSetting_Spec
+func (setting *DatabaseAccountsMongodbDatabasesThroughputSetting_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == setting {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(settings)
+	return destination.ConvertSpecFrom(setting)
 }
 
 func init() {

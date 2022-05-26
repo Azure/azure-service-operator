@@ -7,6 +7,7 @@ package pipeline
 
 import (
 	"context"
+	"strings"
 
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
@@ -56,8 +57,8 @@ func NameTypesForCRD(idFactory astmodel.IdentifierFactory) *Stage {
 func nameInnerTypes(
 	def astmodel.TypeDefinition,
 	idFactory astmodel.IdentifierFactory,
-	getDescription func(typeName astmodel.TypeName) []string) ([]astmodel.TypeDefinition, error) {
-
+	getDescription func(typeName astmodel.TypeName) []string,
+) ([]astmodel.TypeDefinition, error) {
 	var resultTypes []astmodel.TypeDefinition
 
 	builder := astmodel.TypeVisitorBuilder{}
@@ -78,7 +79,7 @@ func nameInnerTypes(
 		// a validated type anywhere except directly under a property
 		// must be named so that we can put the validations on it
 		nameHint := ctx.(string)
-		newElementType, err := this.Visit(v.ElementType(), nameHint+"_Validated")
+		newElementType, err := this.Visit(v.ElementType(), appendPreservingSuffix(nameHint, "_Validated", astmodel.StatusNameSuffix))
 		if err != nil {
 			return nil, err
 		}
@@ -125,7 +126,7 @@ func nameInnerTypes(
 		// first map the inner types:
 		for _, prop := range it.Properties() {
 			propType := prop.PropertyType()
-			propHint := nameHint + "_" + string(prop.PropertyName())
+			propHint := appendPreservingSuffix(nameHint, "_"+string(prop.PropertyName()), astmodel.StatusNameSuffix)
 			if validated, ok := propType.(*astmodel.ValidatedType); ok {
 				// handle validated types in properties specially,
 				// they don't need to be named, so skip directly to element type
@@ -169,7 +170,7 @@ func nameInnerTypes(
 
 		var status astmodel.Type
 		if it.StatusType() != nil {
-			status, err = this.Visit(it.StatusType(), nameHint+"_Status")
+			status, err = this.Visit(it.StatusType(), nameHint+astmodel.StatusNameSuffix)
 			if err != nil {
 				return nil, errors.Wrapf(err, "failed to name status type %s", it.StatusType())
 			}
@@ -192,4 +193,13 @@ func nameInnerTypes(
 	}
 
 	return resultTypes, nil
+}
+
+// appends newSuffix to s, preserving the suffix at the end of the string if it exists
+func appendPreservingSuffix(s string, newSuffix string, preserveSuffix string) string {
+	if strings.HasSuffix(s, preserveSuffix) {
+		return s[0:len(s)-len(preserveSuffix)] + newSuffix + preserveSuffix
+	}
+
+	return s + newSuffix
 }

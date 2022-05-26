@@ -24,12 +24,12 @@ func Test_Person_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Person_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPersonSpec, PersonSpecGenerator()))
+		prop.ForAll(RunJSONSerializationTestForPerson_Spec, Person_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForPersonSpec runs a test to see if a specific instance of Person_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForPersonSpec(subject Person_Spec) string {
+// RunJSONSerializationTestForPerson_Spec runs a test to see if a specific instance of Person_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForPerson_Spec(subject Person_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -55,24 +55,24 @@ func RunJSONSerializationTestForPersonSpec(subject Person_Spec) string {
 	return ""
 }
 
-// Generator of Person_Spec instances for property testing - lazily instantiated by PersonSpecGenerator()
-var personSpecGenerator gopter.Gen
+// Generator of Person_Spec instances for property testing - lazily instantiated by Person_SpecGenerator()
+var person_SpecGenerator gopter.Gen
 
-// PersonSpecGenerator returns a generator of Person_Spec instances for property testing.
-func PersonSpecGenerator() gopter.Gen {
-	if personSpecGenerator != nil {
-		return personSpecGenerator
+// Person_SpecGenerator returns a generator of Person_Spec instances for property testing.
+func Person_SpecGenerator() gopter.Gen {
+	if person_SpecGenerator != nil {
+		return person_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPersonSpec(generators)
-	personSpecGenerator = gen.Struct(reflect.TypeOf(Person_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForPerson_Spec(generators)
+	person_SpecGenerator = gen.Struct(reflect.TypeOf(Person_Spec{}), generators)
 
-	return personSpecGenerator
+	return person_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForPersonSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPersonSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForPerson_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPerson_Spec(gens map[string]gopter.Gen) {
 	gens["FamilyName"] = gen.AlphaString()
 	gens["FullName"] = gen.AlphaString()
 	gens["KnownAs"] = gen.AlphaString()

@@ -7,17 +7,20 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of RedisEnterprise_Spec. Use v1beta20210301.RedisEnterprise_Spec instead
 type RedisEnterprise_SpecARM struct {
+	AzureName  string                `json:"azureName,omitempty"`
+	Id         *string               `json:"id,omitempty"`
 	Location   *string               `json:"location,omitempty"`
 	Name       string                `json:"name,omitempty"`
 	Properties *ClusterPropertiesARM `json:"properties,omitempty"`
 	Sku        *SkuARM               `json:"sku,omitempty"`
 	Tags       map[string]string     `json:"tags,omitempty"`
+	Type       *string               `json:"type,omitempty"`
 	Zones      []string              `json:"zones,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &RedisEnterprise_SpecARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2021-03-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20210301"
 func (enterprise RedisEnterprise_SpecARM) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -27,32 +30,42 @@ func (enterprise *RedisEnterprise_SpecARM) GetName() string {
 	return enterprise.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redisEnterprise"
+// GetType returns the ARM Type of the resource. This is always ""
 func (enterprise *RedisEnterprise_SpecARM) GetType() string {
-	return "Microsoft.Cache/redisEnterprise"
+	return ""
 }
 
 // Deprecated version of ClusterProperties. Use v1beta20210301.ClusterProperties instead
 type ClusterPropertiesARM struct {
-	MinimumTlsVersion *ClusterPropertiesMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+	HostName                   *string                              `json:"hostName,omitempty"`
+	MinimumTlsVersion          *ClusterProperties_MinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnectionARM       `json:"privateEndpointConnections,omitempty"`
+	ProvisioningState          *ProvisioningState                   `json:"provisioningState,omitempty"`
+	RedisVersion               *string                              `json:"redisVersion,omitempty"`
+	ResourceState              *ResourceState                       `json:"resourceState,omitempty"`
 }
 
 // Deprecated version of Sku. Use v1beta20210301.Sku instead
 type SkuARM struct {
-	Capacity *int     `json:"capacity,omitempty"`
-	Name     *SkuName `json:"name,omitempty"`
+	Capacity *int      `json:"capacity,omitempty"`
+	Name     *Sku_Name `json:"name,omitempty"`
 }
 
-// Deprecated version of SkuName. Use v1beta20210301.SkuName instead
-// +kubebuilder:validation:Enum={"Enterprise_E10","Enterprise_E100","Enterprise_E20","Enterprise_E50","EnterpriseFlash_F1500","EnterpriseFlash_F300","EnterpriseFlash_F700"}
-type SkuName string
+// Deprecated version of PrivateEndpointConnection. Use v1beta20210301.PrivateEndpointConnection instead
+type PrivateEndpointConnectionARM struct {
+	Id *string `json:"id,omitempty"`
+}
+
+// Deprecated version of Sku_Name. Use v1beta20210301.Sku_Name instead
+// +kubebuilder:validation:Enum={"EnterpriseFlash_F1500","EnterpriseFlash_F300","EnterpriseFlash_F700","Enterprise_E10","Enterprise_E100","Enterprise_E20","Enterprise_E50"}
+type Sku_Name string
 
 const (
-	SkuNameEnterpriseE10        = SkuName("Enterprise_E10")
-	SkuNameEnterpriseE100       = SkuName("Enterprise_E100")
-	SkuNameEnterpriseE20        = SkuName("Enterprise_E20")
-	SkuNameEnterpriseE50        = SkuName("Enterprise_E50")
-	SkuNameEnterpriseFlashF1500 = SkuName("EnterpriseFlash_F1500")
-	SkuNameEnterpriseFlashF300  = SkuName("EnterpriseFlash_F300")
-	SkuNameEnterpriseFlashF700  = SkuName("EnterpriseFlash_F700")
+	Sku_NameEnterpriseFlash_F1500 = Sku_Name("EnterpriseFlash_F1500")
+	Sku_NameEnterpriseFlash_F300  = Sku_Name("EnterpriseFlash_F300")
+	Sku_NameEnterpriseFlash_F700  = Sku_Name("EnterpriseFlash_F700")
+	Sku_NameEnterprise_E10        = Sku_Name("Enterprise_E10")
+	Sku_NameEnterprise_E100       = Sku_Name("Enterprise_E100")
+	Sku_NameEnterprise_E20        = Sku_Name("Enterprise_E20")
+	Sku_NameEnterprise_E50        = Sku_Name("Enterprise_E50")
 )

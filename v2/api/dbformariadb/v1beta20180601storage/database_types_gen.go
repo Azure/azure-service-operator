@@ -22,12 +22,13 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20180601.Database
-// Generated from: https://schema.management.azure.com/schemas/2018-06-01/Microsoft.DBforMariaDB.json#/resourceDefinitions/servers_databases
+// Generator information:
+// - Generated from: /mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/mariadb.json
 type Database struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ServersDatabases_Spec `json:"spec,omitempty"`
-	Status            Database_Status       `json:"status,omitempty"`
+	Spec              ServersDatabase_Spec `json:"spec,omitempty"`
+	Status            Database_STATUS      `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Database{}
@@ -49,7 +50,7 @@ func (database *Database) AzureName() string {
 	return database.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2018-06-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20180601"
 func (database Database) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -69,14 +70,14 @@ func (database *Database) GetStatus() genruntime.ConvertibleStatus {
 	return &database.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.DBforMariaDB/servers/databases"
+// GetType returns the ARM Type of the resource. This is always ""
 func (database *Database) GetType() string {
-	return "Microsoft.DBforMariaDB/servers/databases"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (database *Database) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Database_Status{}
+	return &Database_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +93,13 @@ func (database *Database) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (database *Database) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Database_Status); ok {
+	if st, ok := status.(*Database_STATUS); ok {
 		database.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Database_Status
+	var st Database_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,15 +123,16 @@ func (database *Database) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20180601.Database
-// Generated from: https://schema.management.azure.com/schemas/2018-06-01/Microsoft.DBforMariaDB.json#/resourceDefinitions/servers_databases
+// Generator information:
+// - Generated from: /mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/mariadb.json
 type DatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Database `json:"items"`
 }
 
-// Storage version of v1beta20180601.Database_Status
-type Database_Status struct {
+// Storage version of v1beta20180601.Database_STATUS
+type Database_STATUS struct {
 	Charset     *string                `json:"charset,omitempty"`
 	Collation   *string                `json:"collation,omitempty"`
 	Conditions  []conditions.Condition `json:"conditions,omitempty"`
@@ -140,10 +142,10 @@ type Database_Status struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Database_Status{}
+var _ genruntime.ConvertibleStatus = &Database_STATUS{}
 
-// ConvertStatusFrom populates our Database_Status from the provided source
-func (database *Database_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our Database_STATUS from the provided source
+func (database *Database_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == database {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -151,8 +153,8 @@ func (database *Database_Status) ConvertStatusFrom(source genruntime.Convertible
 	return source.ConvertStatusTo(database)
 }
 
-// ConvertStatusTo populates the provided destination from our Database_Status
-func (database *Database_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our Database_STATUS
+func (database *Database_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == database {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -160,43 +162,43 @@ func (database *Database_Status) ConvertStatusTo(destination genruntime.Converti
 	return destination.ConvertStatusFrom(database)
 }
 
-// Storage version of v1beta20180601.ServersDatabases_Spec
-type ServersDatabases_Spec struct {
+// Storage version of v1beta20180601.ServersDatabase_Spec
+type ServersDatabase_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string  `json:"azureName,omitempty"`
 	Charset         *string `json:"charset,omitempty"`
 	Collation       *string `json:"collation,omitempty"`
-	Location        *string `json:"location,omitempty"`
+	Id              *string `json:"id,omitempty"`
 	OriginalVersion string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a dbformariadb.azure.com/Server resource
-	Owner       *genruntime.KnownResourceReference `group:"dbformariadb.azure.com" json:"owner,omitempty" kind:"Server"`
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Tags        map[string]string                  `json:"tags,omitempty"`
+	Type        *string                            `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &ServersDatabases_Spec{}
+var _ genruntime.ConvertibleSpec = &ServersDatabase_Spec{}
 
-// ConvertSpecFrom populates our ServersDatabases_Spec from the provided source
-func (databases *ServersDatabases_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == databases {
+// ConvertSpecFrom populates our ServersDatabase_Spec from the provided source
+func (database *ServersDatabase_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == database {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(databases)
+	return source.ConvertSpecTo(database)
 }
 
-// ConvertSpecTo populates the provided destination from our ServersDatabases_Spec
-func (databases *ServersDatabases_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == databases {
+// ConvertSpecTo populates the provided destination from our ServersDatabase_Spec
+func (database *ServersDatabase_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == database {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(databases)
+	return destination.ConvertSpecFrom(database)
 }
 
 func init() {

@@ -23,12 +23,13 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20201201.Redis
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis
+// Generator information:
+// - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2020-12-01/redis.json
 type Redis struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Redis_Spec           `json:"spec,omitempty"`
-	Status            RedisResource_Status `json:"status,omitempty"`
+	Spec              Redis_Spec                   `json:"spec,omitempty"`
+	Status            RedisCreateParameters_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Redis{}
@@ -50,7 +51,7 @@ func (redis *Redis) AzureName() string {
 	return redis.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20201201"
 func (redis Redis) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -70,14 +71,14 @@ func (redis *Redis) GetStatus() genruntime.ConvertibleStatus {
 	return &redis.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redis"
+// GetType returns the ARM Type of the resource. This is always ""
 func (redis *Redis) GetType() string {
-	return "Microsoft.Cache/redis"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (redis *Redis) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &RedisResource_Status{}
+	return &RedisCreateParameters_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -93,13 +94,13 @@ func (redis *Redis) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (redis *Redis) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*RedisResource_Status); ok {
+	if st, ok := status.(*RedisCreateParameters_STATUS); ok {
 		redis.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st RedisResource_Status
+	var st RedisCreateParameters_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -123,7 +124,8 @@ func (redis *Redis) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20201201.Redis
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis
+// Generator information:
+// - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2020-12-01/redis.json
 type RedisList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -131,60 +133,50 @@ type RedisList struct {
 }
 
 // Storage version of v1beta20201201.APIVersion
-// +kubebuilder:validation:Enum={"2020-12-01"}
+// +kubebuilder:validation:Enum={"20201201"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2020-12-01")
+const APIVersionValue = APIVersion("20201201")
 
-// Storage version of v1beta20201201.RedisResource_Status
-type RedisResource_Status struct {
-	Conditions                 []conditions.Condition                                 `json:"conditions,omitempty"`
-	EnableNonSslPort           *bool                                                  `json:"enableNonSslPort,omitempty"`
-	HostName                   *string                                                `json:"hostName,omitempty"`
-	Id                         *string                                                `json:"id,omitempty"`
-	Instances                  []RedisInstanceDetails_Status                          `json:"instances,omitempty"`
-	LinkedServers              []RedisLinkedServer_Status                             `json:"linkedServers,omitempty"`
-	Location                   *string                                                `json:"location,omitempty"`
-	MinimumTlsVersion          *string                                                `json:"minimumTlsVersion,omitempty"`
-	Name                       *string                                                `json:"name,omitempty"`
-	Port                       *int                                                   `json:"port,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnection_Status_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
-	PropertyBag                genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
-	ProvisioningState          *string                                                `json:"provisioningState,omitempty"`
-	PublicNetworkAccess        *string                                                `json:"publicNetworkAccess,omitempty"`
-	RedisConfiguration         map[string]string                                      `json:"redisConfiguration,omitempty"`
-	RedisVersion               *string                                                `json:"redisVersion,omitempty"`
-	ReplicasPerMaster          *int                                                   `json:"replicasPerMaster,omitempty"`
-	ReplicasPerPrimary         *int                                                   `json:"replicasPerPrimary,omitempty"`
-	ShardCount                 *int                                                   `json:"shardCount,omitempty"`
-	Sku                        *Sku_Status                                            `json:"sku,omitempty"`
-	SslPort                    *int                                                   `json:"sslPort,omitempty"`
-	StaticIP                   *string                                                `json:"staticIP,omitempty"`
-	SubnetId                   *string                                                `json:"subnetId,omitempty"`
-	Tags                       map[string]string                                      `json:"tags,omitempty"`
-	TenantSettings             map[string]string                                      `json:"tenantSettings,omitempty"`
-	Type                       *string                                                `json:"type,omitempty"`
-	Zones                      []string                                               `json:"zones,omitempty"`
+// Storage version of v1beta20201201.RedisCreateParameters_STATUS
+type RedisCreateParameters_STATUS struct {
+	Conditions          []conditions.Condition                           `json:"conditions,omitempty"`
+	EnableNonSslPort    *bool                                            `json:"enableNonSslPort,omitempty"`
+	Location            *string                                          `json:"location,omitempty"`
+	MinimumTlsVersion   *string                                          `json:"minimumTlsVersion,omitempty"`
+	PropertyBag         genruntime.PropertyBag                           `json:"$propertyBag,omitempty"`
+	PublicNetworkAccess *string                                          `json:"publicNetworkAccess,omitempty"`
+	RedisConfiguration  *RedisCreateProperties_RedisConfiguration_STATUS `json:"redisConfiguration,omitempty"`
+	RedisVersion        *string                                          `json:"redisVersion,omitempty"`
+	ReplicasPerMaster   *int                                             `json:"replicasPerMaster,omitempty"`
+	ReplicasPerPrimary  *int                                             `json:"replicasPerPrimary,omitempty"`
+	ShardCount          *int                                             `json:"shardCount,omitempty"`
+	Sku                 *Sku_STATUS                                      `json:"sku,omitempty"`
+	StaticIP            *string                                          `json:"staticIP,omitempty"`
+	SubnetId            *string                                          `json:"subnetId,omitempty"`
+	Tags                map[string]string                                `json:"tags,omitempty"`
+	TenantSettings      map[string]string                                `json:"tenantSettings,omitempty"`
+	Zones               []string                                         `json:"zones,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &RedisResource_Status{}
+var _ genruntime.ConvertibleStatus = &RedisCreateParameters_STATUS{}
 
-// ConvertStatusFrom populates our RedisResource_Status from the provided source
-func (resource *RedisResource_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == resource {
+// ConvertStatusFrom populates our RedisCreateParameters_STATUS from the provided source
+func (parameters *RedisCreateParameters_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == parameters {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(resource)
+	return source.ConvertStatusTo(parameters)
 }
 
-// ConvertStatusTo populates the provided destination from our RedisResource_Status
-func (resource *RedisResource_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == resource {
+// ConvertStatusTo populates the provided destination from our RedisCreateParameters_STATUS
+func (parameters *RedisCreateParameters_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == parameters {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(resource)
+	return destination.ConvertStatusFrom(parameters)
 }
 
 // Storage version of v1beta20201201.Redis_Spec
@@ -241,65 +233,22 @@ func (redis *Redis_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) e
 	return destination.ConvertSpecFrom(redis)
 }
 
-// Storage version of v1beta20201201.PrivateEndpointConnection_Status_SubResourceEmbedded
-type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded populates our PrivateEndpointConnection_Status_SubResourceEmbedded from the provided source PrivateEndpointConnection_Status_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded(source *v20210301s.PrivateEndpointConnection_Status_SubResourceEmbedded) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Id
-	embedded.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		embedded.PropertyBag = propertyBag
-	} else {
-		embedded.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded populates the provided destination PrivateEndpointConnection_Status_SubResourceEmbedded from our PrivateEndpointConnection_Status_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded(destination *v20210301s.PrivateEndpointConnection_Status_SubResourceEmbedded) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(embedded.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1beta20201201.RedisInstanceDetails_Status
-type RedisInstanceDetails_Status struct {
-	IsMaster    *bool                  `json:"isMaster,omitempty"`
-	IsPrimary   *bool                  `json:"isPrimary,omitempty"`
-	NonSslPort  *int                   `json:"nonSslPort,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ShardId     *int                   `json:"shardId,omitempty"`
-	SslPort     *int                   `json:"sslPort,omitempty"`
-	Zone        *string                `json:"zone,omitempty"`
-}
-
-// Storage version of v1beta20201201.RedisLinkedServer_Status
-type RedisLinkedServer_Status struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+// Storage version of v1beta20201201.RedisCreateProperties_RedisConfiguration_STATUS
+type RedisCreateProperties_RedisConfiguration_STATUS struct {
+	AofStorageConnectionString0    *string                `json:"aof-storage-connection-string-0,omitempty"`
+	AofStorageConnectionString1    *string                `json:"aof-storage-connection-string-1,omitempty"`
+	Maxclients                     *string                `json:"maxclients,omitempty"`
+	MaxfragmentationmemoryReserved *string                `json:"maxfragmentationmemory-reserved,omitempty"`
+	MaxmemoryDelta                 *string                `json:"maxmemory-delta,omitempty"`
+	MaxmemoryPolicy                *string                `json:"maxmemory-policy,omitempty"`
+	MaxmemoryReserved              *string                `json:"maxmemory-reserved,omitempty"`
+	PropertyBag                    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	RdbBackupEnabled               *string                `json:"rdb-backup-enabled,omitempty"`
+	RdbBackupFrequency             *string                `json:"rdb-backup-frequency,omitempty"`
+	RdbBackupMaxSnapshotCount      *string                `json:"rdb-backup-max-snapshot-count,omitempty"`
+	RdbStorageConnectionString     *string                `json:"rdb-storage-connection-string,omitempty"`
+	ZonalConfiguration             *string                `json:"zonal-configuration,omitempty"`
+	additionalProperties           map[string]string      `json:"additionalProperties,omitempty"`
 }
 
 // Storage version of v1beta20201201.RedisOperatorSpec
@@ -310,7 +259,6 @@ type RedisOperatorSpec struct {
 }
 
 // Storage version of v1beta20201201.Sku
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/Sku
 type Sku struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Family      *string                `json:"family,omitempty"`
@@ -380,16 +328,16 @@ func (sku *Sku) AssignPropertiesToSku(destination *v20210301s.Sku) error {
 	return nil
 }
 
-// Storage version of v1beta20201201.Sku_Status
-type Sku_Status struct {
+// Storage version of v1beta20201201.Sku_STATUS
+type Sku_STATUS struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Family      *string                `json:"family,omitempty"`
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromSkuStatus populates our Sku_Status from the provided source Sku_Status
-func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v20210301s.Sku_Status) error {
+// AssignPropertiesFromSku_STATUS populates our Sku_STATUS from the provided source Sku_STATUS
+func (sku *Sku_STATUS) AssignPropertiesFromSku_STATUS(source *v20210301s.Sku_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -423,8 +371,8 @@ func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v20210301s.Sku_Stat
 	return nil
 }
 
-// AssignPropertiesToSkuStatus populates the provided destination Sku_Status from our Sku_Status
-func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v20210301s.Sku_Status) error {
+// AssignPropertiesToSku_STATUS populates the provided destination Sku_STATUS from our Sku_STATUS
+func (sku *Sku_STATUS) AssignPropertiesToSku_STATUS(destination *v20210301s.Sku_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(sku.PropertyBag)
 

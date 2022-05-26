@@ -136,7 +136,8 @@ func NewTestCodeGenerator(
 	path string,
 	t *testing.T,
 	testConfig GoldenTestConfig,
-	genPipeline config.GenerationPipeline) (*CodeGenerator, error) {
+	genPipeline config.GenerationPipeline,
+) (*CodeGenerator, error) {
 	idFactory := astmodel.NewIdentifierFactory()
 	cfg := config.NewConfiguration()
 	cfg.GoModulePath = test.GoModulePrefix
@@ -195,7 +196,8 @@ func NewTestCodeGenerator(
 		return nil, errors.Errorf("unknown pipeline kind %q", string(genPipeline))
 	}
 
-	codegen.ReplaceStage(pipeline.LoadSchemaIntoTypesStageID, loadTestSchemaIntoTypes(idFactory, cfg, path))
+	// TODO(donotmerge)
+	codegen.ReplaceStage(pipeline.LoadTypesStageID, loadTestSchemaIntoTypes(idFactory, cfg, path))
 	codegen.ReplaceStage(pipeline.ExportPackagesStageID, exportPackagesTestPipelineStage(t, testName))
 
 	if testConfig.InjectEmbeddedStruct {
@@ -217,8 +219,9 @@ func NewTestCodeGenerator(
 func loadTestSchemaIntoTypes(
 	idFactory astmodel.IdentifierFactory,
 	configuration *config.Configuration,
-	path string) *pipeline.Stage {
-	source := configuration.SchemaURL
+	path string,
+) *pipeline.Stage {
+	source := configuration.SchemaRoot
 
 	return pipeline.NewStage(
 		"loadTestSchema",
@@ -343,8 +346,8 @@ func addCrossResourceReferencesForTest(idFactory astmodel.IdentifierFactory) *pi
 
 			for _, def := range state.Definitions() {
 				// Skip Status types
-				// TODO: we need flags
-				if strings.Contains(def.Name().Name(), "_Status") {
+				// TODO: we need flags?
+				if def.Name().RepresentsStatusType() {
 					defs.Add(def)
 					continue
 				}

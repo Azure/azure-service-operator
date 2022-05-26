@@ -88,7 +88,7 @@ func (factory *identifierFactory) CreateIdentifier(name string, visibility Visib
 
 func (factory *identifierFactory) createIdentifierUncached(name string, visibility Visibility) string {
 	if identifier, ok := factory.renames[name]; ok {
-		// Just lowercase the first character according to visibility
+		// Case the first character according to visibility
 		r := []rune(identifier)
 		if visibility == NotExported {
 			r[0] = unicode.ToLower(r[0])
@@ -100,25 +100,31 @@ func (factory *identifierFactory) createIdentifierUncached(name string, visibili
 	}
 
 	// replace non-word characters with spaces so title-casing works nicely
-	clean := filterRegex.ReplaceAllLiteralString(name, " ")
+	parts := strings.Split(name, "_")
+	for ix := range parts {
+		clean := filterRegex.ReplaceAllLiteralString(parts[ix], " ")
 
-	cleanWords := sliceIntoWords(clean)
-	var caseCorrectedWords []string
-	for i, word := range cleanWords {
-		if visibility == NotExported && i == 0 {
-			caseCorrectedWords = append(caseCorrectedWords, strings.ToLower(word))
-		} else {
-			// Disable lint: the suggested "replacement" for this in /x/cases has fundamental
-			// differences in how it works (e.g. 'JSON' becomes 'Json'; we don’t want that).
-			// Furthermore, the cases (ha) that it "fixes" are not relevant to us
-			// (something about better handling of various punctuation characters;
-			// our words are punctuation-free).
-			//nolint:staticcheck
-			caseCorrectedWords = append(caseCorrectedWords, strings.Title(word))
+		cleanWords := sliceIntoWords(clean)
+		var caseCorrectedWords []string
+		for i, word := range cleanWords {
+			// Only alter the first word of the first part:
+			if visibility == NotExported && i == 0 && ix == 0 {
+				caseCorrectedWords = append(caseCorrectedWords, strings.ToLower(word))
+			} else {
+				// Disable lint: the suggested "replacement" for this in /x/cases has fundamental
+				// differences in how it works (e.g. 'JSON' becomes 'Json'; we don’t want that).
+				// Furthermore, the cases (ha) that it "fixes" are not relevant to us
+				// (something about better handling of various punctuation characters;
+				// our words are punctuation-free).
+				//nolint:staticcheck
+				caseCorrectedWords = append(caseCorrectedWords, strings.Title(word))
+			}
 		}
+
+		parts[ix] = strings.Join(caseCorrectedWords, "")
 	}
 
-	result := strings.Join(caseCorrectedWords, "")
+	result := strings.Join(parts, "_")
 
 	if alternateWord, ok := factory.reservedWords[result]; ok {
 		// This is a reserved word, we need to use an alternate word
@@ -227,7 +233,7 @@ func createReservedWords() map[string]string {
 
 // createForbiddenReceiverSuffixes creates a case-sensitive list of words we don't want to use as receiver names
 func createForbiddenReceiverSuffixes() set.Set[string] {
-	return set.Make("Status", "Spec", "ARM")
+	return set.Make("STATUS", "Spec", "ARM")
 }
 
 func (factory *identifierFactory) CreateGroupName(group string) string {

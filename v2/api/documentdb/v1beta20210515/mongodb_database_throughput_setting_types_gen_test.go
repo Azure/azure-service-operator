@@ -159,36 +159,36 @@ func MongodbDatabaseThroughputSettingGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForMongodbDatabaseThroughputSetting is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForMongodbDatabaseThroughputSetting(gens map[string]gopter.Gen) {
-	gens["Spec"] = DatabaseAccountsMongodbDatabasesThroughputSettingsSpecGenerator()
-	gens["Status"] = ThroughputSettingsGetResultsStatusGenerator()
+	gens["Spec"] = DatabaseAccountsMongodbDatabasesThroughputSetting_SpecGenerator()
+	gens["Status"] = ThroughputSettingsUpdateParameters_STATUSGenerator()
 }
 
-func Test_DatabaseAccountsMongodbDatabasesThroughputSettings_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_DatabaseAccountsMongodbDatabasesThroughputSetting_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from DatabaseAccountsMongodbDatabasesThroughputSettings_Spec to DatabaseAccountsMongodbDatabasesThroughputSettings_Spec via AssignPropertiesToDatabaseAccountsMongodbDatabasesThroughputSettingsSpec & AssignPropertiesFromDatabaseAccountsMongodbDatabasesThroughputSettingsSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForDatabaseAccountsMongodbDatabasesThroughputSettingsSpec, DatabaseAccountsMongodbDatabasesThroughputSettingsSpecGenerator()))
+		"Round trip from DatabaseAccountsMongodbDatabasesThroughputSetting_Spec to DatabaseAccountsMongodbDatabasesThroughputSetting_Spec via AssignPropertiesToDatabaseAccountsMongodbDatabasesThroughputSetting_Spec & AssignPropertiesFromDatabaseAccountsMongodbDatabasesThroughputSetting_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDatabaseAccountsMongodbDatabasesThroughputSetting_Spec, DatabaseAccountsMongodbDatabasesThroughputSetting_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForDatabaseAccountsMongodbDatabasesThroughputSettingsSpec tests if a specific instance of DatabaseAccountsMongodbDatabasesThroughputSettings_Spec can be assigned to v1beta20210515storage and back losslessly
-func RunPropertyAssignmentTestForDatabaseAccountsMongodbDatabasesThroughputSettingsSpec(subject DatabaseAccountsMongodbDatabasesThroughputSettings_Spec) string {
+// RunPropertyAssignmentTestForDatabaseAccountsMongodbDatabasesThroughputSetting_Spec tests if a specific instance of DatabaseAccountsMongodbDatabasesThroughputSetting_Spec can be assigned to v1beta20210515storage and back losslessly
+func RunPropertyAssignmentTestForDatabaseAccountsMongodbDatabasesThroughputSetting_Spec(subject DatabaseAccountsMongodbDatabasesThroughputSetting_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20210515s.DatabaseAccountsMongodbDatabasesThroughputSettings_Spec
-	err := copied.AssignPropertiesToDatabaseAccountsMongodbDatabasesThroughputSettingsSpec(&other)
+	var other v20210515s.DatabaseAccountsMongodbDatabasesThroughputSetting_Spec
+	err := copied.AssignPropertiesToDatabaseAccountsMongodbDatabasesThroughputSetting_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual DatabaseAccountsMongodbDatabasesThroughputSettings_Spec
-	err = actual.AssignPropertiesFromDatabaseAccountsMongodbDatabasesThroughputSettingsSpec(&other)
+	var actual DatabaseAccountsMongodbDatabasesThroughputSetting_Spec
+	err = actual.AssignPropertiesFromDatabaseAccountsMongodbDatabasesThroughputSetting_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -205,19 +205,19 @@ func RunPropertyAssignmentTestForDatabaseAccountsMongodbDatabasesThroughputSetti
 	return ""
 }
 
-func Test_DatabaseAccountsMongodbDatabasesThroughputSettings_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_DatabaseAccountsMongodbDatabasesThroughputSetting_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of DatabaseAccountsMongodbDatabasesThroughputSettings_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesThroughputSettingsSpec, DatabaseAccountsMongodbDatabasesThroughputSettingsSpecGenerator()))
+		"Round trip of DatabaseAccountsMongodbDatabasesThroughputSetting_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesThroughputSetting_Spec, DatabaseAccountsMongodbDatabasesThroughputSetting_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesThroughputSettingsSpec runs a test to see if a specific instance of DatabaseAccountsMongodbDatabasesThroughputSettings_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesThroughputSettingsSpec(subject DatabaseAccountsMongodbDatabasesThroughputSettings_Spec) string {
+// RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesThroughputSetting_Spec runs a test to see if a specific instance of DatabaseAccountsMongodbDatabasesThroughputSetting_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesThroughputSetting_Spec(subject DatabaseAccountsMongodbDatabasesThroughputSetting_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -225,7 +225,7 @@ func RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesThroughputSettin
 	}
 
 	// Deserialize back into memory
-	var actual DatabaseAccountsMongodbDatabasesThroughputSettings_Spec
+	var actual DatabaseAccountsMongodbDatabasesThroughputSetting_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -243,39 +243,42 @@ func RunJSONSerializationTestForDatabaseAccountsMongodbDatabasesThroughputSettin
 	return ""
 }
 
-// Generator of DatabaseAccountsMongodbDatabasesThroughputSettings_Spec instances for property testing - lazily
-// instantiated by DatabaseAccountsMongodbDatabasesThroughputSettingsSpecGenerator()
-var databaseAccountsMongodbDatabasesThroughputSettingsSpecGenerator gopter.Gen
+// Generator of DatabaseAccountsMongodbDatabasesThroughputSetting_Spec instances for property testing - lazily
+// instantiated by DatabaseAccountsMongodbDatabasesThroughputSetting_SpecGenerator()
+var databaseAccountsMongodbDatabasesThroughputSetting_SpecGenerator gopter.Gen
 
-// DatabaseAccountsMongodbDatabasesThroughputSettingsSpecGenerator returns a generator of DatabaseAccountsMongodbDatabasesThroughputSettings_Spec instances for property testing.
-// We first initialize databaseAccountsMongodbDatabasesThroughputSettingsSpecGenerator with a simplified generator based on the
+// DatabaseAccountsMongodbDatabasesThroughputSetting_SpecGenerator returns a generator of DatabaseAccountsMongodbDatabasesThroughputSetting_Spec instances for property testing.
+// We first initialize databaseAccountsMongodbDatabasesThroughputSetting_SpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func DatabaseAccountsMongodbDatabasesThroughputSettingsSpecGenerator() gopter.Gen {
-	if databaseAccountsMongodbDatabasesThroughputSettingsSpecGenerator != nil {
-		return databaseAccountsMongodbDatabasesThroughputSettingsSpecGenerator
+func DatabaseAccountsMongodbDatabasesThroughputSetting_SpecGenerator() gopter.Gen {
+	if databaseAccountsMongodbDatabasesThroughputSetting_SpecGenerator != nil {
+		return databaseAccountsMongodbDatabasesThroughputSetting_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesThroughputSettingsSpec(generators)
-	databaseAccountsMongodbDatabasesThroughputSettingsSpecGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsMongodbDatabasesThroughputSettings_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesThroughputSetting_Spec(generators)
+	databaseAccountsMongodbDatabasesThroughputSetting_SpecGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsMongodbDatabasesThroughputSetting_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesThroughputSettingsSpec(generators)
-	AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesThroughputSettingsSpec(generators)
-	databaseAccountsMongodbDatabasesThroughputSettingsSpecGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsMongodbDatabasesThroughputSettings_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesThroughputSetting_Spec(generators)
+	AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesThroughputSetting_Spec(generators)
+	databaseAccountsMongodbDatabasesThroughputSetting_SpecGenerator = gen.Struct(reflect.TypeOf(DatabaseAccountsMongodbDatabasesThroughputSetting_Spec{}), generators)
 
-	return databaseAccountsMongodbDatabasesThroughputSettingsSpecGenerator
+	return databaseAccountsMongodbDatabasesThroughputSetting_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesThroughputSettingsSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesThroughputSettingsSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesThroughputSetting_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesThroughputSetting_Spec(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesThroughputSettingsSpec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesThroughputSettingsSpec(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesThroughputSetting_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesThroughputSetting_Spec(gens map[string]gopter.Gen) {
 	gens["Resource"] = gen.PtrOf(ThroughputSettingsResourceGenerator())
 }

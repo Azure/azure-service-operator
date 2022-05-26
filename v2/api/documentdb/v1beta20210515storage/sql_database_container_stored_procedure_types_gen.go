@@ -22,12 +22,13 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20210515.SqlDatabaseContainerStoredProcedure
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_storedProcedures
+// Generator information:
+// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
 type SqlDatabaseContainerStoredProcedure struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec `json:"spec,omitempty"`
-	Status            SqlStoredProcedureGetResults_Status                         `json:"status,omitempty"`
+	Spec              DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec `json:"spec,omitempty"`
+	Status            SqlStoredProcedureCreateUpdateParameters_STATUS            `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainerStoredProcedure{}
@@ -49,7 +50,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure) AzureName() string {
 	return procedure.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20210515"
 func (procedure SqlDatabaseContainerStoredProcedure) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -69,14 +70,14 @@ func (procedure *SqlDatabaseContainerStoredProcedure) GetStatus() genruntime.Con
 	return &procedure.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/storedProcedures"
+// GetType returns the ARM Type of the resource. This is always ""
 func (procedure *SqlDatabaseContainerStoredProcedure) GetType() string {
-	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/storedProcedures"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (procedure *SqlDatabaseContainerStoredProcedure) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SqlStoredProcedureGetResults_Status{}
+	return &SqlStoredProcedureCreateUpdateParameters_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +93,13 @@ func (procedure *SqlDatabaseContainerStoredProcedure) Owner() *genruntime.Resour
 // SetStatus sets the status of this resource
 func (procedure *SqlDatabaseContainerStoredProcedure) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SqlStoredProcedureGetResults_Status); ok {
+	if st, ok := status.(*SqlStoredProcedureCreateUpdateParameters_STATUS); ok {
 		procedure.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SqlStoredProcedureGetResults_Status
+	var st SqlStoredProcedureCreateUpdateParameters_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,18 +123,20 @@ func (procedure *SqlDatabaseContainerStoredProcedure) OriginalGVK() *schema.Grou
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20210515.SqlDatabaseContainerStoredProcedure
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_storedProcedures
+// Generator information:
+// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
 type SqlDatabaseContainerStoredProcedureList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []SqlDatabaseContainerStoredProcedure `json:"items"`
 }
 
-// Storage version of v1beta20210515.DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec
-type DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec struct {
+// Storage version of v1beta20210515.DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec
+type DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string               `json:"azureName,omitempty"`
+	Id              *string              `json:"id,omitempty"`
 	Location        *string              `json:"location,omitempty"`
 	Options         *CreateUpdateOptions `json:"options,omitempty"`
 	OriginalVersion string               `json:"originalVersion,omitempty"`
@@ -141,78 +144,76 @@ type DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec struct {
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a documentdb.azure.com/SqlDatabaseContainer resource
-	Owner       *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"SqlDatabaseContainer"`
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Resource    *SqlStoredProcedureResource        `json:"resource,omitempty"`
 	Tags        map[string]string                  `json:"tags,omitempty"`
+	Type        *string                            `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec{}
+var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec from the provided source
-func (procedures *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == procedures {
+// ConvertSpecFrom populates our DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec from the provided source
+func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == procedure {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(procedures)
+	return source.ConvertSpecTo(procedure)
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec
-func (procedures *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == procedures {
+// ConvertSpecTo populates the provided destination from our DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec
+func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == procedure {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(procedures)
+	return destination.ConvertSpecFrom(procedure)
 }
 
-// Storage version of v1beta20210515.SqlStoredProcedureGetResults_Status
-type SqlStoredProcedureGetResults_Status struct {
-	Conditions  []conditions.Condition                           `json:"conditions,omitempty"`
-	Id          *string                                          `json:"id,omitempty"`
-	Location    *string                                          `json:"location,omitempty"`
-	Name        *string                                          `json:"name,omitempty"`
-	PropertyBag genruntime.PropertyBag                           `json:"$propertyBag,omitempty"`
-	Resource    *SqlStoredProcedureGetProperties_Status_Resource `json:"resource,omitempty"`
-	Tags        map[string]string                                `json:"tags,omitempty"`
-	Type        *string                                          `json:"type,omitempty"`
+// Storage version of v1beta20210515.SqlStoredProcedureCreateUpdateParameters_STATUS
+type SqlStoredProcedureCreateUpdateParameters_STATUS struct {
+	Conditions  []conditions.Condition             `json:"conditions,omitempty"`
+	Id          *string                            `json:"id,omitempty"`
+	Location    *string                            `json:"location,omitempty"`
+	Name        *string                            `json:"name,omitempty"`
+	Options     *CreateUpdateOptions_STATUS        `json:"options,omitempty"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Resource    *SqlStoredProcedureResource_STATUS `json:"resource,omitempty"`
+	Tags        map[string]string                  `json:"tags,omitempty"`
+	Type        *string                            `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &SqlStoredProcedureGetResults_Status{}
+var _ genruntime.ConvertibleStatus = &SqlStoredProcedureCreateUpdateParameters_STATUS{}
 
-// ConvertStatusFrom populates our SqlStoredProcedureGetResults_Status from the provided source
-func (results *SqlStoredProcedureGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == results {
+// ConvertStatusFrom populates our SqlStoredProcedureCreateUpdateParameters_STATUS from the provided source
+func (parameters *SqlStoredProcedureCreateUpdateParameters_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == parameters {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(results)
+	return source.ConvertStatusTo(parameters)
 }
 
-// ConvertStatusTo populates the provided destination from our SqlStoredProcedureGetResults_Status
-func (results *SqlStoredProcedureGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == results {
+// ConvertStatusTo populates the provided destination from our SqlStoredProcedureCreateUpdateParameters_STATUS
+func (parameters *SqlStoredProcedureCreateUpdateParameters_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == parameters {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(results)
-}
-
-// Storage version of v1beta20210515.SqlStoredProcedureGetProperties_Status_Resource
-type SqlStoredProcedureGetProperties_Status_Resource struct {
-	Body        *string                `json:"body,omitempty"`
-	Etag        *string                `json:"_etag,omitempty"`
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Rid         *string                `json:"_rid,omitempty"`
-	Ts          *float64               `json:"_ts,omitempty"`
+	return destination.ConvertStatusFrom(parameters)
 }
 
 // Storage version of v1beta20210515.SqlStoredProcedureResource
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlStoredProcedureResource
 type SqlStoredProcedureResource struct {
+	Body        *string                `json:"body,omitempty"`
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20210515.SqlStoredProcedureResource_STATUS
+type SqlStoredProcedureResource_STATUS struct {
 	Body        *string                `json:"body,omitempty"`
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

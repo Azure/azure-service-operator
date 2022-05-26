@@ -17,7 +17,7 @@
  	metav1.TypeMeta   `json:",inline"`
  	metav1.ObjectMeta `json:"metadata,omitempty"`
  	Spec              Person_Spec   `json:"spec,omitempty"`
- 	Status            Person_Status `json:"status,omitempty"`
+ 	Status            Person_STATUS `json:"status,omitempty"`
  }
  
 +// ConvertFrom populates our Person from the provided hub Person

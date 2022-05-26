@@ -28,7 +28,8 @@ type GoJSONSchema struct {
 func MakeGoJSONSchema(
 	schema *gojsonschema.SubSchema,
 	makeLocalPackageReference func(groupName, version string) astmodel.LocalPackageReference,
-	idFactory astmodel.IdentifierFactory) Schema {
+	idFactory astmodel.IdentifierFactory,
+) Schema {
 	return GoJSONSchema{
 		schema,
 		makeLocalPackageReference,
@@ -247,6 +248,12 @@ func (schema GoJSONSchema) refTypeName() (astmodel.TypeName, error) {
 
 func (schema GoJSONSchema) refObjectName() (string, error) {
 	return objectTypeOf(schema.inner.Ref.GetUrl())
+}
+
+func (schema GoJSONSchema) readOnly() bool {
+	// JSON Schema doesn’t provide readonlyness,
+	// that is only in Swagger
+	return false
 }
 
 func objectTypeOf(url *url.URL) (string, error) {

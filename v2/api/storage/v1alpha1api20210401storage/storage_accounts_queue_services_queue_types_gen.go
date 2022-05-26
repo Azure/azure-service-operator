@@ -25,8 +25,8 @@ import (
 type StorageAccountsQueueServicesQueue struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              StorageAccountsQueueServicesQueues_Spec `json:"spec,omitempty"`
-	Status            StorageQueue_Status                     `json:"status,omitempty"`
+	Spec              StorageAccountsQueueServicesQueue_Spec `json:"spec,omitempty"`
+	Status            StorageQueue_STATUS                    `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &StorageAccountsQueueServicesQueue{}
@@ -70,7 +70,7 @@ func (queue *StorageAccountsQueueServicesQueue) AzureName() string {
 	return queue.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20210401"
 func (queue StorageAccountsQueueServicesQueue) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -90,14 +90,14 @@ func (queue *StorageAccountsQueueServicesQueue) GetStatus() genruntime.Convertib
 	return &queue.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts/queueServices/queues"
+// GetType returns the ARM Type of the resource. This is always ""
 func (queue *StorageAccountsQueueServicesQueue) GetType() string {
-	return "Microsoft.Storage/storageAccounts/queueServices/queues"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (queue *StorageAccountsQueueServicesQueue) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &StorageQueue_Status{}
+	return &StorageQueue_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -113,13 +113,13 @@ func (queue *StorageAccountsQueueServicesQueue) Owner() *genruntime.ResourceRefe
 // SetStatus sets the status of this resource
 func (queue *StorageAccountsQueueServicesQueue) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*StorageQueue_Status); ok {
+	if st, ok := status.(*StorageQueue_STATUS); ok {
 		queue.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st StorageQueue_Status
+	var st StorageQueue_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -136,18 +136,18 @@ func (queue *StorageAccountsQueueServicesQueue) AssignPropertiesFromStorageAccou
 	queue.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec StorageAccountsQueueServicesQueues_Spec
-	err := spec.AssignPropertiesFromStorageAccountsQueueServicesQueuesSpec(&source.Spec)
+	var spec StorageAccountsQueueServicesQueue_Spec
+	err := spec.AssignPropertiesFromStorageAccountsQueueServicesQueue_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromStorageAccountsQueueServicesQueuesSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromStorageAccountsQueueServicesQueue_Spec() to populate field Spec")
 	}
 	queue.Spec = spec
 
 	// Status
-	var status StorageQueue_Status
-	err = status.AssignPropertiesFromStorageQueueStatus(&source.Status)
+	var status StorageQueue_STATUS
+	err = status.AssignPropertiesFromStorageQueue_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromStorageQueueStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromStorageQueue_STATUS() to populate field Status")
 	}
 	queue.Status = status
 
@@ -162,18 +162,18 @@ func (queue *StorageAccountsQueueServicesQueue) AssignPropertiesToStorageAccount
 	destination.ObjectMeta = *queue.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210401s.StorageAccountsQueueServicesQueues_Spec
-	err := queue.Spec.AssignPropertiesToStorageAccountsQueueServicesQueuesSpec(&spec)
+	var spec v20210401s.StorageAccountsQueueServicesQueue_Spec
+	err := queue.Spec.AssignPropertiesToStorageAccountsQueueServicesQueue_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToStorageAccountsQueueServicesQueuesSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToStorageAccountsQueueServicesQueue_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status v20210401s.StorageQueue_Status
-	err = queue.Status.AssignPropertiesToStorageQueueStatus(&status)
+	var status v20210401s.StorageQueue_STATUS
+	err = queue.Status.AssignPropertiesToStorageQueue_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToStorageQueueStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToStorageQueue_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -199,45 +199,45 @@ type StorageAccountsQueueServicesQueueList struct {
 	Items           []StorageAccountsQueueServicesQueue `json:"items"`
 }
 
-// Storage version of v1alpha1api20210401.StorageAccountsQueueServicesQueues_Spec
-type StorageAccountsQueueServicesQueues_Spec struct {
-	// +kubebuilder:validation:MaxLength=63
-	// +kubebuilder:validation:MinLength=3
+// Storage version of v1alpha1api20210401.StorageAccountsQueueServicesQueue_Spec
+type StorageAccountsQueueServicesQueue_Spec struct {
+	ApproximateMessageCount *int `json:"approximateMessageCount,omitempty"`
+
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string            `json:"azureName,omitempty"`
-	Location        *string           `json:"location,omitempty"`
+	Id              *string           `json:"id,omitempty"`
 	Metadata        map[string]string `json:"metadata,omitempty"`
 	OriginalVersion string            `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a storage.azure.com/StorageAccountsQueueService resource
-	Owner       *genruntime.KnownResourceReference `group:"storage.azure.com" json:"owner,omitempty" kind:"StorageAccountsQueueService"`
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Tags        map[string]string                  `json:"tags,omitempty"`
+	Type        *string                            `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &StorageAccountsQueueServicesQueues_Spec{}
+var _ genruntime.ConvertibleSpec = &StorageAccountsQueueServicesQueue_Spec{}
 
-// ConvertSpecFrom populates our StorageAccountsQueueServicesQueues_Spec from the provided source
-func (queues *StorageAccountsQueueServicesQueues_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210401s.StorageAccountsQueueServicesQueues_Spec)
+// ConvertSpecFrom populates our StorageAccountsQueueServicesQueue_Spec from the provided source
+func (queue *StorageAccountsQueueServicesQueue_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20210401s.StorageAccountsQueueServicesQueue_Spec)
 	if ok {
 		// Populate our instance from source
-		return queues.AssignPropertiesFromStorageAccountsQueueServicesQueuesSpec(src)
+		return queue.AssignPropertiesFromStorageAccountsQueueServicesQueue_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210401s.StorageAccountsQueueServicesQueues_Spec{}
+	src = &v20210401s.StorageAccountsQueueServicesQueue_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = queues.AssignPropertiesFromStorageAccountsQueueServicesQueuesSpec(src)
+	err = queue.AssignPropertiesFromStorageAccountsQueueServicesQueue_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -245,17 +245,17 @@ func (queues *StorageAccountsQueueServicesQueues_Spec) ConvertSpecFrom(source ge
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our StorageAccountsQueueServicesQueues_Spec
-func (queues *StorageAccountsQueueServicesQueues_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210401s.StorageAccountsQueueServicesQueues_Spec)
+// ConvertSpecTo populates the provided destination from our StorageAccountsQueueServicesQueue_Spec
+func (queue *StorageAccountsQueueServicesQueue_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20210401s.StorageAccountsQueueServicesQueue_Spec)
 	if ok {
 		// Populate destination from our instance
-		return queues.AssignPropertiesToStorageAccountsQueueServicesQueuesSpec(dst)
+		return queue.AssignPropertiesToStorageAccountsQueueServicesQueue_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210401s.StorageAccountsQueueServicesQueues_Spec{}
-	err := queues.AssignPropertiesToStorageAccountsQueueServicesQueuesSpec(dst)
+	dst = &v20210401s.StorageAccountsQueueServicesQueue_Spec{}
+	err := queue.AssignPropertiesToStorageAccountsQueueServicesQueue_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -269,72 +269,78 @@ func (queues *StorageAccountsQueueServicesQueues_Spec) ConvertSpecTo(destination
 	return nil
 }
 
-// AssignPropertiesFromStorageAccountsQueueServicesQueuesSpec populates our StorageAccountsQueueServicesQueues_Spec from the provided source StorageAccountsQueueServicesQueues_Spec
-func (queues *StorageAccountsQueueServicesQueues_Spec) AssignPropertiesFromStorageAccountsQueueServicesQueuesSpec(source *v20210401s.StorageAccountsQueueServicesQueues_Spec) error {
+// AssignPropertiesFromStorageAccountsQueueServicesQueue_Spec populates our StorageAccountsQueueServicesQueue_Spec from the provided source StorageAccountsQueueServicesQueue_Spec
+func (queue *StorageAccountsQueueServicesQueue_Spec) AssignPropertiesFromStorageAccountsQueueServicesQueue_Spec(source *v20210401s.StorageAccountsQueueServicesQueue_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// AzureName
-	queues.AzureName = source.AzureName
+	// ApproximateMessageCount
+	queue.ApproximateMessageCount = genruntime.ClonePointerToInt(source.ApproximateMessageCount)
 
-	// Location
-	queues.Location = genruntime.ClonePointerToString(source.Location)
+	// AzureName
+	queue.AzureName = source.AzureName
+
+	// Id
+	queue.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Metadata
-	queues.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
+	queue.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
 
 	// OriginalVersion
-	queues.OriginalVersion = source.OriginalVersion
+	queue.OriginalVersion = source.OriginalVersion
 
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
-		queues.Owner = &owner
+		queue.Owner = &owner
 	} else {
-		queues.Owner = nil
+		queue.Owner = nil
 	}
 
-	// Tags
-	queues.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	// Type
+	queue.Type = genruntime.ClonePointerToString(source.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		queues.PropertyBag = propertyBag
+		queue.PropertyBag = propertyBag
 	} else {
-		queues.PropertyBag = nil
+		queue.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToStorageAccountsQueueServicesQueuesSpec populates the provided destination StorageAccountsQueueServicesQueues_Spec from our StorageAccountsQueueServicesQueues_Spec
-func (queues *StorageAccountsQueueServicesQueues_Spec) AssignPropertiesToStorageAccountsQueueServicesQueuesSpec(destination *v20210401s.StorageAccountsQueueServicesQueues_Spec) error {
+// AssignPropertiesToStorageAccountsQueueServicesQueue_Spec populates the provided destination StorageAccountsQueueServicesQueue_Spec from our StorageAccountsQueueServicesQueue_Spec
+func (queue *StorageAccountsQueueServicesQueue_Spec) AssignPropertiesToStorageAccountsQueueServicesQueue_Spec(destination *v20210401s.StorageAccountsQueueServicesQueue_Spec) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(queues.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(queue.PropertyBag)
+
+	// ApproximateMessageCount
+	destination.ApproximateMessageCount = genruntime.ClonePointerToInt(queue.ApproximateMessageCount)
 
 	// AzureName
-	destination.AzureName = queues.AzureName
+	destination.AzureName = queue.AzureName
 
-	// Location
-	destination.Location = genruntime.ClonePointerToString(queues.Location)
+	// Id
+	destination.Id = genruntime.ClonePointerToString(queue.Id)
 
 	// Metadata
-	destination.Metadata = genruntime.CloneMapOfStringToString(queues.Metadata)
+	destination.Metadata = genruntime.CloneMapOfStringToString(queue.Metadata)
 
 	// OriginalVersion
-	destination.OriginalVersion = queues.OriginalVersion
+	destination.OriginalVersion = queue.OriginalVersion
 
 	// Owner
-	if queues.Owner != nil {
-		owner := queues.Owner.Copy()
+	if queue.Owner != nil {
+		owner := queue.Owner.Copy()
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
 	}
 
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(queues.Tags)
+	// Type
+	destination.Type = genruntime.ClonePointerToString(queue.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -347,9 +353,9 @@ func (queues *StorageAccountsQueueServicesQueues_Spec) AssignPropertiesToStorage
 	return nil
 }
 
-// Storage version of v1alpha1api20210401.StorageQueue_Status
-// Deprecated version of StorageQueue_Status. Use v1beta20210401.StorageQueue_Status instead
-type StorageQueue_Status struct {
+// Storage version of v1alpha1api20210401.StorageQueue_STATUS
+// Deprecated version of StorageQueue_STATUS. Use v1beta20210401.StorageQueue_STATUS instead
+type StorageQueue_STATUS struct {
 	ApproximateMessageCount *int                   `json:"approximateMessageCount,omitempty"`
 	Conditions              []conditions.Condition `json:"conditions,omitempty"`
 	Id                      *string                `json:"id,omitempty"`
@@ -359,25 +365,25 @@ type StorageQueue_Status struct {
 	Type                    *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &StorageQueue_Status{}
+var _ genruntime.ConvertibleStatus = &StorageQueue_STATUS{}
 
-// ConvertStatusFrom populates our StorageQueue_Status from the provided source
-func (queue *StorageQueue_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210401s.StorageQueue_Status)
+// ConvertStatusFrom populates our StorageQueue_STATUS from the provided source
+func (queue *StorageQueue_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210401s.StorageQueue_STATUS)
 	if ok {
 		// Populate our instance from source
-		return queue.AssignPropertiesFromStorageQueueStatus(src)
+		return queue.AssignPropertiesFromStorageQueue_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210401s.StorageQueue_Status{}
+	src = &v20210401s.StorageQueue_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = queue.AssignPropertiesFromStorageQueueStatus(src)
+	err = queue.AssignPropertiesFromStorageQueue_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -385,17 +391,17 @@ func (queue *StorageQueue_Status) ConvertStatusFrom(source genruntime.Convertibl
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our StorageQueue_Status
-func (queue *StorageQueue_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210401s.StorageQueue_Status)
+// ConvertStatusTo populates the provided destination from our StorageQueue_STATUS
+func (queue *StorageQueue_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210401s.StorageQueue_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return queue.AssignPropertiesToStorageQueueStatus(dst)
+		return queue.AssignPropertiesToStorageQueue_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210401s.StorageQueue_Status{}
-	err := queue.AssignPropertiesToStorageQueueStatus(dst)
+	dst = &v20210401s.StorageQueue_STATUS{}
+	err := queue.AssignPropertiesToStorageQueue_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -409,8 +415,8 @@ func (queue *StorageQueue_Status) ConvertStatusTo(destination genruntime.Convert
 	return nil
 }
 
-// AssignPropertiesFromStorageQueueStatus populates our StorageQueue_Status from the provided source StorageQueue_Status
-func (queue *StorageQueue_Status) AssignPropertiesFromStorageQueueStatus(source *v20210401s.StorageQueue_Status) error {
+// AssignPropertiesFromStorageQueue_STATUS populates our StorageQueue_STATUS from the provided source StorageQueue_STATUS
+func (queue *StorageQueue_STATUS) AssignPropertiesFromStorageQueue_STATUS(source *v20210401s.StorageQueue_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -443,8 +449,8 @@ func (queue *StorageQueue_Status) AssignPropertiesFromStorageQueueStatus(source 
 	return nil
 }
 
-// AssignPropertiesToStorageQueueStatus populates the provided destination StorageQueue_Status from our StorageQueue_Status
-func (queue *StorageQueue_Status) AssignPropertiesToStorageQueueStatus(destination *v20210401s.StorageQueue_Status) error {
+// AssignPropertiesToStorageQueue_STATUS populates the provided destination StorageQueue_STATUS from our StorageQueue_STATUS
+func (queue *StorageQueue_STATUS) AssignPropertiesToStorageQueue_STATUS(destination *v20210401s.StorageQueue_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(queue.PropertyBag)
 

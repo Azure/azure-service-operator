@@ -11,7 +11,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
@@ -28,8 +27,8 @@ import (
 type VirtualMachine struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              VirtualMachines_Spec  `json:"spec,omitempty"`
-	Status            VirtualMachine_Status `json:"status,omitempty"`
+	Spec              VirtualMachine_Spec   `json:"spec,omitempty"`
+	Status            VirtualMachine_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &VirtualMachine{}
@@ -73,7 +72,7 @@ func (machine *VirtualMachine) AzureName() string {
 	return machine.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20201201"
 func (machine VirtualMachine) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -93,14 +92,14 @@ func (machine *VirtualMachine) GetStatus() genruntime.ConvertibleStatus {
 	return &machine.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/virtualMachines"
+// GetType returns the ARM Type of the resource. This is always ""
 func (machine *VirtualMachine) GetType() string {
-	return "Microsoft.Compute/virtualMachines"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (machine *VirtualMachine) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &VirtualMachine_Status{}
+	return &VirtualMachine_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -116,13 +115,13 @@ func (machine *VirtualMachine) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (machine *VirtualMachine) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*VirtualMachine_Status); ok {
+	if st, ok := status.(*VirtualMachine_STATUS); ok {
 		machine.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st VirtualMachine_Status
+	var st VirtualMachine_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -139,18 +138,18 @@ func (machine *VirtualMachine) AssignPropertiesFromVirtualMachine(source *v20201
 	machine.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec VirtualMachines_Spec
-	err := spec.AssignPropertiesFromVirtualMachinesSpec(&source.Spec)
+	var spec VirtualMachine_Spec
+	err := spec.AssignPropertiesFromVirtualMachine_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachinesSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachine_Spec() to populate field Spec")
 	}
 	machine.Spec = spec
 
 	// Status
-	var status VirtualMachine_Status
-	err = status.AssignPropertiesFromVirtualMachineStatus(&source.Status)
+	var status VirtualMachine_STATUS
+	err = status.AssignPropertiesFromVirtualMachine_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachine_STATUS() to populate field Status")
 	}
 	machine.Status = status
 
@@ -165,18 +164,18 @@ func (machine *VirtualMachine) AssignPropertiesToVirtualMachine(destination *v20
 	destination.ObjectMeta = *machine.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20201201s.VirtualMachines_Spec
-	err := machine.Spec.AssignPropertiesToVirtualMachinesSpec(&spec)
+	var spec v20201201s.VirtualMachine_Spec
+	err := machine.Spec.AssignPropertiesToVirtualMachine_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToVirtualMachinesSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToVirtualMachine_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status v20201201s.VirtualMachine_Status
-	err = machine.Status.AssignPropertiesToVirtualMachineStatus(&status)
+	var status v20201201s.VirtualMachine_STATUS
+	err = machine.Status.AssignPropertiesToVirtualMachine_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToVirtualMachine_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -204,68 +203,67 @@ type VirtualMachineList struct {
 
 // Storage version of v1alpha1api20201201.APIVersion
 // Deprecated version of APIVersion. Use v1beta20201201.APIVersion instead
-// +kubebuilder:validation:Enum={"2020-12-01"}
+// +kubebuilder:validation:Enum={"20201201"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2020-12-01")
+const APIVersionValue = APIVersion("20201201")
 
-// Storage version of v1alpha1api20201201.VirtualMachine_Status
-// Deprecated version of VirtualMachine_Status. Use v1beta20201201.VirtualMachine_Status instead
-type VirtualMachine_Status struct {
-	AdditionalCapabilities  *AdditionalCapabilities_Status     `json:"additionalCapabilities,omitempty"`
-	AvailabilitySet         *SubResource_Status                `json:"availabilitySet,omitempty"`
-	BillingProfile          *BillingProfile_Status             `json:"billingProfile,omitempty"`
+// Storage version of v1alpha1api20201201.VirtualMachine_STATUS
+// Deprecated version of VirtualMachine_STATUS. Use v1beta20201201.VirtualMachine_STATUS instead
+type VirtualMachine_STATUS struct {
+	AdditionalCapabilities  *AdditionalCapabilities_STATUS     `json:"additionalCapabilities,omitempty"`
+	AvailabilitySet         *SubResource_STATUS                `json:"availabilitySet,omitempty"`
+	BillingProfile          *BillingProfile_STATUS             `json:"billingProfile,omitempty"`
 	Conditions              []conditions.Condition             `json:"conditions,omitempty"`
-	DiagnosticsProfile      *DiagnosticsProfile_Status         `json:"diagnosticsProfile,omitempty"`
+	DiagnosticsProfile      *DiagnosticsProfile_STATUS         `json:"diagnosticsProfile,omitempty"`
 	EvictionPolicy          *string                            `json:"evictionPolicy,omitempty"`
-	ExtendedLocation        *ExtendedLocation_Status           `json:"extendedLocation,omitempty"`
+	ExtendedLocation        *ExtendedLocation_STATUS           `json:"extendedLocation,omitempty"`
 	ExtensionsTimeBudget    *string                            `json:"extensionsTimeBudget,omitempty"`
-	HardwareProfile         *HardwareProfile_Status            `json:"hardwareProfile,omitempty"`
-	Host                    *SubResource_Status                `json:"host,omitempty"`
-	HostGroup               *SubResource_Status                `json:"hostGroup,omitempty"`
+	HardwareProfile         *HardwareProfile_STATUS            `json:"hardwareProfile,omitempty"`
+	Host                    *SubResource_STATUS                `json:"host,omitempty"`
+	HostGroup               *SubResource_STATUS                `json:"hostGroup,omitempty"`
 	Id                      *string                            `json:"id,omitempty"`
-	Identity                *VirtualMachineIdentity_Status     `json:"identity,omitempty"`
-	InstanceView            *VirtualMachineInstanceView_Status `json:"instanceView,omitempty"`
+	Identity                *VirtualMachineIdentity_STATUS     `json:"identity,omitempty"`
+	InstanceView            *VirtualMachineInstanceView_STATUS `json:"instanceView,omitempty"`
 	LicenseType             *string                            `json:"licenseType,omitempty"`
 	Location                *string                            `json:"location,omitempty"`
 	Name                    *string                            `json:"name,omitempty"`
-	NetworkProfile          *NetworkProfile_Status             `json:"networkProfile,omitempty"`
-	OsProfile               *OSProfile_Status                  `json:"osProfile,omitempty"`
-	Plan                    *Plan_Status                       `json:"plan,omitempty"`
+	NetworkProfile          *NetworkProfile_STATUS             `json:"networkProfile,omitempty"`
+	OsProfile               *OSProfile_STATUS                  `json:"osProfile,omitempty"`
+	Plan                    *Plan_STATUS                       `json:"plan,omitempty"`
 	PlatformFaultDomain     *int                               `json:"platformFaultDomain,omitempty"`
 	Priority                *string                            `json:"priority,omitempty"`
 	PropertyBag             genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	ProvisioningState       *string                            `json:"provisioningState,omitempty"`
-	ProximityPlacementGroup *SubResource_Status                `json:"proximityPlacementGroup,omitempty"`
-	Resources               []VirtualMachineExtension_Status   `json:"resources,omitempty"`
-	SecurityProfile         *SecurityProfile_Status            `json:"securityProfile,omitempty"`
-	StorageProfile          *StorageProfile_Status             `json:"storageProfile,omitempty"`
+	ProximityPlacementGroup *SubResource_STATUS                `json:"proximityPlacementGroup,omitempty"`
+	SecurityProfile         *SecurityProfile_STATUS            `json:"securityProfile,omitempty"`
+	StorageProfile          *StorageProfile_STATUS             `json:"storageProfile,omitempty"`
 	Tags                    map[string]string                  `json:"tags,omitempty"`
 	Type                    *string                            `json:"type,omitempty"`
-	VirtualMachineScaleSet  *SubResource_Status                `json:"virtualMachineScaleSet,omitempty"`
+	VirtualMachineScaleSet  *SubResource_STATUS                `json:"virtualMachineScaleSet,omitempty"`
 	VmId                    *string                            `json:"vmId,omitempty"`
 	Zones                   []string                           `json:"zones,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &VirtualMachine_Status{}
+var _ genruntime.ConvertibleStatus = &VirtualMachine_STATUS{}
 
-// ConvertStatusFrom populates our VirtualMachine_Status from the provided source
-func (machine *VirtualMachine_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20201201s.VirtualMachine_Status)
+// ConvertStatusFrom populates our VirtualMachine_STATUS from the provided source
+func (machine *VirtualMachine_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20201201s.VirtualMachine_STATUS)
 	if ok {
 		// Populate our instance from source
-		return machine.AssignPropertiesFromVirtualMachineStatus(src)
+		return machine.AssignPropertiesFromVirtualMachine_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20201201s.VirtualMachine_Status{}
+	src = &v20201201s.VirtualMachine_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = machine.AssignPropertiesFromVirtualMachineStatus(src)
+	err = machine.AssignPropertiesFromVirtualMachine_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -273,17 +271,17 @@ func (machine *VirtualMachine_Status) ConvertStatusFrom(source genruntime.Conver
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our VirtualMachine_Status
-func (machine *VirtualMachine_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20201201s.VirtualMachine_Status)
+// ConvertStatusTo populates the provided destination from our VirtualMachine_STATUS
+func (machine *VirtualMachine_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20201201s.VirtualMachine_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return machine.AssignPropertiesToVirtualMachineStatus(dst)
+		return machine.AssignPropertiesToVirtualMachine_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20201201s.VirtualMachine_Status{}
-	err := machine.AssignPropertiesToVirtualMachineStatus(dst)
+	dst = &v20201201s.VirtualMachine_STATUS{}
+	err := machine.AssignPropertiesToVirtualMachine_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -297,17 +295,17 @@ func (machine *VirtualMachine_Status) ConvertStatusTo(destination genruntime.Con
 	return nil
 }
 
-// AssignPropertiesFromVirtualMachineStatus populates our VirtualMachine_Status from the provided source VirtualMachine_Status
-func (machine *VirtualMachine_Status) AssignPropertiesFromVirtualMachineStatus(source *v20201201s.VirtualMachine_Status) error {
+// AssignPropertiesFromVirtualMachine_STATUS populates our VirtualMachine_STATUS from the provided source VirtualMachine_STATUS
+func (machine *VirtualMachine_STATUS) AssignPropertiesFromVirtualMachine_STATUS(source *v20201201s.VirtualMachine_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// AdditionalCapabilities
 	if source.AdditionalCapabilities != nil {
-		var additionalCapability AdditionalCapabilities_Status
-		err := additionalCapability.AssignPropertiesFromAdditionalCapabilitiesStatus(source.AdditionalCapabilities)
+		var additionalCapability AdditionalCapabilities_STATUS
+		err := additionalCapability.AssignPropertiesFromAdditionalCapabilities_STATUS(source.AdditionalCapabilities)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAdditionalCapabilitiesStatus() to populate field AdditionalCapabilities")
+			return errors.Wrap(err, "calling AssignPropertiesFromAdditionalCapabilities_STATUS() to populate field AdditionalCapabilities")
 		}
 		machine.AdditionalCapabilities = &additionalCapability
 	} else {
@@ -316,15 +314,15 @@ func (machine *VirtualMachine_Status) AssignPropertiesFromVirtualMachineStatus(s
 
 	// AvailabilitySet
 	if source.AvailabilitySet != nil {
-		var subResourceStatusStash alpha20210701s.SubResource_Status
-		err := subResourceStatusStash.AssignPropertiesFromSubResourceStatus(source.AvailabilitySet)
+		var subResource_STATUSStash alpha20210701s.SubResource_STATUS
+		err := subResource_STATUSStash.AssignPropertiesFromSubResource_STATUS(source.AvailabilitySet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SubResource_StatusStash from AvailabilitySet")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field SubResource_STATUSStash from AvailabilitySet")
 		}
-		var availabilitySet SubResource_Status
-		err = availabilitySet.AssignPropertiesFromSubResourceStatus(&subResourceStatusStash)
+		var availabilitySet SubResource_STATUS
+		err = availabilitySet.AssignPropertiesFromSubResource_STATUS(&subResource_STATUSStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field AvailabilitySet from SubResource_StatusStash")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field AvailabilitySet from SubResource_STATUSStash")
 		}
 		machine.AvailabilitySet = &availabilitySet
 	} else {
@@ -333,10 +331,10 @@ func (machine *VirtualMachine_Status) AssignPropertiesFromVirtualMachineStatus(s
 
 	// BillingProfile
 	if source.BillingProfile != nil {
-		var billingProfile BillingProfile_Status
-		err := billingProfile.AssignPropertiesFromBillingProfileStatus(source.BillingProfile)
+		var billingProfile BillingProfile_STATUS
+		err := billingProfile.AssignPropertiesFromBillingProfile_STATUS(source.BillingProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromBillingProfileStatus() to populate field BillingProfile")
+			return errors.Wrap(err, "calling AssignPropertiesFromBillingProfile_STATUS() to populate field BillingProfile")
 		}
 		machine.BillingProfile = &billingProfile
 	} else {
@@ -348,10 +346,10 @@ func (machine *VirtualMachine_Status) AssignPropertiesFromVirtualMachineStatus(s
 
 	// DiagnosticsProfile
 	if source.DiagnosticsProfile != nil {
-		var diagnosticsProfile DiagnosticsProfile_Status
-		err := diagnosticsProfile.AssignPropertiesFromDiagnosticsProfileStatus(source.DiagnosticsProfile)
+		var diagnosticsProfile DiagnosticsProfile_STATUS
+		err := diagnosticsProfile.AssignPropertiesFromDiagnosticsProfile_STATUS(source.DiagnosticsProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDiagnosticsProfileStatus() to populate field DiagnosticsProfile")
+			return errors.Wrap(err, "calling AssignPropertiesFromDiagnosticsProfile_STATUS() to populate field DiagnosticsProfile")
 		}
 		machine.DiagnosticsProfile = &diagnosticsProfile
 	} else {
@@ -363,20 +361,20 @@ func (machine *VirtualMachine_Status) AssignPropertiesFromVirtualMachineStatus(s
 
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
-		var extendedLocationStatusStash v20200930s.ExtendedLocation_Status
-		err := extendedLocationStatusStash.AssignPropertiesFromExtendedLocationStatus(source.ExtendedLocation)
+		var extendedLocation_STATUSStash v20200930s.ExtendedLocation_STATUS
+		err := extendedLocation_STATUSStash.AssignPropertiesFromExtendedLocation_STATUS(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocationStatus() to populate field ExtendedLocation_StatusStash from ExtendedLocation")
+			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocation_STATUS() to populate field ExtendedLocation_STATUSStash from ExtendedLocation")
 		}
-		var extendedLocationStatusStashLocal alpha20210701s.ExtendedLocation_Status
-		err = extendedLocationStatusStashLocal.AssignPropertiesFromExtendedLocationStatus(&extendedLocationStatusStash)
+		var extendedLocation_STATUSStashLocal alpha20210701s.ExtendedLocation_STATUS
+		err = extendedLocation_STATUSStashLocal.AssignPropertiesFromExtendedLocation_STATUS(&extendedLocation_STATUSStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocationStatus() to populate field ExtendedLocation_StatusStash")
+			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocation_STATUS() to populate field ExtendedLocation_STATUSStash")
 		}
-		var extendedLocation ExtendedLocation_Status
-		err = extendedLocation.AssignPropertiesFromExtendedLocationStatus(&extendedLocationStatusStashLocal)
+		var extendedLocation ExtendedLocation_STATUS
+		err = extendedLocation.AssignPropertiesFromExtendedLocation_STATUS(&extendedLocation_STATUSStashLocal)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocationStatus() to populate field ExtendedLocation from ExtendedLocation_StatusStash")
+			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocation_STATUS() to populate field ExtendedLocation from ExtendedLocation_STATUSStash")
 		}
 		machine.ExtendedLocation = &extendedLocation
 	} else {
@@ -388,10 +386,10 @@ func (machine *VirtualMachine_Status) AssignPropertiesFromVirtualMachineStatus(s
 
 	// HardwareProfile
 	if source.HardwareProfile != nil {
-		var hardwareProfile HardwareProfile_Status
-		err := hardwareProfile.AssignPropertiesFromHardwareProfileStatus(source.HardwareProfile)
+		var hardwareProfile HardwareProfile_STATUS
+		err := hardwareProfile.AssignPropertiesFromHardwareProfile_STATUS(source.HardwareProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromHardwareProfileStatus() to populate field HardwareProfile")
+			return errors.Wrap(err, "calling AssignPropertiesFromHardwareProfile_STATUS() to populate field HardwareProfile")
 		}
 		machine.HardwareProfile = &hardwareProfile
 	} else {
@@ -400,15 +398,15 @@ func (machine *VirtualMachine_Status) AssignPropertiesFromVirtualMachineStatus(s
 
 	// Host
 	if source.Host != nil {
-		var subResourceStatusStash alpha20210701s.SubResource_Status
-		err := subResourceStatusStash.AssignPropertiesFromSubResourceStatus(source.Host)
+		var subResource_STATUSStash alpha20210701s.SubResource_STATUS
+		err := subResource_STATUSStash.AssignPropertiesFromSubResource_STATUS(source.Host)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SubResource_StatusStash from Host")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field SubResource_STATUSStash from Host")
 		}
-		var host SubResource_Status
-		err = host.AssignPropertiesFromSubResourceStatus(&subResourceStatusStash)
+		var host SubResource_STATUS
+		err = host.AssignPropertiesFromSubResource_STATUS(&subResource_STATUSStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field Host from SubResource_StatusStash")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field Host from SubResource_STATUSStash")
 		}
 		machine.Host = &host
 	} else {
@@ -417,15 +415,15 @@ func (machine *VirtualMachine_Status) AssignPropertiesFromVirtualMachineStatus(s
 
 	// HostGroup
 	if source.HostGroup != nil {
-		var subResourceStatusStash alpha20210701s.SubResource_Status
-		err := subResourceStatusStash.AssignPropertiesFromSubResourceStatus(source.HostGroup)
+		var subResource_STATUSStash alpha20210701s.SubResource_STATUS
+		err := subResource_STATUSStash.AssignPropertiesFromSubResource_STATUS(source.HostGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SubResource_StatusStash from HostGroup")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field SubResource_STATUSStash from HostGroup")
 		}
-		var hostGroup SubResource_Status
-		err = hostGroup.AssignPropertiesFromSubResourceStatus(&subResourceStatusStash)
+		var hostGroup SubResource_STATUS
+		err = hostGroup.AssignPropertiesFromSubResource_STATUS(&subResource_STATUSStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field HostGroup from SubResource_StatusStash")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field HostGroup from SubResource_STATUSStash")
 		}
 		machine.HostGroup = &hostGroup
 	} else {
@@ -437,10 +435,10 @@ func (machine *VirtualMachine_Status) AssignPropertiesFromVirtualMachineStatus(s
 
 	// Identity
 	if source.Identity != nil {
-		var identity VirtualMachineIdentity_Status
-		err := identity.AssignPropertiesFromVirtualMachineIdentityStatus(source.Identity)
+		var identity VirtualMachineIdentity_STATUS
+		err := identity.AssignPropertiesFromVirtualMachineIdentity_STATUS(source.Identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineIdentityStatus() to populate field Identity")
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineIdentity_STATUS() to populate field Identity")
 		}
 		machine.Identity = &identity
 	} else {
@@ -449,10 +447,10 @@ func (machine *VirtualMachine_Status) AssignPropertiesFromVirtualMachineStatus(s
 
 	// InstanceView
 	if source.InstanceView != nil {
-		var instanceView VirtualMachineInstanceView_Status
-		err := instanceView.AssignPropertiesFromVirtualMachineInstanceViewStatus(source.InstanceView)
+		var instanceView VirtualMachineInstanceView_STATUS
+		err := instanceView.AssignPropertiesFromVirtualMachineInstanceView_STATUS(source.InstanceView)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineInstanceViewStatus() to populate field InstanceView")
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineInstanceView_STATUS() to populate field InstanceView")
 		}
 		machine.InstanceView = &instanceView
 	} else {
@@ -470,10 +468,10 @@ func (machine *VirtualMachine_Status) AssignPropertiesFromVirtualMachineStatus(s
 
 	// NetworkProfile
 	if source.NetworkProfile != nil {
-		var networkProfile NetworkProfile_Status
-		err := networkProfile.AssignPropertiesFromNetworkProfileStatus(source.NetworkProfile)
+		var networkProfile NetworkProfile_STATUS
+		err := networkProfile.AssignPropertiesFromNetworkProfile_STATUS(source.NetworkProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromNetworkProfileStatus() to populate field NetworkProfile")
+			return errors.Wrap(err, "calling AssignPropertiesFromNetworkProfile_STATUS() to populate field NetworkProfile")
 		}
 		machine.NetworkProfile = &networkProfile
 	} else {
@@ -482,10 +480,10 @@ func (machine *VirtualMachine_Status) AssignPropertiesFromVirtualMachineStatus(s
 
 	// OsProfile
 	if source.OsProfile != nil {
-		var osProfile OSProfile_Status
-		err := osProfile.AssignPropertiesFromOSProfileStatus(source.OsProfile)
+		var osProfile OSProfile_STATUS
+		err := osProfile.AssignPropertiesFromOSProfile_STATUS(source.OsProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromOSProfileStatus() to populate field OsProfile")
+			return errors.Wrap(err, "calling AssignPropertiesFromOSProfile_STATUS() to populate field OsProfile")
 		}
 		machine.OsProfile = &osProfile
 	} else {
@@ -494,10 +492,10 @@ func (machine *VirtualMachine_Status) AssignPropertiesFromVirtualMachineStatus(s
 
 	// Plan
 	if source.Plan != nil {
-		var plan Plan_Status
-		err := plan.AssignPropertiesFromPlanStatus(source.Plan)
+		var plan Plan_STATUS
+		err := plan.AssignPropertiesFromPlan_STATUS(source.Plan)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromPlanStatus() to populate field Plan")
+			return errors.Wrap(err, "calling AssignPropertiesFromPlan_STATUS() to populate field Plan")
 		}
 		machine.Plan = &plan
 	} else {
@@ -515,45 +513,27 @@ func (machine *VirtualMachine_Status) AssignPropertiesFromVirtualMachineStatus(s
 
 	// ProximityPlacementGroup
 	if source.ProximityPlacementGroup != nil {
-		var subResourceStatusStash alpha20210701s.SubResource_Status
-		err := subResourceStatusStash.AssignPropertiesFromSubResourceStatus(source.ProximityPlacementGroup)
+		var subResource_STATUSStash alpha20210701s.SubResource_STATUS
+		err := subResource_STATUSStash.AssignPropertiesFromSubResource_STATUS(source.ProximityPlacementGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SubResource_StatusStash from ProximityPlacementGroup")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field SubResource_STATUSStash from ProximityPlacementGroup")
 		}
-		var proximityPlacementGroup SubResource_Status
-		err = proximityPlacementGroup.AssignPropertiesFromSubResourceStatus(&subResourceStatusStash)
+		var proximityPlacementGroup SubResource_STATUS
+		err = proximityPlacementGroup.AssignPropertiesFromSubResource_STATUS(&subResource_STATUSStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field ProximityPlacementGroup from SubResource_StatusStash")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field ProximityPlacementGroup from SubResource_STATUSStash")
 		}
 		machine.ProximityPlacementGroup = &proximityPlacementGroup
 	} else {
 		machine.ProximityPlacementGroup = nil
 	}
 
-	// Resources
-	if source.Resources != nil {
-		resourceList := make([]VirtualMachineExtension_Status, len(source.Resources))
-		for resourceIndex, resourceItem := range source.Resources {
-			// Shadow the loop variable to avoid aliasing
-			resourceItem := resourceItem
-			var resource VirtualMachineExtension_Status
-			err := resource.AssignPropertiesFromVirtualMachineExtensionStatus(&resourceItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineExtensionStatus() to populate field Resources")
-			}
-			resourceList[resourceIndex] = resource
-		}
-		machine.Resources = resourceList
-	} else {
-		machine.Resources = nil
-	}
-
 	// SecurityProfile
 	if source.SecurityProfile != nil {
-		var securityProfile SecurityProfile_Status
-		err := securityProfile.AssignPropertiesFromSecurityProfileStatus(source.SecurityProfile)
+		var securityProfile SecurityProfile_STATUS
+		err := securityProfile.AssignPropertiesFromSecurityProfile_STATUS(source.SecurityProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSecurityProfileStatus() to populate field SecurityProfile")
+			return errors.Wrap(err, "calling AssignPropertiesFromSecurityProfile_STATUS() to populate field SecurityProfile")
 		}
 		machine.SecurityProfile = &securityProfile
 	} else {
@@ -562,10 +542,10 @@ func (machine *VirtualMachine_Status) AssignPropertiesFromVirtualMachineStatus(s
 
 	// StorageProfile
 	if source.StorageProfile != nil {
-		var storageProfile StorageProfile_Status
-		err := storageProfile.AssignPropertiesFromStorageProfileStatus(source.StorageProfile)
+		var storageProfile StorageProfile_STATUS
+		err := storageProfile.AssignPropertiesFromStorageProfile_STATUS(source.StorageProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromStorageProfileStatus() to populate field StorageProfile")
+			return errors.Wrap(err, "calling AssignPropertiesFromStorageProfile_STATUS() to populate field StorageProfile")
 		}
 		machine.StorageProfile = &storageProfile
 	} else {
@@ -580,15 +560,15 @@ func (machine *VirtualMachine_Status) AssignPropertiesFromVirtualMachineStatus(s
 
 	// VirtualMachineScaleSet
 	if source.VirtualMachineScaleSet != nil {
-		var subResourceStatusStash alpha20210701s.SubResource_Status
-		err := subResourceStatusStash.AssignPropertiesFromSubResourceStatus(source.VirtualMachineScaleSet)
+		var subResource_STATUSStash alpha20210701s.SubResource_STATUS
+		err := subResource_STATUSStash.AssignPropertiesFromSubResource_STATUS(source.VirtualMachineScaleSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SubResource_StatusStash from VirtualMachineScaleSet")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field SubResource_STATUSStash from VirtualMachineScaleSet")
 		}
-		var virtualMachineScaleSet SubResource_Status
-		err = virtualMachineScaleSet.AssignPropertiesFromSubResourceStatus(&subResourceStatusStash)
+		var virtualMachineScaleSet SubResource_STATUS
+		err = virtualMachineScaleSet.AssignPropertiesFromSubResource_STATUS(&subResource_STATUSStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field VirtualMachineScaleSet from SubResource_StatusStash")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field VirtualMachineScaleSet from SubResource_STATUSStash")
 		}
 		machine.VirtualMachineScaleSet = &virtualMachineScaleSet
 	} else {
@@ -612,17 +592,17 @@ func (machine *VirtualMachine_Status) AssignPropertiesFromVirtualMachineStatus(s
 	return nil
 }
 
-// AssignPropertiesToVirtualMachineStatus populates the provided destination VirtualMachine_Status from our VirtualMachine_Status
-func (machine *VirtualMachine_Status) AssignPropertiesToVirtualMachineStatus(destination *v20201201s.VirtualMachine_Status) error {
+// AssignPropertiesToVirtualMachine_STATUS populates the provided destination VirtualMachine_STATUS from our VirtualMachine_STATUS
+func (machine *VirtualMachine_STATUS) AssignPropertiesToVirtualMachine_STATUS(destination *v20201201s.VirtualMachine_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(machine.PropertyBag)
 
 	// AdditionalCapabilities
 	if machine.AdditionalCapabilities != nil {
-		var additionalCapability v20201201s.AdditionalCapabilities_Status
-		err := machine.AdditionalCapabilities.AssignPropertiesToAdditionalCapabilitiesStatus(&additionalCapability)
+		var additionalCapability v20201201s.AdditionalCapabilities_STATUS
+		err := machine.AdditionalCapabilities.AssignPropertiesToAdditionalCapabilities_STATUS(&additionalCapability)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAdditionalCapabilitiesStatus() to populate field AdditionalCapabilities")
+			return errors.Wrap(err, "calling AssignPropertiesToAdditionalCapabilities_STATUS() to populate field AdditionalCapabilities")
 		}
 		destination.AdditionalCapabilities = &additionalCapability
 	} else {
@@ -631,15 +611,15 @@ func (machine *VirtualMachine_Status) AssignPropertiesToVirtualMachineStatus(des
 
 	// AvailabilitySet
 	if machine.AvailabilitySet != nil {
-		var subResourceStatusStash alpha20210701s.SubResource_Status
-		err := machine.AvailabilitySet.AssignPropertiesToSubResourceStatus(&subResourceStatusStash)
+		var subResource_STATUSStash alpha20210701s.SubResource_STATUS
+		err := machine.AvailabilitySet.AssignPropertiesToSubResource_STATUS(&subResource_STATUSStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SubResource_StatusStash from AvailabilitySet")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field SubResource_STATUSStash from AvailabilitySet")
 		}
-		var availabilitySet v20201201s.SubResource_Status
-		err = subResourceStatusStash.AssignPropertiesToSubResourceStatus(&availabilitySet)
+		var availabilitySet v20201201s.SubResource_STATUS
+		err = subResource_STATUSStash.AssignPropertiesToSubResource_STATUS(&availabilitySet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field AvailabilitySet from SubResource_StatusStash")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field AvailabilitySet from SubResource_STATUSStash")
 		}
 		destination.AvailabilitySet = &availabilitySet
 	} else {
@@ -648,10 +628,10 @@ func (machine *VirtualMachine_Status) AssignPropertiesToVirtualMachineStatus(des
 
 	// BillingProfile
 	if machine.BillingProfile != nil {
-		var billingProfile v20201201s.BillingProfile_Status
-		err := machine.BillingProfile.AssignPropertiesToBillingProfileStatus(&billingProfile)
+		var billingProfile v20201201s.BillingProfile_STATUS
+		err := machine.BillingProfile.AssignPropertiesToBillingProfile_STATUS(&billingProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToBillingProfileStatus() to populate field BillingProfile")
+			return errors.Wrap(err, "calling AssignPropertiesToBillingProfile_STATUS() to populate field BillingProfile")
 		}
 		destination.BillingProfile = &billingProfile
 	} else {
@@ -663,10 +643,10 @@ func (machine *VirtualMachine_Status) AssignPropertiesToVirtualMachineStatus(des
 
 	// DiagnosticsProfile
 	if machine.DiagnosticsProfile != nil {
-		var diagnosticsProfile v20201201s.DiagnosticsProfile_Status
-		err := machine.DiagnosticsProfile.AssignPropertiesToDiagnosticsProfileStatus(&diagnosticsProfile)
+		var diagnosticsProfile v20201201s.DiagnosticsProfile_STATUS
+		err := machine.DiagnosticsProfile.AssignPropertiesToDiagnosticsProfile_STATUS(&diagnosticsProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDiagnosticsProfileStatus() to populate field DiagnosticsProfile")
+			return errors.Wrap(err, "calling AssignPropertiesToDiagnosticsProfile_STATUS() to populate field DiagnosticsProfile")
 		}
 		destination.DiagnosticsProfile = &diagnosticsProfile
 	} else {
@@ -678,20 +658,20 @@ func (machine *VirtualMachine_Status) AssignPropertiesToVirtualMachineStatus(des
 
 	// ExtendedLocation
 	if machine.ExtendedLocation != nil {
-		var extendedLocationStatusStash alpha20210701s.ExtendedLocation_Status
-		err := machine.ExtendedLocation.AssignPropertiesToExtendedLocationStatus(&extendedLocationStatusStash)
+		var extendedLocation_STATUSStash alpha20210701s.ExtendedLocation_STATUS
+		err := machine.ExtendedLocation.AssignPropertiesToExtendedLocation_STATUS(&extendedLocation_STATUSStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationStatus() to populate field ExtendedLocation_StatusStash from ExtendedLocation")
+			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation_STATUS() to populate field ExtendedLocation_STATUSStash from ExtendedLocation")
 		}
-		var extendedLocationStatusStashLocal v20200930s.ExtendedLocation_Status
-		err = extendedLocationStatusStash.AssignPropertiesToExtendedLocationStatus(&extendedLocationStatusStashLocal)
+		var extendedLocation_STATUSStashLocal v20200930s.ExtendedLocation_STATUS
+		err = extendedLocation_STATUSStash.AssignPropertiesToExtendedLocation_STATUS(&extendedLocation_STATUSStashLocal)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationStatus() to populate field ExtendedLocation_StatusStash")
+			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation_STATUS() to populate field ExtendedLocation_STATUSStash")
 		}
-		var extendedLocation v20201201s.ExtendedLocation_Status
-		err = extendedLocationStatusStashLocal.AssignPropertiesToExtendedLocationStatus(&extendedLocation)
+		var extendedLocation v20201201s.ExtendedLocation_STATUS
+		err = extendedLocation_STATUSStashLocal.AssignPropertiesToExtendedLocation_STATUS(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationStatus() to populate field ExtendedLocation from ExtendedLocation_StatusStash")
+			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation_STATUS() to populate field ExtendedLocation from ExtendedLocation_STATUSStash")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -703,10 +683,10 @@ func (machine *VirtualMachine_Status) AssignPropertiesToVirtualMachineStatus(des
 
 	// HardwareProfile
 	if machine.HardwareProfile != nil {
-		var hardwareProfile v20201201s.HardwareProfile_Status
-		err := machine.HardwareProfile.AssignPropertiesToHardwareProfileStatus(&hardwareProfile)
+		var hardwareProfile v20201201s.HardwareProfile_STATUS
+		err := machine.HardwareProfile.AssignPropertiesToHardwareProfile_STATUS(&hardwareProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToHardwareProfileStatus() to populate field HardwareProfile")
+			return errors.Wrap(err, "calling AssignPropertiesToHardwareProfile_STATUS() to populate field HardwareProfile")
 		}
 		destination.HardwareProfile = &hardwareProfile
 	} else {
@@ -715,15 +695,15 @@ func (machine *VirtualMachine_Status) AssignPropertiesToVirtualMachineStatus(des
 
 	// Host
 	if machine.Host != nil {
-		var subResourceStatusStash alpha20210701s.SubResource_Status
-		err := machine.Host.AssignPropertiesToSubResourceStatus(&subResourceStatusStash)
+		var subResource_STATUSStash alpha20210701s.SubResource_STATUS
+		err := machine.Host.AssignPropertiesToSubResource_STATUS(&subResource_STATUSStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SubResource_StatusStash from Host")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field SubResource_STATUSStash from Host")
 		}
-		var host v20201201s.SubResource_Status
-		err = subResourceStatusStash.AssignPropertiesToSubResourceStatus(&host)
+		var host v20201201s.SubResource_STATUS
+		err = subResource_STATUSStash.AssignPropertiesToSubResource_STATUS(&host)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field Host from SubResource_StatusStash")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field Host from SubResource_STATUSStash")
 		}
 		destination.Host = &host
 	} else {
@@ -732,15 +712,15 @@ func (machine *VirtualMachine_Status) AssignPropertiesToVirtualMachineStatus(des
 
 	// HostGroup
 	if machine.HostGroup != nil {
-		var subResourceStatusStash alpha20210701s.SubResource_Status
-		err := machine.HostGroup.AssignPropertiesToSubResourceStatus(&subResourceStatusStash)
+		var subResource_STATUSStash alpha20210701s.SubResource_STATUS
+		err := machine.HostGroup.AssignPropertiesToSubResource_STATUS(&subResource_STATUSStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SubResource_StatusStash from HostGroup")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field SubResource_STATUSStash from HostGroup")
 		}
-		var hostGroup v20201201s.SubResource_Status
-		err = subResourceStatusStash.AssignPropertiesToSubResourceStatus(&hostGroup)
+		var hostGroup v20201201s.SubResource_STATUS
+		err = subResource_STATUSStash.AssignPropertiesToSubResource_STATUS(&hostGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field HostGroup from SubResource_StatusStash")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field HostGroup from SubResource_STATUSStash")
 		}
 		destination.HostGroup = &hostGroup
 	} else {
@@ -752,10 +732,10 @@ func (machine *VirtualMachine_Status) AssignPropertiesToVirtualMachineStatus(des
 
 	// Identity
 	if machine.Identity != nil {
-		var identity v20201201s.VirtualMachineIdentity_Status
-		err := machine.Identity.AssignPropertiesToVirtualMachineIdentityStatus(&identity)
+		var identity v20201201s.VirtualMachineIdentity_STATUS
+		err := machine.Identity.AssignPropertiesToVirtualMachineIdentity_STATUS(&identity)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineIdentityStatus() to populate field Identity")
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineIdentity_STATUS() to populate field Identity")
 		}
 		destination.Identity = &identity
 	} else {
@@ -764,10 +744,10 @@ func (machine *VirtualMachine_Status) AssignPropertiesToVirtualMachineStatus(des
 
 	// InstanceView
 	if machine.InstanceView != nil {
-		var instanceView v20201201s.VirtualMachineInstanceView_Status
-		err := machine.InstanceView.AssignPropertiesToVirtualMachineInstanceViewStatus(&instanceView)
+		var instanceView v20201201s.VirtualMachineInstanceView_STATUS
+		err := machine.InstanceView.AssignPropertiesToVirtualMachineInstanceView_STATUS(&instanceView)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineInstanceViewStatus() to populate field InstanceView")
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineInstanceView_STATUS() to populate field InstanceView")
 		}
 		destination.InstanceView = &instanceView
 	} else {
@@ -785,10 +765,10 @@ func (machine *VirtualMachine_Status) AssignPropertiesToVirtualMachineStatus(des
 
 	// NetworkProfile
 	if machine.NetworkProfile != nil {
-		var networkProfile v20201201s.NetworkProfile_Status
-		err := machine.NetworkProfile.AssignPropertiesToNetworkProfileStatus(&networkProfile)
+		var networkProfile v20201201s.NetworkProfile_STATUS
+		err := machine.NetworkProfile.AssignPropertiesToNetworkProfile_STATUS(&networkProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToNetworkProfileStatus() to populate field NetworkProfile")
+			return errors.Wrap(err, "calling AssignPropertiesToNetworkProfile_STATUS() to populate field NetworkProfile")
 		}
 		destination.NetworkProfile = &networkProfile
 	} else {
@@ -797,10 +777,10 @@ func (machine *VirtualMachine_Status) AssignPropertiesToVirtualMachineStatus(des
 
 	// OsProfile
 	if machine.OsProfile != nil {
-		var osProfile v20201201s.OSProfile_Status
-		err := machine.OsProfile.AssignPropertiesToOSProfileStatus(&osProfile)
+		var osProfile v20201201s.OSProfile_STATUS
+		err := machine.OsProfile.AssignPropertiesToOSProfile_STATUS(&osProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToOSProfileStatus() to populate field OsProfile")
+			return errors.Wrap(err, "calling AssignPropertiesToOSProfile_STATUS() to populate field OsProfile")
 		}
 		destination.OsProfile = &osProfile
 	} else {
@@ -809,10 +789,10 @@ func (machine *VirtualMachine_Status) AssignPropertiesToVirtualMachineStatus(des
 
 	// Plan
 	if machine.Plan != nil {
-		var plan v20201201s.Plan_Status
-		err := machine.Plan.AssignPropertiesToPlanStatus(&plan)
+		var plan v20201201s.Plan_STATUS
+		err := machine.Plan.AssignPropertiesToPlan_STATUS(&plan)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToPlanStatus() to populate field Plan")
+			return errors.Wrap(err, "calling AssignPropertiesToPlan_STATUS() to populate field Plan")
 		}
 		destination.Plan = &plan
 	} else {
@@ -830,45 +810,27 @@ func (machine *VirtualMachine_Status) AssignPropertiesToVirtualMachineStatus(des
 
 	// ProximityPlacementGroup
 	if machine.ProximityPlacementGroup != nil {
-		var subResourceStatusStash alpha20210701s.SubResource_Status
-		err := machine.ProximityPlacementGroup.AssignPropertiesToSubResourceStatus(&subResourceStatusStash)
+		var subResource_STATUSStash alpha20210701s.SubResource_STATUS
+		err := machine.ProximityPlacementGroup.AssignPropertiesToSubResource_STATUS(&subResource_STATUSStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SubResource_StatusStash from ProximityPlacementGroup")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field SubResource_STATUSStash from ProximityPlacementGroup")
 		}
-		var proximityPlacementGroup v20201201s.SubResource_Status
-		err = subResourceStatusStash.AssignPropertiesToSubResourceStatus(&proximityPlacementGroup)
+		var proximityPlacementGroup v20201201s.SubResource_STATUS
+		err = subResource_STATUSStash.AssignPropertiesToSubResource_STATUS(&proximityPlacementGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field ProximityPlacementGroup from SubResource_StatusStash")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field ProximityPlacementGroup from SubResource_STATUSStash")
 		}
 		destination.ProximityPlacementGroup = &proximityPlacementGroup
 	} else {
 		destination.ProximityPlacementGroup = nil
 	}
 
-	// Resources
-	if machine.Resources != nil {
-		resourceList := make([]v20201201s.VirtualMachineExtension_Status, len(machine.Resources))
-		for resourceIndex, resourceItem := range machine.Resources {
-			// Shadow the loop variable to avoid aliasing
-			resourceItem := resourceItem
-			var resource v20201201s.VirtualMachineExtension_Status
-			err := resourceItem.AssignPropertiesToVirtualMachineExtensionStatus(&resource)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineExtensionStatus() to populate field Resources")
-			}
-			resourceList[resourceIndex] = resource
-		}
-		destination.Resources = resourceList
-	} else {
-		destination.Resources = nil
-	}
-
 	// SecurityProfile
 	if machine.SecurityProfile != nil {
-		var securityProfile v20201201s.SecurityProfile_Status
-		err := machine.SecurityProfile.AssignPropertiesToSecurityProfileStatus(&securityProfile)
+		var securityProfile v20201201s.SecurityProfile_STATUS
+		err := machine.SecurityProfile.AssignPropertiesToSecurityProfile_STATUS(&securityProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSecurityProfileStatus() to populate field SecurityProfile")
+			return errors.Wrap(err, "calling AssignPropertiesToSecurityProfile_STATUS() to populate field SecurityProfile")
 		}
 		destination.SecurityProfile = &securityProfile
 	} else {
@@ -877,10 +839,10 @@ func (machine *VirtualMachine_Status) AssignPropertiesToVirtualMachineStatus(des
 
 	// StorageProfile
 	if machine.StorageProfile != nil {
-		var storageProfile v20201201s.StorageProfile_Status
-		err := machine.StorageProfile.AssignPropertiesToStorageProfileStatus(&storageProfile)
+		var storageProfile v20201201s.StorageProfile_STATUS
+		err := machine.StorageProfile.AssignPropertiesToStorageProfile_STATUS(&storageProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToStorageProfileStatus() to populate field StorageProfile")
+			return errors.Wrap(err, "calling AssignPropertiesToStorageProfile_STATUS() to populate field StorageProfile")
 		}
 		destination.StorageProfile = &storageProfile
 	} else {
@@ -895,15 +857,15 @@ func (machine *VirtualMachine_Status) AssignPropertiesToVirtualMachineStatus(des
 
 	// VirtualMachineScaleSet
 	if machine.VirtualMachineScaleSet != nil {
-		var subResourceStatusStash alpha20210701s.SubResource_Status
-		err := machine.VirtualMachineScaleSet.AssignPropertiesToSubResourceStatus(&subResourceStatusStash)
+		var subResource_STATUSStash alpha20210701s.SubResource_STATUS
+		err := machine.VirtualMachineScaleSet.AssignPropertiesToSubResource_STATUS(&subResource_STATUSStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SubResource_StatusStash from VirtualMachineScaleSet")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field SubResource_STATUSStash from VirtualMachineScaleSet")
 		}
-		var virtualMachineScaleSet v20201201s.SubResource_Status
-		err = subResourceStatusStash.AssignPropertiesToSubResourceStatus(&virtualMachineScaleSet)
+		var virtualMachineScaleSet v20201201s.SubResource_STATUS
+		err = subResource_STATUSStash.AssignPropertiesToSubResource_STATUS(&virtualMachineScaleSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field VirtualMachineScaleSet from SubResource_StatusStash")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field VirtualMachineScaleSet from SubResource_STATUSStash")
 		}
 		destination.VirtualMachineScaleSet = &virtualMachineScaleSet
 	} else {
@@ -927,28 +889,30 @@ func (machine *VirtualMachine_Status) AssignPropertiesToVirtualMachineStatus(des
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.VirtualMachines_Spec
-type VirtualMachines_Spec struct {
+// Storage version of v1alpha1api20201201.VirtualMachine_Spec
+type VirtualMachine_Spec struct {
 	AdditionalCapabilities *AdditionalCapabilities `json:"additionalCapabilities,omitempty"`
 	AvailabilitySet        *SubResource            `json:"availabilitySet,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName            string                                          `json:"azureName,omitempty"`
-	BillingProfile       *BillingProfile                                 `json:"billingProfile,omitempty"`
-	DiagnosticsProfile   *DiagnosticsProfile                             `json:"diagnosticsProfile,omitempty"`
-	EvictionPolicy       *string                                         `json:"evictionPolicy,omitempty"`
-	ExtendedLocation     *ExtendedLocation                               `json:"extendedLocation,omitempty"`
-	ExtensionsTimeBudget *string                                         `json:"extensionsTimeBudget,omitempty"`
-	HardwareProfile      *HardwareProfile                                `json:"hardwareProfile,omitempty"`
-	Host                 *SubResource                                    `json:"host,omitempty"`
-	HostGroup            *SubResource                                    `json:"hostGroup,omitempty"`
-	Identity             *VirtualMachineIdentity                         `json:"identity,omitempty"`
-	LicenseType          *string                                         `json:"licenseType,omitempty"`
-	Location             *string                                         `json:"location,omitempty"`
-	NetworkProfile       *VirtualMachines_Spec_Properties_NetworkProfile `json:"networkProfile,omitempty"`
-	OriginalVersion      string                                          `json:"originalVersion,omitempty"`
-	OsProfile            *VirtualMachines_Spec_Properties_OsProfile      `json:"osProfile,omitempty"`
+	AzureName            string                      `json:"azureName,omitempty"`
+	BillingProfile       *BillingProfile             `json:"billingProfile,omitempty"`
+	DiagnosticsProfile   *DiagnosticsProfile         `json:"diagnosticsProfile,omitempty"`
+	EvictionPolicy       *string                     `json:"evictionPolicy,omitempty"`
+	ExtendedLocation     *ExtendedLocation           `json:"extendedLocation,omitempty"`
+	ExtensionsTimeBudget *string                     `json:"extensionsTimeBudget,omitempty"`
+	HardwareProfile      *HardwareProfile            `json:"hardwareProfile,omitempty"`
+	Host                 *SubResource                `json:"host,omitempty"`
+	HostGroup            *SubResource                `json:"hostGroup,omitempty"`
+	Id                   *string                     `json:"id,omitempty"`
+	Identity             *VirtualMachineIdentity     `json:"identity,omitempty"`
+	InstanceView         *VirtualMachineInstanceView `json:"instanceView,omitempty"`
+	LicenseType          *string                     `json:"licenseType,omitempty"`
+	Location             *string                     `json:"location,omitempty"`
+	NetworkProfile       *NetworkProfile             `json:"networkProfile,omitempty"`
+	OriginalVersion      string                      `json:"originalVersion,omitempty"`
+	OsProfile            *OSProfile                  `json:"osProfile,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -959,33 +923,36 @@ type VirtualMachines_Spec struct {
 	PlatformFaultDomain     *int                               `json:"platformFaultDomain,omitempty"`
 	Priority                *string                            `json:"priority,omitempty"`
 	PropertyBag             genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	ProvisioningState       *string                            `json:"provisioningState,omitempty"`
 	ProximityPlacementGroup *SubResource                       `json:"proximityPlacementGroup,omitempty"`
 	SecurityProfile         *SecurityProfile                   `json:"securityProfile,omitempty"`
 	StorageProfile          *StorageProfile                    `json:"storageProfile,omitempty"`
 	Tags                    map[string]string                  `json:"tags,omitempty"`
+	Type                    *string                            `json:"type,omitempty"`
 	VirtualMachineScaleSet  *SubResource                       `json:"virtualMachineScaleSet,omitempty"`
+	VmId                    *string                            `json:"vmId,omitempty"`
 	Zones                   []string                           `json:"zones,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &VirtualMachines_Spec{}
+var _ genruntime.ConvertibleSpec = &VirtualMachine_Spec{}
 
-// ConvertSpecFrom populates our VirtualMachines_Spec from the provided source
-func (machines *VirtualMachines_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20201201s.VirtualMachines_Spec)
+// ConvertSpecFrom populates our VirtualMachine_Spec from the provided source
+func (machine *VirtualMachine_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20201201s.VirtualMachine_Spec)
 	if ok {
 		// Populate our instance from source
-		return machines.AssignPropertiesFromVirtualMachinesSpec(src)
+		return machine.AssignPropertiesFromVirtualMachine_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20201201s.VirtualMachines_Spec{}
+	src = &v20201201s.VirtualMachine_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = machines.AssignPropertiesFromVirtualMachinesSpec(src)
+	err = machine.AssignPropertiesFromVirtualMachine_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -993,17 +960,17 @@ func (machines *VirtualMachines_Spec) ConvertSpecFrom(source genruntime.Converti
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our VirtualMachines_Spec
-func (machines *VirtualMachines_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20201201s.VirtualMachines_Spec)
+// ConvertSpecTo populates the provided destination from our VirtualMachine_Spec
+func (machine *VirtualMachine_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20201201s.VirtualMachine_Spec)
 	if ok {
 		// Populate destination from our instance
-		return machines.AssignPropertiesToVirtualMachinesSpec(dst)
+		return machine.AssignPropertiesToVirtualMachine_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20201201s.VirtualMachines_Spec{}
-	err := machines.AssignPropertiesToVirtualMachinesSpec(dst)
+	dst = &v20201201s.VirtualMachine_Spec{}
+	err := machine.AssignPropertiesToVirtualMachine_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -1017,8 +984,8 @@ func (machines *VirtualMachines_Spec) ConvertSpecTo(destination genruntime.Conve
 	return nil
 }
 
-// AssignPropertiesFromVirtualMachinesSpec populates our VirtualMachines_Spec from the provided source VirtualMachines_Spec
-func (machines *VirtualMachines_Spec) AssignPropertiesFromVirtualMachinesSpec(source *v20201201s.VirtualMachines_Spec) error {
+// AssignPropertiesFromVirtualMachine_Spec populates our VirtualMachine_Spec from the provided source VirtualMachine_Spec
+func (machine *VirtualMachine_Spec) AssignPropertiesFromVirtualMachine_Spec(source *v20201201s.VirtualMachine_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1029,9 +996,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesFromVirtualMachinesSpec(so
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromAdditionalCapabilities() to populate field AdditionalCapabilities")
 		}
-		machines.AdditionalCapabilities = &additionalCapability
+		machine.AdditionalCapabilities = &additionalCapability
 	} else {
-		machines.AdditionalCapabilities = nil
+		machine.AdditionalCapabilities = nil
 	}
 
 	// AvailabilitySet
@@ -1046,13 +1013,13 @@ func (machines *VirtualMachines_Spec) AssignPropertiesFromVirtualMachinesSpec(so
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field AvailabilitySet from SubResourceStash")
 		}
-		machines.AvailabilitySet = &availabilitySet
+		machine.AvailabilitySet = &availabilitySet
 	} else {
-		machines.AvailabilitySet = nil
+		machine.AvailabilitySet = nil
 	}
 
 	// AzureName
-	machines.AzureName = source.AzureName
+	machine.AzureName = source.AzureName
 
 	// BillingProfile
 	if source.BillingProfile != nil {
@@ -1061,9 +1028,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesFromVirtualMachinesSpec(so
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromBillingProfile() to populate field BillingProfile")
 		}
-		machines.BillingProfile = &billingProfile
+		machine.BillingProfile = &billingProfile
 	} else {
-		machines.BillingProfile = nil
+		machine.BillingProfile = nil
 	}
 
 	// DiagnosticsProfile
@@ -1073,13 +1040,13 @@ func (machines *VirtualMachines_Spec) AssignPropertiesFromVirtualMachinesSpec(so
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromDiagnosticsProfile() to populate field DiagnosticsProfile")
 		}
-		machines.DiagnosticsProfile = &diagnosticsProfile
+		machine.DiagnosticsProfile = &diagnosticsProfile
 	} else {
-		machines.DiagnosticsProfile = nil
+		machine.DiagnosticsProfile = nil
 	}
 
 	// EvictionPolicy
-	machines.EvictionPolicy = genruntime.ClonePointerToString(source.EvictionPolicy)
+	machine.EvictionPolicy = genruntime.ClonePointerToString(source.EvictionPolicy)
 
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
@@ -1098,13 +1065,13 @@ func (machines *VirtualMachines_Spec) AssignPropertiesFromVirtualMachinesSpec(so
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocation() to populate field ExtendedLocation from ExtendedLocationStash")
 		}
-		machines.ExtendedLocation = &extendedLocation
+		machine.ExtendedLocation = &extendedLocation
 	} else {
-		machines.ExtendedLocation = nil
+		machine.ExtendedLocation = nil
 	}
 
 	// ExtensionsTimeBudget
-	machines.ExtensionsTimeBudget = genruntime.ClonePointerToString(source.ExtensionsTimeBudget)
+	machine.ExtensionsTimeBudget = genruntime.ClonePointerToString(source.ExtensionsTimeBudget)
 
 	// HardwareProfile
 	if source.HardwareProfile != nil {
@@ -1113,9 +1080,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesFromVirtualMachinesSpec(so
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromHardwareProfile() to populate field HardwareProfile")
 		}
-		machines.HardwareProfile = &hardwareProfile
+		machine.HardwareProfile = &hardwareProfile
 	} else {
-		machines.HardwareProfile = nil
+		machine.HardwareProfile = nil
 	}
 
 	// Host
@@ -1130,9 +1097,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesFromVirtualMachinesSpec(so
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field Host from SubResourceStash")
 		}
-		machines.Host = &host
+		machine.Host = &host
 	} else {
-		machines.Host = nil
+		machine.Host = nil
 	}
 
 	// HostGroup
@@ -1147,10 +1114,13 @@ func (machines *VirtualMachines_Spec) AssignPropertiesFromVirtualMachinesSpec(so
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field HostGroup from SubResourceStash")
 		}
-		machines.HostGroup = &hostGroup
+		machine.HostGroup = &hostGroup
 	} else {
-		machines.HostGroup = nil
+		machine.HostGroup = nil
 	}
+
+	// Id
+	machine.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Identity
 	if source.Identity != nil {
@@ -1159,50 +1129,62 @@ func (machines *VirtualMachines_Spec) AssignPropertiesFromVirtualMachinesSpec(so
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineIdentity() to populate field Identity")
 		}
-		machines.Identity = &identity
+		machine.Identity = &identity
 	} else {
-		machines.Identity = nil
+		machine.Identity = nil
+	}
+
+	// InstanceView
+	if source.InstanceView != nil {
+		var instanceView VirtualMachineInstanceView
+		err := instanceView.AssignPropertiesFromVirtualMachineInstanceView(source.InstanceView)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineInstanceView() to populate field InstanceView")
+		}
+		machine.InstanceView = &instanceView
+	} else {
+		machine.InstanceView = nil
 	}
 
 	// LicenseType
-	machines.LicenseType = genruntime.ClonePointerToString(source.LicenseType)
+	machine.LicenseType = genruntime.ClonePointerToString(source.LicenseType)
 
 	// Location
-	machines.Location = genruntime.ClonePointerToString(source.Location)
+	machine.Location = genruntime.ClonePointerToString(source.Location)
 
 	// NetworkProfile
 	if source.NetworkProfile != nil {
-		var networkProfile VirtualMachines_Spec_Properties_NetworkProfile
-		err := networkProfile.AssignPropertiesFromVirtualMachinesSpecPropertiesNetworkProfile(source.NetworkProfile)
+		var networkProfile NetworkProfile
+		err := networkProfile.AssignPropertiesFromNetworkProfile(source.NetworkProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachinesSpecPropertiesNetworkProfile() to populate field NetworkProfile")
+			return errors.Wrap(err, "calling AssignPropertiesFromNetworkProfile() to populate field NetworkProfile")
 		}
-		machines.NetworkProfile = &networkProfile
+		machine.NetworkProfile = &networkProfile
 	} else {
-		machines.NetworkProfile = nil
+		machine.NetworkProfile = nil
 	}
 
 	// OriginalVersion
-	machines.OriginalVersion = source.OriginalVersion
+	machine.OriginalVersion = source.OriginalVersion
 
 	// OsProfile
 	if source.OsProfile != nil {
-		var osProfile VirtualMachines_Spec_Properties_OsProfile
-		err := osProfile.AssignPropertiesFromVirtualMachinesSpecPropertiesOsProfile(source.OsProfile)
+		var osProfile OSProfile
+		err := osProfile.AssignPropertiesFromOSProfile(source.OsProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachinesSpecPropertiesOsProfile() to populate field OsProfile")
+			return errors.Wrap(err, "calling AssignPropertiesFromOSProfile() to populate field OsProfile")
 		}
-		machines.OsProfile = &osProfile
+		machine.OsProfile = &osProfile
 	} else {
-		machines.OsProfile = nil
+		machine.OsProfile = nil
 	}
 
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
-		machines.Owner = &owner
+		machine.Owner = &owner
 	} else {
-		machines.Owner = nil
+		machine.Owner = nil
 	}
 
 	// Plan
@@ -1212,16 +1194,19 @@ func (machines *VirtualMachines_Spec) AssignPropertiesFromVirtualMachinesSpec(so
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromPlan() to populate field Plan")
 		}
-		machines.Plan = &plan
+		machine.Plan = &plan
 	} else {
-		machines.Plan = nil
+		machine.Plan = nil
 	}
 
 	// PlatformFaultDomain
-	machines.PlatformFaultDomain = genruntime.ClonePointerToInt(source.PlatformFaultDomain)
+	machine.PlatformFaultDomain = genruntime.ClonePointerToInt(source.PlatformFaultDomain)
 
 	// Priority
-	machines.Priority = genruntime.ClonePointerToString(source.Priority)
+	machine.Priority = genruntime.ClonePointerToString(source.Priority)
+
+	// ProvisioningState
+	machine.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// ProximityPlacementGroup
 	if source.ProximityPlacementGroup != nil {
@@ -1235,9 +1220,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesFromVirtualMachinesSpec(so
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field ProximityPlacementGroup from SubResourceStash")
 		}
-		machines.ProximityPlacementGroup = &proximityPlacementGroup
+		machine.ProximityPlacementGroup = &proximityPlacementGroup
 	} else {
-		machines.ProximityPlacementGroup = nil
+		machine.ProximityPlacementGroup = nil
 	}
 
 	// SecurityProfile
@@ -1247,9 +1232,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesFromVirtualMachinesSpec(so
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSecurityProfile() to populate field SecurityProfile")
 		}
-		machines.SecurityProfile = &securityProfile
+		machine.SecurityProfile = &securityProfile
 	} else {
-		machines.SecurityProfile = nil
+		machine.SecurityProfile = nil
 	}
 
 	// StorageProfile
@@ -1259,13 +1244,16 @@ func (machines *VirtualMachines_Spec) AssignPropertiesFromVirtualMachinesSpec(so
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromStorageProfile() to populate field StorageProfile")
 		}
-		machines.StorageProfile = &storageProfile
+		machine.StorageProfile = &storageProfile
 	} else {
-		machines.StorageProfile = nil
+		machine.StorageProfile = nil
 	}
 
 	// Tags
-	machines.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	machine.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	machine.Type = genruntime.ClonePointerToString(source.Type)
 
 	// VirtualMachineScaleSet
 	if source.VirtualMachineScaleSet != nil {
@@ -1279,34 +1267,37 @@ func (machines *VirtualMachines_Spec) AssignPropertiesFromVirtualMachinesSpec(so
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field VirtualMachineScaleSet from SubResourceStash")
 		}
-		machines.VirtualMachineScaleSet = &virtualMachineScaleSet
+		machine.VirtualMachineScaleSet = &virtualMachineScaleSet
 	} else {
-		machines.VirtualMachineScaleSet = nil
+		machine.VirtualMachineScaleSet = nil
 	}
 
+	// VmId
+	machine.VmId = genruntime.ClonePointerToString(source.VmId)
+
 	// Zones
-	machines.Zones = genruntime.CloneSliceOfString(source.Zones)
+	machine.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		machines.PropertyBag = propertyBag
+		machine.PropertyBag = propertyBag
 	} else {
-		machines.PropertyBag = nil
+		machine.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToVirtualMachinesSpec populates the provided destination VirtualMachines_Spec from our VirtualMachines_Spec
-func (machines *VirtualMachines_Spec) AssignPropertiesToVirtualMachinesSpec(destination *v20201201s.VirtualMachines_Spec) error {
+// AssignPropertiesToVirtualMachine_Spec populates the provided destination VirtualMachine_Spec from our VirtualMachine_Spec
+func (machine *VirtualMachine_Spec) AssignPropertiesToVirtualMachine_Spec(destination *v20201201s.VirtualMachine_Spec) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(machines.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(machine.PropertyBag)
 
 	// AdditionalCapabilities
-	if machines.AdditionalCapabilities != nil {
+	if machine.AdditionalCapabilities != nil {
 		var additionalCapability v20201201s.AdditionalCapabilities
-		err := machines.AdditionalCapabilities.AssignPropertiesToAdditionalCapabilities(&additionalCapability)
+		err := machine.AdditionalCapabilities.AssignPropertiesToAdditionalCapabilities(&additionalCapability)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToAdditionalCapabilities() to populate field AdditionalCapabilities")
 		}
@@ -1316,9 +1307,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesToVirtualMachinesSpec(dest
 	}
 
 	// AvailabilitySet
-	if machines.AvailabilitySet != nil {
+	if machine.AvailabilitySet != nil {
 		var subResourceStash alpha20210701s.SubResource
-		err := machines.AvailabilitySet.AssignPropertiesToSubResource(&subResourceStash)
+		err := machine.AvailabilitySet.AssignPropertiesToSubResource(&subResourceStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field SubResourceStash from AvailabilitySet")
 		}
@@ -1333,12 +1324,12 @@ func (machines *VirtualMachines_Spec) AssignPropertiesToVirtualMachinesSpec(dest
 	}
 
 	// AzureName
-	destination.AzureName = machines.AzureName
+	destination.AzureName = machine.AzureName
 
 	// BillingProfile
-	if machines.BillingProfile != nil {
+	if machine.BillingProfile != nil {
 		var billingProfile v20201201s.BillingProfile
-		err := machines.BillingProfile.AssignPropertiesToBillingProfile(&billingProfile)
+		err := machine.BillingProfile.AssignPropertiesToBillingProfile(&billingProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToBillingProfile() to populate field BillingProfile")
 		}
@@ -1348,9 +1339,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesToVirtualMachinesSpec(dest
 	}
 
 	// DiagnosticsProfile
-	if machines.DiagnosticsProfile != nil {
+	if machine.DiagnosticsProfile != nil {
 		var diagnosticsProfile v20201201s.DiagnosticsProfile
-		err := machines.DiagnosticsProfile.AssignPropertiesToDiagnosticsProfile(&diagnosticsProfile)
+		err := machine.DiagnosticsProfile.AssignPropertiesToDiagnosticsProfile(&diagnosticsProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToDiagnosticsProfile() to populate field DiagnosticsProfile")
 		}
@@ -1360,12 +1351,12 @@ func (machines *VirtualMachines_Spec) AssignPropertiesToVirtualMachinesSpec(dest
 	}
 
 	// EvictionPolicy
-	destination.EvictionPolicy = genruntime.ClonePointerToString(machines.EvictionPolicy)
+	destination.EvictionPolicy = genruntime.ClonePointerToString(machine.EvictionPolicy)
 
 	// ExtendedLocation
-	if machines.ExtendedLocation != nil {
+	if machine.ExtendedLocation != nil {
 		var extendedLocationStash alpha20210701s.ExtendedLocation
-		err := machines.ExtendedLocation.AssignPropertiesToExtendedLocation(&extendedLocationStash)
+		err := machine.ExtendedLocation.AssignPropertiesToExtendedLocation(&extendedLocationStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation() to populate field ExtendedLocationStash from ExtendedLocation")
 		}
@@ -1385,12 +1376,12 @@ func (machines *VirtualMachines_Spec) AssignPropertiesToVirtualMachinesSpec(dest
 	}
 
 	// ExtensionsTimeBudget
-	destination.ExtensionsTimeBudget = genruntime.ClonePointerToString(machines.ExtensionsTimeBudget)
+	destination.ExtensionsTimeBudget = genruntime.ClonePointerToString(machine.ExtensionsTimeBudget)
 
 	// HardwareProfile
-	if machines.HardwareProfile != nil {
+	if machine.HardwareProfile != nil {
 		var hardwareProfile v20201201s.HardwareProfile
-		err := machines.HardwareProfile.AssignPropertiesToHardwareProfile(&hardwareProfile)
+		err := machine.HardwareProfile.AssignPropertiesToHardwareProfile(&hardwareProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToHardwareProfile() to populate field HardwareProfile")
 		}
@@ -1400,9 +1391,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesToVirtualMachinesSpec(dest
 	}
 
 	// Host
-	if machines.Host != nil {
+	if machine.Host != nil {
 		var subResourceStash alpha20210701s.SubResource
-		err := machines.Host.AssignPropertiesToSubResource(&subResourceStash)
+		err := machine.Host.AssignPropertiesToSubResource(&subResourceStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field SubResourceStash from Host")
 		}
@@ -1417,9 +1408,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesToVirtualMachinesSpec(dest
 	}
 
 	// HostGroup
-	if machines.HostGroup != nil {
+	if machine.HostGroup != nil {
 		var subResourceStash alpha20210701s.SubResource
-		err := machines.HostGroup.AssignPropertiesToSubResource(&subResourceStash)
+		err := machine.HostGroup.AssignPropertiesToSubResource(&subResourceStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field SubResourceStash from HostGroup")
 		}
@@ -1433,10 +1424,13 @@ func (machines *VirtualMachines_Spec) AssignPropertiesToVirtualMachinesSpec(dest
 		destination.HostGroup = nil
 	}
 
+	// Id
+	destination.Id = genruntime.ClonePointerToString(machine.Id)
+
 	// Identity
-	if machines.Identity != nil {
+	if machine.Identity != nil {
 		var identity v20201201s.VirtualMachineIdentity
-		err := machines.Identity.AssignPropertiesToVirtualMachineIdentity(&identity)
+		err := machine.Identity.AssignPropertiesToVirtualMachineIdentity(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineIdentity() to populate field Identity")
 		}
@@ -1445,18 +1439,30 @@ func (machines *VirtualMachines_Spec) AssignPropertiesToVirtualMachinesSpec(dest
 		destination.Identity = nil
 	}
 
+	// InstanceView
+	if machine.InstanceView != nil {
+		var instanceView v20201201s.VirtualMachineInstanceView
+		err := machine.InstanceView.AssignPropertiesToVirtualMachineInstanceView(&instanceView)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineInstanceView() to populate field InstanceView")
+		}
+		destination.InstanceView = &instanceView
+	} else {
+		destination.InstanceView = nil
+	}
+
 	// LicenseType
-	destination.LicenseType = genruntime.ClonePointerToString(machines.LicenseType)
+	destination.LicenseType = genruntime.ClonePointerToString(machine.LicenseType)
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(machines.Location)
+	destination.Location = genruntime.ClonePointerToString(machine.Location)
 
 	// NetworkProfile
-	if machines.NetworkProfile != nil {
-		var networkProfile v20201201s.VirtualMachines_Spec_Properties_NetworkProfile
-		err := machines.NetworkProfile.AssignPropertiesToVirtualMachinesSpecPropertiesNetworkProfile(&networkProfile)
+	if machine.NetworkProfile != nil {
+		var networkProfile v20201201s.NetworkProfile
+		err := machine.NetworkProfile.AssignPropertiesToNetworkProfile(&networkProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachinesSpecPropertiesNetworkProfile() to populate field NetworkProfile")
+			return errors.Wrap(err, "calling AssignPropertiesToNetworkProfile() to populate field NetworkProfile")
 		}
 		destination.NetworkProfile = &networkProfile
 	} else {
@@ -1464,14 +1470,14 @@ func (machines *VirtualMachines_Spec) AssignPropertiesToVirtualMachinesSpec(dest
 	}
 
 	// OriginalVersion
-	destination.OriginalVersion = machines.OriginalVersion
+	destination.OriginalVersion = machine.OriginalVersion
 
 	// OsProfile
-	if machines.OsProfile != nil {
-		var osProfile v20201201s.VirtualMachines_Spec_Properties_OsProfile
-		err := machines.OsProfile.AssignPropertiesToVirtualMachinesSpecPropertiesOsProfile(&osProfile)
+	if machine.OsProfile != nil {
+		var osProfile v20201201s.OSProfile
+		err := machine.OsProfile.AssignPropertiesToOSProfile(&osProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachinesSpecPropertiesOsProfile() to populate field OsProfile")
+			return errors.Wrap(err, "calling AssignPropertiesToOSProfile() to populate field OsProfile")
 		}
 		destination.OsProfile = &osProfile
 	} else {
@@ -1479,17 +1485,17 @@ func (machines *VirtualMachines_Spec) AssignPropertiesToVirtualMachinesSpec(dest
 	}
 
 	// Owner
-	if machines.Owner != nil {
-		owner := machines.Owner.Copy()
+	if machine.Owner != nil {
+		owner := machine.Owner.Copy()
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
 	}
 
 	// Plan
-	if machines.Plan != nil {
+	if machine.Plan != nil {
 		var plan v20201201s.Plan
-		err := machines.Plan.AssignPropertiesToPlan(&plan)
+		err := machine.Plan.AssignPropertiesToPlan(&plan)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToPlan() to populate field Plan")
 		}
@@ -1499,15 +1505,18 @@ func (machines *VirtualMachines_Spec) AssignPropertiesToVirtualMachinesSpec(dest
 	}
 
 	// PlatformFaultDomain
-	destination.PlatformFaultDomain = genruntime.ClonePointerToInt(machines.PlatformFaultDomain)
+	destination.PlatformFaultDomain = genruntime.ClonePointerToInt(machine.PlatformFaultDomain)
 
 	// Priority
-	destination.Priority = genruntime.ClonePointerToString(machines.Priority)
+	destination.Priority = genruntime.ClonePointerToString(machine.Priority)
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(machine.ProvisioningState)
 
 	// ProximityPlacementGroup
-	if machines.ProximityPlacementGroup != nil {
+	if machine.ProximityPlacementGroup != nil {
 		var subResourceStash alpha20210701s.SubResource
-		err := machines.ProximityPlacementGroup.AssignPropertiesToSubResource(&subResourceStash)
+		err := machine.ProximityPlacementGroup.AssignPropertiesToSubResource(&subResourceStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field SubResourceStash from ProximityPlacementGroup")
 		}
@@ -1522,9 +1531,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesToVirtualMachinesSpec(dest
 	}
 
 	// SecurityProfile
-	if machines.SecurityProfile != nil {
+	if machine.SecurityProfile != nil {
 		var securityProfile v20201201s.SecurityProfile
-		err := machines.SecurityProfile.AssignPropertiesToSecurityProfile(&securityProfile)
+		err := machine.SecurityProfile.AssignPropertiesToSecurityProfile(&securityProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSecurityProfile() to populate field SecurityProfile")
 		}
@@ -1534,9 +1543,9 @@ func (machines *VirtualMachines_Spec) AssignPropertiesToVirtualMachinesSpec(dest
 	}
 
 	// StorageProfile
-	if machines.StorageProfile != nil {
+	if machine.StorageProfile != nil {
 		var storageProfile v20201201s.StorageProfile
-		err := machines.StorageProfile.AssignPropertiesToStorageProfile(&storageProfile)
+		err := machine.StorageProfile.AssignPropertiesToStorageProfile(&storageProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToStorageProfile() to populate field StorageProfile")
 		}
@@ -1546,12 +1555,15 @@ func (machines *VirtualMachines_Spec) AssignPropertiesToVirtualMachinesSpec(dest
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(machines.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(machine.Tags)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(machine.Type)
 
 	// VirtualMachineScaleSet
-	if machines.VirtualMachineScaleSet != nil {
+	if machine.VirtualMachineScaleSet != nil {
 		var subResourceStash alpha20210701s.SubResource
-		err := machines.VirtualMachineScaleSet.AssignPropertiesToSubResource(&subResourceStash)
+		err := machine.VirtualMachineScaleSet.AssignPropertiesToSubResource(&subResourceStash)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field SubResourceStash from VirtualMachineScaleSet")
 		}
@@ -1565,8 +1577,11 @@ func (machines *VirtualMachines_Spec) AssignPropertiesToVirtualMachinesSpec(dest
 		destination.VirtualMachineScaleSet = nil
 	}
 
+	// VmId
+	destination.VmId = genruntime.ClonePointerToString(machine.VmId)
+
 	// Zones
-	destination.Zones = genruntime.CloneSliceOfString(machines.Zones)
+	destination.Zones = genruntime.CloneSliceOfString(machine.Zones)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1634,15 +1649,15 @@ func (capabilities *AdditionalCapabilities) AssignPropertiesToAdditionalCapabili
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.AdditionalCapabilities_Status
-// Deprecated version of AdditionalCapabilities_Status. Use v1beta20201201.AdditionalCapabilities_Status instead
-type AdditionalCapabilities_Status struct {
+// Storage version of v1alpha1api20201201.AdditionalCapabilities_STATUS
+// Deprecated version of AdditionalCapabilities_STATUS. Use v1beta20201201.AdditionalCapabilities_STATUS instead
+type AdditionalCapabilities_STATUS struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	UltraSSDEnabled *bool                  `json:"ultraSSDEnabled,omitempty"`
 }
 
-// AssignPropertiesFromAdditionalCapabilitiesStatus populates our AdditionalCapabilities_Status from the provided source AdditionalCapabilities_Status
-func (capabilities *AdditionalCapabilities_Status) AssignPropertiesFromAdditionalCapabilitiesStatus(source *v20201201s.AdditionalCapabilities_Status) error {
+// AssignPropertiesFromAdditionalCapabilities_STATUS populates our AdditionalCapabilities_STATUS from the provided source AdditionalCapabilities_STATUS
+func (capabilities *AdditionalCapabilities_STATUS) AssignPropertiesFromAdditionalCapabilities_STATUS(source *v20201201s.AdditionalCapabilities_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1665,8 +1680,8 @@ func (capabilities *AdditionalCapabilities_Status) AssignPropertiesFromAdditiona
 	return nil
 }
 
-// AssignPropertiesToAdditionalCapabilitiesStatus populates the provided destination AdditionalCapabilities_Status from our AdditionalCapabilities_Status
-func (capabilities *AdditionalCapabilities_Status) AssignPropertiesToAdditionalCapabilitiesStatus(destination *v20201201s.AdditionalCapabilities_Status) error {
+// AssignPropertiesToAdditionalCapabilities_STATUS populates the provided destination AdditionalCapabilities_STATUS from our AdditionalCapabilities_STATUS
+func (capabilities *AdditionalCapabilities_STATUS) AssignPropertiesToAdditionalCapabilities_STATUS(destination *v20201201s.AdditionalCapabilities_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(capabilities.PropertyBag)
 
@@ -1744,15 +1759,15 @@ func (profile *BillingProfile) AssignPropertiesToBillingProfile(destination *v20
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.BillingProfile_Status
-// Deprecated version of BillingProfile_Status. Use v1beta20201201.BillingProfile_Status instead
-type BillingProfile_Status struct {
+// Storage version of v1alpha1api20201201.BillingProfile_STATUS
+// Deprecated version of BillingProfile_STATUS. Use v1beta20201201.BillingProfile_STATUS instead
+type BillingProfile_STATUS struct {
 	MaxPrice    *float64               `json:"maxPrice,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromBillingProfileStatus populates our BillingProfile_Status from the provided source BillingProfile_Status
-func (profile *BillingProfile_Status) AssignPropertiesFromBillingProfileStatus(source *v20201201s.BillingProfile_Status) error {
+// AssignPropertiesFromBillingProfile_STATUS populates our BillingProfile_STATUS from the provided source BillingProfile_STATUS
+func (profile *BillingProfile_STATUS) AssignPropertiesFromBillingProfile_STATUS(source *v20201201s.BillingProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1775,8 +1790,8 @@ func (profile *BillingProfile_Status) AssignPropertiesFromBillingProfileStatus(s
 	return nil
 }
 
-// AssignPropertiesToBillingProfileStatus populates the provided destination BillingProfile_Status from our BillingProfile_Status
-func (profile *BillingProfile_Status) AssignPropertiesToBillingProfileStatus(destination *v20201201s.BillingProfile_Status) error {
+// AssignPropertiesToBillingProfile_STATUS populates the provided destination BillingProfile_STATUS from our BillingProfile_STATUS
+func (profile *BillingProfile_STATUS) AssignPropertiesToBillingProfile_STATUS(destination *v20201201s.BillingProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -1862,24 +1877,24 @@ func (profile *DiagnosticsProfile) AssignPropertiesToDiagnosticsProfile(destinat
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.DiagnosticsProfile_Status
-// Deprecated version of DiagnosticsProfile_Status. Use v1beta20201201.DiagnosticsProfile_Status instead
-type DiagnosticsProfile_Status struct {
-	BootDiagnostics *BootDiagnostics_Status `json:"bootDiagnostics,omitempty"`
+// Storage version of v1alpha1api20201201.DiagnosticsProfile_STATUS
+// Deprecated version of DiagnosticsProfile_STATUS. Use v1beta20201201.DiagnosticsProfile_STATUS instead
+type DiagnosticsProfile_STATUS struct {
+	BootDiagnostics *BootDiagnostics_STATUS `json:"bootDiagnostics,omitempty"`
 	PropertyBag     genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromDiagnosticsProfileStatus populates our DiagnosticsProfile_Status from the provided source DiagnosticsProfile_Status
-func (profile *DiagnosticsProfile_Status) AssignPropertiesFromDiagnosticsProfileStatus(source *v20201201s.DiagnosticsProfile_Status) error {
+// AssignPropertiesFromDiagnosticsProfile_STATUS populates our DiagnosticsProfile_STATUS from the provided source DiagnosticsProfile_STATUS
+func (profile *DiagnosticsProfile_STATUS) AssignPropertiesFromDiagnosticsProfile_STATUS(source *v20201201s.DiagnosticsProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// BootDiagnostics
 	if source.BootDiagnostics != nil {
-		var bootDiagnostic BootDiagnostics_Status
-		err := bootDiagnostic.AssignPropertiesFromBootDiagnosticsStatus(source.BootDiagnostics)
+		var bootDiagnostic BootDiagnostics_STATUS
+		err := bootDiagnostic.AssignPropertiesFromBootDiagnostics_STATUS(source.BootDiagnostics)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromBootDiagnosticsStatus() to populate field BootDiagnostics")
+			return errors.Wrap(err, "calling AssignPropertiesFromBootDiagnostics_STATUS() to populate field BootDiagnostics")
 		}
 		profile.BootDiagnostics = &bootDiagnostic
 	} else {
@@ -1897,17 +1912,17 @@ func (profile *DiagnosticsProfile_Status) AssignPropertiesFromDiagnosticsProfile
 	return nil
 }
 
-// AssignPropertiesToDiagnosticsProfileStatus populates the provided destination DiagnosticsProfile_Status from our DiagnosticsProfile_Status
-func (profile *DiagnosticsProfile_Status) AssignPropertiesToDiagnosticsProfileStatus(destination *v20201201s.DiagnosticsProfile_Status) error {
+// AssignPropertiesToDiagnosticsProfile_STATUS populates the provided destination DiagnosticsProfile_STATUS from our DiagnosticsProfile_STATUS
+func (profile *DiagnosticsProfile_STATUS) AssignPropertiesToDiagnosticsProfile_STATUS(destination *v20201201s.DiagnosticsProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
 	// BootDiagnostics
 	if profile.BootDiagnostics != nil {
-		var bootDiagnostic v20201201s.BootDiagnostics_Status
-		err := profile.BootDiagnostics.AssignPropertiesToBootDiagnosticsStatus(&bootDiagnostic)
+		var bootDiagnostic v20201201s.BootDiagnostics_STATUS
+		err := profile.BootDiagnostics.AssignPropertiesToBootDiagnostics_STATUS(&bootDiagnostic)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToBootDiagnosticsStatus() to populate field BootDiagnostics")
+			return errors.Wrap(err, "calling AssignPropertiesToBootDiagnostics_STATUS() to populate field BootDiagnostics")
 		}
 		destination.BootDiagnostics = &bootDiagnostic
 	} else {
@@ -1977,16 +1992,16 @@ func (location *ExtendedLocation) AssignPropertiesToExtendedLocation(destination
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.ExtendedLocation_Status
-// Deprecated version of ExtendedLocation_Status. Use v1beta20201201.ExtendedLocation_Status instead
-type ExtendedLocation_Status struct {
+// Storage version of v1alpha1api20201201.ExtendedLocation_STATUS
+// Deprecated version of ExtendedLocation_STATUS. Use v1beta20201201.ExtendedLocation_STATUS instead
+type ExtendedLocation_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
-// AssignPropertiesFromExtendedLocationStatus populates our ExtendedLocation_Status from the provided source ExtendedLocation_Status
-func (location *ExtendedLocation_Status) AssignPropertiesFromExtendedLocationStatus(source *alpha20210701s.ExtendedLocation_Status) error {
+// AssignPropertiesFromExtendedLocation_STATUS populates our ExtendedLocation_STATUS from the provided source ExtendedLocation_STATUS
+func (location *ExtendedLocation_STATUS) AssignPropertiesFromExtendedLocation_STATUS(source *alpha20210701s.ExtendedLocation_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2007,8 +2022,8 @@ func (location *ExtendedLocation_Status) AssignPropertiesFromExtendedLocationSta
 	return nil
 }
 
-// AssignPropertiesToExtendedLocationStatus populates the provided destination ExtendedLocation_Status from our ExtendedLocation_Status
-func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatus(destination *alpha20210701s.ExtendedLocation_Status) error {
+// AssignPropertiesToExtendedLocation_STATUS populates the provided destination ExtendedLocation_STATUS from our ExtendedLocation_STATUS
+func (location *ExtendedLocation_STATUS) AssignPropertiesToExtendedLocation_STATUS(destination *alpha20210701s.ExtendedLocation_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(location.PropertyBag)
 
@@ -2074,15 +2089,15 @@ func (profile *HardwareProfile) AssignPropertiesToHardwareProfile(destination *v
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.HardwareProfile_Status
-// Deprecated version of HardwareProfile_Status. Use v1beta20201201.HardwareProfile_Status instead
-type HardwareProfile_Status struct {
+// Storage version of v1alpha1api20201201.HardwareProfile_STATUS
+// Deprecated version of HardwareProfile_STATUS. Use v1beta20201201.HardwareProfile_STATUS instead
+type HardwareProfile_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	VmSize      *string                `json:"vmSize,omitempty"`
 }
 
-// AssignPropertiesFromHardwareProfileStatus populates our HardwareProfile_Status from the provided source HardwareProfile_Status
-func (profile *HardwareProfile_Status) AssignPropertiesFromHardwareProfileStatus(source *v20201201s.HardwareProfile_Status) error {
+// AssignPropertiesFromHardwareProfile_STATUS populates our HardwareProfile_STATUS from the provided source HardwareProfile_STATUS
+func (profile *HardwareProfile_STATUS) AssignPropertiesFromHardwareProfile_STATUS(source *v20201201s.HardwareProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2100,8 +2115,8 @@ func (profile *HardwareProfile_Status) AssignPropertiesFromHardwareProfileStatus
 	return nil
 }
 
-// AssignPropertiesToHardwareProfileStatus populates the provided destination HardwareProfile_Status from our HardwareProfile_Status
-func (profile *HardwareProfile_Status) AssignPropertiesToHardwareProfileStatus(destination *v20201201s.HardwareProfile_Status) error {
+// AssignPropertiesToHardwareProfile_STATUS populates the provided destination HardwareProfile_STATUS from our HardwareProfile_STATUS
+func (profile *HardwareProfile_STATUS) AssignPropertiesToHardwareProfile_STATUS(destination *v20201201s.HardwareProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -2119,28 +2134,28 @@ func (profile *HardwareProfile_Status) AssignPropertiesToHardwareProfileStatus(d
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.NetworkProfile_Status
-// Deprecated version of NetworkProfile_Status. Use v1beta20201201.NetworkProfile_Status instead
-type NetworkProfile_Status struct {
-	NetworkInterfaces []NetworkInterfaceReference_Status `json:"networkInterfaces,omitempty"`
-	PropertyBag       genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+// Storage version of v1alpha1api20201201.NetworkProfile
+// Deprecated version of NetworkProfile. Use v1beta20201201.NetworkProfile instead
+type NetworkProfile struct {
+	NetworkInterfaces []NetworkInterfaceReference `json:"networkInterfaces,omitempty"`
+	PropertyBag       genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromNetworkProfileStatus populates our NetworkProfile_Status from the provided source NetworkProfile_Status
-func (profile *NetworkProfile_Status) AssignPropertiesFromNetworkProfileStatus(source *v20201201s.NetworkProfile_Status) error {
+// AssignPropertiesFromNetworkProfile populates our NetworkProfile from the provided source NetworkProfile
+func (profile *NetworkProfile) AssignPropertiesFromNetworkProfile(source *v20201201s.NetworkProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// NetworkInterfaces
 	if source.NetworkInterfaces != nil {
-		networkInterfaceList := make([]NetworkInterfaceReference_Status, len(source.NetworkInterfaces))
+		networkInterfaceList := make([]NetworkInterfaceReference, len(source.NetworkInterfaces))
 		for networkInterfaceIndex, networkInterfaceItem := range source.NetworkInterfaces {
 			// Shadow the loop variable to avoid aliasing
 			networkInterfaceItem := networkInterfaceItem
-			var networkInterface NetworkInterfaceReference_Status
-			err := networkInterface.AssignPropertiesFromNetworkInterfaceReferenceStatus(&networkInterfaceItem)
+			var networkInterface NetworkInterfaceReference
+			err := networkInterface.AssignPropertiesFromNetworkInterfaceReference(&networkInterfaceItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromNetworkInterfaceReferenceStatus() to populate field NetworkInterfaces")
+				return errors.Wrap(err, "calling AssignPropertiesFromNetworkInterfaceReference() to populate field NetworkInterfaces")
 			}
 			networkInterfaceList[networkInterfaceIndex] = networkInterface
 		}
@@ -2160,21 +2175,21 @@ func (profile *NetworkProfile_Status) AssignPropertiesFromNetworkProfileStatus(s
 	return nil
 }
 
-// AssignPropertiesToNetworkProfileStatus populates the provided destination NetworkProfile_Status from our NetworkProfile_Status
-func (profile *NetworkProfile_Status) AssignPropertiesToNetworkProfileStatus(destination *v20201201s.NetworkProfile_Status) error {
+// AssignPropertiesToNetworkProfile populates the provided destination NetworkProfile from our NetworkProfile
+func (profile *NetworkProfile) AssignPropertiesToNetworkProfile(destination *v20201201s.NetworkProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
 	// NetworkInterfaces
 	if profile.NetworkInterfaces != nil {
-		networkInterfaceList := make([]v20201201s.NetworkInterfaceReference_Status, len(profile.NetworkInterfaces))
+		networkInterfaceList := make([]v20201201s.NetworkInterfaceReference, len(profile.NetworkInterfaces))
 		for networkInterfaceIndex, networkInterfaceItem := range profile.NetworkInterfaces {
 			// Shadow the loop variable to avoid aliasing
 			networkInterfaceItem := networkInterfaceItem
-			var networkInterface v20201201s.NetworkInterfaceReference_Status
-			err := networkInterfaceItem.AssignPropertiesToNetworkInterfaceReferenceStatus(&networkInterface)
+			var networkInterface v20201201s.NetworkInterfaceReference
+			err := networkInterfaceItem.AssignPropertiesToNetworkInterfaceReference(&networkInterface)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToNetworkInterfaceReferenceStatus() to populate field NetworkInterfaces")
+				return errors.Wrap(err, "calling AssignPropertiesToNetworkInterfaceReference() to populate field NetworkInterfaces")
 			}
 			networkInterfaceList[networkInterfaceIndex] = networkInterface
 		}
@@ -2194,22 +2209,294 @@ func (profile *NetworkProfile_Status) AssignPropertiesToNetworkProfileStatus(des
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.OSProfile_Status
-// Deprecated version of OSProfile_Status. Use v1beta20201201.OSProfile_Status instead
-type OSProfile_Status struct {
+// Storage version of v1alpha1api20201201.NetworkProfile_STATUS
+// Deprecated version of NetworkProfile_STATUS. Use v1beta20201201.NetworkProfile_STATUS instead
+type NetworkProfile_STATUS struct {
+	NetworkInterfaces []NetworkInterfaceReference_STATUS `json:"networkInterfaces,omitempty"`
+	PropertyBag       genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+}
+
+// AssignPropertiesFromNetworkProfile_STATUS populates our NetworkProfile_STATUS from the provided source NetworkProfile_STATUS
+func (profile *NetworkProfile_STATUS) AssignPropertiesFromNetworkProfile_STATUS(source *v20201201s.NetworkProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// NetworkInterfaces
+	if source.NetworkInterfaces != nil {
+		networkInterfaceList := make([]NetworkInterfaceReference_STATUS, len(source.NetworkInterfaces))
+		for networkInterfaceIndex, networkInterfaceItem := range source.NetworkInterfaces {
+			// Shadow the loop variable to avoid aliasing
+			networkInterfaceItem := networkInterfaceItem
+			var networkInterface NetworkInterfaceReference_STATUS
+			err := networkInterface.AssignPropertiesFromNetworkInterfaceReference_STATUS(&networkInterfaceItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromNetworkInterfaceReference_STATUS() to populate field NetworkInterfaces")
+			}
+			networkInterfaceList[networkInterfaceIndex] = networkInterface
+		}
+		profile.NetworkInterfaces = networkInterfaceList
+	} else {
+		profile.NetworkInterfaces = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToNetworkProfile_STATUS populates the provided destination NetworkProfile_STATUS from our NetworkProfile_STATUS
+func (profile *NetworkProfile_STATUS) AssignPropertiesToNetworkProfile_STATUS(destination *v20201201s.NetworkProfile_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// NetworkInterfaces
+	if profile.NetworkInterfaces != nil {
+		networkInterfaceList := make([]v20201201s.NetworkInterfaceReference_STATUS, len(profile.NetworkInterfaces))
+		for networkInterfaceIndex, networkInterfaceItem := range profile.NetworkInterfaces {
+			// Shadow the loop variable to avoid aliasing
+			networkInterfaceItem := networkInterfaceItem
+			var networkInterface v20201201s.NetworkInterfaceReference_STATUS
+			err := networkInterfaceItem.AssignPropertiesToNetworkInterfaceReference_STATUS(&networkInterface)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToNetworkInterfaceReference_STATUS() to populate field NetworkInterfaces")
+			}
+			networkInterfaceList[networkInterfaceIndex] = networkInterface
+		}
+		destination.NetworkInterfaces = networkInterfaceList
+	} else {
+		destination.NetworkInterfaces = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20201201.OSProfile
+// Deprecated version of OSProfile. Use v1beta20201201.OSProfile instead
+type OSProfile struct {
+	AdminPassword               *genruntime.SecretReference `json:"adminPassword,omitempty"`
+	AdminUsername               *string                     `json:"adminUsername,omitempty"`
+	AllowExtensionOperations    *bool                       `json:"allowExtensionOperations,omitempty"`
+	ComputerName                *string                     `json:"computerName,omitempty"`
+	CustomData                  *string                     `json:"customData,omitempty"`
+	LinuxConfiguration          *LinuxConfiguration         `json:"linuxConfiguration,omitempty"`
+	PropertyBag                 genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	RequireGuestProvisionSignal *bool                       `json:"requireGuestProvisionSignal,omitempty"`
+	Secrets                     []VaultSecretGroup          `json:"secrets,omitempty"`
+	WindowsConfiguration        *WindowsConfiguration       `json:"windowsConfiguration,omitempty"`
+}
+
+// AssignPropertiesFromOSProfile populates our OSProfile from the provided source OSProfile
+func (profile *OSProfile) AssignPropertiesFromOSProfile(source *v20201201s.OSProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AdminPassword
+	if source.AdminPassword != nil {
+		adminPassword := source.AdminPassword.Copy()
+		profile.AdminPassword = &adminPassword
+	} else {
+		profile.AdminPassword = nil
+	}
+
+	// AdminUsername
+	profile.AdminUsername = genruntime.ClonePointerToString(source.AdminUsername)
+
+	// AllowExtensionOperations
+	if source.AllowExtensionOperations != nil {
+		allowExtensionOperation := *source.AllowExtensionOperations
+		profile.AllowExtensionOperations = &allowExtensionOperation
+	} else {
+		profile.AllowExtensionOperations = nil
+	}
+
+	// ComputerName
+	profile.ComputerName = genruntime.ClonePointerToString(source.ComputerName)
+
+	// CustomData
+	profile.CustomData = genruntime.ClonePointerToString(source.CustomData)
+
+	// LinuxConfiguration
+	if source.LinuxConfiguration != nil {
+		var linuxConfiguration LinuxConfiguration
+		err := linuxConfiguration.AssignPropertiesFromLinuxConfiguration(source.LinuxConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromLinuxConfiguration() to populate field LinuxConfiguration")
+		}
+		profile.LinuxConfiguration = &linuxConfiguration
+	} else {
+		profile.LinuxConfiguration = nil
+	}
+
+	// RequireGuestProvisionSignal
+	if source.RequireGuestProvisionSignal != nil {
+		requireGuestProvisionSignal := *source.RequireGuestProvisionSignal
+		profile.RequireGuestProvisionSignal = &requireGuestProvisionSignal
+	} else {
+		profile.RequireGuestProvisionSignal = nil
+	}
+
+	// Secrets
+	if source.Secrets != nil {
+		secretList := make([]VaultSecretGroup, len(source.Secrets))
+		for secretIndex, secretItem := range source.Secrets {
+			// Shadow the loop variable to avoid aliasing
+			secretItem := secretItem
+			var secret VaultSecretGroup
+			err := secret.AssignPropertiesFromVaultSecretGroup(&secretItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromVaultSecretGroup() to populate field Secrets")
+			}
+			secretList[secretIndex] = secret
+		}
+		profile.Secrets = secretList
+	} else {
+		profile.Secrets = nil
+	}
+
+	// WindowsConfiguration
+	if source.WindowsConfiguration != nil {
+		var windowsConfiguration WindowsConfiguration
+		err := windowsConfiguration.AssignPropertiesFromWindowsConfiguration(source.WindowsConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromWindowsConfiguration() to populate field WindowsConfiguration")
+		}
+		profile.WindowsConfiguration = &windowsConfiguration
+	} else {
+		profile.WindowsConfiguration = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		profile.PropertyBag = propertyBag
+	} else {
+		profile.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToOSProfile populates the provided destination OSProfile from our OSProfile
+func (profile *OSProfile) AssignPropertiesToOSProfile(destination *v20201201s.OSProfile) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+
+	// AdminPassword
+	if profile.AdminPassword != nil {
+		adminPassword := profile.AdminPassword.Copy()
+		destination.AdminPassword = &adminPassword
+	} else {
+		destination.AdminPassword = nil
+	}
+
+	// AdminUsername
+	destination.AdminUsername = genruntime.ClonePointerToString(profile.AdminUsername)
+
+	// AllowExtensionOperations
+	if profile.AllowExtensionOperations != nil {
+		allowExtensionOperation := *profile.AllowExtensionOperations
+		destination.AllowExtensionOperations = &allowExtensionOperation
+	} else {
+		destination.AllowExtensionOperations = nil
+	}
+
+	// ComputerName
+	destination.ComputerName = genruntime.ClonePointerToString(profile.ComputerName)
+
+	// CustomData
+	destination.CustomData = genruntime.ClonePointerToString(profile.CustomData)
+
+	// LinuxConfiguration
+	if profile.LinuxConfiguration != nil {
+		var linuxConfiguration v20201201s.LinuxConfiguration
+		err := profile.LinuxConfiguration.AssignPropertiesToLinuxConfiguration(&linuxConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToLinuxConfiguration() to populate field LinuxConfiguration")
+		}
+		destination.LinuxConfiguration = &linuxConfiguration
+	} else {
+		destination.LinuxConfiguration = nil
+	}
+
+	// RequireGuestProvisionSignal
+	if profile.RequireGuestProvisionSignal != nil {
+		requireGuestProvisionSignal := *profile.RequireGuestProvisionSignal
+		destination.RequireGuestProvisionSignal = &requireGuestProvisionSignal
+	} else {
+		destination.RequireGuestProvisionSignal = nil
+	}
+
+	// Secrets
+	if profile.Secrets != nil {
+		secretList := make([]v20201201s.VaultSecretGroup, len(profile.Secrets))
+		for secretIndex, secretItem := range profile.Secrets {
+			// Shadow the loop variable to avoid aliasing
+			secretItem := secretItem
+			var secret v20201201s.VaultSecretGroup
+			err := secretItem.AssignPropertiesToVaultSecretGroup(&secret)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToVaultSecretGroup() to populate field Secrets")
+			}
+			secretList[secretIndex] = secret
+		}
+		destination.Secrets = secretList
+	} else {
+		destination.Secrets = nil
+	}
+
+	// WindowsConfiguration
+	if profile.WindowsConfiguration != nil {
+		var windowsConfiguration v20201201s.WindowsConfiguration
+		err := profile.WindowsConfiguration.AssignPropertiesToWindowsConfiguration(&windowsConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToWindowsConfiguration() to populate field WindowsConfiguration")
+		}
+		destination.WindowsConfiguration = &windowsConfiguration
+	} else {
+		destination.WindowsConfiguration = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20201201.OSProfile_STATUS
+// Deprecated version of OSProfile_STATUS. Use v1beta20201201.OSProfile_STATUS instead
+type OSProfile_STATUS struct {
 	AdminUsername               *string                      `json:"adminUsername,omitempty"`
 	AllowExtensionOperations    *bool                        `json:"allowExtensionOperations,omitempty"`
 	ComputerName                *string                      `json:"computerName,omitempty"`
 	CustomData                  *string                      `json:"customData,omitempty"`
-	LinuxConfiguration          *LinuxConfiguration_Status   `json:"linuxConfiguration,omitempty"`
+	LinuxConfiguration          *LinuxConfiguration_STATUS   `json:"linuxConfiguration,omitempty"`
 	PropertyBag                 genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
 	RequireGuestProvisionSignal *bool                        `json:"requireGuestProvisionSignal,omitempty"`
-	Secrets                     []VaultSecretGroup_Status    `json:"secrets,omitempty"`
-	WindowsConfiguration        *WindowsConfiguration_Status `json:"windowsConfiguration,omitempty"`
+	Secrets                     []VaultSecretGroup_STATUS    `json:"secrets,omitempty"`
+	WindowsConfiguration        *WindowsConfiguration_STATUS `json:"windowsConfiguration,omitempty"`
 }
 
-// AssignPropertiesFromOSProfileStatus populates our OSProfile_Status from the provided source OSProfile_Status
-func (profile *OSProfile_Status) AssignPropertiesFromOSProfileStatus(source *v20201201s.OSProfile_Status) error {
+// AssignPropertiesFromOSProfile_STATUS populates our OSProfile_STATUS from the provided source OSProfile_STATUS
+func (profile *OSProfile_STATUS) AssignPropertiesFromOSProfile_STATUS(source *v20201201s.OSProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2232,10 +2519,10 @@ func (profile *OSProfile_Status) AssignPropertiesFromOSProfileStatus(source *v20
 
 	// LinuxConfiguration
 	if source.LinuxConfiguration != nil {
-		var linuxConfiguration LinuxConfiguration_Status
-		err := linuxConfiguration.AssignPropertiesFromLinuxConfigurationStatus(source.LinuxConfiguration)
+		var linuxConfiguration LinuxConfiguration_STATUS
+		err := linuxConfiguration.AssignPropertiesFromLinuxConfiguration_STATUS(source.LinuxConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromLinuxConfigurationStatus() to populate field LinuxConfiguration")
+			return errors.Wrap(err, "calling AssignPropertiesFromLinuxConfiguration_STATUS() to populate field LinuxConfiguration")
 		}
 		profile.LinuxConfiguration = &linuxConfiguration
 	} else {
@@ -2252,14 +2539,14 @@ func (profile *OSProfile_Status) AssignPropertiesFromOSProfileStatus(source *v20
 
 	// Secrets
 	if source.Secrets != nil {
-		secretList := make([]VaultSecretGroup_Status, len(source.Secrets))
+		secretList := make([]VaultSecretGroup_STATUS, len(source.Secrets))
 		for secretIndex, secretItem := range source.Secrets {
 			// Shadow the loop variable to avoid aliasing
 			secretItem := secretItem
-			var secret VaultSecretGroup_Status
-			err := secret.AssignPropertiesFromVaultSecretGroupStatus(&secretItem)
+			var secret VaultSecretGroup_STATUS
+			err := secret.AssignPropertiesFromVaultSecretGroup_STATUS(&secretItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVaultSecretGroupStatus() to populate field Secrets")
+				return errors.Wrap(err, "calling AssignPropertiesFromVaultSecretGroup_STATUS() to populate field Secrets")
 			}
 			secretList[secretIndex] = secret
 		}
@@ -2270,10 +2557,10 @@ func (profile *OSProfile_Status) AssignPropertiesFromOSProfileStatus(source *v20
 
 	// WindowsConfiguration
 	if source.WindowsConfiguration != nil {
-		var windowsConfiguration WindowsConfiguration_Status
-		err := windowsConfiguration.AssignPropertiesFromWindowsConfigurationStatus(source.WindowsConfiguration)
+		var windowsConfiguration WindowsConfiguration_STATUS
+		err := windowsConfiguration.AssignPropertiesFromWindowsConfiguration_STATUS(source.WindowsConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromWindowsConfigurationStatus() to populate field WindowsConfiguration")
+			return errors.Wrap(err, "calling AssignPropertiesFromWindowsConfiguration_STATUS() to populate field WindowsConfiguration")
 		}
 		profile.WindowsConfiguration = &windowsConfiguration
 	} else {
@@ -2291,8 +2578,8 @@ func (profile *OSProfile_Status) AssignPropertiesFromOSProfileStatus(source *v20
 	return nil
 }
 
-// AssignPropertiesToOSProfileStatus populates the provided destination OSProfile_Status from our OSProfile_Status
-func (profile *OSProfile_Status) AssignPropertiesToOSProfileStatus(destination *v20201201s.OSProfile_Status) error {
+// AssignPropertiesToOSProfile_STATUS populates the provided destination OSProfile_STATUS from our OSProfile_STATUS
+func (profile *OSProfile_STATUS) AssignPropertiesToOSProfile_STATUS(destination *v20201201s.OSProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -2315,10 +2602,10 @@ func (profile *OSProfile_Status) AssignPropertiesToOSProfileStatus(destination *
 
 	// LinuxConfiguration
 	if profile.LinuxConfiguration != nil {
-		var linuxConfiguration v20201201s.LinuxConfiguration_Status
-		err := profile.LinuxConfiguration.AssignPropertiesToLinuxConfigurationStatus(&linuxConfiguration)
+		var linuxConfiguration v20201201s.LinuxConfiguration_STATUS
+		err := profile.LinuxConfiguration.AssignPropertiesToLinuxConfiguration_STATUS(&linuxConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToLinuxConfigurationStatus() to populate field LinuxConfiguration")
+			return errors.Wrap(err, "calling AssignPropertiesToLinuxConfiguration_STATUS() to populate field LinuxConfiguration")
 		}
 		destination.LinuxConfiguration = &linuxConfiguration
 	} else {
@@ -2335,14 +2622,14 @@ func (profile *OSProfile_Status) AssignPropertiesToOSProfileStatus(destination *
 
 	// Secrets
 	if profile.Secrets != nil {
-		secretList := make([]v20201201s.VaultSecretGroup_Status, len(profile.Secrets))
+		secretList := make([]v20201201s.VaultSecretGroup_STATUS, len(profile.Secrets))
 		for secretIndex, secretItem := range profile.Secrets {
 			// Shadow the loop variable to avoid aliasing
 			secretItem := secretItem
-			var secret v20201201s.VaultSecretGroup_Status
-			err := secretItem.AssignPropertiesToVaultSecretGroupStatus(&secret)
+			var secret v20201201s.VaultSecretGroup_STATUS
+			err := secretItem.AssignPropertiesToVaultSecretGroup_STATUS(&secret)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVaultSecretGroupStatus() to populate field Secrets")
+				return errors.Wrap(err, "calling AssignPropertiesToVaultSecretGroup_STATUS() to populate field Secrets")
 			}
 			secretList[secretIndex] = secret
 		}
@@ -2353,10 +2640,10 @@ func (profile *OSProfile_Status) AssignPropertiesToOSProfileStatus(destination *
 
 	// WindowsConfiguration
 	if profile.WindowsConfiguration != nil {
-		var windowsConfiguration v20201201s.WindowsConfiguration_Status
-		err := profile.WindowsConfiguration.AssignPropertiesToWindowsConfigurationStatus(&windowsConfiguration)
+		var windowsConfiguration v20201201s.WindowsConfiguration_STATUS
+		err := profile.WindowsConfiguration.AssignPropertiesToWindowsConfiguration_STATUS(&windowsConfiguration)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToWindowsConfigurationStatus() to populate field WindowsConfiguration")
+			return errors.Wrap(err, "calling AssignPropertiesToWindowsConfiguration_STATUS() to populate field WindowsConfiguration")
 		}
 		destination.WindowsConfiguration = &windowsConfiguration
 	} else {
@@ -2440,9 +2727,9 @@ func (plan *Plan) AssignPropertiesToPlan(destination *v20201201s.Plan) error {
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.Plan_Status
-// Deprecated version of Plan_Status. Use v1beta20201201.Plan_Status instead
-type Plan_Status struct {
+// Storage version of v1alpha1api20201201.Plan_STATUS
+// Deprecated version of Plan_STATUS. Use v1beta20201201.Plan_STATUS instead
+type Plan_STATUS struct {
 	Name          *string                `json:"name,omitempty"`
 	Product       *string                `json:"product,omitempty"`
 	PromotionCode *string                `json:"promotionCode,omitempty"`
@@ -2450,8 +2737,8 @@ type Plan_Status struct {
 	Publisher     *string                `json:"publisher,omitempty"`
 }
 
-// AssignPropertiesFromPlanStatus populates our Plan_Status from the provided source Plan_Status
-func (plan *Plan_Status) AssignPropertiesFromPlanStatus(source *v20201201s.Plan_Status) error {
+// AssignPropertiesFromPlan_STATUS populates our Plan_STATUS from the provided source Plan_STATUS
+func (plan *Plan_STATUS) AssignPropertiesFromPlan_STATUS(source *v20201201s.Plan_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2478,8 +2765,8 @@ func (plan *Plan_Status) AssignPropertiesFromPlanStatus(source *v20201201s.Plan_
 	return nil
 }
 
-// AssignPropertiesToPlanStatus populates the provided destination Plan_Status from our Plan_Status
-func (plan *Plan_Status) AssignPropertiesToPlanStatus(destination *v20201201s.Plan_Status) error {
+// AssignPropertiesToPlan_STATUS populates the provided destination Plan_STATUS from our Plan_STATUS
+func (plan *Plan_STATUS) AssignPropertiesToPlan_STATUS(destination *v20201201s.Plan_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(plan.PropertyBag)
 
@@ -2593,17 +2880,17 @@ func (profile *SecurityProfile) AssignPropertiesToSecurityProfile(destination *v
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.SecurityProfile_Status
-// Deprecated version of SecurityProfile_Status. Use v1beta20201201.SecurityProfile_Status instead
-type SecurityProfile_Status struct {
+// Storage version of v1alpha1api20201201.SecurityProfile_STATUS
+// Deprecated version of SecurityProfile_STATUS. Use v1beta20201201.SecurityProfile_STATUS instead
+type SecurityProfile_STATUS struct {
 	EncryptionAtHost *bool                  `json:"encryptionAtHost,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SecurityType     *string                `json:"securityType,omitempty"`
-	UefiSettings     *UefiSettings_Status   `json:"uefiSettings,omitempty"`
+	UefiSettings     *UefiSettings_STATUS   `json:"uefiSettings,omitempty"`
 }
 
-// AssignPropertiesFromSecurityProfileStatus populates our SecurityProfile_Status from the provided source SecurityProfile_Status
-func (profile *SecurityProfile_Status) AssignPropertiesFromSecurityProfileStatus(source *v20201201s.SecurityProfile_Status) error {
+// AssignPropertiesFromSecurityProfile_STATUS populates our SecurityProfile_STATUS from the provided source SecurityProfile_STATUS
+func (profile *SecurityProfile_STATUS) AssignPropertiesFromSecurityProfile_STATUS(source *v20201201s.SecurityProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -2620,10 +2907,10 @@ func (profile *SecurityProfile_Status) AssignPropertiesFromSecurityProfileStatus
 
 	// UefiSettings
 	if source.UefiSettings != nil {
-		var uefiSetting UefiSettings_Status
-		err := uefiSetting.AssignPropertiesFromUefiSettingsStatus(source.UefiSettings)
+		var uefiSetting UefiSettings_STATUS
+		err := uefiSetting.AssignPropertiesFromUefiSettings_STATUS(source.UefiSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromUefiSettingsStatus() to populate field UefiSettings")
+			return errors.Wrap(err, "calling AssignPropertiesFromUefiSettings_STATUS() to populate field UefiSettings")
 		}
 		profile.UefiSettings = &uefiSetting
 	} else {
@@ -2641,8 +2928,8 @@ func (profile *SecurityProfile_Status) AssignPropertiesFromSecurityProfileStatus
 	return nil
 }
 
-// AssignPropertiesToSecurityProfileStatus populates the provided destination SecurityProfile_Status from our SecurityProfile_Status
-func (profile *SecurityProfile_Status) AssignPropertiesToSecurityProfileStatus(destination *v20201201s.SecurityProfile_Status) error {
+// AssignPropertiesToSecurityProfile_STATUS populates the provided destination SecurityProfile_STATUS from our SecurityProfile_STATUS
+func (profile *SecurityProfile_STATUS) AssignPropertiesToSecurityProfile_STATUS(destination *v20201201s.SecurityProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
@@ -2659,10 +2946,10 @@ func (profile *SecurityProfile_Status) AssignPropertiesToSecurityProfileStatus(d
 
 	// UefiSettings
 	if profile.UefiSettings != nil {
-		var uefiSetting v20201201s.UefiSettings_Status
-		err := profile.UefiSettings.AssignPropertiesToUefiSettingsStatus(&uefiSetting)
+		var uefiSetting v20201201s.UefiSettings_STATUS
+		err := profile.UefiSettings.AssignPropertiesToUefiSettings_STATUS(&uefiSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToUefiSettingsStatus() to populate field UefiSettings")
+			return errors.Wrap(err, "calling AssignPropertiesToUefiSettings_STATUS() to populate field UefiSettings")
 		}
 		destination.UefiSettings = &uefiSetting
 	} else {
@@ -2805,30 +3092,30 @@ func (profile *StorageProfile) AssignPropertiesToStorageProfile(destination *v20
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.StorageProfile_Status
-// Deprecated version of StorageProfile_Status. Use v1beta20201201.StorageProfile_Status instead
-type StorageProfile_Status struct {
-	DataDisks      []DataDisk_Status      `json:"dataDisks,omitempty"`
-	ImageReference *ImageReference_Status `json:"imageReference,omitempty"`
-	OsDisk         *OSDisk_Status         `json:"osDisk,omitempty"`
+// Storage version of v1alpha1api20201201.StorageProfile_STATUS
+// Deprecated version of StorageProfile_STATUS. Use v1beta20201201.StorageProfile_STATUS instead
+type StorageProfile_STATUS struct {
+	DataDisks      []DataDisk_STATUS      `json:"dataDisks,omitempty"`
+	ImageReference *ImageReference_STATUS `json:"imageReference,omitempty"`
+	OsDisk         *OSDisk_STATUS         `json:"osDisk,omitempty"`
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromStorageProfileStatus populates our StorageProfile_Status from the provided source StorageProfile_Status
-func (profile *StorageProfile_Status) AssignPropertiesFromStorageProfileStatus(source *v20201201s.StorageProfile_Status) error {
+// AssignPropertiesFromStorageProfile_STATUS populates our StorageProfile_STATUS from the provided source StorageProfile_STATUS
+func (profile *StorageProfile_STATUS) AssignPropertiesFromStorageProfile_STATUS(source *v20201201s.StorageProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// DataDisks
 	if source.DataDisks != nil {
-		dataDiskList := make([]DataDisk_Status, len(source.DataDisks))
+		dataDiskList := make([]DataDisk_STATUS, len(source.DataDisks))
 		for dataDiskIndex, dataDiskItem := range source.DataDisks {
 			// Shadow the loop variable to avoid aliasing
 			dataDiskItem := dataDiskItem
-			var dataDisk DataDisk_Status
-			err := dataDisk.AssignPropertiesFromDataDiskStatus(&dataDiskItem)
+			var dataDisk DataDisk_STATUS
+			err := dataDisk.AssignPropertiesFromDataDisk_STATUS(&dataDiskItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromDataDiskStatus() to populate field DataDisks")
+				return errors.Wrap(err, "calling AssignPropertiesFromDataDisk_STATUS() to populate field DataDisks")
 			}
 			dataDiskList[dataDiskIndex] = dataDisk
 		}
@@ -2839,10 +3126,10 @@ func (profile *StorageProfile_Status) AssignPropertiesFromStorageProfileStatus(s
 
 	// ImageReference
 	if source.ImageReference != nil {
-		var imageReference ImageReference_Status
-		err := imageReference.AssignPropertiesFromImageReferenceStatus(source.ImageReference)
+		var imageReference ImageReference_STATUS
+		err := imageReference.AssignPropertiesFromImageReference_STATUS(source.ImageReference)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromImageReferenceStatus() to populate field ImageReference")
+			return errors.Wrap(err, "calling AssignPropertiesFromImageReference_STATUS() to populate field ImageReference")
 		}
 		profile.ImageReference = &imageReference
 	} else {
@@ -2851,10 +3138,10 @@ func (profile *StorageProfile_Status) AssignPropertiesFromStorageProfileStatus(s
 
 	// OsDisk
 	if source.OsDisk != nil {
-		var osDisk OSDisk_Status
-		err := osDisk.AssignPropertiesFromOSDiskStatus(source.OsDisk)
+		var osDisk OSDisk_STATUS
+		err := osDisk.AssignPropertiesFromOSDisk_STATUS(source.OsDisk)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromOSDiskStatus() to populate field OsDisk")
+			return errors.Wrap(err, "calling AssignPropertiesFromOSDisk_STATUS() to populate field OsDisk")
 		}
 		profile.OsDisk = &osDisk
 	} else {
@@ -2872,21 +3159,21 @@ func (profile *StorageProfile_Status) AssignPropertiesFromStorageProfileStatus(s
 	return nil
 }
 
-// AssignPropertiesToStorageProfileStatus populates the provided destination StorageProfile_Status from our StorageProfile_Status
-func (profile *StorageProfile_Status) AssignPropertiesToStorageProfileStatus(destination *v20201201s.StorageProfile_Status) error {
+// AssignPropertiesToStorageProfile_STATUS populates the provided destination StorageProfile_STATUS from our StorageProfile_STATUS
+func (profile *StorageProfile_STATUS) AssignPropertiesToStorageProfile_STATUS(destination *v20201201s.StorageProfile_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
 
 	// DataDisks
 	if profile.DataDisks != nil {
-		dataDiskList := make([]v20201201s.DataDisk_Status, len(profile.DataDisks))
+		dataDiskList := make([]v20201201s.DataDisk_STATUS, len(profile.DataDisks))
 		for dataDiskIndex, dataDiskItem := range profile.DataDisks {
 			// Shadow the loop variable to avoid aliasing
 			dataDiskItem := dataDiskItem
-			var dataDisk v20201201s.DataDisk_Status
-			err := dataDiskItem.AssignPropertiesToDataDiskStatus(&dataDisk)
+			var dataDisk v20201201s.DataDisk_STATUS
+			err := dataDiskItem.AssignPropertiesToDataDisk_STATUS(&dataDisk)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToDataDiskStatus() to populate field DataDisks")
+				return errors.Wrap(err, "calling AssignPropertiesToDataDisk_STATUS() to populate field DataDisks")
 			}
 			dataDiskList[dataDiskIndex] = dataDisk
 		}
@@ -2897,10 +3184,10 @@ func (profile *StorageProfile_Status) AssignPropertiesToStorageProfileStatus(des
 
 	// ImageReference
 	if profile.ImageReference != nil {
-		var imageReference v20201201s.ImageReference_Status
-		err := profile.ImageReference.AssignPropertiesToImageReferenceStatus(&imageReference)
+		var imageReference v20201201s.ImageReference_STATUS
+		err := profile.ImageReference.AssignPropertiesToImageReference_STATUS(&imageReference)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToImageReferenceStatus() to populate field ImageReference")
+			return errors.Wrap(err, "calling AssignPropertiesToImageReference_STATUS() to populate field ImageReference")
 		}
 		destination.ImageReference = &imageReference
 	} else {
@@ -2909,10 +3196,10 @@ func (profile *StorageProfile_Status) AssignPropertiesToStorageProfileStatus(des
 
 	// OsDisk
 	if profile.OsDisk != nil {
-		var osDisk v20201201s.OSDisk_Status
-		err := profile.OsDisk.AssignPropertiesToOSDiskStatus(&osDisk)
+		var osDisk v20201201s.OSDisk_STATUS
+		err := profile.OsDisk.AssignPropertiesToOSDisk_STATUS(&osDisk)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToOSDiskStatus() to populate field OsDisk")
+			return errors.Wrap(err, "calling AssignPropertiesToOSDisk_STATUS() to populate field OsDisk")
 		}
 		destination.OsDisk = &osDisk
 	} else {
@@ -2985,15 +3272,15 @@ func (resource *SubResource) AssignPropertiesToSubResource(destination *alpha202
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.SubResource_Status
-// Deprecated version of SubResource_Status. Use v1beta20201201.SubResource_Status instead
-type SubResource_Status struct {
+// Storage version of v1alpha1api20201201.SubResource_STATUS
+// Deprecated version of SubResource_STATUS. Use v1beta20201201.SubResource_STATUS instead
+type SubResource_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromSubResourceStatus populates our SubResource_Status from the provided source SubResource_Status
-func (resource *SubResource_Status) AssignPropertiesFromSubResourceStatus(source *alpha20210701s.SubResource_Status) error {
+// AssignPropertiesFromSubResource_STATUS populates our SubResource_STATUS from the provided source SubResource_STATUS
+func (resource *SubResource_STATUS) AssignPropertiesFromSubResource_STATUS(source *alpha20210701s.SubResource_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3011,8 +3298,8 @@ func (resource *SubResource_Status) AssignPropertiesFromSubResourceStatus(source
 	return nil
 }
 
-// AssignPropertiesToSubResourceStatus populates the provided destination SubResource_Status from our SubResource_Status
-func (resource *SubResource_Status) AssignPropertiesToSubResourceStatus(destination *alpha20210701s.SubResource_Status) error {
+// AssignPropertiesToSubResource_STATUS populates the provided destination SubResource_STATUS from our SubResource_STATUS
+func (resource *SubResource_STATUS) AssignPropertiesToSubResource_STATUS(destination *alpha20210701s.SubResource_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
 
@@ -3030,233 +3317,14 @@ func (resource *SubResource_Status) AssignPropertiesToSubResourceStatus(destinat
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.VirtualMachineExtension_Status
-// Deprecated version of VirtualMachineExtension_Status. Use v1beta20201201.VirtualMachineExtension_Status instead
-type VirtualMachineExtension_Status struct {
-	AutoUpgradeMinorVersion *bool                                       `json:"autoUpgradeMinorVersion,omitempty"`
-	EnableAutomaticUpgrade  *bool                                       `json:"enableAutomaticUpgrade,omitempty"`
-	ForceUpdateTag          *string                                     `json:"forceUpdateTag,omitempty"`
-	Id                      *string                                     `json:"id,omitempty"`
-	InstanceView            *VirtualMachineExtensionInstanceView_Status `json:"instanceView,omitempty"`
-	Location                *string                                     `json:"location,omitempty"`
-	Name                    *string                                     `json:"name,omitempty"`
-	PropertiesType          *string                                     `json:"properties_type,omitempty"`
-	PropertyBag             genruntime.PropertyBag                      `json:"$propertyBag,omitempty"`
-	ProtectedSettings       map[string]v1.JSON                          `json:"protectedSettings,omitempty"`
-	ProvisioningState       *string                                     `json:"provisioningState,omitempty"`
-	Publisher               *string                                     `json:"publisher,omitempty"`
-	Settings                map[string]v1.JSON                          `json:"settings,omitempty"`
-	Tags                    map[string]string                           `json:"tags,omitempty"`
-	Type                    *string                                     `json:"type,omitempty"`
-	TypeHandlerVersion      *string                                     `json:"typeHandlerVersion,omitempty"`
-}
-
-// AssignPropertiesFromVirtualMachineExtensionStatus populates our VirtualMachineExtension_Status from the provided source VirtualMachineExtension_Status
-func (extension *VirtualMachineExtension_Status) AssignPropertiesFromVirtualMachineExtensionStatus(source *v20201201s.VirtualMachineExtension_Status) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// AutoUpgradeMinorVersion
-	if source.AutoUpgradeMinorVersion != nil {
-		autoUpgradeMinorVersion := *source.AutoUpgradeMinorVersion
-		extension.AutoUpgradeMinorVersion = &autoUpgradeMinorVersion
-	} else {
-		extension.AutoUpgradeMinorVersion = nil
-	}
-
-	// EnableAutomaticUpgrade
-	if source.EnableAutomaticUpgrade != nil {
-		enableAutomaticUpgrade := *source.EnableAutomaticUpgrade
-		extension.EnableAutomaticUpgrade = &enableAutomaticUpgrade
-	} else {
-		extension.EnableAutomaticUpgrade = nil
-	}
-
-	// ForceUpdateTag
-	extension.ForceUpdateTag = genruntime.ClonePointerToString(source.ForceUpdateTag)
-
-	// Id
-	extension.Id = genruntime.ClonePointerToString(source.Id)
-
-	// InstanceView
-	if source.InstanceView != nil {
-		var instanceView VirtualMachineExtensionInstanceView_Status
-		err := instanceView.AssignPropertiesFromVirtualMachineExtensionInstanceViewStatus(source.InstanceView)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineExtensionInstanceViewStatus() to populate field InstanceView")
-		}
-		extension.InstanceView = &instanceView
-	} else {
-		extension.InstanceView = nil
-	}
-
-	// Location
-	extension.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Name
-	extension.Name = genruntime.ClonePointerToString(source.Name)
-
-	// PropertiesType
-	extension.PropertiesType = genruntime.ClonePointerToString(source.PropertiesType)
-
-	// ProtectedSettings
-	if source.ProtectedSettings != nil {
-		protectedSettingMap := make(map[string]v1.JSON, len(source.ProtectedSettings))
-		for protectedSettingKey, protectedSettingValue := range source.ProtectedSettings {
-			// Shadow the loop variable to avoid aliasing
-			protectedSettingValue := protectedSettingValue
-			protectedSettingMap[protectedSettingKey] = *protectedSettingValue.DeepCopy()
-		}
-		extension.ProtectedSettings = protectedSettingMap
-	} else {
-		extension.ProtectedSettings = nil
-	}
-
-	// ProvisioningState
-	extension.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
-	// Publisher
-	extension.Publisher = genruntime.ClonePointerToString(source.Publisher)
-
-	// Settings
-	if source.Settings != nil {
-		settingMap := make(map[string]v1.JSON, len(source.Settings))
-		for settingKey, settingValue := range source.Settings {
-			// Shadow the loop variable to avoid aliasing
-			settingValue := settingValue
-			settingMap[settingKey] = *settingValue.DeepCopy()
-		}
-		extension.Settings = settingMap
-	} else {
-		extension.Settings = nil
-	}
-
-	// Tags
-	extension.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	extension.Type = genruntime.ClonePointerToString(source.Type)
-
-	// TypeHandlerVersion
-	extension.TypeHandlerVersion = genruntime.ClonePointerToString(source.TypeHandlerVersion)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		extension.PropertyBag = propertyBag
-	} else {
-		extension.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToVirtualMachineExtensionStatus populates the provided destination VirtualMachineExtension_Status from our VirtualMachineExtension_Status
-func (extension *VirtualMachineExtension_Status) AssignPropertiesToVirtualMachineExtensionStatus(destination *v20201201s.VirtualMachineExtension_Status) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(extension.PropertyBag)
-
-	// AutoUpgradeMinorVersion
-	if extension.AutoUpgradeMinorVersion != nil {
-		autoUpgradeMinorVersion := *extension.AutoUpgradeMinorVersion
-		destination.AutoUpgradeMinorVersion = &autoUpgradeMinorVersion
-	} else {
-		destination.AutoUpgradeMinorVersion = nil
-	}
-
-	// EnableAutomaticUpgrade
-	if extension.EnableAutomaticUpgrade != nil {
-		enableAutomaticUpgrade := *extension.EnableAutomaticUpgrade
-		destination.EnableAutomaticUpgrade = &enableAutomaticUpgrade
-	} else {
-		destination.EnableAutomaticUpgrade = nil
-	}
-
-	// ForceUpdateTag
-	destination.ForceUpdateTag = genruntime.ClonePointerToString(extension.ForceUpdateTag)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(extension.Id)
-
-	// InstanceView
-	if extension.InstanceView != nil {
-		var instanceView v20201201s.VirtualMachineExtensionInstanceView_Status
-		err := extension.InstanceView.AssignPropertiesToVirtualMachineExtensionInstanceViewStatus(&instanceView)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineExtensionInstanceViewStatus() to populate field InstanceView")
-		}
-		destination.InstanceView = &instanceView
-	} else {
-		destination.InstanceView = nil
-	}
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(extension.Location)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(extension.Name)
-
-	// PropertiesType
-	destination.PropertiesType = genruntime.ClonePointerToString(extension.PropertiesType)
-
-	// ProtectedSettings
-	if extension.ProtectedSettings != nil {
-		protectedSettingMap := make(map[string]v1.JSON, len(extension.ProtectedSettings))
-		for protectedSettingKey, protectedSettingValue := range extension.ProtectedSettings {
-			// Shadow the loop variable to avoid aliasing
-			protectedSettingValue := protectedSettingValue
-			protectedSettingMap[protectedSettingKey] = *protectedSettingValue.DeepCopy()
-		}
-		destination.ProtectedSettings = protectedSettingMap
-	} else {
-		destination.ProtectedSettings = nil
-	}
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(extension.ProvisioningState)
-
-	// Publisher
-	destination.Publisher = genruntime.ClonePointerToString(extension.Publisher)
-
-	// Settings
-	if extension.Settings != nil {
-		settingMap := make(map[string]v1.JSON, len(extension.Settings))
-		for settingKey, settingValue := range extension.Settings {
-			// Shadow the loop variable to avoid aliasing
-			settingValue := settingValue
-			settingMap[settingKey] = *settingValue.DeepCopy()
-		}
-		destination.Settings = settingMap
-	} else {
-		destination.Settings = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(extension.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(extension.Type)
-
-	// TypeHandlerVersion
-	destination.TypeHandlerVersion = genruntime.ClonePointerToString(extension.TypeHandlerVersion)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Storage version of v1alpha1api20201201.VirtualMachineIdentity
 // Deprecated version of VirtualMachineIdentity. Use v1beta20201201.VirtualMachineIdentity instead
 type VirtualMachineIdentity struct {
-	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Type                   *string                `json:"type,omitempty"`
-	UserAssignedIdentities map[string]v1.JSON     `json:"userAssignedIdentities,omitempty"`
+	PrincipalId            *string                                                  `json:"principalId,omitempty"`
+	PropertyBag            genruntime.PropertyBag                                   `json:"$propertyBag,omitempty"`
+	TenantId               *string                                                  `json:"tenantId,omitempty"`
+	Type                   *string                                                  `json:"type,omitempty"`
+	UserAssignedIdentities map[string]VirtualMachineIdentity_UserAssignedIdentities `json:"userAssignedIdentities,omitempty"`
 }
 
 // AssignPropertiesFromVirtualMachineIdentity populates our VirtualMachineIdentity from the provided source VirtualMachineIdentity
@@ -3264,16 +3332,27 @@ func (identity *VirtualMachineIdentity) AssignPropertiesFromVirtualMachineIdenti
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
+	// PrincipalId
+	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
+
+	// TenantId
+	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
+
 	// Type
 	identity.Type = genruntime.ClonePointerToString(source.Type)
 
 	// UserAssignedIdentities
 	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v1.JSON, len(source.UserAssignedIdentities))
+		userAssignedIdentityMap := make(map[string]VirtualMachineIdentity_UserAssignedIdentities, len(source.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
-			userAssignedIdentityMap[userAssignedIdentityKey] = *userAssignedIdentityValue.DeepCopy()
+			var userAssignedIdentity VirtualMachineIdentity_UserAssignedIdentities
+			err := userAssignedIdentity.AssignPropertiesFromVirtualMachineIdentity_UserAssignedIdentities(&userAssignedIdentityValue)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineIdentity_UserAssignedIdentities() to populate field UserAssignedIdentities")
+			}
+			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
 		identity.UserAssignedIdentities = userAssignedIdentityMap
 	} else {
@@ -3296,16 +3375,27 @@ func (identity *VirtualMachineIdentity) AssignPropertiesToVirtualMachineIdentity
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
 
+	// PrincipalId
+	destination.PrincipalId = genruntime.ClonePointerToString(identity.PrincipalId)
+
+	// TenantId
+	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
+
 	// Type
 	destination.Type = genruntime.ClonePointerToString(identity.Type)
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v1.JSON, len(identity.UserAssignedIdentities))
+		userAssignedIdentityMap := make(map[string]v20201201s.VirtualMachineIdentity_UserAssignedIdentities, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
-			userAssignedIdentityMap[userAssignedIdentityKey] = *userAssignedIdentityValue.DeepCopy()
+			var userAssignedIdentity v20201201s.VirtualMachineIdentity_UserAssignedIdentities
+			err := userAssignedIdentityValue.AssignPropertiesToVirtualMachineIdentity_UserAssignedIdentities(&userAssignedIdentity)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineIdentity_UserAssignedIdentities() to populate field UserAssignedIdentities")
+			}
+			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
 		destination.UserAssignedIdentities = userAssignedIdentityMap
 	} else {
@@ -3323,18 +3413,18 @@ func (identity *VirtualMachineIdentity) AssignPropertiesToVirtualMachineIdentity
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.VirtualMachineIdentity_Status
-// Deprecated version of VirtualMachineIdentity_Status. Use v1beta20201201.VirtualMachineIdentity_Status instead
-type VirtualMachineIdentity_Status struct {
+// Storage version of v1alpha1api20201201.VirtualMachineIdentity_STATUS
+// Deprecated version of VirtualMachineIdentity_STATUS. Use v1beta20201201.VirtualMachineIdentity_STATUS instead
+type VirtualMachineIdentity_STATUS struct {
 	PrincipalId            *string                                                         `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag                                          `json:"$propertyBag,omitempty"`
 	TenantId               *string                                                         `json:"tenantId,omitempty"`
 	Type                   *string                                                         `json:"type,omitempty"`
-	UserAssignedIdentities map[string]VirtualMachineIdentity_Status_UserAssignedIdentities `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]VirtualMachineIdentity_UserAssignedIdentities_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
-// AssignPropertiesFromVirtualMachineIdentityStatus populates our VirtualMachineIdentity_Status from the provided source VirtualMachineIdentity_Status
-func (identity *VirtualMachineIdentity_Status) AssignPropertiesFromVirtualMachineIdentityStatus(source *v20201201s.VirtualMachineIdentity_Status) error {
+// AssignPropertiesFromVirtualMachineIdentity_STATUS populates our VirtualMachineIdentity_STATUS from the provided source VirtualMachineIdentity_STATUS
+func (identity *VirtualMachineIdentity_STATUS) AssignPropertiesFromVirtualMachineIdentity_STATUS(source *v20201201s.VirtualMachineIdentity_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3349,14 +3439,14 @@ func (identity *VirtualMachineIdentity_Status) AssignPropertiesFromVirtualMachin
 
 	// UserAssignedIdentities
 	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]VirtualMachineIdentity_Status_UserAssignedIdentities, len(source.UserAssignedIdentities))
+		userAssignedIdentityMap := make(map[string]VirtualMachineIdentity_UserAssignedIdentities_STATUS, len(source.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity VirtualMachineIdentity_Status_UserAssignedIdentities
-			err := userAssignedIdentity.AssignPropertiesFromVirtualMachineIdentityStatusUserAssignedIdentities(&userAssignedIdentityValue)
+			var userAssignedIdentity VirtualMachineIdentity_UserAssignedIdentities_STATUS
+			err := userAssignedIdentity.AssignPropertiesFromVirtualMachineIdentity_UserAssignedIdentities_STATUS(&userAssignedIdentityValue)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineIdentityStatusUserAssignedIdentities() to populate field UserAssignedIdentities")
+				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineIdentity_UserAssignedIdentities_STATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -3376,8 +3466,8 @@ func (identity *VirtualMachineIdentity_Status) AssignPropertiesFromVirtualMachin
 	return nil
 }
 
-// AssignPropertiesToVirtualMachineIdentityStatus populates the provided destination VirtualMachineIdentity_Status from our VirtualMachineIdentity_Status
-func (identity *VirtualMachineIdentity_Status) AssignPropertiesToVirtualMachineIdentityStatus(destination *v20201201s.VirtualMachineIdentity_Status) error {
+// AssignPropertiesToVirtualMachineIdentity_STATUS populates the provided destination VirtualMachineIdentity_STATUS from our VirtualMachineIdentity_STATUS
+func (identity *VirtualMachineIdentity_STATUS) AssignPropertiesToVirtualMachineIdentity_STATUS(destination *v20201201s.VirtualMachineIdentity_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
 
@@ -3392,14 +3482,14 @@ func (identity *VirtualMachineIdentity_Status) AssignPropertiesToVirtualMachineI
 
 	// UserAssignedIdentities
 	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v20201201s.VirtualMachineIdentity_Status_UserAssignedIdentities, len(identity.UserAssignedIdentities))
+		userAssignedIdentityMap := make(map[string]v20201201s.VirtualMachineIdentity_UserAssignedIdentities_STATUS, len(identity.UserAssignedIdentities))
 		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
 			// Shadow the loop variable to avoid aliasing
 			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity v20201201s.VirtualMachineIdentity_Status_UserAssignedIdentities
-			err := userAssignedIdentityValue.AssignPropertiesToVirtualMachineIdentityStatusUserAssignedIdentities(&userAssignedIdentity)
+			var userAssignedIdentity v20201201s.VirtualMachineIdentity_UserAssignedIdentities_STATUS
+			err := userAssignedIdentityValue.AssignPropertiesToVirtualMachineIdentity_UserAssignedIdentities_STATUS(&userAssignedIdentity)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineIdentityStatusUserAssignedIdentities() to populate field UserAssignedIdentities")
+				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineIdentity_UserAssignedIdentities_STATUS() to populate field UserAssignedIdentities")
 			}
 			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
 		}
@@ -3419,30 +3509,30 @@ func (identity *VirtualMachineIdentity_Status) AssignPropertiesToVirtualMachineI
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.VirtualMachineInstanceView_Status
-// Deprecated version of VirtualMachineInstanceView_Status. Use v1beta20201201.VirtualMachineInstanceView_Status instead
-type VirtualMachineInstanceView_Status struct {
-	AssignedHost              *string                                      `json:"assignedHost,omitempty"`
-	BootDiagnostics           *BootDiagnosticsInstanceView_Status          `json:"bootDiagnostics,omitempty"`
-	ComputerName              *string                                      `json:"computerName,omitempty"`
-	Disks                     []DiskInstanceView_Status                    `json:"disks,omitempty"`
-	Extensions                []VirtualMachineExtensionInstanceView_Status `json:"extensions,omitempty"`
-	HyperVGeneration          *string                                      `json:"hyperVGeneration,omitempty"`
-	MaintenanceRedeployStatus *MaintenanceRedeployStatus_Status            `json:"maintenanceRedeployStatus,omitempty"`
-	OsName                    *string                                      `json:"osName,omitempty"`
-	OsVersion                 *string                                      `json:"osVersion,omitempty"`
-	PatchStatus               *VirtualMachinePatchStatus_Status            `json:"patchStatus,omitempty"`
-	PlatformFaultDomain       *int                                         `json:"platformFaultDomain,omitempty"`
-	PlatformUpdateDomain      *int                                         `json:"platformUpdateDomain,omitempty"`
-	PropertyBag               genruntime.PropertyBag                       `json:"$propertyBag,omitempty"`
-	RdpThumbPrint             *string                                      `json:"rdpThumbPrint,omitempty"`
-	Statuses                  []InstanceViewStatus_Status                  `json:"statuses,omitempty"`
-	VmAgent                   *VirtualMachineAgentInstanceView_Status      `json:"vmAgent,omitempty"`
-	VmHealth                  *VirtualMachineHealthStatus_Status           `json:"vmHealth,omitempty"`
+// Storage version of v1alpha1api20201201.VirtualMachineInstanceView
+// Deprecated version of VirtualMachineInstanceView. Use v1beta20201201.VirtualMachineInstanceView instead
+type VirtualMachineInstanceView struct {
+	AssignedHost              *string                               `json:"assignedHost,omitempty"`
+	BootDiagnostics           *BootDiagnosticsInstanceView          `json:"bootDiagnostics,omitempty"`
+	ComputerName              *string                               `json:"computerName,omitempty"`
+	Disks                     []DiskInstanceView                    `json:"disks,omitempty"`
+	Extensions                []VirtualMachineExtensionInstanceView `json:"extensions,omitempty"`
+	HyperVGeneration          *string                               `json:"hyperVGeneration,omitempty"`
+	MaintenanceRedeployStatus *MaintenanceRedeployStatus            `json:"maintenanceRedeployStatus,omitempty"`
+	OsName                    *string                               `json:"osName,omitempty"`
+	OsVersion                 *string                               `json:"osVersion,omitempty"`
+	PatchStatus               *VirtualMachinePatchStatus            `json:"patchStatus,omitempty"`
+	PlatformFaultDomain       *int                                  `json:"platformFaultDomain,omitempty"`
+	PlatformUpdateDomain      *int                                  `json:"platformUpdateDomain,omitempty"`
+	PropertyBag               genruntime.PropertyBag                `json:"$propertyBag,omitempty"`
+	RdpThumbPrint             *string                               `json:"rdpThumbPrint,omitempty"`
+	Statuses                  []InstanceViewStatus                  `json:"statuses,omitempty"`
+	VmAgent                   *VirtualMachineAgentInstanceView      `json:"vmAgent,omitempty"`
+	VmHealth                  *VirtualMachineHealthStatus           `json:"vmHealth,omitempty"`
 }
 
-// AssignPropertiesFromVirtualMachineInstanceViewStatus populates our VirtualMachineInstanceView_Status from the provided source VirtualMachineInstanceView_Status
-func (view *VirtualMachineInstanceView_Status) AssignPropertiesFromVirtualMachineInstanceViewStatus(source *v20201201s.VirtualMachineInstanceView_Status) error {
+// AssignPropertiesFromVirtualMachineInstanceView populates our VirtualMachineInstanceView from the provided source VirtualMachineInstanceView
+func (view *VirtualMachineInstanceView) AssignPropertiesFromVirtualMachineInstanceView(source *v20201201s.VirtualMachineInstanceView) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -3451,10 +3541,10 @@ func (view *VirtualMachineInstanceView_Status) AssignPropertiesFromVirtualMachin
 
 	// BootDiagnostics
 	if source.BootDiagnostics != nil {
-		var bootDiagnostic BootDiagnosticsInstanceView_Status
-		err := bootDiagnostic.AssignPropertiesFromBootDiagnosticsInstanceViewStatus(source.BootDiagnostics)
+		var bootDiagnostic BootDiagnosticsInstanceView
+		err := bootDiagnostic.AssignPropertiesFromBootDiagnosticsInstanceView(source.BootDiagnostics)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromBootDiagnosticsInstanceViewStatus() to populate field BootDiagnostics")
+			return errors.Wrap(err, "calling AssignPropertiesFromBootDiagnosticsInstanceView() to populate field BootDiagnostics")
 		}
 		view.BootDiagnostics = &bootDiagnostic
 	} else {
@@ -3466,14 +3556,14 @@ func (view *VirtualMachineInstanceView_Status) AssignPropertiesFromVirtualMachin
 
 	// Disks
 	if source.Disks != nil {
-		diskList := make([]DiskInstanceView_Status, len(source.Disks))
+		diskList := make([]DiskInstanceView, len(source.Disks))
 		for diskIndex, diskItem := range source.Disks {
 			// Shadow the loop variable to avoid aliasing
 			diskItem := diskItem
-			var disk DiskInstanceView_Status
-			err := disk.AssignPropertiesFromDiskInstanceViewStatus(&diskItem)
+			var disk DiskInstanceView
+			err := disk.AssignPropertiesFromDiskInstanceView(&diskItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromDiskInstanceViewStatus() to populate field Disks")
+				return errors.Wrap(err, "calling AssignPropertiesFromDiskInstanceView() to populate field Disks")
 			}
 			diskList[diskIndex] = disk
 		}
@@ -3484,14 +3574,14 @@ func (view *VirtualMachineInstanceView_Status) AssignPropertiesFromVirtualMachin
 
 	// Extensions
 	if source.Extensions != nil {
-		extensionList := make([]VirtualMachineExtensionInstanceView_Status, len(source.Extensions))
+		extensionList := make([]VirtualMachineExtensionInstanceView, len(source.Extensions))
 		for extensionIndex, extensionItem := range source.Extensions {
 			// Shadow the loop variable to avoid aliasing
 			extensionItem := extensionItem
-			var extension VirtualMachineExtensionInstanceView_Status
-			err := extension.AssignPropertiesFromVirtualMachineExtensionInstanceViewStatus(&extensionItem)
+			var extension VirtualMachineExtensionInstanceView
+			err := extension.AssignPropertiesFromVirtualMachineExtensionInstanceView(&extensionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineExtensionInstanceViewStatus() to populate field Extensions")
+				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineExtensionInstanceView() to populate field Extensions")
 			}
 			extensionList[extensionIndex] = extension
 		}
@@ -3505,10 +3595,10 @@ func (view *VirtualMachineInstanceView_Status) AssignPropertiesFromVirtualMachin
 
 	// MaintenanceRedeployStatus
 	if source.MaintenanceRedeployStatus != nil {
-		var maintenanceRedeployStatus MaintenanceRedeployStatus_Status
-		err := maintenanceRedeployStatus.AssignPropertiesFromMaintenanceRedeployStatusStatus(source.MaintenanceRedeployStatus)
+		var maintenanceRedeployStatus MaintenanceRedeployStatus
+		err := maintenanceRedeployStatus.AssignPropertiesFromMaintenanceRedeployStatus(source.MaintenanceRedeployStatus)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromMaintenanceRedeployStatusStatus() to populate field MaintenanceRedeployStatus")
+			return errors.Wrap(err, "calling AssignPropertiesFromMaintenanceRedeployStatus() to populate field MaintenanceRedeployStatus")
 		}
 		view.MaintenanceRedeployStatus = &maintenanceRedeployStatus
 	} else {
@@ -3523,10 +3613,10 @@ func (view *VirtualMachineInstanceView_Status) AssignPropertiesFromVirtualMachin
 
 	// PatchStatus
 	if source.PatchStatus != nil {
-		var patchStatus VirtualMachinePatchStatus_Status
-		err := patchStatus.AssignPropertiesFromVirtualMachinePatchStatusStatus(source.PatchStatus)
+		var patchStatus VirtualMachinePatchStatus
+		err := patchStatus.AssignPropertiesFromVirtualMachinePatchStatus(source.PatchStatus)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachinePatchStatusStatus() to populate field PatchStatus")
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachinePatchStatus() to populate field PatchStatus")
 		}
 		view.PatchStatus = &patchStatus
 	} else {
@@ -3544,14 +3634,14 @@ func (view *VirtualMachineInstanceView_Status) AssignPropertiesFromVirtualMachin
 
 	// Statuses
 	if source.Statuses != nil {
-		statusList := make([]InstanceViewStatus_Status, len(source.Statuses))
+		statusList := make([]InstanceViewStatus, len(source.Statuses))
 		for statusIndex, statusItem := range source.Statuses {
 			// Shadow the loop variable to avoid aliasing
 			statusItem := statusItem
-			var status InstanceViewStatus_Status
-			err := status.AssignPropertiesFromInstanceViewStatusStatus(&statusItem)
+			var status InstanceViewStatus
+			err := status.AssignPropertiesFromInstanceViewStatus(&statusItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatusStatus() to populate field Statuses")
+				return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatus() to populate field Statuses")
 			}
 			statusList[statusIndex] = status
 		}
@@ -3562,10 +3652,10 @@ func (view *VirtualMachineInstanceView_Status) AssignPropertiesFromVirtualMachin
 
 	// VmAgent
 	if source.VmAgent != nil {
-		var vmAgent VirtualMachineAgentInstanceView_Status
-		err := vmAgent.AssignPropertiesFromVirtualMachineAgentInstanceViewStatus(source.VmAgent)
+		var vmAgent VirtualMachineAgentInstanceView
+		err := vmAgent.AssignPropertiesFromVirtualMachineAgentInstanceView(source.VmAgent)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineAgentInstanceViewStatus() to populate field VmAgent")
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineAgentInstanceView() to populate field VmAgent")
 		}
 		view.VmAgent = &vmAgent
 	} else {
@@ -3574,10 +3664,10 @@ func (view *VirtualMachineInstanceView_Status) AssignPropertiesFromVirtualMachin
 
 	// VmHealth
 	if source.VmHealth != nil {
-		var vmHealth VirtualMachineHealthStatus_Status
-		err := vmHealth.AssignPropertiesFromVirtualMachineHealthStatusStatus(source.VmHealth)
+		var vmHealth VirtualMachineHealthStatus
+		err := vmHealth.AssignPropertiesFromVirtualMachineHealthStatus(source.VmHealth)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineHealthStatusStatus() to populate field VmHealth")
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineHealthStatus() to populate field VmHealth")
 		}
 		view.VmHealth = &vmHealth
 	} else {
@@ -3595,8 +3685,8 @@ func (view *VirtualMachineInstanceView_Status) AssignPropertiesFromVirtualMachin
 	return nil
 }
 
-// AssignPropertiesToVirtualMachineInstanceViewStatus populates the provided destination VirtualMachineInstanceView_Status from our VirtualMachineInstanceView_Status
-func (view *VirtualMachineInstanceView_Status) AssignPropertiesToVirtualMachineInstanceViewStatus(destination *v20201201s.VirtualMachineInstanceView_Status) error {
+// AssignPropertiesToVirtualMachineInstanceView populates the provided destination VirtualMachineInstanceView from our VirtualMachineInstanceView
+func (view *VirtualMachineInstanceView) AssignPropertiesToVirtualMachineInstanceView(destination *v20201201s.VirtualMachineInstanceView) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(view.PropertyBag)
 
@@ -3605,10 +3695,10 @@ func (view *VirtualMachineInstanceView_Status) AssignPropertiesToVirtualMachineI
 
 	// BootDiagnostics
 	if view.BootDiagnostics != nil {
-		var bootDiagnostic v20201201s.BootDiagnosticsInstanceView_Status
-		err := view.BootDiagnostics.AssignPropertiesToBootDiagnosticsInstanceViewStatus(&bootDiagnostic)
+		var bootDiagnostic v20201201s.BootDiagnosticsInstanceView
+		err := view.BootDiagnostics.AssignPropertiesToBootDiagnosticsInstanceView(&bootDiagnostic)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToBootDiagnosticsInstanceViewStatus() to populate field BootDiagnostics")
+			return errors.Wrap(err, "calling AssignPropertiesToBootDiagnosticsInstanceView() to populate field BootDiagnostics")
 		}
 		destination.BootDiagnostics = &bootDiagnostic
 	} else {
@@ -3620,14 +3710,14 @@ func (view *VirtualMachineInstanceView_Status) AssignPropertiesToVirtualMachineI
 
 	// Disks
 	if view.Disks != nil {
-		diskList := make([]v20201201s.DiskInstanceView_Status, len(view.Disks))
+		diskList := make([]v20201201s.DiskInstanceView, len(view.Disks))
 		for diskIndex, diskItem := range view.Disks {
 			// Shadow the loop variable to avoid aliasing
 			diskItem := diskItem
-			var disk v20201201s.DiskInstanceView_Status
-			err := diskItem.AssignPropertiesToDiskInstanceViewStatus(&disk)
+			var disk v20201201s.DiskInstanceView
+			err := diskItem.AssignPropertiesToDiskInstanceView(&disk)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToDiskInstanceViewStatus() to populate field Disks")
+				return errors.Wrap(err, "calling AssignPropertiesToDiskInstanceView() to populate field Disks")
 			}
 			diskList[diskIndex] = disk
 		}
@@ -3638,14 +3728,14 @@ func (view *VirtualMachineInstanceView_Status) AssignPropertiesToVirtualMachineI
 
 	// Extensions
 	if view.Extensions != nil {
-		extensionList := make([]v20201201s.VirtualMachineExtensionInstanceView_Status, len(view.Extensions))
+		extensionList := make([]v20201201s.VirtualMachineExtensionInstanceView, len(view.Extensions))
 		for extensionIndex, extensionItem := range view.Extensions {
 			// Shadow the loop variable to avoid aliasing
 			extensionItem := extensionItem
-			var extension v20201201s.VirtualMachineExtensionInstanceView_Status
-			err := extensionItem.AssignPropertiesToVirtualMachineExtensionInstanceViewStatus(&extension)
+			var extension v20201201s.VirtualMachineExtensionInstanceView
+			err := extensionItem.AssignPropertiesToVirtualMachineExtensionInstanceView(&extension)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineExtensionInstanceViewStatus() to populate field Extensions")
+				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineExtensionInstanceView() to populate field Extensions")
 			}
 			extensionList[extensionIndex] = extension
 		}
@@ -3659,10 +3749,10 @@ func (view *VirtualMachineInstanceView_Status) AssignPropertiesToVirtualMachineI
 
 	// MaintenanceRedeployStatus
 	if view.MaintenanceRedeployStatus != nil {
-		var maintenanceRedeployStatus v20201201s.MaintenanceRedeployStatus_Status
-		err := view.MaintenanceRedeployStatus.AssignPropertiesToMaintenanceRedeployStatusStatus(&maintenanceRedeployStatus)
+		var maintenanceRedeployStatus v20201201s.MaintenanceRedeployStatus
+		err := view.MaintenanceRedeployStatus.AssignPropertiesToMaintenanceRedeployStatus(&maintenanceRedeployStatus)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToMaintenanceRedeployStatusStatus() to populate field MaintenanceRedeployStatus")
+			return errors.Wrap(err, "calling AssignPropertiesToMaintenanceRedeployStatus() to populate field MaintenanceRedeployStatus")
 		}
 		destination.MaintenanceRedeployStatus = &maintenanceRedeployStatus
 	} else {
@@ -3677,10 +3767,10 @@ func (view *VirtualMachineInstanceView_Status) AssignPropertiesToVirtualMachineI
 
 	// PatchStatus
 	if view.PatchStatus != nil {
-		var patchStatus v20201201s.VirtualMachinePatchStatus_Status
-		err := view.PatchStatus.AssignPropertiesToVirtualMachinePatchStatusStatus(&patchStatus)
+		var patchStatus v20201201s.VirtualMachinePatchStatus
+		err := view.PatchStatus.AssignPropertiesToVirtualMachinePatchStatus(&patchStatus)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachinePatchStatusStatus() to populate field PatchStatus")
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachinePatchStatus() to populate field PatchStatus")
 		}
 		destination.PatchStatus = &patchStatus
 	} else {
@@ -3698,14 +3788,14 @@ func (view *VirtualMachineInstanceView_Status) AssignPropertiesToVirtualMachineI
 
 	// Statuses
 	if view.Statuses != nil {
-		statusList := make([]v20201201s.InstanceViewStatus_Status, len(view.Statuses))
+		statusList := make([]v20201201s.InstanceViewStatus, len(view.Statuses))
 		for statusIndex, statusItem := range view.Statuses {
 			// Shadow the loop variable to avoid aliasing
 			statusItem := statusItem
-			var status v20201201s.InstanceViewStatus_Status
-			err := statusItem.AssignPropertiesToInstanceViewStatusStatus(&status)
+			var status v20201201s.InstanceViewStatus
+			err := statusItem.AssignPropertiesToInstanceViewStatus(&status)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatusStatus() to populate field Statuses")
+				return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatus() to populate field Statuses")
 			}
 			statusList[statusIndex] = status
 		}
@@ -3716,10 +3806,10 @@ func (view *VirtualMachineInstanceView_Status) AssignPropertiesToVirtualMachineI
 
 	// VmAgent
 	if view.VmAgent != nil {
-		var vmAgent v20201201s.VirtualMachineAgentInstanceView_Status
-		err := view.VmAgent.AssignPropertiesToVirtualMachineAgentInstanceViewStatus(&vmAgent)
+		var vmAgent v20201201s.VirtualMachineAgentInstanceView
+		err := view.VmAgent.AssignPropertiesToVirtualMachineAgentInstanceView(&vmAgent)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineAgentInstanceViewStatus() to populate field VmAgent")
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineAgentInstanceView() to populate field VmAgent")
 		}
 		destination.VmAgent = &vmAgent
 	} else {
@@ -3728,10 +3818,10 @@ func (view *VirtualMachineInstanceView_Status) AssignPropertiesToVirtualMachineI
 
 	// VmHealth
 	if view.VmHealth != nil {
-		var vmHealth v20201201s.VirtualMachineHealthStatus_Status
-		err := view.VmHealth.AssignPropertiesToVirtualMachineHealthStatusStatus(&vmHealth)
+		var vmHealth v20201201s.VirtualMachineHealthStatus
+		err := view.VmHealth.AssignPropertiesToVirtualMachineHealthStatus(&vmHealth)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineHealthStatusStatus() to populate field VmHealth")
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineHealthStatus() to populate field VmHealth")
 		}
 		destination.VmHealth = &vmHealth
 	} else {
@@ -3749,265 +3839,323 @@ func (view *VirtualMachineInstanceView_Status) AssignPropertiesToVirtualMachineI
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.VirtualMachines_Spec_Properties_NetworkProfile
-// Deprecated version of VirtualMachines_Spec_Properties_NetworkProfile. Use v1beta20201201.VirtualMachines_Spec_Properties_NetworkProfile instead
-type VirtualMachines_Spec_Properties_NetworkProfile struct {
-	NetworkInterfaces []VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces `json:"networkInterfaces,omitempty"`
-	PropertyBag       genruntime.PropertyBag                                             `json:"$propertyBag,omitempty"`
+// Storage version of v1alpha1api20201201.VirtualMachineInstanceView_STATUS
+// Deprecated version of VirtualMachineInstanceView_STATUS. Use v1beta20201201.VirtualMachineInstanceView_STATUS instead
+type VirtualMachineInstanceView_STATUS struct {
+	AssignedHost              *string                                      `json:"assignedHost,omitempty"`
+	BootDiagnostics           *BootDiagnosticsInstanceView_STATUS          `json:"bootDiagnostics,omitempty"`
+	ComputerName              *string                                      `json:"computerName,omitempty"`
+	Disks                     []DiskInstanceView_STATUS                    `json:"disks,omitempty"`
+	Extensions                []VirtualMachineExtensionInstanceView_STATUS `json:"extensions,omitempty"`
+	HyperVGeneration          *string                                      `json:"hyperVGeneration,omitempty"`
+	MaintenanceRedeployStatus *MaintenanceRedeployStatus_STATUS            `json:"maintenanceRedeployStatus,omitempty"`
+	OsName                    *string                                      `json:"osName,omitempty"`
+	OsVersion                 *string                                      `json:"osVersion,omitempty"`
+	PatchStatus               *VirtualMachinePatchStatus_STATUS            `json:"patchStatus,omitempty"`
+	PlatformFaultDomain       *int                                         `json:"platformFaultDomain,omitempty"`
+	PlatformUpdateDomain      *int                                         `json:"platformUpdateDomain,omitempty"`
+	PropertyBag               genruntime.PropertyBag                       `json:"$propertyBag,omitempty"`
+	RdpThumbPrint             *string                                      `json:"rdpThumbPrint,omitempty"`
+	Statuses                  []InstanceViewStatus_STATUS                  `json:"statuses,omitempty"`
+	VmAgent                   *VirtualMachineAgentInstanceView_STATUS      `json:"vmAgent,omitempty"`
+	VmHealth                  *VirtualMachineHealthStatus_STATUS           `json:"vmHealth,omitempty"`
 }
 
-// AssignPropertiesFromVirtualMachinesSpecPropertiesNetworkProfile populates our VirtualMachines_Spec_Properties_NetworkProfile from the provided source VirtualMachines_Spec_Properties_NetworkProfile
-func (profile *VirtualMachines_Spec_Properties_NetworkProfile) AssignPropertiesFromVirtualMachinesSpecPropertiesNetworkProfile(source *v20201201s.VirtualMachines_Spec_Properties_NetworkProfile) error {
+// AssignPropertiesFromVirtualMachineInstanceView_STATUS populates our VirtualMachineInstanceView_STATUS from the provided source VirtualMachineInstanceView_STATUS
+func (view *VirtualMachineInstanceView_STATUS) AssignPropertiesFromVirtualMachineInstanceView_STATUS(source *v20201201s.VirtualMachineInstanceView_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// NetworkInterfaces
-	if source.NetworkInterfaces != nil {
-		networkInterfaceList := make([]VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces, len(source.NetworkInterfaces))
-		for networkInterfaceIndex, networkInterfaceItem := range source.NetworkInterfaces {
-			// Shadow the loop variable to avoid aliasing
-			networkInterfaceItem := networkInterfaceItem
-			var networkInterface VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces
-			err := networkInterface.AssignPropertiesFromVirtualMachinesSpecPropertiesNetworkProfileNetworkInterfaces(&networkInterfaceItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachinesSpecPropertiesNetworkProfileNetworkInterfaces() to populate field NetworkInterfaces")
-			}
-			networkInterfaceList[networkInterfaceIndex] = networkInterface
+	// AssignedHost
+	view.AssignedHost = genruntime.ClonePointerToString(source.AssignedHost)
+
+	// BootDiagnostics
+	if source.BootDiagnostics != nil {
+		var bootDiagnostic BootDiagnosticsInstanceView_STATUS
+		err := bootDiagnostic.AssignPropertiesFromBootDiagnosticsInstanceView_STATUS(source.BootDiagnostics)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromBootDiagnosticsInstanceView_STATUS() to populate field BootDiagnostics")
 		}
-		profile.NetworkInterfaces = networkInterfaceList
+		view.BootDiagnostics = &bootDiagnostic
 	} else {
-		profile.NetworkInterfaces = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		profile.PropertyBag = propertyBag
-	} else {
-		profile.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToVirtualMachinesSpecPropertiesNetworkProfile populates the provided destination VirtualMachines_Spec_Properties_NetworkProfile from our VirtualMachines_Spec_Properties_NetworkProfile
-func (profile *VirtualMachines_Spec_Properties_NetworkProfile) AssignPropertiesToVirtualMachinesSpecPropertiesNetworkProfile(destination *v20201201s.VirtualMachines_Spec_Properties_NetworkProfile) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
-
-	// NetworkInterfaces
-	if profile.NetworkInterfaces != nil {
-		networkInterfaceList := make([]v20201201s.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces, len(profile.NetworkInterfaces))
-		for networkInterfaceIndex, networkInterfaceItem := range profile.NetworkInterfaces {
-			// Shadow the loop variable to avoid aliasing
-			networkInterfaceItem := networkInterfaceItem
-			var networkInterface v20201201s.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces
-			err := networkInterfaceItem.AssignPropertiesToVirtualMachinesSpecPropertiesNetworkProfileNetworkInterfaces(&networkInterface)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachinesSpecPropertiesNetworkProfileNetworkInterfaces() to populate field NetworkInterfaces")
-			}
-			networkInterfaceList[networkInterfaceIndex] = networkInterface
-		}
-		destination.NetworkInterfaces = networkInterfaceList
-	} else {
-		destination.NetworkInterfaces = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20201201.VirtualMachines_Spec_Properties_OsProfile
-// Deprecated version of VirtualMachines_Spec_Properties_OsProfile. Use v1beta20201201.VirtualMachines_Spec_Properties_OsProfile instead
-type VirtualMachines_Spec_Properties_OsProfile struct {
-	AdminPassword               *genruntime.SecretReference `json:"adminPassword,omitempty"`
-	AdminUsername               *string                     `json:"adminUsername,omitempty"`
-	AllowExtensionOperations    *bool                       `json:"allowExtensionOperations,omitempty"`
-	ComputerName                *string                     `json:"computerName,omitempty"`
-	CustomData                  *string                     `json:"customData,omitempty"`
-	LinuxConfiguration          *LinuxConfiguration         `json:"linuxConfiguration,omitempty"`
-	PropertyBag                 genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
-	RequireGuestProvisionSignal *bool                       `json:"requireGuestProvisionSignal,omitempty"`
-	Secrets                     []VaultSecretGroup          `json:"secrets,omitempty"`
-	WindowsConfiguration        *WindowsConfiguration       `json:"windowsConfiguration,omitempty"`
-}
-
-// AssignPropertiesFromVirtualMachinesSpecPropertiesOsProfile populates our VirtualMachines_Spec_Properties_OsProfile from the provided source VirtualMachines_Spec_Properties_OsProfile
-func (profile *VirtualMachines_Spec_Properties_OsProfile) AssignPropertiesFromVirtualMachinesSpecPropertiesOsProfile(source *v20201201s.VirtualMachines_Spec_Properties_OsProfile) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// AdminPassword
-	if source.AdminPassword != nil {
-		adminPassword := source.AdminPassword.Copy()
-		profile.AdminPassword = &adminPassword
-	} else {
-		profile.AdminPassword = nil
-	}
-
-	// AdminUsername
-	profile.AdminUsername = genruntime.ClonePointerToString(source.AdminUsername)
-
-	// AllowExtensionOperations
-	if source.AllowExtensionOperations != nil {
-		allowExtensionOperation := *source.AllowExtensionOperations
-		profile.AllowExtensionOperations = &allowExtensionOperation
-	} else {
-		profile.AllowExtensionOperations = nil
+		view.BootDiagnostics = nil
 	}
 
 	// ComputerName
-	profile.ComputerName = genruntime.ClonePointerToString(source.ComputerName)
+	view.ComputerName = genruntime.ClonePointerToString(source.ComputerName)
 
-	// CustomData
-	profile.CustomData = genruntime.ClonePointerToString(source.CustomData)
-
-	// LinuxConfiguration
-	if source.LinuxConfiguration != nil {
-		var linuxConfiguration LinuxConfiguration
-		err := linuxConfiguration.AssignPropertiesFromLinuxConfiguration(source.LinuxConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromLinuxConfiguration() to populate field LinuxConfiguration")
-		}
-		profile.LinuxConfiguration = &linuxConfiguration
-	} else {
-		profile.LinuxConfiguration = nil
-	}
-
-	// RequireGuestProvisionSignal
-	if source.RequireGuestProvisionSignal != nil {
-		requireGuestProvisionSignal := *source.RequireGuestProvisionSignal
-		profile.RequireGuestProvisionSignal = &requireGuestProvisionSignal
-	} else {
-		profile.RequireGuestProvisionSignal = nil
-	}
-
-	// Secrets
-	if source.Secrets != nil {
-		secretList := make([]VaultSecretGroup, len(source.Secrets))
-		for secretIndex, secretItem := range source.Secrets {
+	// Disks
+	if source.Disks != nil {
+		diskList := make([]DiskInstanceView_STATUS, len(source.Disks))
+		for diskIndex, diskItem := range source.Disks {
 			// Shadow the loop variable to avoid aliasing
-			secretItem := secretItem
-			var secret VaultSecretGroup
-			err := secret.AssignPropertiesFromVaultSecretGroup(&secretItem)
+			diskItem := diskItem
+			var disk DiskInstanceView_STATUS
+			err := disk.AssignPropertiesFromDiskInstanceView_STATUS(&diskItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVaultSecretGroup() to populate field Secrets")
+				return errors.Wrap(err, "calling AssignPropertiesFromDiskInstanceView_STATUS() to populate field Disks")
 			}
-			secretList[secretIndex] = secret
+			diskList[diskIndex] = disk
 		}
-		profile.Secrets = secretList
+		view.Disks = diskList
 	} else {
-		profile.Secrets = nil
+		view.Disks = nil
 	}
 
-	// WindowsConfiguration
-	if source.WindowsConfiguration != nil {
-		var windowsConfiguration WindowsConfiguration
-		err := windowsConfiguration.AssignPropertiesFromWindowsConfiguration(source.WindowsConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromWindowsConfiguration() to populate field WindowsConfiguration")
+	// Extensions
+	if source.Extensions != nil {
+		extensionList := make([]VirtualMachineExtensionInstanceView_STATUS, len(source.Extensions))
+		for extensionIndex, extensionItem := range source.Extensions {
+			// Shadow the loop variable to avoid aliasing
+			extensionItem := extensionItem
+			var extension VirtualMachineExtensionInstanceView_STATUS
+			err := extension.AssignPropertiesFromVirtualMachineExtensionInstanceView_STATUS(&extensionItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineExtensionInstanceView_STATUS() to populate field Extensions")
+			}
+			extensionList[extensionIndex] = extension
 		}
-		profile.WindowsConfiguration = &windowsConfiguration
+		view.Extensions = extensionList
 	} else {
-		profile.WindowsConfiguration = nil
+		view.Extensions = nil
+	}
+
+	// HyperVGeneration
+	view.HyperVGeneration = genruntime.ClonePointerToString(source.HyperVGeneration)
+
+	// MaintenanceRedeployStatus
+	if source.MaintenanceRedeployStatus != nil {
+		var maintenanceRedeployStatus MaintenanceRedeployStatus_STATUS
+		err := maintenanceRedeployStatus.AssignPropertiesFromMaintenanceRedeployStatus_STATUS(source.MaintenanceRedeployStatus)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromMaintenanceRedeployStatus_STATUS() to populate field MaintenanceRedeployStatus")
+		}
+		view.MaintenanceRedeployStatus = &maintenanceRedeployStatus
+	} else {
+		view.MaintenanceRedeployStatus = nil
+	}
+
+	// OsName
+	view.OsName = genruntime.ClonePointerToString(source.OsName)
+
+	// OsVersion
+	view.OsVersion = genruntime.ClonePointerToString(source.OsVersion)
+
+	// PatchStatus
+	if source.PatchStatus != nil {
+		var patchStatus VirtualMachinePatchStatus_STATUS
+		err := patchStatus.AssignPropertiesFromVirtualMachinePatchStatus_STATUS(source.PatchStatus)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachinePatchStatus_STATUS() to populate field PatchStatus")
+		}
+		view.PatchStatus = &patchStatus
+	} else {
+		view.PatchStatus = nil
+	}
+
+	// PlatformFaultDomain
+	view.PlatformFaultDomain = genruntime.ClonePointerToInt(source.PlatformFaultDomain)
+
+	// PlatformUpdateDomain
+	view.PlatformUpdateDomain = genruntime.ClonePointerToInt(source.PlatformUpdateDomain)
+
+	// RdpThumbPrint
+	view.RdpThumbPrint = genruntime.ClonePointerToString(source.RdpThumbPrint)
+
+	// Statuses
+	if source.Statuses != nil {
+		statusList := make([]InstanceViewStatus_STATUS, len(source.Statuses))
+		for statusIndex, statusItem := range source.Statuses {
+			// Shadow the loop variable to avoid aliasing
+			statusItem := statusItem
+			var status InstanceViewStatus_STATUS
+			err := status.AssignPropertiesFromInstanceViewStatus_STATUS(&statusItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatus_STATUS() to populate field Statuses")
+			}
+			statusList[statusIndex] = status
+		}
+		view.Statuses = statusList
+	} else {
+		view.Statuses = nil
+	}
+
+	// VmAgent
+	if source.VmAgent != nil {
+		var vmAgent VirtualMachineAgentInstanceView_STATUS
+		err := vmAgent.AssignPropertiesFromVirtualMachineAgentInstanceView_STATUS(source.VmAgent)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineAgentInstanceView_STATUS() to populate field VmAgent")
+		}
+		view.VmAgent = &vmAgent
+	} else {
+		view.VmAgent = nil
+	}
+
+	// VmHealth
+	if source.VmHealth != nil {
+		var vmHealth VirtualMachineHealthStatus_STATUS
+		err := vmHealth.AssignPropertiesFromVirtualMachineHealthStatus_STATUS(source.VmHealth)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineHealthStatus_STATUS() to populate field VmHealth")
+		}
+		view.VmHealth = &vmHealth
+	} else {
+		view.VmHealth = nil
 	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		profile.PropertyBag = propertyBag
+		view.PropertyBag = propertyBag
 	} else {
-		profile.PropertyBag = nil
+		view.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToVirtualMachinesSpecPropertiesOsProfile populates the provided destination VirtualMachines_Spec_Properties_OsProfile from our VirtualMachines_Spec_Properties_OsProfile
-func (profile *VirtualMachines_Spec_Properties_OsProfile) AssignPropertiesToVirtualMachinesSpecPropertiesOsProfile(destination *v20201201s.VirtualMachines_Spec_Properties_OsProfile) error {
+// AssignPropertiesToVirtualMachineInstanceView_STATUS populates the provided destination VirtualMachineInstanceView_STATUS from our VirtualMachineInstanceView_STATUS
+func (view *VirtualMachineInstanceView_STATUS) AssignPropertiesToVirtualMachineInstanceView_STATUS(destination *v20201201s.VirtualMachineInstanceView_STATUS) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(view.PropertyBag)
 
-	// AdminPassword
-	if profile.AdminPassword != nil {
-		adminPassword := profile.AdminPassword.Copy()
-		destination.AdminPassword = &adminPassword
+	// AssignedHost
+	destination.AssignedHost = genruntime.ClonePointerToString(view.AssignedHost)
+
+	// BootDiagnostics
+	if view.BootDiagnostics != nil {
+		var bootDiagnostic v20201201s.BootDiagnosticsInstanceView_STATUS
+		err := view.BootDiagnostics.AssignPropertiesToBootDiagnosticsInstanceView_STATUS(&bootDiagnostic)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToBootDiagnosticsInstanceView_STATUS() to populate field BootDiagnostics")
+		}
+		destination.BootDiagnostics = &bootDiagnostic
 	} else {
-		destination.AdminPassword = nil
-	}
-
-	// AdminUsername
-	destination.AdminUsername = genruntime.ClonePointerToString(profile.AdminUsername)
-
-	// AllowExtensionOperations
-	if profile.AllowExtensionOperations != nil {
-		allowExtensionOperation := *profile.AllowExtensionOperations
-		destination.AllowExtensionOperations = &allowExtensionOperation
-	} else {
-		destination.AllowExtensionOperations = nil
+		destination.BootDiagnostics = nil
 	}
 
 	// ComputerName
-	destination.ComputerName = genruntime.ClonePointerToString(profile.ComputerName)
+	destination.ComputerName = genruntime.ClonePointerToString(view.ComputerName)
 
-	// CustomData
-	destination.CustomData = genruntime.ClonePointerToString(profile.CustomData)
-
-	// LinuxConfiguration
-	if profile.LinuxConfiguration != nil {
-		var linuxConfiguration v20201201s.LinuxConfiguration
-		err := profile.LinuxConfiguration.AssignPropertiesToLinuxConfiguration(&linuxConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToLinuxConfiguration() to populate field LinuxConfiguration")
-		}
-		destination.LinuxConfiguration = &linuxConfiguration
-	} else {
-		destination.LinuxConfiguration = nil
-	}
-
-	// RequireGuestProvisionSignal
-	if profile.RequireGuestProvisionSignal != nil {
-		requireGuestProvisionSignal := *profile.RequireGuestProvisionSignal
-		destination.RequireGuestProvisionSignal = &requireGuestProvisionSignal
-	} else {
-		destination.RequireGuestProvisionSignal = nil
-	}
-
-	// Secrets
-	if profile.Secrets != nil {
-		secretList := make([]v20201201s.VaultSecretGroup, len(profile.Secrets))
-		for secretIndex, secretItem := range profile.Secrets {
+	// Disks
+	if view.Disks != nil {
+		diskList := make([]v20201201s.DiskInstanceView_STATUS, len(view.Disks))
+		for diskIndex, diskItem := range view.Disks {
 			// Shadow the loop variable to avoid aliasing
-			secretItem := secretItem
-			var secret v20201201s.VaultSecretGroup
-			err := secretItem.AssignPropertiesToVaultSecretGroup(&secret)
+			diskItem := diskItem
+			var disk v20201201s.DiskInstanceView_STATUS
+			err := diskItem.AssignPropertiesToDiskInstanceView_STATUS(&disk)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVaultSecretGroup() to populate field Secrets")
+				return errors.Wrap(err, "calling AssignPropertiesToDiskInstanceView_STATUS() to populate field Disks")
 			}
-			secretList[secretIndex] = secret
+			diskList[diskIndex] = disk
 		}
-		destination.Secrets = secretList
+		destination.Disks = diskList
 	} else {
-		destination.Secrets = nil
+		destination.Disks = nil
 	}
 
-	// WindowsConfiguration
-	if profile.WindowsConfiguration != nil {
-		var windowsConfiguration v20201201s.WindowsConfiguration
-		err := profile.WindowsConfiguration.AssignPropertiesToWindowsConfiguration(&windowsConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToWindowsConfiguration() to populate field WindowsConfiguration")
+	// Extensions
+	if view.Extensions != nil {
+		extensionList := make([]v20201201s.VirtualMachineExtensionInstanceView_STATUS, len(view.Extensions))
+		for extensionIndex, extensionItem := range view.Extensions {
+			// Shadow the loop variable to avoid aliasing
+			extensionItem := extensionItem
+			var extension v20201201s.VirtualMachineExtensionInstanceView_STATUS
+			err := extensionItem.AssignPropertiesToVirtualMachineExtensionInstanceView_STATUS(&extension)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineExtensionInstanceView_STATUS() to populate field Extensions")
+			}
+			extensionList[extensionIndex] = extension
 		}
-		destination.WindowsConfiguration = &windowsConfiguration
+		destination.Extensions = extensionList
 	} else {
-		destination.WindowsConfiguration = nil
+		destination.Extensions = nil
+	}
+
+	// HyperVGeneration
+	destination.HyperVGeneration = genruntime.ClonePointerToString(view.HyperVGeneration)
+
+	// MaintenanceRedeployStatus
+	if view.MaintenanceRedeployStatus != nil {
+		var maintenanceRedeployStatus v20201201s.MaintenanceRedeployStatus_STATUS
+		err := view.MaintenanceRedeployStatus.AssignPropertiesToMaintenanceRedeployStatus_STATUS(&maintenanceRedeployStatus)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToMaintenanceRedeployStatus_STATUS() to populate field MaintenanceRedeployStatus")
+		}
+		destination.MaintenanceRedeployStatus = &maintenanceRedeployStatus
+	} else {
+		destination.MaintenanceRedeployStatus = nil
+	}
+
+	// OsName
+	destination.OsName = genruntime.ClonePointerToString(view.OsName)
+
+	// OsVersion
+	destination.OsVersion = genruntime.ClonePointerToString(view.OsVersion)
+
+	// PatchStatus
+	if view.PatchStatus != nil {
+		var patchStatus v20201201s.VirtualMachinePatchStatus_STATUS
+		err := view.PatchStatus.AssignPropertiesToVirtualMachinePatchStatus_STATUS(&patchStatus)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachinePatchStatus_STATUS() to populate field PatchStatus")
+		}
+		destination.PatchStatus = &patchStatus
+	} else {
+		destination.PatchStatus = nil
+	}
+
+	// PlatformFaultDomain
+	destination.PlatformFaultDomain = genruntime.ClonePointerToInt(view.PlatformFaultDomain)
+
+	// PlatformUpdateDomain
+	destination.PlatformUpdateDomain = genruntime.ClonePointerToInt(view.PlatformUpdateDomain)
+
+	// RdpThumbPrint
+	destination.RdpThumbPrint = genruntime.ClonePointerToString(view.RdpThumbPrint)
+
+	// Statuses
+	if view.Statuses != nil {
+		statusList := make([]v20201201s.InstanceViewStatus_STATUS, len(view.Statuses))
+		for statusIndex, statusItem := range view.Statuses {
+			// Shadow the loop variable to avoid aliasing
+			statusItem := statusItem
+			var status v20201201s.InstanceViewStatus_STATUS
+			err := statusItem.AssignPropertiesToInstanceViewStatus_STATUS(&status)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatus_STATUS() to populate field Statuses")
+			}
+			statusList[statusIndex] = status
+		}
+		destination.Statuses = statusList
+	} else {
+		destination.Statuses = nil
+	}
+
+	// VmAgent
+	if view.VmAgent != nil {
+		var vmAgent v20201201s.VirtualMachineAgentInstanceView_STATUS
+		err := view.VmAgent.AssignPropertiesToVirtualMachineAgentInstanceView_STATUS(&vmAgent)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineAgentInstanceView_STATUS() to populate field VmAgent")
+		}
+		destination.VmAgent = &vmAgent
+	} else {
+		destination.VmAgent = nil
+	}
+
+	// VmHealth
+	if view.VmHealth != nil {
+		var vmHealth v20201201s.VirtualMachineHealthStatus_STATUS
+		err := view.VmHealth.AssignPropertiesToVirtualMachineHealthStatus_STATUS(&vmHealth)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineHealthStatus_STATUS() to populate field VmHealth")
+		}
+		destination.VmHealth = &vmHealth
+	} else {
+		destination.VmHealth = nil
 	}
 
 	// Update the property bag
@@ -4083,17 +4231,17 @@ func (diagnostics *BootDiagnostics) AssignPropertiesToBootDiagnostics(destinatio
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.BootDiagnosticsInstanceView_Status
-// Deprecated version of BootDiagnosticsInstanceView_Status. Use v1beta20201201.BootDiagnosticsInstanceView_Status instead
-type BootDiagnosticsInstanceView_Status struct {
-	ConsoleScreenshotBlobUri *string                    `json:"consoleScreenshotBlobUri,omitempty"`
-	PropertyBag              genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
-	SerialConsoleLogBlobUri  *string                    `json:"serialConsoleLogBlobUri,omitempty"`
-	Status                   *InstanceViewStatus_Status `json:"status,omitempty"`
+// Storage version of v1alpha1api20201201.BootDiagnosticsInstanceView
+// Deprecated version of BootDiagnosticsInstanceView. Use v1beta20201201.BootDiagnosticsInstanceView instead
+type BootDiagnosticsInstanceView struct {
+	ConsoleScreenshotBlobUri *string                `json:"consoleScreenshotBlobUri,omitempty"`
+	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	SerialConsoleLogBlobUri  *string                `json:"serialConsoleLogBlobUri,omitempty"`
+	Status                   *InstanceViewStatus    `json:"status,omitempty"`
 }
 
-// AssignPropertiesFromBootDiagnosticsInstanceViewStatus populates our BootDiagnosticsInstanceView_Status from the provided source BootDiagnosticsInstanceView_Status
-func (view *BootDiagnosticsInstanceView_Status) AssignPropertiesFromBootDiagnosticsInstanceViewStatus(source *v20201201s.BootDiagnosticsInstanceView_Status) error {
+// AssignPropertiesFromBootDiagnosticsInstanceView populates our BootDiagnosticsInstanceView from the provided source BootDiagnosticsInstanceView
+func (view *BootDiagnosticsInstanceView) AssignPropertiesFromBootDiagnosticsInstanceView(source *v20201201s.BootDiagnosticsInstanceView) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -4105,10 +4253,10 @@ func (view *BootDiagnosticsInstanceView_Status) AssignPropertiesFromBootDiagnost
 
 	// Status
 	if source.Status != nil {
-		var status InstanceViewStatus_Status
-		err := status.AssignPropertiesFromInstanceViewStatusStatus(source.Status)
+		var status InstanceViewStatus
+		err := status.AssignPropertiesFromInstanceViewStatus(source.Status)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatusStatus() to populate field Status")
+			return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatus() to populate field Status")
 		}
 		view.Status = &status
 	} else {
@@ -4126,8 +4274,8 @@ func (view *BootDiagnosticsInstanceView_Status) AssignPropertiesFromBootDiagnost
 	return nil
 }
 
-// AssignPropertiesToBootDiagnosticsInstanceViewStatus populates the provided destination BootDiagnosticsInstanceView_Status from our BootDiagnosticsInstanceView_Status
-func (view *BootDiagnosticsInstanceView_Status) AssignPropertiesToBootDiagnosticsInstanceViewStatus(destination *v20201201s.BootDiagnosticsInstanceView_Status) error {
+// AssignPropertiesToBootDiagnosticsInstanceView populates the provided destination BootDiagnosticsInstanceView from our BootDiagnosticsInstanceView
+func (view *BootDiagnosticsInstanceView) AssignPropertiesToBootDiagnosticsInstanceView(destination *v20201201s.BootDiagnosticsInstanceView) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(view.PropertyBag)
 
@@ -4139,10 +4287,10 @@ func (view *BootDiagnosticsInstanceView_Status) AssignPropertiesToBootDiagnostic
 
 	// Status
 	if view.Status != nil {
-		var status v20201201s.InstanceViewStatus_Status
-		err := view.Status.AssignPropertiesToInstanceViewStatusStatus(&status)
+		var status v20201201s.InstanceViewStatus
+		err := view.Status.AssignPropertiesToInstanceViewStatus(&status)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatusStatus() to populate field Status")
+			return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatus() to populate field Status")
 		}
 		destination.Status = &status
 	} else {
@@ -4160,16 +4308,93 @@ func (view *BootDiagnosticsInstanceView_Status) AssignPropertiesToBootDiagnostic
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.BootDiagnostics_Status
-// Deprecated version of BootDiagnostics_Status. Use v1beta20201201.BootDiagnostics_Status instead
-type BootDiagnostics_Status struct {
+// Storage version of v1alpha1api20201201.BootDiagnosticsInstanceView_STATUS
+// Deprecated version of BootDiagnosticsInstanceView_STATUS. Use v1beta20201201.BootDiagnosticsInstanceView_STATUS instead
+type BootDiagnosticsInstanceView_STATUS struct {
+	ConsoleScreenshotBlobUri *string                    `json:"consoleScreenshotBlobUri,omitempty"`
+	PropertyBag              genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
+	SerialConsoleLogBlobUri  *string                    `json:"serialConsoleLogBlobUri,omitempty"`
+	Status                   *InstanceViewStatus_STATUS `json:"status,omitempty"`
+}
+
+// AssignPropertiesFromBootDiagnosticsInstanceView_STATUS populates our BootDiagnosticsInstanceView_STATUS from the provided source BootDiagnosticsInstanceView_STATUS
+func (view *BootDiagnosticsInstanceView_STATUS) AssignPropertiesFromBootDiagnosticsInstanceView_STATUS(source *v20201201s.BootDiagnosticsInstanceView_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ConsoleScreenshotBlobUri
+	view.ConsoleScreenshotBlobUri = genruntime.ClonePointerToString(source.ConsoleScreenshotBlobUri)
+
+	// SerialConsoleLogBlobUri
+	view.SerialConsoleLogBlobUri = genruntime.ClonePointerToString(source.SerialConsoleLogBlobUri)
+
+	// Status
+	if source.Status != nil {
+		var status InstanceViewStatus_STATUS
+		err := status.AssignPropertiesFromInstanceViewStatus_STATUS(source.Status)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatus_STATUS() to populate field Status")
+		}
+		view.Status = &status
+	} else {
+		view.Status = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		view.PropertyBag = propertyBag
+	} else {
+		view.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToBootDiagnosticsInstanceView_STATUS populates the provided destination BootDiagnosticsInstanceView_STATUS from our BootDiagnosticsInstanceView_STATUS
+func (view *BootDiagnosticsInstanceView_STATUS) AssignPropertiesToBootDiagnosticsInstanceView_STATUS(destination *v20201201s.BootDiagnosticsInstanceView_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(view.PropertyBag)
+
+	// ConsoleScreenshotBlobUri
+	destination.ConsoleScreenshotBlobUri = genruntime.ClonePointerToString(view.ConsoleScreenshotBlobUri)
+
+	// SerialConsoleLogBlobUri
+	destination.SerialConsoleLogBlobUri = genruntime.ClonePointerToString(view.SerialConsoleLogBlobUri)
+
+	// Status
+	if view.Status != nil {
+		var status v20201201s.InstanceViewStatus_STATUS
+		err := view.Status.AssignPropertiesToInstanceViewStatus_STATUS(&status)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatus_STATUS() to populate field Status")
+		}
+		destination.Status = &status
+	} else {
+		destination.Status = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20201201.BootDiagnostics_STATUS
+// Deprecated version of BootDiagnostics_STATUS. Use v1beta20201201.BootDiagnostics_STATUS instead
+type BootDiagnostics_STATUS struct {
 	Enabled     *bool                  `json:"enabled,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	StorageUri  *string                `json:"storageUri,omitempty"`
 }
 
-// AssignPropertiesFromBootDiagnosticsStatus populates our BootDiagnostics_Status from the provided source BootDiagnostics_Status
-func (diagnostics *BootDiagnostics_Status) AssignPropertiesFromBootDiagnosticsStatus(source *v20201201s.BootDiagnostics_Status) error {
+// AssignPropertiesFromBootDiagnostics_STATUS populates our BootDiagnostics_STATUS from the provided source BootDiagnostics_STATUS
+func (diagnostics *BootDiagnostics_STATUS) AssignPropertiesFromBootDiagnostics_STATUS(source *v20201201s.BootDiagnostics_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -4195,8 +4420,8 @@ func (diagnostics *BootDiagnostics_Status) AssignPropertiesFromBootDiagnosticsSt
 	return nil
 }
 
-// AssignPropertiesToBootDiagnosticsStatus populates the provided destination BootDiagnostics_Status from our BootDiagnostics_Status
-func (diagnostics *BootDiagnostics_Status) AssignPropertiesToBootDiagnosticsStatus(destination *v20201201s.BootDiagnostics_Status) error {
+// AssignPropertiesToBootDiagnostics_STATUS populates the provided destination BootDiagnostics_STATUS from our BootDiagnostics_STATUS
+func (diagnostics *BootDiagnostics_STATUS) AssignPropertiesToBootDiagnostics_STATUS(destination *v20201201s.BootDiagnostics_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(diagnostics.PropertyBag)
 
@@ -4228,6 +4453,8 @@ type DataDisk struct {
 	Caching                 *string                `json:"caching,omitempty"`
 	CreateOption            *string                `json:"createOption,omitempty"`
 	DetachOption            *string                `json:"detachOption,omitempty"`
+	DiskIOPSReadWrite       *int                   `json:"diskIOPSReadWrite,omitempty"`
+	DiskMBpsReadWrite       *int                   `json:"diskMBpsReadWrite,omitempty"`
 	DiskSizeGB              *int                   `json:"diskSizeGB,omitempty"`
 	Image                   *VirtualHardDisk       `json:"image,omitempty"`
 	Lun                     *int                   `json:"lun,omitempty"`
@@ -4252,6 +4479,12 @@ func (disk *DataDisk) AssignPropertiesFromDataDisk(source *v20201201s.DataDisk) 
 
 	// DetachOption
 	disk.DetachOption = genruntime.ClonePointerToString(source.DetachOption)
+
+	// DiskIOPSReadWrite
+	disk.DiskIOPSReadWrite = genruntime.ClonePointerToInt(source.DiskIOPSReadWrite)
+
+	// DiskMBpsReadWrite
+	disk.DiskMBpsReadWrite = genruntime.ClonePointerToInt(source.DiskMBpsReadWrite)
 
 	// DiskSizeGB
 	disk.DiskSizeGB = genruntime.ClonePointerToInt(source.DiskSizeGB)
@@ -4339,6 +4572,12 @@ func (disk *DataDisk) AssignPropertiesToDataDisk(destination *v20201201s.DataDis
 	// DetachOption
 	destination.DetachOption = genruntime.ClonePointerToString(disk.DetachOption)
 
+	// DiskIOPSReadWrite
+	destination.DiskIOPSReadWrite = genruntime.ClonePointerToInt(disk.DiskIOPSReadWrite)
+
+	// DiskMBpsReadWrite
+	destination.DiskMBpsReadWrite = genruntime.ClonePointerToInt(disk.DiskMBpsReadWrite)
+
 	// DiskSizeGB
 	destination.DiskSizeGB = genruntime.ClonePointerToInt(disk.DiskSizeGB)
 
@@ -4411,27 +4650,27 @@ func (disk *DataDisk) AssignPropertiesToDataDisk(destination *v20201201s.DataDis
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.DataDisk_Status
-// Deprecated version of DataDisk_Status. Use v1beta20201201.DataDisk_Status instead
-type DataDisk_Status struct {
+// Storage version of v1alpha1api20201201.DataDisk_STATUS
+// Deprecated version of DataDisk_STATUS. Use v1beta20201201.DataDisk_STATUS instead
+type DataDisk_STATUS struct {
 	Caching                 *string                       `json:"caching,omitempty"`
 	CreateOption            *string                       `json:"createOption,omitempty"`
 	DetachOption            *string                       `json:"detachOption,omitempty"`
 	DiskIOPSReadWrite       *int                          `json:"diskIOPSReadWrite,omitempty"`
 	DiskMBpsReadWrite       *int                          `json:"diskMBpsReadWrite,omitempty"`
 	DiskSizeGB              *int                          `json:"diskSizeGB,omitempty"`
-	Image                   *VirtualHardDisk_Status       `json:"image,omitempty"`
+	Image                   *VirtualHardDisk_STATUS       `json:"image,omitempty"`
 	Lun                     *int                          `json:"lun,omitempty"`
-	ManagedDisk             *ManagedDiskParameters_Status `json:"managedDisk,omitempty"`
+	ManagedDisk             *ManagedDiskParameters_STATUS `json:"managedDisk,omitempty"`
 	Name                    *string                       `json:"name,omitempty"`
 	PropertyBag             genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	ToBeDetached            *bool                         `json:"toBeDetached,omitempty"`
-	Vhd                     *VirtualHardDisk_Status       `json:"vhd,omitempty"`
+	Vhd                     *VirtualHardDisk_STATUS       `json:"vhd,omitempty"`
 	WriteAcceleratorEnabled *bool                         `json:"writeAcceleratorEnabled,omitempty"`
 }
 
-// AssignPropertiesFromDataDiskStatus populates our DataDisk_Status from the provided source DataDisk_Status
-func (disk *DataDisk_Status) AssignPropertiesFromDataDiskStatus(source *v20201201s.DataDisk_Status) error {
+// AssignPropertiesFromDataDisk_STATUS populates our DataDisk_STATUS from the provided source DataDisk_STATUS
+func (disk *DataDisk_STATUS) AssignPropertiesFromDataDisk_STATUS(source *v20201201s.DataDisk_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -4455,10 +4694,10 @@ func (disk *DataDisk_Status) AssignPropertiesFromDataDiskStatus(source *v2020120
 
 	// Image
 	if source.Image != nil {
-		var image VirtualHardDisk_Status
-		err := image.AssignPropertiesFromVirtualHardDiskStatus(source.Image)
+		var image VirtualHardDisk_STATUS
+		err := image.AssignPropertiesFromVirtualHardDisk_STATUS(source.Image)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualHardDiskStatus() to populate field Image")
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualHardDisk_STATUS() to populate field Image")
 		}
 		disk.Image = &image
 	} else {
@@ -4470,10 +4709,10 @@ func (disk *DataDisk_Status) AssignPropertiesFromDataDiskStatus(source *v2020120
 
 	// ManagedDisk
 	if source.ManagedDisk != nil {
-		var managedDisk ManagedDiskParameters_Status
-		err := managedDisk.AssignPropertiesFromManagedDiskParametersStatus(source.ManagedDisk)
+		var managedDisk ManagedDiskParameters_STATUS
+		err := managedDisk.AssignPropertiesFromManagedDiskParameters_STATUS(source.ManagedDisk)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromManagedDiskParametersStatus() to populate field ManagedDisk")
+			return errors.Wrap(err, "calling AssignPropertiesFromManagedDiskParameters_STATUS() to populate field ManagedDisk")
 		}
 		disk.ManagedDisk = &managedDisk
 	} else {
@@ -4493,10 +4732,10 @@ func (disk *DataDisk_Status) AssignPropertiesFromDataDiskStatus(source *v2020120
 
 	// Vhd
 	if source.Vhd != nil {
-		var vhd VirtualHardDisk_Status
-		err := vhd.AssignPropertiesFromVirtualHardDiskStatus(source.Vhd)
+		var vhd VirtualHardDisk_STATUS
+		err := vhd.AssignPropertiesFromVirtualHardDisk_STATUS(source.Vhd)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualHardDiskStatus() to populate field Vhd")
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualHardDisk_STATUS() to populate field Vhd")
 		}
 		disk.Vhd = &vhd
 	} else {
@@ -4522,8 +4761,8 @@ func (disk *DataDisk_Status) AssignPropertiesFromDataDiskStatus(source *v2020120
 	return nil
 }
 
-// AssignPropertiesToDataDiskStatus populates the provided destination DataDisk_Status from our DataDisk_Status
-func (disk *DataDisk_Status) AssignPropertiesToDataDiskStatus(destination *v20201201s.DataDisk_Status) error {
+// AssignPropertiesToDataDisk_STATUS populates the provided destination DataDisk_STATUS from our DataDisk_STATUS
+func (disk *DataDisk_STATUS) AssignPropertiesToDataDisk_STATUS(destination *v20201201s.DataDisk_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(disk.PropertyBag)
 
@@ -4547,10 +4786,10 @@ func (disk *DataDisk_Status) AssignPropertiesToDataDiskStatus(destination *v2020
 
 	// Image
 	if disk.Image != nil {
-		var image v20201201s.VirtualHardDisk_Status
-		err := disk.Image.AssignPropertiesToVirtualHardDiskStatus(&image)
+		var image v20201201s.VirtualHardDisk_STATUS
+		err := disk.Image.AssignPropertiesToVirtualHardDisk_STATUS(&image)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualHardDiskStatus() to populate field Image")
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualHardDisk_STATUS() to populate field Image")
 		}
 		destination.Image = &image
 	} else {
@@ -4562,10 +4801,10 @@ func (disk *DataDisk_Status) AssignPropertiesToDataDiskStatus(destination *v2020
 
 	// ManagedDisk
 	if disk.ManagedDisk != nil {
-		var managedDisk v20201201s.ManagedDiskParameters_Status
-		err := disk.ManagedDisk.AssignPropertiesToManagedDiskParametersStatus(&managedDisk)
+		var managedDisk v20201201s.ManagedDiskParameters_STATUS
+		err := disk.ManagedDisk.AssignPropertiesToManagedDiskParameters_STATUS(&managedDisk)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToManagedDiskParametersStatus() to populate field ManagedDisk")
+			return errors.Wrap(err, "calling AssignPropertiesToManagedDiskParameters_STATUS() to populate field ManagedDisk")
 		}
 		destination.ManagedDisk = &managedDisk
 	} else {
@@ -4585,10 +4824,10 @@ func (disk *DataDisk_Status) AssignPropertiesToDataDiskStatus(destination *v2020
 
 	// Vhd
 	if disk.Vhd != nil {
-		var vhd v20201201s.VirtualHardDisk_Status
-		err := disk.Vhd.AssignPropertiesToVirtualHardDiskStatus(&vhd)
+		var vhd v20201201s.VirtualHardDisk_STATUS
+		err := disk.Vhd.AssignPropertiesToVirtualHardDisk_STATUS(&vhd)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualHardDiskStatus() to populate field Vhd")
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualHardDisk_STATUS() to populate field Vhd")
 		}
 		destination.Vhd = &vhd
 	} else {
@@ -4614,30 +4853,30 @@ func (disk *DataDisk_Status) AssignPropertiesToDataDiskStatus(destination *v2020
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.DiskInstanceView_Status
-// Deprecated version of DiskInstanceView_Status. Use v1beta20201201.DiskInstanceView_Status instead
-type DiskInstanceView_Status struct {
-	EncryptionSettings []DiskEncryptionSettings_Status `json:"encryptionSettings,omitempty"`
-	Name               *string                         `json:"name,omitempty"`
-	PropertyBag        genruntime.PropertyBag          `json:"$propertyBag,omitempty"`
-	Statuses           []InstanceViewStatus_Status     `json:"statuses,omitempty"`
+// Storage version of v1alpha1api20201201.DiskInstanceView
+// Deprecated version of DiskInstanceView. Use v1beta20201201.DiskInstanceView instead
+type DiskInstanceView struct {
+	EncryptionSettings []DiskEncryptionSettings `json:"encryptionSettings,omitempty"`
+	Name               *string                  `json:"name,omitempty"`
+	PropertyBag        genruntime.PropertyBag   `json:"$propertyBag,omitempty"`
+	Statuses           []InstanceViewStatus     `json:"statuses,omitempty"`
 }
 
-// AssignPropertiesFromDiskInstanceViewStatus populates our DiskInstanceView_Status from the provided source DiskInstanceView_Status
-func (view *DiskInstanceView_Status) AssignPropertiesFromDiskInstanceViewStatus(source *v20201201s.DiskInstanceView_Status) error {
+// AssignPropertiesFromDiskInstanceView populates our DiskInstanceView from the provided source DiskInstanceView
+func (view *DiskInstanceView) AssignPropertiesFromDiskInstanceView(source *v20201201s.DiskInstanceView) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// EncryptionSettings
 	if source.EncryptionSettings != nil {
-		encryptionSettingList := make([]DiskEncryptionSettings_Status, len(source.EncryptionSettings))
+		encryptionSettingList := make([]DiskEncryptionSettings, len(source.EncryptionSettings))
 		for encryptionSettingIndex, encryptionSettingItem := range source.EncryptionSettings {
 			// Shadow the loop variable to avoid aliasing
 			encryptionSettingItem := encryptionSettingItem
-			var encryptionSetting DiskEncryptionSettings_Status
-			err := encryptionSetting.AssignPropertiesFromDiskEncryptionSettingsStatus(&encryptionSettingItem)
+			var encryptionSetting DiskEncryptionSettings
+			err := encryptionSetting.AssignPropertiesFromDiskEncryptionSettings(&encryptionSettingItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromDiskEncryptionSettingsStatus() to populate field EncryptionSettings")
+				return errors.Wrap(err, "calling AssignPropertiesFromDiskEncryptionSettings() to populate field EncryptionSettings")
 			}
 			encryptionSettingList[encryptionSettingIndex] = encryptionSetting
 		}
@@ -4651,14 +4890,14 @@ func (view *DiskInstanceView_Status) AssignPropertiesFromDiskInstanceViewStatus(
 
 	// Statuses
 	if source.Statuses != nil {
-		statusList := make([]InstanceViewStatus_Status, len(source.Statuses))
+		statusList := make([]InstanceViewStatus, len(source.Statuses))
 		for statusIndex, statusItem := range source.Statuses {
 			// Shadow the loop variable to avoid aliasing
 			statusItem := statusItem
-			var status InstanceViewStatus_Status
-			err := status.AssignPropertiesFromInstanceViewStatusStatus(&statusItem)
+			var status InstanceViewStatus
+			err := status.AssignPropertiesFromInstanceViewStatus(&statusItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatusStatus() to populate field Statuses")
+				return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatus() to populate field Statuses")
 			}
 			statusList[statusIndex] = status
 		}
@@ -4678,21 +4917,21 @@ func (view *DiskInstanceView_Status) AssignPropertiesFromDiskInstanceViewStatus(
 	return nil
 }
 
-// AssignPropertiesToDiskInstanceViewStatus populates the provided destination DiskInstanceView_Status from our DiskInstanceView_Status
-func (view *DiskInstanceView_Status) AssignPropertiesToDiskInstanceViewStatus(destination *v20201201s.DiskInstanceView_Status) error {
+// AssignPropertiesToDiskInstanceView populates the provided destination DiskInstanceView from our DiskInstanceView
+func (view *DiskInstanceView) AssignPropertiesToDiskInstanceView(destination *v20201201s.DiskInstanceView) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(view.PropertyBag)
 
 	// EncryptionSettings
 	if view.EncryptionSettings != nil {
-		encryptionSettingList := make([]v20201201s.DiskEncryptionSettings_Status, len(view.EncryptionSettings))
+		encryptionSettingList := make([]v20201201s.DiskEncryptionSettings, len(view.EncryptionSettings))
 		for encryptionSettingIndex, encryptionSettingItem := range view.EncryptionSettings {
 			// Shadow the loop variable to avoid aliasing
 			encryptionSettingItem := encryptionSettingItem
-			var encryptionSetting v20201201s.DiskEncryptionSettings_Status
-			err := encryptionSettingItem.AssignPropertiesToDiskEncryptionSettingsStatus(&encryptionSetting)
+			var encryptionSetting v20201201s.DiskEncryptionSettings
+			err := encryptionSettingItem.AssignPropertiesToDiskEncryptionSettings(&encryptionSetting)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToDiskEncryptionSettingsStatus() to populate field EncryptionSettings")
+				return errors.Wrap(err, "calling AssignPropertiesToDiskEncryptionSettings() to populate field EncryptionSettings")
 			}
 			encryptionSettingList[encryptionSettingIndex] = encryptionSetting
 		}
@@ -4706,14 +4945,133 @@ func (view *DiskInstanceView_Status) AssignPropertiesToDiskInstanceViewStatus(de
 
 	// Statuses
 	if view.Statuses != nil {
-		statusList := make([]v20201201s.InstanceViewStatus_Status, len(view.Statuses))
+		statusList := make([]v20201201s.InstanceViewStatus, len(view.Statuses))
 		for statusIndex, statusItem := range view.Statuses {
 			// Shadow the loop variable to avoid aliasing
 			statusItem := statusItem
-			var status v20201201s.InstanceViewStatus_Status
-			err := statusItem.AssignPropertiesToInstanceViewStatusStatus(&status)
+			var status v20201201s.InstanceViewStatus
+			err := statusItem.AssignPropertiesToInstanceViewStatus(&status)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatusStatus() to populate field Statuses")
+				return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatus() to populate field Statuses")
+			}
+			statusList[statusIndex] = status
+		}
+		destination.Statuses = statusList
+	} else {
+		destination.Statuses = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20201201.DiskInstanceView_STATUS
+// Deprecated version of DiskInstanceView_STATUS. Use v1beta20201201.DiskInstanceView_STATUS instead
+type DiskInstanceView_STATUS struct {
+	EncryptionSettings []DiskEncryptionSettings_STATUS `json:"encryptionSettings,omitempty"`
+	Name               *string                         `json:"name,omitempty"`
+	PropertyBag        genruntime.PropertyBag          `json:"$propertyBag,omitempty"`
+	Statuses           []InstanceViewStatus_STATUS     `json:"statuses,omitempty"`
+}
+
+// AssignPropertiesFromDiskInstanceView_STATUS populates our DiskInstanceView_STATUS from the provided source DiskInstanceView_STATUS
+func (view *DiskInstanceView_STATUS) AssignPropertiesFromDiskInstanceView_STATUS(source *v20201201s.DiskInstanceView_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// EncryptionSettings
+	if source.EncryptionSettings != nil {
+		encryptionSettingList := make([]DiskEncryptionSettings_STATUS, len(source.EncryptionSettings))
+		for encryptionSettingIndex, encryptionSettingItem := range source.EncryptionSettings {
+			// Shadow the loop variable to avoid aliasing
+			encryptionSettingItem := encryptionSettingItem
+			var encryptionSetting DiskEncryptionSettings_STATUS
+			err := encryptionSetting.AssignPropertiesFromDiskEncryptionSettings_STATUS(&encryptionSettingItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromDiskEncryptionSettings_STATUS() to populate field EncryptionSettings")
+			}
+			encryptionSettingList[encryptionSettingIndex] = encryptionSetting
+		}
+		view.EncryptionSettings = encryptionSettingList
+	} else {
+		view.EncryptionSettings = nil
+	}
+
+	// Name
+	view.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Statuses
+	if source.Statuses != nil {
+		statusList := make([]InstanceViewStatus_STATUS, len(source.Statuses))
+		for statusIndex, statusItem := range source.Statuses {
+			// Shadow the loop variable to avoid aliasing
+			statusItem := statusItem
+			var status InstanceViewStatus_STATUS
+			err := status.AssignPropertiesFromInstanceViewStatus_STATUS(&statusItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatus_STATUS() to populate field Statuses")
+			}
+			statusList[statusIndex] = status
+		}
+		view.Statuses = statusList
+	} else {
+		view.Statuses = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		view.PropertyBag = propertyBag
+	} else {
+		view.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToDiskInstanceView_STATUS populates the provided destination DiskInstanceView_STATUS from our DiskInstanceView_STATUS
+func (view *DiskInstanceView_STATUS) AssignPropertiesToDiskInstanceView_STATUS(destination *v20201201s.DiskInstanceView_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(view.PropertyBag)
+
+	// EncryptionSettings
+	if view.EncryptionSettings != nil {
+		encryptionSettingList := make([]v20201201s.DiskEncryptionSettings_STATUS, len(view.EncryptionSettings))
+		for encryptionSettingIndex, encryptionSettingItem := range view.EncryptionSettings {
+			// Shadow the loop variable to avoid aliasing
+			encryptionSettingItem := encryptionSettingItem
+			var encryptionSetting v20201201s.DiskEncryptionSettings_STATUS
+			err := encryptionSettingItem.AssignPropertiesToDiskEncryptionSettings_STATUS(&encryptionSetting)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToDiskEncryptionSettings_STATUS() to populate field EncryptionSettings")
+			}
+			encryptionSettingList[encryptionSettingIndex] = encryptionSetting
+		}
+		destination.EncryptionSettings = encryptionSettingList
+	} else {
+		destination.EncryptionSettings = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(view.Name)
+
+	// Statuses
+	if view.Statuses != nil {
+		statusList := make([]v20201201s.InstanceViewStatus_STATUS, len(view.Statuses))
+		for statusIndex, statusItem := range view.Statuses {
+			// Shadow the loop variable to avoid aliasing
+			statusItem := statusItem
+			var status v20201201s.InstanceViewStatus_STATUS
+			err := statusItem.AssignPropertiesToInstanceViewStatus_STATUS(&status)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatus_STATUS() to populate field Statuses")
 			}
 			statusList[statusIndex] = status
 		}
@@ -4736,18 +5094,22 @@ func (view *DiskInstanceView_Status) AssignPropertiesToDiskInstanceViewStatus(de
 // Storage version of v1alpha1api20201201.ImageReference
 // Deprecated version of ImageReference. Use v1beta20201201.ImageReference instead
 type ImageReference struct {
-	Offer       *string                       `json:"offer,omitempty"`
-	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	Publisher   *string                       `json:"publisher,omitempty"`
-	Reference   *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	Sku         *string                       `json:"sku,omitempty"`
-	Version     *string                       `json:"version,omitempty"`
+	ExactVersion *string                       `json:"exactVersion,omitempty"`
+	Offer        *string                       `json:"offer,omitempty"`
+	PropertyBag  genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Publisher    *string                       `json:"publisher,omitempty"`
+	Reference    *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	Sku          *string                       `json:"sku,omitempty"`
+	Version      *string                       `json:"version,omitempty"`
 }
 
 // AssignPropertiesFromImageReference populates our ImageReference from the provided source ImageReference
 func (reference *ImageReference) AssignPropertiesFromImageReference(source *v20201201s.ImageReference) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ExactVersion
+	reference.ExactVersion = genruntime.ClonePointerToString(source.ExactVersion)
 
 	// Offer
 	reference.Offer = genruntime.ClonePointerToString(source.Offer)
@@ -4785,6 +5147,9 @@ func (reference *ImageReference) AssignPropertiesToImageReference(destination *v
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(reference.PropertyBag)
 
+	// ExactVersion
+	destination.ExactVersion = genruntime.ClonePointerToString(reference.ExactVersion)
+
 	// Offer
 	destination.Offer = genruntime.ClonePointerToString(reference.Offer)
 
@@ -4816,9 +5181,9 @@ func (reference *ImageReference) AssignPropertiesToImageReference(destination *v
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.ImageReference_Status
-// Deprecated version of ImageReference_Status. Use v1beta20201201.ImageReference_Status instead
-type ImageReference_Status struct {
+// Storage version of v1alpha1api20201201.ImageReference_STATUS
+// Deprecated version of ImageReference_STATUS. Use v1beta20201201.ImageReference_STATUS instead
+type ImageReference_STATUS struct {
 	ExactVersion *string                `json:"exactVersion,omitempty"`
 	Id           *string                `json:"id,omitempty"`
 	Offer        *string                `json:"offer,omitempty"`
@@ -4828,8 +5193,8 @@ type ImageReference_Status struct {
 	Version      *string                `json:"version,omitempty"`
 }
 
-// AssignPropertiesFromImageReferenceStatus populates our ImageReference_Status from the provided source ImageReference_Status
-func (reference *ImageReference_Status) AssignPropertiesFromImageReferenceStatus(source *v20201201s.ImageReference_Status) error {
+// AssignPropertiesFromImageReference_STATUS populates our ImageReference_STATUS from the provided source ImageReference_STATUS
+func (reference *ImageReference_STATUS) AssignPropertiesFromImageReference_STATUS(source *v20201201s.ImageReference_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -4862,8 +5227,8 @@ func (reference *ImageReference_Status) AssignPropertiesFromImageReferenceStatus
 	return nil
 }
 
-// AssignPropertiesToImageReferenceStatus populates the provided destination ImageReference_Status from our ImageReference_Status
-func (reference *ImageReference_Status) AssignPropertiesToImageReferenceStatus(destination *v20201201s.ImageReference_Status) error {
+// AssignPropertiesToImageReference_STATUS populates the provided destination ImageReference_STATUS from our ImageReference_STATUS
+func (reference *ImageReference_STATUS) AssignPropertiesToImageReference_STATUS(destination *v20201201s.ImageReference_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(reference.PropertyBag)
 
@@ -4896,9 +5261,9 @@ func (reference *ImageReference_Status) AssignPropertiesToImageReferenceStatus(d
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.InstanceViewStatus_Status
-// Deprecated version of InstanceViewStatus_Status. Use v1beta20201201.InstanceViewStatus_Status instead
-type InstanceViewStatus_Status struct {
+// Storage version of v1alpha1api20201201.InstanceViewStatus
+// Deprecated version of InstanceViewStatus. Use v1beta20201201.InstanceViewStatus instead
+type InstanceViewStatus struct {
 	Code          *string                `json:"code,omitempty"`
 	DisplayStatus *string                `json:"displayStatus,omitempty"`
 	Level         *string                `json:"level,omitempty"`
@@ -4907,56 +5272,129 @@ type InstanceViewStatus_Status struct {
 	Time          *string                `json:"time,omitempty"`
 }
 
-// AssignPropertiesFromInstanceViewStatusStatus populates our InstanceViewStatus_Status from the provided source InstanceViewStatus_Status
-func (view *InstanceViewStatus_Status) AssignPropertiesFromInstanceViewStatusStatus(source *v20201201s.InstanceViewStatus_Status) error {
+// AssignPropertiesFromInstanceViewStatus populates our InstanceViewStatus from the provided source InstanceViewStatus
+func (status *InstanceViewStatus) AssignPropertiesFromInstanceViewStatus(source *v20201201s.InstanceViewStatus) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// Code
-	view.Code = genruntime.ClonePointerToString(source.Code)
+	status.Code = genruntime.ClonePointerToString(source.Code)
 
 	// DisplayStatus
-	view.DisplayStatus = genruntime.ClonePointerToString(source.DisplayStatus)
+	status.DisplayStatus = genruntime.ClonePointerToString(source.DisplayStatus)
 
 	// Level
-	view.Level = genruntime.ClonePointerToString(source.Level)
+	status.Level = genruntime.ClonePointerToString(source.Level)
 
 	// Message
-	view.Message = genruntime.ClonePointerToString(source.Message)
+	status.Message = genruntime.ClonePointerToString(source.Message)
 
 	// Time
-	view.Time = genruntime.ClonePointerToString(source.Time)
+	status.Time = genruntime.ClonePointerToString(source.Time)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		view.PropertyBag = propertyBag
+		status.PropertyBag = propertyBag
 	} else {
-		view.PropertyBag = nil
+		status.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToInstanceViewStatusStatus populates the provided destination InstanceViewStatus_Status from our InstanceViewStatus_Status
-func (view *InstanceViewStatus_Status) AssignPropertiesToInstanceViewStatusStatus(destination *v20201201s.InstanceViewStatus_Status) error {
+// AssignPropertiesToInstanceViewStatus populates the provided destination InstanceViewStatus from our InstanceViewStatus
+func (status *InstanceViewStatus) AssignPropertiesToInstanceViewStatus(destination *v20201201s.InstanceViewStatus) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(view.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(status.PropertyBag)
 
 	// Code
-	destination.Code = genruntime.ClonePointerToString(view.Code)
+	destination.Code = genruntime.ClonePointerToString(status.Code)
 
 	// DisplayStatus
-	destination.DisplayStatus = genruntime.ClonePointerToString(view.DisplayStatus)
+	destination.DisplayStatus = genruntime.ClonePointerToString(status.DisplayStatus)
 
 	// Level
-	destination.Level = genruntime.ClonePointerToString(view.Level)
+	destination.Level = genruntime.ClonePointerToString(status.Level)
 
 	// Message
-	destination.Message = genruntime.ClonePointerToString(view.Message)
+	destination.Message = genruntime.ClonePointerToString(status.Message)
 
 	// Time
-	destination.Time = genruntime.ClonePointerToString(view.Time)
+	destination.Time = genruntime.ClonePointerToString(status.Time)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20201201.InstanceViewStatus_STATUS
+// Deprecated version of InstanceViewStatus_STATUS. Use v1beta20201201.InstanceViewStatus_STATUS instead
+type InstanceViewStatus_STATUS struct {
+	Code          *string                `json:"code,omitempty"`
+	DisplayStatus *string                `json:"displayStatus,omitempty"`
+	Level         *string                `json:"level,omitempty"`
+	Message       *string                `json:"message,omitempty"`
+	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Time          *string                `json:"time,omitempty"`
+}
+
+// AssignPropertiesFromInstanceViewStatus_STATUS populates our InstanceViewStatus_STATUS from the provided source InstanceViewStatus_STATUS
+func (status *InstanceViewStatus_STATUS) AssignPropertiesFromInstanceViewStatus_STATUS(source *v20201201s.InstanceViewStatus_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Code
+	status.Code = genruntime.ClonePointerToString(source.Code)
+
+	// DisplayStatus
+	status.DisplayStatus = genruntime.ClonePointerToString(source.DisplayStatus)
+
+	// Level
+	status.Level = genruntime.ClonePointerToString(source.Level)
+
+	// Message
+	status.Message = genruntime.ClonePointerToString(source.Message)
+
+	// Time
+	status.Time = genruntime.ClonePointerToString(source.Time)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		status.PropertyBag = propertyBag
+	} else {
+		status.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToInstanceViewStatus_STATUS populates the provided destination InstanceViewStatus_STATUS from our InstanceViewStatus_STATUS
+func (status *InstanceViewStatus_STATUS) AssignPropertiesToInstanceViewStatus_STATUS(destination *v20201201s.InstanceViewStatus_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(status.PropertyBag)
+
+	// Code
+	destination.Code = genruntime.ClonePointerToString(status.Code)
+
+	// DisplayStatus
+	destination.DisplayStatus = genruntime.ClonePointerToString(status.DisplayStatus)
+
+	// Level
+	destination.Level = genruntime.ClonePointerToString(status.Level)
+
+	// Message
+	destination.Message = genruntime.ClonePointerToString(status.Message)
+
+	// Time
+	destination.Time = genruntime.ClonePointerToString(status.Time)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -5091,18 +5529,18 @@ func (configuration *LinuxConfiguration) AssignPropertiesToLinuxConfiguration(de
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.LinuxConfiguration_Status
-// Deprecated version of LinuxConfiguration_Status. Use v1beta20201201.LinuxConfiguration_Status instead
-type LinuxConfiguration_Status struct {
+// Storage version of v1alpha1api20201201.LinuxConfiguration_STATUS
+// Deprecated version of LinuxConfiguration_STATUS. Use v1beta20201201.LinuxConfiguration_STATUS instead
+type LinuxConfiguration_STATUS struct {
 	DisablePasswordAuthentication *bool                      `json:"disablePasswordAuthentication,omitempty"`
-	PatchSettings                 *LinuxPatchSettings_Status `json:"patchSettings,omitempty"`
+	PatchSettings                 *LinuxPatchSettings_STATUS `json:"patchSettings,omitempty"`
 	PropertyBag                   genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
 	ProvisionVMAgent              *bool                      `json:"provisionVMAgent,omitempty"`
-	Ssh                           *SshConfiguration_Status   `json:"ssh,omitempty"`
+	Ssh                           *SshConfiguration_STATUS   `json:"ssh,omitempty"`
 }
 
-// AssignPropertiesFromLinuxConfigurationStatus populates our LinuxConfiguration_Status from the provided source LinuxConfiguration_Status
-func (configuration *LinuxConfiguration_Status) AssignPropertiesFromLinuxConfigurationStatus(source *v20201201s.LinuxConfiguration_Status) error {
+// AssignPropertiesFromLinuxConfiguration_STATUS populates our LinuxConfiguration_STATUS from the provided source LinuxConfiguration_STATUS
+func (configuration *LinuxConfiguration_STATUS) AssignPropertiesFromLinuxConfiguration_STATUS(source *v20201201s.LinuxConfiguration_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -5116,10 +5554,10 @@ func (configuration *LinuxConfiguration_Status) AssignPropertiesFromLinuxConfigu
 
 	// PatchSettings
 	if source.PatchSettings != nil {
-		var patchSetting LinuxPatchSettings_Status
-		err := patchSetting.AssignPropertiesFromLinuxPatchSettingsStatus(source.PatchSettings)
+		var patchSetting LinuxPatchSettings_STATUS
+		err := patchSetting.AssignPropertiesFromLinuxPatchSettings_STATUS(source.PatchSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromLinuxPatchSettingsStatus() to populate field PatchSettings")
+			return errors.Wrap(err, "calling AssignPropertiesFromLinuxPatchSettings_STATUS() to populate field PatchSettings")
 		}
 		configuration.PatchSettings = &patchSetting
 	} else {
@@ -5136,10 +5574,10 @@ func (configuration *LinuxConfiguration_Status) AssignPropertiesFromLinuxConfigu
 
 	// Ssh
 	if source.Ssh != nil {
-		var ssh SshConfiguration_Status
-		err := ssh.AssignPropertiesFromSshConfigurationStatus(source.Ssh)
+		var ssh SshConfiguration_STATUS
+		err := ssh.AssignPropertiesFromSshConfiguration_STATUS(source.Ssh)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSshConfigurationStatus() to populate field Ssh")
+			return errors.Wrap(err, "calling AssignPropertiesFromSshConfiguration_STATUS() to populate field Ssh")
 		}
 		configuration.Ssh = &ssh
 	} else {
@@ -5157,8 +5595,8 @@ func (configuration *LinuxConfiguration_Status) AssignPropertiesFromLinuxConfigu
 	return nil
 }
 
-// AssignPropertiesToLinuxConfigurationStatus populates the provided destination LinuxConfiguration_Status from our LinuxConfiguration_Status
-func (configuration *LinuxConfiguration_Status) AssignPropertiesToLinuxConfigurationStatus(destination *v20201201s.LinuxConfiguration_Status) error {
+// AssignPropertiesToLinuxConfiguration_STATUS populates the provided destination LinuxConfiguration_STATUS from our LinuxConfiguration_STATUS
+func (configuration *LinuxConfiguration_STATUS) AssignPropertiesToLinuxConfiguration_STATUS(destination *v20201201s.LinuxConfiguration_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
 
@@ -5172,10 +5610,10 @@ func (configuration *LinuxConfiguration_Status) AssignPropertiesToLinuxConfigura
 
 	// PatchSettings
 	if configuration.PatchSettings != nil {
-		var patchSetting v20201201s.LinuxPatchSettings_Status
-		err := configuration.PatchSettings.AssignPropertiesToLinuxPatchSettingsStatus(&patchSetting)
+		var patchSetting v20201201s.LinuxPatchSettings_STATUS
+		err := configuration.PatchSettings.AssignPropertiesToLinuxPatchSettings_STATUS(&patchSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToLinuxPatchSettingsStatus() to populate field PatchSettings")
+			return errors.Wrap(err, "calling AssignPropertiesToLinuxPatchSettings_STATUS() to populate field PatchSettings")
 		}
 		destination.PatchSettings = &patchSetting
 	} else {
@@ -5192,10 +5630,10 @@ func (configuration *LinuxConfiguration_Status) AssignPropertiesToLinuxConfigura
 
 	// Ssh
 	if configuration.Ssh != nil {
-		var ssh v20201201s.SshConfiguration_Status
-		err := configuration.Ssh.AssignPropertiesToSshConfigurationStatus(&ssh)
+		var ssh v20201201s.SshConfiguration_STATUS
+		err := configuration.Ssh.AssignPropertiesToSshConfiguration_STATUS(&ssh)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSshConfigurationStatus() to populate field Ssh")
+			return errors.Wrap(err, "calling AssignPropertiesToSshConfiguration_STATUS() to populate field Ssh")
 		}
 		destination.Ssh = &ssh
 	} else {
@@ -5213,9 +5651,9 @@ func (configuration *LinuxConfiguration_Status) AssignPropertiesToLinuxConfigura
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.MaintenanceRedeployStatus_Status
-// Deprecated version of MaintenanceRedeployStatus_Status. Use v1beta20201201.MaintenanceRedeployStatus_Status instead
-type MaintenanceRedeployStatus_Status struct {
+// Storage version of v1alpha1api20201201.MaintenanceRedeployStatus
+// Deprecated version of MaintenanceRedeployStatus. Use v1beta20201201.MaintenanceRedeployStatus instead
+type MaintenanceRedeployStatus struct {
 	IsCustomerInitiatedMaintenanceAllowed *bool                  `json:"isCustomerInitiatedMaintenanceAllowed,omitempty"`
 	LastOperationMessage                  *string                `json:"lastOperationMessage,omitempty"`
 	LastOperationResultCode               *string                `json:"lastOperationResultCode,omitempty"`
@@ -5226,78 +5664,78 @@ type MaintenanceRedeployStatus_Status struct {
 	PropertyBag                           genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromMaintenanceRedeployStatusStatus populates our MaintenanceRedeployStatus_Status from the provided source MaintenanceRedeployStatus_Status
-func (redeploy *MaintenanceRedeployStatus_Status) AssignPropertiesFromMaintenanceRedeployStatusStatus(source *v20201201s.MaintenanceRedeployStatus_Status) error {
+// AssignPropertiesFromMaintenanceRedeployStatus populates our MaintenanceRedeployStatus from the provided source MaintenanceRedeployStatus
+func (status *MaintenanceRedeployStatus) AssignPropertiesFromMaintenanceRedeployStatus(source *v20201201s.MaintenanceRedeployStatus) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// IsCustomerInitiatedMaintenanceAllowed
 	if source.IsCustomerInitiatedMaintenanceAllowed != nil {
 		isCustomerInitiatedMaintenanceAllowed := *source.IsCustomerInitiatedMaintenanceAllowed
-		redeploy.IsCustomerInitiatedMaintenanceAllowed = &isCustomerInitiatedMaintenanceAllowed
+		status.IsCustomerInitiatedMaintenanceAllowed = &isCustomerInitiatedMaintenanceAllowed
 	} else {
-		redeploy.IsCustomerInitiatedMaintenanceAllowed = nil
+		status.IsCustomerInitiatedMaintenanceAllowed = nil
 	}
 
 	// LastOperationMessage
-	redeploy.LastOperationMessage = genruntime.ClonePointerToString(source.LastOperationMessage)
+	status.LastOperationMessage = genruntime.ClonePointerToString(source.LastOperationMessage)
 
 	// LastOperationResultCode
-	redeploy.LastOperationResultCode = genruntime.ClonePointerToString(source.LastOperationResultCode)
+	status.LastOperationResultCode = genruntime.ClonePointerToString(source.LastOperationResultCode)
 
 	// MaintenanceWindowEndTime
-	redeploy.MaintenanceWindowEndTime = genruntime.ClonePointerToString(source.MaintenanceWindowEndTime)
+	status.MaintenanceWindowEndTime = genruntime.ClonePointerToString(source.MaintenanceWindowEndTime)
 
 	// MaintenanceWindowStartTime
-	redeploy.MaintenanceWindowStartTime = genruntime.ClonePointerToString(source.MaintenanceWindowStartTime)
+	status.MaintenanceWindowStartTime = genruntime.ClonePointerToString(source.MaintenanceWindowStartTime)
 
 	// PreMaintenanceWindowEndTime
-	redeploy.PreMaintenanceWindowEndTime = genruntime.ClonePointerToString(source.PreMaintenanceWindowEndTime)
+	status.PreMaintenanceWindowEndTime = genruntime.ClonePointerToString(source.PreMaintenanceWindowEndTime)
 
 	// PreMaintenanceWindowStartTime
-	redeploy.PreMaintenanceWindowStartTime = genruntime.ClonePointerToString(source.PreMaintenanceWindowStartTime)
+	status.PreMaintenanceWindowStartTime = genruntime.ClonePointerToString(source.PreMaintenanceWindowStartTime)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		redeploy.PropertyBag = propertyBag
+		status.PropertyBag = propertyBag
 	} else {
-		redeploy.PropertyBag = nil
+		status.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToMaintenanceRedeployStatusStatus populates the provided destination MaintenanceRedeployStatus_Status from our MaintenanceRedeployStatus_Status
-func (redeploy *MaintenanceRedeployStatus_Status) AssignPropertiesToMaintenanceRedeployStatusStatus(destination *v20201201s.MaintenanceRedeployStatus_Status) error {
+// AssignPropertiesToMaintenanceRedeployStatus populates the provided destination MaintenanceRedeployStatus from our MaintenanceRedeployStatus
+func (status *MaintenanceRedeployStatus) AssignPropertiesToMaintenanceRedeployStatus(destination *v20201201s.MaintenanceRedeployStatus) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(redeploy.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(status.PropertyBag)
 
 	// IsCustomerInitiatedMaintenanceAllowed
-	if redeploy.IsCustomerInitiatedMaintenanceAllowed != nil {
-		isCustomerInitiatedMaintenanceAllowed := *redeploy.IsCustomerInitiatedMaintenanceAllowed
+	if status.IsCustomerInitiatedMaintenanceAllowed != nil {
+		isCustomerInitiatedMaintenanceAllowed := *status.IsCustomerInitiatedMaintenanceAllowed
 		destination.IsCustomerInitiatedMaintenanceAllowed = &isCustomerInitiatedMaintenanceAllowed
 	} else {
 		destination.IsCustomerInitiatedMaintenanceAllowed = nil
 	}
 
 	// LastOperationMessage
-	destination.LastOperationMessage = genruntime.ClonePointerToString(redeploy.LastOperationMessage)
+	destination.LastOperationMessage = genruntime.ClonePointerToString(status.LastOperationMessage)
 
 	// LastOperationResultCode
-	destination.LastOperationResultCode = genruntime.ClonePointerToString(redeploy.LastOperationResultCode)
+	destination.LastOperationResultCode = genruntime.ClonePointerToString(status.LastOperationResultCode)
 
 	// MaintenanceWindowEndTime
-	destination.MaintenanceWindowEndTime = genruntime.ClonePointerToString(redeploy.MaintenanceWindowEndTime)
+	destination.MaintenanceWindowEndTime = genruntime.ClonePointerToString(status.MaintenanceWindowEndTime)
 
 	// MaintenanceWindowStartTime
-	destination.MaintenanceWindowStartTime = genruntime.ClonePointerToString(redeploy.MaintenanceWindowStartTime)
+	destination.MaintenanceWindowStartTime = genruntime.ClonePointerToString(status.MaintenanceWindowStartTime)
 
 	// PreMaintenanceWindowEndTime
-	destination.PreMaintenanceWindowEndTime = genruntime.ClonePointerToString(redeploy.PreMaintenanceWindowEndTime)
+	destination.PreMaintenanceWindowEndTime = genruntime.ClonePointerToString(status.PreMaintenanceWindowEndTime)
 
 	// PreMaintenanceWindowStartTime
-	destination.PreMaintenanceWindowStartTime = genruntime.ClonePointerToString(redeploy.PreMaintenanceWindowStartTime)
+	destination.PreMaintenanceWindowStartTime = genruntime.ClonePointerToString(status.PreMaintenanceWindowStartTime)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -5310,16 +5748,113 @@ func (redeploy *MaintenanceRedeployStatus_Status) AssignPropertiesToMaintenanceR
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.NetworkInterfaceReference_Status
-// Deprecated version of NetworkInterfaceReference_Status. Use v1beta20201201.NetworkInterfaceReference_Status instead
-type NetworkInterfaceReference_Status struct {
+// Storage version of v1alpha1api20201201.MaintenanceRedeployStatus_STATUS
+// Deprecated version of MaintenanceRedeployStatus_STATUS. Use v1beta20201201.MaintenanceRedeployStatus_STATUS instead
+type MaintenanceRedeployStatus_STATUS struct {
+	IsCustomerInitiatedMaintenanceAllowed *bool                  `json:"isCustomerInitiatedMaintenanceAllowed,omitempty"`
+	LastOperationMessage                  *string                `json:"lastOperationMessage,omitempty"`
+	LastOperationResultCode               *string                `json:"lastOperationResultCode,omitempty"`
+	MaintenanceWindowEndTime              *string                `json:"maintenanceWindowEndTime,omitempty"`
+	MaintenanceWindowStartTime            *string                `json:"maintenanceWindowStartTime,omitempty"`
+	PreMaintenanceWindowEndTime           *string                `json:"preMaintenanceWindowEndTime,omitempty"`
+	PreMaintenanceWindowStartTime         *string                `json:"preMaintenanceWindowStartTime,omitempty"`
+	PropertyBag                           genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignPropertiesFromMaintenanceRedeployStatus_STATUS populates our MaintenanceRedeployStatus_STATUS from the provided source MaintenanceRedeployStatus_STATUS
+func (status *MaintenanceRedeployStatus_STATUS) AssignPropertiesFromMaintenanceRedeployStatus_STATUS(source *v20201201s.MaintenanceRedeployStatus_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// IsCustomerInitiatedMaintenanceAllowed
+	if source.IsCustomerInitiatedMaintenanceAllowed != nil {
+		isCustomerInitiatedMaintenanceAllowed := *source.IsCustomerInitiatedMaintenanceAllowed
+		status.IsCustomerInitiatedMaintenanceAllowed = &isCustomerInitiatedMaintenanceAllowed
+	} else {
+		status.IsCustomerInitiatedMaintenanceAllowed = nil
+	}
+
+	// LastOperationMessage
+	status.LastOperationMessage = genruntime.ClonePointerToString(source.LastOperationMessage)
+
+	// LastOperationResultCode
+	status.LastOperationResultCode = genruntime.ClonePointerToString(source.LastOperationResultCode)
+
+	// MaintenanceWindowEndTime
+	status.MaintenanceWindowEndTime = genruntime.ClonePointerToString(source.MaintenanceWindowEndTime)
+
+	// MaintenanceWindowStartTime
+	status.MaintenanceWindowStartTime = genruntime.ClonePointerToString(source.MaintenanceWindowStartTime)
+
+	// PreMaintenanceWindowEndTime
+	status.PreMaintenanceWindowEndTime = genruntime.ClonePointerToString(source.PreMaintenanceWindowEndTime)
+
+	// PreMaintenanceWindowStartTime
+	status.PreMaintenanceWindowStartTime = genruntime.ClonePointerToString(source.PreMaintenanceWindowStartTime)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		status.PropertyBag = propertyBag
+	} else {
+		status.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToMaintenanceRedeployStatus_STATUS populates the provided destination MaintenanceRedeployStatus_STATUS from our MaintenanceRedeployStatus_STATUS
+func (status *MaintenanceRedeployStatus_STATUS) AssignPropertiesToMaintenanceRedeployStatus_STATUS(destination *v20201201s.MaintenanceRedeployStatus_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(status.PropertyBag)
+
+	// IsCustomerInitiatedMaintenanceAllowed
+	if status.IsCustomerInitiatedMaintenanceAllowed != nil {
+		isCustomerInitiatedMaintenanceAllowed := *status.IsCustomerInitiatedMaintenanceAllowed
+		destination.IsCustomerInitiatedMaintenanceAllowed = &isCustomerInitiatedMaintenanceAllowed
+	} else {
+		destination.IsCustomerInitiatedMaintenanceAllowed = nil
+	}
+
+	// LastOperationMessage
+	destination.LastOperationMessage = genruntime.ClonePointerToString(status.LastOperationMessage)
+
+	// LastOperationResultCode
+	destination.LastOperationResultCode = genruntime.ClonePointerToString(status.LastOperationResultCode)
+
+	// MaintenanceWindowEndTime
+	destination.MaintenanceWindowEndTime = genruntime.ClonePointerToString(status.MaintenanceWindowEndTime)
+
+	// MaintenanceWindowStartTime
+	destination.MaintenanceWindowStartTime = genruntime.ClonePointerToString(status.MaintenanceWindowStartTime)
+
+	// PreMaintenanceWindowEndTime
+	destination.PreMaintenanceWindowEndTime = genruntime.ClonePointerToString(status.PreMaintenanceWindowEndTime)
+
+	// PreMaintenanceWindowStartTime
+	destination.PreMaintenanceWindowStartTime = genruntime.ClonePointerToString(status.PreMaintenanceWindowStartTime)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20201201.NetworkInterfaceReference
+// Deprecated version of NetworkInterfaceReference. Use v1beta20201201.NetworkInterfaceReference instead
+type NetworkInterfaceReference struct {
 	Id          *string                `json:"id,omitempty"`
 	Primary     *bool                  `json:"primary,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromNetworkInterfaceReferenceStatus populates our NetworkInterfaceReference_Status from the provided source NetworkInterfaceReference_Status
-func (reference *NetworkInterfaceReference_Status) AssignPropertiesFromNetworkInterfaceReferenceStatus(source *v20201201s.NetworkInterfaceReference_Status) error {
+// AssignPropertiesFromNetworkInterfaceReference populates our NetworkInterfaceReference from the provided source NetworkInterfaceReference
+func (reference *NetworkInterfaceReference) AssignPropertiesFromNetworkInterfaceReference(source *v20201201s.NetworkInterfaceReference) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -5345,8 +5880,70 @@ func (reference *NetworkInterfaceReference_Status) AssignPropertiesFromNetworkIn
 	return nil
 }
 
-// AssignPropertiesToNetworkInterfaceReferenceStatus populates the provided destination NetworkInterfaceReference_Status from our NetworkInterfaceReference_Status
-func (reference *NetworkInterfaceReference_Status) AssignPropertiesToNetworkInterfaceReferenceStatus(destination *v20201201s.NetworkInterfaceReference_Status) error {
+// AssignPropertiesToNetworkInterfaceReference populates the provided destination NetworkInterfaceReference from our NetworkInterfaceReference
+func (reference *NetworkInterfaceReference) AssignPropertiesToNetworkInterfaceReference(destination *v20201201s.NetworkInterfaceReference) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(reference.PropertyBag)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(reference.Id)
+
+	// Primary
+	if reference.Primary != nil {
+		primary := *reference.Primary
+		destination.Primary = &primary
+	} else {
+		destination.Primary = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20201201.NetworkInterfaceReference_STATUS
+// Deprecated version of NetworkInterfaceReference_STATUS. Use v1beta20201201.NetworkInterfaceReference_STATUS instead
+type NetworkInterfaceReference_STATUS struct {
+	Id          *string                `json:"id,omitempty"`
+	Primary     *bool                  `json:"primary,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignPropertiesFromNetworkInterfaceReference_STATUS populates our NetworkInterfaceReference_STATUS from the provided source NetworkInterfaceReference_STATUS
+func (reference *NetworkInterfaceReference_STATUS) AssignPropertiesFromNetworkInterfaceReference_STATUS(source *v20201201s.NetworkInterfaceReference_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Id
+	reference.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Primary
+	if source.Primary != nil {
+		primary := *source.Primary
+		reference.Primary = &primary
+	} else {
+		reference.Primary = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		reference.PropertyBag = propertyBag
+	} else {
+		reference.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToNetworkInterfaceReference_STATUS populates the provided destination NetworkInterfaceReference_STATUS from our NetworkInterfaceReference_STATUS
+func (reference *NetworkInterfaceReference_STATUS) AssignPropertiesToNetworkInterfaceReference_STATUS(destination *v20201201s.NetworkInterfaceReference_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(reference.PropertyBag)
 
@@ -5587,25 +6184,25 @@ func (disk *OSDisk) AssignPropertiesToOSDisk(destination *v20201201s.OSDisk) err
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.OSDisk_Status
-// Deprecated version of OSDisk_Status. Use v1beta20201201.OSDisk_Status instead
-type OSDisk_Status struct {
+// Storage version of v1alpha1api20201201.OSDisk_STATUS
+// Deprecated version of OSDisk_STATUS. Use v1beta20201201.OSDisk_STATUS instead
+type OSDisk_STATUS struct {
 	Caching                 *string                        `json:"caching,omitempty"`
 	CreateOption            *string                        `json:"createOption,omitempty"`
-	DiffDiskSettings        *DiffDiskSettings_Status       `json:"diffDiskSettings,omitempty"`
+	DiffDiskSettings        *DiffDiskSettings_STATUS       `json:"diffDiskSettings,omitempty"`
 	DiskSizeGB              *int                           `json:"diskSizeGB,omitempty"`
-	EncryptionSettings      *DiskEncryptionSettings_Status `json:"encryptionSettings,omitempty"`
-	Image                   *VirtualHardDisk_Status        `json:"image,omitempty"`
-	ManagedDisk             *ManagedDiskParameters_Status  `json:"managedDisk,omitempty"`
+	EncryptionSettings      *DiskEncryptionSettings_STATUS `json:"encryptionSettings,omitempty"`
+	Image                   *VirtualHardDisk_STATUS        `json:"image,omitempty"`
+	ManagedDisk             *ManagedDiskParameters_STATUS  `json:"managedDisk,omitempty"`
 	Name                    *string                        `json:"name,omitempty"`
 	OsType                  *string                        `json:"osType,omitempty"`
 	PropertyBag             genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
-	Vhd                     *VirtualHardDisk_Status        `json:"vhd,omitempty"`
+	Vhd                     *VirtualHardDisk_STATUS        `json:"vhd,omitempty"`
 	WriteAcceleratorEnabled *bool                          `json:"writeAcceleratorEnabled,omitempty"`
 }
 
-// AssignPropertiesFromOSDiskStatus populates our OSDisk_Status from the provided source OSDisk_Status
-func (disk *OSDisk_Status) AssignPropertiesFromOSDiskStatus(source *v20201201s.OSDisk_Status) error {
+// AssignPropertiesFromOSDisk_STATUS populates our OSDisk_STATUS from the provided source OSDisk_STATUS
+func (disk *OSDisk_STATUS) AssignPropertiesFromOSDisk_STATUS(source *v20201201s.OSDisk_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -5617,10 +6214,10 @@ func (disk *OSDisk_Status) AssignPropertiesFromOSDiskStatus(source *v20201201s.O
 
 	// DiffDiskSettings
 	if source.DiffDiskSettings != nil {
-		var diffDiskSetting DiffDiskSettings_Status
-		err := diffDiskSetting.AssignPropertiesFromDiffDiskSettingsStatus(source.DiffDiskSettings)
+		var diffDiskSetting DiffDiskSettings_STATUS
+		err := diffDiskSetting.AssignPropertiesFromDiffDiskSettings_STATUS(source.DiffDiskSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDiffDiskSettingsStatus() to populate field DiffDiskSettings")
+			return errors.Wrap(err, "calling AssignPropertiesFromDiffDiskSettings_STATUS() to populate field DiffDiskSettings")
 		}
 		disk.DiffDiskSettings = &diffDiskSetting
 	} else {
@@ -5632,10 +6229,10 @@ func (disk *OSDisk_Status) AssignPropertiesFromOSDiskStatus(source *v20201201s.O
 
 	// EncryptionSettings
 	if source.EncryptionSettings != nil {
-		var encryptionSetting DiskEncryptionSettings_Status
-		err := encryptionSetting.AssignPropertiesFromDiskEncryptionSettingsStatus(source.EncryptionSettings)
+		var encryptionSetting DiskEncryptionSettings_STATUS
+		err := encryptionSetting.AssignPropertiesFromDiskEncryptionSettings_STATUS(source.EncryptionSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDiskEncryptionSettingsStatus() to populate field EncryptionSettings")
+			return errors.Wrap(err, "calling AssignPropertiesFromDiskEncryptionSettings_STATUS() to populate field EncryptionSettings")
 		}
 		disk.EncryptionSettings = &encryptionSetting
 	} else {
@@ -5644,10 +6241,10 @@ func (disk *OSDisk_Status) AssignPropertiesFromOSDiskStatus(source *v20201201s.O
 
 	// Image
 	if source.Image != nil {
-		var image VirtualHardDisk_Status
-		err := image.AssignPropertiesFromVirtualHardDiskStatus(source.Image)
+		var image VirtualHardDisk_STATUS
+		err := image.AssignPropertiesFromVirtualHardDisk_STATUS(source.Image)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualHardDiskStatus() to populate field Image")
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualHardDisk_STATUS() to populate field Image")
 		}
 		disk.Image = &image
 	} else {
@@ -5656,10 +6253,10 @@ func (disk *OSDisk_Status) AssignPropertiesFromOSDiskStatus(source *v20201201s.O
 
 	// ManagedDisk
 	if source.ManagedDisk != nil {
-		var managedDisk ManagedDiskParameters_Status
-		err := managedDisk.AssignPropertiesFromManagedDiskParametersStatus(source.ManagedDisk)
+		var managedDisk ManagedDiskParameters_STATUS
+		err := managedDisk.AssignPropertiesFromManagedDiskParameters_STATUS(source.ManagedDisk)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromManagedDiskParametersStatus() to populate field ManagedDisk")
+			return errors.Wrap(err, "calling AssignPropertiesFromManagedDiskParameters_STATUS() to populate field ManagedDisk")
 		}
 		disk.ManagedDisk = &managedDisk
 	} else {
@@ -5674,10 +6271,10 @@ func (disk *OSDisk_Status) AssignPropertiesFromOSDiskStatus(source *v20201201s.O
 
 	// Vhd
 	if source.Vhd != nil {
-		var vhd VirtualHardDisk_Status
-		err := vhd.AssignPropertiesFromVirtualHardDiskStatus(source.Vhd)
+		var vhd VirtualHardDisk_STATUS
+		err := vhd.AssignPropertiesFromVirtualHardDisk_STATUS(source.Vhd)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualHardDiskStatus() to populate field Vhd")
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualHardDisk_STATUS() to populate field Vhd")
 		}
 		disk.Vhd = &vhd
 	} else {
@@ -5703,8 +6300,8 @@ func (disk *OSDisk_Status) AssignPropertiesFromOSDiskStatus(source *v20201201s.O
 	return nil
 }
 
-// AssignPropertiesToOSDiskStatus populates the provided destination OSDisk_Status from our OSDisk_Status
-func (disk *OSDisk_Status) AssignPropertiesToOSDiskStatus(destination *v20201201s.OSDisk_Status) error {
+// AssignPropertiesToOSDisk_STATUS populates the provided destination OSDisk_STATUS from our OSDisk_STATUS
+func (disk *OSDisk_STATUS) AssignPropertiesToOSDisk_STATUS(destination *v20201201s.OSDisk_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(disk.PropertyBag)
 
@@ -5716,10 +6313,10 @@ func (disk *OSDisk_Status) AssignPropertiesToOSDiskStatus(destination *v20201201
 
 	// DiffDiskSettings
 	if disk.DiffDiskSettings != nil {
-		var diffDiskSetting v20201201s.DiffDiskSettings_Status
-		err := disk.DiffDiskSettings.AssignPropertiesToDiffDiskSettingsStatus(&diffDiskSetting)
+		var diffDiskSetting v20201201s.DiffDiskSettings_STATUS
+		err := disk.DiffDiskSettings.AssignPropertiesToDiffDiskSettings_STATUS(&diffDiskSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDiffDiskSettingsStatus() to populate field DiffDiskSettings")
+			return errors.Wrap(err, "calling AssignPropertiesToDiffDiskSettings_STATUS() to populate field DiffDiskSettings")
 		}
 		destination.DiffDiskSettings = &diffDiskSetting
 	} else {
@@ -5731,10 +6328,10 @@ func (disk *OSDisk_Status) AssignPropertiesToOSDiskStatus(destination *v20201201
 
 	// EncryptionSettings
 	if disk.EncryptionSettings != nil {
-		var encryptionSetting v20201201s.DiskEncryptionSettings_Status
-		err := disk.EncryptionSettings.AssignPropertiesToDiskEncryptionSettingsStatus(&encryptionSetting)
+		var encryptionSetting v20201201s.DiskEncryptionSettings_STATUS
+		err := disk.EncryptionSettings.AssignPropertiesToDiskEncryptionSettings_STATUS(&encryptionSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDiskEncryptionSettingsStatus() to populate field EncryptionSettings")
+			return errors.Wrap(err, "calling AssignPropertiesToDiskEncryptionSettings_STATUS() to populate field EncryptionSettings")
 		}
 		destination.EncryptionSettings = &encryptionSetting
 	} else {
@@ -5743,10 +6340,10 @@ func (disk *OSDisk_Status) AssignPropertiesToOSDiskStatus(destination *v20201201
 
 	// Image
 	if disk.Image != nil {
-		var image v20201201s.VirtualHardDisk_Status
-		err := disk.Image.AssignPropertiesToVirtualHardDiskStatus(&image)
+		var image v20201201s.VirtualHardDisk_STATUS
+		err := disk.Image.AssignPropertiesToVirtualHardDisk_STATUS(&image)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualHardDiskStatus() to populate field Image")
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualHardDisk_STATUS() to populate field Image")
 		}
 		destination.Image = &image
 	} else {
@@ -5755,10 +6352,10 @@ func (disk *OSDisk_Status) AssignPropertiesToOSDiskStatus(destination *v20201201
 
 	// ManagedDisk
 	if disk.ManagedDisk != nil {
-		var managedDisk v20201201s.ManagedDiskParameters_Status
-		err := disk.ManagedDisk.AssignPropertiesToManagedDiskParametersStatus(&managedDisk)
+		var managedDisk v20201201s.ManagedDiskParameters_STATUS
+		err := disk.ManagedDisk.AssignPropertiesToManagedDiskParameters_STATUS(&managedDisk)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToManagedDiskParametersStatus() to populate field ManagedDisk")
+			return errors.Wrap(err, "calling AssignPropertiesToManagedDiskParameters_STATUS() to populate field ManagedDisk")
 		}
 		destination.ManagedDisk = &managedDisk
 	} else {
@@ -5773,10 +6370,10 @@ func (disk *OSDisk_Status) AssignPropertiesToOSDiskStatus(destination *v20201201
 
 	// Vhd
 	if disk.Vhd != nil {
-		var vhd v20201201s.VirtualHardDisk_Status
-		err := disk.Vhd.AssignPropertiesToVirtualHardDiskStatus(&vhd)
+		var vhd v20201201s.VirtualHardDisk_STATUS
+		err := disk.Vhd.AssignPropertiesToVirtualHardDisk_STATUS(&vhd)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualHardDiskStatus() to populate field Vhd")
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualHardDisk_STATUS() to populate field Vhd")
 		}
 		destination.Vhd = &vhd
 	} else {
@@ -5874,16 +6471,16 @@ func (settings *UefiSettings) AssignPropertiesToUefiSettings(destination *v20201
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.UefiSettings_Status
-// Deprecated version of UefiSettings_Status. Use v1beta20201201.UefiSettings_Status instead
-type UefiSettings_Status struct {
+// Storage version of v1alpha1api20201201.UefiSettings_STATUS
+// Deprecated version of UefiSettings_STATUS. Use v1beta20201201.UefiSettings_STATUS instead
+type UefiSettings_STATUS struct {
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SecureBootEnabled *bool                  `json:"secureBootEnabled,omitempty"`
 	VTpmEnabled       *bool                  `json:"vTpmEnabled,omitempty"`
 }
 
-// AssignPropertiesFromUefiSettingsStatus populates our UefiSettings_Status from the provided source UefiSettings_Status
-func (settings *UefiSettings_Status) AssignPropertiesFromUefiSettingsStatus(source *v20201201s.UefiSettings_Status) error {
+// AssignPropertiesFromUefiSettings_STATUS populates our UefiSettings_STATUS from the provided source UefiSettings_STATUS
+func (settings *UefiSettings_STATUS) AssignPropertiesFromUefiSettings_STATUS(source *v20201201s.UefiSettings_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -5914,8 +6511,8 @@ func (settings *UefiSettings_Status) AssignPropertiesFromUefiSettingsStatus(sour
 	return nil
 }
 
-// AssignPropertiesToUefiSettingsStatus populates the provided destination UefiSettings_Status from our UefiSettings_Status
-func (settings *UefiSettings_Status) AssignPropertiesToUefiSettingsStatus(destination *v20201201s.UefiSettings_Status) error {
+// AssignPropertiesToUefiSettings_STATUS populates the provided destination UefiSettings_STATUS from our UefiSettings_STATUS
+func (settings *UefiSettings_STATUS) AssignPropertiesToUefiSettings_STATUS(destination *v20201201s.UefiSettings_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
@@ -6056,30 +6653,30 @@ func (group *VaultSecretGroup) AssignPropertiesToVaultSecretGroup(destination *v
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.VaultSecretGroup_Status
-// Deprecated version of VaultSecretGroup_Status. Use v1beta20201201.VaultSecretGroup_Status instead
-type VaultSecretGroup_Status struct {
+// Storage version of v1alpha1api20201201.VaultSecretGroup_STATUS
+// Deprecated version of VaultSecretGroup_STATUS. Use v1beta20201201.VaultSecretGroup_STATUS instead
+type VaultSecretGroup_STATUS struct {
 	PropertyBag       genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
-	SourceVault       *SubResource_Status       `json:"sourceVault,omitempty"`
-	VaultCertificates []VaultCertificate_Status `json:"vaultCertificates,omitempty"`
+	SourceVault       *SubResource_STATUS       `json:"sourceVault,omitempty"`
+	VaultCertificates []VaultCertificate_STATUS `json:"vaultCertificates,omitempty"`
 }
 
-// AssignPropertiesFromVaultSecretGroupStatus populates our VaultSecretGroup_Status from the provided source VaultSecretGroup_Status
-func (group *VaultSecretGroup_Status) AssignPropertiesFromVaultSecretGroupStatus(source *v20201201s.VaultSecretGroup_Status) error {
+// AssignPropertiesFromVaultSecretGroup_STATUS populates our VaultSecretGroup_STATUS from the provided source VaultSecretGroup_STATUS
+func (group *VaultSecretGroup_STATUS) AssignPropertiesFromVaultSecretGroup_STATUS(source *v20201201s.VaultSecretGroup_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// SourceVault
 	if source.SourceVault != nil {
-		var subResourceStatusStash alpha20210701s.SubResource_Status
-		err := subResourceStatusStash.AssignPropertiesFromSubResourceStatus(source.SourceVault)
+		var subResource_STATUSStash alpha20210701s.SubResource_STATUS
+		err := subResource_STATUSStash.AssignPropertiesFromSubResource_STATUS(source.SourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SubResource_StatusStash from SourceVault")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field SubResource_STATUSStash from SourceVault")
 		}
-		var sourceVault SubResource_Status
-		err = sourceVault.AssignPropertiesFromSubResourceStatus(&subResourceStatusStash)
+		var sourceVault SubResource_STATUS
+		err = sourceVault.AssignPropertiesFromSubResource_STATUS(&subResource_STATUSStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SourceVault from SubResource_StatusStash")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field SourceVault from SubResource_STATUSStash")
 		}
 		group.SourceVault = &sourceVault
 	} else {
@@ -6088,14 +6685,14 @@ func (group *VaultSecretGroup_Status) AssignPropertiesFromVaultSecretGroupStatus
 
 	// VaultCertificates
 	if source.VaultCertificates != nil {
-		vaultCertificateList := make([]VaultCertificate_Status, len(source.VaultCertificates))
+		vaultCertificateList := make([]VaultCertificate_STATUS, len(source.VaultCertificates))
 		for vaultCertificateIndex, vaultCertificateItem := range source.VaultCertificates {
 			// Shadow the loop variable to avoid aliasing
 			vaultCertificateItem := vaultCertificateItem
-			var vaultCertificate VaultCertificate_Status
-			err := vaultCertificate.AssignPropertiesFromVaultCertificateStatus(&vaultCertificateItem)
+			var vaultCertificate VaultCertificate_STATUS
+			err := vaultCertificate.AssignPropertiesFromVaultCertificate_STATUS(&vaultCertificateItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVaultCertificateStatus() to populate field VaultCertificates")
+				return errors.Wrap(err, "calling AssignPropertiesFromVaultCertificate_STATUS() to populate field VaultCertificates")
 			}
 			vaultCertificateList[vaultCertificateIndex] = vaultCertificate
 		}
@@ -6115,22 +6712,22 @@ func (group *VaultSecretGroup_Status) AssignPropertiesFromVaultSecretGroupStatus
 	return nil
 }
 
-// AssignPropertiesToVaultSecretGroupStatus populates the provided destination VaultSecretGroup_Status from our VaultSecretGroup_Status
-func (group *VaultSecretGroup_Status) AssignPropertiesToVaultSecretGroupStatus(destination *v20201201s.VaultSecretGroup_Status) error {
+// AssignPropertiesToVaultSecretGroup_STATUS populates the provided destination VaultSecretGroup_STATUS from our VaultSecretGroup_STATUS
+func (group *VaultSecretGroup_STATUS) AssignPropertiesToVaultSecretGroup_STATUS(destination *v20201201s.VaultSecretGroup_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(group.PropertyBag)
 
 	// SourceVault
 	if group.SourceVault != nil {
-		var subResourceStatusStash alpha20210701s.SubResource_Status
-		err := group.SourceVault.AssignPropertiesToSubResourceStatus(&subResourceStatusStash)
+		var subResource_STATUSStash alpha20210701s.SubResource_STATUS
+		err := group.SourceVault.AssignPropertiesToSubResource_STATUS(&subResource_STATUSStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SubResource_StatusStash from SourceVault")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field SubResource_STATUSStash from SourceVault")
 		}
-		var sourceVault v20201201s.SubResource_Status
-		err = subResourceStatusStash.AssignPropertiesToSubResourceStatus(&sourceVault)
+		var sourceVault v20201201s.SubResource_STATUS
+		err = subResource_STATUSStash.AssignPropertiesToSubResource_STATUS(&sourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SourceVault from SubResource_StatusStash")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field SourceVault from SubResource_STATUSStash")
 		}
 		destination.SourceVault = &sourceVault
 	} else {
@@ -6139,14 +6736,14 @@ func (group *VaultSecretGroup_Status) AssignPropertiesToVaultSecretGroupStatus(d
 
 	// VaultCertificates
 	if group.VaultCertificates != nil {
-		vaultCertificateList := make([]v20201201s.VaultCertificate_Status, len(group.VaultCertificates))
+		vaultCertificateList := make([]v20201201s.VaultCertificate_STATUS, len(group.VaultCertificates))
 		for vaultCertificateIndex, vaultCertificateItem := range group.VaultCertificates {
 			// Shadow the loop variable to avoid aliasing
 			vaultCertificateItem := vaultCertificateItem
-			var vaultCertificate v20201201s.VaultCertificate_Status
-			err := vaultCertificateItem.AssignPropertiesToVaultCertificateStatus(&vaultCertificate)
+			var vaultCertificate v20201201s.VaultCertificate_STATUS
+			err := vaultCertificateItem.AssignPropertiesToVaultCertificate_STATUS(&vaultCertificate)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVaultCertificateStatus() to populate field VaultCertificates")
+				return errors.Wrap(err, "calling AssignPropertiesToVaultCertificate_STATUS() to populate field VaultCertificates")
 			}
 			vaultCertificateList[vaultCertificateIndex] = vaultCertificate
 		}
@@ -6166,30 +6763,30 @@ func (group *VaultSecretGroup_Status) AssignPropertiesToVaultSecretGroupStatus(d
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.VirtualMachineAgentInstanceView_Status
-// Deprecated version of VirtualMachineAgentInstanceView_Status. Use v1beta20201201.VirtualMachineAgentInstanceView_Status instead
-type VirtualMachineAgentInstanceView_Status struct {
-	ExtensionHandlers []VirtualMachineExtensionHandlerInstanceView_Status `json:"extensionHandlers,omitempty"`
-	PropertyBag       genruntime.PropertyBag                              `json:"$propertyBag,omitempty"`
-	Statuses          []InstanceViewStatus_Status                         `json:"statuses,omitempty"`
-	VmAgentVersion    *string                                             `json:"vmAgentVersion,omitempty"`
+// Storage version of v1alpha1api20201201.VirtualMachineAgentInstanceView
+// Deprecated version of VirtualMachineAgentInstanceView. Use v1beta20201201.VirtualMachineAgentInstanceView instead
+type VirtualMachineAgentInstanceView struct {
+	ExtensionHandlers []VirtualMachineExtensionHandlerInstanceView `json:"extensionHandlers,omitempty"`
+	PropertyBag       genruntime.PropertyBag                       `json:"$propertyBag,omitempty"`
+	Statuses          []InstanceViewStatus                         `json:"statuses,omitempty"`
+	VmAgentVersion    *string                                      `json:"vmAgentVersion,omitempty"`
 }
 
-// AssignPropertiesFromVirtualMachineAgentInstanceViewStatus populates our VirtualMachineAgentInstanceView_Status from the provided source VirtualMachineAgentInstanceView_Status
-func (view *VirtualMachineAgentInstanceView_Status) AssignPropertiesFromVirtualMachineAgentInstanceViewStatus(source *v20201201s.VirtualMachineAgentInstanceView_Status) error {
+// AssignPropertiesFromVirtualMachineAgentInstanceView populates our VirtualMachineAgentInstanceView from the provided source VirtualMachineAgentInstanceView
+func (view *VirtualMachineAgentInstanceView) AssignPropertiesFromVirtualMachineAgentInstanceView(source *v20201201s.VirtualMachineAgentInstanceView) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// ExtensionHandlers
 	if source.ExtensionHandlers != nil {
-		extensionHandlerList := make([]VirtualMachineExtensionHandlerInstanceView_Status, len(source.ExtensionHandlers))
+		extensionHandlerList := make([]VirtualMachineExtensionHandlerInstanceView, len(source.ExtensionHandlers))
 		for extensionHandlerIndex, extensionHandlerItem := range source.ExtensionHandlers {
 			// Shadow the loop variable to avoid aliasing
 			extensionHandlerItem := extensionHandlerItem
-			var extensionHandler VirtualMachineExtensionHandlerInstanceView_Status
-			err := extensionHandler.AssignPropertiesFromVirtualMachineExtensionHandlerInstanceViewStatus(&extensionHandlerItem)
+			var extensionHandler VirtualMachineExtensionHandlerInstanceView
+			err := extensionHandler.AssignPropertiesFromVirtualMachineExtensionHandlerInstanceView(&extensionHandlerItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineExtensionHandlerInstanceViewStatus() to populate field ExtensionHandlers")
+				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineExtensionHandlerInstanceView() to populate field ExtensionHandlers")
 			}
 			extensionHandlerList[extensionHandlerIndex] = extensionHandler
 		}
@@ -6200,14 +6797,14 @@ func (view *VirtualMachineAgentInstanceView_Status) AssignPropertiesFromVirtualM
 
 	// Statuses
 	if source.Statuses != nil {
-		statusList := make([]InstanceViewStatus_Status, len(source.Statuses))
+		statusList := make([]InstanceViewStatus, len(source.Statuses))
 		for statusIndex, statusItem := range source.Statuses {
 			// Shadow the loop variable to avoid aliasing
 			statusItem := statusItem
-			var status InstanceViewStatus_Status
-			err := status.AssignPropertiesFromInstanceViewStatusStatus(&statusItem)
+			var status InstanceViewStatus
+			err := status.AssignPropertiesFromInstanceViewStatus(&statusItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatusStatus() to populate field Statuses")
+				return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatus() to populate field Statuses")
 			}
 			statusList[statusIndex] = status
 		}
@@ -6230,21 +6827,21 @@ func (view *VirtualMachineAgentInstanceView_Status) AssignPropertiesFromVirtualM
 	return nil
 }
 
-// AssignPropertiesToVirtualMachineAgentInstanceViewStatus populates the provided destination VirtualMachineAgentInstanceView_Status from our VirtualMachineAgentInstanceView_Status
-func (view *VirtualMachineAgentInstanceView_Status) AssignPropertiesToVirtualMachineAgentInstanceViewStatus(destination *v20201201s.VirtualMachineAgentInstanceView_Status) error {
+// AssignPropertiesToVirtualMachineAgentInstanceView populates the provided destination VirtualMachineAgentInstanceView from our VirtualMachineAgentInstanceView
+func (view *VirtualMachineAgentInstanceView) AssignPropertiesToVirtualMachineAgentInstanceView(destination *v20201201s.VirtualMachineAgentInstanceView) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(view.PropertyBag)
 
 	// ExtensionHandlers
 	if view.ExtensionHandlers != nil {
-		extensionHandlerList := make([]v20201201s.VirtualMachineExtensionHandlerInstanceView_Status, len(view.ExtensionHandlers))
+		extensionHandlerList := make([]v20201201s.VirtualMachineExtensionHandlerInstanceView, len(view.ExtensionHandlers))
 		for extensionHandlerIndex, extensionHandlerItem := range view.ExtensionHandlers {
 			// Shadow the loop variable to avoid aliasing
 			extensionHandlerItem := extensionHandlerItem
-			var extensionHandler v20201201s.VirtualMachineExtensionHandlerInstanceView_Status
-			err := extensionHandlerItem.AssignPropertiesToVirtualMachineExtensionHandlerInstanceViewStatus(&extensionHandler)
+			var extensionHandler v20201201s.VirtualMachineExtensionHandlerInstanceView
+			err := extensionHandlerItem.AssignPropertiesToVirtualMachineExtensionHandlerInstanceView(&extensionHandler)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineExtensionHandlerInstanceViewStatus() to populate field ExtensionHandlers")
+				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineExtensionHandlerInstanceView() to populate field ExtensionHandlers")
 			}
 			extensionHandlerList[extensionHandlerIndex] = extensionHandler
 		}
@@ -6255,14 +6852,14 @@ func (view *VirtualMachineAgentInstanceView_Status) AssignPropertiesToVirtualMac
 
 	// Statuses
 	if view.Statuses != nil {
-		statusList := make([]v20201201s.InstanceViewStatus_Status, len(view.Statuses))
+		statusList := make([]v20201201s.InstanceViewStatus, len(view.Statuses))
 		for statusIndex, statusItem := range view.Statuses {
 			// Shadow the loop variable to avoid aliasing
 			statusItem := statusItem
-			var status v20201201s.InstanceViewStatus_Status
-			err := statusItem.AssignPropertiesToInstanceViewStatusStatus(&status)
+			var status v20201201s.InstanceViewStatus
+			err := statusItem.AssignPropertiesToInstanceViewStatus(&status)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatusStatus() to populate field Statuses")
+				return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatus() to populate field Statuses")
 			}
 			statusList[statusIndex] = status
 		}
@@ -6285,19 +6882,138 @@ func (view *VirtualMachineAgentInstanceView_Status) AssignPropertiesToVirtualMac
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.VirtualMachineExtensionInstanceView_Status
-// Deprecated version of VirtualMachineExtensionInstanceView_Status. Use v1beta20201201.VirtualMachineExtensionInstanceView_Status instead
-type VirtualMachineExtensionInstanceView_Status struct {
-	Name               *string                     `json:"name,omitempty"`
-	PropertyBag        genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
-	Statuses           []InstanceViewStatus_Status `json:"statuses,omitempty"`
-	Substatuses        []InstanceViewStatus_Status `json:"substatuses,omitempty"`
-	Type               *string                     `json:"type,omitempty"`
-	TypeHandlerVersion *string                     `json:"typeHandlerVersion,omitempty"`
+// Storage version of v1alpha1api20201201.VirtualMachineAgentInstanceView_STATUS
+// Deprecated version of VirtualMachineAgentInstanceView_STATUS. Use v1beta20201201.VirtualMachineAgentInstanceView_STATUS instead
+type VirtualMachineAgentInstanceView_STATUS struct {
+	ExtensionHandlers []VirtualMachineExtensionHandlerInstanceView_STATUS `json:"extensionHandlers,omitempty"`
+	PropertyBag       genruntime.PropertyBag                              `json:"$propertyBag,omitempty"`
+	Statuses          []InstanceViewStatus_STATUS                         `json:"statuses,omitempty"`
+	VmAgentVersion    *string                                             `json:"vmAgentVersion,omitempty"`
 }
 
-// AssignPropertiesFromVirtualMachineExtensionInstanceViewStatus populates our VirtualMachineExtensionInstanceView_Status from the provided source VirtualMachineExtensionInstanceView_Status
-func (view *VirtualMachineExtensionInstanceView_Status) AssignPropertiesFromVirtualMachineExtensionInstanceViewStatus(source *v20201201s.VirtualMachineExtensionInstanceView_Status) error {
+// AssignPropertiesFromVirtualMachineAgentInstanceView_STATUS populates our VirtualMachineAgentInstanceView_STATUS from the provided source VirtualMachineAgentInstanceView_STATUS
+func (view *VirtualMachineAgentInstanceView_STATUS) AssignPropertiesFromVirtualMachineAgentInstanceView_STATUS(source *v20201201s.VirtualMachineAgentInstanceView_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ExtensionHandlers
+	if source.ExtensionHandlers != nil {
+		extensionHandlerList := make([]VirtualMachineExtensionHandlerInstanceView_STATUS, len(source.ExtensionHandlers))
+		for extensionHandlerIndex, extensionHandlerItem := range source.ExtensionHandlers {
+			// Shadow the loop variable to avoid aliasing
+			extensionHandlerItem := extensionHandlerItem
+			var extensionHandler VirtualMachineExtensionHandlerInstanceView_STATUS
+			err := extensionHandler.AssignPropertiesFromVirtualMachineExtensionHandlerInstanceView_STATUS(&extensionHandlerItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineExtensionHandlerInstanceView_STATUS() to populate field ExtensionHandlers")
+			}
+			extensionHandlerList[extensionHandlerIndex] = extensionHandler
+		}
+		view.ExtensionHandlers = extensionHandlerList
+	} else {
+		view.ExtensionHandlers = nil
+	}
+
+	// Statuses
+	if source.Statuses != nil {
+		statusList := make([]InstanceViewStatus_STATUS, len(source.Statuses))
+		for statusIndex, statusItem := range source.Statuses {
+			// Shadow the loop variable to avoid aliasing
+			statusItem := statusItem
+			var status InstanceViewStatus_STATUS
+			err := status.AssignPropertiesFromInstanceViewStatus_STATUS(&statusItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatus_STATUS() to populate field Statuses")
+			}
+			statusList[statusIndex] = status
+		}
+		view.Statuses = statusList
+	} else {
+		view.Statuses = nil
+	}
+
+	// VmAgentVersion
+	view.VmAgentVersion = genruntime.ClonePointerToString(source.VmAgentVersion)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		view.PropertyBag = propertyBag
+	} else {
+		view.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineAgentInstanceView_STATUS populates the provided destination VirtualMachineAgentInstanceView_STATUS from our VirtualMachineAgentInstanceView_STATUS
+func (view *VirtualMachineAgentInstanceView_STATUS) AssignPropertiesToVirtualMachineAgentInstanceView_STATUS(destination *v20201201s.VirtualMachineAgentInstanceView_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(view.PropertyBag)
+
+	// ExtensionHandlers
+	if view.ExtensionHandlers != nil {
+		extensionHandlerList := make([]v20201201s.VirtualMachineExtensionHandlerInstanceView_STATUS, len(view.ExtensionHandlers))
+		for extensionHandlerIndex, extensionHandlerItem := range view.ExtensionHandlers {
+			// Shadow the loop variable to avoid aliasing
+			extensionHandlerItem := extensionHandlerItem
+			var extensionHandler v20201201s.VirtualMachineExtensionHandlerInstanceView_STATUS
+			err := extensionHandlerItem.AssignPropertiesToVirtualMachineExtensionHandlerInstanceView_STATUS(&extensionHandler)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineExtensionHandlerInstanceView_STATUS() to populate field ExtensionHandlers")
+			}
+			extensionHandlerList[extensionHandlerIndex] = extensionHandler
+		}
+		destination.ExtensionHandlers = extensionHandlerList
+	} else {
+		destination.ExtensionHandlers = nil
+	}
+
+	// Statuses
+	if view.Statuses != nil {
+		statusList := make([]v20201201s.InstanceViewStatus_STATUS, len(view.Statuses))
+		for statusIndex, statusItem := range view.Statuses {
+			// Shadow the loop variable to avoid aliasing
+			statusItem := statusItem
+			var status v20201201s.InstanceViewStatus_STATUS
+			err := statusItem.AssignPropertiesToInstanceViewStatus_STATUS(&status)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatus_STATUS() to populate field Statuses")
+			}
+			statusList[statusIndex] = status
+		}
+		destination.Statuses = statusList
+	} else {
+		destination.Statuses = nil
+	}
+
+	// VmAgentVersion
+	destination.VmAgentVersion = genruntime.ClonePointerToString(view.VmAgentVersion)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20201201.VirtualMachineExtensionInstanceView
+// Deprecated version of VirtualMachineExtensionInstanceView. Use v1beta20201201.VirtualMachineExtensionInstanceView instead
+type VirtualMachineExtensionInstanceView struct {
+	Name               *string                `json:"name,omitempty"`
+	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Statuses           []InstanceViewStatus   `json:"statuses,omitempty"`
+	Substatuses        []InstanceViewStatus   `json:"substatuses,omitempty"`
+	Type               *string                `json:"type,omitempty"`
+	TypeHandlerVersion *string                `json:"typeHandlerVersion,omitempty"`
+}
+
+// AssignPropertiesFromVirtualMachineExtensionInstanceView populates our VirtualMachineExtensionInstanceView from the provided source VirtualMachineExtensionInstanceView
+func (view *VirtualMachineExtensionInstanceView) AssignPropertiesFromVirtualMachineExtensionInstanceView(source *v20201201s.VirtualMachineExtensionInstanceView) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -6306,14 +7022,14 @@ func (view *VirtualMachineExtensionInstanceView_Status) AssignPropertiesFromVirt
 
 	// Statuses
 	if source.Statuses != nil {
-		statusList := make([]InstanceViewStatus_Status, len(source.Statuses))
+		statusList := make([]InstanceViewStatus, len(source.Statuses))
 		for statusIndex, statusItem := range source.Statuses {
 			// Shadow the loop variable to avoid aliasing
 			statusItem := statusItem
-			var status InstanceViewStatus_Status
-			err := status.AssignPropertiesFromInstanceViewStatusStatus(&statusItem)
+			var status InstanceViewStatus
+			err := status.AssignPropertiesFromInstanceViewStatus(&statusItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatusStatus() to populate field Statuses")
+				return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatus() to populate field Statuses")
 			}
 			statusList[statusIndex] = status
 		}
@@ -6324,14 +7040,14 @@ func (view *VirtualMachineExtensionInstanceView_Status) AssignPropertiesFromVirt
 
 	// Substatuses
 	if source.Substatuses != nil {
-		substatusList := make([]InstanceViewStatus_Status, len(source.Substatuses))
+		substatusList := make([]InstanceViewStatus, len(source.Substatuses))
 		for substatusIndex, substatusItem := range source.Substatuses {
 			// Shadow the loop variable to avoid aliasing
 			substatusItem := substatusItem
-			var substatus InstanceViewStatus_Status
-			err := substatus.AssignPropertiesFromInstanceViewStatusStatus(&substatusItem)
+			var substatus InstanceViewStatus
+			err := substatus.AssignPropertiesFromInstanceViewStatus(&substatusItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatusStatus() to populate field Substatuses")
+				return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatus() to populate field Substatuses")
 			}
 			substatusList[substatusIndex] = substatus
 		}
@@ -6357,8 +7073,8 @@ func (view *VirtualMachineExtensionInstanceView_Status) AssignPropertiesFromVirt
 	return nil
 }
 
-// AssignPropertiesToVirtualMachineExtensionInstanceViewStatus populates the provided destination VirtualMachineExtensionInstanceView_Status from our VirtualMachineExtensionInstanceView_Status
-func (view *VirtualMachineExtensionInstanceView_Status) AssignPropertiesToVirtualMachineExtensionInstanceViewStatus(destination *v20201201s.VirtualMachineExtensionInstanceView_Status) error {
+// AssignPropertiesToVirtualMachineExtensionInstanceView populates the provided destination VirtualMachineExtensionInstanceView from our VirtualMachineExtensionInstanceView
+func (view *VirtualMachineExtensionInstanceView) AssignPropertiesToVirtualMachineExtensionInstanceView(destination *v20201201s.VirtualMachineExtensionInstanceView) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(view.PropertyBag)
 
@@ -6367,14 +7083,14 @@ func (view *VirtualMachineExtensionInstanceView_Status) AssignPropertiesToVirtua
 
 	// Statuses
 	if view.Statuses != nil {
-		statusList := make([]v20201201s.InstanceViewStatus_Status, len(view.Statuses))
+		statusList := make([]v20201201s.InstanceViewStatus, len(view.Statuses))
 		for statusIndex, statusItem := range view.Statuses {
 			// Shadow the loop variable to avoid aliasing
 			statusItem := statusItem
-			var status v20201201s.InstanceViewStatus_Status
-			err := statusItem.AssignPropertiesToInstanceViewStatusStatus(&status)
+			var status v20201201s.InstanceViewStatus
+			err := statusItem.AssignPropertiesToInstanceViewStatus(&status)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatusStatus() to populate field Statuses")
+				return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatus() to populate field Statuses")
 			}
 			statusList[statusIndex] = status
 		}
@@ -6385,14 +7101,14 @@ func (view *VirtualMachineExtensionInstanceView_Status) AssignPropertiesToVirtua
 
 	// Substatuses
 	if view.Substatuses != nil {
-		substatusList := make([]v20201201s.InstanceViewStatus_Status, len(view.Substatuses))
+		substatusList := make([]v20201201s.InstanceViewStatus, len(view.Substatuses))
 		for substatusIndex, substatusItem := range view.Substatuses {
 			// Shadow the loop variable to avoid aliasing
 			substatusItem := substatusItem
-			var substatus v20201201s.InstanceViewStatus_Status
-			err := substatusItem.AssignPropertiesToInstanceViewStatusStatus(&substatus)
+			var substatus v20201201s.InstanceViewStatus
+			err := substatusItem.AssignPropertiesToInstanceViewStatus(&substatus)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatusStatus() to populate field Substatuses")
+				return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatus() to populate field Substatuses")
 			}
 			substatusList[substatusIndex] = substatus
 		}
@@ -6418,54 +7134,187 @@ func (view *VirtualMachineExtensionInstanceView_Status) AssignPropertiesToVirtua
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.VirtualMachineHealthStatus_Status
-// Deprecated version of VirtualMachineHealthStatus_Status. Use v1beta20201201.VirtualMachineHealthStatus_Status instead
-type VirtualMachineHealthStatus_Status struct {
-	PropertyBag genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
-	Status      *InstanceViewStatus_Status `json:"status,omitempty"`
+// Storage version of v1alpha1api20201201.VirtualMachineExtensionInstanceView_STATUS
+// Deprecated version of VirtualMachineExtensionInstanceView_STATUS. Use v1beta20201201.VirtualMachineExtensionInstanceView_STATUS instead
+type VirtualMachineExtensionInstanceView_STATUS struct {
+	Name               *string                     `json:"name,omitempty"`
+	PropertyBag        genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	Statuses           []InstanceViewStatus_STATUS `json:"statuses,omitempty"`
+	Substatuses        []InstanceViewStatus_STATUS `json:"substatuses,omitempty"`
+	Type               *string                     `json:"type,omitempty"`
+	TypeHandlerVersion *string                     `json:"typeHandlerVersion,omitempty"`
 }
 
-// AssignPropertiesFromVirtualMachineHealthStatusStatus populates our VirtualMachineHealthStatus_Status from the provided source VirtualMachineHealthStatus_Status
-func (health *VirtualMachineHealthStatus_Status) AssignPropertiesFromVirtualMachineHealthStatusStatus(source *v20201201s.VirtualMachineHealthStatus_Status) error {
+// AssignPropertiesFromVirtualMachineExtensionInstanceView_STATUS populates our VirtualMachineExtensionInstanceView_STATUS from the provided source VirtualMachineExtensionInstanceView_STATUS
+func (view *VirtualMachineExtensionInstanceView_STATUS) AssignPropertiesFromVirtualMachineExtensionInstanceView_STATUS(source *v20201201s.VirtualMachineExtensionInstanceView_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// Status
-	if source.Status != nil {
-		var status InstanceViewStatus_Status
-		err := status.AssignPropertiesFromInstanceViewStatusStatus(source.Status)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatusStatus() to populate field Status")
+	// Name
+	view.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Statuses
+	if source.Statuses != nil {
+		statusList := make([]InstanceViewStatus_STATUS, len(source.Statuses))
+		for statusIndex, statusItem := range source.Statuses {
+			// Shadow the loop variable to avoid aliasing
+			statusItem := statusItem
+			var status InstanceViewStatus_STATUS
+			err := status.AssignPropertiesFromInstanceViewStatus_STATUS(&statusItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatus_STATUS() to populate field Statuses")
+			}
+			statusList[statusIndex] = status
 		}
-		health.Status = &status
+		view.Statuses = statusList
 	} else {
-		health.Status = nil
+		view.Statuses = nil
 	}
+
+	// Substatuses
+	if source.Substatuses != nil {
+		substatusList := make([]InstanceViewStatus_STATUS, len(source.Substatuses))
+		for substatusIndex, substatusItem := range source.Substatuses {
+			// Shadow the loop variable to avoid aliasing
+			substatusItem := substatusItem
+			var substatus InstanceViewStatus_STATUS
+			err := substatus.AssignPropertiesFromInstanceViewStatus_STATUS(&substatusItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatus_STATUS() to populate field Substatuses")
+			}
+			substatusList[substatusIndex] = substatus
+		}
+		view.Substatuses = substatusList
+	} else {
+		view.Substatuses = nil
+	}
+
+	// Type
+	view.Type = genruntime.ClonePointerToString(source.Type)
+
+	// TypeHandlerVersion
+	view.TypeHandlerVersion = genruntime.ClonePointerToString(source.TypeHandlerVersion)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		health.PropertyBag = propertyBag
+		view.PropertyBag = propertyBag
 	} else {
-		health.PropertyBag = nil
+		view.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToVirtualMachineHealthStatusStatus populates the provided destination VirtualMachineHealthStatus_Status from our VirtualMachineHealthStatus_Status
-func (health *VirtualMachineHealthStatus_Status) AssignPropertiesToVirtualMachineHealthStatusStatus(destination *v20201201s.VirtualMachineHealthStatus_Status) error {
+// AssignPropertiesToVirtualMachineExtensionInstanceView_STATUS populates the provided destination VirtualMachineExtensionInstanceView_STATUS from our VirtualMachineExtensionInstanceView_STATUS
+func (view *VirtualMachineExtensionInstanceView_STATUS) AssignPropertiesToVirtualMachineExtensionInstanceView_STATUS(destination *v20201201s.VirtualMachineExtensionInstanceView_STATUS) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(health.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(view.PropertyBag)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(view.Name)
+
+	// Statuses
+	if view.Statuses != nil {
+		statusList := make([]v20201201s.InstanceViewStatus_STATUS, len(view.Statuses))
+		for statusIndex, statusItem := range view.Statuses {
+			// Shadow the loop variable to avoid aliasing
+			statusItem := statusItem
+			var status v20201201s.InstanceViewStatus_STATUS
+			err := statusItem.AssignPropertiesToInstanceViewStatus_STATUS(&status)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatus_STATUS() to populate field Statuses")
+			}
+			statusList[statusIndex] = status
+		}
+		destination.Statuses = statusList
+	} else {
+		destination.Statuses = nil
+	}
+
+	// Substatuses
+	if view.Substatuses != nil {
+		substatusList := make([]v20201201s.InstanceViewStatus_STATUS, len(view.Substatuses))
+		for substatusIndex, substatusItem := range view.Substatuses {
+			// Shadow the loop variable to avoid aliasing
+			substatusItem := substatusItem
+			var substatus v20201201s.InstanceViewStatus_STATUS
+			err := substatusItem.AssignPropertiesToInstanceViewStatus_STATUS(&substatus)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatus_STATUS() to populate field Substatuses")
+			}
+			substatusList[substatusIndex] = substatus
+		}
+		destination.Substatuses = substatusList
+	} else {
+		destination.Substatuses = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(view.Type)
+
+	// TypeHandlerVersion
+	destination.TypeHandlerVersion = genruntime.ClonePointerToString(view.TypeHandlerVersion)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20201201.VirtualMachineHealthStatus
+// Deprecated version of VirtualMachineHealthStatus. Use v1beta20201201.VirtualMachineHealthStatus instead
+type VirtualMachineHealthStatus struct {
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Status      *InstanceViewStatus    `json:"status,omitempty"`
+}
+
+// AssignPropertiesFromVirtualMachineHealthStatus populates our VirtualMachineHealthStatus from the provided source VirtualMachineHealthStatus
+func (status *VirtualMachineHealthStatus) AssignPropertiesFromVirtualMachineHealthStatus(source *v20201201s.VirtualMachineHealthStatus) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// Status
-	if health.Status != nil {
-		var status v20201201s.InstanceViewStatus_Status
-		err := health.Status.AssignPropertiesToInstanceViewStatusStatus(&status)
+	if source.Status != nil {
+		var statusLocal InstanceViewStatus
+		err := statusLocal.AssignPropertiesFromInstanceViewStatus(source.Status)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatusStatus() to populate field Status")
+			return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatus() to populate field Status")
 		}
-		destination.Status = &status
+		status.Status = &statusLocal
+	} else {
+		status.Status = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		status.PropertyBag = propertyBag
+	} else {
+		status.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineHealthStatus populates the provided destination VirtualMachineHealthStatus from our VirtualMachineHealthStatus
+func (status *VirtualMachineHealthStatus) AssignPropertiesToVirtualMachineHealthStatus(destination *v20201201s.VirtualMachineHealthStatus) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(status.PropertyBag)
+
+	// Status
+	if status.Status != nil {
+		var statusLocal v20201201s.InstanceViewStatus
+		err := status.Status.AssignPropertiesToInstanceViewStatus(&statusLocal)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatus() to populate field Status")
+		}
+		destination.Status = &statusLocal
 	} else {
 		destination.Status = nil
 	}
@@ -6481,16 +7330,79 @@ func (health *VirtualMachineHealthStatus_Status) AssignPropertiesToVirtualMachin
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.VirtualMachineIdentity_Status_UserAssignedIdentities
-// Deprecated version of VirtualMachineIdentity_Status_UserAssignedIdentities. Use v1beta20201201.VirtualMachineIdentity_Status_UserAssignedIdentities instead
-type VirtualMachineIdentity_Status_UserAssignedIdentities struct {
+// Storage version of v1alpha1api20201201.VirtualMachineHealthStatus_STATUS
+// Deprecated version of VirtualMachineHealthStatus_STATUS. Use v1beta20201201.VirtualMachineHealthStatus_STATUS instead
+type VirtualMachineHealthStatus_STATUS struct {
+	PropertyBag genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
+	Status      *InstanceViewStatus_STATUS `json:"status,omitempty"`
+}
+
+// AssignPropertiesFromVirtualMachineHealthStatus_STATUS populates our VirtualMachineHealthStatus_STATUS from the provided source VirtualMachineHealthStatus_STATUS
+func (status *VirtualMachineHealthStatus_STATUS) AssignPropertiesFromVirtualMachineHealthStatus_STATUS(source *v20201201s.VirtualMachineHealthStatus_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Status
+	if source.Status != nil {
+		var statusLocal InstanceViewStatus_STATUS
+		err := statusLocal.AssignPropertiesFromInstanceViewStatus_STATUS(source.Status)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatus_STATUS() to populate field Status")
+		}
+		status.Status = &statusLocal
+	} else {
+		status.Status = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		status.PropertyBag = propertyBag
+	} else {
+		status.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineHealthStatus_STATUS populates the provided destination VirtualMachineHealthStatus_STATUS from our VirtualMachineHealthStatus_STATUS
+func (status *VirtualMachineHealthStatus_STATUS) AssignPropertiesToVirtualMachineHealthStatus_STATUS(destination *v20201201s.VirtualMachineHealthStatus_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(status.PropertyBag)
+
+	// Status
+	if status.Status != nil {
+		var statusLocal v20201201s.InstanceViewStatus_STATUS
+		err := status.Status.AssignPropertiesToInstanceViewStatus_STATUS(&statusLocal)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatus_STATUS() to populate field Status")
+		}
+		destination.Status = &statusLocal
+	} else {
+		destination.Status = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20201201.VirtualMachineIdentity_UserAssignedIdentities
+// Deprecated version of VirtualMachineIdentity_UserAssignedIdentities. Use v1beta20201201.VirtualMachineIdentity_UserAssignedIdentities instead
+type VirtualMachineIdentity_UserAssignedIdentities struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromVirtualMachineIdentityStatusUserAssignedIdentities populates our VirtualMachineIdentity_Status_UserAssignedIdentities from the provided source VirtualMachineIdentity_Status_UserAssignedIdentities
-func (identities *VirtualMachineIdentity_Status_UserAssignedIdentities) AssignPropertiesFromVirtualMachineIdentityStatusUserAssignedIdentities(source *v20201201s.VirtualMachineIdentity_Status_UserAssignedIdentities) error {
+// AssignPropertiesFromVirtualMachineIdentity_UserAssignedIdentities populates our VirtualMachineIdentity_UserAssignedIdentities from the provided source VirtualMachineIdentity_UserAssignedIdentities
+func (identities *VirtualMachineIdentity_UserAssignedIdentities) AssignPropertiesFromVirtualMachineIdentity_UserAssignedIdentities(source *v20201201s.VirtualMachineIdentity_UserAssignedIdentities) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -6511,8 +7423,8 @@ func (identities *VirtualMachineIdentity_Status_UserAssignedIdentities) AssignPr
 	return nil
 }
 
-// AssignPropertiesToVirtualMachineIdentityStatusUserAssignedIdentities populates the provided destination VirtualMachineIdentity_Status_UserAssignedIdentities from our VirtualMachineIdentity_Status_UserAssignedIdentities
-func (identities *VirtualMachineIdentity_Status_UserAssignedIdentities) AssignPropertiesToVirtualMachineIdentityStatusUserAssignedIdentities(destination *v20201201s.VirtualMachineIdentity_Status_UserAssignedIdentities) error {
+// AssignPropertiesToVirtualMachineIdentity_UserAssignedIdentities populates the provided destination VirtualMachineIdentity_UserAssignedIdentities from our VirtualMachineIdentity_UserAssignedIdentities
+func (identities *VirtualMachineIdentity_UserAssignedIdentities) AssignPropertiesToVirtualMachineIdentity_UserAssignedIdentities(destination *v20201201s.VirtualMachineIdentity_UserAssignedIdentities) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identities.PropertyBag)
 
@@ -6533,84 +7445,136 @@ func (identities *VirtualMachineIdentity_Status_UserAssignedIdentities) AssignPr
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.VirtualMachinePatchStatus_Status
-// Deprecated version of VirtualMachinePatchStatus_Status. Use v1beta20201201.VirtualMachinePatchStatus_Status instead
-type VirtualMachinePatchStatus_Status struct {
-	AvailablePatchSummary        *AvailablePatchSummary_Status        `json:"availablePatchSummary,omitempty"`
-	ConfigurationStatuses        []InstanceViewStatus_Status          `json:"configurationStatuses,omitempty"`
-	LastPatchInstallationSummary *LastPatchInstallationSummary_Status `json:"lastPatchInstallationSummary,omitempty"`
-	PropertyBag                  genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
+// Storage version of v1alpha1api20201201.VirtualMachineIdentity_UserAssignedIdentities_STATUS
+// Deprecated version of VirtualMachineIdentity_UserAssignedIdentities_STATUS. Use v1beta20201201.VirtualMachineIdentity_UserAssignedIdentities_STATUS instead
+type VirtualMachineIdentity_UserAssignedIdentities_STATUS struct {
+	ClientId    *string                `json:"clientId,omitempty"`
+	PrincipalId *string                `json:"principalId,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromVirtualMachinePatchStatusStatus populates our VirtualMachinePatchStatus_Status from the provided source VirtualMachinePatchStatus_Status
-func (patch *VirtualMachinePatchStatus_Status) AssignPropertiesFromVirtualMachinePatchStatusStatus(source *v20201201s.VirtualMachinePatchStatus_Status) error {
+// AssignPropertiesFromVirtualMachineIdentity_UserAssignedIdentities_STATUS populates our VirtualMachineIdentity_UserAssignedIdentities_STATUS from the provided source VirtualMachineIdentity_UserAssignedIdentities_STATUS
+func (identities *VirtualMachineIdentity_UserAssignedIdentities_STATUS) AssignPropertiesFromVirtualMachineIdentity_UserAssignedIdentities_STATUS(source *v20201201s.VirtualMachineIdentity_UserAssignedIdentities_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// AvailablePatchSummary
-	if source.AvailablePatchSummary != nil {
-		var availablePatchSummary AvailablePatchSummary_Status
-		err := availablePatchSummary.AssignPropertiesFromAvailablePatchSummaryStatus(source.AvailablePatchSummary)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAvailablePatchSummaryStatus() to populate field AvailablePatchSummary")
-		}
-		patch.AvailablePatchSummary = &availablePatchSummary
-	} else {
-		patch.AvailablePatchSummary = nil
-	}
+	// ClientId
+	identities.ClientId = genruntime.ClonePointerToString(source.ClientId)
 
-	// ConfigurationStatuses
-	if source.ConfigurationStatuses != nil {
-		configurationStatusList := make([]InstanceViewStatus_Status, len(source.ConfigurationStatuses))
-		for configurationStatusIndex, configurationStatusItem := range source.ConfigurationStatuses {
-			// Shadow the loop variable to avoid aliasing
-			configurationStatusItem := configurationStatusItem
-			var configurationStatus InstanceViewStatus_Status
-			err := configurationStatus.AssignPropertiesFromInstanceViewStatusStatus(&configurationStatusItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatusStatus() to populate field ConfigurationStatuses")
-			}
-			configurationStatusList[configurationStatusIndex] = configurationStatus
-		}
-		patch.ConfigurationStatuses = configurationStatusList
-	} else {
-		patch.ConfigurationStatuses = nil
-	}
-
-	// LastPatchInstallationSummary
-	if source.LastPatchInstallationSummary != nil {
-		var lastPatchInstallationSummary LastPatchInstallationSummary_Status
-		err := lastPatchInstallationSummary.AssignPropertiesFromLastPatchInstallationSummaryStatus(source.LastPatchInstallationSummary)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromLastPatchInstallationSummaryStatus() to populate field LastPatchInstallationSummary")
-		}
-		patch.LastPatchInstallationSummary = &lastPatchInstallationSummary
-	} else {
-		patch.LastPatchInstallationSummary = nil
-	}
+	// PrincipalId
+	identities.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		patch.PropertyBag = propertyBag
+		identities.PropertyBag = propertyBag
 	} else {
-		patch.PropertyBag = nil
+		identities.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToVirtualMachinePatchStatusStatus populates the provided destination VirtualMachinePatchStatus_Status from our VirtualMachinePatchStatus_Status
-func (patch *VirtualMachinePatchStatus_Status) AssignPropertiesToVirtualMachinePatchStatusStatus(destination *v20201201s.VirtualMachinePatchStatus_Status) error {
+// AssignPropertiesToVirtualMachineIdentity_UserAssignedIdentities_STATUS populates the provided destination VirtualMachineIdentity_UserAssignedIdentities_STATUS from our VirtualMachineIdentity_UserAssignedIdentities_STATUS
+func (identities *VirtualMachineIdentity_UserAssignedIdentities_STATUS) AssignPropertiesToVirtualMachineIdentity_UserAssignedIdentities_STATUS(destination *v20201201s.VirtualMachineIdentity_UserAssignedIdentities_STATUS) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(patch.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(identities.PropertyBag)
+
+	// ClientId
+	destination.ClientId = genruntime.ClonePointerToString(identities.ClientId)
+
+	// PrincipalId
+	destination.PrincipalId = genruntime.ClonePointerToString(identities.PrincipalId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20201201.VirtualMachinePatchStatus
+// Deprecated version of VirtualMachinePatchStatus. Use v1beta20201201.VirtualMachinePatchStatus instead
+type VirtualMachinePatchStatus struct {
+	AvailablePatchSummary        *AvailablePatchSummary        `json:"availablePatchSummary,omitempty"`
+	ConfigurationStatuses        []InstanceViewStatus          `json:"configurationStatuses,omitempty"`
+	LastPatchInstallationSummary *LastPatchInstallationSummary `json:"lastPatchInstallationSummary,omitempty"`
+	PropertyBag                  genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+}
+
+// AssignPropertiesFromVirtualMachinePatchStatus populates our VirtualMachinePatchStatus from the provided source VirtualMachinePatchStatus
+func (status *VirtualMachinePatchStatus) AssignPropertiesFromVirtualMachinePatchStatus(source *v20201201s.VirtualMachinePatchStatus) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// AvailablePatchSummary
-	if patch.AvailablePatchSummary != nil {
-		var availablePatchSummary v20201201s.AvailablePatchSummary_Status
-		err := patch.AvailablePatchSummary.AssignPropertiesToAvailablePatchSummaryStatus(&availablePatchSummary)
+	if source.AvailablePatchSummary != nil {
+		var availablePatchSummary AvailablePatchSummary
+		err := availablePatchSummary.AssignPropertiesFromAvailablePatchSummary(source.AvailablePatchSummary)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAvailablePatchSummaryStatus() to populate field AvailablePatchSummary")
+			return errors.Wrap(err, "calling AssignPropertiesFromAvailablePatchSummary() to populate field AvailablePatchSummary")
+		}
+		status.AvailablePatchSummary = &availablePatchSummary
+	} else {
+		status.AvailablePatchSummary = nil
+	}
+
+	// ConfigurationStatuses
+	if source.ConfigurationStatuses != nil {
+		configurationStatusList := make([]InstanceViewStatus, len(source.ConfigurationStatuses))
+		for configurationStatusIndex, configurationStatusItem := range source.ConfigurationStatuses {
+			// Shadow the loop variable to avoid aliasing
+			configurationStatusItem := configurationStatusItem
+			var configurationStatus InstanceViewStatus
+			err := configurationStatus.AssignPropertiesFromInstanceViewStatus(&configurationStatusItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatus() to populate field ConfigurationStatuses")
+			}
+			configurationStatusList[configurationStatusIndex] = configurationStatus
+		}
+		status.ConfigurationStatuses = configurationStatusList
+	} else {
+		status.ConfigurationStatuses = nil
+	}
+
+	// LastPatchInstallationSummary
+	if source.LastPatchInstallationSummary != nil {
+		var lastPatchInstallationSummary LastPatchInstallationSummary
+		err := lastPatchInstallationSummary.AssignPropertiesFromLastPatchInstallationSummary(source.LastPatchInstallationSummary)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromLastPatchInstallationSummary() to populate field LastPatchInstallationSummary")
+		}
+		status.LastPatchInstallationSummary = &lastPatchInstallationSummary
+	} else {
+		status.LastPatchInstallationSummary = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		status.PropertyBag = propertyBag
+	} else {
+		status.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachinePatchStatus populates the provided destination VirtualMachinePatchStatus from our VirtualMachinePatchStatus
+func (status *VirtualMachinePatchStatus) AssignPropertiesToVirtualMachinePatchStatus(destination *v20201201s.VirtualMachinePatchStatus) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(status.PropertyBag)
+
+	// AvailablePatchSummary
+	if status.AvailablePatchSummary != nil {
+		var availablePatchSummary v20201201s.AvailablePatchSummary
+		err := status.AvailablePatchSummary.AssignPropertiesToAvailablePatchSummary(&availablePatchSummary)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToAvailablePatchSummary() to populate field AvailablePatchSummary")
 		}
 		destination.AvailablePatchSummary = &availablePatchSummary
 	} else {
@@ -6618,15 +7582,15 @@ func (patch *VirtualMachinePatchStatus_Status) AssignPropertiesToVirtualMachineP
 	}
 
 	// ConfigurationStatuses
-	if patch.ConfigurationStatuses != nil {
-		configurationStatusList := make([]v20201201s.InstanceViewStatus_Status, len(patch.ConfigurationStatuses))
-		for configurationStatusIndex, configurationStatusItem := range patch.ConfigurationStatuses {
+	if status.ConfigurationStatuses != nil {
+		configurationStatusList := make([]v20201201s.InstanceViewStatus, len(status.ConfigurationStatuses))
+		for configurationStatusIndex, configurationStatusItem := range status.ConfigurationStatuses {
 			// Shadow the loop variable to avoid aliasing
 			configurationStatusItem := configurationStatusItem
-			var configurationStatus v20201201s.InstanceViewStatus_Status
-			err := configurationStatusItem.AssignPropertiesToInstanceViewStatusStatus(&configurationStatus)
+			var configurationStatus v20201201s.InstanceViewStatus
+			err := configurationStatusItem.AssignPropertiesToInstanceViewStatus(&configurationStatus)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatusStatus() to populate field ConfigurationStatuses")
+				return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatus() to populate field ConfigurationStatuses")
 			}
 			configurationStatusList[configurationStatusIndex] = configurationStatus
 		}
@@ -6636,11 +7600,11 @@ func (patch *VirtualMachinePatchStatus_Status) AssignPropertiesToVirtualMachineP
 	}
 
 	// LastPatchInstallationSummary
-	if patch.LastPatchInstallationSummary != nil {
-		var lastPatchInstallationSummary v20201201s.LastPatchInstallationSummary_Status
-		err := patch.LastPatchInstallationSummary.AssignPropertiesToLastPatchInstallationSummaryStatus(&lastPatchInstallationSummary)
+	if status.LastPatchInstallationSummary != nil {
+		var lastPatchInstallationSummary v20201201s.LastPatchInstallationSummary
+		err := status.LastPatchInstallationSummary.AssignPropertiesToLastPatchInstallationSummary(&lastPatchInstallationSummary)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToLastPatchInstallationSummaryStatus() to populate field LastPatchInstallationSummary")
+			return errors.Wrap(err, "calling AssignPropertiesToLastPatchInstallationSummary() to populate field LastPatchInstallationSummary")
 		}
 		destination.LastPatchInstallationSummary = &lastPatchInstallationSummary
 	} else {
@@ -6658,65 +7622,118 @@ func (patch *VirtualMachinePatchStatus_Status) AssignPropertiesToVirtualMachineP
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces
-// Deprecated version of VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces. Use v1beta20201201.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces instead
-type VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces struct {
-	Primary     *bool                         `json:"primary,omitempty"`
-	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	Reference   *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+// Storage version of v1alpha1api20201201.VirtualMachinePatchStatus_STATUS
+// Deprecated version of VirtualMachinePatchStatus_STATUS. Use v1beta20201201.VirtualMachinePatchStatus_STATUS instead
+type VirtualMachinePatchStatus_STATUS struct {
+	AvailablePatchSummary        *AvailablePatchSummary_STATUS        `json:"availablePatchSummary,omitempty"`
+	ConfigurationStatuses        []InstanceViewStatus_STATUS          `json:"configurationStatuses,omitempty"`
+	LastPatchInstallationSummary *LastPatchInstallationSummary_STATUS `json:"lastPatchInstallationSummary,omitempty"`
+	PropertyBag                  genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromVirtualMachinesSpecPropertiesNetworkProfileNetworkInterfaces populates our VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces from the provided source VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces
-func (interfaces *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces) AssignPropertiesFromVirtualMachinesSpecPropertiesNetworkProfileNetworkInterfaces(source *v20201201s.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces) error {
+// AssignPropertiesFromVirtualMachinePatchStatus_STATUS populates our VirtualMachinePatchStatus_STATUS from the provided source VirtualMachinePatchStatus_STATUS
+func (status *VirtualMachinePatchStatus_STATUS) AssignPropertiesFromVirtualMachinePatchStatus_STATUS(source *v20201201s.VirtualMachinePatchStatus_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// Primary
-	if source.Primary != nil {
-		primary := *source.Primary
-		interfaces.Primary = &primary
+	// AvailablePatchSummary
+	if source.AvailablePatchSummary != nil {
+		var availablePatchSummary AvailablePatchSummary_STATUS
+		err := availablePatchSummary.AssignPropertiesFromAvailablePatchSummary_STATUS(source.AvailablePatchSummary)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromAvailablePatchSummary_STATUS() to populate field AvailablePatchSummary")
+		}
+		status.AvailablePatchSummary = &availablePatchSummary
 	} else {
-		interfaces.Primary = nil
+		status.AvailablePatchSummary = nil
 	}
 
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		interfaces.Reference = &reference
+	// ConfigurationStatuses
+	if source.ConfigurationStatuses != nil {
+		configurationStatusList := make([]InstanceViewStatus_STATUS, len(source.ConfigurationStatuses))
+		for configurationStatusIndex, configurationStatusItem := range source.ConfigurationStatuses {
+			// Shadow the loop variable to avoid aliasing
+			configurationStatusItem := configurationStatusItem
+			var configurationStatus InstanceViewStatus_STATUS
+			err := configurationStatus.AssignPropertiesFromInstanceViewStatus_STATUS(&configurationStatusItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatus_STATUS() to populate field ConfigurationStatuses")
+			}
+			configurationStatusList[configurationStatusIndex] = configurationStatus
+		}
+		status.ConfigurationStatuses = configurationStatusList
 	} else {
-		interfaces.Reference = nil
+		status.ConfigurationStatuses = nil
+	}
+
+	// LastPatchInstallationSummary
+	if source.LastPatchInstallationSummary != nil {
+		var lastPatchInstallationSummary LastPatchInstallationSummary_STATUS
+		err := lastPatchInstallationSummary.AssignPropertiesFromLastPatchInstallationSummary_STATUS(source.LastPatchInstallationSummary)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromLastPatchInstallationSummary_STATUS() to populate field LastPatchInstallationSummary")
+		}
+		status.LastPatchInstallationSummary = &lastPatchInstallationSummary
+	} else {
+		status.LastPatchInstallationSummary = nil
 	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		interfaces.PropertyBag = propertyBag
+		status.PropertyBag = propertyBag
 	} else {
-		interfaces.PropertyBag = nil
+		status.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToVirtualMachinesSpecPropertiesNetworkProfileNetworkInterfaces populates the provided destination VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces from our VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces
-func (interfaces *VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces) AssignPropertiesToVirtualMachinesSpecPropertiesNetworkProfileNetworkInterfaces(destination *v20201201s.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces) error {
+// AssignPropertiesToVirtualMachinePatchStatus_STATUS populates the provided destination VirtualMachinePatchStatus_STATUS from our VirtualMachinePatchStatus_STATUS
+func (status *VirtualMachinePatchStatus_STATUS) AssignPropertiesToVirtualMachinePatchStatus_STATUS(destination *v20201201s.VirtualMachinePatchStatus_STATUS) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(interfaces.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(status.PropertyBag)
 
-	// Primary
-	if interfaces.Primary != nil {
-		primary := *interfaces.Primary
-		destination.Primary = &primary
+	// AvailablePatchSummary
+	if status.AvailablePatchSummary != nil {
+		var availablePatchSummary v20201201s.AvailablePatchSummary_STATUS
+		err := status.AvailablePatchSummary.AssignPropertiesToAvailablePatchSummary_STATUS(&availablePatchSummary)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToAvailablePatchSummary_STATUS() to populate field AvailablePatchSummary")
+		}
+		destination.AvailablePatchSummary = &availablePatchSummary
 	} else {
-		destination.Primary = nil
+		destination.AvailablePatchSummary = nil
 	}
 
-	// Reference
-	if interfaces.Reference != nil {
-		reference := interfaces.Reference.Copy()
-		destination.Reference = &reference
+	// ConfigurationStatuses
+	if status.ConfigurationStatuses != nil {
+		configurationStatusList := make([]v20201201s.InstanceViewStatus_STATUS, len(status.ConfigurationStatuses))
+		for configurationStatusIndex, configurationStatusItem := range status.ConfigurationStatuses {
+			// Shadow the loop variable to avoid aliasing
+			configurationStatusItem := configurationStatusItem
+			var configurationStatus v20201201s.InstanceViewStatus_STATUS
+			err := configurationStatusItem.AssignPropertiesToInstanceViewStatus_STATUS(&configurationStatus)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatus_STATUS() to populate field ConfigurationStatuses")
+			}
+			configurationStatusList[configurationStatusIndex] = configurationStatus
+		}
+		destination.ConfigurationStatuses = configurationStatusList
 	} else {
-		destination.Reference = nil
+		destination.ConfigurationStatuses = nil
+	}
+
+	// LastPatchInstallationSummary
+	if status.LastPatchInstallationSummary != nil {
+		var lastPatchInstallationSummary v20201201s.LastPatchInstallationSummary_STATUS
+		err := status.LastPatchInstallationSummary.AssignPropertiesToLastPatchInstallationSummary_STATUS(&lastPatchInstallationSummary)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToLastPatchInstallationSummary_STATUS() to populate field LastPatchInstallationSummary")
+		}
+		destination.LastPatchInstallationSummary = &lastPatchInstallationSummary
+	} else {
+		destination.LastPatchInstallationSummary = nil
 	}
 
 	// Update the property bag
@@ -6896,33 +7913,33 @@ func (configuration *WindowsConfiguration) AssignPropertiesToWindowsConfiguratio
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.WindowsConfiguration_Status
-// Deprecated version of WindowsConfiguration_Status. Use v1beta20201201.WindowsConfiguration_Status instead
-type WindowsConfiguration_Status struct {
-	AdditionalUnattendContent []AdditionalUnattendContent_Status `json:"additionalUnattendContent,omitempty"`
+// Storage version of v1alpha1api20201201.WindowsConfiguration_STATUS
+// Deprecated version of WindowsConfiguration_STATUS. Use v1beta20201201.WindowsConfiguration_STATUS instead
+type WindowsConfiguration_STATUS struct {
+	AdditionalUnattendContent []AdditionalUnattendContent_STATUS `json:"additionalUnattendContent,omitempty"`
 	EnableAutomaticUpdates    *bool                              `json:"enableAutomaticUpdates,omitempty"`
-	PatchSettings             *PatchSettings_Status              `json:"patchSettings,omitempty"`
+	PatchSettings             *PatchSettings_STATUS              `json:"patchSettings,omitempty"`
 	PropertyBag               genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	ProvisionVMAgent          *bool                              `json:"provisionVMAgent,omitempty"`
 	TimeZone                  *string                            `json:"timeZone,omitempty"`
-	WinRM                     *WinRMConfiguration_Status         `json:"winRM,omitempty"`
+	WinRM                     *WinRMConfiguration_STATUS         `json:"winRM,omitempty"`
 }
 
-// AssignPropertiesFromWindowsConfigurationStatus populates our WindowsConfiguration_Status from the provided source WindowsConfiguration_Status
-func (configuration *WindowsConfiguration_Status) AssignPropertiesFromWindowsConfigurationStatus(source *v20201201s.WindowsConfiguration_Status) error {
+// AssignPropertiesFromWindowsConfiguration_STATUS populates our WindowsConfiguration_STATUS from the provided source WindowsConfiguration_STATUS
+func (configuration *WindowsConfiguration_STATUS) AssignPropertiesFromWindowsConfiguration_STATUS(source *v20201201s.WindowsConfiguration_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// AdditionalUnattendContent
 	if source.AdditionalUnattendContent != nil {
-		additionalUnattendContentList := make([]AdditionalUnattendContent_Status, len(source.AdditionalUnattendContent))
+		additionalUnattendContentList := make([]AdditionalUnattendContent_STATUS, len(source.AdditionalUnattendContent))
 		for additionalUnattendContentIndex, additionalUnattendContentItem := range source.AdditionalUnattendContent {
 			// Shadow the loop variable to avoid aliasing
 			additionalUnattendContentItem := additionalUnattendContentItem
-			var additionalUnattendContent AdditionalUnattendContent_Status
-			err := additionalUnattendContent.AssignPropertiesFromAdditionalUnattendContentStatus(&additionalUnattendContentItem)
+			var additionalUnattendContent AdditionalUnattendContent_STATUS
+			err := additionalUnattendContent.AssignPropertiesFromAdditionalUnattendContent_STATUS(&additionalUnattendContentItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromAdditionalUnattendContentStatus() to populate field AdditionalUnattendContent")
+				return errors.Wrap(err, "calling AssignPropertiesFromAdditionalUnattendContent_STATUS() to populate field AdditionalUnattendContent")
 			}
 			additionalUnattendContentList[additionalUnattendContentIndex] = additionalUnattendContent
 		}
@@ -6941,10 +7958,10 @@ func (configuration *WindowsConfiguration_Status) AssignPropertiesFromWindowsCon
 
 	// PatchSettings
 	if source.PatchSettings != nil {
-		var patchSetting PatchSettings_Status
-		err := patchSetting.AssignPropertiesFromPatchSettingsStatus(source.PatchSettings)
+		var patchSetting PatchSettings_STATUS
+		err := patchSetting.AssignPropertiesFromPatchSettings_STATUS(source.PatchSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromPatchSettingsStatus() to populate field PatchSettings")
+			return errors.Wrap(err, "calling AssignPropertiesFromPatchSettings_STATUS() to populate field PatchSettings")
 		}
 		configuration.PatchSettings = &patchSetting
 	} else {
@@ -6964,10 +7981,10 @@ func (configuration *WindowsConfiguration_Status) AssignPropertiesFromWindowsCon
 
 	// WinRM
 	if source.WinRM != nil {
-		var winRM WinRMConfiguration_Status
-		err := winRM.AssignPropertiesFromWinRMConfigurationStatus(source.WinRM)
+		var winRM WinRMConfiguration_STATUS
+		err := winRM.AssignPropertiesFromWinRMConfiguration_STATUS(source.WinRM)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromWinRMConfigurationStatus() to populate field WinRM")
+			return errors.Wrap(err, "calling AssignPropertiesFromWinRMConfiguration_STATUS() to populate field WinRM")
 		}
 		configuration.WinRM = &winRM
 	} else {
@@ -6985,21 +8002,21 @@ func (configuration *WindowsConfiguration_Status) AssignPropertiesFromWindowsCon
 	return nil
 }
 
-// AssignPropertiesToWindowsConfigurationStatus populates the provided destination WindowsConfiguration_Status from our WindowsConfiguration_Status
-func (configuration *WindowsConfiguration_Status) AssignPropertiesToWindowsConfigurationStatus(destination *v20201201s.WindowsConfiguration_Status) error {
+// AssignPropertiesToWindowsConfiguration_STATUS populates the provided destination WindowsConfiguration_STATUS from our WindowsConfiguration_STATUS
+func (configuration *WindowsConfiguration_STATUS) AssignPropertiesToWindowsConfiguration_STATUS(destination *v20201201s.WindowsConfiguration_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
 
 	// AdditionalUnattendContent
 	if configuration.AdditionalUnattendContent != nil {
-		additionalUnattendContentList := make([]v20201201s.AdditionalUnattendContent_Status, len(configuration.AdditionalUnattendContent))
+		additionalUnattendContentList := make([]v20201201s.AdditionalUnattendContent_STATUS, len(configuration.AdditionalUnattendContent))
 		for additionalUnattendContentIndex, additionalUnattendContentItem := range configuration.AdditionalUnattendContent {
 			// Shadow the loop variable to avoid aliasing
 			additionalUnattendContentItem := additionalUnattendContentItem
-			var additionalUnattendContent v20201201s.AdditionalUnattendContent_Status
-			err := additionalUnattendContentItem.AssignPropertiesToAdditionalUnattendContentStatus(&additionalUnattendContent)
+			var additionalUnattendContent v20201201s.AdditionalUnattendContent_STATUS
+			err := additionalUnattendContentItem.AssignPropertiesToAdditionalUnattendContent_STATUS(&additionalUnattendContent)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToAdditionalUnattendContentStatus() to populate field AdditionalUnattendContent")
+				return errors.Wrap(err, "calling AssignPropertiesToAdditionalUnattendContent_STATUS() to populate field AdditionalUnattendContent")
 			}
 			additionalUnattendContentList[additionalUnattendContentIndex] = additionalUnattendContent
 		}
@@ -7018,10 +8035,10 @@ func (configuration *WindowsConfiguration_Status) AssignPropertiesToWindowsConfi
 
 	// PatchSettings
 	if configuration.PatchSettings != nil {
-		var patchSetting v20201201s.PatchSettings_Status
-		err := configuration.PatchSettings.AssignPropertiesToPatchSettingsStatus(&patchSetting)
+		var patchSetting v20201201s.PatchSettings_STATUS
+		err := configuration.PatchSettings.AssignPropertiesToPatchSettings_STATUS(&patchSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToPatchSettingsStatus() to populate field PatchSettings")
+			return errors.Wrap(err, "calling AssignPropertiesToPatchSettings_STATUS() to populate field PatchSettings")
 		}
 		destination.PatchSettings = &patchSetting
 	} else {
@@ -7041,10 +8058,10 @@ func (configuration *WindowsConfiguration_Status) AssignPropertiesToWindowsConfi
 
 	// WinRM
 	if configuration.WinRM != nil {
-		var winRM v20201201s.WinRMConfiguration_Status
-		err := configuration.WinRM.AssignPropertiesToWinRMConfigurationStatus(&winRM)
+		var winRM v20201201s.WinRMConfiguration_STATUS
+		err := configuration.WinRM.AssignPropertiesToWinRMConfiguration_STATUS(&winRM)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToWinRMConfigurationStatus() to populate field WinRM")
+			return errors.Wrap(err, "calling AssignPropertiesToWinRMConfiguration_STATUS() to populate field WinRM")
 		}
 		destination.WinRM = &winRM
 	} else {
@@ -7128,9 +8145,9 @@ func (content *AdditionalUnattendContent) AssignPropertiesToAdditionalUnattendCo
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.AdditionalUnattendContent_Status
-// Deprecated version of AdditionalUnattendContent_Status. Use v1beta20201201.AdditionalUnattendContent_Status instead
-type AdditionalUnattendContent_Status struct {
+// Storage version of v1alpha1api20201201.AdditionalUnattendContent_STATUS
+// Deprecated version of AdditionalUnattendContent_STATUS. Use v1beta20201201.AdditionalUnattendContent_STATUS instead
+type AdditionalUnattendContent_STATUS struct {
 	ComponentName *string                `json:"componentName,omitempty"`
 	Content       *string                `json:"content,omitempty"`
 	PassName      *string                `json:"passName,omitempty"`
@@ -7138,8 +8155,8 @@ type AdditionalUnattendContent_Status struct {
 	SettingName   *string                `json:"settingName,omitempty"`
 }
 
-// AssignPropertiesFromAdditionalUnattendContentStatus populates our AdditionalUnattendContent_Status from the provided source AdditionalUnattendContent_Status
-func (content *AdditionalUnattendContent_Status) AssignPropertiesFromAdditionalUnattendContentStatus(source *v20201201s.AdditionalUnattendContent_Status) error {
+// AssignPropertiesFromAdditionalUnattendContent_STATUS populates our AdditionalUnattendContent_STATUS from the provided source AdditionalUnattendContent_STATUS
+func (content *AdditionalUnattendContent_STATUS) AssignPropertiesFromAdditionalUnattendContent_STATUS(source *v20201201s.AdditionalUnattendContent_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -7166,8 +8183,8 @@ func (content *AdditionalUnattendContent_Status) AssignPropertiesFromAdditionalU
 	return nil
 }
 
-// AssignPropertiesToAdditionalUnattendContentStatus populates the provided destination AdditionalUnattendContent_Status from our AdditionalUnattendContent_Status
-func (content *AdditionalUnattendContent_Status) AssignPropertiesToAdditionalUnattendContentStatus(destination *v20201201s.AdditionalUnattendContent_Status) error {
+// AssignPropertiesToAdditionalUnattendContent_STATUS populates the provided destination AdditionalUnattendContent_STATUS from our AdditionalUnattendContent_STATUS
+func (content *AdditionalUnattendContent_STATUS) AssignPropertiesToAdditionalUnattendContent_STATUS(destination *v20201201s.AdditionalUnattendContent_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(content.PropertyBag)
 
@@ -7194,12 +8211,12 @@ func (content *AdditionalUnattendContent_Status) AssignPropertiesToAdditionalUna
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.AvailablePatchSummary_Status
-// Deprecated version of AvailablePatchSummary_Status. Use v1beta20201201.AvailablePatchSummary_Status instead
-type AvailablePatchSummary_Status struct {
+// Storage version of v1alpha1api20201201.AvailablePatchSummary
+// Deprecated version of AvailablePatchSummary. Use v1beta20201201.AvailablePatchSummary instead
+type AvailablePatchSummary struct {
 	AssessmentActivityId          *string                `json:"assessmentActivityId,omitempty"`
 	CriticalAndSecurityPatchCount *int                   `json:"criticalAndSecurityPatchCount,omitempty"`
-	Error                         *ApiError_Status       `json:"error,omitempty"`
+	Error                         *ApiError              `json:"error,omitempty"`
 	LastModifiedTime              *string                `json:"lastModifiedTime,omitempty"`
 	OtherPatchCount               *int                   `json:"otherPatchCount,omitempty"`
 	PropertyBag                   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -7208,8 +8225,8 @@ type AvailablePatchSummary_Status struct {
 	Status                        *string                `json:"status,omitempty"`
 }
 
-// AssignPropertiesFromAvailablePatchSummaryStatus populates our AvailablePatchSummary_Status from the provided source AvailablePatchSummary_Status
-func (summary *AvailablePatchSummary_Status) AssignPropertiesFromAvailablePatchSummaryStatus(source *v20201201s.AvailablePatchSummary_Status) error {
+// AssignPropertiesFromAvailablePatchSummary populates our AvailablePatchSummary from the provided source AvailablePatchSummary
+func (summary *AvailablePatchSummary) AssignPropertiesFromAvailablePatchSummary(source *v20201201s.AvailablePatchSummary) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -7221,10 +8238,10 @@ func (summary *AvailablePatchSummary_Status) AssignPropertiesFromAvailablePatchS
 
 	// Error
 	if source.Error != nil {
-		var error ApiError_Status
-		err := error.AssignPropertiesFromApiErrorStatus(source.Error)
+		var error ApiError
+		err := error.AssignPropertiesFromApiError(source.Error)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromApiErrorStatus() to populate field Error")
+			return errors.Wrap(err, "calling AssignPropertiesFromApiError() to populate field Error")
 		}
 		summary.Error = &error
 	} else {
@@ -7262,8 +8279,8 @@ func (summary *AvailablePatchSummary_Status) AssignPropertiesFromAvailablePatchS
 	return nil
 }
 
-// AssignPropertiesToAvailablePatchSummaryStatus populates the provided destination AvailablePatchSummary_Status from our AvailablePatchSummary_Status
-func (summary *AvailablePatchSummary_Status) AssignPropertiesToAvailablePatchSummaryStatus(destination *v20201201s.AvailablePatchSummary_Status) error {
+// AssignPropertiesToAvailablePatchSummary populates the provided destination AvailablePatchSummary from our AvailablePatchSummary
+func (summary *AvailablePatchSummary) AssignPropertiesToAvailablePatchSummary(destination *v20201201s.AvailablePatchSummary) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(summary.PropertyBag)
 
@@ -7275,10 +8292,132 @@ func (summary *AvailablePatchSummary_Status) AssignPropertiesToAvailablePatchSum
 
 	// Error
 	if summary.Error != nil {
-		var error v20201201s.ApiError_Status
-		err := summary.Error.AssignPropertiesToApiErrorStatus(&error)
+		var error v20201201s.ApiError
+		err := summary.Error.AssignPropertiesToApiError(&error)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToApiErrorStatus() to populate field Error")
+			return errors.Wrap(err, "calling AssignPropertiesToApiError() to populate field Error")
+		}
+		destination.Error = &error
+	} else {
+		destination.Error = nil
+	}
+
+	// LastModifiedTime
+	destination.LastModifiedTime = genruntime.ClonePointerToString(summary.LastModifiedTime)
+
+	// OtherPatchCount
+	destination.OtherPatchCount = genruntime.ClonePointerToInt(summary.OtherPatchCount)
+
+	// RebootPending
+	if summary.RebootPending != nil {
+		rebootPending := *summary.RebootPending
+		destination.RebootPending = &rebootPending
+	} else {
+		destination.RebootPending = nil
+	}
+
+	// StartTime
+	destination.StartTime = genruntime.ClonePointerToString(summary.StartTime)
+
+	// Status
+	destination.Status = genruntime.ClonePointerToString(summary.Status)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20201201.AvailablePatchSummary_STATUS
+// Deprecated version of AvailablePatchSummary_STATUS. Use v1beta20201201.AvailablePatchSummary_STATUS instead
+type AvailablePatchSummary_STATUS struct {
+	AssessmentActivityId          *string                `json:"assessmentActivityId,omitempty"`
+	CriticalAndSecurityPatchCount *int                   `json:"criticalAndSecurityPatchCount,omitempty"`
+	Error                         *ApiError_STATUS       `json:"error,omitempty"`
+	LastModifiedTime              *string                `json:"lastModifiedTime,omitempty"`
+	OtherPatchCount               *int                   `json:"otherPatchCount,omitempty"`
+	PropertyBag                   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	RebootPending                 *bool                  `json:"rebootPending,omitempty"`
+	StartTime                     *string                `json:"startTime,omitempty"`
+	Status                        *string                `json:"status,omitempty"`
+}
+
+// AssignPropertiesFromAvailablePatchSummary_STATUS populates our AvailablePatchSummary_STATUS from the provided source AvailablePatchSummary_STATUS
+func (summary *AvailablePatchSummary_STATUS) AssignPropertiesFromAvailablePatchSummary_STATUS(source *v20201201s.AvailablePatchSummary_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AssessmentActivityId
+	summary.AssessmentActivityId = genruntime.ClonePointerToString(source.AssessmentActivityId)
+
+	// CriticalAndSecurityPatchCount
+	summary.CriticalAndSecurityPatchCount = genruntime.ClonePointerToInt(source.CriticalAndSecurityPatchCount)
+
+	// Error
+	if source.Error != nil {
+		var error ApiError_STATUS
+		err := error.AssignPropertiesFromApiError_STATUS(source.Error)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromApiError_STATUS() to populate field Error")
+		}
+		summary.Error = &error
+	} else {
+		summary.Error = nil
+	}
+
+	// LastModifiedTime
+	summary.LastModifiedTime = genruntime.ClonePointerToString(source.LastModifiedTime)
+
+	// OtherPatchCount
+	summary.OtherPatchCount = genruntime.ClonePointerToInt(source.OtherPatchCount)
+
+	// RebootPending
+	if source.RebootPending != nil {
+		rebootPending := *source.RebootPending
+		summary.RebootPending = &rebootPending
+	} else {
+		summary.RebootPending = nil
+	}
+
+	// StartTime
+	summary.StartTime = genruntime.ClonePointerToString(source.StartTime)
+
+	// Status
+	summary.Status = genruntime.ClonePointerToString(source.Status)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		summary.PropertyBag = propertyBag
+	} else {
+		summary.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToAvailablePatchSummary_STATUS populates the provided destination AvailablePatchSummary_STATUS from our AvailablePatchSummary_STATUS
+func (summary *AvailablePatchSummary_STATUS) AssignPropertiesToAvailablePatchSummary_STATUS(destination *v20201201s.AvailablePatchSummary_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(summary.PropertyBag)
+
+	// AssessmentActivityId
+	destination.AssessmentActivityId = genruntime.ClonePointerToString(summary.AssessmentActivityId)
+
+	// CriticalAndSecurityPatchCount
+	destination.CriticalAndSecurityPatchCount = genruntime.ClonePointerToInt(summary.CriticalAndSecurityPatchCount)
+
+	// Error
+	if summary.Error != nil {
+		var error v20201201s.ApiError_STATUS
+		err := summary.Error.AssignPropertiesToApiError_STATUS(&error)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToApiError_STATUS() to populate field Error")
 		}
 		destination.Error = &error
 	} else {
@@ -7368,16 +8507,16 @@ func (settings *DiffDiskSettings) AssignPropertiesToDiffDiskSettings(destination
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.DiffDiskSettings_Status
-// Deprecated version of DiffDiskSettings_Status. Use v1beta20201201.DiffDiskSettings_Status instead
-type DiffDiskSettings_Status struct {
+// Storage version of v1alpha1api20201201.DiffDiskSettings_STATUS
+// Deprecated version of DiffDiskSettings_STATUS. Use v1beta20201201.DiffDiskSettings_STATUS instead
+type DiffDiskSettings_STATUS struct {
 	Option      *string                `json:"option,omitempty"`
 	Placement   *string                `json:"placement,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromDiffDiskSettingsStatus populates our DiffDiskSettings_Status from the provided source DiffDiskSettings_Status
-func (settings *DiffDiskSettings_Status) AssignPropertiesFromDiffDiskSettingsStatus(source *v20201201s.DiffDiskSettings_Status) error {
+// AssignPropertiesFromDiffDiskSettings_STATUS populates our DiffDiskSettings_STATUS from the provided source DiffDiskSettings_STATUS
+func (settings *DiffDiskSettings_STATUS) AssignPropertiesFromDiffDiskSettings_STATUS(source *v20201201s.DiffDiskSettings_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -7398,8 +8537,8 @@ func (settings *DiffDiskSettings_Status) AssignPropertiesFromDiffDiskSettingsSta
 	return nil
 }
 
-// AssignPropertiesToDiffDiskSettingsStatus populates the provided destination DiffDiskSettings_Status from our DiffDiskSettings_Status
-func (settings *DiffDiskSettings_Status) AssignPropertiesToDiffDiskSettingsStatus(destination *v20201201s.DiffDiskSettings_Status) error {
+// AssignPropertiesToDiffDiskSettings_STATUS populates the provided destination DiffDiskSettings_STATUS from our DiffDiskSettings_STATUS
+func (settings *DiffDiskSettings_STATUS) AssignPropertiesToDiffDiskSettings_STATUS(destination *v20201201s.DiffDiskSettings_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
@@ -7525,26 +8664,26 @@ func (settings *DiskEncryptionSettings) AssignPropertiesToDiskEncryptionSettings
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.DiskEncryptionSettings_Status
-// Deprecated version of DiskEncryptionSettings_Status. Use v1beta20201201.DiskEncryptionSettings_Status instead
-type DiskEncryptionSettings_Status struct {
-	DiskEncryptionKey *KeyVaultSecretReference_Status `json:"diskEncryptionKey,omitempty"`
+// Storage version of v1alpha1api20201201.DiskEncryptionSettings_STATUS
+// Deprecated version of DiskEncryptionSettings_STATUS. Use v1beta20201201.DiskEncryptionSettings_STATUS instead
+type DiskEncryptionSettings_STATUS struct {
+	DiskEncryptionKey *KeyVaultSecretReference_STATUS `json:"diskEncryptionKey,omitempty"`
 	Enabled           *bool                           `json:"enabled,omitempty"`
-	KeyEncryptionKey  *KeyVaultKeyReference_Status    `json:"keyEncryptionKey,omitempty"`
+	KeyEncryptionKey  *KeyVaultKeyReference_STATUS    `json:"keyEncryptionKey,omitempty"`
 	PropertyBag       genruntime.PropertyBag          `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromDiskEncryptionSettingsStatus populates our DiskEncryptionSettings_Status from the provided source DiskEncryptionSettings_Status
-func (settings *DiskEncryptionSettings_Status) AssignPropertiesFromDiskEncryptionSettingsStatus(source *v20201201s.DiskEncryptionSettings_Status) error {
+// AssignPropertiesFromDiskEncryptionSettings_STATUS populates our DiskEncryptionSettings_STATUS from the provided source DiskEncryptionSettings_STATUS
+func (settings *DiskEncryptionSettings_STATUS) AssignPropertiesFromDiskEncryptionSettings_STATUS(source *v20201201s.DiskEncryptionSettings_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// DiskEncryptionKey
 	if source.DiskEncryptionKey != nil {
-		var diskEncryptionKey KeyVaultSecretReference_Status
-		err := diskEncryptionKey.AssignPropertiesFromKeyVaultSecretReferenceStatus(source.DiskEncryptionKey)
+		var diskEncryptionKey KeyVaultSecretReference_STATUS
+		err := diskEncryptionKey.AssignPropertiesFromKeyVaultSecretReference_STATUS(source.DiskEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultSecretReferenceStatus() to populate field DiskEncryptionKey")
+			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultSecretReference_STATUS() to populate field DiskEncryptionKey")
 		}
 		settings.DiskEncryptionKey = &diskEncryptionKey
 	} else {
@@ -7561,10 +8700,10 @@ func (settings *DiskEncryptionSettings_Status) AssignPropertiesFromDiskEncryptio
 
 	// KeyEncryptionKey
 	if source.KeyEncryptionKey != nil {
-		var keyEncryptionKey KeyVaultKeyReference_Status
-		err := keyEncryptionKey.AssignPropertiesFromKeyVaultKeyReferenceStatus(source.KeyEncryptionKey)
+		var keyEncryptionKey KeyVaultKeyReference_STATUS
+		err := keyEncryptionKey.AssignPropertiesFromKeyVaultKeyReference_STATUS(source.KeyEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultKeyReferenceStatus() to populate field KeyEncryptionKey")
+			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultKeyReference_STATUS() to populate field KeyEncryptionKey")
 		}
 		settings.KeyEncryptionKey = &keyEncryptionKey
 	} else {
@@ -7582,17 +8721,17 @@ func (settings *DiskEncryptionSettings_Status) AssignPropertiesFromDiskEncryptio
 	return nil
 }
 
-// AssignPropertiesToDiskEncryptionSettingsStatus populates the provided destination DiskEncryptionSettings_Status from our DiskEncryptionSettings_Status
-func (settings *DiskEncryptionSettings_Status) AssignPropertiesToDiskEncryptionSettingsStatus(destination *v20201201s.DiskEncryptionSettings_Status) error {
+// AssignPropertiesToDiskEncryptionSettings_STATUS populates the provided destination DiskEncryptionSettings_STATUS from our DiskEncryptionSettings_STATUS
+func (settings *DiskEncryptionSettings_STATUS) AssignPropertiesToDiskEncryptionSettings_STATUS(destination *v20201201s.DiskEncryptionSettings_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
 	// DiskEncryptionKey
 	if settings.DiskEncryptionKey != nil {
-		var diskEncryptionKey v20201201s.KeyVaultSecretReference_Status
-		err := settings.DiskEncryptionKey.AssignPropertiesToKeyVaultSecretReferenceStatus(&diskEncryptionKey)
+		var diskEncryptionKey v20201201s.KeyVaultSecretReference_STATUS
+		err := settings.DiskEncryptionKey.AssignPropertiesToKeyVaultSecretReference_STATUS(&diskEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultSecretReferenceStatus() to populate field DiskEncryptionKey")
+			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultSecretReference_STATUS() to populate field DiskEncryptionKey")
 		}
 		destination.DiskEncryptionKey = &diskEncryptionKey
 	} else {
@@ -7609,10 +8748,10 @@ func (settings *DiskEncryptionSettings_Status) AssignPropertiesToDiskEncryptionS
 
 	// KeyEncryptionKey
 	if settings.KeyEncryptionKey != nil {
-		var keyEncryptionKey v20201201s.KeyVaultKeyReference_Status
-		err := settings.KeyEncryptionKey.AssignPropertiesToKeyVaultKeyReferenceStatus(&keyEncryptionKey)
+		var keyEncryptionKey v20201201s.KeyVaultKeyReference_STATUS
+		err := settings.KeyEncryptionKey.AssignPropertiesToKeyVaultKeyReference_STATUS(&keyEncryptionKey)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultKeyReferenceStatus() to populate field KeyEncryptionKey")
+			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultKeyReference_STATUS() to populate field KeyEncryptionKey")
 		}
 		destination.KeyEncryptionKey = &keyEncryptionKey
 	} else {
@@ -7630,10 +8769,10 @@ func (settings *DiskEncryptionSettings_Status) AssignPropertiesToDiskEncryptionS
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.LastPatchInstallationSummary_Status
-// Deprecated version of LastPatchInstallationSummary_Status. Use v1beta20201201.LastPatchInstallationSummary_Status instead
-type LastPatchInstallationSummary_Status struct {
-	Error                     *ApiError_Status       `json:"error,omitempty"`
+// Storage version of v1alpha1api20201201.LastPatchInstallationSummary
+// Deprecated version of LastPatchInstallationSummary. Use v1beta20201201.LastPatchInstallationSummary instead
+type LastPatchInstallationSummary struct {
+	Error                     *ApiError              `json:"error,omitempty"`
 	ExcludedPatchCount        *int                   `json:"excludedPatchCount,omitempty"`
 	FailedPatchCount          *int                   `json:"failedPatchCount,omitempty"`
 	InstallationActivityId    *string                `json:"installationActivityId,omitempty"`
@@ -7647,17 +8786,17 @@ type LastPatchInstallationSummary_Status struct {
 	Status                    *string                `json:"status,omitempty"`
 }
 
-// AssignPropertiesFromLastPatchInstallationSummaryStatus populates our LastPatchInstallationSummary_Status from the provided source LastPatchInstallationSummary_Status
-func (summary *LastPatchInstallationSummary_Status) AssignPropertiesFromLastPatchInstallationSummaryStatus(source *v20201201s.LastPatchInstallationSummary_Status) error {
+// AssignPropertiesFromLastPatchInstallationSummary populates our LastPatchInstallationSummary from the provided source LastPatchInstallationSummary
+func (summary *LastPatchInstallationSummary) AssignPropertiesFromLastPatchInstallationSummary(source *v20201201s.LastPatchInstallationSummary) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// Error
 	if source.Error != nil {
-		var error ApiError_Status
-		err := error.AssignPropertiesFromApiErrorStatus(source.Error)
+		var error ApiError
+		err := error.AssignPropertiesFromApiError(source.Error)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromApiErrorStatus() to populate field Error")
+			return errors.Wrap(err, "calling AssignPropertiesFromApiError() to populate field Error")
 		}
 		summary.Error = &error
 	} else {
@@ -7710,17 +8849,160 @@ func (summary *LastPatchInstallationSummary_Status) AssignPropertiesFromLastPatc
 	return nil
 }
 
-// AssignPropertiesToLastPatchInstallationSummaryStatus populates the provided destination LastPatchInstallationSummary_Status from our LastPatchInstallationSummary_Status
-func (summary *LastPatchInstallationSummary_Status) AssignPropertiesToLastPatchInstallationSummaryStatus(destination *v20201201s.LastPatchInstallationSummary_Status) error {
+// AssignPropertiesToLastPatchInstallationSummary populates the provided destination LastPatchInstallationSummary from our LastPatchInstallationSummary
+func (summary *LastPatchInstallationSummary) AssignPropertiesToLastPatchInstallationSummary(destination *v20201201s.LastPatchInstallationSummary) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(summary.PropertyBag)
 
 	// Error
 	if summary.Error != nil {
-		var error v20201201s.ApiError_Status
-		err := summary.Error.AssignPropertiesToApiErrorStatus(&error)
+		var error v20201201s.ApiError
+		err := summary.Error.AssignPropertiesToApiError(&error)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToApiErrorStatus() to populate field Error")
+			return errors.Wrap(err, "calling AssignPropertiesToApiError() to populate field Error")
+		}
+		destination.Error = &error
+	} else {
+		destination.Error = nil
+	}
+
+	// ExcludedPatchCount
+	destination.ExcludedPatchCount = genruntime.ClonePointerToInt(summary.ExcludedPatchCount)
+
+	// FailedPatchCount
+	destination.FailedPatchCount = genruntime.ClonePointerToInt(summary.FailedPatchCount)
+
+	// InstallationActivityId
+	destination.InstallationActivityId = genruntime.ClonePointerToString(summary.InstallationActivityId)
+
+	// InstalledPatchCount
+	destination.InstalledPatchCount = genruntime.ClonePointerToInt(summary.InstalledPatchCount)
+
+	// LastModifiedTime
+	destination.LastModifiedTime = genruntime.ClonePointerToString(summary.LastModifiedTime)
+
+	// MaintenanceWindowExceeded
+	if summary.MaintenanceWindowExceeded != nil {
+		maintenanceWindowExceeded := *summary.MaintenanceWindowExceeded
+		destination.MaintenanceWindowExceeded = &maintenanceWindowExceeded
+	} else {
+		destination.MaintenanceWindowExceeded = nil
+	}
+
+	// NotSelectedPatchCount
+	destination.NotSelectedPatchCount = genruntime.ClonePointerToInt(summary.NotSelectedPatchCount)
+
+	// PendingPatchCount
+	destination.PendingPatchCount = genruntime.ClonePointerToInt(summary.PendingPatchCount)
+
+	// StartTime
+	destination.StartTime = genruntime.ClonePointerToString(summary.StartTime)
+
+	// Status
+	destination.Status = genruntime.ClonePointerToString(summary.Status)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20201201.LastPatchInstallationSummary_STATUS
+// Deprecated version of LastPatchInstallationSummary_STATUS. Use v1beta20201201.LastPatchInstallationSummary_STATUS instead
+type LastPatchInstallationSummary_STATUS struct {
+	Error                     *ApiError_STATUS       `json:"error,omitempty"`
+	ExcludedPatchCount        *int                   `json:"excludedPatchCount,omitempty"`
+	FailedPatchCount          *int                   `json:"failedPatchCount,omitempty"`
+	InstallationActivityId    *string                `json:"installationActivityId,omitempty"`
+	InstalledPatchCount       *int                   `json:"installedPatchCount,omitempty"`
+	LastModifiedTime          *string                `json:"lastModifiedTime,omitempty"`
+	MaintenanceWindowExceeded *bool                  `json:"maintenanceWindowExceeded,omitempty"`
+	NotSelectedPatchCount     *int                   `json:"notSelectedPatchCount,omitempty"`
+	PendingPatchCount         *int                   `json:"pendingPatchCount,omitempty"`
+	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	StartTime                 *string                `json:"startTime,omitempty"`
+	Status                    *string                `json:"status,omitempty"`
+}
+
+// AssignPropertiesFromLastPatchInstallationSummary_STATUS populates our LastPatchInstallationSummary_STATUS from the provided source LastPatchInstallationSummary_STATUS
+func (summary *LastPatchInstallationSummary_STATUS) AssignPropertiesFromLastPatchInstallationSummary_STATUS(source *v20201201s.LastPatchInstallationSummary_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Error
+	if source.Error != nil {
+		var error ApiError_STATUS
+		err := error.AssignPropertiesFromApiError_STATUS(source.Error)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromApiError_STATUS() to populate field Error")
+		}
+		summary.Error = &error
+	} else {
+		summary.Error = nil
+	}
+
+	// ExcludedPatchCount
+	summary.ExcludedPatchCount = genruntime.ClonePointerToInt(source.ExcludedPatchCount)
+
+	// FailedPatchCount
+	summary.FailedPatchCount = genruntime.ClonePointerToInt(source.FailedPatchCount)
+
+	// InstallationActivityId
+	summary.InstallationActivityId = genruntime.ClonePointerToString(source.InstallationActivityId)
+
+	// InstalledPatchCount
+	summary.InstalledPatchCount = genruntime.ClonePointerToInt(source.InstalledPatchCount)
+
+	// LastModifiedTime
+	summary.LastModifiedTime = genruntime.ClonePointerToString(source.LastModifiedTime)
+
+	// MaintenanceWindowExceeded
+	if source.MaintenanceWindowExceeded != nil {
+		maintenanceWindowExceeded := *source.MaintenanceWindowExceeded
+		summary.MaintenanceWindowExceeded = &maintenanceWindowExceeded
+	} else {
+		summary.MaintenanceWindowExceeded = nil
+	}
+
+	// NotSelectedPatchCount
+	summary.NotSelectedPatchCount = genruntime.ClonePointerToInt(source.NotSelectedPatchCount)
+
+	// PendingPatchCount
+	summary.PendingPatchCount = genruntime.ClonePointerToInt(source.PendingPatchCount)
+
+	// StartTime
+	summary.StartTime = genruntime.ClonePointerToString(source.StartTime)
+
+	// Status
+	summary.Status = genruntime.ClonePointerToString(source.Status)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		summary.PropertyBag = propertyBag
+	} else {
+		summary.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToLastPatchInstallationSummary_STATUS populates the provided destination LastPatchInstallationSummary_STATUS from our LastPatchInstallationSummary_STATUS
+func (summary *LastPatchInstallationSummary_STATUS) AssignPropertiesToLastPatchInstallationSummary_STATUS(destination *v20201201s.LastPatchInstallationSummary_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(summary.PropertyBag)
+
+	// Error
+	if summary.Error != nil {
+		var error v20201201s.ApiError_STATUS
+		err := summary.Error.AssignPropertiesToApiError_STATUS(&error)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToApiError_STATUS() to populate field Error")
 		}
 		destination.Error = &error
 	} else {
@@ -7818,15 +9100,15 @@ func (settings *LinuxPatchSettings) AssignPropertiesToLinuxPatchSettings(destina
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.LinuxPatchSettings_Status
-// Deprecated version of LinuxPatchSettings_Status. Use v1beta20201201.LinuxPatchSettings_Status instead
-type LinuxPatchSettings_Status struct {
+// Storage version of v1alpha1api20201201.LinuxPatchSettings_STATUS
+// Deprecated version of LinuxPatchSettings_STATUS. Use v1beta20201201.LinuxPatchSettings_STATUS instead
+type LinuxPatchSettings_STATUS struct {
 	PatchMode   *string                `json:"patchMode,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromLinuxPatchSettingsStatus populates our LinuxPatchSettings_Status from the provided source LinuxPatchSettings_Status
-func (settings *LinuxPatchSettings_Status) AssignPropertiesFromLinuxPatchSettingsStatus(source *v20201201s.LinuxPatchSettings_Status) error {
+// AssignPropertiesFromLinuxPatchSettings_STATUS populates our LinuxPatchSettings_STATUS from the provided source LinuxPatchSettings_STATUS
+func (settings *LinuxPatchSettings_STATUS) AssignPropertiesFromLinuxPatchSettings_STATUS(source *v20201201s.LinuxPatchSettings_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -7844,8 +9126,8 @@ func (settings *LinuxPatchSettings_Status) AssignPropertiesFromLinuxPatchSetting
 	return nil
 }
 
-// AssignPropertiesToLinuxPatchSettingsStatus populates the provided destination LinuxPatchSettings_Status from our LinuxPatchSettings_Status
-func (settings *LinuxPatchSettings_Status) AssignPropertiesToLinuxPatchSettingsStatus(destination *v20201201s.LinuxPatchSettings_Status) error {
+// AssignPropertiesToLinuxPatchSettings_STATUS populates the provided destination LinuxPatchSettings_STATUS from our LinuxPatchSettings_STATUS
+func (settings *LinuxPatchSettings_STATUS) AssignPropertiesToLinuxPatchSettings_STATUS(destination *v20201201s.LinuxPatchSettings_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
@@ -7866,7 +9148,7 @@ func (settings *LinuxPatchSettings_Status) AssignPropertiesToLinuxPatchSettingsS
 // Storage version of v1alpha1api20201201.ManagedDiskParameters
 // Deprecated version of ManagedDiskParameters. Use v1beta20201201.ManagedDiskParameters instead
 type ManagedDiskParameters struct {
-	DiskEncryptionSet  *DiskEncryptionSetParameters  `json:"diskEncryptionSet,omitempty"`
+	DiskEncryptionSet  *SubResource                  `json:"diskEncryptionSet,omitempty"`
 	PropertyBag        genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	Reference          *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 	StorageAccountType *string                       `json:"storageAccountType,omitempty"`
@@ -7879,15 +9161,15 @@ func (parameters *ManagedDiskParameters) AssignPropertiesFromManagedDiskParamete
 
 	// DiskEncryptionSet
 	if source.DiskEncryptionSet != nil {
-		var diskEncryptionSetParametersStash alpha20210701s.DiskEncryptionSetParameters
-		err := diskEncryptionSetParametersStash.AssignPropertiesFromDiskEncryptionSetParameters(source.DiskEncryptionSet)
+		var subResourceStash alpha20210701s.SubResource
+		err := subResourceStash.AssignPropertiesFromSubResource(source.DiskEncryptionSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDiskEncryptionSetParameters() to populate field DiskEncryptionSetParametersStash from DiskEncryptionSet")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field SubResourceStash from DiskEncryptionSet")
 		}
-		var diskEncryptionSet DiskEncryptionSetParameters
-		err = diskEncryptionSet.AssignPropertiesFromDiskEncryptionSetParameters(&diskEncryptionSetParametersStash)
+		var diskEncryptionSet SubResource
+		err = diskEncryptionSet.AssignPropertiesFromSubResource(&subResourceStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDiskEncryptionSetParameters() to populate field DiskEncryptionSet from DiskEncryptionSetParametersStash")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field DiskEncryptionSet from SubResourceStash")
 		}
 		parameters.DiskEncryptionSet = &diskEncryptionSet
 	} else {
@@ -7923,15 +9205,15 @@ func (parameters *ManagedDiskParameters) AssignPropertiesToManagedDiskParameters
 
 	// DiskEncryptionSet
 	if parameters.DiskEncryptionSet != nil {
-		var diskEncryptionSetParametersStash alpha20210701s.DiskEncryptionSetParameters
-		err := parameters.DiskEncryptionSet.AssignPropertiesToDiskEncryptionSetParameters(&diskEncryptionSetParametersStash)
+		var subResourceStash alpha20210701s.SubResource
+		err := parameters.DiskEncryptionSet.AssignPropertiesToSubResource(&subResourceStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDiskEncryptionSetParameters() to populate field DiskEncryptionSetParametersStash from DiskEncryptionSet")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field SubResourceStash from DiskEncryptionSet")
 		}
-		var diskEncryptionSet v20201201s.DiskEncryptionSetParameters
-		err = diskEncryptionSetParametersStash.AssignPropertiesToDiskEncryptionSetParameters(&diskEncryptionSet)
+		var diskEncryptionSet v20201201s.SubResource
+		err = subResourceStash.AssignPropertiesToSubResource(&diskEncryptionSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDiskEncryptionSetParameters() to populate field DiskEncryptionSet from DiskEncryptionSetParametersStash")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field DiskEncryptionSet from SubResourceStash")
 		}
 		destination.DiskEncryptionSet = &diskEncryptionSet
 	} else {
@@ -7960,31 +9242,31 @@ func (parameters *ManagedDiskParameters) AssignPropertiesToManagedDiskParameters
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.ManagedDiskParameters_Status
-// Deprecated version of ManagedDiskParameters_Status. Use v1beta20201201.ManagedDiskParameters_Status instead
-type ManagedDiskParameters_Status struct {
-	DiskEncryptionSet  *SubResource_Status    `json:"diskEncryptionSet,omitempty"`
+// Storage version of v1alpha1api20201201.ManagedDiskParameters_STATUS
+// Deprecated version of ManagedDiskParameters_STATUS. Use v1beta20201201.ManagedDiskParameters_STATUS instead
+type ManagedDiskParameters_STATUS struct {
+	DiskEncryptionSet  *SubResource_STATUS    `json:"diskEncryptionSet,omitempty"`
 	Id                 *string                `json:"id,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	StorageAccountType *string                `json:"storageAccountType,omitempty"`
 }
 
-// AssignPropertiesFromManagedDiskParametersStatus populates our ManagedDiskParameters_Status from the provided source ManagedDiskParameters_Status
-func (parameters *ManagedDiskParameters_Status) AssignPropertiesFromManagedDiskParametersStatus(source *v20201201s.ManagedDiskParameters_Status) error {
+// AssignPropertiesFromManagedDiskParameters_STATUS populates our ManagedDiskParameters_STATUS from the provided source ManagedDiskParameters_STATUS
+func (parameters *ManagedDiskParameters_STATUS) AssignPropertiesFromManagedDiskParameters_STATUS(source *v20201201s.ManagedDiskParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// DiskEncryptionSet
 	if source.DiskEncryptionSet != nil {
-		var subResourceStatusStash alpha20210701s.SubResource_Status
-		err := subResourceStatusStash.AssignPropertiesFromSubResourceStatus(source.DiskEncryptionSet)
+		var subResource_STATUSStash alpha20210701s.SubResource_STATUS
+		err := subResource_STATUSStash.AssignPropertiesFromSubResource_STATUS(source.DiskEncryptionSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SubResource_StatusStash from DiskEncryptionSet")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field SubResource_STATUSStash from DiskEncryptionSet")
 		}
-		var diskEncryptionSet SubResource_Status
-		err = diskEncryptionSet.AssignPropertiesFromSubResourceStatus(&subResourceStatusStash)
+		var diskEncryptionSet SubResource_STATUS
+		err = diskEncryptionSet.AssignPropertiesFromSubResource_STATUS(&subResource_STATUSStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field DiskEncryptionSet from SubResource_StatusStash")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field DiskEncryptionSet from SubResource_STATUSStash")
 		}
 		parameters.DiskEncryptionSet = &diskEncryptionSet
 	} else {
@@ -8008,22 +9290,22 @@ func (parameters *ManagedDiskParameters_Status) AssignPropertiesFromManagedDiskP
 	return nil
 }
 
-// AssignPropertiesToManagedDiskParametersStatus populates the provided destination ManagedDiskParameters_Status from our ManagedDiskParameters_Status
-func (parameters *ManagedDiskParameters_Status) AssignPropertiesToManagedDiskParametersStatus(destination *v20201201s.ManagedDiskParameters_Status) error {
+// AssignPropertiesToManagedDiskParameters_STATUS populates the provided destination ManagedDiskParameters_STATUS from our ManagedDiskParameters_STATUS
+func (parameters *ManagedDiskParameters_STATUS) AssignPropertiesToManagedDiskParameters_STATUS(destination *v20201201s.ManagedDiskParameters_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
 
 	// DiskEncryptionSet
 	if parameters.DiskEncryptionSet != nil {
-		var subResourceStatusStash alpha20210701s.SubResource_Status
-		err := parameters.DiskEncryptionSet.AssignPropertiesToSubResourceStatus(&subResourceStatusStash)
+		var subResource_STATUSStash alpha20210701s.SubResource_STATUS
+		err := parameters.DiskEncryptionSet.AssignPropertiesToSubResource_STATUS(&subResource_STATUSStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SubResource_StatusStash from DiskEncryptionSet")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field SubResource_STATUSStash from DiskEncryptionSet")
 		}
-		var diskEncryptionSet v20201201s.SubResource_Status
-		err = subResourceStatusStash.AssignPropertiesToSubResourceStatus(&diskEncryptionSet)
+		var diskEncryptionSet v20201201s.SubResource_STATUS
+		err = subResource_STATUSStash.AssignPropertiesToSubResource_STATUS(&diskEncryptionSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field DiskEncryptionSet from SubResource_StatusStash")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field DiskEncryptionSet from SubResource_STATUSStash")
 		}
 		destination.DiskEncryptionSet = &diskEncryptionSet
 	} else {
@@ -8109,16 +9391,16 @@ func (settings *PatchSettings) AssignPropertiesToPatchSettings(destination *v202
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.PatchSettings_Status
-// Deprecated version of PatchSettings_Status. Use v1beta20201201.PatchSettings_Status instead
-type PatchSettings_Status struct {
+// Storage version of v1alpha1api20201201.PatchSettings_STATUS
+// Deprecated version of PatchSettings_STATUS. Use v1beta20201201.PatchSettings_STATUS instead
+type PatchSettings_STATUS struct {
 	EnableHotpatching *bool                  `json:"enableHotpatching,omitempty"`
 	PatchMode         *string                `json:"patchMode,omitempty"`
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromPatchSettingsStatus populates our PatchSettings_Status from the provided source PatchSettings_Status
-func (settings *PatchSettings_Status) AssignPropertiesFromPatchSettingsStatus(source *v20201201s.PatchSettings_Status) error {
+// AssignPropertiesFromPatchSettings_STATUS populates our PatchSettings_STATUS from the provided source PatchSettings_STATUS
+func (settings *PatchSettings_STATUS) AssignPropertiesFromPatchSettings_STATUS(source *v20201201s.PatchSettings_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -8144,8 +9426,8 @@ func (settings *PatchSettings_Status) AssignPropertiesFromPatchSettingsStatus(so
 	return nil
 }
 
-// AssignPropertiesToPatchSettingsStatus populates the provided destination PatchSettings_Status from our PatchSettings_Status
-func (settings *PatchSettings_Status) AssignPropertiesToPatchSettingsStatus(destination *v20201201s.PatchSettings_Status) error {
+// AssignPropertiesToPatchSettings_STATUS populates the provided destination PatchSettings_STATUS from our PatchSettings_STATUS
+func (settings *PatchSettings_STATUS) AssignPropertiesToPatchSettings_STATUS(destination *v20201201s.PatchSettings_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(settings.PropertyBag)
 
@@ -8175,7 +9457,7 @@ func (settings *PatchSettings_Status) AssignPropertiesToPatchSettingsStatus(dest
 // Deprecated version of SshConfiguration. Use v1beta20201201.SshConfiguration instead
 type SshConfiguration struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	PublicKeys  []SshPublicKey         `json:"publicKeys,omitempty"`
+	PublicKeys  []SshPublicKeySpec     `json:"publicKeys,omitempty"`
 }
 
 // AssignPropertiesFromSshConfiguration populates our SshConfiguration from the provided source SshConfiguration
@@ -8185,14 +9467,14 @@ func (configuration *SshConfiguration) AssignPropertiesFromSshConfiguration(sour
 
 	// PublicKeys
 	if source.PublicKeys != nil {
-		publicKeyList := make([]SshPublicKey, len(source.PublicKeys))
+		publicKeyList := make([]SshPublicKeySpec, len(source.PublicKeys))
 		for publicKeyIndex, publicKeyItem := range source.PublicKeys {
 			// Shadow the loop variable to avoid aliasing
 			publicKeyItem := publicKeyItem
-			var publicKey SshPublicKey
-			err := publicKey.AssignPropertiesFromSshPublicKey(&publicKeyItem)
+			var publicKey SshPublicKeySpec
+			err := publicKey.AssignPropertiesFromSshPublicKeySpec(&publicKeyItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromSshPublicKey() to populate field PublicKeys")
+				return errors.Wrap(err, "calling AssignPropertiesFromSshPublicKeySpec() to populate field PublicKeys")
 			}
 			publicKeyList[publicKeyIndex] = publicKey
 		}
@@ -8219,14 +9501,14 @@ func (configuration *SshConfiguration) AssignPropertiesToSshConfiguration(destin
 
 	// PublicKeys
 	if configuration.PublicKeys != nil {
-		publicKeyList := make([]v20201201s.SshPublicKey, len(configuration.PublicKeys))
+		publicKeyList := make([]v20201201s.SshPublicKeySpec, len(configuration.PublicKeys))
 		for publicKeyIndex, publicKeyItem := range configuration.PublicKeys {
 			// Shadow the loop variable to avoid aliasing
 			publicKeyItem := publicKeyItem
-			var publicKey v20201201s.SshPublicKey
-			err := publicKeyItem.AssignPropertiesToSshPublicKey(&publicKey)
+			var publicKey v20201201s.SshPublicKeySpec
+			err := publicKeyItem.AssignPropertiesToSshPublicKeySpec(&publicKey)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToSshPublicKey() to populate field PublicKeys")
+				return errors.Wrap(err, "calling AssignPropertiesToSshPublicKeySpec() to populate field PublicKeys")
 			}
 			publicKeyList[publicKeyIndex] = publicKey
 		}
@@ -8246,28 +9528,28 @@ func (configuration *SshConfiguration) AssignPropertiesToSshConfiguration(destin
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.SshConfiguration_Status
-// Deprecated version of SshConfiguration_Status. Use v1beta20201201.SshConfiguration_Status instead
-type SshConfiguration_Status struct {
+// Storage version of v1alpha1api20201201.SshConfiguration_STATUS
+// Deprecated version of SshConfiguration_STATUS. Use v1beta20201201.SshConfiguration_STATUS instead
+type SshConfiguration_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	PublicKeys  []SshPublicKey_Status  `json:"publicKeys,omitempty"`
+	PublicKeys  []SshPublicKey_STATUS  `json:"publicKeys,omitempty"`
 }
 
-// AssignPropertiesFromSshConfigurationStatus populates our SshConfiguration_Status from the provided source SshConfiguration_Status
-func (configuration *SshConfiguration_Status) AssignPropertiesFromSshConfigurationStatus(source *v20201201s.SshConfiguration_Status) error {
+// AssignPropertiesFromSshConfiguration_STATUS populates our SshConfiguration_STATUS from the provided source SshConfiguration_STATUS
+func (configuration *SshConfiguration_STATUS) AssignPropertiesFromSshConfiguration_STATUS(source *v20201201s.SshConfiguration_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// PublicKeys
 	if source.PublicKeys != nil {
-		publicKeyList := make([]SshPublicKey_Status, len(source.PublicKeys))
+		publicKeyList := make([]SshPublicKey_STATUS, len(source.PublicKeys))
 		for publicKeyIndex, publicKeyItem := range source.PublicKeys {
 			// Shadow the loop variable to avoid aliasing
 			publicKeyItem := publicKeyItem
-			var publicKey SshPublicKey_Status
-			err := publicKey.AssignPropertiesFromSshPublicKeyStatus(&publicKeyItem)
+			var publicKey SshPublicKey_STATUS
+			err := publicKey.AssignPropertiesFromSshPublicKey_STATUS(&publicKeyItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromSshPublicKeyStatus() to populate field PublicKeys")
+				return errors.Wrap(err, "calling AssignPropertiesFromSshPublicKey_STATUS() to populate field PublicKeys")
 			}
 			publicKeyList[publicKeyIndex] = publicKey
 		}
@@ -8287,21 +9569,21 @@ func (configuration *SshConfiguration_Status) AssignPropertiesFromSshConfigurati
 	return nil
 }
 
-// AssignPropertiesToSshConfigurationStatus populates the provided destination SshConfiguration_Status from our SshConfiguration_Status
-func (configuration *SshConfiguration_Status) AssignPropertiesToSshConfigurationStatus(destination *v20201201s.SshConfiguration_Status) error {
+// AssignPropertiesToSshConfiguration_STATUS populates the provided destination SshConfiguration_STATUS from our SshConfiguration_STATUS
+func (configuration *SshConfiguration_STATUS) AssignPropertiesToSshConfiguration_STATUS(destination *v20201201s.SshConfiguration_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
 
 	// PublicKeys
 	if configuration.PublicKeys != nil {
-		publicKeyList := make([]v20201201s.SshPublicKey_Status, len(configuration.PublicKeys))
+		publicKeyList := make([]v20201201s.SshPublicKey_STATUS, len(configuration.PublicKeys))
 		for publicKeyIndex, publicKeyItem := range configuration.PublicKeys {
 			// Shadow the loop variable to avoid aliasing
 			publicKeyItem := publicKeyItem
-			var publicKey v20201201s.SshPublicKey_Status
-			err := publicKeyItem.AssignPropertiesToSshPublicKeyStatus(&publicKey)
+			var publicKey v20201201s.SshPublicKey_STATUS
+			err := publicKeyItem.AssignPropertiesToSshPublicKey_STATUS(&publicKey)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToSshPublicKeyStatus() to populate field PublicKeys")
+				return errors.Wrap(err, "calling AssignPropertiesToSshPublicKey_STATUS() to populate field PublicKeys")
 			}
 			publicKeyList[publicKeyIndex] = publicKey
 		}
@@ -8373,16 +9655,16 @@ func (certificate *VaultCertificate) AssignPropertiesToVaultCertificate(destinat
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.VaultCertificate_Status
-// Deprecated version of VaultCertificate_Status. Use v1beta20201201.VaultCertificate_Status instead
-type VaultCertificate_Status struct {
+// Storage version of v1alpha1api20201201.VaultCertificate_STATUS
+// Deprecated version of VaultCertificate_STATUS. Use v1beta20201201.VaultCertificate_STATUS instead
+type VaultCertificate_STATUS struct {
 	CertificateStore *string                `json:"certificateStore,omitempty"`
 	CertificateUrl   *string                `json:"certificateUrl,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromVaultCertificateStatus populates our VaultCertificate_Status from the provided source VaultCertificate_Status
-func (certificate *VaultCertificate_Status) AssignPropertiesFromVaultCertificateStatus(source *v20201201s.VaultCertificate_Status) error {
+// AssignPropertiesFromVaultCertificate_STATUS populates our VaultCertificate_STATUS from the provided source VaultCertificate_STATUS
+func (certificate *VaultCertificate_STATUS) AssignPropertiesFromVaultCertificate_STATUS(source *v20201201s.VaultCertificate_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -8403,8 +9685,8 @@ func (certificate *VaultCertificate_Status) AssignPropertiesFromVaultCertificate
 	return nil
 }
 
-// AssignPropertiesToVaultCertificateStatus populates the provided destination VaultCertificate_Status from our VaultCertificate_Status
-func (certificate *VaultCertificate_Status) AssignPropertiesToVaultCertificateStatus(destination *v20201201s.VaultCertificate_Status) error {
+// AssignPropertiesToVaultCertificate_STATUS populates the provided destination VaultCertificate_STATUS from our VaultCertificate_STATUS
+func (certificate *VaultCertificate_STATUS) AssignPropertiesToVaultCertificate_STATUS(destination *v20201201s.VaultCertificate_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(certificate.PropertyBag)
 
@@ -8470,15 +9752,15 @@ func (disk *VirtualHardDisk) AssignPropertiesToVirtualHardDisk(destination *v202
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.VirtualHardDisk_Status
-// Deprecated version of VirtualHardDisk_Status. Use v1beta20201201.VirtualHardDisk_Status instead
-type VirtualHardDisk_Status struct {
+// Storage version of v1alpha1api20201201.VirtualHardDisk_STATUS
+// Deprecated version of VirtualHardDisk_STATUS. Use v1beta20201201.VirtualHardDisk_STATUS instead
+type VirtualHardDisk_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Uri         *string                `json:"uri,omitempty"`
 }
 
-// AssignPropertiesFromVirtualHardDiskStatus populates our VirtualHardDisk_Status from the provided source VirtualHardDisk_Status
-func (disk *VirtualHardDisk_Status) AssignPropertiesFromVirtualHardDiskStatus(source *v20201201s.VirtualHardDisk_Status) error {
+// AssignPropertiesFromVirtualHardDisk_STATUS populates our VirtualHardDisk_STATUS from the provided source VirtualHardDisk_STATUS
+func (disk *VirtualHardDisk_STATUS) AssignPropertiesFromVirtualHardDisk_STATUS(source *v20201201s.VirtualHardDisk_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -8496,8 +9778,8 @@ func (disk *VirtualHardDisk_Status) AssignPropertiesFromVirtualHardDiskStatus(so
 	return nil
 }
 
-// AssignPropertiesToVirtualHardDiskStatus populates the provided destination VirtualHardDisk_Status from our VirtualHardDisk_Status
-func (disk *VirtualHardDisk_Status) AssignPropertiesToVirtualHardDiskStatus(destination *v20201201s.VirtualHardDisk_Status) error {
+// AssignPropertiesToVirtualHardDisk_STATUS populates the provided destination VirtualHardDisk_STATUS from our VirtualHardDisk_STATUS
+func (disk *VirtualHardDisk_STATUS) AssignPropertiesToVirtualHardDisk_STATUS(destination *v20201201s.VirtualHardDisk_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(disk.PropertyBag)
 
@@ -8515,26 +9797,26 @@ func (disk *VirtualHardDisk_Status) AssignPropertiesToVirtualHardDiskStatus(dest
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.VirtualMachineExtensionHandlerInstanceView_Status
-// Deprecated version of VirtualMachineExtensionHandlerInstanceView_Status. Use v1beta20201201.VirtualMachineExtensionHandlerInstanceView_Status instead
-type VirtualMachineExtensionHandlerInstanceView_Status struct {
-	PropertyBag        genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
-	Status             *InstanceViewStatus_Status `json:"status,omitempty"`
-	Type               *string                    `json:"type,omitempty"`
-	TypeHandlerVersion *string                    `json:"typeHandlerVersion,omitempty"`
+// Storage version of v1alpha1api20201201.VirtualMachineExtensionHandlerInstanceView
+// Deprecated version of VirtualMachineExtensionHandlerInstanceView. Use v1beta20201201.VirtualMachineExtensionHandlerInstanceView instead
+type VirtualMachineExtensionHandlerInstanceView struct {
+	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Status             *InstanceViewStatus    `json:"status,omitempty"`
+	Type               *string                `json:"type,omitempty"`
+	TypeHandlerVersion *string                `json:"typeHandlerVersion,omitempty"`
 }
 
-// AssignPropertiesFromVirtualMachineExtensionHandlerInstanceViewStatus populates our VirtualMachineExtensionHandlerInstanceView_Status from the provided source VirtualMachineExtensionHandlerInstanceView_Status
-func (view *VirtualMachineExtensionHandlerInstanceView_Status) AssignPropertiesFromVirtualMachineExtensionHandlerInstanceViewStatus(source *v20201201s.VirtualMachineExtensionHandlerInstanceView_Status) error {
+// AssignPropertiesFromVirtualMachineExtensionHandlerInstanceView populates our VirtualMachineExtensionHandlerInstanceView from the provided source VirtualMachineExtensionHandlerInstanceView
+func (view *VirtualMachineExtensionHandlerInstanceView) AssignPropertiesFromVirtualMachineExtensionHandlerInstanceView(source *v20201201s.VirtualMachineExtensionHandlerInstanceView) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// Status
 	if source.Status != nil {
-		var status InstanceViewStatus_Status
-		err := status.AssignPropertiesFromInstanceViewStatusStatus(source.Status)
+		var status InstanceViewStatus
+		err := status.AssignPropertiesFromInstanceViewStatus(source.Status)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatusStatus() to populate field Status")
+			return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatus() to populate field Status")
 		}
 		view.Status = &status
 	} else {
@@ -8558,17 +9840,94 @@ func (view *VirtualMachineExtensionHandlerInstanceView_Status) AssignPropertiesF
 	return nil
 }
 
-// AssignPropertiesToVirtualMachineExtensionHandlerInstanceViewStatus populates the provided destination VirtualMachineExtensionHandlerInstanceView_Status from our VirtualMachineExtensionHandlerInstanceView_Status
-func (view *VirtualMachineExtensionHandlerInstanceView_Status) AssignPropertiesToVirtualMachineExtensionHandlerInstanceViewStatus(destination *v20201201s.VirtualMachineExtensionHandlerInstanceView_Status) error {
+// AssignPropertiesToVirtualMachineExtensionHandlerInstanceView populates the provided destination VirtualMachineExtensionHandlerInstanceView from our VirtualMachineExtensionHandlerInstanceView
+func (view *VirtualMachineExtensionHandlerInstanceView) AssignPropertiesToVirtualMachineExtensionHandlerInstanceView(destination *v20201201s.VirtualMachineExtensionHandlerInstanceView) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(view.PropertyBag)
 
 	// Status
 	if view.Status != nil {
-		var status v20201201s.InstanceViewStatus_Status
-		err := view.Status.AssignPropertiesToInstanceViewStatusStatus(&status)
+		var status v20201201s.InstanceViewStatus
+		err := view.Status.AssignPropertiesToInstanceViewStatus(&status)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatusStatus() to populate field Status")
+			return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatus() to populate field Status")
+		}
+		destination.Status = &status
+	} else {
+		destination.Status = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(view.Type)
+
+	// TypeHandlerVersion
+	destination.TypeHandlerVersion = genruntime.ClonePointerToString(view.TypeHandlerVersion)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20201201.VirtualMachineExtensionHandlerInstanceView_STATUS
+// Deprecated version of VirtualMachineExtensionHandlerInstanceView_STATUS. Use v1beta20201201.VirtualMachineExtensionHandlerInstanceView_STATUS instead
+type VirtualMachineExtensionHandlerInstanceView_STATUS struct {
+	PropertyBag        genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
+	Status             *InstanceViewStatus_STATUS `json:"status,omitempty"`
+	Type               *string                    `json:"type,omitempty"`
+	TypeHandlerVersion *string                    `json:"typeHandlerVersion,omitempty"`
+}
+
+// AssignPropertiesFromVirtualMachineExtensionHandlerInstanceView_STATUS populates our VirtualMachineExtensionHandlerInstanceView_STATUS from the provided source VirtualMachineExtensionHandlerInstanceView_STATUS
+func (view *VirtualMachineExtensionHandlerInstanceView_STATUS) AssignPropertiesFromVirtualMachineExtensionHandlerInstanceView_STATUS(source *v20201201s.VirtualMachineExtensionHandlerInstanceView_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Status
+	if source.Status != nil {
+		var status InstanceViewStatus_STATUS
+		err := status.AssignPropertiesFromInstanceViewStatus_STATUS(source.Status)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatus_STATUS() to populate field Status")
+		}
+		view.Status = &status
+	} else {
+		view.Status = nil
+	}
+
+	// Type
+	view.Type = genruntime.ClonePointerToString(source.Type)
+
+	// TypeHandlerVersion
+	view.TypeHandlerVersion = genruntime.ClonePointerToString(source.TypeHandlerVersion)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		view.PropertyBag = propertyBag
+	} else {
+		view.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineExtensionHandlerInstanceView_STATUS populates the provided destination VirtualMachineExtensionHandlerInstanceView_STATUS from our VirtualMachineExtensionHandlerInstanceView_STATUS
+func (view *VirtualMachineExtensionHandlerInstanceView_STATUS) AssignPropertiesToVirtualMachineExtensionHandlerInstanceView_STATUS(destination *v20201201s.VirtualMachineExtensionHandlerInstanceView_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(view.PropertyBag)
+
+	// Status
+	if view.Status != nil {
+		var status v20201201s.InstanceViewStatus_STATUS
+		err := view.Status.AssignPropertiesToInstanceViewStatus_STATUS(&status)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatus_STATUS() to populate field Status")
 		}
 		destination.Status = &status
 	} else {
@@ -8667,28 +10026,28 @@ func (configuration *WinRMConfiguration) AssignPropertiesToWinRMConfiguration(de
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.WinRMConfiguration_Status
-// Deprecated version of WinRMConfiguration_Status. Use v1beta20201201.WinRMConfiguration_Status instead
-type WinRMConfiguration_Status struct {
-	Listeners   []WinRMListener_Status `json:"listeners,omitempty"`
+// Storage version of v1alpha1api20201201.WinRMConfiguration_STATUS
+// Deprecated version of WinRMConfiguration_STATUS. Use v1beta20201201.WinRMConfiguration_STATUS instead
+type WinRMConfiguration_STATUS struct {
+	Listeners   []WinRMListener_STATUS `json:"listeners,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromWinRMConfigurationStatus populates our WinRMConfiguration_Status from the provided source WinRMConfiguration_Status
-func (configuration *WinRMConfiguration_Status) AssignPropertiesFromWinRMConfigurationStatus(source *v20201201s.WinRMConfiguration_Status) error {
+// AssignPropertiesFromWinRMConfiguration_STATUS populates our WinRMConfiguration_STATUS from the provided source WinRMConfiguration_STATUS
+func (configuration *WinRMConfiguration_STATUS) AssignPropertiesFromWinRMConfiguration_STATUS(source *v20201201s.WinRMConfiguration_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// Listeners
 	if source.Listeners != nil {
-		listenerList := make([]WinRMListener_Status, len(source.Listeners))
+		listenerList := make([]WinRMListener_STATUS, len(source.Listeners))
 		for listenerIndex, listenerItem := range source.Listeners {
 			// Shadow the loop variable to avoid aliasing
 			listenerItem := listenerItem
-			var listener WinRMListener_Status
-			err := listener.AssignPropertiesFromWinRMListenerStatus(&listenerItem)
+			var listener WinRMListener_STATUS
+			err := listener.AssignPropertiesFromWinRMListener_STATUS(&listenerItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromWinRMListenerStatus() to populate field Listeners")
+				return errors.Wrap(err, "calling AssignPropertiesFromWinRMListener_STATUS() to populate field Listeners")
 			}
 			listenerList[listenerIndex] = listener
 		}
@@ -8708,21 +10067,21 @@ func (configuration *WinRMConfiguration_Status) AssignPropertiesFromWinRMConfigu
 	return nil
 }
 
-// AssignPropertiesToWinRMConfigurationStatus populates the provided destination WinRMConfiguration_Status from our WinRMConfiguration_Status
-func (configuration *WinRMConfiguration_Status) AssignPropertiesToWinRMConfigurationStatus(destination *v20201201s.WinRMConfiguration_Status) error {
+// AssignPropertiesToWinRMConfiguration_STATUS populates the provided destination WinRMConfiguration_STATUS from our WinRMConfiguration_STATUS
+func (configuration *WinRMConfiguration_STATUS) AssignPropertiesToWinRMConfiguration_STATUS(destination *v20201201s.WinRMConfiguration_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
 
 	// Listeners
 	if configuration.Listeners != nil {
-		listenerList := make([]v20201201s.WinRMListener_Status, len(configuration.Listeners))
+		listenerList := make([]v20201201s.WinRMListener_STATUS, len(configuration.Listeners))
 		for listenerIndex, listenerItem := range configuration.Listeners {
 			// Shadow the loop variable to avoid aliasing
 			listenerItem := listenerItem
-			var listener v20201201s.WinRMListener_Status
-			err := listenerItem.AssignPropertiesToWinRMListenerStatus(&listener)
+			var listener v20201201s.WinRMListener_STATUS
+			err := listenerItem.AssignPropertiesToWinRMListener_STATUS(&listener)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToWinRMListenerStatus() to populate field Listeners")
+				return errors.Wrap(err, "calling AssignPropertiesToWinRMListener_STATUS() to populate field Listeners")
 			}
 			listenerList[listenerIndex] = listener
 		}
@@ -8742,19 +10101,19 @@ func (configuration *WinRMConfiguration_Status) AssignPropertiesToWinRMConfigura
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.ApiError_Status
-// Deprecated version of ApiError_Status. Use v1beta20201201.ApiError_Status instead
-type ApiError_Status struct {
+// Storage version of v1alpha1api20201201.ApiError
+// Deprecated version of ApiError. Use v1beta20201201.ApiError instead
+type ApiError struct {
 	Code        *string                `json:"code,omitempty"`
-	Details     []ApiErrorBase_Status  `json:"details,omitempty"`
-	Innererror  *InnerError_Status     `json:"innererror,omitempty"`
+	Details     []ApiErrorBase         `json:"details,omitempty"`
+	Innererror  *InnerError            `json:"innererror,omitempty"`
 	Message     *string                `json:"message,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Target      *string                `json:"target,omitempty"`
 }
 
-// AssignPropertiesFromApiErrorStatus populates our ApiError_Status from the provided source ApiError_Status
-func (error *ApiError_Status) AssignPropertiesFromApiErrorStatus(source *v20201201s.ApiError_Status) error {
+// AssignPropertiesFromApiError populates our ApiError from the provided source ApiError
+func (error *ApiError) AssignPropertiesFromApiError(source *v20201201s.ApiError) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -8763,14 +10122,14 @@ func (error *ApiError_Status) AssignPropertiesFromApiErrorStatus(source *v202012
 
 	// Details
 	if source.Details != nil {
-		detailList := make([]ApiErrorBase_Status, len(source.Details))
+		detailList := make([]ApiErrorBase, len(source.Details))
 		for detailIndex, detailItem := range source.Details {
 			// Shadow the loop variable to avoid aliasing
 			detailItem := detailItem
-			var detail ApiErrorBase_Status
-			err := detail.AssignPropertiesFromApiErrorBaseStatus(&detailItem)
+			var detail ApiErrorBase
+			err := detail.AssignPropertiesFromApiErrorBase(&detailItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromApiErrorBaseStatus() to populate field Details")
+				return errors.Wrap(err, "calling AssignPropertiesFromApiErrorBase() to populate field Details")
 			}
 			detailList[detailIndex] = detail
 		}
@@ -8781,10 +10140,10 @@ func (error *ApiError_Status) AssignPropertiesFromApiErrorStatus(source *v202012
 
 	// Innererror
 	if source.Innererror != nil {
-		var innererror InnerError_Status
-		err := innererror.AssignPropertiesFromInnerErrorStatus(source.Innererror)
+		var innererror InnerError
+		err := innererror.AssignPropertiesFromInnerError(source.Innererror)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromInnerErrorStatus() to populate field Innererror")
+			return errors.Wrap(err, "calling AssignPropertiesFromInnerError() to populate field Innererror")
 		}
 		error.Innererror = &innererror
 	} else {
@@ -8808,8 +10167,8 @@ func (error *ApiError_Status) AssignPropertiesFromApiErrorStatus(source *v202012
 	return nil
 }
 
-// AssignPropertiesToApiErrorStatus populates the provided destination ApiError_Status from our ApiError_Status
-func (error *ApiError_Status) AssignPropertiesToApiErrorStatus(destination *v20201201s.ApiError_Status) error {
+// AssignPropertiesToApiError populates the provided destination ApiError from our ApiError
+func (error *ApiError) AssignPropertiesToApiError(destination *v20201201s.ApiError) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(error.PropertyBag)
 
@@ -8818,14 +10177,14 @@ func (error *ApiError_Status) AssignPropertiesToApiErrorStatus(destination *v202
 
 	// Details
 	if error.Details != nil {
-		detailList := make([]v20201201s.ApiErrorBase_Status, len(error.Details))
+		detailList := make([]v20201201s.ApiErrorBase, len(error.Details))
 		for detailIndex, detailItem := range error.Details {
 			// Shadow the loop variable to avoid aliasing
 			detailItem := detailItem
-			var detail v20201201s.ApiErrorBase_Status
-			err := detailItem.AssignPropertiesToApiErrorBaseStatus(&detail)
+			var detail v20201201s.ApiErrorBase
+			err := detailItem.AssignPropertiesToApiErrorBase(&detail)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToApiErrorBaseStatus() to populate field Details")
+				return errors.Wrap(err, "calling AssignPropertiesToApiErrorBase() to populate field Details")
 			}
 			detailList[detailIndex] = detail
 		}
@@ -8836,10 +10195,10 @@ func (error *ApiError_Status) AssignPropertiesToApiErrorStatus(destination *v202
 
 	// Innererror
 	if error.Innererror != nil {
-		var innererror v20201201s.InnerError_Status
-		err := error.Innererror.AssignPropertiesToInnerErrorStatus(&innererror)
+		var innererror v20201201s.InnerError
+		err := error.Innererror.AssignPropertiesToInnerError(&innererror)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToInnerErrorStatus() to populate field Innererror")
+			return errors.Wrap(err, "calling AssignPropertiesToInnerError() to populate field Innererror")
 		}
 		destination.Innererror = &innererror
 	} else {
@@ -8863,49 +10222,115 @@ func (error *ApiError_Status) AssignPropertiesToApiErrorStatus(destination *v202
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.DiskEncryptionSetParameters
-// Deprecated version of DiskEncryptionSetParameters. Use v1beta20201201.DiskEncryptionSetParameters instead
-type DiskEncryptionSetParameters struct {
-	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	Reference   *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+// Storage version of v1alpha1api20201201.ApiError_STATUS
+// Deprecated version of ApiError_STATUS. Use v1beta20201201.ApiError_STATUS instead
+type ApiError_STATUS struct {
+	Code        *string                `json:"code,omitempty"`
+	Details     []ApiErrorBase_STATUS  `json:"details,omitempty"`
+	Innererror  *InnerError_STATUS     `json:"innererror,omitempty"`
+	Message     *string                `json:"message,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Target      *string                `json:"target,omitempty"`
 }
 
-// AssignPropertiesFromDiskEncryptionSetParameters populates our DiskEncryptionSetParameters from the provided source DiskEncryptionSetParameters
-func (parameters *DiskEncryptionSetParameters) AssignPropertiesFromDiskEncryptionSetParameters(source *alpha20210701s.DiskEncryptionSetParameters) error {
+// AssignPropertiesFromApiError_STATUS populates our ApiError_STATUS from the provided source ApiError_STATUS
+func (error *ApiError_STATUS) AssignPropertiesFromApiError_STATUS(source *v20201201s.ApiError_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		parameters.Reference = &reference
+	// Code
+	error.Code = genruntime.ClonePointerToString(source.Code)
+
+	// Details
+	if source.Details != nil {
+		detailList := make([]ApiErrorBase_STATUS, len(source.Details))
+		for detailIndex, detailItem := range source.Details {
+			// Shadow the loop variable to avoid aliasing
+			detailItem := detailItem
+			var detail ApiErrorBase_STATUS
+			err := detail.AssignPropertiesFromApiErrorBase_STATUS(&detailItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromApiErrorBase_STATUS() to populate field Details")
+			}
+			detailList[detailIndex] = detail
+		}
+		error.Details = detailList
 	} else {
-		parameters.Reference = nil
+		error.Details = nil
 	}
+
+	// Innererror
+	if source.Innererror != nil {
+		var innererror InnerError_STATUS
+		err := innererror.AssignPropertiesFromInnerError_STATUS(source.Innererror)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromInnerError_STATUS() to populate field Innererror")
+		}
+		error.Innererror = &innererror
+	} else {
+		error.Innererror = nil
+	}
+
+	// Message
+	error.Message = genruntime.ClonePointerToString(source.Message)
+
+	// Target
+	error.Target = genruntime.ClonePointerToString(source.Target)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		parameters.PropertyBag = propertyBag
+		error.PropertyBag = propertyBag
 	} else {
-		parameters.PropertyBag = nil
+		error.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToDiskEncryptionSetParameters populates the provided destination DiskEncryptionSetParameters from our DiskEncryptionSetParameters
-func (parameters *DiskEncryptionSetParameters) AssignPropertiesToDiskEncryptionSetParameters(destination *alpha20210701s.DiskEncryptionSetParameters) error {
+// AssignPropertiesToApiError_STATUS populates the provided destination ApiError_STATUS from our ApiError_STATUS
+func (error *ApiError_STATUS) AssignPropertiesToApiError_STATUS(destination *v20201201s.ApiError_STATUS) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(error.PropertyBag)
 
-	// Reference
-	if parameters.Reference != nil {
-		reference := parameters.Reference.Copy()
-		destination.Reference = &reference
+	// Code
+	destination.Code = genruntime.ClonePointerToString(error.Code)
+
+	// Details
+	if error.Details != nil {
+		detailList := make([]v20201201s.ApiErrorBase_STATUS, len(error.Details))
+		for detailIndex, detailItem := range error.Details {
+			// Shadow the loop variable to avoid aliasing
+			detailItem := detailItem
+			var detail v20201201s.ApiErrorBase_STATUS
+			err := detailItem.AssignPropertiesToApiErrorBase_STATUS(&detail)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToApiErrorBase_STATUS() to populate field Details")
+			}
+			detailList[detailIndex] = detail
+		}
+		destination.Details = detailList
 	} else {
-		destination.Reference = nil
+		destination.Details = nil
 	}
+
+	// Innererror
+	if error.Innererror != nil {
+		var innererror v20201201s.InnerError_STATUS
+		err := error.Innererror.AssignPropertiesToInnerError_STATUS(&innererror)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToInnerError_STATUS() to populate field Innererror")
+		}
+		destination.Innererror = &innererror
+	} else {
+		destination.Innererror = nil
+	}
+
+	// Message
+	destination.Message = genruntime.ClonePointerToString(error.Message)
+
+	// Target
+	destination.Target = genruntime.ClonePointerToString(error.Target)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -8998,16 +10423,16 @@ func (reference *KeyVaultKeyReference) AssignPropertiesToKeyVaultKeyReference(de
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.KeyVaultKeyReference_Status
-// Deprecated version of KeyVaultKeyReference_Status. Use v1beta20201201.KeyVaultKeyReference_Status instead
-type KeyVaultKeyReference_Status struct {
+// Storage version of v1alpha1api20201201.KeyVaultKeyReference_STATUS
+// Deprecated version of KeyVaultKeyReference_STATUS. Use v1beta20201201.KeyVaultKeyReference_STATUS instead
+type KeyVaultKeyReference_STATUS struct {
 	KeyUrl      *string                `json:"keyUrl,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SourceVault *SubResource_Status    `json:"sourceVault,omitempty"`
+	SourceVault *SubResource_STATUS    `json:"sourceVault,omitempty"`
 }
 
-// AssignPropertiesFromKeyVaultKeyReferenceStatus populates our KeyVaultKeyReference_Status from the provided source KeyVaultKeyReference_Status
-func (reference *KeyVaultKeyReference_Status) AssignPropertiesFromKeyVaultKeyReferenceStatus(source *v20201201s.KeyVaultKeyReference_Status) error {
+// AssignPropertiesFromKeyVaultKeyReference_STATUS populates our KeyVaultKeyReference_STATUS from the provided source KeyVaultKeyReference_STATUS
+func (reference *KeyVaultKeyReference_STATUS) AssignPropertiesFromKeyVaultKeyReference_STATUS(source *v20201201s.KeyVaultKeyReference_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9016,15 +10441,15 @@ func (reference *KeyVaultKeyReference_Status) AssignPropertiesFromKeyVaultKeyRef
 
 	// SourceVault
 	if source.SourceVault != nil {
-		var subResourceStatusStash alpha20210701s.SubResource_Status
-		err := subResourceStatusStash.AssignPropertiesFromSubResourceStatus(source.SourceVault)
+		var subResource_STATUSStash alpha20210701s.SubResource_STATUS
+		err := subResource_STATUSStash.AssignPropertiesFromSubResource_STATUS(source.SourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SubResource_StatusStash from SourceVault")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field SubResource_STATUSStash from SourceVault")
 		}
-		var sourceVault SubResource_Status
-		err = sourceVault.AssignPropertiesFromSubResourceStatus(&subResourceStatusStash)
+		var sourceVault SubResource_STATUS
+		err = sourceVault.AssignPropertiesFromSubResource_STATUS(&subResource_STATUSStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SourceVault from SubResource_StatusStash")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field SourceVault from SubResource_STATUSStash")
 		}
 		reference.SourceVault = &sourceVault
 	} else {
@@ -9042,8 +10467,8 @@ func (reference *KeyVaultKeyReference_Status) AssignPropertiesFromKeyVaultKeyRef
 	return nil
 }
 
-// AssignPropertiesToKeyVaultKeyReferenceStatus populates the provided destination KeyVaultKeyReference_Status from our KeyVaultKeyReference_Status
-func (reference *KeyVaultKeyReference_Status) AssignPropertiesToKeyVaultKeyReferenceStatus(destination *v20201201s.KeyVaultKeyReference_Status) error {
+// AssignPropertiesToKeyVaultKeyReference_STATUS populates the provided destination KeyVaultKeyReference_STATUS from our KeyVaultKeyReference_STATUS
+func (reference *KeyVaultKeyReference_STATUS) AssignPropertiesToKeyVaultKeyReference_STATUS(destination *v20201201s.KeyVaultKeyReference_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(reference.PropertyBag)
 
@@ -9052,15 +10477,15 @@ func (reference *KeyVaultKeyReference_Status) AssignPropertiesToKeyVaultKeyRefer
 
 	// SourceVault
 	if reference.SourceVault != nil {
-		var subResourceStatusStash alpha20210701s.SubResource_Status
-		err := reference.SourceVault.AssignPropertiesToSubResourceStatus(&subResourceStatusStash)
+		var subResource_STATUSStash alpha20210701s.SubResource_STATUS
+		err := reference.SourceVault.AssignPropertiesToSubResource_STATUS(&subResource_STATUSStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SubResource_StatusStash from SourceVault")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field SubResource_STATUSStash from SourceVault")
 		}
-		var sourceVault v20201201s.SubResource_Status
-		err = subResourceStatusStash.AssignPropertiesToSubResourceStatus(&sourceVault)
+		var sourceVault v20201201s.SubResource_STATUS
+		err = subResource_STATUSStash.AssignPropertiesToSubResource_STATUS(&sourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SourceVault from SubResource_StatusStash")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field SourceVault from SubResource_STATUSStash")
 		}
 		destination.SourceVault = &sourceVault
 	} else {
@@ -9158,16 +10583,16 @@ func (reference *KeyVaultSecretReference) AssignPropertiesToKeyVaultSecretRefere
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.KeyVaultSecretReference_Status
-// Deprecated version of KeyVaultSecretReference_Status. Use v1beta20201201.KeyVaultSecretReference_Status instead
-type KeyVaultSecretReference_Status struct {
+// Storage version of v1alpha1api20201201.KeyVaultSecretReference_STATUS
+// Deprecated version of KeyVaultSecretReference_STATUS. Use v1beta20201201.KeyVaultSecretReference_STATUS instead
+type KeyVaultSecretReference_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SecretUrl   *string                `json:"secretUrl,omitempty"`
-	SourceVault *SubResource_Status    `json:"sourceVault,omitempty"`
+	SourceVault *SubResource_STATUS    `json:"sourceVault,omitempty"`
 }
 
-// AssignPropertiesFromKeyVaultSecretReferenceStatus populates our KeyVaultSecretReference_Status from the provided source KeyVaultSecretReference_Status
-func (reference *KeyVaultSecretReference_Status) AssignPropertiesFromKeyVaultSecretReferenceStatus(source *v20201201s.KeyVaultSecretReference_Status) error {
+// AssignPropertiesFromKeyVaultSecretReference_STATUS populates our KeyVaultSecretReference_STATUS from the provided source KeyVaultSecretReference_STATUS
+func (reference *KeyVaultSecretReference_STATUS) AssignPropertiesFromKeyVaultSecretReference_STATUS(source *v20201201s.KeyVaultSecretReference_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9176,15 +10601,15 @@ func (reference *KeyVaultSecretReference_Status) AssignPropertiesFromKeyVaultSec
 
 	// SourceVault
 	if source.SourceVault != nil {
-		var subResourceStatusStash alpha20210701s.SubResource_Status
-		err := subResourceStatusStash.AssignPropertiesFromSubResourceStatus(source.SourceVault)
+		var subResource_STATUSStash alpha20210701s.SubResource_STATUS
+		err := subResource_STATUSStash.AssignPropertiesFromSubResource_STATUS(source.SourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SubResource_StatusStash from SourceVault")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field SubResource_STATUSStash from SourceVault")
 		}
-		var sourceVault SubResource_Status
-		err = sourceVault.AssignPropertiesFromSubResourceStatus(&subResourceStatusStash)
+		var sourceVault SubResource_STATUS
+		err = sourceVault.AssignPropertiesFromSubResource_STATUS(&subResource_STATUSStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SourceVault from SubResource_StatusStash")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field SourceVault from SubResource_STATUSStash")
 		}
 		reference.SourceVault = &sourceVault
 	} else {
@@ -9202,8 +10627,8 @@ func (reference *KeyVaultSecretReference_Status) AssignPropertiesFromKeyVaultSec
 	return nil
 }
 
-// AssignPropertiesToKeyVaultSecretReferenceStatus populates the provided destination KeyVaultSecretReference_Status from our KeyVaultSecretReference_Status
-func (reference *KeyVaultSecretReference_Status) AssignPropertiesToKeyVaultSecretReferenceStatus(destination *v20201201s.KeyVaultSecretReference_Status) error {
+// AssignPropertiesToKeyVaultSecretReference_STATUS populates the provided destination KeyVaultSecretReference_STATUS from our KeyVaultSecretReference_STATUS
+func (reference *KeyVaultSecretReference_STATUS) AssignPropertiesToKeyVaultSecretReference_STATUS(destination *v20201201s.KeyVaultSecretReference_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(reference.PropertyBag)
 
@@ -9212,15 +10637,15 @@ func (reference *KeyVaultSecretReference_Status) AssignPropertiesToKeyVaultSecre
 
 	// SourceVault
 	if reference.SourceVault != nil {
-		var subResourceStatusStash alpha20210701s.SubResource_Status
-		err := reference.SourceVault.AssignPropertiesToSubResourceStatus(&subResourceStatusStash)
+		var subResource_STATUSStash alpha20210701s.SubResource_STATUS
+		err := reference.SourceVault.AssignPropertiesToSubResource_STATUS(&subResource_STATUSStash)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SubResource_StatusStash from SourceVault")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field SubResource_STATUSStash from SourceVault")
 		}
-		var sourceVault v20201201s.SubResource_Status
-		err = subResourceStatusStash.AssignPropertiesToSubResourceStatus(&sourceVault)
+		var sourceVault v20201201s.SubResource_STATUS
+		err = subResource_STATUSStash.AssignPropertiesToSubResource_STATUS(&sourceVault)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SourceVault from SubResource_StatusStash")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field SourceVault from SubResource_STATUSStash")
 		}
 		destination.SourceVault = &sourceVault
 	} else {
@@ -9238,16 +10663,16 @@ func (reference *KeyVaultSecretReference_Status) AssignPropertiesToKeyVaultSecre
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.SshPublicKey
-// Deprecated version of SshPublicKey. Use v1beta20201201.SshPublicKey instead
-type SshPublicKey struct {
+// Storage version of v1alpha1api20201201.SshPublicKeySpec
+// Deprecated version of SshPublicKeySpec. Use v1beta20201201.SshPublicKeySpec instead
+type SshPublicKeySpec struct {
 	KeyData     *string                `json:"keyData,omitempty"`
 	Path        *string                `json:"path,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromSshPublicKey populates our SshPublicKey from the provided source SshPublicKey
-func (publicKey *SshPublicKey) AssignPropertiesFromSshPublicKey(source *v20201201s.SshPublicKey) error {
+// AssignPropertiesFromSshPublicKeySpec populates our SshPublicKeySpec from the provided source SshPublicKeySpec
+func (publicKey *SshPublicKeySpec) AssignPropertiesFromSshPublicKeySpec(source *v20201201s.SshPublicKeySpec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9268,8 +10693,8 @@ func (publicKey *SshPublicKey) AssignPropertiesFromSshPublicKey(source *v2020120
 	return nil
 }
 
-// AssignPropertiesToSshPublicKey populates the provided destination SshPublicKey from our SshPublicKey
-func (publicKey *SshPublicKey) AssignPropertiesToSshPublicKey(destination *v20201201s.SshPublicKey) error {
+// AssignPropertiesToSshPublicKeySpec populates the provided destination SshPublicKeySpec from our SshPublicKeySpec
+func (publicKey *SshPublicKeySpec) AssignPropertiesToSshPublicKeySpec(destination *v20201201s.SshPublicKeySpec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(publicKey.PropertyBag)
 
@@ -9290,16 +10715,16 @@ func (publicKey *SshPublicKey) AssignPropertiesToSshPublicKey(destination *v2020
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.SshPublicKey_Status
-// Deprecated version of SshPublicKey_Status. Use v1beta20201201.SshPublicKey_Status instead
-type SshPublicKey_Status struct {
+// Storage version of v1alpha1api20201201.SshPublicKey_STATUS
+// Deprecated version of SshPublicKey_STATUS. Use v1beta20201201.SshPublicKey_STATUS instead
+type SshPublicKey_STATUS struct {
 	KeyData     *string                `json:"keyData,omitempty"`
 	Path        *string                `json:"path,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromSshPublicKeyStatus populates our SshPublicKey_Status from the provided source SshPublicKey_Status
-func (publicKey *SshPublicKey_Status) AssignPropertiesFromSshPublicKeyStatus(source *v20201201s.SshPublicKey_Status) error {
+// AssignPropertiesFromSshPublicKey_STATUS populates our SshPublicKey_STATUS from the provided source SshPublicKey_STATUS
+func (publicKey *SshPublicKey_STATUS) AssignPropertiesFromSshPublicKey_STATUS(source *v20201201s.SshPublicKey_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9320,8 +10745,8 @@ func (publicKey *SshPublicKey_Status) AssignPropertiesFromSshPublicKeyStatus(sou
 	return nil
 }
 
-// AssignPropertiesToSshPublicKeyStatus populates the provided destination SshPublicKey_Status from our SshPublicKey_Status
-func (publicKey *SshPublicKey_Status) AssignPropertiesToSshPublicKeyStatus(destination *v20201201s.SshPublicKey_Status) error {
+// AssignPropertiesToSshPublicKey_STATUS populates the provided destination SshPublicKey_STATUS from our SshPublicKey_STATUS
+func (publicKey *SshPublicKey_STATUS) AssignPropertiesToSshPublicKey_STATUS(destination *v20201201s.SshPublicKey_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(publicKey.PropertyBag)
 
@@ -9394,16 +10819,16 @@ func (listener *WinRMListener) AssignPropertiesToWinRMListener(destination *v202
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.WinRMListener_Status
-// Deprecated version of WinRMListener_Status. Use v1beta20201201.WinRMListener_Status instead
-type WinRMListener_Status struct {
+// Storage version of v1alpha1api20201201.WinRMListener_STATUS
+// Deprecated version of WinRMListener_STATUS. Use v1beta20201201.WinRMListener_STATUS instead
+type WinRMListener_STATUS struct {
 	CertificateUrl *string                `json:"certificateUrl,omitempty"`
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Protocol       *string                `json:"protocol,omitempty"`
 }
 
-// AssignPropertiesFromWinRMListenerStatus populates our WinRMListener_Status from the provided source WinRMListener_Status
-func (listener *WinRMListener_Status) AssignPropertiesFromWinRMListenerStatus(source *v20201201s.WinRMListener_Status) error {
+// AssignPropertiesFromWinRMListener_STATUS populates our WinRMListener_STATUS from the provided source WinRMListener_STATUS
+func (listener *WinRMListener_STATUS) AssignPropertiesFromWinRMListener_STATUS(source *v20201201s.WinRMListener_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9424,8 +10849,8 @@ func (listener *WinRMListener_Status) AssignPropertiesFromWinRMListenerStatus(so
 	return nil
 }
 
-// AssignPropertiesToWinRMListenerStatus populates the provided destination WinRMListener_Status from our WinRMListener_Status
-func (listener *WinRMListener_Status) AssignPropertiesToWinRMListenerStatus(destination *v20201201s.WinRMListener_Status) error {
+// AssignPropertiesToWinRMListener_STATUS populates the provided destination WinRMListener_STATUS from our WinRMListener_STATUS
+func (listener *WinRMListener_STATUS) AssignPropertiesToWinRMListener_STATUS(destination *v20201201s.WinRMListener_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(listener.PropertyBag)
 
@@ -9446,17 +10871,17 @@ func (listener *WinRMListener_Status) AssignPropertiesToWinRMListenerStatus(dest
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.ApiErrorBase_Status
-// Deprecated version of ApiErrorBase_Status. Use v1beta20201201.ApiErrorBase_Status instead
-type ApiErrorBase_Status struct {
+// Storage version of v1alpha1api20201201.ApiErrorBase
+// Deprecated version of ApiErrorBase. Use v1beta20201201.ApiErrorBase instead
+type ApiErrorBase struct {
 	Code        *string                `json:"code,omitempty"`
 	Message     *string                `json:"message,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Target      *string                `json:"target,omitempty"`
 }
 
-// AssignPropertiesFromApiErrorBaseStatus populates our ApiErrorBase_Status from the provided source ApiErrorBase_Status
-func (base *ApiErrorBase_Status) AssignPropertiesFromApiErrorBaseStatus(source *v20201201s.ApiErrorBase_Status) error {
+// AssignPropertiesFromApiErrorBase populates our ApiErrorBase from the provided source ApiErrorBase
+func (base *ApiErrorBase) AssignPropertiesFromApiErrorBase(source *v20201201s.ApiErrorBase) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9480,8 +10905,8 @@ func (base *ApiErrorBase_Status) AssignPropertiesFromApiErrorBaseStatus(source *
 	return nil
 }
 
-// AssignPropertiesToApiErrorBaseStatus populates the provided destination ApiErrorBase_Status from our ApiErrorBase_Status
-func (base *ApiErrorBase_Status) AssignPropertiesToApiErrorBaseStatus(destination *v20201201s.ApiErrorBase_Status) error {
+// AssignPropertiesToApiErrorBase populates the provided destination ApiErrorBase from our ApiErrorBase
+func (base *ApiErrorBase) AssignPropertiesToApiErrorBase(destination *v20201201s.ApiErrorBase) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(base.PropertyBag)
 
@@ -9505,16 +10930,75 @@ func (base *ApiErrorBase_Status) AssignPropertiesToApiErrorBaseStatus(destinatio
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.InnerError_Status
-// Deprecated version of InnerError_Status. Use v1beta20201201.InnerError_Status instead
-type InnerError_Status struct {
+// Storage version of v1alpha1api20201201.ApiErrorBase_STATUS
+// Deprecated version of ApiErrorBase_STATUS. Use v1beta20201201.ApiErrorBase_STATUS instead
+type ApiErrorBase_STATUS struct {
+	Code        *string                `json:"code,omitempty"`
+	Message     *string                `json:"message,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Target      *string                `json:"target,omitempty"`
+}
+
+// AssignPropertiesFromApiErrorBase_STATUS populates our ApiErrorBase_STATUS from the provided source ApiErrorBase_STATUS
+func (base *ApiErrorBase_STATUS) AssignPropertiesFromApiErrorBase_STATUS(source *v20201201s.ApiErrorBase_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Code
+	base.Code = genruntime.ClonePointerToString(source.Code)
+
+	// Message
+	base.Message = genruntime.ClonePointerToString(source.Message)
+
+	// Target
+	base.Target = genruntime.ClonePointerToString(source.Target)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		base.PropertyBag = propertyBag
+	} else {
+		base.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToApiErrorBase_STATUS populates the provided destination ApiErrorBase_STATUS from our ApiErrorBase_STATUS
+func (base *ApiErrorBase_STATUS) AssignPropertiesToApiErrorBase_STATUS(destination *v20201201s.ApiErrorBase_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(base.PropertyBag)
+
+	// Code
+	destination.Code = genruntime.ClonePointerToString(base.Code)
+
+	// Message
+	destination.Message = genruntime.ClonePointerToString(base.Message)
+
+	// Target
+	destination.Target = genruntime.ClonePointerToString(base.Target)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20201201.InnerError
+// Deprecated version of InnerError. Use v1beta20201201.InnerError instead
+type InnerError struct {
 	Errordetail   *string                `json:"errordetail,omitempty"`
 	Exceptiontype *string                `json:"exceptiontype,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromInnerErrorStatus populates our InnerError_Status from the provided source InnerError_Status
-func (error *InnerError_Status) AssignPropertiesFromInnerErrorStatus(source *v20201201s.InnerError_Status) error {
+// AssignPropertiesFromInnerError populates our InnerError from the provided source InnerError
+func (error *InnerError) AssignPropertiesFromInnerError(source *v20201201s.InnerError) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -9535,8 +11019,60 @@ func (error *InnerError_Status) AssignPropertiesFromInnerErrorStatus(source *v20
 	return nil
 }
 
-// AssignPropertiesToInnerErrorStatus populates the provided destination InnerError_Status from our InnerError_Status
-func (error *InnerError_Status) AssignPropertiesToInnerErrorStatus(destination *v20201201s.InnerError_Status) error {
+// AssignPropertiesToInnerError populates the provided destination InnerError from our InnerError
+func (error *InnerError) AssignPropertiesToInnerError(destination *v20201201s.InnerError) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(error.PropertyBag)
+
+	// Errordetail
+	destination.Errordetail = genruntime.ClonePointerToString(error.Errordetail)
+
+	// Exceptiontype
+	destination.Exceptiontype = genruntime.ClonePointerToString(error.Exceptiontype)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20201201.InnerError_STATUS
+// Deprecated version of InnerError_STATUS. Use v1beta20201201.InnerError_STATUS instead
+type InnerError_STATUS struct {
+	Errordetail   *string                `json:"errordetail,omitempty"`
+	Exceptiontype *string                `json:"exceptiontype,omitempty"`
+	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignPropertiesFromInnerError_STATUS populates our InnerError_STATUS from the provided source InnerError_STATUS
+func (error *InnerError_STATUS) AssignPropertiesFromInnerError_STATUS(source *v20201201s.InnerError_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Errordetail
+	error.Errordetail = genruntime.ClonePointerToString(source.Errordetail)
+
+	// Exceptiontype
+	error.Exceptiontype = genruntime.ClonePointerToString(source.Exceptiontype)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		error.PropertyBag = propertyBag
+	} else {
+		error.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToInnerError_STATUS populates the provided destination InnerError_STATUS from our InnerError_STATUS
+func (error *InnerError_STATUS) AssignPropertiesToInnerError_STATUS(destination *v20201201s.InnerError_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(error.PropertyBag)
 

@@ -16,7 +16,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
-func TestAddOperatorSpec_AddsSpecWithConfiguredSecrets(t *testing.T) {
+func TestGolden_AddOperatorSpec_AddsSpecWithConfiguredSecrets(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 

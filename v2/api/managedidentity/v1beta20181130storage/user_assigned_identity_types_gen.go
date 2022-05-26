@@ -22,12 +22,13 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20181130.UserAssignedIdentity
-// Generated from: https://schema.management.azure.com/schemas/2018-11-30/Microsoft.ManagedIdentity.json#/resourceDefinitions/userAssignedIdentities
+// Generator information:
+// - Generated from: /msi/resource-manager/Microsoft.ManagedIdentity/stable/2018-11-30/ManagedIdentity.json
 type UserAssignedIdentity struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              UserAssignedIdentities_Spec `json:"spec,omitempty"`
-	Status            Identity_Status             `json:"status,omitempty"`
+	Spec              UserAssignedIdentity_Spec `json:"spec,omitempty"`
+	Status            Identity_STATUS           `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &UserAssignedIdentity{}
@@ -49,7 +50,7 @@ func (identity *UserAssignedIdentity) AzureName() string {
 	return identity.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2018-11-30"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20181130"
 func (identity UserAssignedIdentity) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -69,14 +70,14 @@ func (identity *UserAssignedIdentity) GetStatus() genruntime.ConvertibleStatus {
 	return &identity.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.ManagedIdentity/userAssignedIdentities"
+// GetType returns the ARM Type of the resource. This is always ""
 func (identity *UserAssignedIdentity) GetType() string {
-	return "Microsoft.ManagedIdentity/userAssignedIdentities"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (identity *UserAssignedIdentity) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Identity_Status{}
+	return &Identity_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +93,13 @@ func (identity *UserAssignedIdentity) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (identity *UserAssignedIdentity) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Identity_Status); ok {
+	if st, ok := status.(*Identity_STATUS); ok {
 		identity.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Identity_Status
+	var st Identity_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,7 +123,8 @@ func (identity *UserAssignedIdentity) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20181130.UserAssignedIdentity
-// Generated from: https://schema.management.azure.com/schemas/2018-11-30/Microsoft.ManagedIdentity.json#/resourceDefinitions/userAssignedIdentities
+// Generator information:
+// - Generated from: /msi/resource-manager/Microsoft.ManagedIdentity/stable/2018-11-30/ManagedIdentity.json
 type UserAssignedIdentityList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -130,13 +132,13 @@ type UserAssignedIdentityList struct {
 }
 
 // Storage version of v1beta20181130.APIVersion
-// +kubebuilder:validation:Enum={"2018-11-30"}
+// +kubebuilder:validation:Enum={"20181130"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2018-11-30")
+const APIVersionValue = APIVersion("20181130")
 
-// Storage version of v1beta20181130.Identity_Status
-type Identity_Status struct {
+// Storage version of v1beta20181130.Identity_STATUS
+type Identity_STATUS struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	Conditions  []conditions.Condition `json:"conditions,omitempty"`
 	Id          *string                `json:"id,omitempty"`
@@ -149,10 +151,10 @@ type Identity_Status struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Identity_Status{}
+var _ genruntime.ConvertibleStatus = &Identity_STATUS{}
 
-// ConvertStatusFrom populates our Identity_Status from the provided source
-func (identity *Identity_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our Identity_STATUS from the provided source
+func (identity *Identity_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == identity {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -160,8 +162,8 @@ func (identity *Identity_Status) ConvertStatusFrom(source genruntime.Convertible
 	return source.ConvertStatusTo(identity)
 }
 
-// ConvertStatusTo populates the provided destination from our Identity_Status
-func (identity *Identity_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our Identity_STATUS
+func (identity *Identity_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == identity {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -169,11 +171,13 @@ func (identity *Identity_Status) ConvertStatusTo(destination genruntime.Converti
 	return destination.ConvertStatusFrom(identity)
 }
 
-// Storage version of v1beta20181130.UserAssignedIdentities_Spec
-type UserAssignedIdentities_Spec struct {
+// Storage version of v1beta20181130.UserAssignedIdentity_Spec
+type UserAssignedIdentity_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string  `json:"azureName,omitempty"`
+	ClientId        *string `json:"clientId,omitempty"`
+	Id              *string `json:"id,omitempty"`
 	Location        *string `json:"location,omitempty"`
 	OriginalVersion string  `json:"originalVersion,omitempty"`
 
@@ -182,28 +186,31 @@ type UserAssignedIdentities_Spec struct {
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PrincipalId *string                            `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Tags        map[string]string                  `json:"tags,omitempty"`
+	TenantId    *string                            `json:"tenantId,omitempty"`
+	Type        *string                            `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &UserAssignedIdentities_Spec{}
+var _ genruntime.ConvertibleSpec = &UserAssignedIdentity_Spec{}
 
-// ConvertSpecFrom populates our UserAssignedIdentities_Spec from the provided source
-func (identities *UserAssignedIdentities_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == identities {
+// ConvertSpecFrom populates our UserAssignedIdentity_Spec from the provided source
+func (identity *UserAssignedIdentity_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == identity {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(identities)
+	return source.ConvertSpecTo(identity)
 }
 
-// ConvertSpecTo populates the provided destination from our UserAssignedIdentities_Spec
-func (identities *UserAssignedIdentities_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == identities {
+// ConvertSpecTo populates the provided destination from our UserAssignedIdentity_Spec
+func (identity *UserAssignedIdentity_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == identity {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(identities)
+	return destination.ConvertSpecFrom(identity)
 }
 
 func init() {

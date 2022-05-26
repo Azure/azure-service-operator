@@ -95,7 +95,7 @@ func (resource *FakeResource) AzureName() string {
 	return resource.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20200101"
 func (resource FakeResource) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -110,9 +110,9 @@ func (resource *FakeResource) GetSpec() genruntime.ConvertibleSpec {
 	return &resource.Spec
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/FakeResource"
+// GetType returns the ARM Type of the resource. This is always ""
 func (resource *FakeResource) GetType() string {
-	return "Microsoft.Azure/FakeResource"
+	return ""
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -226,9 +226,9 @@ func (resource *FakeResource) AssignPropertiesFromFakeResource(source *v20200101
 
 	// Spec
 	var spec FakeResource_Spec
-	err := spec.AssignPropertiesFromFakeResourceSpec(&source.Spec)
+	err := spec.AssignPropertiesFromFakeResource_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromFakeResourceSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromFakeResource_Spec() to populate field Spec")
 	}
 	resource.Spec = spec
 
@@ -244,9 +244,9 @@ func (resource *FakeResource) AssignPropertiesToFakeResource(destination *v20200
 
 	// Spec
 	var spec v20200101s.FakeResource_Spec
-	err := resource.Spec.AssignPropertiesToFakeResourceSpec(&spec)
+	err := resource.Spec.AssignPropertiesToFakeResource_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToFakeResourceSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToFakeResource_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -272,13 +272,15 @@ type FakeResourceList struct {
 }
 
 type FakeResource_SpecARM struct {
-	Name       string         `json:"name,omitempty"`
-	Properties *PropertiesARM `json:"properties,omitempty"`
+	APIVersion FakeResource_Spec_APIVersion `json:"apiVersion,omitempty"`
+	Name       string                       `json:"name,omitempty"`
+	Properties *PropertiesARM               `json:"properties,omitempty"`
+	Type       FakeResource_Spec_Type       `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &FakeResource_SpecARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20200101"
 func (resource FakeResource_SpecARM) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -288,17 +290,20 @@ func (resource *FakeResource_SpecARM) GetName() string {
 	return resource.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/FakeResource"
+// GetType returns the ARM Type of the resource. This is always ""
 func (resource *FakeResource_SpecARM) GetType() string {
-	return "Microsoft.Azure/FakeResource"
+	return ""
 }
 
-// +kubebuilder:validation:Enum={"2020-06-01"}
+// +kubebuilder:validation:Enum={"20200101"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2020-06-01")
+const APIVersionValue = APIVersion("20200101")
 
 type FakeResource_Spec struct {
+	// +kubebuilder:validation:Required
+	APIVersion FakeResource_Spec_APIVersion `json:"apiVersion,omitempty"`
+
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -309,6 +314,9 @@ type FakeResource_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner      *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	Properties *Properties                        `json:"properties,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Type FakeResource_Spec_Type `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &FakeResource_Spec{}
@@ -319,6 +327,9 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		return nil, nil
 	}
 	result := &FakeResource_SpecARM{}
+
+	// Set property ‘APIVersion’:
+	result.APIVersion = resource.APIVersion
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -332,6 +343,9 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		properties := *propertiesARM.(*PropertiesARM)
 		result.Properties = &properties
 	}
+
+	// Set property ‘Type’:
+	result.Type = resource.Type
 	return result, nil
 }
 
@@ -346,6 +360,9 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FakeResource_SpecARM, got %T", armInput)
 	}
+
+	// Set property ‘APIVersion’:
+	resource.APIVersion = typedInput.APIVersion
 
 	// Set property ‘AzureName’:
 	resource.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
@@ -366,6 +383,9 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		resource.Properties = &properties
 	}
 
+	// Set property ‘Type’:
+	resource.Type = typedInput.Type
+
 	// No error
 	return nil
 }
@@ -377,7 +397,7 @@ func (resource *FakeResource_Spec) ConvertSpecFrom(source genruntime.Convertible
 	src, ok := source.(*v20200101s.FakeResource_Spec)
 	if ok {
 		// Populate our instance from source
-		return resource.AssignPropertiesFromFakeResourceSpec(src)
+		return resource.AssignPropertiesFromFakeResource_Spec(src)
 	}
 
 	// Convert to an intermediate form
@@ -388,7 +408,7 @@ func (resource *FakeResource_Spec) ConvertSpecFrom(source genruntime.Convertible
 	}
 
 	// Update our instance from src
-	err = resource.AssignPropertiesFromFakeResourceSpec(src)
+	err = resource.AssignPropertiesFromFakeResource_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -401,12 +421,12 @@ func (resource *FakeResource_Spec) ConvertSpecTo(destination genruntime.Converti
 	dst, ok := destination.(*v20200101s.FakeResource_Spec)
 	if ok {
 		// Populate destination from our instance
-		return resource.AssignPropertiesToFakeResourceSpec(dst)
+		return resource.AssignPropertiesToFakeResource_Spec(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v20200101s.FakeResource_Spec{}
-	err := resource.AssignPropertiesToFakeResourceSpec(dst)
+	err := resource.AssignPropertiesToFakeResource_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -420,8 +440,15 @@ func (resource *FakeResource_Spec) ConvertSpecTo(destination genruntime.Converti
 	return nil
 }
 
-// AssignPropertiesFromFakeResourceSpec populates our FakeResource_Spec from the provided source FakeResource_Spec
-func (resource *FakeResource_Spec) AssignPropertiesFromFakeResourceSpec(source *v20200101s.FakeResource_Spec) error {
+// AssignPropertiesFromFakeResource_Spec populates our FakeResource_Spec from the provided source FakeResource_Spec
+func (resource *FakeResource_Spec) AssignPropertiesFromFakeResource_Spec(source *v20200101s.FakeResource_Spec) error {
+
+	// APIVersion
+	if source.APIVersion != nil {
+		resource.APIVersion = FakeResource_Spec_APIVersion(*source.APIVersion)
+	} else {
+		resource.APIVersion = ""
+	}
 
 	// AzureName
 	resource.AzureName = source.AzureName
@@ -446,14 +473,25 @@ func (resource *FakeResource_Spec) AssignPropertiesFromFakeResourceSpec(source *
 		resource.Properties = nil
 	}
 
+	// Type
+	if source.Type != nil {
+		resource.Type = FakeResource_Spec_Type(*source.Type)
+	} else {
+		resource.Type = ""
+	}
+
 	// No error
 	return nil
 }
 
-// AssignPropertiesToFakeResourceSpec populates the provided destination FakeResource_Spec from our FakeResource_Spec
-func (resource *FakeResource_Spec) AssignPropertiesToFakeResourceSpec(destination *v20200101s.FakeResource_Spec) error {
+// AssignPropertiesToFakeResource_Spec populates the provided destination FakeResource_Spec from our FakeResource_Spec
+func (resource *FakeResource_Spec) AssignPropertiesToFakeResource_Spec(destination *v20200101s.FakeResource_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
+
+	// APIVersion
+	apiVersion := string(resource.APIVersion)
+	destination.APIVersion = &apiVersion
 
 	// AzureName
 	destination.AzureName = resource.AzureName
@@ -481,6 +519,10 @@ func (resource *FakeResource_Spec) AssignPropertiesToFakeResourceSpec(destinatio
 		destination.Properties = nil
 	}
 
+	// Type
+	typeVar := string(resource.Type)
+	destination.Type = &typeVar
+
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		destination.PropertyBag = propertyBag
@@ -499,6 +541,16 @@ func (resource *FakeResource_Spec) OriginalVersion() string {
 
 // SetAzureName sets the Azure name of the resource
 func (resource *FakeResource_Spec) SetAzureName(azureName string) { resource.AzureName = azureName }
+
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type FakeResource_Spec_APIVersion string
+
+const FakeResource_Spec_APIVersion20200601 = FakeResource_Spec_APIVersion("2020-06-01")
+
+// +kubebuilder:validation:Enum={"Microsoft.Azure/FakeResource"}
+type FakeResource_Spec_Type string
+
+const FakeResource_Spec_TypeMicrosoftAzureFakeResource = FakeResource_Spec_Type("Microsoft.Azure/FakeResource")
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Properties
 type PropertiesARM struct {
@@ -553,20 +605,20 @@ func (properties *PropertiesARM) UnmarshalJSON(data []byte) error {
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Bar
 type BarARM struct {
-	Discrim BarDiscrim `json:"discrim,omitempty"`
-	Size    *int       `json:"size,omitempty"`
+	Discrim Bar_Discrim `json:"discrim,omitempty"`
+	Size    *int        `json:"size,omitempty"`
 }
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Baz
 type BazARM struct {
-	Discrim BazDiscrim `json:"discrim,omitempty"`
-	Enabled *bool      `json:"enabled,omitempty"`
+	Discrim Baz_Discrim `json:"discrim,omitempty"`
+	Enabled *bool       `json:"enabled,omitempty"`
 }
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type FooARM struct {
-	Discrim FooDiscrim `json:"discrim,omitempty"`
-	Name    *string    `json:"name,omitempty"`
+	Discrim Foo_Discrim `json:"discrim,omitempty"`
+	Name    *string     `json:"name,omitempty"`
 }
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Properties
@@ -769,7 +821,7 @@ func (properties *Properties) AssignPropertiesToProperties(destination *v2020010
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Bar
 type Bar struct {
 	// +kubebuilder:validation:Required
-	Discrim *BarDiscrim `json:"discrim,omitempty"`
+	Discrim *Bar_Discrim `json:"discrim,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Size *int `json:"size,omitempty"`
@@ -827,7 +879,7 @@ func (bar *Bar) AssignPropertiesFromBar(source *v20200101s.Bar) error {
 
 	// Discrim
 	if source.Discrim != nil {
-		discrim := BarDiscrim(*source.Discrim)
+		discrim := Bar_Discrim(*source.Discrim)
 		bar.Discrim = &discrim
 	} else {
 		bar.Discrim = nil
@@ -868,14 +920,14 @@ func (bar *Bar) AssignPropertiesToBar(destination *v20200101s.Bar) error {
 }
 
 // +kubebuilder:validation:Enum={"bar"}
-type BarDiscrim string
+type Bar_Discrim string
 
-const BarDiscrimBar = BarDiscrim("bar")
+const Bar_DiscrimBar = Bar_Discrim("bar")
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Baz
 type Baz struct {
 	// +kubebuilder:validation:Required
-	Discrim *BazDiscrim `json:"discrim,omitempty"`
+	Discrim *Baz_Discrim `json:"discrim,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Enabled *bool `json:"enabled,omitempty"`
@@ -933,7 +985,7 @@ func (baz *Baz) AssignPropertiesFromBaz(source *v20200101s.Baz) error {
 
 	// Discrim
 	if source.Discrim != nil {
-		discrim := BazDiscrim(*source.Discrim)
+		discrim := Baz_Discrim(*source.Discrim)
 		baz.Discrim = &discrim
 	} else {
 		baz.Discrim = nil
@@ -984,15 +1036,15 @@ func (baz *Baz) AssignPropertiesToBaz(destination *v20200101s.Baz) error {
 }
 
 // +kubebuilder:validation:Enum={"baz"}
-type BazDiscrim string
+type Baz_Discrim string
 
-const BazDiscrimBaz = BazDiscrim("baz")
+const Baz_DiscrimBaz = Baz_Discrim("baz")
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type Foo struct {
 	// +kubebuilder:validation:Required
-	Discrim *FooDiscrim `json:"discrim,omitempty"`
-	Name    *string     `json:"name,omitempty"`
+	Discrim *Foo_Discrim `json:"discrim,omitempty"`
+	Name    *string      `json:"name,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Foo{}
@@ -1047,7 +1099,7 @@ func (foo *Foo) AssignPropertiesFromFoo(source *v20200101s.Foo) error {
 
 	// Discrim
 	if source.Discrim != nil {
-		discrim := FooDiscrim(*source.Discrim)
+		discrim := Foo_Discrim(*source.Discrim)
 		foo.Discrim = &discrim
 	} else {
 		foo.Discrim = nil
@@ -1088,9 +1140,9 @@ func (foo *Foo) AssignPropertiesToFoo(destination *v20200101s.Foo) error {
 }
 
 // +kubebuilder:validation:Enum={"foo"}
-type FooDiscrim string
+type Foo_Discrim string
 
-const FooDiscrimFoo = FooDiscrim("foo")
+const Foo_DiscrimFoo = Foo_Discrim("foo")
 
 func init() {
 	SchemeBuilder.Register(&FakeResource{}, &FakeResourceList{})

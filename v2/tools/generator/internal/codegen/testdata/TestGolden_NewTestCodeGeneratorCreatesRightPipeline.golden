@@ -1,13 +1,13 @@
 Expected Pipeline Stages for Test Code Generation
 -------------------------------------------------
 loadTestSchema                                       Load and walk schema (test)
-addStatusFromSwagger                                 Add information from Swagger specs for 'status' fields
 allof-anyof-objects                                  Convert allOf and oneOf to object types
 flattenResources                                     Flatten nested resource types
-augmentSpecWithStatus                                Merge information from Status into Spec
 stripUnused                                          Strip unused types for test
 nameTypes                                            Name inner types for CRD
 propertyRewrites                                     Modify property types using configured transforms
+add-api-version-enums                                Add enums for API Versions in each package
+removeAliases                                        Remove type aliases
 removeResourceScope                                  Remove scope from all resources
 makeStatusPropertiesOptional                         Force all status properties to be optional
 removeStatusPropertyValidation                       Remove validation from all status properties
@@ -18,9 +18,6 @@ removeAliases                                        Remove type aliases
 pluralizeNames                                       Improve resource pluralization
 stripUnused                                          Strip unused types for test
 assertTypesStructureValid                            Verify that all local TypeNames refer to a type
-removeTypeProperty                                   Remove the ARM type property and instead augment the ResourceType with it
-removeAPIVersionProperty                             Remove the ARM API version property and instead augment the ResourceType with it
-add-api-version-enums                                Add enums for API Versions in each package
 verifyNoErroredTypes                                 Verify there are no ErroredType's containing errors
 stripUnused                                          Strip unused types for test
 replaceAnyTypeWithJSON                               Replace properties using interface{} with arbitrary JSON

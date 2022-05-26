@@ -22,12 +22,13 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20210501.ManagedClustersAgentPool
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/resourceDefinitions/managedClusters_agentPools
+// Generator information:
+// - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/stable/2021-05-01/managedClusters.json
 type ManagedClustersAgentPool struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ManagedClustersAgentPools_Spec `json:"spec,omitempty"`
-	Status            AgentPool_Status               `json:"status,omitempty"`
+	Spec              ManagedClustersAgentPool_Spec `json:"spec,omitempty"`
+	Status            AgentPool_STATUS              `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ManagedClustersAgentPool{}
@@ -49,7 +50,7 @@ func (pool *ManagedClustersAgentPool) AzureName() string {
 	return pool.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20210501"
 func (pool ManagedClustersAgentPool) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -69,14 +70,14 @@ func (pool *ManagedClustersAgentPool) GetStatus() genruntime.ConvertibleStatus {
 	return &pool.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.ContainerService/managedClusters/agentPools"
+// GetType returns the ARM Type of the resource. This is always ""
 func (pool *ManagedClustersAgentPool) GetType() string {
-	return "Microsoft.ContainerService/managedClusters/agentPools"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (pool *ManagedClustersAgentPool) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &AgentPool_Status{}
+	return &AgentPool_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +93,13 @@ func (pool *ManagedClustersAgentPool) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (pool *ManagedClustersAgentPool) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*AgentPool_Status); ok {
+	if st, ok := status.(*AgentPool_STATUS); ok {
 		pool.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st AgentPool_Status
+	var st AgentPool_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,15 +123,16 @@ func (pool *ManagedClustersAgentPool) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20210501.ManagedClustersAgentPool
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/resourceDefinitions/managedClusters_agentPools
+// Generator information:
+// - Generated from: /containerservice/resource-manager/Microsoft.ContainerService/stable/2021-05-01/managedClusters.json
 type ManagedClustersAgentPoolList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ManagedClustersAgentPool `json:"items"`
 }
 
-// Storage version of v1beta20210501.AgentPool_Status
-type AgentPool_Status struct {
+// Storage version of v1beta20210501.AgentPool_STATUS
+type AgentPool_STATUS struct {
 	AvailabilityZones         []string                         `json:"availabilityZones,omitempty"`
 	Conditions                []conditions.Condition           `json:"conditions,omitempty"`
 	Count                     *int                             `json:"count,omitempty"`
@@ -141,9 +143,9 @@ type AgentPool_Status struct {
 	EnableUltraSSD            *bool                            `json:"enableUltraSSD,omitempty"`
 	GpuInstanceProfile        *string                          `json:"gpuInstanceProfile,omitempty"`
 	Id                        *string                          `json:"id,omitempty"`
-	KubeletConfig             *KubeletConfig_Status            `json:"kubeletConfig,omitempty"`
+	KubeletConfig             *KubeletConfig_STATUS            `json:"kubeletConfig,omitempty"`
 	KubeletDiskType           *string                          `json:"kubeletDiskType,omitempty"`
-	LinuxOSConfig             *LinuxOSConfig_Status            `json:"linuxOSConfig,omitempty"`
+	LinuxOSConfig             *LinuxOSConfig_STATUS            `json:"linuxOSConfig,omitempty"`
 	MaxCount                  *int                             `json:"maxCount,omitempty"`
 	MaxPods                   *int                             `json:"maxPods,omitempty"`
 	MinCount                  *int                             `json:"minCount,omitempty"`
@@ -159,7 +161,7 @@ type AgentPool_Status struct {
 	OsSKU                     *string                          `json:"osSKU,omitempty"`
 	OsType                    *string                          `json:"osType,omitempty"`
 	PodSubnetID               *string                          `json:"podSubnetID,omitempty"`
-	PowerState                *PowerState_Status               `json:"powerState,omitempty"`
+	PowerState                *PowerState_STATUS               `json:"powerState,omitempty"`
 	PropertiesType            *string                          `json:"properties_type,omitempty"`
 	PropertyBag               genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
 	ProvisioningState         *string                          `json:"provisioningState,omitempty"`
@@ -169,15 +171,15 @@ type AgentPool_Status struct {
 	SpotMaxPrice              *float64                         `json:"spotMaxPrice,omitempty"`
 	Tags                      map[string]string                `json:"tags,omitempty"`
 	Type                      *string                          `json:"type,omitempty"`
-	UpgradeSettings           *AgentPoolUpgradeSettings_Status `json:"upgradeSettings,omitempty"`
+	UpgradeSettings           *AgentPoolUpgradeSettings_STATUS `json:"upgradeSettings,omitempty"`
 	VmSize                    *string                          `json:"vmSize,omitempty"`
 	VnetSubnetID              *string                          `json:"vnetSubnetID,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &AgentPool_Status{}
+var _ genruntime.ConvertibleStatus = &AgentPool_STATUS{}
 
-// ConvertStatusFrom populates our AgentPool_Status from the provided source
-func (pool *AgentPool_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our AgentPool_STATUS from the provided source
+func (pool *AgentPool_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == pool {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -185,8 +187,8 @@ func (pool *AgentPool_Status) ConvertStatusFrom(source genruntime.ConvertibleSta
 	return source.ConvertStatusTo(pool)
 }
 
-// ConvertStatusTo populates the provided destination from our AgentPool_Status
-func (pool *AgentPool_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our AgentPool_STATUS
+func (pool *AgentPool_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == pool {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -194,8 +196,8 @@ func (pool *AgentPool_Status) ConvertStatusTo(destination genruntime.Convertible
 	return destination.ConvertStatusFrom(pool)
 }
 
-// Storage version of v1beta20210501.ManagedClustersAgentPools_Spec
-type ManagedClustersAgentPools_Spec struct {
+// Storage version of v1beta20210501.ManagedClustersAgentPool_Spec
+type ManagedClustersAgentPool_Spec struct {
 	AvailabilityZones []string `json:"availabilityZones,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -208,14 +210,15 @@ type ManagedClustersAgentPools_Spec struct {
 	EnableNodePublicIP     *bool             `json:"enableNodePublicIP,omitempty"`
 	EnableUltraSSD         *bool             `json:"enableUltraSSD,omitempty"`
 	GpuInstanceProfile     *string           `json:"gpuInstanceProfile,omitempty"`
+	Id                     *string           `json:"id,omitempty"`
 	KubeletConfig          *KubeletConfig    `json:"kubeletConfig,omitempty"`
 	KubeletDiskType        *string           `json:"kubeletDiskType,omitempty"`
 	LinuxOSConfig          *LinuxOSConfig    `json:"linuxOSConfig,omitempty"`
-	Location               *string           `json:"location,omitempty"`
 	MaxCount               *int              `json:"maxCount,omitempty"`
 	MaxPods                *int              `json:"maxPods,omitempty"`
 	MinCount               *int              `json:"minCount,omitempty"`
 	Mode                   *string           `json:"mode,omitempty"`
+	NodeImageVersion       *string           `json:"nodeImageVersion,omitempty"`
 	NodeLabels             map[string]string `json:"nodeLabels,omitempty"`
 
 	// NodePublicIPPrefixIDReference: This is of the form:
@@ -232,14 +235,17 @@ type ManagedClustersAgentPools_Spec struct {
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a containerservice.azure.com/ManagedCluster resource
-	Owner *genruntime.KnownResourceReference `group:"containerservice.azure.com" json:"owner,omitempty" kind:"ManagedCluster"`
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	// PodSubnetIDReference: If omitted, pod IPs are statically assigned on the node subnet (see vnetSubnetID for more
 	// details). This is of the form:
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
 	PodSubnetIDReference      *genruntime.ResourceReference `armReference:"PodSubnetID" json:"podSubnetIDReference,omitempty"`
+	PowerState                *PowerState                   `json:"powerState,omitempty"`
+	PropertiesType            *string                       `json:"properties_type,omitempty"`
 	PropertyBag               genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	ProvisioningState         *string                       `json:"provisioningState,omitempty"`
 	ProximityPlacementGroupID *string                       `json:"proximityPlacementGroupID,omitempty"`
 	ScaleSetEvictionPolicy    *string                       `json:"scaleSetEvictionPolicy,omitempty"`
 	ScaleSetPriority          *string                       `json:"scaleSetPriority,omitempty"`
@@ -255,41 +261,39 @@ type ManagedClustersAgentPools_Spec struct {
 	VnetSubnetIDReference *genruntime.ResourceReference `armReference:"VnetSubnetID" json:"vnetSubnetIDReference,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &ManagedClustersAgentPools_Spec{}
+var _ genruntime.ConvertibleSpec = &ManagedClustersAgentPool_Spec{}
 
-// ConvertSpecFrom populates our ManagedClustersAgentPools_Spec from the provided source
-func (pools *ManagedClustersAgentPools_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == pools {
+// ConvertSpecFrom populates our ManagedClustersAgentPool_Spec from the provided source
+func (pool *ManagedClustersAgentPool_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == pool {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(pools)
+	return source.ConvertSpecTo(pool)
 }
 
-// ConvertSpecTo populates the provided destination from our ManagedClustersAgentPools_Spec
-func (pools *ManagedClustersAgentPools_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == pools {
+// ConvertSpecTo populates the provided destination from our ManagedClustersAgentPool_Spec
+func (pool *ManagedClustersAgentPool_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == pool {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(pools)
+	return destination.ConvertSpecFrom(pool)
 }
 
 // Storage version of v1beta20210501.AgentPoolUpgradeSettings
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/AgentPoolUpgradeSettings
 type AgentPoolUpgradeSettings struct {
 	MaxSurge    *string                `json:"maxSurge,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210501.AgentPoolUpgradeSettings_Status
-type AgentPoolUpgradeSettings_Status struct {
+// Storage version of v1beta20210501.AgentPoolUpgradeSettings_STATUS
+type AgentPoolUpgradeSettings_STATUS struct {
 	MaxSurge    *string                `json:"maxSurge,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210501.KubeletConfig
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/KubeletConfig
 type KubeletConfig struct {
 	AllowedUnsafeSysctls  []string               `json:"allowedUnsafeSysctls,omitempty"`
 	ContainerLogMaxFiles  *int                   `json:"containerLogMaxFiles,omitempty"`
@@ -305,8 +309,8 @@ type KubeletConfig struct {
 	TopologyManagerPolicy *string                `json:"topologyManagerPolicy,omitempty"`
 }
 
-// Storage version of v1beta20210501.KubeletConfig_Status
-type KubeletConfig_Status struct {
+// Storage version of v1beta20210501.KubeletConfig_STATUS
+type KubeletConfig_STATUS struct {
 	AllowedUnsafeSysctls  []string               `json:"allowedUnsafeSysctls,omitempty"`
 	ContainerLogMaxFiles  *int                   `json:"containerLogMaxFiles,omitempty"`
 	ContainerLogMaxSizeMB *int                   `json:"containerLogMaxSizeMB,omitempty"`
@@ -322,7 +326,6 @@ type KubeletConfig_Status struct {
 }
 
 // Storage version of v1beta20210501.LinuxOSConfig
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/LinuxOSConfig
 type LinuxOSConfig struct {
 	PropertyBag                genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SwapFileSizeMB             *int                   `json:"swapFileSizeMB,omitempty"`
@@ -331,17 +334,16 @@ type LinuxOSConfig struct {
 	TransparentHugePageEnabled *string                `json:"transparentHugePageEnabled,omitempty"`
 }
 
-// Storage version of v1beta20210501.LinuxOSConfig_Status
-type LinuxOSConfig_Status struct {
+// Storage version of v1beta20210501.LinuxOSConfig_STATUS
+type LinuxOSConfig_STATUS struct {
 	PropertyBag                genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SwapFileSizeMB             *int                   `json:"swapFileSizeMB,omitempty"`
-	Sysctls                    *SysctlConfig_Status   `json:"sysctls,omitempty"`
+	Sysctls                    *SysctlConfig_STATUS   `json:"sysctls,omitempty"`
 	TransparentHugePageDefrag  *string                `json:"transparentHugePageDefrag,omitempty"`
 	TransparentHugePageEnabled *string                `json:"transparentHugePageEnabled,omitempty"`
 }
 
 // Storage version of v1beta20210501.SysctlConfig
-// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/SysctlConfig
 type SysctlConfig struct {
 	FsAioMaxNr                     *int                   `json:"fsAioMaxNr,omitempty"`
 	FsFileMax                      *int                   `json:"fsFileMax,omitempty"`
@@ -374,8 +376,8 @@ type SysctlConfig struct {
 	VmVfsCachePressure             *int                   `json:"vmVfsCachePressure,omitempty"`
 }
 
-// Storage version of v1beta20210501.SysctlConfig_Status
-type SysctlConfig_Status struct {
+// Storage version of v1beta20210501.SysctlConfig_STATUS
+type SysctlConfig_STATUS struct {
 	FsAioMaxNr                     *int                   `json:"fsAioMaxNr,omitempty"`
 	FsFileMax                      *int                   `json:"fsFileMax,omitempty"`
 	FsInotifyMaxUserWatches        *int                   `json:"fsInotifyMaxUserWatches,omitempty"`

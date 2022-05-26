@@ -64,6 +64,11 @@ func (r *RenamingVisitor) Rename(t Type) (Type, error) {
 	return r.visitor.Visit(t, nil)
 }
 
+// RenameDefinition applies the renames to the TypeDefinition’s Type and TypeName.
+func (r *RenamingVisitor) RenameDefinition(td TypeDefinition) (TypeDefinition, error) {
+	return r.visitor.VisitDefinition(td, nil)
+}
+
 // RenameAll applies the renames to all the type definitions in the provided set
 func (r *RenamingVisitor) RenameAll(definitions TypeDefinitionSet) (TypeDefinitionSet, error) {
 	result := make(TypeDefinitionSet)

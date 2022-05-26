@@ -7,6 +7,7 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Redis_Spec. Use v1beta20201201.Redis_Spec instead
 type Redis_SpecARM struct {
+	AzureName  string                    `json:"azureName,omitempty"`
 	Location   *string                   `json:"location,omitempty"`
 	Name       string                    `json:"name,omitempty"`
 	Properties *RedisCreatePropertiesARM `json:"properties,omitempty"`
@@ -16,7 +17,7 @@ type Redis_SpecARM struct {
 
 var _ genruntime.ARMResourceSpec = &Redis_SpecARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20201201"
 func (redis Redis_SpecARM) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -26,30 +27,30 @@ func (redis *Redis_SpecARM) GetName() string {
 	return redis.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redis"
+// GetType returns the ARM Type of the resource. This is always ""
 func (redis *Redis_SpecARM) GetType() string {
-	return "Microsoft.Cache/redis"
+	return ""
 }
 
 // Deprecated version of RedisCreateProperties. Use v1beta20201201.RedisCreateProperties instead
 type RedisCreatePropertiesARM struct {
-	EnableNonSslPort    *bool                                     `json:"enableNonSslPort,omitempty"`
-	MinimumTlsVersion   *RedisCreatePropertiesMinimumTlsVersion   `json:"minimumTlsVersion,omitempty"`
-	PublicNetworkAccess *RedisCreatePropertiesPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
-	RedisConfiguration  map[string]string                         `json:"redisConfiguration,omitempty"`
-	RedisVersion        *string                                   `json:"redisVersion,omitempty"`
-	ReplicasPerMaster   *int                                      `json:"replicasPerMaster,omitempty"`
-	ReplicasPerPrimary  *int                                      `json:"replicasPerPrimary,omitempty"`
-	ShardCount          *int                                      `json:"shardCount,omitempty"`
-	Sku                 *SkuARM                                   `json:"sku,omitempty"`
-	StaticIP            *string                                   `json:"staticIP,omitempty"`
-	SubnetId            *string                                   `json:"subnetId,omitempty"`
-	TenantSettings      map[string]string                         `json:"tenantSettings,omitempty"`
+	EnableNonSslPort    *bool                                      `json:"enableNonSslPort,omitempty"`
+	MinimumTlsVersion   *RedisCreateProperties_MinimumTlsVersion   `json:"minimumTlsVersion,omitempty"`
+	PublicNetworkAccess *RedisCreateProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	RedisConfiguration  map[string]string                          `json:"redisConfiguration,omitempty"`
+	RedisVersion        *string                                    `json:"redisVersion,omitempty"`
+	ReplicasPerMaster   *int                                       `json:"replicasPerMaster,omitempty"`
+	ReplicasPerPrimary  *int                                       `json:"replicasPerPrimary,omitempty"`
+	ShardCount          *int                                       `json:"shardCount,omitempty"`
+	Sku                 *SkuARM                                    `json:"sku,omitempty"`
+	StaticIP            *string                                    `json:"staticIP,omitempty"`
+	SubnetId            *string                                    `json:"subnetId,omitempty"`
+	TenantSettings      map[string]string                          `json:"tenantSettings,omitempty"`
 }
 
 // Deprecated version of Sku. Use v1beta20201201.Sku instead
 type SkuARM struct {
-	Capacity *int       `json:"capacity,omitempty"`
-	Family   *SkuFamily `json:"family,omitempty"`
-	Name     *SkuName   `json:"name,omitempty"`
+	Capacity *int        `json:"capacity,omitempty"`
+	Family   *Sku_Family `json:"family,omitempty"`
+	Name     *Sku_Name   `json:"name,omitempty"`
 }

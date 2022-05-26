@@ -24,12 +24,12 @@ func Test_RedisEnterprise_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *te
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RedisEnterprise_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRedisEnterpriseSpecARM, RedisEnterpriseSpecARMGenerator()))
+		prop.ForAll(RunJSONSerializationTestForRedisEnterprise_SpecARM, RedisEnterprise_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRedisEnterpriseSpecARM runs a test to see if a specific instance of RedisEnterprise_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForRedisEnterpriseSpecARM(subject RedisEnterprise_SpecARM) string {
+// RunJSONSerializationTestForRedisEnterprise_SpecARM runs a test to see if a specific instance of RedisEnterprise_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForRedisEnterprise_SpecARM(subject RedisEnterprise_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -56,41 +56,44 @@ func RunJSONSerializationTestForRedisEnterpriseSpecARM(subject RedisEnterprise_S
 }
 
 // Generator of RedisEnterprise_SpecARM instances for property testing - lazily instantiated by
-// RedisEnterpriseSpecARMGenerator()
-var redisEnterpriseSpecARMGenerator gopter.Gen
+// RedisEnterprise_SpecARMGenerator()
+var redisEnterprise_SpecARMGenerator gopter.Gen
 
-// RedisEnterpriseSpecARMGenerator returns a generator of RedisEnterprise_SpecARM instances for property testing.
-// We first initialize redisEnterpriseSpecARMGenerator with a simplified generator based on the
+// RedisEnterprise_SpecARMGenerator returns a generator of RedisEnterprise_SpecARM instances for property testing.
+// We first initialize redisEnterprise_SpecARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func RedisEnterpriseSpecARMGenerator() gopter.Gen {
-	if redisEnterpriseSpecARMGenerator != nil {
-		return redisEnterpriseSpecARMGenerator
+func RedisEnterprise_SpecARMGenerator() gopter.Gen {
+	if redisEnterprise_SpecARMGenerator != nil {
+		return redisEnterprise_SpecARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisEnterpriseSpecARM(generators)
-	redisEnterpriseSpecARMGenerator = gen.Struct(reflect.TypeOf(RedisEnterprise_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForRedisEnterprise_SpecARM(generators)
+	redisEnterprise_SpecARMGenerator = gen.Struct(reflect.TypeOf(RedisEnterprise_SpecARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRedisEnterpriseSpecARM(generators)
-	AddRelatedPropertyGeneratorsForRedisEnterpriseSpecARM(generators)
-	redisEnterpriseSpecARMGenerator = gen.Struct(reflect.TypeOf(RedisEnterprise_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForRedisEnterprise_SpecARM(generators)
+	AddRelatedPropertyGeneratorsForRedisEnterprise_SpecARM(generators)
+	redisEnterprise_SpecARMGenerator = gen.Struct(reflect.TypeOf(RedisEnterprise_SpecARM{}), generators)
 
-	return redisEnterpriseSpecARMGenerator
+	return redisEnterprise_SpecARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRedisEnterpriseSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRedisEnterpriseSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRedisEnterprise_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRedisEnterprise_SpecARM(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForRedisEnterpriseSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRedisEnterpriseSpecARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForRedisEnterprise_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRedisEnterprise_SpecARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(ClusterPropertiesARMGenerator())
 	gens["Sku"] = gen.PtrOf(SkuARMGenerator())
 }
@@ -138,6 +141,9 @@ func RunJSONSerializationTestForClusterPropertiesARM(subject ClusterPropertiesAR
 var clusterPropertiesARMGenerator gopter.Gen
 
 // ClusterPropertiesARMGenerator returns a generator of ClusterPropertiesARM instances for property testing.
+// We first initialize clusterPropertiesARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func ClusterPropertiesARMGenerator() gopter.Gen {
 	if clusterPropertiesARMGenerator != nil {
 		return clusterPropertiesARMGenerator
@@ -147,12 +153,45 @@ func ClusterPropertiesARMGenerator() gopter.Gen {
 	AddIndependentPropertyGeneratorsForClusterPropertiesARM(generators)
 	clusterPropertiesARMGenerator = gen.Struct(reflect.TypeOf(ClusterPropertiesARM{}), generators)
 
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForClusterPropertiesARM(generators)
+	AddRelatedPropertyGeneratorsForClusterPropertiesARM(generators)
+	clusterPropertiesARMGenerator = gen.Struct(reflect.TypeOf(ClusterPropertiesARM{}), generators)
+
 	return clusterPropertiesARMGenerator
 }
 
 // AddIndependentPropertyGeneratorsForClusterPropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForClusterPropertiesARM(gens map[string]gopter.Gen) {
-	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(ClusterPropertiesMinimumTlsVersion10, ClusterPropertiesMinimumTlsVersion11, ClusterPropertiesMinimumTlsVersion12))
+	gens["HostName"] = gen.PtrOf(gen.AlphaString())
+	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(ClusterProperties_MinimumTlsVersion10, ClusterProperties_MinimumTlsVersion11, ClusterProperties_MinimumTlsVersion12))
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+		ProvisioningStateCanceled,
+		ProvisioningStateCreating,
+		ProvisioningStateDeleting,
+		ProvisioningStateFailed,
+		ProvisioningStateSucceeded,
+		ProvisioningStateUpdating))
+	gens["RedisVersion"] = gen.PtrOf(gen.AlphaString())
+	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(
+		ResourceStateCreateFailed,
+		ResourceStateCreating,
+		ResourceStateDeleteFailed,
+		ResourceStateDeleting,
+		ResourceStateDisableFailed,
+		ResourceStateDisabled,
+		ResourceStateDisabling,
+		ResourceStateEnableFailed,
+		ResourceStateEnabling,
+		ResourceStateRunning,
+		ResourceStateUpdateFailed,
+		ResourceStateUpdating))
+}
+
+// AddRelatedPropertyGeneratorsForClusterPropertiesARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForClusterPropertiesARM(gens map[string]gopter.Gen) {
+	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnectionARMGenerator())
 }
 
 func Test_SkuARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -213,11 +252,71 @@ func SkuARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForSkuARM(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		SkuNameEnterpriseE10,
-		SkuNameEnterpriseE100,
-		SkuNameEnterpriseE20,
-		SkuNameEnterpriseE50,
-		SkuNameEnterpriseFlashF1500,
-		SkuNameEnterpriseFlashF300,
-		SkuNameEnterpriseFlashF700))
+		Sku_NameEnterpriseFlash_F1500,
+		Sku_NameEnterpriseFlash_F300,
+		Sku_NameEnterpriseFlash_F700,
+		Sku_NameEnterprise_E10,
+		Sku_NameEnterprise_E100,
+		Sku_NameEnterprise_E20,
+		Sku_NameEnterprise_E50))
+}
+
+func Test_PrivateEndpointConnectionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of PrivateEndpointConnectionARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateEndpointConnectionARM, PrivateEndpointConnectionARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPrivateEndpointConnectionARM runs a test to see if a specific instance of PrivateEndpointConnectionARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateEndpointConnectionARM(subject PrivateEndpointConnectionARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual PrivateEndpointConnectionARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of PrivateEndpointConnectionARM instances for property testing - lazily instantiated by
+// PrivateEndpointConnectionARMGenerator()
+var privateEndpointConnectionARMGenerator gopter.Gen
+
+// PrivateEndpointConnectionARMGenerator returns a generator of PrivateEndpointConnectionARM instances for property testing.
+func PrivateEndpointConnectionARMGenerator() gopter.Gen {
+	if privateEndpointConnectionARMGenerator != nil {
+		return privateEndpointConnectionARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPrivateEndpointConnectionARM(generators)
+	privateEndpointConnectionARMGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnectionARM{}), generators)
+
+	return privateEndpointConnectionARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForPrivateEndpointConnectionARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrivateEndpointConnectionARM(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }

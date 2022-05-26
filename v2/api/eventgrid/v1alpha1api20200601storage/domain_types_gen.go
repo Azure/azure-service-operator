@@ -25,8 +25,8 @@ import (
 type Domain struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Domains_Spec  `json:"spec,omitempty"`
-	Status            Domain_Status `json:"status,omitempty"`
+	Spec              Domain_Spec   `json:"spec,omitempty"`
+	Status            Domain_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Domain{}
@@ -70,7 +70,7 @@ func (domain *Domain) AzureName() string {
 	return domain.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20200601"
 func (domain Domain) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -90,14 +90,14 @@ func (domain *Domain) GetStatus() genruntime.ConvertibleStatus {
 	return &domain.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.EventGrid/domains"
+// GetType returns the ARM Type of the resource. This is always ""
 func (domain *Domain) GetType() string {
-	return "Microsoft.EventGrid/domains"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (domain *Domain) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Domain_Status{}
+	return &Domain_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -113,13 +113,13 @@ func (domain *Domain) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (domain *Domain) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Domain_Status); ok {
+	if st, ok := status.(*Domain_STATUS); ok {
 		domain.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Domain_Status
+	var st Domain_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -136,18 +136,18 @@ func (domain *Domain) AssignPropertiesFromDomain(source *v20200601s.Domain) erro
 	domain.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Domains_Spec
-	err := spec.AssignPropertiesFromDomainsSpec(&source.Spec)
+	var spec Domain_Spec
+	err := spec.AssignPropertiesFromDomain_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromDomainsSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromDomain_Spec() to populate field Spec")
 	}
 	domain.Spec = spec
 
 	// Status
-	var status Domain_Status
-	err = status.AssignPropertiesFromDomainStatus(&source.Status)
+	var status Domain_STATUS
+	err = status.AssignPropertiesFromDomain_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromDomainStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromDomain_STATUS() to populate field Status")
 	}
 	domain.Status = status
 
@@ -162,18 +162,18 @@ func (domain *Domain) AssignPropertiesToDomain(destination *v20200601s.Domain) e
 	destination.ObjectMeta = *domain.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20200601s.Domains_Spec
-	err := domain.Spec.AssignPropertiesToDomainsSpec(&spec)
+	var spec v20200601s.Domain_Spec
+	err := domain.Spec.AssignPropertiesToDomain_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToDomainsSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToDomain_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status v20200601s.Domain_Status
-	err = domain.Status.AssignPropertiesToDomainStatus(&status)
+	var status v20200601s.Domain_STATUS
+	err = domain.Status.AssignPropertiesToDomain_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToDomainStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToDomain_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -201,51 +201,51 @@ type DomainList struct {
 
 // Storage version of v1alpha1api20200601.APIVersion
 // Deprecated version of APIVersion. Use v1beta20200601.APIVersion instead
-// +kubebuilder:validation:Enum={"2020-06-01"}
+// +kubebuilder:validation:Enum={"20200601"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2020-06-01")
+const APIVersionValue = APIVersion("20200601")
 
-// Storage version of v1alpha1api20200601.Domain_Status
-// Deprecated version of Domain_Status. Use v1beta20200601.Domain_Status instead
-type Domain_Status struct {
+// Storage version of v1alpha1api20200601.Domain_STATUS
+// Deprecated version of Domain_STATUS. Use v1beta20200601.Domain_STATUS instead
+type Domain_STATUS struct {
 	Conditions                 []conditions.Condition                                        `json:"conditions,omitempty"`
 	Endpoint                   *string                                                       `json:"endpoint,omitempty"`
 	Id                         *string                                                       `json:"id,omitempty"`
-	InboundIpRules             []InboundIpRule_Status                                        `json:"inboundIpRules,omitempty"`
+	InboundIpRules             []InboundIpRule_STATUS                                        `json:"inboundIpRules,omitempty"`
 	InputSchema                *string                                                       `json:"inputSchema,omitempty"`
-	InputSchemaMapping         *InputSchemaMapping_Status                                    `json:"inputSchemaMapping,omitempty"`
+	InputSchemaMapping         *InputSchemaMapping_STATUS                                    `json:"inputSchemaMapping,omitempty"`
 	Location                   *string                                                       `json:"location,omitempty"`
 	MetricResourceId           *string                                                       `json:"metricResourceId,omitempty"`
 	Name                       *string                                                       `json:"name,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnection_Status_Domain_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
 	PropertyBag                genruntime.PropertyBag                                        `json:"$propertyBag,omitempty"`
 	ProvisioningState          *string                                                       `json:"provisioningState,omitempty"`
 	PublicNetworkAccess        *string                                                       `json:"publicNetworkAccess,omitempty"`
-	SystemData                 *SystemData_Status                                            `json:"systemData,omitempty"`
+	SystemData                 *SystemData_STATUS                                            `json:"systemData,omitempty"`
 	Tags                       map[string]string                                             `json:"tags,omitempty"`
 	Type                       *string                                                       `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Domain_Status{}
+var _ genruntime.ConvertibleStatus = &Domain_STATUS{}
 
-// ConvertStatusFrom populates our Domain_Status from the provided source
-func (domain *Domain_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20200601s.Domain_Status)
+// ConvertStatusFrom populates our Domain_STATUS from the provided source
+func (domain *Domain_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20200601s.Domain_STATUS)
 	if ok {
 		// Populate our instance from source
-		return domain.AssignPropertiesFromDomainStatus(src)
+		return domain.AssignPropertiesFromDomain_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20200601s.Domain_Status{}
+	src = &v20200601s.Domain_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = domain.AssignPropertiesFromDomainStatus(src)
+	err = domain.AssignPropertiesFromDomain_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -253,17 +253,17 @@ func (domain *Domain_Status) ConvertStatusFrom(source genruntime.ConvertibleStat
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Domain_Status
-func (domain *Domain_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20200601s.Domain_Status)
+// ConvertStatusTo populates the provided destination from our Domain_STATUS
+func (domain *Domain_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20200601s.Domain_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return domain.AssignPropertiesToDomainStatus(dst)
+		return domain.AssignPropertiesToDomain_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20200601s.Domain_Status{}
-	err := domain.AssignPropertiesToDomainStatus(dst)
+	dst = &v20200601s.Domain_STATUS{}
+	err := domain.AssignPropertiesToDomain_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -277,8 +277,8 @@ func (domain *Domain_Status) ConvertStatusTo(destination genruntime.ConvertibleS
 	return nil
 }
 
-// AssignPropertiesFromDomainStatus populates our Domain_Status from the provided source Domain_Status
-func (domain *Domain_Status) AssignPropertiesFromDomainStatus(source *v20200601s.Domain_Status) error {
+// AssignPropertiesFromDomain_STATUS populates our Domain_STATUS from the provided source Domain_STATUS
+func (domain *Domain_STATUS) AssignPropertiesFromDomain_STATUS(source *v20200601s.Domain_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -293,14 +293,14 @@ func (domain *Domain_Status) AssignPropertiesFromDomainStatus(source *v20200601s
 
 	// InboundIpRules
 	if source.InboundIpRules != nil {
-		inboundIpRuleList := make([]InboundIpRule_Status, len(source.InboundIpRules))
+		inboundIpRuleList := make([]InboundIpRule_STATUS, len(source.InboundIpRules))
 		for inboundIpRuleIndex, inboundIpRuleItem := range source.InboundIpRules {
 			// Shadow the loop variable to avoid aliasing
 			inboundIpRuleItem := inboundIpRuleItem
-			var inboundIpRule InboundIpRule_Status
-			err := inboundIpRule.AssignPropertiesFromInboundIpRuleStatus(&inboundIpRuleItem)
+			var inboundIpRule InboundIpRule_STATUS
+			err := inboundIpRule.AssignPropertiesFromInboundIpRule_STATUS(&inboundIpRuleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromInboundIpRuleStatus() to populate field InboundIpRules")
+				return errors.Wrap(err, "calling AssignPropertiesFromInboundIpRule_STATUS() to populate field InboundIpRules")
 			}
 			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
 		}
@@ -314,10 +314,10 @@ func (domain *Domain_Status) AssignPropertiesFromDomainStatus(source *v20200601s
 
 	// InputSchemaMapping
 	if source.InputSchemaMapping != nil {
-		var inputSchemaMapping InputSchemaMapping_Status
-		err := inputSchemaMapping.AssignPropertiesFromInputSchemaMappingStatus(source.InputSchemaMapping)
+		var inputSchemaMapping InputSchemaMapping_STATUS
+		err := inputSchemaMapping.AssignPropertiesFromInputSchemaMapping_STATUS(source.InputSchemaMapping)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromInputSchemaMappingStatus() to populate field InputSchemaMapping")
+			return errors.Wrap(err, "calling AssignPropertiesFromInputSchemaMapping_STATUS() to populate field InputSchemaMapping")
 		}
 		domain.InputSchemaMapping = &inputSchemaMapping
 	} else {
@@ -335,14 +335,14 @@ func (domain *Domain_Status) AssignPropertiesFromDomainStatus(source *v20200601s
 
 	// PrivateEndpointConnections
 	if source.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]PrivateEndpointConnection_Status_Domain_SubResourceEmbedded, len(source.PrivateEndpointConnections))
+		privateEndpointConnectionList := make([]PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded, len(source.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection PrivateEndpointConnection_Status_Domain_SubResourceEmbedded
-			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnectionStatusDomainSubResourceEmbedded(&privateEndpointConnectionItem)
+			var privateEndpointConnection PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded
+			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded(&privateEndpointConnectionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnectionStatusDomainSubResourceEmbedded() to populate field PrivateEndpointConnections")
+				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -359,10 +359,10 @@ func (domain *Domain_Status) AssignPropertiesFromDomainStatus(source *v20200601s
 
 	// SystemData
 	if source.SystemData != nil {
-		var systemDatum SystemData_Status
-		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignPropertiesFromSystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemData_STATUS() to populate field SystemData")
 		}
 		domain.SystemData = &systemDatum
 	} else {
@@ -386,8 +386,8 @@ func (domain *Domain_Status) AssignPropertiesFromDomainStatus(source *v20200601s
 	return nil
 }
 
-// AssignPropertiesToDomainStatus populates the provided destination Domain_Status from our Domain_Status
-func (domain *Domain_Status) AssignPropertiesToDomainStatus(destination *v20200601s.Domain_Status) error {
+// AssignPropertiesToDomain_STATUS populates the provided destination Domain_STATUS from our Domain_STATUS
+func (domain *Domain_STATUS) AssignPropertiesToDomain_STATUS(destination *v20200601s.Domain_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(domain.PropertyBag)
 
@@ -402,14 +402,14 @@ func (domain *Domain_Status) AssignPropertiesToDomainStatus(destination *v202006
 
 	// InboundIpRules
 	if domain.InboundIpRules != nil {
-		inboundIpRuleList := make([]v20200601s.InboundIpRule_Status, len(domain.InboundIpRules))
+		inboundIpRuleList := make([]v20200601s.InboundIpRule_STATUS, len(domain.InboundIpRules))
 		for inboundIpRuleIndex, inboundIpRuleItem := range domain.InboundIpRules {
 			// Shadow the loop variable to avoid aliasing
 			inboundIpRuleItem := inboundIpRuleItem
-			var inboundIpRule v20200601s.InboundIpRule_Status
-			err := inboundIpRuleItem.AssignPropertiesToInboundIpRuleStatus(&inboundIpRule)
+			var inboundIpRule v20200601s.InboundIpRule_STATUS
+			err := inboundIpRuleItem.AssignPropertiesToInboundIpRule_STATUS(&inboundIpRule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToInboundIpRuleStatus() to populate field InboundIpRules")
+				return errors.Wrap(err, "calling AssignPropertiesToInboundIpRule_STATUS() to populate field InboundIpRules")
 			}
 			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
 		}
@@ -423,10 +423,10 @@ func (domain *Domain_Status) AssignPropertiesToDomainStatus(destination *v202006
 
 	// InputSchemaMapping
 	if domain.InputSchemaMapping != nil {
-		var inputSchemaMapping v20200601s.InputSchemaMapping_Status
-		err := domain.InputSchemaMapping.AssignPropertiesToInputSchemaMappingStatus(&inputSchemaMapping)
+		var inputSchemaMapping v20200601s.InputSchemaMapping_STATUS
+		err := domain.InputSchemaMapping.AssignPropertiesToInputSchemaMapping_STATUS(&inputSchemaMapping)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToInputSchemaMappingStatus() to populate field InputSchemaMapping")
+			return errors.Wrap(err, "calling AssignPropertiesToInputSchemaMapping_STATUS() to populate field InputSchemaMapping")
 		}
 		destination.InputSchemaMapping = &inputSchemaMapping
 	} else {
@@ -444,14 +444,14 @@ func (domain *Domain_Status) AssignPropertiesToDomainStatus(destination *v202006
 
 	// PrivateEndpointConnections
 	if domain.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]v20200601s.PrivateEndpointConnection_Status_Domain_SubResourceEmbedded, len(domain.PrivateEndpointConnections))
+		privateEndpointConnectionList := make([]v20200601s.PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded, len(domain.PrivateEndpointConnections))
 		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range domain.PrivateEndpointConnections {
 			// Shadow the loop variable to avoid aliasing
 			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection v20200601s.PrivateEndpointConnection_Status_Domain_SubResourceEmbedded
-			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnectionStatusDomainSubResourceEmbedded(&privateEndpointConnection)
+			var privateEndpointConnection v20200601s.PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded
+			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded(&privateEndpointConnection)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnectionStatusDomainSubResourceEmbedded() to populate field PrivateEndpointConnections")
+				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded() to populate field PrivateEndpointConnections")
 			}
 			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
 		}
@@ -468,10 +468,10 @@ func (domain *Domain_Status) AssignPropertiesToDomainStatus(destination *v202006
 
 	// SystemData
 	if domain.SystemData != nil {
-		var systemDatum v20200601s.SystemData_Status
-		err := domain.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
+		var systemDatum v20200601s.SystemData_STATUS
+		err := domain.SystemData.AssignPropertiesToSystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesToSystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -495,46 +495,53 @@ func (domain *Domain_Status) AssignPropertiesToDomainStatus(destination *v202006
 	return nil
 }
 
-// Storage version of v1alpha1api20200601.Domains_Spec
-type Domains_Spec struct {
+// Storage version of v1alpha1api20200601.Domain_Spec
+type Domain_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName          string                  `json:"azureName,omitempty"`
-	InboundIpRules     []InboundIpRule         `json:"inboundIpRules,omitempty"`
-	InputSchema        *string                 `json:"inputSchema,omitempty"`
-	InputSchemaMapping *JsonInputSchemaMapping `json:"inputSchemaMapping,omitempty"`
-	Location           *string                 `json:"location,omitempty"`
-	OriginalVersion    string                  `json:"originalVersion,omitempty"`
+	AzureName          string              `json:"azureName,omitempty"`
+	Endpoint           *string             `json:"endpoint,omitempty"`
+	Id                 *string             `json:"id,omitempty"`
+	InboundIpRules     []InboundIpRule     `json:"inboundIpRules,omitempty"`
+	InputSchema        *string             `json:"inputSchema,omitempty"`
+	InputSchemaMapping *InputSchemaMapping `json:"inputSchemaMapping,omitempty"`
+	Location           *string             `json:"location,omitempty"`
+	MetricResourceId   *string             `json:"metricResourceId,omitempty"`
+	OriginalVersion    string              `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner               *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag         genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	PublicNetworkAccess *string                            `json:"publicNetworkAccess,omitempty"`
-	Tags                map[string]string                  `json:"tags,omitempty"`
+	Owner                      *genruntime.KnownResourceReference                     `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PrivateEndpointConnections []PrivateEndpointConnection_Domain_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
+	PropertyBag                genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
+	ProvisioningState          *string                                                `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *string                                                `json:"publicNetworkAccess,omitempty"`
+	SystemData                 *SystemData                                            `json:"systemData,omitempty"`
+	Tags                       map[string]string                                      `json:"tags,omitempty"`
+	Type                       *string                                                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Domains_Spec{}
+var _ genruntime.ConvertibleSpec = &Domain_Spec{}
 
-// ConvertSpecFrom populates our Domains_Spec from the provided source
-func (domains *Domains_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20200601s.Domains_Spec)
+// ConvertSpecFrom populates our Domain_Spec from the provided source
+func (domain *Domain_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20200601s.Domain_Spec)
 	if ok {
 		// Populate our instance from source
-		return domains.AssignPropertiesFromDomainsSpec(src)
+		return domain.AssignPropertiesFromDomain_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20200601s.Domains_Spec{}
+	src = &v20200601s.Domain_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = domains.AssignPropertiesFromDomainsSpec(src)
+	err = domain.AssignPropertiesFromDomain_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -542,17 +549,17 @@ func (domains *Domains_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) 
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Domains_Spec
-func (domains *Domains_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20200601s.Domains_Spec)
+// ConvertSpecTo populates the provided destination from our Domain_Spec
+func (domain *Domain_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20200601s.Domain_Spec)
 	if ok {
 		// Populate destination from our instance
-		return domains.AssignPropertiesToDomainsSpec(dst)
+		return domain.AssignPropertiesToDomain_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20200601s.Domains_Spec{}
-	err := domains.AssignPropertiesToDomainsSpec(dst)
+	dst = &v20200601s.Domain_Spec{}
+	err := domain.AssignPropertiesToDomain_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -566,13 +573,19 @@ func (domains *Domains_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpe
 	return nil
 }
 
-// AssignPropertiesFromDomainsSpec populates our Domains_Spec from the provided source Domains_Spec
-func (domains *Domains_Spec) AssignPropertiesFromDomainsSpec(source *v20200601s.Domains_Spec) error {
+// AssignPropertiesFromDomain_Spec populates our Domain_Spec from the provided source Domain_Spec
+func (domain *Domain_Spec) AssignPropertiesFromDomain_Spec(source *v20200601s.Domain_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// AzureName
-	domains.AzureName = source.AzureName
+	domain.AzureName = source.AzureName
+
+	// Endpoint
+	domain.Endpoint = genruntime.ClonePointerToString(source.Endpoint)
+
+	// Id
+	domain.Id = genruntime.ClonePointerToString(source.Id)
 
 	// InboundIpRules
 	if source.InboundIpRules != nil {
@@ -587,69 +600,114 @@ func (domains *Domains_Spec) AssignPropertiesFromDomainsSpec(source *v20200601s.
 			}
 			inboundIpRuleList[inboundIpRuleIndex] = inboundIpRule
 		}
-		domains.InboundIpRules = inboundIpRuleList
+		domain.InboundIpRules = inboundIpRuleList
 	} else {
-		domains.InboundIpRules = nil
+		domain.InboundIpRules = nil
 	}
 
 	// InputSchema
-	domains.InputSchema = genruntime.ClonePointerToString(source.InputSchema)
+	domain.InputSchema = genruntime.ClonePointerToString(source.InputSchema)
 
 	// InputSchemaMapping
 	if source.InputSchemaMapping != nil {
-		var inputSchemaMapping JsonInputSchemaMapping
-		err := inputSchemaMapping.AssignPropertiesFromJsonInputSchemaMapping(source.InputSchemaMapping)
+		var inputSchemaMapping InputSchemaMapping
+		err := inputSchemaMapping.AssignPropertiesFromInputSchemaMapping(source.InputSchemaMapping)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromJsonInputSchemaMapping() to populate field InputSchemaMapping")
+			return errors.Wrap(err, "calling AssignPropertiesFromInputSchemaMapping() to populate field InputSchemaMapping")
 		}
-		domains.InputSchemaMapping = &inputSchemaMapping
+		domain.InputSchemaMapping = &inputSchemaMapping
 	} else {
-		domains.InputSchemaMapping = nil
+		domain.InputSchemaMapping = nil
 	}
 
 	// Location
-	domains.Location = genruntime.ClonePointerToString(source.Location)
+	domain.Location = genruntime.ClonePointerToString(source.Location)
+
+	// MetricResourceId
+	domain.MetricResourceId = genruntime.ClonePointerToString(source.MetricResourceId)
 
 	// OriginalVersion
-	domains.OriginalVersion = source.OriginalVersion
+	domain.OriginalVersion = source.OriginalVersion
 
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
-		domains.Owner = &owner
+		domain.Owner = &owner
 	} else {
-		domains.Owner = nil
+		domain.Owner = nil
 	}
 
+	// PrivateEndpointConnections
+	if source.PrivateEndpointConnections != nil {
+		privateEndpointConnectionList := make([]PrivateEndpointConnection_Domain_SubResourceEmbedded, len(source.PrivateEndpointConnections))
+		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
+			// Shadow the loop variable to avoid aliasing
+			privateEndpointConnectionItem := privateEndpointConnectionItem
+			var privateEndpointConnection PrivateEndpointConnection_Domain_SubResourceEmbedded
+			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnection_Domain_SubResourceEmbedded(&privateEndpointConnectionItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnection_Domain_SubResourceEmbedded() to populate field PrivateEndpointConnections")
+			}
+			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
+		}
+		domain.PrivateEndpointConnections = privateEndpointConnectionList
+	} else {
+		domain.PrivateEndpointConnections = nil
+	}
+
+	// ProvisioningState
+	domain.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+
 	// PublicNetworkAccess
-	domains.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
+	domain.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData
+		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
+		}
+		domain.SystemData = &systemDatum
+	} else {
+		domain.SystemData = nil
+	}
 
 	// Tags
-	domains.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	domain.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	domain.Type = genruntime.ClonePointerToString(source.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		domains.PropertyBag = propertyBag
+		domain.PropertyBag = propertyBag
 	} else {
-		domains.PropertyBag = nil
+		domain.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToDomainsSpec populates the provided destination Domains_Spec from our Domains_Spec
-func (domains *Domains_Spec) AssignPropertiesToDomainsSpec(destination *v20200601s.Domains_Spec) error {
+// AssignPropertiesToDomain_Spec populates the provided destination Domain_Spec from our Domain_Spec
+func (domain *Domain_Spec) AssignPropertiesToDomain_Spec(destination *v20200601s.Domain_Spec) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(domains.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(domain.PropertyBag)
 
 	// AzureName
-	destination.AzureName = domains.AzureName
+	destination.AzureName = domain.AzureName
+
+	// Endpoint
+	destination.Endpoint = genruntime.ClonePointerToString(domain.Endpoint)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(domain.Id)
 
 	// InboundIpRules
-	if domains.InboundIpRules != nil {
-		inboundIpRuleList := make([]v20200601s.InboundIpRule, len(domains.InboundIpRules))
-		for inboundIpRuleIndex, inboundIpRuleItem := range domains.InboundIpRules {
+	if domain.InboundIpRules != nil {
+		inboundIpRuleList := make([]v20200601s.InboundIpRule, len(domain.InboundIpRules))
+		for inboundIpRuleIndex, inboundIpRuleItem := range domain.InboundIpRules {
 			// Shadow the loop variable to avoid aliasing
 			inboundIpRuleItem := inboundIpRuleItem
 			var inboundIpRule v20200601s.InboundIpRule
@@ -665,14 +723,14 @@ func (domains *Domains_Spec) AssignPropertiesToDomainsSpec(destination *v2020060
 	}
 
 	// InputSchema
-	destination.InputSchema = genruntime.ClonePointerToString(domains.InputSchema)
+	destination.InputSchema = genruntime.ClonePointerToString(domain.InputSchema)
 
 	// InputSchemaMapping
-	if domains.InputSchemaMapping != nil {
-		var inputSchemaMapping v20200601s.JsonInputSchemaMapping
-		err := domains.InputSchemaMapping.AssignPropertiesToJsonInputSchemaMapping(&inputSchemaMapping)
+	if domain.InputSchemaMapping != nil {
+		var inputSchemaMapping v20200601s.InputSchemaMapping
+		err := domain.InputSchemaMapping.AssignPropertiesToInputSchemaMapping(&inputSchemaMapping)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToJsonInputSchemaMapping() to populate field InputSchemaMapping")
+			return errors.Wrap(err, "calling AssignPropertiesToInputSchemaMapping() to populate field InputSchemaMapping")
 		}
 		destination.InputSchemaMapping = &inputSchemaMapping
 	} else {
@@ -680,24 +738,63 @@ func (domains *Domains_Spec) AssignPropertiesToDomainsSpec(destination *v2020060
 	}
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(domains.Location)
+	destination.Location = genruntime.ClonePointerToString(domain.Location)
+
+	// MetricResourceId
+	destination.MetricResourceId = genruntime.ClonePointerToString(domain.MetricResourceId)
 
 	// OriginalVersion
-	destination.OriginalVersion = domains.OriginalVersion
+	destination.OriginalVersion = domain.OriginalVersion
 
 	// Owner
-	if domains.Owner != nil {
-		owner := domains.Owner.Copy()
+	if domain.Owner != nil {
+		owner := domain.Owner.Copy()
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
 	}
 
+	// PrivateEndpointConnections
+	if domain.PrivateEndpointConnections != nil {
+		privateEndpointConnectionList := make([]v20200601s.PrivateEndpointConnection_Domain_SubResourceEmbedded, len(domain.PrivateEndpointConnections))
+		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range domain.PrivateEndpointConnections {
+			// Shadow the loop variable to avoid aliasing
+			privateEndpointConnectionItem := privateEndpointConnectionItem
+			var privateEndpointConnection v20200601s.PrivateEndpointConnection_Domain_SubResourceEmbedded
+			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnection_Domain_SubResourceEmbedded(&privateEndpointConnection)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnection_Domain_SubResourceEmbedded() to populate field PrivateEndpointConnections")
+			}
+			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
+		}
+		destination.PrivateEndpointConnections = privateEndpointConnectionList
+	} else {
+		destination.PrivateEndpointConnections = nil
+	}
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(domain.ProvisioningState)
+
 	// PublicNetworkAccess
-	destination.PublicNetworkAccess = genruntime.ClonePointerToString(domains.PublicNetworkAccess)
+	destination.PublicNetworkAccess = genruntime.ClonePointerToString(domain.PublicNetworkAccess)
+
+	// SystemData
+	if domain.SystemData != nil {
+		var systemDatum v20200601s.SystemData
+		err := domain.SystemData.AssignPropertiesToSystemData(&systemDatum)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(domains.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(domain.Tags)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(domain.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -762,16 +859,16 @@ func (rule *InboundIpRule) AssignPropertiesToInboundIpRule(destination *v2020060
 	return nil
 }
 
-// Storage version of v1alpha1api20200601.InboundIpRule_Status
-// Deprecated version of InboundIpRule_Status. Use v1beta20200601.InboundIpRule_Status instead
-type InboundIpRule_Status struct {
+// Storage version of v1alpha1api20200601.InboundIpRule_STATUS
+// Deprecated version of InboundIpRule_STATUS. Use v1beta20200601.InboundIpRule_STATUS instead
+type InboundIpRule_STATUS struct {
 	Action      *string                `json:"action,omitempty"`
 	IpMask      *string                `json:"ipMask,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromInboundIpRuleStatus populates our InboundIpRule_Status from the provided source InboundIpRule_Status
-func (rule *InboundIpRule_Status) AssignPropertiesFromInboundIpRuleStatus(source *v20200601s.InboundIpRule_Status) error {
+// AssignPropertiesFromInboundIpRule_STATUS populates our InboundIpRule_STATUS from the provided source InboundIpRule_STATUS
+func (rule *InboundIpRule_STATUS) AssignPropertiesFromInboundIpRule_STATUS(source *v20200601s.InboundIpRule_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -792,8 +889,8 @@ func (rule *InboundIpRule_Status) AssignPropertiesFromInboundIpRuleStatus(source
 	return nil
 }
 
-// AssignPropertiesToInboundIpRuleStatus populates the provided destination InboundIpRule_Status from our InboundIpRule_Status
-func (rule *InboundIpRule_Status) AssignPropertiesToInboundIpRuleStatus(destination *v20200601s.InboundIpRule_Status) error {
+// AssignPropertiesToInboundIpRule_STATUS populates the provided destination InboundIpRule_STATUS from our InboundIpRule_STATUS
+func (rule *InboundIpRule_STATUS) AssignPropertiesToInboundIpRule_STATUS(destination *v20200601s.InboundIpRule_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
 
@@ -814,15 +911,15 @@ func (rule *InboundIpRule_Status) AssignPropertiesToInboundIpRuleStatus(destinat
 	return nil
 }
 
-// Storage version of v1alpha1api20200601.InputSchemaMapping_Status
-// Deprecated version of InputSchemaMapping_Status. Use v1beta20200601.InputSchemaMapping_Status instead
-type InputSchemaMapping_Status struct {
+// Storage version of v1alpha1api20200601.InputSchemaMapping
+// Deprecated version of InputSchemaMapping. Use v1beta20200601.InputSchemaMapping instead
+type InputSchemaMapping struct {
 	InputSchemaMappingType *string                `json:"inputSchemaMappingType,omitempty"`
 	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromInputSchemaMappingStatus populates our InputSchemaMapping_Status from the provided source InputSchemaMapping_Status
-func (mapping *InputSchemaMapping_Status) AssignPropertiesFromInputSchemaMappingStatus(source *v20200601s.InputSchemaMapping_Status) error {
+// AssignPropertiesFromInputSchemaMapping populates our InputSchemaMapping from the provided source InputSchemaMapping
+func (mapping *InputSchemaMapping) AssignPropertiesFromInputSchemaMapping(source *v20200601s.InputSchemaMapping) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -840,8 +937,8 @@ func (mapping *InputSchemaMapping_Status) AssignPropertiesFromInputSchemaMapping
 	return nil
 }
 
-// AssignPropertiesToInputSchemaMappingStatus populates the provided destination InputSchemaMapping_Status from our InputSchemaMapping_Status
-func (mapping *InputSchemaMapping_Status) AssignPropertiesToInputSchemaMappingStatus(destination *v20200601s.InputSchemaMapping_Status) error {
+// AssignPropertiesToInputSchemaMapping populates the provided destination InputSchemaMapping from our InputSchemaMapping
+func (mapping *InputSchemaMapping) AssignPropertiesToInputSchemaMapping(destination *v20200601s.InputSchemaMapping) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(mapping.PropertyBag)
 
@@ -859,33 +956,20 @@ func (mapping *InputSchemaMapping_Status) AssignPropertiesToInputSchemaMappingSt
 	return nil
 }
 
-// Storage version of v1alpha1api20200601.JsonInputSchemaMapping
-// Deprecated version of JsonInputSchemaMapping. Use v1beta20200601.JsonInputSchemaMapping instead
-type JsonInputSchemaMapping struct {
-	InputSchemaMappingType *string                           `json:"inputSchemaMappingType,omitempty"`
-	Properties             *JsonInputSchemaMappingProperties `json:"properties,omitempty"`
-	PropertyBag            genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+// Storage version of v1alpha1api20200601.InputSchemaMapping_STATUS
+// Deprecated version of InputSchemaMapping_STATUS. Use v1beta20200601.InputSchemaMapping_STATUS instead
+type InputSchemaMapping_STATUS struct {
+	InputSchemaMappingType *string                `json:"inputSchemaMappingType,omitempty"`
+	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromJsonInputSchemaMapping populates our JsonInputSchemaMapping from the provided source JsonInputSchemaMapping
-func (mapping *JsonInputSchemaMapping) AssignPropertiesFromJsonInputSchemaMapping(source *v20200601s.JsonInputSchemaMapping) error {
+// AssignPropertiesFromInputSchemaMapping_STATUS populates our InputSchemaMapping_STATUS from the provided source InputSchemaMapping_STATUS
+func (mapping *InputSchemaMapping_STATUS) AssignPropertiesFromInputSchemaMapping_STATUS(source *v20200601s.InputSchemaMapping_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// InputSchemaMappingType
 	mapping.InputSchemaMappingType = genruntime.ClonePointerToString(source.InputSchemaMappingType)
-
-	// Properties
-	if source.Properties != nil {
-		var property JsonInputSchemaMappingProperties
-		err := property.AssignPropertiesFromJsonInputSchemaMappingProperties(source.Properties)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromJsonInputSchemaMappingProperties() to populate field Properties")
-		}
-		mapping.Properties = &property
-	} else {
-		mapping.Properties = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -898,25 +982,13 @@ func (mapping *JsonInputSchemaMapping) AssignPropertiesFromJsonInputSchemaMappin
 	return nil
 }
 
-// AssignPropertiesToJsonInputSchemaMapping populates the provided destination JsonInputSchemaMapping from our JsonInputSchemaMapping
-func (mapping *JsonInputSchemaMapping) AssignPropertiesToJsonInputSchemaMapping(destination *v20200601s.JsonInputSchemaMapping) error {
+// AssignPropertiesToInputSchemaMapping_STATUS populates the provided destination InputSchemaMapping_STATUS from our InputSchemaMapping_STATUS
+func (mapping *InputSchemaMapping_STATUS) AssignPropertiesToInputSchemaMapping_STATUS(destination *v20200601s.InputSchemaMapping_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(mapping.PropertyBag)
 
 	// InputSchemaMappingType
 	destination.InputSchemaMappingType = genruntime.ClonePointerToString(mapping.InputSchemaMappingType)
-
-	// Properties
-	if mapping.Properties != nil {
-		var property v20200601s.JsonInputSchemaMappingProperties
-		err := mapping.Properties.AssignPropertiesToJsonInputSchemaMappingProperties(&property)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToJsonInputSchemaMappingProperties() to populate field Properties")
-		}
-		destination.Properties = &property
-	} else {
-		destination.Properties = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -929,15 +1001,15 @@ func (mapping *JsonInputSchemaMapping) AssignPropertiesToJsonInputSchemaMapping(
 	return nil
 }
 
-// Storage version of v1alpha1api20200601.PrivateEndpointConnection_Status_Domain_SubResourceEmbedded
-// Deprecated version of PrivateEndpointConnection_Status_Domain_SubResourceEmbedded. Use v1beta20200601.PrivateEndpointConnection_Status_Domain_SubResourceEmbedded instead
-type PrivateEndpointConnection_Status_Domain_SubResourceEmbedded struct {
+// Storage version of v1alpha1api20200601.PrivateEndpointConnection_Domain_SubResourceEmbedded
+// Deprecated version of PrivateEndpointConnection_Domain_SubResourceEmbedded. Use v1beta20200601.PrivateEndpointConnection_Domain_SubResourceEmbedded instead
+type PrivateEndpointConnection_Domain_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromPrivateEndpointConnectionStatusDomainSubResourceEmbedded populates our PrivateEndpointConnection_Status_Domain_SubResourceEmbedded from the provided source PrivateEndpointConnection_Status_Domain_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_Status_Domain_SubResourceEmbedded) AssignPropertiesFromPrivateEndpointConnectionStatusDomainSubResourceEmbedded(source *v20200601s.PrivateEndpointConnection_Status_Domain_SubResourceEmbedded) error {
+// AssignPropertiesFromPrivateEndpointConnection_Domain_SubResourceEmbedded populates our PrivateEndpointConnection_Domain_SubResourceEmbedded from the provided source PrivateEndpointConnection_Domain_SubResourceEmbedded
+func (embedded *PrivateEndpointConnection_Domain_SubResourceEmbedded) AssignPropertiesFromPrivateEndpointConnection_Domain_SubResourceEmbedded(source *v20200601s.PrivateEndpointConnection_Domain_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -955,8 +1027,8 @@ func (embedded *PrivateEndpointConnection_Status_Domain_SubResourceEmbedded) Ass
 	return nil
 }
 
-// AssignPropertiesToPrivateEndpointConnectionStatusDomainSubResourceEmbedded populates the provided destination PrivateEndpointConnection_Status_Domain_SubResourceEmbedded from our PrivateEndpointConnection_Status_Domain_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_Status_Domain_SubResourceEmbedded) AssignPropertiesToPrivateEndpointConnectionStatusDomainSubResourceEmbedded(destination *v20200601s.PrivateEndpointConnection_Status_Domain_SubResourceEmbedded) error {
+// AssignPropertiesToPrivateEndpointConnection_Domain_SubResourceEmbedded populates the provided destination PrivateEndpointConnection_Domain_SubResourceEmbedded from our PrivateEndpointConnection_Domain_SubResourceEmbedded
+func (embedded *PrivateEndpointConnection_Domain_SubResourceEmbedded) AssignPropertiesToPrivateEndpointConnection_Domain_SubResourceEmbedded(destination *v20200601s.PrivateEndpointConnection_Domain_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
 
@@ -974,9 +1046,54 @@ func (embedded *PrivateEndpointConnection_Status_Domain_SubResourceEmbedded) Ass
 	return nil
 }
 
-// Storage version of v1alpha1api20200601.SystemData_Status
-// Deprecated version of SystemData_Status. Use v1beta20200601.SystemData_Status instead
-type SystemData_Status struct {
+// Storage version of v1alpha1api20200601.PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded
+// Deprecated version of PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded. Use v1beta20200601.PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded instead
+type PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignPropertiesFromPrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded populates our PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded from the provided source PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded
+func (embedded *PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded) AssignPropertiesFromPrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded(source *v20200601s.PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Id
+	embedded.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		embedded.PropertyBag = propertyBag
+	} else {
+		embedded.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToPrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded populates the provided destination PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded from our PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded
+func (embedded *PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded) AssignPropertiesToPrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded(destination *v20200601s.PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(embedded.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20200601.SystemData
+// Deprecated version of SystemData. Use v1beta20200601.SystemData instead
+type SystemData struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
 	CreatedBy          *string                `json:"createdBy,omitempty"`
 	CreatedByType      *string                `json:"createdByType,omitempty"`
@@ -986,8 +1103,8 @@ type SystemData_Status struct {
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromSystemDataStatus populates our SystemData_Status from the provided source SystemData_Status
-func (data *SystemData_Status) AssignPropertiesFromSystemDataStatus(source *v20200601s.SystemData_Status) error {
+// AssignPropertiesFromSystemData populates our SystemData from the provided source SystemData
+func (data *SystemData) AssignPropertiesFromSystemData(source *v20200601s.SystemData) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1020,8 +1137,8 @@ func (data *SystemData_Status) AssignPropertiesFromSystemDataStatus(source *v202
 	return nil
 }
 
-// AssignPropertiesToSystemDataStatus populates the provided destination SystemData_Status from our SystemData_Status
-func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *v20200601s.SystemData_Status) error {
+// AssignPropertiesToSystemData populates the provided destination SystemData from our SystemData
+func (data *SystemData) AssignPropertiesToSystemData(destination *v20200601s.SystemData) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(data.PropertyBag)
 
@@ -1054,279 +1171,74 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *v
 	return nil
 }
 
-// Storage version of v1alpha1api20200601.JsonInputSchemaMappingProperties
-// Deprecated version of JsonInputSchemaMappingProperties. Use v1beta20200601.JsonInputSchemaMappingProperties instead
-type JsonInputSchemaMappingProperties struct {
-	DataVersion *JsonFieldWithDefault  `json:"dataVersion,omitempty"`
-	EventTime   *JsonField             `json:"eventTime,omitempty"`
-	EventType   *JsonFieldWithDefault  `json:"eventType,omitempty"`
-	Id          *JsonField             `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Subject     *JsonFieldWithDefault  `json:"subject,omitempty"`
-	Topic       *JsonField             `json:"topic,omitempty"`
+// Storage version of v1alpha1api20200601.SystemData_STATUS
+// Deprecated version of SystemData_STATUS. Use v1beta20200601.SystemData_STATUS instead
+type SystemData_STATUS struct {
+	CreatedAt          *string                `json:"createdAt,omitempty"`
+	CreatedBy          *string                `json:"createdBy,omitempty"`
+	CreatedByType      *string                `json:"createdByType,omitempty"`
+	LastModifiedAt     *string                `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
+	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
+	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromJsonInputSchemaMappingProperties populates our JsonInputSchemaMappingProperties from the provided source JsonInputSchemaMappingProperties
-func (properties *JsonInputSchemaMappingProperties) AssignPropertiesFromJsonInputSchemaMappingProperties(source *v20200601s.JsonInputSchemaMappingProperties) error {
+// AssignPropertiesFromSystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
+func (data *SystemData_STATUS) AssignPropertiesFromSystemData_STATUS(source *v20200601s.SystemData_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// DataVersion
-	if source.DataVersion != nil {
-		var dataVersion JsonFieldWithDefault
-		err := dataVersion.AssignPropertiesFromJsonFieldWithDefault(source.DataVersion)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromJsonFieldWithDefault() to populate field DataVersion")
-		}
-		properties.DataVersion = &dataVersion
-	} else {
-		properties.DataVersion = nil
-	}
+	// CreatedAt
+	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
 
-	// EventTime
-	if source.EventTime != nil {
-		var eventTime JsonField
-		err := eventTime.AssignPropertiesFromJsonField(source.EventTime)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromJsonField() to populate field EventTime")
-		}
-		properties.EventTime = &eventTime
-	} else {
-		properties.EventTime = nil
-	}
+	// CreatedBy
+	data.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
 
-	// EventType
-	if source.EventType != nil {
-		var eventType JsonFieldWithDefault
-		err := eventType.AssignPropertiesFromJsonFieldWithDefault(source.EventType)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromJsonFieldWithDefault() to populate field EventType")
-		}
-		properties.EventType = &eventType
-	} else {
-		properties.EventType = nil
-	}
+	// CreatedByType
+	data.CreatedByType = genruntime.ClonePointerToString(source.CreatedByType)
 
-	// Id
-	if source.Id != nil {
-		var id JsonField
-		err := id.AssignPropertiesFromJsonField(source.Id)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromJsonField() to populate field Id")
-		}
-		properties.Id = &id
-	} else {
-		properties.Id = nil
-	}
+	// LastModifiedAt
+	data.LastModifiedAt = genruntime.ClonePointerToString(source.LastModifiedAt)
 
-	// Subject
-	if source.Subject != nil {
-		var subject JsonFieldWithDefault
-		err := subject.AssignPropertiesFromJsonFieldWithDefault(source.Subject)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromJsonFieldWithDefault() to populate field Subject")
-		}
-		properties.Subject = &subject
-	} else {
-		properties.Subject = nil
-	}
+	// LastModifiedBy
+	data.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
 
-	// Topic
-	if source.Topic != nil {
-		var topic JsonField
-		err := topic.AssignPropertiesFromJsonField(source.Topic)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromJsonField() to populate field Topic")
-		}
-		properties.Topic = &topic
-	} else {
-		properties.Topic = nil
-	}
+	// LastModifiedByType
+	data.LastModifiedByType = genruntime.ClonePointerToString(source.LastModifiedByType)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		properties.PropertyBag = propertyBag
+		data.PropertyBag = propertyBag
 	} else {
-		properties.PropertyBag = nil
+		data.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToJsonInputSchemaMappingProperties populates the provided destination JsonInputSchemaMappingProperties from our JsonInputSchemaMappingProperties
-func (properties *JsonInputSchemaMappingProperties) AssignPropertiesToJsonInputSchemaMappingProperties(destination *v20200601s.JsonInputSchemaMappingProperties) error {
+// AssignPropertiesToSystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
+func (data *SystemData_STATUS) AssignPropertiesToSystemData_STATUS(destination *v20200601s.SystemData_STATUS) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(data.PropertyBag)
 
-	// DataVersion
-	if properties.DataVersion != nil {
-		var dataVersion v20200601s.JsonFieldWithDefault
-		err := properties.DataVersion.AssignPropertiesToJsonFieldWithDefault(&dataVersion)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToJsonFieldWithDefault() to populate field DataVersion")
-		}
-		destination.DataVersion = &dataVersion
-	} else {
-		destination.DataVersion = nil
-	}
+	// CreatedAt
+	destination.CreatedAt = genruntime.ClonePointerToString(data.CreatedAt)
 
-	// EventTime
-	if properties.EventTime != nil {
-		var eventTime v20200601s.JsonField
-		err := properties.EventTime.AssignPropertiesToJsonField(&eventTime)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToJsonField() to populate field EventTime")
-		}
-		destination.EventTime = &eventTime
-	} else {
-		destination.EventTime = nil
-	}
+	// CreatedBy
+	destination.CreatedBy = genruntime.ClonePointerToString(data.CreatedBy)
 
-	// EventType
-	if properties.EventType != nil {
-		var eventType v20200601s.JsonFieldWithDefault
-		err := properties.EventType.AssignPropertiesToJsonFieldWithDefault(&eventType)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToJsonFieldWithDefault() to populate field EventType")
-		}
-		destination.EventType = &eventType
-	} else {
-		destination.EventType = nil
-	}
+	// CreatedByType
+	destination.CreatedByType = genruntime.ClonePointerToString(data.CreatedByType)
 
-	// Id
-	if properties.Id != nil {
-		var id v20200601s.JsonField
-		err := properties.Id.AssignPropertiesToJsonField(&id)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToJsonField() to populate field Id")
-		}
-		destination.Id = &id
-	} else {
-		destination.Id = nil
-	}
+	// LastModifiedAt
+	destination.LastModifiedAt = genruntime.ClonePointerToString(data.LastModifiedAt)
 
-	// Subject
-	if properties.Subject != nil {
-		var subject v20200601s.JsonFieldWithDefault
-		err := properties.Subject.AssignPropertiesToJsonFieldWithDefault(&subject)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToJsonFieldWithDefault() to populate field Subject")
-		}
-		destination.Subject = &subject
-	} else {
-		destination.Subject = nil
-	}
+	// LastModifiedBy
+	destination.LastModifiedBy = genruntime.ClonePointerToString(data.LastModifiedBy)
 
-	// Topic
-	if properties.Topic != nil {
-		var topic v20200601s.JsonField
-		err := properties.Topic.AssignPropertiesToJsonField(&topic)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToJsonField() to populate field Topic")
-		}
-		destination.Topic = &topic
-	} else {
-		destination.Topic = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20200601.JsonField
-// Deprecated version of JsonField. Use v1beta20200601.JsonField instead
-type JsonField struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SourceField *string                `json:"sourceField,omitempty"`
-}
-
-// AssignPropertiesFromJsonField populates our JsonField from the provided source JsonField
-func (field *JsonField) AssignPropertiesFromJsonField(source *v20200601s.JsonField) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// SourceField
-	field.SourceField = genruntime.ClonePointerToString(source.SourceField)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		field.PropertyBag = propertyBag
-	} else {
-		field.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToJsonField populates the provided destination JsonField from our JsonField
-func (field *JsonField) AssignPropertiesToJsonField(destination *v20200601s.JsonField) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(field.PropertyBag)
-
-	// SourceField
-	destination.SourceField = genruntime.ClonePointerToString(field.SourceField)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20200601.JsonFieldWithDefault
-// Deprecated version of JsonFieldWithDefault. Use v1beta20200601.JsonFieldWithDefault instead
-type JsonFieldWithDefault struct {
-	DefaultValue *string                `json:"defaultValue,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SourceField  *string                `json:"sourceField,omitempty"`
-}
-
-// AssignPropertiesFromJsonFieldWithDefault populates our JsonFieldWithDefault from the provided source JsonFieldWithDefault
-func (withDefault *JsonFieldWithDefault) AssignPropertiesFromJsonFieldWithDefault(source *v20200601s.JsonFieldWithDefault) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// DefaultValue
-	withDefault.DefaultValue = genruntime.ClonePointerToString(source.DefaultValue)
-
-	// SourceField
-	withDefault.SourceField = genruntime.ClonePointerToString(source.SourceField)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		withDefault.PropertyBag = propertyBag
-	} else {
-		withDefault.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToJsonFieldWithDefault populates the provided destination JsonFieldWithDefault from our JsonFieldWithDefault
-func (withDefault *JsonFieldWithDefault) AssignPropertiesToJsonFieldWithDefault(destination *v20200601s.JsonFieldWithDefault) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(withDefault.PropertyBag)
-
-	// DefaultValue
-	destination.DefaultValue = genruntime.ClonePointerToString(withDefault.DefaultValue)
-
-	// SourceField
-	destination.SourceField = genruntime.ClonePointerToString(withDefault.SourceField)
+	// LastModifiedByType
+	destination.LastModifiedByType = genruntime.ClonePointerToString(data.LastModifiedByType)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

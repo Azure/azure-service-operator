@@ -11,7 +11,6 @@ import (
 	"strings"
 
 	"github.com/pkg/errors"
-	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -68,7 +67,7 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 			for _, def := range definitions {
 				// Skip Status types
 				// TODO: we need flags
-				if strings.Contains(def.Name().Name(), "_Status") {
+				if def.Name().RepresentsStatusType() {
 					result.Add(def)
 					continue
 				}
@@ -83,19 +82,28 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 				// TODO: Properties collapsing work for this.
 			}
 
-			var err error = kerrors.NewAggregate(crossResourceReferenceErrs)
-			if err != nil {
-				return nil, err
-			}
+			// TODO(donotmerge) - need to fixup config file
+			/*
+				if len(crossResourceReferenceErrs) > 0 {
+					// format them nicely, it’s common to have a lot after a change
+					var builder strings.Builder
+					for _, e := range crossResourceReferenceErrs {
+						builder.WriteString("\n - ")
+						builder.WriteString(e.Error())
+					}
 
-			err = configuration.VerifyARMReferencesConsumed()
-			if err != nil {
-				klog.Error(err)
+					return nil, errors.New(builder.String())
+				}
 
-				return nil, errors.Wrap(
-					err,
-					"Found unused $armReference configurations; these need to be fixed or removed.")
-			}
+				err := configuration.VerifyARMReferencesConsumed()
+				if err != nil {
+					klog.Error(err)
+
+					return nil, errors.Wrap(
+						err,
+						"Found unused $armReference configurations; these need to be fixed or removed.")
+				}
+			*/
 
 			return result, nil
 		})

@@ -8,7 +8,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -24,12 +23,13 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20201201.VirtualMachine
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/resourceDefinitions/virtualMachines
+// Generator information:
+// - Generated from: /compute/resource-manager/Microsoft.Compute/stable/2020-12-01/compute.json
 type VirtualMachine struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              VirtualMachines_Spec  `json:"spec,omitempty"`
-	Status            VirtualMachine_Status `json:"status,omitempty"`
+	Spec              VirtualMachine_Spec   `json:"spec,omitempty"`
+	Status            VirtualMachine_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &VirtualMachine{}
@@ -51,7 +51,7 @@ func (machine *VirtualMachine) AzureName() string {
 	return machine.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20201201"
 func (machine VirtualMachine) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -71,14 +71,14 @@ func (machine *VirtualMachine) GetStatus() genruntime.ConvertibleStatus {
 	return &machine.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/virtualMachines"
+// GetType returns the ARM Type of the resource. This is always ""
 func (machine *VirtualMachine) GetType() string {
-	return "Microsoft.Compute/virtualMachines"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (machine *VirtualMachine) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &VirtualMachine_Status{}
+	return &VirtualMachine_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -94,13 +94,13 @@ func (machine *VirtualMachine) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (machine *VirtualMachine) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*VirtualMachine_Status); ok {
+	if st, ok := status.(*VirtualMachine_STATUS); ok {
 		machine.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st VirtualMachine_Status
+	var st VirtualMachine_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -124,7 +124,8 @@ func (machine *VirtualMachine) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20201201.VirtualMachine
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/resourceDefinitions/virtualMachines
+// Generator information:
+// - Generated from: /compute/resource-manager/Microsoft.Compute/stable/2020-12-01/compute.json
 type VirtualMachineList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -132,52 +133,51 @@ type VirtualMachineList struct {
 }
 
 // Storage version of v1beta20201201.APIVersion
-// +kubebuilder:validation:Enum={"2020-12-01"}
+// +kubebuilder:validation:Enum={"20201201"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2020-12-01")
+const APIVersionValue = APIVersion("20201201")
 
-// Storage version of v1beta20201201.VirtualMachine_Status
-type VirtualMachine_Status struct {
-	AdditionalCapabilities  *AdditionalCapabilities_Status     `json:"additionalCapabilities,omitempty"`
-	AvailabilitySet         *SubResource_Status                `json:"availabilitySet,omitempty"`
-	BillingProfile          *BillingProfile_Status             `json:"billingProfile,omitempty"`
+// Storage version of v1beta20201201.VirtualMachine_STATUS
+type VirtualMachine_STATUS struct {
+	AdditionalCapabilities  *AdditionalCapabilities_STATUS     `json:"additionalCapabilities,omitempty"`
+	AvailabilitySet         *SubResource_STATUS                `json:"availabilitySet,omitempty"`
+	BillingProfile          *BillingProfile_STATUS             `json:"billingProfile,omitempty"`
 	Conditions              []conditions.Condition             `json:"conditions,omitempty"`
-	DiagnosticsProfile      *DiagnosticsProfile_Status         `json:"diagnosticsProfile,omitempty"`
+	DiagnosticsProfile      *DiagnosticsProfile_STATUS         `json:"diagnosticsProfile,omitempty"`
 	EvictionPolicy          *string                            `json:"evictionPolicy,omitempty"`
-	ExtendedLocation        *ExtendedLocation_Status           `json:"extendedLocation,omitempty"`
+	ExtendedLocation        *ExtendedLocation_STATUS           `json:"extendedLocation,omitempty"`
 	ExtensionsTimeBudget    *string                            `json:"extensionsTimeBudget,omitempty"`
-	HardwareProfile         *HardwareProfile_Status            `json:"hardwareProfile,omitempty"`
-	Host                    *SubResource_Status                `json:"host,omitempty"`
-	HostGroup               *SubResource_Status                `json:"hostGroup,omitempty"`
+	HardwareProfile         *HardwareProfile_STATUS            `json:"hardwareProfile,omitempty"`
+	Host                    *SubResource_STATUS                `json:"host,omitempty"`
+	HostGroup               *SubResource_STATUS                `json:"hostGroup,omitempty"`
 	Id                      *string                            `json:"id,omitempty"`
-	Identity                *VirtualMachineIdentity_Status     `json:"identity,omitempty"`
-	InstanceView            *VirtualMachineInstanceView_Status `json:"instanceView,omitempty"`
+	Identity                *VirtualMachineIdentity_STATUS     `json:"identity,omitempty"`
+	InstanceView            *VirtualMachineInstanceView_STATUS `json:"instanceView,omitempty"`
 	LicenseType             *string                            `json:"licenseType,omitempty"`
 	Location                *string                            `json:"location,omitempty"`
 	Name                    *string                            `json:"name,omitempty"`
-	NetworkProfile          *NetworkProfile_Status             `json:"networkProfile,omitempty"`
-	OsProfile               *OSProfile_Status                  `json:"osProfile,omitempty"`
-	Plan                    *Plan_Status                       `json:"plan,omitempty"`
+	NetworkProfile          *NetworkProfile_STATUS             `json:"networkProfile,omitempty"`
+	OsProfile               *OSProfile_STATUS                  `json:"osProfile,omitempty"`
+	Plan                    *Plan_STATUS                       `json:"plan,omitempty"`
 	PlatformFaultDomain     *int                               `json:"platformFaultDomain,omitempty"`
 	Priority                *string                            `json:"priority,omitempty"`
 	PropertyBag             genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	ProvisioningState       *string                            `json:"provisioningState,omitempty"`
-	ProximityPlacementGroup *SubResource_Status                `json:"proximityPlacementGroup,omitempty"`
-	Resources               []VirtualMachineExtension_Status   `json:"resources,omitempty"`
-	SecurityProfile         *SecurityProfile_Status            `json:"securityProfile,omitempty"`
-	StorageProfile          *StorageProfile_Status             `json:"storageProfile,omitempty"`
+	ProximityPlacementGroup *SubResource_STATUS                `json:"proximityPlacementGroup,omitempty"`
+	SecurityProfile         *SecurityProfile_STATUS            `json:"securityProfile,omitempty"`
+	StorageProfile          *StorageProfile_STATUS             `json:"storageProfile,omitempty"`
 	Tags                    map[string]string                  `json:"tags,omitempty"`
 	Type                    *string                            `json:"type,omitempty"`
-	VirtualMachineScaleSet  *SubResource_Status                `json:"virtualMachineScaleSet,omitempty"`
+	VirtualMachineScaleSet  *SubResource_STATUS                `json:"virtualMachineScaleSet,omitempty"`
 	VmId                    *string                            `json:"vmId,omitempty"`
 	Zones                   []string                           `json:"zones,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &VirtualMachine_Status{}
+var _ genruntime.ConvertibleStatus = &VirtualMachine_STATUS{}
 
-// ConvertStatusFrom populates our VirtualMachine_Status from the provided source
-func (machine *VirtualMachine_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our VirtualMachine_STATUS from the provided source
+func (machine *VirtualMachine_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == machine {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -185,8 +185,8 @@ func (machine *VirtualMachine_Status) ConvertStatusFrom(source genruntime.Conver
 	return source.ConvertStatusTo(machine)
 }
 
-// ConvertStatusTo populates the provided destination from our VirtualMachine_Status
-func (machine *VirtualMachine_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our VirtualMachine_STATUS
+func (machine *VirtualMachine_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == machine {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -194,28 +194,30 @@ func (machine *VirtualMachine_Status) ConvertStatusTo(destination genruntime.Con
 	return destination.ConvertStatusFrom(machine)
 }
 
-// Storage version of v1beta20201201.VirtualMachines_Spec
-type VirtualMachines_Spec struct {
+// Storage version of v1beta20201201.VirtualMachine_Spec
+type VirtualMachine_Spec struct {
 	AdditionalCapabilities *AdditionalCapabilities `json:"additionalCapabilities,omitempty"`
 	AvailabilitySet        *SubResource            `json:"availabilitySet,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName            string                                          `json:"azureName,omitempty"`
-	BillingProfile       *BillingProfile                                 `json:"billingProfile,omitempty"`
-	DiagnosticsProfile   *DiagnosticsProfile                             `json:"diagnosticsProfile,omitempty"`
-	EvictionPolicy       *string                                         `json:"evictionPolicy,omitempty"`
-	ExtendedLocation     *ExtendedLocation                               `json:"extendedLocation,omitempty"`
-	ExtensionsTimeBudget *string                                         `json:"extensionsTimeBudget,omitempty"`
-	HardwareProfile      *HardwareProfile                                `json:"hardwareProfile,omitempty"`
-	Host                 *SubResource                                    `json:"host,omitempty"`
-	HostGroup            *SubResource                                    `json:"hostGroup,omitempty"`
-	Identity             *VirtualMachineIdentity                         `json:"identity,omitempty"`
-	LicenseType          *string                                         `json:"licenseType,omitempty"`
-	Location             *string                                         `json:"location,omitempty"`
-	NetworkProfile       *VirtualMachines_Spec_Properties_NetworkProfile `json:"networkProfile,omitempty"`
-	OriginalVersion      string                                          `json:"originalVersion,omitempty"`
-	OsProfile            *VirtualMachines_Spec_Properties_OsProfile      `json:"osProfile,omitempty"`
+	AzureName            string                      `json:"azureName,omitempty"`
+	BillingProfile       *BillingProfile             `json:"billingProfile,omitempty"`
+	DiagnosticsProfile   *DiagnosticsProfile         `json:"diagnosticsProfile,omitempty"`
+	EvictionPolicy       *string                     `json:"evictionPolicy,omitempty"`
+	ExtendedLocation     *ExtendedLocation           `json:"extendedLocation,omitempty"`
+	ExtensionsTimeBudget *string                     `json:"extensionsTimeBudget,omitempty"`
+	HardwareProfile      *HardwareProfile            `json:"hardwareProfile,omitempty"`
+	Host                 *SubResource                `json:"host,omitempty"`
+	HostGroup            *SubResource                `json:"hostGroup,omitempty"`
+	Id                   *string                     `json:"id,omitempty"`
+	Identity             *VirtualMachineIdentity     `json:"identity,omitempty"`
+	InstanceView         *VirtualMachineInstanceView `json:"instanceView,omitempty"`
+	LicenseType          *string                     `json:"licenseType,omitempty"`
+	Location             *string                     `json:"location,omitempty"`
+	NetworkProfile       *NetworkProfile             `json:"networkProfile,omitempty"`
+	OriginalVersion      string                      `json:"originalVersion,omitempty"`
+	OsProfile            *OSProfile                  `json:"osProfile,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -226,75 +228,74 @@ type VirtualMachines_Spec struct {
 	PlatformFaultDomain     *int                               `json:"platformFaultDomain,omitempty"`
 	Priority                *string                            `json:"priority,omitempty"`
 	PropertyBag             genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	ProvisioningState       *string                            `json:"provisioningState,omitempty"`
 	ProximityPlacementGroup *SubResource                       `json:"proximityPlacementGroup,omitempty"`
 	SecurityProfile         *SecurityProfile                   `json:"securityProfile,omitempty"`
 	StorageProfile          *StorageProfile                    `json:"storageProfile,omitempty"`
 	Tags                    map[string]string                  `json:"tags,omitempty"`
+	Type                    *string                            `json:"type,omitempty"`
 	VirtualMachineScaleSet  *SubResource                       `json:"virtualMachineScaleSet,omitempty"`
+	VmId                    *string                            `json:"vmId,omitempty"`
 	Zones                   []string                           `json:"zones,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &VirtualMachines_Spec{}
+var _ genruntime.ConvertibleSpec = &VirtualMachine_Spec{}
 
-// ConvertSpecFrom populates our VirtualMachines_Spec from the provided source
-func (machines *VirtualMachines_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == machines {
+// ConvertSpecFrom populates our VirtualMachine_Spec from the provided source
+func (machine *VirtualMachine_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == machine {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(machines)
+	return source.ConvertSpecTo(machine)
 }
 
-// ConvertSpecTo populates the provided destination from our VirtualMachines_Spec
-func (machines *VirtualMachines_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == machines {
+// ConvertSpecTo populates the provided destination from our VirtualMachine_Spec
+func (machine *VirtualMachine_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == machine {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(machines)
+	return destination.ConvertSpecFrom(machine)
 }
 
 // Storage version of v1beta20201201.AdditionalCapabilities
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/AdditionalCapabilities
 type AdditionalCapabilities struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	UltraSSDEnabled *bool                  `json:"ultraSSDEnabled,omitempty"`
 }
 
-// Storage version of v1beta20201201.AdditionalCapabilities_Status
-type AdditionalCapabilities_Status struct {
+// Storage version of v1beta20201201.AdditionalCapabilities_STATUS
+type AdditionalCapabilities_STATUS struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	UltraSSDEnabled *bool                  `json:"ultraSSDEnabled,omitempty"`
 }
 
 // Storage version of v1beta20201201.BillingProfile
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/BillingProfile
 type BillingProfile struct {
 	MaxPrice    *float64               `json:"maxPrice,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20201201.BillingProfile_Status
-type BillingProfile_Status struct {
+// Storage version of v1beta20201201.BillingProfile_STATUS
+type BillingProfile_STATUS struct {
 	MaxPrice    *float64               `json:"maxPrice,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20201201.DiagnosticsProfile
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/DiagnosticsProfile
 type DiagnosticsProfile struct {
 	BootDiagnostics *BootDiagnostics       `json:"bootDiagnostics,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20201201.DiagnosticsProfile_Status
-type DiagnosticsProfile_Status struct {
-	BootDiagnostics *BootDiagnostics_Status `json:"bootDiagnostics,omitempty"`
+// Storage version of v1beta20201201.DiagnosticsProfile_STATUS
+type DiagnosticsProfile_STATUS struct {
+	BootDiagnostics *BootDiagnostics_STATUS `json:"bootDiagnostics,omitempty"`
 	PropertyBag     genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20201201.ExtendedLocation
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/ExtendedLocation
 type ExtendedLocation struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -345,15 +346,15 @@ func (location *ExtendedLocation) AssignPropertiesToExtendedLocation(destination
 	return nil
 }
 
-// Storage version of v1beta20201201.ExtendedLocation_Status
-type ExtendedLocation_Status struct {
+// Storage version of v1beta20201201.ExtendedLocation_STATUS
+type ExtendedLocation_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
-// AssignPropertiesFromExtendedLocationStatus populates our ExtendedLocation_Status from the provided source ExtendedLocation_Status
-func (location *ExtendedLocation_Status) AssignPropertiesFromExtendedLocationStatus(source *v20210701s.ExtendedLocation_Status) error {
+// AssignPropertiesFromExtendedLocation_STATUS populates our ExtendedLocation_STATUS from the provided source ExtendedLocation_STATUS
+func (location *ExtendedLocation_STATUS) AssignPropertiesFromExtendedLocation_STATUS(source *v20210701s.ExtendedLocation_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -374,8 +375,8 @@ func (location *ExtendedLocation_Status) AssignPropertiesFromExtendedLocationSta
 	return nil
 }
 
-// AssignPropertiesToExtendedLocationStatus populates the provided destination ExtendedLocation_Status from our ExtendedLocation_Status
-func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatus(destination *v20210701s.ExtendedLocation_Status) error {
+// AssignPropertiesToExtendedLocation_STATUS populates the provided destination ExtendedLocation_STATUS from our ExtendedLocation_STATUS
+func (location *ExtendedLocation_STATUS) AssignPropertiesToExtendedLocation_STATUS(destination *v20210701s.ExtendedLocation_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(location.PropertyBag)
 
@@ -397,39 +398,57 @@ func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatu
 }
 
 // Storage version of v1beta20201201.HardwareProfile
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/HardwareProfile
 type HardwareProfile struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	VmSize      *string                `json:"vmSize,omitempty"`
 }
 
-// Storage version of v1beta20201201.HardwareProfile_Status
-type HardwareProfile_Status struct {
+// Storage version of v1beta20201201.HardwareProfile_STATUS
+type HardwareProfile_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	VmSize      *string                `json:"vmSize,omitempty"`
 }
 
-// Storage version of v1beta20201201.NetworkProfile_Status
-type NetworkProfile_Status struct {
-	NetworkInterfaces []NetworkInterfaceReference_Status `json:"networkInterfaces,omitempty"`
+// Storage version of v1beta20201201.NetworkProfile
+type NetworkProfile struct {
+	NetworkInterfaces []NetworkInterfaceReference `json:"networkInterfaces,omitempty"`
+	PropertyBag       genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20201201.NetworkProfile_STATUS
+type NetworkProfile_STATUS struct {
+	NetworkInterfaces []NetworkInterfaceReference_STATUS `json:"networkInterfaces,omitempty"`
 	PropertyBag       genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20201201.OSProfile_Status
-type OSProfile_Status struct {
+// Storage version of v1beta20201201.OSProfile
+type OSProfile struct {
+	AdminPassword               *genruntime.SecretReference `json:"adminPassword,omitempty"`
+	AdminUsername               *string                     `json:"adminUsername,omitempty"`
+	AllowExtensionOperations    *bool                       `json:"allowExtensionOperations,omitempty"`
+	ComputerName                *string                     `json:"computerName,omitempty"`
+	CustomData                  *string                     `json:"customData,omitempty"`
+	LinuxConfiguration          *LinuxConfiguration         `json:"linuxConfiguration,omitempty"`
+	PropertyBag                 genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	RequireGuestProvisionSignal *bool                       `json:"requireGuestProvisionSignal,omitempty"`
+	Secrets                     []VaultSecretGroup          `json:"secrets,omitempty"`
+	WindowsConfiguration        *WindowsConfiguration       `json:"windowsConfiguration,omitempty"`
+}
+
+// Storage version of v1beta20201201.OSProfile_STATUS
+type OSProfile_STATUS struct {
 	AdminUsername               *string                      `json:"adminUsername,omitempty"`
 	AllowExtensionOperations    *bool                        `json:"allowExtensionOperations,omitempty"`
 	ComputerName                *string                      `json:"computerName,omitempty"`
 	CustomData                  *string                      `json:"customData,omitempty"`
-	LinuxConfiguration          *LinuxConfiguration_Status   `json:"linuxConfiguration,omitempty"`
+	LinuxConfiguration          *LinuxConfiguration_STATUS   `json:"linuxConfiguration,omitempty"`
 	PropertyBag                 genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
 	RequireGuestProvisionSignal *bool                        `json:"requireGuestProvisionSignal,omitempty"`
-	Secrets                     []VaultSecretGroup_Status    `json:"secrets,omitempty"`
-	WindowsConfiguration        *WindowsConfiguration_Status `json:"windowsConfiguration,omitempty"`
+	Secrets                     []VaultSecretGroup_STATUS    `json:"secrets,omitempty"`
+	WindowsConfiguration        *WindowsConfiguration_STATUS `json:"windowsConfiguration,omitempty"`
 }
 
 // Storage version of v1beta20201201.Plan
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/Plan
 type Plan struct {
 	Name          *string                `json:"name,omitempty"`
 	Product       *string                `json:"product,omitempty"`
@@ -438,8 +457,8 @@ type Plan struct {
 	Publisher     *string                `json:"publisher,omitempty"`
 }
 
-// Storage version of v1beta20201201.Plan_Status
-type Plan_Status struct {
+// Storage version of v1beta20201201.Plan_STATUS
+type Plan_STATUS struct {
 	Name          *string                `json:"name,omitempty"`
 	Product       *string                `json:"product,omitempty"`
 	PromotionCode *string                `json:"promotionCode,omitempty"`
@@ -448,7 +467,6 @@ type Plan_Status struct {
 }
 
 // Storage version of v1beta20201201.SecurityProfile
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/SecurityProfile
 type SecurityProfile struct {
 	EncryptionAtHost *bool                  `json:"encryptionAtHost,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -456,16 +474,15 @@ type SecurityProfile struct {
 	UefiSettings     *UefiSettings          `json:"uefiSettings,omitempty"`
 }
 
-// Storage version of v1beta20201201.SecurityProfile_Status
-type SecurityProfile_Status struct {
+// Storage version of v1beta20201201.SecurityProfile_STATUS
+type SecurityProfile_STATUS struct {
 	EncryptionAtHost *bool                  `json:"encryptionAtHost,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SecurityType     *string                `json:"securityType,omitempty"`
-	UefiSettings     *UefiSettings_Status   `json:"uefiSettings,omitempty"`
+	UefiSettings     *UefiSettings_STATUS   `json:"uefiSettings,omitempty"`
 }
 
 // Storage version of v1beta20201201.StorageProfile
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/StorageProfile
 type StorageProfile struct {
 	DataDisks      []DataDisk             `json:"dataDisks,omitempty"`
 	ImageReference *ImageReference        `json:"imageReference,omitempty"`
@@ -473,16 +490,15 @@ type StorageProfile struct {
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20201201.StorageProfile_Status
-type StorageProfile_Status struct {
-	DataDisks      []DataDisk_Status      `json:"dataDisks,omitempty"`
-	ImageReference *ImageReference_Status `json:"imageReference,omitempty"`
-	OsDisk         *OSDisk_Status         `json:"osDisk,omitempty"`
+// Storage version of v1beta20201201.StorageProfile_STATUS
+type StorageProfile_STATUS struct {
+	DataDisks      []DataDisk_STATUS      `json:"dataDisks,omitempty"`
+	ImageReference *ImageReference_STATUS `json:"imageReference,omitempty"`
+	OsDisk         *OSDisk_STATUS         `json:"osDisk,omitempty"`
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20201201.SubResource
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/SubResource
 type SubResource struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
@@ -538,14 +554,14 @@ func (resource *SubResource) AssignPropertiesToSubResource(destination *v2021070
 	return nil
 }
 
-// Storage version of v1beta20201201.SubResource_Status
-type SubResource_Status struct {
+// Storage version of v1beta20201201.SubResource_STATUS
+type SubResource_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromSubResourceStatus populates our SubResource_Status from the provided source SubResource_Status
-func (resource *SubResource_Status) AssignPropertiesFromSubResourceStatus(source *v20210701s.SubResource_Status) error {
+// AssignPropertiesFromSubResource_STATUS populates our SubResource_STATUS from the provided source SubResource_STATUS
+func (resource *SubResource_STATUS) AssignPropertiesFromSubResource_STATUS(source *v20210701s.SubResource_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -563,8 +579,8 @@ func (resource *SubResource_Status) AssignPropertiesFromSubResourceStatus(source
 	return nil
 }
 
-// AssignPropertiesToSubResourceStatus populates the provided destination SubResource_Status from our SubResource_Status
-func (resource *SubResource_Status) AssignPropertiesToSubResourceStatus(destination *v20210701s.SubResource_Status) error {
+// AssignPropertiesToSubResource_STATUS populates the provided destination SubResource_STATUS from our SubResource_STATUS
+func (resource *SubResource_STATUS) AssignPropertiesToSubResource_STATUS(destination *v20210701s.SubResource_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
 
@@ -582,113 +598,103 @@ func (resource *SubResource_Status) AssignPropertiesToSubResourceStatus(destinat
 	return nil
 }
 
-// Storage version of v1beta20201201.VirtualMachineExtension_Status
-type VirtualMachineExtension_Status struct {
-	AutoUpgradeMinorVersion *bool                                       `json:"autoUpgradeMinorVersion,omitempty"`
-	EnableAutomaticUpgrade  *bool                                       `json:"enableAutomaticUpgrade,omitempty"`
-	ForceUpdateTag          *string                                     `json:"forceUpdateTag,omitempty"`
-	Id                      *string                                     `json:"id,omitempty"`
-	InstanceView            *VirtualMachineExtensionInstanceView_Status `json:"instanceView,omitempty"`
-	Location                *string                                     `json:"location,omitempty"`
-	Name                    *string                                     `json:"name,omitempty"`
-	PropertiesType          *string                                     `json:"properties_type,omitempty"`
-	PropertyBag             genruntime.PropertyBag                      `json:"$propertyBag,omitempty"`
-	ProtectedSettings       map[string]v1.JSON                          `json:"protectedSettings,omitempty"`
-	ProvisioningState       *string                                     `json:"provisioningState,omitempty"`
-	Publisher               *string                                     `json:"publisher,omitempty"`
-	Settings                map[string]v1.JSON                          `json:"settings,omitempty"`
-	Tags                    map[string]string                           `json:"tags,omitempty"`
-	Type                    *string                                     `json:"type,omitempty"`
-	TypeHandlerVersion      *string                                     `json:"typeHandlerVersion,omitempty"`
-}
-
 // Storage version of v1beta20201201.VirtualMachineIdentity
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineIdentity
 type VirtualMachineIdentity struct {
-	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Type                   *string                `json:"type,omitempty"`
-	UserAssignedIdentities map[string]v1.JSON     `json:"userAssignedIdentities,omitempty"`
+	PrincipalId            *string                                                  `json:"principalId,omitempty"`
+	PropertyBag            genruntime.PropertyBag                                   `json:"$propertyBag,omitempty"`
+	TenantId               *string                                                  `json:"tenantId,omitempty"`
+	Type                   *string                                                  `json:"type,omitempty"`
+	UserAssignedIdentities map[string]VirtualMachineIdentity_UserAssignedIdentities `json:"userAssignedIdentities,omitempty"`
 }
 
-// Storage version of v1beta20201201.VirtualMachineIdentity_Status
-type VirtualMachineIdentity_Status struct {
+// Storage version of v1beta20201201.VirtualMachineIdentity_STATUS
+type VirtualMachineIdentity_STATUS struct {
 	PrincipalId            *string                                                         `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag                                          `json:"$propertyBag,omitempty"`
 	TenantId               *string                                                         `json:"tenantId,omitempty"`
 	Type                   *string                                                         `json:"type,omitempty"`
-	UserAssignedIdentities map[string]VirtualMachineIdentity_Status_UserAssignedIdentities `json:"userAssignedIdentities,omitempty"`
+	UserAssignedIdentities map[string]VirtualMachineIdentity_UserAssignedIdentities_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
-// Storage version of v1beta20201201.VirtualMachineInstanceView_Status
-type VirtualMachineInstanceView_Status struct {
+// Storage version of v1beta20201201.VirtualMachineInstanceView
+type VirtualMachineInstanceView struct {
+	AssignedHost              *string                               `json:"assignedHost,omitempty"`
+	BootDiagnostics           *BootDiagnosticsInstanceView          `json:"bootDiagnostics,omitempty"`
+	ComputerName              *string                               `json:"computerName,omitempty"`
+	Disks                     []DiskInstanceView                    `json:"disks,omitempty"`
+	Extensions                []VirtualMachineExtensionInstanceView `json:"extensions,omitempty"`
+	HyperVGeneration          *string                               `json:"hyperVGeneration,omitempty"`
+	MaintenanceRedeployStatus *MaintenanceRedeployStatus            `json:"maintenanceRedeployStatus,omitempty"`
+	OsName                    *string                               `json:"osName,omitempty"`
+	OsVersion                 *string                               `json:"osVersion,omitempty"`
+	PatchStatus               *VirtualMachinePatchStatus            `json:"patchStatus,omitempty"`
+	PlatformFaultDomain       *int                                  `json:"platformFaultDomain,omitempty"`
+	PlatformUpdateDomain      *int                                  `json:"platformUpdateDomain,omitempty"`
+	PropertyBag               genruntime.PropertyBag                `json:"$propertyBag,omitempty"`
+	RdpThumbPrint             *string                               `json:"rdpThumbPrint,omitempty"`
+	Statuses                  []InstanceViewStatus                  `json:"statuses,omitempty"`
+	VmAgent                   *VirtualMachineAgentInstanceView      `json:"vmAgent,omitempty"`
+	VmHealth                  *VirtualMachineHealthStatus           `json:"vmHealth,omitempty"`
+}
+
+// Storage version of v1beta20201201.VirtualMachineInstanceView_STATUS
+type VirtualMachineInstanceView_STATUS struct {
 	AssignedHost              *string                                      `json:"assignedHost,omitempty"`
-	BootDiagnostics           *BootDiagnosticsInstanceView_Status          `json:"bootDiagnostics,omitempty"`
+	BootDiagnostics           *BootDiagnosticsInstanceView_STATUS          `json:"bootDiagnostics,omitempty"`
 	ComputerName              *string                                      `json:"computerName,omitempty"`
-	Disks                     []DiskInstanceView_Status                    `json:"disks,omitempty"`
-	Extensions                []VirtualMachineExtensionInstanceView_Status `json:"extensions,omitempty"`
+	Disks                     []DiskInstanceView_STATUS                    `json:"disks,omitempty"`
+	Extensions                []VirtualMachineExtensionInstanceView_STATUS `json:"extensions,omitempty"`
 	HyperVGeneration          *string                                      `json:"hyperVGeneration,omitempty"`
-	MaintenanceRedeployStatus *MaintenanceRedeployStatus_Status            `json:"maintenanceRedeployStatus,omitempty"`
+	MaintenanceRedeployStatus *MaintenanceRedeployStatus_STATUS            `json:"maintenanceRedeployStatus,omitempty"`
 	OsName                    *string                                      `json:"osName,omitempty"`
 	OsVersion                 *string                                      `json:"osVersion,omitempty"`
-	PatchStatus               *VirtualMachinePatchStatus_Status            `json:"patchStatus,omitempty"`
+	PatchStatus               *VirtualMachinePatchStatus_STATUS            `json:"patchStatus,omitempty"`
 	PlatformFaultDomain       *int                                         `json:"platformFaultDomain,omitempty"`
 	PlatformUpdateDomain      *int                                         `json:"platformUpdateDomain,omitempty"`
 	PropertyBag               genruntime.PropertyBag                       `json:"$propertyBag,omitempty"`
 	RdpThumbPrint             *string                                      `json:"rdpThumbPrint,omitempty"`
-	Statuses                  []InstanceViewStatus_Status                  `json:"statuses,omitempty"`
-	VmAgent                   *VirtualMachineAgentInstanceView_Status      `json:"vmAgent,omitempty"`
-	VmHealth                  *VirtualMachineHealthStatus_Status           `json:"vmHealth,omitempty"`
-}
-
-// Storage version of v1beta20201201.VirtualMachines_Spec_Properties_NetworkProfile
-type VirtualMachines_Spec_Properties_NetworkProfile struct {
-	NetworkInterfaces []VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces `json:"networkInterfaces,omitempty"`
-	PropertyBag       genruntime.PropertyBag                                             `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1beta20201201.VirtualMachines_Spec_Properties_OsProfile
-type VirtualMachines_Spec_Properties_OsProfile struct {
-	AdminPassword               *genruntime.SecretReference `json:"adminPassword,omitempty"`
-	AdminUsername               *string                     `json:"adminUsername,omitempty"`
-	AllowExtensionOperations    *bool                       `json:"allowExtensionOperations,omitempty"`
-	ComputerName                *string                     `json:"computerName,omitempty"`
-	CustomData                  *string                     `json:"customData,omitempty"`
-	LinuxConfiguration          *LinuxConfiguration         `json:"linuxConfiguration,omitempty"`
-	PropertyBag                 genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
-	RequireGuestProvisionSignal *bool                       `json:"requireGuestProvisionSignal,omitempty"`
-	Secrets                     []VaultSecretGroup          `json:"secrets,omitempty"`
-	WindowsConfiguration        *WindowsConfiguration       `json:"windowsConfiguration,omitempty"`
+	Statuses                  []InstanceViewStatus_STATUS                  `json:"statuses,omitempty"`
+	VmAgent                   *VirtualMachineAgentInstanceView_STATUS      `json:"vmAgent,omitempty"`
+	VmHealth                  *VirtualMachineHealthStatus_STATUS           `json:"vmHealth,omitempty"`
 }
 
 // Storage version of v1beta20201201.BootDiagnostics
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/BootDiagnostics
 type BootDiagnostics struct {
 	Enabled     *bool                  `json:"enabled,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	StorageUri  *string                `json:"storageUri,omitempty"`
 }
 
-// Storage version of v1beta20201201.BootDiagnosticsInstanceView_Status
-type BootDiagnosticsInstanceView_Status struct {
+// Storage version of v1beta20201201.BootDiagnosticsInstanceView
+type BootDiagnosticsInstanceView struct {
+	ConsoleScreenshotBlobUri *string                `json:"consoleScreenshotBlobUri,omitempty"`
+	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	SerialConsoleLogBlobUri  *string                `json:"serialConsoleLogBlobUri,omitempty"`
+	Status                   *InstanceViewStatus    `json:"status,omitempty"`
+}
+
+// Storage version of v1beta20201201.BootDiagnosticsInstanceView_STATUS
+type BootDiagnosticsInstanceView_STATUS struct {
 	ConsoleScreenshotBlobUri *string                    `json:"consoleScreenshotBlobUri,omitempty"`
 	PropertyBag              genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
 	SerialConsoleLogBlobUri  *string                    `json:"serialConsoleLogBlobUri,omitempty"`
-	Status                   *InstanceViewStatus_Status `json:"status,omitempty"`
+	Status                   *InstanceViewStatus_STATUS `json:"status,omitempty"`
 }
 
-// Storage version of v1beta20201201.BootDiagnostics_Status
-type BootDiagnostics_Status struct {
+// Storage version of v1beta20201201.BootDiagnostics_STATUS
+type BootDiagnostics_STATUS struct {
 	Enabled     *bool                  `json:"enabled,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	StorageUri  *string                `json:"storageUri,omitempty"`
 }
 
 // Storage version of v1beta20201201.DataDisk
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/DataDisk
 type DataDisk struct {
 	Caching                 *string                `json:"caching,omitempty"`
 	CreateOption            *string                `json:"createOption,omitempty"`
 	DetachOption            *string                `json:"detachOption,omitempty"`
+	DiskIOPSReadWrite       *int                   `json:"diskIOPSReadWrite,omitempty"`
+	DiskMBpsReadWrite       *int                   `json:"diskMBpsReadWrite,omitempty"`
 	DiskSizeGB              *int                   `json:"diskSizeGB,omitempty"`
 	Image                   *VirtualHardDisk       `json:"image,omitempty"`
 	Lun                     *int                   `json:"lun,omitempty"`
@@ -700,38 +706,46 @@ type DataDisk struct {
 	WriteAcceleratorEnabled *bool                  `json:"writeAcceleratorEnabled,omitempty"`
 }
 
-// Storage version of v1beta20201201.DataDisk_Status
-type DataDisk_Status struct {
+// Storage version of v1beta20201201.DataDisk_STATUS
+type DataDisk_STATUS struct {
 	Caching                 *string                       `json:"caching,omitempty"`
 	CreateOption            *string                       `json:"createOption,omitempty"`
 	DetachOption            *string                       `json:"detachOption,omitempty"`
 	DiskIOPSReadWrite       *int                          `json:"diskIOPSReadWrite,omitempty"`
 	DiskMBpsReadWrite       *int                          `json:"diskMBpsReadWrite,omitempty"`
 	DiskSizeGB              *int                          `json:"diskSizeGB,omitempty"`
-	Image                   *VirtualHardDisk_Status       `json:"image,omitempty"`
+	Image                   *VirtualHardDisk_STATUS       `json:"image,omitempty"`
 	Lun                     *int                          `json:"lun,omitempty"`
-	ManagedDisk             *ManagedDiskParameters_Status `json:"managedDisk,omitempty"`
+	ManagedDisk             *ManagedDiskParameters_STATUS `json:"managedDisk,omitempty"`
 	Name                    *string                       `json:"name,omitempty"`
 	PropertyBag             genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	ToBeDetached            *bool                         `json:"toBeDetached,omitempty"`
-	Vhd                     *VirtualHardDisk_Status       `json:"vhd,omitempty"`
+	Vhd                     *VirtualHardDisk_STATUS       `json:"vhd,omitempty"`
 	WriteAcceleratorEnabled *bool                         `json:"writeAcceleratorEnabled,omitempty"`
 }
 
-// Storage version of v1beta20201201.DiskInstanceView_Status
-type DiskInstanceView_Status struct {
-	EncryptionSettings []DiskEncryptionSettings_Status `json:"encryptionSettings,omitempty"`
+// Storage version of v1beta20201201.DiskInstanceView
+type DiskInstanceView struct {
+	EncryptionSettings []DiskEncryptionSettings `json:"encryptionSettings,omitempty"`
+	Name               *string                  `json:"name,omitempty"`
+	PropertyBag        genruntime.PropertyBag   `json:"$propertyBag,omitempty"`
+	Statuses           []InstanceViewStatus     `json:"statuses,omitempty"`
+}
+
+// Storage version of v1beta20201201.DiskInstanceView_STATUS
+type DiskInstanceView_STATUS struct {
+	EncryptionSettings []DiskEncryptionSettings_STATUS `json:"encryptionSettings,omitempty"`
 	Name               *string                         `json:"name,omitempty"`
 	PropertyBag        genruntime.PropertyBag          `json:"$propertyBag,omitempty"`
-	Statuses           []InstanceViewStatus_Status     `json:"statuses,omitempty"`
+	Statuses           []InstanceViewStatus_STATUS     `json:"statuses,omitempty"`
 }
 
 // Storage version of v1beta20201201.ImageReference
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/ImageReference
 type ImageReference struct {
-	Offer       *string                `json:"offer,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Publisher   *string                `json:"publisher,omitempty"`
+	ExactVersion *string                `json:"exactVersion,omitempty"`
+	Offer        *string                `json:"offer,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Publisher    *string                `json:"publisher,omitempty"`
 
 	// Reference: Resource Id
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
@@ -739,8 +753,8 @@ type ImageReference struct {
 	Version   *string                       `json:"version,omitempty"`
 }
 
-// Storage version of v1beta20201201.ImageReference_Status
-type ImageReference_Status struct {
+// Storage version of v1beta20201201.ImageReference_STATUS
+type ImageReference_STATUS struct {
 	ExactVersion *string                `json:"exactVersion,omitempty"`
 	Id           *string                `json:"id,omitempty"`
 	Offer        *string                `json:"offer,omitempty"`
@@ -750,8 +764,18 @@ type ImageReference_Status struct {
 	Version      *string                `json:"version,omitempty"`
 }
 
-// Storage version of v1beta20201201.InstanceViewStatus_Status
-type InstanceViewStatus_Status struct {
+// Storage version of v1beta20201201.InstanceViewStatus
+type InstanceViewStatus struct {
+	Code          *string                `json:"code,omitempty"`
+	DisplayStatus *string                `json:"displayStatus,omitempty"`
+	Level         *string                `json:"level,omitempty"`
+	Message       *string                `json:"message,omitempty"`
+	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Time          *string                `json:"time,omitempty"`
+}
+
+// Storage version of v1beta20201201.InstanceViewStatus_STATUS
+type InstanceViewStatus_STATUS struct {
 	Code          *string                `json:"code,omitempty"`
 	DisplayStatus *string                `json:"displayStatus,omitempty"`
 	Level         *string                `json:"level,omitempty"`
@@ -761,7 +785,6 @@ type InstanceViewStatus_Status struct {
 }
 
 // Storage version of v1beta20201201.LinuxConfiguration
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/LinuxConfiguration
 type LinuxConfiguration struct {
 	DisablePasswordAuthentication *bool                  `json:"disablePasswordAuthentication,omitempty"`
 	PatchSettings                 *LinuxPatchSettings    `json:"patchSettings,omitempty"`
@@ -770,17 +793,17 @@ type LinuxConfiguration struct {
 	Ssh                           *SshConfiguration      `json:"ssh,omitempty"`
 }
 
-// Storage version of v1beta20201201.LinuxConfiguration_Status
-type LinuxConfiguration_Status struct {
+// Storage version of v1beta20201201.LinuxConfiguration_STATUS
+type LinuxConfiguration_STATUS struct {
 	DisablePasswordAuthentication *bool                      `json:"disablePasswordAuthentication,omitempty"`
-	PatchSettings                 *LinuxPatchSettings_Status `json:"patchSettings,omitempty"`
+	PatchSettings                 *LinuxPatchSettings_STATUS `json:"patchSettings,omitempty"`
 	PropertyBag                   genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
 	ProvisionVMAgent              *bool                      `json:"provisionVMAgent,omitempty"`
-	Ssh                           *SshConfiguration_Status   `json:"ssh,omitempty"`
+	Ssh                           *SshConfiguration_STATUS   `json:"ssh,omitempty"`
 }
 
-// Storage version of v1beta20201201.MaintenanceRedeployStatus_Status
-type MaintenanceRedeployStatus_Status struct {
+// Storage version of v1beta20201201.MaintenanceRedeployStatus
+type MaintenanceRedeployStatus struct {
 	IsCustomerInitiatedMaintenanceAllowed *bool                  `json:"isCustomerInitiatedMaintenanceAllowed,omitempty"`
 	LastOperationMessage                  *string                `json:"lastOperationMessage,omitempty"`
 	LastOperationResultCode               *string                `json:"lastOperationResultCode,omitempty"`
@@ -791,15 +814,33 @@ type MaintenanceRedeployStatus_Status struct {
 	PropertyBag                           genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20201201.NetworkInterfaceReference_Status
-type NetworkInterfaceReference_Status struct {
+// Storage version of v1beta20201201.MaintenanceRedeployStatus_STATUS
+type MaintenanceRedeployStatus_STATUS struct {
+	IsCustomerInitiatedMaintenanceAllowed *bool                  `json:"isCustomerInitiatedMaintenanceAllowed,omitempty"`
+	LastOperationMessage                  *string                `json:"lastOperationMessage,omitempty"`
+	LastOperationResultCode               *string                `json:"lastOperationResultCode,omitempty"`
+	MaintenanceWindowEndTime              *string                `json:"maintenanceWindowEndTime,omitempty"`
+	MaintenanceWindowStartTime            *string                `json:"maintenanceWindowStartTime,omitempty"`
+	PreMaintenanceWindowEndTime           *string                `json:"preMaintenanceWindowEndTime,omitempty"`
+	PreMaintenanceWindowStartTime         *string                `json:"preMaintenanceWindowStartTime,omitempty"`
+	PropertyBag                           genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20201201.NetworkInterfaceReference
+type NetworkInterfaceReference struct {
+	Id          *string                `json:"id,omitempty"`
+	Primary     *bool                  `json:"primary,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20201201.NetworkInterfaceReference_STATUS
+type NetworkInterfaceReference_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	Primary     *bool                  `json:"primary,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20201201.OSDisk
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/OSDisk
 type OSDisk struct {
 	Caching                 *string                 `json:"caching,omitempty"`
 	CreateOption            *string                 `json:"createOption,omitempty"`
@@ -815,102 +856,129 @@ type OSDisk struct {
 	WriteAcceleratorEnabled *bool                   `json:"writeAcceleratorEnabled,omitempty"`
 }
 
-// Storage version of v1beta20201201.OSDisk_Status
-type OSDisk_Status struct {
+// Storage version of v1beta20201201.OSDisk_STATUS
+type OSDisk_STATUS struct {
 	Caching                 *string                        `json:"caching,omitempty"`
 	CreateOption            *string                        `json:"createOption,omitempty"`
-	DiffDiskSettings        *DiffDiskSettings_Status       `json:"diffDiskSettings,omitempty"`
+	DiffDiskSettings        *DiffDiskSettings_STATUS       `json:"diffDiskSettings,omitempty"`
 	DiskSizeGB              *int                           `json:"diskSizeGB,omitempty"`
-	EncryptionSettings      *DiskEncryptionSettings_Status `json:"encryptionSettings,omitempty"`
-	Image                   *VirtualHardDisk_Status        `json:"image,omitempty"`
-	ManagedDisk             *ManagedDiskParameters_Status  `json:"managedDisk,omitempty"`
+	EncryptionSettings      *DiskEncryptionSettings_STATUS `json:"encryptionSettings,omitempty"`
+	Image                   *VirtualHardDisk_STATUS        `json:"image,omitempty"`
+	ManagedDisk             *ManagedDiskParameters_STATUS  `json:"managedDisk,omitempty"`
 	Name                    *string                        `json:"name,omitempty"`
 	OsType                  *string                        `json:"osType,omitempty"`
 	PropertyBag             genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
-	Vhd                     *VirtualHardDisk_Status        `json:"vhd,omitempty"`
+	Vhd                     *VirtualHardDisk_STATUS        `json:"vhd,omitempty"`
 	WriteAcceleratorEnabled *bool                          `json:"writeAcceleratorEnabled,omitempty"`
 }
 
 // Storage version of v1beta20201201.UefiSettings
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/UefiSettings
 type UefiSettings struct {
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SecureBootEnabled *bool                  `json:"secureBootEnabled,omitempty"`
 	VTpmEnabled       *bool                  `json:"vTpmEnabled,omitempty"`
 }
 
-// Storage version of v1beta20201201.UefiSettings_Status
-type UefiSettings_Status struct {
+// Storage version of v1beta20201201.UefiSettings_STATUS
+type UefiSettings_STATUS struct {
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SecureBootEnabled *bool                  `json:"secureBootEnabled,omitempty"`
 	VTpmEnabled       *bool                  `json:"vTpmEnabled,omitempty"`
 }
 
 // Storage version of v1beta20201201.VaultSecretGroup
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VaultSecretGroup
 type VaultSecretGroup struct {
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SourceVault       *SubResource           `json:"sourceVault,omitempty"`
 	VaultCertificates []VaultCertificate     `json:"vaultCertificates,omitempty"`
 }
 
-// Storage version of v1beta20201201.VaultSecretGroup_Status
-type VaultSecretGroup_Status struct {
+// Storage version of v1beta20201201.VaultSecretGroup_STATUS
+type VaultSecretGroup_STATUS struct {
 	PropertyBag       genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
-	SourceVault       *SubResource_Status       `json:"sourceVault,omitempty"`
-	VaultCertificates []VaultCertificate_Status `json:"vaultCertificates,omitempty"`
+	SourceVault       *SubResource_STATUS       `json:"sourceVault,omitempty"`
+	VaultCertificates []VaultCertificate_STATUS `json:"vaultCertificates,omitempty"`
 }
 
-// Storage version of v1beta20201201.VirtualMachineAgentInstanceView_Status
-type VirtualMachineAgentInstanceView_Status struct {
-	ExtensionHandlers []VirtualMachineExtensionHandlerInstanceView_Status `json:"extensionHandlers,omitempty"`
+// Storage version of v1beta20201201.VirtualMachineAgentInstanceView
+type VirtualMachineAgentInstanceView struct {
+	ExtensionHandlers []VirtualMachineExtensionHandlerInstanceView `json:"extensionHandlers,omitempty"`
+	PropertyBag       genruntime.PropertyBag                       `json:"$propertyBag,omitempty"`
+	Statuses          []InstanceViewStatus                         `json:"statuses,omitempty"`
+	VmAgentVersion    *string                                      `json:"vmAgentVersion,omitempty"`
+}
+
+// Storage version of v1beta20201201.VirtualMachineAgentInstanceView_STATUS
+type VirtualMachineAgentInstanceView_STATUS struct {
+	ExtensionHandlers []VirtualMachineExtensionHandlerInstanceView_STATUS `json:"extensionHandlers,omitempty"`
 	PropertyBag       genruntime.PropertyBag                              `json:"$propertyBag,omitempty"`
-	Statuses          []InstanceViewStatus_Status                         `json:"statuses,omitempty"`
+	Statuses          []InstanceViewStatus_STATUS                         `json:"statuses,omitempty"`
 	VmAgentVersion    *string                                             `json:"vmAgentVersion,omitempty"`
 }
 
-// Storage version of v1beta20201201.VirtualMachineExtensionInstanceView_Status
-type VirtualMachineExtensionInstanceView_Status struct {
+// Storage version of v1beta20201201.VirtualMachineExtensionInstanceView
+type VirtualMachineExtensionInstanceView struct {
+	Name               *string                `json:"name,omitempty"`
+	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Statuses           []InstanceViewStatus   `json:"statuses,omitempty"`
+	Substatuses        []InstanceViewStatus   `json:"substatuses,omitempty"`
+	Type               *string                `json:"type,omitempty"`
+	TypeHandlerVersion *string                `json:"typeHandlerVersion,omitempty"`
+}
+
+// Storage version of v1beta20201201.VirtualMachineExtensionInstanceView_STATUS
+type VirtualMachineExtensionInstanceView_STATUS struct {
 	Name               *string                     `json:"name,omitempty"`
 	PropertyBag        genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
-	Statuses           []InstanceViewStatus_Status `json:"statuses,omitempty"`
-	Substatuses        []InstanceViewStatus_Status `json:"substatuses,omitempty"`
+	Statuses           []InstanceViewStatus_STATUS `json:"statuses,omitempty"`
+	Substatuses        []InstanceViewStatus_STATUS `json:"substatuses,omitempty"`
 	Type               *string                     `json:"type,omitempty"`
 	TypeHandlerVersion *string                     `json:"typeHandlerVersion,omitempty"`
 }
 
-// Storage version of v1beta20201201.VirtualMachineHealthStatus_Status
-type VirtualMachineHealthStatus_Status struct {
-	PropertyBag genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
-	Status      *InstanceViewStatus_Status `json:"status,omitempty"`
+// Storage version of v1beta20201201.VirtualMachineHealthStatus
+type VirtualMachineHealthStatus struct {
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Status      *InstanceViewStatus    `json:"status,omitempty"`
 }
 
-// Storage version of v1beta20201201.VirtualMachineIdentity_Status_UserAssignedIdentities
-type VirtualMachineIdentity_Status_UserAssignedIdentities struct {
+// Storage version of v1beta20201201.VirtualMachineHealthStatus_STATUS
+type VirtualMachineHealthStatus_STATUS struct {
+	PropertyBag genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
+	Status      *InstanceViewStatus_STATUS `json:"status,omitempty"`
+}
+
+// Storage version of v1beta20201201.VirtualMachineIdentity_UserAssignedIdentities
+type VirtualMachineIdentity_UserAssignedIdentities struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20201201.VirtualMachinePatchStatus_Status
-type VirtualMachinePatchStatus_Status struct {
-	AvailablePatchSummary        *AvailablePatchSummary_Status        `json:"availablePatchSummary,omitempty"`
-	ConfigurationStatuses        []InstanceViewStatus_Status          `json:"configurationStatuses,omitempty"`
-	LastPatchInstallationSummary *LastPatchInstallationSummary_Status `json:"lastPatchInstallationSummary,omitempty"`
+// Storage version of v1beta20201201.VirtualMachineIdentity_UserAssignedIdentities_STATUS
+type VirtualMachineIdentity_UserAssignedIdentities_STATUS struct {
+	ClientId    *string                `json:"clientId,omitempty"`
+	PrincipalId *string                `json:"principalId,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20201201.VirtualMachinePatchStatus
+type VirtualMachinePatchStatus struct {
+	AvailablePatchSummary        *AvailablePatchSummary        `json:"availablePatchSummary,omitempty"`
+	ConfigurationStatuses        []InstanceViewStatus          `json:"configurationStatuses,omitempty"`
+	LastPatchInstallationSummary *LastPatchInstallationSummary `json:"lastPatchInstallationSummary,omitempty"`
+	PropertyBag                  genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20201201.VirtualMachinePatchStatus_STATUS
+type VirtualMachinePatchStatus_STATUS struct {
+	AvailablePatchSummary        *AvailablePatchSummary_STATUS        `json:"availablePatchSummary,omitempty"`
+	ConfigurationStatuses        []InstanceViewStatus_STATUS          `json:"configurationStatuses,omitempty"`
+	LastPatchInstallationSummary *LastPatchInstallationSummary_STATUS `json:"lastPatchInstallationSummary,omitempty"`
 	PropertyBag                  genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20201201.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces
-type VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces struct {
-	Primary     *bool                  `json:"primary,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	// Reference: Resource Id
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-}
-
 // Storage version of v1beta20201201.WindowsConfiguration
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/WindowsConfiguration
 type WindowsConfiguration struct {
 	AdditionalUnattendContent []AdditionalUnattendContent `json:"additionalUnattendContent,omitempty"`
 	EnableAutomaticUpdates    *bool                       `json:"enableAutomaticUpdates,omitempty"`
@@ -921,19 +989,18 @@ type WindowsConfiguration struct {
 	WinRM                     *WinRMConfiguration         `json:"winRM,omitempty"`
 }
 
-// Storage version of v1beta20201201.WindowsConfiguration_Status
-type WindowsConfiguration_Status struct {
-	AdditionalUnattendContent []AdditionalUnattendContent_Status `json:"additionalUnattendContent,omitempty"`
+// Storage version of v1beta20201201.WindowsConfiguration_STATUS
+type WindowsConfiguration_STATUS struct {
+	AdditionalUnattendContent []AdditionalUnattendContent_STATUS `json:"additionalUnattendContent,omitempty"`
 	EnableAutomaticUpdates    *bool                              `json:"enableAutomaticUpdates,omitempty"`
-	PatchSettings             *PatchSettings_Status              `json:"patchSettings,omitempty"`
+	PatchSettings             *PatchSettings_STATUS              `json:"patchSettings,omitempty"`
 	PropertyBag               genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	ProvisionVMAgent          *bool                              `json:"provisionVMAgent,omitempty"`
 	TimeZone                  *string                            `json:"timeZone,omitempty"`
-	WinRM                     *WinRMConfiguration_Status         `json:"winRM,omitempty"`
+	WinRM                     *WinRMConfiguration_STATUS         `json:"winRM,omitempty"`
 }
 
 // Storage version of v1beta20201201.AdditionalUnattendContent
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/AdditionalUnattendContent
 type AdditionalUnattendContent struct {
 	ComponentName *string                `json:"componentName,omitempty"`
 	Content       *string                `json:"content,omitempty"`
@@ -942,8 +1009,8 @@ type AdditionalUnattendContent struct {
 	SettingName   *string                `json:"settingName,omitempty"`
 }
 
-// Storage version of v1beta20201201.AdditionalUnattendContent_Status
-type AdditionalUnattendContent_Status struct {
+// Storage version of v1beta20201201.AdditionalUnattendContent_STATUS
+type AdditionalUnattendContent_STATUS struct {
 	ComponentName *string                `json:"componentName,omitempty"`
 	Content       *string                `json:"content,omitempty"`
 	PassName      *string                `json:"passName,omitempty"`
@@ -951,11 +1018,24 @@ type AdditionalUnattendContent_Status struct {
 	SettingName   *string                `json:"settingName,omitempty"`
 }
 
-// Storage version of v1beta20201201.AvailablePatchSummary_Status
-type AvailablePatchSummary_Status struct {
+// Storage version of v1beta20201201.AvailablePatchSummary
+type AvailablePatchSummary struct {
 	AssessmentActivityId          *string                `json:"assessmentActivityId,omitempty"`
 	CriticalAndSecurityPatchCount *int                   `json:"criticalAndSecurityPatchCount,omitempty"`
-	Error                         *ApiError_Status       `json:"error,omitempty"`
+	Error                         *ApiError              `json:"error,omitempty"`
+	LastModifiedTime              *string                `json:"lastModifiedTime,omitempty"`
+	OtherPatchCount               *int                   `json:"otherPatchCount,omitempty"`
+	PropertyBag                   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	RebootPending                 *bool                  `json:"rebootPending,omitempty"`
+	StartTime                     *string                `json:"startTime,omitempty"`
+	Status                        *string                `json:"status,omitempty"`
+}
+
+// Storage version of v1beta20201201.AvailablePatchSummary_STATUS
+type AvailablePatchSummary_STATUS struct {
+	AssessmentActivityId          *string                `json:"assessmentActivityId,omitempty"`
+	CriticalAndSecurityPatchCount *int                   `json:"criticalAndSecurityPatchCount,omitempty"`
+	Error                         *ApiError_STATUS       `json:"error,omitempty"`
 	LastModifiedTime              *string                `json:"lastModifiedTime,omitempty"`
 	OtherPatchCount               *int                   `json:"otherPatchCount,omitempty"`
 	PropertyBag                   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -965,22 +1045,20 @@ type AvailablePatchSummary_Status struct {
 }
 
 // Storage version of v1beta20201201.DiffDiskSettings
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/DiffDiskSettings
 type DiffDiskSettings struct {
 	Option      *string                `json:"option,omitempty"`
 	Placement   *string                `json:"placement,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20201201.DiffDiskSettings_Status
-type DiffDiskSettings_Status struct {
+// Storage version of v1beta20201201.DiffDiskSettings_STATUS
+type DiffDiskSettings_STATUS struct {
 	Option      *string                `json:"option,omitempty"`
 	Placement   *string                `json:"placement,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20201201.DiskEncryptionSettings
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/DiskEncryptionSettings
 type DiskEncryptionSettings struct {
 	DiskEncryptionKey *KeyVaultSecretReference `json:"diskEncryptionKey,omitempty"`
 	Enabled           *bool                    `json:"enabled,omitempty"`
@@ -988,17 +1066,33 @@ type DiskEncryptionSettings struct {
 	PropertyBag       genruntime.PropertyBag   `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20201201.DiskEncryptionSettings_Status
-type DiskEncryptionSettings_Status struct {
-	DiskEncryptionKey *KeyVaultSecretReference_Status `json:"diskEncryptionKey,omitempty"`
+// Storage version of v1beta20201201.DiskEncryptionSettings_STATUS
+type DiskEncryptionSettings_STATUS struct {
+	DiskEncryptionKey *KeyVaultSecretReference_STATUS `json:"diskEncryptionKey,omitempty"`
 	Enabled           *bool                           `json:"enabled,omitempty"`
-	KeyEncryptionKey  *KeyVaultKeyReference_Status    `json:"keyEncryptionKey,omitempty"`
+	KeyEncryptionKey  *KeyVaultKeyReference_STATUS    `json:"keyEncryptionKey,omitempty"`
 	PropertyBag       genruntime.PropertyBag          `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20201201.LastPatchInstallationSummary_Status
-type LastPatchInstallationSummary_Status struct {
-	Error                     *ApiError_Status       `json:"error,omitempty"`
+// Storage version of v1beta20201201.LastPatchInstallationSummary
+type LastPatchInstallationSummary struct {
+	Error                     *ApiError              `json:"error,omitempty"`
+	ExcludedPatchCount        *int                   `json:"excludedPatchCount,omitempty"`
+	FailedPatchCount          *int                   `json:"failedPatchCount,omitempty"`
+	InstallationActivityId    *string                `json:"installationActivityId,omitempty"`
+	InstalledPatchCount       *int                   `json:"installedPatchCount,omitempty"`
+	LastModifiedTime          *string                `json:"lastModifiedTime,omitempty"`
+	MaintenanceWindowExceeded *bool                  `json:"maintenanceWindowExceeded,omitempty"`
+	NotSelectedPatchCount     *int                   `json:"notSelectedPatchCount,omitempty"`
+	PendingPatchCount         *int                   `json:"pendingPatchCount,omitempty"`
+	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	StartTime                 *string                `json:"startTime,omitempty"`
+	Status                    *string                `json:"status,omitempty"`
+}
+
+// Storage version of v1beta20201201.LastPatchInstallationSummary_STATUS
+type LastPatchInstallationSummary_STATUS struct {
+	Error                     *ApiError_STATUS       `json:"error,omitempty"`
 	ExcludedPatchCount        *int                   `json:"excludedPatchCount,omitempty"`
 	FailedPatchCount          *int                   `json:"failedPatchCount,omitempty"`
 	InstallationActivityId    *string                `json:"installationActivityId,omitempty"`
@@ -1013,251 +1107,216 @@ type LastPatchInstallationSummary_Status struct {
 }
 
 // Storage version of v1beta20201201.LinuxPatchSettings
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/LinuxPatchSettings
 type LinuxPatchSettings struct {
 	PatchMode   *string                `json:"patchMode,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20201201.LinuxPatchSettings_Status
-type LinuxPatchSettings_Status struct {
+// Storage version of v1beta20201201.LinuxPatchSettings_STATUS
+type LinuxPatchSettings_STATUS struct {
 	PatchMode   *string                `json:"patchMode,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20201201.ManagedDiskParameters
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/ManagedDiskParameters
 type ManagedDiskParameters struct {
-	DiskEncryptionSet *DiskEncryptionSetParameters `json:"diskEncryptionSet,omitempty"`
-	PropertyBag       genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
+	DiskEncryptionSet *SubResource           `json:"diskEncryptionSet,omitempty"`
+	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	// Reference: Resource Id
 	Reference          *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 	StorageAccountType *string                       `json:"storageAccountType,omitempty"`
 }
 
-// Storage version of v1beta20201201.ManagedDiskParameters_Status
-type ManagedDiskParameters_Status struct {
-	DiskEncryptionSet  *SubResource_Status    `json:"diskEncryptionSet,omitempty"`
+// Storage version of v1beta20201201.ManagedDiskParameters_STATUS
+type ManagedDiskParameters_STATUS struct {
+	DiskEncryptionSet  *SubResource_STATUS    `json:"diskEncryptionSet,omitempty"`
 	Id                 *string                `json:"id,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	StorageAccountType *string                `json:"storageAccountType,omitempty"`
 }
 
 // Storage version of v1beta20201201.PatchSettings
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/PatchSettings
 type PatchSettings struct {
 	EnableHotpatching *bool                  `json:"enableHotpatching,omitempty"`
 	PatchMode         *string                `json:"patchMode,omitempty"`
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20201201.PatchSettings_Status
-type PatchSettings_Status struct {
+// Storage version of v1beta20201201.PatchSettings_STATUS
+type PatchSettings_STATUS struct {
 	EnableHotpatching *bool                  `json:"enableHotpatching,omitempty"`
 	PatchMode         *string                `json:"patchMode,omitempty"`
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20201201.SshConfiguration
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/SshConfiguration
 type SshConfiguration struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	PublicKeys  []SshPublicKey         `json:"publicKeys,omitempty"`
+	PublicKeys  []SshPublicKeySpec     `json:"publicKeys,omitempty"`
 }
 
-// Storage version of v1beta20201201.SshConfiguration_Status
-type SshConfiguration_Status struct {
+// Storage version of v1beta20201201.SshConfiguration_STATUS
+type SshConfiguration_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	PublicKeys  []SshPublicKey_Status  `json:"publicKeys,omitempty"`
+	PublicKeys  []SshPublicKey_STATUS  `json:"publicKeys,omitempty"`
 }
 
 // Storage version of v1beta20201201.VaultCertificate
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VaultCertificate
 type VaultCertificate struct {
 	CertificateStore *string                `json:"certificateStore,omitempty"`
 	CertificateUrl   *string                `json:"certificateUrl,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20201201.VaultCertificate_Status
-type VaultCertificate_Status struct {
+// Storage version of v1beta20201201.VaultCertificate_STATUS
+type VaultCertificate_STATUS struct {
 	CertificateStore *string                `json:"certificateStore,omitempty"`
 	CertificateUrl   *string                `json:"certificateUrl,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20201201.VirtualHardDisk
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualHardDisk
 type VirtualHardDisk struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Uri         *string                `json:"uri,omitempty"`
 }
 
-// Storage version of v1beta20201201.VirtualHardDisk_Status
-type VirtualHardDisk_Status struct {
+// Storage version of v1beta20201201.VirtualHardDisk_STATUS
+type VirtualHardDisk_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Uri         *string                `json:"uri,omitempty"`
 }
 
-// Storage version of v1beta20201201.VirtualMachineExtensionHandlerInstanceView_Status
-type VirtualMachineExtensionHandlerInstanceView_Status struct {
+// Storage version of v1beta20201201.VirtualMachineExtensionHandlerInstanceView
+type VirtualMachineExtensionHandlerInstanceView struct {
+	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Status             *InstanceViewStatus    `json:"status,omitempty"`
+	Type               *string                `json:"type,omitempty"`
+	TypeHandlerVersion *string                `json:"typeHandlerVersion,omitempty"`
+}
+
+// Storage version of v1beta20201201.VirtualMachineExtensionHandlerInstanceView_STATUS
+type VirtualMachineExtensionHandlerInstanceView_STATUS struct {
 	PropertyBag        genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
-	Status             *InstanceViewStatus_Status `json:"status,omitempty"`
+	Status             *InstanceViewStatus_STATUS `json:"status,omitempty"`
 	Type               *string                    `json:"type,omitempty"`
 	TypeHandlerVersion *string                    `json:"typeHandlerVersion,omitempty"`
 }
 
 // Storage version of v1beta20201201.WinRMConfiguration
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/WinRMConfiguration
 type WinRMConfiguration struct {
 	Listeners   []WinRMListener        `json:"listeners,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20201201.WinRMConfiguration_Status
-type WinRMConfiguration_Status struct {
-	Listeners   []WinRMListener_Status `json:"listeners,omitempty"`
+// Storage version of v1beta20201201.WinRMConfiguration_STATUS
+type WinRMConfiguration_STATUS struct {
+	Listeners   []WinRMListener_STATUS `json:"listeners,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20201201.ApiError_Status
-type ApiError_Status struct {
+// Storage version of v1beta20201201.ApiError
+type ApiError struct {
 	Code        *string                `json:"code,omitempty"`
-	Details     []ApiErrorBase_Status  `json:"details,omitempty"`
-	Innererror  *InnerError_Status     `json:"innererror,omitempty"`
+	Details     []ApiErrorBase         `json:"details,omitempty"`
+	Innererror  *InnerError            `json:"innererror,omitempty"`
 	Message     *string                `json:"message,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Target      *string                `json:"target,omitempty"`
 }
 
-// Storage version of v1beta20201201.DiskEncryptionSetParameters
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/DiskEncryptionSetParameters
-type DiskEncryptionSetParameters struct {
+// Storage version of v1beta20201201.ApiError_STATUS
+type ApiError_STATUS struct {
+	Code        *string                `json:"code,omitempty"`
+	Details     []ApiErrorBase_STATUS  `json:"details,omitempty"`
+	Innererror  *InnerError_STATUS     `json:"innererror,omitempty"`
+	Message     *string                `json:"message,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	// Reference: Resource Id
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-}
-
-// AssignPropertiesFromDiskEncryptionSetParameters populates our DiskEncryptionSetParameters from the provided source DiskEncryptionSetParameters
-func (parameters *DiskEncryptionSetParameters) AssignPropertiesFromDiskEncryptionSetParameters(source *v20210701s.DiskEncryptionSetParameters) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		parameters.Reference = &reference
-	} else {
-		parameters.Reference = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		parameters.PropertyBag = propertyBag
-	} else {
-		parameters.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToDiskEncryptionSetParameters populates the provided destination DiskEncryptionSetParameters from our DiskEncryptionSetParameters
-func (parameters *DiskEncryptionSetParameters) AssignPropertiesToDiskEncryptionSetParameters(destination *v20210701s.DiskEncryptionSetParameters) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
-
-	// Reference
-	if parameters.Reference != nil {
-		reference := parameters.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
+	Target      *string                `json:"target,omitempty"`
 }
 
 // Storage version of v1beta20201201.KeyVaultKeyReference
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/KeyVaultKeyReference
 type KeyVaultKeyReference struct {
 	KeyUrl      *string                `json:"keyUrl,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SourceVault *SubResource           `json:"sourceVault,omitempty"`
 }
 
-// Storage version of v1beta20201201.KeyVaultKeyReference_Status
-type KeyVaultKeyReference_Status struct {
+// Storage version of v1beta20201201.KeyVaultKeyReference_STATUS
+type KeyVaultKeyReference_STATUS struct {
 	KeyUrl      *string                `json:"keyUrl,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SourceVault *SubResource_Status    `json:"sourceVault,omitempty"`
+	SourceVault *SubResource_STATUS    `json:"sourceVault,omitempty"`
 }
 
 // Storage version of v1beta20201201.KeyVaultSecretReference
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/KeyVaultSecretReference
 type KeyVaultSecretReference struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SecretUrl   *string                `json:"secretUrl,omitempty"`
 	SourceVault *SubResource           `json:"sourceVault,omitempty"`
 }
 
-// Storage version of v1beta20201201.KeyVaultSecretReference_Status
-type KeyVaultSecretReference_Status struct {
+// Storage version of v1beta20201201.KeyVaultSecretReference_STATUS
+type KeyVaultSecretReference_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SecretUrl   *string                `json:"secretUrl,omitempty"`
-	SourceVault *SubResource_Status    `json:"sourceVault,omitempty"`
+	SourceVault *SubResource_STATUS    `json:"sourceVault,omitempty"`
 }
 
-// Storage version of v1beta20201201.SshPublicKey
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/SshPublicKey
-type SshPublicKey struct {
+// Storage version of v1beta20201201.SshPublicKeySpec
+type SshPublicKeySpec struct {
 	KeyData     *string                `json:"keyData,omitempty"`
 	Path        *string                `json:"path,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20201201.SshPublicKey_Status
-type SshPublicKey_Status struct {
+// Storage version of v1beta20201201.SshPublicKey_STATUS
+type SshPublicKey_STATUS struct {
 	KeyData     *string                `json:"keyData,omitempty"`
 	Path        *string                `json:"path,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20201201.WinRMListener
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/WinRMListener
 type WinRMListener struct {
 	CertificateUrl *string                `json:"certificateUrl,omitempty"`
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Protocol       *string                `json:"protocol,omitempty"`
 }
 
-// Storage version of v1beta20201201.WinRMListener_Status
-type WinRMListener_Status struct {
+// Storage version of v1beta20201201.WinRMListener_STATUS
+type WinRMListener_STATUS struct {
 	CertificateUrl *string                `json:"certificateUrl,omitempty"`
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Protocol       *string                `json:"protocol,omitempty"`
 }
 
-// Storage version of v1beta20201201.ApiErrorBase_Status
-type ApiErrorBase_Status struct {
+// Storage version of v1beta20201201.ApiErrorBase
+type ApiErrorBase struct {
 	Code        *string                `json:"code,omitempty"`
 	Message     *string                `json:"message,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Target      *string                `json:"target,omitempty"`
 }
 
-// Storage version of v1beta20201201.InnerError_Status
-type InnerError_Status struct {
+// Storage version of v1beta20201201.ApiErrorBase_STATUS
+type ApiErrorBase_STATUS struct {
+	Code        *string                `json:"code,omitempty"`
+	Message     *string                `json:"message,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Target      *string                `json:"target,omitempty"`
+}
+
+// Storage version of v1beta20201201.InnerError
+type InnerError struct {
+	Errordetail   *string                `json:"errordetail,omitempty"`
+	Exceptiontype *string                `json:"exceptiontype,omitempty"`
+	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20201201.InnerError_STATUS
+type InnerError_STATUS struct {
 	Errordetail   *string                `json:"errordetail,omitempty"`
 	Exceptiontype *string                `json:"exceptiontype,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`

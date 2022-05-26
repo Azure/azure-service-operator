@@ -22,12 +22,13 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20211101.NamespacesEventhubsConsumerGroup
-// Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/resourceDefinitions/namespaces_eventhubs_consumergroups
+// Generator information:
+// - Generated from: /eventhub/resource-manager/Microsoft.EventHub/stable/2021-11-01/consumergroups.json
 type NamespacesEventhubsConsumerGroup struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              NamespacesEventhubsConsumergroups_Spec `json:"spec,omitempty"`
-	Status            ConsumerGroup_Status                   `json:"status,omitempty"`
+	Spec              NamespacesEventhubsConsumergroup_Spec `json:"spec,omitempty"`
+	Status            ConsumerGroup_STATUS                  `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NamespacesEventhubsConsumerGroup{}
@@ -49,7 +50,7 @@ func (group *NamespacesEventhubsConsumerGroup) AzureName() string {
 	return group.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20211101"
 func (group NamespacesEventhubsConsumerGroup) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -69,14 +70,14 @@ func (group *NamespacesEventhubsConsumerGroup) GetStatus() genruntime.Convertibl
 	return &group.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.EventHub/namespaces/eventhubs/consumergroups"
+// GetType returns the ARM Type of the resource. This is always ""
 func (group *NamespacesEventhubsConsumerGroup) GetType() string {
-	return "Microsoft.EventHub/namespaces/eventhubs/consumergroups"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (group *NamespacesEventhubsConsumerGroup) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &ConsumerGroup_Status{}
+	return &ConsumerGroup_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +93,13 @@ func (group *NamespacesEventhubsConsumerGroup) Owner() *genruntime.ResourceRefer
 // SetStatus sets the status of this resource
 func (group *NamespacesEventhubsConsumerGroup) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*ConsumerGroup_Status); ok {
+	if st, ok := status.(*ConsumerGroup_STATUS); ok {
 		group.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st ConsumerGroup_Status
+	var st ConsumerGroup_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,31 +123,32 @@ func (group *NamespacesEventhubsConsumerGroup) OriginalGVK() *schema.GroupVersio
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20211101.NamespacesEventhubsConsumerGroup
-// Generated from: https://schema.management.azure.com/schemas/2021-11-01/Microsoft.EventHub.json#/resourceDefinitions/namespaces_eventhubs_consumergroups
+// Generator information:
+// - Generated from: /eventhub/resource-manager/Microsoft.EventHub/stable/2021-11-01/consumergroups.json
 type NamespacesEventhubsConsumerGroupList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []NamespacesEventhubsConsumerGroup `json:"items"`
 }
 
-// Storage version of v1beta20211101.ConsumerGroup_Status
-type ConsumerGroup_Status struct {
+// Storage version of v1beta20211101.ConsumerGroup_STATUS
+type ConsumerGroup_STATUS struct {
 	Conditions   []conditions.Condition `json:"conditions,omitempty"`
 	CreatedAt    *string                `json:"createdAt,omitempty"`
 	Id           *string                `json:"id,omitempty"`
 	Location     *string                `json:"location,omitempty"`
 	Name         *string                `json:"name,omitempty"`
 	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SystemData   *SystemData_Status     `json:"systemData,omitempty"`
+	SystemData   *SystemData_STATUS     `json:"systemData,omitempty"`
 	Type         *string                `json:"type,omitempty"`
 	UpdatedAt    *string                `json:"updatedAt,omitempty"`
 	UserMetadata *string                `json:"userMetadata,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &ConsumerGroup_Status{}
+var _ genruntime.ConvertibleStatus = &ConsumerGroup_STATUS{}
 
-// ConvertStatusFrom populates our ConsumerGroup_Status from the provided source
-func (group *ConsumerGroup_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our ConsumerGroup_STATUS from the provided source
+func (group *ConsumerGroup_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == group {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -154,8 +156,8 @@ func (group *ConsumerGroup_Status) ConvertStatusFrom(source genruntime.Convertib
 	return source.ConvertStatusTo(group)
 }
 
-// ConvertStatusTo populates the provided destination from our ConsumerGroup_Status
-func (group *ConsumerGroup_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our ConsumerGroup_STATUS
+func (group *ConsumerGroup_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == group {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -163,44 +165,46 @@ func (group *ConsumerGroup_Status) ConvertStatusTo(destination genruntime.Conver
 	return destination.ConvertStatusFrom(group)
 }
 
-// Storage version of v1beta20211101.NamespacesEventhubsConsumergroups_Spec
-type NamespacesEventhubsConsumergroups_Spec struct {
-	// +kubebuilder:validation:MaxLength=50
-	// +kubebuilder:validation:MinLength=1
+// Storage version of v1beta20211101.NamespacesEventhubsConsumergroup_Spec
+type NamespacesEventhubsConsumergroup_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string  `json:"azureName,omitempty"`
+	CreatedAt       *string `json:"createdAt,omitempty"`
+	Id              *string `json:"id,omitempty"`
 	Location        *string `json:"location,omitempty"`
 	OriginalVersion string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a eventhub.azure.com/NamespacesEventhub resource
-	Owner        *genruntime.KnownResourceReference `group:"eventhub.azure.com" json:"owner,omitempty" kind:"NamespacesEventhub"`
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner        *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag  genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Tags         map[string]string                  `json:"tags,omitempty"`
+	SystemData   *SystemData                        `json:"systemData,omitempty"`
+	Type         *string                            `json:"type,omitempty"`
+	UpdatedAt    *string                            `json:"updatedAt,omitempty"`
 	UserMetadata *string                            `json:"userMetadata,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &NamespacesEventhubsConsumergroups_Spec{}
+var _ genruntime.ConvertibleSpec = &NamespacesEventhubsConsumergroup_Spec{}
 
-// ConvertSpecFrom populates our NamespacesEventhubsConsumergroups_Spec from the provided source
-func (consumergroups *NamespacesEventhubsConsumergroups_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == consumergroups {
+// ConvertSpecFrom populates our NamespacesEventhubsConsumergroup_Spec from the provided source
+func (consumergroup *NamespacesEventhubsConsumergroup_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == consumergroup {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(consumergroups)
+	return source.ConvertSpecTo(consumergroup)
 }
 
-// ConvertSpecTo populates the provided destination from our NamespacesEventhubsConsumergroups_Spec
-func (consumergroups *NamespacesEventhubsConsumergroups_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == consumergroups {
+// ConvertSpecTo populates the provided destination from our NamespacesEventhubsConsumergroup_Spec
+func (consumergroup *NamespacesEventhubsConsumergroup_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == consumergroup {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(consumergroups)
+	return destination.ConvertSpecFrom(consumergroup)
 }
 
 func init() {

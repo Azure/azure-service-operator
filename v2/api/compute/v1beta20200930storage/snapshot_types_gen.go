@@ -22,12 +22,13 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20200930.Snapshot
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/resourceDefinitions/snapshots
+// Generator information:
+// - Generated from: /compute/resource-manager/Microsoft.Compute/stable/2020-09-30/disk.json
 type Snapshot struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Snapshots_Spec  `json:"spec,omitempty"`
-	Status            Snapshot_Status `json:"status,omitempty"`
+	Spec              Snapshot_Spec   `json:"spec,omitempty"`
+	Status            Snapshot_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Snapshot{}
@@ -49,7 +50,7 @@ func (snapshot *Snapshot) AzureName() string {
 	return snapshot.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2020-09-30"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20200930"
 func (snapshot Snapshot) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -69,14 +70,14 @@ func (snapshot *Snapshot) GetStatus() genruntime.ConvertibleStatus {
 	return &snapshot.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/snapshots"
+// GetType returns the ARM Type of the resource. This is always ""
 func (snapshot *Snapshot) GetType() string {
-	return "Microsoft.Compute/snapshots"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (snapshot *Snapshot) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Snapshot_Status{}
+	return &Snapshot_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +93,13 @@ func (snapshot *Snapshot) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (snapshot *Snapshot) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Snapshot_Status); ok {
+	if st, ok := status.(*Snapshot_STATUS); ok {
 		snapshot.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Snapshot_Status
+	var st Snapshot_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,24 +123,25 @@ func (snapshot *Snapshot) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20200930.Snapshot
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/resourceDefinitions/snapshots
+// Generator information:
+// - Generated from: /compute/resource-manager/Microsoft.Compute/stable/2020-09-30/disk.json
 type SnapshotList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Snapshot `json:"items"`
 }
 
-// Storage version of v1beta20200930.Snapshot_Status
-type Snapshot_Status struct {
+// Storage version of v1beta20200930.Snapshot_STATUS
+type Snapshot_STATUS struct {
 	Conditions                   []conditions.Condition               `json:"conditions,omitempty"`
-	CreationData                 *CreationData_Status                 `json:"creationData,omitempty"`
+	CreationData                 *CreationData_STATUS                 `json:"creationData,omitempty"`
 	DiskAccessId                 *string                              `json:"diskAccessId,omitempty"`
 	DiskSizeBytes                *int                                 `json:"diskSizeBytes,omitempty"`
 	DiskSizeGB                   *int                                 `json:"diskSizeGB,omitempty"`
 	DiskState                    *string                              `json:"diskState,omitempty"`
-	Encryption                   *Encryption_Status                   `json:"encryption,omitempty"`
-	EncryptionSettingsCollection *EncryptionSettingsCollection_Status `json:"encryptionSettingsCollection,omitempty"`
-	ExtendedLocation             *ExtendedLocation_Status             `json:"extendedLocation,omitempty"`
+	Encryption                   *Encryption_STATUS                   `json:"encryption,omitempty"`
+	EncryptionSettingsCollection *EncryptionSettingsCollection_STATUS `json:"encryptionSettingsCollection,omitempty"`
+	ExtendedLocation             *ExtendedLocation_STATUS             `json:"extendedLocation,omitempty"`
 	HyperVGeneration             *string                              `json:"hyperVGeneration,omitempty"`
 	Id                           *string                              `json:"id,omitempty"`
 	Incremental                  *bool                                `json:"incremental,omitempty"`
@@ -150,18 +152,18 @@ type Snapshot_Status struct {
 	OsType                       *string                              `json:"osType,omitempty"`
 	PropertyBag                  genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
 	ProvisioningState            *string                              `json:"provisioningState,omitempty"`
-	PurchasePlan                 *PurchasePlan_Status                 `json:"purchasePlan,omitempty"`
-	Sku                          *SnapshotSku_Status                  `json:"sku,omitempty"`
+	PurchasePlan                 *PurchasePlan_STATUS                 `json:"purchasePlan,omitempty"`
+	Sku                          *SnapshotSku_STATUS                  `json:"sku,omitempty"`
 	Tags                         map[string]string                    `json:"tags,omitempty"`
 	TimeCreated                  *string                              `json:"timeCreated,omitempty"`
 	Type                         *string                              `json:"type,omitempty"`
 	UniqueId                     *string                              `json:"uniqueId,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Snapshot_Status{}
+var _ genruntime.ConvertibleStatus = &Snapshot_STATUS{}
 
-// ConvertStatusFrom populates our Snapshot_Status from the provided source
-func (snapshot *Snapshot_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our Snapshot_STATUS from the provided source
+func (snapshot *Snapshot_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == snapshot {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -169,8 +171,8 @@ func (snapshot *Snapshot_Status) ConvertStatusFrom(source genruntime.Convertible
 	return source.ConvertStatusTo(snapshot)
 }
 
-// ConvertStatusTo populates the provided destination from our Snapshot_Status
-func (snapshot *Snapshot_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our Snapshot_STATUS
+func (snapshot *Snapshot_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == snapshot {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -178,8 +180,8 @@ func (snapshot *Snapshot_Status) ConvertStatusTo(destination genruntime.Converti
 	return destination.ConvertStatusFrom(snapshot)
 }
 
-// Storage version of v1beta20200930.Snapshots_Spec
-type Snapshots_Spec struct {
+// Storage version of v1beta20200930.Snapshot_Spec
+type Snapshot_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName    string        `json:"azureName,omitempty"`
@@ -187,14 +189,17 @@ type Snapshots_Spec struct {
 
 	// DiskAccessReference: ARM id of the DiskAccess resource for using private endpoints on disks.
 	DiskAccessReference          *genruntime.ResourceReference `armReference:"DiskAccessId" json:"diskAccessReference,omitempty"`
+	DiskSizeBytes                *int                          `json:"diskSizeBytes,omitempty"`
 	DiskSizeGB                   *int                          `json:"diskSizeGB,omitempty"`
 	DiskState                    *string                       `json:"diskState,omitempty"`
 	Encryption                   *Encryption                   `json:"encryption,omitempty"`
 	EncryptionSettingsCollection *EncryptionSettingsCollection `json:"encryptionSettingsCollection,omitempty"`
 	ExtendedLocation             *ExtendedLocation             `json:"extendedLocation,omitempty"`
 	HyperVGeneration             *string                       `json:"hyperVGeneration,omitempty"`
+	Id                           *string                       `json:"id,omitempty"`
 	Incremental                  *bool                         `json:"incremental,omitempty"`
 	Location                     *string                       `json:"location,omitempty"`
+	ManagedBy                    *string                       `json:"managedBy,omitempty"`
 	NetworkAccessPolicy          *string                       `json:"networkAccessPolicy,omitempty"`
 	OriginalVersion              string                        `json:"originalVersion,omitempty"`
 	OsType                       *string                       `json:"osType,omitempty"`
@@ -203,42 +208,46 @@ type Snapshots_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner        *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag  genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	PurchasePlan *PurchasePlan                      `json:"purchasePlan,omitempty"`
-	Sku          *SnapshotSku                       `json:"sku,omitempty"`
-	Tags         map[string]string                  `json:"tags,omitempty"`
+	Owner             *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag       genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	ProvisioningState *string                            `json:"provisioningState,omitempty"`
+	PurchasePlan      *PurchasePlan                      `json:"purchasePlan,omitempty"`
+	Sku               *SnapshotSku                       `json:"sku,omitempty"`
+	Tags              map[string]string                  `json:"tags,omitempty"`
+	TimeCreated       *string                            `json:"timeCreated,omitempty"`
+	Type              *string                            `json:"type,omitempty"`
+	UniqueId          *string                            `json:"uniqueId,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Snapshots_Spec{}
+var _ genruntime.ConvertibleSpec = &Snapshot_Spec{}
 
-// ConvertSpecFrom populates our Snapshots_Spec from the provided source
-func (snapshots *Snapshots_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == snapshots {
+// ConvertSpecFrom populates our Snapshot_Spec from the provided source
+func (snapshot *Snapshot_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == snapshot {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(snapshots)
+	return source.ConvertSpecTo(snapshot)
 }
 
-// ConvertSpecTo populates the provided destination from our Snapshots_Spec
-func (snapshots *Snapshots_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == snapshots {
+// ConvertSpecTo populates the provided destination from our Snapshot_Spec
+func (snapshot *Snapshot_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == snapshot {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(snapshots)
+	return destination.ConvertSpecFrom(snapshot)
 }
 
 // Storage version of v1beta20200930.SnapshotSku
-// Generated from: https://schema.management.azure.com/schemas/2020-09-30/Microsoft.Compute.json#/definitions/SnapshotSku
 type SnapshotSku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Tier        *string                `json:"tier,omitempty"`
 }
 
-// Storage version of v1beta20200930.SnapshotSku_Status
-type SnapshotSku_Status struct {
+// Storage version of v1beta20200930.SnapshotSku_STATUS
+type SnapshotSku_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Tier        *string                `json:"tier,omitempty"`

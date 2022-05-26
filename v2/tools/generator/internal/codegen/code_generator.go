@@ -81,10 +81,8 @@ func NewCodeGeneratorFromConfig(
 
 func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration *config.Configuration) []*pipeline.Stage {
 	return []*pipeline.Stage{
-		pipeline.LoadSchemaIntoTypes(idFactory, configuration, pipeline.DefaultSchemaLoader),
-
-		// Import status info from Swagger:
-		pipeline.AddStatusFromSwagger(idFactory, configuration),
+		// Import Swagger data:
+		pipeline.LoadTypes(idFactory, configuration),
 
 		// Reduces oneOf/allOf types from schemas to object types:
 		pipeline.ConvertAllOfAndOneOfToObjects(idFactory),
@@ -92,9 +90,6 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// Flatten out any nested resources created by allOf, etc. we want to do this before naming types or things
 		// get named with names like Resource_Spec_Spec_Spec:
 		pipeline.FlattenResources(),
-
-		// Copy additional swagger-derived information from status into spec
-		pipeline.AugmentSpecWithStatus(),
 
 		pipeline.StripUnreferencedTypeDefinitions(),
 
@@ -105,6 +100,9 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// Must come after NameTypesForCRD ('nameTypes)' and ConvertAllOfAndOneOfToObjects ('allof-anyof-objects') so
 		// that objects are all expanded
 		pipeline.ApplyPropertyRewrites(configuration),
+
+		pipeline.AddAPIVersionEnums(),
+		pipeline.RemoveTypeAliases(),
 		pipeline.RemoveResourceScope(),
 
 		pipeline.MakeStatusPropertiesOptional(),
@@ -136,9 +134,10 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		pipeline.ApplyExportFilters(configuration),
 
 		// TODO: These should be removed if/when we move to Swagger as the single source of truth
-		pipeline.RemoveTypeProperty(),
-		pipeline.RemoveAPIVersionProperty(),
-		pipeline.AddAPIVersionEnums(),
+		/*
+			pipeline.RemoveTypeProperty(),
+			pipeline.RemoveAPIVersionProperty(),
+		*/
 
 		pipeline.VerifyNoErroredTypes(),
 
@@ -236,7 +235,7 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 
 		newState, err := stage.Run(ctx, state)
 		if err != nil {
-			return errors.Wrapf(err, "failed during pipeline stage %d/%d: %s", i+1, len(generator.pipeline), stage.Description())
+			return errors.Wrapf(err, "failed during pipeline stage %d/%d [%s]: %s", i+1, len(generator.pipeline), stage.Id(), stage.Description())
 		}
 
 		// Fail fast if something goes awry

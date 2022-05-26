@@ -24,12 +24,13 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases
+// Generator information:
+// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
 type MongodbDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccountsMongodbDatabases_Spec `json:"spec,omitempty"`
-	Status            MongoDBDatabaseGetResults_Status      `json:"status,omitempty"`
+	Spec              DatabaseAccountsMongodbDatabase_Spec         `json:"spec,omitempty"`
+	Status            MongoDBDatabaseCreateUpdateParameters_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &MongodbDatabase{}
@@ -96,7 +97,7 @@ func (database *MongodbDatabase) AzureName() string {
 	return database.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20210515"
 func (database MongodbDatabase) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -116,14 +117,14 @@ func (database *MongodbDatabase) GetStatus() genruntime.ConvertibleStatus {
 	return &database.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases"
+// GetType returns the ARM Type of the resource. This is always ""
 func (database *MongodbDatabase) GetType() string {
-	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (database *MongodbDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &MongoDBDatabaseGetResults_Status{}
+	return &MongoDBDatabaseCreateUpdateParameters_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -139,13 +140,13 @@ func (database *MongodbDatabase) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (database *MongodbDatabase) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*MongoDBDatabaseGetResults_Status); ok {
+	if st, ok := status.(*MongoDBDatabaseCreateUpdateParameters_STATUS); ok {
 		database.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st MongoDBDatabaseGetResults_Status
+	var st MongoDBDatabaseCreateUpdateParameters_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -255,18 +256,18 @@ func (database *MongodbDatabase) AssignPropertiesFromMongodbDatabase(source *v20
 	database.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec DatabaseAccountsMongodbDatabases_Spec
-	err := spec.AssignPropertiesFromDatabaseAccountsMongodbDatabasesSpec(&source.Spec)
+	var spec DatabaseAccountsMongodbDatabase_Spec
+	err := spec.AssignPropertiesFromDatabaseAccountsMongodbDatabase_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsMongodbDatabasesSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsMongodbDatabase_Spec() to populate field Spec")
 	}
 	database.Spec = spec
 
 	// Status
-	var status MongoDBDatabaseGetResults_Status
-	err = status.AssignPropertiesFromMongoDBDatabaseGetResultsStatus(&source.Status)
+	var status MongoDBDatabaseCreateUpdateParameters_STATUS
+	err = status.AssignPropertiesFromMongoDBDatabaseCreateUpdateParameters_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromMongoDBDatabaseGetResultsStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromMongoDBDatabaseCreateUpdateParameters_STATUS() to populate field Status")
 	}
 	database.Status = status
 
@@ -281,18 +282,18 @@ func (database *MongodbDatabase) AssignPropertiesToMongodbDatabase(destination *
 	destination.ObjectMeta = *database.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210515s.DatabaseAccountsMongodbDatabases_Spec
-	err := database.Spec.AssignPropertiesToDatabaseAccountsMongodbDatabasesSpec(&spec)
+	var spec v20210515s.DatabaseAccountsMongodbDatabase_Spec
+	err := database.Spec.AssignPropertiesToDatabaseAccountsMongodbDatabase_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsMongodbDatabasesSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsMongodbDatabase_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status v20210515s.MongoDBDatabaseGetResults_Status
-	err = database.Status.AssignPropertiesToMongoDBDatabaseGetResultsStatus(&status)
+	var status v20210515s.MongoDBDatabaseCreateUpdateParameters_STATUS
+	err = database.Status.AssignPropertiesToMongoDBDatabaseCreateUpdateParameters_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToMongoDBDatabaseGetResultsStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToMongoDBDatabaseCreateUpdateParameters_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -310,55 +311,65 @@ func (database *MongodbDatabase) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases
+// Generator information:
+// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
 type MongodbDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []MongodbDatabase `json:"items"`
 }
 
-type DatabaseAccountsMongodbDatabases_Spec struct {
+type DatabaseAccountsMongodbDatabase_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
+	// Id: The unique resource identifier of the ARM resource.
+	Id *string `json:"id,omitempty"`
+
 	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
-	// Options: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match",
-	// "If-None-Match", "Session-Token" and "Throughput"
+	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
+	// request.
 	Options *CreateUpdateOptions `json:"options,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a documentdb.azure.com/DatabaseAccount resource
-	Owner *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"DatabaseAccount"`
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	// +kubebuilder:validation:Required
-	// Resource: Cosmos DB MongoDB database resource object
+	// Resource: The standard JSON format of a MongoDB database
 	Resource *MongoDBDatabaseResource `json:"resource,omitempty"`
+	Tags     map[string]string        `json:"tags,omitempty"`
 
-	// Tags: Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this
-	// resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no
-	// greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template
-	// type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph",
-	// "DocumentDB", and "MongoDB".
-	Tags map[string]string `json:"tags,omitempty"`
+	// Type: The type of Azure resource.
+	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &DatabaseAccountsMongodbDatabases_Spec{}
+var _ genruntime.ARMTransformer = &DatabaseAccountsMongodbDatabase_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (databases *DatabaseAccountsMongodbDatabases_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if databases == nil {
+func (database *DatabaseAccountsMongodbDatabase_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if database == nil {
 		return nil, nil
 	}
-	result := &DatabaseAccountsMongodbDatabases_SpecARM{}
+	result := &DatabaseAccountsMongodbDatabase_SpecARM{}
+
+	// Set property ‘AzureName’:
+	result.AzureName = database.AzureName
+
+	// Set property ‘Id’:
+	if database.Id != nil {
+		id := *database.Id
+		result.Id = &id
+	}
 
 	// Set property ‘Location’:
-	if databases.Location != nil {
-		location := *databases.Location
+	if database.Location != nil {
+		location := *database.Location
 		result.Location = &location
 	}
 
@@ -366,19 +377,19 @@ func (databases *DatabaseAccountsMongodbDatabases_Spec) ConvertToARM(resolved ge
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if databases.Options != nil || databases.Resource != nil {
+	if database.Options != nil || database.Resource != nil {
 		result.Properties = &MongoDBDatabaseCreateUpdatePropertiesARM{}
 	}
-	if databases.Options != nil {
-		optionsARM, err := (*databases.Options).ConvertToARM(resolved)
+	if database.Options != nil {
+		optionsARM, err := (*database.Options).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		options := *optionsARM.(*CreateUpdateOptionsARM)
 		result.Properties.Options = &options
 	}
-	if databases.Resource != nil {
-		resourceARM, err := (*databases.Resource).ConvertToARM(resolved)
+	if database.Resource != nil {
+		resourceARM, err := (*database.Resource).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -387,34 +398,46 @@ func (databases *DatabaseAccountsMongodbDatabases_Spec) ConvertToARM(resolved ge
 	}
 
 	// Set property ‘Tags’:
-	if databases.Tags != nil {
+	if database.Tags != nil {
 		result.Tags = make(map[string]string)
-		for key, value := range databases.Tags {
+		for key, value := range database.Tags {
 			result.Tags[key] = value
 		}
+	}
+
+	// Set property ‘Type’:
+	if database.Type != nil {
+		typeVar := *database.Type
+		result.Type = &typeVar
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (databases *DatabaseAccountsMongodbDatabases_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DatabaseAccountsMongodbDatabases_SpecARM{}
+func (database *DatabaseAccountsMongodbDatabase_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DatabaseAccountsMongodbDatabase_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (databases *DatabaseAccountsMongodbDatabases_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DatabaseAccountsMongodbDatabases_SpecARM)
+func (database *DatabaseAccountsMongodbDatabase_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DatabaseAccountsMongodbDatabase_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccountsMongodbDatabases_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccountsMongodbDatabase_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
-	databases.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	database.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		database.Id = &id
+	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		databases.Location = &location
+		database.Location = &location
 	}
 
 	// Set property ‘Options’:
@@ -427,12 +450,12 @@ func (databases *DatabaseAccountsMongodbDatabases_Spec) PopulateFromARM(owner ge
 				return err
 			}
 			options := options1
-			databases.Options = &options
+			database.Options = &options
 		}
 	}
 
 	// Set property ‘Owner’:
-	databases.Owner = &genruntime.KnownResourceReference{
+	database.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -446,41 +469,47 @@ func (databases *DatabaseAccountsMongodbDatabases_Spec) PopulateFromARM(owner ge
 				return err
 			}
 			resource := resource1
-			databases.Resource = &resource
+			database.Resource = &resource
 		}
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		databases.Tags = make(map[string]string)
+		database.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
-			databases.Tags[key] = value
+			database.Tags[key] = value
 		}
+	}
+
+	// Set property ‘Type’:
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		database.Type = &typeVar
 	}
 
 	// No error
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccountsMongodbDatabases_Spec{}
+var _ genruntime.ConvertibleSpec = &DatabaseAccountsMongodbDatabase_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccountsMongodbDatabases_Spec from the provided source
-func (databases *DatabaseAccountsMongodbDatabases_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210515s.DatabaseAccountsMongodbDatabases_Spec)
+// ConvertSpecFrom populates our DatabaseAccountsMongodbDatabase_Spec from the provided source
+func (database *DatabaseAccountsMongodbDatabase_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20210515s.DatabaseAccountsMongodbDatabase_Spec)
 	if ok {
 		// Populate our instance from source
-		return databases.AssignPropertiesFromDatabaseAccountsMongodbDatabasesSpec(src)
+		return database.AssignPropertiesFromDatabaseAccountsMongodbDatabase_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210515s.DatabaseAccountsMongodbDatabases_Spec{}
+	src = &v20210515s.DatabaseAccountsMongodbDatabase_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = databases.AssignPropertiesFromDatabaseAccountsMongodbDatabasesSpec(src)
+	err = database.AssignPropertiesFromDatabaseAccountsMongodbDatabase_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -488,17 +517,17 @@ func (databases *DatabaseAccountsMongodbDatabases_Spec) ConvertSpecFrom(source g
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccountsMongodbDatabases_Spec
-func (databases *DatabaseAccountsMongodbDatabases_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210515s.DatabaseAccountsMongodbDatabases_Spec)
+// ConvertSpecTo populates the provided destination from our DatabaseAccountsMongodbDatabase_Spec
+func (database *DatabaseAccountsMongodbDatabase_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20210515s.DatabaseAccountsMongodbDatabase_Spec)
 	if ok {
 		// Populate destination from our instance
-		return databases.AssignPropertiesToDatabaseAccountsMongodbDatabasesSpec(dst)
+		return database.AssignPropertiesToDatabaseAccountsMongodbDatabase_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210515s.DatabaseAccountsMongodbDatabases_Spec{}
-	err := databases.AssignPropertiesToDatabaseAccountsMongodbDatabasesSpec(dst)
+	dst = &v20210515s.DatabaseAccountsMongodbDatabase_Spec{}
+	err := database.AssignPropertiesToDatabaseAccountsMongodbDatabase_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -512,14 +541,17 @@ func (databases *DatabaseAccountsMongodbDatabases_Spec) ConvertSpecTo(destinatio
 	return nil
 }
 
-// AssignPropertiesFromDatabaseAccountsMongodbDatabasesSpec populates our DatabaseAccountsMongodbDatabases_Spec from the provided source DatabaseAccountsMongodbDatabases_Spec
-func (databases *DatabaseAccountsMongodbDatabases_Spec) AssignPropertiesFromDatabaseAccountsMongodbDatabasesSpec(source *v20210515s.DatabaseAccountsMongodbDatabases_Spec) error {
+// AssignPropertiesFromDatabaseAccountsMongodbDatabase_Spec populates our DatabaseAccountsMongodbDatabase_Spec from the provided source DatabaseAccountsMongodbDatabase_Spec
+func (database *DatabaseAccountsMongodbDatabase_Spec) AssignPropertiesFromDatabaseAccountsMongodbDatabase_Spec(source *v20210515s.DatabaseAccountsMongodbDatabase_Spec) error {
 
 	// AzureName
-	databases.AzureName = source.AzureName
+	database.AzureName = source.AzureName
+
+	// Id
+	database.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Location
-	databases.Location = genruntime.ClonePointerToString(source.Location)
+	database.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Options
 	if source.Options != nil {
@@ -528,17 +560,17 @@ func (databases *DatabaseAccountsMongodbDatabases_Spec) AssignPropertiesFromData
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptions() to populate field Options")
 		}
-		databases.Options = &option
+		database.Options = &option
 	} else {
-		databases.Options = nil
+		database.Options = nil
 	}
 
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
-		databases.Owner = &owner
+		database.Owner = &owner
 	} else {
-		databases.Owner = nil
+		database.Owner = nil
 	}
 
 	// Resource
@@ -548,33 +580,39 @@ func (databases *DatabaseAccountsMongodbDatabases_Spec) AssignPropertiesFromData
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromMongoDBDatabaseResource() to populate field Resource")
 		}
-		databases.Resource = &resource
+		database.Resource = &resource
 	} else {
-		databases.Resource = nil
+		database.Resource = nil
 	}
 
 	// Tags
-	databases.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	database.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	database.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToDatabaseAccountsMongodbDatabasesSpec populates the provided destination DatabaseAccountsMongodbDatabases_Spec from our DatabaseAccountsMongodbDatabases_Spec
-func (databases *DatabaseAccountsMongodbDatabases_Spec) AssignPropertiesToDatabaseAccountsMongodbDatabasesSpec(destination *v20210515s.DatabaseAccountsMongodbDatabases_Spec) error {
+// AssignPropertiesToDatabaseAccountsMongodbDatabase_Spec populates the provided destination DatabaseAccountsMongodbDatabase_Spec from our DatabaseAccountsMongodbDatabase_Spec
+func (database *DatabaseAccountsMongodbDatabase_Spec) AssignPropertiesToDatabaseAccountsMongodbDatabase_Spec(destination *v20210515s.DatabaseAccountsMongodbDatabase_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
-	destination.AzureName = databases.AzureName
+	destination.AzureName = database.AzureName
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(database.Id)
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(databases.Location)
+	destination.Location = genruntime.ClonePointerToString(database.Location)
 
 	// Options
-	if databases.Options != nil {
+	if database.Options != nil {
 		var option v20210515s.CreateUpdateOptions
-		err := databases.Options.AssignPropertiesToCreateUpdateOptions(&option)
+		err := database.Options.AssignPropertiesToCreateUpdateOptions(&option)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions() to populate field Options")
 		}
@@ -584,20 +622,20 @@ func (databases *DatabaseAccountsMongodbDatabases_Spec) AssignPropertiesToDataba
 	}
 
 	// OriginalVersion
-	destination.OriginalVersion = databases.OriginalVersion()
+	destination.OriginalVersion = database.OriginalVersion()
 
 	// Owner
-	if databases.Owner != nil {
-		owner := databases.Owner.Copy()
+	if database.Owner != nil {
+		owner := database.Owner.Copy()
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
 	}
 
 	// Resource
-	if databases.Resource != nil {
+	if database.Resource != nil {
 		var resource v20210515s.MongoDBDatabaseResource
-		err := databases.Resource.AssignPropertiesToMongoDBDatabaseResource(&resource)
+		err := database.Resource.AssignPropertiesToMongoDBDatabaseResource(&resource)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToMongoDBDatabaseResource() to populate field Resource")
 		}
@@ -607,7 +645,10 @@ func (databases *DatabaseAccountsMongodbDatabases_Spec) AssignPropertiesToDataba
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(databases.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(database.Tags)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(database.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -621,16 +662,16 @@ func (databases *DatabaseAccountsMongodbDatabases_Spec) AssignPropertiesToDataba
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (databases *DatabaseAccountsMongodbDatabases_Spec) OriginalVersion() string {
+func (database *DatabaseAccountsMongodbDatabase_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (databases *DatabaseAccountsMongodbDatabases_Spec) SetAzureName(azureName string) {
-	databases.AzureName = azureName
+func (database *DatabaseAccountsMongodbDatabase_Spec) SetAzureName(azureName string) {
+	database.AzureName = azureName
 }
 
-type MongoDBDatabaseGetResults_Status struct {
+type MongoDBDatabaseCreateUpdateParameters_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -641,34 +682,39 @@ type MongoDBDatabaseGetResults_Status struct {
 	Location *string `json:"location,omitempty"`
 
 	// Name: The name of the ARM resource.
-	Name     *string                                       `json:"name,omitempty"`
-	Options  *OptionsResource_Status                       `json:"options,omitempty"`
-	Resource *MongoDBDatabaseGetProperties_Status_Resource `json:"resource,omitempty"`
-	Tags     map[string]string                             `json:"tags,omitempty"`
+	Name *string `json:"name,omitempty"`
+
+	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
+	// request.
+	Options *CreateUpdateOptions_STATUS `json:"options,omitempty"`
+
+	// Resource: The standard JSON format of a MongoDB database
+	Resource *MongoDBDatabaseResource_STATUS `json:"resource,omitempty"`
+	Tags     map[string]string               `json:"tags,omitempty"`
 
 	// Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &MongoDBDatabaseGetResults_Status{}
+var _ genruntime.ConvertibleStatus = &MongoDBDatabaseCreateUpdateParameters_STATUS{}
 
-// ConvertStatusFrom populates our MongoDBDatabaseGetResults_Status from the provided source
-func (results *MongoDBDatabaseGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210515s.MongoDBDatabaseGetResults_Status)
+// ConvertStatusFrom populates our MongoDBDatabaseCreateUpdateParameters_STATUS from the provided source
+func (parameters *MongoDBDatabaseCreateUpdateParameters_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210515s.MongoDBDatabaseCreateUpdateParameters_STATUS)
 	if ok {
 		// Populate our instance from source
-		return results.AssignPropertiesFromMongoDBDatabaseGetResultsStatus(src)
+		return parameters.AssignPropertiesFromMongoDBDatabaseCreateUpdateParameters_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210515s.MongoDBDatabaseGetResults_Status{}
+	src = &v20210515s.MongoDBDatabaseCreateUpdateParameters_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = results.AssignPropertiesFromMongoDBDatabaseGetResultsStatus(src)
+	err = parameters.AssignPropertiesFromMongoDBDatabaseCreateUpdateParameters_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -676,17 +722,17 @@ func (results *MongoDBDatabaseGetResults_Status) ConvertStatusFrom(source genrun
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our MongoDBDatabaseGetResults_Status
-func (results *MongoDBDatabaseGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210515s.MongoDBDatabaseGetResults_Status)
+// ConvertStatusTo populates the provided destination from our MongoDBDatabaseCreateUpdateParameters_STATUS
+func (parameters *MongoDBDatabaseCreateUpdateParameters_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210515s.MongoDBDatabaseCreateUpdateParameters_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return results.AssignPropertiesToMongoDBDatabaseGetResultsStatus(dst)
+		return parameters.AssignPropertiesToMongoDBDatabaseCreateUpdateParameters_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210515s.MongoDBDatabaseGetResults_Status{}
-	err := results.AssignPropertiesToMongoDBDatabaseGetResultsStatus(dst)
+	dst = &v20210515s.MongoDBDatabaseCreateUpdateParameters_STATUS{}
+	err := parameters.AssignPropertiesToMongoDBDatabaseCreateUpdateParameters_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -700,18 +746,18 @@ func (results *MongoDBDatabaseGetResults_Status) ConvertStatusTo(destination gen
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &MongoDBDatabaseGetResults_Status{}
+var _ genruntime.FromARMConverter = &MongoDBDatabaseCreateUpdateParameters_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (results *MongoDBDatabaseGetResults_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MongoDBDatabaseGetResults_StatusARM{}
+func (parameters *MongoDBDatabaseCreateUpdateParameters_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &MongoDBDatabaseCreateUpdateParameters_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (results *MongoDBDatabaseGetResults_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MongoDBDatabaseGetResults_StatusARM)
+func (parameters *MongoDBDatabaseCreateUpdateParameters_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(MongoDBDatabaseCreateUpdateParameters_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoDBDatabaseGetResults_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoDBDatabaseCreateUpdateParameters_STATUSARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -719,32 +765,32 @@ func (results *MongoDBDatabaseGetResults_Status) PopulateFromARM(owner genruntim
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
-		results.Id = &id
+		parameters.Id = &id
 	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		results.Location = &location
+		parameters.Location = &location
 	}
 
 	// Set property ‘Name’:
 	if typedInput.Name != nil {
 		name := *typedInput.Name
-		results.Name = &name
+		parameters.Name = &name
 	}
 
 	// Set property ‘Options’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Options != nil {
-			var options1 OptionsResource_Status
+			var options1 CreateUpdateOptions_STATUS
 			err := options1.PopulateFromARM(owner, *typedInput.Properties.Options)
 			if err != nil {
 				return err
 			}
 			options := options1
-			results.Options = &options
+			parameters.Options = &options
 		}
 	}
 
@@ -752,106 +798,106 @@ func (results *MongoDBDatabaseGetResults_Status) PopulateFromARM(owner genruntim
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Resource != nil {
-			var resource1 MongoDBDatabaseGetProperties_Status_Resource
+			var resource1 MongoDBDatabaseResource_STATUS
 			err := resource1.PopulateFromARM(owner, *typedInput.Properties.Resource)
 			if err != nil {
 				return err
 			}
 			resource := resource1
-			results.Resource = &resource
+			parameters.Resource = &resource
 		}
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		results.Tags = make(map[string]string)
+		parameters.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
-			results.Tags[key] = value
+			parameters.Tags[key] = value
 		}
 	}
 
 	// Set property ‘Type’:
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
-		results.Type = &typeVar
+		parameters.Type = &typeVar
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesFromMongoDBDatabaseGetResultsStatus populates our MongoDBDatabaseGetResults_Status from the provided source MongoDBDatabaseGetResults_Status
-func (results *MongoDBDatabaseGetResults_Status) AssignPropertiesFromMongoDBDatabaseGetResultsStatus(source *v20210515s.MongoDBDatabaseGetResults_Status) error {
+// AssignPropertiesFromMongoDBDatabaseCreateUpdateParameters_STATUS populates our MongoDBDatabaseCreateUpdateParameters_STATUS from the provided source MongoDBDatabaseCreateUpdateParameters_STATUS
+func (parameters *MongoDBDatabaseCreateUpdateParameters_STATUS) AssignPropertiesFromMongoDBDatabaseCreateUpdateParameters_STATUS(source *v20210515s.MongoDBDatabaseCreateUpdateParameters_STATUS) error {
 
 	// Conditions
-	results.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	parameters.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Id
-	results.Id = genruntime.ClonePointerToString(source.Id)
+	parameters.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Location
-	results.Location = genruntime.ClonePointerToString(source.Location)
+	parameters.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
-	results.Name = genruntime.ClonePointerToString(source.Name)
+	parameters.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Options
 	if source.Options != nil {
-		var option OptionsResource_Status
-		err := option.AssignPropertiesFromOptionsResourceStatus(source.Options)
+		var option CreateUpdateOptions_STATUS
+		err := option.AssignPropertiesFromCreateUpdateOptions_STATUS(source.Options)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromOptionsResourceStatus() to populate field Options")
+			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptions_STATUS() to populate field Options")
 		}
-		results.Options = &option
+		parameters.Options = &option
 	} else {
-		results.Options = nil
+		parameters.Options = nil
 	}
 
 	// Resource
 	if source.Resource != nil {
-		var resource MongoDBDatabaseGetProperties_Status_Resource
-		err := resource.AssignPropertiesFromMongoDBDatabaseGetPropertiesStatusResource(source.Resource)
+		var resource MongoDBDatabaseResource_STATUS
+		err := resource.AssignPropertiesFromMongoDBDatabaseResource_STATUS(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromMongoDBDatabaseGetPropertiesStatusResource() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesFromMongoDBDatabaseResource_STATUS() to populate field Resource")
 		}
-		results.Resource = &resource
+		parameters.Resource = &resource
 	} else {
-		results.Resource = nil
+		parameters.Resource = nil
 	}
 
 	// Tags
-	results.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	parameters.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	results.Type = genruntime.ClonePointerToString(source.Type)
+	parameters.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToMongoDBDatabaseGetResultsStatus populates the provided destination MongoDBDatabaseGetResults_Status from our MongoDBDatabaseGetResults_Status
-func (results *MongoDBDatabaseGetResults_Status) AssignPropertiesToMongoDBDatabaseGetResultsStatus(destination *v20210515s.MongoDBDatabaseGetResults_Status) error {
+// AssignPropertiesToMongoDBDatabaseCreateUpdateParameters_STATUS populates the provided destination MongoDBDatabaseCreateUpdateParameters_STATUS from our MongoDBDatabaseCreateUpdateParameters_STATUS
+func (parameters *MongoDBDatabaseCreateUpdateParameters_STATUS) AssignPropertiesToMongoDBDatabaseCreateUpdateParameters_STATUS(destination *v20210515s.MongoDBDatabaseCreateUpdateParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(results.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(parameters.Conditions)
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(results.Id)
+	destination.Id = genruntime.ClonePointerToString(parameters.Id)
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(results.Location)
+	destination.Location = genruntime.ClonePointerToString(parameters.Location)
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(results.Name)
+	destination.Name = genruntime.ClonePointerToString(parameters.Name)
 
 	// Options
-	if results.Options != nil {
-		var option v20210515s.OptionsResource_Status
-		err := results.Options.AssignPropertiesToOptionsResourceStatus(&option)
+	if parameters.Options != nil {
+		var option v20210515s.CreateUpdateOptions_STATUS
+		err := parameters.Options.AssignPropertiesToCreateUpdateOptions_STATUS(&option)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToOptionsResourceStatus() to populate field Options")
+			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions_STATUS() to populate field Options")
 		}
 		destination.Options = &option
 	} else {
@@ -859,11 +905,11 @@ func (results *MongoDBDatabaseGetResults_Status) AssignPropertiesToMongoDBDataba
 	}
 
 	// Resource
-	if results.Resource != nil {
-		var resource v20210515s.MongoDBDatabaseGetProperties_Status_Resource
-		err := results.Resource.AssignPropertiesToMongoDBDatabaseGetPropertiesStatusResource(&resource)
+	if parameters.Resource != nil {
+		var resource v20210515s.MongoDBDatabaseResource_STATUS
+		err := parameters.Resource.AssignPropertiesToMongoDBDatabaseResource_STATUS(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToMongoDBDatabaseGetPropertiesStatusResource() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesToMongoDBDatabaseResource_STATUS() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {
@@ -871,10 +917,10 @@ func (results *MongoDBDatabaseGetResults_Status) AssignPropertiesToMongoDBDataba
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(results.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(parameters.Tags)
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(results.Type)
+	destination.Type = genruntime.ClonePointerToString(parameters.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -887,8 +933,8 @@ func (results *MongoDBDatabaseGetResults_Status) AssignPropertiesToMongoDBDataba
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CreateUpdateOptions
 type CreateUpdateOptions struct {
+	// AutoscaleSettings: Specifies the Autoscale settings.
 	AutoscaleSettings *AutoscaleSettings `json:"autoscaleSettings,omitempty"`
 
 	// Throughput: Request Units per second. For example, "throughput": 10000.
@@ -1008,107 +1054,90 @@ func (options *CreateUpdateOptions) AssignPropertiesToCreateUpdateOptions(destin
 	return nil
 }
 
-type MongoDBDatabaseGetProperties_Status_Resource struct {
-	// Etag: A system generated property representing the resource etag required for optimistic concurrency control.
-	Etag *string `json:"_etag,omitempty"`
+type CreateUpdateOptions_STATUS struct {
+	// AutoscaleSettings: Specifies the Autoscale settings.
+	AutoscaleSettings *AutoscaleSettings_STATUS `json:"autoscaleSettings,omitempty"`
 
-	// Id: Name of the Cosmos DB MongoDB database
-	Id *string `json:"id,omitempty"`
-
-	// Rid: A system generated property. A unique identifier.
-	Rid *string `json:"_rid,omitempty"`
-
-	// Ts: A system generated property that denotes the last updated timestamp of the resource.
-	Ts *float64 `json:"_ts,omitempty"`
+	// Throughput: Request Units per second. For example, "throughput": 10000.
+	Throughput *int `json:"throughput,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &MongoDBDatabaseGetProperties_Status_Resource{}
+var _ genruntime.FromARMConverter = &CreateUpdateOptions_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (resource *MongoDBDatabaseGetProperties_Status_Resource) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MongoDBDatabaseGetProperties_Status_ResourceARM{}
+func (options *CreateUpdateOptions_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &CreateUpdateOptions_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (resource *MongoDBDatabaseGetProperties_Status_Resource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MongoDBDatabaseGetProperties_Status_ResourceARM)
+func (options *CreateUpdateOptions_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(CreateUpdateOptions_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoDBDatabaseGetProperties_Status_ResourceARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CreateUpdateOptions_STATUSARM, got %T", armInput)
 	}
 
-	// Set property ‘Etag’:
-	if typedInput.Etag != nil {
-		etag := *typedInput.Etag
-		resource.Etag = &etag
+	// Set property ‘AutoscaleSettings’:
+	if typedInput.AutoscaleSettings != nil {
+		var autoscaleSettings1 AutoscaleSettings_STATUS
+		err := autoscaleSettings1.PopulateFromARM(owner, *typedInput.AutoscaleSettings)
+		if err != nil {
+			return err
+		}
+		autoscaleSettings := autoscaleSettings1
+		options.AutoscaleSettings = &autoscaleSettings
 	}
 
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		resource.Id = &id
-	}
-
-	// Set property ‘Rid’:
-	if typedInput.Rid != nil {
-		rid := *typedInput.Rid
-		resource.Rid = &rid
-	}
-
-	// Set property ‘Ts’:
-	if typedInput.Ts != nil {
-		ts := *typedInput.Ts
-		resource.Ts = &ts
+	// Set property ‘Throughput’:
+	if typedInput.Throughput != nil {
+		throughput := *typedInput.Throughput
+		options.Throughput = &throughput
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesFromMongoDBDatabaseGetPropertiesStatusResource populates our MongoDBDatabaseGetProperties_Status_Resource from the provided source MongoDBDatabaseGetProperties_Status_Resource
-func (resource *MongoDBDatabaseGetProperties_Status_Resource) AssignPropertiesFromMongoDBDatabaseGetPropertiesStatusResource(source *v20210515s.MongoDBDatabaseGetProperties_Status_Resource) error {
+// AssignPropertiesFromCreateUpdateOptions_STATUS populates our CreateUpdateOptions_STATUS from the provided source CreateUpdateOptions_STATUS
+func (options *CreateUpdateOptions_STATUS) AssignPropertiesFromCreateUpdateOptions_STATUS(source *v20210515s.CreateUpdateOptions_STATUS) error {
 
-	// Etag
-	resource.Etag = genruntime.ClonePointerToString(source.Etag)
-
-	// Id
-	resource.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Rid
-	resource.Rid = genruntime.ClonePointerToString(source.Rid)
-
-	// Ts
-	if source.Ts != nil {
-		t := *source.Ts
-		resource.Ts = &t
+	// AutoscaleSettings
+	if source.AutoscaleSettings != nil {
+		var autoscaleSetting AutoscaleSettings_STATUS
+		err := autoscaleSetting.AssignPropertiesFromAutoscaleSettings_STATUS(source.AutoscaleSettings)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromAutoscaleSettings_STATUS() to populate field AutoscaleSettings")
+		}
+		options.AutoscaleSettings = &autoscaleSetting
 	} else {
-		resource.Ts = nil
+		options.AutoscaleSettings = nil
 	}
+
+	// Throughput
+	options.Throughput = genruntime.ClonePointerToInt(source.Throughput)
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToMongoDBDatabaseGetPropertiesStatusResource populates the provided destination MongoDBDatabaseGetProperties_Status_Resource from our MongoDBDatabaseGetProperties_Status_Resource
-func (resource *MongoDBDatabaseGetProperties_Status_Resource) AssignPropertiesToMongoDBDatabaseGetPropertiesStatusResource(destination *v20210515s.MongoDBDatabaseGetProperties_Status_Resource) error {
+// AssignPropertiesToCreateUpdateOptions_STATUS populates the provided destination CreateUpdateOptions_STATUS from our CreateUpdateOptions_STATUS
+func (options *CreateUpdateOptions_STATUS) AssignPropertiesToCreateUpdateOptions_STATUS(destination *v20210515s.CreateUpdateOptions_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(resource.Etag)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(resource.Id)
-
-	// Rid
-	destination.Rid = genruntime.ClonePointerToString(resource.Rid)
-
-	// Ts
-	if resource.Ts != nil {
-		t := *resource.Ts
-		destination.Ts = &t
+	// AutoscaleSettings
+	if options.AutoscaleSettings != nil {
+		var autoscaleSetting v20210515s.AutoscaleSettings_STATUS
+		err := options.AutoscaleSettings.AssignPropertiesToAutoscaleSettings_STATUS(&autoscaleSetting)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToAutoscaleSettings_STATUS() to populate field AutoscaleSettings")
+		}
+		destination.AutoscaleSettings = &autoscaleSetting
 	} else {
-		destination.Ts = nil
+		destination.AutoscaleSettings = nil
 	}
+
+	// Throughput
+	destination.Throughput = genruntime.ClonePointerToInt(options.Throughput)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1121,7 +1150,6 @@ func (resource *MongoDBDatabaseGetProperties_Status_Resource) AssignPropertiesTo
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/MongoDBDatabaseResource
 type MongoDBDatabaseResource struct {
 	// +kubebuilder:validation:Required
 	// Id: Name of the Cosmos DB MongoDB database
@@ -1196,91 +1224,52 @@ func (resource *MongoDBDatabaseResource) AssignPropertiesToMongoDBDatabaseResour
 	return nil
 }
 
-type OptionsResource_Status struct {
-	// AutoscaleSettings: Specifies the Autoscale settings.
-	AutoscaleSettings *AutoscaleSettings_Status `json:"autoscaleSettings,omitempty"`
-
-	// Throughput: Value of the Cosmos DB resource throughput or autoscaleSettings. Use the ThroughputSetting resource when
-	// retrieving offer details.
-	Throughput *int `json:"throughput,omitempty"`
+type MongoDBDatabaseResource_STATUS struct {
+	// Id: Name of the Cosmos DB MongoDB database
+	Id *string `json:"id,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &OptionsResource_Status{}
+var _ genruntime.FromARMConverter = &MongoDBDatabaseResource_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (resource *OptionsResource_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &OptionsResource_StatusARM{}
+func (resource *MongoDBDatabaseResource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &MongoDBDatabaseResource_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (resource *OptionsResource_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(OptionsResource_StatusARM)
+func (resource *MongoDBDatabaseResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(MongoDBDatabaseResource_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OptionsResource_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoDBDatabaseResource_STATUSARM, got %T", armInput)
 	}
 
-	// Set property ‘AutoscaleSettings’:
-	if typedInput.AutoscaleSettings != nil {
-		var autoscaleSettings1 AutoscaleSettings_Status
-		err := autoscaleSettings1.PopulateFromARM(owner, *typedInput.AutoscaleSettings)
-		if err != nil {
-			return err
-		}
-		autoscaleSettings := autoscaleSettings1
-		resource.AutoscaleSettings = &autoscaleSettings
-	}
-
-	// Set property ‘Throughput’:
-	if typedInput.Throughput != nil {
-		throughput := *typedInput.Throughput
-		resource.Throughput = &throughput
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		resource.Id = &id
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesFromOptionsResourceStatus populates our OptionsResource_Status from the provided source OptionsResource_Status
-func (resource *OptionsResource_Status) AssignPropertiesFromOptionsResourceStatus(source *v20210515s.OptionsResource_Status) error {
+// AssignPropertiesFromMongoDBDatabaseResource_STATUS populates our MongoDBDatabaseResource_STATUS from the provided source MongoDBDatabaseResource_STATUS
+func (resource *MongoDBDatabaseResource_STATUS) AssignPropertiesFromMongoDBDatabaseResource_STATUS(source *v20210515s.MongoDBDatabaseResource_STATUS) error {
 
-	// AutoscaleSettings
-	if source.AutoscaleSettings != nil {
-		var autoscaleSetting AutoscaleSettings_Status
-		err := autoscaleSetting.AssignPropertiesFromAutoscaleSettingsStatus(source.AutoscaleSettings)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAutoscaleSettingsStatus() to populate field AutoscaleSettings")
-		}
-		resource.AutoscaleSettings = &autoscaleSetting
-	} else {
-		resource.AutoscaleSettings = nil
-	}
-
-	// Throughput
-	resource.Throughput = genruntime.ClonePointerToInt(source.Throughput)
+	// Id
+	resource.Id = genruntime.ClonePointerToString(source.Id)
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToOptionsResourceStatus populates the provided destination OptionsResource_Status from our OptionsResource_Status
-func (resource *OptionsResource_Status) AssignPropertiesToOptionsResourceStatus(destination *v20210515s.OptionsResource_Status) error {
+// AssignPropertiesToMongoDBDatabaseResource_STATUS populates the provided destination MongoDBDatabaseResource_STATUS from our MongoDBDatabaseResource_STATUS
+func (resource *MongoDBDatabaseResource_STATUS) AssignPropertiesToMongoDBDatabaseResource_STATUS(destination *v20210515s.MongoDBDatabaseResource_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// AutoscaleSettings
-	if resource.AutoscaleSettings != nil {
-		var autoscaleSetting v20210515s.AutoscaleSettings_Status
-		err := resource.AutoscaleSettings.AssignPropertiesToAutoscaleSettingsStatus(&autoscaleSetting)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAutoscaleSettingsStatus() to populate field AutoscaleSettings")
-		}
-		destination.AutoscaleSettings = &autoscaleSetting
-	} else {
-		destination.AutoscaleSettings = nil
-	}
-
-	// Throughput
-	destination.Throughput = genruntime.ClonePointerToInt(resource.Throughput)
+	// Id
+	destination.Id = genruntime.ClonePointerToString(resource.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1293,7 +1282,6 @@ func (resource *OptionsResource_Status) AssignPropertiesToOptionsResourceStatus(
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AutoscaleSettings
 type AutoscaleSettings struct {
 	// MaxThroughput: Represents maximum throughput, the resource can scale up to.
 	MaxThroughput *int `json:"maxThroughput,omitempty"`
@@ -1367,23 +1355,23 @@ func (settings *AutoscaleSettings) AssignPropertiesToAutoscaleSettings(destinati
 	return nil
 }
 
-type AutoscaleSettings_Status struct {
+type AutoscaleSettings_STATUS struct {
 	// MaxThroughput: Represents maximum throughput, the resource can scale up to.
 	MaxThroughput *int `json:"maxThroughput,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &AutoscaleSettings_Status{}
+var _ genruntime.FromARMConverter = &AutoscaleSettings_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (settings *AutoscaleSettings_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AutoscaleSettings_StatusARM{}
+func (settings *AutoscaleSettings_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &AutoscaleSettings_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (settings *AutoscaleSettings_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AutoscaleSettings_StatusARM)
+func (settings *AutoscaleSettings_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(AutoscaleSettings_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoscaleSettings_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AutoscaleSettings_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘MaxThroughput’:
@@ -1396,8 +1384,8 @@ func (settings *AutoscaleSettings_Status) PopulateFromARM(owner genruntime.Arbit
 	return nil
 }
 
-// AssignPropertiesFromAutoscaleSettingsStatus populates our AutoscaleSettings_Status from the provided source AutoscaleSettings_Status
-func (settings *AutoscaleSettings_Status) AssignPropertiesFromAutoscaleSettingsStatus(source *v20210515s.AutoscaleSettings_Status) error {
+// AssignPropertiesFromAutoscaleSettings_STATUS populates our AutoscaleSettings_STATUS from the provided source AutoscaleSettings_STATUS
+func (settings *AutoscaleSettings_STATUS) AssignPropertiesFromAutoscaleSettings_STATUS(source *v20210515s.AutoscaleSettings_STATUS) error {
 
 	// MaxThroughput
 	settings.MaxThroughput = genruntime.ClonePointerToInt(source.MaxThroughput)
@@ -1406,8 +1394,8 @@ func (settings *AutoscaleSettings_Status) AssignPropertiesFromAutoscaleSettingsS
 	return nil
 }
 
-// AssignPropertiesToAutoscaleSettingsStatus populates the provided destination AutoscaleSettings_Status from our AutoscaleSettings_Status
-func (settings *AutoscaleSettings_Status) AssignPropertiesToAutoscaleSettingsStatus(destination *v20210515s.AutoscaleSettings_Status) error {
+// AssignPropertiesToAutoscaleSettings_STATUS populates the provided destination AutoscaleSettings_STATUS from our AutoscaleSettings_STATUS
+func (settings *AutoscaleSettings_STATUS) AssignPropertiesToAutoscaleSettings_STATUS(destination *v20210515s.AutoscaleSettings_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

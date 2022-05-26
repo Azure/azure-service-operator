@@ -89,12 +89,12 @@ func (resource *AResource) defaultImpl() { resource.defaultAzureName() }
 
 var _ genruntime.KubernetesResource = &AResource{}
 
-// AzureName returns the Azure name of the resource (string representation of github.com/Azure/azure-service-operator/testing/test/v1beta20200101/AResourceSpecName)
+// AzureName returns the Azure name of the resource (string representation of github.com/Azure/azure-service-operator/testing/test/v1beta20200101/AResource_Spec_Name)
 func (resource *AResource) AzureName() string {
 	return string(resource.Spec.AzureName)
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20200101"
 func (resource AResource) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -109,9 +109,9 @@ func (resource *AResource) GetSpec() genruntime.ConvertibleSpec {
 	return &resource.Spec
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/AResource"
+// GetType returns the ARM Type of the resource. This is always ""
 func (resource *AResource) GetType() string {
-	return "Microsoft.Azure/AResource"
+	return ""
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -225,9 +225,9 @@ func (resource *AResource) AssignPropertiesFromAResource(source *v20200101s.ARes
 
 	// Spec
 	var spec AResource_Spec
-	err := spec.AssignPropertiesFromAResourceSpec(&source.Spec)
+	err := spec.AssignPropertiesFromAResource_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromAResourceSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromAResource_Spec() to populate field Spec")
 	}
 	resource.Spec = spec
 
@@ -243,9 +243,9 @@ func (resource *AResource) AssignPropertiesToAResource(destination *v20200101s.A
 
 	// Spec
 	var spec v20200101s.AResource_Spec
-	err := resource.Spec.AssignPropertiesToAResourceSpec(&spec)
+	err := resource.Spec.AssignPropertiesToAResource_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToAResourceSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToAResource_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -271,12 +271,14 @@ type AResourceList struct {
 }
 
 type AResource_SpecARM struct {
-	Name string `json:"name,omitempty"`
+	APIVersion AResource_Spec_APIVersion `json:"apiVersion,omitempty"`
+	Name       string                    `json:"name,omitempty"`
+	Type       AResource_Spec_Type       `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &AResource_SpecARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20200101"
 func (resource AResource_SpecARM) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -286,26 +288,32 @@ func (resource *AResource_SpecARM) GetName() string {
 	return resource.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/AResource"
+// GetType returns the ARM Type of the resource. This is always ""
 func (resource *AResource_SpecARM) GetType() string {
-	return "Microsoft.Azure/AResource"
+	return ""
 }
 
-// +kubebuilder:validation:Enum={"2020-06-01"}
+// +kubebuilder:validation:Enum={"20200101"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2020-06-01")
+const APIVersionValue = APIVersion("20200101")
 
 type AResource_Spec struct {
+	// +kubebuilder:validation:Required
+	APIVersion AResource_Spec_APIVersion `json:"apiVersion,omitempty"`
+
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName AResourceSpecName `json:"azureName,omitempty"`
+	AzureName AResource_Spec_Name `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+
+	// +kubebuilder:validation:Required
+	Type AResource_Spec_Type `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &AResource_Spec{}
@@ -317,8 +325,14 @@ func (resource *AResource_Spec) ConvertToARM(resolved genruntime.ConvertToARMRes
 	}
 	result := &AResource_SpecARM{}
 
+	// Set property ‘APIVersion’:
+	result.APIVersion = resource.APIVersion
+
 	// Set property ‘Name’:
 	result.Name = resolved.Name
+
+	// Set property ‘Type’:
+	result.Type = resource.Type
 	return result, nil
 }
 
@@ -334,6 +348,9 @@ func (resource *AResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AResource_SpecARM, got %T", armInput)
 	}
 
+	// Set property ‘APIVersion’:
+	resource.APIVersion = typedInput.APIVersion
+
 	// Set property ‘AzureName’:
 	resource.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
@@ -341,6 +358,9 @@ func (resource *AResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	resource.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
+
+	// Set property ‘Type’:
+	resource.Type = typedInput.Type
 
 	// No error
 	return nil
@@ -353,7 +373,7 @@ func (resource *AResource_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpe
 	src, ok := source.(*v20200101s.AResource_Spec)
 	if ok {
 		// Populate our instance from source
-		return resource.AssignPropertiesFromAResourceSpec(src)
+		return resource.AssignPropertiesFromAResource_Spec(src)
 	}
 
 	// Convert to an intermediate form
@@ -364,7 +384,7 @@ func (resource *AResource_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpe
 	}
 
 	// Update our instance from src
-	err = resource.AssignPropertiesFromAResourceSpec(src)
+	err = resource.AssignPropertiesFromAResource_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -377,12 +397,12 @@ func (resource *AResource_Spec) ConvertSpecTo(destination genruntime.Convertible
 	dst, ok := destination.(*v20200101s.AResource_Spec)
 	if ok {
 		// Populate destination from our instance
-		return resource.AssignPropertiesToAResourceSpec(dst)
+		return resource.AssignPropertiesToAResource_Spec(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v20200101s.AResource_Spec{}
-	err := resource.AssignPropertiesToAResourceSpec(dst)
+	err := resource.AssignPropertiesToAResource_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -396,11 +416,18 @@ func (resource *AResource_Spec) ConvertSpecTo(destination genruntime.Convertible
 	return nil
 }
 
-// AssignPropertiesFromAResourceSpec populates our AResource_Spec from the provided source AResource_Spec
-func (resource *AResource_Spec) AssignPropertiesFromAResourceSpec(source *v20200101s.AResource_Spec) error {
+// AssignPropertiesFromAResource_Spec populates our AResource_Spec from the provided source AResource_Spec
+func (resource *AResource_Spec) AssignPropertiesFromAResource_Spec(source *v20200101s.AResource_Spec) error {
+
+	// APIVersion
+	if source.APIVersion != nil {
+		resource.APIVersion = AResource_Spec_APIVersion(*source.APIVersion)
+	} else {
+		resource.APIVersion = ""
+	}
 
 	// AzureName
-	azureName := AResourceSpecName(source.AzureName)
+	azureName := AResource_Spec_Name(source.AzureName)
 	resource.AzureName = azureName
 
 	// Owner
@@ -411,17 +438,28 @@ func (resource *AResource_Spec) AssignPropertiesFromAResourceSpec(source *v20200
 		resource.Owner = nil
 	}
 
+	// Type
+	if source.Type != nil {
+		resource.Type = AResource_Spec_Type(*source.Type)
+	} else {
+		resource.Type = ""
+	}
+
 	// No error
 	return nil
 }
 
-// AssignPropertiesToAResourceSpec populates the provided destination AResource_Spec from our AResource_Spec
-func (resource *AResource_Spec) AssignPropertiesToAResourceSpec(destination *v20200101s.AResource_Spec) error {
+// AssignPropertiesToAResource_Spec populates the provided destination AResource_Spec from our AResource_Spec
+func (resource *AResource_Spec) AssignPropertiesToAResource_Spec(destination *v20200101s.AResource_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
+	// APIVersion
+	apiVersion := string(resource.APIVersion)
+	destination.APIVersion = &apiVersion
+
 	// AzureName
-	azureName := AResourceSpecName(resource.AzureName)
+	azureName := AResource_Spec_Name(resource.AzureName)
 	destination.AzureName = azureName
 
 	// OriginalVersion
@@ -434,6 +472,10 @@ func (resource *AResource_Spec) AssignPropertiesToAResourceSpec(destination *v20
 	} else {
 		destination.Owner = nil
 	}
+
+	// Type
+	typeVar := string(resource.Type)
+	destination.Type = &typeVar
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -451,18 +493,28 @@ func (resource *AResource_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
-// SetAzureName sets the Azure name from the given github.com/Azure/azure-service-operator/testing/test/v1beta20200101/AResourceSpecName value
+// SetAzureName sets the Azure name from the given github.com/Azure/azure-service-operator/testing/test/v1beta20200101/AResource_Spec_Name value
 func (resource *AResource_Spec) SetAzureName(azureName string) {
-	resource.AzureName = AResourceSpecName(azureName)
+	resource.AzureName = AResource_Spec_Name(azureName)
 }
 
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type AResource_Spec_APIVersion string
+
+const AResource_Spec_APIVersion20200601 = AResource_Spec_APIVersion("2020-06-01")
+
+// +kubebuilder:validation:Enum={"Microsoft.Azure/AResource"}
+type AResource_Spec_Type string
+
+const AResource_Spec_TypeMicrosoftAzureAResource = AResource_Spec_Type("Microsoft.Azure/AResource")
+
 // +kubebuilder:validation:Enum={"one","three","two"}
-type AResourceSpecName string
+type AResource_Spec_Name string
 
 const (
-	AResourceSpecNameOne   = AResourceSpecName("one")
-	AResourceSpecNameThree = AResourceSpecName("three")
-	AResourceSpecNameTwo   = AResourceSpecName("two")
+	AResource_Spec_NameOne   = AResource_Spec_Name("one")
+	AResource_Spec_NameThree = AResource_Spec_Name("three")
+	AResource_Spec_NameTwo   = AResource_Spec_Name("two")
 )
 
 func init() {

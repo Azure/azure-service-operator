@@ -22,12 +22,13 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20201101.VirtualNetwork
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworks
+// Generator information:
+// - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/virtualNetwork.json
 type VirtualNetwork struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              VirtualNetworks_Spec  `json:"spec,omitempty"`
-	Status            VirtualNetwork_Status `json:"status,omitempty"`
+	Spec              VirtualNetwork_Spec   `json:"spec,omitempty"`
+	Status            VirtualNetwork_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &VirtualNetwork{}
@@ -49,7 +50,7 @@ func (network *VirtualNetwork) AzureName() string {
 	return network.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20201101"
 func (network VirtualNetwork) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -69,14 +70,14 @@ func (network *VirtualNetwork) GetStatus() genruntime.ConvertibleStatus {
 	return &network.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworks"
+// GetType returns the ARM Type of the resource. This is always ""
 func (network *VirtualNetwork) GetType() string {
-	return "Microsoft.Network/virtualNetworks"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (network *VirtualNetwork) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &VirtualNetwork_Status{}
+	return &VirtualNetwork_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +93,13 @@ func (network *VirtualNetwork) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (network *VirtualNetwork) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*VirtualNetwork_Status); ok {
+	if st, ok := status.(*VirtualNetwork_STATUS); ok {
 		network.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st VirtualNetwork_Status
+	var st VirtualNetwork_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,26 +123,27 @@ func (network *VirtualNetwork) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20201101.VirtualNetwork
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworks
+// Generator information:
+// - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/virtualNetwork.json
 type VirtualNetworkList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []VirtualNetwork `json:"items"`
 }
 
-// Storage version of v1beta20201101.VirtualNetwork_Status
-type VirtualNetwork_Status struct {
-	AddressSpace         *AddressSpace_Status                 `json:"addressSpace,omitempty"`
-	BgpCommunities       *VirtualNetworkBgpCommunities_Status `json:"bgpCommunities,omitempty"`
+// Storage version of v1beta20201101.VirtualNetwork_STATUS
+type VirtualNetwork_STATUS struct {
+	AddressSpace         *AddressSpace_STATUS                 `json:"addressSpace,omitempty"`
+	BgpCommunities       *VirtualNetworkBgpCommunities_STATUS `json:"bgpCommunities,omitempty"`
 	Conditions           []conditions.Condition               `json:"conditions,omitempty"`
-	DdosProtectionPlan   *SubResource_Status                  `json:"ddosProtectionPlan,omitempty"`
-	DhcpOptions          *DhcpOptions_Status                  `json:"dhcpOptions,omitempty"`
+	DdosProtectionPlan   *SubResource_STATUS                  `json:"ddosProtectionPlan,omitempty"`
+	DhcpOptions          *DhcpOptions_STATUS                  `json:"dhcpOptions,omitempty"`
 	EnableDdosProtection *bool                                `json:"enableDdosProtection,omitempty"`
 	EnableVmProtection   *bool                                `json:"enableVmProtection,omitempty"`
 	Etag                 *string                              `json:"etag,omitempty"`
-	ExtendedLocation     *ExtendedLocation_Status             `json:"extendedLocation,omitempty"`
+	ExtendedLocation     *ExtendedLocation_STATUS             `json:"extendedLocation,omitempty"`
 	Id                   *string                              `json:"id,omitempty"`
-	IpAllocations        []SubResource_Status                 `json:"ipAllocations,omitempty"`
+	IpAllocations        []SubResource_STATUS                 `json:"ipAllocations,omitempty"`
 	Location             *string                              `json:"location,omitempty"`
 	Name                 *string                              `json:"name,omitempty"`
 	PropertyBag          genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
@@ -151,10 +153,10 @@ type VirtualNetwork_Status struct {
 	Type                 *string                              `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &VirtualNetwork_Status{}
+var _ genruntime.ConvertibleStatus = &VirtualNetwork_STATUS{}
 
-// ConvertStatusFrom populates our VirtualNetwork_Status from the provided source
-func (network *VirtualNetwork_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our VirtualNetwork_STATUS from the provided source
+func (network *VirtualNetwork_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == network {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -162,8 +164,8 @@ func (network *VirtualNetwork_Status) ConvertStatusFrom(source genruntime.Conver
 	return source.ConvertStatusTo(network)
 }
 
-// ConvertStatusTo populates the provided destination from our VirtualNetwork_Status
-func (network *VirtualNetwork_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our VirtualNetwork_STATUS
+func (network *VirtualNetwork_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == network {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -171,8 +173,8 @@ func (network *VirtualNetwork_Status) ConvertStatusTo(destination genruntime.Con
 	return destination.ConvertStatusFrom(network)
 }
 
-// Storage version of v1beta20201101.VirtualNetworks_Spec
-type VirtualNetworks_Spec struct {
+// Storage version of v1beta20201101.VirtualNetwork_Spec
+type VirtualNetwork_Spec struct {
 	AddressSpace *AddressSpace `json:"addressSpace,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -183,7 +185,9 @@ type VirtualNetworks_Spec struct {
 	DhcpOptions          *DhcpOptions                  `json:"dhcpOptions,omitempty"`
 	EnableDdosProtection *bool                         `json:"enableDdosProtection,omitempty"`
 	EnableVmProtection   *bool                         `json:"enableVmProtection,omitempty"`
+	Etag                 *string                       `json:"etag,omitempty"`
 	ExtendedLocation     *ExtendedLocation             `json:"extendedLocation,omitempty"`
+	Id                   *string                       `json:"id,omitempty"`
 	IpAllocations        []SubResource                 `json:"ipAllocations,omitempty"`
 	Location             *string                       `json:"location,omitempty"`
 	OriginalVersion      string                        `json:"originalVersion,omitempty"`
@@ -192,69 +196,84 @@ type VirtualNetworks_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Tags        map[string]string                  `json:"tags,omitempty"`
+	Owner                  *genruntime.KnownResourceReference          `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag            genruntime.PropertyBag                      `json:"$propertyBag,omitempty"`
+	ProvisioningState      *string                                     `json:"provisioningState,omitempty"`
+	ResourceGuid           *string                                     `json:"resourceGuid,omitempty"`
+	Subnets                []Subnet_VirtualNetwork_SubResourceEmbedded `json:"subnets,omitempty"`
+	Tags                   map[string]string                           `json:"tags,omitempty"`
+	Type                   *string                                     `json:"type,omitempty"`
+	VirtualNetworkPeerings []VirtualNetworkPeering                     `json:"virtualNetworkPeerings,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &VirtualNetworks_Spec{}
+var _ genruntime.ConvertibleSpec = &VirtualNetwork_Spec{}
 
-// ConvertSpecFrom populates our VirtualNetworks_Spec from the provided source
-func (networks *VirtualNetworks_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == networks {
+// ConvertSpecFrom populates our VirtualNetwork_Spec from the provided source
+func (network *VirtualNetwork_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == network {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(networks)
+	return source.ConvertSpecTo(network)
 }
 
-// ConvertSpecTo populates the provided destination from our VirtualNetworks_Spec
-func (networks *VirtualNetworks_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == networks {
+// ConvertSpecTo populates the provided destination from our VirtualNetwork_Spec
+func (network *VirtualNetwork_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == network {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(networks)
+	return destination.ConvertSpecFrom(network)
 }
 
 // Storage version of v1beta20201101.AddressSpace
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/AddressSpace
 type AddressSpace struct {
 	AddressPrefixes []string               `json:"addressPrefixes,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20201101.AddressSpace_Status
-type AddressSpace_Status struct {
+// Storage version of v1beta20201101.AddressSpace_STATUS
+type AddressSpace_STATUS struct {
 	AddressPrefixes []string               `json:"addressPrefixes,omitempty"`
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20201101.DhcpOptions
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/DhcpOptions
 type DhcpOptions struct {
 	DnsServers  []string               `json:"dnsServers,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20201101.DhcpOptions_Status
-type DhcpOptions_Status struct {
+// Storage version of v1beta20201101.DhcpOptions_STATUS
+type DhcpOptions_STATUS struct {
 	DnsServers  []string               `json:"dnsServers,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20201101.VirtualNetworkBgpCommunities
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/definitions/VirtualNetworkBgpCommunities
-type VirtualNetworkBgpCommunities struct {
-	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	VirtualNetworkCommunity *string                `json:"virtualNetworkCommunity,omitempty"`
+// Storage version of v1beta20201101.Subnet_VirtualNetwork_SubResourceEmbedded
+type Subnet_VirtualNetwork_SubResourceEmbedded struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20201101.VirtualNetworkBgpCommunities_Status
-type VirtualNetworkBgpCommunities_Status struct {
+// Storage version of v1beta20201101.VirtualNetworkBgpCommunities
+type VirtualNetworkBgpCommunities struct {
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	RegionalCommunity       *string                `json:"regionalCommunity,omitempty"`
 	VirtualNetworkCommunity *string                `json:"virtualNetworkCommunity,omitempty"`
+}
+
+// Storage version of v1beta20201101.VirtualNetworkBgpCommunities_STATUS
+type VirtualNetworkBgpCommunities_STATUS struct {
+	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	RegionalCommunity       *string                `json:"regionalCommunity,omitempty"`
+	VirtualNetworkCommunity *string                `json:"virtualNetworkCommunity,omitempty"`
+}
+
+// Storage version of v1beta20201101.VirtualNetworkPeering
+type VirtualNetworkPeering struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 func init() {

@@ -33,9 +33,9 @@ func (test *Test) AssignPropertiesFromTest(source *v20200101s.Test) error {
 	// Properties
 	if source.Properties != nil {
 		var property Test_Properties
-		err := property.AssignPropertiesFromTestProperties(source.Properties)
+		err := property.AssignPropertiesFromTest_Properties(source.Properties)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromTestProperties() to populate field Properties")
+			return errors.Wrap(err, "calling AssignPropertiesFromTest_Properties() to populate field Properties")
 		}
 		test.Properties = &property
 	} else {
@@ -65,9 +65,9 @@ func (test *Test) AssignPropertiesToTest(destination *v20200101s.Test) error {
 	// Properties
 	if test.Properties != nil {
 		var property v20200101s.Test_Properties
-		err := test.Properties.AssignPropertiesToTestProperties(&property)
+		err := test.Properties.AssignPropertiesToTest_Properties(&property)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToTestProperties() to populate field Properties")
+			return errors.Wrap(err, "calling AssignPropertiesToTest_Properties() to populate field Properties")
 		}
 		destination.Properties = &property
 	} else {
@@ -93,8 +93,8 @@ type Test_Properties struct {
 	Foo *Foo `json:"foo,omitempty"`
 }
 
-// AssignPropertiesFromTestProperties populates our Test_Properties from the provided source Test_Properties
-func (properties *Test_Properties) AssignPropertiesFromTestProperties(source *v20200101s.Test_Properties) error {
+// AssignPropertiesFromTest_Properties populates our Test_Properties from the provided source Test_Properties
+func (properties *Test_Properties) AssignPropertiesFromTest_Properties(source *v20200101s.Test_Properties) error {
 
 	// Bar
 	if source.Bar != nil {
@@ -124,8 +124,8 @@ func (properties *Test_Properties) AssignPropertiesFromTestProperties(source *v2
 	return nil
 }
 
-// AssignPropertiesToTestProperties populates the provided destination Test_Properties from our Test_Properties
-func (properties *Test_Properties) AssignPropertiesToTestProperties(destination *v20200101s.Test_Properties) error {
+// AssignPropertiesToTest_Properties populates the provided destination Test_Properties from our Test_Properties
+func (properties *Test_Properties) AssignPropertiesToTest_Properties(destination *v20200101s.Test_Properties) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

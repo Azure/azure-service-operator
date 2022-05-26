@@ -22,12 +22,13 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20200601.Topic
-// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/resourceDefinitions/topics
+// Generator information:
+// - Generated from: /eventgrid/resource-manager/Microsoft.EventGrid/stable/2020-06-01/EventGrid.json
 type Topic struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Topics_Spec  `json:"spec,omitempty"`
-	Status            Topic_Status `json:"status,omitempty"`
+	Spec              Topic_Spec   `json:"spec,omitempty"`
+	Status            Topic_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Topic{}
@@ -49,7 +50,7 @@ func (topic *Topic) AzureName() string {
 	return topic.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20200601"
 func (topic Topic) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -69,14 +70,14 @@ func (topic *Topic) GetStatus() genruntime.ConvertibleStatus {
 	return &topic.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.EventGrid/topics"
+// GetType returns the ARM Type of the resource. This is always ""
 func (topic *Topic) GetType() string {
-	return "Microsoft.EventGrid/topics"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (topic *Topic) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Topic_Status{}
+	return &Topic_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +93,13 @@ func (topic *Topic) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (topic *Topic) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Topic_Status); ok {
+	if st, ok := status.(*Topic_STATUS); ok {
 		topic.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Topic_Status
+	var st Topic_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,37 +123,38 @@ func (topic *Topic) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20200601.Topic
-// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/resourceDefinitions/topics
+// Generator information:
+// - Generated from: /eventgrid/resource-manager/Microsoft.EventGrid/stable/2020-06-01/EventGrid.json
 type TopicList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Topic `json:"items"`
 }
 
-// Storage version of v1beta20200601.Topic_Status
-type Topic_Status struct {
+// Storage version of v1beta20200601.Topic_STATUS
+type Topic_STATUS struct {
 	Conditions                 []conditions.Condition                                       `json:"conditions,omitempty"`
 	Endpoint                   *string                                                      `json:"endpoint,omitempty"`
 	Id                         *string                                                      `json:"id,omitempty"`
-	InboundIpRules             []InboundIpRule_Status                                       `json:"inboundIpRules,omitempty"`
+	InboundIpRules             []InboundIpRule_STATUS                                       `json:"inboundIpRules,omitempty"`
 	InputSchema                *string                                                      `json:"inputSchema,omitempty"`
-	InputSchemaMapping         *InputSchemaMapping_Status                                   `json:"inputSchemaMapping,omitempty"`
+	InputSchemaMapping         *InputSchemaMapping_STATUS                                   `json:"inputSchemaMapping,omitempty"`
 	Location                   *string                                                      `json:"location,omitempty"`
 	MetricResourceId           *string                                                      `json:"metricResourceId,omitempty"`
 	Name                       *string                                                      `json:"name,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnection_Status_Topic_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
 	PropertyBag                genruntime.PropertyBag                                       `json:"$propertyBag,omitempty"`
 	ProvisioningState          *string                                                      `json:"provisioningState,omitempty"`
 	PublicNetworkAccess        *string                                                      `json:"publicNetworkAccess,omitempty"`
-	SystemData                 *SystemData_Status                                           `json:"systemData,omitempty"`
+	SystemData                 *SystemData_STATUS                                           `json:"systemData,omitempty"`
 	Tags                       map[string]string                                            `json:"tags,omitempty"`
 	Type                       *string                                                      `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Topic_Status{}
+var _ genruntime.ConvertibleStatus = &Topic_STATUS{}
 
-// ConvertStatusFrom populates our Topic_Status from the provided source
-func (topic *Topic_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our Topic_STATUS from the provided source
+func (topic *Topic_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == topic {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -160,8 +162,8 @@ func (topic *Topic_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus
 	return source.ConvertStatusTo(topic)
 }
 
-// ConvertStatusTo populates the provided destination from our Topic_Status
-func (topic *Topic_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our Topic_STATUS
+func (topic *Topic_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == topic {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -169,45 +171,62 @@ func (topic *Topic_Status) ConvertStatusTo(destination genruntime.ConvertibleSta
 	return destination.ConvertStatusFrom(topic)
 }
 
-// Storage version of v1beta20200601.Topics_Spec
-type Topics_Spec struct {
+// Storage version of v1beta20200601.Topic_Spec
+type Topic_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string  `json:"azureName,omitempty"`
-	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
+	AzureName          string              `json:"azureName,omitempty"`
+	Endpoint           *string             `json:"endpoint,omitempty"`
+	Id                 *string             `json:"id,omitempty"`
+	InboundIpRules     []InboundIpRule     `json:"inboundIpRules,omitempty"`
+	InputSchema        *string             `json:"inputSchema,omitempty"`
+	InputSchemaMapping *InputSchemaMapping `json:"inputSchemaMapping,omitempty"`
+	Location           *string             `json:"location,omitempty"`
+	MetricResourceId   *string             `json:"metricResourceId,omitempty"`
+	OriginalVersion    string              `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Tags        map[string]string                  `json:"tags,omitempty"`
+	Owner                      *genruntime.KnownResourceReference                    `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PrivateEndpointConnections []PrivateEndpointConnection_Topic_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
+	PropertyBag                genruntime.PropertyBag                                `json:"$propertyBag,omitempty"`
+	ProvisioningState          *string                                               `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *string                                               `json:"publicNetworkAccess,omitempty"`
+	SystemData                 *SystemData                                           `json:"systemData,omitempty"`
+	Tags                       map[string]string                                     `json:"tags,omitempty"`
+	Type                       *string                                               `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Topics_Spec{}
+var _ genruntime.ConvertibleSpec = &Topic_Spec{}
 
-// ConvertSpecFrom populates our Topics_Spec from the provided source
-func (topics *Topics_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == topics {
+// ConvertSpecFrom populates our Topic_Spec from the provided source
+func (topic *Topic_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == topic {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(topics)
+	return source.ConvertSpecTo(topic)
 }
 
-// ConvertSpecTo populates the provided destination from our Topics_Spec
-func (topics *Topics_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == topics {
+// ConvertSpecTo populates the provided destination from our Topic_Spec
+func (topic *Topic_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == topic {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(topics)
+	return destination.ConvertSpecFrom(topic)
 }
 
-// Storage version of v1beta20200601.PrivateEndpointConnection_Status_Topic_SubResourceEmbedded
-type PrivateEndpointConnection_Status_Topic_SubResourceEmbedded struct {
+// Storage version of v1beta20200601.PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded
+type PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20200601.PrivateEndpointConnection_Topic_SubResourceEmbedded
+type PrivateEndpointConnection_Topic_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }

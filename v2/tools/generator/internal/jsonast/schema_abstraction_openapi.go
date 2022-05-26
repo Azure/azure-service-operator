@@ -35,7 +35,8 @@ func MakeOpenAPISchema(
 	fileName string,
 	outputPackage astmodel.LocalPackageReference,
 	idFactory astmodel.IdentifierFactory,
-	cache OpenAPIFileLoader) Schema {
+	cache OpenAPIFileLoader,
+) Schema {
 	return &OpenAPISchema{schema, fileName, outputPackage, idFactory, cache}
 }
 
@@ -319,6 +320,10 @@ func (schema *OpenAPISchema) refTypeName() (astmodel.TypeName, error) {
 	return astmodel.MakeTypeName(pkg, schema.idFactory.CreateIdentifier(name, astmodel.Exported)), nil
 }
 
+func (schema *OpenAPISchema) readOnly() bool {
+	return schema.inner.ReadOnly
+}
+
 func (schema *OpenAPISchema) refSchema() Schema {
 	fileName, result, pkg := loadRefSchema(schema.inner.Ref, schema.fileName, schema.loader)
 
@@ -340,22 +345,22 @@ func (schema *OpenAPISchema) refSchema() Schema {
 }
 
 // findFileForRef identifies the schema path for a ref, relative to the give schema path
-func findFileForRef(schemaPath string, ref spec.Ref) (string, error) {
+func findFileForRef(relativeToSchemaPath string, ref spec.Ref) (string, error) {
 	if ref.HasFragmentOnly {
 		// same file
-		return schemaPath, nil
+		return relativeToSchemaPath, nil
 	}
 
 	// an external path
-	return resolveAbsolutePath(schemaPath, ref.GetURL())
+	return resolveAbsolutePath(relativeToSchemaPath, ref.GetURL())
 }
 
-func loadRefSchema(
+func loadRef(
 	ref spec.Ref,
-	schemaPath string,
-	loader OpenAPIFileLoader) (string, spec.Schema, *astmodel.LocalPackageReference) {
-
-	absPath, err := findFileForRef(schemaPath, ref)
+	relativeToSchemaPath string,
+	loader OpenAPIFileLoader,
+) (string, interface{}, *astmodel.LocalPackageReference) {
+	absPath, err := findFileForRef(relativeToSchemaPath, ref)
 	if err != nil {
 		panic(err)
 	}
@@ -365,12 +370,22 @@ func loadRefSchema(
 		panic(err)
 	}
 
-	defName := objectNameFromPointer(ref.GetPointer())
-	if result, ok := packageAndSwagger.Swagger.Definitions[defName]; !ok {
-		panic(fmt.Sprintf("couldn't find: %s in %s (reffed from %s)", defName, absPath, schemaPath))
-	} else {
-		return absPath, result, packageAndSwagger.Package
+	result, _, err := ref.GetPointer().Get(packageAndSwagger.Swagger)
+	if err != nil {
+		panic(fmt.Sprintf("cannot resolve ref %s in file %s (from %s): %s", ref.String(), absPath, relativeToSchemaPath, err))
 	}
+
+	return absPath, result, packageAndSwagger.Package
+}
+
+func loadRefSchema(ref spec.Ref, relativeToSchemaPath string, loader OpenAPIFileLoader) (string, spec.Schema, *astmodel.LocalPackageReference) {
+	absPath, result, pkg := loadRef(ref, relativeToSchemaPath, loader)
+	return absPath, result.(spec.Schema), pkg
+}
+
+func loadRefParameter(ref spec.Ref, relativeToSchemaPath string, loader OpenAPIFileLoader) (string, spec.Parameter, *astmodel.LocalPackageReference) {
+	absPath, result, pkg := loadRef(ref, relativeToSchemaPath, loader)
+	return absPath, result.(spec.Parameter), pkg
 }
 
 func (schema *OpenAPISchema) refObjectName() string {

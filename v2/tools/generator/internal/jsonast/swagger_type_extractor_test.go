@@ -6,6 +6,7 @@
 package jsonast
 
 import (
+	"context"
 	"fmt"
 	"testing"
 
@@ -50,14 +51,17 @@ func Test_InferNameFromURLPath_SkipsDefault(t *testing.T) {
 	group, name, err := inferNameFromURLPath("Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}")
 	g.Expect(err).To(BeNil())
 	g.Expect(group).To(Equal("Microsoft.Storage"))
-	g.Expect(name).To(Equal("StorageAccountsBlobServicesContainers"))
+	g.Expect(name).To(Equal("StorageAccountsBlobServicesContainer"))
 }
 
 func Test_expandEnumsInPath_ExpandsAnEnum(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	paths := expandEnumsInPath("/some/{value}", []spec.Parameter{
+	ctx := context.Background()
+	extractor := SwaggerTypeExtractor{}
+
+	paths, _ := extractor.expandEnumsInPath(ctx, "/some/{value}", nil, []spec.Parameter{
 		{
 			CommonValidations: spec.CommonValidations{
 				Enum: []interface{}{"yes", "no"},
@@ -77,7 +81,10 @@ func Test_expandEnumsInPath_ExpandsMultipleEnums(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	paths := expandEnumsInPath("/some/{value1}/{value2}", []spec.Parameter{
+	ctx := context.Background()
+	extractor := SwaggerTypeExtractor{}
+
+	paths, _ := extractor.expandEnumsInPath(ctx, "/some/{value1}/{value2}", nil, []spec.Parameter{
 		{
 			CommonValidations: spec.CommonValidations{
 				Enum: []interface{}{"yes", "no"},

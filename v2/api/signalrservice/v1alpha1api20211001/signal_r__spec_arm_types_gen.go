@@ -3,25 +3,26 @@
 // Licensed under the MIT license.
 package v1alpha1api20211001
 
-import (
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-)
+import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of SignalR_Spec. Use v1beta20211001.SignalR_Spec instead
 type SignalR_SpecARM struct {
+	AzureName  string                `json:"azureName,omitempty"`
+	Id         *string               `json:"id,omitempty"`
 	Identity   *ManagedIdentityARM   `json:"identity,omitempty"`
-	Kind       *SignalRSpecKind      `json:"kind,omitempty"`
+	Kind       *ServiceKind          `json:"kind,omitempty"`
 	Location   *string               `json:"location,omitempty"`
 	Name       string                `json:"name,omitempty"`
 	Properties *SignalRPropertiesARM `json:"properties,omitempty"`
 	Sku        *ResourceSkuARM       `json:"sku,omitempty"`
+	SystemData *SystemDataARM        `json:"systemData,omitempty"`
 	Tags       map[string]string     `json:"tags,omitempty"`
+	Type       *string               `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &SignalR_SpecARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2021-10-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20211001"
 func (signalR SignalR_SpecARM) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -31,45 +32,68 @@ func (signalR *SignalR_SpecARM) GetName() string {
 	return signalR.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.SignalRService/signalR"
+// GetType returns the ARM Type of the resource. This is always ""
 func (signalR *SignalR_SpecARM) GetType() string {
-	return "Microsoft.SignalRService/signalR"
+	return ""
 }
 
 // Deprecated version of ManagedIdentity. Use v1beta20211001.ManagedIdentity instead
 type ManagedIdentityARM struct {
-	Type                   *ManagedIdentityType `json:"type,omitempty"`
-	UserAssignedIdentities map[string]v1.JSON   `json:"userAssignedIdentities,omitempty"`
+	PrincipalId            *string                                    `json:"principalId,omitempty"`
+	TenantId               *string                                    `json:"tenantId,omitempty"`
+	Type                   *ManagedIdentityType                       `json:"type,omitempty"`
+	UserAssignedIdentities map[string]UserAssignedIdentityPropertyARM `json:"userAssignedIdentities,omitempty"`
 }
 
 // Deprecated version of ResourceSku. Use v1beta20211001.ResourceSku instead
 type ResourceSkuARM struct {
-	Capacity *int             `json:"capacity,omitempty"`
-	Name     *string          `json:"name,omitempty"`
-	Tier     *ResourceSkuTier `json:"tier,omitempty"`
+	Capacity *int            `json:"capacity,omitempty"`
+	Family   *string         `json:"family,omitempty"`
+	Name     *string         `json:"name,omitempty"`
+	Size     *string         `json:"size,omitempty"`
+	Tier     *SignalRSkuTier `json:"tier,omitempty"`
 }
+
+// Deprecated version of ServiceKind. Use v1beta20211001.ServiceKind instead
+// +kubebuilder:validation:Enum={"RawWebSockets","SignalR"}
+type ServiceKind string
+
+const (
+	ServiceKindRawWebSockets = ServiceKind("RawWebSockets")
+	ServiceKindSignalR       = ServiceKind("SignalR")
+)
 
 // Deprecated version of SignalRProperties. Use v1beta20211001.SignalRProperties instead
 type SignalRPropertiesARM struct {
-	Cors                     *SignalRCorsSettingsARM        `json:"cors,omitempty"`
-	DisableAadAuth           *bool                          `json:"disableAadAuth,omitempty"`
-	DisableLocalAuth         *bool                          `json:"disableLocalAuth,omitempty"`
-	Features                 []SignalRFeatureARM            `json:"features,omitempty"`
-	NetworkACLs              *SignalRNetworkACLsARM         `json:"networkACLs,omitempty"`
-	PublicNetworkAccess      *string                        `json:"publicNetworkAccess,omitempty"`
-	ResourceLogConfiguration *ResourceLogConfigurationARM   `json:"resourceLogConfiguration,omitempty"`
-	Tls                      *SignalRTlsSettingsARM         `json:"tls,omitempty"`
-	Upstream                 *ServerlessUpstreamSettingsARM `json:"upstream,omitempty"`
+	Cors                       *SignalRCorsSettingsARM                                    `json:"cors,omitempty"`
+	DisableAadAuth             *bool                                                      `json:"disableAadAuth,omitempty"`
+	DisableLocalAuth           *bool                                                      `json:"disableLocalAuth,omitempty"`
+	ExternalIP                 *string                                                    `json:"externalIP,omitempty"`
+	Features                   []SignalRFeatureARM                                        `json:"features,omitempty"`
+	HostName                   *string                                                    `json:"hostName,omitempty"`
+	HostNamePrefix             *string                                                    `json:"hostNamePrefix,omitempty"`
+	NetworkACLs                *SignalRNetworkACLsARM                                     `json:"networkACLs,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_SignalR_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
+	ProvisioningState          *ProvisioningState                                         `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *string                                                    `json:"publicNetworkAccess,omitempty"`
+	PublicPort                 *int                                                       `json:"publicPort,omitempty"`
+	ResourceLogConfiguration   *ResourceLogConfigurationARM                               `json:"resourceLogConfiguration,omitempty"`
+	ServerPort                 *int                                                       `json:"serverPort,omitempty"`
+	SharedPrivateLinkResources []SharedPrivateLinkResource_SignalR_SubResourceEmbeddedARM `json:"sharedPrivateLinkResources,omitempty"`
+	Tls                        *SignalRTlsSettingsARM                                     `json:"tls,omitempty"`
+	Upstream                   *ServerlessUpstreamSettingsARM                             `json:"upstream,omitempty"`
+	Version                    *string                                                    `json:"version,omitempty"`
 }
 
-// Deprecated version of SignalRSpecKind. Use v1beta20211001.SignalRSpecKind instead
-// +kubebuilder:validation:Enum={"RawWebSockets","SignalR"}
-type SignalRSpecKind string
-
-const (
-	SignalRSpecKindRawWebSockets = SignalRSpecKind("RawWebSockets")
-	SignalRSpecKindSignalR       = SignalRSpecKind("SignalR")
-)
+// Deprecated version of SystemData. Use v1beta20211001.SystemData instead
+type SystemDataARM struct {
+	CreatedAt          *string                        `json:"createdAt,omitempty"`
+	CreatedBy          *string                        `json:"createdBy,omitempty"`
+	CreatedByType      *SystemData_CreatedByType      `json:"createdByType,omitempty"`
+	LastModifiedAt     *string                        `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string                        `json:"lastModifiedBy,omitempty"`
+	LastModifiedByType *SystemData_LastModifiedByType `json:"lastModifiedByType,omitempty"`
+}
 
 // Deprecated version of ManagedIdentityType. Use v1beta20211001.ManagedIdentityType instead
 // +kubebuilder:validation:Enum={"None","SystemAssigned","UserAssigned"}
@@ -81,25 +105,26 @@ const (
 	ManagedIdentityTypeUserAssigned   = ManagedIdentityType("UserAssigned")
 )
 
+// Deprecated version of PrivateEndpointConnection_SignalR_SubResourceEmbedded. Use v1beta20211001.PrivateEndpointConnection_SignalR_SubResourceEmbedded instead
+type PrivateEndpointConnection_SignalR_SubResourceEmbeddedARM struct {
+	Id         *string        `json:"id,omitempty"`
+	SystemData *SystemDataARM `json:"systemData,omitempty"`
+}
+
 // Deprecated version of ResourceLogConfiguration. Use v1beta20211001.ResourceLogConfiguration instead
 type ResourceLogConfigurationARM struct {
 	Categories []ResourceLogCategoryARM `json:"categories,omitempty"`
 }
 
-// Deprecated version of ResourceSkuTier. Use v1beta20211001.ResourceSkuTier instead
-// +kubebuilder:validation:Enum={"Basic","Free","Premium","Standard"}
-type ResourceSkuTier string
-
-const (
-	ResourceSkuTierBasic    = ResourceSkuTier("Basic")
-	ResourceSkuTierFree     = ResourceSkuTier("Free")
-	ResourceSkuTierPremium  = ResourceSkuTier("Premium")
-	ResourceSkuTierStandard = ResourceSkuTier("Standard")
-)
-
 // Deprecated version of ServerlessUpstreamSettings. Use v1beta20211001.ServerlessUpstreamSettings instead
 type ServerlessUpstreamSettingsARM struct {
 	Templates []UpstreamTemplateARM `json:"templates,omitempty"`
+}
+
+// Deprecated version of SharedPrivateLinkResource_SignalR_SubResourceEmbedded. Use v1beta20211001.SharedPrivateLinkResource_SignalR_SubResourceEmbedded instead
+type SharedPrivateLinkResource_SignalR_SubResourceEmbeddedARM struct {
+	Id         *string        `json:"id,omitempty"`
+	SystemData *SystemDataARM `json:"systemData,omitempty"`
 }
 
 // Deprecated version of SignalRCorsSettings. Use v1beta20211001.SignalRCorsSettings instead
@@ -109,34 +134,73 @@ type SignalRCorsSettingsARM struct {
 
 // Deprecated version of SignalRFeature. Use v1beta20211001.SignalRFeature instead
 type SignalRFeatureARM struct {
-	Flag       *SignalRFeatureFlag `json:"flag,omitempty"`
-	Properties map[string]string   `json:"properties,omitempty"`
-	Value      *string             `json:"value,omitempty"`
+	Flag       *FeatureFlags     `json:"flag,omitempty"`
+	Properties map[string]string `json:"properties,omitempty"`
+	Value      *string           `json:"value,omitempty"`
 }
 
 // Deprecated version of SignalRNetworkACLs. Use v1beta20211001.SignalRNetworkACLs instead
 type SignalRNetworkACLsARM struct {
-	DefaultAction    *SignalRNetworkACLsDefaultAction `json:"defaultAction,omitempty"`
-	PrivateEndpoints []PrivateEndpointACLARM          `json:"privateEndpoints,omitempty"`
-	PublicNetwork    *NetworkACLARM                   `json:"publicNetwork,omitempty"`
+	DefaultAction    *ACLAction              `json:"defaultAction,omitempty"`
+	PrivateEndpoints []PrivateEndpointACLARM `json:"privateEndpoints,omitempty"`
+	PublicNetwork    *NetworkACLARM          `json:"publicNetwork,omitempty"`
 }
+
+// Deprecated version of SignalRSkuTier. Use v1beta20211001.SignalRSkuTier instead
+// +kubebuilder:validation:Enum={"Basic","Free","Premium","Standard"}
+type SignalRSkuTier string
+
+const (
+	SignalRSkuTierBasic    = SignalRSkuTier("Basic")
+	SignalRSkuTierFree     = SignalRSkuTier("Free")
+	SignalRSkuTierPremium  = SignalRSkuTier("Premium")
+	SignalRSkuTierStandard = SignalRSkuTier("Standard")
+)
 
 // Deprecated version of SignalRTlsSettings. Use v1beta20211001.SignalRTlsSettings instead
 type SignalRTlsSettingsARM struct {
 	ClientCertEnabled *bool `json:"clientCertEnabled,omitempty"`
 }
 
+// Deprecated version of SystemData_CreatedByType. Use v1beta20211001.SystemData_CreatedByType instead
+// +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
+type SystemData_CreatedByType string
+
+const (
+	SystemData_CreatedByTypeApplication     = SystemData_CreatedByType("Application")
+	SystemData_CreatedByTypeKey             = SystemData_CreatedByType("Key")
+	SystemData_CreatedByTypeManagedIdentity = SystemData_CreatedByType("ManagedIdentity")
+	SystemData_CreatedByTypeUser            = SystemData_CreatedByType("User")
+)
+
+// Deprecated version of SystemData_LastModifiedByType. Use v1beta20211001.SystemData_LastModifiedByType instead
+// +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
+type SystemData_LastModifiedByType string
+
+const (
+	SystemData_LastModifiedByTypeApplication     = SystemData_LastModifiedByType("Application")
+	SystemData_LastModifiedByTypeKey             = SystemData_LastModifiedByType("Key")
+	SystemData_LastModifiedByTypeManagedIdentity = SystemData_LastModifiedByType("ManagedIdentity")
+	SystemData_LastModifiedByTypeUser            = SystemData_LastModifiedByType("User")
+)
+
+// Deprecated version of UserAssignedIdentityProperty. Use v1beta20211001.UserAssignedIdentityProperty instead
+type UserAssignedIdentityPropertyARM struct {
+	ClientId    *string `json:"clientId,omitempty"`
+	PrincipalId *string `json:"principalId,omitempty"`
+}
+
 // Deprecated version of NetworkACL. Use v1beta20211001.NetworkACL instead
 type NetworkACLARM struct {
-	Allow []NetworkACLAllow `json:"allow,omitempty"`
-	Deny  []NetworkACLDeny  `json:"deny,omitempty"`
+	Allow []SignalRRequestType `json:"allow,omitempty"`
+	Deny  []SignalRRequestType `json:"deny,omitempty"`
 }
 
 // Deprecated version of PrivateEndpointACL. Use v1beta20211001.PrivateEndpointACL instead
 type PrivateEndpointACLARM struct {
-	Allow []PrivateEndpointACLAllow `json:"allow,omitempty"`
-	Deny  []PrivateEndpointACLDeny  `json:"deny,omitempty"`
-	Name  *string                   `json:"name,omitempty"`
+	Allow []SignalRRequestType `json:"allow,omitempty"`
+	Deny  []SignalRRequestType `json:"deny,omitempty"`
+	Name  *string              `json:"name,omitempty"`
 }
 
 // Deprecated version of ResourceLogCategory. Use v1beta20211001.ResourceLogCategory instead
@@ -157,7 +221,7 @@ type UpstreamTemplateARM struct {
 // Deprecated version of UpstreamAuthSettings. Use v1beta20211001.UpstreamAuthSettings instead
 type UpstreamAuthSettingsARM struct {
 	ManagedIdentity *ManagedIdentitySettingsARM `json:"managedIdentity,omitempty"`
-	Type            *UpstreamAuthSettingsType   `json:"type,omitempty"`
+	Type            *UpstreamAuthType           `json:"type,omitempty"`
 }
 
 // Deprecated version of ManagedIdentitySettings. Use v1beta20211001.ManagedIdentitySettings instead

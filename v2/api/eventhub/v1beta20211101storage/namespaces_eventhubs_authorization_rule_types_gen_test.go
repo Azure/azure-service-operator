@@ -74,23 +74,23 @@ func NamespacesEventhubsAuthorizationRuleGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForNamespacesEventhubsAuthorizationRule is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespacesEventhubsAuthorizationRule(gens map[string]gopter.Gen) {
-	gens["Spec"] = NamespacesEventhubsAuthorizationRulesSpecGenerator()
-	gens["Status"] = AuthorizationRuleStatusGenerator()
+	gens["Spec"] = NamespacesEventhubsAuthorizationRule_SpecGenerator()
+	gens["Status"] = AuthorizationRule_STATUSGenerator()
 }
 
-func Test_NamespacesEventhubsAuthorizationRules_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_NamespacesEventhubsAuthorizationRule_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of NamespacesEventhubsAuthorizationRules_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForNamespacesEventhubsAuthorizationRulesSpec, NamespacesEventhubsAuthorizationRulesSpecGenerator()))
+		"Round trip of NamespacesEventhubsAuthorizationRule_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespacesEventhubsAuthorizationRule_Spec, NamespacesEventhubsAuthorizationRule_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForNamespacesEventhubsAuthorizationRulesSpec runs a test to see if a specific instance of NamespacesEventhubsAuthorizationRules_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForNamespacesEventhubsAuthorizationRulesSpec(subject NamespacesEventhubsAuthorizationRules_Spec) string {
+// RunJSONSerializationTestForNamespacesEventhubsAuthorizationRule_Spec runs a test to see if a specific instance of NamespacesEventhubsAuthorizationRule_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespacesEventhubsAuthorizationRule_Spec(subject NamespacesEventhubsAuthorizationRule_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -98,7 +98,7 @@ func RunJSONSerializationTestForNamespacesEventhubsAuthorizationRulesSpec(subjec
 	}
 
 	// Deserialize back into memory
-	var actual NamespacesEventhubsAuthorizationRules_Spec
+	var actual NamespacesEventhubsAuthorizationRule_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -116,28 +116,43 @@ func RunJSONSerializationTestForNamespacesEventhubsAuthorizationRulesSpec(subjec
 	return ""
 }
 
-// Generator of NamespacesEventhubsAuthorizationRules_Spec instances for property testing - lazily instantiated by
-// NamespacesEventhubsAuthorizationRulesSpecGenerator()
-var namespacesEventhubsAuthorizationRulesSpecGenerator gopter.Gen
+// Generator of NamespacesEventhubsAuthorizationRule_Spec instances for property testing - lazily instantiated by
+// NamespacesEventhubsAuthorizationRule_SpecGenerator()
+var namespacesEventhubsAuthorizationRule_SpecGenerator gopter.Gen
 
-// NamespacesEventhubsAuthorizationRulesSpecGenerator returns a generator of NamespacesEventhubsAuthorizationRules_Spec instances for property testing.
-func NamespacesEventhubsAuthorizationRulesSpecGenerator() gopter.Gen {
-	if namespacesEventhubsAuthorizationRulesSpecGenerator != nil {
-		return namespacesEventhubsAuthorizationRulesSpecGenerator
+// NamespacesEventhubsAuthorizationRule_SpecGenerator returns a generator of NamespacesEventhubsAuthorizationRule_Spec instances for property testing.
+// We first initialize namespacesEventhubsAuthorizationRule_SpecGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func NamespacesEventhubsAuthorizationRule_SpecGenerator() gopter.Gen {
+	if namespacesEventhubsAuthorizationRule_SpecGenerator != nil {
+		return namespacesEventhubsAuthorizationRule_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespacesEventhubsAuthorizationRulesSpec(generators)
-	namespacesEventhubsAuthorizationRulesSpecGenerator = gen.Struct(reflect.TypeOf(NamespacesEventhubsAuthorizationRules_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForNamespacesEventhubsAuthorizationRule_Spec(generators)
+	namespacesEventhubsAuthorizationRule_SpecGenerator = gen.Struct(reflect.TypeOf(NamespacesEventhubsAuthorizationRule_Spec{}), generators)
 
-	return namespacesEventhubsAuthorizationRulesSpecGenerator
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForNamespacesEventhubsAuthorizationRule_Spec(generators)
+	AddRelatedPropertyGeneratorsForNamespacesEventhubsAuthorizationRule_Spec(generators)
+	namespacesEventhubsAuthorizationRule_SpecGenerator = gen.Struct(reflect.TypeOf(NamespacesEventhubsAuthorizationRule_Spec{}), generators)
+
+	return namespacesEventhubsAuthorizationRule_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForNamespacesEventhubsAuthorizationRulesSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForNamespacesEventhubsAuthorizationRulesSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForNamespacesEventhubsAuthorizationRule_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespacesEventhubsAuthorizationRule_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["Rights"] = gen.SliceOf(gen.AlphaString())
-	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForNamespacesEventhubsAuthorizationRule_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNamespacesEventhubsAuthorizationRule_Spec(gens map[string]gopter.Gen) {
+	gens["SystemData"] = gen.PtrOf(SystemDataGenerator())
 }

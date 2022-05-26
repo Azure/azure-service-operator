@@ -22,12 +22,13 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20210515.SqlDatabaseContainerUserDefinedFunction
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_userDefinedFunctions
+// Generator information:
+// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
 type SqlDatabaseContainerUserDefinedFunction struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec `json:"spec,omitempty"`
-	Status            SqlUserDefinedFunctionGetResults_Status                         `json:"status,omitempty"`
+	Spec              DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec `json:"spec,omitempty"`
+	Status            SqlUserDefinedFunctionCreateUpdateParameters_STATUS            `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainerUserDefinedFunction{}
@@ -49,7 +50,7 @@ func (function *SqlDatabaseContainerUserDefinedFunction) AzureName() string {
 	return function.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20210515"
 func (function SqlDatabaseContainerUserDefinedFunction) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -69,14 +70,14 @@ func (function *SqlDatabaseContainerUserDefinedFunction) GetStatus() genruntime.
 	return &function.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/userDefinedFunctions"
+// GetType returns the ARM Type of the resource. This is always ""
 func (function *SqlDatabaseContainerUserDefinedFunction) GetType() string {
-	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/userDefinedFunctions"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (function *SqlDatabaseContainerUserDefinedFunction) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SqlUserDefinedFunctionGetResults_Status{}
+	return &SqlUserDefinedFunctionCreateUpdateParameters_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +93,13 @@ func (function *SqlDatabaseContainerUserDefinedFunction) Owner() *genruntime.Res
 // SetStatus sets the status of this resource
 func (function *SqlDatabaseContainerUserDefinedFunction) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SqlUserDefinedFunctionGetResults_Status); ok {
+	if st, ok := status.(*SqlUserDefinedFunctionCreateUpdateParameters_STATUS); ok {
 		function.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SqlUserDefinedFunctionGetResults_Status
+	var st SqlUserDefinedFunctionCreateUpdateParameters_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,18 +123,20 @@ func (function *SqlDatabaseContainerUserDefinedFunction) OriginalGVK() *schema.G
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20210515.SqlDatabaseContainerUserDefinedFunction
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_sqlDatabases_containers_userDefinedFunctions
+// Generator information:
+// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
 type SqlDatabaseContainerUserDefinedFunctionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []SqlDatabaseContainerUserDefinedFunction `json:"items"`
 }
 
-// Storage version of v1beta20210515.DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
-type DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec struct {
+// Storage version of v1beta20210515.DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec
+type DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string               `json:"azureName,omitempty"`
+	Id              *string              `json:"id,omitempty"`
 	Location        *string              `json:"location,omitempty"`
 	Options         *CreateUpdateOptions `json:"options,omitempty"`
 	OriginalVersion string               `json:"originalVersion,omitempty"`
@@ -141,78 +144,76 @@ type DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec struct {
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a documentdb.azure.com/SqlDatabaseContainer resource
-	Owner       *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"SqlDatabaseContainer"`
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Resource    *SqlUserDefinedFunctionResource    `json:"resource,omitempty"`
 	Tags        map[string]string                  `json:"tags,omitempty"`
+	Type        *string                            `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec{}
+var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec from the provided source
-func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == functions {
+// ConvertSpecFrom populates our DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec from the provided source
+func (function *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == function {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(functions)
+	return source.ConvertSpecTo(function)
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
-func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == functions {
+// ConvertSpecTo populates the provided destination from our DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec
+func (function *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == function {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(functions)
+	return destination.ConvertSpecFrom(function)
 }
 
-// Storage version of v1beta20210515.SqlUserDefinedFunctionGetResults_Status
-type SqlUserDefinedFunctionGetResults_Status struct {
-	Conditions  []conditions.Condition                               `json:"conditions,omitempty"`
-	Id          *string                                              `json:"id,omitempty"`
-	Location    *string                                              `json:"location,omitempty"`
-	Name        *string                                              `json:"name,omitempty"`
-	PropertyBag genruntime.PropertyBag                               `json:"$propertyBag,omitempty"`
-	Resource    *SqlUserDefinedFunctionGetProperties_Status_Resource `json:"resource,omitempty"`
-	Tags        map[string]string                                    `json:"tags,omitempty"`
-	Type        *string                                              `json:"type,omitempty"`
+// Storage version of v1beta20210515.SqlUserDefinedFunctionCreateUpdateParameters_STATUS
+type SqlUserDefinedFunctionCreateUpdateParameters_STATUS struct {
+	Conditions  []conditions.Condition                 `json:"conditions,omitempty"`
+	Id          *string                                `json:"id,omitempty"`
+	Location    *string                                `json:"location,omitempty"`
+	Name        *string                                `json:"name,omitempty"`
+	Options     *CreateUpdateOptions_STATUS            `json:"options,omitempty"`
+	PropertyBag genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
+	Resource    *SqlUserDefinedFunctionResource_STATUS `json:"resource,omitempty"`
+	Tags        map[string]string                      `json:"tags,omitempty"`
+	Type        *string                                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &SqlUserDefinedFunctionGetResults_Status{}
+var _ genruntime.ConvertibleStatus = &SqlUserDefinedFunctionCreateUpdateParameters_STATUS{}
 
-// ConvertStatusFrom populates our SqlUserDefinedFunctionGetResults_Status from the provided source
-func (results *SqlUserDefinedFunctionGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == results {
+// ConvertStatusFrom populates our SqlUserDefinedFunctionCreateUpdateParameters_STATUS from the provided source
+func (parameters *SqlUserDefinedFunctionCreateUpdateParameters_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == parameters {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(results)
+	return source.ConvertStatusTo(parameters)
 }
 
-// ConvertStatusTo populates the provided destination from our SqlUserDefinedFunctionGetResults_Status
-func (results *SqlUserDefinedFunctionGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == results {
+// ConvertStatusTo populates the provided destination from our SqlUserDefinedFunctionCreateUpdateParameters_STATUS
+func (parameters *SqlUserDefinedFunctionCreateUpdateParameters_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == parameters {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(results)
-}
-
-// Storage version of v1beta20210515.SqlUserDefinedFunctionGetProperties_Status_Resource
-type SqlUserDefinedFunctionGetProperties_Status_Resource struct {
-	Body        *string                `json:"body,omitempty"`
-	Etag        *string                `json:"_etag,omitempty"`
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Rid         *string                `json:"_rid,omitempty"`
-	Ts          *float64               `json:"_ts,omitempty"`
+	return destination.ConvertStatusFrom(parameters)
 }
 
 // Storage version of v1beta20210515.SqlUserDefinedFunctionResource
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/SqlUserDefinedFunctionResource
 type SqlUserDefinedFunctionResource struct {
+	Body        *string                `json:"body,omitempty"`
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20210515.SqlUserDefinedFunctionResource_STATUS
+type SqlUserDefinedFunctionResource_STATUS struct {
 	Body        *string                `json:"body,omitempty"`
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

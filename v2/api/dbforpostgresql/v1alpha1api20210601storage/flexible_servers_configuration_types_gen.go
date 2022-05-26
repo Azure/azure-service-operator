@@ -25,8 +25,8 @@ import (
 type FlexibleServersConfiguration struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              FlexibleServersConfigurations_Spec `json:"spec,omitempty"`
-	Status            Configuration_Status               `json:"status,omitempty"`
+	Spec              FlexibleServersConfiguration_Spec `json:"spec,omitempty"`
+	Status            Configuration_STATUS              `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &FlexibleServersConfiguration{}
@@ -70,7 +70,7 @@ func (configuration *FlexibleServersConfiguration) AzureName() string {
 	return configuration.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20210601"
 func (configuration FlexibleServersConfiguration) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -90,14 +90,14 @@ func (configuration *FlexibleServersConfiguration) GetStatus() genruntime.Conver
 	return &configuration.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.DBforPostgreSQL/flexibleServers/configurations"
+// GetType returns the ARM Type of the resource. This is always ""
 func (configuration *FlexibleServersConfiguration) GetType() string {
-	return "Microsoft.DBforPostgreSQL/flexibleServers/configurations"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (configuration *FlexibleServersConfiguration) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Configuration_Status{}
+	return &Configuration_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -113,13 +113,13 @@ func (configuration *FlexibleServersConfiguration) Owner() *genruntime.ResourceR
 // SetStatus sets the status of this resource
 func (configuration *FlexibleServersConfiguration) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Configuration_Status); ok {
+	if st, ok := status.(*Configuration_STATUS); ok {
 		configuration.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Configuration_Status
+	var st Configuration_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -136,18 +136,18 @@ func (configuration *FlexibleServersConfiguration) AssignPropertiesFromFlexibleS
 	configuration.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec FlexibleServersConfigurations_Spec
-	err := spec.AssignPropertiesFromFlexibleServersConfigurationsSpec(&source.Spec)
+	var spec FlexibleServersConfiguration_Spec
+	err := spec.AssignPropertiesFromFlexibleServersConfiguration_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromFlexibleServersConfigurationsSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromFlexibleServersConfiguration_Spec() to populate field Spec")
 	}
 	configuration.Spec = spec
 
 	// Status
-	var status Configuration_Status
-	err = status.AssignPropertiesFromConfigurationStatus(&source.Status)
+	var status Configuration_STATUS
+	err = status.AssignPropertiesFromConfiguration_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromConfigurationStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromConfiguration_STATUS() to populate field Status")
 	}
 	configuration.Status = status
 
@@ -162,18 +162,18 @@ func (configuration *FlexibleServersConfiguration) AssignPropertiesToFlexibleSer
 	destination.ObjectMeta = *configuration.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210601s.FlexibleServersConfigurations_Spec
-	err := configuration.Spec.AssignPropertiesToFlexibleServersConfigurationsSpec(&spec)
+	var spec v20210601s.FlexibleServersConfiguration_Spec
+	err := configuration.Spec.AssignPropertiesToFlexibleServersConfiguration_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToFlexibleServersConfigurationsSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToFlexibleServersConfiguration_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status v20210601s.Configuration_Status
-	err = configuration.Status.AssignPropertiesToConfigurationStatus(&status)
+	var status v20210601s.Configuration_STATUS
+	err = configuration.Status.AssignPropertiesToConfiguration_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToConfigurationStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToConfiguration_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -199,9 +199,9 @@ type FlexibleServersConfigurationList struct {
 	Items           []FlexibleServersConfiguration `json:"items"`
 }
 
-// Storage version of v1alpha1api20210601.Configuration_Status
-// Deprecated version of Configuration_Status. Use v1beta20210601.Configuration_Status instead
-type Configuration_Status struct {
+// Storage version of v1alpha1api20210601.Configuration_STATUS
+// Deprecated version of Configuration_STATUS. Use v1beta20210601.Configuration_STATUS instead
+type Configuration_STATUS struct {
 	AllowedValues          *string                `json:"allowedValues,omitempty"`
 	Conditions             []conditions.Condition `json:"conditions,omitempty"`
 	DataType               *string                `json:"dataType,omitempty"`
@@ -215,31 +215,31 @@ type Configuration_Status struct {
 	Name                   *string                `json:"name,omitempty"`
 	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Source                 *string                `json:"source,omitempty"`
-	SystemData             *SystemData_Status     `json:"systemData,omitempty"`
+	SystemData             *SystemData_STATUS     `json:"systemData,omitempty"`
 	Type                   *string                `json:"type,omitempty"`
 	Unit                   *string                `json:"unit,omitempty"`
 	Value                  *string                `json:"value,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Configuration_Status{}
+var _ genruntime.ConvertibleStatus = &Configuration_STATUS{}
 
-// ConvertStatusFrom populates our Configuration_Status from the provided source
-func (configuration *Configuration_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210601s.Configuration_Status)
+// ConvertStatusFrom populates our Configuration_STATUS from the provided source
+func (configuration *Configuration_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210601s.Configuration_STATUS)
 	if ok {
 		// Populate our instance from source
-		return configuration.AssignPropertiesFromConfigurationStatus(src)
+		return configuration.AssignPropertiesFromConfiguration_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210601s.Configuration_Status{}
+	src = &v20210601s.Configuration_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = configuration.AssignPropertiesFromConfigurationStatus(src)
+	err = configuration.AssignPropertiesFromConfiguration_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -247,17 +247,17 @@ func (configuration *Configuration_Status) ConvertStatusFrom(source genruntime.C
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Configuration_Status
-func (configuration *Configuration_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210601s.Configuration_Status)
+// ConvertStatusTo populates the provided destination from our Configuration_STATUS
+func (configuration *Configuration_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210601s.Configuration_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return configuration.AssignPropertiesToConfigurationStatus(dst)
+		return configuration.AssignPropertiesToConfiguration_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210601s.Configuration_Status{}
-	err := configuration.AssignPropertiesToConfigurationStatus(dst)
+	dst = &v20210601s.Configuration_STATUS{}
+	err := configuration.AssignPropertiesToConfiguration_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -271,8 +271,8 @@ func (configuration *Configuration_Status) ConvertStatusTo(destination genruntim
 	return nil
 }
 
-// AssignPropertiesFromConfigurationStatus populates our Configuration_Status from the provided source Configuration_Status
-func (configuration *Configuration_Status) AssignPropertiesFromConfigurationStatus(source *v20210601s.Configuration_Status) error {
+// AssignPropertiesFromConfiguration_STATUS populates our Configuration_STATUS from the provided source Configuration_STATUS
+func (configuration *Configuration_STATUS) AssignPropertiesFromConfiguration_STATUS(source *v20210601s.Configuration_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -329,10 +329,10 @@ func (configuration *Configuration_Status) AssignPropertiesFromConfigurationStat
 
 	// SystemData
 	if source.SystemData != nil {
-		var systemDatum SystemData_Status
-		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignPropertiesFromSystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemData_STATUS() to populate field SystemData")
 		}
 		configuration.SystemData = &systemDatum
 	} else {
@@ -359,8 +359,8 @@ func (configuration *Configuration_Status) AssignPropertiesFromConfigurationStat
 	return nil
 }
 
-// AssignPropertiesToConfigurationStatus populates the provided destination Configuration_Status from our Configuration_Status
-func (configuration *Configuration_Status) AssignPropertiesToConfigurationStatus(destination *v20210601s.Configuration_Status) error {
+// AssignPropertiesToConfiguration_STATUS populates the provided destination Configuration_STATUS from our Configuration_STATUS
+func (configuration *Configuration_STATUS) AssignPropertiesToConfiguration_STATUS(destination *v20210601s.Configuration_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
 
@@ -417,10 +417,10 @@ func (configuration *Configuration_Status) AssignPropertiesToConfigurationStatus
 
 	// SystemData
 	if configuration.SystemData != nil {
-		var systemDatum v20210601s.SystemData_Status
-		err := configuration.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
+		var systemDatum v20210601s.SystemData_STATUS
+		err := configuration.SystemData.AssignPropertiesToSystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesToSystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -447,44 +447,55 @@ func (configuration *Configuration_Status) AssignPropertiesToConfigurationStatus
 	return nil
 }
 
-// Storage version of v1alpha1api20210601.FlexibleServersConfigurations_Spec
-type FlexibleServersConfigurations_Spec struct {
+// Storage version of v1alpha1api20210601.FlexibleServersConfiguration_Spec
+type FlexibleServersConfiguration_Spec struct {
+	AllowedValues *string `json:"allowedValues,omitempty"`
+
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string  `json:"azureName,omitempty"`
-	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
+	AzureName              string  `json:"azureName,omitempty"`
+	DataType               *string `json:"dataType,omitempty"`
+	DefaultValue           *string `json:"defaultValue,omitempty"`
+	Description            *string `json:"description,omitempty"`
+	DocumentationLink      *string `json:"documentationLink,omitempty"`
+	Id                     *string `json:"id,omitempty"`
+	IsConfigPendingRestart *bool   `json:"isConfigPendingRestart,omitempty"`
+	IsDynamicConfig        *bool   `json:"isDynamicConfig,omitempty"`
+	IsReadOnly             *bool   `json:"isReadOnly,omitempty"`
+	OriginalVersion        string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a dbforpostgresql.azure.com/FlexibleServer resource
-	Owner       *genruntime.KnownResourceReference `group:"dbforpostgresql.azure.com" json:"owner,omitempty" kind:"FlexibleServer"`
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Source      *string                            `json:"source,omitempty"`
-	Tags        map[string]string                  `json:"tags,omitempty"`
+	SystemData  *SystemData                        `json:"systemData,omitempty"`
+	Type        *string                            `json:"type,omitempty"`
+	Unit        *string                            `json:"unit,omitempty"`
 	Value       *string                            `json:"value,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &FlexibleServersConfigurations_Spec{}
+var _ genruntime.ConvertibleSpec = &FlexibleServersConfiguration_Spec{}
 
-// ConvertSpecFrom populates our FlexibleServersConfigurations_Spec from the provided source
-func (configurations *FlexibleServersConfigurations_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210601s.FlexibleServersConfigurations_Spec)
+// ConvertSpecFrom populates our FlexibleServersConfiguration_Spec from the provided source
+func (configuration *FlexibleServersConfiguration_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20210601s.FlexibleServersConfiguration_Spec)
 	if ok {
 		// Populate our instance from source
-		return configurations.AssignPropertiesFromFlexibleServersConfigurationsSpec(src)
+		return configuration.AssignPropertiesFromFlexibleServersConfiguration_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210601s.FlexibleServersConfigurations_Spec{}
+	src = &v20210601s.FlexibleServersConfiguration_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = configurations.AssignPropertiesFromFlexibleServersConfigurationsSpec(src)
+	err = configuration.AssignPropertiesFromFlexibleServersConfiguration_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -492,17 +503,17 @@ func (configurations *FlexibleServersConfigurations_Spec) ConvertSpecFrom(source
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our FlexibleServersConfigurations_Spec
-func (configurations *FlexibleServersConfigurations_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210601s.FlexibleServersConfigurations_Spec)
+// ConvertSpecTo populates the provided destination from our FlexibleServersConfiguration_Spec
+func (configuration *FlexibleServersConfiguration_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20210601s.FlexibleServersConfiguration_Spec)
 	if ok {
 		// Populate destination from our instance
-		return configurations.AssignPropertiesToFlexibleServersConfigurationsSpec(dst)
+		return configuration.AssignPropertiesToFlexibleServersConfiguration_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210601s.FlexibleServersConfigurations_Spec{}
-	err := configurations.AssignPropertiesToFlexibleServersConfigurationsSpec(dst)
+	dst = &v20210601s.FlexibleServersConfiguration_Spec{}
+	err := configuration.AssignPropertiesToFlexibleServersConfiguration_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -516,78 +527,186 @@ func (configurations *FlexibleServersConfigurations_Spec) ConvertSpecTo(destinat
 	return nil
 }
 
-// AssignPropertiesFromFlexibleServersConfigurationsSpec populates our FlexibleServersConfigurations_Spec from the provided source FlexibleServersConfigurations_Spec
-func (configurations *FlexibleServersConfigurations_Spec) AssignPropertiesFromFlexibleServersConfigurationsSpec(source *v20210601s.FlexibleServersConfigurations_Spec) error {
+// AssignPropertiesFromFlexibleServersConfiguration_Spec populates our FlexibleServersConfiguration_Spec from the provided source FlexibleServersConfiguration_Spec
+func (configuration *FlexibleServersConfiguration_Spec) AssignPropertiesFromFlexibleServersConfiguration_Spec(source *v20210601s.FlexibleServersConfiguration_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// AzureName
-	configurations.AzureName = source.AzureName
+	// AllowedValues
+	configuration.AllowedValues = genruntime.ClonePointerToString(source.AllowedValues)
 
-	// Location
-	configurations.Location = genruntime.ClonePointerToString(source.Location)
+	// AzureName
+	configuration.AzureName = source.AzureName
+
+	// DataType
+	configuration.DataType = genruntime.ClonePointerToString(source.DataType)
+
+	// DefaultValue
+	configuration.DefaultValue = genruntime.ClonePointerToString(source.DefaultValue)
+
+	// Description
+	configuration.Description = genruntime.ClonePointerToString(source.Description)
+
+	// DocumentationLink
+	configuration.DocumentationLink = genruntime.ClonePointerToString(source.DocumentationLink)
+
+	// Id
+	configuration.Id = genruntime.ClonePointerToString(source.Id)
+
+	// IsConfigPendingRestart
+	if source.IsConfigPendingRestart != nil {
+		isConfigPendingRestart := *source.IsConfigPendingRestart
+		configuration.IsConfigPendingRestart = &isConfigPendingRestart
+	} else {
+		configuration.IsConfigPendingRestart = nil
+	}
+
+	// IsDynamicConfig
+	if source.IsDynamicConfig != nil {
+		isDynamicConfig := *source.IsDynamicConfig
+		configuration.IsDynamicConfig = &isDynamicConfig
+	} else {
+		configuration.IsDynamicConfig = nil
+	}
+
+	// IsReadOnly
+	if source.IsReadOnly != nil {
+		isReadOnly := *source.IsReadOnly
+		configuration.IsReadOnly = &isReadOnly
+	} else {
+		configuration.IsReadOnly = nil
+	}
 
 	// OriginalVersion
-	configurations.OriginalVersion = source.OriginalVersion
+	configuration.OriginalVersion = source.OriginalVersion
 
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
-		configurations.Owner = &owner
+		configuration.Owner = &owner
 	} else {
-		configurations.Owner = nil
+		configuration.Owner = nil
 	}
 
 	// Source
-	configurations.Source = genruntime.ClonePointerToString(source.Source)
+	configuration.Source = genruntime.ClonePointerToString(source.Source)
 
-	// Tags
-	configurations.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData
+		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
+		}
+		configuration.SystemData = &systemDatum
+	} else {
+		configuration.SystemData = nil
+	}
+
+	// Type
+	configuration.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Unit
+	configuration.Unit = genruntime.ClonePointerToString(source.Unit)
 
 	// Value
-	configurations.Value = genruntime.ClonePointerToString(source.Value)
+	configuration.Value = genruntime.ClonePointerToString(source.Value)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		configurations.PropertyBag = propertyBag
+		configuration.PropertyBag = propertyBag
 	} else {
-		configurations.PropertyBag = nil
+		configuration.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToFlexibleServersConfigurationsSpec populates the provided destination FlexibleServersConfigurations_Spec from our FlexibleServersConfigurations_Spec
-func (configurations *FlexibleServersConfigurations_Spec) AssignPropertiesToFlexibleServersConfigurationsSpec(destination *v20210601s.FlexibleServersConfigurations_Spec) error {
+// AssignPropertiesToFlexibleServersConfiguration_Spec populates the provided destination FlexibleServersConfiguration_Spec from our FlexibleServersConfiguration_Spec
+func (configuration *FlexibleServersConfiguration_Spec) AssignPropertiesToFlexibleServersConfiguration_Spec(destination *v20210601s.FlexibleServersConfiguration_Spec) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(configurations.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
+
+	// AllowedValues
+	destination.AllowedValues = genruntime.ClonePointerToString(configuration.AllowedValues)
 
 	// AzureName
-	destination.AzureName = configurations.AzureName
+	destination.AzureName = configuration.AzureName
 
-	// Location
-	destination.Location = genruntime.ClonePointerToString(configurations.Location)
+	// DataType
+	destination.DataType = genruntime.ClonePointerToString(configuration.DataType)
+
+	// DefaultValue
+	destination.DefaultValue = genruntime.ClonePointerToString(configuration.DefaultValue)
+
+	// Description
+	destination.Description = genruntime.ClonePointerToString(configuration.Description)
+
+	// DocumentationLink
+	destination.DocumentationLink = genruntime.ClonePointerToString(configuration.DocumentationLink)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(configuration.Id)
+
+	// IsConfigPendingRestart
+	if configuration.IsConfigPendingRestart != nil {
+		isConfigPendingRestart := *configuration.IsConfigPendingRestart
+		destination.IsConfigPendingRestart = &isConfigPendingRestart
+	} else {
+		destination.IsConfigPendingRestart = nil
+	}
+
+	// IsDynamicConfig
+	if configuration.IsDynamicConfig != nil {
+		isDynamicConfig := *configuration.IsDynamicConfig
+		destination.IsDynamicConfig = &isDynamicConfig
+	} else {
+		destination.IsDynamicConfig = nil
+	}
+
+	// IsReadOnly
+	if configuration.IsReadOnly != nil {
+		isReadOnly := *configuration.IsReadOnly
+		destination.IsReadOnly = &isReadOnly
+	} else {
+		destination.IsReadOnly = nil
+	}
 
 	// OriginalVersion
-	destination.OriginalVersion = configurations.OriginalVersion
+	destination.OriginalVersion = configuration.OriginalVersion
 
 	// Owner
-	if configurations.Owner != nil {
-		owner := configurations.Owner.Copy()
+	if configuration.Owner != nil {
+		owner := configuration.Owner.Copy()
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
 	}
 
 	// Source
-	destination.Source = genruntime.ClonePointerToString(configurations.Source)
+	destination.Source = genruntime.ClonePointerToString(configuration.Source)
 
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(configurations.Tags)
+	// SystemData
+	if configuration.SystemData != nil {
+		var systemDatum v20210601s.SystemData
+		err := configuration.SystemData.AssignPropertiesToSystemData(&systemDatum)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(configuration.Type)
+
+	// Unit
+	destination.Unit = genruntime.ClonePointerToString(configuration.Unit)
 
 	// Value
-	destination.Value = genruntime.ClonePointerToString(configurations.Value)
+	destination.Value = genruntime.ClonePointerToString(configuration.Value)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

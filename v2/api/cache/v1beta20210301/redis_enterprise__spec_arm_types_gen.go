@@ -6,20 +6,29 @@ package v1beta20210301
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type RedisEnterprise_SpecARM struct {
+	AzureName string `json:"azureName,omitempty"`
+
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	Id *string `json:"id,omitempty"`
+
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
-	// Name: The name of the RedisEnterprise cluster.
+	// Name: The name of the resource
 	Name string `json:"name,omitempty"`
 
-	// Properties: Properties of RedisEnterprise clusters, as opposed to general resource properties like location, tags
+	// Properties: Other properties of the cluster.
 	Properties *ClusterPropertiesARM `json:"properties,omitempty"`
 
-	// Sku: SKU parameters supplied to the create RedisEnterprise operation.
+	// Sku: The SKU to create, which affects price, performance, and features.
 	Sku *SkuARM `json:"sku,omitempty"`
 
-	// Tags: Name-value pairs to add to the resource
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
+
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+	Type *string `json:"type,omitempty"`
 
 	// Zones: The Availability Zones where this cluster will be deployed.
 	Zones []string `json:"zones,omitempty"`
@@ -27,7 +36,7 @@ type RedisEnterprise_SpecARM struct {
 
 var _ genruntime.ARMResourceSpec = &RedisEnterprise_SpecARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2021-03-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20210301"
 func (enterprise RedisEnterprise_SpecARM) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -37,36 +46,55 @@ func (enterprise *RedisEnterprise_SpecARM) GetName() string {
 	return enterprise.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redisEnterprise"
+// GetType returns the ARM Type of the resource. This is always ""
 func (enterprise *RedisEnterprise_SpecARM) GetType() string {
-	return "Microsoft.Cache/redisEnterprise"
+	return ""
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/ClusterProperties
 type ClusterPropertiesARM struct {
-	// MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. '1.2'.
-	MinimumTlsVersion *ClusterPropertiesMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+	// HostName: DNS name of the cluster endpoint
+	HostName *string `json:"hostName,omitempty"`
+
+	// MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. '1.2'
+	MinimumTlsVersion *ClusterProperties_MinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+
+	// PrivateEndpointConnections: List of private endpoint connections associated with the specified RedisEnterprise cluster
+	PrivateEndpointConnections []PrivateEndpointConnectionARM `json:"privateEndpointConnections,omitempty"`
+
+	// ProvisioningState: Current provisioning status of the cluster
+	ProvisioningState *ProvisioningState `json:"provisioningState,omitempty"`
+
+	// RedisVersion: Version of redis the cluster supports, e.g. '6'
+	RedisVersion *string `json:"redisVersion,omitempty"`
+
+	// ResourceState: Current resource status of the cluster
+	ResourceState *ResourceState `json:"resourceState,omitempty"`
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/Sku
 type SkuARM struct {
 	// Capacity: The size of the RedisEnterprise cluster. Defaults to 2 or 3 depending on SKU. Valid values are (2, 4, 6, ...)
 	// for Enterprise SKUs and (3, 9, 15, ...) for Flash SKUs.
 	Capacity *int `json:"capacity,omitempty"`
 
-	// Name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.).
-	Name *SkuName `json:"name,omitempty"`
+	// Name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.)
+	Name *Sku_Name `json:"name,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"Enterprise_E10","Enterprise_E100","Enterprise_E20","Enterprise_E50","EnterpriseFlash_F1500","EnterpriseFlash_F300","EnterpriseFlash_F700"}
-type SkuName string
+type PrivateEndpointConnectionARM struct {
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	Id *string `json:"id,omitempty"`
+}
+
+// +kubebuilder:validation:Enum={"EnterpriseFlash_F1500","EnterpriseFlash_F300","EnterpriseFlash_F700","Enterprise_E10","Enterprise_E100","Enterprise_E20","Enterprise_E50"}
+type Sku_Name string
 
 const (
-	SkuNameEnterpriseE10        = SkuName("Enterprise_E10")
-	SkuNameEnterpriseE100       = SkuName("Enterprise_E100")
-	SkuNameEnterpriseE20        = SkuName("Enterprise_E20")
-	SkuNameEnterpriseE50        = SkuName("Enterprise_E50")
-	SkuNameEnterpriseFlashF1500 = SkuName("EnterpriseFlash_F1500")
-	SkuNameEnterpriseFlashF300  = SkuName("EnterpriseFlash_F300")
-	SkuNameEnterpriseFlashF700  = SkuName("EnterpriseFlash_F700")
+	Sku_NameEnterpriseFlash_F1500 = Sku_Name("EnterpriseFlash_F1500")
+	Sku_NameEnterpriseFlash_F300  = Sku_Name("EnterpriseFlash_F300")
+	Sku_NameEnterpriseFlash_F700  = Sku_Name("EnterpriseFlash_F700")
+	Sku_NameEnterprise_E10        = Sku_Name("Enterprise_E10")
+	Sku_NameEnterprise_E100       = Sku_Name("Enterprise_E100")
+	Sku_NameEnterprise_E20        = Sku_Name("Enterprise_E20")
+	Sku_NameEnterprise_E50        = Sku_Name("Enterprise_E50")
 )

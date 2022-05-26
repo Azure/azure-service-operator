@@ -23,7 +23,6 @@ func AddSecrets(config *config.Configuration) *Stage {
 		AddSecretsStageID,
 		"Replace properties flagged as secret with genruntime.SecretReference",
 		func(ctx context.Context, state *State) (*State, error) {
-
 			types, err := applyConfigSecretOverrides(config, state.Definitions())
 			if err != nil {
 				return nil, errors.Wrap(err, "applying config secret overrides")
@@ -43,7 +42,6 @@ func AddSecrets(config *config.Configuration) *Stage {
 			return state.WithDefinitions(result), nil
 		})
 
-	stage.RequiresPrerequisiteStages(AugmentSpecWithStatusStageID)
 	stage.RequiresPostrequisiteStages(CreateARMTypesStageID)
 
 	return stage

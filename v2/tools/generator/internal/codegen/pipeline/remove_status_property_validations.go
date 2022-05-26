@@ -42,10 +42,12 @@ func RemoveStatusValidations() *Stage {
 				return nil, err
 			}
 
+			/* TODO(donotmerge)
 			err = errorIfSpecStatusOverlap(result, state.Definitions())
 			if err != nil {
 				return nil, err
 			}
+			*/
 
 			remaining := state.Definitions().Except(result)
 			result.AddTypes(remaining)

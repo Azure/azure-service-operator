@@ -24,12 +24,13 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/resourceDefinitions/profiles_endpoints
+// Generator information:
+// - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/cdn.json
 type ProfilesEndpoint struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ProfilesEndpoints_Spec `json:"spec,omitempty"`
-	Status            Endpoint_Status        `json:"status,omitempty"`
+	Spec              ProfilesEndpoint_Spec `json:"spec,omitempty"`
+	Status            Endpoint_STATUS       `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ProfilesEndpoint{}
@@ -96,7 +97,7 @@ func (endpoint *ProfilesEndpoint) AzureName() string {
 	return endpoint.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20210601"
 func (endpoint ProfilesEndpoint) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -116,14 +117,14 @@ func (endpoint *ProfilesEndpoint) GetStatus() genruntime.ConvertibleStatus {
 	return &endpoint.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Cdn/profiles/endpoints"
+// GetType returns the ARM Type of the resource. This is always ""
 func (endpoint *ProfilesEndpoint) GetType() string {
-	return "Microsoft.Cdn/profiles/endpoints"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (endpoint *ProfilesEndpoint) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Endpoint_Status{}
+	return &Endpoint_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -139,13 +140,13 @@ func (endpoint *ProfilesEndpoint) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (endpoint *ProfilesEndpoint) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Endpoint_Status); ok {
+	if st, ok := status.(*Endpoint_STATUS); ok {
 		endpoint.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Endpoint_Status
+	var st Endpoint_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -255,18 +256,18 @@ func (endpoint *ProfilesEndpoint) AssignPropertiesFromProfilesEndpoint(source *v
 	endpoint.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec ProfilesEndpoints_Spec
-	err := spec.AssignPropertiesFromProfilesEndpointsSpec(&source.Spec)
+	var spec ProfilesEndpoint_Spec
+	err := spec.AssignPropertiesFromProfilesEndpoint_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromProfilesEndpointsSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromProfilesEndpoint_Spec() to populate field Spec")
 	}
 	endpoint.Spec = spec
 
 	// Status
-	var status Endpoint_Status
-	err = status.AssignPropertiesFromEndpointStatus(&source.Status)
+	var status Endpoint_STATUS
+	err = status.AssignPropertiesFromEndpoint_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromEndpointStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromEndpoint_STATUS() to populate field Status")
 	}
 	endpoint.Status = status
 
@@ -281,18 +282,18 @@ func (endpoint *ProfilesEndpoint) AssignPropertiesToProfilesEndpoint(destination
 	destination.ObjectMeta = *endpoint.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210601s.ProfilesEndpoints_Spec
-	err := endpoint.Spec.AssignPropertiesToProfilesEndpointsSpec(&spec)
+	var spec v20210601s.ProfilesEndpoint_Spec
+	err := endpoint.Spec.AssignPropertiesToProfilesEndpoint_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToProfilesEndpointsSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToProfilesEndpoint_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status v20210601s.Endpoint_Status
-	err = endpoint.Status.AssignPropertiesToEndpointStatus(&status)
+	var status v20210601s.Endpoint_STATUS
+	err = endpoint.Status.AssignPropertiesToEndpoint_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToEndpointStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToEndpoint_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -310,14 +311,15 @@ func (endpoint *ProfilesEndpoint) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/resourceDefinitions/profiles_endpoints
+// Generator information:
+// - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/cdn.json
 type ProfilesEndpointList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []ProfilesEndpoint `json:"items"`
 }
 
-type Endpoint_Status struct {
+type Endpoint_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -325,17 +327,17 @@ type Endpoint_Status struct {
 	ContentTypesToCompress []string `json:"contentTypesToCompress,omitempty"`
 
 	// CustomDomains: The custom domains under the endpoint.
-	CustomDomains []CustomDomain_Status_SubResourceEmbedded `json:"customDomains,omitempty"`
+	CustomDomains []CustomDomain_STATUS `json:"customDomains,omitempty"`
 
 	// DefaultOriginGroup: A reference to the origin group.
-	DefaultOriginGroup *ResourceReference_Status `json:"defaultOriginGroup,omitempty"`
+	DefaultOriginGroup *ResourceReference_STATUS `json:"defaultOriginGroup,omitempty"`
 
 	// DeliveryPolicy: A policy that specifies the delivery rules to be used for an endpoint.
-	DeliveryPolicy *EndpointProperties_Status_DeliveryPolicy `json:"deliveryPolicy,omitempty"`
+	DeliveryPolicy *EndpointProperties_DeliveryPolicy_STATUS `json:"deliveryPolicy,omitempty"`
 
 	// GeoFilters: List of rules defining the user's geo access within a CDN endpoint. Each geo filter defines an access rule
 	// to a specified path or content, e.g. block APAC for path /pictures/
-	GeoFilters []GeoFilter_Status `json:"geoFilters,omitempty"`
+	GeoFilters []GeoFilter_STATUS `json:"geoFilters,omitempty"`
 
 	// HostName: The host name of the endpoint structured as {endpointName}.{DNSZone}, e.g. contoso.azureedge.net
 	HostName *string `json:"hostName,omitempty"`
@@ -364,10 +366,10 @@ type Endpoint_Status struct {
 
 	// OptimizationType: Specifies what scenario the customer wants this CDN endpoint to optimize for, e.g. Download, Media
 	// services. With this information, CDN can apply scenario driven optimization.
-	OptimizationType *OptimizationType_Status `json:"optimizationType,omitempty"`
+	OptimizationType *OptimizationType_STATUS `json:"optimizationType,omitempty"`
 
 	// OriginGroups: The origin groups comprising of origins that are used for load balancing the traffic based on availability.
-	OriginGroups []DeepCreatedOriginGroup_Status `json:"originGroups,omitempty"`
+	OriginGroups []DeepCreatedOriginGroup_STATUS `json:"originGroups,omitempty"`
 
 	// OriginHostHeader: The host header value sent to the origin with each request. This property at Endpoint is only allowed
 	// when endpoint uses single origin and can be overridden by the same property specified at origin.If you leave this blank,
@@ -380,7 +382,7 @@ type Endpoint_Status struct {
 	OriginPath *string `json:"originPath,omitempty"`
 
 	// Origins: The source of the content being delivered via CDN.
-	Origins []DeepCreatedOrigin_Status `json:"origins,omitempty"`
+	Origins []DeepCreatedOrigin_STATUS `json:"origins,omitempty"`
 
 	// ProbePath: Path to a file hosted on the origin which helps accelerate delivery of the dynamic content and calculate the
 	// most optimal routes for the CDN. This is relative to the origin path. This property is only relevant when using a single
@@ -388,16 +390,16 @@ type Endpoint_Status struct {
 	ProbePath *string `json:"probePath,omitempty"`
 
 	// ProvisioningState: Provisioning status of the endpoint.
-	ProvisioningState *EndpointPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *EndpointProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// QueryStringCachingBehavior: Defines how CDN caches requests that include query strings. You can ignore any query strings
 	// when caching, bypass caching to prevent requests that contain query strings from being cached, or cache every request
 	// with a unique URL.
-	QueryStringCachingBehavior *QueryStringCachingBehavior_Status `json:"queryStringCachingBehavior,omitempty"`
+	QueryStringCachingBehavior *QueryStringCachingBehavior_STATUS `json:"queryStringCachingBehavior,omitempty"`
 
 	// ResourceState: Resource status of the endpoint.
-	ResourceState *EndpointPropertiesStatusResourceState `json:"resourceState,omitempty"`
-	SystemData    *SystemData_Status                     `json:"systemData,omitempty"`
+	ResourceState *EndpointProperties_ResourceState_STATUS `json:"resourceState,omitempty"`
+	SystemData    *SystemData_STATUS                       `json:"systemData,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -406,31 +408,31 @@ type Endpoint_Status struct {
 	Type *string `json:"type,omitempty"`
 
 	// UrlSigningKeys: List of keys used to validate the signed URL hashes.
-	UrlSigningKeys []UrlSigningKey_Status `json:"urlSigningKeys,omitempty"`
+	UrlSigningKeys []UrlSigningKey_STATUS `json:"urlSigningKeys,omitempty"`
 
 	// WebApplicationFirewallPolicyLink: Defines the Web Application Firewall policy for the endpoint (if applicable)
-	WebApplicationFirewallPolicyLink *EndpointProperties_Status_WebApplicationFirewallPolicyLink `json:"webApplicationFirewallPolicyLink,omitempty"`
+	WebApplicationFirewallPolicyLink *EndpointProperties_WebApplicationFirewallPolicyLink_STATUS `json:"webApplicationFirewallPolicyLink,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Endpoint_Status{}
+var _ genruntime.ConvertibleStatus = &Endpoint_STATUS{}
 
-// ConvertStatusFrom populates our Endpoint_Status from the provided source
-func (endpoint *Endpoint_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210601s.Endpoint_Status)
+// ConvertStatusFrom populates our Endpoint_STATUS from the provided source
+func (endpoint *Endpoint_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210601s.Endpoint_STATUS)
 	if ok {
 		// Populate our instance from source
-		return endpoint.AssignPropertiesFromEndpointStatus(src)
+		return endpoint.AssignPropertiesFromEndpoint_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210601s.Endpoint_Status{}
+	src = &v20210601s.Endpoint_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = endpoint.AssignPropertiesFromEndpointStatus(src)
+	err = endpoint.AssignPropertiesFromEndpoint_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -438,17 +440,17 @@ func (endpoint *Endpoint_Status) ConvertStatusFrom(source genruntime.Convertible
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Endpoint_Status
-func (endpoint *Endpoint_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210601s.Endpoint_Status)
+// ConvertStatusTo populates the provided destination from our Endpoint_STATUS
+func (endpoint *Endpoint_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210601s.Endpoint_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return endpoint.AssignPropertiesToEndpointStatus(dst)
+		return endpoint.AssignPropertiesToEndpoint_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210601s.Endpoint_Status{}
-	err := endpoint.AssignPropertiesToEndpointStatus(dst)
+	dst = &v20210601s.Endpoint_STATUS{}
+	err := endpoint.AssignPropertiesToEndpoint_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -462,18 +464,18 @@ func (endpoint *Endpoint_Status) ConvertStatusTo(destination genruntime.Converti
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Endpoint_Status{}
+var _ genruntime.FromARMConverter = &Endpoint_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (endpoint *Endpoint_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Endpoint_StatusARM{}
+func (endpoint *Endpoint_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Endpoint_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (endpoint *Endpoint_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Endpoint_StatusARM)
+func (endpoint *Endpoint_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Endpoint_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Endpoint_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Endpoint_STATUSARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -490,7 +492,7 @@ func (endpoint *Endpoint_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.CustomDomains {
-			var item1 CustomDomain_Status_SubResourceEmbedded
+			var item1 CustomDomain_STATUS
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -503,7 +505,7 @@ func (endpoint *Endpoint_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DefaultOriginGroup != nil {
-			var defaultOriginGroup1 ResourceReference_Status
+			var defaultOriginGroup1 ResourceReference_STATUS
 			err := defaultOriginGroup1.PopulateFromARM(owner, *typedInput.Properties.DefaultOriginGroup)
 			if err != nil {
 				return err
@@ -517,7 +519,7 @@ func (endpoint *Endpoint_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DeliveryPolicy != nil {
-			var deliveryPolicy1 EndpointProperties_Status_DeliveryPolicy
+			var deliveryPolicy1 EndpointProperties_DeliveryPolicy_STATUS
 			err := deliveryPolicy1.PopulateFromARM(owner, *typedInput.Properties.DeliveryPolicy)
 			if err != nil {
 				return err
@@ -531,7 +533,7 @@ func (endpoint *Endpoint_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.GeoFilters {
-			var item1 GeoFilter_Status
+			var item1 GeoFilter_STATUS
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -607,7 +609,7 @@ func (endpoint *Endpoint_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.OriginGroups {
-			var item1 DeepCreatedOriginGroup_Status
+			var item1 DeepCreatedOriginGroup_STATUS
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -638,7 +640,7 @@ func (endpoint *Endpoint_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Origins {
-			var item1 DeepCreatedOrigin_Status
+			var item1 DeepCreatedOrigin_STATUS
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -685,7 +687,7 @@ func (endpoint *Endpoint_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property ‘SystemData’:
 	if typedInput.SystemData != nil {
-		var systemData1 SystemData_Status
+		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
 		if err != nil {
 			return err
@@ -712,7 +714,7 @@ func (endpoint *Endpoint_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.UrlSigningKeys {
-			var item1 UrlSigningKey_Status
+			var item1 UrlSigningKey_STATUS
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -725,7 +727,7 @@ func (endpoint *Endpoint_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.WebApplicationFirewallPolicyLink != nil {
-			var webApplicationFirewallPolicyLink1 EndpointProperties_Status_WebApplicationFirewallPolicyLink
+			var webApplicationFirewallPolicyLink1 EndpointProperties_WebApplicationFirewallPolicyLink_STATUS
 			err := webApplicationFirewallPolicyLink1.PopulateFromARM(owner, *typedInput.Properties.WebApplicationFirewallPolicyLink)
 			if err != nil {
 				return err
@@ -739,8 +741,8 @@ func (endpoint *Endpoint_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
-// AssignPropertiesFromEndpointStatus populates our Endpoint_Status from the provided source Endpoint_Status
-func (endpoint *Endpoint_Status) AssignPropertiesFromEndpointStatus(source *v20210601s.Endpoint_Status) error {
+// AssignPropertiesFromEndpoint_STATUS populates our Endpoint_STATUS from the provided source Endpoint_STATUS
+func (endpoint *Endpoint_STATUS) AssignPropertiesFromEndpoint_STATUS(source *v20210601s.Endpoint_STATUS) error {
 
 	// Conditions
 	endpoint.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -750,14 +752,14 @@ func (endpoint *Endpoint_Status) AssignPropertiesFromEndpointStatus(source *v202
 
 	// CustomDomains
 	if source.CustomDomains != nil {
-		customDomainList := make([]CustomDomain_Status_SubResourceEmbedded, len(source.CustomDomains))
+		customDomainList := make([]CustomDomain_STATUS, len(source.CustomDomains))
 		for customDomainIndex, customDomainItem := range source.CustomDomains {
 			// Shadow the loop variable to avoid aliasing
 			customDomainItem := customDomainItem
-			var customDomain CustomDomain_Status_SubResourceEmbedded
-			err := customDomain.AssignPropertiesFromCustomDomainStatusSubResourceEmbedded(&customDomainItem)
+			var customDomain CustomDomain_STATUS
+			err := customDomain.AssignPropertiesFromCustomDomain_STATUS(&customDomainItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromCustomDomainStatusSubResourceEmbedded() to populate field CustomDomains")
+				return errors.Wrap(err, "calling AssignPropertiesFromCustomDomain_STATUS() to populate field CustomDomains")
 			}
 			customDomainList[customDomainIndex] = customDomain
 		}
@@ -768,10 +770,10 @@ func (endpoint *Endpoint_Status) AssignPropertiesFromEndpointStatus(source *v202
 
 	// DefaultOriginGroup
 	if source.DefaultOriginGroup != nil {
-		var defaultOriginGroup ResourceReference_Status
-		err := defaultOriginGroup.AssignPropertiesFromResourceReferenceStatus(source.DefaultOriginGroup)
+		var defaultOriginGroup ResourceReference_STATUS
+		err := defaultOriginGroup.AssignPropertiesFromResourceReference_STATUS(source.DefaultOriginGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromResourceReferenceStatus() to populate field DefaultOriginGroup")
+			return errors.Wrap(err, "calling AssignPropertiesFromResourceReference_STATUS() to populate field DefaultOriginGroup")
 		}
 		endpoint.DefaultOriginGroup = &defaultOriginGroup
 	} else {
@@ -780,10 +782,10 @@ func (endpoint *Endpoint_Status) AssignPropertiesFromEndpointStatus(source *v202
 
 	// DeliveryPolicy
 	if source.DeliveryPolicy != nil {
-		var deliveryPolicy EndpointProperties_Status_DeliveryPolicy
-		err := deliveryPolicy.AssignPropertiesFromEndpointPropertiesStatusDeliveryPolicy(source.DeliveryPolicy)
+		var deliveryPolicy EndpointProperties_DeliveryPolicy_STATUS
+		err := deliveryPolicy.AssignPropertiesFromEndpointProperties_DeliveryPolicy_STATUS(source.DeliveryPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEndpointPropertiesStatusDeliveryPolicy() to populate field DeliveryPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesFromEndpointProperties_DeliveryPolicy_STATUS() to populate field DeliveryPolicy")
 		}
 		endpoint.DeliveryPolicy = &deliveryPolicy
 	} else {
@@ -792,14 +794,14 @@ func (endpoint *Endpoint_Status) AssignPropertiesFromEndpointStatus(source *v202
 
 	// GeoFilters
 	if source.GeoFilters != nil {
-		geoFilterList := make([]GeoFilter_Status, len(source.GeoFilters))
+		geoFilterList := make([]GeoFilter_STATUS, len(source.GeoFilters))
 		for geoFilterIndex, geoFilterItem := range source.GeoFilters {
 			// Shadow the loop variable to avoid aliasing
 			geoFilterItem := geoFilterItem
-			var geoFilter GeoFilter_Status
-			err := geoFilter.AssignPropertiesFromGeoFilterStatus(&geoFilterItem)
+			var geoFilter GeoFilter_STATUS
+			err := geoFilter.AssignPropertiesFromGeoFilter_STATUS(&geoFilterItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromGeoFilterStatus() to populate field GeoFilters")
+				return errors.Wrap(err, "calling AssignPropertiesFromGeoFilter_STATUS() to populate field GeoFilters")
 			}
 			geoFilterList[geoFilterIndex] = geoFilter
 		}
@@ -846,7 +848,7 @@ func (endpoint *Endpoint_Status) AssignPropertiesFromEndpointStatus(source *v202
 
 	// OptimizationType
 	if source.OptimizationType != nil {
-		optimizationType := OptimizationType_Status(*source.OptimizationType)
+		optimizationType := OptimizationType_STATUS(*source.OptimizationType)
 		endpoint.OptimizationType = &optimizationType
 	} else {
 		endpoint.OptimizationType = nil
@@ -854,14 +856,14 @@ func (endpoint *Endpoint_Status) AssignPropertiesFromEndpointStatus(source *v202
 
 	// OriginGroups
 	if source.OriginGroups != nil {
-		originGroupList := make([]DeepCreatedOriginGroup_Status, len(source.OriginGroups))
+		originGroupList := make([]DeepCreatedOriginGroup_STATUS, len(source.OriginGroups))
 		for originGroupIndex, originGroupItem := range source.OriginGroups {
 			// Shadow the loop variable to avoid aliasing
 			originGroupItem := originGroupItem
-			var originGroup DeepCreatedOriginGroup_Status
-			err := originGroup.AssignPropertiesFromDeepCreatedOriginGroupStatus(&originGroupItem)
+			var originGroup DeepCreatedOriginGroup_STATUS
+			err := originGroup.AssignPropertiesFromDeepCreatedOriginGroup_STATUS(&originGroupItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromDeepCreatedOriginGroupStatus() to populate field OriginGroups")
+				return errors.Wrap(err, "calling AssignPropertiesFromDeepCreatedOriginGroup_STATUS() to populate field OriginGroups")
 			}
 			originGroupList[originGroupIndex] = originGroup
 		}
@@ -878,14 +880,14 @@ func (endpoint *Endpoint_Status) AssignPropertiesFromEndpointStatus(source *v202
 
 	// Origins
 	if source.Origins != nil {
-		originList := make([]DeepCreatedOrigin_Status, len(source.Origins))
+		originList := make([]DeepCreatedOrigin_STATUS, len(source.Origins))
 		for originIndex, originItem := range source.Origins {
 			// Shadow the loop variable to avoid aliasing
 			originItem := originItem
-			var origin DeepCreatedOrigin_Status
-			err := origin.AssignPropertiesFromDeepCreatedOriginStatus(&originItem)
+			var origin DeepCreatedOrigin_STATUS
+			err := origin.AssignPropertiesFromDeepCreatedOrigin_STATUS(&originItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromDeepCreatedOriginStatus() to populate field Origins")
+				return errors.Wrap(err, "calling AssignPropertiesFromDeepCreatedOrigin_STATUS() to populate field Origins")
 			}
 			originList[originIndex] = origin
 		}
@@ -899,7 +901,7 @@ func (endpoint *Endpoint_Status) AssignPropertiesFromEndpointStatus(source *v202
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := EndpointPropertiesStatusProvisioningState(*source.ProvisioningState)
+		provisioningState := EndpointProperties_ProvisioningState_STATUS(*source.ProvisioningState)
 		endpoint.ProvisioningState = &provisioningState
 	} else {
 		endpoint.ProvisioningState = nil
@@ -907,7 +909,7 @@ func (endpoint *Endpoint_Status) AssignPropertiesFromEndpointStatus(source *v202
 
 	// QueryStringCachingBehavior
 	if source.QueryStringCachingBehavior != nil {
-		queryStringCachingBehavior := QueryStringCachingBehavior_Status(*source.QueryStringCachingBehavior)
+		queryStringCachingBehavior := QueryStringCachingBehavior_STATUS(*source.QueryStringCachingBehavior)
 		endpoint.QueryStringCachingBehavior = &queryStringCachingBehavior
 	} else {
 		endpoint.QueryStringCachingBehavior = nil
@@ -915,7 +917,7 @@ func (endpoint *Endpoint_Status) AssignPropertiesFromEndpointStatus(source *v202
 
 	// ResourceState
 	if source.ResourceState != nil {
-		resourceState := EndpointPropertiesStatusResourceState(*source.ResourceState)
+		resourceState := EndpointProperties_ResourceState_STATUS(*source.ResourceState)
 		endpoint.ResourceState = &resourceState
 	} else {
 		endpoint.ResourceState = nil
@@ -923,10 +925,10 @@ func (endpoint *Endpoint_Status) AssignPropertiesFromEndpointStatus(source *v202
 
 	// SystemData
 	if source.SystemData != nil {
-		var systemDatum SystemData_Status
-		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignPropertiesFromSystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemData_STATUS() to populate field SystemData")
 		}
 		endpoint.SystemData = &systemDatum
 	} else {
@@ -941,14 +943,14 @@ func (endpoint *Endpoint_Status) AssignPropertiesFromEndpointStatus(source *v202
 
 	// UrlSigningKeys
 	if source.UrlSigningKeys != nil {
-		urlSigningKeyList := make([]UrlSigningKey_Status, len(source.UrlSigningKeys))
+		urlSigningKeyList := make([]UrlSigningKey_STATUS, len(source.UrlSigningKeys))
 		for urlSigningKeyIndex, urlSigningKeyItem := range source.UrlSigningKeys {
 			// Shadow the loop variable to avoid aliasing
 			urlSigningKeyItem := urlSigningKeyItem
-			var urlSigningKey UrlSigningKey_Status
-			err := urlSigningKey.AssignPropertiesFromUrlSigningKeyStatus(&urlSigningKeyItem)
+			var urlSigningKey UrlSigningKey_STATUS
+			err := urlSigningKey.AssignPropertiesFromUrlSigningKey_STATUS(&urlSigningKeyItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromUrlSigningKeyStatus() to populate field UrlSigningKeys")
+				return errors.Wrap(err, "calling AssignPropertiesFromUrlSigningKey_STATUS() to populate field UrlSigningKeys")
 			}
 			urlSigningKeyList[urlSigningKeyIndex] = urlSigningKey
 		}
@@ -959,10 +961,10 @@ func (endpoint *Endpoint_Status) AssignPropertiesFromEndpointStatus(source *v202
 
 	// WebApplicationFirewallPolicyLink
 	if source.WebApplicationFirewallPolicyLink != nil {
-		var webApplicationFirewallPolicyLink EndpointProperties_Status_WebApplicationFirewallPolicyLink
-		err := webApplicationFirewallPolicyLink.AssignPropertiesFromEndpointPropertiesStatusWebApplicationFirewallPolicyLink(source.WebApplicationFirewallPolicyLink)
+		var webApplicationFirewallPolicyLink EndpointProperties_WebApplicationFirewallPolicyLink_STATUS
+		err := webApplicationFirewallPolicyLink.AssignPropertiesFromEndpointProperties_WebApplicationFirewallPolicyLink_STATUS(source.WebApplicationFirewallPolicyLink)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEndpointPropertiesStatusWebApplicationFirewallPolicyLink() to populate field WebApplicationFirewallPolicyLink")
+			return errors.Wrap(err, "calling AssignPropertiesFromEndpointProperties_WebApplicationFirewallPolicyLink_STATUS() to populate field WebApplicationFirewallPolicyLink")
 		}
 		endpoint.WebApplicationFirewallPolicyLink = &webApplicationFirewallPolicyLink
 	} else {
@@ -973,8 +975,8 @@ func (endpoint *Endpoint_Status) AssignPropertiesFromEndpointStatus(source *v202
 	return nil
 }
 
-// AssignPropertiesToEndpointStatus populates the provided destination Endpoint_Status from our Endpoint_Status
-func (endpoint *Endpoint_Status) AssignPropertiesToEndpointStatus(destination *v20210601s.Endpoint_Status) error {
+// AssignPropertiesToEndpoint_STATUS populates the provided destination Endpoint_STATUS from our Endpoint_STATUS
+func (endpoint *Endpoint_STATUS) AssignPropertiesToEndpoint_STATUS(destination *v20210601s.Endpoint_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -986,14 +988,14 @@ func (endpoint *Endpoint_Status) AssignPropertiesToEndpointStatus(destination *v
 
 	// CustomDomains
 	if endpoint.CustomDomains != nil {
-		customDomainList := make([]v20210601s.CustomDomain_Status_SubResourceEmbedded, len(endpoint.CustomDomains))
+		customDomainList := make([]v20210601s.CustomDomain_STATUS, len(endpoint.CustomDomains))
 		for customDomainIndex, customDomainItem := range endpoint.CustomDomains {
 			// Shadow the loop variable to avoid aliasing
 			customDomainItem := customDomainItem
-			var customDomain v20210601s.CustomDomain_Status_SubResourceEmbedded
-			err := customDomainItem.AssignPropertiesToCustomDomainStatusSubResourceEmbedded(&customDomain)
+			var customDomain v20210601s.CustomDomain_STATUS
+			err := customDomainItem.AssignPropertiesToCustomDomain_STATUS(&customDomain)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToCustomDomainStatusSubResourceEmbedded() to populate field CustomDomains")
+				return errors.Wrap(err, "calling AssignPropertiesToCustomDomain_STATUS() to populate field CustomDomains")
 			}
 			customDomainList[customDomainIndex] = customDomain
 		}
@@ -1004,10 +1006,10 @@ func (endpoint *Endpoint_Status) AssignPropertiesToEndpointStatus(destination *v
 
 	// DefaultOriginGroup
 	if endpoint.DefaultOriginGroup != nil {
-		var defaultOriginGroup v20210601s.ResourceReference_Status
-		err := endpoint.DefaultOriginGroup.AssignPropertiesToResourceReferenceStatus(&defaultOriginGroup)
+		var defaultOriginGroup v20210601s.ResourceReference_STATUS
+		err := endpoint.DefaultOriginGroup.AssignPropertiesToResourceReference_STATUS(&defaultOriginGroup)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToResourceReferenceStatus() to populate field DefaultOriginGroup")
+			return errors.Wrap(err, "calling AssignPropertiesToResourceReference_STATUS() to populate field DefaultOriginGroup")
 		}
 		destination.DefaultOriginGroup = &defaultOriginGroup
 	} else {
@@ -1016,10 +1018,10 @@ func (endpoint *Endpoint_Status) AssignPropertiesToEndpointStatus(destination *v
 
 	// DeliveryPolicy
 	if endpoint.DeliveryPolicy != nil {
-		var deliveryPolicy v20210601s.EndpointProperties_Status_DeliveryPolicy
-		err := endpoint.DeliveryPolicy.AssignPropertiesToEndpointPropertiesStatusDeliveryPolicy(&deliveryPolicy)
+		var deliveryPolicy v20210601s.EndpointProperties_DeliveryPolicy_STATUS
+		err := endpoint.DeliveryPolicy.AssignPropertiesToEndpointProperties_DeliveryPolicy_STATUS(&deliveryPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEndpointPropertiesStatusDeliveryPolicy() to populate field DeliveryPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesToEndpointProperties_DeliveryPolicy_STATUS() to populate field DeliveryPolicy")
 		}
 		destination.DeliveryPolicy = &deliveryPolicy
 	} else {
@@ -1028,14 +1030,14 @@ func (endpoint *Endpoint_Status) AssignPropertiesToEndpointStatus(destination *v
 
 	// GeoFilters
 	if endpoint.GeoFilters != nil {
-		geoFilterList := make([]v20210601s.GeoFilter_Status, len(endpoint.GeoFilters))
+		geoFilterList := make([]v20210601s.GeoFilter_STATUS, len(endpoint.GeoFilters))
 		for geoFilterIndex, geoFilterItem := range endpoint.GeoFilters {
 			// Shadow the loop variable to avoid aliasing
 			geoFilterItem := geoFilterItem
-			var geoFilter v20210601s.GeoFilter_Status
-			err := geoFilterItem.AssignPropertiesToGeoFilterStatus(&geoFilter)
+			var geoFilter v20210601s.GeoFilter_STATUS
+			err := geoFilterItem.AssignPropertiesToGeoFilter_STATUS(&geoFilter)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToGeoFilterStatus() to populate field GeoFilters")
+				return errors.Wrap(err, "calling AssignPropertiesToGeoFilter_STATUS() to populate field GeoFilters")
 			}
 			geoFilterList[geoFilterIndex] = geoFilter
 		}
@@ -1090,14 +1092,14 @@ func (endpoint *Endpoint_Status) AssignPropertiesToEndpointStatus(destination *v
 
 	// OriginGroups
 	if endpoint.OriginGroups != nil {
-		originGroupList := make([]v20210601s.DeepCreatedOriginGroup_Status, len(endpoint.OriginGroups))
+		originGroupList := make([]v20210601s.DeepCreatedOriginGroup_STATUS, len(endpoint.OriginGroups))
 		for originGroupIndex, originGroupItem := range endpoint.OriginGroups {
 			// Shadow the loop variable to avoid aliasing
 			originGroupItem := originGroupItem
-			var originGroup v20210601s.DeepCreatedOriginGroup_Status
-			err := originGroupItem.AssignPropertiesToDeepCreatedOriginGroupStatus(&originGroup)
+			var originGroup v20210601s.DeepCreatedOriginGroup_STATUS
+			err := originGroupItem.AssignPropertiesToDeepCreatedOriginGroup_STATUS(&originGroup)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToDeepCreatedOriginGroupStatus() to populate field OriginGroups")
+				return errors.Wrap(err, "calling AssignPropertiesToDeepCreatedOriginGroup_STATUS() to populate field OriginGroups")
 			}
 			originGroupList[originGroupIndex] = originGroup
 		}
@@ -1114,14 +1116,14 @@ func (endpoint *Endpoint_Status) AssignPropertiesToEndpointStatus(destination *v
 
 	// Origins
 	if endpoint.Origins != nil {
-		originList := make([]v20210601s.DeepCreatedOrigin_Status, len(endpoint.Origins))
+		originList := make([]v20210601s.DeepCreatedOrigin_STATUS, len(endpoint.Origins))
 		for originIndex, originItem := range endpoint.Origins {
 			// Shadow the loop variable to avoid aliasing
 			originItem := originItem
-			var origin v20210601s.DeepCreatedOrigin_Status
-			err := originItem.AssignPropertiesToDeepCreatedOriginStatus(&origin)
+			var origin v20210601s.DeepCreatedOrigin_STATUS
+			err := originItem.AssignPropertiesToDeepCreatedOrigin_STATUS(&origin)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToDeepCreatedOriginStatus() to populate field Origins")
+				return errors.Wrap(err, "calling AssignPropertiesToDeepCreatedOrigin_STATUS() to populate field Origins")
 			}
 			originList[originIndex] = origin
 		}
@@ -1159,10 +1161,10 @@ func (endpoint *Endpoint_Status) AssignPropertiesToEndpointStatus(destination *v
 
 	// SystemData
 	if endpoint.SystemData != nil {
-		var systemDatum v20210601s.SystemData_Status
-		err := endpoint.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
+		var systemDatum v20210601s.SystemData_STATUS
+		err := endpoint.SystemData.AssignPropertiesToSystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesToSystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -1177,14 +1179,14 @@ func (endpoint *Endpoint_Status) AssignPropertiesToEndpointStatus(destination *v
 
 	// UrlSigningKeys
 	if endpoint.UrlSigningKeys != nil {
-		urlSigningKeyList := make([]v20210601s.UrlSigningKey_Status, len(endpoint.UrlSigningKeys))
+		urlSigningKeyList := make([]v20210601s.UrlSigningKey_STATUS, len(endpoint.UrlSigningKeys))
 		for urlSigningKeyIndex, urlSigningKeyItem := range endpoint.UrlSigningKeys {
 			// Shadow the loop variable to avoid aliasing
 			urlSigningKeyItem := urlSigningKeyItem
-			var urlSigningKey v20210601s.UrlSigningKey_Status
-			err := urlSigningKeyItem.AssignPropertiesToUrlSigningKeyStatus(&urlSigningKey)
+			var urlSigningKey v20210601s.UrlSigningKey_STATUS
+			err := urlSigningKeyItem.AssignPropertiesToUrlSigningKey_STATUS(&urlSigningKey)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToUrlSigningKeyStatus() to populate field UrlSigningKeys")
+				return errors.Wrap(err, "calling AssignPropertiesToUrlSigningKey_STATUS() to populate field UrlSigningKeys")
 			}
 			urlSigningKeyList[urlSigningKeyIndex] = urlSigningKey
 		}
@@ -1195,10 +1197,10 @@ func (endpoint *Endpoint_Status) AssignPropertiesToEndpointStatus(destination *v
 
 	// WebApplicationFirewallPolicyLink
 	if endpoint.WebApplicationFirewallPolicyLink != nil {
-		var webApplicationFirewallPolicyLink v20210601s.EndpointProperties_Status_WebApplicationFirewallPolicyLink
-		err := endpoint.WebApplicationFirewallPolicyLink.AssignPropertiesToEndpointPropertiesStatusWebApplicationFirewallPolicyLink(&webApplicationFirewallPolicyLink)
+		var webApplicationFirewallPolicyLink v20210601s.EndpointProperties_WebApplicationFirewallPolicyLink_STATUS
+		err := endpoint.WebApplicationFirewallPolicyLink.AssignPropertiesToEndpointProperties_WebApplicationFirewallPolicyLink_STATUS(&webApplicationFirewallPolicyLink)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEndpointPropertiesStatusWebApplicationFirewallPolicyLink() to populate field WebApplicationFirewallPolicyLink")
+			return errors.Wrap(err, "calling AssignPropertiesToEndpointProperties_WebApplicationFirewallPolicyLink_STATUS() to populate field WebApplicationFirewallPolicyLink")
 		}
 		destination.WebApplicationFirewallPolicyLink = &webApplicationFirewallPolicyLink
 	} else {
@@ -1216,7 +1218,7 @@ func (endpoint *Endpoint_Status) AssignPropertiesToEndpointStatus(destination *v
 	return nil
 }
 
-type ProfilesEndpoints_Spec struct {
+type ProfilesEndpoint_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -1224,15 +1226,24 @@ type ProfilesEndpoints_Spec struct {
 	// ContentTypesToCompress: List of content types on which compression applies. The value should be a valid MIME type.
 	ContentTypesToCompress []string `json:"contentTypesToCompress,omitempty"`
 
-	// DefaultOriginGroup: Reference to another resource.
+	// CustomDomains: The custom domains under the endpoint.
+	CustomDomains []CustomDomain `json:"customDomains,omitempty"`
+
+	// DefaultOriginGroup: A reference to the origin group.
 	DefaultOriginGroup *ResourceReference `json:"defaultOriginGroup,omitempty"`
 
 	// DeliveryPolicy: A policy that specifies the delivery rules to be used for an endpoint.
-	DeliveryPolicy *EndpointPropertiesUpdateParametersDeliveryPolicy `json:"deliveryPolicy,omitempty"`
+	DeliveryPolicy *EndpointProperties_DeliveryPolicy `json:"deliveryPolicy,omitempty"`
 
 	// GeoFilters: List of rules defining the user's geo access within a CDN endpoint. Each geo filter defines an access rule
 	// to a specified path or content, e.g. block APAC for path /pictures/
 	GeoFilters []GeoFilter `json:"geoFilters,omitempty"`
+
+	// HostName: The host name of the endpoint structured as {endpointName}.{DNSZone}, e.g. contoso.azureedge.net
+	HostName *string `json:"hostName,omitempty"`
+
+	// Id: Resource ID.
+	Id *string `json:"id,omitempty"`
 
 	// IsCompressionEnabled: Indicates whether content compression is enabled on CDN. Default value is false. If compression is
 	// enabled, content will be served as compressed if user requests for a compressed version. Content won't be compressed on
@@ -1247,15 +1258,16 @@ type ProfilesEndpoints_Spec struct {
 	// (HTTP or HTTPS) must be allowed.
 	IsHttpsAllowed *bool `json:"isHttpsAllowed,omitempty"`
 
-	// Location: Location to deploy resource to
+	// +kubebuilder:validation:Required
+	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
 
 	// OptimizationType: Specifies what scenario the customer wants this CDN endpoint to optimize for, e.g. Download, Media
 	// services. With this information, CDN can apply scenario driven optimization.
-	OptimizationType *ProfilesEndpointsSpecPropertiesOptimizationType `json:"optimizationType,omitempty"`
+	OptimizationType *OptimizationType `json:"optimizationType,omitempty"`
 
 	// OriginGroups: The origin groups comprising of origins that are used for load balancing the traffic based on availability.
-	OriginGroups []ProfilesEndpoints_Spec_Properties_OriginGroups `json:"originGroups,omitempty"`
+	OriginGroups []DeepCreatedOriginGroup `json:"originGroups,omitempty"`
 
 	// OriginHostHeader: The host header value sent to the origin with each request. This property at Endpoint is only allowed
 	// when endpoint uses single origin and can be overridden by the same property specified at origin.If you leave this blank,
@@ -1269,46 +1281,65 @@ type ProfilesEndpoints_Spec struct {
 
 	// +kubebuilder:validation:Required
 	// Origins: The source of the content being delivered via CDN.
-	Origins []ProfilesEndpoints_Spec_Properties_Origins `json:"origins,omitempty"`
+	Origins []DeepCreatedOrigin `json:"origins,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a cdn.azure.com/Profile resource
-	Owner *genruntime.KnownResourceReference `group:"cdn.azure.com" json:"owner,omitempty" kind:"Profile"`
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	// ProbePath: Path to a file hosted on the origin which helps accelerate delivery of the dynamic content and calculate the
 	// most optimal routes for the CDN. This is relative to the origin path. This property is only relevant when using a single
 	// origin.
 	ProbePath *string `json:"probePath,omitempty"`
 
+	// ProvisioningState: Provisioning status of the endpoint.
+	ProvisioningState *EndpointProperties_ProvisioningState `json:"provisioningState,omitempty"`
+
 	// QueryStringCachingBehavior: Defines how CDN caches requests that include query strings. You can ignore any query strings
 	// when caching, bypass caching to prevent requests that contain query strings from being cached, or cache every request
 	// with a unique URL.
-	QueryStringCachingBehavior *ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior `json:"queryStringCachingBehavior,omitempty"`
+	QueryStringCachingBehavior *QueryStringCachingBehavior `json:"queryStringCachingBehavior,omitempty"`
 
-	// Tags: Name-value pairs to add to the resource
+	// ResourceState: Resource status of the endpoint.
+	ResourceState *EndpointProperties_ResourceState `json:"resourceState,omitempty"`
+	SystemData    *SystemData                       `json:"systemData,omitempty"`
+
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
+
+	// Type: Resource type.
+	Type *string `json:"type,omitempty"`
 
 	// UrlSigningKeys: List of keys used to validate the signed URL hashes.
 	UrlSigningKeys []UrlSigningKey `json:"urlSigningKeys,omitempty"`
 
 	// WebApplicationFirewallPolicyLink: Defines the Web Application Firewall policy for the endpoint (if applicable)
-	WebApplicationFirewallPolicyLink *EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink `json:"webApplicationFirewallPolicyLink,omitempty"`
+	WebApplicationFirewallPolicyLink *EndpointProperties_WebApplicationFirewallPolicyLink `json:"webApplicationFirewallPolicyLink,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &ProfilesEndpoints_Spec{}
+var _ genruntime.ARMTransformer = &ProfilesEndpoint_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (endpoints *ProfilesEndpoints_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if endpoints == nil {
+func (endpoint *ProfilesEndpoint_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if endpoint == nil {
 		return nil, nil
 	}
-	result := &ProfilesEndpoints_SpecARM{}
+	result := &ProfilesEndpoint_SpecARM{}
+
+	// Set property ‘AzureName’:
+	result.AzureName = endpoint.AzureName
+
+	// Set property ‘Id’:
+	if endpoint.Id != nil {
+		id := *endpoint.Id
+		result.Id = &id
+	}
 
 	// Set property ‘Location’:
-	if endpoints.Location != nil {
-		location := *endpoints.Location
+	if endpoint.Location != nil {
+		location := *endpoint.Location
 		result.Location = &location
 	}
 
@@ -1316,142 +1347,194 @@ func (endpoints *ProfilesEndpoints_Spec) ConvertToARM(resolved genruntime.Conver
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if endpoints.ContentTypesToCompress != nil ||
-		endpoints.DefaultOriginGroup != nil ||
-		endpoints.DeliveryPolicy != nil ||
-		endpoints.GeoFilters != nil ||
-		endpoints.IsCompressionEnabled != nil ||
-		endpoints.IsHttpAllowed != nil ||
-		endpoints.IsHttpsAllowed != nil ||
-		endpoints.OptimizationType != nil ||
-		endpoints.OriginGroups != nil ||
-		endpoints.OriginHostHeader != nil ||
-		endpoints.OriginPath != nil ||
-		endpoints.Origins != nil ||
-		endpoints.ProbePath != nil ||
-		endpoints.QueryStringCachingBehavior != nil ||
-		endpoints.UrlSigningKeys != nil ||
-		endpoints.WebApplicationFirewallPolicyLink != nil {
-		result.Properties = &ProfilesEndpoints_Spec_PropertiesARM{}
+	if endpoint.ContentTypesToCompress != nil ||
+		endpoint.CustomDomains != nil ||
+		endpoint.DefaultOriginGroup != nil ||
+		endpoint.DeliveryPolicy != nil ||
+		endpoint.GeoFilters != nil ||
+		endpoint.HostName != nil ||
+		endpoint.IsCompressionEnabled != nil ||
+		endpoint.IsHttpAllowed != nil ||
+		endpoint.IsHttpsAllowed != nil ||
+		endpoint.OptimizationType != nil ||
+		endpoint.OriginGroups != nil ||
+		endpoint.OriginHostHeader != nil ||
+		endpoint.OriginPath != nil ||
+		endpoint.Origins != nil ||
+		endpoint.ProbePath != nil ||
+		endpoint.ProvisioningState != nil ||
+		endpoint.QueryStringCachingBehavior != nil ||
+		endpoint.ResourceState != nil ||
+		endpoint.UrlSigningKeys != nil ||
+		endpoint.WebApplicationFirewallPolicyLink != nil {
+		result.Properties = &EndpointPropertiesARM{}
 	}
-	for _, item := range endpoints.ContentTypesToCompress {
+	for _, item := range endpoint.ContentTypesToCompress {
 		result.Properties.ContentTypesToCompress = append(result.Properties.ContentTypesToCompress, item)
 	}
-	if endpoints.DefaultOriginGroup != nil {
-		defaultOriginGroupARM, err := (*endpoints.DefaultOriginGroup).ConvertToARM(resolved)
+	for _, item := range endpoint.CustomDomains {
+		itemARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Properties.CustomDomains = append(result.Properties.CustomDomains, *itemARM.(*CustomDomainARM))
+	}
+	if endpoint.DefaultOriginGroup != nil {
+		defaultOriginGroupARM, err := (*endpoint.DefaultOriginGroup).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		defaultOriginGroup := *defaultOriginGroupARM.(*ResourceReferenceARM)
 		result.Properties.DefaultOriginGroup = &defaultOriginGroup
 	}
-	if endpoints.DeliveryPolicy != nil {
-		deliveryPolicyARM, err := (*endpoints.DeliveryPolicy).ConvertToARM(resolved)
+	if endpoint.DeliveryPolicy != nil {
+		deliveryPolicyARM, err := (*endpoint.DeliveryPolicy).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		deliveryPolicy := *deliveryPolicyARM.(*EndpointPropertiesUpdateParametersDeliveryPolicyARM)
+		deliveryPolicy := *deliveryPolicyARM.(*EndpointProperties_DeliveryPolicyARM)
 		result.Properties.DeliveryPolicy = &deliveryPolicy
 	}
-	for _, item := range endpoints.GeoFilters {
+	for _, item := range endpoint.GeoFilters {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.GeoFilters = append(result.Properties.GeoFilters, *itemARM.(*GeoFilterARM))
 	}
-	if endpoints.IsCompressionEnabled != nil {
-		isCompressionEnabled := *endpoints.IsCompressionEnabled
+	if endpoint.HostName != nil {
+		hostName := *endpoint.HostName
+		result.Properties.HostName = &hostName
+	}
+	if endpoint.IsCompressionEnabled != nil {
+		isCompressionEnabled := *endpoint.IsCompressionEnabled
 		result.Properties.IsCompressionEnabled = &isCompressionEnabled
 	}
-	if endpoints.IsHttpAllowed != nil {
-		isHttpAllowed := *endpoints.IsHttpAllowed
+	if endpoint.IsHttpAllowed != nil {
+		isHttpAllowed := *endpoint.IsHttpAllowed
 		result.Properties.IsHttpAllowed = &isHttpAllowed
 	}
-	if endpoints.IsHttpsAllowed != nil {
-		isHttpsAllowed := *endpoints.IsHttpsAllowed
+	if endpoint.IsHttpsAllowed != nil {
+		isHttpsAllowed := *endpoint.IsHttpsAllowed
 		result.Properties.IsHttpsAllowed = &isHttpsAllowed
 	}
-	if endpoints.OptimizationType != nil {
-		optimizationType := *endpoints.OptimizationType
+	if endpoint.OptimizationType != nil {
+		optimizationType := *endpoint.OptimizationType
 		result.Properties.OptimizationType = &optimizationType
 	}
-	for _, item := range endpoints.OriginGroups {
+	for _, item := range endpoint.OriginGroups {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.OriginGroups = append(result.Properties.OriginGroups, *itemARM.(*ProfilesEndpoints_Spec_Properties_OriginGroupsARM))
+		result.Properties.OriginGroups = append(result.Properties.OriginGroups, *itemARM.(*DeepCreatedOriginGroupARM))
 	}
-	if endpoints.OriginHostHeader != nil {
-		originHostHeader := *endpoints.OriginHostHeader
+	if endpoint.OriginHostHeader != nil {
+		originHostHeader := *endpoint.OriginHostHeader
 		result.Properties.OriginHostHeader = &originHostHeader
 	}
-	if endpoints.OriginPath != nil {
-		originPath := *endpoints.OriginPath
+	if endpoint.OriginPath != nil {
+		originPath := *endpoint.OriginPath
 		result.Properties.OriginPath = &originPath
 	}
-	for _, item := range endpoints.Origins {
+	for _, item := range endpoint.Origins {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Origins = append(result.Properties.Origins, *itemARM.(*ProfilesEndpoints_Spec_Properties_OriginsARM))
+		result.Properties.Origins = append(result.Properties.Origins, *itemARM.(*DeepCreatedOriginARM))
 	}
-	if endpoints.ProbePath != nil {
-		probePath := *endpoints.ProbePath
+	if endpoint.ProbePath != nil {
+		probePath := *endpoint.ProbePath
 		result.Properties.ProbePath = &probePath
 	}
-	if endpoints.QueryStringCachingBehavior != nil {
-		queryStringCachingBehavior := *endpoints.QueryStringCachingBehavior
+	if endpoint.ProvisioningState != nil {
+		provisioningState := *endpoint.ProvisioningState
+		result.Properties.ProvisioningState = &provisioningState
+	}
+	if endpoint.QueryStringCachingBehavior != nil {
+		queryStringCachingBehavior := *endpoint.QueryStringCachingBehavior
 		result.Properties.QueryStringCachingBehavior = &queryStringCachingBehavior
 	}
-	for _, item := range endpoints.UrlSigningKeys {
+	if endpoint.ResourceState != nil {
+		resourceState := *endpoint.ResourceState
+		result.Properties.ResourceState = &resourceState
+	}
+	for _, item := range endpoint.UrlSigningKeys {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.UrlSigningKeys = append(result.Properties.UrlSigningKeys, *itemARM.(*UrlSigningKeyARM))
 	}
-	if endpoints.WebApplicationFirewallPolicyLink != nil {
-		webApplicationFirewallPolicyLinkARM, err := (*endpoints.WebApplicationFirewallPolicyLink).ConvertToARM(resolved)
+	if endpoint.WebApplicationFirewallPolicyLink != nil {
+		webApplicationFirewallPolicyLinkARM, err := (*endpoint.WebApplicationFirewallPolicyLink).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		webApplicationFirewallPolicyLink := *webApplicationFirewallPolicyLinkARM.(*EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLinkARM)
+		webApplicationFirewallPolicyLink := *webApplicationFirewallPolicyLinkARM.(*EndpointProperties_WebApplicationFirewallPolicyLinkARM)
 		result.Properties.WebApplicationFirewallPolicyLink = &webApplicationFirewallPolicyLink
 	}
 
+	// Set property ‘SystemData’:
+	if endpoint.SystemData != nil {
+		systemDataARM, err := (*endpoint.SystemData).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		systemData := *systemDataARM.(*SystemDataARM)
+		result.SystemData = &systemData
+	}
+
 	// Set property ‘Tags’:
-	if endpoints.Tags != nil {
+	if endpoint.Tags != nil {
 		result.Tags = make(map[string]string)
-		for key, value := range endpoints.Tags {
+		for key, value := range endpoint.Tags {
 			result.Tags[key] = value
 		}
+	}
+
+	// Set property ‘Type’:
+	if endpoint.Type != nil {
+		typeVar := *endpoint.Type
+		result.Type = &typeVar
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (endpoints *ProfilesEndpoints_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ProfilesEndpoints_SpecARM{}
+func (endpoint *ProfilesEndpoint_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ProfilesEndpoint_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (endpoints *ProfilesEndpoints_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ProfilesEndpoints_SpecARM)
+func (endpoint *ProfilesEndpoint_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ProfilesEndpoint_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ProfilesEndpoints_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ProfilesEndpoint_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
-	endpoints.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	endpoint.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘ContentTypesToCompress’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.ContentTypesToCompress {
-			endpoints.ContentTypesToCompress = append(endpoints.ContentTypesToCompress, item)
+			endpoint.ContentTypesToCompress = append(endpoint.ContentTypesToCompress, item)
+		}
+	}
+
+	// Set property ‘CustomDomains’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.CustomDomains {
+			var item1 CustomDomain
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			endpoint.CustomDomains = append(endpoint.CustomDomains, item1)
 		}
 	}
 
@@ -1465,7 +1548,7 @@ func (endpoints *ProfilesEndpoints_Spec) PopulateFromARM(owner genruntime.Arbitr
 				return err
 			}
 			defaultOriginGroup := defaultOriginGroup1
-			endpoints.DefaultOriginGroup = &defaultOriginGroup
+			endpoint.DefaultOriginGroup = &defaultOriginGroup
 		}
 	}
 
@@ -1473,13 +1556,13 @@ func (endpoints *ProfilesEndpoints_Spec) PopulateFromARM(owner genruntime.Arbitr
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DeliveryPolicy != nil {
-			var deliveryPolicy1 EndpointPropertiesUpdateParametersDeliveryPolicy
+			var deliveryPolicy1 EndpointProperties_DeliveryPolicy
 			err := deliveryPolicy1.PopulateFromARM(owner, *typedInput.Properties.DeliveryPolicy)
 			if err != nil {
 				return err
 			}
 			deliveryPolicy := deliveryPolicy1
-			endpoints.DeliveryPolicy = &deliveryPolicy
+			endpoint.DeliveryPolicy = &deliveryPolicy
 		}
 	}
 
@@ -1492,8 +1575,23 @@ func (endpoints *ProfilesEndpoints_Spec) PopulateFromARM(owner genruntime.Arbitr
 			if err != nil {
 				return err
 			}
-			endpoints.GeoFilters = append(endpoints.GeoFilters, item1)
+			endpoint.GeoFilters = append(endpoint.GeoFilters, item1)
 		}
+	}
+
+	// Set property ‘HostName’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.HostName != nil {
+			hostName := *typedInput.Properties.HostName
+			endpoint.HostName = &hostName
+		}
+	}
+
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		endpoint.Id = &id
 	}
 
 	// Set property ‘IsCompressionEnabled’:
@@ -1501,7 +1599,7 @@ func (endpoints *ProfilesEndpoints_Spec) PopulateFromARM(owner genruntime.Arbitr
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsCompressionEnabled != nil {
 			isCompressionEnabled := *typedInput.Properties.IsCompressionEnabled
-			endpoints.IsCompressionEnabled = &isCompressionEnabled
+			endpoint.IsCompressionEnabled = &isCompressionEnabled
 		}
 	}
 
@@ -1510,7 +1608,7 @@ func (endpoints *ProfilesEndpoints_Spec) PopulateFromARM(owner genruntime.Arbitr
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsHttpAllowed != nil {
 			isHttpAllowed := *typedInput.Properties.IsHttpAllowed
-			endpoints.IsHttpAllowed = &isHttpAllowed
+			endpoint.IsHttpAllowed = &isHttpAllowed
 		}
 	}
 
@@ -1519,14 +1617,14 @@ func (endpoints *ProfilesEndpoints_Spec) PopulateFromARM(owner genruntime.Arbitr
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsHttpsAllowed != nil {
 			isHttpsAllowed := *typedInput.Properties.IsHttpsAllowed
-			endpoints.IsHttpsAllowed = &isHttpsAllowed
+			endpoint.IsHttpsAllowed = &isHttpsAllowed
 		}
 	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		endpoints.Location = &location
+		endpoint.Location = &location
 	}
 
 	// Set property ‘OptimizationType’:
@@ -1534,7 +1632,7 @@ func (endpoints *ProfilesEndpoints_Spec) PopulateFromARM(owner genruntime.Arbitr
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OptimizationType != nil {
 			optimizationType := *typedInput.Properties.OptimizationType
-			endpoints.OptimizationType = &optimizationType
+			endpoint.OptimizationType = &optimizationType
 		}
 	}
 
@@ -1542,12 +1640,12 @@ func (endpoints *ProfilesEndpoints_Spec) PopulateFromARM(owner genruntime.Arbitr
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.OriginGroups {
-			var item1 ProfilesEndpoints_Spec_Properties_OriginGroups
+			var item1 DeepCreatedOriginGroup
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
 			}
-			endpoints.OriginGroups = append(endpoints.OriginGroups, item1)
+			endpoint.OriginGroups = append(endpoint.OriginGroups, item1)
 		}
 	}
 
@@ -1556,7 +1654,7 @@ func (endpoints *ProfilesEndpoints_Spec) PopulateFromARM(owner genruntime.Arbitr
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OriginHostHeader != nil {
 			originHostHeader := *typedInput.Properties.OriginHostHeader
-			endpoints.OriginHostHeader = &originHostHeader
+			endpoint.OriginHostHeader = &originHostHeader
 		}
 	}
 
@@ -1565,7 +1663,7 @@ func (endpoints *ProfilesEndpoints_Spec) PopulateFromARM(owner genruntime.Arbitr
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OriginPath != nil {
 			originPath := *typedInput.Properties.OriginPath
-			endpoints.OriginPath = &originPath
+			endpoint.OriginPath = &originPath
 		}
 	}
 
@@ -1573,17 +1671,17 @@ func (endpoints *ProfilesEndpoints_Spec) PopulateFromARM(owner genruntime.Arbitr
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Origins {
-			var item1 ProfilesEndpoints_Spec_Properties_Origins
+			var item1 DeepCreatedOrigin
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
 			}
-			endpoints.Origins = append(endpoints.Origins, item1)
+			endpoint.Origins = append(endpoint.Origins, item1)
 		}
 	}
 
 	// Set property ‘Owner’:
-	endpoints.Owner = &genruntime.KnownResourceReference{
+	endpoint.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
 	}
 
@@ -1592,7 +1690,16 @@ func (endpoints *ProfilesEndpoints_Spec) PopulateFromARM(owner genruntime.Arbitr
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProbePath != nil {
 			probePath := *typedInput.Properties.ProbePath
-			endpoints.ProbePath = &probePath
+			endpoint.ProbePath = &probePath
+		}
+	}
+
+	// Set property ‘ProvisioningState’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ProvisioningState != nil {
+			provisioningState := *typedInput.Properties.ProvisioningState
+			endpoint.ProvisioningState = &provisioningState
 		}
 	}
 
@@ -1601,16 +1708,42 @@ func (endpoints *ProfilesEndpoints_Spec) PopulateFromARM(owner genruntime.Arbitr
 	if typedInput.Properties != nil {
 		if typedInput.Properties.QueryStringCachingBehavior != nil {
 			queryStringCachingBehavior := *typedInput.Properties.QueryStringCachingBehavior
-			endpoints.QueryStringCachingBehavior = &queryStringCachingBehavior
+			endpoint.QueryStringCachingBehavior = &queryStringCachingBehavior
 		}
+	}
+
+	// Set property ‘ResourceState’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ResourceState != nil {
+			resourceState := *typedInput.Properties.ResourceState
+			endpoint.ResourceState = &resourceState
+		}
+	}
+
+	// Set property ‘SystemData’:
+	if typedInput.SystemData != nil {
+		var systemData1 SystemData
+		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
+		if err != nil {
+			return err
+		}
+		systemData := systemData1
+		endpoint.SystemData = &systemData
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		endpoints.Tags = make(map[string]string)
+		endpoint.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
-			endpoints.Tags[key] = value
+			endpoint.Tags[key] = value
 		}
+	}
+
+	// Set property ‘Type’:
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		endpoint.Type = &typeVar
 	}
 
 	// Set property ‘UrlSigningKeys’:
@@ -1622,7 +1755,7 @@ func (endpoints *ProfilesEndpoints_Spec) PopulateFromARM(owner genruntime.Arbitr
 			if err != nil {
 				return err
 			}
-			endpoints.UrlSigningKeys = append(endpoints.UrlSigningKeys, item1)
+			endpoint.UrlSigningKeys = append(endpoint.UrlSigningKeys, item1)
 		}
 	}
 
@@ -1630,13 +1763,13 @@ func (endpoints *ProfilesEndpoints_Spec) PopulateFromARM(owner genruntime.Arbitr
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.WebApplicationFirewallPolicyLink != nil {
-			var webApplicationFirewallPolicyLink1 EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink
+			var webApplicationFirewallPolicyLink1 EndpointProperties_WebApplicationFirewallPolicyLink
 			err := webApplicationFirewallPolicyLink1.PopulateFromARM(owner, *typedInput.Properties.WebApplicationFirewallPolicyLink)
 			if err != nil {
 				return err
 			}
 			webApplicationFirewallPolicyLink := webApplicationFirewallPolicyLink1
-			endpoints.WebApplicationFirewallPolicyLink = &webApplicationFirewallPolicyLink
+			endpoint.WebApplicationFirewallPolicyLink = &webApplicationFirewallPolicyLink
 		}
 	}
 
@@ -1644,25 +1777,25 @@ func (endpoints *ProfilesEndpoints_Spec) PopulateFromARM(owner genruntime.Arbitr
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &ProfilesEndpoints_Spec{}
+var _ genruntime.ConvertibleSpec = &ProfilesEndpoint_Spec{}
 
-// ConvertSpecFrom populates our ProfilesEndpoints_Spec from the provided source
-func (endpoints *ProfilesEndpoints_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210601s.ProfilesEndpoints_Spec)
+// ConvertSpecFrom populates our ProfilesEndpoint_Spec from the provided source
+func (endpoint *ProfilesEndpoint_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20210601s.ProfilesEndpoint_Spec)
 	if ok {
 		// Populate our instance from source
-		return endpoints.AssignPropertiesFromProfilesEndpointsSpec(src)
+		return endpoint.AssignPropertiesFromProfilesEndpoint_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210601s.ProfilesEndpoints_Spec{}
+	src = &v20210601s.ProfilesEndpoint_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = endpoints.AssignPropertiesFromProfilesEndpointsSpec(src)
+	err = endpoint.AssignPropertiesFromProfilesEndpoint_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -1670,17 +1803,17 @@ func (endpoints *ProfilesEndpoints_Spec) ConvertSpecFrom(source genruntime.Conve
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our ProfilesEndpoints_Spec
-func (endpoints *ProfilesEndpoints_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210601s.ProfilesEndpoints_Spec)
+// ConvertSpecTo populates the provided destination from our ProfilesEndpoint_Spec
+func (endpoint *ProfilesEndpoint_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20210601s.ProfilesEndpoint_Spec)
 	if ok {
 		// Populate destination from our instance
-		return endpoints.AssignPropertiesToProfilesEndpointsSpec(dst)
+		return endpoint.AssignPropertiesToProfilesEndpoint_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210601s.ProfilesEndpoints_Spec{}
-	err := endpoints.AssignPropertiesToProfilesEndpointsSpec(dst)
+	dst = &v20210601s.ProfilesEndpoint_Spec{}
+	err := endpoint.AssignPropertiesToProfilesEndpoint_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -1694,14 +1827,32 @@ func (endpoints *ProfilesEndpoints_Spec) ConvertSpecTo(destination genruntime.Co
 	return nil
 }
 
-// AssignPropertiesFromProfilesEndpointsSpec populates our ProfilesEndpoints_Spec from the provided source ProfilesEndpoints_Spec
-func (endpoints *ProfilesEndpoints_Spec) AssignPropertiesFromProfilesEndpointsSpec(source *v20210601s.ProfilesEndpoints_Spec) error {
+// AssignPropertiesFromProfilesEndpoint_Spec populates our ProfilesEndpoint_Spec from the provided source ProfilesEndpoint_Spec
+func (endpoint *ProfilesEndpoint_Spec) AssignPropertiesFromProfilesEndpoint_Spec(source *v20210601s.ProfilesEndpoint_Spec) error {
 
 	// AzureName
-	endpoints.AzureName = source.AzureName
+	endpoint.AzureName = source.AzureName
 
 	// ContentTypesToCompress
-	endpoints.ContentTypesToCompress = genruntime.CloneSliceOfString(source.ContentTypesToCompress)
+	endpoint.ContentTypesToCompress = genruntime.CloneSliceOfString(source.ContentTypesToCompress)
+
+	// CustomDomains
+	if source.CustomDomains != nil {
+		customDomainList := make([]CustomDomain, len(source.CustomDomains))
+		for customDomainIndex, customDomainItem := range source.CustomDomains {
+			// Shadow the loop variable to avoid aliasing
+			customDomainItem := customDomainItem
+			var customDomain CustomDomain
+			err := customDomain.AssignPropertiesFromCustomDomain(&customDomainItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromCustomDomain() to populate field CustomDomains")
+			}
+			customDomainList[customDomainIndex] = customDomain
+		}
+		endpoint.CustomDomains = customDomainList
+	} else {
+		endpoint.CustomDomains = nil
+	}
 
 	// DefaultOriginGroup
 	if source.DefaultOriginGroup != nil {
@@ -1710,21 +1861,21 @@ func (endpoints *ProfilesEndpoints_Spec) AssignPropertiesFromProfilesEndpointsSp
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromResourceReference() to populate field DefaultOriginGroup")
 		}
-		endpoints.DefaultOriginGroup = &defaultOriginGroup
+		endpoint.DefaultOriginGroup = &defaultOriginGroup
 	} else {
-		endpoints.DefaultOriginGroup = nil
+		endpoint.DefaultOriginGroup = nil
 	}
 
 	// DeliveryPolicy
 	if source.DeliveryPolicy != nil {
-		var deliveryPolicy EndpointPropertiesUpdateParametersDeliveryPolicy
-		err := deliveryPolicy.AssignPropertiesFromEndpointPropertiesUpdateParametersDeliveryPolicy(source.DeliveryPolicy)
+		var deliveryPolicy EndpointProperties_DeliveryPolicy
+		err := deliveryPolicy.AssignPropertiesFromEndpointProperties_DeliveryPolicy(source.DeliveryPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEndpointPropertiesUpdateParametersDeliveryPolicy() to populate field DeliveryPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesFromEndpointProperties_DeliveryPolicy() to populate field DeliveryPolicy")
 		}
-		endpoints.DeliveryPolicy = &deliveryPolicy
+		endpoint.DeliveryPolicy = &deliveryPolicy
 	} else {
-		endpoints.DeliveryPolicy = nil
+		endpoint.DeliveryPolicy = nil
 	}
 
 	// GeoFilters
@@ -1740,109 +1891,146 @@ func (endpoints *ProfilesEndpoints_Spec) AssignPropertiesFromProfilesEndpointsSp
 			}
 			geoFilterList[geoFilterIndex] = geoFilter
 		}
-		endpoints.GeoFilters = geoFilterList
+		endpoint.GeoFilters = geoFilterList
 	} else {
-		endpoints.GeoFilters = nil
+		endpoint.GeoFilters = nil
 	}
+
+	// HostName
+	endpoint.HostName = genruntime.ClonePointerToString(source.HostName)
+
+	// Id
+	endpoint.Id = genruntime.ClonePointerToString(source.Id)
 
 	// IsCompressionEnabled
 	if source.IsCompressionEnabled != nil {
 		isCompressionEnabled := *source.IsCompressionEnabled
-		endpoints.IsCompressionEnabled = &isCompressionEnabled
+		endpoint.IsCompressionEnabled = &isCompressionEnabled
 	} else {
-		endpoints.IsCompressionEnabled = nil
+		endpoint.IsCompressionEnabled = nil
 	}
 
 	// IsHttpAllowed
 	if source.IsHttpAllowed != nil {
 		isHttpAllowed := *source.IsHttpAllowed
-		endpoints.IsHttpAllowed = &isHttpAllowed
+		endpoint.IsHttpAllowed = &isHttpAllowed
 	} else {
-		endpoints.IsHttpAllowed = nil
+		endpoint.IsHttpAllowed = nil
 	}
 
 	// IsHttpsAllowed
 	if source.IsHttpsAllowed != nil {
 		isHttpsAllowed := *source.IsHttpsAllowed
-		endpoints.IsHttpsAllowed = &isHttpsAllowed
+		endpoint.IsHttpsAllowed = &isHttpsAllowed
 	} else {
-		endpoints.IsHttpsAllowed = nil
+		endpoint.IsHttpsAllowed = nil
 	}
 
 	// Location
-	endpoints.Location = genruntime.ClonePointerToString(source.Location)
+	endpoint.Location = genruntime.ClonePointerToString(source.Location)
 
 	// OptimizationType
 	if source.OptimizationType != nil {
-		optimizationType := ProfilesEndpointsSpecPropertiesOptimizationType(*source.OptimizationType)
-		endpoints.OptimizationType = &optimizationType
+		optimizationType := OptimizationType(*source.OptimizationType)
+		endpoint.OptimizationType = &optimizationType
 	} else {
-		endpoints.OptimizationType = nil
+		endpoint.OptimizationType = nil
 	}
 
 	// OriginGroups
 	if source.OriginGroups != nil {
-		originGroupList := make([]ProfilesEndpoints_Spec_Properties_OriginGroups, len(source.OriginGroups))
+		originGroupList := make([]DeepCreatedOriginGroup, len(source.OriginGroups))
 		for originGroupIndex, originGroupItem := range source.OriginGroups {
 			// Shadow the loop variable to avoid aliasing
 			originGroupItem := originGroupItem
-			var originGroup ProfilesEndpoints_Spec_Properties_OriginGroups
-			err := originGroup.AssignPropertiesFromProfilesEndpointsSpecPropertiesOriginGroups(&originGroupItem)
+			var originGroup DeepCreatedOriginGroup
+			err := originGroup.AssignPropertiesFromDeepCreatedOriginGroup(&originGroupItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromProfilesEndpointsSpecPropertiesOriginGroups() to populate field OriginGroups")
+				return errors.Wrap(err, "calling AssignPropertiesFromDeepCreatedOriginGroup() to populate field OriginGroups")
 			}
 			originGroupList[originGroupIndex] = originGroup
 		}
-		endpoints.OriginGroups = originGroupList
+		endpoint.OriginGroups = originGroupList
 	} else {
-		endpoints.OriginGroups = nil
+		endpoint.OriginGroups = nil
 	}
 
 	// OriginHostHeader
-	endpoints.OriginHostHeader = genruntime.ClonePointerToString(source.OriginHostHeader)
+	endpoint.OriginHostHeader = genruntime.ClonePointerToString(source.OriginHostHeader)
 
 	// OriginPath
-	endpoints.OriginPath = genruntime.ClonePointerToString(source.OriginPath)
+	endpoint.OriginPath = genruntime.ClonePointerToString(source.OriginPath)
 
 	// Origins
 	if source.Origins != nil {
-		originList := make([]ProfilesEndpoints_Spec_Properties_Origins, len(source.Origins))
+		originList := make([]DeepCreatedOrigin, len(source.Origins))
 		for originIndex, originItem := range source.Origins {
 			// Shadow the loop variable to avoid aliasing
 			originItem := originItem
-			var origin ProfilesEndpoints_Spec_Properties_Origins
-			err := origin.AssignPropertiesFromProfilesEndpointsSpecPropertiesOrigins(&originItem)
+			var origin DeepCreatedOrigin
+			err := origin.AssignPropertiesFromDeepCreatedOrigin(&originItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromProfilesEndpointsSpecPropertiesOrigins() to populate field Origins")
+				return errors.Wrap(err, "calling AssignPropertiesFromDeepCreatedOrigin() to populate field Origins")
 			}
 			originList[originIndex] = origin
 		}
-		endpoints.Origins = originList
+		endpoint.Origins = originList
 	} else {
-		endpoints.Origins = nil
+		endpoint.Origins = nil
 	}
 
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
-		endpoints.Owner = &owner
+		endpoint.Owner = &owner
 	} else {
-		endpoints.Owner = nil
+		endpoint.Owner = nil
 	}
 
 	// ProbePath
-	endpoints.ProbePath = genruntime.ClonePointerToString(source.ProbePath)
+	endpoint.ProbePath = genruntime.ClonePointerToString(source.ProbePath)
+
+	// ProvisioningState
+	if source.ProvisioningState != nil {
+		provisioningState := EndpointProperties_ProvisioningState(*source.ProvisioningState)
+		endpoint.ProvisioningState = &provisioningState
+	} else {
+		endpoint.ProvisioningState = nil
+	}
 
 	// QueryStringCachingBehavior
 	if source.QueryStringCachingBehavior != nil {
-		queryStringCachingBehavior := ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior(*source.QueryStringCachingBehavior)
-		endpoints.QueryStringCachingBehavior = &queryStringCachingBehavior
+		queryStringCachingBehavior := QueryStringCachingBehavior(*source.QueryStringCachingBehavior)
+		endpoint.QueryStringCachingBehavior = &queryStringCachingBehavior
 	} else {
-		endpoints.QueryStringCachingBehavior = nil
+		endpoint.QueryStringCachingBehavior = nil
+	}
+
+	// ResourceState
+	if source.ResourceState != nil {
+		resourceState := EndpointProperties_ResourceState(*source.ResourceState)
+		endpoint.ResourceState = &resourceState
+	} else {
+		endpoint.ResourceState = nil
+	}
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData
+		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
+		}
+		endpoint.SystemData = &systemDatum
+	} else {
+		endpoint.SystemData = nil
 	}
 
 	// Tags
-	endpoints.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	endpoint.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	endpoint.Type = genruntime.ClonePointerToString(source.Type)
 
 	// UrlSigningKeys
 	if source.UrlSigningKeys != nil {
@@ -1857,42 +2045,60 @@ func (endpoints *ProfilesEndpoints_Spec) AssignPropertiesFromProfilesEndpointsSp
 			}
 			urlSigningKeyList[urlSigningKeyIndex] = urlSigningKey
 		}
-		endpoints.UrlSigningKeys = urlSigningKeyList
+		endpoint.UrlSigningKeys = urlSigningKeyList
 	} else {
-		endpoints.UrlSigningKeys = nil
+		endpoint.UrlSigningKeys = nil
 	}
 
 	// WebApplicationFirewallPolicyLink
 	if source.WebApplicationFirewallPolicyLink != nil {
-		var webApplicationFirewallPolicyLink EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink
-		err := webApplicationFirewallPolicyLink.AssignPropertiesFromEndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink(source.WebApplicationFirewallPolicyLink)
+		var webApplicationFirewallPolicyLink EndpointProperties_WebApplicationFirewallPolicyLink
+		err := webApplicationFirewallPolicyLink.AssignPropertiesFromEndpointProperties_WebApplicationFirewallPolicyLink(source.WebApplicationFirewallPolicyLink)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink() to populate field WebApplicationFirewallPolicyLink")
+			return errors.Wrap(err, "calling AssignPropertiesFromEndpointProperties_WebApplicationFirewallPolicyLink() to populate field WebApplicationFirewallPolicyLink")
 		}
-		endpoints.WebApplicationFirewallPolicyLink = &webApplicationFirewallPolicyLink
+		endpoint.WebApplicationFirewallPolicyLink = &webApplicationFirewallPolicyLink
 	} else {
-		endpoints.WebApplicationFirewallPolicyLink = nil
+		endpoint.WebApplicationFirewallPolicyLink = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToProfilesEndpointsSpec populates the provided destination ProfilesEndpoints_Spec from our ProfilesEndpoints_Spec
-func (endpoints *ProfilesEndpoints_Spec) AssignPropertiesToProfilesEndpointsSpec(destination *v20210601s.ProfilesEndpoints_Spec) error {
+// AssignPropertiesToProfilesEndpoint_Spec populates the provided destination ProfilesEndpoint_Spec from our ProfilesEndpoint_Spec
+func (endpoint *ProfilesEndpoint_Spec) AssignPropertiesToProfilesEndpoint_Spec(destination *v20210601s.ProfilesEndpoint_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
-	destination.AzureName = endpoints.AzureName
+	destination.AzureName = endpoint.AzureName
 
 	// ContentTypesToCompress
-	destination.ContentTypesToCompress = genruntime.CloneSliceOfString(endpoints.ContentTypesToCompress)
+	destination.ContentTypesToCompress = genruntime.CloneSliceOfString(endpoint.ContentTypesToCompress)
+
+	// CustomDomains
+	if endpoint.CustomDomains != nil {
+		customDomainList := make([]v20210601s.CustomDomain, len(endpoint.CustomDomains))
+		for customDomainIndex, customDomainItem := range endpoint.CustomDomains {
+			// Shadow the loop variable to avoid aliasing
+			customDomainItem := customDomainItem
+			var customDomain v20210601s.CustomDomain
+			err := customDomainItem.AssignPropertiesToCustomDomain(&customDomain)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToCustomDomain() to populate field CustomDomains")
+			}
+			customDomainList[customDomainIndex] = customDomain
+		}
+		destination.CustomDomains = customDomainList
+	} else {
+		destination.CustomDomains = nil
+	}
 
 	// DefaultOriginGroup
-	if endpoints.DefaultOriginGroup != nil {
+	if endpoint.DefaultOriginGroup != nil {
 		var defaultOriginGroup v20210601s.ResourceReference
-		err := endpoints.DefaultOriginGroup.AssignPropertiesToResourceReference(&defaultOriginGroup)
+		err := endpoint.DefaultOriginGroup.AssignPropertiesToResourceReference(&defaultOriginGroup)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToResourceReference() to populate field DefaultOriginGroup")
 		}
@@ -1902,11 +2108,11 @@ func (endpoints *ProfilesEndpoints_Spec) AssignPropertiesToProfilesEndpointsSpec
 	}
 
 	// DeliveryPolicy
-	if endpoints.DeliveryPolicy != nil {
-		var deliveryPolicy v20210601s.EndpointPropertiesUpdateParametersDeliveryPolicy
-		err := endpoints.DeliveryPolicy.AssignPropertiesToEndpointPropertiesUpdateParametersDeliveryPolicy(&deliveryPolicy)
+	if endpoint.DeliveryPolicy != nil {
+		var deliveryPolicy v20210601s.EndpointProperties_DeliveryPolicy
+		err := endpoint.DeliveryPolicy.AssignPropertiesToEndpointProperties_DeliveryPolicy(&deliveryPolicy)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEndpointPropertiesUpdateParametersDeliveryPolicy() to populate field DeliveryPolicy")
+			return errors.Wrap(err, "calling AssignPropertiesToEndpointProperties_DeliveryPolicy() to populate field DeliveryPolicy")
 		}
 		destination.DeliveryPolicy = &deliveryPolicy
 	} else {
@@ -1914,9 +2120,9 @@ func (endpoints *ProfilesEndpoints_Spec) AssignPropertiesToProfilesEndpointsSpec
 	}
 
 	// GeoFilters
-	if endpoints.GeoFilters != nil {
-		geoFilterList := make([]v20210601s.GeoFilter, len(endpoints.GeoFilters))
-		for geoFilterIndex, geoFilterItem := range endpoints.GeoFilters {
+	if endpoint.GeoFilters != nil {
+		geoFilterList := make([]v20210601s.GeoFilter, len(endpoint.GeoFilters))
+		for geoFilterIndex, geoFilterItem := range endpoint.GeoFilters {
 			// Shadow the loop variable to avoid aliasing
 			geoFilterItem := geoFilterItem
 			var geoFilter v20210601s.GeoFilter
@@ -1931,51 +2137,57 @@ func (endpoints *ProfilesEndpoints_Spec) AssignPropertiesToProfilesEndpointsSpec
 		destination.GeoFilters = nil
 	}
 
+	// HostName
+	destination.HostName = genruntime.ClonePointerToString(endpoint.HostName)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(endpoint.Id)
+
 	// IsCompressionEnabled
-	if endpoints.IsCompressionEnabled != nil {
-		isCompressionEnabled := *endpoints.IsCompressionEnabled
+	if endpoint.IsCompressionEnabled != nil {
+		isCompressionEnabled := *endpoint.IsCompressionEnabled
 		destination.IsCompressionEnabled = &isCompressionEnabled
 	} else {
 		destination.IsCompressionEnabled = nil
 	}
 
 	// IsHttpAllowed
-	if endpoints.IsHttpAllowed != nil {
-		isHttpAllowed := *endpoints.IsHttpAllowed
+	if endpoint.IsHttpAllowed != nil {
+		isHttpAllowed := *endpoint.IsHttpAllowed
 		destination.IsHttpAllowed = &isHttpAllowed
 	} else {
 		destination.IsHttpAllowed = nil
 	}
 
 	// IsHttpsAllowed
-	if endpoints.IsHttpsAllowed != nil {
-		isHttpsAllowed := *endpoints.IsHttpsAllowed
+	if endpoint.IsHttpsAllowed != nil {
+		isHttpsAllowed := *endpoint.IsHttpsAllowed
 		destination.IsHttpsAllowed = &isHttpsAllowed
 	} else {
 		destination.IsHttpsAllowed = nil
 	}
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(endpoints.Location)
+	destination.Location = genruntime.ClonePointerToString(endpoint.Location)
 
 	// OptimizationType
-	if endpoints.OptimizationType != nil {
-		optimizationType := string(*endpoints.OptimizationType)
+	if endpoint.OptimizationType != nil {
+		optimizationType := string(*endpoint.OptimizationType)
 		destination.OptimizationType = &optimizationType
 	} else {
 		destination.OptimizationType = nil
 	}
 
 	// OriginGroups
-	if endpoints.OriginGroups != nil {
-		originGroupList := make([]v20210601s.ProfilesEndpoints_Spec_Properties_OriginGroups, len(endpoints.OriginGroups))
-		for originGroupIndex, originGroupItem := range endpoints.OriginGroups {
+	if endpoint.OriginGroups != nil {
+		originGroupList := make([]v20210601s.DeepCreatedOriginGroup, len(endpoint.OriginGroups))
+		for originGroupIndex, originGroupItem := range endpoint.OriginGroups {
 			// Shadow the loop variable to avoid aliasing
 			originGroupItem := originGroupItem
-			var originGroup v20210601s.ProfilesEndpoints_Spec_Properties_OriginGroups
-			err := originGroupItem.AssignPropertiesToProfilesEndpointsSpecPropertiesOriginGroups(&originGroup)
+			var originGroup v20210601s.DeepCreatedOriginGroup
+			err := originGroupItem.AssignPropertiesToDeepCreatedOriginGroup(&originGroup)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToProfilesEndpointsSpecPropertiesOriginGroups() to populate field OriginGroups")
+				return errors.Wrap(err, "calling AssignPropertiesToDeepCreatedOriginGroup() to populate field OriginGroups")
 			}
 			originGroupList[originGroupIndex] = originGroup
 		}
@@ -1985,24 +2197,24 @@ func (endpoints *ProfilesEndpoints_Spec) AssignPropertiesToProfilesEndpointsSpec
 	}
 
 	// OriginHostHeader
-	destination.OriginHostHeader = genruntime.ClonePointerToString(endpoints.OriginHostHeader)
+	destination.OriginHostHeader = genruntime.ClonePointerToString(endpoint.OriginHostHeader)
 
 	// OriginPath
-	destination.OriginPath = genruntime.ClonePointerToString(endpoints.OriginPath)
+	destination.OriginPath = genruntime.ClonePointerToString(endpoint.OriginPath)
 
 	// OriginalVersion
-	destination.OriginalVersion = endpoints.OriginalVersion()
+	destination.OriginalVersion = endpoint.OriginalVersion()
 
 	// Origins
-	if endpoints.Origins != nil {
-		originList := make([]v20210601s.ProfilesEndpoints_Spec_Properties_Origins, len(endpoints.Origins))
-		for originIndex, originItem := range endpoints.Origins {
+	if endpoint.Origins != nil {
+		originList := make([]v20210601s.DeepCreatedOrigin, len(endpoint.Origins))
+		for originIndex, originItem := range endpoint.Origins {
 			// Shadow the loop variable to avoid aliasing
 			originItem := originItem
-			var origin v20210601s.ProfilesEndpoints_Spec_Properties_Origins
-			err := originItem.AssignPropertiesToProfilesEndpointsSpecPropertiesOrigins(&origin)
+			var origin v20210601s.DeepCreatedOrigin
+			err := originItem.AssignPropertiesToDeepCreatedOrigin(&origin)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToProfilesEndpointsSpecPropertiesOrigins() to populate field Origins")
+				return errors.Wrap(err, "calling AssignPropertiesToDeepCreatedOrigin() to populate field Origins")
 			}
 			originList[originIndex] = origin
 		}
@@ -2012,31 +2224,62 @@ func (endpoints *ProfilesEndpoints_Spec) AssignPropertiesToProfilesEndpointsSpec
 	}
 
 	// Owner
-	if endpoints.Owner != nil {
-		owner := endpoints.Owner.Copy()
+	if endpoint.Owner != nil {
+		owner := endpoint.Owner.Copy()
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
 	}
 
 	// ProbePath
-	destination.ProbePath = genruntime.ClonePointerToString(endpoints.ProbePath)
+	destination.ProbePath = genruntime.ClonePointerToString(endpoint.ProbePath)
+
+	// ProvisioningState
+	if endpoint.ProvisioningState != nil {
+		provisioningState := string(*endpoint.ProvisioningState)
+		destination.ProvisioningState = &provisioningState
+	} else {
+		destination.ProvisioningState = nil
+	}
 
 	// QueryStringCachingBehavior
-	if endpoints.QueryStringCachingBehavior != nil {
-		queryStringCachingBehavior := string(*endpoints.QueryStringCachingBehavior)
+	if endpoint.QueryStringCachingBehavior != nil {
+		queryStringCachingBehavior := string(*endpoint.QueryStringCachingBehavior)
 		destination.QueryStringCachingBehavior = &queryStringCachingBehavior
 	} else {
 		destination.QueryStringCachingBehavior = nil
 	}
 
+	// ResourceState
+	if endpoint.ResourceState != nil {
+		resourceState := string(*endpoint.ResourceState)
+		destination.ResourceState = &resourceState
+	} else {
+		destination.ResourceState = nil
+	}
+
+	// SystemData
+	if endpoint.SystemData != nil {
+		var systemDatum v20210601s.SystemData
+		err := endpoint.SystemData.AssignPropertiesToSystemData(&systemDatum)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(endpoints.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(endpoint.Tags)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(endpoint.Type)
 
 	// UrlSigningKeys
-	if endpoints.UrlSigningKeys != nil {
-		urlSigningKeyList := make([]v20210601s.UrlSigningKey, len(endpoints.UrlSigningKeys))
-		for urlSigningKeyIndex, urlSigningKeyItem := range endpoints.UrlSigningKeys {
+	if endpoint.UrlSigningKeys != nil {
+		urlSigningKeyList := make([]v20210601s.UrlSigningKey, len(endpoint.UrlSigningKeys))
+		for urlSigningKeyIndex, urlSigningKeyItem := range endpoint.UrlSigningKeys {
 			// Shadow the loop variable to avoid aliasing
 			urlSigningKeyItem := urlSigningKeyItem
 			var urlSigningKey v20210601s.UrlSigningKey
@@ -2052,11 +2295,11 @@ func (endpoints *ProfilesEndpoints_Spec) AssignPropertiesToProfilesEndpointsSpec
 	}
 
 	// WebApplicationFirewallPolicyLink
-	if endpoints.WebApplicationFirewallPolicyLink != nil {
-		var webApplicationFirewallPolicyLink v20210601s.EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink
-		err := endpoints.WebApplicationFirewallPolicyLink.AssignPropertiesToEndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink(&webApplicationFirewallPolicyLink)
+	if endpoint.WebApplicationFirewallPolicyLink != nil {
+		var webApplicationFirewallPolicyLink v20210601s.EndpointProperties_WebApplicationFirewallPolicyLink
+		err := endpoint.WebApplicationFirewallPolicyLink.AssignPropertiesToEndpointProperties_WebApplicationFirewallPolicyLink(&webApplicationFirewallPolicyLink)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink() to populate field WebApplicationFirewallPolicyLink")
+			return errors.Wrap(err, "calling AssignPropertiesToEndpointProperties_WebApplicationFirewallPolicyLink() to populate field WebApplicationFirewallPolicyLink")
 		}
 		destination.WebApplicationFirewallPolicyLink = &webApplicationFirewallPolicyLink
 	} else {
@@ -2075,96 +2318,1155 @@ func (endpoints *ProfilesEndpoints_Spec) AssignPropertiesToProfilesEndpointsSpec
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (endpoints *ProfilesEndpoints_Spec) OriginalVersion() string {
+func (endpoint *ProfilesEndpoint_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (endpoints *ProfilesEndpoints_Spec) SetAzureName(azureName string) {
-	endpoints.AzureName = azureName
-}
+func (endpoint *ProfilesEndpoint_Spec) SetAzureName(azureName string) { endpoint.AzureName = azureName }
 
-type CustomDomain_Status_SubResourceEmbedded struct {
+type CustomDomain struct {
+	// CustomHttpsParameters: Certificate parameters for securing custom HTTPS
+	CustomHttpsParameters *CustomDomainHttpsParameters `json:"customHttpsParameters,omitempty"`
+
+	// CustomHttpsProvisioningState: Provisioning status of the custom domain.
+	CustomHttpsProvisioningState *CustomDomainProperties_CustomHttpsProvisioningState `json:"customHttpsProvisioningState,omitempty"`
+
+	// CustomHttpsProvisioningSubstate: Provisioning substate shows the progress of custom HTTPS enabling/disabling process
+	// step by step.
+	CustomHttpsProvisioningSubstate *CustomDomainProperties_CustomHttpsProvisioningSubstate `json:"customHttpsProvisioningSubstate,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// HostName: The host name of the custom domain. Must be a domain name.
+	HostName *string `json:"hostName,omitempty"`
+
 	// Id: Resource ID.
-	Id         *string            `json:"id,omitempty"`
-	SystemData *SystemData_Status `json:"systemData,omitempty"`
+	Id *string `json:"id,omitempty"`
+
+	// Name: Resource name.
+	Name *string `json:"name,omitempty"`
+
+	// ProvisioningState: Provisioning status of Custom Https of the custom domain.
+	ProvisioningState *CustomDomainProperties_ProvisioningState `json:"provisioningState,omitempty"`
+
+	// ResourceState: Resource status of the custom domain.
+	ResourceState *CustomDomainProperties_ResourceState `json:"resourceState,omitempty"`
+	SystemData    *SystemData                           `json:"systemData,omitempty"`
+
+	// Type: Resource type.
+	Type *string `json:"type,omitempty"`
+
+	// ValidationData: Special validation or data may be required when delivering CDN to some regions due to local compliance
+	// reasons. E.g. ICP license number of a custom domain is required to deliver content in China.
+	ValidationData *string `json:"validationData,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &CustomDomain_Status_SubResourceEmbedded{}
+var _ genruntime.ARMTransformer = &CustomDomain{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (domain *CustomDomain) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if domain == nil {
+		return nil, nil
+	}
+	result := &CustomDomainARM{}
+
+	// Set property ‘Id’:
+	if domain.Id != nil {
+		id := *domain.Id
+		result.Id = &id
+	}
+
+	// Set property ‘Name’:
+	if domain.Name != nil {
+		name := *domain.Name
+		result.Name = &name
+	}
+
+	// Set property ‘Properties’:
+	if domain.CustomHttpsParameters != nil ||
+		domain.CustomHttpsProvisioningState != nil ||
+		domain.CustomHttpsProvisioningSubstate != nil ||
+		domain.HostName != nil ||
+		domain.ProvisioningState != nil ||
+		domain.ResourceState != nil ||
+		domain.ValidationData != nil {
+		result.Properties = &CustomDomainPropertiesARM{}
+	}
+	if domain.CustomHttpsParameters != nil {
+		customHttpsParametersARM, err := (*domain.CustomHttpsParameters).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		customHttpsParameters := *customHttpsParametersARM.(*CustomDomainHttpsParametersARM)
+		result.Properties.CustomHttpsParameters = &customHttpsParameters
+	}
+	if domain.CustomHttpsProvisioningState != nil {
+		customHttpsProvisioningState := *domain.CustomHttpsProvisioningState
+		result.Properties.CustomHttpsProvisioningState = &customHttpsProvisioningState
+	}
+	if domain.CustomHttpsProvisioningSubstate != nil {
+		customHttpsProvisioningSubstate := *domain.CustomHttpsProvisioningSubstate
+		result.Properties.CustomHttpsProvisioningSubstate = &customHttpsProvisioningSubstate
+	}
+	if domain.HostName != nil {
+		hostName := *domain.HostName
+		result.Properties.HostName = &hostName
+	}
+	if domain.ProvisioningState != nil {
+		provisioningState := *domain.ProvisioningState
+		result.Properties.ProvisioningState = &provisioningState
+	}
+	if domain.ResourceState != nil {
+		resourceState := *domain.ResourceState
+		result.Properties.ResourceState = &resourceState
+	}
+	if domain.ValidationData != nil {
+		validationData := *domain.ValidationData
+		result.Properties.ValidationData = &validationData
+	}
+
+	// Set property ‘SystemData’:
+	if domain.SystemData != nil {
+		systemDataARM, err := (*domain.SystemData).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		systemData := *systemDataARM.(*SystemDataARM)
+		result.SystemData = &systemData
+	}
+
+	// Set property ‘Type’:
+	if domain.Type != nil {
+		typeVar := *domain.Type
+		result.Type = &typeVar
+	}
+	return result, nil
+}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (embedded *CustomDomain_Status_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CustomDomain_Status_SubResourceEmbeddedARM{}
+func (domain *CustomDomain) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &CustomDomainARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (embedded *CustomDomain_Status_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CustomDomain_Status_SubResourceEmbeddedARM)
+func (domain *CustomDomain) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(CustomDomainARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CustomDomain_Status_SubResourceEmbeddedARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CustomDomainARM, got %T", armInput)
+	}
+
+	// Set property ‘CustomHttpsParameters’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.CustomHttpsParameters != nil {
+			var customHttpsParameters1 CustomDomainHttpsParameters
+			err := customHttpsParameters1.PopulateFromARM(owner, *typedInput.Properties.CustomHttpsParameters)
+			if err != nil {
+				return err
+			}
+			customHttpsParameters := customHttpsParameters1
+			domain.CustomHttpsParameters = &customHttpsParameters
+		}
+	}
+
+	// Set property ‘CustomHttpsProvisioningState’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.CustomHttpsProvisioningState != nil {
+			customHttpsProvisioningState := *typedInput.Properties.CustomHttpsProvisioningState
+			domain.CustomHttpsProvisioningState = &customHttpsProvisioningState
+		}
+	}
+
+	// Set property ‘CustomHttpsProvisioningSubstate’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.CustomHttpsProvisioningSubstate != nil {
+			customHttpsProvisioningSubstate := *typedInput.Properties.CustomHttpsProvisioningSubstate
+			domain.CustomHttpsProvisioningSubstate = &customHttpsProvisioningSubstate
+		}
+	}
+
+	// Set property ‘HostName’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.HostName != nil {
+			hostName := *typedInput.Properties.HostName
+			domain.HostName = &hostName
+		}
 	}
 
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
-		embedded.Id = &id
+		domain.Id = &id
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		domain.Name = &name
+	}
+
+	// Set property ‘ProvisioningState’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ProvisioningState != nil {
+			provisioningState := *typedInput.Properties.ProvisioningState
+			domain.ProvisioningState = &provisioningState
+		}
+	}
+
+	// Set property ‘ResourceState’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ResourceState != nil {
+			resourceState := *typedInput.Properties.ResourceState
+			domain.ResourceState = &resourceState
+		}
 	}
 
 	// Set property ‘SystemData’:
 	if typedInput.SystemData != nil {
-		var systemData1 SystemData_Status
+		var systemData1 SystemData
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
 		if err != nil {
 			return err
 		}
 		systemData := systemData1
-		embedded.SystemData = &systemData
+		domain.SystemData = &systemData
+	}
+
+	// Set property ‘Type’:
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		domain.Type = &typeVar
+	}
+
+	// Set property ‘ValidationData’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ValidationData != nil {
+			validationData := *typedInput.Properties.ValidationData
+			domain.ValidationData = &validationData
+		}
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesFromCustomDomainStatusSubResourceEmbedded populates our CustomDomain_Status_SubResourceEmbedded from the provided source CustomDomain_Status_SubResourceEmbedded
-func (embedded *CustomDomain_Status_SubResourceEmbedded) AssignPropertiesFromCustomDomainStatusSubResourceEmbedded(source *v20210601s.CustomDomain_Status_SubResourceEmbedded) error {
+// AssignPropertiesFromCustomDomain populates our CustomDomain from the provided source CustomDomain
+func (domain *CustomDomain) AssignPropertiesFromCustomDomain(source *v20210601s.CustomDomain) error {
+
+	// CustomHttpsParameters
+	if source.CustomHttpsParameters != nil {
+		var customHttpsParameter CustomDomainHttpsParameters
+		err := customHttpsParameter.AssignPropertiesFromCustomDomainHttpsParameters(source.CustomHttpsParameters)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromCustomDomainHttpsParameters() to populate field CustomHttpsParameters")
+		}
+		domain.CustomHttpsParameters = &customHttpsParameter
+	} else {
+		domain.CustomHttpsParameters = nil
+	}
+
+	// CustomHttpsProvisioningState
+	if source.CustomHttpsProvisioningState != nil {
+		customHttpsProvisioningState := CustomDomainProperties_CustomHttpsProvisioningState(*source.CustomHttpsProvisioningState)
+		domain.CustomHttpsProvisioningState = &customHttpsProvisioningState
+	} else {
+		domain.CustomHttpsProvisioningState = nil
+	}
+
+	// CustomHttpsProvisioningSubstate
+	if source.CustomHttpsProvisioningSubstate != nil {
+		customHttpsProvisioningSubstate := CustomDomainProperties_CustomHttpsProvisioningSubstate(*source.CustomHttpsProvisioningSubstate)
+		domain.CustomHttpsProvisioningSubstate = &customHttpsProvisioningSubstate
+	} else {
+		domain.CustomHttpsProvisioningSubstate = nil
+	}
+
+	// HostName
+	domain.HostName = genruntime.ClonePointerToString(source.HostName)
 
 	// Id
-	embedded.Id = genruntime.ClonePointerToString(source.Id)
+	domain.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Name
+	domain.Name = genruntime.ClonePointerToString(source.Name)
+
+	// ProvisioningState
+	if source.ProvisioningState != nil {
+		provisioningState := CustomDomainProperties_ProvisioningState(*source.ProvisioningState)
+		domain.ProvisioningState = &provisioningState
+	} else {
+		domain.ProvisioningState = nil
+	}
+
+	// ResourceState
+	if source.ResourceState != nil {
+		resourceState := CustomDomainProperties_ResourceState(*source.ResourceState)
+		domain.ResourceState = &resourceState
+	} else {
+		domain.ResourceState = nil
+	}
 
 	// SystemData
 	if source.SystemData != nil {
-		var systemDatum SystemData_Status
-		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
+		var systemDatum SystemData
+		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
 		}
-		embedded.SystemData = &systemDatum
+		domain.SystemData = &systemDatum
 	} else {
-		embedded.SystemData = nil
+		domain.SystemData = nil
 	}
+
+	// Type
+	domain.Type = genruntime.ClonePointerToString(source.Type)
+
+	// ValidationData
+	domain.ValidationData = genruntime.ClonePointerToString(source.ValidationData)
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToCustomDomainStatusSubResourceEmbedded populates the provided destination CustomDomain_Status_SubResourceEmbedded from our CustomDomain_Status_SubResourceEmbedded
-func (embedded *CustomDomain_Status_SubResourceEmbedded) AssignPropertiesToCustomDomainStatusSubResourceEmbedded(destination *v20210601s.CustomDomain_Status_SubResourceEmbedded) error {
+// AssignPropertiesToCustomDomain populates the provided destination CustomDomain from our CustomDomain
+func (domain *CustomDomain) AssignPropertiesToCustomDomain(destination *v20210601s.CustomDomain) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
+	// CustomHttpsParameters
+	if domain.CustomHttpsParameters != nil {
+		var customHttpsParameter v20210601s.CustomDomainHttpsParameters
+		err := domain.CustomHttpsParameters.AssignPropertiesToCustomDomainHttpsParameters(&customHttpsParameter)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToCustomDomainHttpsParameters() to populate field CustomHttpsParameters")
+		}
+		destination.CustomHttpsParameters = &customHttpsParameter
+	} else {
+		destination.CustomHttpsParameters = nil
+	}
+
+	// CustomHttpsProvisioningState
+	if domain.CustomHttpsProvisioningState != nil {
+		customHttpsProvisioningState := string(*domain.CustomHttpsProvisioningState)
+		destination.CustomHttpsProvisioningState = &customHttpsProvisioningState
+	} else {
+		destination.CustomHttpsProvisioningState = nil
+	}
+
+	// CustomHttpsProvisioningSubstate
+	if domain.CustomHttpsProvisioningSubstate != nil {
+		customHttpsProvisioningSubstate := string(*domain.CustomHttpsProvisioningSubstate)
+		destination.CustomHttpsProvisioningSubstate = &customHttpsProvisioningSubstate
+	} else {
+		destination.CustomHttpsProvisioningSubstate = nil
+	}
+
+	// HostName
+	destination.HostName = genruntime.ClonePointerToString(domain.HostName)
+
 	// Id
-	destination.Id = genruntime.ClonePointerToString(embedded.Id)
+	destination.Id = genruntime.ClonePointerToString(domain.Id)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(domain.Name)
+
+	// ProvisioningState
+	if domain.ProvisioningState != nil {
+		provisioningState := string(*domain.ProvisioningState)
+		destination.ProvisioningState = &provisioningState
+	} else {
+		destination.ProvisioningState = nil
+	}
+
+	// ResourceState
+	if domain.ResourceState != nil {
+		resourceState := string(*domain.ResourceState)
+		destination.ResourceState = &resourceState
+	} else {
+		destination.ResourceState = nil
+	}
 
 	// SystemData
-	if embedded.SystemData != nil {
-		var systemDatum v20210601s.SystemData_Status
-		err := embedded.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
+	if domain.SystemData != nil {
+		var systemDatum v20210601s.SystemData
+		err := domain.SystemData.AssignPropertiesToSystemData(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
 		destination.SystemData = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(domain.Type)
+
+	// ValidationData
+	destination.ValidationData = genruntime.ClonePointerToString(domain.ValidationData)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type CustomDomain_STATUS struct {
+	// CustomHttpsParameters: Certificate parameters for securing custom HTTPS
+	CustomHttpsParameters *CustomDomainHttpsParameters_STATUS `json:"customHttpsParameters,omitempty"`
+
+	// CustomHttpsProvisioningState: Provisioning status of the custom domain.
+	CustomHttpsProvisioningState *CustomDomainProperties_CustomHttpsProvisioningState_STATUS `json:"customHttpsProvisioningState,omitempty"`
+
+	// CustomHttpsProvisioningSubstate: Provisioning substate shows the progress of custom HTTPS enabling/disabling process
+	// step by step.
+	CustomHttpsProvisioningSubstate *CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS `json:"customHttpsProvisioningSubstate,omitempty"`
+
+	// HostName: The host name of the custom domain. Must be a domain name.
+	HostName *string `json:"hostName,omitempty"`
+
+	// Id: Resource ID.
+	Id *string `json:"id,omitempty"`
+
+	// Name: Resource name.
+	Name *string `json:"name,omitempty"`
+
+	// ProvisioningState: Provisioning status of Custom Https of the custom domain.
+	ProvisioningState *CustomDomainProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+
+	// ResourceState: Resource status of the custom domain.
+	ResourceState *CustomDomainProperties_ResourceState_STATUS `json:"resourceState,omitempty"`
+	SystemData    *SystemData_STATUS                           `json:"systemData,omitempty"`
+
+	// Type: Resource type.
+	Type *string `json:"type,omitempty"`
+
+	// ValidationData: Special validation or data may be required when delivering CDN to some regions due to local compliance
+	// reasons. E.g. ICP license number of a custom domain is required to deliver content in China.
+	ValidationData *string `json:"validationData,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &CustomDomain_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (domain *CustomDomain_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &CustomDomain_STATUSARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (domain *CustomDomain_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(CustomDomain_STATUSARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CustomDomain_STATUSARM, got %T", armInput)
+	}
+
+	// Set property ‘CustomHttpsParameters’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.CustomHttpsParameters != nil {
+			var customHttpsParameters1 CustomDomainHttpsParameters_STATUS
+			err := customHttpsParameters1.PopulateFromARM(owner, *typedInput.Properties.CustomHttpsParameters)
+			if err != nil {
+				return err
+			}
+			customHttpsParameters := customHttpsParameters1
+			domain.CustomHttpsParameters = &customHttpsParameters
+		}
+	}
+
+	// Set property ‘CustomHttpsProvisioningState’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.CustomHttpsProvisioningState != nil {
+			customHttpsProvisioningState := *typedInput.Properties.CustomHttpsProvisioningState
+			domain.CustomHttpsProvisioningState = &customHttpsProvisioningState
+		}
+	}
+
+	// Set property ‘CustomHttpsProvisioningSubstate’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.CustomHttpsProvisioningSubstate != nil {
+			customHttpsProvisioningSubstate := *typedInput.Properties.CustomHttpsProvisioningSubstate
+			domain.CustomHttpsProvisioningSubstate = &customHttpsProvisioningSubstate
+		}
+	}
+
+	// Set property ‘HostName’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.HostName != nil {
+			hostName := *typedInput.Properties.HostName
+			domain.HostName = &hostName
+		}
+	}
+
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		domain.Id = &id
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		domain.Name = &name
+	}
+
+	// Set property ‘ProvisioningState’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ProvisioningState != nil {
+			provisioningState := *typedInput.Properties.ProvisioningState
+			domain.ProvisioningState = &provisioningState
+		}
+	}
+
+	// Set property ‘ResourceState’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ResourceState != nil {
+			resourceState := *typedInput.Properties.ResourceState
+			domain.ResourceState = &resourceState
+		}
+	}
+
+	// Set property ‘SystemData’:
+	if typedInput.SystemData != nil {
+		var systemData1 SystemData_STATUS
+		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
+		if err != nil {
+			return err
+		}
+		systemData := systemData1
+		domain.SystemData = &systemData
+	}
+
+	// Set property ‘Type’:
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		domain.Type = &typeVar
+	}
+
+	// Set property ‘ValidationData’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ValidationData != nil {
+			validationData := *typedInput.Properties.ValidationData
+			domain.ValidationData = &validationData
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromCustomDomain_STATUS populates our CustomDomain_STATUS from the provided source CustomDomain_STATUS
+func (domain *CustomDomain_STATUS) AssignPropertiesFromCustomDomain_STATUS(source *v20210601s.CustomDomain_STATUS) error {
+
+	// CustomHttpsParameters
+	if source.CustomHttpsParameters != nil {
+		var customHttpsParameter CustomDomainHttpsParameters_STATUS
+		err := customHttpsParameter.AssignPropertiesFromCustomDomainHttpsParameters_STATUS(source.CustomHttpsParameters)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromCustomDomainHttpsParameters_STATUS() to populate field CustomHttpsParameters")
+		}
+		domain.CustomHttpsParameters = &customHttpsParameter
+	} else {
+		domain.CustomHttpsParameters = nil
+	}
+
+	// CustomHttpsProvisioningState
+	if source.CustomHttpsProvisioningState != nil {
+		customHttpsProvisioningState := CustomDomainProperties_CustomHttpsProvisioningState_STATUS(*source.CustomHttpsProvisioningState)
+		domain.CustomHttpsProvisioningState = &customHttpsProvisioningState
+	} else {
+		domain.CustomHttpsProvisioningState = nil
+	}
+
+	// CustomHttpsProvisioningSubstate
+	if source.CustomHttpsProvisioningSubstate != nil {
+		customHttpsProvisioningSubstate := CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS(*source.CustomHttpsProvisioningSubstate)
+		domain.CustomHttpsProvisioningSubstate = &customHttpsProvisioningSubstate
+	} else {
+		domain.CustomHttpsProvisioningSubstate = nil
+	}
+
+	// HostName
+	domain.HostName = genruntime.ClonePointerToString(source.HostName)
+
+	// Id
+	domain.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Name
+	domain.Name = genruntime.ClonePointerToString(source.Name)
+
+	// ProvisioningState
+	if source.ProvisioningState != nil {
+		provisioningState := CustomDomainProperties_ProvisioningState_STATUS(*source.ProvisioningState)
+		domain.ProvisioningState = &provisioningState
+	} else {
+		domain.ProvisioningState = nil
+	}
+
+	// ResourceState
+	if source.ResourceState != nil {
+		resourceState := CustomDomainProperties_ResourceState_STATUS(*source.ResourceState)
+		domain.ResourceState = &resourceState
+	} else {
+		domain.ResourceState = nil
+	}
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignPropertiesFromSystemData_STATUS(source.SystemData)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemData_STATUS() to populate field SystemData")
+		}
+		domain.SystemData = &systemDatum
+	} else {
+		domain.SystemData = nil
+	}
+
+	// Type
+	domain.Type = genruntime.ClonePointerToString(source.Type)
+
+	// ValidationData
+	domain.ValidationData = genruntime.ClonePointerToString(source.ValidationData)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToCustomDomain_STATUS populates the provided destination CustomDomain_STATUS from our CustomDomain_STATUS
+func (domain *CustomDomain_STATUS) AssignPropertiesToCustomDomain_STATUS(destination *v20210601s.CustomDomain_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// CustomHttpsParameters
+	if domain.CustomHttpsParameters != nil {
+		var customHttpsParameter v20210601s.CustomDomainHttpsParameters_STATUS
+		err := domain.CustomHttpsParameters.AssignPropertiesToCustomDomainHttpsParameters_STATUS(&customHttpsParameter)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToCustomDomainHttpsParameters_STATUS() to populate field CustomHttpsParameters")
+		}
+		destination.CustomHttpsParameters = &customHttpsParameter
+	} else {
+		destination.CustomHttpsParameters = nil
+	}
+
+	// CustomHttpsProvisioningState
+	if domain.CustomHttpsProvisioningState != nil {
+		customHttpsProvisioningState := string(*domain.CustomHttpsProvisioningState)
+		destination.CustomHttpsProvisioningState = &customHttpsProvisioningState
+	} else {
+		destination.CustomHttpsProvisioningState = nil
+	}
+
+	// CustomHttpsProvisioningSubstate
+	if domain.CustomHttpsProvisioningSubstate != nil {
+		customHttpsProvisioningSubstate := string(*domain.CustomHttpsProvisioningSubstate)
+		destination.CustomHttpsProvisioningSubstate = &customHttpsProvisioningSubstate
+	} else {
+		destination.CustomHttpsProvisioningSubstate = nil
+	}
+
+	// HostName
+	destination.HostName = genruntime.ClonePointerToString(domain.HostName)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(domain.Id)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(domain.Name)
+
+	// ProvisioningState
+	if domain.ProvisioningState != nil {
+		provisioningState := string(*domain.ProvisioningState)
+		destination.ProvisioningState = &provisioningState
+	} else {
+		destination.ProvisioningState = nil
+	}
+
+	// ResourceState
+	if domain.ResourceState != nil {
+		resourceState := string(*domain.ResourceState)
+		destination.ResourceState = &resourceState
+	} else {
+		destination.ResourceState = nil
+	}
+
+	// SystemData
+	if domain.SystemData != nil {
+		var systemDatum v20210601s.SystemData_STATUS
+		err := domain.SystemData.AssignPropertiesToSystemData_STATUS(&systemDatum)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(domain.Type)
+
+	// ValidationData
+	destination.ValidationData = genruntime.ClonePointerToString(domain.ValidationData)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type DeepCreatedOrigin struct {
+	// Enabled: Origin is enabled for load balancing or not. By default, origin is always enabled.
+	Enabled *bool `json:"enabled,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// HostName: The address of the origin. It can be a domain name, IPv4 address, or IPv6 address. This should be unique
+	// across all origins in an endpoint.
+	HostName *string `json:"hostName,omitempty"`
+
+	// +kubebuilder:validation:Maximum=65535
+	// +kubebuilder:validation:Minimum=1
+	// HttpPort: The value of the HTTP port. Must be between 1 and 65535.
+	HttpPort *int `json:"httpPort,omitempty"`
+
+	// +kubebuilder:validation:Maximum=65535
+	// +kubebuilder:validation:Minimum=1
+	// HttpsPort: The value of the HTTPS port. Must be between 1 and 65535.
+	HttpsPort *int `json:"httpsPort,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Name: Origin name which must be unique within the endpoint.
+	Name *string `json:"name,omitempty"`
+
+	// OriginHostHeader: The host header value sent to the origin with each request. If you leave this blank, the request
+	// hostname determines this value. Azure CDN origins, such as Web Apps, Blob Storage, and Cloud Services require this host
+	// header value to match the origin hostname by default.
+	OriginHostHeader *string `json:"originHostHeader,omitempty"`
+
+	// +kubebuilder:validation:Maximum=5
+	// +kubebuilder:validation:Minimum=1
+	// Priority: Priority of origin in given origin group for load balancing. Higher priorities will not be used for load
+	// balancing if any lower priority origin is healthy.Must be between 1 and 5.
+	Priority *int `json:"priority,omitempty"`
+
+	// PrivateEndpointStatus: The approval status for the connection to the Private Link
+	PrivateEndpointStatus *PrivateEndpointStatus `json:"privateEndpointStatus,omitempty"`
+
+	// PrivateLinkAlias: The Alias of the Private Link resource. Populating this optional field indicates that this origin is
+	// 'Private'
+	PrivateLinkAlias *string `json:"privateLinkAlias,omitempty"`
+
+	// PrivateLinkApprovalMessage: A custom message to be included in the approval request to connect to the Private Link.
+	PrivateLinkApprovalMessage *string `json:"privateLinkApprovalMessage,omitempty"`
+
+	// PrivateLinkLocationReference: The location of the Private Link resource. Required only if 'privateLinkResourceId' is
+	// populated
+	PrivateLinkLocationReference *genruntime.ResourceReference `armReference:"PrivateLinkLocation" json:"privateLinkLocationReference,omitempty"`
+
+	// PrivateLinkResourceReference: The Resource Id of the Private Link resource. Populating this optional field indicates
+	// that this backend is 'Private'
+	PrivateLinkResourceReference *genruntime.ResourceReference `armReference:"PrivateLinkResourceId" json:"privateLinkResourceReference,omitempty"`
+
+	// +kubebuilder:validation:Maximum=1000
+	// +kubebuilder:validation:Minimum=1
+	// Weight: Weight of the origin in given origin group for load balancing. Must be between 1 and 1000
+	Weight *int `json:"weight,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &DeepCreatedOrigin{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (origin *DeepCreatedOrigin) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if origin == nil {
+		return nil, nil
+	}
+	result := &DeepCreatedOriginARM{}
+
+	// Set property ‘Name’:
+	if origin.Name != nil {
+		name := *origin.Name
+		result.Name = &name
+	}
+
+	// Set property ‘Properties’:
+	if origin.Enabled != nil ||
+		origin.HostName != nil ||
+		origin.HttpPort != nil ||
+		origin.HttpsPort != nil ||
+		origin.OriginHostHeader != nil ||
+		origin.Priority != nil ||
+		origin.PrivateEndpointStatus != nil ||
+		origin.PrivateLinkAlias != nil ||
+		origin.PrivateLinkApprovalMessage != nil ||
+		origin.PrivateLinkLocationReference != nil ||
+		origin.PrivateLinkResourceReference != nil ||
+		origin.Weight != nil {
+		result.Properties = &DeepCreatedOriginPropertiesARM{}
+	}
+	if origin.Enabled != nil {
+		enabled := *origin.Enabled
+		result.Properties.Enabled = &enabled
+	}
+	if origin.HostName != nil {
+		hostName := *origin.HostName
+		result.Properties.HostName = &hostName
+	}
+	if origin.HttpPort != nil {
+		httpPort := *origin.HttpPort
+		result.Properties.HttpPort = &httpPort
+	}
+	if origin.HttpsPort != nil {
+		httpsPort := *origin.HttpsPort
+		result.Properties.HttpsPort = &httpsPort
+	}
+	if origin.OriginHostHeader != nil {
+		originHostHeader := *origin.OriginHostHeader
+		result.Properties.OriginHostHeader = &originHostHeader
+	}
+	if origin.Priority != nil {
+		priority := *origin.Priority
+		result.Properties.Priority = &priority
+	}
+	if origin.PrivateEndpointStatus != nil {
+		privateEndpointStatus := *origin.PrivateEndpointStatus
+		result.Properties.PrivateEndpointStatus = &privateEndpointStatus
+	}
+	if origin.PrivateLinkAlias != nil {
+		privateLinkAlias := *origin.PrivateLinkAlias
+		result.Properties.PrivateLinkAlias = &privateLinkAlias
+	}
+	if origin.PrivateLinkApprovalMessage != nil {
+		privateLinkApprovalMessage := *origin.PrivateLinkApprovalMessage
+		result.Properties.PrivateLinkApprovalMessage = &privateLinkApprovalMessage
+	}
+	if origin.PrivateLinkLocationReference != nil {
+		privateLinkLocationARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*origin.PrivateLinkLocationReference)
+		if err != nil {
+			return nil, err
+		}
+		privateLinkLocation := privateLinkLocationARMID
+		result.Properties.PrivateLinkLocation = &privateLinkLocation
+	}
+	if origin.PrivateLinkResourceReference != nil {
+		privateLinkResourceIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*origin.PrivateLinkResourceReference)
+		if err != nil {
+			return nil, err
+		}
+		privateLinkResourceId := privateLinkResourceIdARMID
+		result.Properties.PrivateLinkResourceId = &privateLinkResourceId
+	}
+	if origin.Weight != nil {
+		weight := *origin.Weight
+		result.Properties.Weight = &weight
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (origin *DeepCreatedOrigin) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DeepCreatedOriginARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (origin *DeepCreatedOrigin) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DeepCreatedOriginARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeepCreatedOriginARM, got %T", armInput)
+	}
+
+	// Set property ‘Enabled’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Enabled != nil {
+			enabled := *typedInput.Properties.Enabled
+			origin.Enabled = &enabled
+		}
+	}
+
+	// Set property ‘HostName’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.HostName != nil {
+			hostName := *typedInput.Properties.HostName
+			origin.HostName = &hostName
+		}
+	}
+
+	// Set property ‘HttpPort’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.HttpPort != nil {
+			httpPort := *typedInput.Properties.HttpPort
+			origin.HttpPort = &httpPort
+		}
+	}
+
+	// Set property ‘HttpsPort’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.HttpsPort != nil {
+			httpsPort := *typedInput.Properties.HttpsPort
+			origin.HttpsPort = &httpsPort
+		}
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		origin.Name = &name
+	}
+
+	// Set property ‘OriginHostHeader’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.OriginHostHeader != nil {
+			originHostHeader := *typedInput.Properties.OriginHostHeader
+			origin.OriginHostHeader = &originHostHeader
+		}
+	}
+
+	// Set property ‘Priority’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Priority != nil {
+			priority := *typedInput.Properties.Priority
+			origin.Priority = &priority
+		}
+	}
+
+	// Set property ‘PrivateEndpointStatus’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PrivateEndpointStatus != nil {
+			privateEndpointStatus := *typedInput.Properties.PrivateEndpointStatus
+			origin.PrivateEndpointStatus = &privateEndpointStatus
+		}
+	}
+
+	// Set property ‘PrivateLinkAlias’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PrivateLinkAlias != nil {
+			privateLinkAlias := *typedInput.Properties.PrivateLinkAlias
+			origin.PrivateLinkAlias = &privateLinkAlias
+		}
+	}
+
+	// Set property ‘PrivateLinkApprovalMessage’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.PrivateLinkApprovalMessage != nil {
+			privateLinkApprovalMessage := *typedInput.Properties.PrivateLinkApprovalMessage
+			origin.PrivateLinkApprovalMessage = &privateLinkApprovalMessage
+		}
+	}
+
+	// no assignment for property ‘PrivateLinkLocationReference’
+
+	// no assignment for property ‘PrivateLinkResourceReference’
+
+	// Set property ‘Weight’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Weight != nil {
+			weight := *typedInput.Properties.Weight
+			origin.Weight = &weight
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromDeepCreatedOrigin populates our DeepCreatedOrigin from the provided source DeepCreatedOrigin
+func (origin *DeepCreatedOrigin) AssignPropertiesFromDeepCreatedOrigin(source *v20210601s.DeepCreatedOrigin) error {
+
+	// Enabled
+	if source.Enabled != nil {
+		enabled := *source.Enabled
+		origin.Enabled = &enabled
+	} else {
+		origin.Enabled = nil
+	}
+
+	// HostName
+	origin.HostName = genruntime.ClonePointerToString(source.HostName)
+
+	// HttpPort
+	if source.HttpPort != nil {
+		httpPort := *source.HttpPort
+		origin.HttpPort = &httpPort
+	} else {
+		origin.HttpPort = nil
+	}
+
+	// HttpsPort
+	if source.HttpsPort != nil {
+		httpsPort := *source.HttpsPort
+		origin.HttpsPort = &httpsPort
+	} else {
+		origin.HttpsPort = nil
+	}
+
+	// Name
+	origin.Name = genruntime.ClonePointerToString(source.Name)
+
+	// OriginHostHeader
+	origin.OriginHostHeader = genruntime.ClonePointerToString(source.OriginHostHeader)
+
+	// Priority
+	if source.Priority != nil {
+		priority := *source.Priority
+		origin.Priority = &priority
+	} else {
+		origin.Priority = nil
+	}
+
+	// PrivateEndpointStatus
+	if source.PrivateEndpointStatus != nil {
+		privateEndpointStatus := PrivateEndpointStatus(*source.PrivateEndpointStatus)
+		origin.PrivateEndpointStatus = &privateEndpointStatus
+	} else {
+		origin.PrivateEndpointStatus = nil
+	}
+
+	// PrivateLinkAlias
+	origin.PrivateLinkAlias = genruntime.ClonePointerToString(source.PrivateLinkAlias)
+
+	// PrivateLinkApprovalMessage
+	origin.PrivateLinkApprovalMessage = genruntime.ClonePointerToString(source.PrivateLinkApprovalMessage)
+
+	// PrivateLinkLocationReference
+	if source.PrivateLinkLocationReference != nil {
+		privateLinkLocationReference := source.PrivateLinkLocationReference.Copy()
+		origin.PrivateLinkLocationReference = &privateLinkLocationReference
+	} else {
+		origin.PrivateLinkLocationReference = nil
+	}
+
+	// PrivateLinkResourceReference
+	if source.PrivateLinkResourceReference != nil {
+		privateLinkResourceReference := source.PrivateLinkResourceReference.Copy()
+		origin.PrivateLinkResourceReference = &privateLinkResourceReference
+	} else {
+		origin.PrivateLinkResourceReference = nil
+	}
+
+	// Weight
+	if source.Weight != nil {
+		weight := *source.Weight
+		origin.Weight = &weight
+	} else {
+		origin.Weight = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToDeepCreatedOrigin populates the provided destination DeepCreatedOrigin from our DeepCreatedOrigin
+func (origin *DeepCreatedOrigin) AssignPropertiesToDeepCreatedOrigin(destination *v20210601s.DeepCreatedOrigin) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Enabled
+	if origin.Enabled != nil {
+		enabled := *origin.Enabled
+		destination.Enabled = &enabled
+	} else {
+		destination.Enabled = nil
+	}
+
+	// HostName
+	destination.HostName = genruntime.ClonePointerToString(origin.HostName)
+
+	// HttpPort
+	if origin.HttpPort != nil {
+		httpPort := *origin.HttpPort
+		destination.HttpPort = &httpPort
+	} else {
+		destination.HttpPort = nil
+	}
+
+	// HttpsPort
+	if origin.HttpsPort != nil {
+		httpsPort := *origin.HttpsPort
+		destination.HttpsPort = &httpsPort
+	} else {
+		destination.HttpsPort = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(origin.Name)
+
+	// OriginHostHeader
+	destination.OriginHostHeader = genruntime.ClonePointerToString(origin.OriginHostHeader)
+
+	// Priority
+	if origin.Priority != nil {
+		priority := *origin.Priority
+		destination.Priority = &priority
+	} else {
+		destination.Priority = nil
+	}
+
+	// PrivateEndpointStatus
+	if origin.PrivateEndpointStatus != nil {
+		privateEndpointStatus := string(*origin.PrivateEndpointStatus)
+		destination.PrivateEndpointStatus = &privateEndpointStatus
+	} else {
+		destination.PrivateEndpointStatus = nil
+	}
+
+	// PrivateLinkAlias
+	destination.PrivateLinkAlias = genruntime.ClonePointerToString(origin.PrivateLinkAlias)
+
+	// PrivateLinkApprovalMessage
+	destination.PrivateLinkApprovalMessage = genruntime.ClonePointerToString(origin.PrivateLinkApprovalMessage)
+
+	// PrivateLinkLocationReference
+	if origin.PrivateLinkLocationReference != nil {
+		privateLinkLocationReference := origin.PrivateLinkLocationReference.Copy()
+		destination.PrivateLinkLocationReference = &privateLinkLocationReference
+	} else {
+		destination.PrivateLinkLocationReference = nil
+	}
+
+	// PrivateLinkResourceReference
+	if origin.PrivateLinkResourceReference != nil {
+		privateLinkResourceReference := origin.PrivateLinkResourceReference.Copy()
+		destination.PrivateLinkResourceReference = &privateLinkResourceReference
+	} else {
+		destination.PrivateLinkResourceReference = nil
+	}
+
+	// Weight
+	if origin.Weight != nil {
+		weight := *origin.Weight
+		destination.Weight = &weight
+	} else {
+		destination.Weight = nil
 	}
 
 	// Update the property bag
@@ -2178,45 +3480,99 @@ func (embedded *CustomDomain_Status_SubResourceEmbedded) AssignPropertiesToCusto
 	return nil
 }
 
-type DeepCreatedOriginGroup_Status struct {
+type DeepCreatedOriginGroup struct {
 	// HealthProbeSettings: Health probe settings to the origin that is used to determine the health of the origin.
-	HealthProbeSettings *HealthProbeParameters_Status `json:"healthProbeSettings,omitempty"`
+	HealthProbeSettings *HealthProbeParameters `json:"healthProbeSettings,omitempty"`
 
+	// +kubebuilder:validation:Required
 	// Name: Origin group name which must be unique within the endpoint.
 	Name *string `json:"name,omitempty"`
 
+	// +kubebuilder:validation:Required
 	// Origins: The source of the content being delivered via CDN within given origin group.
-	Origins []ResourceReference_Status `json:"origins,omitempty"`
+	Origins []ResourceReference `json:"origins,omitempty"`
 
 	// ResponseBasedOriginErrorDetectionSettings: The JSON object that contains the properties to determine origin health using
 	// real requests/responses.This property is currently not supported.
-	ResponseBasedOriginErrorDetectionSettings *ResponseBasedOriginErrorDetectionParameters_Status `json:"responseBasedOriginErrorDetectionSettings,omitempty"`
+	ResponseBasedOriginErrorDetectionSettings *ResponseBasedOriginErrorDetectionParameters `json:"responseBasedOriginErrorDetectionSettings,omitempty"`
 
+	// +kubebuilder:validation:Maximum=50
+	// +kubebuilder:validation:Minimum=0
 	// TrafficRestorationTimeToHealedOrNewEndpointsInMinutes: Time in minutes to shift the traffic to the endpoint gradually
 	// when an unhealthy endpoint comes healthy or a new endpoint is added. Default is 10 mins. This property is currently not
 	// supported.
 	TrafficRestorationTimeToHealedOrNewEndpointsInMinutes *int `json:"trafficRestorationTimeToHealedOrNewEndpointsInMinutes,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &DeepCreatedOriginGroup_Status{}
+var _ genruntime.ARMTransformer = &DeepCreatedOriginGroup{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (group *DeepCreatedOriginGroup) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if group == nil {
+		return nil, nil
+	}
+	result := &DeepCreatedOriginGroupARM{}
+
+	// Set property ‘Name’:
+	if group.Name != nil {
+		name := *group.Name
+		result.Name = &name
+	}
+
+	// Set property ‘Properties’:
+	if group.HealthProbeSettings != nil ||
+		group.Origins != nil ||
+		group.ResponseBasedOriginErrorDetectionSettings != nil ||
+		group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes != nil {
+		result.Properties = &DeepCreatedOriginGroupPropertiesARM{}
+	}
+	if group.HealthProbeSettings != nil {
+		healthProbeSettingsARM, err := (*group.HealthProbeSettings).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		healthProbeSettings := *healthProbeSettingsARM.(*HealthProbeParametersARM)
+		result.Properties.HealthProbeSettings = &healthProbeSettings
+	}
+	for _, item := range group.Origins {
+		itemARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Properties.Origins = append(result.Properties.Origins, *itemARM.(*ResourceReferenceARM))
+	}
+	if group.ResponseBasedOriginErrorDetectionSettings != nil {
+		responseBasedOriginErrorDetectionSettingsARM, err := (*group.ResponseBasedOriginErrorDetectionSettings).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		responseBasedOriginErrorDetectionSettings := *responseBasedOriginErrorDetectionSettingsARM.(*ResponseBasedOriginErrorDetectionParametersARM)
+		result.Properties.ResponseBasedOriginErrorDetectionSettings = &responseBasedOriginErrorDetectionSettings
+	}
+	if group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes != nil {
+		trafficRestorationTimeToHealedOrNewEndpointsInMinutes := *group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
+		result.Properties.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = &trafficRestorationTimeToHealedOrNewEndpointsInMinutes
+	}
+	return result, nil
+}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (group *DeepCreatedOriginGroup_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeepCreatedOriginGroup_StatusARM{}
+func (group *DeepCreatedOriginGroup) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DeepCreatedOriginGroupARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (group *DeepCreatedOriginGroup_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeepCreatedOriginGroup_StatusARM)
+func (group *DeepCreatedOriginGroup) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DeepCreatedOriginGroupARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeepCreatedOriginGroup_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeepCreatedOriginGroupARM, got %T", armInput)
 	}
 
 	// Set property ‘HealthProbeSettings’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HealthProbeSettings != nil {
-			var healthProbeSettings1 HealthProbeParameters_Status
+			var healthProbeSettings1 HealthProbeParameters
 			err := healthProbeSettings1.PopulateFromARM(owner, *typedInput.Properties.HealthProbeSettings)
 			if err != nil {
 				return err
@@ -2236,7 +3592,7 @@ func (group *DeepCreatedOriginGroup_Status) PopulateFromARM(owner genruntime.Arb
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Origins {
-			var item1 ResourceReference_Status
+			var item1 ResourceReference
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -2249,7 +3605,7 @@ func (group *DeepCreatedOriginGroup_Status) PopulateFromARM(owner genruntime.Arb
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ResponseBasedOriginErrorDetectionSettings != nil {
-			var responseBasedOriginErrorDetectionSettings1 ResponseBasedOriginErrorDetectionParameters_Status
+			var responseBasedOriginErrorDetectionSettings1 ResponseBasedOriginErrorDetectionParameters
 			err := responseBasedOriginErrorDetectionSettings1.PopulateFromARM(owner, *typedInput.Properties.ResponseBasedOriginErrorDetectionSettings)
 			if err != nil {
 				return err
@@ -2272,15 +3628,15 @@ func (group *DeepCreatedOriginGroup_Status) PopulateFromARM(owner genruntime.Arb
 	return nil
 }
 
-// AssignPropertiesFromDeepCreatedOriginGroupStatus populates our DeepCreatedOriginGroup_Status from the provided source DeepCreatedOriginGroup_Status
-func (group *DeepCreatedOriginGroup_Status) AssignPropertiesFromDeepCreatedOriginGroupStatus(source *v20210601s.DeepCreatedOriginGroup_Status) error {
+// AssignPropertiesFromDeepCreatedOriginGroup populates our DeepCreatedOriginGroup from the provided source DeepCreatedOriginGroup
+func (group *DeepCreatedOriginGroup) AssignPropertiesFromDeepCreatedOriginGroup(source *v20210601s.DeepCreatedOriginGroup) error {
 
 	// HealthProbeSettings
 	if source.HealthProbeSettings != nil {
-		var healthProbeSetting HealthProbeParameters_Status
-		err := healthProbeSetting.AssignPropertiesFromHealthProbeParametersStatus(source.HealthProbeSettings)
+		var healthProbeSetting HealthProbeParameters
+		err := healthProbeSetting.AssignPropertiesFromHealthProbeParameters(source.HealthProbeSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromHealthProbeParametersStatus() to populate field HealthProbeSettings")
+			return errors.Wrap(err, "calling AssignPropertiesFromHealthProbeParameters() to populate field HealthProbeSettings")
 		}
 		group.HealthProbeSettings = &healthProbeSetting
 	} else {
@@ -2292,14 +3648,14 @@ func (group *DeepCreatedOriginGroup_Status) AssignPropertiesFromDeepCreatedOrigi
 
 	// Origins
 	if source.Origins != nil {
-		originList := make([]ResourceReference_Status, len(source.Origins))
+		originList := make([]ResourceReference, len(source.Origins))
 		for originIndex, originItem := range source.Origins {
 			// Shadow the loop variable to avoid aliasing
 			originItem := originItem
-			var origin ResourceReference_Status
-			err := origin.AssignPropertiesFromResourceReferenceStatus(&originItem)
+			var origin ResourceReference
+			err := origin.AssignPropertiesFromResourceReference(&originItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromResourceReferenceStatus() to populate field Origins")
+				return errors.Wrap(err, "calling AssignPropertiesFromResourceReference() to populate field Origins")
 			}
 			originList[originIndex] = origin
 		}
@@ -2310,10 +3666,233 @@ func (group *DeepCreatedOriginGroup_Status) AssignPropertiesFromDeepCreatedOrigi
 
 	// ResponseBasedOriginErrorDetectionSettings
 	if source.ResponseBasedOriginErrorDetectionSettings != nil {
-		var responseBasedOriginErrorDetectionSetting ResponseBasedOriginErrorDetectionParameters_Status
-		err := responseBasedOriginErrorDetectionSetting.AssignPropertiesFromResponseBasedOriginErrorDetectionParametersStatus(source.ResponseBasedOriginErrorDetectionSettings)
+		var responseBasedOriginErrorDetectionSetting ResponseBasedOriginErrorDetectionParameters
+		err := responseBasedOriginErrorDetectionSetting.AssignPropertiesFromResponseBasedOriginErrorDetectionParameters(source.ResponseBasedOriginErrorDetectionSettings)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromResponseBasedOriginErrorDetectionParametersStatus() to populate field ResponseBasedOriginErrorDetectionSettings")
+			return errors.Wrap(err, "calling AssignPropertiesFromResponseBasedOriginErrorDetectionParameters() to populate field ResponseBasedOriginErrorDetectionSettings")
+		}
+		group.ResponseBasedOriginErrorDetectionSettings = &responseBasedOriginErrorDetectionSetting
+	} else {
+		group.ResponseBasedOriginErrorDetectionSettings = nil
+	}
+
+	// TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
+	if source.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes != nil {
+		trafficRestorationTimeToHealedOrNewEndpointsInMinute := *source.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
+		group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = &trafficRestorationTimeToHealedOrNewEndpointsInMinute
+	} else {
+		group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToDeepCreatedOriginGroup populates the provided destination DeepCreatedOriginGroup from our DeepCreatedOriginGroup
+func (group *DeepCreatedOriginGroup) AssignPropertiesToDeepCreatedOriginGroup(destination *v20210601s.DeepCreatedOriginGroup) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// HealthProbeSettings
+	if group.HealthProbeSettings != nil {
+		var healthProbeSetting v20210601s.HealthProbeParameters
+		err := group.HealthProbeSettings.AssignPropertiesToHealthProbeParameters(&healthProbeSetting)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToHealthProbeParameters() to populate field HealthProbeSettings")
+		}
+		destination.HealthProbeSettings = &healthProbeSetting
+	} else {
+		destination.HealthProbeSettings = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(group.Name)
+
+	// Origins
+	if group.Origins != nil {
+		originList := make([]v20210601s.ResourceReference, len(group.Origins))
+		for originIndex, originItem := range group.Origins {
+			// Shadow the loop variable to avoid aliasing
+			originItem := originItem
+			var origin v20210601s.ResourceReference
+			err := originItem.AssignPropertiesToResourceReference(&origin)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToResourceReference() to populate field Origins")
+			}
+			originList[originIndex] = origin
+		}
+		destination.Origins = originList
+	} else {
+		destination.Origins = nil
+	}
+
+	// ResponseBasedOriginErrorDetectionSettings
+	if group.ResponseBasedOriginErrorDetectionSettings != nil {
+		var responseBasedOriginErrorDetectionSetting v20210601s.ResponseBasedOriginErrorDetectionParameters
+		err := group.ResponseBasedOriginErrorDetectionSettings.AssignPropertiesToResponseBasedOriginErrorDetectionParameters(&responseBasedOriginErrorDetectionSetting)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToResponseBasedOriginErrorDetectionParameters() to populate field ResponseBasedOriginErrorDetectionSettings")
+		}
+		destination.ResponseBasedOriginErrorDetectionSettings = &responseBasedOriginErrorDetectionSetting
+	} else {
+		destination.ResponseBasedOriginErrorDetectionSettings = nil
+	}
+
+	// TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
+	if group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes != nil {
+		trafficRestorationTimeToHealedOrNewEndpointsInMinute := *group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
+		destination.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = &trafficRestorationTimeToHealedOrNewEndpointsInMinute
+	} else {
+		destination.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type DeepCreatedOriginGroup_STATUS struct {
+	// HealthProbeSettings: Health probe settings to the origin that is used to determine the health of the origin.
+	HealthProbeSettings *HealthProbeParameters_STATUS `json:"healthProbeSettings,omitempty"`
+
+	// Name: Origin group name which must be unique within the endpoint.
+	Name *string `json:"name,omitempty"`
+
+	// Origins: The source of the content being delivered via CDN within given origin group.
+	Origins []ResourceReference_STATUS `json:"origins,omitempty"`
+
+	// ResponseBasedOriginErrorDetectionSettings: The JSON object that contains the properties to determine origin health using
+	// real requests/responses.This property is currently not supported.
+	ResponseBasedOriginErrorDetectionSettings *ResponseBasedOriginErrorDetectionParameters_STATUS `json:"responseBasedOriginErrorDetectionSettings,omitempty"`
+
+	// TrafficRestorationTimeToHealedOrNewEndpointsInMinutes: Time in minutes to shift the traffic to the endpoint gradually
+	// when an unhealthy endpoint comes healthy or a new endpoint is added. Default is 10 mins. This property is currently not
+	// supported.
+	TrafficRestorationTimeToHealedOrNewEndpointsInMinutes *int `json:"trafficRestorationTimeToHealedOrNewEndpointsInMinutes,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &DeepCreatedOriginGroup_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (group *DeepCreatedOriginGroup_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DeepCreatedOriginGroup_STATUSARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (group *DeepCreatedOriginGroup_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DeepCreatedOriginGroup_STATUSARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeepCreatedOriginGroup_STATUSARM, got %T", armInput)
+	}
+
+	// Set property ‘HealthProbeSettings’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.HealthProbeSettings != nil {
+			var healthProbeSettings1 HealthProbeParameters_STATUS
+			err := healthProbeSettings1.PopulateFromARM(owner, *typedInput.Properties.HealthProbeSettings)
+			if err != nil {
+				return err
+			}
+			healthProbeSettings := healthProbeSettings1
+			group.HealthProbeSettings = &healthProbeSettings
+		}
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		group.Name = &name
+	}
+
+	// Set property ‘Origins’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.Origins {
+			var item1 ResourceReference_STATUS
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			group.Origins = append(group.Origins, item1)
+		}
+	}
+
+	// Set property ‘ResponseBasedOriginErrorDetectionSettings’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ResponseBasedOriginErrorDetectionSettings != nil {
+			var responseBasedOriginErrorDetectionSettings1 ResponseBasedOriginErrorDetectionParameters_STATUS
+			err := responseBasedOriginErrorDetectionSettings1.PopulateFromARM(owner, *typedInput.Properties.ResponseBasedOriginErrorDetectionSettings)
+			if err != nil {
+				return err
+			}
+			responseBasedOriginErrorDetectionSettings := responseBasedOriginErrorDetectionSettings1
+			group.ResponseBasedOriginErrorDetectionSettings = &responseBasedOriginErrorDetectionSettings
+		}
+	}
+
+	// Set property ‘TrafficRestorationTimeToHealedOrNewEndpointsInMinutes’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes != nil {
+			trafficRestorationTimeToHealedOrNewEndpointsInMinutes := *typedInput.Properties.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
+			group.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = &trafficRestorationTimeToHealedOrNewEndpointsInMinutes
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromDeepCreatedOriginGroup_STATUS populates our DeepCreatedOriginGroup_STATUS from the provided source DeepCreatedOriginGroup_STATUS
+func (group *DeepCreatedOriginGroup_STATUS) AssignPropertiesFromDeepCreatedOriginGroup_STATUS(source *v20210601s.DeepCreatedOriginGroup_STATUS) error {
+
+	// HealthProbeSettings
+	if source.HealthProbeSettings != nil {
+		var healthProbeSetting HealthProbeParameters_STATUS
+		err := healthProbeSetting.AssignPropertiesFromHealthProbeParameters_STATUS(source.HealthProbeSettings)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromHealthProbeParameters_STATUS() to populate field HealthProbeSettings")
+		}
+		group.HealthProbeSettings = &healthProbeSetting
+	} else {
+		group.HealthProbeSettings = nil
+	}
+
+	// Name
+	group.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Origins
+	if source.Origins != nil {
+		originList := make([]ResourceReference_STATUS, len(source.Origins))
+		for originIndex, originItem := range source.Origins {
+			// Shadow the loop variable to avoid aliasing
+			originItem := originItem
+			var origin ResourceReference_STATUS
+			err := origin.AssignPropertiesFromResourceReference_STATUS(&originItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromResourceReference_STATUS() to populate field Origins")
+			}
+			originList[originIndex] = origin
+		}
+		group.Origins = originList
+	} else {
+		group.Origins = nil
+	}
+
+	// ResponseBasedOriginErrorDetectionSettings
+	if source.ResponseBasedOriginErrorDetectionSettings != nil {
+		var responseBasedOriginErrorDetectionSetting ResponseBasedOriginErrorDetectionParameters_STATUS
+		err := responseBasedOriginErrorDetectionSetting.AssignPropertiesFromResponseBasedOriginErrorDetectionParameters_STATUS(source.ResponseBasedOriginErrorDetectionSettings)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromResponseBasedOriginErrorDetectionParameters_STATUS() to populate field ResponseBasedOriginErrorDetectionSettings")
 		}
 		group.ResponseBasedOriginErrorDetectionSettings = &responseBasedOriginErrorDetectionSetting
 	} else {
@@ -2327,17 +3906,17 @@ func (group *DeepCreatedOriginGroup_Status) AssignPropertiesFromDeepCreatedOrigi
 	return nil
 }
 
-// AssignPropertiesToDeepCreatedOriginGroupStatus populates the provided destination DeepCreatedOriginGroup_Status from our DeepCreatedOriginGroup_Status
-func (group *DeepCreatedOriginGroup_Status) AssignPropertiesToDeepCreatedOriginGroupStatus(destination *v20210601s.DeepCreatedOriginGroup_Status) error {
+// AssignPropertiesToDeepCreatedOriginGroup_STATUS populates the provided destination DeepCreatedOriginGroup_STATUS from our DeepCreatedOriginGroup_STATUS
+func (group *DeepCreatedOriginGroup_STATUS) AssignPropertiesToDeepCreatedOriginGroup_STATUS(destination *v20210601s.DeepCreatedOriginGroup_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// HealthProbeSettings
 	if group.HealthProbeSettings != nil {
-		var healthProbeSetting v20210601s.HealthProbeParameters_Status
-		err := group.HealthProbeSettings.AssignPropertiesToHealthProbeParametersStatus(&healthProbeSetting)
+		var healthProbeSetting v20210601s.HealthProbeParameters_STATUS
+		err := group.HealthProbeSettings.AssignPropertiesToHealthProbeParameters_STATUS(&healthProbeSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToHealthProbeParametersStatus() to populate field HealthProbeSettings")
+			return errors.Wrap(err, "calling AssignPropertiesToHealthProbeParameters_STATUS() to populate field HealthProbeSettings")
 		}
 		destination.HealthProbeSettings = &healthProbeSetting
 	} else {
@@ -2349,14 +3928,14 @@ func (group *DeepCreatedOriginGroup_Status) AssignPropertiesToDeepCreatedOriginG
 
 	// Origins
 	if group.Origins != nil {
-		originList := make([]v20210601s.ResourceReference_Status, len(group.Origins))
+		originList := make([]v20210601s.ResourceReference_STATUS, len(group.Origins))
 		for originIndex, originItem := range group.Origins {
 			// Shadow the loop variable to avoid aliasing
 			originItem := originItem
-			var origin v20210601s.ResourceReference_Status
-			err := originItem.AssignPropertiesToResourceReferenceStatus(&origin)
+			var origin v20210601s.ResourceReference_STATUS
+			err := originItem.AssignPropertiesToResourceReference_STATUS(&origin)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToResourceReferenceStatus() to populate field Origins")
+				return errors.Wrap(err, "calling AssignPropertiesToResourceReference_STATUS() to populate field Origins")
 			}
 			originList[originIndex] = origin
 		}
@@ -2367,10 +3946,10 @@ func (group *DeepCreatedOriginGroup_Status) AssignPropertiesToDeepCreatedOriginG
 
 	// ResponseBasedOriginErrorDetectionSettings
 	if group.ResponseBasedOriginErrorDetectionSettings != nil {
-		var responseBasedOriginErrorDetectionSetting v20210601s.ResponseBasedOriginErrorDetectionParameters_Status
-		err := group.ResponseBasedOriginErrorDetectionSettings.AssignPropertiesToResponseBasedOriginErrorDetectionParametersStatus(&responseBasedOriginErrorDetectionSetting)
+		var responseBasedOriginErrorDetectionSetting v20210601s.ResponseBasedOriginErrorDetectionParameters_STATUS
+		err := group.ResponseBasedOriginErrorDetectionSettings.AssignPropertiesToResponseBasedOriginErrorDetectionParameters_STATUS(&responseBasedOriginErrorDetectionSetting)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToResponseBasedOriginErrorDetectionParametersStatus() to populate field ResponseBasedOriginErrorDetectionSettings")
+			return errors.Wrap(err, "calling AssignPropertiesToResponseBasedOriginErrorDetectionParameters_STATUS() to populate field ResponseBasedOriginErrorDetectionSettings")
 		}
 		destination.ResponseBasedOriginErrorDetectionSettings = &responseBasedOriginErrorDetectionSetting
 	} else {
@@ -2391,7 +3970,7 @@ func (group *DeepCreatedOriginGroup_Status) AssignPropertiesToDeepCreatedOriginG
 	return nil
 }
 
-type DeepCreatedOrigin_Status struct {
+type DeepCreatedOrigin_STATUS struct {
 	// Enabled: Origin is enabled for load balancing or not. By default, origin is always enabled.
 	Enabled *bool `json:"enabled,omitempty"`
 
@@ -2418,7 +3997,7 @@ type DeepCreatedOrigin_Status struct {
 	Priority *int `json:"priority,omitempty"`
 
 	// PrivateEndpointStatus: The approval status for the connection to the Private Link
-	PrivateEndpointStatus *PrivateEndpointStatus_Status `json:"privateEndpointStatus,omitempty"`
+	PrivateEndpointStatus *PrivateEndpointStatus_STATUS `json:"privateEndpointStatus,omitempty"`
 
 	// PrivateLinkAlias: The Alias of the Private Link resource. Populating this optional field indicates that this origin is
 	// 'Private'
@@ -2438,18 +4017,18 @@ type DeepCreatedOrigin_Status struct {
 	Weight *int `json:"weight,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &DeepCreatedOrigin_Status{}
+var _ genruntime.FromARMConverter = &DeepCreatedOrigin_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (origin *DeepCreatedOrigin_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeepCreatedOrigin_StatusARM{}
+func (origin *DeepCreatedOrigin_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DeepCreatedOrigin_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (origin *DeepCreatedOrigin_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeepCreatedOrigin_StatusARM)
+func (origin *DeepCreatedOrigin_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DeepCreatedOrigin_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeepCreatedOrigin_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeepCreatedOrigin_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘Enabled’:
@@ -2570,8 +4149,8 @@ func (origin *DeepCreatedOrigin_Status) PopulateFromARM(owner genruntime.Arbitra
 	return nil
 }
 
-// AssignPropertiesFromDeepCreatedOriginStatus populates our DeepCreatedOrigin_Status from the provided source DeepCreatedOrigin_Status
-func (origin *DeepCreatedOrigin_Status) AssignPropertiesFromDeepCreatedOriginStatus(source *v20210601s.DeepCreatedOrigin_Status) error {
+// AssignPropertiesFromDeepCreatedOrigin_STATUS populates our DeepCreatedOrigin_STATUS from the provided source DeepCreatedOrigin_STATUS
+func (origin *DeepCreatedOrigin_STATUS) AssignPropertiesFromDeepCreatedOrigin_STATUS(source *v20210601s.DeepCreatedOrigin_STATUS) error {
 
 	// Enabled
 	if source.Enabled != nil {
@@ -2601,7 +4180,7 @@ func (origin *DeepCreatedOrigin_Status) AssignPropertiesFromDeepCreatedOriginSta
 
 	// PrivateEndpointStatus
 	if source.PrivateEndpointStatus != nil {
-		privateEndpointStatus := PrivateEndpointStatus_Status(*source.PrivateEndpointStatus)
+		privateEndpointStatus := PrivateEndpointStatus_STATUS(*source.PrivateEndpointStatus)
 		origin.PrivateEndpointStatus = &privateEndpointStatus
 	} else {
 		origin.PrivateEndpointStatus = nil
@@ -2626,8 +4205,8 @@ func (origin *DeepCreatedOrigin_Status) AssignPropertiesFromDeepCreatedOriginSta
 	return nil
 }
 
-// AssignPropertiesToDeepCreatedOriginStatus populates the provided destination DeepCreatedOrigin_Status from our DeepCreatedOrigin_Status
-func (origin *DeepCreatedOrigin_Status) AssignPropertiesToDeepCreatedOriginStatus(destination *v20210601s.DeepCreatedOrigin_Status) error {
+// AssignPropertiesToDeepCreatedOrigin_STATUS populates the provided destination DeepCreatedOrigin_STATUS from our DeepCreatedOrigin_STATUS
+func (origin *DeepCreatedOrigin_STATUS) AssignPropertiesToDeepCreatedOrigin_STATUS(destination *v20210601s.DeepCreatedOrigin_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2691,8 +4270,7 @@ func (origin *DeepCreatedOrigin_Status) AssignPropertiesToDeepCreatedOriginStatu
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/EndpointPropertiesUpdateParametersDeliveryPolicy
-type EndpointPropertiesUpdateParametersDeliveryPolicy struct {
+type EndpointProperties_DeliveryPolicy struct {
 	// Description: User-friendly description of the policy.
 	Description *string `json:"description,omitempty"`
 
@@ -2701,14 +4279,14 @@ type EndpointPropertiesUpdateParametersDeliveryPolicy struct {
 	Rules []DeliveryRule `json:"rules,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &EndpointPropertiesUpdateParametersDeliveryPolicy{}
+var _ genruntime.ARMTransformer = &EndpointProperties_DeliveryPolicy{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (policy *EndpointPropertiesUpdateParametersDeliveryPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (policy *EndpointProperties_DeliveryPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if policy == nil {
 		return nil, nil
 	}
-	result := &EndpointPropertiesUpdateParametersDeliveryPolicyARM{}
+	result := &EndpointProperties_DeliveryPolicyARM{}
 
 	// Set property ‘Description’:
 	if policy.Description != nil {
@@ -2728,15 +4306,15 @@ func (policy *EndpointPropertiesUpdateParametersDeliveryPolicy) ConvertToARM(res
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (policy *EndpointPropertiesUpdateParametersDeliveryPolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &EndpointPropertiesUpdateParametersDeliveryPolicyARM{}
+func (policy *EndpointProperties_DeliveryPolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &EndpointProperties_DeliveryPolicyARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (policy *EndpointPropertiesUpdateParametersDeliveryPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(EndpointPropertiesUpdateParametersDeliveryPolicyARM)
+func (policy *EndpointProperties_DeliveryPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(EndpointProperties_DeliveryPolicyARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EndpointPropertiesUpdateParametersDeliveryPolicyARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EndpointProperties_DeliveryPolicyARM, got %T", armInput)
 	}
 
 	// Set property ‘Description’:
@@ -2759,8 +4337,8 @@ func (policy *EndpointPropertiesUpdateParametersDeliveryPolicy) PopulateFromARM(
 	return nil
 }
 
-// AssignPropertiesFromEndpointPropertiesUpdateParametersDeliveryPolicy populates our EndpointPropertiesUpdateParametersDeliveryPolicy from the provided source EndpointPropertiesUpdateParametersDeliveryPolicy
-func (policy *EndpointPropertiesUpdateParametersDeliveryPolicy) AssignPropertiesFromEndpointPropertiesUpdateParametersDeliveryPolicy(source *v20210601s.EndpointPropertiesUpdateParametersDeliveryPolicy) error {
+// AssignPropertiesFromEndpointProperties_DeliveryPolicy populates our EndpointProperties_DeliveryPolicy from the provided source EndpointProperties_DeliveryPolicy
+func (policy *EndpointProperties_DeliveryPolicy) AssignPropertiesFromEndpointProperties_DeliveryPolicy(source *v20210601s.EndpointProperties_DeliveryPolicy) error {
 
 	// Description
 	policy.Description = genruntime.ClonePointerToString(source.Description)
@@ -2787,8 +4365,8 @@ func (policy *EndpointPropertiesUpdateParametersDeliveryPolicy) AssignProperties
 	return nil
 }
 
-// AssignPropertiesToEndpointPropertiesUpdateParametersDeliveryPolicy populates the provided destination EndpointPropertiesUpdateParametersDeliveryPolicy from our EndpointPropertiesUpdateParametersDeliveryPolicy
-func (policy *EndpointPropertiesUpdateParametersDeliveryPolicy) AssignPropertiesToEndpointPropertiesUpdateParametersDeliveryPolicy(destination *v20210601s.EndpointPropertiesUpdateParametersDeliveryPolicy) error {
+// AssignPropertiesToEndpointProperties_DeliveryPolicy populates the provided destination EndpointProperties_DeliveryPolicy from our EndpointProperties_DeliveryPolicy
+func (policy *EndpointProperties_DeliveryPolicy) AssignPropertiesToEndpointProperties_DeliveryPolicy(destination *v20210601s.EndpointProperties_DeliveryPolicy) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2824,110 +4402,26 @@ func (policy *EndpointPropertiesUpdateParametersDeliveryPolicy) AssignProperties
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink
-type EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink struct {
-	// Reference: Resource ID.
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (link *EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if link == nil {
-		return nil, nil
-	}
-	result := &EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLinkARM{}
-
-	// Set property ‘Id’:
-	if link.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*link.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (link *EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLinkARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (link *EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLinkARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLinkARM, got %T", armInput)
-	}
-
-	// no assignment for property ‘Reference’
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromEndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink populates our EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink from the provided source EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink
-func (link *EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink) AssignPropertiesFromEndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink(source *v20210601s.EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink) error {
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		link.Reference = &reference
-	} else {
-		link.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToEndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink populates the provided destination EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink from our EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink
-func (link *EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink) AssignPropertiesToEndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink(destination *v20210601s.EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Reference
-	if link.Reference != nil {
-		reference := link.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type EndpointProperties_Status_DeliveryPolicy struct {
+type EndpointProperties_DeliveryPolicy_STATUS struct {
 	// Description: User-friendly description of the policy.
 	Description *string `json:"description,omitempty"`
 
 	// Rules: A list of the delivery rules.
-	Rules []DeliveryRule_Status `json:"rules,omitempty"`
+	Rules []DeliveryRule_STATUS `json:"rules,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &EndpointProperties_Status_DeliveryPolicy{}
+var _ genruntime.FromARMConverter = &EndpointProperties_DeliveryPolicy_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (policy *EndpointProperties_Status_DeliveryPolicy) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &EndpointProperties_Status_DeliveryPolicyARM{}
+func (policy *EndpointProperties_DeliveryPolicy_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &EndpointProperties_DeliveryPolicy_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (policy *EndpointProperties_Status_DeliveryPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(EndpointProperties_Status_DeliveryPolicyARM)
+func (policy *EndpointProperties_DeliveryPolicy_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(EndpointProperties_DeliveryPolicy_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EndpointProperties_Status_DeliveryPolicyARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EndpointProperties_DeliveryPolicy_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘Description’:
@@ -2938,7 +4432,7 @@ func (policy *EndpointProperties_Status_DeliveryPolicy) PopulateFromARM(owner ge
 
 	// Set property ‘Rules’:
 	for _, item := range typedInput.Rules {
-		var item1 DeliveryRule_Status
+		var item1 DeliveryRule_STATUS
 		err := item1.PopulateFromARM(owner, item)
 		if err != nil {
 			return err
@@ -2950,22 +4444,22 @@ func (policy *EndpointProperties_Status_DeliveryPolicy) PopulateFromARM(owner ge
 	return nil
 }
 
-// AssignPropertiesFromEndpointPropertiesStatusDeliveryPolicy populates our EndpointProperties_Status_DeliveryPolicy from the provided source EndpointProperties_Status_DeliveryPolicy
-func (policy *EndpointProperties_Status_DeliveryPolicy) AssignPropertiesFromEndpointPropertiesStatusDeliveryPolicy(source *v20210601s.EndpointProperties_Status_DeliveryPolicy) error {
+// AssignPropertiesFromEndpointProperties_DeliveryPolicy_STATUS populates our EndpointProperties_DeliveryPolicy_STATUS from the provided source EndpointProperties_DeliveryPolicy_STATUS
+func (policy *EndpointProperties_DeliveryPolicy_STATUS) AssignPropertiesFromEndpointProperties_DeliveryPolicy_STATUS(source *v20210601s.EndpointProperties_DeliveryPolicy_STATUS) error {
 
 	// Description
 	policy.Description = genruntime.ClonePointerToString(source.Description)
 
 	// Rules
 	if source.Rules != nil {
-		ruleList := make([]DeliveryRule_Status, len(source.Rules))
+		ruleList := make([]DeliveryRule_STATUS, len(source.Rules))
 		for ruleIndex, ruleItem := range source.Rules {
 			// Shadow the loop variable to avoid aliasing
 			ruleItem := ruleItem
-			var rule DeliveryRule_Status
-			err := rule.AssignPropertiesFromDeliveryRuleStatus(&ruleItem)
+			var rule DeliveryRule_STATUS
+			err := rule.AssignPropertiesFromDeliveryRule_STATUS(&ruleItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleStatus() to populate field Rules")
+				return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRule_STATUS() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -2978,8 +4472,8 @@ func (policy *EndpointProperties_Status_DeliveryPolicy) AssignPropertiesFromEndp
 	return nil
 }
 
-// AssignPropertiesToEndpointPropertiesStatusDeliveryPolicy populates the provided destination EndpointProperties_Status_DeliveryPolicy from our EndpointProperties_Status_DeliveryPolicy
-func (policy *EndpointProperties_Status_DeliveryPolicy) AssignPropertiesToEndpointPropertiesStatusDeliveryPolicy(destination *v20210601s.EndpointProperties_Status_DeliveryPolicy) error {
+// AssignPropertiesToEndpointProperties_DeliveryPolicy_STATUS populates the provided destination EndpointProperties_DeliveryPolicy_STATUS from our EndpointProperties_DeliveryPolicy_STATUS
+func (policy *EndpointProperties_DeliveryPolicy_STATUS) AssignPropertiesToEndpointProperties_DeliveryPolicy_STATUS(destination *v20210601s.EndpointProperties_DeliveryPolicy_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2988,14 +4482,14 @@ func (policy *EndpointProperties_Status_DeliveryPolicy) AssignPropertiesToEndpoi
 
 	// Rules
 	if policy.Rules != nil {
-		ruleList := make([]v20210601s.DeliveryRule_Status, len(policy.Rules))
+		ruleList := make([]v20210601s.DeliveryRule_STATUS, len(policy.Rules))
 		for ruleIndex, ruleItem := range policy.Rules {
 			// Shadow the loop variable to avoid aliasing
 			ruleItem := ruleItem
-			var rule v20210601s.DeliveryRule_Status
-			err := ruleItem.AssignPropertiesToDeliveryRuleStatus(&rule)
+			var rule v20210601s.DeliveryRule_STATUS
+			err := ruleItem.AssignPropertiesToDeliveryRule_STATUS(&rule)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleStatus() to populate field Rules")
+				return errors.Wrap(err, "calling AssignPropertiesToDeliveryRule_STATUS() to populate field Rules")
 			}
 			ruleList[ruleIndex] = rule
 		}
@@ -3015,23 +4509,61 @@ func (policy *EndpointProperties_Status_DeliveryPolicy) AssignPropertiesToEndpoi
 	return nil
 }
 
-type EndpointProperties_Status_WebApplicationFirewallPolicyLink struct {
+// +kubebuilder:validation:Enum={"Creating","Deleting","Failed","Succeeded","Updating"}
+type EndpointProperties_ProvisioningState string
+
+const (
+	EndpointProperties_ProvisioningStateCreating  = EndpointProperties_ProvisioningState("Creating")
+	EndpointProperties_ProvisioningStateDeleting  = EndpointProperties_ProvisioningState("Deleting")
+	EndpointProperties_ProvisioningStateFailed    = EndpointProperties_ProvisioningState("Failed")
+	EndpointProperties_ProvisioningStateSucceeded = EndpointProperties_ProvisioningState("Succeeded")
+	EndpointProperties_ProvisioningStateUpdating  = EndpointProperties_ProvisioningState("Updating")
+)
+
+// +kubebuilder:validation:Enum={"Creating","Deleting","Running","Starting","Stopped","Stopping"}
+type EndpointProperties_ResourceState string
+
+const (
+	EndpointProperties_ResourceStateCreating = EndpointProperties_ResourceState("Creating")
+	EndpointProperties_ResourceStateDeleting = EndpointProperties_ResourceState("Deleting")
+	EndpointProperties_ResourceStateRunning  = EndpointProperties_ResourceState("Running")
+	EndpointProperties_ResourceStateStarting = EndpointProperties_ResourceState("Starting")
+	EndpointProperties_ResourceStateStopped  = EndpointProperties_ResourceState("Stopped")
+	EndpointProperties_ResourceStateStopping = EndpointProperties_ResourceState("Stopping")
+)
+
+type EndpointProperties_WebApplicationFirewallPolicyLink struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &EndpointProperties_Status_WebApplicationFirewallPolicyLink{}
+var _ genruntime.ARMTransformer = &EndpointProperties_WebApplicationFirewallPolicyLink{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (link *EndpointProperties_WebApplicationFirewallPolicyLink) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if link == nil {
+		return nil, nil
+	}
+	result := &EndpointProperties_WebApplicationFirewallPolicyLinkARM{}
+
+	// Set property ‘Id’:
+	if link.Id != nil {
+		id := *link.Id
+		result.Id = &id
+	}
+	return result, nil
+}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (link *EndpointProperties_Status_WebApplicationFirewallPolicyLink) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &EndpointProperties_Status_WebApplicationFirewallPolicyLinkARM{}
+func (link *EndpointProperties_WebApplicationFirewallPolicyLink) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &EndpointProperties_WebApplicationFirewallPolicyLinkARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (link *EndpointProperties_Status_WebApplicationFirewallPolicyLink) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(EndpointProperties_Status_WebApplicationFirewallPolicyLinkARM)
+func (link *EndpointProperties_WebApplicationFirewallPolicyLink) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(EndpointProperties_WebApplicationFirewallPolicyLinkARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EndpointProperties_Status_WebApplicationFirewallPolicyLinkARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EndpointProperties_WebApplicationFirewallPolicyLinkARM, got %T", armInput)
 	}
 
 	// Set property ‘Id’:
@@ -3044,8 +4576,8 @@ func (link *EndpointProperties_Status_WebApplicationFirewallPolicyLink) Populate
 	return nil
 }
 
-// AssignPropertiesFromEndpointPropertiesStatusWebApplicationFirewallPolicyLink populates our EndpointProperties_Status_WebApplicationFirewallPolicyLink from the provided source EndpointProperties_Status_WebApplicationFirewallPolicyLink
-func (link *EndpointProperties_Status_WebApplicationFirewallPolicyLink) AssignPropertiesFromEndpointPropertiesStatusWebApplicationFirewallPolicyLink(source *v20210601s.EndpointProperties_Status_WebApplicationFirewallPolicyLink) error {
+// AssignPropertiesFromEndpointProperties_WebApplicationFirewallPolicyLink populates our EndpointProperties_WebApplicationFirewallPolicyLink from the provided source EndpointProperties_WebApplicationFirewallPolicyLink
+func (link *EndpointProperties_WebApplicationFirewallPolicyLink) AssignPropertiesFromEndpointProperties_WebApplicationFirewallPolicyLink(source *v20210601s.EndpointProperties_WebApplicationFirewallPolicyLink) error {
 
 	// Id
 	link.Id = genruntime.ClonePointerToString(source.Id)
@@ -3054,8 +4586,8 @@ func (link *EndpointProperties_Status_WebApplicationFirewallPolicyLink) AssignPr
 	return nil
 }
 
-// AssignPropertiesToEndpointPropertiesStatusWebApplicationFirewallPolicyLink populates the provided destination EndpointProperties_Status_WebApplicationFirewallPolicyLink from our EndpointProperties_Status_WebApplicationFirewallPolicyLink
-func (link *EndpointProperties_Status_WebApplicationFirewallPolicyLink) AssignPropertiesToEndpointPropertiesStatusWebApplicationFirewallPolicyLink(destination *v20210601s.EndpointProperties_Status_WebApplicationFirewallPolicyLink) error {
+// AssignPropertiesToEndpointProperties_WebApplicationFirewallPolicyLink populates the provided destination EndpointProperties_WebApplicationFirewallPolicyLink from our EndpointProperties_WebApplicationFirewallPolicyLink
+func (link *EndpointProperties_WebApplicationFirewallPolicyLink) AssignPropertiesToEndpointProperties_WebApplicationFirewallPolicyLink(destination *v20210601s.EndpointProperties_WebApplicationFirewallPolicyLink) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3073,11 +4605,68 @@ func (link *EndpointProperties_Status_WebApplicationFirewallPolicyLink) AssignPr
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/GeoFilter
+type EndpointProperties_WebApplicationFirewallPolicyLink_STATUS struct {
+	// Id: Resource ID.
+	Id *string `json:"id,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &EndpointProperties_WebApplicationFirewallPolicyLink_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (link *EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &EndpointProperties_WebApplicationFirewallPolicyLink_STATUSARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (link *EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(EndpointProperties_WebApplicationFirewallPolicyLink_STATUSARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EndpointProperties_WebApplicationFirewallPolicyLink_STATUSARM, got %T", armInput)
+	}
+
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		link.Id = &id
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromEndpointProperties_WebApplicationFirewallPolicyLink_STATUS populates our EndpointProperties_WebApplicationFirewallPolicyLink_STATUS from the provided source EndpointProperties_WebApplicationFirewallPolicyLink_STATUS
+func (link *EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) AssignPropertiesFromEndpointProperties_WebApplicationFirewallPolicyLink_STATUS(source *v20210601s.EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) error {
+
+	// Id
+	link.Id = genruntime.ClonePointerToString(source.Id)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToEndpointProperties_WebApplicationFirewallPolicyLink_STATUS populates the provided destination EndpointProperties_WebApplicationFirewallPolicyLink_STATUS from our EndpointProperties_WebApplicationFirewallPolicyLink_STATUS
+func (link *EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) AssignPropertiesToEndpointProperties_WebApplicationFirewallPolicyLink_STATUS(destination *v20210601s.EndpointProperties_WebApplicationFirewallPolicyLink_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(link.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type GeoFilter struct {
 	// +kubebuilder:validation:Required
 	// Action: Action of the geo filter, i.e. allow or block access.
-	Action *GeoFilterAction `json:"action,omitempty"`
+	Action *GeoFilter_Action `json:"action,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// CountryCodes: Two letter country or region codes defining user country or region access in a geo filter, e.g. AU, MX, US.
@@ -3154,7 +4743,7 @@ func (filter *GeoFilter) AssignPropertiesFromGeoFilter(source *v20210601s.GeoFil
 
 	// Action
 	if source.Action != nil {
-		action := GeoFilterAction(*source.Action)
+		action := GeoFilter_Action(*source.Action)
 		filter.Action = &action
 	} else {
 		filter.Action = nil
@@ -3200,9 +4789,9 @@ func (filter *GeoFilter) AssignPropertiesToGeoFilter(destination *v20210601s.Geo
 	return nil
 }
 
-type GeoFilter_Status struct {
+type GeoFilter_STATUS struct {
 	// Action: Action of the geo filter, i.e. allow or block access.
-	Action *GeoFilterStatusAction `json:"action,omitempty"`
+	Action *GeoFilter_Action_STATUS `json:"action,omitempty"`
 
 	// CountryCodes: Two letter country or region codes defining user country or region access in a geo filter, e.g. AU, MX, US.
 	CountryCodes []string `json:"countryCodes,omitempty"`
@@ -3211,18 +4800,18 @@ type GeoFilter_Status struct {
 	RelativePath *string `json:"relativePath,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &GeoFilter_Status{}
+var _ genruntime.FromARMConverter = &GeoFilter_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (filter *GeoFilter_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &GeoFilter_StatusARM{}
+func (filter *GeoFilter_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &GeoFilter_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (filter *GeoFilter_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(GeoFilter_StatusARM)
+func (filter *GeoFilter_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(GeoFilter_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected GeoFilter_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected GeoFilter_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘Action’:
@@ -3246,12 +4835,12 @@ func (filter *GeoFilter_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	return nil
 }
 
-// AssignPropertiesFromGeoFilterStatus populates our GeoFilter_Status from the provided source GeoFilter_Status
-func (filter *GeoFilter_Status) AssignPropertiesFromGeoFilterStatus(source *v20210601s.GeoFilter_Status) error {
+// AssignPropertiesFromGeoFilter_STATUS populates our GeoFilter_STATUS from the provided source GeoFilter_STATUS
+func (filter *GeoFilter_STATUS) AssignPropertiesFromGeoFilter_STATUS(source *v20210601s.GeoFilter_STATUS) error {
 
 	// Action
 	if source.Action != nil {
-		action := GeoFilterStatusAction(*source.Action)
+		action := GeoFilter_Action_STATUS(*source.Action)
 		filter.Action = &action
 	} else {
 		filter.Action = nil
@@ -3267,8 +4856,8 @@ func (filter *GeoFilter_Status) AssignPropertiesFromGeoFilterStatus(source *v202
 	return nil
 }
 
-// AssignPropertiesToGeoFilterStatus populates the provided destination GeoFilter_Status from our GeoFilter_Status
-func (filter *GeoFilter_Status) AssignPropertiesToGeoFilterStatus(destination *v20210601s.GeoFilter_Status) error {
+// AssignPropertiesToGeoFilter_STATUS populates the provided destination GeoFilter_STATUS from our GeoFilter_STATUS
+func (filter *GeoFilter_STATUS) AssignPropertiesToGeoFilter_STATUS(destination *v20210601s.GeoFilter_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -3298,715 +4887,26 @@ func (filter *GeoFilter_Status) AssignPropertiesToGeoFilterStatus(destination *v
 }
 
 // +kubebuilder:validation:Enum={"DynamicSiteAcceleration","GeneralMediaStreaming","GeneralWebDelivery","LargeFileDownload","VideoOnDemandMediaStreaming"}
-type ProfilesEndpointsSpecPropertiesOptimizationType string
+type OptimizationType string
 
 const (
-	ProfilesEndpointsSpecPropertiesOptimizationTypeDynamicSiteAcceleration     = ProfilesEndpointsSpecPropertiesOptimizationType("DynamicSiteAcceleration")
-	ProfilesEndpointsSpecPropertiesOptimizationTypeGeneralMediaStreaming       = ProfilesEndpointsSpecPropertiesOptimizationType("GeneralMediaStreaming")
-	ProfilesEndpointsSpecPropertiesOptimizationTypeGeneralWebDelivery          = ProfilesEndpointsSpecPropertiesOptimizationType("GeneralWebDelivery")
-	ProfilesEndpointsSpecPropertiesOptimizationTypeLargeFileDownload           = ProfilesEndpointsSpecPropertiesOptimizationType("LargeFileDownload")
-	ProfilesEndpointsSpecPropertiesOptimizationTypeVideoOnDemandMediaStreaming = ProfilesEndpointsSpecPropertiesOptimizationType("VideoOnDemandMediaStreaming")
+	OptimizationTypeDynamicSiteAcceleration     = OptimizationType("DynamicSiteAcceleration")
+	OptimizationTypeGeneralMediaStreaming       = OptimizationType("GeneralMediaStreaming")
+	OptimizationTypeGeneralWebDelivery          = OptimizationType("GeneralWebDelivery")
+	OptimizationTypeLargeFileDownload           = OptimizationType("LargeFileDownload")
+	OptimizationTypeVideoOnDemandMediaStreaming = OptimizationType("VideoOnDemandMediaStreaming")
 )
 
 // +kubebuilder:validation:Enum={"BypassCaching","IgnoreQueryString","NotSet","UseQueryString"}
-type ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior string
+type QueryStringCachingBehavior string
 
 const (
-	ProfilesEndpointsSpecPropertiesQueryStringCachingBehaviorBypassCaching     = ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior("BypassCaching")
-	ProfilesEndpointsSpecPropertiesQueryStringCachingBehaviorIgnoreQueryString = ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior("IgnoreQueryString")
-	ProfilesEndpointsSpecPropertiesQueryStringCachingBehaviorNotSet            = ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior("NotSet")
-	ProfilesEndpointsSpecPropertiesQueryStringCachingBehaviorUseQueryString    = ProfilesEndpointsSpecPropertiesQueryStringCachingBehavior("UseQueryString")
+	QueryStringCachingBehaviorBypassCaching     = QueryStringCachingBehavior("BypassCaching")
+	QueryStringCachingBehaviorIgnoreQueryString = QueryStringCachingBehavior("IgnoreQueryString")
+	QueryStringCachingBehaviorNotSet            = QueryStringCachingBehavior("NotSet")
+	QueryStringCachingBehaviorUseQueryString    = QueryStringCachingBehavior("UseQueryString")
 )
 
-type ProfilesEndpoints_Spec_Properties_OriginGroups struct {
-	// HealthProbeSettings: The JSON object that contains the properties to send health probes to origin.
-	HealthProbeSettings *HealthProbeParameters `json:"healthProbeSettings,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Name: Origin group name which must be unique within the endpoint.
-	Name *string `json:"name,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Origins: The source of the content being delivered via CDN within given origin group.
-	Origins []ResourceReference `json:"origins,omitempty"`
-
-	// ResponseBasedOriginErrorDetectionSettings: The JSON object that contains the properties to determine origin health using
-	// real requests/responses.
-	ResponseBasedOriginErrorDetectionSettings *ResponseBasedOriginErrorDetectionParameters `json:"responseBasedOriginErrorDetectionSettings,omitempty"`
-
-	// +kubebuilder:validation:Maximum=50
-	// +kubebuilder:validation:Minimum=0
-	// TrafficRestorationTimeToHealedOrNewEndpointsInMinutes: Time in minutes to shift the traffic to the endpoint gradually
-	// when an unhealthy endpoint comes healthy or a new endpoint is added. Default is 10 mins. This property is currently not
-	// supported.
-	TrafficRestorationTimeToHealedOrNewEndpointsInMinutes *int `json:"trafficRestorationTimeToHealedOrNewEndpointsInMinutes,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &ProfilesEndpoints_Spec_Properties_OriginGroups{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (groups *ProfilesEndpoints_Spec_Properties_OriginGroups) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if groups == nil {
-		return nil, nil
-	}
-	result := &ProfilesEndpoints_Spec_Properties_OriginGroupsARM{}
-
-	// Set property ‘Name’:
-	if groups.Name != nil {
-		name := *groups.Name
-		result.Name = &name
-	}
-
-	// Set property ‘Properties’:
-	if groups.HealthProbeSettings != nil ||
-		groups.Origins != nil ||
-		groups.ResponseBasedOriginErrorDetectionSettings != nil ||
-		groups.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes != nil {
-		result.Properties = &DeepCreatedOriginGroupPropertiesARM{}
-	}
-	if groups.HealthProbeSettings != nil {
-		healthProbeSettingsARM, err := (*groups.HealthProbeSettings).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		healthProbeSettings := *healthProbeSettingsARM.(*HealthProbeParametersARM)
-		result.Properties.HealthProbeSettings = &healthProbeSettings
-	}
-	for _, item := range groups.Origins {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Properties.Origins = append(result.Properties.Origins, *itemARM.(*ResourceReferenceARM))
-	}
-	if groups.ResponseBasedOriginErrorDetectionSettings != nil {
-		responseBasedOriginErrorDetectionSettingsARM, err := (*groups.ResponseBasedOriginErrorDetectionSettings).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		responseBasedOriginErrorDetectionSettings := *responseBasedOriginErrorDetectionSettingsARM.(*ResponseBasedOriginErrorDetectionParametersARM)
-		result.Properties.ResponseBasedOriginErrorDetectionSettings = &responseBasedOriginErrorDetectionSettings
-	}
-	if groups.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes != nil {
-		trafficRestorationTimeToHealedOrNewEndpointsInMinutes := *groups.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
-		result.Properties.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = &trafficRestorationTimeToHealedOrNewEndpointsInMinutes
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (groups *ProfilesEndpoints_Spec_Properties_OriginGroups) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ProfilesEndpoints_Spec_Properties_OriginGroupsARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (groups *ProfilesEndpoints_Spec_Properties_OriginGroups) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ProfilesEndpoints_Spec_Properties_OriginGroupsARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ProfilesEndpoints_Spec_Properties_OriginGroupsARM, got %T", armInput)
-	}
-
-	// Set property ‘HealthProbeSettings’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.HealthProbeSettings != nil {
-			var healthProbeSettings1 HealthProbeParameters
-			err := healthProbeSettings1.PopulateFromARM(owner, *typedInput.Properties.HealthProbeSettings)
-			if err != nil {
-				return err
-			}
-			healthProbeSettings := healthProbeSettings1
-			groups.HealthProbeSettings = &healthProbeSettings
-		}
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		groups.Name = &name
-	}
-
-	// Set property ‘Origins’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.Origins {
-			var item1 ResourceReference
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			groups.Origins = append(groups.Origins, item1)
-		}
-	}
-
-	// Set property ‘ResponseBasedOriginErrorDetectionSettings’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ResponseBasedOriginErrorDetectionSettings != nil {
-			var responseBasedOriginErrorDetectionSettings1 ResponseBasedOriginErrorDetectionParameters
-			err := responseBasedOriginErrorDetectionSettings1.PopulateFromARM(owner, *typedInput.Properties.ResponseBasedOriginErrorDetectionSettings)
-			if err != nil {
-				return err
-			}
-			responseBasedOriginErrorDetectionSettings := responseBasedOriginErrorDetectionSettings1
-			groups.ResponseBasedOriginErrorDetectionSettings = &responseBasedOriginErrorDetectionSettings
-		}
-	}
-
-	// Set property ‘TrafficRestorationTimeToHealedOrNewEndpointsInMinutes’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes != nil {
-			trafficRestorationTimeToHealedOrNewEndpointsInMinutes := *typedInput.Properties.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
-			groups.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = &trafficRestorationTimeToHealedOrNewEndpointsInMinutes
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromProfilesEndpointsSpecPropertiesOriginGroups populates our ProfilesEndpoints_Spec_Properties_OriginGroups from the provided source ProfilesEndpoints_Spec_Properties_OriginGroups
-func (groups *ProfilesEndpoints_Spec_Properties_OriginGroups) AssignPropertiesFromProfilesEndpointsSpecPropertiesOriginGroups(source *v20210601s.ProfilesEndpoints_Spec_Properties_OriginGroups) error {
-
-	// HealthProbeSettings
-	if source.HealthProbeSettings != nil {
-		var healthProbeSetting HealthProbeParameters
-		err := healthProbeSetting.AssignPropertiesFromHealthProbeParameters(source.HealthProbeSettings)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromHealthProbeParameters() to populate field HealthProbeSettings")
-		}
-		groups.HealthProbeSettings = &healthProbeSetting
-	} else {
-		groups.HealthProbeSettings = nil
-	}
-
-	// Name
-	groups.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Origins
-	if source.Origins != nil {
-		originList := make([]ResourceReference, len(source.Origins))
-		for originIndex, originItem := range source.Origins {
-			// Shadow the loop variable to avoid aliasing
-			originItem := originItem
-			var origin ResourceReference
-			err := origin.AssignPropertiesFromResourceReference(&originItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromResourceReference() to populate field Origins")
-			}
-			originList[originIndex] = origin
-		}
-		groups.Origins = originList
-	} else {
-		groups.Origins = nil
-	}
-
-	// ResponseBasedOriginErrorDetectionSettings
-	if source.ResponseBasedOriginErrorDetectionSettings != nil {
-		var responseBasedOriginErrorDetectionSetting ResponseBasedOriginErrorDetectionParameters
-		err := responseBasedOriginErrorDetectionSetting.AssignPropertiesFromResponseBasedOriginErrorDetectionParameters(source.ResponseBasedOriginErrorDetectionSettings)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromResponseBasedOriginErrorDetectionParameters() to populate field ResponseBasedOriginErrorDetectionSettings")
-		}
-		groups.ResponseBasedOriginErrorDetectionSettings = &responseBasedOriginErrorDetectionSetting
-	} else {
-		groups.ResponseBasedOriginErrorDetectionSettings = nil
-	}
-
-	// TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
-	if source.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes != nil {
-		trafficRestorationTimeToHealedOrNewEndpointsInMinute := *source.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
-		groups.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = &trafficRestorationTimeToHealedOrNewEndpointsInMinute
-	} else {
-		groups.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToProfilesEndpointsSpecPropertiesOriginGroups populates the provided destination ProfilesEndpoints_Spec_Properties_OriginGroups from our ProfilesEndpoints_Spec_Properties_OriginGroups
-func (groups *ProfilesEndpoints_Spec_Properties_OriginGroups) AssignPropertiesToProfilesEndpointsSpecPropertiesOriginGroups(destination *v20210601s.ProfilesEndpoints_Spec_Properties_OriginGroups) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// HealthProbeSettings
-	if groups.HealthProbeSettings != nil {
-		var healthProbeSetting v20210601s.HealthProbeParameters
-		err := groups.HealthProbeSettings.AssignPropertiesToHealthProbeParameters(&healthProbeSetting)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToHealthProbeParameters() to populate field HealthProbeSettings")
-		}
-		destination.HealthProbeSettings = &healthProbeSetting
-	} else {
-		destination.HealthProbeSettings = nil
-	}
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(groups.Name)
-
-	// Origins
-	if groups.Origins != nil {
-		originList := make([]v20210601s.ResourceReference, len(groups.Origins))
-		for originIndex, originItem := range groups.Origins {
-			// Shadow the loop variable to avoid aliasing
-			originItem := originItem
-			var origin v20210601s.ResourceReference
-			err := originItem.AssignPropertiesToResourceReference(&origin)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToResourceReference() to populate field Origins")
-			}
-			originList[originIndex] = origin
-		}
-		destination.Origins = originList
-	} else {
-		destination.Origins = nil
-	}
-
-	// ResponseBasedOriginErrorDetectionSettings
-	if groups.ResponseBasedOriginErrorDetectionSettings != nil {
-		var responseBasedOriginErrorDetectionSetting v20210601s.ResponseBasedOriginErrorDetectionParameters
-		err := groups.ResponseBasedOriginErrorDetectionSettings.AssignPropertiesToResponseBasedOriginErrorDetectionParameters(&responseBasedOriginErrorDetectionSetting)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToResponseBasedOriginErrorDetectionParameters() to populate field ResponseBasedOriginErrorDetectionSettings")
-		}
-		destination.ResponseBasedOriginErrorDetectionSettings = &responseBasedOriginErrorDetectionSetting
-	} else {
-		destination.ResponseBasedOriginErrorDetectionSettings = nil
-	}
-
-	// TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
-	if groups.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes != nil {
-		trafficRestorationTimeToHealedOrNewEndpointsInMinute := *groups.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes
-		destination.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = &trafficRestorationTimeToHealedOrNewEndpointsInMinute
-	} else {
-		destination.TrafficRestorationTimeToHealedOrNewEndpointsInMinutes = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type ProfilesEndpoints_Spec_Properties_Origins struct {
-	// Enabled: Origin is enabled for load balancing or not. By default, origin is always enabled.
-	Enabled *bool `json:"enabled,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// HostName: The address of the origin. It can be a domain name, IPv4 address, or IPv6 address. This should be unique
-	// across all origins in an endpoint.
-	HostName *string `json:"hostName,omitempty"`
-
-	// +kubebuilder:validation:Maximum=65535
-	// +kubebuilder:validation:Minimum=1
-	// HttpPort: The value of the HTTP port. Must be between 1 and 65535.
-	HttpPort *int `json:"httpPort,omitempty"`
-
-	// +kubebuilder:validation:Maximum=65535
-	// +kubebuilder:validation:Minimum=1
-	// HttpsPort: The value of the HTTPS port. Must be between 1 and 65535.
-	HttpsPort *int `json:"httpsPort,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Name: Origin name which must be unique within the endpoint.
-	Name *string `json:"name,omitempty"`
-
-	// OriginHostHeader: The host header value sent to the origin with each request. If you leave this blank, the request
-	// hostname determines this value. Azure CDN origins, such as Web Apps, Blob Storage, and Cloud Services require this host
-	// header value to match the origin hostname by default.
-	OriginHostHeader *string `json:"originHostHeader,omitempty"`
-
-	// +kubebuilder:validation:Maximum=5
-	// +kubebuilder:validation:Minimum=1
-	// Priority: Priority of origin in given origin group for load balancing. Higher priorities will not be used for load
-	// balancing if any lower priority origin is healthy.Must be between 1 and 5.
-	Priority *int `json:"priority,omitempty"`
-
-	// PrivateLinkAlias: The Alias of the Private Link resource. Populating this optional field indicates that this origin is
-	// 'Private'
-	PrivateLinkAlias *string `json:"privateLinkAlias,omitempty"`
-
-	// PrivateLinkApprovalMessage: A custom message to be included in the approval request to connect to the Private Link.
-	PrivateLinkApprovalMessage *string `json:"privateLinkApprovalMessage,omitempty"`
-
-	// PrivateLinkLocationReference: The location of the Private Link resource. Required only if 'privateLinkResourceId' is
-	// populated
-	PrivateLinkLocationReference *genruntime.ResourceReference `armReference:"PrivateLinkLocation" json:"privateLinkLocationReference,omitempty"`
-
-	// PrivateLinkResourceReference: The Resource Id of the Private Link resource. Populating this optional field indicates
-	// that this backend is 'Private'
-	PrivateLinkResourceReference *genruntime.ResourceReference `armReference:"PrivateLinkResourceId" json:"privateLinkResourceReference,omitempty"`
-
-	// +kubebuilder:validation:Maximum=1000
-	// +kubebuilder:validation:Minimum=1
-	// Weight: Weight of the origin in given origin group for load balancing. Must be between 1 and 1000
-	Weight *int `json:"weight,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &ProfilesEndpoints_Spec_Properties_Origins{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (origins *ProfilesEndpoints_Spec_Properties_Origins) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if origins == nil {
-		return nil, nil
-	}
-	result := &ProfilesEndpoints_Spec_Properties_OriginsARM{}
-
-	// Set property ‘Name’:
-	if origins.Name != nil {
-		name := *origins.Name
-		result.Name = &name
-	}
-
-	// Set property ‘Properties’:
-	if origins.Enabled != nil ||
-		origins.HostName != nil ||
-		origins.HttpPort != nil ||
-		origins.HttpsPort != nil ||
-		origins.OriginHostHeader != nil ||
-		origins.Priority != nil ||
-		origins.PrivateLinkAlias != nil ||
-		origins.PrivateLinkApprovalMessage != nil ||
-		origins.PrivateLinkLocationReference != nil ||
-		origins.PrivateLinkResourceReference != nil ||
-		origins.Weight != nil {
-		result.Properties = &DeepCreatedOriginPropertiesARM{}
-	}
-	if origins.Enabled != nil {
-		enabled := *origins.Enabled
-		result.Properties.Enabled = &enabled
-	}
-	if origins.HostName != nil {
-		hostName := *origins.HostName
-		result.Properties.HostName = &hostName
-	}
-	if origins.HttpPort != nil {
-		httpPort := *origins.HttpPort
-		result.Properties.HttpPort = &httpPort
-	}
-	if origins.HttpsPort != nil {
-		httpsPort := *origins.HttpsPort
-		result.Properties.HttpsPort = &httpsPort
-	}
-	if origins.OriginHostHeader != nil {
-		originHostHeader := *origins.OriginHostHeader
-		result.Properties.OriginHostHeader = &originHostHeader
-	}
-	if origins.Priority != nil {
-		priority := *origins.Priority
-		result.Properties.Priority = &priority
-	}
-	if origins.PrivateLinkAlias != nil {
-		privateLinkAlias := *origins.PrivateLinkAlias
-		result.Properties.PrivateLinkAlias = &privateLinkAlias
-	}
-	if origins.PrivateLinkApprovalMessage != nil {
-		privateLinkApprovalMessage := *origins.PrivateLinkApprovalMessage
-		result.Properties.PrivateLinkApprovalMessage = &privateLinkApprovalMessage
-	}
-	if origins.PrivateLinkLocationReference != nil {
-		privateLinkLocationARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*origins.PrivateLinkLocationReference)
-		if err != nil {
-			return nil, err
-		}
-		privateLinkLocation := privateLinkLocationARMID
-		result.Properties.PrivateLinkLocation = &privateLinkLocation
-	}
-	if origins.PrivateLinkResourceReference != nil {
-		privateLinkResourceIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*origins.PrivateLinkResourceReference)
-		if err != nil {
-			return nil, err
-		}
-		privateLinkResourceId := privateLinkResourceIdARMID
-		result.Properties.PrivateLinkResourceId = &privateLinkResourceId
-	}
-	if origins.Weight != nil {
-		weight := *origins.Weight
-		result.Properties.Weight = &weight
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (origins *ProfilesEndpoints_Spec_Properties_Origins) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ProfilesEndpoints_Spec_Properties_OriginsARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (origins *ProfilesEndpoints_Spec_Properties_Origins) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ProfilesEndpoints_Spec_Properties_OriginsARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ProfilesEndpoints_Spec_Properties_OriginsARM, got %T", armInput)
-	}
-
-	// Set property ‘Enabled’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Enabled != nil {
-			enabled := *typedInput.Properties.Enabled
-			origins.Enabled = &enabled
-		}
-	}
-
-	// Set property ‘HostName’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.HostName != nil {
-			hostName := *typedInput.Properties.HostName
-			origins.HostName = &hostName
-		}
-	}
-
-	// Set property ‘HttpPort’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.HttpPort != nil {
-			httpPort := *typedInput.Properties.HttpPort
-			origins.HttpPort = &httpPort
-		}
-	}
-
-	// Set property ‘HttpsPort’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.HttpsPort != nil {
-			httpsPort := *typedInput.Properties.HttpsPort
-			origins.HttpsPort = &httpsPort
-		}
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		origins.Name = &name
-	}
-
-	// Set property ‘OriginHostHeader’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.OriginHostHeader != nil {
-			originHostHeader := *typedInput.Properties.OriginHostHeader
-			origins.OriginHostHeader = &originHostHeader
-		}
-	}
-
-	// Set property ‘Priority’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Priority != nil {
-			priority := *typedInput.Properties.Priority
-			origins.Priority = &priority
-		}
-	}
-
-	// Set property ‘PrivateLinkAlias’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PrivateLinkAlias != nil {
-			privateLinkAlias := *typedInput.Properties.PrivateLinkAlias
-			origins.PrivateLinkAlias = &privateLinkAlias
-		}
-	}
-
-	// Set property ‘PrivateLinkApprovalMessage’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PrivateLinkApprovalMessage != nil {
-			privateLinkApprovalMessage := *typedInput.Properties.PrivateLinkApprovalMessage
-			origins.PrivateLinkApprovalMessage = &privateLinkApprovalMessage
-		}
-	}
-
-	// no assignment for property ‘PrivateLinkLocationReference’
-
-	// no assignment for property ‘PrivateLinkResourceReference’
-
-	// Set property ‘Weight’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Weight != nil {
-			weight := *typedInput.Properties.Weight
-			origins.Weight = &weight
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromProfilesEndpointsSpecPropertiesOrigins populates our ProfilesEndpoints_Spec_Properties_Origins from the provided source ProfilesEndpoints_Spec_Properties_Origins
-func (origins *ProfilesEndpoints_Spec_Properties_Origins) AssignPropertiesFromProfilesEndpointsSpecPropertiesOrigins(source *v20210601s.ProfilesEndpoints_Spec_Properties_Origins) error {
-
-	// Enabled
-	if source.Enabled != nil {
-		enabled := *source.Enabled
-		origins.Enabled = &enabled
-	} else {
-		origins.Enabled = nil
-	}
-
-	// HostName
-	origins.HostName = genruntime.ClonePointerToString(source.HostName)
-
-	// HttpPort
-	if source.HttpPort != nil {
-		httpPort := *source.HttpPort
-		origins.HttpPort = &httpPort
-	} else {
-		origins.HttpPort = nil
-	}
-
-	// HttpsPort
-	if source.HttpsPort != nil {
-		httpsPort := *source.HttpsPort
-		origins.HttpsPort = &httpsPort
-	} else {
-		origins.HttpsPort = nil
-	}
-
-	// Name
-	origins.Name = genruntime.ClonePointerToString(source.Name)
-
-	// OriginHostHeader
-	origins.OriginHostHeader = genruntime.ClonePointerToString(source.OriginHostHeader)
-
-	// Priority
-	if source.Priority != nil {
-		priority := *source.Priority
-		origins.Priority = &priority
-	} else {
-		origins.Priority = nil
-	}
-
-	// PrivateLinkAlias
-	origins.PrivateLinkAlias = genruntime.ClonePointerToString(source.PrivateLinkAlias)
-
-	// PrivateLinkApprovalMessage
-	origins.PrivateLinkApprovalMessage = genruntime.ClonePointerToString(source.PrivateLinkApprovalMessage)
-
-	// PrivateLinkLocationReference
-	if source.PrivateLinkLocationReference != nil {
-		privateLinkLocationReference := source.PrivateLinkLocationReference.Copy()
-		origins.PrivateLinkLocationReference = &privateLinkLocationReference
-	} else {
-		origins.PrivateLinkLocationReference = nil
-	}
-
-	// PrivateLinkResourceReference
-	if source.PrivateLinkResourceReference != nil {
-		privateLinkResourceReference := source.PrivateLinkResourceReference.Copy()
-		origins.PrivateLinkResourceReference = &privateLinkResourceReference
-	} else {
-		origins.PrivateLinkResourceReference = nil
-	}
-
-	// Weight
-	if source.Weight != nil {
-		weight := *source.Weight
-		origins.Weight = &weight
-	} else {
-		origins.Weight = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToProfilesEndpointsSpecPropertiesOrigins populates the provided destination ProfilesEndpoints_Spec_Properties_Origins from our ProfilesEndpoints_Spec_Properties_Origins
-func (origins *ProfilesEndpoints_Spec_Properties_Origins) AssignPropertiesToProfilesEndpointsSpecPropertiesOrigins(destination *v20210601s.ProfilesEndpoints_Spec_Properties_Origins) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Enabled
-	if origins.Enabled != nil {
-		enabled := *origins.Enabled
-		destination.Enabled = &enabled
-	} else {
-		destination.Enabled = nil
-	}
-
-	// HostName
-	destination.HostName = genruntime.ClonePointerToString(origins.HostName)
-
-	// HttpPort
-	if origins.HttpPort != nil {
-		httpPort := *origins.HttpPort
-		destination.HttpPort = &httpPort
-	} else {
-		destination.HttpPort = nil
-	}
-
-	// HttpsPort
-	if origins.HttpsPort != nil {
-		httpsPort := *origins.HttpsPort
-		destination.HttpsPort = &httpsPort
-	} else {
-		destination.HttpsPort = nil
-	}
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(origins.Name)
-
-	// OriginHostHeader
-	destination.OriginHostHeader = genruntime.ClonePointerToString(origins.OriginHostHeader)
-
-	// Priority
-	if origins.Priority != nil {
-		priority := *origins.Priority
-		destination.Priority = &priority
-	} else {
-		destination.Priority = nil
-	}
-
-	// PrivateLinkAlias
-	destination.PrivateLinkAlias = genruntime.ClonePointerToString(origins.PrivateLinkAlias)
-
-	// PrivateLinkApprovalMessage
-	destination.PrivateLinkApprovalMessage = genruntime.ClonePointerToString(origins.PrivateLinkApprovalMessage)
-
-	// PrivateLinkLocationReference
-	if origins.PrivateLinkLocationReference != nil {
-		privateLinkLocationReference := origins.PrivateLinkLocationReference.Copy()
-		destination.PrivateLinkLocationReference = &privateLinkLocationReference
-	} else {
-		destination.PrivateLinkLocationReference = nil
-	}
-
-	// PrivateLinkResourceReference
-	if origins.PrivateLinkResourceReference != nil {
-		privateLinkResourceReference := origins.PrivateLinkResourceReference.Copy()
-		destination.PrivateLinkResourceReference = &privateLinkResourceReference
-	} else {
-		destination.PrivateLinkResourceReference = nil
-	}
-
-	// Weight
-	if origins.Weight != nil {
-		weight := *origins.Weight
-		destination.Weight = &weight
-	} else {
-		destination.Weight = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/ResourceReference
 type ResourceReference struct {
 	// Reference: Resource ID.
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
@@ -4090,23 +4990,23 @@ func (reference *ResourceReference) AssignPropertiesToResourceReference(destinat
 	return nil
 }
 
-type ResourceReference_Status struct {
+type ResourceReference_STATUS struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &ResourceReference_Status{}
+var _ genruntime.FromARMConverter = &ResourceReference_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (reference *ResourceReference_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ResourceReference_StatusARM{}
+func (reference *ResourceReference_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ResourceReference_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (reference *ResourceReference_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ResourceReference_StatusARM)
+func (reference *ResourceReference_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ResourceReference_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceReference_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResourceReference_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘Id’:
@@ -4119,8 +5019,8 @@ func (reference *ResourceReference_Status) PopulateFromARM(owner genruntime.Arbi
 	return nil
 }
 
-// AssignPropertiesFromResourceReferenceStatus populates our ResourceReference_Status from the provided source ResourceReference_Status
-func (reference *ResourceReference_Status) AssignPropertiesFromResourceReferenceStatus(source *v20210601s.ResourceReference_Status) error {
+// AssignPropertiesFromResourceReference_STATUS populates our ResourceReference_STATUS from the provided source ResourceReference_STATUS
+func (reference *ResourceReference_STATUS) AssignPropertiesFromResourceReference_STATUS(source *v20210601s.ResourceReference_STATUS) error {
 
 	// Id
 	reference.Id = genruntime.ClonePointerToString(source.Id)
@@ -4129,8 +5029,8 @@ func (reference *ResourceReference_Status) AssignPropertiesFromResourceReference
 	return nil
 }
 
-// AssignPropertiesToResourceReferenceStatus populates the provided destination ResourceReference_Status from our ResourceReference_Status
-func (reference *ResourceReference_Status) AssignPropertiesToResourceReferenceStatus(destination *v20210601s.ResourceReference_Status) error {
+// AssignPropertiesToResourceReference_STATUS populates the provided destination ResourceReference_STATUS from our ResourceReference_STATUS
+func (reference *ResourceReference_STATUS) AssignPropertiesToResourceReference_STATUS(destination *v20210601s.ResourceReference_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4148,7 +5048,6 @@ func (reference *ResourceReference_Status) AssignPropertiesToResourceReferenceSt
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlSigningKey
 type UrlSigningKey struct {
 	// +kubebuilder:validation:Required
 	// KeyId: Defines the customer defined key Id. This id will exist in the incoming request to indicate the key used to form
@@ -4156,7 +5055,7 @@ type UrlSigningKey struct {
 	KeyId *string `json:"keyId,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// KeySourceParameters: Describes the parameters for using a user's KeyVault for URL Signing Key.
+	// KeySourceParameters: Defines the parameters for using customer key vault for Url Signing Key.
 	KeySourceParameters *KeyVaultSigningKeyParameters `json:"keySourceParameters,omitempty"`
 }
 
@@ -4273,27 +5172,27 @@ func (signingKey *UrlSigningKey) AssignPropertiesToUrlSigningKey(destination *v2
 	return nil
 }
 
-type UrlSigningKey_Status struct {
+type UrlSigningKey_STATUS struct {
 	// KeyId: Defines the customer defined key Id. This id will exist in the incoming request to indicate the key used to form
 	// the hash.
 	KeyId *string `json:"keyId,omitempty"`
 
 	// KeySourceParameters: Defines the parameters for using customer key vault for Url Signing Key.
-	KeySourceParameters *KeyVaultSigningKeyParameters_Status `json:"keySourceParameters,omitempty"`
+	KeySourceParameters *KeyVaultSigningKeyParameters_STATUS `json:"keySourceParameters,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &UrlSigningKey_Status{}
+var _ genruntime.FromARMConverter = &UrlSigningKey_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (signingKey *UrlSigningKey_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UrlSigningKey_StatusARM{}
+func (signingKey *UrlSigningKey_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &UrlSigningKey_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (signingKey *UrlSigningKey_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UrlSigningKey_StatusARM)
+func (signingKey *UrlSigningKey_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(UrlSigningKey_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlSigningKey_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlSigningKey_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘KeyId’:
@@ -4304,7 +5203,7 @@ func (signingKey *UrlSigningKey_Status) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property ‘KeySourceParameters’:
 	if typedInput.KeySourceParameters != nil {
-		var keySourceParameters1 KeyVaultSigningKeyParameters_Status
+		var keySourceParameters1 KeyVaultSigningKeyParameters_STATUS
 		err := keySourceParameters1.PopulateFromARM(owner, *typedInput.KeySourceParameters)
 		if err != nil {
 			return err
@@ -4317,18 +5216,18 @@ func (signingKey *UrlSigningKey_Status) PopulateFromARM(owner genruntime.Arbitra
 	return nil
 }
 
-// AssignPropertiesFromUrlSigningKeyStatus populates our UrlSigningKey_Status from the provided source UrlSigningKey_Status
-func (signingKey *UrlSigningKey_Status) AssignPropertiesFromUrlSigningKeyStatus(source *v20210601s.UrlSigningKey_Status) error {
+// AssignPropertiesFromUrlSigningKey_STATUS populates our UrlSigningKey_STATUS from the provided source UrlSigningKey_STATUS
+func (signingKey *UrlSigningKey_STATUS) AssignPropertiesFromUrlSigningKey_STATUS(source *v20210601s.UrlSigningKey_STATUS) error {
 
 	// KeyId
 	signingKey.KeyId = genruntime.ClonePointerToString(source.KeyId)
 
 	// KeySourceParameters
 	if source.KeySourceParameters != nil {
-		var keySourceParameter KeyVaultSigningKeyParameters_Status
-		err := keySourceParameter.AssignPropertiesFromKeyVaultSigningKeyParametersStatus(source.KeySourceParameters)
+		var keySourceParameter KeyVaultSigningKeyParameters_STATUS
+		err := keySourceParameter.AssignPropertiesFromKeyVaultSigningKeyParameters_STATUS(source.KeySourceParameters)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultSigningKeyParametersStatus() to populate field KeySourceParameters")
+			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultSigningKeyParameters_STATUS() to populate field KeySourceParameters")
 		}
 		signingKey.KeySourceParameters = &keySourceParameter
 	} else {
@@ -4339,8 +5238,8 @@ func (signingKey *UrlSigningKey_Status) AssignPropertiesFromUrlSigningKeyStatus(
 	return nil
 }
 
-// AssignPropertiesToUrlSigningKeyStatus populates the provided destination UrlSigningKey_Status from our UrlSigningKey_Status
-func (signingKey *UrlSigningKey_Status) AssignPropertiesToUrlSigningKeyStatus(destination *v20210601s.UrlSigningKey_Status) error {
+// AssignPropertiesToUrlSigningKey_STATUS populates the provided destination UrlSigningKey_STATUS from our UrlSigningKey_STATUS
+func (signingKey *UrlSigningKey_STATUS) AssignPropertiesToUrlSigningKey_STATUS(destination *v20210601s.UrlSigningKey_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4349,10 +5248,10 @@ func (signingKey *UrlSigningKey_Status) AssignPropertiesToUrlSigningKeyStatus(de
 
 	// KeySourceParameters
 	if signingKey.KeySourceParameters != nil {
-		var keySourceParameter v20210601s.KeyVaultSigningKeyParameters_Status
-		err := signingKey.KeySourceParameters.AssignPropertiesToKeyVaultSigningKeyParametersStatus(&keySourceParameter)
+		var keySourceParameter v20210601s.KeyVaultSigningKeyParameters_STATUS
+		err := signingKey.KeySourceParameters.AssignPropertiesToKeyVaultSigningKeyParameters_STATUS(&keySourceParameter)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultSigningKeyParametersStatus() to populate field KeySourceParameters")
+			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultSigningKeyParameters_STATUS() to populate field KeySourceParameters")
 		}
 		destination.KeySourceParameters = &keySourceParameter
 	} else {
@@ -4370,11 +5269,365 @@ func (signingKey *UrlSigningKey_Status) AssignPropertiesToUrlSigningKeyStatus(de
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRule
+type CustomDomainHttpsParameters struct {
+	// +kubebuilder:validation:Required
+	// CertificateSource: Defines the source of the SSL certificate.
+	CertificateSource *CustomDomainHttpsParameters_CertificateSource `json:"certificateSource,omitempty"`
+
+	// MinimumTlsVersion: TLS protocol version that will be used for Https
+	MinimumTlsVersion *CustomDomainHttpsParameters_MinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// ProtocolType: Defines the TLS extension protocol that is used for secure delivery.
+	ProtocolType *CustomDomainHttpsParameters_ProtocolType `json:"protocolType,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &CustomDomainHttpsParameters{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (parameters *CustomDomainHttpsParameters) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if parameters == nil {
+		return nil, nil
+	}
+	result := &CustomDomainHttpsParametersARM{}
+
+	// Set property ‘CertificateSource’:
+	if parameters.CertificateSource != nil {
+		certificateSource := *parameters.CertificateSource
+		result.CertificateSource = &certificateSource
+	}
+
+	// Set property ‘MinimumTlsVersion’:
+	if parameters.MinimumTlsVersion != nil {
+		minimumTlsVersion := *parameters.MinimumTlsVersion
+		result.MinimumTlsVersion = &minimumTlsVersion
+	}
+
+	// Set property ‘ProtocolType’:
+	if parameters.ProtocolType != nil {
+		protocolType := *parameters.ProtocolType
+		result.ProtocolType = &protocolType
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (parameters *CustomDomainHttpsParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &CustomDomainHttpsParametersARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (parameters *CustomDomainHttpsParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(CustomDomainHttpsParametersARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CustomDomainHttpsParametersARM, got %T", armInput)
+	}
+
+	// Set property ‘CertificateSource’:
+	if typedInput.CertificateSource != nil {
+		certificateSource := *typedInput.CertificateSource
+		parameters.CertificateSource = &certificateSource
+	}
+
+	// Set property ‘MinimumTlsVersion’:
+	if typedInput.MinimumTlsVersion != nil {
+		minimumTlsVersion := *typedInput.MinimumTlsVersion
+		parameters.MinimumTlsVersion = &minimumTlsVersion
+	}
+
+	// Set property ‘ProtocolType’:
+	if typedInput.ProtocolType != nil {
+		protocolType := *typedInput.ProtocolType
+		parameters.ProtocolType = &protocolType
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromCustomDomainHttpsParameters populates our CustomDomainHttpsParameters from the provided source CustomDomainHttpsParameters
+func (parameters *CustomDomainHttpsParameters) AssignPropertiesFromCustomDomainHttpsParameters(source *v20210601s.CustomDomainHttpsParameters) error {
+
+	// CertificateSource
+	if source.CertificateSource != nil {
+		certificateSource := CustomDomainHttpsParameters_CertificateSource(*source.CertificateSource)
+		parameters.CertificateSource = &certificateSource
+	} else {
+		parameters.CertificateSource = nil
+	}
+
+	// MinimumTlsVersion
+	if source.MinimumTlsVersion != nil {
+		minimumTlsVersion := CustomDomainHttpsParameters_MinimumTlsVersion(*source.MinimumTlsVersion)
+		parameters.MinimumTlsVersion = &minimumTlsVersion
+	} else {
+		parameters.MinimumTlsVersion = nil
+	}
+
+	// ProtocolType
+	if source.ProtocolType != nil {
+		protocolType := CustomDomainHttpsParameters_ProtocolType(*source.ProtocolType)
+		parameters.ProtocolType = &protocolType
+	} else {
+		parameters.ProtocolType = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToCustomDomainHttpsParameters populates the provided destination CustomDomainHttpsParameters from our CustomDomainHttpsParameters
+func (parameters *CustomDomainHttpsParameters) AssignPropertiesToCustomDomainHttpsParameters(destination *v20210601s.CustomDomainHttpsParameters) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// CertificateSource
+	if parameters.CertificateSource != nil {
+		certificateSource := string(*parameters.CertificateSource)
+		destination.CertificateSource = &certificateSource
+	} else {
+		destination.CertificateSource = nil
+	}
+
+	// MinimumTlsVersion
+	if parameters.MinimumTlsVersion != nil {
+		minimumTlsVersion := string(*parameters.MinimumTlsVersion)
+		destination.MinimumTlsVersion = &minimumTlsVersion
+	} else {
+		destination.MinimumTlsVersion = nil
+	}
+
+	// ProtocolType
+	if parameters.ProtocolType != nil {
+		protocolType := string(*parameters.ProtocolType)
+		destination.ProtocolType = &protocolType
+	} else {
+		destination.ProtocolType = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type CustomDomainHttpsParameters_STATUS struct {
+	// CertificateSource: Defines the source of the SSL certificate.
+	CertificateSource *CustomDomainHttpsParameters_CertificateSource_STATUS `json:"certificateSource,omitempty"`
+
+	// MinimumTlsVersion: TLS protocol version that will be used for Https
+	MinimumTlsVersion *CustomDomainHttpsParameters_MinimumTlsVersion_STATUS `json:"minimumTlsVersion,omitempty"`
+
+	// ProtocolType: Defines the TLS extension protocol that is used for secure delivery.
+	ProtocolType *CustomDomainHttpsParameters_ProtocolType_STATUS `json:"protocolType,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &CustomDomainHttpsParameters_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (parameters *CustomDomainHttpsParameters_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &CustomDomainHttpsParameters_STATUSARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (parameters *CustomDomainHttpsParameters_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(CustomDomainHttpsParameters_STATUSARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CustomDomainHttpsParameters_STATUSARM, got %T", armInput)
+	}
+
+	// Set property ‘CertificateSource’:
+	if typedInput.CertificateSource != nil {
+		certificateSource := *typedInput.CertificateSource
+		parameters.CertificateSource = &certificateSource
+	}
+
+	// Set property ‘MinimumTlsVersion’:
+	if typedInput.MinimumTlsVersion != nil {
+		minimumTlsVersion := *typedInput.MinimumTlsVersion
+		parameters.MinimumTlsVersion = &minimumTlsVersion
+	}
+
+	// Set property ‘ProtocolType’:
+	if typedInput.ProtocolType != nil {
+		protocolType := *typedInput.ProtocolType
+		parameters.ProtocolType = &protocolType
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromCustomDomainHttpsParameters_STATUS populates our CustomDomainHttpsParameters_STATUS from the provided source CustomDomainHttpsParameters_STATUS
+func (parameters *CustomDomainHttpsParameters_STATUS) AssignPropertiesFromCustomDomainHttpsParameters_STATUS(source *v20210601s.CustomDomainHttpsParameters_STATUS) error {
+
+	// CertificateSource
+	if source.CertificateSource != nil {
+		certificateSource := CustomDomainHttpsParameters_CertificateSource_STATUS(*source.CertificateSource)
+		parameters.CertificateSource = &certificateSource
+	} else {
+		parameters.CertificateSource = nil
+	}
+
+	// MinimumTlsVersion
+	if source.MinimumTlsVersion != nil {
+		minimumTlsVersion := CustomDomainHttpsParameters_MinimumTlsVersion_STATUS(*source.MinimumTlsVersion)
+		parameters.MinimumTlsVersion = &minimumTlsVersion
+	} else {
+		parameters.MinimumTlsVersion = nil
+	}
+
+	// ProtocolType
+	if source.ProtocolType != nil {
+		protocolType := CustomDomainHttpsParameters_ProtocolType_STATUS(*source.ProtocolType)
+		parameters.ProtocolType = &protocolType
+	} else {
+		parameters.ProtocolType = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToCustomDomainHttpsParameters_STATUS populates the provided destination CustomDomainHttpsParameters_STATUS from our CustomDomainHttpsParameters_STATUS
+func (parameters *CustomDomainHttpsParameters_STATUS) AssignPropertiesToCustomDomainHttpsParameters_STATUS(destination *v20210601s.CustomDomainHttpsParameters_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// CertificateSource
+	if parameters.CertificateSource != nil {
+		certificateSource := string(*parameters.CertificateSource)
+		destination.CertificateSource = &certificateSource
+	} else {
+		destination.CertificateSource = nil
+	}
+
+	// MinimumTlsVersion
+	if parameters.MinimumTlsVersion != nil {
+		minimumTlsVersion := string(*parameters.MinimumTlsVersion)
+		destination.MinimumTlsVersion = &minimumTlsVersion
+	} else {
+		destination.MinimumTlsVersion = nil
+	}
+
+	// ProtocolType
+	if parameters.ProtocolType != nil {
+		protocolType := string(*parameters.ProtocolType)
+		destination.ProtocolType = &protocolType
+	} else {
+		destination.ProtocolType = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// +kubebuilder:validation:Enum={"Disabled","Disabling","Enabled","Enabling","Failed"}
+type CustomDomainProperties_CustomHttpsProvisioningState string
+
+const (
+	CustomDomainProperties_CustomHttpsProvisioningStateDisabled  = CustomDomainProperties_CustomHttpsProvisioningState("Disabled")
+	CustomDomainProperties_CustomHttpsProvisioningStateDisabling = CustomDomainProperties_CustomHttpsProvisioningState("Disabling")
+	CustomDomainProperties_CustomHttpsProvisioningStateEnabled   = CustomDomainProperties_CustomHttpsProvisioningState("Enabled")
+	CustomDomainProperties_CustomHttpsProvisioningStateEnabling  = CustomDomainProperties_CustomHttpsProvisioningState("Enabling")
+	CustomDomainProperties_CustomHttpsProvisioningStateFailed    = CustomDomainProperties_CustomHttpsProvisioningState("Failed")
+)
+
+type CustomDomainProperties_CustomHttpsProvisioningState_STATUS string
+
+const (
+	CustomDomainProperties_CustomHttpsProvisioningState_STATUSDisabled  = CustomDomainProperties_CustomHttpsProvisioningState_STATUS("Disabled")
+	CustomDomainProperties_CustomHttpsProvisioningState_STATUSDisabling = CustomDomainProperties_CustomHttpsProvisioningState_STATUS("Disabling")
+	CustomDomainProperties_CustomHttpsProvisioningState_STATUSEnabled   = CustomDomainProperties_CustomHttpsProvisioningState_STATUS("Enabled")
+	CustomDomainProperties_CustomHttpsProvisioningState_STATUSEnabling  = CustomDomainProperties_CustomHttpsProvisioningState_STATUS("Enabling")
+	CustomDomainProperties_CustomHttpsProvisioningState_STATUSFailed    = CustomDomainProperties_CustomHttpsProvisioningState_STATUS("Failed")
+)
+
+// +kubebuilder:validation:Enum={"CertificateDeleted","CertificateDeployed","DeletingCertificate","DeployingCertificate","DomainControlValidationRequestApproved","DomainControlValidationRequestRejected","DomainControlValidationRequestTimedOut","IssuingCertificate","PendingDomainControlValidationREquestApproval","SubmittingDomainControlValidationRequest"}
+type CustomDomainProperties_CustomHttpsProvisioningSubstate string
+
+const (
+	CustomDomainProperties_CustomHttpsProvisioningSubstateCertificateDeleted                            = CustomDomainProperties_CustomHttpsProvisioningSubstate("CertificateDeleted")
+	CustomDomainProperties_CustomHttpsProvisioningSubstateCertificateDeployed                           = CustomDomainProperties_CustomHttpsProvisioningSubstate("CertificateDeployed")
+	CustomDomainProperties_CustomHttpsProvisioningSubstateDeletingCertificate                           = CustomDomainProperties_CustomHttpsProvisioningSubstate("DeletingCertificate")
+	CustomDomainProperties_CustomHttpsProvisioningSubstateDeployingCertificate                          = CustomDomainProperties_CustomHttpsProvisioningSubstate("DeployingCertificate")
+	CustomDomainProperties_CustomHttpsProvisioningSubstateDomainControlValidationRequestApproved        = CustomDomainProperties_CustomHttpsProvisioningSubstate("DomainControlValidationRequestApproved")
+	CustomDomainProperties_CustomHttpsProvisioningSubstateDomainControlValidationRequestRejected        = CustomDomainProperties_CustomHttpsProvisioningSubstate("DomainControlValidationRequestRejected")
+	CustomDomainProperties_CustomHttpsProvisioningSubstateDomainControlValidationRequestTimedOut        = CustomDomainProperties_CustomHttpsProvisioningSubstate("DomainControlValidationRequestTimedOut")
+	CustomDomainProperties_CustomHttpsProvisioningSubstateIssuingCertificate                            = CustomDomainProperties_CustomHttpsProvisioningSubstate("IssuingCertificate")
+	CustomDomainProperties_CustomHttpsProvisioningSubstatePendingDomainControlValidationREquestApproval = CustomDomainProperties_CustomHttpsProvisioningSubstate("PendingDomainControlValidationREquestApproval")
+	CustomDomainProperties_CustomHttpsProvisioningSubstateSubmittingDomainControlValidationRequest      = CustomDomainProperties_CustomHttpsProvisioningSubstate("SubmittingDomainControlValidationRequest")
+)
+
+type CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS string
+
+const (
+	CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUSCertificateDeleted                            = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("CertificateDeleted")
+	CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUSCertificateDeployed                           = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("CertificateDeployed")
+	CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUSDeletingCertificate                           = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("DeletingCertificate")
+	CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUSDeployingCertificate                          = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("DeployingCertificate")
+	CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUSDomainControlValidationRequestApproved        = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("DomainControlValidationRequestApproved")
+	CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUSDomainControlValidationRequestRejected        = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("DomainControlValidationRequestRejected")
+	CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUSDomainControlValidationRequestTimedOut        = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("DomainControlValidationRequestTimedOut")
+	CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUSIssuingCertificate                            = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("IssuingCertificate")
+	CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUSPendingDomainControlValidationREquestApproval = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("PendingDomainControlValidationREquestApproval")
+	CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUSSubmittingDomainControlValidationRequest      = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("SubmittingDomainControlValidationRequest")
+)
+
+// +kubebuilder:validation:Enum={"Disabled","Disabling","Enabled","Enabling","Failed"}
+type CustomDomainProperties_ProvisioningState string
+
+const (
+	CustomDomainProperties_ProvisioningStateDisabled  = CustomDomainProperties_ProvisioningState("Disabled")
+	CustomDomainProperties_ProvisioningStateDisabling = CustomDomainProperties_ProvisioningState("Disabling")
+	CustomDomainProperties_ProvisioningStateEnabled   = CustomDomainProperties_ProvisioningState("Enabled")
+	CustomDomainProperties_ProvisioningStateEnabling  = CustomDomainProperties_ProvisioningState("Enabling")
+	CustomDomainProperties_ProvisioningStateFailed    = CustomDomainProperties_ProvisioningState("Failed")
+)
+
+type CustomDomainProperties_ProvisioningState_STATUS string
+
+const (
+	CustomDomainProperties_ProvisioningState_STATUSDisabled  = CustomDomainProperties_ProvisioningState_STATUS("Disabled")
+	CustomDomainProperties_ProvisioningState_STATUSDisabling = CustomDomainProperties_ProvisioningState_STATUS("Disabling")
+	CustomDomainProperties_ProvisioningState_STATUSEnabled   = CustomDomainProperties_ProvisioningState_STATUS("Enabled")
+	CustomDomainProperties_ProvisioningState_STATUSEnabling  = CustomDomainProperties_ProvisioningState_STATUS("Enabling")
+	CustomDomainProperties_ProvisioningState_STATUSFailed    = CustomDomainProperties_ProvisioningState_STATUS("Failed")
+)
+
+// +kubebuilder:validation:Enum={"Active","Creating","Deleting"}
+type CustomDomainProperties_ResourceState string
+
+const (
+	CustomDomainProperties_ResourceStateActive   = CustomDomainProperties_ResourceState("Active")
+	CustomDomainProperties_ResourceStateCreating = CustomDomainProperties_ResourceState("Creating")
+	CustomDomainProperties_ResourceStateDeleting = CustomDomainProperties_ResourceState("Deleting")
+)
+
+type CustomDomainProperties_ResourceState_STATUS string
+
+const (
+	CustomDomainProperties_ResourceState_STATUSActive   = CustomDomainProperties_ResourceState_STATUS("Active")
+	CustomDomainProperties_ResourceState_STATUSCreating = CustomDomainProperties_ResourceState_STATUS("Creating")
+	CustomDomainProperties_ResourceState_STATUSDeleting = CustomDomainProperties_ResourceState_STATUS("Deleting")
+)
+
 type DeliveryRule struct {
 	// +kubebuilder:validation:Required
 	// Actions: A list of actions that are executed when all the conditions of a rule are satisfied.
-	Actions []DeliveryRuleAction1 `json:"actions,omitempty"`
+	Actions []DeliveryRuleAction `json:"actions,omitempty"`
 
 	// Conditions: A list of conditions that must be matched for the actions to be executed
 	Conditions []DeliveryRuleCondition `json:"conditions,omitempty"`
@@ -4404,7 +5657,7 @@ func (rule *DeliveryRule) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 		if err != nil {
 			return nil, err
 		}
-		result.Actions = append(result.Actions, *itemARM.(*DeliveryRuleAction1ARM))
+		result.Actions = append(result.Actions, *itemARM.(*DeliveryRuleActionARM))
 	}
 
 	// Set property ‘Conditions’:
@@ -4444,7 +5697,7 @@ func (rule *DeliveryRule) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 
 	// Set property ‘Actions’:
 	for _, item := range typedInput.Actions {
-		var item1 DeliveryRuleAction1
+		var item1 DeliveryRuleAction
 		err := item1.PopulateFromARM(owner, item)
 		if err != nil {
 			return err
@@ -4483,14 +5736,14 @@ func (rule *DeliveryRule) AssignPropertiesFromDeliveryRule(source *v20210601s.De
 
 	// Actions
 	if source.Actions != nil {
-		actionList := make([]DeliveryRuleAction1, len(source.Actions))
+		actionList := make([]DeliveryRuleAction, len(source.Actions))
 		for actionIndex, actionItem := range source.Actions {
 			// Shadow the loop variable to avoid aliasing
 			actionItem := actionItem
-			var action DeliveryRuleAction1
-			err := action.AssignPropertiesFromDeliveryRuleAction1(&actionItem)
+			var action DeliveryRuleAction
+			err := action.AssignPropertiesFromDeliveryRuleAction(&actionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleAction1() to populate field Actions")
+				return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleAction() to populate field Actions")
 			}
 			actionList[actionIndex] = action
 		}
@@ -4534,14 +5787,14 @@ func (rule *DeliveryRule) AssignPropertiesToDeliveryRule(destination *v20210601s
 
 	// Actions
 	if rule.Actions != nil {
-		actionList := make([]v20210601s.DeliveryRuleAction1, len(rule.Actions))
+		actionList := make([]v20210601s.DeliveryRuleAction, len(rule.Actions))
 		for actionIndex, actionItem := range rule.Actions {
 			// Shadow the loop variable to avoid aliasing
 			actionItem := actionItem
-			var action v20210601s.DeliveryRuleAction1
-			err := actionItem.AssignPropertiesToDeliveryRuleAction1(&action)
+			var action v20210601s.DeliveryRuleAction
+			err := actionItem.AssignPropertiesToDeliveryRuleAction(&action)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleAction1() to populate field Actions")
+				return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleAction() to populate field Actions")
 			}
 			actionList[actionIndex] = action
 		}
@@ -4585,12 +5838,12 @@ func (rule *DeliveryRule) AssignPropertiesToDeliveryRule(destination *v20210601s
 	return nil
 }
 
-type DeliveryRule_Status struct {
+type DeliveryRule_STATUS struct {
 	// Actions: A list of actions that are executed when all the conditions of a rule are satisfied.
-	Actions []DeliveryRuleAction_Status `json:"actions,omitempty"`
+	Actions []DeliveryRuleAction_STATUS `json:"actions,omitempty"`
 
 	// Conditions: A list of conditions that must be matched for the actions to be executed
-	Conditions []DeliveryRuleCondition_Status `json:"conditions,omitempty"`
+	Conditions []DeliveryRuleCondition_STATUS `json:"conditions,omitempty"`
 
 	// Name: Name of the rule
 	Name *string `json:"name,omitempty"`
@@ -4601,23 +5854,23 @@ type DeliveryRule_Status struct {
 	Order *int `json:"order,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &DeliveryRule_Status{}
+var _ genruntime.FromARMConverter = &DeliveryRule_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (rule *DeliveryRule_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeliveryRule_StatusARM{}
+func (rule *DeliveryRule_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DeliveryRule_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (rule *DeliveryRule_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeliveryRule_StatusARM)
+func (rule *DeliveryRule_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DeliveryRule_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRule_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRule_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘Actions’:
 	for _, item := range typedInput.Actions {
-		var item1 DeliveryRuleAction_Status
+		var item1 DeliveryRuleAction_STATUS
 		err := item1.PopulateFromARM(owner, item)
 		if err != nil {
 			return err
@@ -4643,19 +5896,19 @@ func (rule *DeliveryRule_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
-// AssignPropertiesFromDeliveryRuleStatus populates our DeliveryRule_Status from the provided source DeliveryRule_Status
-func (rule *DeliveryRule_Status) AssignPropertiesFromDeliveryRuleStatus(source *v20210601s.DeliveryRule_Status) error {
+// AssignPropertiesFromDeliveryRule_STATUS populates our DeliveryRule_STATUS from the provided source DeliveryRule_STATUS
+func (rule *DeliveryRule_STATUS) AssignPropertiesFromDeliveryRule_STATUS(source *v20210601s.DeliveryRule_STATUS) error {
 
 	// Actions
 	if source.Actions != nil {
-		actionList := make([]DeliveryRuleAction_Status, len(source.Actions))
+		actionList := make([]DeliveryRuleAction_STATUS, len(source.Actions))
 		for actionIndex, actionItem := range source.Actions {
 			// Shadow the loop variable to avoid aliasing
 			actionItem := actionItem
-			var action DeliveryRuleAction_Status
-			err := action.AssignPropertiesFromDeliveryRuleActionStatus(&actionItem)
+			var action DeliveryRuleAction_STATUS
+			err := action.AssignPropertiesFromDeliveryRuleAction_STATUS(&actionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleActionStatus() to populate field Actions")
+				return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleAction_STATUS() to populate field Actions")
 			}
 			actionList[actionIndex] = action
 		}
@@ -4666,14 +5919,14 @@ func (rule *DeliveryRule_Status) AssignPropertiesFromDeliveryRuleStatus(source *
 
 	// Conditions
 	if source.Conditions != nil {
-		conditionList := make([]DeliveryRuleCondition_Status, len(source.Conditions))
+		conditionList := make([]DeliveryRuleCondition_STATUS, len(source.Conditions))
 		for conditionIndex, conditionItem := range source.Conditions {
 			// Shadow the loop variable to avoid aliasing
 			conditionItem := conditionItem
-			var condition DeliveryRuleCondition_Status
-			err := condition.AssignPropertiesFromDeliveryRuleConditionStatus(&conditionItem)
+			var condition DeliveryRuleCondition_STATUS
+			err := condition.AssignPropertiesFromDeliveryRuleCondition_STATUS(&conditionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleConditionStatus() to populate field Conditions")
+				return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleCondition_STATUS() to populate field Conditions")
 			}
 			conditionList[conditionIndex] = condition
 		}
@@ -4692,21 +5945,21 @@ func (rule *DeliveryRule_Status) AssignPropertiesFromDeliveryRuleStatus(source *
 	return nil
 }
 
-// AssignPropertiesToDeliveryRuleStatus populates the provided destination DeliveryRule_Status from our DeliveryRule_Status
-func (rule *DeliveryRule_Status) AssignPropertiesToDeliveryRuleStatus(destination *v20210601s.DeliveryRule_Status) error {
+// AssignPropertiesToDeliveryRule_STATUS populates the provided destination DeliveryRule_STATUS from our DeliveryRule_STATUS
+func (rule *DeliveryRule_STATUS) AssignPropertiesToDeliveryRule_STATUS(destination *v20210601s.DeliveryRule_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Actions
 	if rule.Actions != nil {
-		actionList := make([]v20210601s.DeliveryRuleAction_Status, len(rule.Actions))
+		actionList := make([]v20210601s.DeliveryRuleAction_STATUS, len(rule.Actions))
 		for actionIndex, actionItem := range rule.Actions {
 			// Shadow the loop variable to avoid aliasing
 			actionItem := actionItem
-			var action v20210601s.DeliveryRuleAction_Status
-			err := actionItem.AssignPropertiesToDeliveryRuleActionStatus(&action)
+			var action v20210601s.DeliveryRuleAction_STATUS
+			err := actionItem.AssignPropertiesToDeliveryRuleAction_STATUS(&action)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleActionStatus() to populate field Actions")
+				return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleAction_STATUS() to populate field Actions")
 			}
 			actionList[actionIndex] = action
 		}
@@ -4717,14 +5970,14 @@ func (rule *DeliveryRule_Status) AssignPropertiesToDeliveryRuleStatus(destinatio
 
 	// Conditions
 	if rule.Conditions != nil {
-		conditionList := make([]v20210601s.DeliveryRuleCondition_Status, len(rule.Conditions))
+		conditionList := make([]v20210601s.DeliveryRuleCondition_STATUS, len(rule.Conditions))
 		for conditionIndex, conditionItem := range rule.Conditions {
 			// Shadow the loop variable to avoid aliasing
 			conditionItem := conditionItem
-			var condition v20210601s.DeliveryRuleCondition_Status
-			err := conditionItem.AssignPropertiesToDeliveryRuleConditionStatus(&condition)
+			var condition v20210601s.DeliveryRuleCondition_STATUS
+			err := conditionItem.AssignPropertiesToDeliveryRuleCondition_STATUS(&condition)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleConditionStatus() to populate field Conditions")
+				return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleCondition_STATUS() to populate field Conditions")
 			}
 			conditionList[conditionIndex] = condition
 		}
@@ -4751,14 +6004,13 @@ func (rule *DeliveryRule_Status) AssignPropertiesToDeliveryRuleStatus(destinatio
 }
 
 // +kubebuilder:validation:Enum={"Allow","Block"}
-type GeoFilterAction string
+type GeoFilter_Action string
 
 const (
-	GeoFilterActionAllow = GeoFilterAction("Allow")
-	GeoFilterActionBlock = GeoFilterAction("Block")
+	GeoFilter_ActionAllow = GeoFilter_Action("Allow")
+	GeoFilter_ActionBlock = GeoFilter_Action("Block")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/HealthProbeParameters
 type HealthProbeParameters struct {
 	// +kubebuilder:validation:Maximum=255
 	// +kubebuilder:validation:Minimum=1
@@ -4769,10 +6021,10 @@ type HealthProbeParameters struct {
 	ProbePath *string `json:"probePath,omitempty"`
 
 	// ProbeProtocol: Protocol to use for health probe.
-	ProbeProtocol *HealthProbeParametersProbeProtocol `json:"probeProtocol,omitempty"`
+	ProbeProtocol *HealthProbeParameters_ProbeProtocol `json:"probeProtocol,omitempty"`
 
 	// ProbeRequestType: The type of health probe request that is made.
-	ProbeRequestType *HealthProbeParametersProbeRequestType `json:"probeRequestType,omitempty"`
+	ProbeRequestType *HealthProbeParameters_ProbeRequestType `json:"probeRequestType,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &HealthProbeParameters{}
@@ -4866,7 +6118,7 @@ func (parameters *HealthProbeParameters) AssignPropertiesFromHealthProbeParamete
 
 	// ProbeProtocol
 	if source.ProbeProtocol != nil {
-		probeProtocol := HealthProbeParametersProbeProtocol(*source.ProbeProtocol)
+		probeProtocol := HealthProbeParameters_ProbeProtocol(*source.ProbeProtocol)
 		parameters.ProbeProtocol = &probeProtocol
 	} else {
 		parameters.ProbeProtocol = nil
@@ -4874,7 +6126,7 @@ func (parameters *HealthProbeParameters) AssignPropertiesFromHealthProbeParamete
 
 	// ProbeRequestType
 	if source.ProbeRequestType != nil {
-		probeRequestType := HealthProbeParametersProbeRequestType(*source.ProbeRequestType)
+		probeRequestType := HealthProbeParameters_ProbeRequestType(*source.ProbeRequestType)
 		parameters.ProbeRequestType = &probeRequestType
 	} else {
 		parameters.ProbeRequestType = nil
@@ -4927,7 +6179,7 @@ func (parameters *HealthProbeParameters) AssignPropertiesToHealthProbeParameters
 	return nil
 }
 
-type HealthProbeParameters_Status struct {
+type HealthProbeParameters_STATUS struct {
 	// ProbeIntervalInSeconds: The number of seconds between health probes.Default is 240sec.
 	ProbeIntervalInSeconds *int `json:"probeIntervalInSeconds,omitempty"`
 
@@ -4935,24 +6187,24 @@ type HealthProbeParameters_Status struct {
 	ProbePath *string `json:"probePath,omitempty"`
 
 	// ProbeProtocol: Protocol to use for health probe.
-	ProbeProtocol *HealthProbeParametersStatusProbeProtocol `json:"probeProtocol,omitempty"`
+	ProbeProtocol *HealthProbeParameters_ProbeProtocol_STATUS `json:"probeProtocol,omitempty"`
 
 	// ProbeRequestType: The type of health probe request that is made.
-	ProbeRequestType *HealthProbeParametersStatusProbeRequestType `json:"probeRequestType,omitempty"`
+	ProbeRequestType *HealthProbeParameters_ProbeRequestType_STATUS `json:"probeRequestType,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &HealthProbeParameters_Status{}
+var _ genruntime.FromARMConverter = &HealthProbeParameters_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *HealthProbeParameters_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &HealthProbeParameters_StatusARM{}
+func (parameters *HealthProbeParameters_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &HealthProbeParameters_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *HealthProbeParameters_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(HealthProbeParameters_StatusARM)
+func (parameters *HealthProbeParameters_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(HealthProbeParameters_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HealthProbeParameters_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HealthProbeParameters_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘ProbeIntervalInSeconds’:
@@ -4983,8 +6235,8 @@ func (parameters *HealthProbeParameters_Status) PopulateFromARM(owner genruntime
 	return nil
 }
 
-// AssignPropertiesFromHealthProbeParametersStatus populates our HealthProbeParameters_Status from the provided source HealthProbeParameters_Status
-func (parameters *HealthProbeParameters_Status) AssignPropertiesFromHealthProbeParametersStatus(source *v20210601s.HealthProbeParameters_Status) error {
+// AssignPropertiesFromHealthProbeParameters_STATUS populates our HealthProbeParameters_STATUS from the provided source HealthProbeParameters_STATUS
+func (parameters *HealthProbeParameters_STATUS) AssignPropertiesFromHealthProbeParameters_STATUS(source *v20210601s.HealthProbeParameters_STATUS) error {
 
 	// ProbeIntervalInSeconds
 	parameters.ProbeIntervalInSeconds = genruntime.ClonePointerToInt(source.ProbeIntervalInSeconds)
@@ -4994,7 +6246,7 @@ func (parameters *HealthProbeParameters_Status) AssignPropertiesFromHealthProbeP
 
 	// ProbeProtocol
 	if source.ProbeProtocol != nil {
-		probeProtocol := HealthProbeParametersStatusProbeProtocol(*source.ProbeProtocol)
+		probeProtocol := HealthProbeParameters_ProbeProtocol_STATUS(*source.ProbeProtocol)
 		parameters.ProbeProtocol = &probeProtocol
 	} else {
 		parameters.ProbeProtocol = nil
@@ -5002,7 +6254,7 @@ func (parameters *HealthProbeParameters_Status) AssignPropertiesFromHealthProbeP
 
 	// ProbeRequestType
 	if source.ProbeRequestType != nil {
-		probeRequestType := HealthProbeParametersStatusProbeRequestType(*source.ProbeRequestType)
+		probeRequestType := HealthProbeParameters_ProbeRequestType_STATUS(*source.ProbeRequestType)
 		parameters.ProbeRequestType = &probeRequestType
 	} else {
 		parameters.ProbeRequestType = nil
@@ -5012,8 +6264,8 @@ func (parameters *HealthProbeParameters_Status) AssignPropertiesFromHealthProbeP
 	return nil
 }
 
-// AssignPropertiesToHealthProbeParametersStatus populates the provided destination HealthProbeParameters_Status from our HealthProbeParameters_Status
-func (parameters *HealthProbeParameters_Status) AssignPropertiesToHealthProbeParametersStatus(destination *v20210601s.HealthProbeParameters_Status) error {
+// AssignPropertiesToHealthProbeParameters_STATUS populates the provided destination HealthProbeParameters_STATUS from our HealthProbeParameters_STATUS
+func (parameters *HealthProbeParameters_STATUS) AssignPropertiesToHealthProbeParameters_STATUS(destination *v20210601s.HealthProbeParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5050,7 +6302,6 @@ func (parameters *HealthProbeParameters_Status) AssignPropertiesToHealthProbePar
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/KeyVaultSigningKeyParameters
 type KeyVaultSigningKeyParameters struct {
 	// +kubebuilder:validation:Required
 	// ResourceGroupName: Resource group of the user's Key Vault containing the secret
@@ -5069,7 +6320,7 @@ type KeyVaultSigningKeyParameters struct {
 	SubscriptionId *string `json:"subscriptionId,omitempty"`
 
 	// +kubebuilder:validation:Required
-	TypeName *KeyVaultSigningKeyParametersTypeName `json:"typeName,omitempty"`
+	TypeName *KeyVaultSigningKeyParameters_TypeName `json:"typeName,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// VaultName: The name of the user's Key Vault containing the secret
@@ -5192,7 +6443,7 @@ func (parameters *KeyVaultSigningKeyParameters) AssignPropertiesFromKeyVaultSign
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := KeyVaultSigningKeyParametersTypeName(*source.TypeName)
+		typeName := KeyVaultSigningKeyParameters_TypeName(*source.TypeName)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -5244,7 +6495,7 @@ func (parameters *KeyVaultSigningKeyParameters) AssignPropertiesToKeyVaultSignin
 	return nil
 }
 
-type KeyVaultSigningKeyParameters_Status struct {
+type KeyVaultSigningKeyParameters_STATUS struct {
 	// ResourceGroupName: Resource group of the user's Key Vault containing the secret
 	ResourceGroupName *string `json:"resourceGroupName,omitempty"`
 
@@ -5255,25 +6506,25 @@ type KeyVaultSigningKeyParameters_Status struct {
 	SecretVersion *string `json:"secretVersion,omitempty"`
 
 	// SubscriptionId: Subscription Id of the user's Key Vault containing the secret
-	SubscriptionId *string                                     `json:"subscriptionId,omitempty"`
-	TypeName       *KeyVaultSigningKeyParametersStatusTypeName `json:"typeName,omitempty"`
+	SubscriptionId *string                                       `json:"subscriptionId,omitempty"`
+	TypeName       *KeyVaultSigningKeyParameters_TypeName_STATUS `json:"typeName,omitempty"`
 
 	// VaultName: The name of the user's Key Vault containing the secret
 	VaultName *string `json:"vaultName,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &KeyVaultSigningKeyParameters_Status{}
+var _ genruntime.FromARMConverter = &KeyVaultSigningKeyParameters_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *KeyVaultSigningKeyParameters_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &KeyVaultSigningKeyParameters_StatusARM{}
+func (parameters *KeyVaultSigningKeyParameters_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &KeyVaultSigningKeyParameters_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *KeyVaultSigningKeyParameters_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(KeyVaultSigningKeyParameters_StatusARM)
+func (parameters *KeyVaultSigningKeyParameters_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(KeyVaultSigningKeyParameters_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultSigningKeyParameters_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultSigningKeyParameters_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘ResourceGroupName’:
@@ -5316,8 +6567,8 @@ func (parameters *KeyVaultSigningKeyParameters_Status) PopulateFromARM(owner gen
 	return nil
 }
 
-// AssignPropertiesFromKeyVaultSigningKeyParametersStatus populates our KeyVaultSigningKeyParameters_Status from the provided source KeyVaultSigningKeyParameters_Status
-func (parameters *KeyVaultSigningKeyParameters_Status) AssignPropertiesFromKeyVaultSigningKeyParametersStatus(source *v20210601s.KeyVaultSigningKeyParameters_Status) error {
+// AssignPropertiesFromKeyVaultSigningKeyParameters_STATUS populates our KeyVaultSigningKeyParameters_STATUS from the provided source KeyVaultSigningKeyParameters_STATUS
+func (parameters *KeyVaultSigningKeyParameters_STATUS) AssignPropertiesFromKeyVaultSigningKeyParameters_STATUS(source *v20210601s.KeyVaultSigningKeyParameters_STATUS) error {
 
 	// ResourceGroupName
 	parameters.ResourceGroupName = genruntime.ClonePointerToString(source.ResourceGroupName)
@@ -5333,7 +6584,7 @@ func (parameters *KeyVaultSigningKeyParameters_Status) AssignPropertiesFromKeyVa
 
 	// TypeName
 	if source.TypeName != nil {
-		typeName := KeyVaultSigningKeyParametersStatusTypeName(*source.TypeName)
+		typeName := KeyVaultSigningKeyParameters_TypeName_STATUS(*source.TypeName)
 		parameters.TypeName = &typeName
 	} else {
 		parameters.TypeName = nil
@@ -5346,8 +6597,8 @@ func (parameters *KeyVaultSigningKeyParameters_Status) AssignPropertiesFromKeyVa
 	return nil
 }
 
-// AssignPropertiesToKeyVaultSigningKeyParametersStatus populates the provided destination KeyVaultSigningKeyParameters_Status from our KeyVaultSigningKeyParameters_Status
-func (parameters *KeyVaultSigningKeyParameters_Status) AssignPropertiesToKeyVaultSigningKeyParametersStatus(destination *v20210601s.KeyVaultSigningKeyParameters_Status) error {
+// AssignPropertiesToKeyVaultSigningKeyParameters_STATUS populates the provided destination KeyVaultSigningKeyParameters_STATUS from our KeyVaultSigningKeyParameters_STATUS
+func (parameters *KeyVaultSigningKeyParameters_STATUS) AssignPropertiesToKeyVaultSigningKeyParameters_STATUS(destination *v20210601s.KeyVaultSigningKeyParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -5385,25 +6636,34 @@ func (parameters *KeyVaultSigningKeyParameters_Status) AssignPropertiesToKeyVaul
 	return nil
 }
 
-type PrivateEndpointStatus_Status string
+// +kubebuilder:validation:Enum={"Approved","Disconnected","Pending","Rejected","Timeout"}
+type PrivateEndpointStatus string
 
 const (
-	PrivateEndpointStatus_StatusApproved     = PrivateEndpointStatus_Status("Approved")
-	PrivateEndpointStatus_StatusDisconnected = PrivateEndpointStatus_Status("Disconnected")
-	PrivateEndpointStatus_StatusPending      = PrivateEndpointStatus_Status("Pending")
-	PrivateEndpointStatus_StatusRejected     = PrivateEndpointStatus_Status("Rejected")
-	PrivateEndpointStatus_StatusTimeout      = PrivateEndpointStatus_Status("Timeout")
+	PrivateEndpointStatusApproved     = PrivateEndpointStatus("Approved")
+	PrivateEndpointStatusDisconnected = PrivateEndpointStatus("Disconnected")
+	PrivateEndpointStatusPending      = PrivateEndpointStatus("Pending")
+	PrivateEndpointStatusRejected     = PrivateEndpointStatus("Rejected")
+	PrivateEndpointStatusTimeout      = PrivateEndpointStatus("Timeout")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/ResponseBasedOriginErrorDetectionParameters
+type PrivateEndpointStatus_STATUS string
+
+const (
+	PrivateEndpointStatus_STATUSApproved     = PrivateEndpointStatus_STATUS("Approved")
+	PrivateEndpointStatus_STATUSDisconnected = PrivateEndpointStatus_STATUS("Disconnected")
+	PrivateEndpointStatus_STATUSPending      = PrivateEndpointStatus_STATUS("Pending")
+	PrivateEndpointStatus_STATUSRejected     = PrivateEndpointStatus_STATUS("Rejected")
+	PrivateEndpointStatus_STATUSTimeout      = PrivateEndpointStatus_STATUS("Timeout")
+)
+
 type ResponseBasedOriginErrorDetectionParameters struct {
 	// HttpErrorRanges: The list of Http status code ranges that are considered as server errors for origin and it is marked as
 	// unhealthy.
 	HttpErrorRanges []HttpErrorRangeParameters `json:"httpErrorRanges,omitempty"`
 
-	// ResponseBasedDetectedErrorTypes: Type of response errors for real user requests for which origin will be deemed
-	// unhealthy.
-	ResponseBasedDetectedErrorTypes *ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypes `json:"responseBasedDetectedErrorTypes,omitempty"`
+	// ResponseBasedDetectedErrorTypes: Type of response errors for real user requests for which origin will be deemed unhealthy
+	ResponseBasedDetectedErrorTypes *ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes `json:"responseBasedDetectedErrorTypes,omitempty"`
 
 	// +kubebuilder:validation:Maximum=100
 	// +kubebuilder:validation:Minimum=0
@@ -5504,7 +6764,7 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters) AssignPropertiesF
 
 	// ResponseBasedDetectedErrorTypes
 	if source.ResponseBasedDetectedErrorTypes != nil {
-		responseBasedDetectedErrorType := ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypes(*source.ResponseBasedDetectedErrorTypes)
+		responseBasedDetectedErrorType := ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes(*source.ResponseBasedDetectedErrorTypes)
 		parameters.ResponseBasedDetectedErrorTypes = &responseBasedDetectedErrorType
 	} else {
 		parameters.ResponseBasedDetectedErrorTypes = nil
@@ -5572,35 +6832,35 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters) AssignPropertiesT
 	return nil
 }
 
-type ResponseBasedOriginErrorDetectionParameters_Status struct {
+type ResponseBasedOriginErrorDetectionParameters_STATUS struct {
 	// HttpErrorRanges: The list of Http status code ranges that are considered as server errors for origin and it is marked as
 	// unhealthy.
-	HttpErrorRanges []HttpErrorRangeParameters_Status `json:"httpErrorRanges,omitempty"`
+	HttpErrorRanges []HttpErrorRangeParameters_STATUS `json:"httpErrorRanges,omitempty"`
 
 	// ResponseBasedDetectedErrorTypes: Type of response errors for real user requests for which origin will be deemed unhealthy
-	ResponseBasedDetectedErrorTypes *ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypes `json:"responseBasedDetectedErrorTypes,omitempty"`
+	ResponseBasedDetectedErrorTypes *ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS `json:"responseBasedDetectedErrorTypes,omitempty"`
 
 	// ResponseBasedFailoverThresholdPercentage: The percentage of failed requests in the sample where failover should trigger.
 	ResponseBasedFailoverThresholdPercentage *int `json:"responseBasedFailoverThresholdPercentage,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &ResponseBasedOriginErrorDetectionParameters_Status{}
+var _ genruntime.FromARMConverter = &ResponseBasedOriginErrorDetectionParameters_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *ResponseBasedOriginErrorDetectionParameters_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ResponseBasedOriginErrorDetectionParameters_StatusARM{}
+func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ResponseBasedOriginErrorDetectionParameters_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *ResponseBasedOriginErrorDetectionParameters_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ResponseBasedOriginErrorDetectionParameters_StatusARM)
+func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ResponseBasedOriginErrorDetectionParameters_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResponseBasedOriginErrorDetectionParameters_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ResponseBasedOriginErrorDetectionParameters_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘HttpErrorRanges’:
 	for _, item := range typedInput.HttpErrorRanges {
-		var item1 HttpErrorRangeParameters_Status
+		var item1 HttpErrorRangeParameters_STATUS
 		err := item1.PopulateFromARM(owner, item)
 		if err != nil {
 			return err
@@ -5624,19 +6884,19 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters_Status) PopulateFr
 	return nil
 }
 
-// AssignPropertiesFromResponseBasedOriginErrorDetectionParametersStatus populates our ResponseBasedOriginErrorDetectionParameters_Status from the provided source ResponseBasedOriginErrorDetectionParameters_Status
-func (parameters *ResponseBasedOriginErrorDetectionParameters_Status) AssignPropertiesFromResponseBasedOriginErrorDetectionParametersStatus(source *v20210601s.ResponseBasedOriginErrorDetectionParameters_Status) error {
+// AssignPropertiesFromResponseBasedOriginErrorDetectionParameters_STATUS populates our ResponseBasedOriginErrorDetectionParameters_STATUS from the provided source ResponseBasedOriginErrorDetectionParameters_STATUS
+func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) AssignPropertiesFromResponseBasedOriginErrorDetectionParameters_STATUS(source *v20210601s.ResponseBasedOriginErrorDetectionParameters_STATUS) error {
 
 	// HttpErrorRanges
 	if source.HttpErrorRanges != nil {
-		httpErrorRangeList := make([]HttpErrorRangeParameters_Status, len(source.HttpErrorRanges))
+		httpErrorRangeList := make([]HttpErrorRangeParameters_STATUS, len(source.HttpErrorRanges))
 		for httpErrorRangeIndex, httpErrorRangeItem := range source.HttpErrorRanges {
 			// Shadow the loop variable to avoid aliasing
 			httpErrorRangeItem := httpErrorRangeItem
-			var httpErrorRange HttpErrorRangeParameters_Status
-			err := httpErrorRange.AssignPropertiesFromHttpErrorRangeParametersStatus(&httpErrorRangeItem)
+			var httpErrorRange HttpErrorRangeParameters_STATUS
+			err := httpErrorRange.AssignPropertiesFromHttpErrorRangeParameters_STATUS(&httpErrorRangeItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromHttpErrorRangeParametersStatus() to populate field HttpErrorRanges")
+				return errors.Wrap(err, "calling AssignPropertiesFromHttpErrorRangeParameters_STATUS() to populate field HttpErrorRanges")
 			}
 			httpErrorRangeList[httpErrorRangeIndex] = httpErrorRange
 		}
@@ -5647,7 +6907,7 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters_Status) AssignProp
 
 	// ResponseBasedDetectedErrorTypes
 	if source.ResponseBasedDetectedErrorTypes != nil {
-		responseBasedDetectedErrorType := ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypes(*source.ResponseBasedDetectedErrorTypes)
+		responseBasedDetectedErrorType := ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS(*source.ResponseBasedDetectedErrorTypes)
 		parameters.ResponseBasedDetectedErrorTypes = &responseBasedDetectedErrorType
 	} else {
 		parameters.ResponseBasedDetectedErrorTypes = nil
@@ -5660,21 +6920,21 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters_Status) AssignProp
 	return nil
 }
 
-// AssignPropertiesToResponseBasedOriginErrorDetectionParametersStatus populates the provided destination ResponseBasedOriginErrorDetectionParameters_Status from our ResponseBasedOriginErrorDetectionParameters_Status
-func (parameters *ResponseBasedOriginErrorDetectionParameters_Status) AssignPropertiesToResponseBasedOriginErrorDetectionParametersStatus(destination *v20210601s.ResponseBasedOriginErrorDetectionParameters_Status) error {
+// AssignPropertiesToResponseBasedOriginErrorDetectionParameters_STATUS populates the provided destination ResponseBasedOriginErrorDetectionParameters_STATUS from our ResponseBasedOriginErrorDetectionParameters_STATUS
+func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) AssignPropertiesToResponseBasedOriginErrorDetectionParameters_STATUS(destination *v20210601s.ResponseBasedOriginErrorDetectionParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// HttpErrorRanges
 	if parameters.HttpErrorRanges != nil {
-		httpErrorRangeList := make([]v20210601s.HttpErrorRangeParameters_Status, len(parameters.HttpErrorRanges))
+		httpErrorRangeList := make([]v20210601s.HttpErrorRangeParameters_STATUS, len(parameters.HttpErrorRanges))
 		for httpErrorRangeIndex, httpErrorRangeItem := range parameters.HttpErrorRanges {
 			// Shadow the loop variable to avoid aliasing
 			httpErrorRangeItem := httpErrorRangeItem
-			var httpErrorRange v20210601s.HttpErrorRangeParameters_Status
-			err := httpErrorRangeItem.AssignPropertiesToHttpErrorRangeParametersStatus(&httpErrorRange)
+			var httpErrorRange v20210601s.HttpErrorRangeParameters_STATUS
+			err := httpErrorRangeItem.AssignPropertiesToHttpErrorRangeParameters_STATUS(&httpErrorRange)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToHttpErrorRangeParametersStatus() to populate field HttpErrorRanges")
+				return errors.Wrap(err, "calling AssignPropertiesToHttpErrorRangeParameters_STATUS() to populate field HttpErrorRanges")
 			}
 			httpErrorRangeList[httpErrorRangeIndex] = httpErrorRange
 		}
@@ -5705,508 +6965,86 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters_Status) AssignProp
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleAction1
-type DeliveryRuleAction1 struct {
-	// DeliveryRuleCacheExpiration: Mutually exclusive with all other properties
-	DeliveryRuleCacheExpiration *DeliveryRuleCacheExpirationAction `json:"deliveryRuleCacheExpirationAction,omitempty"`
+// +kubebuilder:validation:Enum={"AzureKeyVault","Cdn"}
+type CustomDomainHttpsParameters_CertificateSource string
 
-	// DeliveryRuleCacheKeyQueryString: Mutually exclusive with all other properties
-	DeliveryRuleCacheKeyQueryString *DeliveryRuleCacheKeyQueryStringAction `json:"deliveryRuleCacheKeyQueryStringAction,omitempty"`
+const (
+	CustomDomainHttpsParameters_CertificateSourceAzureKeyVault = CustomDomainHttpsParameters_CertificateSource("AzureKeyVault")
+	CustomDomainHttpsParameters_CertificateSourceCdn           = CustomDomainHttpsParameters_CertificateSource("Cdn")
+)
 
-	// DeliveryRuleRequestHeader: Mutually exclusive with all other properties
-	DeliveryRuleRequestHeader *DeliveryRuleRequestHeaderAction `json:"deliveryRuleRequestHeaderAction,omitempty"`
+type CustomDomainHttpsParameters_CertificateSource_STATUS string
 
-	// DeliveryRuleResponseHeader: Mutually exclusive with all other properties
-	DeliveryRuleResponseHeader *DeliveryRuleResponseHeaderAction `json:"deliveryRuleResponseHeaderAction,omitempty"`
+const (
+	CustomDomainHttpsParameters_CertificateSource_STATUSAzureKeyVault = CustomDomainHttpsParameters_CertificateSource_STATUS("AzureKeyVault")
+	CustomDomainHttpsParameters_CertificateSource_STATUSCdn           = CustomDomainHttpsParameters_CertificateSource_STATUS("Cdn")
+)
 
-	// DeliveryRuleRouteConfigurationOverride: Mutually exclusive with all other properties
-	DeliveryRuleRouteConfigurationOverride *DeliveryRuleRouteConfigurationOverrideAction `json:"deliveryRuleRouteConfigurationOverrideAction,omitempty"`
+// +kubebuilder:validation:Enum={"None","TLS10","TLS12"}
+type CustomDomainHttpsParameters_MinimumTlsVersion string
 
-	// OriginGroupOverride: Mutually exclusive with all other properties
-	OriginGroupOverride *OriginGroupOverrideAction `json:"originGroupOverrideAction,omitempty"`
+const (
+	CustomDomainHttpsParameters_MinimumTlsVersionNone  = CustomDomainHttpsParameters_MinimumTlsVersion("None")
+	CustomDomainHttpsParameters_MinimumTlsVersionTLS10 = CustomDomainHttpsParameters_MinimumTlsVersion("TLS10")
+	CustomDomainHttpsParameters_MinimumTlsVersionTLS12 = CustomDomainHttpsParameters_MinimumTlsVersion("TLS12")
+)
 
-	// UrlRedirect: Mutually exclusive with all other properties
-	UrlRedirect *UrlRedirectAction `json:"urlRedirectAction,omitempty"`
+type CustomDomainHttpsParameters_MinimumTlsVersion_STATUS string
 
-	// UrlRewrite: Mutually exclusive with all other properties
-	UrlRewrite *UrlRewriteAction `json:"urlRewriteAction,omitempty"`
+const (
+	CustomDomainHttpsParameters_MinimumTlsVersion_STATUSNone  = CustomDomainHttpsParameters_MinimumTlsVersion_STATUS("None")
+	CustomDomainHttpsParameters_MinimumTlsVersion_STATUSTLS10 = CustomDomainHttpsParameters_MinimumTlsVersion_STATUS("TLS10")
+	CustomDomainHttpsParameters_MinimumTlsVersion_STATUSTLS12 = CustomDomainHttpsParameters_MinimumTlsVersion_STATUS("TLS12")
+)
 
-	// UrlSigning: Mutually exclusive with all other properties
-	UrlSigning *UrlSigningAction `json:"urlSigningAction,omitempty"`
+// +kubebuilder:validation:Enum={"IPBased","ServerNameIndication"}
+type CustomDomainHttpsParameters_ProtocolType string
+
+const (
+	CustomDomainHttpsParameters_ProtocolTypeIPBased              = CustomDomainHttpsParameters_ProtocolType("IPBased")
+	CustomDomainHttpsParameters_ProtocolTypeServerNameIndication = CustomDomainHttpsParameters_ProtocolType("ServerNameIndication")
+)
+
+type CustomDomainHttpsParameters_ProtocolType_STATUS string
+
+const (
+	CustomDomainHttpsParameters_ProtocolType_STATUSIPBased              = CustomDomainHttpsParameters_ProtocolType_STATUS("IPBased")
+	CustomDomainHttpsParameters_ProtocolType_STATUSServerNameIndication = CustomDomainHttpsParameters_ProtocolType_STATUS("ServerNameIndication")
+)
+
+type DeliveryRuleAction struct {
+	// +kubebuilder:validation:Required
+	// Name: The name of the action for the delivery rule.
+	Name *DeliveryRuleAction_Name `json:"name,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &DeliveryRuleAction1{}
+var _ genruntime.ARMTransformer = &DeliveryRuleAction{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (action1 *DeliveryRuleAction1) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if action1 == nil {
+func (action *DeliveryRuleAction) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if action == nil {
 		return nil, nil
 	}
-	result := &DeliveryRuleAction1ARM{}
+	result := &DeliveryRuleActionARM{}
 
-	// Set property ‘DeliveryRuleCacheExpiration’:
-	if action1.DeliveryRuleCacheExpiration != nil {
-		deliveryRuleCacheExpirationARM, err := (*action1.DeliveryRuleCacheExpiration).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		deliveryRuleCacheExpiration := *deliveryRuleCacheExpirationARM.(*DeliveryRuleCacheExpirationActionARM)
-		result.DeliveryRuleCacheExpiration = &deliveryRuleCacheExpiration
-	}
-
-	// Set property ‘DeliveryRuleCacheKeyQueryString’:
-	if action1.DeliveryRuleCacheKeyQueryString != nil {
-		deliveryRuleCacheKeyQueryStringARM, err := (*action1.DeliveryRuleCacheKeyQueryString).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		deliveryRuleCacheKeyQueryString := *deliveryRuleCacheKeyQueryStringARM.(*DeliveryRuleCacheKeyQueryStringActionARM)
-		result.DeliveryRuleCacheKeyQueryString = &deliveryRuleCacheKeyQueryString
-	}
-
-	// Set property ‘DeliveryRuleRequestHeader’:
-	if action1.DeliveryRuleRequestHeader != nil {
-		deliveryRuleRequestHeaderARM, err := (*action1.DeliveryRuleRequestHeader).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		deliveryRuleRequestHeader := *deliveryRuleRequestHeaderARM.(*DeliveryRuleRequestHeaderActionARM)
-		result.DeliveryRuleRequestHeader = &deliveryRuleRequestHeader
-	}
-
-	// Set property ‘DeliveryRuleResponseHeader’:
-	if action1.DeliveryRuleResponseHeader != nil {
-		deliveryRuleResponseHeaderARM, err := (*action1.DeliveryRuleResponseHeader).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		deliveryRuleResponseHeader := *deliveryRuleResponseHeaderARM.(*DeliveryRuleResponseHeaderActionARM)
-		result.DeliveryRuleResponseHeader = &deliveryRuleResponseHeader
-	}
-
-	// Set property ‘DeliveryRuleRouteConfigurationOverride’:
-	if action1.DeliveryRuleRouteConfigurationOverride != nil {
-		deliveryRuleRouteConfigurationOverrideARM, err := (*action1.DeliveryRuleRouteConfigurationOverride).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		deliveryRuleRouteConfigurationOverride := *deliveryRuleRouteConfigurationOverrideARM.(*DeliveryRuleRouteConfigurationOverrideActionARM)
-		result.DeliveryRuleRouteConfigurationOverride = &deliveryRuleRouteConfigurationOverride
-	}
-
-	// Set property ‘OriginGroupOverride’:
-	if action1.OriginGroupOverride != nil {
-		originGroupOverrideARM, err := (*action1.OriginGroupOverride).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		originGroupOverride := *originGroupOverrideARM.(*OriginGroupOverrideActionARM)
-		result.OriginGroupOverride = &originGroupOverride
-	}
-
-	// Set property ‘UrlRedirect’:
-	if action1.UrlRedirect != nil {
-		urlRedirectARM, err := (*action1.UrlRedirect).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		urlRedirect := *urlRedirectARM.(*UrlRedirectActionARM)
-		result.UrlRedirect = &urlRedirect
-	}
-
-	// Set property ‘UrlRewrite’:
-	if action1.UrlRewrite != nil {
-		urlRewriteARM, err := (*action1.UrlRewrite).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		urlRewrite := *urlRewriteARM.(*UrlRewriteActionARM)
-		result.UrlRewrite = &urlRewrite
-	}
-
-	// Set property ‘UrlSigning’:
-	if action1.UrlSigning != nil {
-		urlSigningARM, err := (*action1.UrlSigning).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		urlSigning := *urlSigningARM.(*UrlSigningActionARM)
-		result.UrlSigning = &urlSigning
+	// Set property ‘Name’:
+	if action.Name != nil {
+		name := *action.Name
+		result.Name = &name
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (action1 *DeliveryRuleAction1) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeliveryRuleAction1ARM{}
+func (action *DeliveryRuleAction) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DeliveryRuleActionARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (action1 *DeliveryRuleAction1) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeliveryRuleAction1ARM)
+func (action *DeliveryRuleAction) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DeliveryRuleActionARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleAction1ARM, got %T", armInput)
-	}
-
-	// Set property ‘DeliveryRuleCacheExpiration’:
-	if typedInput.DeliveryRuleCacheExpiration != nil {
-		var deliveryRuleCacheExpiration1 DeliveryRuleCacheExpirationAction
-		err := deliveryRuleCacheExpiration1.PopulateFromARM(owner, *typedInput.DeliveryRuleCacheExpiration)
-		if err != nil {
-			return err
-		}
-		deliveryRuleCacheExpiration := deliveryRuleCacheExpiration1
-		action1.DeliveryRuleCacheExpiration = &deliveryRuleCacheExpiration
-	}
-
-	// Set property ‘DeliveryRuleCacheKeyQueryString’:
-	if typedInput.DeliveryRuleCacheKeyQueryString != nil {
-		var deliveryRuleCacheKeyQueryString1 DeliveryRuleCacheKeyQueryStringAction
-		err := deliveryRuleCacheKeyQueryString1.PopulateFromARM(owner, *typedInput.DeliveryRuleCacheKeyQueryString)
-		if err != nil {
-			return err
-		}
-		deliveryRuleCacheKeyQueryString := deliveryRuleCacheKeyQueryString1
-		action1.DeliveryRuleCacheKeyQueryString = &deliveryRuleCacheKeyQueryString
-	}
-
-	// Set property ‘DeliveryRuleRequestHeader’:
-	if typedInput.DeliveryRuleRequestHeader != nil {
-		var deliveryRuleRequestHeader1 DeliveryRuleRequestHeaderAction
-		err := deliveryRuleRequestHeader1.PopulateFromARM(owner, *typedInput.DeliveryRuleRequestHeader)
-		if err != nil {
-			return err
-		}
-		deliveryRuleRequestHeader := deliveryRuleRequestHeader1
-		action1.DeliveryRuleRequestHeader = &deliveryRuleRequestHeader
-	}
-
-	// Set property ‘DeliveryRuleResponseHeader’:
-	if typedInput.DeliveryRuleResponseHeader != nil {
-		var deliveryRuleResponseHeader1 DeliveryRuleResponseHeaderAction
-		err := deliveryRuleResponseHeader1.PopulateFromARM(owner, *typedInput.DeliveryRuleResponseHeader)
-		if err != nil {
-			return err
-		}
-		deliveryRuleResponseHeader := deliveryRuleResponseHeader1
-		action1.DeliveryRuleResponseHeader = &deliveryRuleResponseHeader
-	}
-
-	// Set property ‘DeliveryRuleRouteConfigurationOverride’:
-	if typedInput.DeliveryRuleRouteConfigurationOverride != nil {
-		var deliveryRuleRouteConfigurationOverride1 DeliveryRuleRouteConfigurationOverrideAction
-		err := deliveryRuleRouteConfigurationOverride1.PopulateFromARM(owner, *typedInput.DeliveryRuleRouteConfigurationOverride)
-		if err != nil {
-			return err
-		}
-		deliveryRuleRouteConfigurationOverride := deliveryRuleRouteConfigurationOverride1
-		action1.DeliveryRuleRouteConfigurationOverride = &deliveryRuleRouteConfigurationOverride
-	}
-
-	// Set property ‘OriginGroupOverride’:
-	if typedInput.OriginGroupOverride != nil {
-		var originGroupOverride1 OriginGroupOverrideAction
-		err := originGroupOverride1.PopulateFromARM(owner, *typedInput.OriginGroupOverride)
-		if err != nil {
-			return err
-		}
-		originGroupOverride := originGroupOverride1
-		action1.OriginGroupOverride = &originGroupOverride
-	}
-
-	// Set property ‘UrlRedirect’:
-	if typedInput.UrlRedirect != nil {
-		var urlRedirect1 UrlRedirectAction
-		err := urlRedirect1.PopulateFromARM(owner, *typedInput.UrlRedirect)
-		if err != nil {
-			return err
-		}
-		urlRedirect := urlRedirect1
-		action1.UrlRedirect = &urlRedirect
-	}
-
-	// Set property ‘UrlRewrite’:
-	if typedInput.UrlRewrite != nil {
-		var urlRewrite1 UrlRewriteAction
-		err := urlRewrite1.PopulateFromARM(owner, *typedInput.UrlRewrite)
-		if err != nil {
-			return err
-		}
-		urlRewrite := urlRewrite1
-		action1.UrlRewrite = &urlRewrite
-	}
-
-	// Set property ‘UrlSigning’:
-	if typedInput.UrlSigning != nil {
-		var urlSigning1 UrlSigningAction
-		err := urlSigning1.PopulateFromARM(owner, *typedInput.UrlSigning)
-		if err != nil {
-			return err
-		}
-		urlSigning := urlSigning1
-		action1.UrlSigning = &urlSigning
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromDeliveryRuleAction1 populates our DeliveryRuleAction1 from the provided source DeliveryRuleAction1
-func (action1 *DeliveryRuleAction1) AssignPropertiesFromDeliveryRuleAction1(source *v20210601s.DeliveryRuleAction1) error {
-
-	// DeliveryRuleCacheExpiration
-	if source.DeliveryRuleCacheExpiration != nil {
-		var deliveryRuleCacheExpiration DeliveryRuleCacheExpirationAction
-		err := deliveryRuleCacheExpiration.AssignPropertiesFromDeliveryRuleCacheExpirationAction(source.DeliveryRuleCacheExpiration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleCacheExpirationAction() to populate field DeliveryRuleCacheExpiration")
-		}
-		action1.DeliveryRuleCacheExpiration = &deliveryRuleCacheExpiration
-	} else {
-		action1.DeliveryRuleCacheExpiration = nil
-	}
-
-	// DeliveryRuleCacheKeyQueryString
-	if source.DeliveryRuleCacheKeyQueryString != nil {
-		var deliveryRuleCacheKeyQueryString DeliveryRuleCacheKeyQueryStringAction
-		err := deliveryRuleCacheKeyQueryString.AssignPropertiesFromDeliveryRuleCacheKeyQueryStringAction(source.DeliveryRuleCacheKeyQueryString)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleCacheKeyQueryStringAction() to populate field DeliveryRuleCacheKeyQueryString")
-		}
-		action1.DeliveryRuleCacheKeyQueryString = &deliveryRuleCacheKeyQueryString
-	} else {
-		action1.DeliveryRuleCacheKeyQueryString = nil
-	}
-
-	// DeliveryRuleRequestHeader
-	if source.DeliveryRuleRequestHeader != nil {
-		var deliveryRuleRequestHeader DeliveryRuleRequestHeaderAction
-		err := deliveryRuleRequestHeader.AssignPropertiesFromDeliveryRuleRequestHeaderAction(source.DeliveryRuleRequestHeader)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleRequestHeaderAction() to populate field DeliveryRuleRequestHeader")
-		}
-		action1.DeliveryRuleRequestHeader = &deliveryRuleRequestHeader
-	} else {
-		action1.DeliveryRuleRequestHeader = nil
-	}
-
-	// DeliveryRuleResponseHeader
-	if source.DeliveryRuleResponseHeader != nil {
-		var deliveryRuleResponseHeader DeliveryRuleResponseHeaderAction
-		err := deliveryRuleResponseHeader.AssignPropertiesFromDeliveryRuleResponseHeaderAction(source.DeliveryRuleResponseHeader)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleResponseHeaderAction() to populate field DeliveryRuleResponseHeader")
-		}
-		action1.DeliveryRuleResponseHeader = &deliveryRuleResponseHeader
-	} else {
-		action1.DeliveryRuleResponseHeader = nil
-	}
-
-	// DeliveryRuleRouteConfigurationOverride
-	if source.DeliveryRuleRouteConfigurationOverride != nil {
-		var deliveryRuleRouteConfigurationOverride DeliveryRuleRouteConfigurationOverrideAction
-		err := deliveryRuleRouteConfigurationOverride.AssignPropertiesFromDeliveryRuleRouteConfigurationOverrideAction(source.DeliveryRuleRouteConfigurationOverride)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleRouteConfigurationOverrideAction() to populate field DeliveryRuleRouteConfigurationOverride")
-		}
-		action1.DeliveryRuleRouteConfigurationOverride = &deliveryRuleRouteConfigurationOverride
-	} else {
-		action1.DeliveryRuleRouteConfigurationOverride = nil
-	}
-
-	// OriginGroupOverride
-	if source.OriginGroupOverride != nil {
-		var originGroupOverride OriginGroupOverrideAction
-		err := originGroupOverride.AssignPropertiesFromOriginGroupOverrideAction(source.OriginGroupOverride)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromOriginGroupOverrideAction() to populate field OriginGroupOverride")
-		}
-		action1.OriginGroupOverride = &originGroupOverride
-	} else {
-		action1.OriginGroupOverride = nil
-	}
-
-	// UrlRedirect
-	if source.UrlRedirect != nil {
-		var urlRedirect UrlRedirectAction
-		err := urlRedirect.AssignPropertiesFromUrlRedirectAction(source.UrlRedirect)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromUrlRedirectAction() to populate field UrlRedirect")
-		}
-		action1.UrlRedirect = &urlRedirect
-	} else {
-		action1.UrlRedirect = nil
-	}
-
-	// UrlRewrite
-	if source.UrlRewrite != nil {
-		var urlRewrite UrlRewriteAction
-		err := urlRewrite.AssignPropertiesFromUrlRewriteAction(source.UrlRewrite)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromUrlRewriteAction() to populate field UrlRewrite")
-		}
-		action1.UrlRewrite = &urlRewrite
-	} else {
-		action1.UrlRewrite = nil
-	}
-
-	// UrlSigning
-	if source.UrlSigning != nil {
-		var urlSigning UrlSigningAction
-		err := urlSigning.AssignPropertiesFromUrlSigningAction(source.UrlSigning)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromUrlSigningAction() to populate field UrlSigning")
-		}
-		action1.UrlSigning = &urlSigning
-	} else {
-		action1.UrlSigning = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToDeliveryRuleAction1 populates the provided destination DeliveryRuleAction1 from our DeliveryRuleAction1
-func (action1 *DeliveryRuleAction1) AssignPropertiesToDeliveryRuleAction1(destination *v20210601s.DeliveryRuleAction1) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// DeliveryRuleCacheExpiration
-	if action1.DeliveryRuleCacheExpiration != nil {
-		var deliveryRuleCacheExpiration v20210601s.DeliveryRuleCacheExpirationAction
-		err := action1.DeliveryRuleCacheExpiration.AssignPropertiesToDeliveryRuleCacheExpirationAction(&deliveryRuleCacheExpiration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleCacheExpirationAction() to populate field DeliveryRuleCacheExpiration")
-		}
-		destination.DeliveryRuleCacheExpiration = &deliveryRuleCacheExpiration
-	} else {
-		destination.DeliveryRuleCacheExpiration = nil
-	}
-
-	// DeliveryRuleCacheKeyQueryString
-	if action1.DeliveryRuleCacheKeyQueryString != nil {
-		var deliveryRuleCacheKeyQueryString v20210601s.DeliveryRuleCacheKeyQueryStringAction
-		err := action1.DeliveryRuleCacheKeyQueryString.AssignPropertiesToDeliveryRuleCacheKeyQueryStringAction(&deliveryRuleCacheKeyQueryString)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleCacheKeyQueryStringAction() to populate field DeliveryRuleCacheKeyQueryString")
-		}
-		destination.DeliveryRuleCacheKeyQueryString = &deliveryRuleCacheKeyQueryString
-	} else {
-		destination.DeliveryRuleCacheKeyQueryString = nil
-	}
-
-	// DeliveryRuleRequestHeader
-	if action1.DeliveryRuleRequestHeader != nil {
-		var deliveryRuleRequestHeader v20210601s.DeliveryRuleRequestHeaderAction
-		err := action1.DeliveryRuleRequestHeader.AssignPropertiesToDeliveryRuleRequestHeaderAction(&deliveryRuleRequestHeader)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleRequestHeaderAction() to populate field DeliveryRuleRequestHeader")
-		}
-		destination.DeliveryRuleRequestHeader = &deliveryRuleRequestHeader
-	} else {
-		destination.DeliveryRuleRequestHeader = nil
-	}
-
-	// DeliveryRuleResponseHeader
-	if action1.DeliveryRuleResponseHeader != nil {
-		var deliveryRuleResponseHeader v20210601s.DeliveryRuleResponseHeaderAction
-		err := action1.DeliveryRuleResponseHeader.AssignPropertiesToDeliveryRuleResponseHeaderAction(&deliveryRuleResponseHeader)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleResponseHeaderAction() to populate field DeliveryRuleResponseHeader")
-		}
-		destination.DeliveryRuleResponseHeader = &deliveryRuleResponseHeader
-	} else {
-		destination.DeliveryRuleResponseHeader = nil
-	}
-
-	// DeliveryRuleRouteConfigurationOverride
-	if action1.DeliveryRuleRouteConfigurationOverride != nil {
-		var deliveryRuleRouteConfigurationOverride v20210601s.DeliveryRuleRouteConfigurationOverrideAction
-		err := action1.DeliveryRuleRouteConfigurationOverride.AssignPropertiesToDeliveryRuleRouteConfigurationOverrideAction(&deliveryRuleRouteConfigurationOverride)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleRouteConfigurationOverrideAction() to populate field DeliveryRuleRouteConfigurationOverride")
-		}
-		destination.DeliveryRuleRouteConfigurationOverride = &deliveryRuleRouteConfigurationOverride
-	} else {
-		destination.DeliveryRuleRouteConfigurationOverride = nil
-	}
-
-	// OriginGroupOverride
-	if action1.OriginGroupOverride != nil {
-		var originGroupOverride v20210601s.OriginGroupOverrideAction
-		err := action1.OriginGroupOverride.AssignPropertiesToOriginGroupOverrideAction(&originGroupOverride)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToOriginGroupOverrideAction() to populate field OriginGroupOverride")
-		}
-		destination.OriginGroupOverride = &originGroupOverride
-	} else {
-		destination.OriginGroupOverride = nil
-	}
-
-	// UrlRedirect
-	if action1.UrlRedirect != nil {
-		var urlRedirect v20210601s.UrlRedirectAction
-		err := action1.UrlRedirect.AssignPropertiesToUrlRedirectAction(&urlRedirect)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToUrlRedirectAction() to populate field UrlRedirect")
-		}
-		destination.UrlRedirect = &urlRedirect
-	} else {
-		destination.UrlRedirect = nil
-	}
-
-	// UrlRewrite
-	if action1.UrlRewrite != nil {
-		var urlRewrite v20210601s.UrlRewriteAction
-		err := action1.UrlRewrite.AssignPropertiesToUrlRewriteAction(&urlRewrite)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToUrlRewriteAction() to populate field UrlRewrite")
-		}
-		destination.UrlRewrite = &urlRewrite
-	} else {
-		destination.UrlRewrite = nil
-	}
-
-	// UrlSigning
-	if action1.UrlSigning != nil {
-		var urlSigning v20210601s.UrlSigningAction
-		err := action1.UrlSigning.AssignPropertiesToUrlSigningAction(&urlSigning)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToUrlSigningAction() to populate field UrlSigning")
-		}
-		destination.UrlSigning = &urlSigning
-	} else {
-		destination.UrlSigning = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type DeliveryRuleAction_Status struct {
-	// Name: The name of the action for the delivery rule.
-	Name *DeliveryRuleActionStatusName `json:"name,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &DeliveryRuleAction_Status{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (action *DeliveryRuleAction_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeliveryRuleAction_StatusARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (action *DeliveryRuleAction_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeliveryRuleAction_StatusARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleAction_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleActionARM, got %T", armInput)
 	}
 
 	// Set property ‘Name’:
@@ -6219,12 +7057,12 @@ func (action *DeliveryRuleAction_Status) PopulateFromARM(owner genruntime.Arbitr
 	return nil
 }
 
-// AssignPropertiesFromDeliveryRuleActionStatus populates our DeliveryRuleAction_Status from the provided source DeliveryRuleAction_Status
-func (action *DeliveryRuleAction_Status) AssignPropertiesFromDeliveryRuleActionStatus(source *v20210601s.DeliveryRuleAction_Status) error {
+// AssignPropertiesFromDeliveryRuleAction populates our DeliveryRuleAction from the provided source DeliveryRuleAction
+func (action *DeliveryRuleAction) AssignPropertiesFromDeliveryRuleAction(source *v20210601s.DeliveryRuleAction) error {
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleActionStatusName(*source.Name)
+		name := DeliveryRuleAction_Name(*source.Name)
 		action.Name = &name
 	} else {
 		action.Name = nil
@@ -6234,8 +7072,8 @@ func (action *DeliveryRuleAction_Status) AssignPropertiesFromDeliveryRuleActionS
 	return nil
 }
 
-// AssignPropertiesToDeliveryRuleActionStatus populates the provided destination DeliveryRuleAction_Status from our DeliveryRuleAction_Status
-func (action *DeliveryRuleAction_Status) AssignPropertiesToDeliveryRuleActionStatus(destination *v20210601s.DeliveryRuleAction_Status) error {
+// AssignPropertiesToDeliveryRuleAction populates the provided destination DeliveryRuleAction from our DeliveryRuleAction
+func (action *DeliveryRuleAction) AssignPropertiesToDeliveryRuleAction(destination *v20210601s.DeliveryRuleAction) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -6258,64 +7096,78 @@ func (action *DeliveryRuleAction_Status) AssignPropertiesToDeliveryRuleActionSta
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleCondition
+type DeliveryRuleAction_STATUS struct {
+	// Name: The name of the action for the delivery rule.
+	Name *DeliveryRuleAction_Name_STATUS `json:"name,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &DeliveryRuleAction_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (action *DeliveryRuleAction_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DeliveryRuleAction_STATUSARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (action *DeliveryRuleAction_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DeliveryRuleAction_STATUSARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleAction_STATUSARM, got %T", armInput)
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		action.Name = &name
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromDeliveryRuleAction_STATUS populates our DeliveryRuleAction_STATUS from the provided source DeliveryRuleAction_STATUS
+func (action *DeliveryRuleAction_STATUS) AssignPropertiesFromDeliveryRuleAction_STATUS(source *v20210601s.DeliveryRuleAction_STATUS) error {
+
+	// Name
+	if source.Name != nil {
+		name := DeliveryRuleAction_Name_STATUS(*source.Name)
+		action.Name = &name
+	} else {
+		action.Name = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToDeliveryRuleAction_STATUS populates the provided destination DeliveryRuleAction_STATUS from our DeliveryRuleAction_STATUS
+func (action *DeliveryRuleAction_STATUS) AssignPropertiesToDeliveryRuleAction_STATUS(destination *v20210601s.DeliveryRuleAction_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Name
+	if action.Name != nil {
+		name := string(*action.Name)
+		destination.Name = &name
+	} else {
+		destination.Name = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type DeliveryRuleCondition struct {
-	// DeliveryRuleClientPort: Mutually exclusive with all other properties
-	DeliveryRuleClientPort *DeliveryRuleClientPortCondition `json:"deliveryRuleClientPortCondition,omitempty"`
-
-	// DeliveryRuleCookies: Mutually exclusive with all other properties
-	DeliveryRuleCookies *DeliveryRuleCookiesCondition `json:"deliveryRuleCookiesCondition,omitempty"`
-
-	// DeliveryRuleHostName: Mutually exclusive with all other properties
-	DeliveryRuleHostName *DeliveryRuleHostNameCondition `json:"deliveryRuleHostNameCondition,omitempty"`
-
-	// DeliveryRuleHttpVersion: Mutually exclusive with all other properties
-	DeliveryRuleHttpVersion *DeliveryRuleHttpVersionCondition `json:"deliveryRuleHttpVersionCondition,omitempty"`
-
-	// DeliveryRuleIsDevice: Mutually exclusive with all other properties
-	DeliveryRuleIsDevice *DeliveryRuleIsDeviceCondition `json:"deliveryRuleIsDeviceCondition,omitempty"`
-
-	// DeliveryRulePostArgs: Mutually exclusive with all other properties
-	DeliveryRulePostArgs *DeliveryRulePostArgsCondition `json:"deliveryRulePostArgsCondition,omitempty"`
-
-	// DeliveryRuleQueryString: Mutually exclusive with all other properties
-	DeliveryRuleQueryString *DeliveryRuleQueryStringCondition `json:"deliveryRuleQueryStringCondition,omitempty"`
-
-	// DeliveryRuleRemoteAddress: Mutually exclusive with all other properties
-	DeliveryRuleRemoteAddress *DeliveryRuleRemoteAddressCondition `json:"deliveryRuleRemoteAddressCondition,omitempty"`
-
-	// DeliveryRuleRequestBody: Mutually exclusive with all other properties
-	DeliveryRuleRequestBody *DeliveryRuleRequestBodyCondition `json:"deliveryRuleRequestBodyCondition,omitempty"`
-
-	// DeliveryRuleRequestHeader: Mutually exclusive with all other properties
-	DeliveryRuleRequestHeader *DeliveryRuleRequestHeaderCondition `json:"deliveryRuleRequestHeaderCondition,omitempty"`
-
-	// DeliveryRuleRequestMethod: Mutually exclusive with all other properties
-	DeliveryRuleRequestMethod *DeliveryRuleRequestMethodCondition `json:"deliveryRuleRequestMethodCondition,omitempty"`
-
-	// DeliveryRuleRequestScheme: Mutually exclusive with all other properties
-	DeliveryRuleRequestScheme *DeliveryRuleRequestSchemeCondition `json:"deliveryRuleRequestSchemeCondition,omitempty"`
-
-	// DeliveryRuleRequestUri: Mutually exclusive with all other properties
-	DeliveryRuleRequestUri *DeliveryRuleRequestUriCondition `json:"deliveryRuleRequestUriCondition,omitempty"`
-
-	// DeliveryRuleServerPort: Mutually exclusive with all other properties
-	DeliveryRuleServerPort *DeliveryRuleServerPortCondition `json:"deliveryRuleServerPortCondition,omitempty"`
-
-	// DeliveryRuleSocketAddr: Mutually exclusive with all other properties
-	DeliveryRuleSocketAddr *DeliveryRuleSocketAddrCondition `json:"deliveryRuleSocketAddrCondition,omitempty"`
-
-	// DeliveryRuleSslProtocol: Mutually exclusive with all other properties
-	DeliveryRuleSslProtocol *DeliveryRuleSslProtocolCondition `json:"deliveryRuleSslProtocolCondition,omitempty"`
-
-	// DeliveryRuleUrlFileExtension: Mutually exclusive with all other properties
-	DeliveryRuleUrlFileExtension *DeliveryRuleUrlFileExtensionCondition `json:"deliveryRuleUrlFileExtensionCondition,omitempty"`
-
-	// DeliveryRuleUrlFileName: Mutually exclusive with all other properties
-	DeliveryRuleUrlFileName *DeliveryRuleUrlFileNameCondition `json:"deliveryRuleUrlFileNameCondition,omitempty"`
-
-	// DeliveryRuleUrlPath: Mutually exclusive with all other properties
-	DeliveryRuleUrlPath *DeliveryRuleUrlPathCondition `json:"deliveryRuleUrlPathCondition,omitempty"`
+	// +kubebuilder:validation:Required
+	// Name: The name of the condition for the delivery rule.
+	Name *DeliveryRuleCondition_Name `json:"name,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DeliveryRuleCondition{}
@@ -6327,194 +7179,10 @@ func (condition *DeliveryRuleCondition) ConvertToARM(resolved genruntime.Convert
 	}
 	result := &DeliveryRuleConditionARM{}
 
-	// Set property ‘DeliveryRuleClientPort’:
-	if condition.DeliveryRuleClientPort != nil {
-		deliveryRuleClientPortARM, err := (*condition.DeliveryRuleClientPort).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		deliveryRuleClientPort := *deliveryRuleClientPortARM.(*DeliveryRuleClientPortConditionARM)
-		result.DeliveryRuleClientPort = &deliveryRuleClientPort
-	}
-
-	// Set property ‘DeliveryRuleCookies’:
-	if condition.DeliveryRuleCookies != nil {
-		deliveryRuleCookiesARM, err := (*condition.DeliveryRuleCookies).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		deliveryRuleCookies := *deliveryRuleCookiesARM.(*DeliveryRuleCookiesConditionARM)
-		result.DeliveryRuleCookies = &deliveryRuleCookies
-	}
-
-	// Set property ‘DeliveryRuleHostName’:
-	if condition.DeliveryRuleHostName != nil {
-		deliveryRuleHostNameARM, err := (*condition.DeliveryRuleHostName).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		deliveryRuleHostName := *deliveryRuleHostNameARM.(*DeliveryRuleHostNameConditionARM)
-		result.DeliveryRuleHostName = &deliveryRuleHostName
-	}
-
-	// Set property ‘DeliveryRuleHttpVersion’:
-	if condition.DeliveryRuleHttpVersion != nil {
-		deliveryRuleHttpVersionARM, err := (*condition.DeliveryRuleHttpVersion).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		deliveryRuleHttpVersion := *deliveryRuleHttpVersionARM.(*DeliveryRuleHttpVersionConditionARM)
-		result.DeliveryRuleHttpVersion = &deliveryRuleHttpVersion
-	}
-
-	// Set property ‘DeliveryRuleIsDevice’:
-	if condition.DeliveryRuleIsDevice != nil {
-		deliveryRuleIsDeviceARM, err := (*condition.DeliveryRuleIsDevice).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		deliveryRuleIsDevice := *deliveryRuleIsDeviceARM.(*DeliveryRuleIsDeviceConditionARM)
-		result.DeliveryRuleIsDevice = &deliveryRuleIsDevice
-	}
-
-	// Set property ‘DeliveryRulePostArgs’:
-	if condition.DeliveryRulePostArgs != nil {
-		deliveryRulePostArgsARM, err := (*condition.DeliveryRulePostArgs).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		deliveryRulePostArgs := *deliveryRulePostArgsARM.(*DeliveryRulePostArgsConditionARM)
-		result.DeliveryRulePostArgs = &deliveryRulePostArgs
-	}
-
-	// Set property ‘DeliveryRuleQueryString’:
-	if condition.DeliveryRuleQueryString != nil {
-		deliveryRuleQueryStringARM, err := (*condition.DeliveryRuleQueryString).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		deliveryRuleQueryString := *deliveryRuleQueryStringARM.(*DeliveryRuleQueryStringConditionARM)
-		result.DeliveryRuleQueryString = &deliveryRuleQueryString
-	}
-
-	// Set property ‘DeliveryRuleRemoteAddress’:
-	if condition.DeliveryRuleRemoteAddress != nil {
-		deliveryRuleRemoteAddressARM, err := (*condition.DeliveryRuleRemoteAddress).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		deliveryRuleRemoteAddress := *deliveryRuleRemoteAddressARM.(*DeliveryRuleRemoteAddressConditionARM)
-		result.DeliveryRuleRemoteAddress = &deliveryRuleRemoteAddress
-	}
-
-	// Set property ‘DeliveryRuleRequestBody’:
-	if condition.DeliveryRuleRequestBody != nil {
-		deliveryRuleRequestBodyARM, err := (*condition.DeliveryRuleRequestBody).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		deliveryRuleRequestBody := *deliveryRuleRequestBodyARM.(*DeliveryRuleRequestBodyConditionARM)
-		result.DeliveryRuleRequestBody = &deliveryRuleRequestBody
-	}
-
-	// Set property ‘DeliveryRuleRequestHeader’:
-	if condition.DeliveryRuleRequestHeader != nil {
-		deliveryRuleRequestHeaderARM, err := (*condition.DeliveryRuleRequestHeader).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		deliveryRuleRequestHeader := *deliveryRuleRequestHeaderARM.(*DeliveryRuleRequestHeaderConditionARM)
-		result.DeliveryRuleRequestHeader = &deliveryRuleRequestHeader
-	}
-
-	// Set property ‘DeliveryRuleRequestMethod’:
-	if condition.DeliveryRuleRequestMethod != nil {
-		deliveryRuleRequestMethodARM, err := (*condition.DeliveryRuleRequestMethod).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		deliveryRuleRequestMethod := *deliveryRuleRequestMethodARM.(*DeliveryRuleRequestMethodConditionARM)
-		result.DeliveryRuleRequestMethod = &deliveryRuleRequestMethod
-	}
-
-	// Set property ‘DeliveryRuleRequestScheme’:
-	if condition.DeliveryRuleRequestScheme != nil {
-		deliveryRuleRequestSchemeARM, err := (*condition.DeliveryRuleRequestScheme).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		deliveryRuleRequestScheme := *deliveryRuleRequestSchemeARM.(*DeliveryRuleRequestSchemeConditionARM)
-		result.DeliveryRuleRequestScheme = &deliveryRuleRequestScheme
-	}
-
-	// Set property ‘DeliveryRuleRequestUri’:
-	if condition.DeliveryRuleRequestUri != nil {
-		deliveryRuleRequestUriARM, err := (*condition.DeliveryRuleRequestUri).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		deliveryRuleRequestUri := *deliveryRuleRequestUriARM.(*DeliveryRuleRequestUriConditionARM)
-		result.DeliveryRuleRequestUri = &deliveryRuleRequestUri
-	}
-
-	// Set property ‘DeliveryRuleServerPort’:
-	if condition.DeliveryRuleServerPort != nil {
-		deliveryRuleServerPortARM, err := (*condition.DeliveryRuleServerPort).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		deliveryRuleServerPort := *deliveryRuleServerPortARM.(*DeliveryRuleServerPortConditionARM)
-		result.DeliveryRuleServerPort = &deliveryRuleServerPort
-	}
-
-	// Set property ‘DeliveryRuleSocketAddr’:
-	if condition.DeliveryRuleSocketAddr != nil {
-		deliveryRuleSocketAddrARM, err := (*condition.DeliveryRuleSocketAddr).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		deliveryRuleSocketAddr := *deliveryRuleSocketAddrARM.(*DeliveryRuleSocketAddrConditionARM)
-		result.DeliveryRuleSocketAddr = &deliveryRuleSocketAddr
-	}
-
-	// Set property ‘DeliveryRuleSslProtocol’:
-	if condition.DeliveryRuleSslProtocol != nil {
-		deliveryRuleSslProtocolARM, err := (*condition.DeliveryRuleSslProtocol).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		deliveryRuleSslProtocol := *deliveryRuleSslProtocolARM.(*DeliveryRuleSslProtocolConditionARM)
-		result.DeliveryRuleSslProtocol = &deliveryRuleSslProtocol
-	}
-
-	// Set property ‘DeliveryRuleUrlFileExtension’:
-	if condition.DeliveryRuleUrlFileExtension != nil {
-		deliveryRuleUrlFileExtensionARM, err := (*condition.DeliveryRuleUrlFileExtension).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		deliveryRuleUrlFileExtension := *deliveryRuleUrlFileExtensionARM.(*DeliveryRuleUrlFileExtensionConditionARM)
-		result.DeliveryRuleUrlFileExtension = &deliveryRuleUrlFileExtension
-	}
-
-	// Set property ‘DeliveryRuleUrlFileName’:
-	if condition.DeliveryRuleUrlFileName != nil {
-		deliveryRuleUrlFileNameARM, err := (*condition.DeliveryRuleUrlFileName).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		deliveryRuleUrlFileName := *deliveryRuleUrlFileNameARM.(*DeliveryRuleUrlFileNameConditionARM)
-		result.DeliveryRuleUrlFileName = &deliveryRuleUrlFileName
-	}
-
-	// Set property ‘DeliveryRuleUrlPath’:
-	if condition.DeliveryRuleUrlPath != nil {
-		deliveryRuleUrlPathARM, err := (*condition.DeliveryRuleUrlPath).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		deliveryRuleUrlPath := *deliveryRuleUrlPathARM.(*DeliveryRuleUrlPathConditionARM)
-		result.DeliveryRuleUrlPath = &deliveryRuleUrlPath
+	// Set property ‘Name’:
+	if condition.Name != nil {
+		name := *condition.Name
+		result.Name = &name
 	}
 	return result, nil
 }
@@ -6531,213 +7199,10 @@ func (condition *DeliveryRuleCondition) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleConditionARM, got %T", armInput)
 	}
 
-	// Set property ‘DeliveryRuleClientPort’:
-	if typedInput.DeliveryRuleClientPort != nil {
-		var deliveryRuleClientPort1 DeliveryRuleClientPortCondition
-		err := deliveryRuleClientPort1.PopulateFromARM(owner, *typedInput.DeliveryRuleClientPort)
-		if err != nil {
-			return err
-		}
-		deliveryRuleClientPort := deliveryRuleClientPort1
-		condition.DeliveryRuleClientPort = &deliveryRuleClientPort
-	}
-
-	// Set property ‘DeliveryRuleCookies’:
-	if typedInput.DeliveryRuleCookies != nil {
-		var deliveryRuleCookies1 DeliveryRuleCookiesCondition
-		err := deliveryRuleCookies1.PopulateFromARM(owner, *typedInput.DeliveryRuleCookies)
-		if err != nil {
-			return err
-		}
-		deliveryRuleCookies := deliveryRuleCookies1
-		condition.DeliveryRuleCookies = &deliveryRuleCookies
-	}
-
-	// Set property ‘DeliveryRuleHostName’:
-	if typedInput.DeliveryRuleHostName != nil {
-		var deliveryRuleHostName1 DeliveryRuleHostNameCondition
-		err := deliveryRuleHostName1.PopulateFromARM(owner, *typedInput.DeliveryRuleHostName)
-		if err != nil {
-			return err
-		}
-		deliveryRuleHostName := deliveryRuleHostName1
-		condition.DeliveryRuleHostName = &deliveryRuleHostName
-	}
-
-	// Set property ‘DeliveryRuleHttpVersion’:
-	if typedInput.DeliveryRuleHttpVersion != nil {
-		var deliveryRuleHttpVersion1 DeliveryRuleHttpVersionCondition
-		err := deliveryRuleHttpVersion1.PopulateFromARM(owner, *typedInput.DeliveryRuleHttpVersion)
-		if err != nil {
-			return err
-		}
-		deliveryRuleHttpVersion := deliveryRuleHttpVersion1
-		condition.DeliveryRuleHttpVersion = &deliveryRuleHttpVersion
-	}
-
-	// Set property ‘DeliveryRuleIsDevice’:
-	if typedInput.DeliveryRuleIsDevice != nil {
-		var deliveryRuleIsDevice1 DeliveryRuleIsDeviceCondition
-		err := deliveryRuleIsDevice1.PopulateFromARM(owner, *typedInput.DeliveryRuleIsDevice)
-		if err != nil {
-			return err
-		}
-		deliveryRuleIsDevice := deliveryRuleIsDevice1
-		condition.DeliveryRuleIsDevice = &deliveryRuleIsDevice
-	}
-
-	// Set property ‘DeliveryRulePostArgs’:
-	if typedInput.DeliveryRulePostArgs != nil {
-		var deliveryRulePostArgs1 DeliveryRulePostArgsCondition
-		err := deliveryRulePostArgs1.PopulateFromARM(owner, *typedInput.DeliveryRulePostArgs)
-		if err != nil {
-			return err
-		}
-		deliveryRulePostArgs := deliveryRulePostArgs1
-		condition.DeliveryRulePostArgs = &deliveryRulePostArgs
-	}
-
-	// Set property ‘DeliveryRuleQueryString’:
-	if typedInput.DeliveryRuleQueryString != nil {
-		var deliveryRuleQueryString1 DeliveryRuleQueryStringCondition
-		err := deliveryRuleQueryString1.PopulateFromARM(owner, *typedInput.DeliveryRuleQueryString)
-		if err != nil {
-			return err
-		}
-		deliveryRuleQueryString := deliveryRuleQueryString1
-		condition.DeliveryRuleQueryString = &deliveryRuleQueryString
-	}
-
-	// Set property ‘DeliveryRuleRemoteAddress’:
-	if typedInput.DeliveryRuleRemoteAddress != nil {
-		var deliveryRuleRemoteAddress1 DeliveryRuleRemoteAddressCondition
-		err := deliveryRuleRemoteAddress1.PopulateFromARM(owner, *typedInput.DeliveryRuleRemoteAddress)
-		if err != nil {
-			return err
-		}
-		deliveryRuleRemoteAddress := deliveryRuleRemoteAddress1
-		condition.DeliveryRuleRemoteAddress = &deliveryRuleRemoteAddress
-	}
-
-	// Set property ‘DeliveryRuleRequestBody’:
-	if typedInput.DeliveryRuleRequestBody != nil {
-		var deliveryRuleRequestBody1 DeliveryRuleRequestBodyCondition
-		err := deliveryRuleRequestBody1.PopulateFromARM(owner, *typedInput.DeliveryRuleRequestBody)
-		if err != nil {
-			return err
-		}
-		deliveryRuleRequestBody := deliveryRuleRequestBody1
-		condition.DeliveryRuleRequestBody = &deliveryRuleRequestBody
-	}
-
-	// Set property ‘DeliveryRuleRequestHeader’:
-	if typedInput.DeliveryRuleRequestHeader != nil {
-		var deliveryRuleRequestHeader1 DeliveryRuleRequestHeaderCondition
-		err := deliveryRuleRequestHeader1.PopulateFromARM(owner, *typedInput.DeliveryRuleRequestHeader)
-		if err != nil {
-			return err
-		}
-		deliveryRuleRequestHeader := deliveryRuleRequestHeader1
-		condition.DeliveryRuleRequestHeader = &deliveryRuleRequestHeader
-	}
-
-	// Set property ‘DeliveryRuleRequestMethod’:
-	if typedInput.DeliveryRuleRequestMethod != nil {
-		var deliveryRuleRequestMethod1 DeliveryRuleRequestMethodCondition
-		err := deliveryRuleRequestMethod1.PopulateFromARM(owner, *typedInput.DeliveryRuleRequestMethod)
-		if err != nil {
-			return err
-		}
-		deliveryRuleRequestMethod := deliveryRuleRequestMethod1
-		condition.DeliveryRuleRequestMethod = &deliveryRuleRequestMethod
-	}
-
-	// Set property ‘DeliveryRuleRequestScheme’:
-	if typedInput.DeliveryRuleRequestScheme != nil {
-		var deliveryRuleRequestScheme1 DeliveryRuleRequestSchemeCondition
-		err := deliveryRuleRequestScheme1.PopulateFromARM(owner, *typedInput.DeliveryRuleRequestScheme)
-		if err != nil {
-			return err
-		}
-		deliveryRuleRequestScheme := deliveryRuleRequestScheme1
-		condition.DeliveryRuleRequestScheme = &deliveryRuleRequestScheme
-	}
-
-	// Set property ‘DeliveryRuleRequestUri’:
-	if typedInput.DeliveryRuleRequestUri != nil {
-		var deliveryRuleRequestUri1 DeliveryRuleRequestUriCondition
-		err := deliveryRuleRequestUri1.PopulateFromARM(owner, *typedInput.DeliveryRuleRequestUri)
-		if err != nil {
-			return err
-		}
-		deliveryRuleRequestUri := deliveryRuleRequestUri1
-		condition.DeliveryRuleRequestUri = &deliveryRuleRequestUri
-	}
-
-	// Set property ‘DeliveryRuleServerPort’:
-	if typedInput.DeliveryRuleServerPort != nil {
-		var deliveryRuleServerPort1 DeliveryRuleServerPortCondition
-		err := deliveryRuleServerPort1.PopulateFromARM(owner, *typedInput.DeliveryRuleServerPort)
-		if err != nil {
-			return err
-		}
-		deliveryRuleServerPort := deliveryRuleServerPort1
-		condition.DeliveryRuleServerPort = &deliveryRuleServerPort
-	}
-
-	// Set property ‘DeliveryRuleSocketAddr’:
-	if typedInput.DeliveryRuleSocketAddr != nil {
-		var deliveryRuleSocketAddr1 DeliveryRuleSocketAddrCondition
-		err := deliveryRuleSocketAddr1.PopulateFromARM(owner, *typedInput.DeliveryRuleSocketAddr)
-		if err != nil {
-			return err
-		}
-		deliveryRuleSocketAddr := deliveryRuleSocketAddr1
-		condition.DeliveryRuleSocketAddr = &deliveryRuleSocketAddr
-	}
-
-	// Set property ‘DeliveryRuleSslProtocol’:
-	if typedInput.DeliveryRuleSslProtocol != nil {
-		var deliveryRuleSslProtocol1 DeliveryRuleSslProtocolCondition
-		err := deliveryRuleSslProtocol1.PopulateFromARM(owner, *typedInput.DeliveryRuleSslProtocol)
-		if err != nil {
-			return err
-		}
-		deliveryRuleSslProtocol := deliveryRuleSslProtocol1
-		condition.DeliveryRuleSslProtocol = &deliveryRuleSslProtocol
-	}
-
-	// Set property ‘DeliveryRuleUrlFileExtension’:
-	if typedInput.DeliveryRuleUrlFileExtension != nil {
-		var deliveryRuleUrlFileExtension1 DeliveryRuleUrlFileExtensionCondition
-		err := deliveryRuleUrlFileExtension1.PopulateFromARM(owner, *typedInput.DeliveryRuleUrlFileExtension)
-		if err != nil {
-			return err
-		}
-		deliveryRuleUrlFileExtension := deliveryRuleUrlFileExtension1
-		condition.DeliveryRuleUrlFileExtension = &deliveryRuleUrlFileExtension
-	}
-
-	// Set property ‘DeliveryRuleUrlFileName’:
-	if typedInput.DeliveryRuleUrlFileName != nil {
-		var deliveryRuleUrlFileName1 DeliveryRuleUrlFileNameCondition
-		err := deliveryRuleUrlFileName1.PopulateFromARM(owner, *typedInput.DeliveryRuleUrlFileName)
-		if err != nil {
-			return err
-		}
-		deliveryRuleUrlFileName := deliveryRuleUrlFileName1
-		condition.DeliveryRuleUrlFileName = &deliveryRuleUrlFileName
-	}
-
-	// Set property ‘DeliveryRuleUrlPath’:
-	if typedInput.DeliveryRuleUrlPath != nil {
-		var deliveryRuleUrlPath1 DeliveryRuleUrlPathCondition
-		err := deliveryRuleUrlPath1.PopulateFromARM(owner, *typedInput.DeliveryRuleUrlPath)
-		if err != nil {
-			return err
-		}
-		deliveryRuleUrlPath := deliveryRuleUrlPath1
-		condition.DeliveryRuleUrlPath = &deliveryRuleUrlPath
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		condition.Name = &name
 	}
 
 	// No error
@@ -6747,232 +7212,12 @@ func (condition *DeliveryRuleCondition) PopulateFromARM(owner genruntime.Arbitra
 // AssignPropertiesFromDeliveryRuleCondition populates our DeliveryRuleCondition from the provided source DeliveryRuleCondition
 func (condition *DeliveryRuleCondition) AssignPropertiesFromDeliveryRuleCondition(source *v20210601s.DeliveryRuleCondition) error {
 
-	// DeliveryRuleClientPort
-	if source.DeliveryRuleClientPort != nil {
-		var deliveryRuleClientPort DeliveryRuleClientPortCondition
-		err := deliveryRuleClientPort.AssignPropertiesFromDeliveryRuleClientPortCondition(source.DeliveryRuleClientPort)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleClientPortCondition() to populate field DeliveryRuleClientPort")
-		}
-		condition.DeliveryRuleClientPort = &deliveryRuleClientPort
+	// Name
+	if source.Name != nil {
+		name := DeliveryRuleCondition_Name(*source.Name)
+		condition.Name = &name
 	} else {
-		condition.DeliveryRuleClientPort = nil
-	}
-
-	// DeliveryRuleCookies
-	if source.DeliveryRuleCookies != nil {
-		var deliveryRuleCooky DeliveryRuleCookiesCondition
-		err := deliveryRuleCooky.AssignPropertiesFromDeliveryRuleCookiesCondition(source.DeliveryRuleCookies)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleCookiesCondition() to populate field DeliveryRuleCookies")
-		}
-		condition.DeliveryRuleCookies = &deliveryRuleCooky
-	} else {
-		condition.DeliveryRuleCookies = nil
-	}
-
-	// DeliveryRuleHostName
-	if source.DeliveryRuleHostName != nil {
-		var deliveryRuleHostName DeliveryRuleHostNameCondition
-		err := deliveryRuleHostName.AssignPropertiesFromDeliveryRuleHostNameCondition(source.DeliveryRuleHostName)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleHostNameCondition() to populate field DeliveryRuleHostName")
-		}
-		condition.DeliveryRuleHostName = &deliveryRuleHostName
-	} else {
-		condition.DeliveryRuleHostName = nil
-	}
-
-	// DeliveryRuleHttpVersion
-	if source.DeliveryRuleHttpVersion != nil {
-		var deliveryRuleHttpVersion DeliveryRuleHttpVersionCondition
-		err := deliveryRuleHttpVersion.AssignPropertiesFromDeliveryRuleHttpVersionCondition(source.DeliveryRuleHttpVersion)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleHttpVersionCondition() to populate field DeliveryRuleHttpVersion")
-		}
-		condition.DeliveryRuleHttpVersion = &deliveryRuleHttpVersion
-	} else {
-		condition.DeliveryRuleHttpVersion = nil
-	}
-
-	// DeliveryRuleIsDevice
-	if source.DeliveryRuleIsDevice != nil {
-		var deliveryRuleIsDevice DeliveryRuleIsDeviceCondition
-		err := deliveryRuleIsDevice.AssignPropertiesFromDeliveryRuleIsDeviceCondition(source.DeliveryRuleIsDevice)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleIsDeviceCondition() to populate field DeliveryRuleIsDevice")
-		}
-		condition.DeliveryRuleIsDevice = &deliveryRuleIsDevice
-	} else {
-		condition.DeliveryRuleIsDevice = nil
-	}
-
-	// DeliveryRulePostArgs
-	if source.DeliveryRulePostArgs != nil {
-		var deliveryRulePostArg DeliveryRulePostArgsCondition
-		err := deliveryRulePostArg.AssignPropertiesFromDeliveryRulePostArgsCondition(source.DeliveryRulePostArgs)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRulePostArgsCondition() to populate field DeliveryRulePostArgs")
-		}
-		condition.DeliveryRulePostArgs = &deliveryRulePostArg
-	} else {
-		condition.DeliveryRulePostArgs = nil
-	}
-
-	// DeliveryRuleQueryString
-	if source.DeliveryRuleQueryString != nil {
-		var deliveryRuleQueryString DeliveryRuleQueryStringCondition
-		err := deliveryRuleQueryString.AssignPropertiesFromDeliveryRuleQueryStringCondition(source.DeliveryRuleQueryString)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleQueryStringCondition() to populate field DeliveryRuleQueryString")
-		}
-		condition.DeliveryRuleQueryString = &deliveryRuleQueryString
-	} else {
-		condition.DeliveryRuleQueryString = nil
-	}
-
-	// DeliveryRuleRemoteAddress
-	if source.DeliveryRuleRemoteAddress != nil {
-		var deliveryRuleRemoteAddress DeliveryRuleRemoteAddressCondition
-		err := deliveryRuleRemoteAddress.AssignPropertiesFromDeliveryRuleRemoteAddressCondition(source.DeliveryRuleRemoteAddress)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleRemoteAddressCondition() to populate field DeliveryRuleRemoteAddress")
-		}
-		condition.DeliveryRuleRemoteAddress = &deliveryRuleRemoteAddress
-	} else {
-		condition.DeliveryRuleRemoteAddress = nil
-	}
-
-	// DeliveryRuleRequestBody
-	if source.DeliveryRuleRequestBody != nil {
-		var deliveryRuleRequestBody DeliveryRuleRequestBodyCondition
-		err := deliveryRuleRequestBody.AssignPropertiesFromDeliveryRuleRequestBodyCondition(source.DeliveryRuleRequestBody)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleRequestBodyCondition() to populate field DeliveryRuleRequestBody")
-		}
-		condition.DeliveryRuleRequestBody = &deliveryRuleRequestBody
-	} else {
-		condition.DeliveryRuleRequestBody = nil
-	}
-
-	// DeliveryRuleRequestHeader
-	if source.DeliveryRuleRequestHeader != nil {
-		var deliveryRuleRequestHeader DeliveryRuleRequestHeaderCondition
-		err := deliveryRuleRequestHeader.AssignPropertiesFromDeliveryRuleRequestHeaderCondition(source.DeliveryRuleRequestHeader)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleRequestHeaderCondition() to populate field DeliveryRuleRequestHeader")
-		}
-		condition.DeliveryRuleRequestHeader = &deliveryRuleRequestHeader
-	} else {
-		condition.DeliveryRuleRequestHeader = nil
-	}
-
-	// DeliveryRuleRequestMethod
-	if source.DeliveryRuleRequestMethod != nil {
-		var deliveryRuleRequestMethod DeliveryRuleRequestMethodCondition
-		err := deliveryRuleRequestMethod.AssignPropertiesFromDeliveryRuleRequestMethodCondition(source.DeliveryRuleRequestMethod)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleRequestMethodCondition() to populate field DeliveryRuleRequestMethod")
-		}
-		condition.DeliveryRuleRequestMethod = &deliveryRuleRequestMethod
-	} else {
-		condition.DeliveryRuleRequestMethod = nil
-	}
-
-	// DeliveryRuleRequestScheme
-	if source.DeliveryRuleRequestScheme != nil {
-		var deliveryRuleRequestScheme DeliveryRuleRequestSchemeCondition
-		err := deliveryRuleRequestScheme.AssignPropertiesFromDeliveryRuleRequestSchemeCondition(source.DeliveryRuleRequestScheme)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleRequestSchemeCondition() to populate field DeliveryRuleRequestScheme")
-		}
-		condition.DeliveryRuleRequestScheme = &deliveryRuleRequestScheme
-	} else {
-		condition.DeliveryRuleRequestScheme = nil
-	}
-
-	// DeliveryRuleRequestUri
-	if source.DeliveryRuleRequestUri != nil {
-		var deliveryRuleRequestUri DeliveryRuleRequestUriCondition
-		err := deliveryRuleRequestUri.AssignPropertiesFromDeliveryRuleRequestUriCondition(source.DeliveryRuleRequestUri)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleRequestUriCondition() to populate field DeliveryRuleRequestUri")
-		}
-		condition.DeliveryRuleRequestUri = &deliveryRuleRequestUri
-	} else {
-		condition.DeliveryRuleRequestUri = nil
-	}
-
-	// DeliveryRuleServerPort
-	if source.DeliveryRuleServerPort != nil {
-		var deliveryRuleServerPort DeliveryRuleServerPortCondition
-		err := deliveryRuleServerPort.AssignPropertiesFromDeliveryRuleServerPortCondition(source.DeliveryRuleServerPort)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleServerPortCondition() to populate field DeliveryRuleServerPort")
-		}
-		condition.DeliveryRuleServerPort = &deliveryRuleServerPort
-	} else {
-		condition.DeliveryRuleServerPort = nil
-	}
-
-	// DeliveryRuleSocketAddr
-	if source.DeliveryRuleSocketAddr != nil {
-		var deliveryRuleSocketAddr DeliveryRuleSocketAddrCondition
-		err := deliveryRuleSocketAddr.AssignPropertiesFromDeliveryRuleSocketAddrCondition(source.DeliveryRuleSocketAddr)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleSocketAddrCondition() to populate field DeliveryRuleSocketAddr")
-		}
-		condition.DeliveryRuleSocketAddr = &deliveryRuleSocketAddr
-	} else {
-		condition.DeliveryRuleSocketAddr = nil
-	}
-
-	// DeliveryRuleSslProtocol
-	if source.DeliveryRuleSslProtocol != nil {
-		var deliveryRuleSslProtocol DeliveryRuleSslProtocolCondition
-		err := deliveryRuleSslProtocol.AssignPropertiesFromDeliveryRuleSslProtocolCondition(source.DeliveryRuleSslProtocol)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleSslProtocolCondition() to populate field DeliveryRuleSslProtocol")
-		}
-		condition.DeliveryRuleSslProtocol = &deliveryRuleSslProtocol
-	} else {
-		condition.DeliveryRuleSslProtocol = nil
-	}
-
-	// DeliveryRuleUrlFileExtension
-	if source.DeliveryRuleUrlFileExtension != nil {
-		var deliveryRuleUrlFileExtension DeliveryRuleUrlFileExtensionCondition
-		err := deliveryRuleUrlFileExtension.AssignPropertiesFromDeliveryRuleUrlFileExtensionCondition(source.DeliveryRuleUrlFileExtension)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleUrlFileExtensionCondition() to populate field DeliveryRuleUrlFileExtension")
-		}
-		condition.DeliveryRuleUrlFileExtension = &deliveryRuleUrlFileExtension
-	} else {
-		condition.DeliveryRuleUrlFileExtension = nil
-	}
-
-	// DeliveryRuleUrlFileName
-	if source.DeliveryRuleUrlFileName != nil {
-		var deliveryRuleUrlFileName DeliveryRuleUrlFileNameCondition
-		err := deliveryRuleUrlFileName.AssignPropertiesFromDeliveryRuleUrlFileNameCondition(source.DeliveryRuleUrlFileName)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleUrlFileNameCondition() to populate field DeliveryRuleUrlFileName")
-		}
-		condition.DeliveryRuleUrlFileName = &deliveryRuleUrlFileName
-	} else {
-		condition.DeliveryRuleUrlFileName = nil
-	}
-
-	// DeliveryRuleUrlPath
-	if source.DeliveryRuleUrlPath != nil {
-		var deliveryRuleUrlPath DeliveryRuleUrlPathCondition
-		err := deliveryRuleUrlPath.AssignPropertiesFromDeliveryRuleUrlPathCondition(source.DeliveryRuleUrlPath)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDeliveryRuleUrlPathCondition() to populate field DeliveryRuleUrlPath")
-		}
-		condition.DeliveryRuleUrlPath = &deliveryRuleUrlPath
-	} else {
-		condition.DeliveryRuleUrlPath = nil
+		condition.Name = nil
 	}
 
 	// No error
@@ -6984,232 +7229,12 @@ func (condition *DeliveryRuleCondition) AssignPropertiesToDeliveryRuleCondition(
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// DeliveryRuleClientPort
-	if condition.DeliveryRuleClientPort != nil {
-		var deliveryRuleClientPort v20210601s.DeliveryRuleClientPortCondition
-		err := condition.DeliveryRuleClientPort.AssignPropertiesToDeliveryRuleClientPortCondition(&deliveryRuleClientPort)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleClientPortCondition() to populate field DeliveryRuleClientPort")
-		}
-		destination.DeliveryRuleClientPort = &deliveryRuleClientPort
+	// Name
+	if condition.Name != nil {
+		name := string(*condition.Name)
+		destination.Name = &name
 	} else {
-		destination.DeliveryRuleClientPort = nil
-	}
-
-	// DeliveryRuleCookies
-	if condition.DeliveryRuleCookies != nil {
-		var deliveryRuleCooky v20210601s.DeliveryRuleCookiesCondition
-		err := condition.DeliveryRuleCookies.AssignPropertiesToDeliveryRuleCookiesCondition(&deliveryRuleCooky)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleCookiesCondition() to populate field DeliveryRuleCookies")
-		}
-		destination.DeliveryRuleCookies = &deliveryRuleCooky
-	} else {
-		destination.DeliveryRuleCookies = nil
-	}
-
-	// DeliveryRuleHostName
-	if condition.DeliveryRuleHostName != nil {
-		var deliveryRuleHostName v20210601s.DeliveryRuleHostNameCondition
-		err := condition.DeliveryRuleHostName.AssignPropertiesToDeliveryRuleHostNameCondition(&deliveryRuleHostName)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleHostNameCondition() to populate field DeliveryRuleHostName")
-		}
-		destination.DeliveryRuleHostName = &deliveryRuleHostName
-	} else {
-		destination.DeliveryRuleHostName = nil
-	}
-
-	// DeliveryRuleHttpVersion
-	if condition.DeliveryRuleHttpVersion != nil {
-		var deliveryRuleHttpVersion v20210601s.DeliveryRuleHttpVersionCondition
-		err := condition.DeliveryRuleHttpVersion.AssignPropertiesToDeliveryRuleHttpVersionCondition(&deliveryRuleHttpVersion)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleHttpVersionCondition() to populate field DeliveryRuleHttpVersion")
-		}
-		destination.DeliveryRuleHttpVersion = &deliveryRuleHttpVersion
-	} else {
-		destination.DeliveryRuleHttpVersion = nil
-	}
-
-	// DeliveryRuleIsDevice
-	if condition.DeliveryRuleIsDevice != nil {
-		var deliveryRuleIsDevice v20210601s.DeliveryRuleIsDeviceCondition
-		err := condition.DeliveryRuleIsDevice.AssignPropertiesToDeliveryRuleIsDeviceCondition(&deliveryRuleIsDevice)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleIsDeviceCondition() to populate field DeliveryRuleIsDevice")
-		}
-		destination.DeliveryRuleIsDevice = &deliveryRuleIsDevice
-	} else {
-		destination.DeliveryRuleIsDevice = nil
-	}
-
-	// DeliveryRulePostArgs
-	if condition.DeliveryRulePostArgs != nil {
-		var deliveryRulePostArg v20210601s.DeliveryRulePostArgsCondition
-		err := condition.DeliveryRulePostArgs.AssignPropertiesToDeliveryRulePostArgsCondition(&deliveryRulePostArg)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRulePostArgsCondition() to populate field DeliveryRulePostArgs")
-		}
-		destination.DeliveryRulePostArgs = &deliveryRulePostArg
-	} else {
-		destination.DeliveryRulePostArgs = nil
-	}
-
-	// DeliveryRuleQueryString
-	if condition.DeliveryRuleQueryString != nil {
-		var deliveryRuleQueryString v20210601s.DeliveryRuleQueryStringCondition
-		err := condition.DeliveryRuleQueryString.AssignPropertiesToDeliveryRuleQueryStringCondition(&deliveryRuleQueryString)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleQueryStringCondition() to populate field DeliveryRuleQueryString")
-		}
-		destination.DeliveryRuleQueryString = &deliveryRuleQueryString
-	} else {
-		destination.DeliveryRuleQueryString = nil
-	}
-
-	// DeliveryRuleRemoteAddress
-	if condition.DeliveryRuleRemoteAddress != nil {
-		var deliveryRuleRemoteAddress v20210601s.DeliveryRuleRemoteAddressCondition
-		err := condition.DeliveryRuleRemoteAddress.AssignPropertiesToDeliveryRuleRemoteAddressCondition(&deliveryRuleRemoteAddress)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleRemoteAddressCondition() to populate field DeliveryRuleRemoteAddress")
-		}
-		destination.DeliveryRuleRemoteAddress = &deliveryRuleRemoteAddress
-	} else {
-		destination.DeliveryRuleRemoteAddress = nil
-	}
-
-	// DeliveryRuleRequestBody
-	if condition.DeliveryRuleRequestBody != nil {
-		var deliveryRuleRequestBody v20210601s.DeliveryRuleRequestBodyCondition
-		err := condition.DeliveryRuleRequestBody.AssignPropertiesToDeliveryRuleRequestBodyCondition(&deliveryRuleRequestBody)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleRequestBodyCondition() to populate field DeliveryRuleRequestBody")
-		}
-		destination.DeliveryRuleRequestBody = &deliveryRuleRequestBody
-	} else {
-		destination.DeliveryRuleRequestBody = nil
-	}
-
-	// DeliveryRuleRequestHeader
-	if condition.DeliveryRuleRequestHeader != nil {
-		var deliveryRuleRequestHeader v20210601s.DeliveryRuleRequestHeaderCondition
-		err := condition.DeliveryRuleRequestHeader.AssignPropertiesToDeliveryRuleRequestHeaderCondition(&deliveryRuleRequestHeader)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleRequestHeaderCondition() to populate field DeliveryRuleRequestHeader")
-		}
-		destination.DeliveryRuleRequestHeader = &deliveryRuleRequestHeader
-	} else {
-		destination.DeliveryRuleRequestHeader = nil
-	}
-
-	// DeliveryRuleRequestMethod
-	if condition.DeliveryRuleRequestMethod != nil {
-		var deliveryRuleRequestMethod v20210601s.DeliveryRuleRequestMethodCondition
-		err := condition.DeliveryRuleRequestMethod.AssignPropertiesToDeliveryRuleRequestMethodCondition(&deliveryRuleRequestMethod)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleRequestMethodCondition() to populate field DeliveryRuleRequestMethod")
-		}
-		destination.DeliveryRuleRequestMethod = &deliveryRuleRequestMethod
-	} else {
-		destination.DeliveryRuleRequestMethod = nil
-	}
-
-	// DeliveryRuleRequestScheme
-	if condition.DeliveryRuleRequestScheme != nil {
-		var deliveryRuleRequestScheme v20210601s.DeliveryRuleRequestSchemeCondition
-		err := condition.DeliveryRuleRequestScheme.AssignPropertiesToDeliveryRuleRequestSchemeCondition(&deliveryRuleRequestScheme)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleRequestSchemeCondition() to populate field DeliveryRuleRequestScheme")
-		}
-		destination.DeliveryRuleRequestScheme = &deliveryRuleRequestScheme
-	} else {
-		destination.DeliveryRuleRequestScheme = nil
-	}
-
-	// DeliveryRuleRequestUri
-	if condition.DeliveryRuleRequestUri != nil {
-		var deliveryRuleRequestUri v20210601s.DeliveryRuleRequestUriCondition
-		err := condition.DeliveryRuleRequestUri.AssignPropertiesToDeliveryRuleRequestUriCondition(&deliveryRuleRequestUri)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleRequestUriCondition() to populate field DeliveryRuleRequestUri")
-		}
-		destination.DeliveryRuleRequestUri = &deliveryRuleRequestUri
-	} else {
-		destination.DeliveryRuleRequestUri = nil
-	}
-
-	// DeliveryRuleServerPort
-	if condition.DeliveryRuleServerPort != nil {
-		var deliveryRuleServerPort v20210601s.DeliveryRuleServerPortCondition
-		err := condition.DeliveryRuleServerPort.AssignPropertiesToDeliveryRuleServerPortCondition(&deliveryRuleServerPort)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleServerPortCondition() to populate field DeliveryRuleServerPort")
-		}
-		destination.DeliveryRuleServerPort = &deliveryRuleServerPort
-	} else {
-		destination.DeliveryRuleServerPort = nil
-	}
-
-	// DeliveryRuleSocketAddr
-	if condition.DeliveryRuleSocketAddr != nil {
-		var deliveryRuleSocketAddr v20210601s.DeliveryRuleSocketAddrCondition
-		err := condition.DeliveryRuleSocketAddr.AssignPropertiesToDeliveryRuleSocketAddrCondition(&deliveryRuleSocketAddr)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleSocketAddrCondition() to populate field DeliveryRuleSocketAddr")
-		}
-		destination.DeliveryRuleSocketAddr = &deliveryRuleSocketAddr
-	} else {
-		destination.DeliveryRuleSocketAddr = nil
-	}
-
-	// DeliveryRuleSslProtocol
-	if condition.DeliveryRuleSslProtocol != nil {
-		var deliveryRuleSslProtocol v20210601s.DeliveryRuleSslProtocolCondition
-		err := condition.DeliveryRuleSslProtocol.AssignPropertiesToDeliveryRuleSslProtocolCondition(&deliveryRuleSslProtocol)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleSslProtocolCondition() to populate field DeliveryRuleSslProtocol")
-		}
-		destination.DeliveryRuleSslProtocol = &deliveryRuleSslProtocol
-	} else {
-		destination.DeliveryRuleSslProtocol = nil
-	}
-
-	// DeliveryRuleUrlFileExtension
-	if condition.DeliveryRuleUrlFileExtension != nil {
-		var deliveryRuleUrlFileExtension v20210601s.DeliveryRuleUrlFileExtensionCondition
-		err := condition.DeliveryRuleUrlFileExtension.AssignPropertiesToDeliveryRuleUrlFileExtensionCondition(&deliveryRuleUrlFileExtension)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleUrlFileExtensionCondition() to populate field DeliveryRuleUrlFileExtension")
-		}
-		destination.DeliveryRuleUrlFileExtension = &deliveryRuleUrlFileExtension
-	} else {
-		destination.DeliveryRuleUrlFileExtension = nil
-	}
-
-	// DeliveryRuleUrlFileName
-	if condition.DeliveryRuleUrlFileName != nil {
-		var deliveryRuleUrlFileName v20210601s.DeliveryRuleUrlFileNameCondition
-		err := condition.DeliveryRuleUrlFileName.AssignPropertiesToDeliveryRuleUrlFileNameCondition(&deliveryRuleUrlFileName)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleUrlFileNameCondition() to populate field DeliveryRuleUrlFileName")
-		}
-		destination.DeliveryRuleUrlFileName = &deliveryRuleUrlFileName
-	} else {
-		destination.DeliveryRuleUrlFileName = nil
-	}
-
-	// DeliveryRuleUrlPath
-	if condition.DeliveryRuleUrlPath != nil {
-		var deliveryRuleUrlPath v20210601s.DeliveryRuleUrlPathCondition
-		err := condition.DeliveryRuleUrlPath.AssignPropertiesToDeliveryRuleUrlPathCondition(&deliveryRuleUrlPath)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDeliveryRuleUrlPathCondition() to populate field DeliveryRuleUrlPath")
-		}
-		destination.DeliveryRuleUrlPath = &deliveryRuleUrlPath
-	} else {
-		destination.DeliveryRuleUrlPath = nil
+		destination.Name = nil
 	}
 
 	// Update the property bag
@@ -7223,23 +7248,23 @@ func (condition *DeliveryRuleCondition) AssignPropertiesToDeliveryRuleCondition(
 	return nil
 }
 
-type DeliveryRuleCondition_Status struct {
+type DeliveryRuleCondition_STATUS struct {
 	// Name: The name of the condition for the delivery rule.
-	Name *DeliveryRuleConditionStatusName `json:"name,omitempty"`
+	Name *DeliveryRuleCondition_Name_STATUS `json:"name,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &DeliveryRuleCondition_Status{}
+var _ genruntime.FromARMConverter = &DeliveryRuleCondition_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (condition *DeliveryRuleCondition_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeliveryRuleCondition_StatusARM{}
+func (condition *DeliveryRuleCondition_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DeliveryRuleCondition_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (condition *DeliveryRuleCondition_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeliveryRuleCondition_StatusARM)
+func (condition *DeliveryRuleCondition_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DeliveryRuleCondition_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleCondition_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleCondition_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘Name’:
@@ -7252,12 +7277,12 @@ func (condition *DeliveryRuleCondition_Status) PopulateFromARM(owner genruntime.
 	return nil
 }
 
-// AssignPropertiesFromDeliveryRuleConditionStatus populates our DeliveryRuleCondition_Status from the provided source DeliveryRuleCondition_Status
-func (condition *DeliveryRuleCondition_Status) AssignPropertiesFromDeliveryRuleConditionStatus(source *v20210601s.DeliveryRuleCondition_Status) error {
+// AssignPropertiesFromDeliveryRuleCondition_STATUS populates our DeliveryRuleCondition_STATUS from the provided source DeliveryRuleCondition_STATUS
+func (condition *DeliveryRuleCondition_STATUS) AssignPropertiesFromDeliveryRuleCondition_STATUS(source *v20210601s.DeliveryRuleCondition_STATUS) error {
 
 	// Name
 	if source.Name != nil {
-		name := DeliveryRuleConditionStatusName(*source.Name)
+		name := DeliveryRuleCondition_Name_STATUS(*source.Name)
 		condition.Name = &name
 	} else {
 		condition.Name = nil
@@ -7267,8 +7292,8 @@ func (condition *DeliveryRuleCondition_Status) AssignPropertiesFromDeliveryRuleC
 	return nil
 }
 
-// AssignPropertiesToDeliveryRuleConditionStatus populates the provided destination DeliveryRuleCondition_Status from our DeliveryRuleCondition_Status
-func (condition *DeliveryRuleCondition_Status) AssignPropertiesToDeliveryRuleConditionStatus(destination *v20210601s.DeliveryRuleCondition_Status) error {
+// AssignPropertiesToDeliveryRuleCondition_STATUS populates the provided destination DeliveryRuleCondition_STATUS from our DeliveryRuleCondition_STATUS
+func (condition *DeliveryRuleCondition_STATUS) AssignPropertiesToDeliveryRuleCondition_STATUS(destination *v20210601s.DeliveryRuleCondition_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7292,40 +7317,39 @@ func (condition *DeliveryRuleCondition_Status) AssignPropertiesToDeliveryRuleCon
 }
 
 // +kubebuilder:validation:Enum={"Http","Https","NotSet"}
-type HealthProbeParametersProbeProtocol string
+type HealthProbeParameters_ProbeProtocol string
 
 const (
-	HealthProbeParametersProbeProtocolHttp   = HealthProbeParametersProbeProtocol("Http")
-	HealthProbeParametersProbeProtocolHttps  = HealthProbeParametersProbeProtocol("Https")
-	HealthProbeParametersProbeProtocolNotSet = HealthProbeParametersProbeProtocol("NotSet")
+	HealthProbeParameters_ProbeProtocolHttp   = HealthProbeParameters_ProbeProtocol("Http")
+	HealthProbeParameters_ProbeProtocolHttps  = HealthProbeParameters_ProbeProtocol("Https")
+	HealthProbeParameters_ProbeProtocolNotSet = HealthProbeParameters_ProbeProtocol("NotSet")
+)
+
+type HealthProbeParameters_ProbeProtocol_STATUS string
+
+const (
+	HealthProbeParameters_ProbeProtocol_STATUSHttp   = HealthProbeParameters_ProbeProtocol_STATUS("Http")
+	HealthProbeParameters_ProbeProtocol_STATUSHttps  = HealthProbeParameters_ProbeProtocol_STATUS("Https")
+	HealthProbeParameters_ProbeProtocol_STATUSNotSet = HealthProbeParameters_ProbeProtocol_STATUS("NotSet")
 )
 
 // +kubebuilder:validation:Enum={"GET","HEAD","NotSet"}
-type HealthProbeParametersProbeRequestType string
+type HealthProbeParameters_ProbeRequestType string
 
 const (
-	HealthProbeParametersProbeRequestTypeGET    = HealthProbeParametersProbeRequestType("GET")
-	HealthProbeParametersProbeRequestTypeHEAD   = HealthProbeParametersProbeRequestType("HEAD")
-	HealthProbeParametersProbeRequestTypeNotSet = HealthProbeParametersProbeRequestType("NotSet")
+	HealthProbeParameters_ProbeRequestTypeGET    = HealthProbeParameters_ProbeRequestType("GET")
+	HealthProbeParameters_ProbeRequestTypeHEAD   = HealthProbeParameters_ProbeRequestType("HEAD")
+	HealthProbeParameters_ProbeRequestTypeNotSet = HealthProbeParameters_ProbeRequestType("NotSet")
 )
 
-type HealthProbeParametersStatusProbeProtocol string
+type HealthProbeParameters_ProbeRequestType_STATUS string
 
 const (
-	HealthProbeParametersStatusProbeProtocolHttp   = HealthProbeParametersStatusProbeProtocol("Http")
-	HealthProbeParametersStatusProbeProtocolHttps  = HealthProbeParametersStatusProbeProtocol("Https")
-	HealthProbeParametersStatusProbeProtocolNotSet = HealthProbeParametersStatusProbeProtocol("NotSet")
+	HealthProbeParameters_ProbeRequestType_STATUSGET    = HealthProbeParameters_ProbeRequestType_STATUS("GET")
+	HealthProbeParameters_ProbeRequestType_STATUSHEAD   = HealthProbeParameters_ProbeRequestType_STATUS("HEAD")
+	HealthProbeParameters_ProbeRequestType_STATUSNotSet = HealthProbeParameters_ProbeRequestType_STATUS("NotSet")
 )
 
-type HealthProbeParametersStatusProbeRequestType string
-
-const (
-	HealthProbeParametersStatusProbeRequestTypeGET    = HealthProbeParametersStatusProbeRequestType("GET")
-	HealthProbeParametersStatusProbeRequestTypeHEAD   = HealthProbeParametersStatusProbeRequestType("HEAD")
-	HealthProbeParametersStatusProbeRequestTypeNotSet = HealthProbeParametersStatusProbeRequestType("NotSet")
-)
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/HttpErrorRangeParameters
 type HttpErrorRangeParameters struct {
 	// +kubebuilder:validation:Maximum=999
 	// +kubebuilder:validation:Minimum=100
@@ -7444,7 +7468,7 @@ func (parameters *HttpErrorRangeParameters) AssignPropertiesToHttpErrorRangePara
 	return nil
 }
 
-type HttpErrorRangeParameters_Status struct {
+type HttpErrorRangeParameters_STATUS struct {
 	// Begin: The inclusive start of the http status code range.
 	Begin *int `json:"begin,omitempty"`
 
@@ -7452,18 +7476,18 @@ type HttpErrorRangeParameters_Status struct {
 	End *int `json:"end,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &HttpErrorRangeParameters_Status{}
+var _ genruntime.FromARMConverter = &HttpErrorRangeParameters_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *HttpErrorRangeParameters_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &HttpErrorRangeParameters_StatusARM{}
+func (parameters *HttpErrorRangeParameters_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &HttpErrorRangeParameters_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *HttpErrorRangeParameters_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(HttpErrorRangeParameters_StatusARM)
+func (parameters *HttpErrorRangeParameters_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(HttpErrorRangeParameters_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HttpErrorRangeParameters_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HttpErrorRangeParameters_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘Begin’:
@@ -7482,8 +7506,8 @@ func (parameters *HttpErrorRangeParameters_Status) PopulateFromARM(owner genrunt
 	return nil
 }
 
-// AssignPropertiesFromHttpErrorRangeParametersStatus populates our HttpErrorRangeParameters_Status from the provided source HttpErrorRangeParameters_Status
-func (parameters *HttpErrorRangeParameters_Status) AssignPropertiesFromHttpErrorRangeParametersStatus(source *v20210601s.HttpErrorRangeParameters_Status) error {
+// AssignPropertiesFromHttpErrorRangeParameters_STATUS populates our HttpErrorRangeParameters_STATUS from the provided source HttpErrorRangeParameters_STATUS
+func (parameters *HttpErrorRangeParameters_STATUS) AssignPropertiesFromHttpErrorRangeParameters_STATUS(source *v20210601s.HttpErrorRangeParameters_STATUS) error {
 
 	// Begin
 	parameters.Begin = genruntime.ClonePointerToInt(source.Begin)
@@ -7495,8 +7519,8 @@ func (parameters *HttpErrorRangeParameters_Status) AssignPropertiesFromHttpError
 	return nil
 }
 
-// AssignPropertiesToHttpErrorRangeParametersStatus populates the provided destination HttpErrorRangeParameters_Status from our HttpErrorRangeParameters_Status
-func (parameters *HttpErrorRangeParameters_Status) AssignPropertiesToHttpErrorRangeParametersStatus(destination *v20210601s.HttpErrorRangeParameters_Status) error {
+// AssignPropertiesToHttpErrorRangeParameters_STATUS populates the provided destination HttpErrorRangeParameters_STATUS from our HttpErrorRangeParameters_STATUS
+func (parameters *HttpErrorRangeParameters_STATUS) AssignPropertiesToHttpErrorRangeParameters_STATUS(destination *v20210601s.HttpErrorRangeParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -7518,10332 +7542,65 @@ func (parameters *HttpErrorRangeParameters_Status) AssignPropertiesToHttpErrorRa
 }
 
 // +kubebuilder:validation:Enum={"KeyVaultSigningKeyParameters"}
-type KeyVaultSigningKeyParametersTypeName string
+type KeyVaultSigningKeyParameters_TypeName string
 
-const KeyVaultSigningKeyParametersTypeNameKeyVaultSigningKeyParameters = KeyVaultSigningKeyParametersTypeName("KeyVaultSigningKeyParameters")
+const KeyVaultSigningKeyParameters_TypeNameKeyVaultSigningKeyParameters = KeyVaultSigningKeyParameters_TypeName("KeyVaultSigningKeyParameters")
 
 // +kubebuilder:validation:Enum={"None","TcpAndHttpErrors","TcpErrorsOnly"}
-type ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypes string
+type ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes string
 
 const (
-	ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypesNone             = ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypes("None")
-	ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypesTcpAndHttpErrors = ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypes("TcpAndHttpErrors")
-	ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypesTcpErrorsOnly    = ResponseBasedOriginErrorDetectionParametersResponseBasedDetectedErrorTypes("TcpErrorsOnly")
+	ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypesNone             = ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes("None")
+	ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypesTcpAndHttpErrors = ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes("TcpAndHttpErrors")
+	ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypesTcpErrorsOnly    = ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes("TcpErrorsOnly")
 )
 
-type ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypes string
+type ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS string
 
 const (
-	ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypesNone             = ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypes("None")
-	ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypesTcpAndHttpErrors = ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypes("TcpAndHttpErrors")
-	ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypesTcpErrorsOnly    = ResponseBasedOriginErrorDetectionParametersStatusResponseBasedDetectedErrorTypes("TcpErrorsOnly")
+	ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUSNone             = ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS("None")
+	ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUSTcpAndHttpErrors = ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS("TcpAndHttpErrors")
+	ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUSTcpErrorsOnly    = ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS("TcpErrorsOnly")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleCacheExpirationAction
-type DeliveryRuleCacheExpirationAction struct {
-	// +kubebuilder:validation:Required
-	Name *DeliveryRuleCacheExpirationActionName `json:"name,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for the cache expiration action.
-	Parameters *CacheExpirationActionParameters `json:"parameters,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &DeliveryRuleCacheExpirationAction{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (action *DeliveryRuleCacheExpirationAction) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if action == nil {
-		return nil, nil
-	}
-	result := &DeliveryRuleCacheExpirationActionARM{}
-
-	// Set property ‘Name’:
-	if action.Name != nil {
-		result.Name = *action.Name
-	}
-
-	// Set property ‘Parameters’:
-	if action.Parameters != nil {
-		parametersARM, err := (*action.Parameters).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		parameters := *parametersARM.(*CacheExpirationActionParametersARM)
-		result.Parameters = &parameters
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (action *DeliveryRuleCacheExpirationAction) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeliveryRuleCacheExpirationActionARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (action *DeliveryRuleCacheExpirationAction) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeliveryRuleCacheExpirationActionARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleCacheExpirationActionARM, got %T", armInput)
-	}
-
-	// Set property ‘Name’:
-	action.Name = &typedInput.Name
-
-	// Set property ‘Parameters’:
-	if typedInput.Parameters != nil {
-		var parameters1 CacheExpirationActionParameters
-		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
-		if err != nil {
-			return err
-		}
-		parameters := parameters1
-		action.Parameters = &parameters
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromDeliveryRuleCacheExpirationAction populates our DeliveryRuleCacheExpirationAction from the provided source DeliveryRuleCacheExpirationAction
-func (action *DeliveryRuleCacheExpirationAction) AssignPropertiesFromDeliveryRuleCacheExpirationAction(source *v20210601s.DeliveryRuleCacheExpirationAction) error {
-
-	// Name
-	if source.Name != nil {
-		name := DeliveryRuleCacheExpirationActionName(*source.Name)
-		action.Name = &name
-	} else {
-		action.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter CacheExpirationActionParameters
-		err := parameter.AssignPropertiesFromCacheExpirationActionParameters(source.Parameters)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromCacheExpirationActionParameters() to populate field Parameters")
-		}
-		action.Parameters = &parameter
-	} else {
-		action.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToDeliveryRuleCacheExpirationAction populates the provided destination DeliveryRuleCacheExpirationAction from our DeliveryRuleCacheExpirationAction
-func (action *DeliveryRuleCacheExpirationAction) AssignPropertiesToDeliveryRuleCacheExpirationAction(destination *v20210601s.DeliveryRuleCacheExpirationAction) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Name
-	if action.Name != nil {
-		name := string(*action.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
-
-	// Parameters
-	if action.Parameters != nil {
-		var parameter v20210601s.CacheExpirationActionParameters
-		err := action.Parameters.AssignPropertiesToCacheExpirationActionParameters(&parameter)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToCacheExpirationActionParameters() to populate field Parameters")
-		}
-		destination.Parameters = &parameter
-	} else {
-		destination.Parameters = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleCacheKeyQueryStringAction
-type DeliveryRuleCacheKeyQueryStringAction struct {
-	// +kubebuilder:validation:Required
-	Name *DeliveryRuleCacheKeyQueryStringActionName `json:"name,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for the cache-key query string action.
-	Parameters *CacheKeyQueryStringActionParameters `json:"parameters,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &DeliveryRuleCacheKeyQueryStringAction{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (action *DeliveryRuleCacheKeyQueryStringAction) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if action == nil {
-		return nil, nil
-	}
-	result := &DeliveryRuleCacheKeyQueryStringActionARM{}
-
-	// Set property ‘Name’:
-	if action.Name != nil {
-		result.Name = *action.Name
-	}
-
-	// Set property ‘Parameters’:
-	if action.Parameters != nil {
-		parametersARM, err := (*action.Parameters).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		parameters := *parametersARM.(*CacheKeyQueryStringActionParametersARM)
-		result.Parameters = &parameters
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (action *DeliveryRuleCacheKeyQueryStringAction) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeliveryRuleCacheKeyQueryStringActionARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (action *DeliveryRuleCacheKeyQueryStringAction) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeliveryRuleCacheKeyQueryStringActionARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleCacheKeyQueryStringActionARM, got %T", armInput)
-	}
-
-	// Set property ‘Name’:
-	action.Name = &typedInput.Name
-
-	// Set property ‘Parameters’:
-	if typedInput.Parameters != nil {
-		var parameters1 CacheKeyQueryStringActionParameters
-		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
-		if err != nil {
-			return err
-		}
-		parameters := parameters1
-		action.Parameters = &parameters
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromDeliveryRuleCacheKeyQueryStringAction populates our DeliveryRuleCacheKeyQueryStringAction from the provided source DeliveryRuleCacheKeyQueryStringAction
-func (action *DeliveryRuleCacheKeyQueryStringAction) AssignPropertiesFromDeliveryRuleCacheKeyQueryStringAction(source *v20210601s.DeliveryRuleCacheKeyQueryStringAction) error {
-
-	// Name
-	if source.Name != nil {
-		name := DeliveryRuleCacheKeyQueryStringActionName(*source.Name)
-		action.Name = &name
-	} else {
-		action.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter CacheKeyQueryStringActionParameters
-		err := parameter.AssignPropertiesFromCacheKeyQueryStringActionParameters(source.Parameters)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromCacheKeyQueryStringActionParameters() to populate field Parameters")
-		}
-		action.Parameters = &parameter
-	} else {
-		action.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToDeliveryRuleCacheKeyQueryStringAction populates the provided destination DeliveryRuleCacheKeyQueryStringAction from our DeliveryRuleCacheKeyQueryStringAction
-func (action *DeliveryRuleCacheKeyQueryStringAction) AssignPropertiesToDeliveryRuleCacheKeyQueryStringAction(destination *v20210601s.DeliveryRuleCacheKeyQueryStringAction) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Name
-	if action.Name != nil {
-		name := string(*action.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
-
-	// Parameters
-	if action.Parameters != nil {
-		var parameter v20210601s.CacheKeyQueryStringActionParameters
-		err := action.Parameters.AssignPropertiesToCacheKeyQueryStringActionParameters(&parameter)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToCacheKeyQueryStringActionParameters() to populate field Parameters")
-		}
-		destination.Parameters = &parameter
-	} else {
-		destination.Parameters = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleClientPortCondition
-type DeliveryRuleClientPortCondition struct {
-	// +kubebuilder:validation:Required
-	Name *DeliveryRuleClientPortConditionName `json:"name,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for ClientPort match conditions
-	Parameters *ClientPortMatchConditionParameters `json:"parameters,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &DeliveryRuleClientPortCondition{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (condition *DeliveryRuleClientPortCondition) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if condition == nil {
-		return nil, nil
-	}
-	result := &DeliveryRuleClientPortConditionARM{}
-
-	// Set property ‘Name’:
-	if condition.Name != nil {
-		result.Name = *condition.Name
-	}
-
-	// Set property ‘Parameters’:
-	if condition.Parameters != nil {
-		parametersARM, err := (*condition.Parameters).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		parameters := *parametersARM.(*ClientPortMatchConditionParametersARM)
-		result.Parameters = &parameters
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (condition *DeliveryRuleClientPortCondition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeliveryRuleClientPortConditionARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (condition *DeliveryRuleClientPortCondition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeliveryRuleClientPortConditionARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleClientPortConditionARM, got %T", armInput)
-	}
-
-	// Set property ‘Name’:
-	condition.Name = &typedInput.Name
-
-	// Set property ‘Parameters’:
-	if typedInput.Parameters != nil {
-		var parameters1 ClientPortMatchConditionParameters
-		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
-		if err != nil {
-			return err
-		}
-		parameters := parameters1
-		condition.Parameters = &parameters
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromDeliveryRuleClientPortCondition populates our DeliveryRuleClientPortCondition from the provided source DeliveryRuleClientPortCondition
-func (condition *DeliveryRuleClientPortCondition) AssignPropertiesFromDeliveryRuleClientPortCondition(source *v20210601s.DeliveryRuleClientPortCondition) error {
-
-	// Name
-	if source.Name != nil {
-		name := DeliveryRuleClientPortConditionName(*source.Name)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter ClientPortMatchConditionParameters
-		err := parameter.AssignPropertiesFromClientPortMatchConditionParameters(source.Parameters)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromClientPortMatchConditionParameters() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToDeliveryRuleClientPortCondition populates the provided destination DeliveryRuleClientPortCondition from our DeliveryRuleClientPortCondition
-func (condition *DeliveryRuleClientPortCondition) AssignPropertiesToDeliveryRuleClientPortCondition(destination *v20210601s.DeliveryRuleClientPortCondition) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Name
-	if condition.Name != nil {
-		name := string(*condition.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
-
-	// Parameters
-	if condition.Parameters != nil {
-		var parameter v20210601s.ClientPortMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToClientPortMatchConditionParameters(&parameter)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToClientPortMatchConditionParameters() to populate field Parameters")
-		}
-		destination.Parameters = &parameter
-	} else {
-		destination.Parameters = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleCookiesCondition
-type DeliveryRuleCookiesCondition struct {
-	// +kubebuilder:validation:Required
-	Name *DeliveryRuleCookiesConditionName `json:"name,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for Cookies match conditions
-	Parameters *CookiesMatchConditionParameters `json:"parameters,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &DeliveryRuleCookiesCondition{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (condition *DeliveryRuleCookiesCondition) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if condition == nil {
-		return nil, nil
-	}
-	result := &DeliveryRuleCookiesConditionARM{}
-
-	// Set property ‘Name’:
-	if condition.Name != nil {
-		result.Name = *condition.Name
-	}
-
-	// Set property ‘Parameters’:
-	if condition.Parameters != nil {
-		parametersARM, err := (*condition.Parameters).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		parameters := *parametersARM.(*CookiesMatchConditionParametersARM)
-		result.Parameters = &parameters
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (condition *DeliveryRuleCookiesCondition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeliveryRuleCookiesConditionARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (condition *DeliveryRuleCookiesCondition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeliveryRuleCookiesConditionARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleCookiesConditionARM, got %T", armInput)
-	}
-
-	// Set property ‘Name’:
-	condition.Name = &typedInput.Name
-
-	// Set property ‘Parameters’:
-	if typedInput.Parameters != nil {
-		var parameters1 CookiesMatchConditionParameters
-		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
-		if err != nil {
-			return err
-		}
-		parameters := parameters1
-		condition.Parameters = &parameters
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromDeliveryRuleCookiesCondition populates our DeliveryRuleCookiesCondition from the provided source DeliveryRuleCookiesCondition
-func (condition *DeliveryRuleCookiesCondition) AssignPropertiesFromDeliveryRuleCookiesCondition(source *v20210601s.DeliveryRuleCookiesCondition) error {
-
-	// Name
-	if source.Name != nil {
-		name := DeliveryRuleCookiesConditionName(*source.Name)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter CookiesMatchConditionParameters
-		err := parameter.AssignPropertiesFromCookiesMatchConditionParameters(source.Parameters)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromCookiesMatchConditionParameters() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToDeliveryRuleCookiesCondition populates the provided destination DeliveryRuleCookiesCondition from our DeliveryRuleCookiesCondition
-func (condition *DeliveryRuleCookiesCondition) AssignPropertiesToDeliveryRuleCookiesCondition(destination *v20210601s.DeliveryRuleCookiesCondition) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Name
-	if condition.Name != nil {
-		name := string(*condition.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
-
-	// Parameters
-	if condition.Parameters != nil {
-		var parameter v20210601s.CookiesMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToCookiesMatchConditionParameters(&parameter)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToCookiesMatchConditionParameters() to populate field Parameters")
-		}
-		destination.Parameters = &parameter
-	} else {
-		destination.Parameters = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleHostNameCondition
-type DeliveryRuleHostNameCondition struct {
-	// +kubebuilder:validation:Required
-	Name *DeliveryRuleHostNameConditionName `json:"name,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for HostName match conditions
-	Parameters *HostNameMatchConditionParameters `json:"parameters,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &DeliveryRuleHostNameCondition{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (condition *DeliveryRuleHostNameCondition) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if condition == nil {
-		return nil, nil
-	}
-	result := &DeliveryRuleHostNameConditionARM{}
-
-	// Set property ‘Name’:
-	if condition.Name != nil {
-		result.Name = *condition.Name
-	}
-
-	// Set property ‘Parameters’:
-	if condition.Parameters != nil {
-		parametersARM, err := (*condition.Parameters).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		parameters := *parametersARM.(*HostNameMatchConditionParametersARM)
-		result.Parameters = &parameters
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (condition *DeliveryRuleHostNameCondition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeliveryRuleHostNameConditionARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (condition *DeliveryRuleHostNameCondition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeliveryRuleHostNameConditionARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleHostNameConditionARM, got %T", armInput)
-	}
-
-	// Set property ‘Name’:
-	condition.Name = &typedInput.Name
-
-	// Set property ‘Parameters’:
-	if typedInput.Parameters != nil {
-		var parameters1 HostNameMatchConditionParameters
-		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
-		if err != nil {
-			return err
-		}
-		parameters := parameters1
-		condition.Parameters = &parameters
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromDeliveryRuleHostNameCondition populates our DeliveryRuleHostNameCondition from the provided source DeliveryRuleHostNameCondition
-func (condition *DeliveryRuleHostNameCondition) AssignPropertiesFromDeliveryRuleHostNameCondition(source *v20210601s.DeliveryRuleHostNameCondition) error {
-
-	// Name
-	if source.Name != nil {
-		name := DeliveryRuleHostNameConditionName(*source.Name)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter HostNameMatchConditionParameters
-		err := parameter.AssignPropertiesFromHostNameMatchConditionParameters(source.Parameters)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromHostNameMatchConditionParameters() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToDeliveryRuleHostNameCondition populates the provided destination DeliveryRuleHostNameCondition from our DeliveryRuleHostNameCondition
-func (condition *DeliveryRuleHostNameCondition) AssignPropertiesToDeliveryRuleHostNameCondition(destination *v20210601s.DeliveryRuleHostNameCondition) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Name
-	if condition.Name != nil {
-		name := string(*condition.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
-
-	// Parameters
-	if condition.Parameters != nil {
-		var parameter v20210601s.HostNameMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToHostNameMatchConditionParameters(&parameter)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToHostNameMatchConditionParameters() to populate field Parameters")
-		}
-		destination.Parameters = &parameter
-	} else {
-		destination.Parameters = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleHttpVersionCondition
-type DeliveryRuleHttpVersionCondition struct {
-	// +kubebuilder:validation:Required
-	Name *DeliveryRuleHttpVersionConditionName `json:"name,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for HttpVersion match conditions
-	Parameters *HttpVersionMatchConditionParameters `json:"parameters,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &DeliveryRuleHttpVersionCondition{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (condition *DeliveryRuleHttpVersionCondition) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if condition == nil {
-		return nil, nil
-	}
-	result := &DeliveryRuleHttpVersionConditionARM{}
-
-	// Set property ‘Name’:
-	if condition.Name != nil {
-		result.Name = *condition.Name
-	}
-
-	// Set property ‘Parameters’:
-	if condition.Parameters != nil {
-		parametersARM, err := (*condition.Parameters).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		parameters := *parametersARM.(*HttpVersionMatchConditionParametersARM)
-		result.Parameters = &parameters
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (condition *DeliveryRuleHttpVersionCondition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeliveryRuleHttpVersionConditionARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (condition *DeliveryRuleHttpVersionCondition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeliveryRuleHttpVersionConditionARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleHttpVersionConditionARM, got %T", armInput)
-	}
-
-	// Set property ‘Name’:
-	condition.Name = &typedInput.Name
-
-	// Set property ‘Parameters’:
-	if typedInput.Parameters != nil {
-		var parameters1 HttpVersionMatchConditionParameters
-		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
-		if err != nil {
-			return err
-		}
-		parameters := parameters1
-		condition.Parameters = &parameters
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromDeliveryRuleHttpVersionCondition populates our DeliveryRuleHttpVersionCondition from the provided source DeliveryRuleHttpVersionCondition
-func (condition *DeliveryRuleHttpVersionCondition) AssignPropertiesFromDeliveryRuleHttpVersionCondition(source *v20210601s.DeliveryRuleHttpVersionCondition) error {
-
-	// Name
-	if source.Name != nil {
-		name := DeliveryRuleHttpVersionConditionName(*source.Name)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter HttpVersionMatchConditionParameters
-		err := parameter.AssignPropertiesFromHttpVersionMatchConditionParameters(source.Parameters)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromHttpVersionMatchConditionParameters() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToDeliveryRuleHttpVersionCondition populates the provided destination DeliveryRuleHttpVersionCondition from our DeliveryRuleHttpVersionCondition
-func (condition *DeliveryRuleHttpVersionCondition) AssignPropertiesToDeliveryRuleHttpVersionCondition(destination *v20210601s.DeliveryRuleHttpVersionCondition) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Name
-	if condition.Name != nil {
-		name := string(*condition.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
-
-	// Parameters
-	if condition.Parameters != nil {
-		var parameter v20210601s.HttpVersionMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToHttpVersionMatchConditionParameters(&parameter)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToHttpVersionMatchConditionParameters() to populate field Parameters")
-		}
-		destination.Parameters = &parameter
-	} else {
-		destination.Parameters = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleIsDeviceCondition
-type DeliveryRuleIsDeviceCondition struct {
-	// +kubebuilder:validation:Required
-	Name *DeliveryRuleIsDeviceConditionName `json:"name,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for IsDevice match conditions
-	Parameters *IsDeviceMatchConditionParameters `json:"parameters,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &DeliveryRuleIsDeviceCondition{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (condition *DeliveryRuleIsDeviceCondition) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if condition == nil {
-		return nil, nil
-	}
-	result := &DeliveryRuleIsDeviceConditionARM{}
-
-	// Set property ‘Name’:
-	if condition.Name != nil {
-		result.Name = *condition.Name
-	}
-
-	// Set property ‘Parameters’:
-	if condition.Parameters != nil {
-		parametersARM, err := (*condition.Parameters).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		parameters := *parametersARM.(*IsDeviceMatchConditionParametersARM)
-		result.Parameters = &parameters
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (condition *DeliveryRuleIsDeviceCondition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeliveryRuleIsDeviceConditionARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (condition *DeliveryRuleIsDeviceCondition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeliveryRuleIsDeviceConditionARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleIsDeviceConditionARM, got %T", armInput)
-	}
-
-	// Set property ‘Name’:
-	condition.Name = &typedInput.Name
-
-	// Set property ‘Parameters’:
-	if typedInput.Parameters != nil {
-		var parameters1 IsDeviceMatchConditionParameters
-		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
-		if err != nil {
-			return err
-		}
-		parameters := parameters1
-		condition.Parameters = &parameters
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromDeliveryRuleIsDeviceCondition populates our DeliveryRuleIsDeviceCondition from the provided source DeliveryRuleIsDeviceCondition
-func (condition *DeliveryRuleIsDeviceCondition) AssignPropertiesFromDeliveryRuleIsDeviceCondition(source *v20210601s.DeliveryRuleIsDeviceCondition) error {
-
-	// Name
-	if source.Name != nil {
-		name := DeliveryRuleIsDeviceConditionName(*source.Name)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter IsDeviceMatchConditionParameters
-		err := parameter.AssignPropertiesFromIsDeviceMatchConditionParameters(source.Parameters)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromIsDeviceMatchConditionParameters() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToDeliveryRuleIsDeviceCondition populates the provided destination DeliveryRuleIsDeviceCondition from our DeliveryRuleIsDeviceCondition
-func (condition *DeliveryRuleIsDeviceCondition) AssignPropertiesToDeliveryRuleIsDeviceCondition(destination *v20210601s.DeliveryRuleIsDeviceCondition) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Name
-	if condition.Name != nil {
-		name := string(*condition.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
-
-	// Parameters
-	if condition.Parameters != nil {
-		var parameter v20210601s.IsDeviceMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToIsDeviceMatchConditionParameters(&parameter)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToIsDeviceMatchConditionParameters() to populate field Parameters")
-		}
-		destination.Parameters = &parameter
-	} else {
-		destination.Parameters = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRulePostArgsCondition
-type DeliveryRulePostArgsCondition struct {
-	// +kubebuilder:validation:Required
-	Name *DeliveryRulePostArgsConditionName `json:"name,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for PostArgs match conditions
-	Parameters *PostArgsMatchConditionParameters `json:"parameters,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &DeliveryRulePostArgsCondition{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (condition *DeliveryRulePostArgsCondition) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if condition == nil {
-		return nil, nil
-	}
-	result := &DeliveryRulePostArgsConditionARM{}
-
-	// Set property ‘Name’:
-	if condition.Name != nil {
-		result.Name = *condition.Name
-	}
-
-	// Set property ‘Parameters’:
-	if condition.Parameters != nil {
-		parametersARM, err := (*condition.Parameters).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		parameters := *parametersARM.(*PostArgsMatchConditionParametersARM)
-		result.Parameters = &parameters
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (condition *DeliveryRulePostArgsCondition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeliveryRulePostArgsConditionARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (condition *DeliveryRulePostArgsCondition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeliveryRulePostArgsConditionARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRulePostArgsConditionARM, got %T", armInput)
-	}
-
-	// Set property ‘Name’:
-	condition.Name = &typedInput.Name
-
-	// Set property ‘Parameters’:
-	if typedInput.Parameters != nil {
-		var parameters1 PostArgsMatchConditionParameters
-		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
-		if err != nil {
-			return err
-		}
-		parameters := parameters1
-		condition.Parameters = &parameters
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromDeliveryRulePostArgsCondition populates our DeliveryRulePostArgsCondition from the provided source DeliveryRulePostArgsCondition
-func (condition *DeliveryRulePostArgsCondition) AssignPropertiesFromDeliveryRulePostArgsCondition(source *v20210601s.DeliveryRulePostArgsCondition) error {
-
-	// Name
-	if source.Name != nil {
-		name := DeliveryRulePostArgsConditionName(*source.Name)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter PostArgsMatchConditionParameters
-		err := parameter.AssignPropertiesFromPostArgsMatchConditionParameters(source.Parameters)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromPostArgsMatchConditionParameters() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToDeliveryRulePostArgsCondition populates the provided destination DeliveryRulePostArgsCondition from our DeliveryRulePostArgsCondition
-func (condition *DeliveryRulePostArgsCondition) AssignPropertiesToDeliveryRulePostArgsCondition(destination *v20210601s.DeliveryRulePostArgsCondition) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Name
-	if condition.Name != nil {
-		name := string(*condition.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
-
-	// Parameters
-	if condition.Parameters != nil {
-		var parameter v20210601s.PostArgsMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToPostArgsMatchConditionParameters(&parameter)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToPostArgsMatchConditionParameters() to populate field Parameters")
-		}
-		destination.Parameters = &parameter
-	} else {
-		destination.Parameters = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleQueryStringCondition
-type DeliveryRuleQueryStringCondition struct {
-	// +kubebuilder:validation:Required
-	Name *DeliveryRuleQueryStringConditionName `json:"name,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for QueryString match conditions
-	Parameters *QueryStringMatchConditionParameters `json:"parameters,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &DeliveryRuleQueryStringCondition{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (condition *DeliveryRuleQueryStringCondition) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if condition == nil {
-		return nil, nil
-	}
-	result := &DeliveryRuleQueryStringConditionARM{}
-
-	// Set property ‘Name’:
-	if condition.Name != nil {
-		result.Name = *condition.Name
-	}
-
-	// Set property ‘Parameters’:
-	if condition.Parameters != nil {
-		parametersARM, err := (*condition.Parameters).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		parameters := *parametersARM.(*QueryStringMatchConditionParametersARM)
-		result.Parameters = &parameters
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (condition *DeliveryRuleQueryStringCondition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeliveryRuleQueryStringConditionARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (condition *DeliveryRuleQueryStringCondition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeliveryRuleQueryStringConditionARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleQueryStringConditionARM, got %T", armInput)
-	}
-
-	// Set property ‘Name’:
-	condition.Name = &typedInput.Name
-
-	// Set property ‘Parameters’:
-	if typedInput.Parameters != nil {
-		var parameters1 QueryStringMatchConditionParameters
-		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
-		if err != nil {
-			return err
-		}
-		parameters := parameters1
-		condition.Parameters = &parameters
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromDeliveryRuleQueryStringCondition populates our DeliveryRuleQueryStringCondition from the provided source DeliveryRuleQueryStringCondition
-func (condition *DeliveryRuleQueryStringCondition) AssignPropertiesFromDeliveryRuleQueryStringCondition(source *v20210601s.DeliveryRuleQueryStringCondition) error {
-
-	// Name
-	if source.Name != nil {
-		name := DeliveryRuleQueryStringConditionName(*source.Name)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter QueryStringMatchConditionParameters
-		err := parameter.AssignPropertiesFromQueryStringMatchConditionParameters(source.Parameters)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromQueryStringMatchConditionParameters() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToDeliveryRuleQueryStringCondition populates the provided destination DeliveryRuleQueryStringCondition from our DeliveryRuleQueryStringCondition
-func (condition *DeliveryRuleQueryStringCondition) AssignPropertiesToDeliveryRuleQueryStringCondition(destination *v20210601s.DeliveryRuleQueryStringCondition) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Name
-	if condition.Name != nil {
-		name := string(*condition.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
-
-	// Parameters
-	if condition.Parameters != nil {
-		var parameter v20210601s.QueryStringMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToQueryStringMatchConditionParameters(&parameter)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToQueryStringMatchConditionParameters() to populate field Parameters")
-		}
-		destination.Parameters = &parameter
-	} else {
-		destination.Parameters = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleRemoteAddressCondition
-type DeliveryRuleRemoteAddressCondition struct {
-	// +kubebuilder:validation:Required
-	Name *DeliveryRuleRemoteAddressConditionName `json:"name,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for RemoteAddress match conditions
-	Parameters *RemoteAddressMatchConditionParameters `json:"parameters,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &DeliveryRuleRemoteAddressCondition{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (condition *DeliveryRuleRemoteAddressCondition) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if condition == nil {
-		return nil, nil
-	}
-	result := &DeliveryRuleRemoteAddressConditionARM{}
-
-	// Set property ‘Name’:
-	if condition.Name != nil {
-		result.Name = *condition.Name
-	}
-
-	// Set property ‘Parameters’:
-	if condition.Parameters != nil {
-		parametersARM, err := (*condition.Parameters).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		parameters := *parametersARM.(*RemoteAddressMatchConditionParametersARM)
-		result.Parameters = &parameters
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (condition *DeliveryRuleRemoteAddressCondition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeliveryRuleRemoteAddressConditionARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (condition *DeliveryRuleRemoteAddressCondition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeliveryRuleRemoteAddressConditionARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleRemoteAddressConditionARM, got %T", armInput)
-	}
-
-	// Set property ‘Name’:
-	condition.Name = &typedInput.Name
-
-	// Set property ‘Parameters’:
-	if typedInput.Parameters != nil {
-		var parameters1 RemoteAddressMatchConditionParameters
-		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
-		if err != nil {
-			return err
-		}
-		parameters := parameters1
-		condition.Parameters = &parameters
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromDeliveryRuleRemoteAddressCondition populates our DeliveryRuleRemoteAddressCondition from the provided source DeliveryRuleRemoteAddressCondition
-func (condition *DeliveryRuleRemoteAddressCondition) AssignPropertiesFromDeliveryRuleRemoteAddressCondition(source *v20210601s.DeliveryRuleRemoteAddressCondition) error {
-
-	// Name
-	if source.Name != nil {
-		name := DeliveryRuleRemoteAddressConditionName(*source.Name)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter RemoteAddressMatchConditionParameters
-		err := parameter.AssignPropertiesFromRemoteAddressMatchConditionParameters(source.Parameters)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromRemoteAddressMatchConditionParameters() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToDeliveryRuleRemoteAddressCondition populates the provided destination DeliveryRuleRemoteAddressCondition from our DeliveryRuleRemoteAddressCondition
-func (condition *DeliveryRuleRemoteAddressCondition) AssignPropertiesToDeliveryRuleRemoteAddressCondition(destination *v20210601s.DeliveryRuleRemoteAddressCondition) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Name
-	if condition.Name != nil {
-		name := string(*condition.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
-
-	// Parameters
-	if condition.Parameters != nil {
-		var parameter v20210601s.RemoteAddressMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToRemoteAddressMatchConditionParameters(&parameter)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToRemoteAddressMatchConditionParameters() to populate field Parameters")
-		}
-		destination.Parameters = &parameter
-	} else {
-		destination.Parameters = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleRequestBodyCondition
-type DeliveryRuleRequestBodyCondition struct {
-	// +kubebuilder:validation:Required
-	Name *DeliveryRuleRequestBodyConditionName `json:"name,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for RequestBody match conditions
-	Parameters *RequestBodyMatchConditionParameters `json:"parameters,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &DeliveryRuleRequestBodyCondition{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (condition *DeliveryRuleRequestBodyCondition) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if condition == nil {
-		return nil, nil
-	}
-	result := &DeliveryRuleRequestBodyConditionARM{}
-
-	// Set property ‘Name’:
-	if condition.Name != nil {
-		result.Name = *condition.Name
-	}
-
-	// Set property ‘Parameters’:
-	if condition.Parameters != nil {
-		parametersARM, err := (*condition.Parameters).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		parameters := *parametersARM.(*RequestBodyMatchConditionParametersARM)
-		result.Parameters = &parameters
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (condition *DeliveryRuleRequestBodyCondition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeliveryRuleRequestBodyConditionARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (condition *DeliveryRuleRequestBodyCondition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeliveryRuleRequestBodyConditionARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleRequestBodyConditionARM, got %T", armInput)
-	}
-
-	// Set property ‘Name’:
-	condition.Name = &typedInput.Name
-
-	// Set property ‘Parameters’:
-	if typedInput.Parameters != nil {
-		var parameters1 RequestBodyMatchConditionParameters
-		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
-		if err != nil {
-			return err
-		}
-		parameters := parameters1
-		condition.Parameters = &parameters
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromDeliveryRuleRequestBodyCondition populates our DeliveryRuleRequestBodyCondition from the provided source DeliveryRuleRequestBodyCondition
-func (condition *DeliveryRuleRequestBodyCondition) AssignPropertiesFromDeliveryRuleRequestBodyCondition(source *v20210601s.DeliveryRuleRequestBodyCondition) error {
-
-	// Name
-	if source.Name != nil {
-		name := DeliveryRuleRequestBodyConditionName(*source.Name)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter RequestBodyMatchConditionParameters
-		err := parameter.AssignPropertiesFromRequestBodyMatchConditionParameters(source.Parameters)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromRequestBodyMatchConditionParameters() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToDeliveryRuleRequestBodyCondition populates the provided destination DeliveryRuleRequestBodyCondition from our DeliveryRuleRequestBodyCondition
-func (condition *DeliveryRuleRequestBodyCondition) AssignPropertiesToDeliveryRuleRequestBodyCondition(destination *v20210601s.DeliveryRuleRequestBodyCondition) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Name
-	if condition.Name != nil {
-		name := string(*condition.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
-
-	// Parameters
-	if condition.Parameters != nil {
-		var parameter v20210601s.RequestBodyMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToRequestBodyMatchConditionParameters(&parameter)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToRequestBodyMatchConditionParameters() to populate field Parameters")
-		}
-		destination.Parameters = &parameter
-	} else {
-		destination.Parameters = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleRequestHeaderAction
-type DeliveryRuleRequestHeaderAction struct {
-	// +kubebuilder:validation:Required
-	Name *DeliveryRuleRequestHeaderActionName `json:"name,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for the request header action.
-	Parameters *HeaderActionParameters `json:"parameters,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &DeliveryRuleRequestHeaderAction{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (action *DeliveryRuleRequestHeaderAction) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if action == nil {
-		return nil, nil
-	}
-	result := &DeliveryRuleRequestHeaderActionARM{}
-
-	// Set property ‘Name’:
-	if action.Name != nil {
-		result.Name = *action.Name
-	}
-
-	// Set property ‘Parameters’:
-	if action.Parameters != nil {
-		parametersARM, err := (*action.Parameters).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		parameters := *parametersARM.(*HeaderActionParametersARM)
-		result.Parameters = &parameters
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (action *DeliveryRuleRequestHeaderAction) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeliveryRuleRequestHeaderActionARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (action *DeliveryRuleRequestHeaderAction) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeliveryRuleRequestHeaderActionARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleRequestHeaderActionARM, got %T", armInput)
-	}
-
-	// Set property ‘Name’:
-	action.Name = &typedInput.Name
-
-	// Set property ‘Parameters’:
-	if typedInput.Parameters != nil {
-		var parameters1 HeaderActionParameters
-		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
-		if err != nil {
-			return err
-		}
-		parameters := parameters1
-		action.Parameters = &parameters
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromDeliveryRuleRequestHeaderAction populates our DeliveryRuleRequestHeaderAction from the provided source DeliveryRuleRequestHeaderAction
-func (action *DeliveryRuleRequestHeaderAction) AssignPropertiesFromDeliveryRuleRequestHeaderAction(source *v20210601s.DeliveryRuleRequestHeaderAction) error {
-
-	// Name
-	if source.Name != nil {
-		name := DeliveryRuleRequestHeaderActionName(*source.Name)
-		action.Name = &name
-	} else {
-		action.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter HeaderActionParameters
-		err := parameter.AssignPropertiesFromHeaderActionParameters(source.Parameters)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromHeaderActionParameters() to populate field Parameters")
-		}
-		action.Parameters = &parameter
-	} else {
-		action.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToDeliveryRuleRequestHeaderAction populates the provided destination DeliveryRuleRequestHeaderAction from our DeliveryRuleRequestHeaderAction
-func (action *DeliveryRuleRequestHeaderAction) AssignPropertiesToDeliveryRuleRequestHeaderAction(destination *v20210601s.DeliveryRuleRequestHeaderAction) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Name
-	if action.Name != nil {
-		name := string(*action.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
-
-	// Parameters
-	if action.Parameters != nil {
-		var parameter v20210601s.HeaderActionParameters
-		err := action.Parameters.AssignPropertiesToHeaderActionParameters(&parameter)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToHeaderActionParameters() to populate field Parameters")
-		}
-		destination.Parameters = &parameter
-	} else {
-		destination.Parameters = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleRequestHeaderCondition
-type DeliveryRuleRequestHeaderCondition struct {
-	// +kubebuilder:validation:Required
-	Name *DeliveryRuleRequestHeaderConditionName `json:"name,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for RequestHeader match conditions
-	Parameters *RequestHeaderMatchConditionParameters `json:"parameters,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &DeliveryRuleRequestHeaderCondition{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (condition *DeliveryRuleRequestHeaderCondition) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if condition == nil {
-		return nil, nil
-	}
-	result := &DeliveryRuleRequestHeaderConditionARM{}
-
-	// Set property ‘Name’:
-	if condition.Name != nil {
-		result.Name = *condition.Name
-	}
-
-	// Set property ‘Parameters’:
-	if condition.Parameters != nil {
-		parametersARM, err := (*condition.Parameters).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		parameters := *parametersARM.(*RequestHeaderMatchConditionParametersARM)
-		result.Parameters = &parameters
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (condition *DeliveryRuleRequestHeaderCondition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeliveryRuleRequestHeaderConditionARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (condition *DeliveryRuleRequestHeaderCondition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeliveryRuleRequestHeaderConditionARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleRequestHeaderConditionARM, got %T", armInput)
-	}
-
-	// Set property ‘Name’:
-	condition.Name = &typedInput.Name
-
-	// Set property ‘Parameters’:
-	if typedInput.Parameters != nil {
-		var parameters1 RequestHeaderMatchConditionParameters
-		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
-		if err != nil {
-			return err
-		}
-		parameters := parameters1
-		condition.Parameters = &parameters
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromDeliveryRuleRequestHeaderCondition populates our DeliveryRuleRequestHeaderCondition from the provided source DeliveryRuleRequestHeaderCondition
-func (condition *DeliveryRuleRequestHeaderCondition) AssignPropertiesFromDeliveryRuleRequestHeaderCondition(source *v20210601s.DeliveryRuleRequestHeaderCondition) error {
-
-	// Name
-	if source.Name != nil {
-		name := DeliveryRuleRequestHeaderConditionName(*source.Name)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter RequestHeaderMatchConditionParameters
-		err := parameter.AssignPropertiesFromRequestHeaderMatchConditionParameters(source.Parameters)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromRequestHeaderMatchConditionParameters() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToDeliveryRuleRequestHeaderCondition populates the provided destination DeliveryRuleRequestHeaderCondition from our DeliveryRuleRequestHeaderCondition
-func (condition *DeliveryRuleRequestHeaderCondition) AssignPropertiesToDeliveryRuleRequestHeaderCondition(destination *v20210601s.DeliveryRuleRequestHeaderCondition) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Name
-	if condition.Name != nil {
-		name := string(*condition.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
-
-	// Parameters
-	if condition.Parameters != nil {
-		var parameter v20210601s.RequestHeaderMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToRequestHeaderMatchConditionParameters(&parameter)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToRequestHeaderMatchConditionParameters() to populate field Parameters")
-		}
-		destination.Parameters = &parameter
-	} else {
-		destination.Parameters = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleRequestMethodCondition
-type DeliveryRuleRequestMethodCondition struct {
-	// +kubebuilder:validation:Required
-	Name *DeliveryRuleRequestMethodConditionName `json:"name,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for RequestMethod match conditions
-	Parameters *RequestMethodMatchConditionParameters `json:"parameters,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &DeliveryRuleRequestMethodCondition{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (condition *DeliveryRuleRequestMethodCondition) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if condition == nil {
-		return nil, nil
-	}
-	result := &DeliveryRuleRequestMethodConditionARM{}
-
-	// Set property ‘Name’:
-	if condition.Name != nil {
-		result.Name = *condition.Name
-	}
-
-	// Set property ‘Parameters’:
-	if condition.Parameters != nil {
-		parametersARM, err := (*condition.Parameters).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		parameters := *parametersARM.(*RequestMethodMatchConditionParametersARM)
-		result.Parameters = &parameters
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (condition *DeliveryRuleRequestMethodCondition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeliveryRuleRequestMethodConditionARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (condition *DeliveryRuleRequestMethodCondition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeliveryRuleRequestMethodConditionARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleRequestMethodConditionARM, got %T", armInput)
-	}
-
-	// Set property ‘Name’:
-	condition.Name = &typedInput.Name
-
-	// Set property ‘Parameters’:
-	if typedInput.Parameters != nil {
-		var parameters1 RequestMethodMatchConditionParameters
-		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
-		if err != nil {
-			return err
-		}
-		parameters := parameters1
-		condition.Parameters = &parameters
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromDeliveryRuleRequestMethodCondition populates our DeliveryRuleRequestMethodCondition from the provided source DeliveryRuleRequestMethodCondition
-func (condition *DeliveryRuleRequestMethodCondition) AssignPropertiesFromDeliveryRuleRequestMethodCondition(source *v20210601s.DeliveryRuleRequestMethodCondition) error {
-
-	// Name
-	if source.Name != nil {
-		name := DeliveryRuleRequestMethodConditionName(*source.Name)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter RequestMethodMatchConditionParameters
-		err := parameter.AssignPropertiesFromRequestMethodMatchConditionParameters(source.Parameters)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromRequestMethodMatchConditionParameters() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToDeliveryRuleRequestMethodCondition populates the provided destination DeliveryRuleRequestMethodCondition from our DeliveryRuleRequestMethodCondition
-func (condition *DeliveryRuleRequestMethodCondition) AssignPropertiesToDeliveryRuleRequestMethodCondition(destination *v20210601s.DeliveryRuleRequestMethodCondition) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Name
-	if condition.Name != nil {
-		name := string(*condition.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
-
-	// Parameters
-	if condition.Parameters != nil {
-		var parameter v20210601s.RequestMethodMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToRequestMethodMatchConditionParameters(&parameter)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToRequestMethodMatchConditionParameters() to populate field Parameters")
-		}
-		destination.Parameters = &parameter
-	} else {
-		destination.Parameters = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleRequestSchemeCondition
-type DeliveryRuleRequestSchemeCondition struct {
-	// +kubebuilder:validation:Required
-	Name *DeliveryRuleRequestSchemeConditionName `json:"name,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for RequestScheme match conditions
-	Parameters *RequestSchemeMatchConditionParameters `json:"parameters,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &DeliveryRuleRequestSchemeCondition{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (condition *DeliveryRuleRequestSchemeCondition) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if condition == nil {
-		return nil, nil
-	}
-	result := &DeliveryRuleRequestSchemeConditionARM{}
-
-	// Set property ‘Name’:
-	if condition.Name != nil {
-		result.Name = *condition.Name
-	}
-
-	// Set property ‘Parameters’:
-	if condition.Parameters != nil {
-		parametersARM, err := (*condition.Parameters).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		parameters := *parametersARM.(*RequestSchemeMatchConditionParametersARM)
-		result.Parameters = &parameters
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (condition *DeliveryRuleRequestSchemeCondition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeliveryRuleRequestSchemeConditionARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (condition *DeliveryRuleRequestSchemeCondition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeliveryRuleRequestSchemeConditionARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleRequestSchemeConditionARM, got %T", armInput)
-	}
-
-	// Set property ‘Name’:
-	condition.Name = &typedInput.Name
-
-	// Set property ‘Parameters’:
-	if typedInput.Parameters != nil {
-		var parameters1 RequestSchemeMatchConditionParameters
-		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
-		if err != nil {
-			return err
-		}
-		parameters := parameters1
-		condition.Parameters = &parameters
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromDeliveryRuleRequestSchemeCondition populates our DeliveryRuleRequestSchemeCondition from the provided source DeliveryRuleRequestSchemeCondition
-func (condition *DeliveryRuleRequestSchemeCondition) AssignPropertiesFromDeliveryRuleRequestSchemeCondition(source *v20210601s.DeliveryRuleRequestSchemeCondition) error {
-
-	// Name
-	if source.Name != nil {
-		name := DeliveryRuleRequestSchemeConditionName(*source.Name)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter RequestSchemeMatchConditionParameters
-		err := parameter.AssignPropertiesFromRequestSchemeMatchConditionParameters(source.Parameters)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromRequestSchemeMatchConditionParameters() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToDeliveryRuleRequestSchemeCondition populates the provided destination DeliveryRuleRequestSchemeCondition from our DeliveryRuleRequestSchemeCondition
-func (condition *DeliveryRuleRequestSchemeCondition) AssignPropertiesToDeliveryRuleRequestSchemeCondition(destination *v20210601s.DeliveryRuleRequestSchemeCondition) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Name
-	if condition.Name != nil {
-		name := string(*condition.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
-
-	// Parameters
-	if condition.Parameters != nil {
-		var parameter v20210601s.RequestSchemeMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToRequestSchemeMatchConditionParameters(&parameter)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToRequestSchemeMatchConditionParameters() to populate field Parameters")
-		}
-		destination.Parameters = &parameter
-	} else {
-		destination.Parameters = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleRequestUriCondition
-type DeliveryRuleRequestUriCondition struct {
-	// +kubebuilder:validation:Required
-	Name *DeliveryRuleRequestUriConditionName `json:"name,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for RequestUri match conditions
-	Parameters *RequestUriMatchConditionParameters `json:"parameters,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &DeliveryRuleRequestUriCondition{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (condition *DeliveryRuleRequestUriCondition) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if condition == nil {
-		return nil, nil
-	}
-	result := &DeliveryRuleRequestUriConditionARM{}
-
-	// Set property ‘Name’:
-	if condition.Name != nil {
-		result.Name = *condition.Name
-	}
-
-	// Set property ‘Parameters’:
-	if condition.Parameters != nil {
-		parametersARM, err := (*condition.Parameters).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		parameters := *parametersARM.(*RequestUriMatchConditionParametersARM)
-		result.Parameters = &parameters
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (condition *DeliveryRuleRequestUriCondition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeliveryRuleRequestUriConditionARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (condition *DeliveryRuleRequestUriCondition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeliveryRuleRequestUriConditionARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleRequestUriConditionARM, got %T", armInput)
-	}
-
-	// Set property ‘Name’:
-	condition.Name = &typedInput.Name
-
-	// Set property ‘Parameters’:
-	if typedInput.Parameters != nil {
-		var parameters1 RequestUriMatchConditionParameters
-		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
-		if err != nil {
-			return err
-		}
-		parameters := parameters1
-		condition.Parameters = &parameters
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromDeliveryRuleRequestUriCondition populates our DeliveryRuleRequestUriCondition from the provided source DeliveryRuleRequestUriCondition
-func (condition *DeliveryRuleRequestUriCondition) AssignPropertiesFromDeliveryRuleRequestUriCondition(source *v20210601s.DeliveryRuleRequestUriCondition) error {
-
-	// Name
-	if source.Name != nil {
-		name := DeliveryRuleRequestUriConditionName(*source.Name)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter RequestUriMatchConditionParameters
-		err := parameter.AssignPropertiesFromRequestUriMatchConditionParameters(source.Parameters)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromRequestUriMatchConditionParameters() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToDeliveryRuleRequestUriCondition populates the provided destination DeliveryRuleRequestUriCondition from our DeliveryRuleRequestUriCondition
-func (condition *DeliveryRuleRequestUriCondition) AssignPropertiesToDeliveryRuleRequestUriCondition(destination *v20210601s.DeliveryRuleRequestUriCondition) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Name
-	if condition.Name != nil {
-		name := string(*condition.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
-
-	// Parameters
-	if condition.Parameters != nil {
-		var parameter v20210601s.RequestUriMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToRequestUriMatchConditionParameters(&parameter)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToRequestUriMatchConditionParameters() to populate field Parameters")
-		}
-		destination.Parameters = &parameter
-	} else {
-		destination.Parameters = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleResponseHeaderAction
-type DeliveryRuleResponseHeaderAction struct {
-	// +kubebuilder:validation:Required
-	Name *DeliveryRuleResponseHeaderActionName `json:"name,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for the request header action.
-	Parameters *HeaderActionParameters `json:"parameters,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &DeliveryRuleResponseHeaderAction{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (action *DeliveryRuleResponseHeaderAction) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if action == nil {
-		return nil, nil
-	}
-	result := &DeliveryRuleResponseHeaderActionARM{}
-
-	// Set property ‘Name’:
-	if action.Name != nil {
-		result.Name = *action.Name
-	}
-
-	// Set property ‘Parameters’:
-	if action.Parameters != nil {
-		parametersARM, err := (*action.Parameters).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		parameters := *parametersARM.(*HeaderActionParametersARM)
-		result.Parameters = &parameters
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (action *DeliveryRuleResponseHeaderAction) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeliveryRuleResponseHeaderActionARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (action *DeliveryRuleResponseHeaderAction) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeliveryRuleResponseHeaderActionARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleResponseHeaderActionARM, got %T", armInput)
-	}
-
-	// Set property ‘Name’:
-	action.Name = &typedInput.Name
-
-	// Set property ‘Parameters’:
-	if typedInput.Parameters != nil {
-		var parameters1 HeaderActionParameters
-		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
-		if err != nil {
-			return err
-		}
-		parameters := parameters1
-		action.Parameters = &parameters
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromDeliveryRuleResponseHeaderAction populates our DeliveryRuleResponseHeaderAction from the provided source DeliveryRuleResponseHeaderAction
-func (action *DeliveryRuleResponseHeaderAction) AssignPropertiesFromDeliveryRuleResponseHeaderAction(source *v20210601s.DeliveryRuleResponseHeaderAction) error {
-
-	// Name
-	if source.Name != nil {
-		name := DeliveryRuleResponseHeaderActionName(*source.Name)
-		action.Name = &name
-	} else {
-		action.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter HeaderActionParameters
-		err := parameter.AssignPropertiesFromHeaderActionParameters(source.Parameters)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromHeaderActionParameters() to populate field Parameters")
-		}
-		action.Parameters = &parameter
-	} else {
-		action.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToDeliveryRuleResponseHeaderAction populates the provided destination DeliveryRuleResponseHeaderAction from our DeliveryRuleResponseHeaderAction
-func (action *DeliveryRuleResponseHeaderAction) AssignPropertiesToDeliveryRuleResponseHeaderAction(destination *v20210601s.DeliveryRuleResponseHeaderAction) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Name
-	if action.Name != nil {
-		name := string(*action.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
-
-	// Parameters
-	if action.Parameters != nil {
-		var parameter v20210601s.HeaderActionParameters
-		err := action.Parameters.AssignPropertiesToHeaderActionParameters(&parameter)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToHeaderActionParameters() to populate field Parameters")
-		}
-		destination.Parameters = &parameter
-	} else {
-		destination.Parameters = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleRouteConfigurationOverrideAction
-type DeliveryRuleRouteConfigurationOverrideAction struct {
-	// +kubebuilder:validation:Required
-	Name *DeliveryRuleRouteConfigurationOverrideActionName `json:"name,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for the route configuration override action.
-	Parameters *RouteConfigurationOverrideActionParameters `json:"parameters,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &DeliveryRuleRouteConfigurationOverrideAction{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (action *DeliveryRuleRouteConfigurationOverrideAction) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if action == nil {
-		return nil, nil
-	}
-	result := &DeliveryRuleRouteConfigurationOverrideActionARM{}
-
-	// Set property ‘Name’:
-	if action.Name != nil {
-		result.Name = *action.Name
-	}
-
-	// Set property ‘Parameters’:
-	if action.Parameters != nil {
-		parametersARM, err := (*action.Parameters).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		parameters := *parametersARM.(*RouteConfigurationOverrideActionParametersARM)
-		result.Parameters = &parameters
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (action *DeliveryRuleRouteConfigurationOverrideAction) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeliveryRuleRouteConfigurationOverrideActionARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (action *DeliveryRuleRouteConfigurationOverrideAction) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeliveryRuleRouteConfigurationOverrideActionARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleRouteConfigurationOverrideActionARM, got %T", armInput)
-	}
-
-	// Set property ‘Name’:
-	action.Name = &typedInput.Name
-
-	// Set property ‘Parameters’:
-	if typedInput.Parameters != nil {
-		var parameters1 RouteConfigurationOverrideActionParameters
-		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
-		if err != nil {
-			return err
-		}
-		parameters := parameters1
-		action.Parameters = &parameters
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromDeliveryRuleRouteConfigurationOverrideAction populates our DeliveryRuleRouteConfigurationOverrideAction from the provided source DeliveryRuleRouteConfigurationOverrideAction
-func (action *DeliveryRuleRouteConfigurationOverrideAction) AssignPropertiesFromDeliveryRuleRouteConfigurationOverrideAction(source *v20210601s.DeliveryRuleRouteConfigurationOverrideAction) error {
-
-	// Name
-	if source.Name != nil {
-		name := DeliveryRuleRouteConfigurationOverrideActionName(*source.Name)
-		action.Name = &name
-	} else {
-		action.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter RouteConfigurationOverrideActionParameters
-		err := parameter.AssignPropertiesFromRouteConfigurationOverrideActionParameters(source.Parameters)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromRouteConfigurationOverrideActionParameters() to populate field Parameters")
-		}
-		action.Parameters = &parameter
-	} else {
-		action.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToDeliveryRuleRouteConfigurationOverrideAction populates the provided destination DeliveryRuleRouteConfigurationOverrideAction from our DeliveryRuleRouteConfigurationOverrideAction
-func (action *DeliveryRuleRouteConfigurationOverrideAction) AssignPropertiesToDeliveryRuleRouteConfigurationOverrideAction(destination *v20210601s.DeliveryRuleRouteConfigurationOverrideAction) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Name
-	if action.Name != nil {
-		name := string(*action.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
-
-	// Parameters
-	if action.Parameters != nil {
-		var parameter v20210601s.RouteConfigurationOverrideActionParameters
-		err := action.Parameters.AssignPropertiesToRouteConfigurationOverrideActionParameters(&parameter)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToRouteConfigurationOverrideActionParameters() to populate field Parameters")
-		}
-		destination.Parameters = &parameter
-	} else {
-		destination.Parameters = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleServerPortCondition
-type DeliveryRuleServerPortCondition struct {
-	// +kubebuilder:validation:Required
-	Name *DeliveryRuleServerPortConditionName `json:"name,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for ServerPort match conditions
-	Parameters *ServerPortMatchConditionParameters `json:"parameters,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &DeliveryRuleServerPortCondition{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (condition *DeliveryRuleServerPortCondition) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if condition == nil {
-		return nil, nil
-	}
-	result := &DeliveryRuleServerPortConditionARM{}
-
-	// Set property ‘Name’:
-	if condition.Name != nil {
-		result.Name = *condition.Name
-	}
-
-	// Set property ‘Parameters’:
-	if condition.Parameters != nil {
-		parametersARM, err := (*condition.Parameters).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		parameters := *parametersARM.(*ServerPortMatchConditionParametersARM)
-		result.Parameters = &parameters
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (condition *DeliveryRuleServerPortCondition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeliveryRuleServerPortConditionARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (condition *DeliveryRuleServerPortCondition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeliveryRuleServerPortConditionARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleServerPortConditionARM, got %T", armInput)
-	}
-
-	// Set property ‘Name’:
-	condition.Name = &typedInput.Name
-
-	// Set property ‘Parameters’:
-	if typedInput.Parameters != nil {
-		var parameters1 ServerPortMatchConditionParameters
-		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
-		if err != nil {
-			return err
-		}
-		parameters := parameters1
-		condition.Parameters = &parameters
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromDeliveryRuleServerPortCondition populates our DeliveryRuleServerPortCondition from the provided source DeliveryRuleServerPortCondition
-func (condition *DeliveryRuleServerPortCondition) AssignPropertiesFromDeliveryRuleServerPortCondition(source *v20210601s.DeliveryRuleServerPortCondition) error {
-
-	// Name
-	if source.Name != nil {
-		name := DeliveryRuleServerPortConditionName(*source.Name)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter ServerPortMatchConditionParameters
-		err := parameter.AssignPropertiesFromServerPortMatchConditionParameters(source.Parameters)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromServerPortMatchConditionParameters() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToDeliveryRuleServerPortCondition populates the provided destination DeliveryRuleServerPortCondition from our DeliveryRuleServerPortCondition
-func (condition *DeliveryRuleServerPortCondition) AssignPropertiesToDeliveryRuleServerPortCondition(destination *v20210601s.DeliveryRuleServerPortCondition) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Name
-	if condition.Name != nil {
-		name := string(*condition.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
-
-	// Parameters
-	if condition.Parameters != nil {
-		var parameter v20210601s.ServerPortMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToServerPortMatchConditionParameters(&parameter)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToServerPortMatchConditionParameters() to populate field Parameters")
-		}
-		destination.Parameters = &parameter
-	} else {
-		destination.Parameters = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleSocketAddrCondition
-type DeliveryRuleSocketAddrCondition struct {
-	// +kubebuilder:validation:Required
-	Name *DeliveryRuleSocketAddrConditionName `json:"name,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for SocketAddress match conditions
-	Parameters *SocketAddrMatchConditionParameters `json:"parameters,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &DeliveryRuleSocketAddrCondition{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (condition *DeliveryRuleSocketAddrCondition) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if condition == nil {
-		return nil, nil
-	}
-	result := &DeliveryRuleSocketAddrConditionARM{}
-
-	// Set property ‘Name’:
-	if condition.Name != nil {
-		result.Name = *condition.Name
-	}
-
-	// Set property ‘Parameters’:
-	if condition.Parameters != nil {
-		parametersARM, err := (*condition.Parameters).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		parameters := *parametersARM.(*SocketAddrMatchConditionParametersARM)
-		result.Parameters = &parameters
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (condition *DeliveryRuleSocketAddrCondition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeliveryRuleSocketAddrConditionARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (condition *DeliveryRuleSocketAddrCondition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeliveryRuleSocketAddrConditionARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleSocketAddrConditionARM, got %T", armInput)
-	}
-
-	// Set property ‘Name’:
-	condition.Name = &typedInput.Name
-
-	// Set property ‘Parameters’:
-	if typedInput.Parameters != nil {
-		var parameters1 SocketAddrMatchConditionParameters
-		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
-		if err != nil {
-			return err
-		}
-		parameters := parameters1
-		condition.Parameters = &parameters
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromDeliveryRuleSocketAddrCondition populates our DeliveryRuleSocketAddrCondition from the provided source DeliveryRuleSocketAddrCondition
-func (condition *DeliveryRuleSocketAddrCondition) AssignPropertiesFromDeliveryRuleSocketAddrCondition(source *v20210601s.DeliveryRuleSocketAddrCondition) error {
-
-	// Name
-	if source.Name != nil {
-		name := DeliveryRuleSocketAddrConditionName(*source.Name)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter SocketAddrMatchConditionParameters
-		err := parameter.AssignPropertiesFromSocketAddrMatchConditionParameters(source.Parameters)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSocketAddrMatchConditionParameters() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToDeliveryRuleSocketAddrCondition populates the provided destination DeliveryRuleSocketAddrCondition from our DeliveryRuleSocketAddrCondition
-func (condition *DeliveryRuleSocketAddrCondition) AssignPropertiesToDeliveryRuleSocketAddrCondition(destination *v20210601s.DeliveryRuleSocketAddrCondition) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Name
-	if condition.Name != nil {
-		name := string(*condition.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
-
-	// Parameters
-	if condition.Parameters != nil {
-		var parameter v20210601s.SocketAddrMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToSocketAddrMatchConditionParameters(&parameter)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSocketAddrMatchConditionParameters() to populate field Parameters")
-		}
-		destination.Parameters = &parameter
-	} else {
-		destination.Parameters = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleSslProtocolCondition
-type DeliveryRuleSslProtocolCondition struct {
-	// +kubebuilder:validation:Required
-	Name *DeliveryRuleSslProtocolConditionName `json:"name,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for SslProtocol match conditions
-	Parameters *SslProtocolMatchConditionParameters `json:"parameters,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &DeliveryRuleSslProtocolCondition{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (condition *DeliveryRuleSslProtocolCondition) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if condition == nil {
-		return nil, nil
-	}
-	result := &DeliveryRuleSslProtocolConditionARM{}
-
-	// Set property ‘Name’:
-	if condition.Name != nil {
-		result.Name = *condition.Name
-	}
-
-	// Set property ‘Parameters’:
-	if condition.Parameters != nil {
-		parametersARM, err := (*condition.Parameters).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		parameters := *parametersARM.(*SslProtocolMatchConditionParametersARM)
-		result.Parameters = &parameters
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (condition *DeliveryRuleSslProtocolCondition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeliveryRuleSslProtocolConditionARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (condition *DeliveryRuleSslProtocolCondition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeliveryRuleSslProtocolConditionARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleSslProtocolConditionARM, got %T", armInput)
-	}
-
-	// Set property ‘Name’:
-	condition.Name = &typedInput.Name
-
-	// Set property ‘Parameters’:
-	if typedInput.Parameters != nil {
-		var parameters1 SslProtocolMatchConditionParameters
-		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
-		if err != nil {
-			return err
-		}
-		parameters := parameters1
-		condition.Parameters = &parameters
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromDeliveryRuleSslProtocolCondition populates our DeliveryRuleSslProtocolCondition from the provided source DeliveryRuleSslProtocolCondition
-func (condition *DeliveryRuleSslProtocolCondition) AssignPropertiesFromDeliveryRuleSslProtocolCondition(source *v20210601s.DeliveryRuleSslProtocolCondition) error {
-
-	// Name
-	if source.Name != nil {
-		name := DeliveryRuleSslProtocolConditionName(*source.Name)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter SslProtocolMatchConditionParameters
-		err := parameter.AssignPropertiesFromSslProtocolMatchConditionParameters(source.Parameters)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSslProtocolMatchConditionParameters() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToDeliveryRuleSslProtocolCondition populates the provided destination DeliveryRuleSslProtocolCondition from our DeliveryRuleSslProtocolCondition
-func (condition *DeliveryRuleSslProtocolCondition) AssignPropertiesToDeliveryRuleSslProtocolCondition(destination *v20210601s.DeliveryRuleSslProtocolCondition) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Name
-	if condition.Name != nil {
-		name := string(*condition.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
-
-	// Parameters
-	if condition.Parameters != nil {
-		var parameter v20210601s.SslProtocolMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToSslProtocolMatchConditionParameters(&parameter)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSslProtocolMatchConditionParameters() to populate field Parameters")
-		}
-		destination.Parameters = &parameter
-	} else {
-		destination.Parameters = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleUrlFileExtensionCondition
-type DeliveryRuleUrlFileExtensionCondition struct {
-	// +kubebuilder:validation:Required
-	Name *DeliveryRuleUrlFileExtensionConditionName `json:"name,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for UrlFileExtension match conditions
-	Parameters *UrlFileExtensionMatchConditionParameters `json:"parameters,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &DeliveryRuleUrlFileExtensionCondition{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (condition *DeliveryRuleUrlFileExtensionCondition) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if condition == nil {
-		return nil, nil
-	}
-	result := &DeliveryRuleUrlFileExtensionConditionARM{}
-
-	// Set property ‘Name’:
-	if condition.Name != nil {
-		result.Name = *condition.Name
-	}
-
-	// Set property ‘Parameters’:
-	if condition.Parameters != nil {
-		parametersARM, err := (*condition.Parameters).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		parameters := *parametersARM.(*UrlFileExtensionMatchConditionParametersARM)
-		result.Parameters = &parameters
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (condition *DeliveryRuleUrlFileExtensionCondition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeliveryRuleUrlFileExtensionConditionARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (condition *DeliveryRuleUrlFileExtensionCondition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeliveryRuleUrlFileExtensionConditionARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleUrlFileExtensionConditionARM, got %T", armInput)
-	}
-
-	// Set property ‘Name’:
-	condition.Name = &typedInput.Name
-
-	// Set property ‘Parameters’:
-	if typedInput.Parameters != nil {
-		var parameters1 UrlFileExtensionMatchConditionParameters
-		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
-		if err != nil {
-			return err
-		}
-		parameters := parameters1
-		condition.Parameters = &parameters
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromDeliveryRuleUrlFileExtensionCondition populates our DeliveryRuleUrlFileExtensionCondition from the provided source DeliveryRuleUrlFileExtensionCondition
-func (condition *DeliveryRuleUrlFileExtensionCondition) AssignPropertiesFromDeliveryRuleUrlFileExtensionCondition(source *v20210601s.DeliveryRuleUrlFileExtensionCondition) error {
-
-	// Name
-	if source.Name != nil {
-		name := DeliveryRuleUrlFileExtensionConditionName(*source.Name)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter UrlFileExtensionMatchConditionParameters
-		err := parameter.AssignPropertiesFromUrlFileExtensionMatchConditionParameters(source.Parameters)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromUrlFileExtensionMatchConditionParameters() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToDeliveryRuleUrlFileExtensionCondition populates the provided destination DeliveryRuleUrlFileExtensionCondition from our DeliveryRuleUrlFileExtensionCondition
-func (condition *DeliveryRuleUrlFileExtensionCondition) AssignPropertiesToDeliveryRuleUrlFileExtensionCondition(destination *v20210601s.DeliveryRuleUrlFileExtensionCondition) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Name
-	if condition.Name != nil {
-		name := string(*condition.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
-
-	// Parameters
-	if condition.Parameters != nil {
-		var parameter v20210601s.UrlFileExtensionMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToUrlFileExtensionMatchConditionParameters(&parameter)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToUrlFileExtensionMatchConditionParameters() to populate field Parameters")
-		}
-		destination.Parameters = &parameter
-	} else {
-		destination.Parameters = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleUrlFileNameCondition
-type DeliveryRuleUrlFileNameCondition struct {
-	// +kubebuilder:validation:Required
-	Name *DeliveryRuleUrlFileNameConditionName `json:"name,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for UrlFilename match conditions
-	Parameters *UrlFileNameMatchConditionParameters `json:"parameters,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &DeliveryRuleUrlFileNameCondition{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (condition *DeliveryRuleUrlFileNameCondition) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if condition == nil {
-		return nil, nil
-	}
-	result := &DeliveryRuleUrlFileNameConditionARM{}
-
-	// Set property ‘Name’:
-	if condition.Name != nil {
-		result.Name = *condition.Name
-	}
-
-	// Set property ‘Parameters’:
-	if condition.Parameters != nil {
-		parametersARM, err := (*condition.Parameters).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		parameters := *parametersARM.(*UrlFileNameMatchConditionParametersARM)
-		result.Parameters = &parameters
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (condition *DeliveryRuleUrlFileNameCondition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeliveryRuleUrlFileNameConditionARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (condition *DeliveryRuleUrlFileNameCondition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeliveryRuleUrlFileNameConditionARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleUrlFileNameConditionARM, got %T", armInput)
-	}
-
-	// Set property ‘Name’:
-	condition.Name = &typedInput.Name
-
-	// Set property ‘Parameters’:
-	if typedInput.Parameters != nil {
-		var parameters1 UrlFileNameMatchConditionParameters
-		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
-		if err != nil {
-			return err
-		}
-		parameters := parameters1
-		condition.Parameters = &parameters
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromDeliveryRuleUrlFileNameCondition populates our DeliveryRuleUrlFileNameCondition from the provided source DeliveryRuleUrlFileNameCondition
-func (condition *DeliveryRuleUrlFileNameCondition) AssignPropertiesFromDeliveryRuleUrlFileNameCondition(source *v20210601s.DeliveryRuleUrlFileNameCondition) error {
-
-	// Name
-	if source.Name != nil {
-		name := DeliveryRuleUrlFileNameConditionName(*source.Name)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter UrlFileNameMatchConditionParameters
-		err := parameter.AssignPropertiesFromUrlFileNameMatchConditionParameters(source.Parameters)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromUrlFileNameMatchConditionParameters() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToDeliveryRuleUrlFileNameCondition populates the provided destination DeliveryRuleUrlFileNameCondition from our DeliveryRuleUrlFileNameCondition
-func (condition *DeliveryRuleUrlFileNameCondition) AssignPropertiesToDeliveryRuleUrlFileNameCondition(destination *v20210601s.DeliveryRuleUrlFileNameCondition) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Name
-	if condition.Name != nil {
-		name := string(*condition.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
-
-	// Parameters
-	if condition.Parameters != nil {
-		var parameter v20210601s.UrlFileNameMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToUrlFileNameMatchConditionParameters(&parameter)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToUrlFileNameMatchConditionParameters() to populate field Parameters")
-		}
-		destination.Parameters = &parameter
-	} else {
-		destination.Parameters = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/DeliveryRuleUrlPathCondition
-type DeliveryRuleUrlPathCondition struct {
-	// +kubebuilder:validation:Required
-	Name *DeliveryRuleUrlPathConditionName `json:"name,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for UrlPath match conditions
-	Parameters *UrlPathMatchConditionParameters `json:"parameters,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &DeliveryRuleUrlPathCondition{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (condition *DeliveryRuleUrlPathCondition) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if condition == nil {
-		return nil, nil
-	}
-	result := &DeliveryRuleUrlPathConditionARM{}
-
-	// Set property ‘Name’:
-	if condition.Name != nil {
-		result.Name = *condition.Name
-	}
-
-	// Set property ‘Parameters’:
-	if condition.Parameters != nil {
-		parametersARM, err := (*condition.Parameters).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		parameters := *parametersARM.(*UrlPathMatchConditionParametersARM)
-		result.Parameters = &parameters
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (condition *DeliveryRuleUrlPathCondition) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DeliveryRuleUrlPathConditionARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (condition *DeliveryRuleUrlPathCondition) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DeliveryRuleUrlPathConditionARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DeliveryRuleUrlPathConditionARM, got %T", armInput)
-	}
-
-	// Set property ‘Name’:
-	condition.Name = &typedInput.Name
-
-	// Set property ‘Parameters’:
-	if typedInput.Parameters != nil {
-		var parameters1 UrlPathMatchConditionParameters
-		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
-		if err != nil {
-			return err
-		}
-		parameters := parameters1
-		condition.Parameters = &parameters
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromDeliveryRuleUrlPathCondition populates our DeliveryRuleUrlPathCondition from the provided source DeliveryRuleUrlPathCondition
-func (condition *DeliveryRuleUrlPathCondition) AssignPropertiesFromDeliveryRuleUrlPathCondition(source *v20210601s.DeliveryRuleUrlPathCondition) error {
-
-	// Name
-	if source.Name != nil {
-		name := DeliveryRuleUrlPathConditionName(*source.Name)
-		condition.Name = &name
-	} else {
-		condition.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter UrlPathMatchConditionParameters
-		err := parameter.AssignPropertiesFromUrlPathMatchConditionParameters(source.Parameters)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromUrlPathMatchConditionParameters() to populate field Parameters")
-		}
-		condition.Parameters = &parameter
-	} else {
-		condition.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToDeliveryRuleUrlPathCondition populates the provided destination DeliveryRuleUrlPathCondition from our DeliveryRuleUrlPathCondition
-func (condition *DeliveryRuleUrlPathCondition) AssignPropertiesToDeliveryRuleUrlPathCondition(destination *v20210601s.DeliveryRuleUrlPathCondition) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Name
-	if condition.Name != nil {
-		name := string(*condition.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
-
-	// Parameters
-	if condition.Parameters != nil {
-		var parameter v20210601s.UrlPathMatchConditionParameters
-		err := condition.Parameters.AssignPropertiesToUrlPathMatchConditionParameters(&parameter)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToUrlPathMatchConditionParameters() to populate field Parameters")
-		}
-		destination.Parameters = &parameter
-	} else {
-		destination.Parameters = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/OriginGroupOverrideAction
-type OriginGroupOverrideAction struct {
-	// +kubebuilder:validation:Required
-	Name *OriginGroupOverrideActionName `json:"name,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for the origin group override action.
-	Parameters *OriginGroupOverrideActionParameters `json:"parameters,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &OriginGroupOverrideAction{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (action *OriginGroupOverrideAction) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if action == nil {
-		return nil, nil
-	}
-	result := &OriginGroupOverrideActionARM{}
-
-	// Set property ‘Name’:
-	if action.Name != nil {
-		result.Name = *action.Name
-	}
-
-	// Set property ‘Parameters’:
-	if action.Parameters != nil {
-		parametersARM, err := (*action.Parameters).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		parameters := *parametersARM.(*OriginGroupOverrideActionParametersARM)
-		result.Parameters = &parameters
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (action *OriginGroupOverrideAction) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &OriginGroupOverrideActionARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (action *OriginGroupOverrideAction) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(OriginGroupOverrideActionARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OriginGroupOverrideActionARM, got %T", armInput)
-	}
-
-	// Set property ‘Name’:
-	action.Name = &typedInput.Name
-
-	// Set property ‘Parameters’:
-	if typedInput.Parameters != nil {
-		var parameters1 OriginGroupOverrideActionParameters
-		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
-		if err != nil {
-			return err
-		}
-		parameters := parameters1
-		action.Parameters = &parameters
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromOriginGroupOverrideAction populates our OriginGroupOverrideAction from the provided source OriginGroupOverrideAction
-func (action *OriginGroupOverrideAction) AssignPropertiesFromOriginGroupOverrideAction(source *v20210601s.OriginGroupOverrideAction) error {
-
-	// Name
-	if source.Name != nil {
-		name := OriginGroupOverrideActionName(*source.Name)
-		action.Name = &name
-	} else {
-		action.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter OriginGroupOverrideActionParameters
-		err := parameter.AssignPropertiesFromOriginGroupOverrideActionParameters(source.Parameters)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromOriginGroupOverrideActionParameters() to populate field Parameters")
-		}
-		action.Parameters = &parameter
-	} else {
-		action.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToOriginGroupOverrideAction populates the provided destination OriginGroupOverrideAction from our OriginGroupOverrideAction
-func (action *OriginGroupOverrideAction) AssignPropertiesToOriginGroupOverrideAction(destination *v20210601s.OriginGroupOverrideAction) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Name
-	if action.Name != nil {
-		name := string(*action.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
-
-	// Parameters
-	if action.Parameters != nil {
-		var parameter v20210601s.OriginGroupOverrideActionParameters
-		err := action.Parameters.AssignPropertiesToOriginGroupOverrideActionParameters(&parameter)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToOriginGroupOverrideActionParameters() to populate field Parameters")
-		}
-		destination.Parameters = &parameter
-	} else {
-		destination.Parameters = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlRedirectAction
-type UrlRedirectAction struct {
-	// +kubebuilder:validation:Required
-	Name *UrlRedirectActionName `json:"name,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for the url redirect action.
-	Parameters *UrlRedirectActionParameters `json:"parameters,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &UrlRedirectAction{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (action *UrlRedirectAction) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if action == nil {
-		return nil, nil
-	}
-	result := &UrlRedirectActionARM{}
-
-	// Set property ‘Name’:
-	if action.Name != nil {
-		result.Name = *action.Name
-	}
-
-	// Set property ‘Parameters’:
-	if action.Parameters != nil {
-		parametersARM, err := (*action.Parameters).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		parameters := *parametersARM.(*UrlRedirectActionParametersARM)
-		result.Parameters = &parameters
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (action *UrlRedirectAction) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UrlRedirectActionARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (action *UrlRedirectAction) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UrlRedirectActionARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlRedirectActionARM, got %T", armInput)
-	}
-
-	// Set property ‘Name’:
-	action.Name = &typedInput.Name
-
-	// Set property ‘Parameters’:
-	if typedInput.Parameters != nil {
-		var parameters1 UrlRedirectActionParameters
-		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
-		if err != nil {
-			return err
-		}
-		parameters := parameters1
-		action.Parameters = &parameters
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromUrlRedirectAction populates our UrlRedirectAction from the provided source UrlRedirectAction
-func (action *UrlRedirectAction) AssignPropertiesFromUrlRedirectAction(source *v20210601s.UrlRedirectAction) error {
-
-	// Name
-	if source.Name != nil {
-		name := UrlRedirectActionName(*source.Name)
-		action.Name = &name
-	} else {
-		action.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter UrlRedirectActionParameters
-		err := parameter.AssignPropertiesFromUrlRedirectActionParameters(source.Parameters)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromUrlRedirectActionParameters() to populate field Parameters")
-		}
-		action.Parameters = &parameter
-	} else {
-		action.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToUrlRedirectAction populates the provided destination UrlRedirectAction from our UrlRedirectAction
-func (action *UrlRedirectAction) AssignPropertiesToUrlRedirectAction(destination *v20210601s.UrlRedirectAction) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Name
-	if action.Name != nil {
-		name := string(*action.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
-
-	// Parameters
-	if action.Parameters != nil {
-		var parameter v20210601s.UrlRedirectActionParameters
-		err := action.Parameters.AssignPropertiesToUrlRedirectActionParameters(&parameter)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToUrlRedirectActionParameters() to populate field Parameters")
-		}
-		destination.Parameters = &parameter
-	} else {
-		destination.Parameters = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlRewriteAction
-type UrlRewriteAction struct {
-	// +kubebuilder:validation:Required
-	Name *UrlRewriteActionName `json:"name,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for the url rewrite action.
-	Parameters *UrlRewriteActionParameters `json:"parameters,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &UrlRewriteAction{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (action *UrlRewriteAction) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if action == nil {
-		return nil, nil
-	}
-	result := &UrlRewriteActionARM{}
-
-	// Set property ‘Name’:
-	if action.Name != nil {
-		result.Name = *action.Name
-	}
-
-	// Set property ‘Parameters’:
-	if action.Parameters != nil {
-		parametersARM, err := (*action.Parameters).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		parameters := *parametersARM.(*UrlRewriteActionParametersARM)
-		result.Parameters = &parameters
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (action *UrlRewriteAction) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UrlRewriteActionARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (action *UrlRewriteAction) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UrlRewriteActionARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlRewriteActionARM, got %T", armInput)
-	}
-
-	// Set property ‘Name’:
-	action.Name = &typedInput.Name
-
-	// Set property ‘Parameters’:
-	if typedInput.Parameters != nil {
-		var parameters1 UrlRewriteActionParameters
-		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
-		if err != nil {
-			return err
-		}
-		parameters := parameters1
-		action.Parameters = &parameters
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromUrlRewriteAction populates our UrlRewriteAction from the provided source UrlRewriteAction
-func (action *UrlRewriteAction) AssignPropertiesFromUrlRewriteAction(source *v20210601s.UrlRewriteAction) error {
-
-	// Name
-	if source.Name != nil {
-		name := UrlRewriteActionName(*source.Name)
-		action.Name = &name
-	} else {
-		action.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter UrlRewriteActionParameters
-		err := parameter.AssignPropertiesFromUrlRewriteActionParameters(source.Parameters)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromUrlRewriteActionParameters() to populate field Parameters")
-		}
-		action.Parameters = &parameter
-	} else {
-		action.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToUrlRewriteAction populates the provided destination UrlRewriteAction from our UrlRewriteAction
-func (action *UrlRewriteAction) AssignPropertiesToUrlRewriteAction(destination *v20210601s.UrlRewriteAction) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Name
-	if action.Name != nil {
-		name := string(*action.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
-
-	// Parameters
-	if action.Parameters != nil {
-		var parameter v20210601s.UrlRewriteActionParameters
-		err := action.Parameters.AssignPropertiesToUrlRewriteActionParameters(&parameter)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToUrlRewriteActionParameters() to populate field Parameters")
-		}
-		destination.Parameters = &parameter
-	} else {
-		destination.Parameters = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlSigningAction
-type UrlSigningAction struct {
-	// +kubebuilder:validation:Required
-	Name *UrlSigningActionName `json:"name,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Parameters: Defines the parameters for the Url Signing action.
-	Parameters *UrlSigningActionParameters `json:"parameters,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &UrlSigningAction{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (action *UrlSigningAction) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if action == nil {
-		return nil, nil
-	}
-	result := &UrlSigningActionARM{}
-
-	// Set property ‘Name’:
-	if action.Name != nil {
-		result.Name = *action.Name
-	}
-
-	// Set property ‘Parameters’:
-	if action.Parameters != nil {
-		parametersARM, err := (*action.Parameters).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		parameters := *parametersARM.(*UrlSigningActionParametersARM)
-		result.Parameters = &parameters
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (action *UrlSigningAction) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UrlSigningActionARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (action *UrlSigningAction) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UrlSigningActionARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlSigningActionARM, got %T", armInput)
-	}
-
-	// Set property ‘Name’:
-	action.Name = &typedInput.Name
-
-	// Set property ‘Parameters’:
-	if typedInput.Parameters != nil {
-		var parameters1 UrlSigningActionParameters
-		err := parameters1.PopulateFromARM(owner, *typedInput.Parameters)
-		if err != nil {
-			return err
-		}
-		parameters := parameters1
-		action.Parameters = &parameters
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromUrlSigningAction populates our UrlSigningAction from the provided source UrlSigningAction
-func (action *UrlSigningAction) AssignPropertiesFromUrlSigningAction(source *v20210601s.UrlSigningAction) error {
-
-	// Name
-	if source.Name != nil {
-		name := UrlSigningActionName(*source.Name)
-		action.Name = &name
-	} else {
-		action.Name = nil
-	}
-
-	// Parameters
-	if source.Parameters != nil {
-		var parameter UrlSigningActionParameters
-		err := parameter.AssignPropertiesFromUrlSigningActionParameters(source.Parameters)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromUrlSigningActionParameters() to populate field Parameters")
-		}
-		action.Parameters = &parameter
-	} else {
-		action.Parameters = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToUrlSigningAction populates the provided destination UrlSigningAction from our UrlSigningAction
-func (action *UrlSigningAction) AssignPropertiesToUrlSigningAction(destination *v20210601s.UrlSigningAction) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Name
-	if action.Name != nil {
-		name := string(*action.Name)
-		destination.Name = &name
-	} else {
-		destination.Name = nil
-	}
-
-	// Parameters
-	if action.Parameters != nil {
-		var parameter v20210601s.UrlSigningActionParameters
-		err := action.Parameters.AssignPropertiesToUrlSigningActionParameters(&parameter)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToUrlSigningActionParameters() to populate field Parameters")
-		}
-		destination.Parameters = &parameter
-	} else {
-		destination.Parameters = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/CacheExpirationActionParameters
-type CacheExpirationActionParameters struct {
-	// +kubebuilder:validation:Required
-	// CacheBehavior: Caching behavior for the requests.
-	CacheBehavior *CacheExpirationActionParametersCacheBehavior `json:"cacheBehavior,omitempty"`
-
-	// CacheDuration: The duration for which the content needs to be cached. Allowed format is [d.]hh:mm:ss
-	CacheDuration *string `json:"cacheDuration,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// CacheType: The level at which the content needs to be cached.
-	CacheType *CacheExpirationActionParametersCacheType `json:"cacheType,omitempty"`
-
-	// +kubebuilder:validation:Required
-	TypeName *CacheExpirationActionParametersTypeName `json:"typeName,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &CacheExpirationActionParameters{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (parameters *CacheExpirationActionParameters) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if parameters == nil {
-		return nil, nil
-	}
-	result := &CacheExpirationActionParametersARM{}
-
-	// Set property ‘CacheBehavior’:
-	if parameters.CacheBehavior != nil {
-		cacheBehavior := *parameters.CacheBehavior
-		result.CacheBehavior = &cacheBehavior
-	}
-
-	// Set property ‘CacheDuration’:
-	if parameters.CacheDuration != nil {
-		cacheDuration := *parameters.CacheDuration
-		result.CacheDuration = &cacheDuration
-	}
-
-	// Set property ‘CacheType’:
-	if parameters.CacheType != nil {
-		cacheType := *parameters.CacheType
-		result.CacheType = &cacheType
-	}
-
-	// Set property ‘TypeName’:
-	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
-		result.TypeName = &typeName
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *CacheExpirationActionParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CacheExpirationActionParametersARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *CacheExpirationActionParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CacheExpirationActionParametersARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CacheExpirationActionParametersARM, got %T", armInput)
-	}
-
-	// Set property ‘CacheBehavior’:
-	if typedInput.CacheBehavior != nil {
-		cacheBehavior := *typedInput.CacheBehavior
-		parameters.CacheBehavior = &cacheBehavior
-	}
-
-	// Set property ‘CacheDuration’:
-	if typedInput.CacheDuration != nil {
-		cacheDuration := *typedInput.CacheDuration
-		parameters.CacheDuration = &cacheDuration
-	}
-
-	// Set property ‘CacheType’:
-	if typedInput.CacheType != nil {
-		cacheType := *typedInput.CacheType
-		parameters.CacheType = &cacheType
-	}
-
-	// Set property ‘TypeName’:
-	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
-		parameters.TypeName = &typeName
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromCacheExpirationActionParameters populates our CacheExpirationActionParameters from the provided source CacheExpirationActionParameters
-func (parameters *CacheExpirationActionParameters) AssignPropertiesFromCacheExpirationActionParameters(source *v20210601s.CacheExpirationActionParameters) error {
-
-	// CacheBehavior
-	if source.CacheBehavior != nil {
-		cacheBehavior := CacheExpirationActionParametersCacheBehavior(*source.CacheBehavior)
-		parameters.CacheBehavior = &cacheBehavior
-	} else {
-		parameters.CacheBehavior = nil
-	}
-
-	// CacheDuration
-	parameters.CacheDuration = genruntime.ClonePointerToString(source.CacheDuration)
-
-	// CacheType
-	if source.CacheType != nil {
-		cacheType := CacheExpirationActionParametersCacheType(*source.CacheType)
-		parameters.CacheType = &cacheType
-	} else {
-		parameters.CacheType = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := CacheExpirationActionParametersTypeName(*source.TypeName)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToCacheExpirationActionParameters populates the provided destination CacheExpirationActionParameters from our CacheExpirationActionParameters
-func (parameters *CacheExpirationActionParameters) AssignPropertiesToCacheExpirationActionParameters(destination *v20210601s.CacheExpirationActionParameters) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// CacheBehavior
-	if parameters.CacheBehavior != nil {
-		cacheBehavior := string(*parameters.CacheBehavior)
-		destination.CacheBehavior = &cacheBehavior
-	} else {
-		destination.CacheBehavior = nil
-	}
-
-	// CacheDuration
-	destination.CacheDuration = genruntime.ClonePointerToString(parameters.CacheDuration)
-
-	// CacheType
-	if parameters.CacheType != nil {
-		cacheType := string(*parameters.CacheType)
-		destination.CacheType = &cacheType
-	} else {
-		destination.CacheType = nil
-	}
-
-	// TypeName
-	if parameters.TypeName != nil {
-		typeName := string(*parameters.TypeName)
-		destination.TypeName = &typeName
-	} else {
-		destination.TypeName = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/CacheKeyQueryStringActionParameters
-type CacheKeyQueryStringActionParameters struct {
-	// QueryParameters: query parameters to include or exclude (comma separated).
-	QueryParameters *string `json:"queryParameters,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// QueryStringBehavior: Caching behavior for the requests.
-	QueryStringBehavior *CacheKeyQueryStringActionParametersQueryStringBehavior `json:"queryStringBehavior,omitempty"`
-
-	// +kubebuilder:validation:Required
-	TypeName *CacheKeyQueryStringActionParametersTypeName `json:"typeName,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &CacheKeyQueryStringActionParameters{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (parameters *CacheKeyQueryStringActionParameters) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if parameters == nil {
-		return nil, nil
-	}
-	result := &CacheKeyQueryStringActionParametersARM{}
-
-	// Set property ‘QueryParameters’:
-	if parameters.QueryParameters != nil {
-		queryParameters := *parameters.QueryParameters
-		result.QueryParameters = &queryParameters
-	}
-
-	// Set property ‘QueryStringBehavior’:
-	if parameters.QueryStringBehavior != nil {
-		queryStringBehavior := *parameters.QueryStringBehavior
-		result.QueryStringBehavior = &queryStringBehavior
-	}
-
-	// Set property ‘TypeName’:
-	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
-		result.TypeName = &typeName
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *CacheKeyQueryStringActionParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CacheKeyQueryStringActionParametersARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *CacheKeyQueryStringActionParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CacheKeyQueryStringActionParametersARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CacheKeyQueryStringActionParametersARM, got %T", armInput)
-	}
-
-	// Set property ‘QueryParameters’:
-	if typedInput.QueryParameters != nil {
-		queryParameters := *typedInput.QueryParameters
-		parameters.QueryParameters = &queryParameters
-	}
-
-	// Set property ‘QueryStringBehavior’:
-	if typedInput.QueryStringBehavior != nil {
-		queryStringBehavior := *typedInput.QueryStringBehavior
-		parameters.QueryStringBehavior = &queryStringBehavior
-	}
-
-	// Set property ‘TypeName’:
-	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
-		parameters.TypeName = &typeName
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromCacheKeyQueryStringActionParameters populates our CacheKeyQueryStringActionParameters from the provided source CacheKeyQueryStringActionParameters
-func (parameters *CacheKeyQueryStringActionParameters) AssignPropertiesFromCacheKeyQueryStringActionParameters(source *v20210601s.CacheKeyQueryStringActionParameters) error {
-
-	// QueryParameters
-	parameters.QueryParameters = genruntime.ClonePointerToString(source.QueryParameters)
-
-	// QueryStringBehavior
-	if source.QueryStringBehavior != nil {
-		queryStringBehavior := CacheKeyQueryStringActionParametersQueryStringBehavior(*source.QueryStringBehavior)
-		parameters.QueryStringBehavior = &queryStringBehavior
-	} else {
-		parameters.QueryStringBehavior = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := CacheKeyQueryStringActionParametersTypeName(*source.TypeName)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToCacheKeyQueryStringActionParameters populates the provided destination CacheKeyQueryStringActionParameters from our CacheKeyQueryStringActionParameters
-func (parameters *CacheKeyQueryStringActionParameters) AssignPropertiesToCacheKeyQueryStringActionParameters(destination *v20210601s.CacheKeyQueryStringActionParameters) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// QueryParameters
-	destination.QueryParameters = genruntime.ClonePointerToString(parameters.QueryParameters)
-
-	// QueryStringBehavior
-	if parameters.QueryStringBehavior != nil {
-		queryStringBehavior := string(*parameters.QueryStringBehavior)
-		destination.QueryStringBehavior = &queryStringBehavior
-	} else {
-		destination.QueryStringBehavior = nil
-	}
-
-	// TypeName
-	if parameters.TypeName != nil {
-		typeName := string(*parameters.TypeName)
-		destination.TypeName = &typeName
-	} else {
-		destination.TypeName = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/ClientPortMatchConditionParameters
-type ClientPortMatchConditionParameters struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched.
-	Operator *ClientPortMatchConditionParametersOperator `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []ClientPortMatchConditionParametersTransforms `json:"transforms,omitempty"`
-
-	// +kubebuilder:validation:Required
-	TypeName *ClientPortMatchConditionParametersTypeName `json:"typeName,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &ClientPortMatchConditionParameters{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (parameters *ClientPortMatchConditionParameters) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if parameters == nil {
-		return nil, nil
-	}
-	result := &ClientPortMatchConditionParametersARM{}
-
-	// Set property ‘MatchValues’:
-	for _, item := range parameters.MatchValues {
-		result.MatchValues = append(result.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		result.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if parameters.Operator != nil {
-		operator := *parameters.Operator
-		result.Operator = &operator
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
-		result.TypeName = &typeName
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *ClientPortMatchConditionParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ClientPortMatchConditionParametersARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *ClientPortMatchConditionParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ClientPortMatchConditionParametersARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ClientPortMatchConditionParametersARM, got %T", armInput)
-	}
-
-	// Set property ‘MatchValues’:
-	for _, item := range typedInput.MatchValues {
-		parameters.MatchValues = append(parameters.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if typedInput.NegateCondition != nil {
-		negateCondition := *typedInput.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
-		parameters.Operator = &operator
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
-		parameters.TypeName = &typeName
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromClientPortMatchConditionParameters populates our ClientPortMatchConditionParameters from the provided source ClientPortMatchConditionParameters
-func (parameters *ClientPortMatchConditionParameters) AssignPropertiesFromClientPortMatchConditionParameters(source *v20210601s.ClientPortMatchConditionParameters) error {
-
-	// MatchValues
-	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := ClientPortMatchConditionParametersOperator(*source.Operator)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]ClientPortMatchConditionParametersTransforms, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = ClientPortMatchConditionParametersTransforms(transformItem)
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := ClientPortMatchConditionParametersTypeName(*source.TypeName)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToClientPortMatchConditionParameters populates the provided destination ClientPortMatchConditionParameters from our ClientPortMatchConditionParameters
-func (parameters *ClientPortMatchConditionParameters) AssignPropertiesToClientPortMatchConditionParameters(destination *v20210601s.ClientPortMatchConditionParameters) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// MatchValues
-	destination.MatchValues = genruntime.CloneSliceOfString(parameters.MatchValues)
-
-	// NegateCondition
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		destination.NegateCondition = &negateCondition
-	} else {
-		destination.NegateCondition = nil
-	}
-
-	// Operator
-	if parameters.Operator != nil {
-		operator := string(*parameters.Operator)
-		destination.Operator = &operator
-	} else {
-		destination.Operator = nil
-	}
-
-	// Transforms
-	if parameters.Transforms != nil {
-		transformList := make([]string, len(parameters.Transforms))
-		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = string(transformItem)
-		}
-		destination.Transforms = transformList
-	} else {
-		destination.Transforms = nil
-	}
-
-	// TypeName
-	if parameters.TypeName != nil {
-		typeName := string(*parameters.TypeName)
-		destination.TypeName = &typeName
-	} else {
-		destination.TypeName = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/CookiesMatchConditionParameters
-type CookiesMatchConditionParameters struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched.
-	Operator *CookiesMatchConditionParametersOperator `json:"operator,omitempty"`
-
-	// Selector: Name of Cookies to be matched
-	Selector *string `json:"selector,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []CookiesMatchConditionParametersTransforms `json:"transforms,omitempty"`
-
-	// +kubebuilder:validation:Required
-	TypeName *CookiesMatchConditionParametersTypeName `json:"typeName,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &CookiesMatchConditionParameters{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (parameters *CookiesMatchConditionParameters) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if parameters == nil {
-		return nil, nil
-	}
-	result := &CookiesMatchConditionParametersARM{}
-
-	// Set property ‘MatchValues’:
-	for _, item := range parameters.MatchValues {
-		result.MatchValues = append(result.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		result.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if parameters.Operator != nil {
-		operator := *parameters.Operator
-		result.Operator = &operator
-	}
-
-	// Set property ‘Selector’:
-	if parameters.Selector != nil {
-		selector := *parameters.Selector
-		result.Selector = &selector
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
-		result.TypeName = &typeName
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *CookiesMatchConditionParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CookiesMatchConditionParametersARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *CookiesMatchConditionParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CookiesMatchConditionParametersARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CookiesMatchConditionParametersARM, got %T", armInput)
-	}
-
-	// Set property ‘MatchValues’:
-	for _, item := range typedInput.MatchValues {
-		parameters.MatchValues = append(parameters.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if typedInput.NegateCondition != nil {
-		negateCondition := *typedInput.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
-		parameters.Operator = &operator
-	}
-
-	// Set property ‘Selector’:
-	if typedInput.Selector != nil {
-		selector := *typedInput.Selector
-		parameters.Selector = &selector
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
-		parameters.TypeName = &typeName
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromCookiesMatchConditionParameters populates our CookiesMatchConditionParameters from the provided source CookiesMatchConditionParameters
-func (parameters *CookiesMatchConditionParameters) AssignPropertiesFromCookiesMatchConditionParameters(source *v20210601s.CookiesMatchConditionParameters) error {
-
-	// MatchValues
-	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := CookiesMatchConditionParametersOperator(*source.Operator)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Selector
-	parameters.Selector = genruntime.ClonePointerToString(source.Selector)
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]CookiesMatchConditionParametersTransforms, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = CookiesMatchConditionParametersTransforms(transformItem)
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := CookiesMatchConditionParametersTypeName(*source.TypeName)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToCookiesMatchConditionParameters populates the provided destination CookiesMatchConditionParameters from our CookiesMatchConditionParameters
-func (parameters *CookiesMatchConditionParameters) AssignPropertiesToCookiesMatchConditionParameters(destination *v20210601s.CookiesMatchConditionParameters) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// MatchValues
-	destination.MatchValues = genruntime.CloneSliceOfString(parameters.MatchValues)
-
-	// NegateCondition
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		destination.NegateCondition = &negateCondition
-	} else {
-		destination.NegateCondition = nil
-	}
-
-	// Operator
-	if parameters.Operator != nil {
-		operator := string(*parameters.Operator)
-		destination.Operator = &operator
-	} else {
-		destination.Operator = nil
-	}
-
-	// Selector
-	destination.Selector = genruntime.ClonePointerToString(parameters.Selector)
-
-	// Transforms
-	if parameters.Transforms != nil {
-		transformList := make([]string, len(parameters.Transforms))
-		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = string(transformItem)
-		}
-		destination.Transforms = transformList
-	} else {
-		destination.Transforms = nil
-	}
-
-	// TypeName
-	if parameters.TypeName != nil {
-		typeName := string(*parameters.TypeName)
-		destination.TypeName = &typeName
-	} else {
-		destination.TypeName = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// +kubebuilder:validation:Enum={"CacheExpiration"}
-type DeliveryRuleCacheExpirationActionName string
-
-const DeliveryRuleCacheExpirationActionNameCacheExpiration = DeliveryRuleCacheExpirationActionName("CacheExpiration")
-
-// +kubebuilder:validation:Enum={"CacheKeyQueryString"}
-type DeliveryRuleCacheKeyQueryStringActionName string
-
-const DeliveryRuleCacheKeyQueryStringActionNameCacheKeyQueryString = DeliveryRuleCacheKeyQueryStringActionName("CacheKeyQueryString")
-
-// +kubebuilder:validation:Enum={"ClientPort"}
-type DeliveryRuleClientPortConditionName string
-
-const DeliveryRuleClientPortConditionNameClientPort = DeliveryRuleClientPortConditionName("ClientPort")
-
-// +kubebuilder:validation:Enum={"Cookies"}
-type DeliveryRuleCookiesConditionName string
-
-const DeliveryRuleCookiesConditionNameCookies = DeliveryRuleCookiesConditionName("Cookies")
-
-// +kubebuilder:validation:Enum={"HostName"}
-type DeliveryRuleHostNameConditionName string
-
-const DeliveryRuleHostNameConditionNameHostName = DeliveryRuleHostNameConditionName("HostName")
-
-// +kubebuilder:validation:Enum={"HttpVersion"}
-type DeliveryRuleHttpVersionConditionName string
-
-const DeliveryRuleHttpVersionConditionNameHttpVersion = DeliveryRuleHttpVersionConditionName("HttpVersion")
-
-// +kubebuilder:validation:Enum={"IsDevice"}
-type DeliveryRuleIsDeviceConditionName string
-
-const DeliveryRuleIsDeviceConditionNameIsDevice = DeliveryRuleIsDeviceConditionName("IsDevice")
-
-// +kubebuilder:validation:Enum={"PostArgs"}
-type DeliveryRulePostArgsConditionName string
-
-const DeliveryRulePostArgsConditionNamePostArgs = DeliveryRulePostArgsConditionName("PostArgs")
-
-// +kubebuilder:validation:Enum={"QueryString"}
-type DeliveryRuleQueryStringConditionName string
-
-const DeliveryRuleQueryStringConditionNameQueryString = DeliveryRuleQueryStringConditionName("QueryString")
-
-// +kubebuilder:validation:Enum={"RemoteAddress"}
-type DeliveryRuleRemoteAddressConditionName string
-
-const DeliveryRuleRemoteAddressConditionNameRemoteAddress = DeliveryRuleRemoteAddressConditionName("RemoteAddress")
-
-// +kubebuilder:validation:Enum={"RequestBody"}
-type DeliveryRuleRequestBodyConditionName string
-
-const DeliveryRuleRequestBodyConditionNameRequestBody = DeliveryRuleRequestBodyConditionName("RequestBody")
-
-// +kubebuilder:validation:Enum={"ModifyRequestHeader"}
-type DeliveryRuleRequestHeaderActionName string
-
-const DeliveryRuleRequestHeaderActionNameModifyRequestHeader = DeliveryRuleRequestHeaderActionName("ModifyRequestHeader")
-
-// +kubebuilder:validation:Enum={"RequestHeader"}
-type DeliveryRuleRequestHeaderConditionName string
-
-const DeliveryRuleRequestHeaderConditionNameRequestHeader = DeliveryRuleRequestHeaderConditionName("RequestHeader")
-
-// +kubebuilder:validation:Enum={"RequestMethod"}
-type DeliveryRuleRequestMethodConditionName string
-
-const DeliveryRuleRequestMethodConditionNameRequestMethod = DeliveryRuleRequestMethodConditionName("RequestMethod")
-
-// +kubebuilder:validation:Enum={"RequestScheme"}
-type DeliveryRuleRequestSchemeConditionName string
-
-const DeliveryRuleRequestSchemeConditionNameRequestScheme = DeliveryRuleRequestSchemeConditionName("RequestScheme")
-
-// +kubebuilder:validation:Enum={"RequestUri"}
-type DeliveryRuleRequestUriConditionName string
-
-const DeliveryRuleRequestUriConditionNameRequestUri = DeliveryRuleRequestUriConditionName("RequestUri")
-
-// +kubebuilder:validation:Enum={"ModifyResponseHeader"}
-type DeliveryRuleResponseHeaderActionName string
-
-const DeliveryRuleResponseHeaderActionNameModifyResponseHeader = DeliveryRuleResponseHeaderActionName("ModifyResponseHeader")
-
-// +kubebuilder:validation:Enum={"RouteConfigurationOverride"}
-type DeliveryRuleRouteConfigurationOverrideActionName string
-
-const DeliveryRuleRouteConfigurationOverrideActionNameRouteConfigurationOverride = DeliveryRuleRouteConfigurationOverrideActionName("RouteConfigurationOverride")
-
-// +kubebuilder:validation:Enum={"ServerPort"}
-type DeliveryRuleServerPortConditionName string
-
-const DeliveryRuleServerPortConditionNameServerPort = DeliveryRuleServerPortConditionName("ServerPort")
-
-// +kubebuilder:validation:Enum={"SocketAddr"}
-type DeliveryRuleSocketAddrConditionName string
-
-const DeliveryRuleSocketAddrConditionNameSocketAddr = DeliveryRuleSocketAddrConditionName("SocketAddr")
-
-// +kubebuilder:validation:Enum={"SslProtocol"}
-type DeliveryRuleSslProtocolConditionName string
-
-const DeliveryRuleSslProtocolConditionNameSslProtocol = DeliveryRuleSslProtocolConditionName("SslProtocol")
-
-// +kubebuilder:validation:Enum={"UrlFileExtension"}
-type DeliveryRuleUrlFileExtensionConditionName string
-
-const DeliveryRuleUrlFileExtensionConditionNameUrlFileExtension = DeliveryRuleUrlFileExtensionConditionName("UrlFileExtension")
-
-// +kubebuilder:validation:Enum={"UrlFileName"}
-type DeliveryRuleUrlFileNameConditionName string
-
-const DeliveryRuleUrlFileNameConditionNameUrlFileName = DeliveryRuleUrlFileNameConditionName("UrlFileName")
-
-// +kubebuilder:validation:Enum={"UrlPath"}
-type DeliveryRuleUrlPathConditionName string
-
-const DeliveryRuleUrlPathConditionNameUrlPath = DeliveryRuleUrlPathConditionName("UrlPath")
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/HeaderActionParameters
-type HeaderActionParameters struct {
-	// +kubebuilder:validation:Required
-	// HeaderAction: Action to perform.
-	HeaderAction *HeaderActionParametersHeaderAction `json:"headerAction,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// HeaderName: Name of the header to modify
-	HeaderName *string `json:"headerName,omitempty"`
-
-	// +kubebuilder:validation:Required
-	TypeName *HeaderActionParametersTypeName `json:"typeName,omitempty"`
-
-	// Value: Value for the specified action
-	Value *string `json:"value,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &HeaderActionParameters{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (parameters *HeaderActionParameters) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if parameters == nil {
-		return nil, nil
-	}
-	result := &HeaderActionParametersARM{}
-
-	// Set property ‘HeaderAction’:
-	if parameters.HeaderAction != nil {
-		headerAction := *parameters.HeaderAction
-		result.HeaderAction = &headerAction
-	}
-
-	// Set property ‘HeaderName’:
-	if parameters.HeaderName != nil {
-		headerName := *parameters.HeaderName
-		result.HeaderName = &headerName
-	}
-
-	// Set property ‘TypeName’:
-	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
-		result.TypeName = &typeName
-	}
-
-	// Set property ‘Value’:
-	if parameters.Value != nil {
-		value := *parameters.Value
-		result.Value = &value
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *HeaderActionParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &HeaderActionParametersARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *HeaderActionParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(HeaderActionParametersARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HeaderActionParametersARM, got %T", armInput)
-	}
-
-	// Set property ‘HeaderAction’:
-	if typedInput.HeaderAction != nil {
-		headerAction := *typedInput.HeaderAction
-		parameters.HeaderAction = &headerAction
-	}
-
-	// Set property ‘HeaderName’:
-	if typedInput.HeaderName != nil {
-		headerName := *typedInput.HeaderName
-		parameters.HeaderName = &headerName
-	}
-
-	// Set property ‘TypeName’:
-	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
-		parameters.TypeName = &typeName
-	}
-
-	// Set property ‘Value’:
-	if typedInput.Value != nil {
-		value := *typedInput.Value
-		parameters.Value = &value
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromHeaderActionParameters populates our HeaderActionParameters from the provided source HeaderActionParameters
-func (parameters *HeaderActionParameters) AssignPropertiesFromHeaderActionParameters(source *v20210601s.HeaderActionParameters) error {
-
-	// HeaderAction
-	if source.HeaderAction != nil {
-		headerAction := HeaderActionParametersHeaderAction(*source.HeaderAction)
-		parameters.HeaderAction = &headerAction
-	} else {
-		parameters.HeaderAction = nil
-	}
-
-	// HeaderName
-	parameters.HeaderName = genruntime.ClonePointerToString(source.HeaderName)
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := HeaderActionParametersTypeName(*source.TypeName)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// Value
-	parameters.Value = genruntime.ClonePointerToString(source.Value)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToHeaderActionParameters populates the provided destination HeaderActionParameters from our HeaderActionParameters
-func (parameters *HeaderActionParameters) AssignPropertiesToHeaderActionParameters(destination *v20210601s.HeaderActionParameters) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// HeaderAction
-	if parameters.HeaderAction != nil {
-		headerAction := string(*parameters.HeaderAction)
-		destination.HeaderAction = &headerAction
-	} else {
-		destination.HeaderAction = nil
-	}
-
-	// HeaderName
-	destination.HeaderName = genruntime.ClonePointerToString(parameters.HeaderName)
-
-	// TypeName
-	if parameters.TypeName != nil {
-		typeName := string(*parameters.TypeName)
-		destination.TypeName = &typeName
-	} else {
-		destination.TypeName = nil
-	}
-
-	// Value
-	destination.Value = genruntime.ClonePointerToString(parameters.Value)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/HostNameMatchConditionParameters
-type HostNameMatchConditionParameters struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched.
-	Operator *HostNameMatchConditionParametersOperator `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []HostNameMatchConditionParametersTransforms `json:"transforms,omitempty"`
-
-	// +kubebuilder:validation:Required
-	TypeName *HostNameMatchConditionParametersTypeName `json:"typeName,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &HostNameMatchConditionParameters{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (parameters *HostNameMatchConditionParameters) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if parameters == nil {
-		return nil, nil
-	}
-	result := &HostNameMatchConditionParametersARM{}
-
-	// Set property ‘MatchValues’:
-	for _, item := range parameters.MatchValues {
-		result.MatchValues = append(result.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		result.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if parameters.Operator != nil {
-		operator := *parameters.Operator
-		result.Operator = &operator
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
-		result.TypeName = &typeName
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *HostNameMatchConditionParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &HostNameMatchConditionParametersARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *HostNameMatchConditionParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(HostNameMatchConditionParametersARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HostNameMatchConditionParametersARM, got %T", armInput)
-	}
-
-	// Set property ‘MatchValues’:
-	for _, item := range typedInput.MatchValues {
-		parameters.MatchValues = append(parameters.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if typedInput.NegateCondition != nil {
-		negateCondition := *typedInput.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
-		parameters.Operator = &operator
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
-		parameters.TypeName = &typeName
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromHostNameMatchConditionParameters populates our HostNameMatchConditionParameters from the provided source HostNameMatchConditionParameters
-func (parameters *HostNameMatchConditionParameters) AssignPropertiesFromHostNameMatchConditionParameters(source *v20210601s.HostNameMatchConditionParameters) error {
-
-	// MatchValues
-	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := HostNameMatchConditionParametersOperator(*source.Operator)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]HostNameMatchConditionParametersTransforms, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = HostNameMatchConditionParametersTransforms(transformItem)
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := HostNameMatchConditionParametersTypeName(*source.TypeName)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToHostNameMatchConditionParameters populates the provided destination HostNameMatchConditionParameters from our HostNameMatchConditionParameters
-func (parameters *HostNameMatchConditionParameters) AssignPropertiesToHostNameMatchConditionParameters(destination *v20210601s.HostNameMatchConditionParameters) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// MatchValues
-	destination.MatchValues = genruntime.CloneSliceOfString(parameters.MatchValues)
-
-	// NegateCondition
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		destination.NegateCondition = &negateCondition
-	} else {
-		destination.NegateCondition = nil
-	}
-
-	// Operator
-	if parameters.Operator != nil {
-		operator := string(*parameters.Operator)
-		destination.Operator = &operator
-	} else {
-		destination.Operator = nil
-	}
-
-	// Transforms
-	if parameters.Transforms != nil {
-		transformList := make([]string, len(parameters.Transforms))
-		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = string(transformItem)
-		}
-		destination.Transforms = transformList
-	} else {
-		destination.Transforms = nil
-	}
-
-	// TypeName
-	if parameters.TypeName != nil {
-		typeName := string(*parameters.TypeName)
-		destination.TypeName = &typeName
-	} else {
-		destination.TypeName = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/HttpVersionMatchConditionParameters
-type HttpVersionMatchConditionParameters struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched
-	Operator *HttpVersionMatchConditionParametersOperator `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []HttpVersionMatchConditionParametersTransforms `json:"transforms,omitempty"`
-
-	// +kubebuilder:validation:Required
-	TypeName *HttpVersionMatchConditionParametersTypeName `json:"typeName,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &HttpVersionMatchConditionParameters{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (parameters *HttpVersionMatchConditionParameters) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if parameters == nil {
-		return nil, nil
-	}
-	result := &HttpVersionMatchConditionParametersARM{}
-
-	// Set property ‘MatchValues’:
-	for _, item := range parameters.MatchValues {
-		result.MatchValues = append(result.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		result.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if parameters.Operator != nil {
-		operator := *parameters.Operator
-		result.Operator = &operator
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
-		result.TypeName = &typeName
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *HttpVersionMatchConditionParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &HttpVersionMatchConditionParametersARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *HttpVersionMatchConditionParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(HttpVersionMatchConditionParametersARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected HttpVersionMatchConditionParametersARM, got %T", armInput)
-	}
-
-	// Set property ‘MatchValues’:
-	for _, item := range typedInput.MatchValues {
-		parameters.MatchValues = append(parameters.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if typedInput.NegateCondition != nil {
-		negateCondition := *typedInput.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
-		parameters.Operator = &operator
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
-		parameters.TypeName = &typeName
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromHttpVersionMatchConditionParameters populates our HttpVersionMatchConditionParameters from the provided source HttpVersionMatchConditionParameters
-func (parameters *HttpVersionMatchConditionParameters) AssignPropertiesFromHttpVersionMatchConditionParameters(source *v20210601s.HttpVersionMatchConditionParameters) error {
-
-	// MatchValues
-	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := HttpVersionMatchConditionParametersOperator(*source.Operator)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]HttpVersionMatchConditionParametersTransforms, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = HttpVersionMatchConditionParametersTransforms(transformItem)
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := HttpVersionMatchConditionParametersTypeName(*source.TypeName)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToHttpVersionMatchConditionParameters populates the provided destination HttpVersionMatchConditionParameters from our HttpVersionMatchConditionParameters
-func (parameters *HttpVersionMatchConditionParameters) AssignPropertiesToHttpVersionMatchConditionParameters(destination *v20210601s.HttpVersionMatchConditionParameters) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// MatchValues
-	destination.MatchValues = genruntime.CloneSliceOfString(parameters.MatchValues)
-
-	// NegateCondition
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		destination.NegateCondition = &negateCondition
-	} else {
-		destination.NegateCondition = nil
-	}
-
-	// Operator
-	if parameters.Operator != nil {
-		operator := string(*parameters.Operator)
-		destination.Operator = &operator
-	} else {
-		destination.Operator = nil
-	}
-
-	// Transforms
-	if parameters.Transforms != nil {
-		transformList := make([]string, len(parameters.Transforms))
-		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = string(transformItem)
-		}
-		destination.Transforms = transformList
-	} else {
-		destination.Transforms = nil
-	}
-
-	// TypeName
-	if parameters.TypeName != nil {
-		typeName := string(*parameters.TypeName)
-		destination.TypeName = &typeName
-	} else {
-		destination.TypeName = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/IsDeviceMatchConditionParameters
-type IsDeviceMatchConditionParameters struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []IsDeviceMatchConditionParametersMatchValues `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched
-	Operator *IsDeviceMatchConditionParametersOperator `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []IsDeviceMatchConditionParametersTransforms `json:"transforms,omitempty"`
-
-	// +kubebuilder:validation:Required
-	TypeName *IsDeviceMatchConditionParametersTypeName `json:"typeName,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &IsDeviceMatchConditionParameters{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (parameters *IsDeviceMatchConditionParameters) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if parameters == nil {
-		return nil, nil
-	}
-	result := &IsDeviceMatchConditionParametersARM{}
-
-	// Set property ‘MatchValues’:
-	for _, item := range parameters.MatchValues {
-		result.MatchValues = append(result.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		result.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if parameters.Operator != nil {
-		operator := *parameters.Operator
-		result.Operator = &operator
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
-		result.TypeName = &typeName
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *IsDeviceMatchConditionParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &IsDeviceMatchConditionParametersARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *IsDeviceMatchConditionParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(IsDeviceMatchConditionParametersARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IsDeviceMatchConditionParametersARM, got %T", armInput)
-	}
-
-	// Set property ‘MatchValues’:
-	for _, item := range typedInput.MatchValues {
-		parameters.MatchValues = append(parameters.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if typedInput.NegateCondition != nil {
-		negateCondition := *typedInput.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
-		parameters.Operator = &operator
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
-		parameters.TypeName = &typeName
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromIsDeviceMatchConditionParameters populates our IsDeviceMatchConditionParameters from the provided source IsDeviceMatchConditionParameters
-func (parameters *IsDeviceMatchConditionParameters) AssignPropertiesFromIsDeviceMatchConditionParameters(source *v20210601s.IsDeviceMatchConditionParameters) error {
-
-	// MatchValues
-	if source.MatchValues != nil {
-		matchValueList := make([]IsDeviceMatchConditionParametersMatchValues, len(source.MatchValues))
-		for matchValueIndex, matchValueItem := range source.MatchValues {
-			// Shadow the loop variable to avoid aliasing
-			matchValueItem := matchValueItem
-			matchValueList[matchValueIndex] = IsDeviceMatchConditionParametersMatchValues(matchValueItem)
-		}
-		parameters.MatchValues = matchValueList
-	} else {
-		parameters.MatchValues = nil
-	}
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := IsDeviceMatchConditionParametersOperator(*source.Operator)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]IsDeviceMatchConditionParametersTransforms, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = IsDeviceMatchConditionParametersTransforms(transformItem)
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := IsDeviceMatchConditionParametersTypeName(*source.TypeName)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToIsDeviceMatchConditionParameters populates the provided destination IsDeviceMatchConditionParameters from our IsDeviceMatchConditionParameters
-func (parameters *IsDeviceMatchConditionParameters) AssignPropertiesToIsDeviceMatchConditionParameters(destination *v20210601s.IsDeviceMatchConditionParameters) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// MatchValues
-	if parameters.MatchValues != nil {
-		matchValueList := make([]string, len(parameters.MatchValues))
-		for matchValueIndex, matchValueItem := range parameters.MatchValues {
-			// Shadow the loop variable to avoid aliasing
-			matchValueItem := matchValueItem
-			matchValueList[matchValueIndex] = string(matchValueItem)
-		}
-		destination.MatchValues = matchValueList
-	} else {
-		destination.MatchValues = nil
-	}
-
-	// NegateCondition
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		destination.NegateCondition = &negateCondition
-	} else {
-		destination.NegateCondition = nil
-	}
-
-	// Operator
-	if parameters.Operator != nil {
-		operator := string(*parameters.Operator)
-		destination.Operator = &operator
-	} else {
-		destination.Operator = nil
-	}
-
-	// Transforms
-	if parameters.Transforms != nil {
-		transformList := make([]string, len(parameters.Transforms))
-		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = string(transformItem)
-		}
-		destination.Transforms = transformList
-	} else {
-		destination.Transforms = nil
-	}
-
-	// TypeName
-	if parameters.TypeName != nil {
-		typeName := string(*parameters.TypeName)
-		destination.TypeName = &typeName
-	} else {
-		destination.TypeName = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// +kubebuilder:validation:Enum={"OriginGroupOverride"}
-type OriginGroupOverrideActionName string
-
-const OriginGroupOverrideActionNameOriginGroupOverride = OriginGroupOverrideActionName("OriginGroupOverride")
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/OriginGroupOverrideActionParameters
-type OriginGroupOverrideActionParameters struct {
-	// +kubebuilder:validation:Required
-	// OriginGroup: Reference to another resource.
-	OriginGroup *ResourceReference `json:"originGroup,omitempty"`
-
-	// +kubebuilder:validation:Required
-	TypeName *OriginGroupOverrideActionParametersTypeName `json:"typeName,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &OriginGroupOverrideActionParameters{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (parameters *OriginGroupOverrideActionParameters) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if parameters == nil {
-		return nil, nil
-	}
-	result := &OriginGroupOverrideActionParametersARM{}
-
-	// Set property ‘OriginGroup’:
-	if parameters.OriginGroup != nil {
-		originGroupARM, err := (*parameters.OriginGroup).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		originGroup := *originGroupARM.(*ResourceReferenceARM)
-		result.OriginGroup = &originGroup
-	}
-
-	// Set property ‘TypeName’:
-	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
-		result.TypeName = &typeName
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *OriginGroupOverrideActionParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &OriginGroupOverrideActionParametersARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *OriginGroupOverrideActionParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(OriginGroupOverrideActionParametersARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OriginGroupOverrideActionParametersARM, got %T", armInput)
-	}
-
-	// Set property ‘OriginGroup’:
-	if typedInput.OriginGroup != nil {
-		var originGroup1 ResourceReference
-		err := originGroup1.PopulateFromARM(owner, *typedInput.OriginGroup)
-		if err != nil {
-			return err
-		}
-		originGroup := originGroup1
-		parameters.OriginGroup = &originGroup
-	}
-
-	// Set property ‘TypeName’:
-	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
-		parameters.TypeName = &typeName
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromOriginGroupOverrideActionParameters populates our OriginGroupOverrideActionParameters from the provided source OriginGroupOverrideActionParameters
-func (parameters *OriginGroupOverrideActionParameters) AssignPropertiesFromOriginGroupOverrideActionParameters(source *v20210601s.OriginGroupOverrideActionParameters) error {
-
-	// OriginGroup
-	if source.OriginGroup != nil {
-		var originGroup ResourceReference
-		err := originGroup.AssignPropertiesFromResourceReference(source.OriginGroup)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromResourceReference() to populate field OriginGroup")
-		}
-		parameters.OriginGroup = &originGroup
-	} else {
-		parameters.OriginGroup = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := OriginGroupOverrideActionParametersTypeName(*source.TypeName)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToOriginGroupOverrideActionParameters populates the provided destination OriginGroupOverrideActionParameters from our OriginGroupOverrideActionParameters
-func (parameters *OriginGroupOverrideActionParameters) AssignPropertiesToOriginGroupOverrideActionParameters(destination *v20210601s.OriginGroupOverrideActionParameters) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// OriginGroup
-	if parameters.OriginGroup != nil {
-		var originGroup v20210601s.ResourceReference
-		err := parameters.OriginGroup.AssignPropertiesToResourceReference(&originGroup)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToResourceReference() to populate field OriginGroup")
-		}
-		destination.OriginGroup = &originGroup
-	} else {
-		destination.OriginGroup = nil
-	}
-
-	// TypeName
-	if parameters.TypeName != nil {
-		typeName := string(*parameters.TypeName)
-		destination.TypeName = &typeName
-	} else {
-		destination.TypeName = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/PostArgsMatchConditionParameters
-type PostArgsMatchConditionParameters struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched.
-	Operator *PostArgsMatchConditionParametersOperator `json:"operator,omitempty"`
-
-	// Selector: Name of PostArg to be matched
-	Selector *string `json:"selector,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []PostArgsMatchConditionParametersTransforms `json:"transforms,omitempty"`
-
-	// +kubebuilder:validation:Required
-	TypeName *PostArgsMatchConditionParametersTypeName `json:"typeName,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &PostArgsMatchConditionParameters{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (parameters *PostArgsMatchConditionParameters) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if parameters == nil {
-		return nil, nil
-	}
-	result := &PostArgsMatchConditionParametersARM{}
-
-	// Set property ‘MatchValues’:
-	for _, item := range parameters.MatchValues {
-		result.MatchValues = append(result.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		result.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if parameters.Operator != nil {
-		operator := *parameters.Operator
-		result.Operator = &operator
-	}
-
-	// Set property ‘Selector’:
-	if parameters.Selector != nil {
-		selector := *parameters.Selector
-		result.Selector = &selector
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
-		result.TypeName = &typeName
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *PostArgsMatchConditionParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PostArgsMatchConditionParametersARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *PostArgsMatchConditionParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PostArgsMatchConditionParametersARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PostArgsMatchConditionParametersARM, got %T", armInput)
-	}
-
-	// Set property ‘MatchValues’:
-	for _, item := range typedInput.MatchValues {
-		parameters.MatchValues = append(parameters.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if typedInput.NegateCondition != nil {
-		negateCondition := *typedInput.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
-		parameters.Operator = &operator
-	}
-
-	// Set property ‘Selector’:
-	if typedInput.Selector != nil {
-		selector := *typedInput.Selector
-		parameters.Selector = &selector
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
-		parameters.TypeName = &typeName
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromPostArgsMatchConditionParameters populates our PostArgsMatchConditionParameters from the provided source PostArgsMatchConditionParameters
-func (parameters *PostArgsMatchConditionParameters) AssignPropertiesFromPostArgsMatchConditionParameters(source *v20210601s.PostArgsMatchConditionParameters) error {
-
-	// MatchValues
-	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := PostArgsMatchConditionParametersOperator(*source.Operator)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Selector
-	parameters.Selector = genruntime.ClonePointerToString(source.Selector)
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]PostArgsMatchConditionParametersTransforms, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = PostArgsMatchConditionParametersTransforms(transformItem)
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := PostArgsMatchConditionParametersTypeName(*source.TypeName)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToPostArgsMatchConditionParameters populates the provided destination PostArgsMatchConditionParameters from our PostArgsMatchConditionParameters
-func (parameters *PostArgsMatchConditionParameters) AssignPropertiesToPostArgsMatchConditionParameters(destination *v20210601s.PostArgsMatchConditionParameters) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// MatchValues
-	destination.MatchValues = genruntime.CloneSliceOfString(parameters.MatchValues)
-
-	// NegateCondition
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		destination.NegateCondition = &negateCondition
-	} else {
-		destination.NegateCondition = nil
-	}
-
-	// Operator
-	if parameters.Operator != nil {
-		operator := string(*parameters.Operator)
-		destination.Operator = &operator
-	} else {
-		destination.Operator = nil
-	}
-
-	// Selector
-	destination.Selector = genruntime.ClonePointerToString(parameters.Selector)
-
-	// Transforms
-	if parameters.Transforms != nil {
-		transformList := make([]string, len(parameters.Transforms))
-		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = string(transformItem)
-		}
-		destination.Transforms = transformList
-	} else {
-		destination.Transforms = nil
-	}
-
-	// TypeName
-	if parameters.TypeName != nil {
-		typeName := string(*parameters.TypeName)
-		destination.TypeName = &typeName
-	} else {
-		destination.TypeName = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/QueryStringMatchConditionParameters
-type QueryStringMatchConditionParameters struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched.
-	Operator *QueryStringMatchConditionParametersOperator `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []QueryStringMatchConditionParametersTransforms `json:"transforms,omitempty"`
-
-	// +kubebuilder:validation:Required
-	TypeName *QueryStringMatchConditionParametersTypeName `json:"typeName,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &QueryStringMatchConditionParameters{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (parameters *QueryStringMatchConditionParameters) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if parameters == nil {
-		return nil, nil
-	}
-	result := &QueryStringMatchConditionParametersARM{}
-
-	// Set property ‘MatchValues’:
-	for _, item := range parameters.MatchValues {
-		result.MatchValues = append(result.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		result.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if parameters.Operator != nil {
-		operator := *parameters.Operator
-		result.Operator = &operator
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
-		result.TypeName = &typeName
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *QueryStringMatchConditionParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &QueryStringMatchConditionParametersARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *QueryStringMatchConditionParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(QueryStringMatchConditionParametersARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected QueryStringMatchConditionParametersARM, got %T", armInput)
-	}
-
-	// Set property ‘MatchValues’:
-	for _, item := range typedInput.MatchValues {
-		parameters.MatchValues = append(parameters.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if typedInput.NegateCondition != nil {
-		negateCondition := *typedInput.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
-		parameters.Operator = &operator
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
-		parameters.TypeName = &typeName
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromQueryStringMatchConditionParameters populates our QueryStringMatchConditionParameters from the provided source QueryStringMatchConditionParameters
-func (parameters *QueryStringMatchConditionParameters) AssignPropertiesFromQueryStringMatchConditionParameters(source *v20210601s.QueryStringMatchConditionParameters) error {
-
-	// MatchValues
-	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := QueryStringMatchConditionParametersOperator(*source.Operator)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]QueryStringMatchConditionParametersTransforms, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = QueryStringMatchConditionParametersTransforms(transformItem)
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := QueryStringMatchConditionParametersTypeName(*source.TypeName)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToQueryStringMatchConditionParameters populates the provided destination QueryStringMatchConditionParameters from our QueryStringMatchConditionParameters
-func (parameters *QueryStringMatchConditionParameters) AssignPropertiesToQueryStringMatchConditionParameters(destination *v20210601s.QueryStringMatchConditionParameters) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// MatchValues
-	destination.MatchValues = genruntime.CloneSliceOfString(parameters.MatchValues)
-
-	// NegateCondition
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		destination.NegateCondition = &negateCondition
-	} else {
-		destination.NegateCondition = nil
-	}
-
-	// Operator
-	if parameters.Operator != nil {
-		operator := string(*parameters.Operator)
-		destination.Operator = &operator
-	} else {
-		destination.Operator = nil
-	}
-
-	// Transforms
-	if parameters.Transforms != nil {
-		transformList := make([]string, len(parameters.Transforms))
-		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = string(transformItem)
-		}
-		destination.Transforms = transformList
-	} else {
-		destination.Transforms = nil
-	}
-
-	// TypeName
-	if parameters.TypeName != nil {
-		typeName := string(*parameters.TypeName)
-		destination.TypeName = &typeName
-	} else {
-		destination.TypeName = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/RemoteAddressMatchConditionParameters
-type RemoteAddressMatchConditionParameters struct {
-	// MatchValues: Match values to match against. The operator will apply to each value in here with OR semantics. If any of
-	// them match the variable with the given operator this match condition is considered a match.
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched.
-	Operator *RemoteAddressMatchConditionParametersOperator `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []RemoteAddressMatchConditionParametersTransforms `json:"transforms,omitempty"`
-
-	// +kubebuilder:validation:Required
-	TypeName *RemoteAddressMatchConditionParametersTypeName `json:"typeName,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &RemoteAddressMatchConditionParameters{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (parameters *RemoteAddressMatchConditionParameters) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if parameters == nil {
-		return nil, nil
-	}
-	result := &RemoteAddressMatchConditionParametersARM{}
-
-	// Set property ‘MatchValues’:
-	for _, item := range parameters.MatchValues {
-		result.MatchValues = append(result.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		result.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if parameters.Operator != nil {
-		operator := *parameters.Operator
-		result.Operator = &operator
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
-		result.TypeName = &typeName
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *RemoteAddressMatchConditionParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RemoteAddressMatchConditionParametersARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *RemoteAddressMatchConditionParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RemoteAddressMatchConditionParametersARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RemoteAddressMatchConditionParametersARM, got %T", armInput)
-	}
-
-	// Set property ‘MatchValues’:
-	for _, item := range typedInput.MatchValues {
-		parameters.MatchValues = append(parameters.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if typedInput.NegateCondition != nil {
-		negateCondition := *typedInput.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
-		parameters.Operator = &operator
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
-		parameters.TypeName = &typeName
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromRemoteAddressMatchConditionParameters populates our RemoteAddressMatchConditionParameters from the provided source RemoteAddressMatchConditionParameters
-func (parameters *RemoteAddressMatchConditionParameters) AssignPropertiesFromRemoteAddressMatchConditionParameters(source *v20210601s.RemoteAddressMatchConditionParameters) error {
-
-	// MatchValues
-	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := RemoteAddressMatchConditionParametersOperator(*source.Operator)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]RemoteAddressMatchConditionParametersTransforms, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = RemoteAddressMatchConditionParametersTransforms(transformItem)
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := RemoteAddressMatchConditionParametersTypeName(*source.TypeName)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToRemoteAddressMatchConditionParameters populates the provided destination RemoteAddressMatchConditionParameters from our RemoteAddressMatchConditionParameters
-func (parameters *RemoteAddressMatchConditionParameters) AssignPropertiesToRemoteAddressMatchConditionParameters(destination *v20210601s.RemoteAddressMatchConditionParameters) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// MatchValues
-	destination.MatchValues = genruntime.CloneSliceOfString(parameters.MatchValues)
-
-	// NegateCondition
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		destination.NegateCondition = &negateCondition
-	} else {
-		destination.NegateCondition = nil
-	}
-
-	// Operator
-	if parameters.Operator != nil {
-		operator := string(*parameters.Operator)
-		destination.Operator = &operator
-	} else {
-		destination.Operator = nil
-	}
-
-	// Transforms
-	if parameters.Transforms != nil {
-		transformList := make([]string, len(parameters.Transforms))
-		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = string(transformItem)
-		}
-		destination.Transforms = transformList
-	} else {
-		destination.Transforms = nil
-	}
-
-	// TypeName
-	if parameters.TypeName != nil {
-		typeName := string(*parameters.TypeName)
-		destination.TypeName = &typeName
-	} else {
-		destination.TypeName = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/RequestBodyMatchConditionParameters
-type RequestBodyMatchConditionParameters struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched.
-	Operator *RequestBodyMatchConditionParametersOperator `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []RequestBodyMatchConditionParametersTransforms `json:"transforms,omitempty"`
-
-	// +kubebuilder:validation:Required
-	TypeName *RequestBodyMatchConditionParametersTypeName `json:"typeName,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &RequestBodyMatchConditionParameters{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (parameters *RequestBodyMatchConditionParameters) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if parameters == nil {
-		return nil, nil
-	}
-	result := &RequestBodyMatchConditionParametersARM{}
-
-	// Set property ‘MatchValues’:
-	for _, item := range parameters.MatchValues {
-		result.MatchValues = append(result.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		result.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if parameters.Operator != nil {
-		operator := *parameters.Operator
-		result.Operator = &operator
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
-		result.TypeName = &typeName
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *RequestBodyMatchConditionParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RequestBodyMatchConditionParametersARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *RequestBodyMatchConditionParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RequestBodyMatchConditionParametersARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RequestBodyMatchConditionParametersARM, got %T", armInput)
-	}
-
-	// Set property ‘MatchValues’:
-	for _, item := range typedInput.MatchValues {
-		parameters.MatchValues = append(parameters.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if typedInput.NegateCondition != nil {
-		negateCondition := *typedInput.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
-		parameters.Operator = &operator
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
-		parameters.TypeName = &typeName
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromRequestBodyMatchConditionParameters populates our RequestBodyMatchConditionParameters from the provided source RequestBodyMatchConditionParameters
-func (parameters *RequestBodyMatchConditionParameters) AssignPropertiesFromRequestBodyMatchConditionParameters(source *v20210601s.RequestBodyMatchConditionParameters) error {
-
-	// MatchValues
-	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := RequestBodyMatchConditionParametersOperator(*source.Operator)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]RequestBodyMatchConditionParametersTransforms, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = RequestBodyMatchConditionParametersTransforms(transformItem)
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := RequestBodyMatchConditionParametersTypeName(*source.TypeName)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToRequestBodyMatchConditionParameters populates the provided destination RequestBodyMatchConditionParameters from our RequestBodyMatchConditionParameters
-func (parameters *RequestBodyMatchConditionParameters) AssignPropertiesToRequestBodyMatchConditionParameters(destination *v20210601s.RequestBodyMatchConditionParameters) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// MatchValues
-	destination.MatchValues = genruntime.CloneSliceOfString(parameters.MatchValues)
-
-	// NegateCondition
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		destination.NegateCondition = &negateCondition
-	} else {
-		destination.NegateCondition = nil
-	}
-
-	// Operator
-	if parameters.Operator != nil {
-		operator := string(*parameters.Operator)
-		destination.Operator = &operator
-	} else {
-		destination.Operator = nil
-	}
-
-	// Transforms
-	if parameters.Transforms != nil {
-		transformList := make([]string, len(parameters.Transforms))
-		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = string(transformItem)
-		}
-		destination.Transforms = transformList
-	} else {
-		destination.Transforms = nil
-	}
-
-	// TypeName
-	if parameters.TypeName != nil {
-		typeName := string(*parameters.TypeName)
-		destination.TypeName = &typeName
-	} else {
-		destination.TypeName = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/RequestHeaderMatchConditionParameters
-type RequestHeaderMatchConditionParameters struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched.
-	Operator *RequestHeaderMatchConditionParametersOperator `json:"operator,omitempty"`
-
-	// Selector: Name of Header to be matched
-	Selector *string `json:"selector,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []RequestHeaderMatchConditionParametersTransforms `json:"transforms,omitempty"`
-
-	// +kubebuilder:validation:Required
-	TypeName *RequestHeaderMatchConditionParametersTypeName `json:"typeName,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &RequestHeaderMatchConditionParameters{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (parameters *RequestHeaderMatchConditionParameters) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if parameters == nil {
-		return nil, nil
-	}
-	result := &RequestHeaderMatchConditionParametersARM{}
-
-	// Set property ‘MatchValues’:
-	for _, item := range parameters.MatchValues {
-		result.MatchValues = append(result.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		result.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if parameters.Operator != nil {
-		operator := *parameters.Operator
-		result.Operator = &operator
-	}
-
-	// Set property ‘Selector’:
-	if parameters.Selector != nil {
-		selector := *parameters.Selector
-		result.Selector = &selector
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
-		result.TypeName = &typeName
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *RequestHeaderMatchConditionParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RequestHeaderMatchConditionParametersARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *RequestHeaderMatchConditionParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RequestHeaderMatchConditionParametersARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RequestHeaderMatchConditionParametersARM, got %T", armInput)
-	}
-
-	// Set property ‘MatchValues’:
-	for _, item := range typedInput.MatchValues {
-		parameters.MatchValues = append(parameters.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if typedInput.NegateCondition != nil {
-		negateCondition := *typedInput.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
-		parameters.Operator = &operator
-	}
-
-	// Set property ‘Selector’:
-	if typedInput.Selector != nil {
-		selector := *typedInput.Selector
-		parameters.Selector = &selector
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
-		parameters.TypeName = &typeName
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromRequestHeaderMatchConditionParameters populates our RequestHeaderMatchConditionParameters from the provided source RequestHeaderMatchConditionParameters
-func (parameters *RequestHeaderMatchConditionParameters) AssignPropertiesFromRequestHeaderMatchConditionParameters(source *v20210601s.RequestHeaderMatchConditionParameters) error {
-
-	// MatchValues
-	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := RequestHeaderMatchConditionParametersOperator(*source.Operator)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Selector
-	parameters.Selector = genruntime.ClonePointerToString(source.Selector)
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]RequestHeaderMatchConditionParametersTransforms, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = RequestHeaderMatchConditionParametersTransforms(transformItem)
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := RequestHeaderMatchConditionParametersTypeName(*source.TypeName)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToRequestHeaderMatchConditionParameters populates the provided destination RequestHeaderMatchConditionParameters from our RequestHeaderMatchConditionParameters
-func (parameters *RequestHeaderMatchConditionParameters) AssignPropertiesToRequestHeaderMatchConditionParameters(destination *v20210601s.RequestHeaderMatchConditionParameters) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// MatchValues
-	destination.MatchValues = genruntime.CloneSliceOfString(parameters.MatchValues)
-
-	// NegateCondition
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		destination.NegateCondition = &negateCondition
-	} else {
-		destination.NegateCondition = nil
-	}
-
-	// Operator
-	if parameters.Operator != nil {
-		operator := string(*parameters.Operator)
-		destination.Operator = &operator
-	} else {
-		destination.Operator = nil
-	}
-
-	// Selector
-	destination.Selector = genruntime.ClonePointerToString(parameters.Selector)
-
-	// Transforms
-	if parameters.Transforms != nil {
-		transformList := make([]string, len(parameters.Transforms))
-		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = string(transformItem)
-		}
-		destination.Transforms = transformList
-	} else {
-		destination.Transforms = nil
-	}
-
-	// TypeName
-	if parameters.TypeName != nil {
-		typeName := string(*parameters.TypeName)
-		destination.TypeName = &typeName
-	} else {
-		destination.TypeName = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/RequestMethodMatchConditionParameters
-type RequestMethodMatchConditionParameters struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []RequestMethodMatchConditionParametersMatchValues `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched
-	Operator *RequestMethodMatchConditionParametersOperator `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []RequestMethodMatchConditionParametersTransforms `json:"transforms,omitempty"`
-
-	// +kubebuilder:validation:Required
-	TypeName *RequestMethodMatchConditionParametersTypeName `json:"typeName,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &RequestMethodMatchConditionParameters{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (parameters *RequestMethodMatchConditionParameters) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if parameters == nil {
-		return nil, nil
-	}
-	result := &RequestMethodMatchConditionParametersARM{}
-
-	// Set property ‘MatchValues’:
-	for _, item := range parameters.MatchValues {
-		result.MatchValues = append(result.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		result.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if parameters.Operator != nil {
-		operator := *parameters.Operator
-		result.Operator = &operator
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
-		result.TypeName = &typeName
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *RequestMethodMatchConditionParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RequestMethodMatchConditionParametersARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *RequestMethodMatchConditionParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RequestMethodMatchConditionParametersARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RequestMethodMatchConditionParametersARM, got %T", armInput)
-	}
-
-	// Set property ‘MatchValues’:
-	for _, item := range typedInput.MatchValues {
-		parameters.MatchValues = append(parameters.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if typedInput.NegateCondition != nil {
-		negateCondition := *typedInput.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
-		parameters.Operator = &operator
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
-		parameters.TypeName = &typeName
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromRequestMethodMatchConditionParameters populates our RequestMethodMatchConditionParameters from the provided source RequestMethodMatchConditionParameters
-func (parameters *RequestMethodMatchConditionParameters) AssignPropertiesFromRequestMethodMatchConditionParameters(source *v20210601s.RequestMethodMatchConditionParameters) error {
-
-	// MatchValues
-	if source.MatchValues != nil {
-		matchValueList := make([]RequestMethodMatchConditionParametersMatchValues, len(source.MatchValues))
-		for matchValueIndex, matchValueItem := range source.MatchValues {
-			// Shadow the loop variable to avoid aliasing
-			matchValueItem := matchValueItem
-			matchValueList[matchValueIndex] = RequestMethodMatchConditionParametersMatchValues(matchValueItem)
-		}
-		parameters.MatchValues = matchValueList
-	} else {
-		parameters.MatchValues = nil
-	}
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := RequestMethodMatchConditionParametersOperator(*source.Operator)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]RequestMethodMatchConditionParametersTransforms, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = RequestMethodMatchConditionParametersTransforms(transformItem)
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := RequestMethodMatchConditionParametersTypeName(*source.TypeName)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToRequestMethodMatchConditionParameters populates the provided destination RequestMethodMatchConditionParameters from our RequestMethodMatchConditionParameters
-func (parameters *RequestMethodMatchConditionParameters) AssignPropertiesToRequestMethodMatchConditionParameters(destination *v20210601s.RequestMethodMatchConditionParameters) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// MatchValues
-	if parameters.MatchValues != nil {
-		matchValueList := make([]string, len(parameters.MatchValues))
-		for matchValueIndex, matchValueItem := range parameters.MatchValues {
-			// Shadow the loop variable to avoid aliasing
-			matchValueItem := matchValueItem
-			matchValueList[matchValueIndex] = string(matchValueItem)
-		}
-		destination.MatchValues = matchValueList
-	} else {
-		destination.MatchValues = nil
-	}
-
-	// NegateCondition
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		destination.NegateCondition = &negateCondition
-	} else {
-		destination.NegateCondition = nil
-	}
-
-	// Operator
-	if parameters.Operator != nil {
-		operator := string(*parameters.Operator)
-		destination.Operator = &operator
-	} else {
-		destination.Operator = nil
-	}
-
-	// Transforms
-	if parameters.Transforms != nil {
-		transformList := make([]string, len(parameters.Transforms))
-		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = string(transformItem)
-		}
-		destination.Transforms = transformList
-	} else {
-		destination.Transforms = nil
-	}
-
-	// TypeName
-	if parameters.TypeName != nil {
-		typeName := string(*parameters.TypeName)
-		destination.TypeName = &typeName
-	} else {
-		destination.TypeName = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/RequestSchemeMatchConditionParameters
-type RequestSchemeMatchConditionParameters struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []RequestSchemeMatchConditionParametersMatchValues `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched
-	Operator *RequestSchemeMatchConditionParametersOperator `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []RequestSchemeMatchConditionParametersTransforms `json:"transforms,omitempty"`
-
-	// +kubebuilder:validation:Required
-	TypeName *RequestSchemeMatchConditionParametersTypeName `json:"typeName,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &RequestSchemeMatchConditionParameters{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (parameters *RequestSchemeMatchConditionParameters) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if parameters == nil {
-		return nil, nil
-	}
-	result := &RequestSchemeMatchConditionParametersARM{}
-
-	// Set property ‘MatchValues’:
-	for _, item := range parameters.MatchValues {
-		result.MatchValues = append(result.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		result.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if parameters.Operator != nil {
-		operator := *parameters.Operator
-		result.Operator = &operator
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
-		result.TypeName = &typeName
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *RequestSchemeMatchConditionParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RequestSchemeMatchConditionParametersARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *RequestSchemeMatchConditionParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RequestSchemeMatchConditionParametersARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RequestSchemeMatchConditionParametersARM, got %T", armInput)
-	}
-
-	// Set property ‘MatchValues’:
-	for _, item := range typedInput.MatchValues {
-		parameters.MatchValues = append(parameters.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if typedInput.NegateCondition != nil {
-		negateCondition := *typedInput.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
-		parameters.Operator = &operator
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
-		parameters.TypeName = &typeName
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromRequestSchemeMatchConditionParameters populates our RequestSchemeMatchConditionParameters from the provided source RequestSchemeMatchConditionParameters
-func (parameters *RequestSchemeMatchConditionParameters) AssignPropertiesFromRequestSchemeMatchConditionParameters(source *v20210601s.RequestSchemeMatchConditionParameters) error {
-
-	// MatchValues
-	if source.MatchValues != nil {
-		matchValueList := make([]RequestSchemeMatchConditionParametersMatchValues, len(source.MatchValues))
-		for matchValueIndex, matchValueItem := range source.MatchValues {
-			// Shadow the loop variable to avoid aliasing
-			matchValueItem := matchValueItem
-			matchValueList[matchValueIndex] = RequestSchemeMatchConditionParametersMatchValues(matchValueItem)
-		}
-		parameters.MatchValues = matchValueList
-	} else {
-		parameters.MatchValues = nil
-	}
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := RequestSchemeMatchConditionParametersOperator(*source.Operator)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]RequestSchemeMatchConditionParametersTransforms, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = RequestSchemeMatchConditionParametersTransforms(transformItem)
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := RequestSchemeMatchConditionParametersTypeName(*source.TypeName)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToRequestSchemeMatchConditionParameters populates the provided destination RequestSchemeMatchConditionParameters from our RequestSchemeMatchConditionParameters
-func (parameters *RequestSchemeMatchConditionParameters) AssignPropertiesToRequestSchemeMatchConditionParameters(destination *v20210601s.RequestSchemeMatchConditionParameters) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// MatchValues
-	if parameters.MatchValues != nil {
-		matchValueList := make([]string, len(parameters.MatchValues))
-		for matchValueIndex, matchValueItem := range parameters.MatchValues {
-			// Shadow the loop variable to avoid aliasing
-			matchValueItem := matchValueItem
-			matchValueList[matchValueIndex] = string(matchValueItem)
-		}
-		destination.MatchValues = matchValueList
-	} else {
-		destination.MatchValues = nil
-	}
-
-	// NegateCondition
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		destination.NegateCondition = &negateCondition
-	} else {
-		destination.NegateCondition = nil
-	}
-
-	// Operator
-	if parameters.Operator != nil {
-		operator := string(*parameters.Operator)
-		destination.Operator = &operator
-	} else {
-		destination.Operator = nil
-	}
-
-	// Transforms
-	if parameters.Transforms != nil {
-		transformList := make([]string, len(parameters.Transforms))
-		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = string(transformItem)
-		}
-		destination.Transforms = transformList
-	} else {
-		destination.Transforms = nil
-	}
-
-	// TypeName
-	if parameters.TypeName != nil {
-		typeName := string(*parameters.TypeName)
-		destination.TypeName = &typeName
-	} else {
-		destination.TypeName = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/RequestUriMatchConditionParameters
-type RequestUriMatchConditionParameters struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched.
-	Operator *RequestUriMatchConditionParametersOperator `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []RequestUriMatchConditionParametersTransforms `json:"transforms,omitempty"`
-
-	// +kubebuilder:validation:Required
-	TypeName *RequestUriMatchConditionParametersTypeName `json:"typeName,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &RequestUriMatchConditionParameters{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (parameters *RequestUriMatchConditionParameters) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if parameters == nil {
-		return nil, nil
-	}
-	result := &RequestUriMatchConditionParametersARM{}
-
-	// Set property ‘MatchValues’:
-	for _, item := range parameters.MatchValues {
-		result.MatchValues = append(result.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		result.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if parameters.Operator != nil {
-		operator := *parameters.Operator
-		result.Operator = &operator
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
-		result.TypeName = &typeName
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *RequestUriMatchConditionParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RequestUriMatchConditionParametersARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *RequestUriMatchConditionParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RequestUriMatchConditionParametersARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RequestUriMatchConditionParametersARM, got %T", armInput)
-	}
-
-	// Set property ‘MatchValues’:
-	for _, item := range typedInput.MatchValues {
-		parameters.MatchValues = append(parameters.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if typedInput.NegateCondition != nil {
-		negateCondition := *typedInput.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
-		parameters.Operator = &operator
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
-		parameters.TypeName = &typeName
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromRequestUriMatchConditionParameters populates our RequestUriMatchConditionParameters from the provided source RequestUriMatchConditionParameters
-func (parameters *RequestUriMatchConditionParameters) AssignPropertiesFromRequestUriMatchConditionParameters(source *v20210601s.RequestUriMatchConditionParameters) error {
-
-	// MatchValues
-	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := RequestUriMatchConditionParametersOperator(*source.Operator)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]RequestUriMatchConditionParametersTransforms, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = RequestUriMatchConditionParametersTransforms(transformItem)
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := RequestUriMatchConditionParametersTypeName(*source.TypeName)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToRequestUriMatchConditionParameters populates the provided destination RequestUriMatchConditionParameters from our RequestUriMatchConditionParameters
-func (parameters *RequestUriMatchConditionParameters) AssignPropertiesToRequestUriMatchConditionParameters(destination *v20210601s.RequestUriMatchConditionParameters) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// MatchValues
-	destination.MatchValues = genruntime.CloneSliceOfString(parameters.MatchValues)
-
-	// NegateCondition
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		destination.NegateCondition = &negateCondition
-	} else {
-		destination.NegateCondition = nil
-	}
-
-	// Operator
-	if parameters.Operator != nil {
-		operator := string(*parameters.Operator)
-		destination.Operator = &operator
-	} else {
-		destination.Operator = nil
-	}
-
-	// Transforms
-	if parameters.Transforms != nil {
-		transformList := make([]string, len(parameters.Transforms))
-		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = string(transformItem)
-		}
-		destination.Transforms = transformList
-	} else {
-		destination.Transforms = nil
-	}
-
-	// TypeName
-	if parameters.TypeName != nil {
-		typeName := string(*parameters.TypeName)
-		destination.TypeName = &typeName
-	} else {
-		destination.TypeName = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/RouteConfigurationOverrideActionParameters
-type RouteConfigurationOverrideActionParameters struct {
-	// CacheConfiguration: Caching settings for a caching-type route. To disable caching, do not provide a cacheConfiguration
-	// object.
-	CacheConfiguration *CacheConfiguration `json:"cacheConfiguration,omitempty"`
-
-	// OriginGroupOverride: Defines the parameters for the origin group override configuration.
-	OriginGroupOverride *OriginGroupOverride `json:"originGroupOverride,omitempty"`
-
-	// +kubebuilder:validation:Required
-	TypeName *RouteConfigurationOverrideActionParametersTypeName `json:"typeName,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &RouteConfigurationOverrideActionParameters{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (parameters *RouteConfigurationOverrideActionParameters) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if parameters == nil {
-		return nil, nil
-	}
-	result := &RouteConfigurationOverrideActionParametersARM{}
-
-	// Set property ‘CacheConfiguration’:
-	if parameters.CacheConfiguration != nil {
-		cacheConfigurationARM, err := (*parameters.CacheConfiguration).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		cacheConfiguration := *cacheConfigurationARM.(*CacheConfigurationARM)
-		result.CacheConfiguration = &cacheConfiguration
-	}
-
-	// Set property ‘OriginGroupOverride’:
-	if parameters.OriginGroupOverride != nil {
-		originGroupOverrideARM, err := (*parameters.OriginGroupOverride).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		originGroupOverride := *originGroupOverrideARM.(*OriginGroupOverrideARM)
-		result.OriginGroupOverride = &originGroupOverride
-	}
-
-	// Set property ‘TypeName’:
-	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
-		result.TypeName = &typeName
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *RouteConfigurationOverrideActionParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RouteConfigurationOverrideActionParametersARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *RouteConfigurationOverrideActionParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RouteConfigurationOverrideActionParametersARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteConfigurationOverrideActionParametersARM, got %T", armInput)
-	}
-
-	// Set property ‘CacheConfiguration’:
-	if typedInput.CacheConfiguration != nil {
-		var cacheConfiguration1 CacheConfiguration
-		err := cacheConfiguration1.PopulateFromARM(owner, *typedInput.CacheConfiguration)
-		if err != nil {
-			return err
-		}
-		cacheConfiguration := cacheConfiguration1
-		parameters.CacheConfiguration = &cacheConfiguration
-	}
-
-	// Set property ‘OriginGroupOverride’:
-	if typedInput.OriginGroupOverride != nil {
-		var originGroupOverride1 OriginGroupOverride
-		err := originGroupOverride1.PopulateFromARM(owner, *typedInput.OriginGroupOverride)
-		if err != nil {
-			return err
-		}
-		originGroupOverride := originGroupOverride1
-		parameters.OriginGroupOverride = &originGroupOverride
-	}
-
-	// Set property ‘TypeName’:
-	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
-		parameters.TypeName = &typeName
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromRouteConfigurationOverrideActionParameters populates our RouteConfigurationOverrideActionParameters from the provided source RouteConfigurationOverrideActionParameters
-func (parameters *RouteConfigurationOverrideActionParameters) AssignPropertiesFromRouteConfigurationOverrideActionParameters(source *v20210601s.RouteConfigurationOverrideActionParameters) error {
-
-	// CacheConfiguration
-	if source.CacheConfiguration != nil {
-		var cacheConfiguration CacheConfiguration
-		err := cacheConfiguration.AssignPropertiesFromCacheConfiguration(source.CacheConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromCacheConfiguration() to populate field CacheConfiguration")
-		}
-		parameters.CacheConfiguration = &cacheConfiguration
-	} else {
-		parameters.CacheConfiguration = nil
-	}
-
-	// OriginGroupOverride
-	if source.OriginGroupOverride != nil {
-		var originGroupOverride OriginGroupOverride
-		err := originGroupOverride.AssignPropertiesFromOriginGroupOverride(source.OriginGroupOverride)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromOriginGroupOverride() to populate field OriginGroupOverride")
-		}
-		parameters.OriginGroupOverride = &originGroupOverride
-	} else {
-		parameters.OriginGroupOverride = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := RouteConfigurationOverrideActionParametersTypeName(*source.TypeName)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToRouteConfigurationOverrideActionParameters populates the provided destination RouteConfigurationOverrideActionParameters from our RouteConfigurationOverrideActionParameters
-func (parameters *RouteConfigurationOverrideActionParameters) AssignPropertiesToRouteConfigurationOverrideActionParameters(destination *v20210601s.RouteConfigurationOverrideActionParameters) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// CacheConfiguration
-	if parameters.CacheConfiguration != nil {
-		var cacheConfiguration v20210601s.CacheConfiguration
-		err := parameters.CacheConfiguration.AssignPropertiesToCacheConfiguration(&cacheConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToCacheConfiguration() to populate field CacheConfiguration")
-		}
-		destination.CacheConfiguration = &cacheConfiguration
-	} else {
-		destination.CacheConfiguration = nil
-	}
-
-	// OriginGroupOverride
-	if parameters.OriginGroupOverride != nil {
-		var originGroupOverride v20210601s.OriginGroupOverride
-		err := parameters.OriginGroupOverride.AssignPropertiesToOriginGroupOverride(&originGroupOverride)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToOriginGroupOverride() to populate field OriginGroupOverride")
-		}
-		destination.OriginGroupOverride = &originGroupOverride
-	} else {
-		destination.OriginGroupOverride = nil
-	}
-
-	// TypeName
-	if parameters.TypeName != nil {
-		typeName := string(*parameters.TypeName)
-		destination.TypeName = &typeName
-	} else {
-		destination.TypeName = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/ServerPortMatchConditionParameters
-type ServerPortMatchConditionParameters struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched.
-	Operator *ServerPortMatchConditionParametersOperator `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []ServerPortMatchConditionParametersTransforms `json:"transforms,omitempty"`
-
-	// +kubebuilder:validation:Required
-	TypeName *ServerPortMatchConditionParametersTypeName `json:"typeName,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &ServerPortMatchConditionParameters{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (parameters *ServerPortMatchConditionParameters) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if parameters == nil {
-		return nil, nil
-	}
-	result := &ServerPortMatchConditionParametersARM{}
-
-	// Set property ‘MatchValues’:
-	for _, item := range parameters.MatchValues {
-		result.MatchValues = append(result.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		result.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if parameters.Operator != nil {
-		operator := *parameters.Operator
-		result.Operator = &operator
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
-		result.TypeName = &typeName
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *ServerPortMatchConditionParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServerPortMatchConditionParametersARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *ServerPortMatchConditionParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServerPortMatchConditionParametersARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerPortMatchConditionParametersARM, got %T", armInput)
-	}
-
-	// Set property ‘MatchValues’:
-	for _, item := range typedInput.MatchValues {
-		parameters.MatchValues = append(parameters.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if typedInput.NegateCondition != nil {
-		negateCondition := *typedInput.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
-		parameters.Operator = &operator
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
-		parameters.TypeName = &typeName
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromServerPortMatchConditionParameters populates our ServerPortMatchConditionParameters from the provided source ServerPortMatchConditionParameters
-func (parameters *ServerPortMatchConditionParameters) AssignPropertiesFromServerPortMatchConditionParameters(source *v20210601s.ServerPortMatchConditionParameters) error {
-
-	// MatchValues
-	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := ServerPortMatchConditionParametersOperator(*source.Operator)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]ServerPortMatchConditionParametersTransforms, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = ServerPortMatchConditionParametersTransforms(transformItem)
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := ServerPortMatchConditionParametersTypeName(*source.TypeName)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToServerPortMatchConditionParameters populates the provided destination ServerPortMatchConditionParameters from our ServerPortMatchConditionParameters
-func (parameters *ServerPortMatchConditionParameters) AssignPropertiesToServerPortMatchConditionParameters(destination *v20210601s.ServerPortMatchConditionParameters) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// MatchValues
-	destination.MatchValues = genruntime.CloneSliceOfString(parameters.MatchValues)
-
-	// NegateCondition
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		destination.NegateCondition = &negateCondition
-	} else {
-		destination.NegateCondition = nil
-	}
-
-	// Operator
-	if parameters.Operator != nil {
-		operator := string(*parameters.Operator)
-		destination.Operator = &operator
-	} else {
-		destination.Operator = nil
-	}
-
-	// Transforms
-	if parameters.Transforms != nil {
-		transformList := make([]string, len(parameters.Transforms))
-		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = string(transformItem)
-		}
-		destination.Transforms = transformList
-	} else {
-		destination.Transforms = nil
-	}
-
-	// TypeName
-	if parameters.TypeName != nil {
-		typeName := string(*parameters.TypeName)
-		destination.TypeName = &typeName
-	} else {
-		destination.TypeName = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/SocketAddrMatchConditionParameters
-type SocketAddrMatchConditionParameters struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched.
-	Operator *SocketAddrMatchConditionParametersOperator `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []SocketAddrMatchConditionParametersTransforms `json:"transforms,omitempty"`
-
-	// +kubebuilder:validation:Required
-	TypeName *SocketAddrMatchConditionParametersTypeName `json:"typeName,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &SocketAddrMatchConditionParameters{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (parameters *SocketAddrMatchConditionParameters) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if parameters == nil {
-		return nil, nil
-	}
-	result := &SocketAddrMatchConditionParametersARM{}
-
-	// Set property ‘MatchValues’:
-	for _, item := range parameters.MatchValues {
-		result.MatchValues = append(result.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		result.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if parameters.Operator != nil {
-		operator := *parameters.Operator
-		result.Operator = &operator
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
-		result.TypeName = &typeName
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *SocketAddrMatchConditionParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SocketAddrMatchConditionParametersARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *SocketAddrMatchConditionParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SocketAddrMatchConditionParametersARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SocketAddrMatchConditionParametersARM, got %T", armInput)
-	}
-
-	// Set property ‘MatchValues’:
-	for _, item := range typedInput.MatchValues {
-		parameters.MatchValues = append(parameters.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if typedInput.NegateCondition != nil {
-		negateCondition := *typedInput.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
-		parameters.Operator = &operator
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
-		parameters.TypeName = &typeName
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromSocketAddrMatchConditionParameters populates our SocketAddrMatchConditionParameters from the provided source SocketAddrMatchConditionParameters
-func (parameters *SocketAddrMatchConditionParameters) AssignPropertiesFromSocketAddrMatchConditionParameters(source *v20210601s.SocketAddrMatchConditionParameters) error {
-
-	// MatchValues
-	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := SocketAddrMatchConditionParametersOperator(*source.Operator)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]SocketAddrMatchConditionParametersTransforms, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = SocketAddrMatchConditionParametersTransforms(transformItem)
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := SocketAddrMatchConditionParametersTypeName(*source.TypeName)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToSocketAddrMatchConditionParameters populates the provided destination SocketAddrMatchConditionParameters from our SocketAddrMatchConditionParameters
-func (parameters *SocketAddrMatchConditionParameters) AssignPropertiesToSocketAddrMatchConditionParameters(destination *v20210601s.SocketAddrMatchConditionParameters) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// MatchValues
-	destination.MatchValues = genruntime.CloneSliceOfString(parameters.MatchValues)
-
-	// NegateCondition
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		destination.NegateCondition = &negateCondition
-	} else {
-		destination.NegateCondition = nil
-	}
-
-	// Operator
-	if parameters.Operator != nil {
-		operator := string(*parameters.Operator)
-		destination.Operator = &operator
-	} else {
-		destination.Operator = nil
-	}
-
-	// Transforms
-	if parameters.Transforms != nil {
-		transformList := make([]string, len(parameters.Transforms))
-		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = string(transformItem)
-		}
-		destination.Transforms = transformList
-	} else {
-		destination.Transforms = nil
-	}
-
-	// TypeName
-	if parameters.TypeName != nil {
-		typeName := string(*parameters.TypeName)
-		destination.TypeName = &typeName
-	} else {
-		destination.TypeName = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/SslProtocolMatchConditionParameters
-type SslProtocolMatchConditionParameters struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []SslProtocolMatchConditionParametersMatchValues `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched
-	Operator *SslProtocolMatchConditionParametersOperator `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []SslProtocolMatchConditionParametersTransforms `json:"transforms,omitempty"`
-
-	// +kubebuilder:validation:Required
-	TypeName *SslProtocolMatchConditionParametersTypeName `json:"typeName,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &SslProtocolMatchConditionParameters{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (parameters *SslProtocolMatchConditionParameters) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if parameters == nil {
-		return nil, nil
-	}
-	result := &SslProtocolMatchConditionParametersARM{}
-
-	// Set property ‘MatchValues’:
-	for _, item := range parameters.MatchValues {
-		result.MatchValues = append(result.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		result.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if parameters.Operator != nil {
-		operator := *parameters.Operator
-		result.Operator = &operator
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
-		result.TypeName = &typeName
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *SslProtocolMatchConditionParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SslProtocolMatchConditionParametersARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *SslProtocolMatchConditionParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SslProtocolMatchConditionParametersARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SslProtocolMatchConditionParametersARM, got %T", armInput)
-	}
-
-	// Set property ‘MatchValues’:
-	for _, item := range typedInput.MatchValues {
-		parameters.MatchValues = append(parameters.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if typedInput.NegateCondition != nil {
-		negateCondition := *typedInput.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
-		parameters.Operator = &operator
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
-		parameters.TypeName = &typeName
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromSslProtocolMatchConditionParameters populates our SslProtocolMatchConditionParameters from the provided source SslProtocolMatchConditionParameters
-func (parameters *SslProtocolMatchConditionParameters) AssignPropertiesFromSslProtocolMatchConditionParameters(source *v20210601s.SslProtocolMatchConditionParameters) error {
-
-	// MatchValues
-	if source.MatchValues != nil {
-		matchValueList := make([]SslProtocolMatchConditionParametersMatchValues, len(source.MatchValues))
-		for matchValueIndex, matchValueItem := range source.MatchValues {
-			// Shadow the loop variable to avoid aliasing
-			matchValueItem := matchValueItem
-			matchValueList[matchValueIndex] = SslProtocolMatchConditionParametersMatchValues(matchValueItem)
-		}
-		parameters.MatchValues = matchValueList
-	} else {
-		parameters.MatchValues = nil
-	}
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := SslProtocolMatchConditionParametersOperator(*source.Operator)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]SslProtocolMatchConditionParametersTransforms, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = SslProtocolMatchConditionParametersTransforms(transformItem)
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := SslProtocolMatchConditionParametersTypeName(*source.TypeName)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToSslProtocolMatchConditionParameters populates the provided destination SslProtocolMatchConditionParameters from our SslProtocolMatchConditionParameters
-func (parameters *SslProtocolMatchConditionParameters) AssignPropertiesToSslProtocolMatchConditionParameters(destination *v20210601s.SslProtocolMatchConditionParameters) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// MatchValues
-	if parameters.MatchValues != nil {
-		matchValueList := make([]string, len(parameters.MatchValues))
-		for matchValueIndex, matchValueItem := range parameters.MatchValues {
-			// Shadow the loop variable to avoid aliasing
-			matchValueItem := matchValueItem
-			matchValueList[matchValueIndex] = string(matchValueItem)
-		}
-		destination.MatchValues = matchValueList
-	} else {
-		destination.MatchValues = nil
-	}
-
-	// NegateCondition
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		destination.NegateCondition = &negateCondition
-	} else {
-		destination.NegateCondition = nil
-	}
-
-	// Operator
-	if parameters.Operator != nil {
-		operator := string(*parameters.Operator)
-		destination.Operator = &operator
-	} else {
-		destination.Operator = nil
-	}
-
-	// Transforms
-	if parameters.Transforms != nil {
-		transformList := make([]string, len(parameters.Transforms))
-		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = string(transformItem)
-		}
-		destination.Transforms = transformList
-	} else {
-		destination.Transforms = nil
-	}
-
-	// TypeName
-	if parameters.TypeName != nil {
-		typeName := string(*parameters.TypeName)
-		destination.TypeName = &typeName
-	} else {
-		destination.TypeName = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlFileExtensionMatchConditionParameters
-type UrlFileExtensionMatchConditionParameters struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched.
-	Operator *UrlFileExtensionMatchConditionParametersOperator `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []UrlFileExtensionMatchConditionParametersTransforms `json:"transforms,omitempty"`
-
-	// +kubebuilder:validation:Required
-	TypeName *UrlFileExtensionMatchConditionParametersTypeName `json:"typeName,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &UrlFileExtensionMatchConditionParameters{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (parameters *UrlFileExtensionMatchConditionParameters) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if parameters == nil {
-		return nil, nil
-	}
-	result := &UrlFileExtensionMatchConditionParametersARM{}
-
-	// Set property ‘MatchValues’:
-	for _, item := range parameters.MatchValues {
-		result.MatchValues = append(result.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		result.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if parameters.Operator != nil {
-		operator := *parameters.Operator
-		result.Operator = &operator
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
-		result.TypeName = &typeName
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *UrlFileExtensionMatchConditionParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UrlFileExtensionMatchConditionParametersARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *UrlFileExtensionMatchConditionParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UrlFileExtensionMatchConditionParametersARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlFileExtensionMatchConditionParametersARM, got %T", armInput)
-	}
-
-	// Set property ‘MatchValues’:
-	for _, item := range typedInput.MatchValues {
-		parameters.MatchValues = append(parameters.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if typedInput.NegateCondition != nil {
-		negateCondition := *typedInput.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
-		parameters.Operator = &operator
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
-		parameters.TypeName = &typeName
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromUrlFileExtensionMatchConditionParameters populates our UrlFileExtensionMatchConditionParameters from the provided source UrlFileExtensionMatchConditionParameters
-func (parameters *UrlFileExtensionMatchConditionParameters) AssignPropertiesFromUrlFileExtensionMatchConditionParameters(source *v20210601s.UrlFileExtensionMatchConditionParameters) error {
-
-	// MatchValues
-	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := UrlFileExtensionMatchConditionParametersOperator(*source.Operator)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]UrlFileExtensionMatchConditionParametersTransforms, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = UrlFileExtensionMatchConditionParametersTransforms(transformItem)
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := UrlFileExtensionMatchConditionParametersTypeName(*source.TypeName)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToUrlFileExtensionMatchConditionParameters populates the provided destination UrlFileExtensionMatchConditionParameters from our UrlFileExtensionMatchConditionParameters
-func (parameters *UrlFileExtensionMatchConditionParameters) AssignPropertiesToUrlFileExtensionMatchConditionParameters(destination *v20210601s.UrlFileExtensionMatchConditionParameters) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// MatchValues
-	destination.MatchValues = genruntime.CloneSliceOfString(parameters.MatchValues)
-
-	// NegateCondition
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		destination.NegateCondition = &negateCondition
-	} else {
-		destination.NegateCondition = nil
-	}
-
-	// Operator
-	if parameters.Operator != nil {
-		operator := string(*parameters.Operator)
-		destination.Operator = &operator
-	} else {
-		destination.Operator = nil
-	}
-
-	// Transforms
-	if parameters.Transforms != nil {
-		transformList := make([]string, len(parameters.Transforms))
-		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = string(transformItem)
-		}
-		destination.Transforms = transformList
-	} else {
-		destination.Transforms = nil
-	}
-
-	// TypeName
-	if parameters.TypeName != nil {
-		typeName := string(*parameters.TypeName)
-		destination.TypeName = &typeName
-	} else {
-		destination.TypeName = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlFileNameMatchConditionParameters
-type UrlFileNameMatchConditionParameters struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched.
-	Operator *UrlFileNameMatchConditionParametersOperator `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []UrlFileNameMatchConditionParametersTransforms `json:"transforms,omitempty"`
-
-	// +kubebuilder:validation:Required
-	TypeName *UrlFileNameMatchConditionParametersTypeName `json:"typeName,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &UrlFileNameMatchConditionParameters{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (parameters *UrlFileNameMatchConditionParameters) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if parameters == nil {
-		return nil, nil
-	}
-	result := &UrlFileNameMatchConditionParametersARM{}
-
-	// Set property ‘MatchValues’:
-	for _, item := range parameters.MatchValues {
-		result.MatchValues = append(result.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		result.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if parameters.Operator != nil {
-		operator := *parameters.Operator
-		result.Operator = &operator
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
-		result.TypeName = &typeName
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *UrlFileNameMatchConditionParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UrlFileNameMatchConditionParametersARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *UrlFileNameMatchConditionParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UrlFileNameMatchConditionParametersARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlFileNameMatchConditionParametersARM, got %T", armInput)
-	}
-
-	// Set property ‘MatchValues’:
-	for _, item := range typedInput.MatchValues {
-		parameters.MatchValues = append(parameters.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if typedInput.NegateCondition != nil {
-		negateCondition := *typedInput.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
-		parameters.Operator = &operator
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
-		parameters.TypeName = &typeName
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromUrlFileNameMatchConditionParameters populates our UrlFileNameMatchConditionParameters from the provided source UrlFileNameMatchConditionParameters
-func (parameters *UrlFileNameMatchConditionParameters) AssignPropertiesFromUrlFileNameMatchConditionParameters(source *v20210601s.UrlFileNameMatchConditionParameters) error {
-
-	// MatchValues
-	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := UrlFileNameMatchConditionParametersOperator(*source.Operator)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]UrlFileNameMatchConditionParametersTransforms, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = UrlFileNameMatchConditionParametersTransforms(transformItem)
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := UrlFileNameMatchConditionParametersTypeName(*source.TypeName)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToUrlFileNameMatchConditionParameters populates the provided destination UrlFileNameMatchConditionParameters from our UrlFileNameMatchConditionParameters
-func (parameters *UrlFileNameMatchConditionParameters) AssignPropertiesToUrlFileNameMatchConditionParameters(destination *v20210601s.UrlFileNameMatchConditionParameters) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// MatchValues
-	destination.MatchValues = genruntime.CloneSliceOfString(parameters.MatchValues)
-
-	// NegateCondition
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		destination.NegateCondition = &negateCondition
-	} else {
-		destination.NegateCondition = nil
-	}
-
-	// Operator
-	if parameters.Operator != nil {
-		operator := string(*parameters.Operator)
-		destination.Operator = &operator
-	} else {
-		destination.Operator = nil
-	}
-
-	// Transforms
-	if parameters.Transforms != nil {
-		transformList := make([]string, len(parameters.Transforms))
-		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = string(transformItem)
-		}
-		destination.Transforms = transformList
-	} else {
-		destination.Transforms = nil
-	}
-
-	// TypeName
-	if parameters.TypeName != nil {
-		typeName := string(*parameters.TypeName)
-		destination.TypeName = &typeName
-	} else {
-		destination.TypeName = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlPathMatchConditionParameters
-type UrlPathMatchConditionParameters struct {
-	// MatchValues: The match value for the condition of the delivery rule
-	MatchValues []string `json:"matchValues,omitempty"`
-
-	// NegateCondition: Describes if this is negate condition or not
-	NegateCondition *bool `json:"negateCondition,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Operator: Describes operator to be matched.
-	Operator *UrlPathMatchConditionParametersOperator `json:"operator,omitempty"`
-
-	// Transforms: List of transforms
-	Transforms []UrlPathMatchConditionParametersTransforms `json:"transforms,omitempty"`
-
-	// +kubebuilder:validation:Required
-	TypeName *UrlPathMatchConditionParametersTypeName `json:"typeName,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &UrlPathMatchConditionParameters{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (parameters *UrlPathMatchConditionParameters) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if parameters == nil {
-		return nil, nil
-	}
-	result := &UrlPathMatchConditionParametersARM{}
-
-	// Set property ‘MatchValues’:
-	for _, item := range parameters.MatchValues {
-		result.MatchValues = append(result.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		result.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if parameters.Operator != nil {
-		operator := *parameters.Operator
-		result.Operator = &operator
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range parameters.Transforms {
-		result.Transforms = append(result.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
-		result.TypeName = &typeName
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *UrlPathMatchConditionParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UrlPathMatchConditionParametersARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *UrlPathMatchConditionParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UrlPathMatchConditionParametersARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlPathMatchConditionParametersARM, got %T", armInput)
-	}
-
-	// Set property ‘MatchValues’:
-	for _, item := range typedInput.MatchValues {
-		parameters.MatchValues = append(parameters.MatchValues, item)
-	}
-
-	// Set property ‘NegateCondition’:
-	if typedInput.NegateCondition != nil {
-		negateCondition := *typedInput.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	}
-
-	// Set property ‘Operator’:
-	if typedInput.Operator != nil {
-		operator := *typedInput.Operator
-		parameters.Operator = &operator
-	}
-
-	// Set property ‘Transforms’:
-	for _, item := range typedInput.Transforms {
-		parameters.Transforms = append(parameters.Transforms, item)
-	}
-
-	// Set property ‘TypeName’:
-	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
-		parameters.TypeName = &typeName
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromUrlPathMatchConditionParameters populates our UrlPathMatchConditionParameters from the provided source UrlPathMatchConditionParameters
-func (parameters *UrlPathMatchConditionParameters) AssignPropertiesFromUrlPathMatchConditionParameters(source *v20210601s.UrlPathMatchConditionParameters) error {
-
-	// MatchValues
-	parameters.MatchValues = genruntime.CloneSliceOfString(source.MatchValues)
-
-	// NegateCondition
-	if source.NegateCondition != nil {
-		negateCondition := *source.NegateCondition
-		parameters.NegateCondition = &negateCondition
-	} else {
-		parameters.NegateCondition = nil
-	}
-
-	// Operator
-	if source.Operator != nil {
-		operator := UrlPathMatchConditionParametersOperator(*source.Operator)
-		parameters.Operator = &operator
-	} else {
-		parameters.Operator = nil
-	}
-
-	// Transforms
-	if source.Transforms != nil {
-		transformList := make([]UrlPathMatchConditionParametersTransforms, len(source.Transforms))
-		for transformIndex, transformItem := range source.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = UrlPathMatchConditionParametersTransforms(transformItem)
-		}
-		parameters.Transforms = transformList
-	} else {
-		parameters.Transforms = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := UrlPathMatchConditionParametersTypeName(*source.TypeName)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToUrlPathMatchConditionParameters populates the provided destination UrlPathMatchConditionParameters from our UrlPathMatchConditionParameters
-func (parameters *UrlPathMatchConditionParameters) AssignPropertiesToUrlPathMatchConditionParameters(destination *v20210601s.UrlPathMatchConditionParameters) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// MatchValues
-	destination.MatchValues = genruntime.CloneSliceOfString(parameters.MatchValues)
-
-	// NegateCondition
-	if parameters.NegateCondition != nil {
-		negateCondition := *parameters.NegateCondition
-		destination.NegateCondition = &negateCondition
-	} else {
-		destination.NegateCondition = nil
-	}
-
-	// Operator
-	if parameters.Operator != nil {
-		operator := string(*parameters.Operator)
-		destination.Operator = &operator
-	} else {
-		destination.Operator = nil
-	}
-
-	// Transforms
-	if parameters.Transforms != nil {
-		transformList := make([]string, len(parameters.Transforms))
-		for transformIndex, transformItem := range parameters.Transforms {
-			// Shadow the loop variable to avoid aliasing
-			transformItem := transformItem
-			transformList[transformIndex] = string(transformItem)
-		}
-		destination.Transforms = transformList
-	} else {
-		destination.Transforms = nil
-	}
-
-	// TypeName
-	if parameters.TypeName != nil {
-		typeName := string(*parameters.TypeName)
-		destination.TypeName = &typeName
-	} else {
-		destination.TypeName = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// +kubebuilder:validation:Enum={"UrlRedirect"}
-type UrlRedirectActionName string
-
-const UrlRedirectActionNameUrlRedirect = UrlRedirectActionName("UrlRedirect")
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlRedirectActionParameters
-type UrlRedirectActionParameters struct {
-	// CustomFragment: Fragment to add to the redirect URL. Fragment is the part of the URL that comes after #. Do not include
-	// the #.
-	CustomFragment *string `json:"customFragment,omitempty"`
-
-	// CustomHostname: Host to redirect. Leave empty to use the incoming host as the destination host.
-	CustomHostname *string `json:"customHostname,omitempty"`
-
-	// CustomPath: The full path to redirect. Path cannot be empty and must start with /. Leave empty to use the incoming path
-	// as destination path.
-	CustomPath *string `json:"customPath,omitempty"`
-
-	// CustomQueryString: The set of query strings to be placed in the redirect URL. Setting this value would replace any
-	// existing query string; leave empty to preserve the incoming query string. Query string must be in <key>=<value> format.
-	// ? and & will be added automatically so do not include them.
-	CustomQueryString *string `json:"customQueryString,omitempty"`
-
-	// DestinationProtocol: Protocol to use for the redirect. The default value is MatchRequest.
-	DestinationProtocol *UrlRedirectActionParametersDestinationProtocol `json:"destinationProtocol,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// RedirectType: The redirect type the rule will use when redirecting traffic.
-	RedirectType *UrlRedirectActionParametersRedirectType `json:"redirectType,omitempty"`
-
-	// +kubebuilder:validation:Required
-	TypeName *UrlRedirectActionParametersTypeName `json:"typeName,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &UrlRedirectActionParameters{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (parameters *UrlRedirectActionParameters) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if parameters == nil {
-		return nil, nil
-	}
-	result := &UrlRedirectActionParametersARM{}
-
-	// Set property ‘CustomFragment’:
-	if parameters.CustomFragment != nil {
-		customFragment := *parameters.CustomFragment
-		result.CustomFragment = &customFragment
-	}
-
-	// Set property ‘CustomHostname’:
-	if parameters.CustomHostname != nil {
-		customHostname := *parameters.CustomHostname
-		result.CustomHostname = &customHostname
-	}
-
-	// Set property ‘CustomPath’:
-	if parameters.CustomPath != nil {
-		customPath := *parameters.CustomPath
-		result.CustomPath = &customPath
-	}
-
-	// Set property ‘CustomQueryString’:
-	if parameters.CustomQueryString != nil {
-		customQueryString := *parameters.CustomQueryString
-		result.CustomQueryString = &customQueryString
-	}
-
-	// Set property ‘DestinationProtocol’:
-	if parameters.DestinationProtocol != nil {
-		destinationProtocol := *parameters.DestinationProtocol
-		result.DestinationProtocol = &destinationProtocol
-	}
-
-	// Set property ‘RedirectType’:
-	if parameters.RedirectType != nil {
-		redirectType := *parameters.RedirectType
-		result.RedirectType = &redirectType
-	}
-
-	// Set property ‘TypeName’:
-	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
-		result.TypeName = &typeName
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *UrlRedirectActionParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UrlRedirectActionParametersARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *UrlRedirectActionParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UrlRedirectActionParametersARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlRedirectActionParametersARM, got %T", armInput)
-	}
-
-	// Set property ‘CustomFragment’:
-	if typedInput.CustomFragment != nil {
-		customFragment := *typedInput.CustomFragment
-		parameters.CustomFragment = &customFragment
-	}
-
-	// Set property ‘CustomHostname’:
-	if typedInput.CustomHostname != nil {
-		customHostname := *typedInput.CustomHostname
-		parameters.CustomHostname = &customHostname
-	}
-
-	// Set property ‘CustomPath’:
-	if typedInput.CustomPath != nil {
-		customPath := *typedInput.CustomPath
-		parameters.CustomPath = &customPath
-	}
-
-	// Set property ‘CustomQueryString’:
-	if typedInput.CustomQueryString != nil {
-		customQueryString := *typedInput.CustomQueryString
-		parameters.CustomQueryString = &customQueryString
-	}
-
-	// Set property ‘DestinationProtocol’:
-	if typedInput.DestinationProtocol != nil {
-		destinationProtocol := *typedInput.DestinationProtocol
-		parameters.DestinationProtocol = &destinationProtocol
-	}
-
-	// Set property ‘RedirectType’:
-	if typedInput.RedirectType != nil {
-		redirectType := *typedInput.RedirectType
-		parameters.RedirectType = &redirectType
-	}
-
-	// Set property ‘TypeName’:
-	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
-		parameters.TypeName = &typeName
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromUrlRedirectActionParameters populates our UrlRedirectActionParameters from the provided source UrlRedirectActionParameters
-func (parameters *UrlRedirectActionParameters) AssignPropertiesFromUrlRedirectActionParameters(source *v20210601s.UrlRedirectActionParameters) error {
-
-	// CustomFragment
-	parameters.CustomFragment = genruntime.ClonePointerToString(source.CustomFragment)
-
-	// CustomHostname
-	parameters.CustomHostname = genruntime.ClonePointerToString(source.CustomHostname)
-
-	// CustomPath
-	parameters.CustomPath = genruntime.ClonePointerToString(source.CustomPath)
-
-	// CustomQueryString
-	parameters.CustomQueryString = genruntime.ClonePointerToString(source.CustomQueryString)
-
-	// DestinationProtocol
-	if source.DestinationProtocol != nil {
-		destinationProtocol := UrlRedirectActionParametersDestinationProtocol(*source.DestinationProtocol)
-		parameters.DestinationProtocol = &destinationProtocol
-	} else {
-		parameters.DestinationProtocol = nil
-	}
-
-	// RedirectType
-	if source.RedirectType != nil {
-		redirectType := UrlRedirectActionParametersRedirectType(*source.RedirectType)
-		parameters.RedirectType = &redirectType
-	} else {
-		parameters.RedirectType = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := UrlRedirectActionParametersTypeName(*source.TypeName)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToUrlRedirectActionParameters populates the provided destination UrlRedirectActionParameters from our UrlRedirectActionParameters
-func (parameters *UrlRedirectActionParameters) AssignPropertiesToUrlRedirectActionParameters(destination *v20210601s.UrlRedirectActionParameters) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// CustomFragment
-	destination.CustomFragment = genruntime.ClonePointerToString(parameters.CustomFragment)
-
-	// CustomHostname
-	destination.CustomHostname = genruntime.ClonePointerToString(parameters.CustomHostname)
-
-	// CustomPath
-	destination.CustomPath = genruntime.ClonePointerToString(parameters.CustomPath)
-
-	// CustomQueryString
-	destination.CustomQueryString = genruntime.ClonePointerToString(parameters.CustomQueryString)
-
-	// DestinationProtocol
-	if parameters.DestinationProtocol != nil {
-		destinationProtocol := string(*parameters.DestinationProtocol)
-		destination.DestinationProtocol = &destinationProtocol
-	} else {
-		destination.DestinationProtocol = nil
-	}
-
-	// RedirectType
-	if parameters.RedirectType != nil {
-		redirectType := string(*parameters.RedirectType)
-		destination.RedirectType = &redirectType
-	} else {
-		destination.RedirectType = nil
-	}
-
-	// TypeName
-	if parameters.TypeName != nil {
-		typeName := string(*parameters.TypeName)
-		destination.TypeName = &typeName
-	} else {
-		destination.TypeName = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// +kubebuilder:validation:Enum={"UrlRewrite"}
-type UrlRewriteActionName string
-
-const UrlRewriteActionNameUrlRewrite = UrlRewriteActionName("UrlRewrite")
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlRewriteActionParameters
-type UrlRewriteActionParameters struct {
-	// +kubebuilder:validation:Required
-	// Destination: Define the relative URL to which the above requests will be rewritten by.
-	Destination *string `json:"destination,omitempty"`
-
-	// PreserveUnmatchedPath: Whether to preserve unmatched path. Default value is true.
-	PreserveUnmatchedPath *bool `json:"preserveUnmatchedPath,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// SourcePattern: define a request URI pattern that identifies the type of requests that may be rewritten. If value is
-	// blank, all strings are matched.
-	SourcePattern *string `json:"sourcePattern,omitempty"`
-
-	// +kubebuilder:validation:Required
-	TypeName *UrlRewriteActionParametersTypeName `json:"typeName,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &UrlRewriteActionParameters{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (parameters *UrlRewriteActionParameters) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if parameters == nil {
-		return nil, nil
-	}
-	result := &UrlRewriteActionParametersARM{}
-
-	// Set property ‘Destination’:
-	if parameters.Destination != nil {
-		destination := *parameters.Destination
-		result.Destination = &destination
-	}
-
-	// Set property ‘PreserveUnmatchedPath’:
-	if parameters.PreserveUnmatchedPath != nil {
-		preserveUnmatchedPath := *parameters.PreserveUnmatchedPath
-		result.PreserveUnmatchedPath = &preserveUnmatchedPath
-	}
-
-	// Set property ‘SourcePattern’:
-	if parameters.SourcePattern != nil {
-		sourcePattern := *parameters.SourcePattern
-		result.SourcePattern = &sourcePattern
-	}
-
-	// Set property ‘TypeName’:
-	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
-		result.TypeName = &typeName
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *UrlRewriteActionParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UrlRewriteActionParametersARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *UrlRewriteActionParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UrlRewriteActionParametersARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlRewriteActionParametersARM, got %T", armInput)
-	}
-
-	// Set property ‘Destination’:
-	if typedInput.Destination != nil {
-		destination := *typedInput.Destination
-		parameters.Destination = &destination
-	}
-
-	// Set property ‘PreserveUnmatchedPath’:
-	if typedInput.PreserveUnmatchedPath != nil {
-		preserveUnmatchedPath := *typedInput.PreserveUnmatchedPath
-		parameters.PreserveUnmatchedPath = &preserveUnmatchedPath
-	}
-
-	// Set property ‘SourcePattern’:
-	if typedInput.SourcePattern != nil {
-		sourcePattern := *typedInput.SourcePattern
-		parameters.SourcePattern = &sourcePattern
-	}
-
-	// Set property ‘TypeName’:
-	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
-		parameters.TypeName = &typeName
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromUrlRewriteActionParameters populates our UrlRewriteActionParameters from the provided source UrlRewriteActionParameters
-func (parameters *UrlRewriteActionParameters) AssignPropertiesFromUrlRewriteActionParameters(source *v20210601s.UrlRewriteActionParameters) error {
-
-	// Destination
-	parameters.Destination = genruntime.ClonePointerToString(source.Destination)
-
-	// PreserveUnmatchedPath
-	if source.PreserveUnmatchedPath != nil {
-		preserveUnmatchedPath := *source.PreserveUnmatchedPath
-		parameters.PreserveUnmatchedPath = &preserveUnmatchedPath
-	} else {
-		parameters.PreserveUnmatchedPath = nil
-	}
-
-	// SourcePattern
-	parameters.SourcePattern = genruntime.ClonePointerToString(source.SourcePattern)
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := UrlRewriteActionParametersTypeName(*source.TypeName)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToUrlRewriteActionParameters populates the provided destination UrlRewriteActionParameters from our UrlRewriteActionParameters
-func (parameters *UrlRewriteActionParameters) AssignPropertiesToUrlRewriteActionParameters(destination *v20210601s.UrlRewriteActionParameters) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Destination
-	destination.Destination = genruntime.ClonePointerToString(parameters.Destination)
-
-	// PreserveUnmatchedPath
-	if parameters.PreserveUnmatchedPath != nil {
-		preserveUnmatchedPath := *parameters.PreserveUnmatchedPath
-		destination.PreserveUnmatchedPath = &preserveUnmatchedPath
-	} else {
-		destination.PreserveUnmatchedPath = nil
-	}
-
-	// SourcePattern
-	destination.SourcePattern = genruntime.ClonePointerToString(parameters.SourcePattern)
-
-	// TypeName
-	if parameters.TypeName != nil {
-		typeName := string(*parameters.TypeName)
-		destination.TypeName = &typeName
-	} else {
-		destination.TypeName = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// +kubebuilder:validation:Enum={"UrlSigning"}
-type UrlSigningActionName string
-
-const UrlSigningActionNameUrlSigning = UrlSigningActionName("UrlSigning")
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlSigningActionParameters
-type UrlSigningActionParameters struct {
-	// Algorithm: Algorithm to use for URL signing.
-	Algorithm *UrlSigningActionParametersAlgorithm `json:"algorithm,omitempty"`
-
-	// ParameterNameOverride: Defines which query string parameters in the url to be considered for expires, key id etc.
-	ParameterNameOverride []UrlSigningParamIdentifier `json:"parameterNameOverride,omitempty"`
-
-	// +kubebuilder:validation:Required
-	TypeName *UrlSigningActionParametersTypeName `json:"typeName,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &UrlSigningActionParameters{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (parameters *UrlSigningActionParameters) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if parameters == nil {
-		return nil, nil
-	}
-	result := &UrlSigningActionParametersARM{}
-
-	// Set property ‘Algorithm’:
-	if parameters.Algorithm != nil {
-		algorithm := *parameters.Algorithm
-		result.Algorithm = &algorithm
-	}
-
-	// Set property ‘ParameterNameOverride’:
-	for _, item := range parameters.ParameterNameOverride {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.ParameterNameOverride = append(result.ParameterNameOverride, *itemARM.(*UrlSigningParamIdentifierARM))
-	}
-
-	// Set property ‘TypeName’:
-	if parameters.TypeName != nil {
-		typeName := *parameters.TypeName
-		result.TypeName = &typeName
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *UrlSigningActionParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UrlSigningActionParametersARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *UrlSigningActionParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UrlSigningActionParametersARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlSigningActionParametersARM, got %T", armInput)
-	}
-
-	// Set property ‘Algorithm’:
-	if typedInput.Algorithm != nil {
-		algorithm := *typedInput.Algorithm
-		parameters.Algorithm = &algorithm
-	}
-
-	// Set property ‘ParameterNameOverride’:
-	for _, item := range typedInput.ParameterNameOverride {
-		var item1 UrlSigningParamIdentifier
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		parameters.ParameterNameOverride = append(parameters.ParameterNameOverride, item1)
-	}
-
-	// Set property ‘TypeName’:
-	if typedInput.TypeName != nil {
-		typeName := *typedInput.TypeName
-		parameters.TypeName = &typeName
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromUrlSigningActionParameters populates our UrlSigningActionParameters from the provided source UrlSigningActionParameters
-func (parameters *UrlSigningActionParameters) AssignPropertiesFromUrlSigningActionParameters(source *v20210601s.UrlSigningActionParameters) error {
-
-	// Algorithm
-	if source.Algorithm != nil {
-		algorithm := UrlSigningActionParametersAlgorithm(*source.Algorithm)
-		parameters.Algorithm = &algorithm
-	} else {
-		parameters.Algorithm = nil
-	}
-
-	// ParameterNameOverride
-	if source.ParameterNameOverride != nil {
-		parameterNameOverrideList := make([]UrlSigningParamIdentifier, len(source.ParameterNameOverride))
-		for parameterNameOverrideIndex, parameterNameOverrideItem := range source.ParameterNameOverride {
-			// Shadow the loop variable to avoid aliasing
-			parameterNameOverrideItem := parameterNameOverrideItem
-			var parameterNameOverride UrlSigningParamIdentifier
-			err := parameterNameOverride.AssignPropertiesFromUrlSigningParamIdentifier(&parameterNameOverrideItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromUrlSigningParamIdentifier() to populate field ParameterNameOverride")
-			}
-			parameterNameOverrideList[parameterNameOverrideIndex] = parameterNameOverride
-		}
-		parameters.ParameterNameOverride = parameterNameOverrideList
-	} else {
-		parameters.ParameterNameOverride = nil
-	}
-
-	// TypeName
-	if source.TypeName != nil {
-		typeName := UrlSigningActionParametersTypeName(*source.TypeName)
-		parameters.TypeName = &typeName
-	} else {
-		parameters.TypeName = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToUrlSigningActionParameters populates the provided destination UrlSigningActionParameters from our UrlSigningActionParameters
-func (parameters *UrlSigningActionParameters) AssignPropertiesToUrlSigningActionParameters(destination *v20210601s.UrlSigningActionParameters) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Algorithm
-	if parameters.Algorithm != nil {
-		algorithm := string(*parameters.Algorithm)
-		destination.Algorithm = &algorithm
-	} else {
-		destination.Algorithm = nil
-	}
-
-	// ParameterNameOverride
-	if parameters.ParameterNameOverride != nil {
-		parameterNameOverrideList := make([]v20210601s.UrlSigningParamIdentifier, len(parameters.ParameterNameOverride))
-		for parameterNameOverrideIndex, parameterNameOverrideItem := range parameters.ParameterNameOverride {
-			// Shadow the loop variable to avoid aliasing
-			parameterNameOverrideItem := parameterNameOverrideItem
-			var parameterNameOverride v20210601s.UrlSigningParamIdentifier
-			err := parameterNameOverrideItem.AssignPropertiesToUrlSigningParamIdentifier(&parameterNameOverride)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToUrlSigningParamIdentifier() to populate field ParameterNameOverride")
-			}
-			parameterNameOverrideList[parameterNameOverrideIndex] = parameterNameOverride
-		}
-		destination.ParameterNameOverride = parameterNameOverrideList
-	} else {
-		destination.ParameterNameOverride = nil
-	}
-
-	// TypeName
-	if parameters.TypeName != nil {
-		typeName := string(*parameters.TypeName)
-		destination.TypeName = &typeName
-	} else {
-		destination.TypeName = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/CacheConfiguration
-type CacheConfiguration struct {
-	// CacheBehavior: Caching behavior for the requests.
-	CacheBehavior *CacheConfigurationCacheBehavior `json:"cacheBehavior,omitempty"`
-
-	// CacheDuration: The duration for which the content needs to be cached. Allowed format is [d.]hh:mm:ss
-	CacheDuration *string `json:"cacheDuration,omitempty"`
-
-	// IsCompressionEnabled: Indicates whether content compression is enabled. If compression is enabled, content will be
-	// served as compressed if user requests for a compressed version. Content won't be compressed on AzureFrontDoor when
-	// requested content is smaller than 1 byte or larger than 1 MB.
-	IsCompressionEnabled *CacheConfigurationIsCompressionEnabled `json:"isCompressionEnabled,omitempty"`
-
-	// QueryParameters: query parameters to include or exclude (comma separated).
-	QueryParameters *string `json:"queryParameters,omitempty"`
-
-	// QueryStringCachingBehavior: Defines how Frontdoor caches requests that include query strings. You can ignore any query
-	// strings when caching, ignore specific query strings, cache every request with a unique URL, or cache specific query
-	// strings.
-	QueryStringCachingBehavior *CacheConfigurationQueryStringCachingBehavior `json:"queryStringCachingBehavior,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &CacheConfiguration{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (configuration *CacheConfiguration) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if configuration == nil {
-		return nil, nil
-	}
-	result := &CacheConfigurationARM{}
-
-	// Set property ‘CacheBehavior’:
-	if configuration.CacheBehavior != nil {
-		cacheBehavior := *configuration.CacheBehavior
-		result.CacheBehavior = &cacheBehavior
-	}
-
-	// Set property ‘CacheDuration’:
-	if configuration.CacheDuration != nil {
-		cacheDuration := *configuration.CacheDuration
-		result.CacheDuration = &cacheDuration
-	}
-
-	// Set property ‘IsCompressionEnabled’:
-	if configuration.IsCompressionEnabled != nil {
-		isCompressionEnabled := *configuration.IsCompressionEnabled
-		result.IsCompressionEnabled = &isCompressionEnabled
-	}
-
-	// Set property ‘QueryParameters’:
-	if configuration.QueryParameters != nil {
-		queryParameters := *configuration.QueryParameters
-		result.QueryParameters = &queryParameters
-	}
-
-	// Set property ‘QueryStringCachingBehavior’:
-	if configuration.QueryStringCachingBehavior != nil {
-		queryStringCachingBehavior := *configuration.QueryStringCachingBehavior
-		result.QueryStringCachingBehavior = &queryStringCachingBehavior
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (configuration *CacheConfiguration) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CacheConfigurationARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (configuration *CacheConfiguration) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CacheConfigurationARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CacheConfigurationARM, got %T", armInput)
-	}
-
-	// Set property ‘CacheBehavior’:
-	if typedInput.CacheBehavior != nil {
-		cacheBehavior := *typedInput.CacheBehavior
-		configuration.CacheBehavior = &cacheBehavior
-	}
-
-	// Set property ‘CacheDuration’:
-	if typedInput.CacheDuration != nil {
-		cacheDuration := *typedInput.CacheDuration
-		configuration.CacheDuration = &cacheDuration
-	}
-
-	// Set property ‘IsCompressionEnabled’:
-	if typedInput.IsCompressionEnabled != nil {
-		isCompressionEnabled := *typedInput.IsCompressionEnabled
-		configuration.IsCompressionEnabled = &isCompressionEnabled
-	}
-
-	// Set property ‘QueryParameters’:
-	if typedInput.QueryParameters != nil {
-		queryParameters := *typedInput.QueryParameters
-		configuration.QueryParameters = &queryParameters
-	}
-
-	// Set property ‘QueryStringCachingBehavior’:
-	if typedInput.QueryStringCachingBehavior != nil {
-		queryStringCachingBehavior := *typedInput.QueryStringCachingBehavior
-		configuration.QueryStringCachingBehavior = &queryStringCachingBehavior
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromCacheConfiguration populates our CacheConfiguration from the provided source CacheConfiguration
-func (configuration *CacheConfiguration) AssignPropertiesFromCacheConfiguration(source *v20210601s.CacheConfiguration) error {
-
-	// CacheBehavior
-	if source.CacheBehavior != nil {
-		cacheBehavior := CacheConfigurationCacheBehavior(*source.CacheBehavior)
-		configuration.CacheBehavior = &cacheBehavior
-	} else {
-		configuration.CacheBehavior = nil
-	}
-
-	// CacheDuration
-	configuration.CacheDuration = genruntime.ClonePointerToString(source.CacheDuration)
-
-	// IsCompressionEnabled
-	if source.IsCompressionEnabled != nil {
-		isCompressionEnabled := CacheConfigurationIsCompressionEnabled(*source.IsCompressionEnabled)
-		configuration.IsCompressionEnabled = &isCompressionEnabled
-	} else {
-		configuration.IsCompressionEnabled = nil
-	}
-
-	// QueryParameters
-	configuration.QueryParameters = genruntime.ClonePointerToString(source.QueryParameters)
-
-	// QueryStringCachingBehavior
-	if source.QueryStringCachingBehavior != nil {
-		queryStringCachingBehavior := CacheConfigurationQueryStringCachingBehavior(*source.QueryStringCachingBehavior)
-		configuration.QueryStringCachingBehavior = &queryStringCachingBehavior
-	} else {
-		configuration.QueryStringCachingBehavior = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToCacheConfiguration populates the provided destination CacheConfiguration from our CacheConfiguration
-func (configuration *CacheConfiguration) AssignPropertiesToCacheConfiguration(destination *v20210601s.CacheConfiguration) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// CacheBehavior
-	if configuration.CacheBehavior != nil {
-		cacheBehavior := string(*configuration.CacheBehavior)
-		destination.CacheBehavior = &cacheBehavior
-	} else {
-		destination.CacheBehavior = nil
-	}
-
-	// CacheDuration
-	destination.CacheDuration = genruntime.ClonePointerToString(configuration.CacheDuration)
-
-	// IsCompressionEnabled
-	if configuration.IsCompressionEnabled != nil {
-		isCompressionEnabled := string(*configuration.IsCompressionEnabled)
-		destination.IsCompressionEnabled = &isCompressionEnabled
-	} else {
-		destination.IsCompressionEnabled = nil
-	}
-
-	// QueryParameters
-	destination.QueryParameters = genruntime.ClonePointerToString(configuration.QueryParameters)
-
-	// QueryStringCachingBehavior
-	if configuration.QueryStringCachingBehavior != nil {
-		queryStringCachingBehavior := string(*configuration.QueryStringCachingBehavior)
-		destination.QueryStringCachingBehavior = &queryStringCachingBehavior
-	} else {
-		destination.QueryStringCachingBehavior = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// +kubebuilder:validation:Enum={"BypassCache","Override","SetIfMissing"}
-type CacheExpirationActionParametersCacheBehavior string
+// +kubebuilder:validation:Enum={"CacheExpiration","CacheKeyQueryString","ModifyRequestHeader","ModifyResponseHeader","OriginGroupOverride","RouteConfigurationOverride","UrlRedirect","UrlRewrite","UrlSigning"}
+type DeliveryRuleAction_Name string
 
 const (
-	CacheExpirationActionParametersCacheBehaviorBypassCache  = CacheExpirationActionParametersCacheBehavior("BypassCache")
-	CacheExpirationActionParametersCacheBehaviorOverride     = CacheExpirationActionParametersCacheBehavior("Override")
-	CacheExpirationActionParametersCacheBehaviorSetIfMissing = CacheExpirationActionParametersCacheBehavior("SetIfMissing")
+	DeliveryRuleAction_NameCacheExpiration            = DeliveryRuleAction_Name("CacheExpiration")
+	DeliveryRuleAction_NameCacheKeyQueryString        = DeliveryRuleAction_Name("CacheKeyQueryString")
+	DeliveryRuleAction_NameModifyRequestHeader        = DeliveryRuleAction_Name("ModifyRequestHeader")
+	DeliveryRuleAction_NameModifyResponseHeader       = DeliveryRuleAction_Name("ModifyResponseHeader")
+	DeliveryRuleAction_NameOriginGroupOverride        = DeliveryRuleAction_Name("OriginGroupOverride")
+	DeliveryRuleAction_NameRouteConfigurationOverride = DeliveryRuleAction_Name("RouteConfigurationOverride")
+	DeliveryRuleAction_NameUrlRedirect                = DeliveryRuleAction_Name("UrlRedirect")
+	DeliveryRuleAction_NameUrlRewrite                 = DeliveryRuleAction_Name("UrlRewrite")
+	DeliveryRuleAction_NameUrlSigning                 = DeliveryRuleAction_Name("UrlSigning")
 )
 
-// +kubebuilder:validation:Enum={"All"}
-type CacheExpirationActionParametersCacheType string
-
-const CacheExpirationActionParametersCacheTypeAll = CacheExpirationActionParametersCacheType("All")
-
-// +kubebuilder:validation:Enum={"DeliveryRuleCacheExpirationActionParameters"}
-type CacheExpirationActionParametersTypeName string
-
-const CacheExpirationActionParametersTypeNameDeliveryRuleCacheExpirationActionParameters = CacheExpirationActionParametersTypeName("DeliveryRuleCacheExpirationActionParameters")
-
-// +kubebuilder:validation:Enum={"Exclude","ExcludeAll","Include","IncludeAll"}
-type CacheKeyQueryStringActionParametersQueryStringBehavior string
+// +kubebuilder:validation:Enum={"ClientPort","Cookies","HostName","HttpVersion","IsDevice","PostArgs","QueryString","RemoteAddress","RequestBody","RequestHeader","RequestMethod","RequestScheme","RequestUri","ServerPort","SocketAddr","SslProtocol","UrlFileExtension","UrlFileName","UrlPath"}
+type DeliveryRuleCondition_Name string
 
 const (
-	CacheKeyQueryStringActionParametersQueryStringBehaviorExclude    = CacheKeyQueryStringActionParametersQueryStringBehavior("Exclude")
-	CacheKeyQueryStringActionParametersQueryStringBehaviorExcludeAll = CacheKeyQueryStringActionParametersQueryStringBehavior("ExcludeAll")
-	CacheKeyQueryStringActionParametersQueryStringBehaviorInclude    = CacheKeyQueryStringActionParametersQueryStringBehavior("Include")
-	CacheKeyQueryStringActionParametersQueryStringBehaviorIncludeAll = CacheKeyQueryStringActionParametersQueryStringBehavior("IncludeAll")
-)
-
-// +kubebuilder:validation:Enum={"DeliveryRuleCacheKeyQueryStringBehaviorActionParameters"}
-type CacheKeyQueryStringActionParametersTypeName string
-
-const CacheKeyQueryStringActionParametersTypeNameDeliveryRuleCacheKeyQueryStringBehaviorActionParameters = CacheKeyQueryStringActionParametersTypeName("DeliveryRuleCacheKeyQueryStringBehaviorActionParameters")
-
-// +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
-type ClientPortMatchConditionParametersOperator string
-
-const (
-	ClientPortMatchConditionParametersOperatorAny                = ClientPortMatchConditionParametersOperator("Any")
-	ClientPortMatchConditionParametersOperatorBeginsWith         = ClientPortMatchConditionParametersOperator("BeginsWith")
-	ClientPortMatchConditionParametersOperatorContains           = ClientPortMatchConditionParametersOperator("Contains")
-	ClientPortMatchConditionParametersOperatorEndsWith           = ClientPortMatchConditionParametersOperator("EndsWith")
-	ClientPortMatchConditionParametersOperatorEqual              = ClientPortMatchConditionParametersOperator("Equal")
-	ClientPortMatchConditionParametersOperatorGreaterThan        = ClientPortMatchConditionParametersOperator("GreaterThan")
-	ClientPortMatchConditionParametersOperatorGreaterThanOrEqual = ClientPortMatchConditionParametersOperator("GreaterThanOrEqual")
-	ClientPortMatchConditionParametersOperatorLessThan           = ClientPortMatchConditionParametersOperator("LessThan")
-	ClientPortMatchConditionParametersOperatorLessThanOrEqual    = ClientPortMatchConditionParametersOperator("LessThanOrEqual")
-	ClientPortMatchConditionParametersOperatorRegEx              = ClientPortMatchConditionParametersOperator("RegEx")
-)
-
-// +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type ClientPortMatchConditionParametersTransforms string
-
-const (
-	ClientPortMatchConditionParametersTransformsLowercase   = ClientPortMatchConditionParametersTransforms("Lowercase")
-	ClientPortMatchConditionParametersTransformsRemoveNulls = ClientPortMatchConditionParametersTransforms("RemoveNulls")
-	ClientPortMatchConditionParametersTransformsTrim        = ClientPortMatchConditionParametersTransforms("Trim")
-	ClientPortMatchConditionParametersTransformsUppercase   = ClientPortMatchConditionParametersTransforms("Uppercase")
-	ClientPortMatchConditionParametersTransformsUrlDecode   = ClientPortMatchConditionParametersTransforms("UrlDecode")
-	ClientPortMatchConditionParametersTransformsUrlEncode   = ClientPortMatchConditionParametersTransforms("UrlEncode")
-)
-
-// +kubebuilder:validation:Enum={"DeliveryRuleClientPortConditionParameters"}
-type ClientPortMatchConditionParametersTypeName string
-
-const ClientPortMatchConditionParametersTypeNameDeliveryRuleClientPortConditionParameters = ClientPortMatchConditionParametersTypeName("DeliveryRuleClientPortConditionParameters")
-
-// +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
-type CookiesMatchConditionParametersOperator string
-
-const (
-	CookiesMatchConditionParametersOperatorAny                = CookiesMatchConditionParametersOperator("Any")
-	CookiesMatchConditionParametersOperatorBeginsWith         = CookiesMatchConditionParametersOperator("BeginsWith")
-	CookiesMatchConditionParametersOperatorContains           = CookiesMatchConditionParametersOperator("Contains")
-	CookiesMatchConditionParametersOperatorEndsWith           = CookiesMatchConditionParametersOperator("EndsWith")
-	CookiesMatchConditionParametersOperatorEqual              = CookiesMatchConditionParametersOperator("Equal")
-	CookiesMatchConditionParametersOperatorGreaterThan        = CookiesMatchConditionParametersOperator("GreaterThan")
-	CookiesMatchConditionParametersOperatorGreaterThanOrEqual = CookiesMatchConditionParametersOperator("GreaterThanOrEqual")
-	CookiesMatchConditionParametersOperatorLessThan           = CookiesMatchConditionParametersOperator("LessThan")
-	CookiesMatchConditionParametersOperatorLessThanOrEqual    = CookiesMatchConditionParametersOperator("LessThanOrEqual")
-	CookiesMatchConditionParametersOperatorRegEx              = CookiesMatchConditionParametersOperator("RegEx")
-)
-
-// +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type CookiesMatchConditionParametersTransforms string
-
-const (
-	CookiesMatchConditionParametersTransformsLowercase   = CookiesMatchConditionParametersTransforms("Lowercase")
-	CookiesMatchConditionParametersTransformsRemoveNulls = CookiesMatchConditionParametersTransforms("RemoveNulls")
-	CookiesMatchConditionParametersTransformsTrim        = CookiesMatchConditionParametersTransforms("Trim")
-	CookiesMatchConditionParametersTransformsUppercase   = CookiesMatchConditionParametersTransforms("Uppercase")
-	CookiesMatchConditionParametersTransformsUrlDecode   = CookiesMatchConditionParametersTransforms("UrlDecode")
-	CookiesMatchConditionParametersTransformsUrlEncode   = CookiesMatchConditionParametersTransforms("UrlEncode")
-)
-
-// +kubebuilder:validation:Enum={"DeliveryRuleCookiesConditionParameters"}
-type CookiesMatchConditionParametersTypeName string
-
-const CookiesMatchConditionParametersTypeNameDeliveryRuleCookiesConditionParameters = CookiesMatchConditionParametersTypeName("DeliveryRuleCookiesConditionParameters")
-
-// +kubebuilder:validation:Enum={"Append","Delete","Overwrite"}
-type HeaderActionParametersHeaderAction string
-
-const (
-	HeaderActionParametersHeaderActionAppend    = HeaderActionParametersHeaderAction("Append")
-	HeaderActionParametersHeaderActionDelete    = HeaderActionParametersHeaderAction("Delete")
-	HeaderActionParametersHeaderActionOverwrite = HeaderActionParametersHeaderAction("Overwrite")
-)
-
-// +kubebuilder:validation:Enum={"DeliveryRuleHeaderActionParameters"}
-type HeaderActionParametersTypeName string
-
-const HeaderActionParametersTypeNameDeliveryRuleHeaderActionParameters = HeaderActionParametersTypeName("DeliveryRuleHeaderActionParameters")
-
-// +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
-type HostNameMatchConditionParametersOperator string
-
-const (
-	HostNameMatchConditionParametersOperatorAny                = HostNameMatchConditionParametersOperator("Any")
-	HostNameMatchConditionParametersOperatorBeginsWith         = HostNameMatchConditionParametersOperator("BeginsWith")
-	HostNameMatchConditionParametersOperatorContains           = HostNameMatchConditionParametersOperator("Contains")
-	HostNameMatchConditionParametersOperatorEndsWith           = HostNameMatchConditionParametersOperator("EndsWith")
-	HostNameMatchConditionParametersOperatorEqual              = HostNameMatchConditionParametersOperator("Equal")
-	HostNameMatchConditionParametersOperatorGreaterThan        = HostNameMatchConditionParametersOperator("GreaterThan")
-	HostNameMatchConditionParametersOperatorGreaterThanOrEqual = HostNameMatchConditionParametersOperator("GreaterThanOrEqual")
-	HostNameMatchConditionParametersOperatorLessThan           = HostNameMatchConditionParametersOperator("LessThan")
-	HostNameMatchConditionParametersOperatorLessThanOrEqual    = HostNameMatchConditionParametersOperator("LessThanOrEqual")
-	HostNameMatchConditionParametersOperatorRegEx              = HostNameMatchConditionParametersOperator("RegEx")
-)
-
-// +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type HostNameMatchConditionParametersTransforms string
-
-const (
-	HostNameMatchConditionParametersTransformsLowercase   = HostNameMatchConditionParametersTransforms("Lowercase")
-	HostNameMatchConditionParametersTransformsRemoveNulls = HostNameMatchConditionParametersTransforms("RemoveNulls")
-	HostNameMatchConditionParametersTransformsTrim        = HostNameMatchConditionParametersTransforms("Trim")
-	HostNameMatchConditionParametersTransformsUppercase   = HostNameMatchConditionParametersTransforms("Uppercase")
-	HostNameMatchConditionParametersTransformsUrlDecode   = HostNameMatchConditionParametersTransforms("UrlDecode")
-	HostNameMatchConditionParametersTransformsUrlEncode   = HostNameMatchConditionParametersTransforms("UrlEncode")
-)
-
-// +kubebuilder:validation:Enum={"DeliveryRuleHostNameConditionParameters"}
-type HostNameMatchConditionParametersTypeName string
-
-const HostNameMatchConditionParametersTypeNameDeliveryRuleHostNameConditionParameters = HostNameMatchConditionParametersTypeName("DeliveryRuleHostNameConditionParameters")
-
-// +kubebuilder:validation:Enum={"Equal"}
-type HttpVersionMatchConditionParametersOperator string
-
-const HttpVersionMatchConditionParametersOperatorEqual = HttpVersionMatchConditionParametersOperator("Equal")
-
-// +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type HttpVersionMatchConditionParametersTransforms string
-
-const (
-	HttpVersionMatchConditionParametersTransformsLowercase   = HttpVersionMatchConditionParametersTransforms("Lowercase")
-	HttpVersionMatchConditionParametersTransformsRemoveNulls = HttpVersionMatchConditionParametersTransforms("RemoveNulls")
-	HttpVersionMatchConditionParametersTransformsTrim        = HttpVersionMatchConditionParametersTransforms("Trim")
-	HttpVersionMatchConditionParametersTransformsUppercase   = HttpVersionMatchConditionParametersTransforms("Uppercase")
-	HttpVersionMatchConditionParametersTransformsUrlDecode   = HttpVersionMatchConditionParametersTransforms("UrlDecode")
-	HttpVersionMatchConditionParametersTransformsUrlEncode   = HttpVersionMatchConditionParametersTransforms("UrlEncode")
-)
-
-// +kubebuilder:validation:Enum={"DeliveryRuleHttpVersionConditionParameters"}
-type HttpVersionMatchConditionParametersTypeName string
-
-const HttpVersionMatchConditionParametersTypeNameDeliveryRuleHttpVersionConditionParameters = HttpVersionMatchConditionParametersTypeName("DeliveryRuleHttpVersionConditionParameters")
-
-// +kubebuilder:validation:Enum={"Desktop","Mobile"}
-type IsDeviceMatchConditionParametersMatchValues string
-
-const (
-	IsDeviceMatchConditionParametersMatchValuesDesktop = IsDeviceMatchConditionParametersMatchValues("Desktop")
-	IsDeviceMatchConditionParametersMatchValuesMobile  = IsDeviceMatchConditionParametersMatchValues("Mobile")
-)
-
-// +kubebuilder:validation:Enum={"Equal"}
-type IsDeviceMatchConditionParametersOperator string
-
-const IsDeviceMatchConditionParametersOperatorEqual = IsDeviceMatchConditionParametersOperator("Equal")
-
-// +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type IsDeviceMatchConditionParametersTransforms string
-
-const (
-	IsDeviceMatchConditionParametersTransformsLowercase   = IsDeviceMatchConditionParametersTransforms("Lowercase")
-	IsDeviceMatchConditionParametersTransformsRemoveNulls = IsDeviceMatchConditionParametersTransforms("RemoveNulls")
-	IsDeviceMatchConditionParametersTransformsTrim        = IsDeviceMatchConditionParametersTransforms("Trim")
-	IsDeviceMatchConditionParametersTransformsUppercase   = IsDeviceMatchConditionParametersTransforms("Uppercase")
-	IsDeviceMatchConditionParametersTransformsUrlDecode   = IsDeviceMatchConditionParametersTransforms("UrlDecode")
-	IsDeviceMatchConditionParametersTransformsUrlEncode   = IsDeviceMatchConditionParametersTransforms("UrlEncode")
-)
-
-// +kubebuilder:validation:Enum={"DeliveryRuleIsDeviceConditionParameters"}
-type IsDeviceMatchConditionParametersTypeName string
-
-const IsDeviceMatchConditionParametersTypeNameDeliveryRuleIsDeviceConditionParameters = IsDeviceMatchConditionParametersTypeName("DeliveryRuleIsDeviceConditionParameters")
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/OriginGroupOverride
-type OriginGroupOverride struct {
-	// ForwardingProtocol: Protocol this rule will use when forwarding traffic to backends.
-	ForwardingProtocol *OriginGroupOverrideForwardingProtocol `json:"forwardingProtocol,omitempty"`
-
-	// OriginGroup: Reference to another resource.
-	OriginGroup *ResourceReference `json:"originGroup,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &OriginGroupOverride{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (override *OriginGroupOverride) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if override == nil {
-		return nil, nil
-	}
-	result := &OriginGroupOverrideARM{}
-
-	// Set property ‘ForwardingProtocol’:
-	if override.ForwardingProtocol != nil {
-		forwardingProtocol := *override.ForwardingProtocol
-		result.ForwardingProtocol = &forwardingProtocol
-	}
-
-	// Set property ‘OriginGroup’:
-	if override.OriginGroup != nil {
-		originGroupARM, err := (*override.OriginGroup).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		originGroup := *originGroupARM.(*ResourceReferenceARM)
-		result.OriginGroup = &originGroup
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (override *OriginGroupOverride) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &OriginGroupOverrideARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (override *OriginGroupOverride) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(OriginGroupOverrideARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OriginGroupOverrideARM, got %T", armInput)
-	}
-
-	// Set property ‘ForwardingProtocol’:
-	if typedInput.ForwardingProtocol != nil {
-		forwardingProtocol := *typedInput.ForwardingProtocol
-		override.ForwardingProtocol = &forwardingProtocol
-	}
-
-	// Set property ‘OriginGroup’:
-	if typedInput.OriginGroup != nil {
-		var originGroup1 ResourceReference
-		err := originGroup1.PopulateFromARM(owner, *typedInput.OriginGroup)
-		if err != nil {
-			return err
-		}
-		originGroup := originGroup1
-		override.OriginGroup = &originGroup
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromOriginGroupOverride populates our OriginGroupOverride from the provided source OriginGroupOverride
-func (override *OriginGroupOverride) AssignPropertiesFromOriginGroupOverride(source *v20210601s.OriginGroupOverride) error {
-
-	// ForwardingProtocol
-	if source.ForwardingProtocol != nil {
-		forwardingProtocol := OriginGroupOverrideForwardingProtocol(*source.ForwardingProtocol)
-		override.ForwardingProtocol = &forwardingProtocol
-	} else {
-		override.ForwardingProtocol = nil
-	}
-
-	// OriginGroup
-	if source.OriginGroup != nil {
-		var originGroup ResourceReference
-		err := originGroup.AssignPropertiesFromResourceReference(source.OriginGroup)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromResourceReference() to populate field OriginGroup")
-		}
-		override.OriginGroup = &originGroup
-	} else {
-		override.OriginGroup = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToOriginGroupOverride populates the provided destination OriginGroupOverride from our OriginGroupOverride
-func (override *OriginGroupOverride) AssignPropertiesToOriginGroupOverride(destination *v20210601s.OriginGroupOverride) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// ForwardingProtocol
-	if override.ForwardingProtocol != nil {
-		forwardingProtocol := string(*override.ForwardingProtocol)
-		destination.ForwardingProtocol = &forwardingProtocol
-	} else {
-		destination.ForwardingProtocol = nil
-	}
-
-	// OriginGroup
-	if override.OriginGroup != nil {
-		var originGroup v20210601s.ResourceReference
-		err := override.OriginGroup.AssignPropertiesToResourceReference(&originGroup)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToResourceReference() to populate field OriginGroup")
-		}
-		destination.OriginGroup = &originGroup
-	} else {
-		destination.OriginGroup = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// +kubebuilder:validation:Enum={"DeliveryRuleOriginGroupOverrideActionParameters"}
-type OriginGroupOverrideActionParametersTypeName string
-
-const OriginGroupOverrideActionParametersTypeNameDeliveryRuleOriginGroupOverrideActionParameters = OriginGroupOverrideActionParametersTypeName("DeliveryRuleOriginGroupOverrideActionParameters")
-
-// +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
-type PostArgsMatchConditionParametersOperator string
-
-const (
-	PostArgsMatchConditionParametersOperatorAny                = PostArgsMatchConditionParametersOperator("Any")
-	PostArgsMatchConditionParametersOperatorBeginsWith         = PostArgsMatchConditionParametersOperator("BeginsWith")
-	PostArgsMatchConditionParametersOperatorContains           = PostArgsMatchConditionParametersOperator("Contains")
-	PostArgsMatchConditionParametersOperatorEndsWith           = PostArgsMatchConditionParametersOperator("EndsWith")
-	PostArgsMatchConditionParametersOperatorEqual              = PostArgsMatchConditionParametersOperator("Equal")
-	PostArgsMatchConditionParametersOperatorGreaterThan        = PostArgsMatchConditionParametersOperator("GreaterThan")
-	PostArgsMatchConditionParametersOperatorGreaterThanOrEqual = PostArgsMatchConditionParametersOperator("GreaterThanOrEqual")
-	PostArgsMatchConditionParametersOperatorLessThan           = PostArgsMatchConditionParametersOperator("LessThan")
-	PostArgsMatchConditionParametersOperatorLessThanOrEqual    = PostArgsMatchConditionParametersOperator("LessThanOrEqual")
-	PostArgsMatchConditionParametersOperatorRegEx              = PostArgsMatchConditionParametersOperator("RegEx")
-)
-
-// +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type PostArgsMatchConditionParametersTransforms string
-
-const (
-	PostArgsMatchConditionParametersTransformsLowercase   = PostArgsMatchConditionParametersTransforms("Lowercase")
-	PostArgsMatchConditionParametersTransformsRemoveNulls = PostArgsMatchConditionParametersTransforms("RemoveNulls")
-	PostArgsMatchConditionParametersTransformsTrim        = PostArgsMatchConditionParametersTransforms("Trim")
-	PostArgsMatchConditionParametersTransformsUppercase   = PostArgsMatchConditionParametersTransforms("Uppercase")
-	PostArgsMatchConditionParametersTransformsUrlDecode   = PostArgsMatchConditionParametersTransforms("UrlDecode")
-	PostArgsMatchConditionParametersTransformsUrlEncode   = PostArgsMatchConditionParametersTransforms("UrlEncode")
-)
-
-// +kubebuilder:validation:Enum={"DeliveryRulePostArgsConditionParameters"}
-type PostArgsMatchConditionParametersTypeName string
-
-const PostArgsMatchConditionParametersTypeNameDeliveryRulePostArgsConditionParameters = PostArgsMatchConditionParametersTypeName("DeliveryRulePostArgsConditionParameters")
-
-// +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
-type QueryStringMatchConditionParametersOperator string
-
-const (
-	QueryStringMatchConditionParametersOperatorAny                = QueryStringMatchConditionParametersOperator("Any")
-	QueryStringMatchConditionParametersOperatorBeginsWith         = QueryStringMatchConditionParametersOperator("BeginsWith")
-	QueryStringMatchConditionParametersOperatorContains           = QueryStringMatchConditionParametersOperator("Contains")
-	QueryStringMatchConditionParametersOperatorEndsWith           = QueryStringMatchConditionParametersOperator("EndsWith")
-	QueryStringMatchConditionParametersOperatorEqual              = QueryStringMatchConditionParametersOperator("Equal")
-	QueryStringMatchConditionParametersOperatorGreaterThan        = QueryStringMatchConditionParametersOperator("GreaterThan")
-	QueryStringMatchConditionParametersOperatorGreaterThanOrEqual = QueryStringMatchConditionParametersOperator("GreaterThanOrEqual")
-	QueryStringMatchConditionParametersOperatorLessThan           = QueryStringMatchConditionParametersOperator("LessThan")
-	QueryStringMatchConditionParametersOperatorLessThanOrEqual    = QueryStringMatchConditionParametersOperator("LessThanOrEqual")
-	QueryStringMatchConditionParametersOperatorRegEx              = QueryStringMatchConditionParametersOperator("RegEx")
-)
-
-// +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type QueryStringMatchConditionParametersTransforms string
-
-const (
-	QueryStringMatchConditionParametersTransformsLowercase   = QueryStringMatchConditionParametersTransforms("Lowercase")
-	QueryStringMatchConditionParametersTransformsRemoveNulls = QueryStringMatchConditionParametersTransforms("RemoveNulls")
-	QueryStringMatchConditionParametersTransformsTrim        = QueryStringMatchConditionParametersTransforms("Trim")
-	QueryStringMatchConditionParametersTransformsUppercase   = QueryStringMatchConditionParametersTransforms("Uppercase")
-	QueryStringMatchConditionParametersTransformsUrlDecode   = QueryStringMatchConditionParametersTransforms("UrlDecode")
-	QueryStringMatchConditionParametersTransformsUrlEncode   = QueryStringMatchConditionParametersTransforms("UrlEncode")
-)
-
-// +kubebuilder:validation:Enum={"DeliveryRuleQueryStringConditionParameters"}
-type QueryStringMatchConditionParametersTypeName string
-
-const QueryStringMatchConditionParametersTypeNameDeliveryRuleQueryStringConditionParameters = QueryStringMatchConditionParametersTypeName("DeliveryRuleQueryStringConditionParameters")
-
-// +kubebuilder:validation:Enum={"Any","GeoMatch","IPMatch"}
-type RemoteAddressMatchConditionParametersOperator string
-
-const (
-	RemoteAddressMatchConditionParametersOperatorAny      = RemoteAddressMatchConditionParametersOperator("Any")
-	RemoteAddressMatchConditionParametersOperatorGeoMatch = RemoteAddressMatchConditionParametersOperator("GeoMatch")
-	RemoteAddressMatchConditionParametersOperatorIPMatch  = RemoteAddressMatchConditionParametersOperator("IPMatch")
-)
-
-// +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type RemoteAddressMatchConditionParametersTransforms string
-
-const (
-	RemoteAddressMatchConditionParametersTransformsLowercase   = RemoteAddressMatchConditionParametersTransforms("Lowercase")
-	RemoteAddressMatchConditionParametersTransformsRemoveNulls = RemoteAddressMatchConditionParametersTransforms("RemoveNulls")
-	RemoteAddressMatchConditionParametersTransformsTrim        = RemoteAddressMatchConditionParametersTransforms("Trim")
-	RemoteAddressMatchConditionParametersTransformsUppercase   = RemoteAddressMatchConditionParametersTransforms("Uppercase")
-	RemoteAddressMatchConditionParametersTransformsUrlDecode   = RemoteAddressMatchConditionParametersTransforms("UrlDecode")
-	RemoteAddressMatchConditionParametersTransformsUrlEncode   = RemoteAddressMatchConditionParametersTransforms("UrlEncode")
-)
-
-// +kubebuilder:validation:Enum={"DeliveryRuleRemoteAddressConditionParameters"}
-type RemoteAddressMatchConditionParametersTypeName string
-
-const RemoteAddressMatchConditionParametersTypeNameDeliveryRuleRemoteAddressConditionParameters = RemoteAddressMatchConditionParametersTypeName("DeliveryRuleRemoteAddressConditionParameters")
-
-// +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
-type RequestBodyMatchConditionParametersOperator string
-
-const (
-	RequestBodyMatchConditionParametersOperatorAny                = RequestBodyMatchConditionParametersOperator("Any")
-	RequestBodyMatchConditionParametersOperatorBeginsWith         = RequestBodyMatchConditionParametersOperator("BeginsWith")
-	RequestBodyMatchConditionParametersOperatorContains           = RequestBodyMatchConditionParametersOperator("Contains")
-	RequestBodyMatchConditionParametersOperatorEndsWith           = RequestBodyMatchConditionParametersOperator("EndsWith")
-	RequestBodyMatchConditionParametersOperatorEqual              = RequestBodyMatchConditionParametersOperator("Equal")
-	RequestBodyMatchConditionParametersOperatorGreaterThan        = RequestBodyMatchConditionParametersOperator("GreaterThan")
-	RequestBodyMatchConditionParametersOperatorGreaterThanOrEqual = RequestBodyMatchConditionParametersOperator("GreaterThanOrEqual")
-	RequestBodyMatchConditionParametersOperatorLessThan           = RequestBodyMatchConditionParametersOperator("LessThan")
-	RequestBodyMatchConditionParametersOperatorLessThanOrEqual    = RequestBodyMatchConditionParametersOperator("LessThanOrEqual")
-	RequestBodyMatchConditionParametersOperatorRegEx              = RequestBodyMatchConditionParametersOperator("RegEx")
-)
-
-// +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type RequestBodyMatchConditionParametersTransforms string
-
-const (
-	RequestBodyMatchConditionParametersTransformsLowercase   = RequestBodyMatchConditionParametersTransforms("Lowercase")
-	RequestBodyMatchConditionParametersTransformsRemoveNulls = RequestBodyMatchConditionParametersTransforms("RemoveNulls")
-	RequestBodyMatchConditionParametersTransformsTrim        = RequestBodyMatchConditionParametersTransforms("Trim")
-	RequestBodyMatchConditionParametersTransformsUppercase   = RequestBodyMatchConditionParametersTransforms("Uppercase")
-	RequestBodyMatchConditionParametersTransformsUrlDecode   = RequestBodyMatchConditionParametersTransforms("UrlDecode")
-	RequestBodyMatchConditionParametersTransformsUrlEncode   = RequestBodyMatchConditionParametersTransforms("UrlEncode")
-)
-
-// +kubebuilder:validation:Enum={"DeliveryRuleRequestBodyConditionParameters"}
-type RequestBodyMatchConditionParametersTypeName string
-
-const RequestBodyMatchConditionParametersTypeNameDeliveryRuleRequestBodyConditionParameters = RequestBodyMatchConditionParametersTypeName("DeliveryRuleRequestBodyConditionParameters")
-
-// +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
-type RequestHeaderMatchConditionParametersOperator string
-
-const (
-	RequestHeaderMatchConditionParametersOperatorAny                = RequestHeaderMatchConditionParametersOperator("Any")
-	RequestHeaderMatchConditionParametersOperatorBeginsWith         = RequestHeaderMatchConditionParametersOperator("BeginsWith")
-	RequestHeaderMatchConditionParametersOperatorContains           = RequestHeaderMatchConditionParametersOperator("Contains")
-	RequestHeaderMatchConditionParametersOperatorEndsWith           = RequestHeaderMatchConditionParametersOperator("EndsWith")
-	RequestHeaderMatchConditionParametersOperatorEqual              = RequestHeaderMatchConditionParametersOperator("Equal")
-	RequestHeaderMatchConditionParametersOperatorGreaterThan        = RequestHeaderMatchConditionParametersOperator("GreaterThan")
-	RequestHeaderMatchConditionParametersOperatorGreaterThanOrEqual = RequestHeaderMatchConditionParametersOperator("GreaterThanOrEqual")
-	RequestHeaderMatchConditionParametersOperatorLessThan           = RequestHeaderMatchConditionParametersOperator("LessThan")
-	RequestHeaderMatchConditionParametersOperatorLessThanOrEqual    = RequestHeaderMatchConditionParametersOperator("LessThanOrEqual")
-	RequestHeaderMatchConditionParametersOperatorRegEx              = RequestHeaderMatchConditionParametersOperator("RegEx")
-)
-
-// +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type RequestHeaderMatchConditionParametersTransforms string
-
-const (
-	RequestHeaderMatchConditionParametersTransformsLowercase   = RequestHeaderMatchConditionParametersTransforms("Lowercase")
-	RequestHeaderMatchConditionParametersTransformsRemoveNulls = RequestHeaderMatchConditionParametersTransforms("RemoveNulls")
-	RequestHeaderMatchConditionParametersTransformsTrim        = RequestHeaderMatchConditionParametersTransforms("Trim")
-	RequestHeaderMatchConditionParametersTransformsUppercase   = RequestHeaderMatchConditionParametersTransforms("Uppercase")
-	RequestHeaderMatchConditionParametersTransformsUrlDecode   = RequestHeaderMatchConditionParametersTransforms("UrlDecode")
-	RequestHeaderMatchConditionParametersTransformsUrlEncode   = RequestHeaderMatchConditionParametersTransforms("UrlEncode")
-)
-
-// +kubebuilder:validation:Enum={"DeliveryRuleRequestHeaderConditionParameters"}
-type RequestHeaderMatchConditionParametersTypeName string
-
-const RequestHeaderMatchConditionParametersTypeNameDeliveryRuleRequestHeaderConditionParameters = RequestHeaderMatchConditionParametersTypeName("DeliveryRuleRequestHeaderConditionParameters")
-
-// +kubebuilder:validation:Enum={"DELETE","GET","HEAD","OPTIONS","POST","PUT","TRACE"}
-type RequestMethodMatchConditionParametersMatchValues string
-
-const (
-	RequestMethodMatchConditionParametersMatchValuesDELETE  = RequestMethodMatchConditionParametersMatchValues("DELETE")
-	RequestMethodMatchConditionParametersMatchValuesGET     = RequestMethodMatchConditionParametersMatchValues("GET")
-	RequestMethodMatchConditionParametersMatchValuesHEAD    = RequestMethodMatchConditionParametersMatchValues("HEAD")
-	RequestMethodMatchConditionParametersMatchValuesOPTIONS = RequestMethodMatchConditionParametersMatchValues("OPTIONS")
-	RequestMethodMatchConditionParametersMatchValuesPOST    = RequestMethodMatchConditionParametersMatchValues("POST")
-	RequestMethodMatchConditionParametersMatchValuesPUT     = RequestMethodMatchConditionParametersMatchValues("PUT")
-	RequestMethodMatchConditionParametersMatchValuesTRACE   = RequestMethodMatchConditionParametersMatchValues("TRACE")
-)
-
-// +kubebuilder:validation:Enum={"Equal"}
-type RequestMethodMatchConditionParametersOperator string
-
-const RequestMethodMatchConditionParametersOperatorEqual = RequestMethodMatchConditionParametersOperator("Equal")
-
-// +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type RequestMethodMatchConditionParametersTransforms string
-
-const (
-	RequestMethodMatchConditionParametersTransformsLowercase   = RequestMethodMatchConditionParametersTransforms("Lowercase")
-	RequestMethodMatchConditionParametersTransformsRemoveNulls = RequestMethodMatchConditionParametersTransforms("RemoveNulls")
-	RequestMethodMatchConditionParametersTransformsTrim        = RequestMethodMatchConditionParametersTransforms("Trim")
-	RequestMethodMatchConditionParametersTransformsUppercase   = RequestMethodMatchConditionParametersTransforms("Uppercase")
-	RequestMethodMatchConditionParametersTransformsUrlDecode   = RequestMethodMatchConditionParametersTransforms("UrlDecode")
-	RequestMethodMatchConditionParametersTransformsUrlEncode   = RequestMethodMatchConditionParametersTransforms("UrlEncode")
-)
-
-// +kubebuilder:validation:Enum={"DeliveryRuleRequestMethodConditionParameters"}
-type RequestMethodMatchConditionParametersTypeName string
-
-const RequestMethodMatchConditionParametersTypeNameDeliveryRuleRequestMethodConditionParameters = RequestMethodMatchConditionParametersTypeName("DeliveryRuleRequestMethodConditionParameters")
-
-// +kubebuilder:validation:Enum={"HTTP","HTTPS"}
-type RequestSchemeMatchConditionParametersMatchValues string
-
-const (
-	RequestSchemeMatchConditionParametersMatchValuesHTTP  = RequestSchemeMatchConditionParametersMatchValues("HTTP")
-	RequestSchemeMatchConditionParametersMatchValuesHTTPS = RequestSchemeMatchConditionParametersMatchValues("HTTPS")
-)
-
-// +kubebuilder:validation:Enum={"Equal"}
-type RequestSchemeMatchConditionParametersOperator string
-
-const RequestSchemeMatchConditionParametersOperatorEqual = RequestSchemeMatchConditionParametersOperator("Equal")
-
-// +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type RequestSchemeMatchConditionParametersTransforms string
-
-const (
-	RequestSchemeMatchConditionParametersTransformsLowercase   = RequestSchemeMatchConditionParametersTransforms("Lowercase")
-	RequestSchemeMatchConditionParametersTransformsRemoveNulls = RequestSchemeMatchConditionParametersTransforms("RemoveNulls")
-	RequestSchemeMatchConditionParametersTransformsTrim        = RequestSchemeMatchConditionParametersTransforms("Trim")
-	RequestSchemeMatchConditionParametersTransformsUppercase   = RequestSchemeMatchConditionParametersTransforms("Uppercase")
-	RequestSchemeMatchConditionParametersTransformsUrlDecode   = RequestSchemeMatchConditionParametersTransforms("UrlDecode")
-	RequestSchemeMatchConditionParametersTransformsUrlEncode   = RequestSchemeMatchConditionParametersTransforms("UrlEncode")
-)
-
-// +kubebuilder:validation:Enum={"DeliveryRuleRequestSchemeConditionParameters"}
-type RequestSchemeMatchConditionParametersTypeName string
-
-const RequestSchemeMatchConditionParametersTypeNameDeliveryRuleRequestSchemeConditionParameters = RequestSchemeMatchConditionParametersTypeName("DeliveryRuleRequestSchemeConditionParameters")
-
-// +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
-type RequestUriMatchConditionParametersOperator string
-
-const (
-	RequestUriMatchConditionParametersOperatorAny                = RequestUriMatchConditionParametersOperator("Any")
-	RequestUriMatchConditionParametersOperatorBeginsWith         = RequestUriMatchConditionParametersOperator("BeginsWith")
-	RequestUriMatchConditionParametersOperatorContains           = RequestUriMatchConditionParametersOperator("Contains")
-	RequestUriMatchConditionParametersOperatorEndsWith           = RequestUriMatchConditionParametersOperator("EndsWith")
-	RequestUriMatchConditionParametersOperatorEqual              = RequestUriMatchConditionParametersOperator("Equal")
-	RequestUriMatchConditionParametersOperatorGreaterThan        = RequestUriMatchConditionParametersOperator("GreaterThan")
-	RequestUriMatchConditionParametersOperatorGreaterThanOrEqual = RequestUriMatchConditionParametersOperator("GreaterThanOrEqual")
-	RequestUriMatchConditionParametersOperatorLessThan           = RequestUriMatchConditionParametersOperator("LessThan")
-	RequestUriMatchConditionParametersOperatorLessThanOrEqual    = RequestUriMatchConditionParametersOperator("LessThanOrEqual")
-	RequestUriMatchConditionParametersOperatorRegEx              = RequestUriMatchConditionParametersOperator("RegEx")
-)
-
-// +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type RequestUriMatchConditionParametersTransforms string
-
-const (
-	RequestUriMatchConditionParametersTransformsLowercase   = RequestUriMatchConditionParametersTransforms("Lowercase")
-	RequestUriMatchConditionParametersTransformsRemoveNulls = RequestUriMatchConditionParametersTransforms("RemoveNulls")
-	RequestUriMatchConditionParametersTransformsTrim        = RequestUriMatchConditionParametersTransforms("Trim")
-	RequestUriMatchConditionParametersTransformsUppercase   = RequestUriMatchConditionParametersTransforms("Uppercase")
-	RequestUriMatchConditionParametersTransformsUrlDecode   = RequestUriMatchConditionParametersTransforms("UrlDecode")
-	RequestUriMatchConditionParametersTransformsUrlEncode   = RequestUriMatchConditionParametersTransforms("UrlEncode")
-)
-
-// +kubebuilder:validation:Enum={"DeliveryRuleRequestUriConditionParameters"}
-type RequestUriMatchConditionParametersTypeName string
-
-const RequestUriMatchConditionParametersTypeNameDeliveryRuleRequestUriConditionParameters = RequestUriMatchConditionParametersTypeName("DeliveryRuleRequestUriConditionParameters")
-
-// +kubebuilder:validation:Enum={"DeliveryRuleRouteConfigurationOverrideActionParameters"}
-type RouteConfigurationOverrideActionParametersTypeName string
-
-const RouteConfigurationOverrideActionParametersTypeNameDeliveryRuleRouteConfigurationOverrideActionParameters = RouteConfigurationOverrideActionParametersTypeName("DeliveryRuleRouteConfigurationOverrideActionParameters")
-
-// +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
-type ServerPortMatchConditionParametersOperator string
-
-const (
-	ServerPortMatchConditionParametersOperatorAny                = ServerPortMatchConditionParametersOperator("Any")
-	ServerPortMatchConditionParametersOperatorBeginsWith         = ServerPortMatchConditionParametersOperator("BeginsWith")
-	ServerPortMatchConditionParametersOperatorContains           = ServerPortMatchConditionParametersOperator("Contains")
-	ServerPortMatchConditionParametersOperatorEndsWith           = ServerPortMatchConditionParametersOperator("EndsWith")
-	ServerPortMatchConditionParametersOperatorEqual              = ServerPortMatchConditionParametersOperator("Equal")
-	ServerPortMatchConditionParametersOperatorGreaterThan        = ServerPortMatchConditionParametersOperator("GreaterThan")
-	ServerPortMatchConditionParametersOperatorGreaterThanOrEqual = ServerPortMatchConditionParametersOperator("GreaterThanOrEqual")
-	ServerPortMatchConditionParametersOperatorLessThan           = ServerPortMatchConditionParametersOperator("LessThan")
-	ServerPortMatchConditionParametersOperatorLessThanOrEqual    = ServerPortMatchConditionParametersOperator("LessThanOrEqual")
-	ServerPortMatchConditionParametersOperatorRegEx              = ServerPortMatchConditionParametersOperator("RegEx")
-)
-
-// +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type ServerPortMatchConditionParametersTransforms string
-
-const (
-	ServerPortMatchConditionParametersTransformsLowercase   = ServerPortMatchConditionParametersTransforms("Lowercase")
-	ServerPortMatchConditionParametersTransformsRemoveNulls = ServerPortMatchConditionParametersTransforms("RemoveNulls")
-	ServerPortMatchConditionParametersTransformsTrim        = ServerPortMatchConditionParametersTransforms("Trim")
-	ServerPortMatchConditionParametersTransformsUppercase   = ServerPortMatchConditionParametersTransforms("Uppercase")
-	ServerPortMatchConditionParametersTransformsUrlDecode   = ServerPortMatchConditionParametersTransforms("UrlDecode")
-	ServerPortMatchConditionParametersTransformsUrlEncode   = ServerPortMatchConditionParametersTransforms("UrlEncode")
-)
-
-// +kubebuilder:validation:Enum={"DeliveryRuleServerPortConditionParameters"}
-type ServerPortMatchConditionParametersTypeName string
-
-const ServerPortMatchConditionParametersTypeNameDeliveryRuleServerPortConditionParameters = ServerPortMatchConditionParametersTypeName("DeliveryRuleServerPortConditionParameters")
-
-// +kubebuilder:validation:Enum={"Any","IPMatch"}
-type SocketAddrMatchConditionParametersOperator string
-
-const (
-	SocketAddrMatchConditionParametersOperatorAny     = SocketAddrMatchConditionParametersOperator("Any")
-	SocketAddrMatchConditionParametersOperatorIPMatch = SocketAddrMatchConditionParametersOperator("IPMatch")
-)
-
-// +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type SocketAddrMatchConditionParametersTransforms string
-
-const (
-	SocketAddrMatchConditionParametersTransformsLowercase   = SocketAddrMatchConditionParametersTransforms("Lowercase")
-	SocketAddrMatchConditionParametersTransformsRemoveNulls = SocketAddrMatchConditionParametersTransforms("RemoveNulls")
-	SocketAddrMatchConditionParametersTransformsTrim        = SocketAddrMatchConditionParametersTransforms("Trim")
-	SocketAddrMatchConditionParametersTransformsUppercase   = SocketAddrMatchConditionParametersTransforms("Uppercase")
-	SocketAddrMatchConditionParametersTransformsUrlDecode   = SocketAddrMatchConditionParametersTransforms("UrlDecode")
-	SocketAddrMatchConditionParametersTransformsUrlEncode   = SocketAddrMatchConditionParametersTransforms("UrlEncode")
-)
-
-// +kubebuilder:validation:Enum={"DeliveryRuleSocketAddrConditionParameters"}
-type SocketAddrMatchConditionParametersTypeName string
-
-const SocketAddrMatchConditionParametersTypeNameDeliveryRuleSocketAddrConditionParameters = SocketAddrMatchConditionParametersTypeName("DeliveryRuleSocketAddrConditionParameters")
-
-// +kubebuilder:validation:Enum={"TLSv1","TLSv1.1","TLSv1.2"}
-type SslProtocolMatchConditionParametersMatchValues string
-
-const (
-	SslProtocolMatchConditionParametersMatchValuesTLSv1  = SslProtocolMatchConditionParametersMatchValues("TLSv1")
-	SslProtocolMatchConditionParametersMatchValuesTLSv11 = SslProtocolMatchConditionParametersMatchValues("TLSv1.1")
-	SslProtocolMatchConditionParametersMatchValuesTLSv12 = SslProtocolMatchConditionParametersMatchValues("TLSv1.2")
-)
-
-// +kubebuilder:validation:Enum={"Equal"}
-type SslProtocolMatchConditionParametersOperator string
-
-const SslProtocolMatchConditionParametersOperatorEqual = SslProtocolMatchConditionParametersOperator("Equal")
-
-// +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type SslProtocolMatchConditionParametersTransforms string
-
-const (
-	SslProtocolMatchConditionParametersTransformsLowercase   = SslProtocolMatchConditionParametersTransforms("Lowercase")
-	SslProtocolMatchConditionParametersTransformsRemoveNulls = SslProtocolMatchConditionParametersTransforms("RemoveNulls")
-	SslProtocolMatchConditionParametersTransformsTrim        = SslProtocolMatchConditionParametersTransforms("Trim")
-	SslProtocolMatchConditionParametersTransformsUppercase   = SslProtocolMatchConditionParametersTransforms("Uppercase")
-	SslProtocolMatchConditionParametersTransformsUrlDecode   = SslProtocolMatchConditionParametersTransforms("UrlDecode")
-	SslProtocolMatchConditionParametersTransformsUrlEncode   = SslProtocolMatchConditionParametersTransforms("UrlEncode")
-)
-
-// +kubebuilder:validation:Enum={"DeliveryRuleSslProtocolConditionParameters"}
-type SslProtocolMatchConditionParametersTypeName string
-
-const SslProtocolMatchConditionParametersTypeNameDeliveryRuleSslProtocolConditionParameters = SslProtocolMatchConditionParametersTypeName("DeliveryRuleSslProtocolConditionParameters")
-
-// +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
-type UrlFileExtensionMatchConditionParametersOperator string
-
-const (
-	UrlFileExtensionMatchConditionParametersOperatorAny                = UrlFileExtensionMatchConditionParametersOperator("Any")
-	UrlFileExtensionMatchConditionParametersOperatorBeginsWith         = UrlFileExtensionMatchConditionParametersOperator("BeginsWith")
-	UrlFileExtensionMatchConditionParametersOperatorContains           = UrlFileExtensionMatchConditionParametersOperator("Contains")
-	UrlFileExtensionMatchConditionParametersOperatorEndsWith           = UrlFileExtensionMatchConditionParametersOperator("EndsWith")
-	UrlFileExtensionMatchConditionParametersOperatorEqual              = UrlFileExtensionMatchConditionParametersOperator("Equal")
-	UrlFileExtensionMatchConditionParametersOperatorGreaterThan        = UrlFileExtensionMatchConditionParametersOperator("GreaterThan")
-	UrlFileExtensionMatchConditionParametersOperatorGreaterThanOrEqual = UrlFileExtensionMatchConditionParametersOperator("GreaterThanOrEqual")
-	UrlFileExtensionMatchConditionParametersOperatorLessThan           = UrlFileExtensionMatchConditionParametersOperator("LessThan")
-	UrlFileExtensionMatchConditionParametersOperatorLessThanOrEqual    = UrlFileExtensionMatchConditionParametersOperator("LessThanOrEqual")
-	UrlFileExtensionMatchConditionParametersOperatorRegEx              = UrlFileExtensionMatchConditionParametersOperator("RegEx")
-)
-
-// +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type UrlFileExtensionMatchConditionParametersTransforms string
-
-const (
-	UrlFileExtensionMatchConditionParametersTransformsLowercase   = UrlFileExtensionMatchConditionParametersTransforms("Lowercase")
-	UrlFileExtensionMatchConditionParametersTransformsRemoveNulls = UrlFileExtensionMatchConditionParametersTransforms("RemoveNulls")
-	UrlFileExtensionMatchConditionParametersTransformsTrim        = UrlFileExtensionMatchConditionParametersTransforms("Trim")
-	UrlFileExtensionMatchConditionParametersTransformsUppercase   = UrlFileExtensionMatchConditionParametersTransforms("Uppercase")
-	UrlFileExtensionMatchConditionParametersTransformsUrlDecode   = UrlFileExtensionMatchConditionParametersTransforms("UrlDecode")
-	UrlFileExtensionMatchConditionParametersTransformsUrlEncode   = UrlFileExtensionMatchConditionParametersTransforms("UrlEncode")
-)
-
-// +kubebuilder:validation:Enum={"DeliveryRuleUrlFileExtensionMatchConditionParameters"}
-type UrlFileExtensionMatchConditionParametersTypeName string
-
-const UrlFileExtensionMatchConditionParametersTypeNameDeliveryRuleUrlFileExtensionMatchConditionParameters = UrlFileExtensionMatchConditionParametersTypeName("DeliveryRuleUrlFileExtensionMatchConditionParameters")
-
-// +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx"}
-type UrlFileNameMatchConditionParametersOperator string
-
-const (
-	UrlFileNameMatchConditionParametersOperatorAny                = UrlFileNameMatchConditionParametersOperator("Any")
-	UrlFileNameMatchConditionParametersOperatorBeginsWith         = UrlFileNameMatchConditionParametersOperator("BeginsWith")
-	UrlFileNameMatchConditionParametersOperatorContains           = UrlFileNameMatchConditionParametersOperator("Contains")
-	UrlFileNameMatchConditionParametersOperatorEndsWith           = UrlFileNameMatchConditionParametersOperator("EndsWith")
-	UrlFileNameMatchConditionParametersOperatorEqual              = UrlFileNameMatchConditionParametersOperator("Equal")
-	UrlFileNameMatchConditionParametersOperatorGreaterThan        = UrlFileNameMatchConditionParametersOperator("GreaterThan")
-	UrlFileNameMatchConditionParametersOperatorGreaterThanOrEqual = UrlFileNameMatchConditionParametersOperator("GreaterThanOrEqual")
-	UrlFileNameMatchConditionParametersOperatorLessThan           = UrlFileNameMatchConditionParametersOperator("LessThan")
-	UrlFileNameMatchConditionParametersOperatorLessThanOrEqual    = UrlFileNameMatchConditionParametersOperator("LessThanOrEqual")
-	UrlFileNameMatchConditionParametersOperatorRegEx              = UrlFileNameMatchConditionParametersOperator("RegEx")
-)
-
-// +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type UrlFileNameMatchConditionParametersTransforms string
-
-const (
-	UrlFileNameMatchConditionParametersTransformsLowercase   = UrlFileNameMatchConditionParametersTransforms("Lowercase")
-	UrlFileNameMatchConditionParametersTransformsRemoveNulls = UrlFileNameMatchConditionParametersTransforms("RemoveNulls")
-	UrlFileNameMatchConditionParametersTransformsTrim        = UrlFileNameMatchConditionParametersTransforms("Trim")
-	UrlFileNameMatchConditionParametersTransformsUppercase   = UrlFileNameMatchConditionParametersTransforms("Uppercase")
-	UrlFileNameMatchConditionParametersTransformsUrlDecode   = UrlFileNameMatchConditionParametersTransforms("UrlDecode")
-	UrlFileNameMatchConditionParametersTransformsUrlEncode   = UrlFileNameMatchConditionParametersTransforms("UrlEncode")
-)
-
-// +kubebuilder:validation:Enum={"DeliveryRuleUrlFilenameConditionParameters"}
-type UrlFileNameMatchConditionParametersTypeName string
-
-const UrlFileNameMatchConditionParametersTypeNameDeliveryRuleUrlFilenameConditionParameters = UrlFileNameMatchConditionParametersTypeName("DeliveryRuleUrlFilenameConditionParameters")
-
-// +kubebuilder:validation:Enum={"Any","BeginsWith","Contains","EndsWith","Equal","GreaterThan","GreaterThanOrEqual","LessThan","LessThanOrEqual","RegEx","Wildcard"}
-type UrlPathMatchConditionParametersOperator string
-
-const (
-	UrlPathMatchConditionParametersOperatorAny                = UrlPathMatchConditionParametersOperator("Any")
-	UrlPathMatchConditionParametersOperatorBeginsWith         = UrlPathMatchConditionParametersOperator("BeginsWith")
-	UrlPathMatchConditionParametersOperatorContains           = UrlPathMatchConditionParametersOperator("Contains")
-	UrlPathMatchConditionParametersOperatorEndsWith           = UrlPathMatchConditionParametersOperator("EndsWith")
-	UrlPathMatchConditionParametersOperatorEqual              = UrlPathMatchConditionParametersOperator("Equal")
-	UrlPathMatchConditionParametersOperatorGreaterThan        = UrlPathMatchConditionParametersOperator("GreaterThan")
-	UrlPathMatchConditionParametersOperatorGreaterThanOrEqual = UrlPathMatchConditionParametersOperator("GreaterThanOrEqual")
-	UrlPathMatchConditionParametersOperatorLessThan           = UrlPathMatchConditionParametersOperator("LessThan")
-	UrlPathMatchConditionParametersOperatorLessThanOrEqual    = UrlPathMatchConditionParametersOperator("LessThanOrEqual")
-	UrlPathMatchConditionParametersOperatorRegEx              = UrlPathMatchConditionParametersOperator("RegEx")
-	UrlPathMatchConditionParametersOperatorWildcard           = UrlPathMatchConditionParametersOperator("Wildcard")
-)
-
-// +kubebuilder:validation:Enum={"Lowercase","RemoveNulls","Trim","Uppercase","UrlDecode","UrlEncode"}
-type UrlPathMatchConditionParametersTransforms string
-
-const (
-	UrlPathMatchConditionParametersTransformsLowercase   = UrlPathMatchConditionParametersTransforms("Lowercase")
-	UrlPathMatchConditionParametersTransformsRemoveNulls = UrlPathMatchConditionParametersTransforms("RemoveNulls")
-	UrlPathMatchConditionParametersTransformsTrim        = UrlPathMatchConditionParametersTransforms("Trim")
-	UrlPathMatchConditionParametersTransformsUppercase   = UrlPathMatchConditionParametersTransforms("Uppercase")
-	UrlPathMatchConditionParametersTransformsUrlDecode   = UrlPathMatchConditionParametersTransforms("UrlDecode")
-	UrlPathMatchConditionParametersTransformsUrlEncode   = UrlPathMatchConditionParametersTransforms("UrlEncode")
-)
-
-// +kubebuilder:validation:Enum={"DeliveryRuleUrlPathMatchConditionParameters"}
-type UrlPathMatchConditionParametersTypeName string
-
-const UrlPathMatchConditionParametersTypeNameDeliveryRuleUrlPathMatchConditionParameters = UrlPathMatchConditionParametersTypeName("DeliveryRuleUrlPathMatchConditionParameters")
-
-// +kubebuilder:validation:Enum={"Http","Https","MatchRequest"}
-type UrlRedirectActionParametersDestinationProtocol string
-
-const (
-	UrlRedirectActionParametersDestinationProtocolHttp         = UrlRedirectActionParametersDestinationProtocol("Http")
-	UrlRedirectActionParametersDestinationProtocolHttps        = UrlRedirectActionParametersDestinationProtocol("Https")
-	UrlRedirectActionParametersDestinationProtocolMatchRequest = UrlRedirectActionParametersDestinationProtocol("MatchRequest")
-)
-
-// +kubebuilder:validation:Enum={"Found","Moved","PermanentRedirect","TemporaryRedirect"}
-type UrlRedirectActionParametersRedirectType string
-
-const (
-	UrlRedirectActionParametersRedirectTypeFound             = UrlRedirectActionParametersRedirectType("Found")
-	UrlRedirectActionParametersRedirectTypeMoved             = UrlRedirectActionParametersRedirectType("Moved")
-	UrlRedirectActionParametersRedirectTypePermanentRedirect = UrlRedirectActionParametersRedirectType("PermanentRedirect")
-	UrlRedirectActionParametersRedirectTypeTemporaryRedirect = UrlRedirectActionParametersRedirectType("TemporaryRedirect")
-)
-
-// +kubebuilder:validation:Enum={"DeliveryRuleUrlRedirectActionParameters"}
-type UrlRedirectActionParametersTypeName string
-
-const UrlRedirectActionParametersTypeNameDeliveryRuleUrlRedirectActionParameters = UrlRedirectActionParametersTypeName("DeliveryRuleUrlRedirectActionParameters")
-
-// +kubebuilder:validation:Enum={"DeliveryRuleUrlRewriteActionParameters"}
-type UrlRewriteActionParametersTypeName string
-
-const UrlRewriteActionParametersTypeNameDeliveryRuleUrlRewriteActionParameters = UrlRewriteActionParametersTypeName("DeliveryRuleUrlRewriteActionParameters")
-
-// +kubebuilder:validation:Enum={"SHA256"}
-type UrlSigningActionParametersAlgorithm string
-
-const UrlSigningActionParametersAlgorithmSHA256 = UrlSigningActionParametersAlgorithm("SHA256")
-
-// +kubebuilder:validation:Enum={"DeliveryRuleUrlSigningActionParameters"}
-type UrlSigningActionParametersTypeName string
-
-const UrlSigningActionParametersTypeNameDeliveryRuleUrlSigningActionParameters = UrlSigningActionParametersTypeName("DeliveryRuleUrlSigningActionParameters")
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/UrlSigningParamIdentifier
-type UrlSigningParamIdentifier struct {
-	// +kubebuilder:validation:Required
-	// ParamIndicator: Indicates the purpose of the parameter.
-	ParamIndicator *UrlSigningParamIdentifierParamIndicator `json:"paramIndicator,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// ParamName: Parameter name
-	ParamName *string `json:"paramName,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &UrlSigningParamIdentifier{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (identifier *UrlSigningParamIdentifier) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if identifier == nil {
-		return nil, nil
-	}
-	result := &UrlSigningParamIdentifierARM{}
-
-	// Set property ‘ParamIndicator’:
-	if identifier.ParamIndicator != nil {
-		paramIndicator := *identifier.ParamIndicator
-		result.ParamIndicator = &paramIndicator
-	}
-
-	// Set property ‘ParamName’:
-	if identifier.ParamName != nil {
-		paramName := *identifier.ParamName
-		result.ParamName = &paramName
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (identifier *UrlSigningParamIdentifier) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UrlSigningParamIdentifierARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (identifier *UrlSigningParamIdentifier) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UrlSigningParamIdentifierARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UrlSigningParamIdentifierARM, got %T", armInput)
-	}
-
-	// Set property ‘ParamIndicator’:
-	if typedInput.ParamIndicator != nil {
-		paramIndicator := *typedInput.ParamIndicator
-		identifier.ParamIndicator = &paramIndicator
-	}
-
-	// Set property ‘ParamName’:
-	if typedInput.ParamName != nil {
-		paramName := *typedInput.ParamName
-		identifier.ParamName = &paramName
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromUrlSigningParamIdentifier populates our UrlSigningParamIdentifier from the provided source UrlSigningParamIdentifier
-func (identifier *UrlSigningParamIdentifier) AssignPropertiesFromUrlSigningParamIdentifier(source *v20210601s.UrlSigningParamIdentifier) error {
-
-	// ParamIndicator
-	if source.ParamIndicator != nil {
-		paramIndicator := UrlSigningParamIdentifierParamIndicator(*source.ParamIndicator)
-		identifier.ParamIndicator = &paramIndicator
-	} else {
-		identifier.ParamIndicator = nil
-	}
-
-	// ParamName
-	identifier.ParamName = genruntime.ClonePointerToString(source.ParamName)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToUrlSigningParamIdentifier populates the provided destination UrlSigningParamIdentifier from our UrlSigningParamIdentifier
-func (identifier *UrlSigningParamIdentifier) AssignPropertiesToUrlSigningParamIdentifier(destination *v20210601s.UrlSigningParamIdentifier) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// ParamIndicator
-	if identifier.ParamIndicator != nil {
-		paramIndicator := string(*identifier.ParamIndicator)
-		destination.ParamIndicator = &paramIndicator
-	} else {
-		destination.ParamIndicator = nil
-	}
-
-	// ParamName
-	destination.ParamName = genruntime.ClonePointerToString(identifier.ParamName)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// +kubebuilder:validation:Enum={"HonorOrigin","OverrideAlways","OverrideIfOriginMissing"}
-type CacheConfigurationCacheBehavior string
-
-const (
-	CacheConfigurationCacheBehaviorHonorOrigin             = CacheConfigurationCacheBehavior("HonorOrigin")
-	CacheConfigurationCacheBehaviorOverrideAlways          = CacheConfigurationCacheBehavior("OverrideAlways")
-	CacheConfigurationCacheBehaviorOverrideIfOriginMissing = CacheConfigurationCacheBehavior("OverrideIfOriginMissing")
-)
-
-// +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type CacheConfigurationIsCompressionEnabled string
-
-const (
-	CacheConfigurationIsCompressionEnabledDisabled = CacheConfigurationIsCompressionEnabled("Disabled")
-	CacheConfigurationIsCompressionEnabledEnabled  = CacheConfigurationIsCompressionEnabled("Enabled")
-)
-
-// +kubebuilder:validation:Enum={"IgnoreQueryString","IgnoreSpecifiedQueryStrings","IncludeSpecifiedQueryStrings","UseQueryString"}
-type CacheConfigurationQueryStringCachingBehavior string
-
-const (
-	CacheConfigurationQueryStringCachingBehaviorIgnoreQueryString            = CacheConfigurationQueryStringCachingBehavior("IgnoreQueryString")
-	CacheConfigurationQueryStringCachingBehaviorIgnoreSpecifiedQueryStrings  = CacheConfigurationQueryStringCachingBehavior("IgnoreSpecifiedQueryStrings")
-	CacheConfigurationQueryStringCachingBehaviorIncludeSpecifiedQueryStrings = CacheConfigurationQueryStringCachingBehavior("IncludeSpecifiedQueryStrings")
-	CacheConfigurationQueryStringCachingBehaviorUseQueryString               = CacheConfigurationQueryStringCachingBehavior("UseQueryString")
-)
-
-// +kubebuilder:validation:Enum={"HttpOnly","HttpsOnly","MatchRequest"}
-type OriginGroupOverrideForwardingProtocol string
-
-const (
-	OriginGroupOverrideForwardingProtocolHttpOnly     = OriginGroupOverrideForwardingProtocol("HttpOnly")
-	OriginGroupOverrideForwardingProtocolHttpsOnly    = OriginGroupOverrideForwardingProtocol("HttpsOnly")
-	OriginGroupOverrideForwardingProtocolMatchRequest = OriginGroupOverrideForwardingProtocol("MatchRequest")
-)
-
-// +kubebuilder:validation:Enum={"Expires","KeyId","Signature"}
-type UrlSigningParamIdentifierParamIndicator string
-
-const (
-	UrlSigningParamIdentifierParamIndicatorExpires   = UrlSigningParamIdentifierParamIndicator("Expires")
-	UrlSigningParamIdentifierParamIndicatorKeyId     = UrlSigningParamIdentifierParamIndicator("KeyId")
-	UrlSigningParamIdentifierParamIndicatorSignature = UrlSigningParamIdentifierParamIndicator("Signature")
+	DeliveryRuleCondition_NameClientPort       = DeliveryRuleCondition_Name("ClientPort")
+	DeliveryRuleCondition_NameCookies          = DeliveryRuleCondition_Name("Cookies")
+	DeliveryRuleCondition_NameHostName         = DeliveryRuleCondition_Name("HostName")
+	DeliveryRuleCondition_NameHttpVersion      = DeliveryRuleCondition_Name("HttpVersion")
+	DeliveryRuleCondition_NameIsDevice         = DeliveryRuleCondition_Name("IsDevice")
+	DeliveryRuleCondition_NamePostArgs         = DeliveryRuleCondition_Name("PostArgs")
+	DeliveryRuleCondition_NameQueryString      = DeliveryRuleCondition_Name("QueryString")
+	DeliveryRuleCondition_NameRemoteAddress    = DeliveryRuleCondition_Name("RemoteAddress")
+	DeliveryRuleCondition_NameRequestBody      = DeliveryRuleCondition_Name("RequestBody")
+	DeliveryRuleCondition_NameRequestHeader    = DeliveryRuleCondition_Name("RequestHeader")
+	DeliveryRuleCondition_NameRequestMethod    = DeliveryRuleCondition_Name("RequestMethod")
+	DeliveryRuleCondition_NameRequestScheme    = DeliveryRuleCondition_Name("RequestScheme")
+	DeliveryRuleCondition_NameRequestUri       = DeliveryRuleCondition_Name("RequestUri")
+	DeliveryRuleCondition_NameServerPort       = DeliveryRuleCondition_Name("ServerPort")
+	DeliveryRuleCondition_NameSocketAddr       = DeliveryRuleCondition_Name("SocketAddr")
+	DeliveryRuleCondition_NameSslProtocol      = DeliveryRuleCondition_Name("SslProtocol")
+	DeliveryRuleCondition_NameUrlFileExtension = DeliveryRuleCondition_Name("UrlFileExtension")
+	DeliveryRuleCondition_NameUrlFileName      = DeliveryRuleCondition_Name("UrlFileName")
+	DeliveryRuleCondition_NameUrlPath          = DeliveryRuleCondition_Name("UrlPath")
 )
 
 func init() {

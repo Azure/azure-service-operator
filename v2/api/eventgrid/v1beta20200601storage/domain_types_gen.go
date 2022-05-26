@@ -22,12 +22,13 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20200601.Domain
-// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/resourceDefinitions/domains
+// Generator information:
+// - Generated from: /eventgrid/resource-manager/Microsoft.EventGrid/stable/2020-06-01/EventGrid.json
 type Domain struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Domains_Spec  `json:"spec,omitempty"`
-	Status            Domain_Status `json:"status,omitempty"`
+	Spec              Domain_Spec   `json:"spec,omitempty"`
+	Status            Domain_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Domain{}
@@ -49,7 +50,7 @@ func (domain *Domain) AzureName() string {
 	return domain.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20200601"
 func (domain Domain) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -69,14 +70,14 @@ func (domain *Domain) GetStatus() genruntime.ConvertibleStatus {
 	return &domain.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.EventGrid/domains"
+// GetType returns the ARM Type of the resource. This is always ""
 func (domain *Domain) GetType() string {
-	return "Microsoft.EventGrid/domains"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (domain *Domain) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Domain_Status{}
+	return &Domain_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +93,13 @@ func (domain *Domain) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (domain *Domain) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Domain_Status); ok {
+	if st, ok := status.(*Domain_STATUS); ok {
 		domain.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Domain_Status
+	var st Domain_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,7 +123,8 @@ func (domain *Domain) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20200601.Domain
-// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/resourceDefinitions/domains
+// Generator information:
+// - Generated from: /eventgrid/resource-manager/Microsoft.EventGrid/stable/2020-06-01/EventGrid.json
 type DomainList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -130,35 +132,35 @@ type DomainList struct {
 }
 
 // Storage version of v1beta20200601.APIVersion
-// +kubebuilder:validation:Enum={"2020-06-01"}
+// +kubebuilder:validation:Enum={"20200601"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2020-06-01")
+const APIVersionValue = APIVersion("20200601")
 
-// Storage version of v1beta20200601.Domain_Status
-type Domain_Status struct {
+// Storage version of v1beta20200601.Domain_STATUS
+type Domain_STATUS struct {
 	Conditions                 []conditions.Condition                                        `json:"conditions,omitempty"`
 	Endpoint                   *string                                                       `json:"endpoint,omitempty"`
 	Id                         *string                                                       `json:"id,omitempty"`
-	InboundIpRules             []InboundIpRule_Status                                        `json:"inboundIpRules,omitempty"`
+	InboundIpRules             []InboundIpRule_STATUS                                        `json:"inboundIpRules,omitempty"`
 	InputSchema                *string                                                       `json:"inputSchema,omitempty"`
-	InputSchemaMapping         *InputSchemaMapping_Status                                    `json:"inputSchemaMapping,omitempty"`
+	InputSchemaMapping         *InputSchemaMapping_STATUS                                    `json:"inputSchemaMapping,omitempty"`
 	Location                   *string                                                       `json:"location,omitempty"`
 	MetricResourceId           *string                                                       `json:"metricResourceId,omitempty"`
 	Name                       *string                                                       `json:"name,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnection_Status_Domain_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
 	PropertyBag                genruntime.PropertyBag                                        `json:"$propertyBag,omitempty"`
 	ProvisioningState          *string                                                       `json:"provisioningState,omitempty"`
 	PublicNetworkAccess        *string                                                       `json:"publicNetworkAccess,omitempty"`
-	SystemData                 *SystemData_Status                                            `json:"systemData,omitempty"`
+	SystemData                 *SystemData_STATUS                                            `json:"systemData,omitempty"`
 	Tags                       map[string]string                                             `json:"tags,omitempty"`
 	Type                       *string                                                       `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Domain_Status{}
+var _ genruntime.ConvertibleStatus = &Domain_STATUS{}
 
-// ConvertStatusFrom populates our Domain_Status from the provided source
-func (domain *Domain_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our Domain_STATUS from the provided source
+func (domain *Domain_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == domain {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -166,8 +168,8 @@ func (domain *Domain_Status) ConvertStatusFrom(source genruntime.ConvertibleStat
 	return source.ConvertStatusTo(domain)
 }
 
-// ConvertStatusTo populates the provided destination from our Domain_Status
-func (domain *Domain_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our Domain_STATUS
+func (domain *Domain_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == domain {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -175,84 +177,94 @@ func (domain *Domain_Status) ConvertStatusTo(destination genruntime.ConvertibleS
 	return destination.ConvertStatusFrom(domain)
 }
 
-// Storage version of v1beta20200601.Domains_Spec
-type Domains_Spec struct {
+// Storage version of v1beta20200601.Domain_Spec
+type Domain_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName          string                  `json:"azureName,omitempty"`
-	InboundIpRules     []InboundIpRule         `json:"inboundIpRules,omitempty"`
-	InputSchema        *string                 `json:"inputSchema,omitempty"`
-	InputSchemaMapping *JsonInputSchemaMapping `json:"inputSchemaMapping,omitempty"`
-	Location           *string                 `json:"location,omitempty"`
-	OriginalVersion    string                  `json:"originalVersion,omitempty"`
+	AzureName          string              `json:"azureName,omitempty"`
+	Endpoint           *string             `json:"endpoint,omitempty"`
+	Id                 *string             `json:"id,omitempty"`
+	InboundIpRules     []InboundIpRule     `json:"inboundIpRules,omitempty"`
+	InputSchema        *string             `json:"inputSchema,omitempty"`
+	InputSchemaMapping *InputSchemaMapping `json:"inputSchemaMapping,omitempty"`
+	Location           *string             `json:"location,omitempty"`
+	MetricResourceId   *string             `json:"metricResourceId,omitempty"`
+	OriginalVersion    string              `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner               *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag         genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	PublicNetworkAccess *string                            `json:"publicNetworkAccess,omitempty"`
-	Tags                map[string]string                  `json:"tags,omitempty"`
+	Owner                      *genruntime.KnownResourceReference                     `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PrivateEndpointConnections []PrivateEndpointConnection_Domain_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
+	PropertyBag                genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
+	ProvisioningState          *string                                                `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *string                                                `json:"publicNetworkAccess,omitempty"`
+	SystemData                 *SystemData                                            `json:"systemData,omitempty"`
+	Tags                       map[string]string                                      `json:"tags,omitempty"`
+	Type                       *string                                                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Domains_Spec{}
+var _ genruntime.ConvertibleSpec = &Domain_Spec{}
 
-// ConvertSpecFrom populates our Domains_Spec from the provided source
-func (domains *Domains_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == domains {
+// ConvertSpecFrom populates our Domain_Spec from the provided source
+func (domain *Domain_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == domain {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(domains)
+	return source.ConvertSpecTo(domain)
 }
 
-// ConvertSpecTo populates the provided destination from our Domains_Spec
-func (domains *Domains_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == domains {
+// ConvertSpecTo populates the provided destination from our Domain_Spec
+func (domain *Domain_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == domain {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(domains)
+	return destination.ConvertSpecFrom(domain)
 }
 
 // Storage version of v1beta20200601.InboundIpRule
-// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/InboundIpRule
 type InboundIpRule struct {
 	Action      *string                `json:"action,omitempty"`
 	IpMask      *string                `json:"ipMask,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20200601.InboundIpRule_Status
-type InboundIpRule_Status struct {
+// Storage version of v1beta20200601.InboundIpRule_STATUS
+type InboundIpRule_STATUS struct {
 	Action      *string                `json:"action,omitempty"`
 	IpMask      *string                `json:"ipMask,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20200601.InputSchemaMapping_Status
-type InputSchemaMapping_Status struct {
+// Storage version of v1beta20200601.InputSchemaMapping
+type InputSchemaMapping struct {
 	InputSchemaMappingType *string                `json:"inputSchemaMappingType,omitempty"`
 	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20200601.JsonInputSchemaMapping
-// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonInputSchemaMapping
-type JsonInputSchemaMapping struct {
-	InputSchemaMappingType *string                           `json:"inputSchemaMappingType,omitempty"`
-	Properties             *JsonInputSchemaMappingProperties `json:"properties,omitempty"`
-	PropertyBag            genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+// Storage version of v1beta20200601.InputSchemaMapping_STATUS
+type InputSchemaMapping_STATUS struct {
+	InputSchemaMappingType *string                `json:"inputSchemaMappingType,omitempty"`
+	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20200601.PrivateEndpointConnection_Status_Domain_SubResourceEmbedded
-type PrivateEndpointConnection_Status_Domain_SubResourceEmbedded struct {
+// Storage version of v1beta20200601.PrivateEndpointConnection_Domain_SubResourceEmbedded
+type PrivateEndpointConnection_Domain_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20200601.SystemData_Status
-type SystemData_Status struct {
+// Storage version of v1beta20200601.PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded
+type PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20200601.SystemData
+type SystemData struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
 	CreatedBy          *string                `json:"createdBy,omitempty"`
 	CreatedByType      *string                `json:"createdByType,omitempty"`
@@ -262,31 +274,15 @@ type SystemData_Status struct {
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20200601.JsonInputSchemaMappingProperties
-// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonInputSchemaMappingProperties
-type JsonInputSchemaMappingProperties struct {
-	DataVersion *JsonFieldWithDefault  `json:"dataVersion,omitempty"`
-	EventTime   *JsonField             `json:"eventTime,omitempty"`
-	EventType   *JsonFieldWithDefault  `json:"eventType,omitempty"`
-	Id          *JsonField             `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Subject     *JsonFieldWithDefault  `json:"subject,omitempty"`
-	Topic       *JsonField             `json:"topic,omitempty"`
-}
-
-// Storage version of v1beta20200601.JsonField
-// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonField
-type JsonField struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SourceField *string                `json:"sourceField,omitempty"`
-}
-
-// Storage version of v1beta20200601.JsonFieldWithDefault
-// Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.EventGrid.json#/definitions/JsonFieldWithDefault
-type JsonFieldWithDefault struct {
-	DefaultValue *string                `json:"defaultValue,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SourceField  *string                `json:"sourceField,omitempty"`
+// Storage version of v1beta20200601.SystemData_STATUS
+type SystemData_STATUS struct {
+	CreatedAt          *string                `json:"createdAt,omitempty"`
+	CreatedBy          *string                `json:"createdBy,omitempty"`
+	CreatedByType      *string                `json:"createdByType,omitempty"`
+	LastModifiedAt     *string                `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
+	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
+	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 func init() {

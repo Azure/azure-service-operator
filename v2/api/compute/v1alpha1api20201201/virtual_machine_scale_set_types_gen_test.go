@@ -160,36 +160,36 @@ func VirtualMachineScaleSetGenerator() gopter.Gen {
 
 // AddRelatedPropertyGeneratorsForVirtualMachineScaleSet is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForVirtualMachineScaleSet(gens map[string]gopter.Gen) {
-	gens["Spec"] = VirtualMachineScaleSetsSpecGenerator()
-	gens["Status"] = VirtualMachineScaleSetStatusGenerator()
+	gens["Spec"] = VirtualMachineScaleSet_SpecGenerator()
+	gens["Status"] = VirtualMachineScaleSet_STATUSGenerator()
 }
 
-func Test_VirtualMachineScaleSet_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_VirtualMachineScaleSet_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualMachineScaleSet_Status to VirtualMachineScaleSet_Status via AssignPropertiesToVirtualMachineScaleSetStatus & AssignPropertiesFromVirtualMachineScaleSetStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetStatus, VirtualMachineScaleSetStatusGenerator()))
+		"Round trip from VirtualMachineScaleSet_STATUS to VirtualMachineScaleSet_STATUS via AssignPropertiesToVirtualMachineScaleSet_STATUS & AssignPropertiesFromVirtualMachineScaleSet_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSet_STATUS, VirtualMachineScaleSet_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetStatus tests if a specific instance of VirtualMachineScaleSet_Status can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForVirtualMachineScaleSetStatus(subject VirtualMachineScaleSet_Status) string {
+// RunPropertyAssignmentTestForVirtualMachineScaleSet_STATUS tests if a specific instance of VirtualMachineScaleSet_STATUS can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachineScaleSet_STATUS(subject VirtualMachineScaleSet_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201201s.VirtualMachineScaleSet_Status
-	err := copied.AssignPropertiesToVirtualMachineScaleSetStatus(&other)
+	var other alpha20201201s.VirtualMachineScaleSet_STATUS
+	err := copied.AssignPropertiesToVirtualMachineScaleSet_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualMachineScaleSet_Status
-	err = actual.AssignPropertiesFromVirtualMachineScaleSetStatus(&other)
+	var actual VirtualMachineScaleSet_STATUS
+	err = actual.AssignPropertiesFromVirtualMachineScaleSet_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -206,19 +206,19 @@ func RunPropertyAssignmentTestForVirtualMachineScaleSetStatus(subject VirtualMac
 	return ""
 }
 
-func Test_VirtualMachineScaleSet_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VirtualMachineScaleSet_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VirtualMachineScaleSet_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetStatus, VirtualMachineScaleSetStatusGenerator()))
+		"Round trip of VirtualMachineScaleSet_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSet_STATUS, VirtualMachineScaleSet_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetStatus runs a test to see if a specific instance of VirtualMachineScaleSet_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetStatus(subject VirtualMachineScaleSet_Status) string {
+// RunJSONSerializationTestForVirtualMachineScaleSet_STATUS runs a test to see if a specific instance of VirtualMachineScaleSet_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSet_STATUS(subject VirtualMachineScaleSet_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -226,7 +226,7 @@ func RunJSONSerializationTestForVirtualMachineScaleSetStatus(subject VirtualMach
 	}
 
 	// Deserialize back into memory
-	var actual VirtualMachineScaleSet_Status
+	var actual VirtualMachineScaleSet_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -244,39 +244,39 @@ func RunJSONSerializationTestForVirtualMachineScaleSetStatus(subject VirtualMach
 	return ""
 }
 
-// Generator of VirtualMachineScaleSet_Status instances for property testing - lazily instantiated by
-// VirtualMachineScaleSetStatusGenerator()
-var virtualMachineScaleSetStatusGenerator gopter.Gen
+// Generator of VirtualMachineScaleSet_STATUS instances for property testing - lazily instantiated by
+// VirtualMachineScaleSet_STATUSGenerator()
+var virtualMachineScaleSet_STATUSGenerator gopter.Gen
 
-// VirtualMachineScaleSetStatusGenerator returns a generator of VirtualMachineScaleSet_Status instances for property testing.
-// We first initialize virtualMachineScaleSetStatusGenerator with a simplified generator based on the
+// VirtualMachineScaleSet_STATUSGenerator returns a generator of VirtualMachineScaleSet_STATUS instances for property testing.
+// We first initialize virtualMachineScaleSet_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualMachineScaleSetStatusGenerator() gopter.Gen {
-	if virtualMachineScaleSetStatusGenerator != nil {
-		return virtualMachineScaleSetStatusGenerator
+func VirtualMachineScaleSet_STATUSGenerator() gopter.Gen {
+	if virtualMachineScaleSet_STATUSGenerator != nil {
+		return virtualMachineScaleSet_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetStatus(generators)
-	virtualMachineScaleSetStatusGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSet_Status{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSet_STATUS(generators)
+	virtualMachineScaleSet_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSet_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetStatus(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetStatus(generators)
-	virtualMachineScaleSetStatusGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSet_Status{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSet_STATUS(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSet_STATUS(generators)
+	virtualMachineScaleSet_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSet_STATUS{}), generators)
 
-	return virtualMachineScaleSetStatusGenerator
+	return virtualMachineScaleSet_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSet_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSet_STATUS(gens map[string]gopter.Gen) {
 	gens["DoNotRunExtensionsOnOverprovisionedVMs"] = gen.PtrOf(gen.Bool())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["OrchestrationMode"] = gen.PtrOf(gen.OneConstOf(OrchestrationMode_StatusFlexible, OrchestrationMode_StatusUniform))
+	gens["OrchestrationMode"] = gen.PtrOf(gen.OneConstOf(OrchestrationMode_STATUSFlexible, OrchestrationMode_STATUSUniform))
 	gens["Overprovision"] = gen.PtrOf(gen.Bool())
 	gens["PlatformFaultDomainCount"] = gen.PtrOf(gen.Int())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
@@ -288,47 +288,47 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetStatus(gens map[st
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetStatus(gens map[string]gopter.Gen) {
-	gens["AdditionalCapabilities"] = gen.PtrOf(AdditionalCapabilitiesStatusGenerator())
-	gens["AutomaticRepairsPolicy"] = gen.PtrOf(AutomaticRepairsPolicyStatusGenerator())
-	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationStatusGenerator())
-	gens["HostGroup"] = gen.PtrOf(SubResourceStatusGenerator())
-	gens["Identity"] = gen.PtrOf(VirtualMachineScaleSetIdentityStatusGenerator())
-	gens["Plan"] = gen.PtrOf(PlanStatusGenerator())
-	gens["ProximityPlacementGroup"] = gen.PtrOf(SubResourceStatusGenerator())
-	gens["ScaleInPolicy"] = gen.PtrOf(ScaleInPolicyStatusGenerator())
-	gens["Sku"] = gen.PtrOf(SkuStatusGenerator())
-	gens["UpgradePolicy"] = gen.PtrOf(UpgradePolicyStatusGenerator())
-	gens["VirtualMachineProfile"] = gen.PtrOf(VirtualMachineScaleSetVMProfileStatusGenerator())
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSet_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSet_STATUS(gens map[string]gopter.Gen) {
+	gens["AdditionalCapabilities"] = gen.PtrOf(AdditionalCapabilities_STATUSGenerator())
+	gens["AutomaticRepairsPolicy"] = gen.PtrOf(AutomaticRepairsPolicy_STATUSGenerator())
+	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUSGenerator())
+	gens["HostGroup"] = gen.PtrOf(SubResource_STATUSGenerator())
+	gens["Identity"] = gen.PtrOf(VirtualMachineScaleSetIdentity_STATUSGenerator())
+	gens["Plan"] = gen.PtrOf(Plan_STATUSGenerator())
+	gens["ProximityPlacementGroup"] = gen.PtrOf(SubResource_STATUSGenerator())
+	gens["ScaleInPolicy"] = gen.PtrOf(ScaleInPolicy_STATUSGenerator())
+	gens["Sku"] = gen.PtrOf(Sku_STATUSGenerator())
+	gens["UpgradePolicy"] = gen.PtrOf(UpgradePolicy_STATUSGenerator())
+	gens["VirtualMachineProfile"] = gen.PtrOf(VirtualMachineScaleSetVMProfile_STATUSGenerator())
 }
 
-func Test_VirtualMachineScaleSets_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_VirtualMachineScaleSet_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualMachineScaleSets_Spec to VirtualMachineScaleSets_Spec via AssignPropertiesToVirtualMachineScaleSetsSpec & AssignPropertiesFromVirtualMachineScaleSetsSpec returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetsSpec, VirtualMachineScaleSetsSpecGenerator()))
+		"Round trip from VirtualMachineScaleSet_Spec to VirtualMachineScaleSet_Spec via AssignPropertiesToVirtualMachineScaleSet_Spec & AssignPropertiesFromVirtualMachineScaleSet_Spec returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSet_Spec, VirtualMachineScaleSet_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetsSpec tests if a specific instance of VirtualMachineScaleSets_Spec can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForVirtualMachineScaleSetsSpec(subject VirtualMachineScaleSets_Spec) string {
+// RunPropertyAssignmentTestForVirtualMachineScaleSet_Spec tests if a specific instance of VirtualMachineScaleSet_Spec can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachineScaleSet_Spec(subject VirtualMachineScaleSet_Spec) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201201s.VirtualMachineScaleSets_Spec
-	err := copied.AssignPropertiesToVirtualMachineScaleSetsSpec(&other)
+	var other alpha20201201s.VirtualMachineScaleSet_Spec
+	err := copied.AssignPropertiesToVirtualMachineScaleSet_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualMachineScaleSets_Spec
-	err = actual.AssignPropertiesFromVirtualMachineScaleSetsSpec(&other)
+	var actual VirtualMachineScaleSet_Spec
+	err = actual.AssignPropertiesFromVirtualMachineScaleSet_Spec(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -345,19 +345,19 @@ func RunPropertyAssignmentTestForVirtualMachineScaleSetsSpec(subject VirtualMach
 	return ""
 }
 
-func Test_VirtualMachineScaleSets_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VirtualMachineScaleSet_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VirtualMachineScaleSets_Spec via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetsSpec, VirtualMachineScaleSetsSpecGenerator()))
+		"Round trip of VirtualMachineScaleSet_Spec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSet_Spec, VirtualMachineScaleSet_SpecGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetsSpec runs a test to see if a specific instance of VirtualMachineScaleSets_Spec round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetsSpec(subject VirtualMachineScaleSets_Spec) string {
+// RunJSONSerializationTestForVirtualMachineScaleSet_Spec runs a test to see if a specific instance of VirtualMachineScaleSet_Spec round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSet_Spec(subject VirtualMachineScaleSet_Spec) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -365,7 +365,7 @@ func RunJSONSerializationTestForVirtualMachineScaleSetsSpec(subject VirtualMachi
 	}
 
 	// Deserialize back into memory
-	var actual VirtualMachineScaleSets_Spec
+	var actual VirtualMachineScaleSet_Spec
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -383,48 +383,52 @@ func RunJSONSerializationTestForVirtualMachineScaleSetsSpec(subject VirtualMachi
 	return ""
 }
 
-// Generator of VirtualMachineScaleSets_Spec instances for property testing - lazily instantiated by
-// VirtualMachineScaleSetsSpecGenerator()
-var virtualMachineScaleSetsSpecGenerator gopter.Gen
+// Generator of VirtualMachineScaleSet_Spec instances for property testing - lazily instantiated by
+// VirtualMachineScaleSet_SpecGenerator()
+var virtualMachineScaleSet_SpecGenerator gopter.Gen
 
-// VirtualMachineScaleSetsSpecGenerator returns a generator of VirtualMachineScaleSets_Spec instances for property testing.
-// We first initialize virtualMachineScaleSetsSpecGenerator with a simplified generator based on the
+// VirtualMachineScaleSet_SpecGenerator returns a generator of VirtualMachineScaleSet_Spec instances for property testing.
+// We first initialize virtualMachineScaleSet_SpecGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualMachineScaleSetsSpecGenerator() gopter.Gen {
-	if virtualMachineScaleSetsSpecGenerator != nil {
-		return virtualMachineScaleSetsSpecGenerator
+func VirtualMachineScaleSet_SpecGenerator() gopter.Gen {
+	if virtualMachineScaleSet_SpecGenerator != nil {
+		return virtualMachineScaleSet_SpecGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpec(generators)
-	virtualMachineScaleSetsSpecGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSets_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSet_Spec(generators)
+	virtualMachineScaleSet_SpecGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSet_Spec{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpec(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpec(generators)
-	virtualMachineScaleSetsSpecGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSets_Spec{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSet_Spec(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSet_Spec(generators)
+	virtualMachineScaleSet_SpecGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSet_Spec{}), generators)
 
-	return virtualMachineScaleSetsSpecGenerator
+	return virtualMachineScaleSet_SpecGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpec is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpec(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSet_Spec is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSet_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["DoNotRunExtensionsOnOverprovisionedVMs"] = gen.PtrOf(gen.Bool())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["OrchestrationMode"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetsSpecPropertiesOrchestrationModeFlexible, VirtualMachineScaleSetsSpecPropertiesOrchestrationModeUniform))
+	gens["OrchestrationMode"] = gen.PtrOf(gen.OneConstOf(OrchestrationModeFlexible, OrchestrationModeUniform))
 	gens["Overprovision"] = gen.PtrOf(gen.Bool())
 	gens["PlatformFaultDomainCount"] = gen.PtrOf(gen.Int())
+	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["SinglePlacementGroup"] = gen.PtrOf(gen.Bool())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+	gens["UniqueId"] = gen.PtrOf(gen.AlphaString())
 	gens["ZoneBalance"] = gen.PtrOf(gen.Bool())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpec(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSet_Spec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSet_Spec(gens map[string]gopter.Gen) {
 	gens["AdditionalCapabilities"] = gen.PtrOf(AdditionalCapabilitiesGenerator())
 	gens["AutomaticRepairsPolicy"] = gen.PtrOf(AutomaticRepairsPolicyGenerator())
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
@@ -435,7 +439,7 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpec(gens map[string]
 	gens["ScaleInPolicy"] = gen.PtrOf(ScaleInPolicyGenerator())
 	gens["Sku"] = gen.PtrOf(SkuGenerator())
 	gens["UpgradePolicy"] = gen.PtrOf(UpgradePolicyGenerator())
-	gens["VirtualMachineProfile"] = gen.PtrOf(VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileGenerator())
+	gens["VirtualMachineProfile"] = gen.PtrOf(VirtualMachineScaleSetVMProfileGenerator())
 }
 
 func Test_AutomaticRepairsPolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -541,32 +545,32 @@ func AddIndependentPropertyGeneratorsForAutomaticRepairsPolicy(gens map[string]g
 	gens["GracePeriod"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_AutomaticRepairsPolicy_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_AutomaticRepairsPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from AutomaticRepairsPolicy_Status to AutomaticRepairsPolicy_Status via AssignPropertiesToAutomaticRepairsPolicyStatus & AssignPropertiesFromAutomaticRepairsPolicyStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAutomaticRepairsPolicyStatus, AutomaticRepairsPolicyStatusGenerator()))
+		"Round trip from AutomaticRepairsPolicy_STATUS to AutomaticRepairsPolicy_STATUS via AssignPropertiesToAutomaticRepairsPolicy_STATUS & AssignPropertiesFromAutomaticRepairsPolicy_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAutomaticRepairsPolicy_STATUS, AutomaticRepairsPolicy_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAutomaticRepairsPolicyStatus tests if a specific instance of AutomaticRepairsPolicy_Status can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForAutomaticRepairsPolicyStatus(subject AutomaticRepairsPolicy_Status) string {
+// RunPropertyAssignmentTestForAutomaticRepairsPolicy_STATUS tests if a specific instance of AutomaticRepairsPolicy_STATUS can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForAutomaticRepairsPolicy_STATUS(subject AutomaticRepairsPolicy_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201201s.AutomaticRepairsPolicy_Status
-	err := copied.AssignPropertiesToAutomaticRepairsPolicyStatus(&other)
+	var other alpha20201201s.AutomaticRepairsPolicy_STATUS
+	err := copied.AssignPropertiesToAutomaticRepairsPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AutomaticRepairsPolicy_Status
-	err = actual.AssignPropertiesFromAutomaticRepairsPolicyStatus(&other)
+	var actual AutomaticRepairsPolicy_STATUS
+	err = actual.AssignPropertiesFromAutomaticRepairsPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -583,19 +587,19 @@ func RunPropertyAssignmentTestForAutomaticRepairsPolicyStatus(subject AutomaticR
 	return ""
 }
 
-func Test_AutomaticRepairsPolicy_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_AutomaticRepairsPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of AutomaticRepairsPolicy_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAutomaticRepairsPolicyStatus, AutomaticRepairsPolicyStatusGenerator()))
+		"Round trip of AutomaticRepairsPolicy_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAutomaticRepairsPolicy_STATUS, AutomaticRepairsPolicy_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAutomaticRepairsPolicyStatus runs a test to see if a specific instance of AutomaticRepairsPolicy_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForAutomaticRepairsPolicyStatus(subject AutomaticRepairsPolicy_Status) string {
+// RunJSONSerializationTestForAutomaticRepairsPolicy_STATUS runs a test to see if a specific instance of AutomaticRepairsPolicy_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForAutomaticRepairsPolicy_STATUS(subject AutomaticRepairsPolicy_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -603,7 +607,7 @@ func RunJSONSerializationTestForAutomaticRepairsPolicyStatus(subject AutomaticRe
 	}
 
 	// Deserialize back into memory
-	var actual AutomaticRepairsPolicy_Status
+	var actual AutomaticRepairsPolicy_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -621,25 +625,25 @@ func RunJSONSerializationTestForAutomaticRepairsPolicyStatus(subject AutomaticRe
 	return ""
 }
 
-// Generator of AutomaticRepairsPolicy_Status instances for property testing - lazily instantiated by
-// AutomaticRepairsPolicyStatusGenerator()
-var automaticRepairsPolicyStatusGenerator gopter.Gen
+// Generator of AutomaticRepairsPolicy_STATUS instances for property testing - lazily instantiated by
+// AutomaticRepairsPolicy_STATUSGenerator()
+var automaticRepairsPolicy_STATUSGenerator gopter.Gen
 
-// AutomaticRepairsPolicyStatusGenerator returns a generator of AutomaticRepairsPolicy_Status instances for property testing.
-func AutomaticRepairsPolicyStatusGenerator() gopter.Gen {
-	if automaticRepairsPolicyStatusGenerator != nil {
-		return automaticRepairsPolicyStatusGenerator
+// AutomaticRepairsPolicy_STATUSGenerator returns a generator of AutomaticRepairsPolicy_STATUS instances for property testing.
+func AutomaticRepairsPolicy_STATUSGenerator() gopter.Gen {
+	if automaticRepairsPolicy_STATUSGenerator != nil {
+		return automaticRepairsPolicy_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAutomaticRepairsPolicyStatus(generators)
-	automaticRepairsPolicyStatusGenerator = gen.Struct(reflect.TypeOf(AutomaticRepairsPolicy_Status{}), generators)
+	AddIndependentPropertyGeneratorsForAutomaticRepairsPolicy_STATUS(generators)
+	automaticRepairsPolicy_STATUSGenerator = gen.Struct(reflect.TypeOf(AutomaticRepairsPolicy_STATUS{}), generators)
 
-	return automaticRepairsPolicyStatusGenerator
+	return automaticRepairsPolicy_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAutomaticRepairsPolicyStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAutomaticRepairsPolicyStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForAutomaticRepairsPolicy_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAutomaticRepairsPolicy_STATUS(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["GracePeriod"] = gen.PtrOf(gen.AlphaString())
 }
@@ -742,35 +746,35 @@ func ScaleInPolicyGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForScaleInPolicy is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForScaleInPolicy(gens map[string]gopter.Gen) {
-	gens["Rules"] = gen.SliceOf(gen.OneConstOf(ScaleInPolicyRulesDefault, ScaleInPolicyRulesNewestVM, ScaleInPolicyRulesOldestVM))
+	gens["Rules"] = gen.SliceOf(gen.OneConstOf(ScaleInPolicy_RulesDefault, ScaleInPolicy_RulesNewestVM, ScaleInPolicy_RulesOldestVM))
 }
 
-func Test_ScaleInPolicy_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_ScaleInPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ScaleInPolicy_Status to ScaleInPolicy_Status via AssignPropertiesToScaleInPolicyStatus & AssignPropertiesFromScaleInPolicyStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForScaleInPolicyStatus, ScaleInPolicyStatusGenerator()))
+		"Round trip from ScaleInPolicy_STATUS to ScaleInPolicy_STATUS via AssignPropertiesToScaleInPolicy_STATUS & AssignPropertiesFromScaleInPolicy_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForScaleInPolicy_STATUS, ScaleInPolicy_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForScaleInPolicyStatus tests if a specific instance of ScaleInPolicy_Status can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForScaleInPolicyStatus(subject ScaleInPolicy_Status) string {
+// RunPropertyAssignmentTestForScaleInPolicy_STATUS tests if a specific instance of ScaleInPolicy_STATUS can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForScaleInPolicy_STATUS(subject ScaleInPolicy_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201201s.ScaleInPolicy_Status
-	err := copied.AssignPropertiesToScaleInPolicyStatus(&other)
+	var other alpha20201201s.ScaleInPolicy_STATUS
+	err := copied.AssignPropertiesToScaleInPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ScaleInPolicy_Status
-	err = actual.AssignPropertiesFromScaleInPolicyStatus(&other)
+	var actual ScaleInPolicy_STATUS
+	err = actual.AssignPropertiesFromScaleInPolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -787,19 +791,19 @@ func RunPropertyAssignmentTestForScaleInPolicyStatus(subject ScaleInPolicy_Statu
 	return ""
 }
 
-func Test_ScaleInPolicy_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ScaleInPolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ScaleInPolicy_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForScaleInPolicyStatus, ScaleInPolicyStatusGenerator()))
+		"Round trip of ScaleInPolicy_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForScaleInPolicy_STATUS, ScaleInPolicy_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForScaleInPolicyStatus runs a test to see if a specific instance of ScaleInPolicy_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForScaleInPolicyStatus(subject ScaleInPolicy_Status) string {
+// RunJSONSerializationTestForScaleInPolicy_STATUS runs a test to see if a specific instance of ScaleInPolicy_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForScaleInPolicy_STATUS(subject ScaleInPolicy_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -807,7 +811,7 @@ func RunJSONSerializationTestForScaleInPolicyStatus(subject ScaleInPolicy_Status
 	}
 
 	// Deserialize back into memory
-	var actual ScaleInPolicy_Status
+	var actual ScaleInPolicy_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -825,26 +829,26 @@ func RunJSONSerializationTestForScaleInPolicyStatus(subject ScaleInPolicy_Status
 	return ""
 }
 
-// Generator of ScaleInPolicy_Status instances for property testing - lazily instantiated by
-// ScaleInPolicyStatusGenerator()
-var scaleInPolicyStatusGenerator gopter.Gen
+// Generator of ScaleInPolicy_STATUS instances for property testing - lazily instantiated by
+// ScaleInPolicy_STATUSGenerator()
+var scaleInPolicy_STATUSGenerator gopter.Gen
 
-// ScaleInPolicyStatusGenerator returns a generator of ScaleInPolicy_Status instances for property testing.
-func ScaleInPolicyStatusGenerator() gopter.Gen {
-	if scaleInPolicyStatusGenerator != nil {
-		return scaleInPolicyStatusGenerator
+// ScaleInPolicy_STATUSGenerator returns a generator of ScaleInPolicy_STATUS instances for property testing.
+func ScaleInPolicy_STATUSGenerator() gopter.Gen {
+	if scaleInPolicy_STATUSGenerator != nil {
+		return scaleInPolicy_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForScaleInPolicyStatus(generators)
-	scaleInPolicyStatusGenerator = gen.Struct(reflect.TypeOf(ScaleInPolicy_Status{}), generators)
+	AddIndependentPropertyGeneratorsForScaleInPolicy_STATUS(generators)
+	scaleInPolicy_STATUSGenerator = gen.Struct(reflect.TypeOf(ScaleInPolicy_STATUS{}), generators)
 
-	return scaleInPolicyStatusGenerator
+	return scaleInPolicy_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForScaleInPolicyStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForScaleInPolicyStatus(gens map[string]gopter.Gen) {
-	gens["Rules"] = gen.SliceOf(gen.OneConstOf(ScaleInPolicyStatusRulesDefault, ScaleInPolicyStatusRulesNewestVM, ScaleInPolicyStatusRulesOldestVM))
+// AddIndependentPropertyGeneratorsForScaleInPolicy_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForScaleInPolicy_STATUS(gens map[string]gopter.Gen) {
+	gens["Rules"] = gen.SliceOf(gen.OneConstOf(ScaleInPolicy_Rules_STATUSDefault, ScaleInPolicy_Rules_STATUSNewestVM, ScaleInPolicy_Rules_STATUSOldestVM))
 }
 
 func Test_Sku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -950,32 +954,32 @@ func AddIndependentPropertyGeneratorsForSku(gens map[string]gopter.Gen) {
 	gens["Tier"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_Sku_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_Sku_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Sku_Status to Sku_Status via AssignPropertiesToSkuStatus & AssignPropertiesFromSkuStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSkuStatus, SkuStatusGenerator()))
+		"Round trip from Sku_STATUS to Sku_STATUS via AssignPropertiesToSku_STATUS & AssignPropertiesFromSku_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSku_STATUS, Sku_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSkuStatus tests if a specific instance of Sku_Status can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForSkuStatus(subject Sku_Status) string {
+// RunPropertyAssignmentTestForSku_STATUS tests if a specific instance of Sku_STATUS can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForSku_STATUS(subject Sku_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201201s.Sku_Status
-	err := copied.AssignPropertiesToSkuStatus(&other)
+	var other alpha20201201s.Sku_STATUS
+	err := copied.AssignPropertiesToSku_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Sku_Status
-	err = actual.AssignPropertiesFromSkuStatus(&other)
+	var actual Sku_STATUS
+	err = actual.AssignPropertiesFromSku_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -992,19 +996,19 @@ func RunPropertyAssignmentTestForSkuStatus(subject Sku_Status) string {
 	return ""
 }
 
-func Test_Sku_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Sku_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Sku_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSkuStatus, SkuStatusGenerator()))
+		"Round trip of Sku_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSku_STATUS, Sku_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSkuStatus runs a test to see if a specific instance of Sku_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForSkuStatus(subject Sku_Status) string {
+// RunJSONSerializationTestForSku_STATUS runs a test to see if a specific instance of Sku_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForSku_STATUS(subject Sku_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1012,7 +1016,7 @@ func RunJSONSerializationTestForSkuStatus(subject Sku_Status) string {
 	}
 
 	// Deserialize back into memory
-	var actual Sku_Status
+	var actual Sku_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1030,24 +1034,24 @@ func RunJSONSerializationTestForSkuStatus(subject Sku_Status) string {
 	return ""
 }
 
-// Generator of Sku_Status instances for property testing - lazily instantiated by SkuStatusGenerator()
-var skuStatusGenerator gopter.Gen
+// Generator of Sku_STATUS instances for property testing - lazily instantiated by Sku_STATUSGenerator()
+var sku_STATUSGenerator gopter.Gen
 
-// SkuStatusGenerator returns a generator of Sku_Status instances for property testing.
-func SkuStatusGenerator() gopter.Gen {
-	if skuStatusGenerator != nil {
-		return skuStatusGenerator
+// Sku_STATUSGenerator returns a generator of Sku_STATUS instances for property testing.
+func Sku_STATUSGenerator() gopter.Gen {
+	if sku_STATUSGenerator != nil {
+		return sku_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSkuStatus(generators)
-	skuStatusGenerator = gen.Struct(reflect.TypeOf(Sku_Status{}), generators)
+	AddIndependentPropertyGeneratorsForSku_STATUS(generators)
+	sku_STATUSGenerator = gen.Struct(reflect.TypeOf(Sku_STATUS{}), generators)
 
-	return skuStatusGenerator
+	return sku_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSkuStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSkuStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSku_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSku_STATUS(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Tier"] = gen.PtrOf(gen.AlphaString())
@@ -1160,7 +1164,7 @@ func UpgradePolicyGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForUpgradePolicy is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForUpgradePolicy(gens map[string]gopter.Gen) {
-	gens["Mode"] = gen.PtrOf(gen.OneConstOf(UpgradePolicyModeAutomatic, UpgradePolicyModeManual, UpgradePolicyModeRolling))
+	gens["Mode"] = gen.PtrOf(gen.OneConstOf(UpgradePolicy_ModeAutomatic, UpgradePolicy_ModeManual, UpgradePolicy_ModeRolling))
 }
 
 // AddRelatedPropertyGeneratorsForUpgradePolicy is a factory method for creating gopter generators
@@ -1169,32 +1173,32 @@ func AddRelatedPropertyGeneratorsForUpgradePolicy(gens map[string]gopter.Gen) {
 	gens["RollingUpgradePolicy"] = gen.PtrOf(RollingUpgradePolicyGenerator())
 }
 
-func Test_UpgradePolicy_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_UpgradePolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from UpgradePolicy_Status to UpgradePolicy_Status via AssignPropertiesToUpgradePolicyStatus & AssignPropertiesFromUpgradePolicyStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForUpgradePolicyStatus, UpgradePolicyStatusGenerator()))
+		"Round trip from UpgradePolicy_STATUS to UpgradePolicy_STATUS via AssignPropertiesToUpgradePolicy_STATUS & AssignPropertiesFromUpgradePolicy_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForUpgradePolicy_STATUS, UpgradePolicy_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForUpgradePolicyStatus tests if a specific instance of UpgradePolicy_Status can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForUpgradePolicyStatus(subject UpgradePolicy_Status) string {
+// RunPropertyAssignmentTestForUpgradePolicy_STATUS tests if a specific instance of UpgradePolicy_STATUS can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForUpgradePolicy_STATUS(subject UpgradePolicy_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201201s.UpgradePolicy_Status
-	err := copied.AssignPropertiesToUpgradePolicyStatus(&other)
+	var other alpha20201201s.UpgradePolicy_STATUS
+	err := copied.AssignPropertiesToUpgradePolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual UpgradePolicy_Status
-	err = actual.AssignPropertiesFromUpgradePolicyStatus(&other)
+	var actual UpgradePolicy_STATUS
+	err = actual.AssignPropertiesFromUpgradePolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1211,19 +1215,19 @@ func RunPropertyAssignmentTestForUpgradePolicyStatus(subject UpgradePolicy_Statu
 	return ""
 }
 
-func Test_UpgradePolicy_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_UpgradePolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of UpgradePolicy_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUpgradePolicyStatus, UpgradePolicyStatusGenerator()))
+		"Round trip of UpgradePolicy_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForUpgradePolicy_STATUS, UpgradePolicy_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForUpgradePolicyStatus runs a test to see if a specific instance of UpgradePolicy_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForUpgradePolicyStatus(subject UpgradePolicy_Status) string {
+// RunJSONSerializationTestForUpgradePolicy_STATUS runs a test to see if a specific instance of UpgradePolicy_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForUpgradePolicy_STATUS(subject UpgradePolicy_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1231,7 +1235,7 @@ func RunJSONSerializationTestForUpgradePolicyStatus(subject UpgradePolicy_Status
 	}
 
 	// Deserialize back into memory
-	var actual UpgradePolicy_Status
+	var actual UpgradePolicy_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1249,41 +1253,41 @@ func RunJSONSerializationTestForUpgradePolicyStatus(subject UpgradePolicy_Status
 	return ""
 }
 
-// Generator of UpgradePolicy_Status instances for property testing - lazily instantiated by
-// UpgradePolicyStatusGenerator()
-var upgradePolicyStatusGenerator gopter.Gen
+// Generator of UpgradePolicy_STATUS instances for property testing - lazily instantiated by
+// UpgradePolicy_STATUSGenerator()
+var upgradePolicy_STATUSGenerator gopter.Gen
 
-// UpgradePolicyStatusGenerator returns a generator of UpgradePolicy_Status instances for property testing.
-// We first initialize upgradePolicyStatusGenerator with a simplified generator based on the
+// UpgradePolicy_STATUSGenerator returns a generator of UpgradePolicy_STATUS instances for property testing.
+// We first initialize upgradePolicy_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func UpgradePolicyStatusGenerator() gopter.Gen {
-	if upgradePolicyStatusGenerator != nil {
-		return upgradePolicyStatusGenerator
+func UpgradePolicy_STATUSGenerator() gopter.Gen {
+	if upgradePolicy_STATUSGenerator != nil {
+		return upgradePolicy_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUpgradePolicyStatus(generators)
-	upgradePolicyStatusGenerator = gen.Struct(reflect.TypeOf(UpgradePolicy_Status{}), generators)
+	AddIndependentPropertyGeneratorsForUpgradePolicy_STATUS(generators)
+	upgradePolicy_STATUSGenerator = gen.Struct(reflect.TypeOf(UpgradePolicy_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUpgradePolicyStatus(generators)
-	AddRelatedPropertyGeneratorsForUpgradePolicyStatus(generators)
-	upgradePolicyStatusGenerator = gen.Struct(reflect.TypeOf(UpgradePolicy_Status{}), generators)
+	AddIndependentPropertyGeneratorsForUpgradePolicy_STATUS(generators)
+	AddRelatedPropertyGeneratorsForUpgradePolicy_STATUS(generators)
+	upgradePolicy_STATUSGenerator = gen.Struct(reflect.TypeOf(UpgradePolicy_STATUS{}), generators)
 
-	return upgradePolicyStatusGenerator
+	return upgradePolicy_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForUpgradePolicyStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUpgradePolicyStatus(gens map[string]gopter.Gen) {
-	gens["Mode"] = gen.PtrOf(gen.OneConstOf(UpgradePolicyStatusModeAutomatic, UpgradePolicyStatusModeManual, UpgradePolicyStatusModeRolling))
+// AddIndependentPropertyGeneratorsForUpgradePolicy_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForUpgradePolicy_STATUS(gens map[string]gopter.Gen) {
+	gens["Mode"] = gen.PtrOf(gen.OneConstOf(UpgradePolicy_Mode_STATUSAutomatic, UpgradePolicy_Mode_STATUSManual, UpgradePolicy_Mode_STATUSRolling))
 }
 
-// AddRelatedPropertyGeneratorsForUpgradePolicyStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForUpgradePolicyStatus(gens map[string]gopter.Gen) {
-	gens["AutomaticOSUpgradePolicy"] = gen.PtrOf(AutomaticOSUpgradePolicyStatusGenerator())
-	gens["RollingUpgradePolicy"] = gen.PtrOf(RollingUpgradePolicyStatusGenerator())
+// AddRelatedPropertyGeneratorsForUpgradePolicy_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForUpgradePolicy_STATUS(gens map[string]gopter.Gen) {
+	gens["AutomaticOSUpgradePolicy"] = gen.PtrOf(AutomaticOSUpgradePolicy_STATUSGenerator())
+	gens["RollingUpgradePolicy"] = gen.PtrOf(RollingUpgradePolicy_STATUSGenerator())
 }
 
 func Test_VirtualMachineScaleSetIdentity_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1385,161 +1389,41 @@ func VirtualMachineScaleSetIdentityGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentity is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentity(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		VirtualMachineScaleSetIdentityTypeNone,
-		VirtualMachineScaleSetIdentityTypeSystemAssigned,
-		VirtualMachineScaleSetIdentityTypeSystemAssignedUserAssigned,
-		VirtualMachineScaleSetIdentityTypeUserAssigned))
-}
-
-func Test_VirtualMachineScaleSetIdentity_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from VirtualMachineScaleSetIdentity_Status to VirtualMachineScaleSetIdentity_Status via AssignPropertiesToVirtualMachineScaleSetIdentityStatus & AssignPropertiesFromVirtualMachineScaleSetIdentityStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetIdentityStatus, VirtualMachineScaleSetIdentityStatusGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForVirtualMachineScaleSetIdentityStatus tests if a specific instance of VirtualMachineScaleSetIdentity_Status can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForVirtualMachineScaleSetIdentityStatus(subject VirtualMachineScaleSetIdentity_Status) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201201s.VirtualMachineScaleSetIdentity_Status
-	err := copied.AssignPropertiesToVirtualMachineScaleSetIdentityStatus(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualMachineScaleSetIdentity_Status
-	err = actual.AssignPropertiesFromVirtualMachineScaleSetIdentityStatus(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_VirtualMachineScaleSetIdentity_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualMachineScaleSetIdentity_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetIdentityStatus, VirtualMachineScaleSetIdentityStatusGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForVirtualMachineScaleSetIdentityStatus runs a test to see if a specific instance of VirtualMachineScaleSetIdentity_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetIdentityStatus(subject VirtualMachineScaleSetIdentity_Status) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual VirtualMachineScaleSetIdentity_Status
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of VirtualMachineScaleSetIdentity_Status instances for property testing - lazily instantiated by
-// VirtualMachineScaleSetIdentityStatusGenerator()
-var virtualMachineScaleSetIdentityStatusGenerator gopter.Gen
-
-// VirtualMachineScaleSetIdentityStatusGenerator returns a generator of VirtualMachineScaleSetIdentity_Status instances for property testing.
-// We first initialize virtualMachineScaleSetIdentityStatusGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func VirtualMachineScaleSetIdentityStatusGenerator() gopter.Gen {
-	if virtualMachineScaleSetIdentityStatusGenerator != nil {
-		return virtualMachineScaleSetIdentityStatusGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentityStatus(generators)
-	virtualMachineScaleSetIdentityStatusGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetIdentity_Status{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentityStatus(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIdentityStatus(generators)
-	virtualMachineScaleSetIdentityStatusGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetIdentity_Status{}), generators)
-
-	return virtualMachineScaleSetIdentityStatusGenerator
-}
-
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentityStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentityStatus(gens map[string]gopter.Gen) {
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		VirtualMachineScaleSetIdentityStatusTypeNone,
-		VirtualMachineScaleSetIdentityStatusTypeSystemAssigned,
-		VirtualMachineScaleSetIdentityStatusTypeSystemAssignedUserAssigned,
-		VirtualMachineScaleSetIdentityStatusTypeUserAssigned))
+		VirtualMachineScaleSetIdentity_TypeNone,
+		VirtualMachineScaleSetIdentity_TypeSystemAssigned,
+		VirtualMachineScaleSetIdentity_TypeSystemAssignedUserAssigned,
+		VirtualMachineScaleSetIdentity_TypeUserAssigned))
 }
 
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIdentityStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIdentityStatus(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), VirtualMachineScaleSetIdentityStatusUserAssignedIdentitiesGenerator())
-}
-
-func Test_VirtualMachineScaleSetVMProfile_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_VirtualMachineScaleSetIdentity_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualMachineScaleSetVMProfile_Status to VirtualMachineScaleSetVMProfile_Status via AssignPropertiesToVirtualMachineScaleSetVMProfileStatus & AssignPropertiesFromVirtualMachineScaleSetVMProfileStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetVMProfileStatus, VirtualMachineScaleSetVMProfileStatusGenerator()))
+		"Round trip from VirtualMachineScaleSetIdentity_STATUS to VirtualMachineScaleSetIdentity_STATUS via AssignPropertiesToVirtualMachineScaleSetIdentity_STATUS & AssignPropertiesFromVirtualMachineScaleSetIdentity_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetIdentity_STATUS, VirtualMachineScaleSetIdentity_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetVMProfileStatus tests if a specific instance of VirtualMachineScaleSetVMProfile_Status can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForVirtualMachineScaleSetVMProfileStatus(subject VirtualMachineScaleSetVMProfile_Status) string {
+// RunPropertyAssignmentTestForVirtualMachineScaleSetIdentity_STATUS tests if a specific instance of VirtualMachineScaleSetIdentity_STATUS can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachineScaleSetIdentity_STATUS(subject VirtualMachineScaleSetIdentity_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201201s.VirtualMachineScaleSetVMProfile_Status
-	err := copied.AssignPropertiesToVirtualMachineScaleSetVMProfileStatus(&other)
+	var other alpha20201201s.VirtualMachineScaleSetIdentity_STATUS
+	err := copied.AssignPropertiesToVirtualMachineScaleSetIdentity_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualMachineScaleSetVMProfile_Status
-	err = actual.AssignPropertiesFromVirtualMachineScaleSetVMProfileStatus(&other)
+	var actual VirtualMachineScaleSetIdentity_STATUS
+	err = actual.AssignPropertiesFromVirtualMachineScaleSetIdentity_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1556,19 +1440,19 @@ func RunPropertyAssignmentTestForVirtualMachineScaleSetVMProfileStatus(subject V
 	return ""
 }
 
-func Test_VirtualMachineScaleSetVMProfile_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VirtualMachineScaleSetIdentity_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VirtualMachineScaleSetVMProfile_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetVMProfileStatus, VirtualMachineScaleSetVMProfileStatusGenerator()))
+		"Round trip of VirtualMachineScaleSetIdentity_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetIdentity_STATUS, VirtualMachineScaleSetIdentity_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetVMProfileStatus runs a test to see if a specific instance of VirtualMachineScaleSetVMProfile_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetVMProfileStatus(subject VirtualMachineScaleSetVMProfile_Status) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetIdentity_STATUS runs a test to see if a specific instance of VirtualMachineScaleSetIdentity_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetIdentity_STATUS(subject VirtualMachineScaleSetIdentity_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1576,7 +1460,7 @@ func RunJSONSerializationTestForVirtualMachineScaleSetVMProfileStatus(subject Vi
 	}
 
 	// Deserialize back into memory
-	var actual VirtualMachineScaleSetVMProfile_Status
+	var actual VirtualMachineScaleSetIdentity_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1594,77 +1478,74 @@ func RunJSONSerializationTestForVirtualMachineScaleSetVMProfileStatus(subject Vi
 	return ""
 }
 
-// Generator of VirtualMachineScaleSetVMProfile_Status instances for property testing - lazily instantiated by
-// VirtualMachineScaleSetVMProfileStatusGenerator()
-var virtualMachineScaleSetVMProfileStatusGenerator gopter.Gen
+// Generator of VirtualMachineScaleSetIdentity_STATUS instances for property testing - lazily instantiated by
+// VirtualMachineScaleSetIdentity_STATUSGenerator()
+var virtualMachineScaleSetIdentity_STATUSGenerator gopter.Gen
 
-// VirtualMachineScaleSetVMProfileStatusGenerator returns a generator of VirtualMachineScaleSetVMProfile_Status instances for property testing.
-// We first initialize virtualMachineScaleSetVMProfileStatusGenerator with a simplified generator based on the
+// VirtualMachineScaleSetIdentity_STATUSGenerator returns a generator of VirtualMachineScaleSetIdentity_STATUS instances for property testing.
+// We first initialize virtualMachineScaleSetIdentity_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualMachineScaleSetVMProfileStatusGenerator() gopter.Gen {
-	if virtualMachineScaleSetVMProfileStatusGenerator != nil {
-		return virtualMachineScaleSetVMProfileStatusGenerator
+func VirtualMachineScaleSetIdentity_STATUSGenerator() gopter.Gen {
+	if virtualMachineScaleSetIdentity_STATUSGenerator != nil {
+		return virtualMachineScaleSetIdentity_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetVMProfileStatus(generators)
-	virtualMachineScaleSetVMProfileStatusGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetVMProfile_Status{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentity_STATUS(generators)
+	virtualMachineScaleSetIdentity_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetIdentity_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetVMProfileStatus(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetVMProfileStatus(generators)
-	virtualMachineScaleSetVMProfileStatusGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetVMProfile_Status{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentity_STATUS(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIdentity_STATUS(generators)
+	virtualMachineScaleSetIdentity_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetIdentity_STATUS{}), generators)
 
-	return virtualMachineScaleSetVMProfileStatusGenerator
+	return virtualMachineScaleSetIdentity_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetVMProfileStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetVMProfileStatus(gens map[string]gopter.Gen) {
-	gens["EvictionPolicy"] = gen.PtrOf(gen.OneConstOf(EvictionPolicy_StatusDeallocate, EvictionPolicy_StatusDelete))
-	gens["LicenseType"] = gen.PtrOf(gen.AlphaString())
-	gens["Priority"] = gen.PtrOf(gen.OneConstOf(Priority_StatusLow, Priority_StatusRegular, Priority_StatusSpot))
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentity_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentity_STATUS(gens map[string]gopter.Gen) {
+	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
+	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(
+		VirtualMachineScaleSetIdentity_Type_STATUSNone,
+		VirtualMachineScaleSetIdentity_Type_STATUSSystemAssigned,
+		VirtualMachineScaleSetIdentity_Type_STATUSSystemAssignedUserAssigned,
+		VirtualMachineScaleSetIdentity_Type_STATUSUserAssigned))
 }
 
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetVMProfileStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetVMProfileStatus(gens map[string]gopter.Gen) {
-	gens["BillingProfile"] = gen.PtrOf(BillingProfileStatusGenerator())
-	gens["DiagnosticsProfile"] = gen.PtrOf(DiagnosticsProfileStatusGenerator())
-	gens["ExtensionProfile"] = gen.PtrOf(VirtualMachineScaleSetExtensionProfileStatusGenerator())
-	gens["NetworkProfile"] = gen.PtrOf(VirtualMachineScaleSetNetworkProfileStatusGenerator())
-	gens["OsProfile"] = gen.PtrOf(VirtualMachineScaleSetOSProfileStatusGenerator())
-	gens["ScheduledEventsProfile"] = gen.PtrOf(ScheduledEventsProfileStatusGenerator())
-	gens["SecurityProfile"] = gen.PtrOf(SecurityProfileStatusGenerator())
-	gens["StorageProfile"] = gen.PtrOf(VirtualMachineScaleSetStorageProfileStatusGenerator())
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIdentity_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIdentity_STATUS(gens map[string]gopter.Gen) {
+	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUSGenerator())
 }
 
-func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_VirtualMachineScaleSetVMProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile to VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile via AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfile & AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfile returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfile, VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileGenerator()))
+		"Round trip from VirtualMachineScaleSetVMProfile to VirtualMachineScaleSetVMProfile via AssignPropertiesToVirtualMachineScaleSetVMProfile & AssignPropertiesFromVirtualMachineScaleSetVMProfile returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetVMProfile, VirtualMachineScaleSetVMProfileGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfile tests if a specific instance of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfile(subject VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) string {
+// RunPropertyAssignmentTestForVirtualMachineScaleSetVMProfile tests if a specific instance of VirtualMachineScaleSetVMProfile can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachineScaleSetVMProfile(subject VirtualMachineScaleSetVMProfile) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201201s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile
-	err := copied.AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfile(&other)
+	var other alpha20201201s.VirtualMachineScaleSetVMProfile
+	err := copied.AssignPropertiesToVirtualMachineScaleSetVMProfile(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile
-	err = actual.AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfile(&other)
+	var actual VirtualMachineScaleSetVMProfile
+	err = actual.AssignPropertiesFromVirtualMachineScaleSetVMProfile(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1681,19 +1562,19 @@ func RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMac
 	return ""
 }
 
-func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VirtualMachineScaleSetVMProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfile, VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileGenerator()))
+		"Round trip of VirtualMachineScaleSetVMProfile via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetVMProfile, VirtualMachineScaleSetVMProfileGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfile runs a test to see if a specific instance of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfile(subject VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetVMProfile runs a test to see if a specific instance of VirtualMachineScaleSetVMProfile round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetVMProfile(subject VirtualMachineScaleSetVMProfile) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1701,7 +1582,7 @@ func RunJSONSerializationTestForVirtualMachineScaleSetsSpecPropertiesVirtualMach
 	}
 
 	// Deserialize back into memory
-	var actual VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile
+	var actual VirtualMachineScaleSetVMProfile
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1719,49 +1600,174 @@ func RunJSONSerializationTestForVirtualMachineScaleSetsSpecPropertiesVirtualMach
 	return ""
 }
 
-// Generator of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile instances for property testing - lazily
-// instantiated by VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileGenerator()
-var virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileGenerator gopter.Gen
+// Generator of VirtualMachineScaleSetVMProfile instances for property testing - lazily instantiated by
+// VirtualMachineScaleSetVMProfileGenerator()
+var virtualMachineScaleSetVMProfileGenerator gopter.Gen
 
-// VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileGenerator returns a generator of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile instances for property testing.
-// We first initialize virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileGenerator with a simplified generator based on the
+// VirtualMachineScaleSetVMProfileGenerator returns a generator of VirtualMachineScaleSetVMProfile instances for property testing.
+// We first initialize virtualMachineScaleSetVMProfileGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileGenerator() gopter.Gen {
-	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileGenerator != nil {
-		return virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileGenerator
+func VirtualMachineScaleSetVMProfileGenerator() gopter.Gen {
+	if virtualMachineScaleSetVMProfileGenerator != nil {
+		return virtualMachineScaleSetVMProfileGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfile(generators)
-	virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetVMProfile(generators)
+	virtualMachineScaleSetVMProfileGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetVMProfile{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfile(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfile(generators)
-	virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetVMProfile(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetVMProfile(generators)
+	virtualMachineScaleSetVMProfileGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetVMProfile{}), generators)
 
-	return virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileGenerator
+	return virtualMachineScaleSetVMProfileGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfile is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfile(gens map[string]gopter.Gen) {
-	gens["EvictionPolicy"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileEvictionPolicyDeallocate, VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileEvictionPolicyDelete))
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetVMProfile is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetVMProfile(gens map[string]gopter.Gen) {
+	gens["EvictionPolicy"] = gen.PtrOf(gen.OneConstOf(EvictionPolicyDeallocate, EvictionPolicyDelete))
 	gens["LicenseType"] = gen.PtrOf(gen.AlphaString())
-	gens["Priority"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfilePriorityLow, VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfilePriorityRegular, VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfilePrioritySpot))
+	gens["Priority"] = gen.PtrOf(gen.OneConstOf(PriorityLow, PriorityRegular, PrioritySpot))
 }
 
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfile is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfile(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetVMProfile is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetVMProfile(gens map[string]gopter.Gen) {
 	gens["BillingProfile"] = gen.PtrOf(BillingProfileGenerator())
 	gens["DiagnosticsProfile"] = gen.PtrOf(DiagnosticsProfileGenerator())
-	gens["ExtensionProfile"] = gen.PtrOf(VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileGenerator())
-	gens["NetworkProfile"] = gen.PtrOf(VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileGenerator())
-	gens["OsProfile"] = gen.PtrOf(VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfileGenerator())
+	gens["ExtensionProfile"] = gen.PtrOf(VirtualMachineScaleSetExtensionProfileGenerator())
+	gens["NetworkProfile"] = gen.PtrOf(VirtualMachineScaleSetNetworkProfileGenerator())
+	gens["OsProfile"] = gen.PtrOf(VirtualMachineScaleSetOSProfileGenerator())
 	gens["ScheduledEventsProfile"] = gen.PtrOf(ScheduledEventsProfileGenerator())
 	gens["SecurityProfile"] = gen.PtrOf(SecurityProfileGenerator())
 	gens["StorageProfile"] = gen.PtrOf(VirtualMachineScaleSetStorageProfileGenerator())
+}
+
+func Test_VirtualMachineScaleSetVMProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualMachineScaleSetVMProfile_STATUS to VirtualMachineScaleSetVMProfile_STATUS via AssignPropertiesToVirtualMachineScaleSetVMProfile_STATUS & AssignPropertiesFromVirtualMachineScaleSetVMProfile_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetVMProfile_STATUS, VirtualMachineScaleSetVMProfile_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualMachineScaleSetVMProfile_STATUS tests if a specific instance of VirtualMachineScaleSetVMProfile_STATUS can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachineScaleSetVMProfile_STATUS(subject VirtualMachineScaleSetVMProfile_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other alpha20201201s.VirtualMachineScaleSetVMProfile_STATUS
+	err := copied.AssignPropertiesToVirtualMachineScaleSetVMProfile_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualMachineScaleSetVMProfile_STATUS
+	err = actual.AssignPropertiesFromVirtualMachineScaleSetVMProfile_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_VirtualMachineScaleSetVMProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualMachineScaleSetVMProfile_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetVMProfile_STATUS, VirtualMachineScaleSetVMProfile_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualMachineScaleSetVMProfile_STATUS runs a test to see if a specific instance of VirtualMachineScaleSetVMProfile_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetVMProfile_STATUS(subject VirtualMachineScaleSetVMProfile_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualMachineScaleSetVMProfile_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualMachineScaleSetVMProfile_STATUS instances for property testing - lazily instantiated by
+// VirtualMachineScaleSetVMProfile_STATUSGenerator()
+var virtualMachineScaleSetVMProfile_STATUSGenerator gopter.Gen
+
+// VirtualMachineScaleSetVMProfile_STATUSGenerator returns a generator of VirtualMachineScaleSetVMProfile_STATUS instances for property testing.
+// We first initialize virtualMachineScaleSetVMProfile_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func VirtualMachineScaleSetVMProfile_STATUSGenerator() gopter.Gen {
+	if virtualMachineScaleSetVMProfile_STATUSGenerator != nil {
+		return virtualMachineScaleSetVMProfile_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetVMProfile_STATUS(generators)
+	virtualMachineScaleSetVMProfile_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetVMProfile_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetVMProfile_STATUS(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetVMProfile_STATUS(generators)
+	virtualMachineScaleSetVMProfile_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetVMProfile_STATUS{}), generators)
+
+	return virtualMachineScaleSetVMProfile_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetVMProfile_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetVMProfile_STATUS(gens map[string]gopter.Gen) {
+	gens["EvictionPolicy"] = gen.PtrOf(gen.OneConstOf(EvictionPolicy_STATUSDeallocate, EvictionPolicy_STATUSDelete))
+	gens["LicenseType"] = gen.PtrOf(gen.AlphaString())
+	gens["Priority"] = gen.PtrOf(gen.OneConstOf(Priority_STATUSLow, Priority_STATUSRegular, Priority_STATUSSpot))
+}
+
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetVMProfile_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetVMProfile_STATUS(gens map[string]gopter.Gen) {
+	gens["BillingProfile"] = gen.PtrOf(BillingProfile_STATUSGenerator())
+	gens["DiagnosticsProfile"] = gen.PtrOf(DiagnosticsProfile_STATUSGenerator())
+	gens["ExtensionProfile"] = gen.PtrOf(VirtualMachineScaleSetExtensionProfile_STATUSGenerator())
+	gens["NetworkProfile"] = gen.PtrOf(VirtualMachineScaleSetNetworkProfile_STATUSGenerator())
+	gens["OsProfile"] = gen.PtrOf(VirtualMachineScaleSetOSProfile_STATUSGenerator())
+	gens["ScheduledEventsProfile"] = gen.PtrOf(ScheduledEventsProfile_STATUSGenerator())
+	gens["SecurityProfile"] = gen.PtrOf(SecurityProfile_STATUSGenerator())
+	gens["StorageProfile"] = gen.PtrOf(VirtualMachineScaleSetStorageProfile_STATUSGenerator())
 }
 
 func Test_AutomaticOSUpgradePolicy_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1867,32 +1873,32 @@ func AddIndependentPropertyGeneratorsForAutomaticOSUpgradePolicy(gens map[string
 	gens["EnableAutomaticOSUpgrade"] = gen.PtrOf(gen.Bool())
 }
 
-func Test_AutomaticOSUpgradePolicy_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_AutomaticOSUpgradePolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from AutomaticOSUpgradePolicy_Status to AutomaticOSUpgradePolicy_Status via AssignPropertiesToAutomaticOSUpgradePolicyStatus & AssignPropertiesFromAutomaticOSUpgradePolicyStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForAutomaticOSUpgradePolicyStatus, AutomaticOSUpgradePolicyStatusGenerator()))
+		"Round trip from AutomaticOSUpgradePolicy_STATUS to AutomaticOSUpgradePolicy_STATUS via AssignPropertiesToAutomaticOSUpgradePolicy_STATUS & AssignPropertiesFromAutomaticOSUpgradePolicy_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForAutomaticOSUpgradePolicy_STATUS, AutomaticOSUpgradePolicy_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForAutomaticOSUpgradePolicyStatus tests if a specific instance of AutomaticOSUpgradePolicy_Status can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForAutomaticOSUpgradePolicyStatus(subject AutomaticOSUpgradePolicy_Status) string {
+// RunPropertyAssignmentTestForAutomaticOSUpgradePolicy_STATUS tests if a specific instance of AutomaticOSUpgradePolicy_STATUS can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForAutomaticOSUpgradePolicy_STATUS(subject AutomaticOSUpgradePolicy_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201201s.AutomaticOSUpgradePolicy_Status
-	err := copied.AssignPropertiesToAutomaticOSUpgradePolicyStatus(&other)
+	var other alpha20201201s.AutomaticOSUpgradePolicy_STATUS
+	err := copied.AssignPropertiesToAutomaticOSUpgradePolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual AutomaticOSUpgradePolicy_Status
-	err = actual.AssignPropertiesFromAutomaticOSUpgradePolicyStatus(&other)
+	var actual AutomaticOSUpgradePolicy_STATUS
+	err = actual.AssignPropertiesFromAutomaticOSUpgradePolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -1909,19 +1915,19 @@ func RunPropertyAssignmentTestForAutomaticOSUpgradePolicyStatus(subject Automati
 	return ""
 }
 
-func Test_AutomaticOSUpgradePolicy_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_AutomaticOSUpgradePolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of AutomaticOSUpgradePolicy_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAutomaticOSUpgradePolicyStatus, AutomaticOSUpgradePolicyStatusGenerator()))
+		"Round trip of AutomaticOSUpgradePolicy_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForAutomaticOSUpgradePolicy_STATUS, AutomaticOSUpgradePolicy_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAutomaticOSUpgradePolicyStatus runs a test to see if a specific instance of AutomaticOSUpgradePolicy_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForAutomaticOSUpgradePolicyStatus(subject AutomaticOSUpgradePolicy_Status) string {
+// RunJSONSerializationTestForAutomaticOSUpgradePolicy_STATUS runs a test to see if a specific instance of AutomaticOSUpgradePolicy_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForAutomaticOSUpgradePolicy_STATUS(subject AutomaticOSUpgradePolicy_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -1929,7 +1935,7 @@ func RunJSONSerializationTestForAutomaticOSUpgradePolicyStatus(subject Automatic
 	}
 
 	// Deserialize back into memory
-	var actual AutomaticOSUpgradePolicy_Status
+	var actual AutomaticOSUpgradePolicy_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -1947,25 +1953,25 @@ func RunJSONSerializationTestForAutomaticOSUpgradePolicyStatus(subject Automatic
 	return ""
 }
 
-// Generator of AutomaticOSUpgradePolicy_Status instances for property testing - lazily instantiated by
-// AutomaticOSUpgradePolicyStatusGenerator()
-var automaticOSUpgradePolicyStatusGenerator gopter.Gen
+// Generator of AutomaticOSUpgradePolicy_STATUS instances for property testing - lazily instantiated by
+// AutomaticOSUpgradePolicy_STATUSGenerator()
+var automaticOSUpgradePolicy_STATUSGenerator gopter.Gen
 
-// AutomaticOSUpgradePolicyStatusGenerator returns a generator of AutomaticOSUpgradePolicy_Status instances for property testing.
-func AutomaticOSUpgradePolicyStatusGenerator() gopter.Gen {
-	if automaticOSUpgradePolicyStatusGenerator != nil {
-		return automaticOSUpgradePolicyStatusGenerator
+// AutomaticOSUpgradePolicy_STATUSGenerator returns a generator of AutomaticOSUpgradePolicy_STATUS instances for property testing.
+func AutomaticOSUpgradePolicy_STATUSGenerator() gopter.Gen {
+	if automaticOSUpgradePolicy_STATUSGenerator != nil {
+		return automaticOSUpgradePolicy_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAutomaticOSUpgradePolicyStatus(generators)
-	automaticOSUpgradePolicyStatusGenerator = gen.Struct(reflect.TypeOf(AutomaticOSUpgradePolicy_Status{}), generators)
+	AddIndependentPropertyGeneratorsForAutomaticOSUpgradePolicy_STATUS(generators)
+	automaticOSUpgradePolicy_STATUSGenerator = gen.Struct(reflect.TypeOf(AutomaticOSUpgradePolicy_STATUS{}), generators)
 
-	return automaticOSUpgradePolicyStatusGenerator
+	return automaticOSUpgradePolicy_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAutomaticOSUpgradePolicyStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAutomaticOSUpgradePolicyStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForAutomaticOSUpgradePolicy_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForAutomaticOSUpgradePolicy_STATUS(gens map[string]gopter.Gen) {
 	gens["DisableAutomaticRollback"] = gen.PtrOf(gen.Bool())
 	gens["EnableAutomaticOSUpgrade"] = gen.PtrOf(gen.Bool())
 }
@@ -2077,32 +2083,32 @@ func AddIndependentPropertyGeneratorsForRollingUpgradePolicy(gens map[string]gop
 	gens["PrioritizeUnhealthyInstances"] = gen.PtrOf(gen.Bool())
 }
 
-func Test_RollingUpgradePolicy_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_RollingUpgradePolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from RollingUpgradePolicy_Status to RollingUpgradePolicy_Status via AssignPropertiesToRollingUpgradePolicyStatus & AssignPropertiesFromRollingUpgradePolicyStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRollingUpgradePolicyStatus, RollingUpgradePolicyStatusGenerator()))
+		"Round trip from RollingUpgradePolicy_STATUS to RollingUpgradePolicy_STATUS via AssignPropertiesToRollingUpgradePolicy_STATUS & AssignPropertiesFromRollingUpgradePolicy_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRollingUpgradePolicy_STATUS, RollingUpgradePolicy_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRollingUpgradePolicyStatus tests if a specific instance of RollingUpgradePolicy_Status can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForRollingUpgradePolicyStatus(subject RollingUpgradePolicy_Status) string {
+// RunPropertyAssignmentTestForRollingUpgradePolicy_STATUS tests if a specific instance of RollingUpgradePolicy_STATUS can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForRollingUpgradePolicy_STATUS(subject RollingUpgradePolicy_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201201s.RollingUpgradePolicy_Status
-	err := copied.AssignPropertiesToRollingUpgradePolicyStatus(&other)
+	var other alpha20201201s.RollingUpgradePolicy_STATUS
+	err := copied.AssignPropertiesToRollingUpgradePolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual RollingUpgradePolicy_Status
-	err = actual.AssignPropertiesFromRollingUpgradePolicyStatus(&other)
+	var actual RollingUpgradePolicy_STATUS
+	err = actual.AssignPropertiesFromRollingUpgradePolicy_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2119,19 +2125,19 @@ func RunPropertyAssignmentTestForRollingUpgradePolicyStatus(subject RollingUpgra
 	return ""
 }
 
-func Test_RollingUpgradePolicy_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_RollingUpgradePolicy_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of RollingUpgradePolicy_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRollingUpgradePolicyStatus, RollingUpgradePolicyStatusGenerator()))
+		"Round trip of RollingUpgradePolicy_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRollingUpgradePolicy_STATUS, RollingUpgradePolicy_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRollingUpgradePolicyStatus runs a test to see if a specific instance of RollingUpgradePolicy_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForRollingUpgradePolicyStatus(subject RollingUpgradePolicy_Status) string {
+// RunJSONSerializationTestForRollingUpgradePolicy_STATUS runs a test to see if a specific instance of RollingUpgradePolicy_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForRollingUpgradePolicy_STATUS(subject RollingUpgradePolicy_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2139,7 +2145,7 @@ func RunJSONSerializationTestForRollingUpgradePolicyStatus(subject RollingUpgrad
 	}
 
 	// Deserialize back into memory
-	var actual RollingUpgradePolicy_Status
+	var actual RollingUpgradePolicy_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -2157,25 +2163,25 @@ func RunJSONSerializationTestForRollingUpgradePolicyStatus(subject RollingUpgrad
 	return ""
 }
 
-// Generator of RollingUpgradePolicy_Status instances for property testing - lazily instantiated by
-// RollingUpgradePolicyStatusGenerator()
-var rollingUpgradePolicyStatusGenerator gopter.Gen
+// Generator of RollingUpgradePolicy_STATUS instances for property testing - lazily instantiated by
+// RollingUpgradePolicy_STATUSGenerator()
+var rollingUpgradePolicy_STATUSGenerator gopter.Gen
 
-// RollingUpgradePolicyStatusGenerator returns a generator of RollingUpgradePolicy_Status instances for property testing.
-func RollingUpgradePolicyStatusGenerator() gopter.Gen {
-	if rollingUpgradePolicyStatusGenerator != nil {
-		return rollingUpgradePolicyStatusGenerator
+// RollingUpgradePolicy_STATUSGenerator returns a generator of RollingUpgradePolicy_STATUS instances for property testing.
+func RollingUpgradePolicy_STATUSGenerator() gopter.Gen {
+	if rollingUpgradePolicy_STATUSGenerator != nil {
+		return rollingUpgradePolicy_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRollingUpgradePolicyStatus(generators)
-	rollingUpgradePolicyStatusGenerator = gen.Struct(reflect.TypeOf(RollingUpgradePolicy_Status{}), generators)
+	AddIndependentPropertyGeneratorsForRollingUpgradePolicy_STATUS(generators)
+	rollingUpgradePolicy_STATUSGenerator = gen.Struct(reflect.TypeOf(RollingUpgradePolicy_STATUS{}), generators)
 
-	return rollingUpgradePolicyStatusGenerator
+	return rollingUpgradePolicy_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRollingUpgradePolicyStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRollingUpgradePolicyStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRollingUpgradePolicy_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRollingUpgradePolicy_STATUS(gens map[string]gopter.Gen) {
 	gens["EnableCrossZoneUpgrade"] = gen.PtrOf(gen.Bool())
 	gens["MaxBatchInstancePercent"] = gen.PtrOf(gen.Int())
 	gens["MaxUnhealthyInstancePercent"] = gen.PtrOf(gen.Int())
@@ -2286,32 +2292,32 @@ func AddRelatedPropertyGeneratorsForScheduledEventsProfile(gens map[string]gopte
 	gens["TerminateNotificationProfile"] = gen.PtrOf(TerminateNotificationProfileGenerator())
 }
 
-func Test_ScheduledEventsProfile_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_ScheduledEventsProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ScheduledEventsProfile_Status to ScheduledEventsProfile_Status via AssignPropertiesToScheduledEventsProfileStatus & AssignPropertiesFromScheduledEventsProfileStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForScheduledEventsProfileStatus, ScheduledEventsProfileStatusGenerator()))
+		"Round trip from ScheduledEventsProfile_STATUS to ScheduledEventsProfile_STATUS via AssignPropertiesToScheduledEventsProfile_STATUS & AssignPropertiesFromScheduledEventsProfile_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForScheduledEventsProfile_STATUS, ScheduledEventsProfile_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForScheduledEventsProfileStatus tests if a specific instance of ScheduledEventsProfile_Status can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForScheduledEventsProfileStatus(subject ScheduledEventsProfile_Status) string {
+// RunPropertyAssignmentTestForScheduledEventsProfile_STATUS tests if a specific instance of ScheduledEventsProfile_STATUS can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForScheduledEventsProfile_STATUS(subject ScheduledEventsProfile_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201201s.ScheduledEventsProfile_Status
-	err := copied.AssignPropertiesToScheduledEventsProfileStatus(&other)
+	var other alpha20201201s.ScheduledEventsProfile_STATUS
+	err := copied.AssignPropertiesToScheduledEventsProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ScheduledEventsProfile_Status
-	err = actual.AssignPropertiesFromScheduledEventsProfileStatus(&other)
+	var actual ScheduledEventsProfile_STATUS
+	err = actual.AssignPropertiesFromScheduledEventsProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2328,19 +2334,19 @@ func RunPropertyAssignmentTestForScheduledEventsProfileStatus(subject ScheduledE
 	return ""
 }
 
-func Test_ScheduledEventsProfile_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ScheduledEventsProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ScheduledEventsProfile_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForScheduledEventsProfileStatus, ScheduledEventsProfileStatusGenerator()))
+		"Round trip of ScheduledEventsProfile_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForScheduledEventsProfile_STATUS, ScheduledEventsProfile_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForScheduledEventsProfileStatus runs a test to see if a specific instance of ScheduledEventsProfile_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForScheduledEventsProfileStatus(subject ScheduledEventsProfile_Status) string {
+// RunJSONSerializationTestForScheduledEventsProfile_STATUS runs a test to see if a specific instance of ScheduledEventsProfile_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForScheduledEventsProfile_STATUS(subject ScheduledEventsProfile_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2348,7 +2354,7 @@ func RunJSONSerializationTestForScheduledEventsProfileStatus(subject ScheduledEv
 	}
 
 	// Deserialize back into memory
-	var actual ScheduledEventsProfile_Status
+	var actual ScheduledEventsProfile_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -2366,54 +2372,54 @@ func RunJSONSerializationTestForScheduledEventsProfileStatus(subject ScheduledEv
 	return ""
 }
 
-// Generator of ScheduledEventsProfile_Status instances for property testing - lazily instantiated by
-// ScheduledEventsProfileStatusGenerator()
-var scheduledEventsProfileStatusGenerator gopter.Gen
+// Generator of ScheduledEventsProfile_STATUS instances for property testing - lazily instantiated by
+// ScheduledEventsProfile_STATUSGenerator()
+var scheduledEventsProfile_STATUSGenerator gopter.Gen
 
-// ScheduledEventsProfileStatusGenerator returns a generator of ScheduledEventsProfile_Status instances for property testing.
-func ScheduledEventsProfileStatusGenerator() gopter.Gen {
-	if scheduledEventsProfileStatusGenerator != nil {
-		return scheduledEventsProfileStatusGenerator
+// ScheduledEventsProfile_STATUSGenerator returns a generator of ScheduledEventsProfile_STATUS instances for property testing.
+func ScheduledEventsProfile_STATUSGenerator() gopter.Gen {
+	if scheduledEventsProfile_STATUSGenerator != nil {
+		return scheduledEventsProfile_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForScheduledEventsProfileStatus(generators)
-	scheduledEventsProfileStatusGenerator = gen.Struct(reflect.TypeOf(ScheduledEventsProfile_Status{}), generators)
+	AddRelatedPropertyGeneratorsForScheduledEventsProfile_STATUS(generators)
+	scheduledEventsProfile_STATUSGenerator = gen.Struct(reflect.TypeOf(ScheduledEventsProfile_STATUS{}), generators)
 
-	return scheduledEventsProfileStatusGenerator
+	return scheduledEventsProfile_STATUSGenerator
 }
 
-// AddRelatedPropertyGeneratorsForScheduledEventsProfileStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForScheduledEventsProfileStatus(gens map[string]gopter.Gen) {
-	gens["TerminateNotificationProfile"] = gen.PtrOf(TerminateNotificationProfileStatusGenerator())
+// AddRelatedPropertyGeneratorsForScheduledEventsProfile_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForScheduledEventsProfile_STATUS(gens map[string]gopter.Gen) {
+	gens["TerminateNotificationProfile"] = gen.PtrOf(TerminateNotificationProfile_STATUSGenerator())
 }
 
-func Test_VirtualMachineScaleSetExtensionProfile_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_VirtualMachineScaleSetExtensionProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualMachineScaleSetExtensionProfile_Status to VirtualMachineScaleSetExtensionProfile_Status via AssignPropertiesToVirtualMachineScaleSetExtensionProfileStatus & AssignPropertiesFromVirtualMachineScaleSetExtensionProfileStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetExtensionProfileStatus, VirtualMachineScaleSetExtensionProfileStatusGenerator()))
+		"Round trip from VirtualMachineScaleSetExtensionProfile to VirtualMachineScaleSetExtensionProfile via AssignPropertiesToVirtualMachineScaleSetExtensionProfile & AssignPropertiesFromVirtualMachineScaleSetExtensionProfile returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetExtensionProfile, VirtualMachineScaleSetExtensionProfileGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetExtensionProfileStatus tests if a specific instance of VirtualMachineScaleSetExtensionProfile_Status can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForVirtualMachineScaleSetExtensionProfileStatus(subject VirtualMachineScaleSetExtensionProfile_Status) string {
+// RunPropertyAssignmentTestForVirtualMachineScaleSetExtensionProfile tests if a specific instance of VirtualMachineScaleSetExtensionProfile can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachineScaleSetExtensionProfile(subject VirtualMachineScaleSetExtensionProfile) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201201s.VirtualMachineScaleSetExtensionProfile_Status
-	err := copied.AssignPropertiesToVirtualMachineScaleSetExtensionProfileStatus(&other)
+	var other alpha20201201s.VirtualMachineScaleSetExtensionProfile
+	err := copied.AssignPropertiesToVirtualMachineScaleSetExtensionProfile(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualMachineScaleSetExtensionProfile_Status
-	err = actual.AssignPropertiesFromVirtualMachineScaleSetExtensionProfileStatus(&other)
+	var actual VirtualMachineScaleSetExtensionProfile
+	err = actual.AssignPropertiesFromVirtualMachineScaleSetExtensionProfile(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2430,19 +2436,19 @@ func RunPropertyAssignmentTestForVirtualMachineScaleSetExtensionProfileStatus(su
 	return ""
 }
 
-func Test_VirtualMachineScaleSetExtensionProfile_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VirtualMachineScaleSetExtensionProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VirtualMachineScaleSetExtensionProfile_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetExtensionProfileStatus, VirtualMachineScaleSetExtensionProfileStatusGenerator()))
+		"Round trip of VirtualMachineScaleSetExtensionProfile via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetExtensionProfile, VirtualMachineScaleSetExtensionProfileGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetExtensionProfileStatus runs a test to see if a specific instance of VirtualMachineScaleSetExtensionProfile_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetExtensionProfileStatus(subject VirtualMachineScaleSetExtensionProfile_Status) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetExtensionProfile runs a test to see if a specific instance of VirtualMachineScaleSetExtensionProfile round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetExtensionProfile(subject VirtualMachineScaleSetExtensionProfile) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2450,7 +2456,7 @@ func RunJSONSerializationTestForVirtualMachineScaleSetExtensionProfileStatus(sub
 	}
 
 	// Deserialize back into memory
-	var actual VirtualMachineScaleSetExtensionProfile_Status
+	var actual VirtualMachineScaleSetExtensionProfile
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -2468,68 +2474,68 @@ func RunJSONSerializationTestForVirtualMachineScaleSetExtensionProfileStatus(sub
 	return ""
 }
 
-// Generator of VirtualMachineScaleSetExtensionProfile_Status instances for property testing - lazily instantiated by
-// VirtualMachineScaleSetExtensionProfileStatusGenerator()
-var virtualMachineScaleSetExtensionProfileStatusGenerator gopter.Gen
+// Generator of VirtualMachineScaleSetExtensionProfile instances for property testing - lazily instantiated by
+// VirtualMachineScaleSetExtensionProfileGenerator()
+var virtualMachineScaleSetExtensionProfileGenerator gopter.Gen
 
-// VirtualMachineScaleSetExtensionProfileStatusGenerator returns a generator of VirtualMachineScaleSetExtensionProfile_Status instances for property testing.
-// We first initialize virtualMachineScaleSetExtensionProfileStatusGenerator with a simplified generator based on the
+// VirtualMachineScaleSetExtensionProfileGenerator returns a generator of VirtualMachineScaleSetExtensionProfile instances for property testing.
+// We first initialize virtualMachineScaleSetExtensionProfileGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualMachineScaleSetExtensionProfileStatusGenerator() gopter.Gen {
-	if virtualMachineScaleSetExtensionProfileStatusGenerator != nil {
-		return virtualMachineScaleSetExtensionProfileStatusGenerator
+func VirtualMachineScaleSetExtensionProfileGenerator() gopter.Gen {
+	if virtualMachineScaleSetExtensionProfileGenerator != nil {
+		return virtualMachineScaleSetExtensionProfileGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtensionProfileStatus(generators)
-	virtualMachineScaleSetExtensionProfileStatusGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetExtensionProfile_Status{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtensionProfile(generators)
+	virtualMachineScaleSetExtensionProfileGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetExtensionProfile{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtensionProfileStatus(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetExtensionProfileStatus(generators)
-	virtualMachineScaleSetExtensionProfileStatusGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetExtensionProfile_Status{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtensionProfile(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetExtensionProfile(generators)
+	virtualMachineScaleSetExtensionProfileGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetExtensionProfile{}), generators)
 
-	return virtualMachineScaleSetExtensionProfileStatusGenerator
+	return virtualMachineScaleSetExtensionProfileGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtensionProfileStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtensionProfileStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtensionProfile is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtensionProfile(gens map[string]gopter.Gen) {
 	gens["ExtensionsTimeBudget"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetExtensionProfileStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetExtensionProfileStatus(gens map[string]gopter.Gen) {
-	gens["Extensions"] = gen.SliceOf(VirtualMachineScaleSetExtensionStatusGenerator())
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetExtensionProfile is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetExtensionProfile(gens map[string]gopter.Gen) {
+	gens["Extensions"] = gen.SliceOf(VirtualMachineScaleSetExtensionGenerator())
 }
 
-func Test_VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_VirtualMachineScaleSetExtensionProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities to VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities via AssignPropertiesToVirtualMachineScaleSetIdentityStatusUserAssignedIdentities & AssignPropertiesFromVirtualMachineScaleSetIdentityStatusUserAssignedIdentities returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetIdentityStatusUserAssignedIdentities, VirtualMachineScaleSetIdentityStatusUserAssignedIdentitiesGenerator()))
+		"Round trip from VirtualMachineScaleSetExtensionProfile_STATUS to VirtualMachineScaleSetExtensionProfile_STATUS via AssignPropertiesToVirtualMachineScaleSetExtensionProfile_STATUS & AssignPropertiesFromVirtualMachineScaleSetExtensionProfile_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetExtensionProfile_STATUS, VirtualMachineScaleSetExtensionProfile_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetIdentityStatusUserAssignedIdentities tests if a specific instance of VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForVirtualMachineScaleSetIdentityStatusUserAssignedIdentities(subject VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities) string {
+// RunPropertyAssignmentTestForVirtualMachineScaleSetExtensionProfile_STATUS tests if a specific instance of VirtualMachineScaleSetExtensionProfile_STATUS can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachineScaleSetExtensionProfile_STATUS(subject VirtualMachineScaleSetExtensionProfile_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201201s.VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities
-	err := copied.AssignPropertiesToVirtualMachineScaleSetIdentityStatusUserAssignedIdentities(&other)
+	var other alpha20201201s.VirtualMachineScaleSetExtensionProfile_STATUS
+	err := copied.AssignPropertiesToVirtualMachineScaleSetExtensionProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities
-	err = actual.AssignPropertiesFromVirtualMachineScaleSetIdentityStatusUserAssignedIdentities(&other)
+	var actual VirtualMachineScaleSetExtensionProfile_STATUS
+	err = actual.AssignPropertiesFromVirtualMachineScaleSetExtensionProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2546,19 +2552,19 @@ func RunPropertyAssignmentTestForVirtualMachineScaleSetIdentityStatusUserAssigne
 	return ""
 }
 
-func Test_VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VirtualMachineScaleSetExtensionProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetIdentityStatusUserAssignedIdentities, VirtualMachineScaleSetIdentityStatusUserAssignedIdentitiesGenerator()))
+		"Round trip of VirtualMachineScaleSetExtensionProfile_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetExtensionProfile_STATUS, VirtualMachineScaleSetExtensionProfile_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetIdentityStatusUserAssignedIdentities runs a test to see if a specific instance of VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetIdentityStatusUserAssignedIdentities(subject VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetExtensionProfile_STATUS runs a test to see if a specific instance of VirtualMachineScaleSetExtensionProfile_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetExtensionProfile_STATUS(subject VirtualMachineScaleSetExtensionProfile_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2566,7 +2572,7 @@ func RunJSONSerializationTestForVirtualMachineScaleSetIdentityStatusUserAssigned
 	}
 
 	// Deserialize back into memory
-	var actual VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities
+	var actual VirtualMachineScaleSetExtensionProfile_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -2584,55 +2590,171 @@ func RunJSONSerializationTestForVirtualMachineScaleSetIdentityStatusUserAssigned
 	return ""
 }
 
-// Generator of VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities instances for property testing - lazily
-// instantiated by VirtualMachineScaleSetIdentityStatusUserAssignedIdentitiesGenerator()
-var virtualMachineScaleSetIdentityStatusUserAssignedIdentitiesGenerator gopter.Gen
+// Generator of VirtualMachineScaleSetExtensionProfile_STATUS instances for property testing - lazily instantiated by
+// VirtualMachineScaleSetExtensionProfile_STATUSGenerator()
+var virtualMachineScaleSetExtensionProfile_STATUSGenerator gopter.Gen
 
-// VirtualMachineScaleSetIdentityStatusUserAssignedIdentitiesGenerator returns a generator of VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities instances for property testing.
-func VirtualMachineScaleSetIdentityStatusUserAssignedIdentitiesGenerator() gopter.Gen {
-	if virtualMachineScaleSetIdentityStatusUserAssignedIdentitiesGenerator != nil {
-		return virtualMachineScaleSetIdentityStatusUserAssignedIdentitiesGenerator
+// VirtualMachineScaleSetExtensionProfile_STATUSGenerator returns a generator of VirtualMachineScaleSetExtensionProfile_STATUS instances for property testing.
+// We first initialize virtualMachineScaleSetExtensionProfile_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func VirtualMachineScaleSetExtensionProfile_STATUSGenerator() gopter.Gen {
+	if virtualMachineScaleSetExtensionProfile_STATUSGenerator != nil {
+		return virtualMachineScaleSetExtensionProfile_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentityStatusUserAssignedIdentities(generators)
-	virtualMachineScaleSetIdentityStatusUserAssignedIdentitiesGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtensionProfile_STATUS(generators)
+	virtualMachineScaleSetExtensionProfile_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetExtensionProfile_STATUS{}), generators)
 
-	return virtualMachineScaleSetIdentityStatusUserAssignedIdentitiesGenerator
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtensionProfile_STATUS(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetExtensionProfile_STATUS(generators)
+	virtualMachineScaleSetExtensionProfile_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetExtensionProfile_STATUS{}), generators)
+
+	return virtualMachineScaleSetExtensionProfile_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentityStatusUserAssignedIdentities is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentityStatusUserAssignedIdentities(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtensionProfile_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtensionProfile_STATUS(gens map[string]gopter.Gen) {
+	gens["ExtensionsTimeBudget"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetExtensionProfile_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetExtensionProfile_STATUS(gens map[string]gopter.Gen) {
+	gens["Extensions"] = gen.SliceOf(VirtualMachineScaleSetExtension_STATUS_SubResourceEmbeddedGenerator())
+}
+
+func Test_VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS to VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS via AssignPropertiesToVirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS & AssignPropertiesFromVirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS, VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS tests if a specific instance of VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS(subject VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other alpha20201201s.VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS
+	err := copied.AssignPropertiesToVirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS
+	err = actual.AssignPropertiesFromVirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS, VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS runs a test to see if a specific instance of VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS(subject VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS instances for property testing - lazily
+// instantiated by VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUSGenerator()
+var virtualMachineScaleSetIdentity_UserAssignedIdentities_STATUSGenerator gopter.Gen
+
+// VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUSGenerator returns a generator of VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS instances for property testing.
+func VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUSGenerator() gopter.Gen {
+	if virtualMachineScaleSetIdentity_UserAssignedIdentities_STATUSGenerator != nil {
+		return virtualMachineScaleSetIdentity_UserAssignedIdentities_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS(generators)
+	virtualMachineScaleSetIdentity_UserAssignedIdentities_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS{}), generators)
+
+	return virtualMachineScaleSetIdentity_UserAssignedIdentities_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS(gens map[string]gopter.Gen) {
 	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_VirtualMachineScaleSetNetworkProfile_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_VirtualMachineScaleSetNetworkProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualMachineScaleSetNetworkProfile_Status to VirtualMachineScaleSetNetworkProfile_Status via AssignPropertiesToVirtualMachineScaleSetNetworkProfileStatus & AssignPropertiesFromVirtualMachineScaleSetNetworkProfileStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkProfileStatus, VirtualMachineScaleSetNetworkProfileStatusGenerator()))
+		"Round trip from VirtualMachineScaleSetNetworkProfile to VirtualMachineScaleSetNetworkProfile via AssignPropertiesToVirtualMachineScaleSetNetworkProfile & AssignPropertiesFromVirtualMachineScaleSetNetworkProfile returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkProfile, VirtualMachineScaleSetNetworkProfileGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkProfileStatus tests if a specific instance of VirtualMachineScaleSetNetworkProfile_Status can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkProfileStatus(subject VirtualMachineScaleSetNetworkProfile_Status) string {
+// RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkProfile tests if a specific instance of VirtualMachineScaleSetNetworkProfile can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkProfile(subject VirtualMachineScaleSetNetworkProfile) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201201s.VirtualMachineScaleSetNetworkProfile_Status
-	err := copied.AssignPropertiesToVirtualMachineScaleSetNetworkProfileStatus(&other)
+	var other alpha20201201s.VirtualMachineScaleSetNetworkProfile
+	err := copied.AssignPropertiesToVirtualMachineScaleSetNetworkProfile(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualMachineScaleSetNetworkProfile_Status
-	err = actual.AssignPropertiesFromVirtualMachineScaleSetNetworkProfileStatus(&other)
+	var actual VirtualMachineScaleSetNetworkProfile
+	err = actual.AssignPropertiesFromVirtualMachineScaleSetNetworkProfile(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2649,19 +2771,19 @@ func RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkProfileStatus(subj
 	return ""
 }
 
-func Test_VirtualMachineScaleSetNetworkProfile_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VirtualMachineScaleSetNetworkProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VirtualMachineScaleSetNetworkProfile_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetNetworkProfileStatus, VirtualMachineScaleSetNetworkProfileStatusGenerator()))
+		"Round trip of VirtualMachineScaleSetNetworkProfile via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetNetworkProfile, VirtualMachineScaleSetNetworkProfileGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetNetworkProfileStatus runs a test to see if a specific instance of VirtualMachineScaleSetNetworkProfile_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetNetworkProfileStatus(subject VirtualMachineScaleSetNetworkProfile_Status) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetNetworkProfile runs a test to see if a specific instance of VirtualMachineScaleSetNetworkProfile round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetNetworkProfile(subject VirtualMachineScaleSetNetworkProfile) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2669,7 +2791,7 @@ func RunJSONSerializationTestForVirtualMachineScaleSetNetworkProfileStatus(subje
 	}
 
 	// Deserialize back into memory
-	var actual VirtualMachineScaleSetNetworkProfile_Status
+	var actual VirtualMachineScaleSetNetworkProfile
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -2687,55 +2809,55 @@ func RunJSONSerializationTestForVirtualMachineScaleSetNetworkProfileStatus(subje
 	return ""
 }
 
-// Generator of VirtualMachineScaleSetNetworkProfile_Status instances for property testing - lazily instantiated by
-// VirtualMachineScaleSetNetworkProfileStatusGenerator()
-var virtualMachineScaleSetNetworkProfileStatusGenerator gopter.Gen
+// Generator of VirtualMachineScaleSetNetworkProfile instances for property testing - lazily instantiated by
+// VirtualMachineScaleSetNetworkProfileGenerator()
+var virtualMachineScaleSetNetworkProfileGenerator gopter.Gen
 
-// VirtualMachineScaleSetNetworkProfileStatusGenerator returns a generator of VirtualMachineScaleSetNetworkProfile_Status instances for property testing.
-func VirtualMachineScaleSetNetworkProfileStatusGenerator() gopter.Gen {
-	if virtualMachineScaleSetNetworkProfileStatusGenerator != nil {
-		return virtualMachineScaleSetNetworkProfileStatusGenerator
+// VirtualMachineScaleSetNetworkProfileGenerator returns a generator of VirtualMachineScaleSetNetworkProfile instances for property testing.
+func VirtualMachineScaleSetNetworkProfileGenerator() gopter.Gen {
+	if virtualMachineScaleSetNetworkProfileGenerator != nil {
+		return virtualMachineScaleSetNetworkProfileGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkProfileStatus(generators)
-	virtualMachineScaleSetNetworkProfileStatusGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetNetworkProfile_Status{}), generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkProfile(generators)
+	virtualMachineScaleSetNetworkProfileGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetNetworkProfile{}), generators)
 
-	return virtualMachineScaleSetNetworkProfileStatusGenerator
+	return virtualMachineScaleSetNetworkProfileGenerator
 }
 
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkProfileStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkProfileStatus(gens map[string]gopter.Gen) {
-	gens["HealthProbe"] = gen.PtrOf(ApiEntityReferenceStatusGenerator())
-	gens["NetworkInterfaceConfigurations"] = gen.SliceOf(VirtualMachineScaleSetNetworkConfigurationStatusGenerator())
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkProfile is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkProfile(gens map[string]gopter.Gen) {
+	gens["HealthProbe"] = gen.PtrOf(ApiEntityReferenceGenerator())
+	gens["NetworkInterfaceConfigurations"] = gen.SliceOf(VirtualMachineScaleSetNetworkConfigurationGenerator())
 }
 
-func Test_VirtualMachineScaleSetOSProfile_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_VirtualMachineScaleSetNetworkProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualMachineScaleSetOSProfile_Status to VirtualMachineScaleSetOSProfile_Status via AssignPropertiesToVirtualMachineScaleSetOSProfileStatus & AssignPropertiesFromVirtualMachineScaleSetOSProfileStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetOSProfileStatus, VirtualMachineScaleSetOSProfileStatusGenerator()))
+		"Round trip from VirtualMachineScaleSetNetworkProfile_STATUS to VirtualMachineScaleSetNetworkProfile_STATUS via AssignPropertiesToVirtualMachineScaleSetNetworkProfile_STATUS & AssignPropertiesFromVirtualMachineScaleSetNetworkProfile_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkProfile_STATUS, VirtualMachineScaleSetNetworkProfile_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetOSProfileStatus tests if a specific instance of VirtualMachineScaleSetOSProfile_Status can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForVirtualMachineScaleSetOSProfileStatus(subject VirtualMachineScaleSetOSProfile_Status) string {
+// RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkProfile_STATUS tests if a specific instance of VirtualMachineScaleSetNetworkProfile_STATUS can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkProfile_STATUS(subject VirtualMachineScaleSetNetworkProfile_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201201s.VirtualMachineScaleSetOSProfile_Status
-	err := copied.AssignPropertiesToVirtualMachineScaleSetOSProfileStatus(&other)
+	var other alpha20201201s.VirtualMachineScaleSetNetworkProfile_STATUS
+	err := copied.AssignPropertiesToVirtualMachineScaleSetNetworkProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualMachineScaleSetOSProfile_Status
-	err = actual.AssignPropertiesFromVirtualMachineScaleSetOSProfileStatus(&other)
+	var actual VirtualMachineScaleSetNetworkProfile_STATUS
+	err = actual.AssignPropertiesFromVirtualMachineScaleSetNetworkProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2752,19 +2874,19 @@ func RunPropertyAssignmentTestForVirtualMachineScaleSetOSProfileStatus(subject V
 	return ""
 }
 
-func Test_VirtualMachineScaleSetOSProfile_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VirtualMachineScaleSetNetworkProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VirtualMachineScaleSetOSProfile_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetOSProfileStatus, VirtualMachineScaleSetOSProfileStatusGenerator()))
+		"Round trip of VirtualMachineScaleSetNetworkProfile_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetNetworkProfile_STATUS, VirtualMachineScaleSetNetworkProfile_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetOSProfileStatus runs a test to see if a specific instance of VirtualMachineScaleSetOSProfile_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetOSProfileStatus(subject VirtualMachineScaleSetOSProfile_Status) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetNetworkProfile_STATUS runs a test to see if a specific instance of VirtualMachineScaleSetNetworkProfile_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetNetworkProfile_STATUS(subject VirtualMachineScaleSetNetworkProfile_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2772,7 +2894,7 @@ func RunJSONSerializationTestForVirtualMachineScaleSetOSProfileStatus(subject Vi
 	}
 
 	// Deserialize back into memory
-	var actual VirtualMachineScaleSetOSProfile_Status
+	var actual VirtualMachineScaleSetNetworkProfile_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -2790,44 +2912,267 @@ func RunJSONSerializationTestForVirtualMachineScaleSetOSProfileStatus(subject Vi
 	return ""
 }
 
-// Generator of VirtualMachineScaleSetOSProfile_Status instances for property testing - lazily instantiated by
-// VirtualMachineScaleSetOSProfileStatusGenerator()
-var virtualMachineScaleSetOSProfileStatusGenerator gopter.Gen
+// Generator of VirtualMachineScaleSetNetworkProfile_STATUS instances for property testing - lazily instantiated by
+// VirtualMachineScaleSetNetworkProfile_STATUSGenerator()
+var virtualMachineScaleSetNetworkProfile_STATUSGenerator gopter.Gen
 
-// VirtualMachineScaleSetOSProfileStatusGenerator returns a generator of VirtualMachineScaleSetOSProfile_Status instances for property testing.
-// We first initialize virtualMachineScaleSetOSProfileStatusGenerator with a simplified generator based on the
+// VirtualMachineScaleSetNetworkProfile_STATUSGenerator returns a generator of VirtualMachineScaleSetNetworkProfile_STATUS instances for property testing.
+func VirtualMachineScaleSetNetworkProfile_STATUSGenerator() gopter.Gen {
+	if virtualMachineScaleSetNetworkProfile_STATUSGenerator != nil {
+		return virtualMachineScaleSetNetworkProfile_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkProfile_STATUS(generators)
+	virtualMachineScaleSetNetworkProfile_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetNetworkProfile_STATUS{}), generators)
+
+	return virtualMachineScaleSetNetworkProfile_STATUSGenerator
+}
+
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkProfile_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkProfile_STATUS(gens map[string]gopter.Gen) {
+	gens["HealthProbe"] = gen.PtrOf(ApiEntityReference_STATUSGenerator())
+	gens["NetworkInterfaceConfigurations"] = gen.SliceOf(VirtualMachineScaleSetNetworkConfiguration_STATUSGenerator())
+}
+
+func Test_VirtualMachineScaleSetOSProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualMachineScaleSetOSProfile to VirtualMachineScaleSetOSProfile via AssignPropertiesToVirtualMachineScaleSetOSProfile & AssignPropertiesFromVirtualMachineScaleSetOSProfile returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetOSProfile, VirtualMachineScaleSetOSProfileGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualMachineScaleSetOSProfile tests if a specific instance of VirtualMachineScaleSetOSProfile can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachineScaleSetOSProfile(subject VirtualMachineScaleSetOSProfile) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other alpha20201201s.VirtualMachineScaleSetOSProfile
+	err := copied.AssignPropertiesToVirtualMachineScaleSetOSProfile(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualMachineScaleSetOSProfile
+	err = actual.AssignPropertiesFromVirtualMachineScaleSetOSProfile(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_VirtualMachineScaleSetOSProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualMachineScaleSetOSProfile via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetOSProfile, VirtualMachineScaleSetOSProfileGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualMachineScaleSetOSProfile runs a test to see if a specific instance of VirtualMachineScaleSetOSProfile round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetOSProfile(subject VirtualMachineScaleSetOSProfile) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualMachineScaleSetOSProfile
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualMachineScaleSetOSProfile instances for property testing - lazily instantiated by
+// VirtualMachineScaleSetOSProfileGenerator()
+var virtualMachineScaleSetOSProfileGenerator gopter.Gen
+
+// VirtualMachineScaleSetOSProfileGenerator returns a generator of VirtualMachineScaleSetOSProfile instances for property testing.
+// We first initialize virtualMachineScaleSetOSProfileGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualMachineScaleSetOSProfileStatusGenerator() gopter.Gen {
-	if virtualMachineScaleSetOSProfileStatusGenerator != nil {
-		return virtualMachineScaleSetOSProfileStatusGenerator
+func VirtualMachineScaleSetOSProfileGenerator() gopter.Gen {
+	if virtualMachineScaleSetOSProfileGenerator != nil {
+		return virtualMachineScaleSetOSProfileGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSProfileStatus(generators)
-	virtualMachineScaleSetOSProfileStatusGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetOSProfile_Status{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSProfile(generators)
+	virtualMachineScaleSetOSProfileGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetOSProfile{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSProfileStatus(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetOSProfileStatus(generators)
-	virtualMachineScaleSetOSProfileStatusGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetOSProfile_Status{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSProfile(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetOSProfile(generators)
+	virtualMachineScaleSetOSProfileGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetOSProfile{}), generators)
 
-	return virtualMachineScaleSetOSProfileStatusGenerator
+	return virtualMachineScaleSetOSProfileGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSProfileStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSProfileStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSProfile is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSProfile(gens map[string]gopter.Gen) {
 	gens["AdminUsername"] = gen.PtrOf(gen.AlphaString())
 	gens["ComputerNamePrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["CustomData"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetOSProfileStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetOSProfileStatus(gens map[string]gopter.Gen) {
-	gens["LinuxConfiguration"] = gen.PtrOf(LinuxConfigurationStatusGenerator())
-	gens["Secrets"] = gen.SliceOf(VaultSecretGroupStatusGenerator())
-	gens["WindowsConfiguration"] = gen.PtrOf(WindowsConfigurationStatusGenerator())
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetOSProfile is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetOSProfile(gens map[string]gopter.Gen) {
+	gens["LinuxConfiguration"] = gen.PtrOf(LinuxConfigurationGenerator())
+	gens["Secrets"] = gen.SliceOf(VaultSecretGroupGenerator())
+	gens["WindowsConfiguration"] = gen.PtrOf(WindowsConfigurationGenerator())
+}
+
+func Test_VirtualMachineScaleSetOSProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualMachineScaleSetOSProfile_STATUS to VirtualMachineScaleSetOSProfile_STATUS via AssignPropertiesToVirtualMachineScaleSetOSProfile_STATUS & AssignPropertiesFromVirtualMachineScaleSetOSProfile_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetOSProfile_STATUS, VirtualMachineScaleSetOSProfile_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualMachineScaleSetOSProfile_STATUS tests if a specific instance of VirtualMachineScaleSetOSProfile_STATUS can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachineScaleSetOSProfile_STATUS(subject VirtualMachineScaleSetOSProfile_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other alpha20201201s.VirtualMachineScaleSetOSProfile_STATUS
+	err := copied.AssignPropertiesToVirtualMachineScaleSetOSProfile_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualMachineScaleSetOSProfile_STATUS
+	err = actual.AssignPropertiesFromVirtualMachineScaleSetOSProfile_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_VirtualMachineScaleSetOSProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualMachineScaleSetOSProfile_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetOSProfile_STATUS, VirtualMachineScaleSetOSProfile_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualMachineScaleSetOSProfile_STATUS runs a test to see if a specific instance of VirtualMachineScaleSetOSProfile_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetOSProfile_STATUS(subject VirtualMachineScaleSetOSProfile_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualMachineScaleSetOSProfile_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualMachineScaleSetOSProfile_STATUS instances for property testing - lazily instantiated by
+// VirtualMachineScaleSetOSProfile_STATUSGenerator()
+var virtualMachineScaleSetOSProfile_STATUSGenerator gopter.Gen
+
+// VirtualMachineScaleSetOSProfile_STATUSGenerator returns a generator of VirtualMachineScaleSetOSProfile_STATUS instances for property testing.
+// We first initialize virtualMachineScaleSetOSProfile_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func VirtualMachineScaleSetOSProfile_STATUSGenerator() gopter.Gen {
+	if virtualMachineScaleSetOSProfile_STATUSGenerator != nil {
+		return virtualMachineScaleSetOSProfile_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSProfile_STATUS(generators)
+	virtualMachineScaleSetOSProfile_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetOSProfile_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSProfile_STATUS(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetOSProfile_STATUS(generators)
+	virtualMachineScaleSetOSProfile_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetOSProfile_STATUS{}), generators)
+
+	return virtualMachineScaleSetOSProfile_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSProfile_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSProfile_STATUS(gens map[string]gopter.Gen) {
+	gens["AdminUsername"] = gen.PtrOf(gen.AlphaString())
+	gens["ComputerNamePrefix"] = gen.PtrOf(gen.AlphaString())
+	gens["CustomData"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetOSProfile_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetOSProfile_STATUS(gens map[string]gopter.Gen) {
+	gens["LinuxConfiguration"] = gen.PtrOf(LinuxConfiguration_STATUSGenerator())
+	gens["Secrets"] = gen.SliceOf(VaultSecretGroup_STATUSGenerator())
+	gens["WindowsConfiguration"] = gen.PtrOf(WindowsConfiguration_STATUSGenerator())
 }
 
 func Test_VirtualMachineScaleSetStorageProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2934,32 +3279,32 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetStorageProfile(gens ma
 	gens["OsDisk"] = gen.PtrOf(VirtualMachineScaleSetOSDiskGenerator())
 }
 
-func Test_VirtualMachineScaleSetStorageProfile_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_VirtualMachineScaleSetStorageProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualMachineScaleSetStorageProfile_Status to VirtualMachineScaleSetStorageProfile_Status via AssignPropertiesToVirtualMachineScaleSetStorageProfileStatus & AssignPropertiesFromVirtualMachineScaleSetStorageProfileStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetStorageProfileStatus, VirtualMachineScaleSetStorageProfileStatusGenerator()))
+		"Round trip from VirtualMachineScaleSetStorageProfile_STATUS to VirtualMachineScaleSetStorageProfile_STATUS via AssignPropertiesToVirtualMachineScaleSetStorageProfile_STATUS & AssignPropertiesFromVirtualMachineScaleSetStorageProfile_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetStorageProfile_STATUS, VirtualMachineScaleSetStorageProfile_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetStorageProfileStatus tests if a specific instance of VirtualMachineScaleSetStorageProfile_Status can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForVirtualMachineScaleSetStorageProfileStatus(subject VirtualMachineScaleSetStorageProfile_Status) string {
+// RunPropertyAssignmentTestForVirtualMachineScaleSetStorageProfile_STATUS tests if a specific instance of VirtualMachineScaleSetStorageProfile_STATUS can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachineScaleSetStorageProfile_STATUS(subject VirtualMachineScaleSetStorageProfile_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201201s.VirtualMachineScaleSetStorageProfile_Status
-	err := copied.AssignPropertiesToVirtualMachineScaleSetStorageProfileStatus(&other)
+	var other alpha20201201s.VirtualMachineScaleSetStorageProfile_STATUS
+	err := copied.AssignPropertiesToVirtualMachineScaleSetStorageProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualMachineScaleSetStorageProfile_Status
-	err = actual.AssignPropertiesFromVirtualMachineScaleSetStorageProfileStatus(&other)
+	var actual VirtualMachineScaleSetStorageProfile_STATUS
+	err = actual.AssignPropertiesFromVirtualMachineScaleSetStorageProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -2976,19 +3321,19 @@ func RunPropertyAssignmentTestForVirtualMachineScaleSetStorageProfileStatus(subj
 	return ""
 }
 
-func Test_VirtualMachineScaleSetStorageProfile_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VirtualMachineScaleSetStorageProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VirtualMachineScaleSetStorageProfile_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetStorageProfileStatus, VirtualMachineScaleSetStorageProfileStatusGenerator()))
+		"Round trip of VirtualMachineScaleSetStorageProfile_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetStorageProfile_STATUS, VirtualMachineScaleSetStorageProfile_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetStorageProfileStatus runs a test to see if a specific instance of VirtualMachineScaleSetStorageProfile_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetStorageProfileStatus(subject VirtualMachineScaleSetStorageProfile_Status) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetStorageProfile_STATUS runs a test to see if a specific instance of VirtualMachineScaleSetStorageProfile_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetStorageProfile_STATUS(subject VirtualMachineScaleSetStorageProfile_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2996,7 +3341,7 @@ func RunJSONSerializationTestForVirtualMachineScaleSetStorageProfileStatus(subje
 	}
 
 	// Deserialize back into memory
-	var actual VirtualMachineScaleSetStorageProfile_Status
+	var actual VirtualMachineScaleSetStorageProfile_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -3014,367 +3359,28 @@ func RunJSONSerializationTestForVirtualMachineScaleSetStorageProfileStatus(subje
 	return ""
 }
 
-// Generator of VirtualMachineScaleSetStorageProfile_Status instances for property testing - lazily instantiated by
-// VirtualMachineScaleSetStorageProfileStatusGenerator()
-var virtualMachineScaleSetStorageProfileStatusGenerator gopter.Gen
+// Generator of VirtualMachineScaleSetStorageProfile_STATUS instances for property testing - lazily instantiated by
+// VirtualMachineScaleSetStorageProfile_STATUSGenerator()
+var virtualMachineScaleSetStorageProfile_STATUSGenerator gopter.Gen
 
-// VirtualMachineScaleSetStorageProfileStatusGenerator returns a generator of VirtualMachineScaleSetStorageProfile_Status instances for property testing.
-func VirtualMachineScaleSetStorageProfileStatusGenerator() gopter.Gen {
-	if virtualMachineScaleSetStorageProfileStatusGenerator != nil {
-		return virtualMachineScaleSetStorageProfileStatusGenerator
+// VirtualMachineScaleSetStorageProfile_STATUSGenerator returns a generator of VirtualMachineScaleSetStorageProfile_STATUS instances for property testing.
+func VirtualMachineScaleSetStorageProfile_STATUSGenerator() gopter.Gen {
+	if virtualMachineScaleSetStorageProfile_STATUSGenerator != nil {
+		return virtualMachineScaleSetStorageProfile_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetStorageProfileStatus(generators)
-	virtualMachineScaleSetStorageProfileStatusGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetStorageProfile_Status{}), generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetStorageProfile_STATUS(generators)
+	virtualMachineScaleSetStorageProfile_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetStorageProfile_STATUS{}), generators)
 
-	return virtualMachineScaleSetStorageProfileStatusGenerator
+	return virtualMachineScaleSetStorageProfile_STATUSGenerator
 }
 
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetStorageProfileStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetStorageProfileStatus(gens map[string]gopter.Gen) {
-	gens["DataDisks"] = gen.SliceOf(VirtualMachineScaleSetDataDiskStatusGenerator())
-	gens["ImageReference"] = gen.PtrOf(ImageReferenceStatusGenerator())
-	gens["OsDisk"] = gen.PtrOf(VirtualMachineScaleSetOSDiskStatusGenerator())
-}
-
-func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile to VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile via AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile & AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile, VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile tests if a specific instance of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile(subject VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201201s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile
-	err := copied.AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile
-	err = actual.AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile, VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile runs a test to see if a specific instance of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile(subject VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile instances for property
-// testing - lazily instantiated by VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileGenerator()
-var virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileGenerator gopter.Gen
-
-// VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileGenerator returns a generator of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile instances for property testing.
-// We first initialize virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileGenerator() gopter.Gen {
-	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileGenerator != nil {
-		return virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile(generators)
-	virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile(generators)
-	virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile{}), generators)
-
-	return virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileGenerator
-}
-
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile(gens map[string]gopter.Gen) {
-	gens["ExtensionsTimeBudget"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfile(gens map[string]gopter.Gen) {
-	gens["Extensions"] = gen.SliceOf(VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensionsGenerator())
-}
-
-func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile to VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile via AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile & AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile, VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile tests if a specific instance of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile(subject VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201201s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile
-	err := copied.AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile
-	err = actual.AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile, VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile runs a test to see if a specific instance of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile(subject VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile instances for property
-// testing - lazily instantiated by VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileGenerator()
-var virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileGenerator gopter.Gen
-
-// VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileGenerator returns a generator of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile instances for property testing.
-func VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileGenerator() gopter.Gen {
-	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileGenerator != nil {
-		return virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile(generators)
-	virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile{}), generators)
-
-	return virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileGenerator
-}
-
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfile(gens map[string]gopter.Gen) {
-	gens["HealthProbe"] = gen.PtrOf(ApiEntityReferenceGenerator())
-	gens["NetworkInterfaceConfigurations"] = gen.SliceOf(VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsGenerator())
-}
-
-func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile to VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile via AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfile & AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfile returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfile, VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfile tests if a specific instance of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfile(subject VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201201s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile
-	err := copied.AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfile(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile
-	err = actual.AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfile(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfile, VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfileGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfile runs a test to see if a specific instance of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfile(subject VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile instances for property testing -
-// lazily instantiated by VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfileGenerator()
-var virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfileGenerator gopter.Gen
-
-// VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfileGenerator returns a generator of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile instances for property testing.
-// We first initialize virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfileGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfileGenerator() gopter.Gen {
-	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfileGenerator != nil {
-		return virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfileGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfile(generators)
-	virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfileGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfile(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfile(generators)
-	virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfileGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile{}), generators)
-
-	return virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfileGenerator
-}
-
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfile is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfile(gens map[string]gopter.Gen) {
-	gens["AdminUsername"] = gen.PtrOf(gen.AlphaString())
-	gens["ComputerNamePrefix"] = gen.PtrOf(gen.AlphaString())
-	gens["CustomData"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfile is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfile(gens map[string]gopter.Gen) {
-	gens["LinuxConfiguration"] = gen.PtrOf(LinuxConfigurationGenerator())
-	gens["Secrets"] = gen.SliceOf(VaultSecretGroupGenerator())
-	gens["WindowsConfiguration"] = gen.PtrOf(WindowsConfigurationGenerator())
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetStorageProfile_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetStorageProfile_STATUS(gens map[string]gopter.Gen) {
+	gens["DataDisks"] = gen.SliceOf(VirtualMachineScaleSetDataDisk_STATUSGenerator())
+	gens["ImageReference"] = gen.PtrOf(ImageReference_STATUSGenerator())
+	gens["OsDisk"] = gen.PtrOf(VirtualMachineScaleSetOSDisk_STATUSGenerator())
 }
 
 func Test_ApiEntityReference_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -3472,32 +3478,32 @@ func ApiEntityReferenceGenerator() gopter.Gen {
 	return apiEntityReferenceGenerator
 }
 
-func Test_ApiEntityReference_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_ApiEntityReference_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from ApiEntityReference_Status to ApiEntityReference_Status via AssignPropertiesToApiEntityReferenceStatus & AssignPropertiesFromApiEntityReferenceStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForApiEntityReferenceStatus, ApiEntityReferenceStatusGenerator()))
+		"Round trip from ApiEntityReference_STATUS to ApiEntityReference_STATUS via AssignPropertiesToApiEntityReference_STATUS & AssignPropertiesFromApiEntityReference_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForApiEntityReference_STATUS, ApiEntityReference_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForApiEntityReferenceStatus tests if a specific instance of ApiEntityReference_Status can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForApiEntityReferenceStatus(subject ApiEntityReference_Status) string {
+// RunPropertyAssignmentTestForApiEntityReference_STATUS tests if a specific instance of ApiEntityReference_STATUS can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForApiEntityReference_STATUS(subject ApiEntityReference_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201201s.ApiEntityReference_Status
-	err := copied.AssignPropertiesToApiEntityReferenceStatus(&other)
+	var other alpha20201201s.ApiEntityReference_STATUS
+	err := copied.AssignPropertiesToApiEntityReference_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual ApiEntityReference_Status
-	err = actual.AssignPropertiesFromApiEntityReferenceStatus(&other)
+	var actual ApiEntityReference_STATUS
+	err = actual.AssignPropertiesFromApiEntityReference_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -3514,19 +3520,19 @@ func RunPropertyAssignmentTestForApiEntityReferenceStatus(subject ApiEntityRefer
 	return ""
 }
 
-func Test_ApiEntityReference_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ApiEntityReference_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ApiEntityReference_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForApiEntityReferenceStatus, ApiEntityReferenceStatusGenerator()))
+		"Round trip of ApiEntityReference_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForApiEntityReference_STATUS, ApiEntityReference_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForApiEntityReferenceStatus runs a test to see if a specific instance of ApiEntityReference_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForApiEntityReferenceStatus(subject ApiEntityReference_Status) string {
+// RunJSONSerializationTestForApiEntityReference_STATUS runs a test to see if a specific instance of ApiEntityReference_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForApiEntityReference_STATUS(subject ApiEntityReference_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -3534,7 +3540,7 @@ func RunJSONSerializationTestForApiEntityReferenceStatus(subject ApiEntityRefere
 	}
 
 	// Deserialize back into memory
-	var actual ApiEntityReference_Status
+	var actual ApiEntityReference_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -3552,25 +3558,25 @@ func RunJSONSerializationTestForApiEntityReferenceStatus(subject ApiEntityRefere
 	return ""
 }
 
-// Generator of ApiEntityReference_Status instances for property testing - lazily instantiated by
-// ApiEntityReferenceStatusGenerator()
-var apiEntityReferenceStatusGenerator gopter.Gen
+// Generator of ApiEntityReference_STATUS instances for property testing - lazily instantiated by
+// ApiEntityReference_STATUSGenerator()
+var apiEntityReference_STATUSGenerator gopter.Gen
 
-// ApiEntityReferenceStatusGenerator returns a generator of ApiEntityReference_Status instances for property testing.
-func ApiEntityReferenceStatusGenerator() gopter.Gen {
-	if apiEntityReferenceStatusGenerator != nil {
-		return apiEntityReferenceStatusGenerator
+// ApiEntityReference_STATUSGenerator returns a generator of ApiEntityReference_STATUS instances for property testing.
+func ApiEntityReference_STATUSGenerator() gopter.Gen {
+	if apiEntityReference_STATUSGenerator != nil {
+		return apiEntityReference_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApiEntityReferenceStatus(generators)
-	apiEntityReferenceStatusGenerator = gen.Struct(reflect.TypeOf(ApiEntityReference_Status{}), generators)
+	AddIndependentPropertyGeneratorsForApiEntityReference_STATUS(generators)
+	apiEntityReference_STATUSGenerator = gen.Struct(reflect.TypeOf(ApiEntityReference_STATUS{}), generators)
 
-	return apiEntityReferenceStatusGenerator
+	return apiEntityReference_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForApiEntityReferenceStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForApiEntityReferenceStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForApiEntityReference_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForApiEntityReference_STATUS(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -3677,32 +3683,32 @@ func AddIndependentPropertyGeneratorsForTerminateNotificationProfile(gens map[st
 	gens["NotBeforeTimeout"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_TerminateNotificationProfile_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_TerminateNotificationProfile_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from TerminateNotificationProfile_Status to TerminateNotificationProfile_Status via AssignPropertiesToTerminateNotificationProfileStatus & AssignPropertiesFromTerminateNotificationProfileStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForTerminateNotificationProfileStatus, TerminateNotificationProfileStatusGenerator()))
+		"Round trip from TerminateNotificationProfile_STATUS to TerminateNotificationProfile_STATUS via AssignPropertiesToTerminateNotificationProfile_STATUS & AssignPropertiesFromTerminateNotificationProfile_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForTerminateNotificationProfile_STATUS, TerminateNotificationProfile_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForTerminateNotificationProfileStatus tests if a specific instance of TerminateNotificationProfile_Status can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForTerminateNotificationProfileStatus(subject TerminateNotificationProfile_Status) string {
+// RunPropertyAssignmentTestForTerminateNotificationProfile_STATUS tests if a specific instance of TerminateNotificationProfile_STATUS can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForTerminateNotificationProfile_STATUS(subject TerminateNotificationProfile_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201201s.TerminateNotificationProfile_Status
-	err := copied.AssignPropertiesToTerminateNotificationProfileStatus(&other)
+	var other alpha20201201s.TerminateNotificationProfile_STATUS
+	err := copied.AssignPropertiesToTerminateNotificationProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual TerminateNotificationProfile_Status
-	err = actual.AssignPropertiesFromTerminateNotificationProfileStatus(&other)
+	var actual TerminateNotificationProfile_STATUS
+	err = actual.AssignPropertiesFromTerminateNotificationProfile_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -3719,19 +3725,19 @@ func RunPropertyAssignmentTestForTerminateNotificationProfileStatus(subject Term
 	return ""
 }
 
-func Test_TerminateNotificationProfile_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_TerminateNotificationProfile_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of TerminateNotificationProfile_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForTerminateNotificationProfileStatus, TerminateNotificationProfileStatusGenerator()))
+		"Round trip of TerminateNotificationProfile_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForTerminateNotificationProfile_STATUS, TerminateNotificationProfile_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForTerminateNotificationProfileStatus runs a test to see if a specific instance of TerminateNotificationProfile_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForTerminateNotificationProfileStatus(subject TerminateNotificationProfile_Status) string {
+// RunJSONSerializationTestForTerminateNotificationProfile_STATUS runs a test to see if a specific instance of TerminateNotificationProfile_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForTerminateNotificationProfile_STATUS(subject TerminateNotificationProfile_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -3739,7 +3745,7 @@ func RunJSONSerializationTestForTerminateNotificationProfileStatus(subject Termi
 	}
 
 	// Deserialize back into memory
-	var actual TerminateNotificationProfile_Status
+	var actual TerminateNotificationProfile_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -3757,25 +3763,25 @@ func RunJSONSerializationTestForTerminateNotificationProfileStatus(subject Termi
 	return ""
 }
 
-// Generator of TerminateNotificationProfile_Status instances for property testing - lazily instantiated by
-// TerminateNotificationProfileStatusGenerator()
-var terminateNotificationProfileStatusGenerator gopter.Gen
+// Generator of TerminateNotificationProfile_STATUS instances for property testing - lazily instantiated by
+// TerminateNotificationProfile_STATUSGenerator()
+var terminateNotificationProfile_STATUSGenerator gopter.Gen
 
-// TerminateNotificationProfileStatusGenerator returns a generator of TerminateNotificationProfile_Status instances for property testing.
-func TerminateNotificationProfileStatusGenerator() gopter.Gen {
-	if terminateNotificationProfileStatusGenerator != nil {
-		return terminateNotificationProfileStatusGenerator
+// TerminateNotificationProfile_STATUSGenerator returns a generator of TerminateNotificationProfile_STATUS instances for property testing.
+func TerminateNotificationProfile_STATUSGenerator() gopter.Gen {
+	if terminateNotificationProfile_STATUSGenerator != nil {
+		return terminateNotificationProfile_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForTerminateNotificationProfileStatus(generators)
-	terminateNotificationProfileStatusGenerator = gen.Struct(reflect.TypeOf(TerminateNotificationProfile_Status{}), generators)
+	AddIndependentPropertyGeneratorsForTerminateNotificationProfile_STATUS(generators)
+	terminateNotificationProfile_STATUSGenerator = gen.Struct(reflect.TypeOf(TerminateNotificationProfile_STATUS{}), generators)
 
-	return terminateNotificationProfileStatusGenerator
+	return terminateNotificationProfile_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForTerminateNotificationProfileStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForTerminateNotificationProfileStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForTerminateNotificationProfile_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForTerminateNotificationProfile_STATUS(gens map[string]gopter.Gen) {
 	gens["Enable"] = gen.PtrOf(gen.Bool())
 	gens["NotBeforeTimeout"] = gen.PtrOf(gen.AlphaString())
 }
@@ -3888,8 +3894,8 @@ func VirtualMachineScaleSetDataDiskGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualMachineScaleSetDataDisk is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetDataDisk(gens map[string]gopter.Gen) {
-	gens["Caching"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetDataDiskCachingNone, VirtualMachineScaleSetDataDiskCachingReadOnly, VirtualMachineScaleSetDataDiskCachingReadWrite))
-	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetDataDiskCreateOptionAttach, VirtualMachineScaleSetDataDiskCreateOptionEmpty, VirtualMachineScaleSetDataDiskCreateOptionFromImage))
+	gens["Caching"] = gen.PtrOf(gen.OneConstOf(CachingNone, CachingReadOnly, CachingReadWrite))
+	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(CreateOptionAttach, CreateOptionEmpty, CreateOptionFromImage))
 	gens["DiskIOPSReadWrite"] = gen.PtrOf(gen.Int())
 	gens["DiskMBpsReadWrite"] = gen.PtrOf(gen.Int())
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
@@ -3903,32 +3909,32 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetDataDisk(gens map[stri
 	gens["ManagedDisk"] = gen.PtrOf(VirtualMachineScaleSetManagedDiskParametersGenerator())
 }
 
-func Test_VirtualMachineScaleSetDataDisk_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_VirtualMachineScaleSetDataDisk_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualMachineScaleSetDataDisk_Status to VirtualMachineScaleSetDataDisk_Status via AssignPropertiesToVirtualMachineScaleSetDataDiskStatus & AssignPropertiesFromVirtualMachineScaleSetDataDiskStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetDataDiskStatus, VirtualMachineScaleSetDataDiskStatusGenerator()))
+		"Round trip from VirtualMachineScaleSetDataDisk_STATUS to VirtualMachineScaleSetDataDisk_STATUS via AssignPropertiesToVirtualMachineScaleSetDataDisk_STATUS & AssignPropertiesFromVirtualMachineScaleSetDataDisk_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetDataDisk_STATUS, VirtualMachineScaleSetDataDisk_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetDataDiskStatus tests if a specific instance of VirtualMachineScaleSetDataDisk_Status can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForVirtualMachineScaleSetDataDiskStatus(subject VirtualMachineScaleSetDataDisk_Status) string {
+// RunPropertyAssignmentTestForVirtualMachineScaleSetDataDisk_STATUS tests if a specific instance of VirtualMachineScaleSetDataDisk_STATUS can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachineScaleSetDataDisk_STATUS(subject VirtualMachineScaleSetDataDisk_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201201s.VirtualMachineScaleSetDataDisk_Status
-	err := copied.AssignPropertiesToVirtualMachineScaleSetDataDiskStatus(&other)
+	var other alpha20201201s.VirtualMachineScaleSetDataDisk_STATUS
+	err := copied.AssignPropertiesToVirtualMachineScaleSetDataDisk_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualMachineScaleSetDataDisk_Status
-	err = actual.AssignPropertiesFromVirtualMachineScaleSetDataDiskStatus(&other)
+	var actual VirtualMachineScaleSetDataDisk_STATUS
+	err = actual.AssignPropertiesFromVirtualMachineScaleSetDataDisk_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -3945,19 +3951,19 @@ func RunPropertyAssignmentTestForVirtualMachineScaleSetDataDiskStatus(subject Vi
 	return ""
 }
 
-func Test_VirtualMachineScaleSetDataDisk_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VirtualMachineScaleSetDataDisk_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VirtualMachineScaleSetDataDisk_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetDataDiskStatus, VirtualMachineScaleSetDataDiskStatusGenerator()))
+		"Round trip of VirtualMachineScaleSetDataDisk_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetDataDisk_STATUS, VirtualMachineScaleSetDataDisk_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetDataDiskStatus runs a test to see if a specific instance of VirtualMachineScaleSetDataDisk_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetDataDiskStatus(subject VirtualMachineScaleSetDataDisk_Status) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetDataDisk_STATUS runs a test to see if a specific instance of VirtualMachineScaleSetDataDisk_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetDataDisk_STATUS(subject VirtualMachineScaleSetDataDisk_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -3965,7 +3971,7 @@ func RunJSONSerializationTestForVirtualMachineScaleSetDataDiskStatus(subject Vir
 	}
 
 	// Deserialize back into memory
-	var actual VirtualMachineScaleSetDataDisk_Status
+	var actual VirtualMachineScaleSetDataDisk_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -3983,36 +3989,36 @@ func RunJSONSerializationTestForVirtualMachineScaleSetDataDiskStatus(subject Vir
 	return ""
 }
 
-// Generator of VirtualMachineScaleSetDataDisk_Status instances for property testing - lazily instantiated by
-// VirtualMachineScaleSetDataDiskStatusGenerator()
-var virtualMachineScaleSetDataDiskStatusGenerator gopter.Gen
+// Generator of VirtualMachineScaleSetDataDisk_STATUS instances for property testing - lazily instantiated by
+// VirtualMachineScaleSetDataDisk_STATUSGenerator()
+var virtualMachineScaleSetDataDisk_STATUSGenerator gopter.Gen
 
-// VirtualMachineScaleSetDataDiskStatusGenerator returns a generator of VirtualMachineScaleSetDataDisk_Status instances for property testing.
-// We first initialize virtualMachineScaleSetDataDiskStatusGenerator with a simplified generator based on the
+// VirtualMachineScaleSetDataDisk_STATUSGenerator returns a generator of VirtualMachineScaleSetDataDisk_STATUS instances for property testing.
+// We first initialize virtualMachineScaleSetDataDisk_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualMachineScaleSetDataDiskStatusGenerator() gopter.Gen {
-	if virtualMachineScaleSetDataDiskStatusGenerator != nil {
-		return virtualMachineScaleSetDataDiskStatusGenerator
+func VirtualMachineScaleSetDataDisk_STATUSGenerator() gopter.Gen {
+	if virtualMachineScaleSetDataDisk_STATUSGenerator != nil {
+		return virtualMachineScaleSetDataDisk_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetDataDiskStatus(generators)
-	virtualMachineScaleSetDataDiskStatusGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetDataDisk_Status{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetDataDisk_STATUS(generators)
+	virtualMachineScaleSetDataDisk_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetDataDisk_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetDataDiskStatus(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetDataDiskStatus(generators)
-	virtualMachineScaleSetDataDiskStatusGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetDataDisk_Status{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetDataDisk_STATUS(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetDataDisk_STATUS(generators)
+	virtualMachineScaleSetDataDisk_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetDataDisk_STATUS{}), generators)
 
-	return virtualMachineScaleSetDataDiskStatusGenerator
+	return virtualMachineScaleSetDataDisk_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetDataDiskStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetDataDiskStatus(gens map[string]gopter.Gen) {
-	gens["Caching"] = gen.PtrOf(gen.OneConstOf(Caching_StatusNone, Caching_StatusReadOnly, Caching_StatusReadWrite))
-	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(CreateOption_StatusAttach, CreateOption_StatusEmpty, CreateOption_StatusFromImage))
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetDataDisk_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetDataDisk_STATUS(gens map[string]gopter.Gen) {
+	gens["Caching"] = gen.PtrOf(gen.OneConstOf(Caching_STATUSNone, Caching_STATUSReadOnly, Caching_STATUSReadWrite))
+	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(CreateOption_STATUSAttach, CreateOption_STATUSEmpty, CreateOption_STATUSFromImage))
 	gens["DiskIOPSReadWrite"] = gen.PtrOf(gen.Int())
 	gens["DiskMBpsReadWrite"] = gen.PtrOf(gen.Int())
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
@@ -4021,37 +4027,37 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetDataDiskStatus(gen
 	gens["WriteAcceleratorEnabled"] = gen.PtrOf(gen.Bool())
 }
 
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetDataDiskStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetDataDiskStatus(gens map[string]gopter.Gen) {
-	gens["ManagedDisk"] = gen.PtrOf(VirtualMachineScaleSetManagedDiskParametersStatusGenerator())
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetDataDisk_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetDataDisk_STATUS(gens map[string]gopter.Gen) {
+	gens["ManagedDisk"] = gen.PtrOf(VirtualMachineScaleSetManagedDiskParameters_STATUSGenerator())
 }
 
-func Test_VirtualMachineScaleSetExtension_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_VirtualMachineScaleSetExtension_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualMachineScaleSetExtension_Status to VirtualMachineScaleSetExtension_Status via AssignPropertiesToVirtualMachineScaleSetExtensionStatus & AssignPropertiesFromVirtualMachineScaleSetExtensionStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetExtensionStatus, VirtualMachineScaleSetExtensionStatusGenerator()))
+		"Round trip from VirtualMachineScaleSetExtension to VirtualMachineScaleSetExtension via AssignPropertiesToVirtualMachineScaleSetExtension & AssignPropertiesFromVirtualMachineScaleSetExtension returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetExtension, VirtualMachineScaleSetExtensionGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetExtensionStatus tests if a specific instance of VirtualMachineScaleSetExtension_Status can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForVirtualMachineScaleSetExtensionStatus(subject VirtualMachineScaleSetExtension_Status) string {
+// RunPropertyAssignmentTestForVirtualMachineScaleSetExtension tests if a specific instance of VirtualMachineScaleSetExtension can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachineScaleSetExtension(subject VirtualMachineScaleSetExtension) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201201s.VirtualMachineScaleSetExtension_Status
-	err := copied.AssignPropertiesToVirtualMachineScaleSetExtensionStatus(&other)
+	var other alpha20201201s.VirtualMachineScaleSetExtension
+	err := copied.AssignPropertiesToVirtualMachineScaleSetExtension(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualMachineScaleSetExtension_Status
-	err = actual.AssignPropertiesFromVirtualMachineScaleSetExtensionStatus(&other)
+	var actual VirtualMachineScaleSetExtension
+	err = actual.AssignPropertiesFromVirtualMachineScaleSetExtension(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -4068,19 +4074,19 @@ func RunPropertyAssignmentTestForVirtualMachineScaleSetExtensionStatus(subject V
 	return ""
 }
 
-func Test_VirtualMachineScaleSetExtension_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VirtualMachineScaleSetExtension_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VirtualMachineScaleSetExtension_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetExtensionStatus, VirtualMachineScaleSetExtensionStatusGenerator()))
+		"Round trip of VirtualMachineScaleSetExtension via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetExtension, VirtualMachineScaleSetExtensionGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetExtensionStatus runs a test to see if a specific instance of VirtualMachineScaleSetExtension_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetExtensionStatus(subject VirtualMachineScaleSetExtension_Status) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetExtension runs a test to see if a specific instance of VirtualMachineScaleSetExtension round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetExtension(subject VirtualMachineScaleSetExtension) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -4088,7 +4094,7 @@ func RunJSONSerializationTestForVirtualMachineScaleSetExtensionStatus(subject Vi
 	}
 
 	// Deserialize back into memory
-	var actual VirtualMachineScaleSetExtension_Status
+	var actual VirtualMachineScaleSetExtension
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -4106,64 +4112,54 @@ func RunJSONSerializationTestForVirtualMachineScaleSetExtensionStatus(subject Vi
 	return ""
 }
 
-// Generator of VirtualMachineScaleSetExtension_Status instances for property testing - lazily instantiated by
-// VirtualMachineScaleSetExtensionStatusGenerator()
-var virtualMachineScaleSetExtensionStatusGenerator gopter.Gen
+// Generator of VirtualMachineScaleSetExtension instances for property testing - lazily instantiated by
+// VirtualMachineScaleSetExtensionGenerator()
+var virtualMachineScaleSetExtensionGenerator gopter.Gen
 
-// VirtualMachineScaleSetExtensionStatusGenerator returns a generator of VirtualMachineScaleSetExtension_Status instances for property testing.
-func VirtualMachineScaleSetExtensionStatusGenerator() gopter.Gen {
-	if virtualMachineScaleSetExtensionStatusGenerator != nil {
-		return virtualMachineScaleSetExtensionStatusGenerator
+// VirtualMachineScaleSetExtensionGenerator returns a generator of VirtualMachineScaleSetExtension instances for property testing.
+func VirtualMachineScaleSetExtensionGenerator() gopter.Gen {
+	if virtualMachineScaleSetExtensionGenerator != nil {
+		return virtualMachineScaleSetExtensionGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtensionStatus(generators)
-	virtualMachineScaleSetExtensionStatusGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetExtension_Status{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtension(generators)
+	virtualMachineScaleSetExtensionGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetExtension{}), generators)
 
-	return virtualMachineScaleSetExtensionStatusGenerator
+	return virtualMachineScaleSetExtensionGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtensionStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtensionStatus(gens map[string]gopter.Gen) {
-	gens["AutoUpgradeMinorVersion"] = gen.PtrOf(gen.Bool())
-	gens["EnableAutomaticUpgrade"] = gen.PtrOf(gen.Bool())
-	gens["ForceUpdateTag"] = gen.PtrOf(gen.AlphaString())
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtension is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtension(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["PropertiesType"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisionAfterExtensions"] = gen.SliceOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["Publisher"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["TypeHandlerVersion"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_VirtualMachineScaleSetNetworkConfiguration_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualMachineScaleSetNetworkConfiguration_Status to VirtualMachineScaleSetNetworkConfiguration_Status via AssignPropertiesToVirtualMachineScaleSetNetworkConfigurationStatus & AssignPropertiesFromVirtualMachineScaleSetNetworkConfigurationStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkConfigurationStatus, VirtualMachineScaleSetNetworkConfigurationStatusGenerator()))
+		"Round trip from VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded to VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded via AssignPropertiesToVirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded & AssignPropertiesFromVirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded, VirtualMachineScaleSetExtension_STATUS_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkConfigurationStatus tests if a specific instance of VirtualMachineScaleSetNetworkConfiguration_Status can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkConfigurationStatus(subject VirtualMachineScaleSetNetworkConfiguration_Status) string {
+// RunPropertyAssignmentTestForVirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded tests if a specific instance of VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded(subject VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201201s.VirtualMachineScaleSetNetworkConfiguration_Status
-	err := copied.AssignPropertiesToVirtualMachineScaleSetNetworkConfigurationStatus(&other)
+	var other alpha20201201s.VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded
+	err := copied.AssignPropertiesToVirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualMachineScaleSetNetworkConfiguration_Status
-	err = actual.AssignPropertiesFromVirtualMachineScaleSetNetworkConfigurationStatus(&other)
+	var actual VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded
+	err = actual.AssignPropertiesFromVirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -4180,19 +4176,19 @@ func RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkConfigurationStatu
 	return ""
 }
 
-func Test_VirtualMachineScaleSetNetworkConfiguration_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VirtualMachineScaleSetNetworkConfiguration_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfigurationStatus, VirtualMachineScaleSetNetworkConfigurationStatusGenerator()))
+		"Round trip of VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded, VirtualMachineScaleSetExtension_STATUS_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfigurationStatus runs a test to see if a specific instance of VirtualMachineScaleSetNetworkConfiguration_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfigurationStatus(subject VirtualMachineScaleSetNetworkConfiguration_Status) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded runs a test to see if a specific instance of VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded(subject VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -4200,7 +4196,7 @@ func RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfigurationStatus
 	}
 
 	// Deserialize back into memory
-	var actual VirtualMachineScaleSetNetworkConfiguration_Status
+	var actual VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -4218,34 +4214,136 @@ func RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfigurationStatus
 	return ""
 }
 
-// Generator of VirtualMachineScaleSetNetworkConfiguration_Status instances for property testing - lazily instantiated
-// by VirtualMachineScaleSetNetworkConfigurationStatusGenerator()
-var virtualMachineScaleSetNetworkConfigurationStatusGenerator gopter.Gen
+// Generator of VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded instances for property testing - lazily
+// instantiated by VirtualMachineScaleSetExtension_STATUS_SubResourceEmbeddedGenerator()
+var virtualMachineScaleSetExtension_STATUS_SubResourceEmbeddedGenerator gopter.Gen
 
-// VirtualMachineScaleSetNetworkConfigurationStatusGenerator returns a generator of VirtualMachineScaleSetNetworkConfiguration_Status instances for property testing.
-// We first initialize virtualMachineScaleSetNetworkConfigurationStatusGenerator with a simplified generator based on the
+// VirtualMachineScaleSetExtension_STATUS_SubResourceEmbeddedGenerator returns a generator of VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded instances for property testing.
+func VirtualMachineScaleSetExtension_STATUS_SubResourceEmbeddedGenerator() gopter.Gen {
+	if virtualMachineScaleSetExtension_STATUS_SubResourceEmbeddedGenerator != nil {
+		return virtualMachineScaleSetExtension_STATUS_SubResourceEmbeddedGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded(generators)
+	virtualMachineScaleSetExtension_STATUS_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded{}), generators)
+
+	return virtualMachineScaleSetExtension_STATUS_SubResourceEmbeddedGenerator
+}
+
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_VirtualMachineScaleSetNetworkConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualMachineScaleSetNetworkConfiguration to VirtualMachineScaleSetNetworkConfiguration via AssignPropertiesToVirtualMachineScaleSetNetworkConfiguration & AssignPropertiesFromVirtualMachineScaleSetNetworkConfiguration returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkConfiguration, VirtualMachineScaleSetNetworkConfigurationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkConfiguration tests if a specific instance of VirtualMachineScaleSetNetworkConfiguration can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkConfiguration(subject VirtualMachineScaleSetNetworkConfiguration) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other alpha20201201s.VirtualMachineScaleSetNetworkConfiguration
+	err := copied.AssignPropertiesToVirtualMachineScaleSetNetworkConfiguration(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualMachineScaleSetNetworkConfiguration
+	err = actual.AssignPropertiesFromVirtualMachineScaleSetNetworkConfiguration(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_VirtualMachineScaleSetNetworkConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualMachineScaleSetNetworkConfiguration via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfiguration, VirtualMachineScaleSetNetworkConfigurationGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfiguration runs a test to see if a specific instance of VirtualMachineScaleSetNetworkConfiguration round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfiguration(subject VirtualMachineScaleSetNetworkConfiguration) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualMachineScaleSetNetworkConfiguration
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualMachineScaleSetNetworkConfiguration instances for property testing - lazily instantiated by
+// VirtualMachineScaleSetNetworkConfigurationGenerator()
+var virtualMachineScaleSetNetworkConfigurationGenerator gopter.Gen
+
+// VirtualMachineScaleSetNetworkConfigurationGenerator returns a generator of VirtualMachineScaleSetNetworkConfiguration instances for property testing.
+// We first initialize virtualMachineScaleSetNetworkConfigurationGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualMachineScaleSetNetworkConfigurationStatusGenerator() gopter.Gen {
-	if virtualMachineScaleSetNetworkConfigurationStatusGenerator != nil {
-		return virtualMachineScaleSetNetworkConfigurationStatusGenerator
+func VirtualMachineScaleSetNetworkConfigurationGenerator() gopter.Gen {
+	if virtualMachineScaleSetNetworkConfigurationGenerator != nil {
+		return virtualMachineScaleSetNetworkConfigurationGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationStatus(generators)
-	virtualMachineScaleSetNetworkConfigurationStatusGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetNetworkConfiguration_Status{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfiguration(generators)
+	virtualMachineScaleSetNetworkConfigurationGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetNetworkConfiguration{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationStatus(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationStatus(generators)
-	virtualMachineScaleSetNetworkConfigurationStatusGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetNetworkConfiguration_Status{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfiguration(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkConfiguration(generators)
+	virtualMachineScaleSetNetworkConfigurationGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetNetworkConfiguration{}), generators)
 
-	return virtualMachineScaleSetNetworkConfigurationStatusGenerator
+	return virtualMachineScaleSetNetworkConfigurationGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfiguration is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfiguration(gens map[string]gopter.Gen) {
 	gens["EnableAcceleratedNetworking"] = gen.PtrOf(gen.Bool())
 	gens["EnableFpga"] = gen.PtrOf(gen.Bool())
 	gens["EnableIPForwarding"] = gen.PtrOf(gen.Bool())
@@ -4254,11 +4352,134 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurati
 	gens["Primary"] = gen.PtrOf(gen.Bool())
 }
 
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationStatus(gens map[string]gopter.Gen) {
-	gens["DnsSettings"] = gen.PtrOf(VirtualMachineScaleSetNetworkConfigurationDnsSettingsStatusGenerator())
-	gens["IpConfigurations"] = gen.SliceOf(VirtualMachineScaleSetIPConfigurationStatusGenerator())
-	gens["NetworkSecurityGroup"] = gen.PtrOf(SubResourceStatusGenerator())
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkConfiguration is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkConfiguration(gens map[string]gopter.Gen) {
+	gens["DnsSettings"] = gen.PtrOf(VirtualMachineScaleSetNetworkConfigurationDnsSettingsGenerator())
+	gens["IpConfigurations"] = gen.SliceOf(VirtualMachineScaleSetIPConfigurationGenerator())
+	gens["NetworkSecurityGroup"] = gen.PtrOf(SubResourceGenerator())
+}
+
+func Test_VirtualMachineScaleSetNetworkConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualMachineScaleSetNetworkConfiguration_STATUS to VirtualMachineScaleSetNetworkConfiguration_STATUS via AssignPropertiesToVirtualMachineScaleSetNetworkConfiguration_STATUS & AssignPropertiesFromVirtualMachineScaleSetNetworkConfiguration_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkConfiguration_STATUS, VirtualMachineScaleSetNetworkConfiguration_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkConfiguration_STATUS tests if a specific instance of VirtualMachineScaleSetNetworkConfiguration_STATUS can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkConfiguration_STATUS(subject VirtualMachineScaleSetNetworkConfiguration_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other alpha20201201s.VirtualMachineScaleSetNetworkConfiguration_STATUS
+	err := copied.AssignPropertiesToVirtualMachineScaleSetNetworkConfiguration_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualMachineScaleSetNetworkConfiguration_STATUS
+	err = actual.AssignPropertiesFromVirtualMachineScaleSetNetworkConfiguration_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_VirtualMachineScaleSetNetworkConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualMachineScaleSetNetworkConfiguration_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfiguration_STATUS, VirtualMachineScaleSetNetworkConfiguration_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfiguration_STATUS runs a test to see if a specific instance of VirtualMachineScaleSetNetworkConfiguration_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfiguration_STATUS(subject VirtualMachineScaleSetNetworkConfiguration_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualMachineScaleSetNetworkConfiguration_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualMachineScaleSetNetworkConfiguration_STATUS instances for property testing - lazily instantiated
+// by VirtualMachineScaleSetNetworkConfiguration_STATUSGenerator()
+var virtualMachineScaleSetNetworkConfiguration_STATUSGenerator gopter.Gen
+
+// VirtualMachineScaleSetNetworkConfiguration_STATUSGenerator returns a generator of VirtualMachineScaleSetNetworkConfiguration_STATUS instances for property testing.
+// We first initialize virtualMachineScaleSetNetworkConfiguration_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func VirtualMachineScaleSetNetworkConfiguration_STATUSGenerator() gopter.Gen {
+	if virtualMachineScaleSetNetworkConfiguration_STATUSGenerator != nil {
+		return virtualMachineScaleSetNetworkConfiguration_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfiguration_STATUS(generators)
+	virtualMachineScaleSetNetworkConfiguration_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetNetworkConfiguration_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfiguration_STATUS(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkConfiguration_STATUS(generators)
+	virtualMachineScaleSetNetworkConfiguration_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetNetworkConfiguration_STATUS{}), generators)
+
+	return virtualMachineScaleSetNetworkConfiguration_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfiguration_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfiguration_STATUS(gens map[string]gopter.Gen) {
+	gens["EnableAcceleratedNetworking"] = gen.PtrOf(gen.Bool())
+	gens["EnableFpga"] = gen.PtrOf(gen.Bool())
+	gens["EnableIPForwarding"] = gen.PtrOf(gen.Bool())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Primary"] = gen.PtrOf(gen.Bool())
+}
+
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkConfiguration_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkConfiguration_STATUS(gens map[string]gopter.Gen) {
+	gens["DnsSettings"] = gen.PtrOf(VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUSGenerator())
+	gens["IpConfigurations"] = gen.SliceOf(VirtualMachineScaleSetIPConfiguration_STATUSGenerator())
+	gens["NetworkSecurityGroup"] = gen.PtrOf(SubResource_STATUSGenerator())
 }
 
 func Test_VirtualMachineScaleSetOSDisk_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -4369,11 +4590,11 @@ func VirtualMachineScaleSetOSDiskGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSDisk is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSDisk(gens map[string]gopter.Gen) {
-	gens["Caching"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetOSDiskCachingNone, VirtualMachineScaleSetOSDiskCachingReadOnly, VirtualMachineScaleSetOSDiskCachingReadWrite))
-	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetOSDiskCreateOptionAttach, VirtualMachineScaleSetOSDiskCreateOptionEmpty, VirtualMachineScaleSetOSDiskCreateOptionFromImage))
+	gens["Caching"] = gen.PtrOf(gen.OneConstOf(CachingNone, CachingReadOnly, CachingReadWrite))
+	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(CreateOptionAttach, CreateOptionEmpty, CreateOptionFromImage))
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetOSDiskOsTypeLinux, VirtualMachineScaleSetOSDiskOsTypeWindows))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetOSDisk_OsTypeLinux, VirtualMachineScaleSetOSDisk_OsTypeWindows))
 	gens["VhdContainers"] = gen.SliceOf(gen.AlphaString())
 	gens["WriteAcceleratorEnabled"] = gen.PtrOf(gen.Bool())
 }
@@ -4385,32 +4606,32 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetOSDisk(gens map[string
 	gens["ManagedDisk"] = gen.PtrOf(VirtualMachineScaleSetManagedDiskParametersGenerator())
 }
 
-func Test_VirtualMachineScaleSetOSDisk_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_VirtualMachineScaleSetOSDisk_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualMachineScaleSetOSDisk_Status to VirtualMachineScaleSetOSDisk_Status via AssignPropertiesToVirtualMachineScaleSetOSDiskStatus & AssignPropertiesFromVirtualMachineScaleSetOSDiskStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetOSDiskStatus, VirtualMachineScaleSetOSDiskStatusGenerator()))
+		"Round trip from VirtualMachineScaleSetOSDisk_STATUS to VirtualMachineScaleSetOSDisk_STATUS via AssignPropertiesToVirtualMachineScaleSetOSDisk_STATUS & AssignPropertiesFromVirtualMachineScaleSetOSDisk_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetOSDisk_STATUS, VirtualMachineScaleSetOSDisk_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetOSDiskStatus tests if a specific instance of VirtualMachineScaleSetOSDisk_Status can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForVirtualMachineScaleSetOSDiskStatus(subject VirtualMachineScaleSetOSDisk_Status) string {
+// RunPropertyAssignmentTestForVirtualMachineScaleSetOSDisk_STATUS tests if a specific instance of VirtualMachineScaleSetOSDisk_STATUS can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachineScaleSetOSDisk_STATUS(subject VirtualMachineScaleSetOSDisk_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201201s.VirtualMachineScaleSetOSDisk_Status
-	err := copied.AssignPropertiesToVirtualMachineScaleSetOSDiskStatus(&other)
+	var other alpha20201201s.VirtualMachineScaleSetOSDisk_STATUS
+	err := copied.AssignPropertiesToVirtualMachineScaleSetOSDisk_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualMachineScaleSetOSDisk_Status
-	err = actual.AssignPropertiesFromVirtualMachineScaleSetOSDiskStatus(&other)
+	var actual VirtualMachineScaleSetOSDisk_STATUS
+	err = actual.AssignPropertiesFromVirtualMachineScaleSetOSDisk_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -4427,19 +4648,19 @@ func RunPropertyAssignmentTestForVirtualMachineScaleSetOSDiskStatus(subject Virt
 	return ""
 }
 
-func Test_VirtualMachineScaleSetOSDisk_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VirtualMachineScaleSetOSDisk_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VirtualMachineScaleSetOSDisk_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetOSDiskStatus, VirtualMachineScaleSetOSDiskStatusGenerator()))
+		"Round trip of VirtualMachineScaleSetOSDisk_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetOSDisk_STATUS, VirtualMachineScaleSetOSDisk_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetOSDiskStatus runs a test to see if a specific instance of VirtualMachineScaleSetOSDisk_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetOSDiskStatus(subject VirtualMachineScaleSetOSDisk_Status) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetOSDisk_STATUS runs a test to see if a specific instance of VirtualMachineScaleSetOSDisk_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetOSDisk_STATUS(subject VirtualMachineScaleSetOSDisk_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -4447,7 +4668,7 @@ func RunJSONSerializationTestForVirtualMachineScaleSetOSDiskStatus(subject Virtu
 	}
 
 	// Deserialize back into memory
-	var actual VirtualMachineScaleSetOSDisk_Status
+	var actual VirtualMachineScaleSetOSDisk_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -4465,76 +4686,76 @@ func RunJSONSerializationTestForVirtualMachineScaleSetOSDiskStatus(subject Virtu
 	return ""
 }
 
-// Generator of VirtualMachineScaleSetOSDisk_Status instances for property testing - lazily instantiated by
-// VirtualMachineScaleSetOSDiskStatusGenerator()
-var virtualMachineScaleSetOSDiskStatusGenerator gopter.Gen
+// Generator of VirtualMachineScaleSetOSDisk_STATUS instances for property testing - lazily instantiated by
+// VirtualMachineScaleSetOSDisk_STATUSGenerator()
+var virtualMachineScaleSetOSDisk_STATUSGenerator gopter.Gen
 
-// VirtualMachineScaleSetOSDiskStatusGenerator returns a generator of VirtualMachineScaleSetOSDisk_Status instances for property testing.
-// We first initialize virtualMachineScaleSetOSDiskStatusGenerator with a simplified generator based on the
+// VirtualMachineScaleSetOSDisk_STATUSGenerator returns a generator of VirtualMachineScaleSetOSDisk_STATUS instances for property testing.
+// We first initialize virtualMachineScaleSetOSDisk_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualMachineScaleSetOSDiskStatusGenerator() gopter.Gen {
-	if virtualMachineScaleSetOSDiskStatusGenerator != nil {
-		return virtualMachineScaleSetOSDiskStatusGenerator
+func VirtualMachineScaleSetOSDisk_STATUSGenerator() gopter.Gen {
+	if virtualMachineScaleSetOSDisk_STATUSGenerator != nil {
+		return virtualMachineScaleSetOSDisk_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSDiskStatus(generators)
-	virtualMachineScaleSetOSDiskStatusGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetOSDisk_Status{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSDisk_STATUS(generators)
+	virtualMachineScaleSetOSDisk_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetOSDisk_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSDiskStatus(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetOSDiskStatus(generators)
-	virtualMachineScaleSetOSDiskStatusGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetOSDisk_Status{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSDisk_STATUS(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetOSDisk_STATUS(generators)
+	virtualMachineScaleSetOSDisk_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetOSDisk_STATUS{}), generators)
 
-	return virtualMachineScaleSetOSDiskStatusGenerator
+	return virtualMachineScaleSetOSDisk_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSDiskStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSDiskStatus(gens map[string]gopter.Gen) {
-	gens["Caching"] = gen.PtrOf(gen.OneConstOf(Caching_StatusNone, Caching_StatusReadOnly, Caching_StatusReadWrite))
-	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(CreateOption_StatusAttach, CreateOption_StatusEmpty, CreateOption_StatusFromImage))
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSDisk_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSDisk_STATUS(gens map[string]gopter.Gen) {
+	gens["Caching"] = gen.PtrOf(gen.OneConstOf(Caching_STATUSNone, Caching_STATUSReadOnly, Caching_STATUSReadWrite))
+	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(CreateOption_STATUSAttach, CreateOption_STATUSEmpty, CreateOption_STATUSFromImage))
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetOSDiskStatusOsTypeLinux, VirtualMachineScaleSetOSDiskStatusOsTypeWindows))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetOSDisk_OsType_STATUSLinux, VirtualMachineScaleSetOSDisk_OsType_STATUSWindows))
 	gens["VhdContainers"] = gen.SliceOf(gen.AlphaString())
 	gens["WriteAcceleratorEnabled"] = gen.PtrOf(gen.Bool())
 }
 
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetOSDiskStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetOSDiskStatus(gens map[string]gopter.Gen) {
-	gens["DiffDiskSettings"] = gen.PtrOf(DiffDiskSettingsStatusGenerator())
-	gens["Image"] = gen.PtrOf(VirtualHardDiskStatusGenerator())
-	gens["ManagedDisk"] = gen.PtrOf(VirtualMachineScaleSetManagedDiskParametersStatusGenerator())
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetOSDisk_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetOSDisk_STATUS(gens map[string]gopter.Gen) {
+	gens["DiffDiskSettings"] = gen.PtrOf(DiffDiskSettings_STATUSGenerator())
+	gens["Image"] = gen.PtrOf(VirtualHardDisk_STATUSGenerator())
+	gens["ManagedDisk"] = gen.PtrOf(VirtualMachineScaleSetManagedDiskParameters_STATUSGenerator())
 }
 
-func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_VirtualMachineScaleSetIPConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions to VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions via AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions & AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions, VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensionsGenerator()))
+		"Round trip from VirtualMachineScaleSetIPConfiguration to VirtualMachineScaleSetIPConfiguration via AssignPropertiesToVirtualMachineScaleSetIPConfiguration & AssignPropertiesFromVirtualMachineScaleSetIPConfiguration returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetIPConfiguration, VirtualMachineScaleSetIPConfigurationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions tests if a specific instance of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions(subject VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions) string {
+// RunPropertyAssignmentTestForVirtualMachineScaleSetIPConfiguration tests if a specific instance of VirtualMachineScaleSetIPConfiguration can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachineScaleSetIPConfiguration(subject VirtualMachineScaleSetIPConfiguration) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201201s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions
-	err := copied.AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions(&other)
+	var other alpha20201201s.VirtualMachineScaleSetIPConfiguration
+	err := copied.AssignPropertiesToVirtualMachineScaleSetIPConfiguration(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions
-	err = actual.AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions(&other)
+	var actual VirtualMachineScaleSetIPConfiguration
+	err = actual.AssignPropertiesFromVirtualMachineScaleSetIPConfiguration(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -4551,19 +4772,19 @@ func RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMac
 	return ""
 }
 
-func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VirtualMachineScaleSetIPConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions, VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensionsGenerator()))
+		"Round trip of VirtualMachineScaleSetIPConfiguration via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetIPConfiguration, VirtualMachineScaleSetIPConfigurationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions runs a test to see if a specific instance of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions(subject VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetIPConfiguration runs a test to see if a specific instance of VirtualMachineScaleSetIPConfiguration round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetIPConfiguration(subject VirtualMachineScaleSetIPConfiguration) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -4571,7 +4792,7 @@ func RunJSONSerializationTestForVirtualMachineScaleSetsSpecPropertiesVirtualMach
 	}
 
 	// Deserialize back into memory
-	var actual VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions
+	var actual VirtualMachineScaleSetIPConfiguration
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -4589,183 +4810,76 @@ func RunJSONSerializationTestForVirtualMachineScaleSetsSpecPropertiesVirtualMach
 	return ""
 }
 
-// Generator of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions instances for
-// property testing - lazily instantiated by
-// VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensionsGenerator()
-var virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensionsGenerator gopter.Gen
+// Generator of VirtualMachineScaleSetIPConfiguration instances for property testing - lazily instantiated by
+// VirtualMachineScaleSetIPConfigurationGenerator()
+var virtualMachineScaleSetIPConfigurationGenerator gopter.Gen
 
-// VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensionsGenerator returns a generator of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions instances for property testing.
-func VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensionsGenerator() gopter.Gen {
-	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensionsGenerator != nil {
-		return virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensionsGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions(generators)
-	virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensionsGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions{}), generators)
-
-	return virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensionsGenerator
-}
-
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileExtensionProfileExtensions(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Publisher"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["TypeHandlerVersion"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations to VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations via AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations & AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations, VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations tests if a specific instance of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations(subject VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201201s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations
-	err := copied.AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations
-	err = actual.AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations, VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations runs a test to see if a specific instance of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations(subject VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of
-// VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations instances
-// for property testing - lazily instantiated by
-// VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsGenerator()
-var virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsGenerator gopter.Gen
-
-// VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsGenerator returns a generator of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations instances for property testing.
-// We first initialize virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsGenerator with a simplified generator based on the
+// VirtualMachineScaleSetIPConfigurationGenerator returns a generator of VirtualMachineScaleSetIPConfiguration instances for property testing.
+// We first initialize virtualMachineScaleSetIPConfigurationGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsGenerator() gopter.Gen {
-	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsGenerator != nil {
-		return virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsGenerator
+func VirtualMachineScaleSetIPConfigurationGenerator() gopter.Gen {
+	if virtualMachineScaleSetIPConfigurationGenerator != nil {
+		return virtualMachineScaleSetIPConfigurationGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations(generators)
-	virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIPConfiguration(generators)
+	virtualMachineScaleSetIPConfigurationGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetIPConfiguration{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations(generators)
-	virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIPConfiguration(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIPConfiguration(generators)
+	virtualMachineScaleSetIPConfigurationGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetIPConfiguration{}), generators)
 
-	return virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsGenerator
+	return virtualMachineScaleSetIPConfigurationGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations(gens map[string]gopter.Gen) {
-	gens["EnableAcceleratedNetworking"] = gen.PtrOf(gen.Bool())
-	gens["EnableFpga"] = gen.PtrOf(gen.Bool())
-	gens["EnableIPForwarding"] = gen.PtrOf(gen.Bool())
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIPConfiguration is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIPConfiguration(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Primary"] = gen.PtrOf(gen.Bool())
+	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersionIPv4, VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersionIPv6))
 }
 
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurations(gens map[string]gopter.Gen) {
-	gens["DnsSettings"] = gen.PtrOf(VirtualMachineScaleSetNetworkConfigurationDnsSettingsGenerator())
-	gens["IpConfigurations"] = gen.SliceOf(VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsGenerator())
-	gens["NetworkSecurityGroup"] = gen.PtrOf(SubResourceGenerator())
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIPConfiguration is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIPConfiguration(gens map[string]gopter.Gen) {
+	gens["ApplicationGatewayBackendAddressPools"] = gen.SliceOf(SubResourceGenerator())
+	gens["ApplicationSecurityGroups"] = gen.SliceOf(SubResourceGenerator())
+	gens["LoadBalancerBackendAddressPools"] = gen.SliceOf(SubResourceGenerator())
+	gens["LoadBalancerInboundNatPools"] = gen.SliceOf(SubResourceGenerator())
+	gens["PublicIPAddressConfiguration"] = gen.PtrOf(VirtualMachineScaleSetPublicIPAddressConfigurationGenerator())
+	gens["Subnet"] = gen.PtrOf(ApiEntityReferenceGenerator())
 }
 
-func Test_VirtualMachineScaleSetIPConfiguration_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_VirtualMachineScaleSetIPConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualMachineScaleSetIPConfiguration_Status to VirtualMachineScaleSetIPConfiguration_Status via AssignPropertiesToVirtualMachineScaleSetIPConfigurationStatus & AssignPropertiesFromVirtualMachineScaleSetIPConfigurationStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetIPConfigurationStatus, VirtualMachineScaleSetIPConfigurationStatusGenerator()))
+		"Round trip from VirtualMachineScaleSetIPConfiguration_STATUS to VirtualMachineScaleSetIPConfiguration_STATUS via AssignPropertiesToVirtualMachineScaleSetIPConfiguration_STATUS & AssignPropertiesFromVirtualMachineScaleSetIPConfiguration_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetIPConfiguration_STATUS, VirtualMachineScaleSetIPConfiguration_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetIPConfigurationStatus tests if a specific instance of VirtualMachineScaleSetIPConfiguration_Status can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForVirtualMachineScaleSetIPConfigurationStatus(subject VirtualMachineScaleSetIPConfiguration_Status) string {
+// RunPropertyAssignmentTestForVirtualMachineScaleSetIPConfiguration_STATUS tests if a specific instance of VirtualMachineScaleSetIPConfiguration_STATUS can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachineScaleSetIPConfiguration_STATUS(subject VirtualMachineScaleSetIPConfiguration_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201201s.VirtualMachineScaleSetIPConfiguration_Status
-	err := copied.AssignPropertiesToVirtualMachineScaleSetIPConfigurationStatus(&other)
+	var other alpha20201201s.VirtualMachineScaleSetIPConfiguration_STATUS
+	err := copied.AssignPropertiesToVirtualMachineScaleSetIPConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualMachineScaleSetIPConfiguration_Status
-	err = actual.AssignPropertiesFromVirtualMachineScaleSetIPConfigurationStatus(&other)
+	var actual VirtualMachineScaleSetIPConfiguration_STATUS
+	err = actual.AssignPropertiesFromVirtualMachineScaleSetIPConfiguration_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -4782,19 +4896,19 @@ func RunPropertyAssignmentTestForVirtualMachineScaleSetIPConfigurationStatus(sub
 	return ""
 }
 
-func Test_VirtualMachineScaleSetIPConfiguration_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VirtualMachineScaleSetIPConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VirtualMachineScaleSetIPConfiguration_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetIPConfigurationStatus, VirtualMachineScaleSetIPConfigurationStatusGenerator()))
+		"Round trip of VirtualMachineScaleSetIPConfiguration_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetIPConfiguration_STATUS, VirtualMachineScaleSetIPConfiguration_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetIPConfigurationStatus runs a test to see if a specific instance of VirtualMachineScaleSetIPConfiguration_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetIPConfigurationStatus(subject VirtualMachineScaleSetIPConfiguration_Status) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetIPConfiguration_STATUS runs a test to see if a specific instance of VirtualMachineScaleSetIPConfiguration_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetIPConfiguration_STATUS(subject VirtualMachineScaleSetIPConfiguration_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -4802,7 +4916,7 @@ func RunJSONSerializationTestForVirtualMachineScaleSetIPConfigurationStatus(subj
 	}
 
 	// Deserialize back into memory
-	var actual VirtualMachineScaleSetIPConfiguration_Status
+	var actual VirtualMachineScaleSetIPConfiguration_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -4820,48 +4934,48 @@ func RunJSONSerializationTestForVirtualMachineScaleSetIPConfigurationStatus(subj
 	return ""
 }
 
-// Generator of VirtualMachineScaleSetIPConfiguration_Status instances for property testing - lazily instantiated by
-// VirtualMachineScaleSetIPConfigurationStatusGenerator()
-var virtualMachineScaleSetIPConfigurationStatusGenerator gopter.Gen
+// Generator of VirtualMachineScaleSetIPConfiguration_STATUS instances for property testing - lazily instantiated by
+// VirtualMachineScaleSetIPConfiguration_STATUSGenerator()
+var virtualMachineScaleSetIPConfiguration_STATUSGenerator gopter.Gen
 
-// VirtualMachineScaleSetIPConfigurationStatusGenerator returns a generator of VirtualMachineScaleSetIPConfiguration_Status instances for property testing.
-// We first initialize virtualMachineScaleSetIPConfigurationStatusGenerator with a simplified generator based on the
+// VirtualMachineScaleSetIPConfiguration_STATUSGenerator returns a generator of VirtualMachineScaleSetIPConfiguration_STATUS instances for property testing.
+// We first initialize virtualMachineScaleSetIPConfiguration_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualMachineScaleSetIPConfigurationStatusGenerator() gopter.Gen {
-	if virtualMachineScaleSetIPConfigurationStatusGenerator != nil {
-		return virtualMachineScaleSetIPConfigurationStatusGenerator
+func VirtualMachineScaleSetIPConfiguration_STATUSGenerator() gopter.Gen {
+	if virtualMachineScaleSetIPConfiguration_STATUSGenerator != nil {
+		return virtualMachineScaleSetIPConfiguration_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIPConfigurationStatus(generators)
-	virtualMachineScaleSetIPConfigurationStatusGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetIPConfiguration_Status{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIPConfiguration_STATUS(generators)
+	virtualMachineScaleSetIPConfiguration_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetIPConfiguration_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIPConfigurationStatus(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIPConfigurationStatus(generators)
-	virtualMachineScaleSetIPConfigurationStatusGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetIPConfiguration_Status{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIPConfiguration_STATUS(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIPConfiguration_STATUS(generators)
+	virtualMachineScaleSetIPConfiguration_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetIPConfiguration_STATUS{}), generators)
 
-	return virtualMachineScaleSetIPConfigurationStatusGenerator
+	return virtualMachineScaleSetIPConfiguration_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIPConfigurationStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIPConfigurationStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIPConfiguration_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIPConfiguration_STATUS(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Primary"] = gen.PtrOf(gen.Bool())
-	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetIPConfigurationPropertiesStatusPrivateIPAddressVersionIPv4, VirtualMachineScaleSetIPConfigurationPropertiesStatusPrivateIPAddressVersionIPv6))
+	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUSIPv4, VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUSIPv6))
 }
 
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIPConfigurationStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIPConfigurationStatus(gens map[string]gopter.Gen) {
-	gens["ApplicationGatewayBackendAddressPools"] = gen.SliceOf(SubResourceStatusGenerator())
-	gens["ApplicationSecurityGroups"] = gen.SliceOf(SubResourceStatusGenerator())
-	gens["LoadBalancerBackendAddressPools"] = gen.SliceOf(SubResourceStatusGenerator())
-	gens["LoadBalancerInboundNatPools"] = gen.SliceOf(SubResourceStatusGenerator())
-	gens["PublicIPAddressConfiguration"] = gen.PtrOf(VirtualMachineScaleSetPublicIPAddressConfigurationStatusGenerator())
-	gens["Subnet"] = gen.PtrOf(ApiEntityReferenceStatusGenerator())
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIPConfiguration_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIPConfiguration_STATUS(gens map[string]gopter.Gen) {
+	gens["ApplicationGatewayBackendAddressPools"] = gen.SliceOf(SubResource_STATUSGenerator())
+	gens["ApplicationSecurityGroups"] = gen.SliceOf(SubResource_STATUSGenerator())
+	gens["LoadBalancerBackendAddressPools"] = gen.SliceOf(SubResource_STATUSGenerator())
+	gens["LoadBalancerInboundNatPools"] = gen.SliceOf(SubResource_STATUSGenerator())
+	gens["PublicIPAddressConfiguration"] = gen.PtrOf(VirtualMachineScaleSetPublicIPAddressConfiguration_STATUSGenerator())
+	gens["Subnet"] = gen.PtrOf(ApiEntityReference_STATUSGenerator())
 }
 
 func Test_VirtualMachineScaleSetManagedDiskParameters_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -4973,45 +5087,45 @@ func VirtualMachineScaleSetManagedDiskParametersGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParameters is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParameters(gens map[string]gopter.Gen) {
 	gens["StorageAccountType"] = gen.PtrOf(gen.OneConstOf(
-		VirtualMachineScaleSetManagedDiskParametersStorageAccountTypePremiumLRS,
-		VirtualMachineScaleSetManagedDiskParametersStorageAccountTypePremiumZRS,
-		VirtualMachineScaleSetManagedDiskParametersStorageAccountTypeStandardLRS,
-		VirtualMachineScaleSetManagedDiskParametersStorageAccountTypeStandardSSDLRS,
-		VirtualMachineScaleSetManagedDiskParametersStorageAccountTypeStandardSSDZRS,
-		VirtualMachineScaleSetManagedDiskParametersStorageAccountTypeUltraSSDLRS))
+		StorageAccountTypePremium_LRS,
+		StorageAccountTypePremium_ZRS,
+		StorageAccountTypeStandardSSD_LRS,
+		StorageAccountTypeStandardSSD_ZRS,
+		StorageAccountTypeStandard_LRS,
+		StorageAccountTypeUltraSSD_LRS))
 }
 
 // AddRelatedPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParameters is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParameters(gens map[string]gopter.Gen) {
-	gens["DiskEncryptionSet"] = gen.PtrOf(DiskEncryptionSetParametersGenerator())
+	gens["DiskEncryptionSet"] = gen.PtrOf(SubResourceGenerator())
 }
 
-func Test_VirtualMachineScaleSetManagedDiskParameters_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_VirtualMachineScaleSetManagedDiskParameters_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualMachineScaleSetManagedDiskParameters_Status to VirtualMachineScaleSetManagedDiskParameters_Status via AssignPropertiesToVirtualMachineScaleSetManagedDiskParametersStatus & AssignPropertiesFromVirtualMachineScaleSetManagedDiskParametersStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetManagedDiskParametersStatus, VirtualMachineScaleSetManagedDiskParametersStatusGenerator()))
+		"Round trip from VirtualMachineScaleSetManagedDiskParameters_STATUS to VirtualMachineScaleSetManagedDiskParameters_STATUS via AssignPropertiesToVirtualMachineScaleSetManagedDiskParameters_STATUS & AssignPropertiesFromVirtualMachineScaleSetManagedDiskParameters_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetManagedDiskParameters_STATUS, VirtualMachineScaleSetManagedDiskParameters_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetManagedDiskParametersStatus tests if a specific instance of VirtualMachineScaleSetManagedDiskParameters_Status can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForVirtualMachineScaleSetManagedDiskParametersStatus(subject VirtualMachineScaleSetManagedDiskParameters_Status) string {
+// RunPropertyAssignmentTestForVirtualMachineScaleSetManagedDiskParameters_STATUS tests if a specific instance of VirtualMachineScaleSetManagedDiskParameters_STATUS can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachineScaleSetManagedDiskParameters_STATUS(subject VirtualMachineScaleSetManagedDiskParameters_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201201s.VirtualMachineScaleSetManagedDiskParameters_Status
-	err := copied.AssignPropertiesToVirtualMachineScaleSetManagedDiskParametersStatus(&other)
+	var other alpha20201201s.VirtualMachineScaleSetManagedDiskParameters_STATUS
+	err := copied.AssignPropertiesToVirtualMachineScaleSetManagedDiskParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualMachineScaleSetManagedDiskParameters_Status
-	err = actual.AssignPropertiesFromVirtualMachineScaleSetManagedDiskParametersStatus(&other)
+	var actual VirtualMachineScaleSetManagedDiskParameters_STATUS
+	err = actual.AssignPropertiesFromVirtualMachineScaleSetManagedDiskParameters_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -5028,19 +5142,19 @@ func RunPropertyAssignmentTestForVirtualMachineScaleSetManagedDiskParametersStat
 	return ""
 }
 
-func Test_VirtualMachineScaleSetManagedDiskParameters_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VirtualMachineScaleSetManagedDiskParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VirtualMachineScaleSetManagedDiskParameters_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetManagedDiskParametersStatus, VirtualMachineScaleSetManagedDiskParametersStatusGenerator()))
+		"Round trip of VirtualMachineScaleSetManagedDiskParameters_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetManagedDiskParameters_STATUS, VirtualMachineScaleSetManagedDiskParameters_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetManagedDiskParametersStatus runs a test to see if a specific instance of VirtualMachineScaleSetManagedDiskParameters_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetManagedDiskParametersStatus(subject VirtualMachineScaleSetManagedDiskParameters_Status) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetManagedDiskParameters_STATUS runs a test to see if a specific instance of VirtualMachineScaleSetManagedDiskParameters_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetManagedDiskParameters_STATUS(subject VirtualMachineScaleSetManagedDiskParameters_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -5048,7 +5162,7 @@ func RunJSONSerializationTestForVirtualMachineScaleSetManagedDiskParametersStatu
 	}
 
 	// Deserialize back into memory
-	var actual VirtualMachineScaleSetManagedDiskParameters_Status
+	var actual VirtualMachineScaleSetManagedDiskParameters_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -5066,46 +5180,46 @@ func RunJSONSerializationTestForVirtualMachineScaleSetManagedDiskParametersStatu
 	return ""
 }
 
-// Generator of VirtualMachineScaleSetManagedDiskParameters_Status instances for property testing - lazily instantiated
-// by VirtualMachineScaleSetManagedDiskParametersStatusGenerator()
-var virtualMachineScaleSetManagedDiskParametersStatusGenerator gopter.Gen
+// Generator of VirtualMachineScaleSetManagedDiskParameters_STATUS instances for property testing - lazily instantiated
+// by VirtualMachineScaleSetManagedDiskParameters_STATUSGenerator()
+var virtualMachineScaleSetManagedDiskParameters_STATUSGenerator gopter.Gen
 
-// VirtualMachineScaleSetManagedDiskParametersStatusGenerator returns a generator of VirtualMachineScaleSetManagedDiskParameters_Status instances for property testing.
-// We first initialize virtualMachineScaleSetManagedDiskParametersStatusGenerator with a simplified generator based on the
+// VirtualMachineScaleSetManagedDiskParameters_STATUSGenerator returns a generator of VirtualMachineScaleSetManagedDiskParameters_STATUS instances for property testing.
+// We first initialize virtualMachineScaleSetManagedDiskParameters_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualMachineScaleSetManagedDiskParametersStatusGenerator() gopter.Gen {
-	if virtualMachineScaleSetManagedDiskParametersStatusGenerator != nil {
-		return virtualMachineScaleSetManagedDiskParametersStatusGenerator
+func VirtualMachineScaleSetManagedDiskParameters_STATUSGenerator() gopter.Gen {
+	if virtualMachineScaleSetManagedDiskParameters_STATUSGenerator != nil {
+		return virtualMachineScaleSetManagedDiskParameters_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParametersStatus(generators)
-	virtualMachineScaleSetManagedDiskParametersStatusGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetManagedDiskParameters_Status{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParameters_STATUS(generators)
+	virtualMachineScaleSetManagedDiskParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetManagedDiskParameters_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParametersStatus(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParametersStatus(generators)
-	virtualMachineScaleSetManagedDiskParametersStatusGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetManagedDiskParameters_Status{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParameters_STATUS(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParameters_STATUS(generators)
+	virtualMachineScaleSetManagedDiskParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetManagedDiskParameters_STATUS{}), generators)
 
-	return virtualMachineScaleSetManagedDiskParametersStatusGenerator
+	return virtualMachineScaleSetManagedDiskParameters_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParametersStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParametersStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParameters_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParameters_STATUS(gens map[string]gopter.Gen) {
 	gens["StorageAccountType"] = gen.PtrOf(gen.OneConstOf(
-		StorageAccountType_StatusPremiumLRS,
-		StorageAccountType_StatusPremiumZRS,
-		StorageAccountType_StatusStandardLRS,
-		StorageAccountType_StatusStandardSSDLRS,
-		StorageAccountType_StatusStandardSSDZRS,
-		StorageAccountType_StatusUltraSSDLRS))
+		StorageAccountType_STATUSPremium_LRS,
+		StorageAccountType_STATUSPremium_ZRS,
+		StorageAccountType_STATUSStandardSSD_LRS,
+		StorageAccountType_STATUSStandardSSD_ZRS,
+		StorageAccountType_STATUSStandard_LRS,
+		StorageAccountType_STATUSUltraSSD_LRS))
 }
 
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParametersStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParametersStatus(gens map[string]gopter.Gen) {
-	gens["DiskEncryptionSet"] = gen.PtrOf(SubResourceStatusGenerator())
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParameters_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParameters_STATUS(gens map[string]gopter.Gen) {
+	gens["DiskEncryptionSet"] = gen.PtrOf(SubResource_STATUSGenerator())
 }
 
 func Test_VirtualMachineScaleSetNetworkConfigurationDnsSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -5210,32 +5324,32 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurati
 	gens["DnsServers"] = gen.SliceOf(gen.AlphaString())
 }
 
-func Test_VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status to VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status via AssignPropertiesToVirtualMachineScaleSetNetworkConfigurationDnsSettingsStatus & AssignPropertiesFromVirtualMachineScaleSetNetworkConfigurationDnsSettingsStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkConfigurationDnsSettingsStatus, VirtualMachineScaleSetNetworkConfigurationDnsSettingsStatusGenerator()))
+		"Round trip from VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS to VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS via AssignPropertiesToVirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS & AssignPropertiesFromVirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS, VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkConfigurationDnsSettingsStatus tests if a specific instance of VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkConfigurationDnsSettingsStatus(subject VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status) string {
+// RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS tests if a specific instance of VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS(subject VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201201s.VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status
-	err := copied.AssignPropertiesToVirtualMachineScaleSetNetworkConfigurationDnsSettingsStatus(&other)
+	var other alpha20201201s.VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS
+	err := copied.AssignPropertiesToVirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status
-	err = actual.AssignPropertiesFromVirtualMachineScaleSetNetworkConfigurationDnsSettingsStatus(&other)
+	var actual VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS
+	err = actual.AssignPropertiesFromVirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -5252,19 +5366,19 @@ func RunPropertyAssignmentTestForVirtualMachineScaleSetNetworkConfigurationDnsSe
 	return ""
 }
 
-func Test_VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfigurationDnsSettingsStatus, VirtualMachineScaleSetNetworkConfigurationDnsSettingsStatusGenerator()))
+		"Round trip of VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS, VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfigurationDnsSettingsStatus runs a test to see if a specific instance of VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfigurationDnsSettingsStatus(subject VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS runs a test to see if a specific instance of VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS(subject VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -5272,7 +5386,7 @@ func RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfigurationDnsSet
 	}
 
 	// Deserialize back into memory
-	var actual VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status
+	var actual VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -5290,54 +5404,54 @@ func RunJSONSerializationTestForVirtualMachineScaleSetNetworkConfigurationDnsSet
 	return ""
 }
 
-// Generator of VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status instances for property testing - lazily
-// instantiated by VirtualMachineScaleSetNetworkConfigurationDnsSettingsStatusGenerator()
-var virtualMachineScaleSetNetworkConfigurationDnsSettingsStatusGenerator gopter.Gen
+// Generator of VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS instances for property testing - lazily
+// instantiated by VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUSGenerator()
+var virtualMachineScaleSetNetworkConfigurationDnsSettings_STATUSGenerator gopter.Gen
 
-// VirtualMachineScaleSetNetworkConfigurationDnsSettingsStatusGenerator returns a generator of VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status instances for property testing.
-func VirtualMachineScaleSetNetworkConfigurationDnsSettingsStatusGenerator() gopter.Gen {
-	if virtualMachineScaleSetNetworkConfigurationDnsSettingsStatusGenerator != nil {
-		return virtualMachineScaleSetNetworkConfigurationDnsSettingsStatusGenerator
+// VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUSGenerator returns a generator of VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS instances for property testing.
+func VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUSGenerator() gopter.Gen {
+	if virtualMachineScaleSetNetworkConfigurationDnsSettings_STATUSGenerator != nil {
+		return virtualMachineScaleSetNetworkConfigurationDnsSettings_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationDnsSettingsStatus(generators)
-	virtualMachineScaleSetNetworkConfigurationDnsSettingsStatusGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS(generators)
+	virtualMachineScaleSetNetworkConfigurationDnsSettings_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS{}), generators)
 
-	return virtualMachineScaleSetNetworkConfigurationDnsSettingsStatusGenerator
+	return virtualMachineScaleSetNetworkConfigurationDnsSettings_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationDnsSettingsStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationDnsSettingsStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS(gens map[string]gopter.Gen) {
 	gens["DnsServers"] = gen.SliceOf(gen.AlphaString())
 }
 
-func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_VirtualMachineScaleSetPublicIPAddressConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations to VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations via AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations & AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations, VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsGenerator()))
+		"Round trip from VirtualMachineScaleSetPublicIPAddressConfiguration to VirtualMachineScaleSetPublicIPAddressConfiguration via AssignPropertiesToVirtualMachineScaleSetPublicIPAddressConfiguration & AssignPropertiesFromVirtualMachineScaleSetPublicIPAddressConfiguration returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetPublicIPAddressConfiguration, VirtualMachineScaleSetPublicIPAddressConfigurationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations tests if a specific instance of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations(subject VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations) string {
+// RunPropertyAssignmentTestForVirtualMachineScaleSetPublicIPAddressConfiguration tests if a specific instance of VirtualMachineScaleSetPublicIPAddressConfiguration can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachineScaleSetPublicIPAddressConfiguration(subject VirtualMachineScaleSetPublicIPAddressConfiguration) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201201s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations
-	err := copied.AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations(&other)
+	var other alpha20201201s.VirtualMachineScaleSetPublicIPAddressConfiguration
+	err := copied.AssignPropertiesToVirtualMachineScaleSetPublicIPAddressConfiguration(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations
-	err = actual.AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations(&other)
+	var actual VirtualMachineScaleSetPublicIPAddressConfiguration
+	err = actual.AssignPropertiesFromVirtualMachineScaleSetPublicIPAddressConfiguration(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -5354,19 +5468,19 @@ func RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMac
 	return ""
 }
 
-func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VirtualMachineScaleSetPublicIPAddressConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations, VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsGenerator()))
+		"Round trip of VirtualMachineScaleSetPublicIPAddressConfiguration via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfiguration, VirtualMachineScaleSetPublicIPAddressConfigurationGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations runs a test to see if a specific instance of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations(subject VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfiguration runs a test to see if a specific instance of VirtualMachineScaleSetPublicIPAddressConfiguration round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfiguration(subject VirtualMachineScaleSetPublicIPAddressConfiguration) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -5374,7 +5488,7 @@ func RunJSONSerializationTestForVirtualMachineScaleSetsSpecPropertiesVirtualMach
 	}
 
 	// Deserialize back into memory
-	var actual VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations
+	var actual VirtualMachineScaleSetPublicIPAddressConfiguration
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -5392,292 +5506,164 @@ func RunJSONSerializationTestForVirtualMachineScaleSetsSpecPropertiesVirtualMach
 	return ""
 }
 
-// Generator of
-// VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations
-// instances for property testing - lazily instantiated by
-// VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsGenerator()
-var virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsGenerator gopter.Gen
+// Generator of VirtualMachineScaleSetPublicIPAddressConfiguration instances for property testing - lazily instantiated
+// by VirtualMachineScaleSetPublicIPAddressConfigurationGenerator()
+var virtualMachineScaleSetPublicIPAddressConfigurationGenerator gopter.Gen
 
-// VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsGenerator returns a generator of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations instances for property testing.
-// We first initialize virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsGenerator with a simplified generator based on the
+// VirtualMachineScaleSetPublicIPAddressConfigurationGenerator returns a generator of VirtualMachineScaleSetPublicIPAddressConfiguration instances for property testing.
+// We first initialize virtualMachineScaleSetPublicIPAddressConfigurationGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsGenerator() gopter.Gen {
-	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsGenerator != nil {
-		return virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsGenerator
+func VirtualMachineScaleSetPublicIPAddressConfigurationGenerator() gopter.Gen {
+	if virtualMachineScaleSetPublicIPAddressConfigurationGenerator != nil {
+		return virtualMachineScaleSetPublicIPAddressConfigurationGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations(generators)
-	virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfiguration(generators)
+	virtualMachineScaleSetPublicIPAddressConfigurationGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetPublicIPAddressConfiguration{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations(generators)
-	virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfiguration(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfiguration(generators)
+	virtualMachineScaleSetPublicIPAddressConfigurationGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetPublicIPAddressConfiguration{}), generators)
 
-	return virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsGenerator
+	return virtualMachineScaleSetPublicIPAddressConfigurationGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Primary"] = gen.PtrOf(gen.Bool())
-	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPrivateIPAddressVersionIPv4, VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPrivateIPAddressVersionIPv6))
-}
-
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurations(gens map[string]gopter.Gen) {
-	gens["ApplicationGatewayBackendAddressPools"] = gen.SliceOf(SubResourceGenerator())
-	gens["ApplicationSecurityGroups"] = gen.SliceOf(SubResourceGenerator())
-	gens["LoadBalancerBackendAddressPools"] = gen.SliceOf(SubResourceGenerator())
-	gens["LoadBalancerInboundNatPools"] = gen.SliceOf(SubResourceGenerator())
-	gens["PublicIPAddressConfiguration"] = gen.PtrOf(VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfigurationGenerator())
-	gens["Subnet"] = gen.PtrOf(ApiEntityReferenceGenerator())
-}
-
-func Test_VirtualMachineScaleSetPublicIPAddressConfiguration_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from VirtualMachineScaleSetPublicIPAddressConfiguration_Status to VirtualMachineScaleSetPublicIPAddressConfiguration_Status via AssignPropertiesToVirtualMachineScaleSetPublicIPAddressConfigurationStatus & AssignPropertiesFromVirtualMachineScaleSetPublicIPAddressConfigurationStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetPublicIPAddressConfigurationStatus, VirtualMachineScaleSetPublicIPAddressConfigurationStatusGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForVirtualMachineScaleSetPublicIPAddressConfigurationStatus tests if a specific instance of VirtualMachineScaleSetPublicIPAddressConfiguration_Status can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForVirtualMachineScaleSetPublicIPAddressConfigurationStatus(subject VirtualMachineScaleSetPublicIPAddressConfiguration_Status) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201201s.VirtualMachineScaleSetPublicIPAddressConfiguration_Status
-	err := copied.AssignPropertiesToVirtualMachineScaleSetPublicIPAddressConfigurationStatus(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualMachineScaleSetPublicIPAddressConfiguration_Status
-	err = actual.AssignPropertiesFromVirtualMachineScaleSetPublicIPAddressConfigurationStatus(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_VirtualMachineScaleSetPublicIPAddressConfiguration_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualMachineScaleSetPublicIPAddressConfiguration_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfigurationStatus, VirtualMachineScaleSetPublicIPAddressConfigurationStatusGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfigurationStatus runs a test to see if a specific instance of VirtualMachineScaleSetPublicIPAddressConfiguration_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfigurationStatus(subject VirtualMachineScaleSetPublicIPAddressConfiguration_Status) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual VirtualMachineScaleSetPublicIPAddressConfiguration_Status
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of VirtualMachineScaleSetPublicIPAddressConfiguration_Status instances for property testing - lazily
-// instantiated by VirtualMachineScaleSetPublicIPAddressConfigurationStatusGenerator()
-var virtualMachineScaleSetPublicIPAddressConfigurationStatusGenerator gopter.Gen
-
-// VirtualMachineScaleSetPublicIPAddressConfigurationStatusGenerator returns a generator of VirtualMachineScaleSetPublicIPAddressConfiguration_Status instances for property testing.
-// We first initialize virtualMachineScaleSetPublicIPAddressConfigurationStatusGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func VirtualMachineScaleSetPublicIPAddressConfigurationStatusGenerator() gopter.Gen {
-	if virtualMachineScaleSetPublicIPAddressConfigurationStatusGenerator != nil {
-		return virtualMachineScaleSetPublicIPAddressConfigurationStatusGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationStatus(generators)
-	virtualMachineScaleSetPublicIPAddressConfigurationStatusGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetPublicIPAddressConfiguration_Status{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationStatus(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationStatus(generators)
-	virtualMachineScaleSetPublicIPAddressConfigurationStatusGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetPublicIPAddressConfiguration_Status{}), generators)
-
-	return virtualMachineScaleSetPublicIPAddressConfigurationStatusGenerator
-}
-
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfiguration is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfiguration(gens map[string]gopter.Gen) {
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesStatusPublicIPAddressVersionIPv4, VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesStatusPublicIPAddressVersionIPv6))
+	gens["PublicIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersionIPv4, VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersionIPv6))
 }
 
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationStatus is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationStatus(gens map[string]gopter.Gen) {
-	gens["DnsSettings"] = gen.PtrOf(VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatusGenerator())
-	gens["IpTags"] = gen.SliceOf(VirtualMachineScaleSetIpTagStatusGenerator())
-	gens["PublicIPPrefix"] = gen.PtrOf(SubResourceStatusGenerator())
-}
-
-func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration to VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration via AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration & AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration, VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfigurationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration tests if a specific instance of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration(subject VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201201s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration
-	err := copied.AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration
-	err = actual.AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration, VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfigurationGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration runs a test to see if a specific instance of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration(subject VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of
-// VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration
-// instances for property testing - lazily instantiated by
-// VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfigurationGenerator()
-var virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfigurationGenerator gopter.Gen
-
-// VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfigurationGenerator returns a generator of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration instances for property testing.
-// We first initialize virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfigurationGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func VirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfigurationGenerator() gopter.Gen {
-	if virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfigurationGenerator != nil {
-		return virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfigurationGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration(generators)
-	virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfigurationGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration(generators)
-	virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfigurationGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration{}), generators)
-
-	return virtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfigurationGenerator
-}
-
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration(gens map[string]gopter.Gen) {
-	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesPublicIPAddressVersionIPv4, VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesPublicIPAddressVersionIPv6))
-}
-
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileNetworkProfileNetworkInterfaceConfigurationsPropertiesIpConfigurationsPropertiesPublicIPAddressConfiguration(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfiguration is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfiguration(gens map[string]gopter.Gen) {
 	gens["DnsSettings"] = gen.PtrOf(VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsGenerator())
 	gens["IpTags"] = gen.SliceOf(VirtualMachineScaleSetIpTagGenerator())
 	gens["PublicIPPrefix"] = gen.PtrOf(SubResourceGenerator())
+}
+
+func Test_VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS to VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS via AssignPropertiesToVirtualMachineScaleSetPublicIPAddressConfiguration_STATUS & AssignPropertiesFromVirtualMachineScaleSetPublicIPAddressConfiguration_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetPublicIPAddressConfiguration_STATUS, VirtualMachineScaleSetPublicIPAddressConfiguration_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForVirtualMachineScaleSetPublicIPAddressConfiguration_STATUS tests if a specific instance of VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachineScaleSetPublicIPAddressConfiguration_STATUS(subject VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other alpha20201201s.VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS
+	err := copied.AssignPropertiesToVirtualMachineScaleSetPublicIPAddressConfiguration_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS
+	err = actual.AssignPropertiesFromVirtualMachineScaleSetPublicIPAddressConfiguration_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfiguration_STATUS, VirtualMachineScaleSetPublicIPAddressConfiguration_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfiguration_STATUS runs a test to see if a specific instance of VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfiguration_STATUS(subject VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS instances for property testing - lazily
+// instantiated by VirtualMachineScaleSetPublicIPAddressConfiguration_STATUSGenerator()
+var virtualMachineScaleSetPublicIPAddressConfiguration_STATUSGenerator gopter.Gen
+
+// VirtualMachineScaleSetPublicIPAddressConfiguration_STATUSGenerator returns a generator of VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS instances for property testing.
+// We first initialize virtualMachineScaleSetPublicIPAddressConfiguration_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func VirtualMachineScaleSetPublicIPAddressConfiguration_STATUSGenerator() gopter.Gen {
+	if virtualMachineScaleSetPublicIPAddressConfiguration_STATUSGenerator != nil {
+		return virtualMachineScaleSetPublicIPAddressConfiguration_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfiguration_STATUS(generators)
+	virtualMachineScaleSetPublicIPAddressConfiguration_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfiguration_STATUS(generators)
+	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfiguration_STATUS(generators)
+	virtualMachineScaleSetPublicIPAddressConfiguration_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetPublicIPAddressConfiguration_STATUS{}), generators)
+
+	return virtualMachineScaleSetPublicIPAddressConfiguration_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfiguration_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfiguration_STATUS(gens map[string]gopter.Gen) {
+	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["PublicIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUSIPv4, VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUSIPv6))
+}
+
+// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfiguration_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfiguration_STATUS(gens map[string]gopter.Gen) {
+	gens["DnsSettings"] = gen.PtrOf(VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUSGenerator())
+	gens["IpTags"] = gen.SliceOf(VirtualMachineScaleSetIpTag_STATUSGenerator())
+	gens["PublicIPPrefix"] = gen.PtrOf(SubResource_STATUSGenerator())
 }
 
 func Test_VirtualMachineScaleSetIpTag_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -5783,32 +5769,32 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIpTag(gens map[str
 	gens["Tag"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_VirtualMachineScaleSetIpTag_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_VirtualMachineScaleSetIpTag_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualMachineScaleSetIpTag_Status to VirtualMachineScaleSetIpTag_Status via AssignPropertiesToVirtualMachineScaleSetIpTagStatus & AssignPropertiesFromVirtualMachineScaleSetIpTagStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetIpTagStatus, VirtualMachineScaleSetIpTagStatusGenerator()))
+		"Round trip from VirtualMachineScaleSetIpTag_STATUS to VirtualMachineScaleSetIpTag_STATUS via AssignPropertiesToVirtualMachineScaleSetIpTag_STATUS & AssignPropertiesFromVirtualMachineScaleSetIpTag_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetIpTag_STATUS, VirtualMachineScaleSetIpTag_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetIpTagStatus tests if a specific instance of VirtualMachineScaleSetIpTag_Status can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForVirtualMachineScaleSetIpTagStatus(subject VirtualMachineScaleSetIpTag_Status) string {
+// RunPropertyAssignmentTestForVirtualMachineScaleSetIpTag_STATUS tests if a specific instance of VirtualMachineScaleSetIpTag_STATUS can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachineScaleSetIpTag_STATUS(subject VirtualMachineScaleSetIpTag_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201201s.VirtualMachineScaleSetIpTag_Status
-	err := copied.AssignPropertiesToVirtualMachineScaleSetIpTagStatus(&other)
+	var other alpha20201201s.VirtualMachineScaleSetIpTag_STATUS
+	err := copied.AssignPropertiesToVirtualMachineScaleSetIpTag_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualMachineScaleSetIpTag_Status
-	err = actual.AssignPropertiesFromVirtualMachineScaleSetIpTagStatus(&other)
+	var actual VirtualMachineScaleSetIpTag_STATUS
+	err = actual.AssignPropertiesFromVirtualMachineScaleSetIpTag_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -5825,19 +5811,19 @@ func RunPropertyAssignmentTestForVirtualMachineScaleSetIpTagStatus(subject Virtu
 	return ""
 }
 
-func Test_VirtualMachineScaleSetIpTag_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VirtualMachineScaleSetIpTag_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VirtualMachineScaleSetIpTag_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetIpTagStatus, VirtualMachineScaleSetIpTagStatusGenerator()))
+		"Round trip of VirtualMachineScaleSetIpTag_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetIpTag_STATUS, VirtualMachineScaleSetIpTag_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetIpTagStatus runs a test to see if a specific instance of VirtualMachineScaleSetIpTag_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetIpTagStatus(subject VirtualMachineScaleSetIpTag_Status) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetIpTag_STATUS runs a test to see if a specific instance of VirtualMachineScaleSetIpTag_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetIpTag_STATUS(subject VirtualMachineScaleSetIpTag_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -5845,7 +5831,7 @@ func RunJSONSerializationTestForVirtualMachineScaleSetIpTagStatus(subject Virtua
 	}
 
 	// Deserialize back into memory
-	var actual VirtualMachineScaleSetIpTag_Status
+	var actual VirtualMachineScaleSetIpTag_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -5863,25 +5849,25 @@ func RunJSONSerializationTestForVirtualMachineScaleSetIpTagStatus(subject Virtua
 	return ""
 }
 
-// Generator of VirtualMachineScaleSetIpTag_Status instances for property testing - lazily instantiated by
-// VirtualMachineScaleSetIpTagStatusGenerator()
-var virtualMachineScaleSetIpTagStatusGenerator gopter.Gen
+// Generator of VirtualMachineScaleSetIpTag_STATUS instances for property testing - lazily instantiated by
+// VirtualMachineScaleSetIpTag_STATUSGenerator()
+var virtualMachineScaleSetIpTag_STATUSGenerator gopter.Gen
 
-// VirtualMachineScaleSetIpTagStatusGenerator returns a generator of VirtualMachineScaleSetIpTag_Status instances for property testing.
-func VirtualMachineScaleSetIpTagStatusGenerator() gopter.Gen {
-	if virtualMachineScaleSetIpTagStatusGenerator != nil {
-		return virtualMachineScaleSetIpTagStatusGenerator
+// VirtualMachineScaleSetIpTag_STATUSGenerator returns a generator of VirtualMachineScaleSetIpTag_STATUS instances for property testing.
+func VirtualMachineScaleSetIpTag_STATUSGenerator() gopter.Gen {
+	if virtualMachineScaleSetIpTag_STATUSGenerator != nil {
+		return virtualMachineScaleSetIpTag_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIpTagStatus(generators)
-	virtualMachineScaleSetIpTagStatusGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetIpTag_Status{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIpTag_STATUS(generators)
+	virtualMachineScaleSetIpTag_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetIpTag_STATUS{}), generators)
 
-	return virtualMachineScaleSetIpTagStatusGenerator
+	return virtualMachineScaleSetIpTag_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIpTagStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIpTagStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIpTag_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIpTag_STATUS(gens map[string]gopter.Gen) {
 	gens["IpTagType"] = gen.PtrOf(gen.AlphaString())
 	gens["Tag"] = gen.PtrOf(gen.AlphaString())
 }
@@ -5988,32 +5974,32 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressCon
 	gens["DomainNameLabel"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status to VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status via AssignPropertiesToVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus & AssignPropertiesFromVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus, VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatusGenerator()))
+		"Round trip from VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS to VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS via AssignPropertiesToVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS & AssignPropertiesFromVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS, VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus tests if a specific instance of VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status can be assigned to v1alpha1api20201201storage and back losslessly
-func RunPropertyAssignmentTestForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus(subject VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status) string {
+// RunPropertyAssignmentTestForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS tests if a specific instance of VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS can be assigned to v1alpha1api20201201storage and back losslessly
+func RunPropertyAssignmentTestForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS(subject VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20201201s.VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status
-	err := copied.AssignPropertiesToVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus(&other)
+	var other alpha20201201s.VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS
+	err := copied.AssignPropertiesToVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status
-	err = actual.AssignPropertiesFromVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus(&other)
+	var actual VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS
+	err = actual.AssignPropertiesFromVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -6030,19 +6016,19 @@ func RunPropertyAssignmentTestForVirtualMachineScaleSetPublicIPAddressConfigurat
 	return ""
 }
 
-func Test_VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus, VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatusGenerator()))
+		"Round trip of VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS, VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus runs a test to see if a specific instance of VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus(subject VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS runs a test to see if a specific instance of VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS(subject VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -6050,7 +6036,7 @@ func RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfigurati
 	}
 
 	// Deserialize back into memory
-	var actual VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status
+	var actual VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -6068,24 +6054,24 @@ func RunJSONSerializationTestForVirtualMachineScaleSetPublicIPAddressConfigurati
 	return ""
 }
 
-// Generator of VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status instances for property testing -
-// lazily instantiated by VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatusGenerator()
-var virtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatusGenerator gopter.Gen
+// Generator of VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS instances for property testing -
+// lazily instantiated by VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUSGenerator()
+var virtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUSGenerator gopter.Gen
 
-// VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatusGenerator returns a generator of VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status instances for property testing.
-func VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatusGenerator() gopter.Gen {
-	if virtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatusGenerator != nil {
-		return virtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatusGenerator
+// VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUSGenerator returns a generator of VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS instances for property testing.
+func VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUSGenerator() gopter.Gen {
+	if virtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUSGenerator != nil {
+		return virtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus(generators)
-	virtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatusGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS(generators)
+	virtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS{}), generators)
 
-	return virtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatusGenerator
+	return virtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsStatus(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_STATUS(gens map[string]gopter.Gen) {
 	gens["DomainNameLabel"] = gen.PtrOf(gen.AlphaString())
 }

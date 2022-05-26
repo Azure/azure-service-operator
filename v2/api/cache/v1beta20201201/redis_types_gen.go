@@ -24,12 +24,13 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis
+// Generator information:
+// - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2020-12-01/redis.json
 type Redis struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Redis_Spec           `json:"spec,omitempty"`
-	Status            RedisResource_Status `json:"status,omitempty"`
+	Spec              Redis_Spec                   `json:"spec,omitempty"`
+	Status            RedisCreateParameters_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Redis{}
@@ -96,7 +97,7 @@ func (redis *Redis) AzureName() string {
 	return redis.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20201201"
 func (redis Redis) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -116,14 +117,14 @@ func (redis *Redis) GetStatus() genruntime.ConvertibleStatus {
 	return &redis.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redis"
+// GetType returns the ARM Type of the resource. This is always ""
 func (redis *Redis) GetType() string {
-	return "Microsoft.Cache/redis"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (redis *Redis) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &RedisResource_Status{}
+	return &RedisCreateParameters_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -139,13 +140,13 @@ func (redis *Redis) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (redis *Redis) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*RedisResource_Status); ok {
+	if st, ok := status.(*RedisCreateParameters_STATUS); ok {
 		redis.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st RedisResource_Status
+	var st RedisCreateParameters_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -278,17 +279,17 @@ func (redis *Redis) AssignPropertiesFromRedis(source *v20201201s.Redis) error {
 
 	// Spec
 	var spec Redis_Spec
-	err := spec.AssignPropertiesFromRedisSpec(&source.Spec)
+	err := spec.AssignPropertiesFromRedis_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromRedisSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromRedis_Spec() to populate field Spec")
 	}
 	redis.Spec = spec
 
 	// Status
-	var status RedisResource_Status
-	err = status.AssignPropertiesFromRedisResourceStatus(&source.Status)
+	var status RedisCreateParameters_STATUS
+	err = status.AssignPropertiesFromRedisCreateParameters_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromRedisResourceStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromRedisCreateParameters_STATUS() to populate field Status")
 	}
 	redis.Status = status
 
@@ -304,17 +305,17 @@ func (redis *Redis) AssignPropertiesToRedis(destination *v20201201s.Redis) error
 
 	// Spec
 	var spec v20201201s.Redis_Spec
-	err := redis.Spec.AssignPropertiesToRedisSpec(&spec)
+	err := redis.Spec.AssignPropertiesToRedis_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToRedisSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToRedis_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status v20201201s.RedisResource_Status
-	err = redis.Status.AssignPropertiesToRedisResourceStatus(&status)
+	var status v20201201s.RedisCreateParameters_STATUS
+	err = redis.Status.AssignPropertiesToRedisCreateParameters_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToRedisResourceStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToRedisCreateParameters_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -332,66 +333,42 @@ func (redis *Redis) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/resourceDefinitions/redis
+// Generator information:
+// - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2020-12-01/redis.json
 type RedisList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Redis `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2020-12-01"}
+// +kubebuilder:validation:Enum={"20201201"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2020-12-01")
+const APIVersionValue = APIVersion("20201201")
 
-type RedisResource_Status struct {
+type RedisCreateParameters_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
 	// EnableNonSslPort: Specifies whether the non-ssl Redis server port (6379) is enabled.
 	EnableNonSslPort *bool `json:"enableNonSslPort,omitempty"`
 
-	// HostName: Redis host name.
-	HostName *string `json:"hostName,omitempty"`
-
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// Instances: List of the Redis instances associated with the cache
-	Instances []RedisInstanceDetails_Status `json:"instances,omitempty"`
-
-	// LinkedServers: List of the linked servers associated with the cache
-	LinkedServers []RedisLinkedServer_Status `json:"linkedServers,omitempty"`
-
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
 	// MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1',
 	// '1.2')
-	MinimumTlsVersion *RedisPropertiesStatusMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	// Port: Redis non-SSL port.
-	Port *int `json:"port,omitempty"`
-
-	// PrivateEndpointConnections: List of private endpoint connection associated with the specified redis cache
-	PrivateEndpointConnections []PrivateEndpointConnection_Status_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
-
-	// ProvisioningState: Redis instance provisioning status.
-	ProvisioningState *RedisPropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
+	MinimumTlsVersion *RedisCreateProperties_MinimumTlsVersion_STATUS `json:"minimumTlsVersion,omitempty"`
 
 	// PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
 	// in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is
 	// 'Enabled'
-	PublicNetworkAccess *RedisPropertiesStatusPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *RedisCreateProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
 
 	// RedisConfiguration: All Redis Settings. Few possible keys:
 	// rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
 	// etc.
-	RedisConfiguration map[string]string `json:"redisConfiguration,omitempty"`
+	RedisConfiguration *RedisCreateProperties_RedisConfiguration_STATUS `json:"redisConfiguration,omitempty"`
 
 	// RedisVersion: Redis version. Only major version will be used in PUT/PATCH request with current valid values: (4, 6)
 	RedisVersion *string `json:"redisVersion,omitempty"`
@@ -406,10 +383,7 @@ type RedisResource_Status struct {
 	ShardCount *int `json:"shardCount,omitempty"`
 
 	// Sku: The SKU of the Redis cache to deploy.
-	Sku *Sku_Status `json:"sku,omitempty"`
-
-	// SslPort: Redis SSL port.
-	SslPort *int `json:"sslPort,omitempty"`
+	Sku *Sku_STATUS `json:"sku,omitempty"`
 
 	// StaticIP: Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual
 	// Network; auto assigned by default.
@@ -425,32 +399,29 @@ type RedisResource_Status struct {
 	// TenantSettings: A dictionary of tenant settings
 	TenantSettings map[string]string `json:"tenantSettings,omitempty"`
 
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
-
 	// Zones: A list of availability zones denoting where the resource needs to come from.
 	Zones []string `json:"zones,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &RedisResource_Status{}
+var _ genruntime.ConvertibleStatus = &RedisCreateParameters_STATUS{}
 
-// ConvertStatusFrom populates our RedisResource_Status from the provided source
-func (resource *RedisResource_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20201201s.RedisResource_Status)
+// ConvertStatusFrom populates our RedisCreateParameters_STATUS from the provided source
+func (parameters *RedisCreateParameters_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20201201s.RedisCreateParameters_STATUS)
 	if ok {
 		// Populate our instance from source
-		return resource.AssignPropertiesFromRedisResourceStatus(src)
+		return parameters.AssignPropertiesFromRedisCreateParameters_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20201201s.RedisResource_Status{}
+	src = &v20201201s.RedisCreateParameters_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = resource.AssignPropertiesFromRedisResourceStatus(src)
+	err = parameters.AssignPropertiesFromRedisCreateParameters_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -458,17 +429,17 @@ func (resource *RedisResource_Status) ConvertStatusFrom(source genruntime.Conver
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our RedisResource_Status
-func (resource *RedisResource_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20201201s.RedisResource_Status)
+// ConvertStatusTo populates the provided destination from our RedisCreateParameters_STATUS
+func (parameters *RedisCreateParameters_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20201201s.RedisCreateParameters_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return resource.AssignPropertiesToRedisResourceStatus(dst)
+		return parameters.AssignPropertiesToRedisCreateParameters_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20201201s.RedisResource_Status{}
-	err := resource.AssignPropertiesToRedisResourceStatus(dst)
+	dst = &v20201201s.RedisCreateParameters_STATUS{}
+	err := parameters.AssignPropertiesToRedisCreateParameters_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -482,18 +453,18 @@ func (resource *RedisResource_Status) ConvertStatusTo(destination genruntime.Con
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &RedisResource_Status{}
+var _ genruntime.FromARMConverter = &RedisCreateParameters_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (resource *RedisResource_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RedisResource_StatusARM{}
+func (parameters *RedisCreateParameters_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &RedisCreateParameters_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (resource *RedisResource_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RedisResource_StatusARM)
+func (parameters *RedisCreateParameters_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(RedisCreateParameters_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisResource_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisCreateParameters_STATUSARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -503,55 +474,14 @@ func (resource *RedisResource_Status) PopulateFromARM(owner genruntime.Arbitrary
 	if typedInput.Properties != nil {
 		if typedInput.Properties.EnableNonSslPort != nil {
 			enableNonSslPort := *typedInput.Properties.EnableNonSslPort
-			resource.EnableNonSslPort = &enableNonSslPort
-		}
-	}
-
-	// Set property ‘HostName’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.HostName != nil {
-			hostName := *typedInput.Properties.HostName
-			resource.HostName = &hostName
-		}
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		resource.Id = &id
-	}
-
-	// Set property ‘Instances’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.Instances {
-			var item1 RedisInstanceDetails_Status
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			resource.Instances = append(resource.Instances, item1)
-		}
-	}
-
-	// Set property ‘LinkedServers’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.LinkedServers {
-			var item1 RedisLinkedServer_Status
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			resource.LinkedServers = append(resource.LinkedServers, item1)
+			parameters.EnableNonSslPort = &enableNonSslPort
 		}
 	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		resource.Location = &location
+		parameters.Location = &location
 	}
 
 	// Set property ‘MinimumTlsVersion’:
@@ -559,44 +489,7 @@ func (resource *RedisResource_Status) PopulateFromARM(owner genruntime.Arbitrary
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MinimumTlsVersion != nil {
 			minimumTlsVersion := *typedInput.Properties.MinimumTlsVersion
-			resource.MinimumTlsVersion = &minimumTlsVersion
-		}
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		resource.Name = &name
-	}
-
-	// Set property ‘Port’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Port != nil {
-			port := *typedInput.Properties.Port
-			resource.Port = &port
-		}
-	}
-
-	// Set property ‘PrivateEndpointConnections’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.PrivateEndpointConnections {
-			var item1 PrivateEndpointConnection_Status_SubResourceEmbedded
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			resource.PrivateEndpointConnections = append(resource.PrivateEndpointConnections, item1)
-		}
-	}
-
-	// Set property ‘ProvisioningState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
-			resource.ProvisioningState = &provisioningState
+			parameters.MinimumTlsVersion = &minimumTlsVersion
 		}
 	}
 
@@ -605,7 +498,7 @@ func (resource *RedisResource_Status) PopulateFromARM(owner genruntime.Arbitrary
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
 			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
-			resource.PublicNetworkAccess = &publicNetworkAccess
+			parameters.PublicNetworkAccess = &publicNetworkAccess
 		}
 	}
 
@@ -613,10 +506,13 @@ func (resource *RedisResource_Status) PopulateFromARM(owner genruntime.Arbitrary
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RedisConfiguration != nil {
-			resource.RedisConfiguration = make(map[string]string)
-			for key, value := range typedInput.Properties.RedisConfiguration {
-				resource.RedisConfiguration[key] = value
+			var redisConfiguration1 RedisCreateProperties_RedisConfiguration_STATUS
+			err := redisConfiguration1.PopulateFromARM(owner, *typedInput.Properties.RedisConfiguration)
+			if err != nil {
+				return err
 			}
+			redisConfiguration := redisConfiguration1
+			parameters.RedisConfiguration = &redisConfiguration
 		}
 	}
 
@@ -625,7 +521,7 @@ func (resource *RedisResource_Status) PopulateFromARM(owner genruntime.Arbitrary
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RedisVersion != nil {
 			redisVersion := *typedInput.Properties.RedisVersion
-			resource.RedisVersion = &redisVersion
+			parameters.RedisVersion = &redisVersion
 		}
 	}
 
@@ -634,7 +530,7 @@ func (resource *RedisResource_Status) PopulateFromARM(owner genruntime.Arbitrary
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ReplicasPerMaster != nil {
 			replicasPerMaster := *typedInput.Properties.ReplicasPerMaster
-			resource.ReplicasPerMaster = &replicasPerMaster
+			parameters.ReplicasPerMaster = &replicasPerMaster
 		}
 	}
 
@@ -643,7 +539,7 @@ func (resource *RedisResource_Status) PopulateFromARM(owner genruntime.Arbitrary
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ReplicasPerPrimary != nil {
 			replicasPerPrimary := *typedInput.Properties.ReplicasPerPrimary
-			resource.ReplicasPerPrimary = &replicasPerPrimary
+			parameters.ReplicasPerPrimary = &replicasPerPrimary
 		}
 	}
 
@@ -652,7 +548,7 @@ func (resource *RedisResource_Status) PopulateFromARM(owner genruntime.Arbitrary
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ShardCount != nil {
 			shardCount := *typedInput.Properties.ShardCount
-			resource.ShardCount = &shardCount
+			parameters.ShardCount = &shardCount
 		}
 	}
 
@@ -660,22 +556,13 @@ func (resource *RedisResource_Status) PopulateFromARM(owner genruntime.Arbitrary
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Sku != nil {
-			var sku1 Sku_Status
+			var sku1 Sku_STATUS
 			err := sku1.PopulateFromARM(owner, *typedInput.Properties.Sku)
 			if err != nil {
 				return err
 			}
 			sku := sku1
-			resource.Sku = &sku
-		}
-	}
-
-	// Set property ‘SslPort’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.SslPort != nil {
-			sslPort := *typedInput.Properties.SslPort
-			resource.SslPort = &sslPort
+			parameters.Sku = &sku
 		}
 	}
 
@@ -684,7 +571,7 @@ func (resource *RedisResource_Status) PopulateFromARM(owner genruntime.Arbitrary
 	if typedInput.Properties != nil {
 		if typedInput.Properties.StaticIP != nil {
 			staticIP := *typedInput.Properties.StaticIP
-			resource.StaticIP = &staticIP
+			parameters.StaticIP = &staticIP
 		}
 	}
 
@@ -693,15 +580,15 @@ func (resource *RedisResource_Status) PopulateFromARM(owner genruntime.Arbitrary
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SubnetId != nil {
 			subnetId := *typedInput.Properties.SubnetId
-			resource.SubnetId = &subnetId
+			parameters.SubnetId = &subnetId
 		}
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		resource.Tags = make(map[string]string)
+		parameters.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
-			resource.Tags[key] = value
+			parameters.Tags[key] = value
 		}
 	}
 
@@ -709,343 +596,195 @@ func (resource *RedisResource_Status) PopulateFromARM(owner genruntime.Arbitrary
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TenantSettings != nil {
-			resource.TenantSettings = make(map[string]string)
+			parameters.TenantSettings = make(map[string]string)
 			for key, value := range typedInput.Properties.TenantSettings {
-				resource.TenantSettings[key] = value
+				parameters.TenantSettings[key] = value
 			}
 		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		resource.Type = &typeVar
 	}
 
 	// Set property ‘Zones’:
 	for _, item := range typedInput.Zones {
-		resource.Zones = append(resource.Zones, item)
+		parameters.Zones = append(parameters.Zones, item)
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesFromRedisResourceStatus populates our RedisResource_Status from the provided source RedisResource_Status
-func (resource *RedisResource_Status) AssignPropertiesFromRedisResourceStatus(source *v20201201s.RedisResource_Status) error {
+// AssignPropertiesFromRedisCreateParameters_STATUS populates our RedisCreateParameters_STATUS from the provided source RedisCreateParameters_STATUS
+func (parameters *RedisCreateParameters_STATUS) AssignPropertiesFromRedisCreateParameters_STATUS(source *v20201201s.RedisCreateParameters_STATUS) error {
 
 	// Conditions
-	resource.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	parameters.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// EnableNonSslPort
 	if source.EnableNonSslPort != nil {
 		enableNonSslPort := *source.EnableNonSslPort
-		resource.EnableNonSslPort = &enableNonSslPort
+		parameters.EnableNonSslPort = &enableNonSslPort
 	} else {
-		resource.EnableNonSslPort = nil
-	}
-
-	// HostName
-	resource.HostName = genruntime.ClonePointerToString(source.HostName)
-
-	// Id
-	resource.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Instances
-	if source.Instances != nil {
-		instanceList := make([]RedisInstanceDetails_Status, len(source.Instances))
-		for instanceIndex, instanceItem := range source.Instances {
-			// Shadow the loop variable to avoid aliasing
-			instanceItem := instanceItem
-			var instance RedisInstanceDetails_Status
-			err := instance.AssignPropertiesFromRedisInstanceDetailsStatus(&instanceItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromRedisInstanceDetailsStatus() to populate field Instances")
-			}
-			instanceList[instanceIndex] = instance
-		}
-		resource.Instances = instanceList
-	} else {
-		resource.Instances = nil
-	}
-
-	// LinkedServers
-	if source.LinkedServers != nil {
-		linkedServerList := make([]RedisLinkedServer_Status, len(source.LinkedServers))
-		for linkedServerIndex, linkedServerItem := range source.LinkedServers {
-			// Shadow the loop variable to avoid aliasing
-			linkedServerItem := linkedServerItem
-			var linkedServer RedisLinkedServer_Status
-			err := linkedServer.AssignPropertiesFromRedisLinkedServerStatus(&linkedServerItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromRedisLinkedServerStatus() to populate field LinkedServers")
-			}
-			linkedServerList[linkedServerIndex] = linkedServer
-		}
-		resource.LinkedServers = linkedServerList
-	} else {
-		resource.LinkedServers = nil
+		parameters.EnableNonSslPort = nil
 	}
 
 	// Location
-	resource.Location = genruntime.ClonePointerToString(source.Location)
+	parameters.Location = genruntime.ClonePointerToString(source.Location)
 
 	// MinimumTlsVersion
 	if source.MinimumTlsVersion != nil {
-		minimumTlsVersion := RedisPropertiesStatusMinimumTlsVersion(*source.MinimumTlsVersion)
-		resource.MinimumTlsVersion = &minimumTlsVersion
+		minimumTlsVersion := RedisCreateProperties_MinimumTlsVersion_STATUS(*source.MinimumTlsVersion)
+		parameters.MinimumTlsVersion = &minimumTlsVersion
 	} else {
-		resource.MinimumTlsVersion = nil
-	}
-
-	// Name
-	resource.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Port
-	resource.Port = genruntime.ClonePointerToInt(source.Port)
-
-	// PrivateEndpointConnections
-	if source.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]PrivateEndpointConnection_Status_SubResourceEmbedded, len(source.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection PrivateEndpointConnection_Status_SubResourceEmbedded
-			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded(&privateEndpointConnectionItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded() to populate field PrivateEndpointConnections")
-			}
-			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
-		}
-		resource.PrivateEndpointConnections = privateEndpointConnectionList
-	} else {
-		resource.PrivateEndpointConnections = nil
-	}
-
-	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := RedisPropertiesStatusProvisioningState(*source.ProvisioningState)
-		resource.ProvisioningState = &provisioningState
-	} else {
-		resource.ProvisioningState = nil
+		parameters.MinimumTlsVersion = nil
 	}
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := RedisPropertiesStatusPublicNetworkAccess(*source.PublicNetworkAccess)
-		resource.PublicNetworkAccess = &publicNetworkAccess
+		publicNetworkAccess := RedisCreateProperties_PublicNetworkAccess_STATUS(*source.PublicNetworkAccess)
+		parameters.PublicNetworkAccess = &publicNetworkAccess
 	} else {
-		resource.PublicNetworkAccess = nil
+		parameters.PublicNetworkAccess = nil
 	}
 
 	// RedisConfiguration
-	resource.RedisConfiguration = genruntime.CloneMapOfStringToString(source.RedisConfiguration)
+	if source.RedisConfiguration != nil {
+		var redisConfiguration RedisCreateProperties_RedisConfiguration_STATUS
+		err := redisConfiguration.AssignPropertiesFromRedisCreateProperties_RedisConfiguration_STATUS(source.RedisConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromRedisCreateProperties_RedisConfiguration_STATUS() to populate field RedisConfiguration")
+		}
+		parameters.RedisConfiguration = &redisConfiguration
+	} else {
+		parameters.RedisConfiguration = nil
+	}
 
 	// RedisVersion
-	resource.RedisVersion = genruntime.ClonePointerToString(source.RedisVersion)
+	parameters.RedisVersion = genruntime.ClonePointerToString(source.RedisVersion)
 
 	// ReplicasPerMaster
-	resource.ReplicasPerMaster = genruntime.ClonePointerToInt(source.ReplicasPerMaster)
+	parameters.ReplicasPerMaster = genruntime.ClonePointerToInt(source.ReplicasPerMaster)
 
 	// ReplicasPerPrimary
-	resource.ReplicasPerPrimary = genruntime.ClonePointerToInt(source.ReplicasPerPrimary)
+	parameters.ReplicasPerPrimary = genruntime.ClonePointerToInt(source.ReplicasPerPrimary)
 
 	// ShardCount
-	resource.ShardCount = genruntime.ClonePointerToInt(source.ShardCount)
+	parameters.ShardCount = genruntime.ClonePointerToInt(source.ShardCount)
 
 	// Sku
 	if source.Sku != nil {
-		var sku Sku_Status
-		err := sku.AssignPropertiesFromSkuStatus(source.Sku)
+		var sku Sku_STATUS
+		err := sku.AssignPropertiesFromSku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSkuStatus() to populate field Sku")
+			return errors.Wrap(err, "calling AssignPropertiesFromSku_STATUS() to populate field Sku")
 		}
-		resource.Sku = &sku
+		parameters.Sku = &sku
 	} else {
-		resource.Sku = nil
+		parameters.Sku = nil
 	}
 
-	// SslPort
-	resource.SslPort = genruntime.ClonePointerToInt(source.SslPort)
-
 	// StaticIP
-	resource.StaticIP = genruntime.ClonePointerToString(source.StaticIP)
+	parameters.StaticIP = genruntime.ClonePointerToString(source.StaticIP)
 
 	// SubnetId
-	resource.SubnetId = genruntime.ClonePointerToString(source.SubnetId)
+	parameters.SubnetId = genruntime.ClonePointerToString(source.SubnetId)
 
 	// Tags
-	resource.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	parameters.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// TenantSettings
-	resource.TenantSettings = genruntime.CloneMapOfStringToString(source.TenantSettings)
-
-	// Type
-	resource.Type = genruntime.ClonePointerToString(source.Type)
+	parameters.TenantSettings = genruntime.CloneMapOfStringToString(source.TenantSettings)
 
 	// Zones
-	resource.Zones = genruntime.CloneSliceOfString(source.Zones)
+	parameters.Zones = genruntime.CloneSliceOfString(source.Zones)
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToRedisResourceStatus populates the provided destination RedisResource_Status from our RedisResource_Status
-func (resource *RedisResource_Status) AssignPropertiesToRedisResourceStatus(destination *v20201201s.RedisResource_Status) error {
+// AssignPropertiesToRedisCreateParameters_STATUS populates the provided destination RedisCreateParameters_STATUS from our RedisCreateParameters_STATUS
+func (parameters *RedisCreateParameters_STATUS) AssignPropertiesToRedisCreateParameters_STATUS(destination *v20201201s.RedisCreateParameters_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(resource.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(parameters.Conditions)
 
 	// EnableNonSslPort
-	if resource.EnableNonSslPort != nil {
-		enableNonSslPort := *resource.EnableNonSslPort
+	if parameters.EnableNonSslPort != nil {
+		enableNonSslPort := *parameters.EnableNonSslPort
 		destination.EnableNonSslPort = &enableNonSslPort
 	} else {
 		destination.EnableNonSslPort = nil
 	}
 
-	// HostName
-	destination.HostName = genruntime.ClonePointerToString(resource.HostName)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(resource.Id)
-
-	// Instances
-	if resource.Instances != nil {
-		instanceList := make([]v20201201s.RedisInstanceDetails_Status, len(resource.Instances))
-		for instanceIndex, instanceItem := range resource.Instances {
-			// Shadow the loop variable to avoid aliasing
-			instanceItem := instanceItem
-			var instance v20201201s.RedisInstanceDetails_Status
-			err := instanceItem.AssignPropertiesToRedisInstanceDetailsStatus(&instance)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToRedisInstanceDetailsStatus() to populate field Instances")
-			}
-			instanceList[instanceIndex] = instance
-		}
-		destination.Instances = instanceList
-	} else {
-		destination.Instances = nil
-	}
-
-	// LinkedServers
-	if resource.LinkedServers != nil {
-		linkedServerList := make([]v20201201s.RedisLinkedServer_Status, len(resource.LinkedServers))
-		for linkedServerIndex, linkedServerItem := range resource.LinkedServers {
-			// Shadow the loop variable to avoid aliasing
-			linkedServerItem := linkedServerItem
-			var linkedServer v20201201s.RedisLinkedServer_Status
-			err := linkedServerItem.AssignPropertiesToRedisLinkedServerStatus(&linkedServer)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToRedisLinkedServerStatus() to populate field LinkedServers")
-			}
-			linkedServerList[linkedServerIndex] = linkedServer
-		}
-		destination.LinkedServers = linkedServerList
-	} else {
-		destination.LinkedServers = nil
-	}
-
 	// Location
-	destination.Location = genruntime.ClonePointerToString(resource.Location)
+	destination.Location = genruntime.ClonePointerToString(parameters.Location)
 
 	// MinimumTlsVersion
-	if resource.MinimumTlsVersion != nil {
-		minimumTlsVersion := string(*resource.MinimumTlsVersion)
+	if parameters.MinimumTlsVersion != nil {
+		minimumTlsVersion := string(*parameters.MinimumTlsVersion)
 		destination.MinimumTlsVersion = &minimumTlsVersion
 	} else {
 		destination.MinimumTlsVersion = nil
 	}
 
-	// Name
-	destination.Name = genruntime.ClonePointerToString(resource.Name)
-
-	// Port
-	destination.Port = genruntime.ClonePointerToInt(resource.Port)
-
-	// PrivateEndpointConnections
-	if resource.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]v20201201s.PrivateEndpointConnection_Status_SubResourceEmbedded, len(resource.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range resource.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection v20201201s.PrivateEndpointConnection_Status_SubResourceEmbedded
-			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded(&privateEndpointConnection)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded() to populate field PrivateEndpointConnections")
-			}
-			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
-		}
-		destination.PrivateEndpointConnections = privateEndpointConnectionList
-	} else {
-		destination.PrivateEndpointConnections = nil
-	}
-
-	// ProvisioningState
-	if resource.ProvisioningState != nil {
-		provisioningState := string(*resource.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
-
 	// PublicNetworkAccess
-	if resource.PublicNetworkAccess != nil {
-		publicNetworkAccess := string(*resource.PublicNetworkAccess)
+	if parameters.PublicNetworkAccess != nil {
+		publicNetworkAccess := string(*parameters.PublicNetworkAccess)
 		destination.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		destination.PublicNetworkAccess = nil
 	}
 
 	// RedisConfiguration
-	destination.RedisConfiguration = genruntime.CloneMapOfStringToString(resource.RedisConfiguration)
+	if parameters.RedisConfiguration != nil {
+		var redisConfiguration v20201201s.RedisCreateProperties_RedisConfiguration_STATUS
+		err := parameters.RedisConfiguration.AssignPropertiesToRedisCreateProperties_RedisConfiguration_STATUS(&redisConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToRedisCreateProperties_RedisConfiguration_STATUS() to populate field RedisConfiguration")
+		}
+		destination.RedisConfiguration = &redisConfiguration
+	} else {
+		destination.RedisConfiguration = nil
+	}
 
 	// RedisVersion
-	destination.RedisVersion = genruntime.ClonePointerToString(resource.RedisVersion)
+	destination.RedisVersion = genruntime.ClonePointerToString(parameters.RedisVersion)
 
 	// ReplicasPerMaster
-	destination.ReplicasPerMaster = genruntime.ClonePointerToInt(resource.ReplicasPerMaster)
+	destination.ReplicasPerMaster = genruntime.ClonePointerToInt(parameters.ReplicasPerMaster)
 
 	// ReplicasPerPrimary
-	destination.ReplicasPerPrimary = genruntime.ClonePointerToInt(resource.ReplicasPerPrimary)
+	destination.ReplicasPerPrimary = genruntime.ClonePointerToInt(parameters.ReplicasPerPrimary)
 
 	// ShardCount
-	destination.ShardCount = genruntime.ClonePointerToInt(resource.ShardCount)
+	destination.ShardCount = genruntime.ClonePointerToInt(parameters.ShardCount)
 
 	// Sku
-	if resource.Sku != nil {
-		var sku v20201201s.Sku_Status
-		err := resource.Sku.AssignPropertiesToSkuStatus(&sku)
+	if parameters.Sku != nil {
+		var sku v20201201s.Sku_STATUS
+		err := parameters.Sku.AssignPropertiesToSku_STATUS(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSkuStatus() to populate field Sku")
+			return errors.Wrap(err, "calling AssignPropertiesToSku_STATUS() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
 		destination.Sku = nil
 	}
 
-	// SslPort
-	destination.SslPort = genruntime.ClonePointerToInt(resource.SslPort)
-
 	// StaticIP
-	destination.StaticIP = genruntime.ClonePointerToString(resource.StaticIP)
+	destination.StaticIP = genruntime.ClonePointerToString(parameters.StaticIP)
 
 	// SubnetId
-	destination.SubnetId = genruntime.ClonePointerToString(resource.SubnetId)
+	destination.SubnetId = genruntime.ClonePointerToString(parameters.SubnetId)
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(resource.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(parameters.Tags)
 
 	// TenantSettings
-	destination.TenantSettings = genruntime.CloneMapOfStringToString(resource.TenantSettings)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(resource.Type)
+	destination.TenantSettings = genruntime.CloneMapOfStringToString(parameters.TenantSettings)
 
 	// Zones
-	destination.Zones = genruntime.CloneSliceOfString(resource.Zones)
+	destination.Zones = genruntime.CloneSliceOfString(parameters.Zones)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1066,12 +805,13 @@ type Redis_Spec struct {
 	// EnableNonSslPort: Specifies whether the non-ssl Redis server port (6379) is enabled.
 	EnableNonSslPort *bool `json:"enableNonSslPort,omitempty"`
 
+	// +kubebuilder:validation:Required
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
 	// MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1',
-	// '1.2').
-	MinimumTlsVersion *RedisCreatePropertiesMinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
+	// '1.2')
+	MinimumTlsVersion *RedisCreateProperties_MinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
 
 	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
 	// passed directly to Azure
@@ -1085,8 +825,8 @@ type Redis_Spec struct {
 
 	// PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
 	// in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is
-	// 'Enabled'.
-	PublicNetworkAccess *RedisCreatePropertiesPublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	// 'Enabled'
+	PublicNetworkAccess *RedisCreateProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
 	// RedisConfiguration: All Redis Settings. Few possible keys:
 	// rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
@@ -1106,7 +846,7 @@ type Redis_Spec struct {
 	ShardCount *int `json:"shardCount,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Sku: SKU parameters supplied to the create Redis operation.
+	// Sku: The SKU of the Redis cache to deploy.
 	Sku *Sku `json:"sku,omitempty"`
 
 	// +kubebuilder:validation:Pattern="^\\d+\\.\\d+\\.\\d+\\.\\d+$"
@@ -1118,7 +858,7 @@ type Redis_Spec struct {
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1
 	SubnetReference *genruntime.ResourceReference `armReference:"SubnetId" json:"subnetReference,omitempty"`
 
-	// Tags: Name-value pairs to add to the resource
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
 
 	// TenantSettings: A dictionary of tenant settings
@@ -1136,6 +876,9 @@ func (redis *Redis_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		return nil, nil
 	}
 	result := &Redis_SpecARM{}
+
+	// Set property ‘AzureName’:
+	result.AzureName = redis.AzureName
 
 	// Set property ‘Location’:
 	if redis.Location != nil {
@@ -1399,7 +1142,7 @@ func (redis *Redis_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) erro
 	src, ok := source.(*v20201201s.Redis_Spec)
 	if ok {
 		// Populate our instance from source
-		return redis.AssignPropertiesFromRedisSpec(src)
+		return redis.AssignPropertiesFromRedis_Spec(src)
 	}
 
 	// Convert to an intermediate form
@@ -1410,7 +1153,7 @@ func (redis *Redis_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) erro
 	}
 
 	// Update our instance from src
-	err = redis.AssignPropertiesFromRedisSpec(src)
+	err = redis.AssignPropertiesFromRedis_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -1423,12 +1166,12 @@ func (redis *Redis_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) e
 	dst, ok := destination.(*v20201201s.Redis_Spec)
 	if ok {
 		// Populate destination from our instance
-		return redis.AssignPropertiesToRedisSpec(dst)
+		return redis.AssignPropertiesToRedis_Spec(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v20201201s.Redis_Spec{}
-	err := redis.AssignPropertiesToRedisSpec(dst)
+	err := redis.AssignPropertiesToRedis_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -1442,8 +1185,8 @@ func (redis *Redis_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) e
 	return nil
 }
 
-// AssignPropertiesFromRedisSpec populates our Redis_Spec from the provided source Redis_Spec
-func (redis *Redis_Spec) AssignPropertiesFromRedisSpec(source *v20201201s.Redis_Spec) error {
+// AssignPropertiesFromRedis_Spec populates our Redis_Spec from the provided source Redis_Spec
+func (redis *Redis_Spec) AssignPropertiesFromRedis_Spec(source *v20201201s.Redis_Spec) error {
 
 	// AzureName
 	redis.AzureName = source.AzureName
@@ -1461,7 +1204,7 @@ func (redis *Redis_Spec) AssignPropertiesFromRedisSpec(source *v20201201s.Redis_
 
 	// MinimumTlsVersion
 	if source.MinimumTlsVersion != nil {
-		minimumTlsVersion := RedisCreatePropertiesMinimumTlsVersion(*source.MinimumTlsVersion)
+		minimumTlsVersion := RedisCreateProperties_MinimumTlsVersion(*source.MinimumTlsVersion)
 		redis.MinimumTlsVersion = &minimumTlsVersion
 	} else {
 		redis.MinimumTlsVersion = nil
@@ -1489,7 +1232,7 @@ func (redis *Redis_Spec) AssignPropertiesFromRedisSpec(source *v20201201s.Redis_
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := RedisCreatePropertiesPublicNetworkAccess(*source.PublicNetworkAccess)
+		publicNetworkAccess := RedisCreateProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
 		redis.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		redis.PublicNetworkAccess = nil
@@ -1551,8 +1294,8 @@ func (redis *Redis_Spec) AssignPropertiesFromRedisSpec(source *v20201201s.Redis_
 	return nil
 }
 
-// AssignPropertiesToRedisSpec populates the provided destination Redis_Spec from our Redis_Spec
-func (redis *Redis_Spec) AssignPropertiesToRedisSpec(destination *v20201201s.Redis_Spec) error {
+// AssignPropertiesToRedis_Spec populates the provided destination Redis_Spec from our Redis_Spec
+func (redis *Redis_Spec) AssignPropertiesToRedis_Spec(destination *v20201201s.Redis_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1680,281 +1423,264 @@ func (redis *Redis_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (redis *Redis_Spec) SetAzureName(azureName string) { redis.AzureName = azureName }
 
-type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &PrivateEndpointConnection_Status_SubResourceEmbedded{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateEndpointConnection_Status_SubResourceEmbeddedARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateEndpointConnection_Status_SubResourceEmbeddedARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_Status_SubResourceEmbeddedARM, got %T", armInput)
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		embedded.Id = &id
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded populates our PrivateEndpointConnection_Status_SubResourceEmbedded from the provided source PrivateEndpointConnection_Status_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignPropertiesFromPrivateEndpointConnectionStatusSubResourceEmbedded(source *v20201201s.PrivateEndpointConnection_Status_SubResourceEmbedded) error {
-
-	// Id
-	embedded.Id = genruntime.ClonePointerToString(source.Id)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded populates the provided destination PrivateEndpointConnection_Status_SubResourceEmbedded from our PrivateEndpointConnection_Status_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_Status_SubResourceEmbedded) AssignPropertiesToPrivateEndpointConnectionStatusSubResourceEmbedded(destination *v20201201s.PrivateEndpointConnection_Status_SubResourceEmbedded) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(embedded.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // +kubebuilder:validation:Enum={"1.0","1.1","1.2"}
-type RedisCreatePropertiesMinimumTlsVersion string
+type RedisCreateProperties_MinimumTlsVersion string
 
 const (
-	RedisCreatePropertiesMinimumTlsVersion10 = RedisCreatePropertiesMinimumTlsVersion("1.0")
-	RedisCreatePropertiesMinimumTlsVersion11 = RedisCreatePropertiesMinimumTlsVersion("1.1")
-	RedisCreatePropertiesMinimumTlsVersion12 = RedisCreatePropertiesMinimumTlsVersion("1.2")
+	RedisCreateProperties_MinimumTlsVersion10 = RedisCreateProperties_MinimumTlsVersion("1.0")
+	RedisCreateProperties_MinimumTlsVersion11 = RedisCreateProperties_MinimumTlsVersion("1.1")
+	RedisCreateProperties_MinimumTlsVersion12 = RedisCreateProperties_MinimumTlsVersion("1.2")
+)
+
+type RedisCreateProperties_MinimumTlsVersion_STATUS string
+
+const (
+	RedisCreateProperties_MinimumTlsVersion_STATUS10 = RedisCreateProperties_MinimumTlsVersion_STATUS("1.0")
+	RedisCreateProperties_MinimumTlsVersion_STATUS11 = RedisCreateProperties_MinimumTlsVersion_STATUS("1.1")
+	RedisCreateProperties_MinimumTlsVersion_STATUS12 = RedisCreateProperties_MinimumTlsVersion_STATUS("1.2")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
-type RedisCreatePropertiesPublicNetworkAccess string
+type RedisCreateProperties_PublicNetworkAccess string
 
 const (
-	RedisCreatePropertiesPublicNetworkAccessDisabled = RedisCreatePropertiesPublicNetworkAccess("Disabled")
-	RedisCreatePropertiesPublicNetworkAccessEnabled  = RedisCreatePropertiesPublicNetworkAccess("Enabled")
+	RedisCreateProperties_PublicNetworkAccessDisabled = RedisCreateProperties_PublicNetworkAccess("Disabled")
+	RedisCreateProperties_PublicNetworkAccessEnabled  = RedisCreateProperties_PublicNetworkAccess("Enabled")
 )
 
-type RedisInstanceDetails_Status struct {
-	// IsMaster: Specifies whether the instance is a primary node.
-	IsMaster *bool `json:"isMaster,omitempty"`
+type RedisCreateProperties_PublicNetworkAccess_STATUS string
 
-	// IsPrimary: Specifies whether the instance is a primary node.
-	IsPrimary *bool `json:"isPrimary,omitempty"`
+const (
+	RedisCreateProperties_PublicNetworkAccess_STATUSDisabled = RedisCreateProperties_PublicNetworkAccess_STATUS("Disabled")
+	RedisCreateProperties_PublicNetworkAccess_STATUSEnabled  = RedisCreateProperties_PublicNetworkAccess_STATUS("Enabled")
+)
 
-	// NonSslPort: If enableNonSslPort is true, provides Redis instance Non-SSL port.
-	NonSslPort *int `json:"nonSslPort,omitempty"`
+type RedisCreateProperties_RedisConfiguration_STATUS struct {
+	// AofStorageConnectionString0: First storage account connection string
+	AofStorageConnectionString0 *string `json:"aof-storage-connection-string-0,omitempty"`
 
-	// ShardId: If clustering is enabled, the Shard ID of Redis Instance
-	ShardId *int `json:"shardId,omitempty"`
+	// AofStorageConnectionString1: Second storage account connection string
+	AofStorageConnectionString1 *string `json:"aof-storage-connection-string-1,omitempty"`
 
-	// SslPort: Redis instance SSL port.
-	SslPort *int `json:"sslPort,omitempty"`
+	// Maxclients: The max clients config
+	Maxclients *string `json:"maxclients,omitempty"`
 
-	// Zone: If the Cache uses availability zones, specifies availability zone where this instance is located.
-	Zone *string `json:"zone,omitempty"`
+	// MaxfragmentationmemoryReserved: Value in megabytes reserved for fragmentation per shard
+	MaxfragmentationmemoryReserved *string `json:"maxfragmentationmemory-reserved,omitempty"`
+
+	// MaxmemoryDelta: Value in megabytes reserved for non-cache usage per shard e.g. failover.
+	MaxmemoryDelta *string `json:"maxmemory-delta,omitempty"`
+
+	// MaxmemoryPolicy: The eviction strategy used when your data won't fit within its memory limit.
+	MaxmemoryPolicy *string `json:"maxmemory-policy,omitempty"`
+
+	// MaxmemoryReserved: Value in megabytes reserved for non-cache usage per shard e.g. failover.
+	MaxmemoryReserved *string `json:"maxmemory-reserved,omitempty"`
+
+	// RdbBackupEnabled: Specifies whether the rdb backup is enabled
+	RdbBackupEnabled *string `json:"rdb-backup-enabled,omitempty"`
+
+	// RdbBackupFrequency: Specifies the frequency for creating rdb backup
+	RdbBackupFrequency *string `json:"rdb-backup-frequency,omitempty"`
+
+	// RdbBackupMaxSnapshotCount: Specifies the maximum number of snapshots for rdb backup
+	RdbBackupMaxSnapshotCount *string `json:"rdb-backup-max-snapshot-count,omitempty"`
+
+	// RdbStorageConnectionString: The storage account connection string for storing rdb file
+	RdbStorageConnectionString *string `json:"rdb-storage-connection-string,omitempty"`
+
+	// ZonalConfiguration: Zonal Configuration
+	ZonalConfiguration   *string           `json:"zonal-configuration,omitempty"`
+	additionalProperties map[string]string `json:"additionalProperties,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &RedisInstanceDetails_Status{}
+var _ genruntime.FromARMConverter = &RedisCreateProperties_RedisConfiguration_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (details *RedisInstanceDetails_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RedisInstanceDetails_StatusARM{}
+func (configuration *RedisCreateProperties_RedisConfiguration_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &RedisCreateProperties_RedisConfiguration_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (details *RedisInstanceDetails_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RedisInstanceDetails_StatusARM)
+func (configuration *RedisCreateProperties_RedisConfiguration_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(RedisCreateProperties_RedisConfiguration_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisInstanceDetails_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisCreateProperties_RedisConfiguration_STATUSARM, got %T", armInput)
 	}
 
-	// Set property ‘IsMaster’:
-	if typedInput.IsMaster != nil {
-		isMaster := *typedInput.IsMaster
-		details.IsMaster = &isMaster
+	// Set property ‘AofStorageConnectionString0’:
+	if typedInput.AofStorageConnectionString0 != nil {
+		aofStorageConnectionString0 := *typedInput.AofStorageConnectionString0
+		configuration.AofStorageConnectionString0 = &aofStorageConnectionString0
 	}
 
-	// Set property ‘IsPrimary’:
-	if typedInput.IsPrimary != nil {
-		isPrimary := *typedInput.IsPrimary
-		details.IsPrimary = &isPrimary
+	// Set property ‘AofStorageConnectionString1’:
+	if typedInput.AofStorageConnectionString1 != nil {
+		aofStorageConnectionString1 := *typedInput.AofStorageConnectionString1
+		configuration.AofStorageConnectionString1 = &aofStorageConnectionString1
 	}
 
-	// Set property ‘NonSslPort’:
-	if typedInput.NonSslPort != nil {
-		nonSslPort := *typedInput.NonSslPort
-		details.NonSslPort = &nonSslPort
+	// Set property ‘Maxclients’:
+	if typedInput.Maxclients != nil {
+		maxclients := *typedInput.Maxclients
+		configuration.Maxclients = &maxclients
 	}
 
-	// Set property ‘ShardId’:
-	if typedInput.ShardId != nil {
-		shardId := *typedInput.ShardId
-		details.ShardId = &shardId
+	// Set property ‘MaxfragmentationmemoryReserved’:
+	if typedInput.MaxfragmentationmemoryReserved != nil {
+		maxfragmentationmemoryReserved := *typedInput.MaxfragmentationmemoryReserved
+		configuration.MaxfragmentationmemoryReserved = &maxfragmentationmemoryReserved
 	}
 
-	// Set property ‘SslPort’:
-	if typedInput.SslPort != nil {
-		sslPort := *typedInput.SslPort
-		details.SslPort = &sslPort
+	// Set property ‘MaxmemoryDelta’:
+	if typedInput.MaxmemoryDelta != nil {
+		maxmemoryDelta := *typedInput.MaxmemoryDelta
+		configuration.MaxmemoryDelta = &maxmemoryDelta
 	}
 
-	// Set property ‘Zone’:
-	if typedInput.Zone != nil {
-		zone := *typedInput.Zone
-		details.Zone = &zone
+	// Set property ‘MaxmemoryPolicy’:
+	if typedInput.MaxmemoryPolicy != nil {
+		maxmemoryPolicy := *typedInput.MaxmemoryPolicy
+		configuration.MaxmemoryPolicy = &maxmemoryPolicy
+	}
+
+	// Set property ‘MaxmemoryReserved’:
+	if typedInput.MaxmemoryReserved != nil {
+		maxmemoryReserved := *typedInput.MaxmemoryReserved
+		configuration.MaxmemoryReserved = &maxmemoryReserved
+	}
+
+	// Set property ‘RdbBackupEnabled’:
+	if typedInput.RdbBackupEnabled != nil {
+		rdbBackupEnabled := *typedInput.RdbBackupEnabled
+		configuration.RdbBackupEnabled = &rdbBackupEnabled
+	}
+
+	// Set property ‘RdbBackupFrequency’:
+	if typedInput.RdbBackupFrequency != nil {
+		rdbBackupFrequency := *typedInput.RdbBackupFrequency
+		configuration.RdbBackupFrequency = &rdbBackupFrequency
+	}
+
+	// Set property ‘RdbBackupMaxSnapshotCount’:
+	if typedInput.RdbBackupMaxSnapshotCount != nil {
+		rdbBackupMaxSnapshotCount := *typedInput.RdbBackupMaxSnapshotCount
+		configuration.RdbBackupMaxSnapshotCount = &rdbBackupMaxSnapshotCount
+	}
+
+	// Set property ‘RdbStorageConnectionString’:
+	if typedInput.RdbStorageConnectionString != nil {
+		rdbStorageConnectionString := *typedInput.RdbStorageConnectionString
+		configuration.RdbStorageConnectionString = &rdbStorageConnectionString
+	}
+
+	// Set property ‘ZonalConfiguration’:
+	if typedInput.ZonalConfiguration != nil {
+		zonalConfiguration := *typedInput.ZonalConfiguration
+		configuration.ZonalConfiguration = &zonalConfiguration
+	}
+
+	// Set property ‘additionalProperties’:
+	if typedInput.additionalProperties != nil {
+		configuration.additionalProperties = make(map[string]string)
+		for key, value := range typedInput.additionalProperties {
+			configuration.additionalProperties[key] = value
+		}
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesFromRedisInstanceDetailsStatus populates our RedisInstanceDetails_Status from the provided source RedisInstanceDetails_Status
-func (details *RedisInstanceDetails_Status) AssignPropertiesFromRedisInstanceDetailsStatus(source *v20201201s.RedisInstanceDetails_Status) error {
+// AssignPropertiesFromRedisCreateProperties_RedisConfiguration_STATUS populates our RedisCreateProperties_RedisConfiguration_STATUS from the provided source RedisCreateProperties_RedisConfiguration_STATUS
+func (configuration *RedisCreateProperties_RedisConfiguration_STATUS) AssignPropertiesFromRedisCreateProperties_RedisConfiguration_STATUS(source *v20201201s.RedisCreateProperties_RedisConfiguration_STATUS) error {
 
-	// IsMaster
-	if source.IsMaster != nil {
-		isMaster := *source.IsMaster
-		details.IsMaster = &isMaster
-	} else {
-		details.IsMaster = nil
-	}
+	// AofStorageConnectionString0
+	configuration.AofStorageConnectionString0 = genruntime.ClonePointerToString(source.AofStorageConnectionString0)
 
-	// IsPrimary
-	if source.IsPrimary != nil {
-		isPrimary := *source.IsPrimary
-		details.IsPrimary = &isPrimary
-	} else {
-		details.IsPrimary = nil
-	}
+	// AofStorageConnectionString1
+	configuration.AofStorageConnectionString1 = genruntime.ClonePointerToString(source.AofStorageConnectionString1)
 
-	// NonSslPort
-	details.NonSslPort = genruntime.ClonePointerToInt(source.NonSslPort)
+	// Maxclients
+	configuration.Maxclients = genruntime.ClonePointerToString(source.Maxclients)
 
-	// ShardId
-	details.ShardId = genruntime.ClonePointerToInt(source.ShardId)
+	// MaxfragmentationmemoryReserved
+	configuration.MaxfragmentationmemoryReserved = genruntime.ClonePointerToString(source.MaxfragmentationmemoryReserved)
 
-	// SslPort
-	details.SslPort = genruntime.ClonePointerToInt(source.SslPort)
+	// MaxmemoryDelta
+	configuration.MaxmemoryDelta = genruntime.ClonePointerToString(source.MaxmemoryDelta)
 
-	// Zone
-	details.Zone = genruntime.ClonePointerToString(source.Zone)
+	// MaxmemoryPolicy
+	configuration.MaxmemoryPolicy = genruntime.ClonePointerToString(source.MaxmemoryPolicy)
+
+	// MaxmemoryReserved
+	configuration.MaxmemoryReserved = genruntime.ClonePointerToString(source.MaxmemoryReserved)
+
+	// RdbBackupEnabled
+	configuration.RdbBackupEnabled = genruntime.ClonePointerToString(source.RdbBackupEnabled)
+
+	// RdbBackupFrequency
+	configuration.RdbBackupFrequency = genruntime.ClonePointerToString(source.RdbBackupFrequency)
+
+	// RdbBackupMaxSnapshotCount
+	configuration.RdbBackupMaxSnapshotCount = genruntime.ClonePointerToString(source.RdbBackupMaxSnapshotCount)
+
+	// RdbStorageConnectionString
+	configuration.RdbStorageConnectionString = genruntime.ClonePointerToString(source.RdbStorageConnectionString)
+
+	// ZonalConfiguration
+	configuration.ZonalConfiguration = genruntime.ClonePointerToString(source.ZonalConfiguration)
+
+	// additionalProperties
+	configuration.additionalProperties = genruntime.CloneMapOfStringToString(source.additionalProperties)
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToRedisInstanceDetailsStatus populates the provided destination RedisInstanceDetails_Status from our RedisInstanceDetails_Status
-func (details *RedisInstanceDetails_Status) AssignPropertiesToRedisInstanceDetailsStatus(destination *v20201201s.RedisInstanceDetails_Status) error {
+// AssignPropertiesToRedisCreateProperties_RedisConfiguration_STATUS populates the provided destination RedisCreateProperties_RedisConfiguration_STATUS from our RedisCreateProperties_RedisConfiguration_STATUS
+func (configuration *RedisCreateProperties_RedisConfiguration_STATUS) AssignPropertiesToRedisCreateProperties_RedisConfiguration_STATUS(destination *v20201201s.RedisCreateProperties_RedisConfiguration_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// IsMaster
-	if details.IsMaster != nil {
-		isMaster := *details.IsMaster
-		destination.IsMaster = &isMaster
-	} else {
-		destination.IsMaster = nil
-	}
+	// AofStorageConnectionString0
+	destination.AofStorageConnectionString0 = genruntime.ClonePointerToString(configuration.AofStorageConnectionString0)
 
-	// IsPrimary
-	if details.IsPrimary != nil {
-		isPrimary := *details.IsPrimary
-		destination.IsPrimary = &isPrimary
-	} else {
-		destination.IsPrimary = nil
-	}
+	// AofStorageConnectionString1
+	destination.AofStorageConnectionString1 = genruntime.ClonePointerToString(configuration.AofStorageConnectionString1)
 
-	// NonSslPort
-	destination.NonSslPort = genruntime.ClonePointerToInt(details.NonSslPort)
+	// Maxclients
+	destination.Maxclients = genruntime.ClonePointerToString(configuration.Maxclients)
 
-	// ShardId
-	destination.ShardId = genruntime.ClonePointerToInt(details.ShardId)
+	// MaxfragmentationmemoryReserved
+	destination.MaxfragmentationmemoryReserved = genruntime.ClonePointerToString(configuration.MaxfragmentationmemoryReserved)
 
-	// SslPort
-	destination.SslPort = genruntime.ClonePointerToInt(details.SslPort)
+	// MaxmemoryDelta
+	destination.MaxmemoryDelta = genruntime.ClonePointerToString(configuration.MaxmemoryDelta)
 
-	// Zone
-	destination.Zone = genruntime.ClonePointerToString(details.Zone)
+	// MaxmemoryPolicy
+	destination.MaxmemoryPolicy = genruntime.ClonePointerToString(configuration.MaxmemoryPolicy)
 
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
+	// MaxmemoryReserved
+	destination.MaxmemoryReserved = genruntime.ClonePointerToString(configuration.MaxmemoryReserved)
 
-	// No error
-	return nil
-}
+	// RdbBackupEnabled
+	destination.RdbBackupEnabled = genruntime.ClonePointerToString(configuration.RdbBackupEnabled)
 
-type RedisLinkedServer_Status struct {
-	// Id: Linked server Id.
-	Id *string `json:"id,omitempty"`
-}
+	// RdbBackupFrequency
+	destination.RdbBackupFrequency = genruntime.ClonePointerToString(configuration.RdbBackupFrequency)
 
-var _ genruntime.FromARMConverter = &RedisLinkedServer_Status{}
+	// RdbBackupMaxSnapshotCount
+	destination.RdbBackupMaxSnapshotCount = genruntime.ClonePointerToString(configuration.RdbBackupMaxSnapshotCount)
 
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (server *RedisLinkedServer_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RedisLinkedServer_StatusARM{}
-}
+	// RdbStorageConnectionString
+	destination.RdbStorageConnectionString = genruntime.ClonePointerToString(configuration.RdbStorageConnectionString)
 
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (server *RedisLinkedServer_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RedisLinkedServer_StatusARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisLinkedServer_StatusARM, got %T", armInput)
-	}
+	// ZonalConfiguration
+	destination.ZonalConfiguration = genruntime.ClonePointerToString(configuration.ZonalConfiguration)
 
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		server.Id = &id
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromRedisLinkedServerStatus populates our RedisLinkedServer_Status from the provided source RedisLinkedServer_Status
-func (server *RedisLinkedServer_Status) AssignPropertiesFromRedisLinkedServerStatus(source *v20201201s.RedisLinkedServer_Status) error {
-
-	// Id
-	server.Id = genruntime.ClonePointerToString(source.Id)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToRedisLinkedServerStatus populates the provided destination RedisLinkedServer_Status from our RedisLinkedServer_Status
-func (server *RedisLinkedServer_Status) AssignPropertiesToRedisLinkedServerStatus(destination *v20201201s.RedisLinkedServer_Status) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(server.Id)
+	// additionalProperties
+	destination.additionalProperties = genruntime.CloneMapOfStringToString(configuration.additionalProperties)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2020,39 +1746,6 @@ func (operator *RedisOperatorSpec) AssignPropertiesToRedisOperatorSpec(destinati
 	return nil
 }
 
-type RedisPropertiesStatusMinimumTlsVersion string
-
-const (
-	RedisPropertiesStatusMinimumTlsVersion10 = RedisPropertiesStatusMinimumTlsVersion("1.0")
-	RedisPropertiesStatusMinimumTlsVersion11 = RedisPropertiesStatusMinimumTlsVersion("1.1")
-	RedisPropertiesStatusMinimumTlsVersion12 = RedisPropertiesStatusMinimumTlsVersion("1.2")
-)
-
-type RedisPropertiesStatusProvisioningState string
-
-const (
-	RedisPropertiesStatusProvisioningStateCreating               = RedisPropertiesStatusProvisioningState("Creating")
-	RedisPropertiesStatusProvisioningStateDeleting               = RedisPropertiesStatusProvisioningState("Deleting")
-	RedisPropertiesStatusProvisioningStateDisabled               = RedisPropertiesStatusProvisioningState("Disabled")
-	RedisPropertiesStatusProvisioningStateFailed                 = RedisPropertiesStatusProvisioningState("Failed")
-	RedisPropertiesStatusProvisioningStateLinking                = RedisPropertiesStatusProvisioningState("Linking")
-	RedisPropertiesStatusProvisioningStateProvisioning           = RedisPropertiesStatusProvisioningState("Provisioning")
-	RedisPropertiesStatusProvisioningStateRecoveringScaleFailure = RedisPropertiesStatusProvisioningState("RecoveringScaleFailure")
-	RedisPropertiesStatusProvisioningStateScaling                = RedisPropertiesStatusProvisioningState("Scaling")
-	RedisPropertiesStatusProvisioningStateSucceeded              = RedisPropertiesStatusProvisioningState("Succeeded")
-	RedisPropertiesStatusProvisioningStateUnlinking              = RedisPropertiesStatusProvisioningState("Unlinking")
-	RedisPropertiesStatusProvisioningStateUnprovisioning         = RedisPropertiesStatusProvisioningState("Unprovisioning")
-	RedisPropertiesStatusProvisioningStateUpdating               = RedisPropertiesStatusProvisioningState("Updating")
-)
-
-type RedisPropertiesStatusPublicNetworkAccess string
-
-const (
-	RedisPropertiesStatusPublicNetworkAccessDisabled = RedisPropertiesStatusPublicNetworkAccess("Disabled")
-	RedisPropertiesStatusPublicNetworkAccessEnabled  = RedisPropertiesStatusPublicNetworkAccess("Enabled")
-)
-
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Cache.json#/definitions/Sku
 type Sku struct {
 	// +kubebuilder:validation:Required
 	// Capacity: The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for
@@ -2061,11 +1754,11 @@ type Sku struct {
 
 	// +kubebuilder:validation:Required
 	// Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).
-	Family *SkuFamily `json:"family,omitempty"`
+	Family *Sku_Family `json:"family,omitempty"`
 
 	// +kubebuilder:validation:Required
-	// Name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium).
-	Name *SkuName `json:"name,omitempty"`
+	// Name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)
+	Name *Sku_Name `json:"name,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Sku{}
@@ -2139,7 +1832,7 @@ func (sku *Sku) AssignPropertiesFromSku(source *v20201201s.Sku) error {
 
 	// Family
 	if source.Family != nil {
-		family := SkuFamily(*source.Family)
+		family := Sku_Family(*source.Family)
 		sku.Family = &family
 	} else {
 		sku.Family = nil
@@ -2147,7 +1840,7 @@ func (sku *Sku) AssignPropertiesFromSku(source *v20201201s.Sku) error {
 
 	// Name
 	if source.Name != nil {
-		name := SkuName(*source.Name)
+		name := Sku_Name(*source.Name)
 		sku.Name = &name
 	} else {
 		sku.Name = nil
@@ -2192,30 +1885,30 @@ func (sku *Sku) AssignPropertiesToSku(destination *v20201201s.Sku) error {
 	return nil
 }
 
-type Sku_Status struct {
+type Sku_STATUS struct {
 	// Capacity: The size of the Redis cache to deploy. Valid values: for C (Basic/Standard) family (0, 1, 2, 3, 4, 5, 6), for
 	// P (Premium) family (1, 2, 3, 4).
 	Capacity *int `json:"capacity,omitempty"`
 
 	// Family: The SKU family to use. Valid values: (C, P). (C = Basic/Standard, P = Premium).
-	Family *SkuStatusFamily `json:"family,omitempty"`
+	Family *Sku_Family_STATUS `json:"family,omitempty"`
 
 	// Name: The type of Redis cache to deploy. Valid values: (Basic, Standard, Premium)
-	Name *SkuStatusName `json:"name,omitempty"`
+	Name *Sku_Name_STATUS `json:"name,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &Sku_Status{}
+var _ genruntime.FromARMConverter = &Sku_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sku *Sku_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Sku_StatusARM{}
+func (sku *Sku_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Sku_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (sku *Sku_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Sku_StatusARM)
+func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Sku_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘Capacity’:
@@ -2240,15 +1933,15 @@ func (sku *Sku_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 	return nil
 }
 
-// AssignPropertiesFromSkuStatus populates our Sku_Status from the provided source Sku_Status
-func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v20201201s.Sku_Status) error {
+// AssignPropertiesFromSku_STATUS populates our Sku_STATUS from the provided source Sku_STATUS
+func (sku *Sku_STATUS) AssignPropertiesFromSku_STATUS(source *v20201201s.Sku_STATUS) error {
 
 	// Capacity
 	sku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
 
 	// Family
 	if source.Family != nil {
-		family := SkuStatusFamily(*source.Family)
+		family := Sku_Family_STATUS(*source.Family)
 		sku.Family = &family
 	} else {
 		sku.Family = nil
@@ -2256,7 +1949,7 @@ func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v20201201s.Sku_Stat
 
 	// Name
 	if source.Name != nil {
-		name := SkuStatusName(*source.Name)
+		name := Sku_Name_STATUS(*source.Name)
 		sku.Name = &name
 	} else {
 		sku.Name = nil
@@ -2266,8 +1959,8 @@ func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v20201201s.Sku_Stat
 	return nil
 }
 
-// AssignPropertiesToSkuStatus populates the provided destination Sku_Status from our Sku_Status
-func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v20201201s.Sku_Status) error {
+// AssignPropertiesToSku_STATUS populates the provided destination Sku_STATUS from our Sku_STATUS
+func (sku *Sku_STATUS) AssignPropertiesToSku_STATUS(destination *v20201201s.Sku_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2424,35 +2117,35 @@ func (secrets *RedisOperatorSecrets) AssignPropertiesToRedisOperatorSecrets(dest
 }
 
 // +kubebuilder:validation:Enum={"C","P"}
-type SkuFamily string
+type Sku_Family string
 
 const (
-	SkuFamilyC = SkuFamily("C")
-	SkuFamilyP = SkuFamily("P")
+	Sku_FamilyC = Sku_Family("C")
+	Sku_FamilyP = Sku_Family("P")
+)
+
+type Sku_Family_STATUS string
+
+const (
+	Sku_Family_STATUSC = Sku_Family_STATUS("C")
+	Sku_Family_STATUSP = Sku_Family_STATUS("P")
 )
 
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
-type SkuName string
+type Sku_Name string
 
 const (
-	SkuNameBasic    = SkuName("Basic")
-	SkuNamePremium  = SkuName("Premium")
-	SkuNameStandard = SkuName("Standard")
+	Sku_NameBasic    = Sku_Name("Basic")
+	Sku_NamePremium  = Sku_Name("Premium")
+	Sku_NameStandard = Sku_Name("Standard")
 )
 
-type SkuStatusFamily string
+type Sku_Name_STATUS string
 
 const (
-	SkuStatusFamilyC = SkuStatusFamily("C")
-	SkuStatusFamilyP = SkuStatusFamily("P")
-)
-
-type SkuStatusName string
-
-const (
-	SkuStatusNameBasic    = SkuStatusName("Basic")
-	SkuStatusNamePremium  = SkuStatusName("Premium")
-	SkuStatusNameStandard = SkuStatusName("Standard")
+	Sku_Name_STATUSBasic    = Sku_Name_STATUS("Basic")
+	Sku_Name_STATUSPremium  = Sku_Name_STATUS("Premium")
+	Sku_Name_STATUSStandard = Sku_Name_STATUS("Standard")
 )
 
 func init() {

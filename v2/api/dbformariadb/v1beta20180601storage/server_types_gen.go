@@ -22,12 +22,13 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20180601.Server
-// Generated from: https://schema.management.azure.com/schemas/2018-06-01/Microsoft.DBforMariaDB.json#/resourceDefinitions/servers
+// Generator information:
+// - Generated from: /mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/mariadb.json
 type Server struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Servers_Spec  `json:"spec,omitempty"`
-	Status            Server_Status `json:"status,omitempty"`
+	Spec              Server_Spec            `json:"spec,omitempty"`
+	Status            ServerForCreate_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Server{}
@@ -49,7 +50,7 @@ func (server *Server) AzureName() string {
 	return server.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2018-06-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20180601"
 func (server Server) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -69,14 +70,14 @@ func (server *Server) GetStatus() genruntime.ConvertibleStatus {
 	return &server.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.DBforMariaDB/servers"
+// GetType returns the ARM Type of the resource. This is always ""
 func (server *Server) GetType() string {
-	return "Microsoft.DBforMariaDB/servers"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (server *Server) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Server_Status{}
+	return &ServerForCreate_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +93,13 @@ func (server *Server) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (server *Server) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Server_Status); ok {
+	if st, ok := status.(*ServerForCreate_STATUS); ok {
 		server.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Server_Status
+	var st ServerForCreate_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,60 +123,46 @@ func (server *Server) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20180601.Server
-// Generated from: https://schema.management.azure.com/schemas/2018-06-01/Microsoft.DBforMariaDB.json#/resourceDefinitions/servers
+// Generator information:
+// - Generated from: /mariadb/resource-manager/Microsoft.DBforMariaDB/stable/2018-06-01/mariadb.json
 type ServerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Server `json:"items"`
 }
 
-// Storage version of v1beta20180601.Server_Status
-type Server_Status struct {
-	AdministratorLogin         *string                                  `json:"administratorLogin,omitempty"`
-	Conditions                 []conditions.Condition                   `json:"conditions,omitempty"`
-	EarliestRestoreDate        *string                                  `json:"earliestRestoreDate,omitempty"`
-	FullyQualifiedDomainName   *string                                  `json:"fullyQualifiedDomainName,omitempty"`
-	Id                         *string                                  `json:"id,omitempty"`
-	Location                   *string                                  `json:"location,omitempty"`
-	MasterServerId             *string                                  `json:"masterServerId,omitempty"`
-	MinimalTlsVersion          *string                                  `json:"minimalTlsVersion,omitempty"`
-	Name                       *string                                  `json:"name,omitempty"`
-	PrivateEndpointConnections []ServerPrivateEndpointConnection_Status `json:"privateEndpointConnections,omitempty"`
-	PropertyBag                genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
-	PublicNetworkAccess        *string                                  `json:"publicNetworkAccess,omitempty"`
-	ReplicaCapacity            *int                                     `json:"replicaCapacity,omitempty"`
-	ReplicationRole            *string                                  `json:"replicationRole,omitempty"`
-	Sku                        *Sku_Status                              `json:"sku,omitempty"`
-	SslEnforcement             *string                                  `json:"sslEnforcement,omitempty"`
-	StorageProfile             *StorageProfile_Status                   `json:"storageProfile,omitempty"`
-	Tags                       map[string]string                        `json:"tags,omitempty"`
-	Type                       *string                                  `json:"type,omitempty"`
-	UserVisibleState           *string                                  `json:"userVisibleState,omitempty"`
-	Version                    *string                                  `json:"version,omitempty"`
+// Storage version of v1beta20180601.ServerForCreate_STATUS
+type ServerForCreate_STATUS struct {
+	Conditions  []conditions.Condition            `json:"conditions,omitempty"`
+	Location    *string                           `json:"location,omitempty"`
+	Properties  *ServerPropertiesForCreate_STATUS `json:"properties,omitempty"`
+	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+	Sku         *Sku_STATUS                       `json:"sku,omitempty"`
+	Tags        map[string]string                 `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Server_Status{}
+var _ genruntime.ConvertibleStatus = &ServerForCreate_STATUS{}
 
-// ConvertStatusFrom populates our Server_Status from the provided source
-func (server *Server_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == server {
+// ConvertStatusFrom populates our ServerForCreate_STATUS from the provided source
+func (create *ServerForCreate_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == create {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(server)
+	return source.ConvertStatusTo(create)
 }
 
-// ConvertStatusTo populates the provided destination from our Server_Status
-func (server *Server_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == server {
+// ConvertStatusTo populates the provided destination from our ServerForCreate_STATUS
+func (create *ServerForCreate_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == create {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(server)
+	return destination.ConvertStatusFrom(create)
 }
 
-// Storage version of v1beta20180601.Servers_Spec
-type Servers_Spec struct {
+// Storage version of v1beta20180601.Server_Spec
+type Server_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string              `json:"azureName,omitempty"`
@@ -194,24 +181,24 @@ type Servers_Spec struct {
 	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Servers_Spec{}
+var _ genruntime.ConvertibleSpec = &Server_Spec{}
 
-// ConvertSpecFrom populates our Servers_Spec from the provided source
-func (servers *Servers_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == servers {
+// ConvertSpecFrom populates our Server_Spec from the provided source
+func (server *Server_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == server {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(servers)
+	return source.ConvertSpecTo(server)
 }
 
-// ConvertSpecTo populates the provided destination from our Servers_Spec
-func (servers *Servers_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == servers {
+// ConvertSpecTo populates the provided destination from our Server_Spec
+func (server *Server_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == server {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(servers)
+	return destination.ConvertSpecFrom(server)
 }
 
 // Storage version of v1beta20180601.ServerOperatorSpec
@@ -221,25 +208,29 @@ type ServerOperatorSpec struct {
 	Secrets     *ServerOperatorSecrets `json:"secrets,omitempty"`
 }
 
-// Storage version of v1beta20180601.ServerPrivateEndpointConnection_Status
-type ServerPrivateEndpointConnection_Status struct {
-	Id          *string                                           `json:"id,omitempty"`
-	Properties  *ServerPrivateEndpointConnectionProperties_Status `json:"properties,omitempty"`
-	PropertyBag genruntime.PropertyBag                            `json:"$propertyBag,omitempty"`
+// Storage version of v1beta20180601.ServerPropertiesForCreate
+type ServerPropertiesForCreate struct {
+	CreateMode          *string                `json:"createMode,omitempty"`
+	MinimalTlsVersion   *string                `json:"minimalTlsVersion,omitempty"`
+	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	PublicNetworkAccess *string                `json:"publicNetworkAccess,omitempty"`
+	SslEnforcement      *string                `json:"sslEnforcement,omitempty"`
+	StorageProfile      *StorageProfile        `json:"storageProfile,omitempty"`
+	Version             *string                `json:"version,omitempty"`
 }
 
-// Storage version of v1beta20180601.ServerPropertiesForCreate
-// Generated from: https://schema.management.azure.com/schemas/2018-06-01/Microsoft.DBforMariaDB.json#/definitions/ServerPropertiesForCreate
-type ServerPropertiesForCreate struct {
-	PropertyBag                      genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	ServerPropertiesForDefaultCreate *ServerPropertiesForDefaultCreate `json:"serverPropertiesForDefaultCreate,omitempty"`
-	ServerPropertiesForGeoRestore    *ServerPropertiesForGeoRestore    `json:"serverPropertiesForGeoRestore,omitempty"`
-	ServerPropertiesForReplica       *ServerPropertiesForReplica       `json:"serverPropertiesForReplica,omitempty"`
-	ServerPropertiesForRestore       *ServerPropertiesForRestore       `json:"serverPropertiesForRestore,omitempty"`
+// Storage version of v1beta20180601.ServerPropertiesForCreate_STATUS
+type ServerPropertiesForCreate_STATUS struct {
+	CreateMode          *string                `json:"createMode,omitempty"`
+	MinimalTlsVersion   *string                `json:"minimalTlsVersion,omitempty"`
+	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	PublicNetworkAccess *string                `json:"publicNetworkAccess,omitempty"`
+	SslEnforcement      *string                `json:"sslEnforcement,omitempty"`
+	StorageProfile      *StorageProfile_STATUS `json:"storageProfile,omitempty"`
+	Version             *string                `json:"version,omitempty"`
 }
 
 // Storage version of v1beta20180601.Sku
-// Generated from: https://schema.management.azure.com/schemas/2018-06-01/Microsoft.DBforMariaDB.json#/definitions/Sku
 type Sku struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Family      *string                `json:"family,omitempty"`
@@ -249,8 +240,8 @@ type Sku struct {
 	Tier        *string                `json:"tier,omitempty"`
 }
 
-// Storage version of v1beta20180601.Sku_Status
-type Sku_Status struct {
+// Storage version of v1beta20180601.Sku_STATUS
+type Sku_STATUS struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Family      *string                `json:"family,omitempty"`
 	Name        *string                `json:"name,omitempty"`
@@ -259,8 +250,14 @@ type Sku_Status struct {
 	Tier        *string                `json:"tier,omitempty"`
 }
 
-// Storage version of v1beta20180601.StorageProfile_Status
-type StorageProfile_Status struct {
+// Storage version of v1beta20180601.ServerOperatorSecrets
+type ServerOperatorSecrets struct {
+	FullyQualifiedDomainName *genruntime.SecretDestination `json:"fullyQualifiedDomainName,omitempty"`
+	PropertyBag              genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20180601.StorageProfile
+type StorageProfile struct {
 	BackupRetentionDays *int                   `json:"backupRetentionDays,omitempty"`
 	GeoRedundantBackup  *string                `json:"geoRedundantBackup,omitempty"`
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -268,87 +265,8 @@ type StorageProfile_Status struct {
 	StorageMB           *int                   `json:"storageMB,omitempty"`
 }
 
-// Storage version of v1beta20180601.ServerOperatorSecrets
-type ServerOperatorSecrets struct {
-	FullyQualifiedDomainName *genruntime.SecretDestination `json:"fullyQualifiedDomainName,omitempty"`
-	PropertyBag              genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1beta20180601.ServerPrivateEndpointConnectionProperties_Status
-type ServerPrivateEndpointConnectionProperties_Status struct {
-	PrivateEndpoint                   *PrivateEndpointProperty_Status                         `json:"privateEndpoint,omitempty"`
-	PrivateLinkServiceConnectionState *ServerPrivateLinkServiceConnectionStateProperty_Status `json:"privateLinkServiceConnectionState,omitempty"`
-	PropertyBag                       genruntime.PropertyBag                                  `json:"$propertyBag,omitempty"`
-	ProvisioningState                 *string                                                 `json:"provisioningState,omitempty"`
-}
-
-// Storage version of v1beta20180601.ServerPropertiesForDefaultCreate
-type ServerPropertiesForDefaultCreate struct {
-	AdministratorLogin         *string                     `json:"administratorLogin,omitempty"`
-	AdministratorLoginPassword *genruntime.SecretReference `json:"administratorLoginPassword,omitempty"`
-	CreateMode                 *string                     `json:"createMode,omitempty"`
-	MinimalTlsVersion          *string                     `json:"minimalTlsVersion,omitempty"`
-	PropertyBag                genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
-	PublicNetworkAccess        *string                     `json:"publicNetworkAccess,omitempty"`
-	SslEnforcement             *string                     `json:"sslEnforcement,omitempty"`
-	StorageProfile             *StorageProfile             `json:"storageProfile,omitempty"`
-	Version                    *string                     `json:"version,omitempty"`
-}
-
-// Storage version of v1beta20180601.ServerPropertiesForGeoRestore
-type ServerPropertiesForGeoRestore struct {
-	CreateMode          *string                `json:"createMode,omitempty"`
-	MinimalTlsVersion   *string                `json:"minimalTlsVersion,omitempty"`
-	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	PublicNetworkAccess *string                `json:"publicNetworkAccess,omitempty"`
-	SourceServerId      *string                `json:"sourceServerId,omitempty"`
-	SslEnforcement      *string                `json:"sslEnforcement,omitempty"`
-	StorageProfile      *StorageProfile        `json:"storageProfile,omitempty"`
-	Version             *string                `json:"version,omitempty"`
-}
-
-// Storage version of v1beta20180601.ServerPropertiesForReplica
-type ServerPropertiesForReplica struct {
-	CreateMode          *string                `json:"createMode,omitempty"`
-	MinimalTlsVersion   *string                `json:"minimalTlsVersion,omitempty"`
-	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	PublicNetworkAccess *string                `json:"publicNetworkAccess,omitempty"`
-	SourceServerId      *string                `json:"sourceServerId,omitempty"`
-	SslEnforcement      *string                `json:"sslEnforcement,omitempty"`
-	StorageProfile      *StorageProfile        `json:"storageProfile,omitempty"`
-	Version             *string                `json:"version,omitempty"`
-}
-
-// Storage version of v1beta20180601.ServerPropertiesForRestore
-type ServerPropertiesForRestore struct {
-	CreateMode          *string                `json:"createMode,omitempty"`
-	MinimalTlsVersion   *string                `json:"minimalTlsVersion,omitempty"`
-	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	PublicNetworkAccess *string                `json:"publicNetworkAccess,omitempty"`
-	RestorePointInTime  *string                `json:"restorePointInTime,omitempty"`
-	SourceServerId      *string                `json:"sourceServerId,omitempty"`
-	SslEnforcement      *string                `json:"sslEnforcement,omitempty"`
-	StorageProfile      *StorageProfile        `json:"storageProfile,omitempty"`
-	Version             *string                `json:"version,omitempty"`
-}
-
-// Storage version of v1beta20180601.PrivateEndpointProperty_Status
-type PrivateEndpointProperty_Status struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1beta20180601.ServerPrivateLinkServiceConnectionStateProperty_Status
-type ServerPrivateLinkServiceConnectionStateProperty_Status struct {
-	ActionsRequired *string                `json:"actionsRequired,omitempty"`
-	Description     *string                `json:"description,omitempty"`
-	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Status          *string                `json:"status,omitempty"`
-}
-
-// Storage version of v1beta20180601.StorageProfile
-// Generated from: https://schema.management.azure.com/schemas/2018-06-01/Microsoft.DBforMariaDB.json#/definitions/StorageProfile
-type StorageProfile struct {
+// Storage version of v1beta20180601.StorageProfile_STATUS
+type StorageProfile_STATUS struct {
 	BackupRetentionDays *int                   `json:"backupRetentionDays,omitempty"`
 	GeoRedundantBackup  *string                `json:"geoRedundantBackup,omitempty"`
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`

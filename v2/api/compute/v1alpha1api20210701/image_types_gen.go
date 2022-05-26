@@ -28,8 +28,8 @@ import (
 type Image struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Images_Spec  `json:"spec,omitempty"`
-	Status            Image_Status `json:"status,omitempty"`
+	Spec              Image_Spec   `json:"spec,omitempty"`
+	Status            Image_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Image{}
@@ -110,7 +110,7 @@ func (image *Image) AzureName() string {
 	return image.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2021-07-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20210701"
 func (image Image) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -130,14 +130,14 @@ func (image *Image) GetStatus() genruntime.ConvertibleStatus {
 	return &image.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/images"
+// GetType returns the ARM Type of the resource. This is always ""
 func (image *Image) GetType() string {
-	return "Microsoft.Compute/images"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (image *Image) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Image_Status{}
+	return &Image_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -153,13 +153,13 @@ func (image *Image) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (image *Image) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Image_Status); ok {
+	if st, ok := status.(*Image_STATUS); ok {
 		image.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Image_Status
+	var st Image_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -269,18 +269,18 @@ func (image *Image) AssignPropertiesFromImage(source *alpha20210701s.Image) erro
 	image.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Images_Spec
-	err := spec.AssignPropertiesFromImagesSpec(&source.Spec)
+	var spec Image_Spec
+	err := spec.AssignPropertiesFromImage_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromImagesSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromImage_Spec() to populate field Spec")
 	}
 	image.Spec = spec
 
 	// Status
-	var status Image_Status
-	err = status.AssignPropertiesFromImageStatus(&source.Status)
+	var status Image_STATUS
+	err = status.AssignPropertiesFromImage_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromImageStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromImage_STATUS() to populate field Status")
 	}
 	image.Status = status
 
@@ -295,18 +295,18 @@ func (image *Image) AssignPropertiesToImage(destination *alpha20210701s.Image) e
 	destination.ObjectMeta = *image.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec alpha20210701s.Images_Spec
-	err := image.Spec.AssignPropertiesToImagesSpec(&spec)
+	var spec alpha20210701s.Image_Spec
+	err := image.Spec.AssignPropertiesToImage_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToImagesSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToImage_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status alpha20210701s.Image_Status
-	err = image.Status.AssignPropertiesToImageStatus(&status)
+	var status alpha20210701s.Image_STATUS
+	err = image.Status.AssignPropertiesToImage_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToImageStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToImage_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -332,46 +332,46 @@ type ImageList struct {
 }
 
 // Deprecated version of APIVersion. Use v1beta20210701.APIVersion instead
-// +kubebuilder:validation:Enum={"2021-07-01"}
+// +kubebuilder:validation:Enum={"20210701"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2021-07-01")
+const APIVersionValue = APIVersion("20210701")
 
-// Deprecated version of Image_Status. Use v1beta20210701.Image_Status instead
-type Image_Status struct {
+// Deprecated version of Image_STATUS. Use v1beta20210701.Image_STATUS instead
+type Image_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions           []conditions.Condition       `json:"conditions,omitempty"`
-	ExtendedLocation     *ExtendedLocation_Status     `json:"extendedLocation,omitempty"`
-	HyperVGeneration     *HyperVGenerationType_Status `json:"hyperVGeneration,omitempty"`
+	ExtendedLocation     *ExtendedLocation_STATUS     `json:"extendedLocation,omitempty"`
+	HyperVGeneration     *HyperVGenerationType_STATUS `json:"hyperVGeneration,omitempty"`
 	Id                   *string                      `json:"id,omitempty"`
 	Location             *string                      `json:"location,omitempty"`
 	Name                 *string                      `json:"name,omitempty"`
 	ProvisioningState    *string                      `json:"provisioningState,omitempty"`
-	SourceVirtualMachine *SubResource_Status          `json:"sourceVirtualMachine,omitempty"`
-	StorageProfile       *ImageStorageProfile_Status  `json:"storageProfile,omitempty"`
+	SourceVirtualMachine *SubResource_STATUS          `json:"sourceVirtualMachine,omitempty"`
+	StorageProfile       *ImageStorageProfile_STATUS  `json:"storageProfile,omitempty"`
 	Tags                 map[string]string            `json:"tags,omitempty"`
 	Type                 *string                      `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Image_Status{}
+var _ genruntime.ConvertibleStatus = &Image_STATUS{}
 
-// ConvertStatusFrom populates our Image_Status from the provided source
-func (image *Image_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*alpha20210701s.Image_Status)
+// ConvertStatusFrom populates our Image_STATUS from the provided source
+func (image *Image_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*alpha20210701s.Image_STATUS)
 	if ok {
 		// Populate our instance from source
-		return image.AssignPropertiesFromImageStatus(src)
+		return image.AssignPropertiesFromImage_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &alpha20210701s.Image_Status{}
+	src = &alpha20210701s.Image_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = image.AssignPropertiesFromImageStatus(src)
+	err = image.AssignPropertiesFromImage_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -379,17 +379,17 @@ func (image *Image_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Image_Status
-func (image *Image_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*alpha20210701s.Image_Status)
+// ConvertStatusTo populates the provided destination from our Image_STATUS
+func (image *Image_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*alpha20210701s.Image_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return image.AssignPropertiesToImageStatus(dst)
+		return image.AssignPropertiesToImage_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &alpha20210701s.Image_Status{}
-	err := image.AssignPropertiesToImageStatus(dst)
+	dst = &alpha20210701s.Image_STATUS{}
+	err := image.AssignPropertiesToImage_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -403,25 +403,25 @@ func (image *Image_Status) ConvertStatusTo(destination genruntime.ConvertibleSta
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Image_Status{}
+var _ genruntime.FromARMConverter = &Image_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (image *Image_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Image_StatusARM{}
+func (image *Image_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Image_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (image *Image_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Image_StatusARM)
+func (image *Image_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Image_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Image_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Image_STATUSARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
 
 	// Set property ‘ExtendedLocation’:
 	if typedInput.ExtendedLocation != nil {
-		var extendedLocation1 ExtendedLocation_Status
+		var extendedLocation1 ExtendedLocation_STATUS
 		err := extendedLocation1.PopulateFromARM(owner, *typedInput.ExtendedLocation)
 		if err != nil {
 			return err
@@ -470,7 +470,7 @@ func (image *Image_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SourceVirtualMachine != nil {
-			var sourceVirtualMachine1 SubResource_Status
+			var sourceVirtualMachine1 SubResource_STATUS
 			err := sourceVirtualMachine1.PopulateFromARM(owner, *typedInput.Properties.SourceVirtualMachine)
 			if err != nil {
 				return err
@@ -484,7 +484,7 @@ func (image *Image_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.StorageProfile != nil {
-			var storageProfile1 ImageStorageProfile_Status
+			var storageProfile1 ImageStorageProfile_STATUS
 			err := storageProfile1.PopulateFromARM(owner, *typedInput.Properties.StorageProfile)
 			if err != nil {
 				return err
@@ -512,18 +512,18 @@ func (image *Image_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	return nil
 }
 
-// AssignPropertiesFromImageStatus populates our Image_Status from the provided source Image_Status
-func (image *Image_Status) AssignPropertiesFromImageStatus(source *alpha20210701s.Image_Status) error {
+// AssignPropertiesFromImage_STATUS populates our Image_STATUS from the provided source Image_STATUS
+func (image *Image_STATUS) AssignPropertiesFromImage_STATUS(source *alpha20210701s.Image_STATUS) error {
 
 	// Conditions
 	image.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
-		var extendedLocation ExtendedLocation_Status
-		err := extendedLocation.AssignPropertiesFromExtendedLocationStatus(source.ExtendedLocation)
+		var extendedLocation ExtendedLocation_STATUS
+		err := extendedLocation.AssignPropertiesFromExtendedLocation_STATUS(source.ExtendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocationStatus() to populate field ExtendedLocation")
+			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
 		image.ExtendedLocation = &extendedLocation
 	} else {
@@ -532,7 +532,7 @@ func (image *Image_Status) AssignPropertiesFromImageStatus(source *alpha20210701
 
 	// HyperVGeneration
 	if source.HyperVGeneration != nil {
-		hyperVGeneration := HyperVGenerationType_Status(*source.HyperVGeneration)
+		hyperVGeneration := HyperVGenerationType_STATUS(*source.HyperVGeneration)
 		image.HyperVGeneration = &hyperVGeneration
 	} else {
 		image.HyperVGeneration = nil
@@ -552,10 +552,10 @@ func (image *Image_Status) AssignPropertiesFromImageStatus(source *alpha20210701
 
 	// SourceVirtualMachine
 	if source.SourceVirtualMachine != nil {
-		var sourceVirtualMachine SubResource_Status
-		err := sourceVirtualMachine.AssignPropertiesFromSubResourceStatus(source.SourceVirtualMachine)
+		var sourceVirtualMachine SubResource_STATUS
+		err := sourceVirtualMachine.AssignPropertiesFromSubResource_STATUS(source.SourceVirtualMachine)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field SourceVirtualMachine")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field SourceVirtualMachine")
 		}
 		image.SourceVirtualMachine = &sourceVirtualMachine
 	} else {
@@ -564,10 +564,10 @@ func (image *Image_Status) AssignPropertiesFromImageStatus(source *alpha20210701
 
 	// StorageProfile
 	if source.StorageProfile != nil {
-		var storageProfile ImageStorageProfile_Status
-		err := storageProfile.AssignPropertiesFromImageStorageProfileStatus(source.StorageProfile)
+		var storageProfile ImageStorageProfile_STATUS
+		err := storageProfile.AssignPropertiesFromImageStorageProfile_STATUS(source.StorageProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromImageStorageProfileStatus() to populate field StorageProfile")
+			return errors.Wrap(err, "calling AssignPropertiesFromImageStorageProfile_STATUS() to populate field StorageProfile")
 		}
 		image.StorageProfile = &storageProfile
 	} else {
@@ -584,8 +584,8 @@ func (image *Image_Status) AssignPropertiesFromImageStatus(source *alpha20210701
 	return nil
 }
 
-// AssignPropertiesToImageStatus populates the provided destination Image_Status from our Image_Status
-func (image *Image_Status) AssignPropertiesToImageStatus(destination *alpha20210701s.Image_Status) error {
+// AssignPropertiesToImage_STATUS populates the provided destination Image_STATUS from our Image_STATUS
+func (image *Image_STATUS) AssignPropertiesToImage_STATUS(destination *alpha20210701s.Image_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -594,10 +594,10 @@ func (image *Image_Status) AssignPropertiesToImageStatus(destination *alpha20210
 
 	// ExtendedLocation
 	if image.ExtendedLocation != nil {
-		var extendedLocation alpha20210701s.ExtendedLocation_Status
-		err := image.ExtendedLocation.AssignPropertiesToExtendedLocationStatus(&extendedLocation)
+		var extendedLocation alpha20210701s.ExtendedLocation_STATUS
+		err := image.ExtendedLocation.AssignPropertiesToExtendedLocation_STATUS(&extendedLocation)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocationStatus() to populate field ExtendedLocation")
+			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
 		destination.ExtendedLocation = &extendedLocation
 	} else {
@@ -626,10 +626,10 @@ func (image *Image_Status) AssignPropertiesToImageStatus(destination *alpha20210
 
 	// SourceVirtualMachine
 	if image.SourceVirtualMachine != nil {
-		var sourceVirtualMachine alpha20210701s.SubResource_Status
-		err := image.SourceVirtualMachine.AssignPropertiesToSubResourceStatus(&sourceVirtualMachine)
+		var sourceVirtualMachine alpha20210701s.SubResource_STATUS
+		err := image.SourceVirtualMachine.AssignPropertiesToSubResource_STATUS(&sourceVirtualMachine)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field SourceVirtualMachine")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field SourceVirtualMachine")
 		}
 		destination.SourceVirtualMachine = &sourceVirtualMachine
 	} else {
@@ -638,10 +638,10 @@ func (image *Image_Status) AssignPropertiesToImageStatus(destination *alpha20210
 
 	// StorageProfile
 	if image.StorageProfile != nil {
-		var storageProfile alpha20210701s.ImageStorageProfile_Status
-		err := image.StorageProfile.AssignPropertiesToImageStorageProfileStatus(&storageProfile)
+		var storageProfile alpha20210701s.ImageStorageProfile_STATUS
+		err := image.StorageProfile.AssignPropertiesToImageStorageProfile_STATUS(&storageProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToImageStorageProfileStatus() to populate field StorageProfile")
+			return errors.Wrap(err, "calling AssignPropertiesToImageStorageProfile_STATUS() to populate field StorageProfile")
 		}
 		destination.StorageProfile = &storageProfile
 	} else {
@@ -665,36 +665,44 @@ func (image *Image_Status) AssignPropertiesToImageStatus(destination *alpha20210
 	return nil
 }
 
-type Images_Spec struct {
+type Image_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName        string                           `json:"azureName,omitempty"`
-	ExtendedLocation *ExtendedLocation                `json:"extendedLocation,omitempty"`
-	HyperVGeneration *ImagePropertiesHyperVGeneration `json:"hyperVGeneration,omitempty"`
-	Location         *string                          `json:"location,omitempty"`
+	AzureName        string                `json:"azureName,omitempty"`
+	ExtendedLocation *ExtendedLocation     `json:"extendedLocation,omitempty"`
+	HyperVGeneration *HyperVGenerationType `json:"hyperVGeneration,omitempty"`
+	Id               *string               `json:"id,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner                *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	ProvisioningState    *string                            `json:"provisioningState,omitempty"`
 	SourceVirtualMachine *SubResource                       `json:"sourceVirtualMachine,omitempty"`
 	StorageProfile       *ImageStorageProfile               `json:"storageProfile,omitempty"`
 	Tags                 map[string]string                  `json:"tags,omitempty"`
+	Type                 *string                            `json:"type,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Images_Spec{}
+var _ genruntime.ARMTransformer = &Image_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (images *Images_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if images == nil {
+func (image *Image_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if image == nil {
 		return nil, nil
 	}
-	result := &Images_SpecARM{}
+	result := &Image_SpecARM{}
+
+	// Set property ‘AzureName’:
+	result.AzureName = image.AzureName
 
 	// Set property ‘ExtendedLocation’:
-	if images.ExtendedLocation != nil {
-		extendedLocationARM, err := (*images.ExtendedLocation).ConvertToARM(resolved)
+	if image.ExtendedLocation != nil {
+		extendedLocationARM, err := (*image.ExtendedLocation).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -702,9 +710,15 @@ func (images *Images_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		result.ExtendedLocation = &extendedLocation
 	}
 
+	// Set property ‘Id’:
+	if image.Id != nil {
+		id := *image.Id
+		result.Id = &id
+	}
+
 	// Set property ‘Location’:
-	if images.Location != nil {
-		location := *images.Location
+	if image.Location != nil {
+		location := *image.Location
 		result.Location = &location
 	}
 
@@ -712,25 +726,30 @@ func (images *Images_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if images.HyperVGeneration != nil ||
-		images.SourceVirtualMachine != nil ||
-		images.StorageProfile != nil {
+	if image.HyperVGeneration != nil ||
+		image.ProvisioningState != nil ||
+		image.SourceVirtualMachine != nil ||
+		image.StorageProfile != nil {
 		result.Properties = &ImagePropertiesARM{}
 	}
-	if images.HyperVGeneration != nil {
-		hyperVGeneration := *images.HyperVGeneration
+	if image.HyperVGeneration != nil {
+		hyperVGeneration := *image.HyperVGeneration
 		result.Properties.HyperVGeneration = &hyperVGeneration
 	}
-	if images.SourceVirtualMachine != nil {
-		sourceVirtualMachineARM, err := (*images.SourceVirtualMachine).ConvertToARM(resolved)
+	if image.ProvisioningState != nil {
+		provisioningState := *image.ProvisioningState
+		result.Properties.ProvisioningState = &provisioningState
+	}
+	if image.SourceVirtualMachine != nil {
+		sourceVirtualMachineARM, err := (*image.SourceVirtualMachine).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		sourceVirtualMachine := *sourceVirtualMachineARM.(*SubResourceARM)
 		result.Properties.SourceVirtualMachine = &sourceVirtualMachine
 	}
-	if images.StorageProfile != nil {
-		storageProfileARM, err := (*images.StorageProfile).ConvertToARM(resolved)
+	if image.StorageProfile != nil {
+		storageProfileARM, err := (*image.StorageProfile).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -739,29 +758,35 @@ func (images *Images_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	}
 
 	// Set property ‘Tags’:
-	if images.Tags != nil {
+	if image.Tags != nil {
 		result.Tags = make(map[string]string)
-		for key, value := range images.Tags {
+		for key, value := range image.Tags {
 			result.Tags[key] = value
 		}
+	}
+
+	// Set property ‘Type’:
+	if image.Type != nil {
+		typeVar := *image.Type
+		result.Type = &typeVar
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (images *Images_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Images_SpecARM{}
+func (image *Image_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Image_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (images *Images_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Images_SpecARM)
+func (image *Image_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Image_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Images_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Image_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
-	images.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	image.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
 	// Set property ‘ExtendedLocation’:
 	if typedInput.ExtendedLocation != nil {
@@ -771,7 +796,7 @@ func (images *Images_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 			return err
 		}
 		extendedLocation := extendedLocation1
-		images.ExtendedLocation = &extendedLocation
+		image.ExtendedLocation = &extendedLocation
 	}
 
 	// Set property ‘HyperVGeneration’:
@@ -779,19 +804,34 @@ func (images *Images_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	if typedInput.Properties != nil {
 		if typedInput.Properties.HyperVGeneration != nil {
 			hyperVGeneration := *typedInput.Properties.HyperVGeneration
-			images.HyperVGeneration = &hyperVGeneration
+			image.HyperVGeneration = &hyperVGeneration
 		}
+	}
+
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		image.Id = &id
 	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		images.Location = &location
+		image.Location = &location
 	}
 
 	// Set property ‘Owner’:
-	images.Owner = &genruntime.KnownResourceReference{
+	image.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
+	}
+
+	// Set property ‘ProvisioningState’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ProvisioningState != nil {
+			provisioningState := *typedInput.Properties.ProvisioningState
+			image.ProvisioningState = &provisioningState
+		}
 	}
 
 	// Set property ‘SourceVirtualMachine’:
@@ -804,7 +844,7 @@ func (images *Images_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 				return err
 			}
 			sourceVirtualMachine := sourceVirtualMachine1
-			images.SourceVirtualMachine = &sourceVirtualMachine
+			image.SourceVirtualMachine = &sourceVirtualMachine
 		}
 	}
 
@@ -818,41 +858,47 @@ func (images *Images_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 				return err
 			}
 			storageProfile := storageProfile1
-			images.StorageProfile = &storageProfile
+			image.StorageProfile = &storageProfile
 		}
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		images.Tags = make(map[string]string)
+		image.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
-			images.Tags[key] = value
+			image.Tags[key] = value
 		}
+	}
+
+	// Set property ‘Type’:
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		image.Type = &typeVar
 	}
 
 	// No error
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Images_Spec{}
+var _ genruntime.ConvertibleSpec = &Image_Spec{}
 
-// ConvertSpecFrom populates our Images_Spec from the provided source
-func (images *Images_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*alpha20210701s.Images_Spec)
+// ConvertSpecFrom populates our Image_Spec from the provided source
+func (image *Image_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*alpha20210701s.Image_Spec)
 	if ok {
 		// Populate our instance from source
-		return images.AssignPropertiesFromImagesSpec(src)
+		return image.AssignPropertiesFromImage_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &alpha20210701s.Images_Spec{}
+	src = &alpha20210701s.Image_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = images.AssignPropertiesFromImagesSpec(src)
+	err = image.AssignPropertiesFromImage_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -860,17 +906,17 @@ func (images *Images_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) er
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Images_Spec
-func (images *Images_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*alpha20210701s.Images_Spec)
+// ConvertSpecTo populates the provided destination from our Image_Spec
+func (image *Image_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*alpha20210701s.Image_Spec)
 	if ok {
 		// Populate destination from our instance
-		return images.AssignPropertiesToImagesSpec(dst)
+		return image.AssignPropertiesToImage_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &alpha20210701s.Images_Spec{}
-	err := images.AssignPropertiesToImagesSpec(dst)
+	dst = &alpha20210701s.Image_Spec{}
+	err := image.AssignPropertiesToImage_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -884,11 +930,11 @@ func (images *Images_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec)
 	return nil
 }
 
-// AssignPropertiesFromImagesSpec populates our Images_Spec from the provided source Images_Spec
-func (images *Images_Spec) AssignPropertiesFromImagesSpec(source *alpha20210701s.Images_Spec) error {
+// AssignPropertiesFromImage_Spec populates our Image_Spec from the provided source Image_Spec
+func (image *Image_Spec) AssignPropertiesFromImage_Spec(source *alpha20210701s.Image_Spec) error {
 
 	// AzureName
-	images.AzureName = source.AzureName
+	image.AzureName = source.AzureName
 
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
@@ -897,29 +943,35 @@ func (images *Images_Spec) AssignPropertiesFromImagesSpec(source *alpha20210701s
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocation() to populate field ExtendedLocation")
 		}
-		images.ExtendedLocation = &extendedLocation
+		image.ExtendedLocation = &extendedLocation
 	} else {
-		images.ExtendedLocation = nil
+		image.ExtendedLocation = nil
 	}
 
 	// HyperVGeneration
 	if source.HyperVGeneration != nil {
-		hyperVGeneration := ImagePropertiesHyperVGeneration(*source.HyperVGeneration)
-		images.HyperVGeneration = &hyperVGeneration
+		hyperVGeneration := HyperVGenerationType(*source.HyperVGeneration)
+		image.HyperVGeneration = &hyperVGeneration
 	} else {
-		images.HyperVGeneration = nil
+		image.HyperVGeneration = nil
 	}
 
+	// Id
+	image.Id = genruntime.ClonePointerToString(source.Id)
+
 	// Location
-	images.Location = genruntime.ClonePointerToString(source.Location)
+	image.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
-		images.Owner = &owner
+		image.Owner = &owner
 	} else {
-		images.Owner = nil
+		image.Owner = nil
 	}
+
+	// ProvisioningState
+	image.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// SourceVirtualMachine
 	if source.SourceVirtualMachine != nil {
@@ -928,9 +980,9 @@ func (images *Images_Spec) AssignPropertiesFromImagesSpec(source *alpha20210701s
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field SourceVirtualMachine")
 		}
-		images.SourceVirtualMachine = &sourceVirtualMachine
+		image.SourceVirtualMachine = &sourceVirtualMachine
 	} else {
-		images.SourceVirtualMachine = nil
+		image.SourceVirtualMachine = nil
 	}
 
 	// StorageProfile
@@ -940,30 +992,33 @@ func (images *Images_Spec) AssignPropertiesFromImagesSpec(source *alpha20210701s
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromImageStorageProfile() to populate field StorageProfile")
 		}
-		images.StorageProfile = &storageProfile
+		image.StorageProfile = &storageProfile
 	} else {
-		images.StorageProfile = nil
+		image.StorageProfile = nil
 	}
 
 	// Tags
-	images.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	image.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	image.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToImagesSpec populates the provided destination Images_Spec from our Images_Spec
-func (images *Images_Spec) AssignPropertiesToImagesSpec(destination *alpha20210701s.Images_Spec) error {
+// AssignPropertiesToImage_Spec populates the provided destination Image_Spec from our Image_Spec
+func (image *Image_Spec) AssignPropertiesToImage_Spec(destination *alpha20210701s.Image_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
-	destination.AzureName = images.AzureName
+	destination.AzureName = image.AzureName
 
 	// ExtendedLocation
-	if images.ExtendedLocation != nil {
+	if image.ExtendedLocation != nil {
 		var extendedLocation alpha20210701s.ExtendedLocation
-		err := images.ExtendedLocation.AssignPropertiesToExtendedLocation(&extendedLocation)
+		err := image.ExtendedLocation.AssignPropertiesToExtendedLocation(&extendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation() to populate field ExtendedLocation")
 		}
@@ -973,31 +1028,37 @@ func (images *Images_Spec) AssignPropertiesToImagesSpec(destination *alpha202107
 	}
 
 	// HyperVGeneration
-	if images.HyperVGeneration != nil {
-		hyperVGeneration := string(*images.HyperVGeneration)
+	if image.HyperVGeneration != nil {
+		hyperVGeneration := string(*image.HyperVGeneration)
 		destination.HyperVGeneration = &hyperVGeneration
 	} else {
 		destination.HyperVGeneration = nil
 	}
 
+	// Id
+	destination.Id = genruntime.ClonePointerToString(image.Id)
+
 	// Location
-	destination.Location = genruntime.ClonePointerToString(images.Location)
+	destination.Location = genruntime.ClonePointerToString(image.Location)
 
 	// OriginalVersion
-	destination.OriginalVersion = images.OriginalVersion()
+	destination.OriginalVersion = image.OriginalVersion()
 
 	// Owner
-	if images.Owner != nil {
-		owner := images.Owner.Copy()
+	if image.Owner != nil {
+		owner := image.Owner.Copy()
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
 	}
 
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(image.ProvisioningState)
+
 	// SourceVirtualMachine
-	if images.SourceVirtualMachine != nil {
+	if image.SourceVirtualMachine != nil {
 		var sourceVirtualMachine alpha20210701s.SubResource
-		err := images.SourceVirtualMachine.AssignPropertiesToSubResource(&sourceVirtualMachine)
+		err := image.SourceVirtualMachine.AssignPropertiesToSubResource(&sourceVirtualMachine)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field SourceVirtualMachine")
 		}
@@ -1007,9 +1068,9 @@ func (images *Images_Spec) AssignPropertiesToImagesSpec(destination *alpha202107
 	}
 
 	// StorageProfile
-	if images.StorageProfile != nil {
+	if image.StorageProfile != nil {
 		var storageProfile alpha20210701s.ImageStorageProfile
-		err := images.StorageProfile.AssignPropertiesToImageStorageProfile(&storageProfile)
+		err := image.StorageProfile.AssignPropertiesToImageStorageProfile(&storageProfile)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToImageStorageProfile() to populate field StorageProfile")
 		}
@@ -1019,7 +1080,10 @@ func (images *Images_Spec) AssignPropertiesToImagesSpec(destination *alpha202107
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(images.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(image.Tags)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(image.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1033,12 +1097,12 @@ func (images *Images_Spec) AssignPropertiesToImagesSpec(destination *alpha202107
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (images *Images_Spec) OriginalVersion() string {
+func (image *Image_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (images *Images_Spec) SetAzureName(azureName string) { images.AzureName = azureName }
+func (image *Image_Spec) SetAzureName(azureName string) { image.AzureName = azureName }
 
 // Deprecated version of ExtendedLocation. Use v1beta20210701.ExtendedLocation instead
 type ExtendedLocation struct {
@@ -1142,24 +1206,24 @@ func (location *ExtendedLocation) AssignPropertiesToExtendedLocation(destination
 	return nil
 }
 
-// Deprecated version of ExtendedLocation_Status. Use v1beta20210701.ExtendedLocation_Status instead
-type ExtendedLocation_Status struct {
+// Deprecated version of ExtendedLocation_STATUS. Use v1beta20210701.ExtendedLocation_STATUS instead
+type ExtendedLocation_STATUS struct {
 	Name *string                      `json:"name,omitempty"`
-	Type *ExtendedLocationType_Status `json:"type,omitempty"`
+	Type *ExtendedLocationType_STATUS `json:"type,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &ExtendedLocation_Status{}
+var _ genruntime.FromARMConverter = &ExtendedLocation_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (location *ExtendedLocation_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ExtendedLocation_StatusARM{}
+func (location *ExtendedLocation_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ExtendedLocation_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (location *ExtendedLocation_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ExtendedLocation_StatusARM)
+func (location *ExtendedLocation_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ExtendedLocation_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExtendedLocation_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ExtendedLocation_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘Name’:
@@ -1178,15 +1242,15 @@ func (location *ExtendedLocation_Status) PopulateFromARM(owner genruntime.Arbitr
 	return nil
 }
 
-// AssignPropertiesFromExtendedLocationStatus populates our ExtendedLocation_Status from the provided source ExtendedLocation_Status
-func (location *ExtendedLocation_Status) AssignPropertiesFromExtendedLocationStatus(source *alpha20210701s.ExtendedLocation_Status) error {
+// AssignPropertiesFromExtendedLocation_STATUS populates our ExtendedLocation_STATUS from the provided source ExtendedLocation_STATUS
+func (location *ExtendedLocation_STATUS) AssignPropertiesFromExtendedLocation_STATUS(source *alpha20210701s.ExtendedLocation_STATUS) error {
 
 	// Name
 	location.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Type
 	if source.Type != nil {
-		typeVar := ExtendedLocationType_Status(*source.Type)
+		typeVar := ExtendedLocationType_STATUS(*source.Type)
 		location.Type = &typeVar
 	} else {
 		location.Type = nil
@@ -1196,8 +1260,8 @@ func (location *ExtendedLocation_Status) AssignPropertiesFromExtendedLocationSta
 	return nil
 }
 
-// AssignPropertiesToExtendedLocationStatus populates the provided destination ExtendedLocation_Status from our ExtendedLocation_Status
-func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatus(destination *alpha20210701s.ExtendedLocation_Status) error {
+// AssignPropertiesToExtendedLocation_STATUS populates the provided destination ExtendedLocation_STATUS from our ExtendedLocation_STATUS
+func (location *ExtendedLocation_STATUS) AssignPropertiesToExtendedLocation_STATUS(destination *alpha20210701s.ExtendedLocation_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1223,21 +1287,21 @@ func (location *ExtendedLocation_Status) AssignPropertiesToExtendedLocationStatu
 	return nil
 }
 
-// Deprecated version of HyperVGenerationType_Status. Use v1beta20210701.HyperVGenerationType_Status instead
-type HyperVGenerationType_Status string
+// Deprecated version of HyperVGenerationType. Use v1beta20210701.HyperVGenerationType instead
+// +kubebuilder:validation:Enum={"V1","V2"}
+type HyperVGenerationType string
 
 const (
-	HyperVGenerationType_StatusV1 = HyperVGenerationType_Status("V1")
-	HyperVGenerationType_StatusV2 = HyperVGenerationType_Status("V2")
+	HyperVGenerationTypeV1 = HyperVGenerationType("V1")
+	HyperVGenerationTypeV2 = HyperVGenerationType("V2")
 )
 
-// Deprecated version of ImagePropertiesHyperVGeneration. Use v1beta20210701.ImagePropertiesHyperVGeneration instead
-// +kubebuilder:validation:Enum={"V1","V2"}
-type ImagePropertiesHyperVGeneration string
+// Deprecated version of HyperVGenerationType_STATUS. Use v1beta20210701.HyperVGenerationType_STATUS instead
+type HyperVGenerationType_STATUS string
 
 const (
-	ImagePropertiesHyperVGenerationV1 = ImagePropertiesHyperVGeneration("V1")
-	ImagePropertiesHyperVGenerationV2 = ImagePropertiesHyperVGeneration("V2")
+	HyperVGenerationType_STATUSV1 = HyperVGenerationType_STATUS("V1")
+	HyperVGenerationType_STATUSV2 = HyperVGenerationType_STATUS("V2")
 )
 
 // Deprecated version of ImageStorageProfile. Use v1beta20210701.ImageStorageProfile instead
@@ -1425,30 +1489,30 @@ func (profile *ImageStorageProfile) AssignPropertiesToImageStorageProfile(destin
 	return nil
 }
 
-// Deprecated version of ImageStorageProfile_Status. Use v1beta20210701.ImageStorageProfile_Status instead
-type ImageStorageProfile_Status struct {
-	DataDisks     []ImageDataDisk_Status `json:"dataDisks,omitempty"`
-	OsDisk        *ImageOSDisk_Status    `json:"osDisk,omitempty"`
+// Deprecated version of ImageStorageProfile_STATUS. Use v1beta20210701.ImageStorageProfile_STATUS instead
+type ImageStorageProfile_STATUS struct {
+	DataDisks     []ImageDataDisk_STATUS `json:"dataDisks,omitempty"`
+	OsDisk        *ImageOSDisk_STATUS    `json:"osDisk,omitempty"`
 	ZoneResilient *bool                  `json:"zoneResilient,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &ImageStorageProfile_Status{}
+var _ genruntime.FromARMConverter = &ImageStorageProfile_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (profile *ImageStorageProfile_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ImageStorageProfile_StatusARM{}
+func (profile *ImageStorageProfile_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ImageStorageProfile_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (profile *ImageStorageProfile_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ImageStorageProfile_StatusARM)
+func (profile *ImageStorageProfile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ImageStorageProfile_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImageStorageProfile_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImageStorageProfile_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘DataDisks’:
 	for _, item := range typedInput.DataDisks {
-		var item1 ImageDataDisk_Status
+		var item1 ImageDataDisk_STATUS
 		err := item1.PopulateFromARM(owner, item)
 		if err != nil {
 			return err
@@ -1458,7 +1522,7 @@ func (profile *ImageStorageProfile_Status) PopulateFromARM(owner genruntime.Arbi
 
 	// Set property ‘OsDisk’:
 	if typedInput.OsDisk != nil {
-		var osDisk1 ImageOSDisk_Status
+		var osDisk1 ImageOSDisk_STATUS
 		err := osDisk1.PopulateFromARM(owner, *typedInput.OsDisk)
 		if err != nil {
 			return err
@@ -1477,19 +1541,19 @@ func (profile *ImageStorageProfile_Status) PopulateFromARM(owner genruntime.Arbi
 	return nil
 }
 
-// AssignPropertiesFromImageStorageProfileStatus populates our ImageStorageProfile_Status from the provided source ImageStorageProfile_Status
-func (profile *ImageStorageProfile_Status) AssignPropertiesFromImageStorageProfileStatus(source *alpha20210701s.ImageStorageProfile_Status) error {
+// AssignPropertiesFromImageStorageProfile_STATUS populates our ImageStorageProfile_STATUS from the provided source ImageStorageProfile_STATUS
+func (profile *ImageStorageProfile_STATUS) AssignPropertiesFromImageStorageProfile_STATUS(source *alpha20210701s.ImageStorageProfile_STATUS) error {
 
 	// DataDisks
 	if source.DataDisks != nil {
-		dataDiskList := make([]ImageDataDisk_Status, len(source.DataDisks))
+		dataDiskList := make([]ImageDataDisk_STATUS, len(source.DataDisks))
 		for dataDiskIndex, dataDiskItem := range source.DataDisks {
 			// Shadow the loop variable to avoid aliasing
 			dataDiskItem := dataDiskItem
-			var dataDisk ImageDataDisk_Status
-			err := dataDisk.AssignPropertiesFromImageDataDiskStatus(&dataDiskItem)
+			var dataDisk ImageDataDisk_STATUS
+			err := dataDisk.AssignPropertiesFromImageDataDisk_STATUS(&dataDiskItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromImageDataDiskStatus() to populate field DataDisks")
+				return errors.Wrap(err, "calling AssignPropertiesFromImageDataDisk_STATUS() to populate field DataDisks")
 			}
 			dataDiskList[dataDiskIndex] = dataDisk
 		}
@@ -1500,10 +1564,10 @@ func (profile *ImageStorageProfile_Status) AssignPropertiesFromImageStorageProfi
 
 	// OsDisk
 	if source.OsDisk != nil {
-		var osDisk ImageOSDisk_Status
-		err := osDisk.AssignPropertiesFromImageOSDiskStatus(source.OsDisk)
+		var osDisk ImageOSDisk_STATUS
+		err := osDisk.AssignPropertiesFromImageOSDisk_STATUS(source.OsDisk)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromImageOSDiskStatus() to populate field OsDisk")
+			return errors.Wrap(err, "calling AssignPropertiesFromImageOSDisk_STATUS() to populate field OsDisk")
 		}
 		profile.OsDisk = &osDisk
 	} else {
@@ -1522,21 +1586,21 @@ func (profile *ImageStorageProfile_Status) AssignPropertiesFromImageStorageProfi
 	return nil
 }
 
-// AssignPropertiesToImageStorageProfileStatus populates the provided destination ImageStorageProfile_Status from our ImageStorageProfile_Status
-func (profile *ImageStorageProfile_Status) AssignPropertiesToImageStorageProfileStatus(destination *alpha20210701s.ImageStorageProfile_Status) error {
+// AssignPropertiesToImageStorageProfile_STATUS populates the provided destination ImageStorageProfile_STATUS from our ImageStorageProfile_STATUS
+func (profile *ImageStorageProfile_STATUS) AssignPropertiesToImageStorageProfile_STATUS(destination *alpha20210701s.ImageStorageProfile_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// DataDisks
 	if profile.DataDisks != nil {
-		dataDiskList := make([]alpha20210701s.ImageDataDisk_Status, len(profile.DataDisks))
+		dataDiskList := make([]alpha20210701s.ImageDataDisk_STATUS, len(profile.DataDisks))
 		for dataDiskIndex, dataDiskItem := range profile.DataDisks {
 			// Shadow the loop variable to avoid aliasing
 			dataDiskItem := dataDiskItem
-			var dataDisk alpha20210701s.ImageDataDisk_Status
-			err := dataDiskItem.AssignPropertiesToImageDataDiskStatus(&dataDisk)
+			var dataDisk alpha20210701s.ImageDataDisk_STATUS
+			err := dataDiskItem.AssignPropertiesToImageDataDisk_STATUS(&dataDisk)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToImageDataDiskStatus() to populate field DataDisks")
+				return errors.Wrap(err, "calling AssignPropertiesToImageDataDisk_STATUS() to populate field DataDisks")
 			}
 			dataDiskList[dataDiskIndex] = dataDisk
 		}
@@ -1547,10 +1611,10 @@ func (profile *ImageStorageProfile_Status) AssignPropertiesToImageStorageProfile
 
 	// OsDisk
 	if profile.OsDisk != nil {
-		var osDisk alpha20210701s.ImageOSDisk_Status
-		err := profile.OsDisk.AssignPropertiesToImageOSDiskStatus(&osDisk)
+		var osDisk alpha20210701s.ImageOSDisk_STATUS
+		err := profile.OsDisk.AssignPropertiesToImageOSDisk_STATUS(&osDisk)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToImageOSDiskStatus() to populate field OsDisk")
+			return errors.Wrap(err, "calling AssignPropertiesToImageOSDisk_STATUS() to populate field OsDisk")
 		}
 		destination.OsDisk = &osDisk
 	} else {
@@ -1659,23 +1723,23 @@ func (resource *SubResource) AssignPropertiesToSubResource(destination *alpha202
 	return nil
 }
 
-// Deprecated version of SubResource_Status. Use v1beta20210701.SubResource_Status instead
-type SubResource_Status struct {
+// Deprecated version of SubResource_STATUS. Use v1beta20210701.SubResource_STATUS instead
+type SubResource_STATUS struct {
 	Id *string `json:"id,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &SubResource_Status{}
+var _ genruntime.FromARMConverter = &SubResource_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (resource *SubResource_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SubResource_StatusARM{}
+func (resource *SubResource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SubResource_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (resource *SubResource_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SubResource_StatusARM)
+func (resource *SubResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(SubResource_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SubResource_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SubResource_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘Id’:
@@ -1688,8 +1752,8 @@ func (resource *SubResource_Status) PopulateFromARM(owner genruntime.ArbitraryOw
 	return nil
 }
 
-// AssignPropertiesFromSubResourceStatus populates our SubResource_Status from the provided source SubResource_Status
-func (resource *SubResource_Status) AssignPropertiesFromSubResourceStatus(source *alpha20210701s.SubResource_Status) error {
+// AssignPropertiesFromSubResource_STATUS populates our SubResource_STATUS from the provided source SubResource_STATUS
+func (resource *SubResource_STATUS) AssignPropertiesFromSubResource_STATUS(source *alpha20210701s.SubResource_STATUS) error {
 
 	// Id
 	resource.Id = genruntime.ClonePointerToString(source.Id)
@@ -1698,8 +1762,8 @@ func (resource *SubResource_Status) AssignPropertiesFromSubResourceStatus(source
 	return nil
 }
 
-// AssignPropertiesToSubResourceStatus populates the provided destination SubResource_Status from our SubResource_Status
-func (resource *SubResource_Status) AssignPropertiesToSubResourceStatus(destination *alpha20210701s.SubResource_Status) error {
+// AssignPropertiesToSubResource_STATUS populates the provided destination SubResource_STATUS from our SubResource_STATUS
+func (resource *SubResource_STATUS) AssignPropertiesToSubResource_STATUS(destination *alpha20210701s.SubResource_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1719,16 +1783,16 @@ func (resource *SubResource_Status) AssignPropertiesToSubResourceStatus(destinat
 
 // Deprecated version of ImageDataDisk. Use v1beta20210701.ImageDataDisk instead
 type ImageDataDisk struct {
-	BlobUri           *string                      `json:"blobUri,omitempty"`
-	Caching           *ImageDataDiskCaching        `json:"caching,omitempty"`
-	DiskEncryptionSet *DiskEncryptionSetParameters `json:"diskEncryptionSet,omitempty"`
-	DiskSizeGB        *int                         `json:"diskSizeGB,omitempty"`
+	BlobUri           *string                `json:"blobUri,omitempty"`
+	Caching           *ImageDataDisk_Caching `json:"caching,omitempty"`
+	DiskEncryptionSet *SubResource           `json:"diskEncryptionSet,omitempty"`
+	DiskSizeGB        *int                   `json:"diskSizeGB,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Lun                *int                             `json:"lun,omitempty"`
-	ManagedDisk        *SubResource                     `json:"managedDisk,omitempty"`
-	Snapshot           *SubResource                     `json:"snapshot,omitempty"`
-	StorageAccountType *ImageDataDiskStorageAccountType `json:"storageAccountType,omitempty"`
+	Lun                *int                `json:"lun,omitempty"`
+	ManagedDisk        *SubResource        `json:"managedDisk,omitempty"`
+	Snapshot           *SubResource        `json:"snapshot,omitempty"`
+	StorageAccountType *StorageAccountType `json:"storageAccountType,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ImageDataDisk{}
@@ -1758,7 +1822,7 @@ func (disk *ImageDataDisk) ConvertToARM(resolved genruntime.ConvertToARMResolved
 		if err != nil {
 			return nil, err
 		}
-		diskEncryptionSet := *diskEncryptionSetARM.(*DiskEncryptionSetParametersARM)
+		diskEncryptionSet := *diskEncryptionSetARM.(*SubResourceARM)
 		result.DiskEncryptionSet = &diskEncryptionSet
 	}
 
@@ -1828,7 +1892,7 @@ func (disk *ImageDataDisk) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 
 	// Set property ‘DiskEncryptionSet’:
 	if typedInput.DiskEncryptionSet != nil {
-		var diskEncryptionSet1 DiskEncryptionSetParameters
+		var diskEncryptionSet1 SubResource
 		err := diskEncryptionSet1.PopulateFromARM(owner, *typedInput.DiskEncryptionSet)
 		if err != nil {
 			return err
@@ -1889,7 +1953,7 @@ func (disk *ImageDataDisk) AssignPropertiesFromImageDataDisk(source *alpha202107
 
 	// Caching
 	if source.Caching != nil {
-		caching := ImageDataDiskCaching(*source.Caching)
+		caching := ImageDataDisk_Caching(*source.Caching)
 		disk.Caching = &caching
 	} else {
 		disk.Caching = nil
@@ -1897,10 +1961,10 @@ func (disk *ImageDataDisk) AssignPropertiesFromImageDataDisk(source *alpha202107
 
 	// DiskEncryptionSet
 	if source.DiskEncryptionSet != nil {
-		var diskEncryptionSet DiskEncryptionSetParameters
-		err := diskEncryptionSet.AssignPropertiesFromDiskEncryptionSetParameters(source.DiskEncryptionSet)
+		var diskEncryptionSet SubResource
+		err := diskEncryptionSet.AssignPropertiesFromSubResource(source.DiskEncryptionSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDiskEncryptionSetParameters() to populate field DiskEncryptionSet")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field DiskEncryptionSet")
 		}
 		disk.DiskEncryptionSet = &diskEncryptionSet
 	} else {
@@ -1939,7 +2003,7 @@ func (disk *ImageDataDisk) AssignPropertiesFromImageDataDisk(source *alpha202107
 
 	// StorageAccountType
 	if source.StorageAccountType != nil {
-		storageAccountType := ImageDataDiskStorageAccountType(*source.StorageAccountType)
+		storageAccountType := StorageAccountType(*source.StorageAccountType)
 		disk.StorageAccountType = &storageAccountType
 	} else {
 		disk.StorageAccountType = nil
@@ -1967,10 +2031,10 @@ func (disk *ImageDataDisk) AssignPropertiesToImageDataDisk(destination *alpha202
 
 	// DiskEncryptionSet
 	if disk.DiskEncryptionSet != nil {
-		var diskEncryptionSet alpha20210701s.DiskEncryptionSetParameters
-		err := disk.DiskEncryptionSet.AssignPropertiesToDiskEncryptionSetParameters(&diskEncryptionSet)
+		var diskEncryptionSet alpha20210701s.SubResource
+		err := disk.DiskEncryptionSet.AssignPropertiesToSubResource(&diskEncryptionSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDiskEncryptionSetParameters() to populate field DiskEncryptionSet")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field DiskEncryptionSet")
 		}
 		destination.DiskEncryptionSet = &diskEncryptionSet
 	} else {
@@ -2026,30 +2090,30 @@ func (disk *ImageDataDisk) AssignPropertiesToImageDataDisk(destination *alpha202
 	return nil
 }
 
-// Deprecated version of ImageDataDisk_Status. Use v1beta20210701.ImageDataDisk_Status instead
-type ImageDataDisk_Status struct {
-	BlobUri            *string                     `json:"blobUri,omitempty"`
-	Caching            *ImageDataDiskStatusCaching `json:"caching,omitempty"`
-	DiskEncryptionSet  *SubResource_Status         `json:"diskEncryptionSet,omitempty"`
-	DiskSizeGB         *int                        `json:"diskSizeGB,omitempty"`
-	Lun                *int                        `json:"lun,omitempty"`
-	ManagedDisk        *SubResource_Status         `json:"managedDisk,omitempty"`
-	Snapshot           *SubResource_Status         `json:"snapshot,omitempty"`
-	StorageAccountType *StorageAccountType_Status  `json:"storageAccountType,omitempty"`
+// Deprecated version of ImageDataDisk_STATUS. Use v1beta20210701.ImageDataDisk_STATUS instead
+type ImageDataDisk_STATUS struct {
+	BlobUri            *string                       `json:"blobUri,omitempty"`
+	Caching            *ImageDataDisk_Caching_STATUS `json:"caching,omitempty"`
+	DiskEncryptionSet  *SubResource_STATUS           `json:"diskEncryptionSet,omitempty"`
+	DiskSizeGB         *int                          `json:"diskSizeGB,omitempty"`
+	Lun                *int                          `json:"lun,omitempty"`
+	ManagedDisk        *SubResource_STATUS           `json:"managedDisk,omitempty"`
+	Snapshot           *SubResource_STATUS           `json:"snapshot,omitempty"`
+	StorageAccountType *StorageAccountType_STATUS    `json:"storageAccountType,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &ImageDataDisk_Status{}
+var _ genruntime.FromARMConverter = &ImageDataDisk_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (disk *ImageDataDisk_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ImageDataDisk_StatusARM{}
+func (disk *ImageDataDisk_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ImageDataDisk_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (disk *ImageDataDisk_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ImageDataDisk_StatusARM)
+func (disk *ImageDataDisk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ImageDataDisk_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImageDataDisk_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImageDataDisk_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘BlobUri’:
@@ -2066,7 +2130,7 @@ func (disk *ImageDataDisk_Status) PopulateFromARM(owner genruntime.ArbitraryOwne
 
 	// Set property ‘DiskEncryptionSet’:
 	if typedInput.DiskEncryptionSet != nil {
-		var diskEncryptionSet1 SubResource_Status
+		var diskEncryptionSet1 SubResource_STATUS
 		err := diskEncryptionSet1.PopulateFromARM(owner, *typedInput.DiskEncryptionSet)
 		if err != nil {
 			return err
@@ -2089,7 +2153,7 @@ func (disk *ImageDataDisk_Status) PopulateFromARM(owner genruntime.ArbitraryOwne
 
 	// Set property ‘ManagedDisk’:
 	if typedInput.ManagedDisk != nil {
-		var managedDisk1 SubResource_Status
+		var managedDisk1 SubResource_STATUS
 		err := managedDisk1.PopulateFromARM(owner, *typedInput.ManagedDisk)
 		if err != nil {
 			return err
@@ -2100,7 +2164,7 @@ func (disk *ImageDataDisk_Status) PopulateFromARM(owner genruntime.ArbitraryOwne
 
 	// Set property ‘Snapshot’:
 	if typedInput.Snapshot != nil {
-		var snapshot1 SubResource_Status
+		var snapshot1 SubResource_STATUS
 		err := snapshot1.PopulateFromARM(owner, *typedInput.Snapshot)
 		if err != nil {
 			return err
@@ -2119,15 +2183,15 @@ func (disk *ImageDataDisk_Status) PopulateFromARM(owner genruntime.ArbitraryOwne
 	return nil
 }
 
-// AssignPropertiesFromImageDataDiskStatus populates our ImageDataDisk_Status from the provided source ImageDataDisk_Status
-func (disk *ImageDataDisk_Status) AssignPropertiesFromImageDataDiskStatus(source *alpha20210701s.ImageDataDisk_Status) error {
+// AssignPropertiesFromImageDataDisk_STATUS populates our ImageDataDisk_STATUS from the provided source ImageDataDisk_STATUS
+func (disk *ImageDataDisk_STATUS) AssignPropertiesFromImageDataDisk_STATUS(source *alpha20210701s.ImageDataDisk_STATUS) error {
 
 	// BlobUri
 	disk.BlobUri = genruntime.ClonePointerToString(source.BlobUri)
 
 	// Caching
 	if source.Caching != nil {
-		caching := ImageDataDiskStatusCaching(*source.Caching)
+		caching := ImageDataDisk_Caching_STATUS(*source.Caching)
 		disk.Caching = &caching
 	} else {
 		disk.Caching = nil
@@ -2135,10 +2199,10 @@ func (disk *ImageDataDisk_Status) AssignPropertiesFromImageDataDiskStatus(source
 
 	// DiskEncryptionSet
 	if source.DiskEncryptionSet != nil {
-		var diskEncryptionSet SubResource_Status
-		err := diskEncryptionSet.AssignPropertiesFromSubResourceStatus(source.DiskEncryptionSet)
+		var diskEncryptionSet SubResource_STATUS
+		err := diskEncryptionSet.AssignPropertiesFromSubResource_STATUS(source.DiskEncryptionSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field DiskEncryptionSet")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field DiskEncryptionSet")
 		}
 		disk.DiskEncryptionSet = &diskEncryptionSet
 	} else {
@@ -2153,10 +2217,10 @@ func (disk *ImageDataDisk_Status) AssignPropertiesFromImageDataDiskStatus(source
 
 	// ManagedDisk
 	if source.ManagedDisk != nil {
-		var managedDisk SubResource_Status
-		err := managedDisk.AssignPropertiesFromSubResourceStatus(source.ManagedDisk)
+		var managedDisk SubResource_STATUS
+		err := managedDisk.AssignPropertiesFromSubResource_STATUS(source.ManagedDisk)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field ManagedDisk")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field ManagedDisk")
 		}
 		disk.ManagedDisk = &managedDisk
 	} else {
@@ -2165,10 +2229,10 @@ func (disk *ImageDataDisk_Status) AssignPropertiesFromImageDataDiskStatus(source
 
 	// Snapshot
 	if source.Snapshot != nil {
-		var snapshot SubResource_Status
-		err := snapshot.AssignPropertiesFromSubResourceStatus(source.Snapshot)
+		var snapshot SubResource_STATUS
+		err := snapshot.AssignPropertiesFromSubResource_STATUS(source.Snapshot)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field Snapshot")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field Snapshot")
 		}
 		disk.Snapshot = &snapshot
 	} else {
@@ -2177,7 +2241,7 @@ func (disk *ImageDataDisk_Status) AssignPropertiesFromImageDataDiskStatus(source
 
 	// StorageAccountType
 	if source.StorageAccountType != nil {
-		storageAccountType := StorageAccountType_Status(*source.StorageAccountType)
+		storageAccountType := StorageAccountType_STATUS(*source.StorageAccountType)
 		disk.StorageAccountType = &storageAccountType
 	} else {
 		disk.StorageAccountType = nil
@@ -2187,8 +2251,8 @@ func (disk *ImageDataDisk_Status) AssignPropertiesFromImageDataDiskStatus(source
 	return nil
 }
 
-// AssignPropertiesToImageDataDiskStatus populates the provided destination ImageDataDisk_Status from our ImageDataDisk_Status
-func (disk *ImageDataDisk_Status) AssignPropertiesToImageDataDiskStatus(destination *alpha20210701s.ImageDataDisk_Status) error {
+// AssignPropertiesToImageDataDisk_STATUS populates the provided destination ImageDataDisk_STATUS from our ImageDataDisk_STATUS
+func (disk *ImageDataDisk_STATUS) AssignPropertiesToImageDataDisk_STATUS(destination *alpha20210701s.ImageDataDisk_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2205,10 +2269,10 @@ func (disk *ImageDataDisk_Status) AssignPropertiesToImageDataDiskStatus(destinat
 
 	// DiskEncryptionSet
 	if disk.DiskEncryptionSet != nil {
-		var diskEncryptionSet alpha20210701s.SubResource_Status
-		err := disk.DiskEncryptionSet.AssignPropertiesToSubResourceStatus(&diskEncryptionSet)
+		var diskEncryptionSet alpha20210701s.SubResource_STATUS
+		err := disk.DiskEncryptionSet.AssignPropertiesToSubResource_STATUS(&diskEncryptionSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field DiskEncryptionSet")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field DiskEncryptionSet")
 		}
 		destination.DiskEncryptionSet = &diskEncryptionSet
 	} else {
@@ -2223,10 +2287,10 @@ func (disk *ImageDataDisk_Status) AssignPropertiesToImageDataDiskStatus(destinat
 
 	// ManagedDisk
 	if disk.ManagedDisk != nil {
-		var managedDisk alpha20210701s.SubResource_Status
-		err := disk.ManagedDisk.AssignPropertiesToSubResourceStatus(&managedDisk)
+		var managedDisk alpha20210701s.SubResource_STATUS
+		err := disk.ManagedDisk.AssignPropertiesToSubResource_STATUS(&managedDisk)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field ManagedDisk")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field ManagedDisk")
 		}
 		destination.ManagedDisk = &managedDisk
 	} else {
@@ -2235,10 +2299,10 @@ func (disk *ImageDataDisk_Status) AssignPropertiesToImageDataDiskStatus(destinat
 
 	// Snapshot
 	if disk.Snapshot != nil {
-		var snapshot alpha20210701s.SubResource_Status
-		err := disk.Snapshot.AssignPropertiesToSubResourceStatus(&snapshot)
+		var snapshot alpha20210701s.SubResource_STATUS
+		err := disk.Snapshot.AssignPropertiesToSubResource_STATUS(&snapshot)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field Snapshot")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field Snapshot")
 		}
 		destination.Snapshot = &snapshot
 	} else {
@@ -2266,19 +2330,19 @@ func (disk *ImageDataDisk_Status) AssignPropertiesToImageDataDiskStatus(destinat
 
 // Deprecated version of ImageOSDisk. Use v1beta20210701.ImageOSDisk instead
 type ImageOSDisk struct {
-	BlobUri           *string                      `json:"blobUri,omitempty"`
-	Caching           *ImageOSDiskCaching          `json:"caching,omitempty"`
-	DiskEncryptionSet *DiskEncryptionSetParameters `json:"diskEncryptionSet,omitempty"`
-	DiskSizeGB        *int                         `json:"diskSizeGB,omitempty"`
-	ManagedDisk       *SubResource                 `json:"managedDisk,omitempty"`
+	BlobUri           *string              `json:"blobUri,omitempty"`
+	Caching           *ImageOSDisk_Caching `json:"caching,omitempty"`
+	DiskEncryptionSet *SubResource         `json:"diskEncryptionSet,omitempty"`
+	DiskSizeGB        *int                 `json:"diskSizeGB,omitempty"`
+	ManagedDisk       *SubResource         `json:"managedDisk,omitempty"`
 
 	// +kubebuilder:validation:Required
-	OsState *ImageOSDiskOsState `json:"osState,omitempty"`
+	OsState *ImageOSDisk_OsState `json:"osState,omitempty"`
 
 	// +kubebuilder:validation:Required
-	OsType             *ImageOSDiskOsType             `json:"osType,omitempty"`
-	Snapshot           *SubResource                   `json:"snapshot,omitempty"`
-	StorageAccountType *ImageOSDiskStorageAccountType `json:"storageAccountType,omitempty"`
+	OsType             *ImageOSDisk_OsType `json:"osType,omitempty"`
+	Snapshot           *SubResource        `json:"snapshot,omitempty"`
+	StorageAccountType *StorageAccountType `json:"storageAccountType,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ImageOSDisk{}
@@ -2308,7 +2372,7 @@ func (disk *ImageOSDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		if err != nil {
 			return nil, err
 		}
-		diskEncryptionSet := *diskEncryptionSetARM.(*DiskEncryptionSetParametersARM)
+		diskEncryptionSet := *diskEncryptionSetARM.(*SubResourceARM)
 		result.DiskEncryptionSet = &diskEncryptionSet
 	}
 
@@ -2384,7 +2448,7 @@ func (disk *ImageOSDisk) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 
 	// Set property ‘DiskEncryptionSet’:
 	if typedInput.DiskEncryptionSet != nil {
-		var diskEncryptionSet1 DiskEncryptionSetParameters
+		var diskEncryptionSet1 SubResource
 		err := diskEncryptionSet1.PopulateFromARM(owner, *typedInput.DiskEncryptionSet)
 		if err != nil {
 			return err
@@ -2451,7 +2515,7 @@ func (disk *ImageOSDisk) AssignPropertiesFromImageOSDisk(source *alpha20210701s.
 
 	// Caching
 	if source.Caching != nil {
-		caching := ImageOSDiskCaching(*source.Caching)
+		caching := ImageOSDisk_Caching(*source.Caching)
 		disk.Caching = &caching
 	} else {
 		disk.Caching = nil
@@ -2459,10 +2523,10 @@ func (disk *ImageOSDisk) AssignPropertiesFromImageOSDisk(source *alpha20210701s.
 
 	// DiskEncryptionSet
 	if source.DiskEncryptionSet != nil {
-		var diskEncryptionSet DiskEncryptionSetParameters
-		err := diskEncryptionSet.AssignPropertiesFromDiskEncryptionSetParameters(source.DiskEncryptionSet)
+		var diskEncryptionSet SubResource
+		err := diskEncryptionSet.AssignPropertiesFromSubResource(source.DiskEncryptionSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDiskEncryptionSetParameters() to populate field DiskEncryptionSet")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource() to populate field DiskEncryptionSet")
 		}
 		disk.DiskEncryptionSet = &diskEncryptionSet
 	} else {
@@ -2486,7 +2550,7 @@ func (disk *ImageOSDisk) AssignPropertiesFromImageOSDisk(source *alpha20210701s.
 
 	// OsState
 	if source.OsState != nil {
-		osState := ImageOSDiskOsState(*source.OsState)
+		osState := ImageOSDisk_OsState(*source.OsState)
 		disk.OsState = &osState
 	} else {
 		disk.OsState = nil
@@ -2494,7 +2558,7 @@ func (disk *ImageOSDisk) AssignPropertiesFromImageOSDisk(source *alpha20210701s.
 
 	// OsType
 	if source.OsType != nil {
-		osType := ImageOSDiskOsType(*source.OsType)
+		osType := ImageOSDisk_OsType(*source.OsType)
 		disk.OsType = &osType
 	} else {
 		disk.OsType = nil
@@ -2514,7 +2578,7 @@ func (disk *ImageOSDisk) AssignPropertiesFromImageOSDisk(source *alpha20210701s.
 
 	// StorageAccountType
 	if source.StorageAccountType != nil {
-		storageAccountType := ImageOSDiskStorageAccountType(*source.StorageAccountType)
+		storageAccountType := StorageAccountType(*source.StorageAccountType)
 		disk.StorageAccountType = &storageAccountType
 	} else {
 		disk.StorageAccountType = nil
@@ -2542,10 +2606,10 @@ func (disk *ImageOSDisk) AssignPropertiesToImageOSDisk(destination *alpha2021070
 
 	// DiskEncryptionSet
 	if disk.DiskEncryptionSet != nil {
-		var diskEncryptionSet alpha20210701s.DiskEncryptionSetParameters
-		err := disk.DiskEncryptionSet.AssignPropertiesToDiskEncryptionSetParameters(&diskEncryptionSet)
+		var diskEncryptionSet alpha20210701s.SubResource
+		err := disk.DiskEncryptionSet.AssignPropertiesToSubResource(&diskEncryptionSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDiskEncryptionSetParameters() to populate field DiskEncryptionSet")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource() to populate field DiskEncryptionSet")
 		}
 		destination.DiskEncryptionSet = &diskEncryptionSet
 	} else {
@@ -2614,31 +2678,31 @@ func (disk *ImageOSDisk) AssignPropertiesToImageOSDisk(destination *alpha2021070
 	return nil
 }
 
-// Deprecated version of ImageOSDisk_Status. Use v1beta20210701.ImageOSDisk_Status instead
-type ImageOSDisk_Status struct {
-	BlobUri            *string                    `json:"blobUri,omitempty"`
-	Caching            *ImageOSDiskStatusCaching  `json:"caching,omitempty"`
-	DiskEncryptionSet  *SubResource_Status        `json:"diskEncryptionSet,omitempty"`
-	DiskSizeGB         *int                       `json:"diskSizeGB,omitempty"`
-	ManagedDisk        *SubResource_Status        `json:"managedDisk,omitempty"`
-	OsState            *ImageOSDiskStatusOsState  `json:"osState,omitempty"`
-	OsType             *ImageOSDiskStatusOsType   `json:"osType,omitempty"`
-	Snapshot           *SubResource_Status        `json:"snapshot,omitempty"`
-	StorageAccountType *StorageAccountType_Status `json:"storageAccountType,omitempty"`
+// Deprecated version of ImageOSDisk_STATUS. Use v1beta20210701.ImageOSDisk_STATUS instead
+type ImageOSDisk_STATUS struct {
+	BlobUri            *string                     `json:"blobUri,omitempty"`
+	Caching            *ImageOSDisk_Caching_STATUS `json:"caching,omitempty"`
+	DiskEncryptionSet  *SubResource_STATUS         `json:"diskEncryptionSet,omitempty"`
+	DiskSizeGB         *int                        `json:"diskSizeGB,omitempty"`
+	ManagedDisk        *SubResource_STATUS         `json:"managedDisk,omitempty"`
+	OsState            *ImageOSDisk_OsState_STATUS `json:"osState,omitempty"`
+	OsType             *ImageOSDisk_OsType_STATUS  `json:"osType,omitempty"`
+	Snapshot           *SubResource_STATUS         `json:"snapshot,omitempty"`
+	StorageAccountType *StorageAccountType_STATUS  `json:"storageAccountType,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &ImageOSDisk_Status{}
+var _ genruntime.FromARMConverter = &ImageOSDisk_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (disk *ImageOSDisk_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ImageOSDisk_StatusARM{}
+func (disk *ImageOSDisk_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ImageOSDisk_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (disk *ImageOSDisk_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ImageOSDisk_StatusARM)
+func (disk *ImageOSDisk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ImageOSDisk_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImageOSDisk_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImageOSDisk_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘BlobUri’:
@@ -2655,7 +2719,7 @@ func (disk *ImageOSDisk_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 
 	// Set property ‘DiskEncryptionSet’:
 	if typedInput.DiskEncryptionSet != nil {
-		var diskEncryptionSet1 SubResource_Status
+		var diskEncryptionSet1 SubResource_STATUS
 		err := diskEncryptionSet1.PopulateFromARM(owner, *typedInput.DiskEncryptionSet)
 		if err != nil {
 			return err
@@ -2672,7 +2736,7 @@ func (disk *ImageOSDisk_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 
 	// Set property ‘ManagedDisk’:
 	if typedInput.ManagedDisk != nil {
-		var managedDisk1 SubResource_Status
+		var managedDisk1 SubResource_STATUS
 		err := managedDisk1.PopulateFromARM(owner, *typedInput.ManagedDisk)
 		if err != nil {
 			return err
@@ -2695,7 +2759,7 @@ func (disk *ImageOSDisk_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 
 	// Set property ‘Snapshot’:
 	if typedInput.Snapshot != nil {
-		var snapshot1 SubResource_Status
+		var snapshot1 SubResource_STATUS
 		err := snapshot1.PopulateFromARM(owner, *typedInput.Snapshot)
 		if err != nil {
 			return err
@@ -2714,15 +2778,15 @@ func (disk *ImageOSDisk_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 	return nil
 }
 
-// AssignPropertiesFromImageOSDiskStatus populates our ImageOSDisk_Status from the provided source ImageOSDisk_Status
-func (disk *ImageOSDisk_Status) AssignPropertiesFromImageOSDiskStatus(source *alpha20210701s.ImageOSDisk_Status) error {
+// AssignPropertiesFromImageOSDisk_STATUS populates our ImageOSDisk_STATUS from the provided source ImageOSDisk_STATUS
+func (disk *ImageOSDisk_STATUS) AssignPropertiesFromImageOSDisk_STATUS(source *alpha20210701s.ImageOSDisk_STATUS) error {
 
 	// BlobUri
 	disk.BlobUri = genruntime.ClonePointerToString(source.BlobUri)
 
 	// Caching
 	if source.Caching != nil {
-		caching := ImageOSDiskStatusCaching(*source.Caching)
+		caching := ImageOSDisk_Caching_STATUS(*source.Caching)
 		disk.Caching = &caching
 	} else {
 		disk.Caching = nil
@@ -2730,10 +2794,10 @@ func (disk *ImageOSDisk_Status) AssignPropertiesFromImageOSDiskStatus(source *al
 
 	// DiskEncryptionSet
 	if source.DiskEncryptionSet != nil {
-		var diskEncryptionSet SubResource_Status
-		err := diskEncryptionSet.AssignPropertiesFromSubResourceStatus(source.DiskEncryptionSet)
+		var diskEncryptionSet SubResource_STATUS
+		err := diskEncryptionSet.AssignPropertiesFromSubResource_STATUS(source.DiskEncryptionSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field DiskEncryptionSet")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field DiskEncryptionSet")
 		}
 		disk.DiskEncryptionSet = &diskEncryptionSet
 	} else {
@@ -2745,10 +2809,10 @@ func (disk *ImageOSDisk_Status) AssignPropertiesFromImageOSDiskStatus(source *al
 
 	// ManagedDisk
 	if source.ManagedDisk != nil {
-		var managedDisk SubResource_Status
-		err := managedDisk.AssignPropertiesFromSubResourceStatus(source.ManagedDisk)
+		var managedDisk SubResource_STATUS
+		err := managedDisk.AssignPropertiesFromSubResource_STATUS(source.ManagedDisk)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field ManagedDisk")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field ManagedDisk")
 		}
 		disk.ManagedDisk = &managedDisk
 	} else {
@@ -2757,7 +2821,7 @@ func (disk *ImageOSDisk_Status) AssignPropertiesFromImageOSDiskStatus(source *al
 
 	// OsState
 	if source.OsState != nil {
-		osState := ImageOSDiskStatusOsState(*source.OsState)
+		osState := ImageOSDisk_OsState_STATUS(*source.OsState)
 		disk.OsState = &osState
 	} else {
 		disk.OsState = nil
@@ -2765,7 +2829,7 @@ func (disk *ImageOSDisk_Status) AssignPropertiesFromImageOSDiskStatus(source *al
 
 	// OsType
 	if source.OsType != nil {
-		osType := ImageOSDiskStatusOsType(*source.OsType)
+		osType := ImageOSDisk_OsType_STATUS(*source.OsType)
 		disk.OsType = &osType
 	} else {
 		disk.OsType = nil
@@ -2773,10 +2837,10 @@ func (disk *ImageOSDisk_Status) AssignPropertiesFromImageOSDiskStatus(source *al
 
 	// Snapshot
 	if source.Snapshot != nil {
-		var snapshot SubResource_Status
-		err := snapshot.AssignPropertiesFromSubResourceStatus(source.Snapshot)
+		var snapshot SubResource_STATUS
+		err := snapshot.AssignPropertiesFromSubResource_STATUS(source.Snapshot)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSubResourceStatus() to populate field Snapshot")
+			return errors.Wrap(err, "calling AssignPropertiesFromSubResource_STATUS() to populate field Snapshot")
 		}
 		disk.Snapshot = &snapshot
 	} else {
@@ -2785,7 +2849,7 @@ func (disk *ImageOSDisk_Status) AssignPropertiesFromImageOSDiskStatus(source *al
 
 	// StorageAccountType
 	if source.StorageAccountType != nil {
-		storageAccountType := StorageAccountType_Status(*source.StorageAccountType)
+		storageAccountType := StorageAccountType_STATUS(*source.StorageAccountType)
 		disk.StorageAccountType = &storageAccountType
 	} else {
 		disk.StorageAccountType = nil
@@ -2795,8 +2859,8 @@ func (disk *ImageOSDisk_Status) AssignPropertiesFromImageOSDiskStatus(source *al
 	return nil
 }
 
-// AssignPropertiesToImageOSDiskStatus populates the provided destination ImageOSDisk_Status from our ImageOSDisk_Status
-func (disk *ImageOSDisk_Status) AssignPropertiesToImageOSDiskStatus(destination *alpha20210701s.ImageOSDisk_Status) error {
+// AssignPropertiesToImageOSDisk_STATUS populates the provided destination ImageOSDisk_STATUS from our ImageOSDisk_STATUS
+func (disk *ImageOSDisk_STATUS) AssignPropertiesToImageOSDisk_STATUS(destination *alpha20210701s.ImageOSDisk_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2813,10 +2877,10 @@ func (disk *ImageOSDisk_Status) AssignPropertiesToImageOSDiskStatus(destination 
 
 	// DiskEncryptionSet
 	if disk.DiskEncryptionSet != nil {
-		var diskEncryptionSet alpha20210701s.SubResource_Status
-		err := disk.DiskEncryptionSet.AssignPropertiesToSubResourceStatus(&diskEncryptionSet)
+		var diskEncryptionSet alpha20210701s.SubResource_STATUS
+		err := disk.DiskEncryptionSet.AssignPropertiesToSubResource_STATUS(&diskEncryptionSet)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field DiskEncryptionSet")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field DiskEncryptionSet")
 		}
 		destination.DiskEncryptionSet = &diskEncryptionSet
 	} else {
@@ -2828,10 +2892,10 @@ func (disk *ImageOSDisk_Status) AssignPropertiesToImageOSDiskStatus(destination 
 
 	// ManagedDisk
 	if disk.ManagedDisk != nil {
-		var managedDisk alpha20210701s.SubResource_Status
-		err := disk.ManagedDisk.AssignPropertiesToSubResourceStatus(&managedDisk)
+		var managedDisk alpha20210701s.SubResource_STATUS
+		err := disk.ManagedDisk.AssignPropertiesToSubResource_STATUS(&managedDisk)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field ManagedDisk")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field ManagedDisk")
 		}
 		destination.ManagedDisk = &managedDisk
 	} else {
@@ -2856,10 +2920,10 @@ func (disk *ImageOSDisk_Status) AssignPropertiesToImageOSDiskStatus(destination 
 
 	// Snapshot
 	if disk.Snapshot != nil {
-		var snapshot alpha20210701s.SubResource_Status
-		err := disk.Snapshot.AssignPropertiesToSubResourceStatus(&snapshot)
+		var snapshot alpha20210701s.SubResource_STATUS
+		err := disk.Snapshot.AssignPropertiesToSubResource_STATUS(&snapshot)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSubResourceStatus() to populate field Snapshot")
+			return errors.Wrap(err, "calling AssignPropertiesToSubResource_STATUS() to populate field Snapshot")
 		}
 		destination.Snapshot = &snapshot
 	} else {
@@ -2885,197 +2949,101 @@ func (disk *ImageOSDisk_Status) AssignPropertiesToImageOSDiskStatus(destination 
 	return nil
 }
 
-// Deprecated version of DiskEncryptionSetParameters. Use v1beta20210701.DiskEncryptionSetParameters instead
-type DiskEncryptionSetParameters struct {
-	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &DiskEncryptionSetParameters{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (parameters *DiskEncryptionSetParameters) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if parameters == nil {
-		return nil, nil
-	}
-	result := &DiskEncryptionSetParametersARM{}
-
-	// Set property ‘Id’:
-	if parameters.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*parameters.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *DiskEncryptionSetParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DiskEncryptionSetParametersARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *DiskEncryptionSetParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	_, ok := armInput.(DiskEncryptionSetParametersARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DiskEncryptionSetParametersARM, got %T", armInput)
-	}
-
-	// no assignment for property ‘Reference’
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromDiskEncryptionSetParameters populates our DiskEncryptionSetParameters from the provided source DiskEncryptionSetParameters
-func (parameters *DiskEncryptionSetParameters) AssignPropertiesFromDiskEncryptionSetParameters(source *alpha20210701s.DiskEncryptionSetParameters) error {
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		parameters.Reference = &reference
-	} else {
-		parameters.Reference = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToDiskEncryptionSetParameters populates the provided destination DiskEncryptionSetParameters from our DiskEncryptionSetParameters
-func (parameters *DiskEncryptionSetParameters) AssignPropertiesToDiskEncryptionSetParameters(destination *alpha20210701s.DiskEncryptionSetParameters) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Reference
-	if parameters.Reference != nil {
-		reference := parameters.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Deprecated version of ImageDataDiskCaching. Use v1beta20210701.ImageDataDiskCaching instead
+// Deprecated version of ImageDataDisk_Caching. Use v1beta20210701.ImageDataDisk_Caching instead
 // +kubebuilder:validation:Enum={"None","ReadOnly","ReadWrite"}
-type ImageDataDiskCaching string
+type ImageDataDisk_Caching string
 
 const (
-	ImageDataDiskCachingNone      = ImageDataDiskCaching("None")
-	ImageDataDiskCachingReadOnly  = ImageDataDiskCaching("ReadOnly")
-	ImageDataDiskCachingReadWrite = ImageDataDiskCaching("ReadWrite")
+	ImageDataDisk_CachingNone      = ImageDataDisk_Caching("None")
+	ImageDataDisk_CachingReadOnly  = ImageDataDisk_Caching("ReadOnly")
+	ImageDataDisk_CachingReadWrite = ImageDataDisk_Caching("ReadWrite")
 )
 
-// Deprecated version of ImageDataDiskStatusCaching. Use v1beta20210701.ImageDataDiskStatusCaching instead
-type ImageDataDiskStatusCaching string
+// Deprecated version of ImageDataDisk_Caching_STATUS. Use v1beta20210701.ImageDataDisk_Caching_STATUS instead
+type ImageDataDisk_Caching_STATUS string
 
 const (
-	ImageDataDiskStatusCachingNone      = ImageDataDiskStatusCaching("None")
-	ImageDataDiskStatusCachingReadOnly  = ImageDataDiskStatusCaching("ReadOnly")
-	ImageDataDiskStatusCachingReadWrite = ImageDataDiskStatusCaching("ReadWrite")
+	ImageDataDisk_Caching_STATUSNone      = ImageDataDisk_Caching_STATUS("None")
+	ImageDataDisk_Caching_STATUSReadOnly  = ImageDataDisk_Caching_STATUS("ReadOnly")
+	ImageDataDisk_Caching_STATUSReadWrite = ImageDataDisk_Caching_STATUS("ReadWrite")
 )
 
-// Deprecated version of ImageDataDiskStorageAccountType. Use v1beta20210701.ImageDataDiskStorageAccountType instead
-// +kubebuilder:validation:Enum={"Premium_LRS","Premium_ZRS","Standard_LRS","StandardSSD_LRS","StandardSSD_ZRS","UltraSSD_LRS"}
-type ImageDataDiskStorageAccountType string
-
-const (
-	ImageDataDiskStorageAccountTypePremiumLRS     = ImageDataDiskStorageAccountType("Premium_LRS")
-	ImageDataDiskStorageAccountTypePremiumZRS     = ImageDataDiskStorageAccountType("Premium_ZRS")
-	ImageDataDiskStorageAccountTypeStandardLRS    = ImageDataDiskStorageAccountType("Standard_LRS")
-	ImageDataDiskStorageAccountTypeStandardSSDLRS = ImageDataDiskStorageAccountType("StandardSSD_LRS")
-	ImageDataDiskStorageAccountTypeStandardSSDZRS = ImageDataDiskStorageAccountType("StandardSSD_ZRS")
-	ImageDataDiskStorageAccountTypeUltraSSDLRS    = ImageDataDiskStorageAccountType("UltraSSD_LRS")
-)
-
-// Deprecated version of ImageOSDiskCaching. Use v1beta20210701.ImageOSDiskCaching instead
+// Deprecated version of ImageOSDisk_Caching. Use v1beta20210701.ImageOSDisk_Caching instead
 // +kubebuilder:validation:Enum={"None","ReadOnly","ReadWrite"}
-type ImageOSDiskCaching string
+type ImageOSDisk_Caching string
 
 const (
-	ImageOSDiskCachingNone      = ImageOSDiskCaching("None")
-	ImageOSDiskCachingReadOnly  = ImageOSDiskCaching("ReadOnly")
-	ImageOSDiskCachingReadWrite = ImageOSDiskCaching("ReadWrite")
+	ImageOSDisk_CachingNone      = ImageOSDisk_Caching("None")
+	ImageOSDisk_CachingReadOnly  = ImageOSDisk_Caching("ReadOnly")
+	ImageOSDisk_CachingReadWrite = ImageOSDisk_Caching("ReadWrite")
 )
 
-// Deprecated version of ImageOSDiskOsState. Use v1beta20210701.ImageOSDiskOsState instead
+// Deprecated version of ImageOSDisk_Caching_STATUS. Use v1beta20210701.ImageOSDisk_Caching_STATUS instead
+type ImageOSDisk_Caching_STATUS string
+
+const (
+	ImageOSDisk_Caching_STATUSNone      = ImageOSDisk_Caching_STATUS("None")
+	ImageOSDisk_Caching_STATUSReadOnly  = ImageOSDisk_Caching_STATUS("ReadOnly")
+	ImageOSDisk_Caching_STATUSReadWrite = ImageOSDisk_Caching_STATUS("ReadWrite")
+)
+
+// Deprecated version of ImageOSDisk_OsState. Use v1beta20210701.ImageOSDisk_OsState instead
 // +kubebuilder:validation:Enum={"Generalized","Specialized"}
-type ImageOSDiskOsState string
+type ImageOSDisk_OsState string
 
 const (
-	ImageOSDiskOsStateGeneralized = ImageOSDiskOsState("Generalized")
-	ImageOSDiskOsStateSpecialized = ImageOSDiskOsState("Specialized")
+	ImageOSDisk_OsStateGeneralized = ImageOSDisk_OsState("Generalized")
+	ImageOSDisk_OsStateSpecialized = ImageOSDisk_OsState("Specialized")
 )
 
-// Deprecated version of ImageOSDiskOsType. Use v1beta20210701.ImageOSDiskOsType instead
+// Deprecated version of ImageOSDisk_OsState_STATUS. Use v1beta20210701.ImageOSDisk_OsState_STATUS instead
+type ImageOSDisk_OsState_STATUS string
+
+const (
+	ImageOSDisk_OsState_STATUSGeneralized = ImageOSDisk_OsState_STATUS("Generalized")
+	ImageOSDisk_OsState_STATUSSpecialized = ImageOSDisk_OsState_STATUS("Specialized")
+)
+
+// Deprecated version of ImageOSDisk_OsType. Use v1beta20210701.ImageOSDisk_OsType instead
 // +kubebuilder:validation:Enum={"Linux","Windows"}
-type ImageOSDiskOsType string
+type ImageOSDisk_OsType string
 
 const (
-	ImageOSDiskOsTypeLinux   = ImageOSDiskOsType("Linux")
-	ImageOSDiskOsTypeWindows = ImageOSDiskOsType("Windows")
+	ImageOSDisk_OsTypeLinux   = ImageOSDisk_OsType("Linux")
+	ImageOSDisk_OsTypeWindows = ImageOSDisk_OsType("Windows")
 )
 
-// Deprecated version of ImageOSDiskStatusCaching. Use v1beta20210701.ImageOSDiskStatusCaching instead
-type ImageOSDiskStatusCaching string
+// Deprecated version of ImageOSDisk_OsType_STATUS. Use v1beta20210701.ImageOSDisk_OsType_STATUS instead
+type ImageOSDisk_OsType_STATUS string
 
 const (
-	ImageOSDiskStatusCachingNone      = ImageOSDiskStatusCaching("None")
-	ImageOSDiskStatusCachingReadOnly  = ImageOSDiskStatusCaching("ReadOnly")
-	ImageOSDiskStatusCachingReadWrite = ImageOSDiskStatusCaching("ReadWrite")
+	ImageOSDisk_OsType_STATUSLinux   = ImageOSDisk_OsType_STATUS("Linux")
+	ImageOSDisk_OsType_STATUSWindows = ImageOSDisk_OsType_STATUS("Windows")
 )
 
-// Deprecated version of ImageOSDiskStatusOsState. Use v1beta20210701.ImageOSDiskStatusOsState instead
-type ImageOSDiskStatusOsState string
+// Deprecated version of StorageAccountType. Use v1beta20210701.StorageAccountType instead
+// +kubebuilder:validation:Enum={"Premium_LRS","Premium_ZRS","StandardSSD_LRS","StandardSSD_ZRS","Standard_LRS","UltraSSD_LRS"}
+type StorageAccountType string
 
 const (
-	ImageOSDiskStatusOsStateGeneralized = ImageOSDiskStatusOsState("Generalized")
-	ImageOSDiskStatusOsStateSpecialized = ImageOSDiskStatusOsState("Specialized")
+	StorageAccountTypePremium_LRS     = StorageAccountType("Premium_LRS")
+	StorageAccountTypePremium_ZRS     = StorageAccountType("Premium_ZRS")
+	StorageAccountTypeStandardSSD_LRS = StorageAccountType("StandardSSD_LRS")
+	StorageAccountTypeStandardSSD_ZRS = StorageAccountType("StandardSSD_ZRS")
+	StorageAccountTypeStandard_LRS    = StorageAccountType("Standard_LRS")
+	StorageAccountTypeUltraSSD_LRS    = StorageAccountType("UltraSSD_LRS")
 )
 
-// Deprecated version of ImageOSDiskStatusOsType. Use v1beta20210701.ImageOSDiskStatusOsType instead
-type ImageOSDiskStatusOsType string
+// Deprecated version of StorageAccountType_STATUS. Use v1beta20210701.StorageAccountType_STATUS instead
+type StorageAccountType_STATUS string
 
 const (
-	ImageOSDiskStatusOsTypeLinux   = ImageOSDiskStatusOsType("Linux")
-	ImageOSDiskStatusOsTypeWindows = ImageOSDiskStatusOsType("Windows")
-)
-
-// Deprecated version of ImageOSDiskStorageAccountType. Use v1beta20210701.ImageOSDiskStorageAccountType instead
-// +kubebuilder:validation:Enum={"Premium_LRS","Premium_ZRS","Standard_LRS","StandardSSD_LRS","StandardSSD_ZRS","UltraSSD_LRS"}
-type ImageOSDiskStorageAccountType string
-
-const (
-	ImageOSDiskStorageAccountTypePremiumLRS     = ImageOSDiskStorageAccountType("Premium_LRS")
-	ImageOSDiskStorageAccountTypePremiumZRS     = ImageOSDiskStorageAccountType("Premium_ZRS")
-	ImageOSDiskStorageAccountTypeStandardLRS    = ImageOSDiskStorageAccountType("Standard_LRS")
-	ImageOSDiskStorageAccountTypeStandardSSDLRS = ImageOSDiskStorageAccountType("StandardSSD_LRS")
-	ImageOSDiskStorageAccountTypeStandardSSDZRS = ImageOSDiskStorageAccountType("StandardSSD_ZRS")
-	ImageOSDiskStorageAccountTypeUltraSSDLRS    = ImageOSDiskStorageAccountType("UltraSSD_LRS")
-)
-
-// Deprecated version of StorageAccountType_Status. Use v1beta20210701.StorageAccountType_Status instead
-type StorageAccountType_Status string
-
-const (
-	StorageAccountType_StatusPremiumLRS     = StorageAccountType_Status("Premium_LRS")
-	StorageAccountType_StatusPremiumZRS     = StorageAccountType_Status("Premium_ZRS")
-	StorageAccountType_StatusStandardLRS    = StorageAccountType_Status("Standard_LRS")
-	StorageAccountType_StatusStandardSSDLRS = StorageAccountType_Status("StandardSSD_LRS")
-	StorageAccountType_StatusStandardSSDZRS = StorageAccountType_Status("StandardSSD_ZRS")
-	StorageAccountType_StatusUltraSSDLRS    = StorageAccountType_Status("UltraSSD_LRS")
+	StorageAccountType_STATUSPremium_LRS     = StorageAccountType_STATUS("Premium_LRS")
+	StorageAccountType_STATUSPremium_ZRS     = StorageAccountType_STATUS("Premium_ZRS")
+	StorageAccountType_STATUSStandardSSD_LRS = StorageAccountType_STATUS("StandardSSD_LRS")
+	StorageAccountType_STATUSStandardSSD_ZRS = StorageAccountType_STATUS("StandardSSD_ZRS")
+	StorageAccountType_STATUSStandard_LRS    = StorageAccountType_STATUS("Standard_LRS")
+	StorageAccountType_STATUSUltraSSD_LRS    = StorageAccountType_STATUS("UltraSSD_LRS")
 )
 
 func init() {

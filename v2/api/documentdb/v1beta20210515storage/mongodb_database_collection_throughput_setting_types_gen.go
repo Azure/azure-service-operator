@@ -22,12 +22,13 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20210515.MongodbDatabaseCollectionThroughputSetting
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases_collections_throughputSettings
+// Generator information:
+// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
 type MongodbDatabaseCollectionThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec `json:"spec,omitempty"`
-	Status            ThroughputSettingsGetResults_Status                                `json:"status,omitempty"`
+	Spec              DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec `json:"spec,omitempty"`
+	Status            ThroughputSettingsUpdateParameters_STATUS                         `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &MongodbDatabaseCollectionThroughputSetting{}
@@ -44,12 +45,12 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) SetConditions(conditi
 
 var _ genruntime.KubernetesResource = &MongodbDatabaseCollectionThroughputSetting{}
 
-// AzureName returns the Azure name of the resource (always "default")
+// AzureName returns the Azure name of the resource
 func (setting *MongodbDatabaseCollectionThroughputSetting) AzureName() string {
-	return "default"
+	return setting.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20210515"
 func (setting MongodbDatabaseCollectionThroughputSetting) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -69,14 +70,14 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) GetStatus() genruntim
 	return &setting.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections/throughputSettings"
+// GetType returns the ARM Type of the resource. This is always ""
 func (setting *MongodbDatabaseCollectionThroughputSetting) GetType() string {
-	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections/throughputSettings"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (setting *MongodbDatabaseCollectionThroughputSetting) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &ThroughputSettingsGetResults_Status{}
+	return &ThroughputSettingsUpdateParameters_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +93,13 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) Owner() *genruntime.R
 // SetStatus sets the status of this resource
 func (setting *MongodbDatabaseCollectionThroughputSetting) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*ThroughputSettingsGetResults_Status); ok {
+	if st, ok := status.(*ThroughputSettingsUpdateParameters_STATUS); ok {
 		setting.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st ThroughputSettingsGetResults_Status
+	var st ThroughputSettingsUpdateParameters_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,139 +123,141 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) OriginalGVK() *schema
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20210515.MongodbDatabaseCollectionThroughputSetting
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts_mongodbDatabases_collections_throughputSettings
+// Generator information:
+// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
 type MongodbDatabaseCollectionThroughputSettingList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []MongodbDatabaseCollectionThroughputSetting `json:"items"`
 }
 
-// Storage version of v1beta20210515.DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec
-type DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec struct {
+// Storage version of v1beta20210515.DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec
+type DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec struct {
+	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+	// doesn't have to be.
+	AzureName       string  `json:"azureName,omitempty"`
+	Id              *string `json:"id,omitempty"`
 	Location        *string `json:"location,omitempty"`
 	OriginalVersion string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a documentdb.azure.com/MongodbDatabaseCollection resource
-	Owner       *genruntime.KnownResourceReference `group:"documentdb.azure.com" json:"owner,omitempty" kind:"MongodbDatabaseCollection"`
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Resource    *ThroughputSettingsResource        `json:"resource,omitempty"`
 	Tags        map[string]string                  `json:"tags,omitempty"`
+	Type        *string                            `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec{}
+var _ genruntime.ConvertibleSpec = &DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec from the provided source
-func (settings *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == settings {
+// ConvertSpecFrom populates our DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec from the provided source
+func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == setting {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(settings)
+	return source.ConvertSpecTo(setting)
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec
-func (settings *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == settings {
+// ConvertSpecTo populates the provided destination from our DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec
+func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == setting {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(settings)
+	return destination.ConvertSpecFrom(setting)
 }
 
-// Storage version of v1beta20210515.ThroughputSettingsGetResults_Status
-type ThroughputSettingsGetResults_Status struct {
-	Conditions  []conditions.Condition                           `json:"conditions,omitempty"`
-	Id          *string                                          `json:"id,omitempty"`
-	Location    *string                                          `json:"location,omitempty"`
-	Name        *string                                          `json:"name,omitempty"`
-	PropertyBag genruntime.PropertyBag                           `json:"$propertyBag,omitempty"`
-	Resource    *ThroughputSettingsGetProperties_Status_Resource `json:"resource,omitempty"`
-	Tags        map[string]string                                `json:"tags,omitempty"`
-	Type        *string                                          `json:"type,omitempty"`
+// Storage version of v1beta20210515.ThroughputSettingsUpdateParameters_STATUS
+type ThroughputSettingsUpdateParameters_STATUS struct {
+	Conditions  []conditions.Condition             `json:"conditions,omitempty"`
+	Id          *string                            `json:"id,omitempty"`
+	Location    *string                            `json:"location,omitempty"`
+	Name        *string                            `json:"name,omitempty"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Resource    *ThroughputSettingsResource_STATUS `json:"resource,omitempty"`
+	Tags        map[string]string                  `json:"tags,omitempty"`
+	Type        *string                            `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &ThroughputSettingsGetResults_Status{}
+var _ genruntime.ConvertibleStatus = &ThroughputSettingsUpdateParameters_STATUS{}
 
-// ConvertStatusFrom populates our ThroughputSettingsGetResults_Status from the provided source
-func (results *ThroughputSettingsGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == results {
+// ConvertStatusFrom populates our ThroughputSettingsUpdateParameters_STATUS from the provided source
+func (parameters *ThroughputSettingsUpdateParameters_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == parameters {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(results)
+	return source.ConvertStatusTo(parameters)
 }
 
-// ConvertStatusTo populates the provided destination from our ThroughputSettingsGetResults_Status
-func (results *ThroughputSettingsGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == results {
+// ConvertStatusTo populates the provided destination from our ThroughputSettingsUpdateParameters_STATUS
+func (parameters *ThroughputSettingsUpdateParameters_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == parameters {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(results)
-}
-
-// Storage version of v1beta20210515.ThroughputSettingsGetProperties_Status_Resource
-type ThroughputSettingsGetProperties_Status_Resource struct {
-	AutoscaleSettings   *AutoscaleSettingsResource_Status `json:"autoscaleSettings,omitempty"`
-	Etag                *string                           `json:"_etag,omitempty"`
-	MinimumThroughput   *string                           `json:"minimumThroughput,omitempty"`
-	OfferReplacePending *string                           `json:"offerReplacePending,omitempty"`
-	PropertyBag         genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	Rid                 *string                           `json:"_rid,omitempty"`
-	Throughput          *int                              `json:"throughput,omitempty"`
-	Ts                  *float64                          `json:"_ts,omitempty"`
+	return destination.ConvertStatusFrom(parameters)
 }
 
 // Storage version of v1beta20210515.ThroughputSettingsResource
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ThroughputSettingsResource
 type ThroughputSettingsResource struct {
-	AutoscaleSettings *AutoscaleSettingsResource `json:"autoscaleSettings,omitempty"`
-	PropertyBag       genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
-	Throughput        *int                       `json:"throughput,omitempty"`
+	AutoscaleSettings   *AutoscaleSettingsResource `json:"autoscaleSettings,omitempty"`
+	MinimumThroughput   *string                    `json:"minimumThroughput,omitempty"`
+	OfferReplacePending *string                    `json:"offerReplacePending,omitempty"`
+	PropertyBag         genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
+	Throughput          *int                       `json:"throughput,omitempty"`
+}
+
+// Storage version of v1beta20210515.ThroughputSettingsResource_STATUS
+type ThroughputSettingsResource_STATUS struct {
+	AutoscaleSettings   *AutoscaleSettingsResource_STATUS `json:"autoscaleSettings,omitempty"`
+	MinimumThroughput   *string                           `json:"minimumThroughput,omitempty"`
+	OfferReplacePending *string                           `json:"offerReplacePending,omitempty"`
+	PropertyBag         genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+	Throughput          *int                              `json:"throughput,omitempty"`
 }
 
 // Storage version of v1beta20210515.AutoscaleSettingsResource
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AutoscaleSettingsResource
 type AutoscaleSettingsResource struct {
-	AutoUpgradePolicy *AutoUpgradePolicyResource `json:"autoUpgradePolicy,omitempty"`
-	MaxThroughput     *int                       `json:"maxThroughput,omitempty"`
-	PropertyBag       genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
+	AutoUpgradePolicy   *AutoUpgradePolicyResource `json:"autoUpgradePolicy,omitempty"`
+	MaxThroughput       *int                       `json:"maxThroughput,omitempty"`
+	PropertyBag         genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
+	TargetMaxThroughput *int                       `json:"targetMaxThroughput,omitempty"`
 }
 
-// Storage version of v1beta20210515.AutoscaleSettingsResource_Status
-type AutoscaleSettingsResource_Status struct {
-	AutoUpgradePolicy   *AutoUpgradePolicyResource_Status `json:"autoUpgradePolicy,omitempty"`
+// Storage version of v1beta20210515.AutoscaleSettingsResource_STATUS
+type AutoscaleSettingsResource_STATUS struct {
+	AutoUpgradePolicy   *AutoUpgradePolicyResource_STATUS `json:"autoUpgradePolicy,omitempty"`
 	MaxThroughput       *int                              `json:"maxThroughput,omitempty"`
 	PropertyBag         genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 	TargetMaxThroughput *int                              `json:"targetMaxThroughput,omitempty"`
 }
 
 // Storage version of v1beta20210515.AutoUpgradePolicyResource
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AutoUpgradePolicyResource
 type AutoUpgradePolicyResource struct {
 	PropertyBag      genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
 	ThroughputPolicy *ThroughputPolicyResource `json:"throughputPolicy,omitempty"`
 }
 
-// Storage version of v1beta20210515.AutoUpgradePolicyResource_Status
-type AutoUpgradePolicyResource_Status struct {
+// Storage version of v1beta20210515.AutoUpgradePolicyResource_STATUS
+type AutoUpgradePolicyResource_STATUS struct {
 	PropertyBag      genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
-	ThroughputPolicy *ThroughputPolicyResource_Status `json:"throughputPolicy,omitempty"`
+	ThroughputPolicy *ThroughputPolicyResource_STATUS `json:"throughputPolicy,omitempty"`
 }
 
 // Storage version of v1beta20210515.ThroughputPolicyResource
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ThroughputPolicyResource
 type ThroughputPolicyResource struct {
 	IncrementPercent *int                   `json:"incrementPercent,omitempty"`
 	IsEnabled        *bool                  `json:"isEnabled,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210515.ThroughputPolicyResource_Status
-type ThroughputPolicyResource_Status struct {
+// Storage version of v1beta20210515.ThroughputPolicyResource_STATUS
+type ThroughputPolicyResource_STATUS struct {
 	IncrementPercent *int                   `json:"incrementPercent,omitempty"`
 	IsEnabled        *bool                  `json:"isEnabled,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`

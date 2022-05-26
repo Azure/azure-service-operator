@@ -22,12 +22,13 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20210301.RedisEnterprise
-// Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/resourceDefinitions/redisEnterprise
+// Generator information:
+// - Generated from: /redisenterprise/resource-manager/Microsoft.Cache/stable/2021-03-01/redisenterprise.json
 type RedisEnterprise struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              RedisEnterprise_Spec `json:"spec,omitempty"`
-	Status            Cluster_Status       `json:"status,omitempty"`
+	Status            Cluster_STATUS       `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &RedisEnterprise{}
@@ -49,7 +50,7 @@ func (enterprise *RedisEnterprise) AzureName() string {
 	return enterprise.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2021-03-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20210301"
 func (enterprise RedisEnterprise) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -69,14 +70,14 @@ func (enterprise *RedisEnterprise) GetStatus() genruntime.ConvertibleStatus {
 	return &enterprise.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redisEnterprise"
+// GetType returns the ARM Type of the resource. This is always ""
 func (enterprise *RedisEnterprise) GetType() string {
-	return "Microsoft.Cache/redisEnterprise"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (enterprise *RedisEnterprise) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Cluster_Status{}
+	return &Cluster_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +93,13 @@ func (enterprise *RedisEnterprise) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (enterprise *RedisEnterprise) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Cluster_Status); ok {
+	if st, ok := status.(*Cluster_STATUS); ok {
 		enterprise.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Cluster_Status
+	var st Cluster_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,7 +123,8 @@ func (enterprise *RedisEnterprise) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20210301.RedisEnterprise
-// Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/resourceDefinitions/redisEnterprise
+// Generator information:
+// - Generated from: /redisenterprise/resource-manager/Microsoft.Cache/stable/2021-03-01/redisenterprise.json
 type RedisEnterpriseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -130,34 +132,34 @@ type RedisEnterpriseList struct {
 }
 
 // Storage version of v1beta20210301.APIVersion
-// +kubebuilder:validation:Enum={"2021-03-01"}
+// +kubebuilder:validation:Enum={"20210301"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2021-03-01")
+const APIVersionValue = APIVersion("20210301")
 
-// Storage version of v1beta20210301.Cluster_Status
-type Cluster_Status struct {
+// Storage version of v1beta20210301.Cluster_STATUS
+type Cluster_STATUS struct {
 	Conditions                 []conditions.Condition                                 `json:"conditions,omitempty"`
 	HostName                   *string                                                `json:"hostName,omitempty"`
 	Id                         *string                                                `json:"id,omitempty"`
 	Location                   *string                                                `json:"location,omitempty"`
 	MinimumTlsVersion          *string                                                `json:"minimumTlsVersion,omitempty"`
 	Name                       *string                                                `json:"name,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnection_Status_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
 	PropertyBag                genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
 	ProvisioningState          *string                                                `json:"provisioningState,omitempty"`
 	RedisVersion               *string                                                `json:"redisVersion,omitempty"`
 	ResourceState              *string                                                `json:"resourceState,omitempty"`
-	Sku                        *Sku_Status                                            `json:"sku,omitempty"`
+	Sku                        *Sku_STATUS                                            `json:"sku,omitempty"`
 	Tags                       map[string]string                                      `json:"tags,omitempty"`
 	Type                       *string                                                `json:"type,omitempty"`
 	Zones                      []string                                               `json:"zones,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Cluster_Status{}
+var _ genruntime.ConvertibleStatus = &Cluster_STATUS{}
 
-// ConvertStatusFrom populates our Cluster_Status from the provided source
-func (cluster *Cluster_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our Cluster_STATUS from the provided source
+func (cluster *Cluster_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == cluster {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -165,8 +167,8 @@ func (cluster *Cluster_Status) ConvertStatusFrom(source genruntime.ConvertibleSt
 	return source.ConvertStatusTo(cluster)
 }
 
-// ConvertStatusTo populates the provided destination from our Cluster_Status
-func (cluster *Cluster_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our Cluster_STATUS
+func (cluster *Cluster_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == cluster {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -179,6 +181,8 @@ type RedisEnterprise_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName         string  `json:"azureName,omitempty"`
+	HostName          *string `json:"hostName,omitempty"`
+	Id                *string `json:"id,omitempty"`
 	Location          *string `json:"location,omitempty"`
 	MinimumTlsVersion *string `json:"minimumTlsVersion,omitempty"`
 	OriginalVersion   string  `json:"originalVersion,omitempty"`
@@ -187,11 +191,16 @@ type RedisEnterprise_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Sku         *Sku                               `json:"sku,omitempty"`
-	Tags        map[string]string                  `json:"tags,omitempty"`
-	Zones       []string                           `json:"zones,omitempty"`
+	Owner                      *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PrivateEndpointConnections []PrivateEndpointConnection        `json:"privateEndpointConnections,omitempty"`
+	PropertyBag                genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	ProvisioningState          *string                            `json:"provisioningState,omitempty"`
+	RedisVersion               *string                            `json:"redisVersion,omitempty"`
+	ResourceState              *string                            `json:"resourceState,omitempty"`
+	Sku                        *Sku                               `json:"sku,omitempty"`
+	Tags                       map[string]string                  `json:"tags,omitempty"`
+	Type                       *string                            `json:"type,omitempty"`
+	Zones                      []string                           `json:"zones,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &RedisEnterprise_Spec{}
@@ -214,22 +223,27 @@ func (enterprise *RedisEnterprise_Spec) ConvertSpecTo(destination genruntime.Con
 	return destination.ConvertSpecFrom(enterprise)
 }
 
-// Storage version of v1beta20210301.PrivateEndpointConnection_Status_SubResourceEmbedded
-type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
+// Storage version of v1beta20210301.PrivateEndpointConnection
+type PrivateEndpointConnection struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20210301.PrivateEndpointConnection_STATUS_SubResourceEmbedded
+type PrivateEndpointConnection_STATUS_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210301.Sku
-// Generated from: https://schema.management.azure.com/schemas/2021-03-01/Microsoft.Cache.Enterprise.json#/definitions/Sku
 type Sku struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210301.Sku_Status
-type Sku_Status struct {
+// Storage version of v1beta20210301.Sku_STATUS
+type Sku_STATUS struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

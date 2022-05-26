@@ -10,7 +10,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -25,12 +24,13 @@ import (
 // +kubebuilder:printcolumn:name="Severity",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].severity"
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/resourceDefinitions/profiles
+// Generator information:
+// - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/cdn.json
 type Profile struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Profiles_Spec  `json:"spec,omitempty"`
-	Status            Profile_Status `json:"status,omitempty"`
+	Spec              Profile_Spec   `json:"spec,omitempty"`
+	Status            Profile_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Profile{}
@@ -97,7 +97,7 @@ func (profile *Profile) AzureName() string {
 	return profile.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20210601"
 func (profile Profile) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -117,14 +117,14 @@ func (profile *Profile) GetStatus() genruntime.ConvertibleStatus {
 	return &profile.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Cdn/profiles"
+// GetType returns the ARM Type of the resource. This is always ""
 func (profile *Profile) GetType() string {
-	return "Microsoft.Cdn/profiles"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (profile *Profile) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Profile_Status{}
+	return &Profile_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -140,13 +140,13 @@ func (profile *Profile) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (profile *Profile) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Profile_Status); ok {
+	if st, ok := status.(*Profile_STATUS); ok {
 		profile.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Profile_Status
+	var st Profile_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -256,18 +256,18 @@ func (profile *Profile) AssignPropertiesFromProfile(source *v20210601s.Profile) 
 	profile.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Profiles_Spec
-	err := spec.AssignPropertiesFromProfilesSpec(&source.Spec)
+	var spec Profile_Spec
+	err := spec.AssignPropertiesFromProfile_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromProfilesSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromProfile_Spec() to populate field Spec")
 	}
 	profile.Spec = spec
 
 	// Status
-	var status Profile_Status
-	err = status.AssignPropertiesFromProfileStatus(&source.Status)
+	var status Profile_STATUS
+	err = status.AssignPropertiesFromProfile_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromProfileStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromProfile_STATUS() to populate field Status")
 	}
 	profile.Status = status
 
@@ -282,18 +282,18 @@ func (profile *Profile) AssignPropertiesToProfile(destination *v20210601s.Profil
 	destination.ObjectMeta = *profile.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210601s.Profiles_Spec
-	err := profile.Spec.AssignPropertiesToProfilesSpec(&spec)
+	var spec v20210601s.Profile_Spec
+	err := profile.Spec.AssignPropertiesToProfile_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToProfilesSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToProfile_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status v20210601s.Profile_Status
-	err = profile.Status.AssignPropertiesToProfileStatus(&status)
+	var status v20210601s.Profile_STATUS
+	err = profile.Status.AssignPropertiesToProfile_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToProfileStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToProfile_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -311,19 +311,20 @@ func (profile *Profile) OriginalGVK() *schema.GroupVersionKind {
 }
 
 // +kubebuilder:object:root=true
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/resourceDefinitions/profiles
+// Generator information:
+// - Generated from: /cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/cdn.json
 type ProfileList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Profile `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2021-06-01"}
+// +kubebuilder:validation:Enum={"20210601"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2021-06-01")
+const APIVersionValue = APIVersion("20210601")
 
-type Profile_Status struct {
+type Profile_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -347,15 +348,15 @@ type Profile_Status struct {
 	OriginResponseTimeoutSeconds *int `json:"originResponseTimeoutSeconds,omitempty"`
 
 	// ProvisioningState: Provisioning status of the profile.
-	ProvisioningState *ProfilePropertiesStatusProvisioningState `json:"provisioningState,omitempty"`
+	ProvisioningState *ProfileProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// ResourceState: Resource status of the profile.
-	ResourceState *ProfilePropertiesStatusResourceState `json:"resourceState,omitempty"`
+	ResourceState *ProfileProperties_ResourceState_STATUS `json:"resourceState,omitempty"`
 
 	// Sku: The pricing tier (defines Azure Front Door Standard or Premium or a CDN provider, feature list and rate) of the
 	// profile.
-	Sku        *Sku_Status        `json:"sku,omitempty"`
-	SystemData *SystemData_Status `json:"systemData,omitempty"`
+	Sku        *Sku_STATUS        `json:"sku,omitempty"`
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
@@ -364,25 +365,25 @@ type Profile_Status struct {
 	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Profile_Status{}
+var _ genruntime.ConvertibleStatus = &Profile_STATUS{}
 
-// ConvertStatusFrom populates our Profile_Status from the provided source
-func (profile *Profile_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210601s.Profile_Status)
+// ConvertStatusFrom populates our Profile_STATUS from the provided source
+func (profile *Profile_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210601s.Profile_STATUS)
 	if ok {
 		// Populate our instance from source
-		return profile.AssignPropertiesFromProfileStatus(src)
+		return profile.AssignPropertiesFromProfile_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210601s.Profile_Status{}
+	src = &v20210601s.Profile_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = profile.AssignPropertiesFromProfileStatus(src)
+	err = profile.AssignPropertiesFromProfile_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -390,17 +391,17 @@ func (profile *Profile_Status) ConvertStatusFrom(source genruntime.ConvertibleSt
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Profile_Status
-func (profile *Profile_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210601s.Profile_Status)
+// ConvertStatusTo populates the provided destination from our Profile_STATUS
+func (profile *Profile_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210601s.Profile_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return profile.AssignPropertiesToProfileStatus(dst)
+		return profile.AssignPropertiesToProfile_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210601s.Profile_Status{}
-	err := profile.AssignPropertiesToProfileStatus(dst)
+	dst = &v20210601s.Profile_STATUS{}
+	err := profile.AssignPropertiesToProfile_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -414,18 +415,18 @@ func (profile *Profile_Status) ConvertStatusTo(destination genruntime.Convertibl
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Profile_Status{}
+var _ genruntime.FromARMConverter = &Profile_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (profile *Profile_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Profile_StatusARM{}
+func (profile *Profile_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Profile_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (profile *Profile_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Profile_StatusARM)
+func (profile *Profile_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Profile_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Profile_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Profile_STATUSARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -492,7 +493,7 @@ func (profile *Profile_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property ‘Sku’:
 	if typedInput.Sku != nil {
-		var sku1 Sku_Status
+		var sku1 Sku_STATUS
 		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
 		if err != nil {
 			return err
@@ -503,7 +504,7 @@ func (profile *Profile_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property ‘SystemData’:
 	if typedInput.SystemData != nil {
-		var systemData1 SystemData_Status
+		var systemData1 SystemData_STATUS
 		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
 		if err != nil {
 			return err
@@ -530,8 +531,8 @@ func (profile *Profile_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	return nil
 }
 
-// AssignPropertiesFromProfileStatus populates our Profile_Status from the provided source Profile_Status
-func (profile *Profile_Status) AssignPropertiesFromProfileStatus(source *v20210601s.Profile_Status) error {
+// AssignPropertiesFromProfile_STATUS populates our Profile_STATUS from the provided source Profile_STATUS
+func (profile *Profile_STATUS) AssignPropertiesFromProfile_STATUS(source *v20210601s.Profile_STATUS) error {
 
 	// Conditions
 	profile.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -556,7 +557,7 @@ func (profile *Profile_Status) AssignPropertiesFromProfileStatus(source *v202106
 
 	// ProvisioningState
 	if source.ProvisioningState != nil {
-		provisioningState := ProfilePropertiesStatusProvisioningState(*source.ProvisioningState)
+		provisioningState := ProfileProperties_ProvisioningState_STATUS(*source.ProvisioningState)
 		profile.ProvisioningState = &provisioningState
 	} else {
 		profile.ProvisioningState = nil
@@ -564,7 +565,7 @@ func (profile *Profile_Status) AssignPropertiesFromProfileStatus(source *v202106
 
 	// ResourceState
 	if source.ResourceState != nil {
-		resourceState := ProfilePropertiesStatusResourceState(*source.ResourceState)
+		resourceState := ProfileProperties_ResourceState_STATUS(*source.ResourceState)
 		profile.ResourceState = &resourceState
 	} else {
 		profile.ResourceState = nil
@@ -572,10 +573,10 @@ func (profile *Profile_Status) AssignPropertiesFromProfileStatus(source *v202106
 
 	// Sku
 	if source.Sku != nil {
-		var sku Sku_Status
-		err := sku.AssignPropertiesFromSkuStatus(source.Sku)
+		var sku Sku_STATUS
+		err := sku.AssignPropertiesFromSku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSkuStatus() to populate field Sku")
+			return errors.Wrap(err, "calling AssignPropertiesFromSku_STATUS() to populate field Sku")
 		}
 		profile.Sku = &sku
 	} else {
@@ -584,10 +585,10 @@ func (profile *Profile_Status) AssignPropertiesFromProfileStatus(source *v202106
 
 	// SystemData
 	if source.SystemData != nil {
-		var systemDatum SystemData_Status
-		err := systemDatum.AssignPropertiesFromSystemDataStatus(source.SystemData)
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignPropertiesFromSystemData_STATUS(source.SystemData)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemData_STATUS() to populate field SystemData")
 		}
 		profile.SystemData = &systemDatum
 	} else {
@@ -604,8 +605,8 @@ func (profile *Profile_Status) AssignPropertiesFromProfileStatus(source *v202106
 	return nil
 }
 
-// AssignPropertiesToProfileStatus populates the provided destination Profile_Status from our Profile_Status
-func (profile *Profile_Status) AssignPropertiesToProfileStatus(destination *v20210601s.Profile_Status) error {
+// AssignPropertiesToProfile_STATUS populates the provided destination Profile_STATUS from our Profile_STATUS
+func (profile *Profile_STATUS) AssignPropertiesToProfile_STATUS(destination *v20210601s.Profile_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -648,10 +649,10 @@ func (profile *Profile_Status) AssignPropertiesToProfileStatus(destination *v202
 
 	// Sku
 	if profile.Sku != nil {
-		var sku v20210601s.Sku_Status
-		err := profile.Sku.AssignPropertiesToSkuStatus(&sku)
+		var sku v20210601s.Sku_STATUS
+		err := profile.Sku.AssignPropertiesToSku_STATUS(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSkuStatus() to populate field Sku")
+			return errors.Wrap(err, "calling AssignPropertiesToSku_STATUS() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -660,10 +661,10 @@ func (profile *Profile_Status) AssignPropertiesToProfileStatus(destination *v202
 
 	// SystemData
 	if profile.SystemData != nil {
-		var systemDatum v20210601s.SystemData_Status
-		err := profile.SystemData.AssignPropertiesToSystemDataStatus(&systemDatum)
+		var systemDatum v20210601s.SystemData_STATUS
+		err := profile.SystemData.AssignPropertiesToSystemData_STATUS(&systemDatum)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemDataStatus() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesToSystemData_STATUS() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -687,15 +688,22 @@ func (profile *Profile_Status) AssignPropertiesToProfileStatus(destination *v202
 	return nil
 }
 
-type Profiles_Spec struct {
+type Profile_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	// Identity: Managed service identity.
-	Identity *ManagedServiceIdentity `json:"identity,omitempty"`
+	// FrontDoorId: The Id of the frontdoor.
+	FrontDoorId *string `json:"frontDoorId,omitempty"`
 
-	// Location: Location to deploy resource to
+	// Id: Resource ID.
+	Id *string `json:"id,omitempty"`
+
+	// Kind: Kind of the profile. Used by portal to differentiate traditional CDN profile and new AFD profile.
+	Kind *string `json:"kind,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Minimum=16
@@ -709,43 +717,52 @@ type Profiles_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
-	// +kubebuilder:validation:Required
-	// Sku: Standard_Verizon = The SKU name for a Standard Verizon CDN profile.
-	// Premium_Verizon = The SKU name for a Premium Verizon CDN profile.
-	// Custom_Verizon = The SKU name for a Custom Verizon CDN profile.
-	// Standard_Akamai = The SKU name for an Akamai CDN profile.
-	// Standard_ChinaCdn = The SKU name for a China CDN profile for VOD, Web and download scenarios using GB based billing
-	// model.
-	// Standard_Microsoft = The SKU name for a Standard Microsoft CDN profile.
-	// Standard_AzureFrontDoor =  The SKU name for an Azure Front Door Standard profile.
-	// Premium_AzureFrontDoor = The SKU name for an Azure Front Door Premium profile.
-	// Standard_955BandWidth_ChinaCdn = The SKU name for a China CDN profile for VOD, Web and download scenarios using 95-5
-	// peak bandwidth billing model.
-	// Standard_AvgBandWidth_ChinaCdn = The SKU name for a China CDN profile for VOD, Web and download scenarios using monthly
-	// average peak bandwidth billing model.
-	// StandardPlus_ChinaCdn = The SKU name for a China CDN profile for live-streaming using GB based billing model.
-	// StandardPlus_955BandWidth_ChinaCdn = The SKU name for a China CDN live-streaming profile using 95-5 peak bandwidth
-	// billing model.
-	// StandardPlus_AvgBandWidth_ChinaCdn = The SKU name for a China CDN live-streaming profile using monthly average peak
-	// bandwidth billing model.
-	Sku *Sku `json:"sku,omitempty"`
+	// ProvisioningState: Provisioning status of the profile.
+	ProvisioningState *ProfileProperties_ProvisioningState `json:"provisioningState,omitempty"`
 
-	// Tags: Name-value pairs to add to the resource
+	// ResourceState: Resource status of the profile.
+	ResourceState *ProfileProperties_ResourceState `json:"resourceState,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Sku: The pricing tier (defines Azure Front Door Standard or Premium or a CDN provider, feature list and rate) of the
+	// profile.
+	Sku        *Sku        `json:"sku,omitempty"`
+	SystemData *SystemData `json:"systemData,omitempty"`
+
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
+
+	// Type: Resource type.
+	Type *string `json:"type,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Profiles_Spec{}
+var _ genruntime.ARMTransformer = &Profile_Spec{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (profiles *Profiles_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if profiles == nil {
+func (profile *Profile_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if profile == nil {
 		return nil, nil
 	}
-	result := &Profiles_SpecARM{}
+	result := &Profile_SpecARM{}
+
+	// Set property ‘AzureName’:
+	result.AzureName = profile.AzureName
+
+	// Set property ‘Id’:
+	if profile.Id != nil {
+		id := *profile.Id
+		result.Id = &id
+	}
+
+	// Set property ‘Kind’:
+	if profile.Kind != nil {
+		kind := *profile.Kind
+		result.Kind = &kind
+	}
 
 	// Set property ‘Location’:
-	if profiles.Location != nil {
-		location := *profiles.Location
+	if profile.Location != nil {
+		location := *profile.Location
 		result.Location = &location
 	}
 
@@ -753,25 +770,32 @@ func (profiles *Profiles_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if profiles.Identity != nil || profiles.OriginResponseTimeoutSeconds != nil {
+	if profile.FrontDoorId != nil ||
+		profile.OriginResponseTimeoutSeconds != nil ||
+		profile.ProvisioningState != nil ||
+		profile.ResourceState != nil {
 		result.Properties = &ProfilePropertiesARM{}
 	}
-	if profiles.Identity != nil {
-		identityARM, err := (*profiles.Identity).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		identity := *identityARM.(*ManagedServiceIdentityARM)
-		result.Properties.Identity = &identity
+	if profile.FrontDoorId != nil {
+		frontDoorId := *profile.FrontDoorId
+		result.Properties.FrontDoorId = &frontDoorId
 	}
-	if profiles.OriginResponseTimeoutSeconds != nil {
-		originResponseTimeoutSeconds := *profiles.OriginResponseTimeoutSeconds
+	if profile.OriginResponseTimeoutSeconds != nil {
+		originResponseTimeoutSeconds := *profile.OriginResponseTimeoutSeconds
 		result.Properties.OriginResponseTimeoutSeconds = &originResponseTimeoutSeconds
+	}
+	if profile.ProvisioningState != nil {
+		provisioningState := *profile.ProvisioningState
+		result.Properties.ProvisioningState = &provisioningState
+	}
+	if profile.ResourceState != nil {
+		resourceState := *profile.ResourceState
+		result.Properties.ResourceState = &resourceState
 	}
 
 	// Set property ‘Sku’:
-	if profiles.Sku != nil {
-		skuARM, err := (*profiles.Sku).ConvertToARM(resolved)
+	if profile.Sku != nil {
+		skuARM, err := (*profile.Sku).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
@@ -779,49 +803,72 @@ func (profiles *Profiles_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.Sku = &sku
 	}
 
+	// Set property ‘SystemData’:
+	if profile.SystemData != nil {
+		systemDataARM, err := (*profile.SystemData).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		systemData := *systemDataARM.(*SystemDataARM)
+		result.SystemData = &systemData
+	}
+
 	// Set property ‘Tags’:
-	if profiles.Tags != nil {
+	if profile.Tags != nil {
 		result.Tags = make(map[string]string)
-		for key, value := range profiles.Tags {
+		for key, value := range profile.Tags {
 			result.Tags[key] = value
 		}
+	}
+
+	// Set property ‘Type’:
+	if profile.Type != nil {
+		typeVar := *profile.Type
+		result.Type = &typeVar
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (profiles *Profiles_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Profiles_SpecARM{}
+func (profile *Profile_Spec) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Profile_SpecARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (profiles *Profiles_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Profiles_SpecARM)
+func (profile *Profile_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Profile_SpecARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Profiles_SpecARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Profile_SpecARM, got %T", armInput)
 	}
 
 	// Set property ‘AzureName’:
-	profiles.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
+	profile.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Identity’:
+	// Set property ‘FrontDoorId’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
-		if typedInput.Properties.Identity != nil {
-			var identity1 ManagedServiceIdentity
-			err := identity1.PopulateFromARM(owner, *typedInput.Properties.Identity)
-			if err != nil {
-				return err
-			}
-			identity := identity1
-			profiles.Identity = &identity
+		if typedInput.Properties.FrontDoorId != nil {
+			frontDoorId := *typedInput.Properties.FrontDoorId
+			profile.FrontDoorId = &frontDoorId
 		}
+	}
+
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		profile.Id = &id
+	}
+
+	// Set property ‘Kind’:
+	if typedInput.Kind != nil {
+		kind := *typedInput.Kind
+		profile.Kind = &kind
 	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		profiles.Location = &location
+		profile.Location = &location
 	}
 
 	// Set property ‘OriginResponseTimeoutSeconds’:
@@ -829,13 +876,31 @@ func (profiles *Profiles_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	if typedInput.Properties != nil {
 		if typedInput.Properties.OriginResponseTimeoutSeconds != nil {
 			originResponseTimeoutSeconds := *typedInput.Properties.OriginResponseTimeoutSeconds
-			profiles.OriginResponseTimeoutSeconds = &originResponseTimeoutSeconds
+			profile.OriginResponseTimeoutSeconds = &originResponseTimeoutSeconds
 		}
 	}
 
 	// Set property ‘Owner’:
-	profiles.Owner = &genruntime.KnownResourceReference{
+	profile.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
+	}
+
+	// Set property ‘ProvisioningState’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ProvisioningState != nil {
+			provisioningState := *typedInput.Properties.ProvisioningState
+			profile.ProvisioningState = &provisioningState
+		}
+	}
+
+	// Set property ‘ResourceState’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ResourceState != nil {
+			resourceState := *typedInput.Properties.ResourceState
+			profile.ResourceState = &resourceState
+		}
 	}
 
 	// Set property ‘Sku’:
@@ -846,40 +911,57 @@ func (profiles *Profiles_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 			return err
 		}
 		sku := sku1
-		profiles.Sku = &sku
+		profile.Sku = &sku
+	}
+
+	// Set property ‘SystemData’:
+	if typedInput.SystemData != nil {
+		var systemData1 SystemData
+		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
+		if err != nil {
+			return err
+		}
+		systemData := systemData1
+		profile.SystemData = &systemData
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		profiles.Tags = make(map[string]string)
+		profile.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
-			profiles.Tags[key] = value
+			profile.Tags[key] = value
 		}
+	}
+
+	// Set property ‘Type’:
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		profile.Type = &typeVar
 	}
 
 	// No error
 	return nil
 }
 
-var _ genruntime.ConvertibleSpec = &Profiles_Spec{}
+var _ genruntime.ConvertibleSpec = &Profile_Spec{}
 
-// ConvertSpecFrom populates our Profiles_Spec from the provided source
-func (profiles *Profiles_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210601s.Profiles_Spec)
+// ConvertSpecFrom populates our Profile_Spec from the provided source
+func (profile *Profile_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20210601s.Profile_Spec)
 	if ok {
 		// Populate our instance from source
-		return profiles.AssignPropertiesFromProfilesSpec(src)
+		return profile.AssignPropertiesFromProfile_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210601s.Profiles_Spec{}
+	src = &v20210601s.Profile_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = profiles.AssignPropertiesFromProfilesSpec(src)
+	err = profile.AssignPropertiesFromProfile_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -887,17 +969,17 @@ func (profiles *Profiles_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Profiles_Spec
-func (profiles *Profiles_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210601s.Profiles_Spec)
+// ConvertSpecTo populates the provided destination from our Profile_Spec
+func (profile *Profile_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20210601s.Profile_Spec)
 	if ok {
 		// Populate destination from our instance
-		return profiles.AssignPropertiesToProfilesSpec(dst)
+		return profile.AssignPropertiesToProfile_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210601s.Profiles_Spec{}
-	err := profiles.AssignPropertiesToProfilesSpec(dst)
+	dst = &v20210601s.Profile_Spec{}
+	err := profile.AssignPropertiesToProfile_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -911,41 +993,54 @@ func (profiles *Profiles_Spec) ConvertSpecTo(destination genruntime.ConvertibleS
 	return nil
 }
 
-// AssignPropertiesFromProfilesSpec populates our Profiles_Spec from the provided source Profiles_Spec
-func (profiles *Profiles_Spec) AssignPropertiesFromProfilesSpec(source *v20210601s.Profiles_Spec) error {
+// AssignPropertiesFromProfile_Spec populates our Profile_Spec from the provided source Profile_Spec
+func (profile *Profile_Spec) AssignPropertiesFromProfile_Spec(source *v20210601s.Profile_Spec) error {
 
 	// AzureName
-	profiles.AzureName = source.AzureName
+	profile.AzureName = source.AzureName
 
-	// Identity
-	if source.Identity != nil {
-		var identity ManagedServiceIdentity
-		err := identity.AssignPropertiesFromManagedServiceIdentity(source.Identity)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromManagedServiceIdentity() to populate field Identity")
-		}
-		profiles.Identity = &identity
-	} else {
-		profiles.Identity = nil
-	}
+	// FrontDoorId
+	profile.FrontDoorId = genruntime.ClonePointerToString(source.FrontDoorId)
+
+	// Id
+	profile.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Kind
+	profile.Kind = genruntime.ClonePointerToString(source.Kind)
 
 	// Location
-	profiles.Location = genruntime.ClonePointerToString(source.Location)
+	profile.Location = genruntime.ClonePointerToString(source.Location)
 
 	// OriginResponseTimeoutSeconds
 	if source.OriginResponseTimeoutSeconds != nil {
 		originResponseTimeoutSecond := *source.OriginResponseTimeoutSeconds
-		profiles.OriginResponseTimeoutSeconds = &originResponseTimeoutSecond
+		profile.OriginResponseTimeoutSeconds = &originResponseTimeoutSecond
 	} else {
-		profiles.OriginResponseTimeoutSeconds = nil
+		profile.OriginResponseTimeoutSeconds = nil
 	}
 
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
-		profiles.Owner = &owner
+		profile.Owner = &owner
 	} else {
-		profiles.Owner = nil
+		profile.Owner = nil
+	}
+
+	// ProvisioningState
+	if source.ProvisioningState != nil {
+		provisioningState := ProfileProperties_ProvisioningState(*source.ProvisioningState)
+		profile.ProvisioningState = &provisioningState
+	} else {
+		profile.ProvisioningState = nil
+	}
+
+	// ResourceState
+	if source.ResourceState != nil {
+		resourceState := ProfileProperties_ResourceState(*source.ResourceState)
+		profile.ResourceState = &resourceState
+	} else {
+		profile.ResourceState = nil
 	}
 
 	// Sku
@@ -955,64 +1050,92 @@ func (profiles *Profiles_Spec) AssignPropertiesFromProfilesSpec(source *v2021060
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSku() to populate field Sku")
 		}
-		profiles.Sku = &sku
+		profile.Sku = &sku
 	} else {
-		profiles.Sku = nil
+		profile.Sku = nil
+	}
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData
+		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
+		}
+		profile.SystemData = &systemDatum
+	} else {
+		profile.SystemData = nil
 	}
 
 	// Tags
-	profiles.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	profile.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	profile.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToProfilesSpec populates the provided destination Profiles_Spec from our Profiles_Spec
-func (profiles *Profiles_Spec) AssignPropertiesToProfilesSpec(destination *v20210601s.Profiles_Spec) error {
+// AssignPropertiesToProfile_Spec populates the provided destination Profile_Spec from our Profile_Spec
+func (profile *Profile_Spec) AssignPropertiesToProfile_Spec(destination *v20210601s.Profile_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AzureName
-	destination.AzureName = profiles.AzureName
+	destination.AzureName = profile.AzureName
 
-	// Identity
-	if profiles.Identity != nil {
-		var identity v20210601s.ManagedServiceIdentity
-		err := profiles.Identity.AssignPropertiesToManagedServiceIdentity(&identity)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToManagedServiceIdentity() to populate field Identity")
-		}
-		destination.Identity = &identity
-	} else {
-		destination.Identity = nil
-	}
+	// FrontDoorId
+	destination.FrontDoorId = genruntime.ClonePointerToString(profile.FrontDoorId)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(profile.Id)
+
+	// Kind
+	destination.Kind = genruntime.ClonePointerToString(profile.Kind)
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(profiles.Location)
+	destination.Location = genruntime.ClonePointerToString(profile.Location)
 
 	// OriginResponseTimeoutSeconds
-	if profiles.OriginResponseTimeoutSeconds != nil {
-		originResponseTimeoutSecond := *profiles.OriginResponseTimeoutSeconds
+	if profile.OriginResponseTimeoutSeconds != nil {
+		originResponseTimeoutSecond := *profile.OriginResponseTimeoutSeconds
 		destination.OriginResponseTimeoutSeconds = &originResponseTimeoutSecond
 	} else {
 		destination.OriginResponseTimeoutSeconds = nil
 	}
 
 	// OriginalVersion
-	destination.OriginalVersion = profiles.OriginalVersion()
+	destination.OriginalVersion = profile.OriginalVersion()
 
 	// Owner
-	if profiles.Owner != nil {
-		owner := profiles.Owner.Copy()
+	if profile.Owner != nil {
+		owner := profile.Owner.Copy()
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
 	}
 
+	// ProvisioningState
+	if profile.ProvisioningState != nil {
+		provisioningState := string(*profile.ProvisioningState)
+		destination.ProvisioningState = &provisioningState
+	} else {
+		destination.ProvisioningState = nil
+	}
+
+	// ResourceState
+	if profile.ResourceState != nil {
+		resourceState := string(*profile.ResourceState)
+		destination.ResourceState = &resourceState
+	} else {
+		destination.ResourceState = nil
+	}
+
 	// Sku
-	if profiles.Sku != nil {
+	if profile.Sku != nil {
 		var sku v20210601s.Sku
-		err := profiles.Sku.AssignPropertiesToSku(&sku)
+		err := profile.Sku.AssignPropertiesToSku(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSku() to populate field Sku")
 		}
@@ -1021,8 +1144,23 @@ func (profiles *Profiles_Spec) AssignPropertiesToProfilesSpec(destination *v2021
 		destination.Sku = nil
 	}
 
+	// SystemData
+	if profile.SystemData != nil {
+		var systemDatum v20210601s.SystemData
+		err := profile.SystemData.AssignPropertiesToSystemData(&systemDatum)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(profiles.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(profile.Tags)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(profile.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1036,167 +1174,56 @@ func (profiles *Profiles_Spec) AssignPropertiesToProfilesSpec(destination *v2021
 }
 
 // OriginalVersion returns the original API version used to create the resource.
-func (profiles *Profiles_Spec) OriginalVersion() string {
+func (profile *Profile_Spec) OriginalVersion() string {
 	return GroupVersion.Version
 }
 
 // SetAzureName sets the Azure name of the resource
-func (profiles *Profiles_Spec) SetAzureName(azureName string) { profiles.AzureName = azureName }
+func (profile *Profile_Spec) SetAzureName(azureName string) { profile.AzureName = azureName }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/ManagedServiceIdentity
-type ManagedServiceIdentity struct {
-	// Type: Type of managed service identity.
-	Type *ManagedServiceIdentityType `json:"type,omitempty"`
-
-	// UserAssignedIdentities: The list of user assigned identities associated with the resource. The user identity dictionary
-	// key references will be ARM resource ids in the form:
-	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}
-	UserAssignedIdentities map[string]v1.JSON `json:"userAssignedIdentities,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &ManagedServiceIdentity{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (identity *ManagedServiceIdentity) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if identity == nil {
-		return nil, nil
-	}
-	result := &ManagedServiceIdentityARM{}
-
-	// Set property ‘Type’:
-	if identity.Type != nil {
-		typeVar := *identity.Type
-		result.Type = &typeVar
-	}
-
-	// Set property ‘UserAssignedIdentities’:
-	if identity.UserAssignedIdentities != nil {
-		result.UserAssignedIdentities = make(map[string]v1.JSON)
-		for key, value := range identity.UserAssignedIdentities {
-			result.UserAssignedIdentities[key] = *value.DeepCopy()
-		}
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (identity *ManagedServiceIdentity) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedServiceIdentityARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (identity *ManagedServiceIdentity) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedServiceIdentityARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedServiceIdentityARM, got %T", armInput)
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		identity.Type = &typeVar
-	}
-
-	// Set property ‘UserAssignedIdentities’:
-	if typedInput.UserAssignedIdentities != nil {
-		identity.UserAssignedIdentities = make(map[string]v1.JSON)
-		for key, value := range typedInput.UserAssignedIdentities {
-			identity.UserAssignedIdentities[key] = *value.DeepCopy()
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromManagedServiceIdentity populates our ManagedServiceIdentity from the provided source ManagedServiceIdentity
-func (identity *ManagedServiceIdentity) AssignPropertiesFromManagedServiceIdentity(source *v20210601s.ManagedServiceIdentity) error {
-
-	// Type
-	if source.Type != nil {
-		typeVar := ManagedServiceIdentityType(*source.Type)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v1.JSON, len(source.UserAssignedIdentities))
-		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
-			userAssignedIdentityMap[userAssignedIdentityKey] = *userAssignedIdentityValue.DeepCopy()
-		}
-		identity.UserAssignedIdentities = userAssignedIdentityMap
-	} else {
-		identity.UserAssignedIdentities = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToManagedServiceIdentity populates the provided destination ManagedServiceIdentity from our ManagedServiceIdentity
-func (identity *ManagedServiceIdentity) AssignPropertiesToManagedServiceIdentity(destination *v20210601s.ManagedServiceIdentity) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Type
-	if identity.Type != nil {
-		typeVar := string(*identity.Type)
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v1.JSON, len(identity.UserAssignedIdentities))
-		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
-			userAssignedIdentityMap[userAssignedIdentityKey] = *userAssignedIdentityValue.DeepCopy()
-		}
-		destination.UserAssignedIdentities = userAssignedIdentityMap
-	} else {
-		destination.UserAssignedIdentities = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type ProfilePropertiesStatusProvisioningState string
+// +kubebuilder:validation:Enum={"Creating","Deleting","Failed","Succeeded","Updating"}
+type ProfileProperties_ProvisioningState string
 
 const (
-	ProfilePropertiesStatusProvisioningStateCreating  = ProfilePropertiesStatusProvisioningState("Creating")
-	ProfilePropertiesStatusProvisioningStateDeleting  = ProfilePropertiesStatusProvisioningState("Deleting")
-	ProfilePropertiesStatusProvisioningStateFailed    = ProfilePropertiesStatusProvisioningState("Failed")
-	ProfilePropertiesStatusProvisioningStateSucceeded = ProfilePropertiesStatusProvisioningState("Succeeded")
-	ProfilePropertiesStatusProvisioningStateUpdating  = ProfilePropertiesStatusProvisioningState("Updating")
+	ProfileProperties_ProvisioningStateCreating  = ProfileProperties_ProvisioningState("Creating")
+	ProfileProperties_ProvisioningStateDeleting  = ProfileProperties_ProvisioningState("Deleting")
+	ProfileProperties_ProvisioningStateFailed    = ProfileProperties_ProvisioningState("Failed")
+	ProfileProperties_ProvisioningStateSucceeded = ProfileProperties_ProvisioningState("Succeeded")
+	ProfileProperties_ProvisioningStateUpdating  = ProfileProperties_ProvisioningState("Updating")
 )
 
-type ProfilePropertiesStatusResourceState string
+type ProfileProperties_ProvisioningState_STATUS string
 
 const (
-	ProfilePropertiesStatusResourceStateActive   = ProfilePropertiesStatusResourceState("Active")
-	ProfilePropertiesStatusResourceStateCreating = ProfilePropertiesStatusResourceState("Creating")
-	ProfilePropertiesStatusResourceStateDeleting = ProfilePropertiesStatusResourceState("Deleting")
-	ProfilePropertiesStatusResourceStateDisabled = ProfilePropertiesStatusResourceState("Disabled")
+	ProfileProperties_ProvisioningState_STATUSCreating  = ProfileProperties_ProvisioningState_STATUS("Creating")
+	ProfileProperties_ProvisioningState_STATUSDeleting  = ProfileProperties_ProvisioningState_STATUS("Deleting")
+	ProfileProperties_ProvisioningState_STATUSFailed    = ProfileProperties_ProvisioningState_STATUS("Failed")
+	ProfileProperties_ProvisioningState_STATUSSucceeded = ProfileProperties_ProvisioningState_STATUS("Succeeded")
+	ProfileProperties_ProvisioningState_STATUSUpdating  = ProfileProperties_ProvisioningState_STATUS("Updating")
 )
 
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/Sku
+// +kubebuilder:validation:Enum={"Active","Creating","Deleting","Disabled"}
+type ProfileProperties_ResourceState string
+
+const (
+	ProfileProperties_ResourceStateActive   = ProfileProperties_ResourceState("Active")
+	ProfileProperties_ResourceStateCreating = ProfileProperties_ResourceState("Creating")
+	ProfileProperties_ResourceStateDeleting = ProfileProperties_ResourceState("Deleting")
+	ProfileProperties_ResourceStateDisabled = ProfileProperties_ResourceState("Disabled")
+)
+
+type ProfileProperties_ResourceState_STATUS string
+
+const (
+	ProfileProperties_ResourceState_STATUSActive   = ProfileProperties_ResourceState_STATUS("Active")
+	ProfileProperties_ResourceState_STATUSCreating = ProfileProperties_ResourceState_STATUS("Creating")
+	ProfileProperties_ResourceState_STATUSDeleting = ProfileProperties_ResourceState_STATUS("Deleting")
+	ProfileProperties_ResourceState_STATUSDisabled = ProfileProperties_ResourceState_STATUS("Disabled")
+)
+
 type Sku struct {
 	// Name: Name of the pricing tier.
-	Name *SkuName `json:"name,omitempty"`
+	Name *Sku_Name `json:"name,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Sku{}
@@ -1243,7 +1270,7 @@ func (sku *Sku) AssignPropertiesFromSku(source *v20210601s.Sku) error {
 
 	// Name
 	if source.Name != nil {
-		name := SkuName(*source.Name)
+		name := Sku_Name(*source.Name)
 		sku.Name = &name
 	} else {
 		sku.Name = nil
@@ -1277,23 +1304,23 @@ func (sku *Sku) AssignPropertiesToSku(destination *v20210601s.Sku) error {
 	return nil
 }
 
-type Sku_Status struct {
+type Sku_STATUS struct {
 	// Name: Name of the pricing tier.
-	Name *SkuStatusName `json:"name,omitempty"`
+	Name *Sku_Name_STATUS `json:"name,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &Sku_Status{}
+var _ genruntime.FromARMConverter = &Sku_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (sku *Sku_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Sku_StatusARM{}
+func (sku *Sku_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Sku_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (sku *Sku_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Sku_StatusARM)
+func (sku *Sku_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Sku_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Sku_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘Name’:
@@ -1306,12 +1333,12 @@ func (sku *Sku_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 	return nil
 }
 
-// AssignPropertiesFromSkuStatus populates our Sku_Status from the provided source Sku_Status
-func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v20210601s.Sku_Status) error {
+// AssignPropertiesFromSku_STATUS populates our Sku_STATUS from the provided source Sku_STATUS
+func (sku *Sku_STATUS) AssignPropertiesFromSku_STATUS(source *v20210601s.Sku_STATUS) error {
 
 	// Name
 	if source.Name != nil {
-		name := SkuStatusName(*source.Name)
+		name := Sku_Name_STATUS(*source.Name)
 		sku.Name = &name
 	} else {
 		sku.Name = nil
@@ -1321,8 +1348,8 @@ func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v20210601s.Sku_Stat
 	return nil
 }
 
-// AssignPropertiesToSkuStatus populates the provided destination Sku_Status from our Sku_Status
-func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v20210601s.Sku_Status) error {
+// AssignPropertiesToSku_STATUS populates the provided destination Sku_STATUS from our Sku_STATUS
+func (sku *Sku_STATUS) AssignPropertiesToSku_STATUS(destination *v20210601s.Sku_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1345,7 +1372,7 @@ func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *v20210601s.Sku_S
 	return nil
 }
 
-type SystemData_Status struct {
+type SystemData struct {
 	// CreatedAt: The timestamp of resource creation (UTC)
 	CreatedAt *string `json:"createdAt,omitempty"`
 
@@ -1353,7 +1380,7 @@ type SystemData_Status struct {
 	CreatedBy *string `json:"createdBy,omitempty"`
 
 	// CreatedByType: The type of identity that created the resource
-	CreatedByType *IdentityType_Status `json:"createdByType,omitempty"`
+	CreatedByType *IdentityType `json:"createdByType,omitempty"`
 
 	// LastModifiedAt: The timestamp of resource last modification (UTC)
 	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
@@ -1362,21 +1389,66 @@ type SystemData_Status struct {
 	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
 
 	// LastModifiedByType: The type of identity that last modified the resource
-	LastModifiedByType *IdentityType_Status `json:"lastModifiedByType,omitempty"`
+	LastModifiedByType *IdentityType `json:"lastModifiedByType,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &SystemData_Status{}
+var _ genruntime.ARMTransformer = &SystemData{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (data *SystemData) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if data == nil {
+		return nil, nil
+	}
+	result := &SystemDataARM{}
+
+	// Set property ‘CreatedAt’:
+	if data.CreatedAt != nil {
+		createdAt := *data.CreatedAt
+		result.CreatedAt = &createdAt
+	}
+
+	// Set property ‘CreatedBy’:
+	if data.CreatedBy != nil {
+		createdBy := *data.CreatedBy
+		result.CreatedBy = &createdBy
+	}
+
+	// Set property ‘CreatedByType’:
+	if data.CreatedByType != nil {
+		createdByType := *data.CreatedByType
+		result.CreatedByType = &createdByType
+	}
+
+	// Set property ‘LastModifiedAt’:
+	if data.LastModifiedAt != nil {
+		lastModifiedAt := *data.LastModifiedAt
+		result.LastModifiedAt = &lastModifiedAt
+	}
+
+	// Set property ‘LastModifiedBy’:
+	if data.LastModifiedBy != nil {
+		lastModifiedBy := *data.LastModifiedBy
+		result.LastModifiedBy = &lastModifiedBy
+	}
+
+	// Set property ‘LastModifiedByType’:
+	if data.LastModifiedByType != nil {
+		lastModifiedByType := *data.LastModifiedByType
+		result.LastModifiedByType = &lastModifiedByType
+	}
+	return result, nil
+}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (data *SystemData_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SystemData_StatusARM{}
+func (data *SystemData) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SystemDataARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (data *SystemData_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SystemData_StatusARM)
+func (data *SystemData) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(SystemDataARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_StatusARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemDataARM, got %T", armInput)
 	}
 
 	// Set property ‘CreatedAt’:
@@ -1419,8 +1491,181 @@ func (data *SystemData_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	return nil
 }
 
-// AssignPropertiesFromSystemDataStatus populates our SystemData_Status from the provided source SystemData_Status
-func (data *SystemData_Status) AssignPropertiesFromSystemDataStatus(source *v20210601s.SystemData_Status) error {
+// AssignPropertiesFromSystemData populates our SystemData from the provided source SystemData
+func (data *SystemData) AssignPropertiesFromSystemData(source *v20210601s.SystemData) error {
+
+	// CreatedAt
+	if source.CreatedAt != nil {
+		createdAt := *source.CreatedAt
+		data.CreatedAt = &createdAt
+	} else {
+		data.CreatedAt = nil
+	}
+
+	// CreatedBy
+	data.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
+
+	// CreatedByType
+	if source.CreatedByType != nil {
+		createdByType := IdentityType(*source.CreatedByType)
+		data.CreatedByType = &createdByType
+	} else {
+		data.CreatedByType = nil
+	}
+
+	// LastModifiedAt
+	if source.LastModifiedAt != nil {
+		lastModifiedAt := *source.LastModifiedAt
+		data.LastModifiedAt = &lastModifiedAt
+	} else {
+		data.LastModifiedAt = nil
+	}
+
+	// LastModifiedBy
+	data.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
+
+	// LastModifiedByType
+	if source.LastModifiedByType != nil {
+		lastModifiedByType := IdentityType(*source.LastModifiedByType)
+		data.LastModifiedByType = &lastModifiedByType
+	} else {
+		data.LastModifiedByType = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToSystemData populates the provided destination SystemData from our SystemData
+func (data *SystemData) AssignPropertiesToSystemData(destination *v20210601s.SystemData) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// CreatedAt
+	if data.CreatedAt != nil {
+		createdAt := *data.CreatedAt
+		destination.CreatedAt = &createdAt
+	} else {
+		destination.CreatedAt = nil
+	}
+
+	// CreatedBy
+	destination.CreatedBy = genruntime.ClonePointerToString(data.CreatedBy)
+
+	// CreatedByType
+	if data.CreatedByType != nil {
+		createdByType := string(*data.CreatedByType)
+		destination.CreatedByType = &createdByType
+	} else {
+		destination.CreatedByType = nil
+	}
+
+	// LastModifiedAt
+	if data.LastModifiedAt != nil {
+		lastModifiedAt := *data.LastModifiedAt
+		destination.LastModifiedAt = &lastModifiedAt
+	} else {
+		destination.LastModifiedAt = nil
+	}
+
+	// LastModifiedBy
+	destination.LastModifiedBy = genruntime.ClonePointerToString(data.LastModifiedBy)
+
+	// LastModifiedByType
+	if data.LastModifiedByType != nil {
+		lastModifiedByType := string(*data.LastModifiedByType)
+		destination.LastModifiedByType = &lastModifiedByType
+	} else {
+		destination.LastModifiedByType = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type SystemData_STATUS struct {
+	// CreatedAt: The timestamp of resource creation (UTC)
+	CreatedAt *string `json:"createdAt,omitempty"`
+
+	// CreatedBy: An identifier for the identity that created the resource
+	CreatedBy *string `json:"createdBy,omitempty"`
+
+	// CreatedByType: The type of identity that created the resource
+	CreatedByType *IdentityType_STATUS `json:"createdByType,omitempty"`
+
+	// LastModifiedAt: The timestamp of resource last modification (UTC)
+	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
+
+	// LastModifiedBy: An identifier for the identity that last modified the resource
+	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
+
+	// LastModifiedByType: The type of identity that last modified the resource
+	LastModifiedByType *IdentityType_STATUS `json:"lastModifiedByType,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &SystemData_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (data *SystemData_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SystemData_STATUSARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(SystemData_STATUSARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_STATUSARM, got %T", armInput)
+	}
+
+	// Set property ‘CreatedAt’:
+	if typedInput.CreatedAt != nil {
+		createdAt := *typedInput.CreatedAt
+		data.CreatedAt = &createdAt
+	}
+
+	// Set property ‘CreatedBy’:
+	if typedInput.CreatedBy != nil {
+		createdBy := *typedInput.CreatedBy
+		data.CreatedBy = &createdBy
+	}
+
+	// Set property ‘CreatedByType’:
+	if typedInput.CreatedByType != nil {
+		createdByType := *typedInput.CreatedByType
+		data.CreatedByType = &createdByType
+	}
+
+	// Set property ‘LastModifiedAt’:
+	if typedInput.LastModifiedAt != nil {
+		lastModifiedAt := *typedInput.LastModifiedAt
+		data.LastModifiedAt = &lastModifiedAt
+	}
+
+	// Set property ‘LastModifiedBy’:
+	if typedInput.LastModifiedBy != nil {
+		lastModifiedBy := *typedInput.LastModifiedBy
+		data.LastModifiedBy = &lastModifiedBy
+	}
+
+	// Set property ‘LastModifiedByType’:
+	if typedInput.LastModifiedByType != nil {
+		lastModifiedByType := *typedInput.LastModifiedByType
+		data.LastModifiedByType = &lastModifiedByType
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromSystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
+func (data *SystemData_STATUS) AssignPropertiesFromSystemData_STATUS(source *v20210601s.SystemData_STATUS) error {
 
 	// CreatedAt
 	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
@@ -1430,7 +1675,7 @@ func (data *SystemData_Status) AssignPropertiesFromSystemDataStatus(source *v202
 
 	// CreatedByType
 	if source.CreatedByType != nil {
-		createdByType := IdentityType_Status(*source.CreatedByType)
+		createdByType := IdentityType_STATUS(*source.CreatedByType)
 		data.CreatedByType = &createdByType
 	} else {
 		data.CreatedByType = nil
@@ -1444,7 +1689,7 @@ func (data *SystemData_Status) AssignPropertiesFromSystemDataStatus(source *v202
 
 	// LastModifiedByType
 	if source.LastModifiedByType != nil {
-		lastModifiedByType := IdentityType_Status(*source.LastModifiedByType)
+		lastModifiedByType := IdentityType_STATUS(*source.LastModifiedByType)
 		data.LastModifiedByType = &lastModifiedByType
 	} else {
 		data.LastModifiedByType = nil
@@ -1454,8 +1699,8 @@ func (data *SystemData_Status) AssignPropertiesFromSystemDataStatus(source *v202
 	return nil
 }
 
-// AssignPropertiesToSystemDataStatus populates the provided destination SystemData_Status from our SystemData_Status
-func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *v20210601s.SystemData_Status) error {
+// AssignPropertiesToSystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
+func (data *SystemData_STATUS) AssignPropertiesToSystemData_STATUS(destination *v20210601s.SystemData_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1497,16 +1742,6 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *v
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
-type ManagedServiceIdentityType string
-
-const (
-	ManagedServiceIdentityTypeNone                       = ManagedServiceIdentityType("None")
-	ManagedServiceIdentityTypeSystemAssigned             = ManagedServiceIdentityType("SystemAssigned")
-	ManagedServiceIdentityTypeSystemAssignedUserAssigned = ManagedServiceIdentityType("SystemAssigned, UserAssigned")
-	ManagedServiceIdentityTypeUserAssigned               = ManagedServiceIdentityType("UserAssigned")
-)
 
 func init() {
 	SchemeBuilder.Register(&Profile{}, &ProfileList{})

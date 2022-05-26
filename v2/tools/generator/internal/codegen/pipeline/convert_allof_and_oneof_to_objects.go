@@ -102,7 +102,7 @@ func ConvertAllOfAndOneOfToObjects(idFactory astmodel.IdentifierFactory) *Stage 
 			for _, def := range defs {
 				resourceUpdater := chooseSpec
 				// TODO: we need flags
-				if strings.Contains(def.Name().Name(), "_Status") {
+				if def.Name().RepresentsStatusType() {
 					resourceUpdater = chooseStatus
 				}
 

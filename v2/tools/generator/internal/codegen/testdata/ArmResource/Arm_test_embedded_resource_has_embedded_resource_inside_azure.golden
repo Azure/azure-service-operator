@@ -92,7 +92,7 @@ func (a *A) AzureName() string {
 	return a.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20200101"
 func (a A) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -107,9 +107,9 @@ func (a *A) GetSpec() genruntime.ConvertibleSpec {
 	return &a.Spec
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/A"
+// GetType returns the ARM Type of the resource. This is always ""
 func (a *A) GetType() string {
-	return "Microsoft.Azure/A"
+	return ""
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -223,9 +223,9 @@ func (a *A) AssignPropertiesFromA(source *v20200101s.A) error {
 
 	// Spec
 	var spec A_Spec
-	err := spec.AssignPropertiesFromASpec(&source.Spec)
+	err := spec.AssignPropertiesFromA_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromASpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromA_Spec() to populate field Spec")
 	}
 	a.Spec = spec
 
@@ -241,9 +241,9 @@ func (a *A) AssignPropertiesToA(destination *v20200101s.A) error {
 
 	// Spec
 	var spec v20200101s.A_Spec
-	err := a.Spec.AssignPropertiesToASpec(&spec)
+	err := a.Spec.AssignPropertiesToA_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToASpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToA_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -269,13 +269,15 @@ type AList struct {
 }
 
 type A_SpecARM struct {
-	Name       string          `json:"name,omitempty"`
-	Properties *APropertiesARM `json:"properties,omitempty"`
+	APIVersion A_Spec_APIVersion `json:"apiVersion,omitempty"`
+	Name       string            `json:"name,omitempty"`
+	Properties *APropertiesARM   `json:"properties,omitempty"`
+	Type       A_Spec_Type       `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &A_SpecARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20200101"
 func (a A_SpecARM) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -285,9 +287,9 @@ func (a *A_SpecARM) GetName() string {
 	return a.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/A"
+// GetType returns the ARM Type of the resource. This is always ""
 func (a *A_SpecARM) GetType() string {
-	return "Microsoft.Azure/A"
+	return ""
 }
 
 // +kubebuilder:object:root=true
@@ -364,7 +366,7 @@ func (b *B) AzureName() string {
 	return b.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20200101"
 func (b B) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -379,9 +381,9 @@ func (b *B) GetSpec() genruntime.ConvertibleSpec {
 	return &b.Spec
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/B"
+// GetType returns the ARM Type of the resource. This is always ""
 func (b *B) GetType() string {
-	return "Microsoft.Azure/B"
+	return ""
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -495,9 +497,9 @@ func (b *B) AssignPropertiesFromB(source *v20200101s.B) error {
 
 	// Spec
 	var spec B_Spec
-	err := spec.AssignPropertiesFromBSpec(&source.Spec)
+	err := spec.AssignPropertiesFromB_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromBSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromB_Spec() to populate field Spec")
 	}
 	b.Spec = spec
 
@@ -513,9 +515,9 @@ func (b *B) AssignPropertiesToB(destination *v20200101s.B) error {
 
 	// Spec
 	var spec v20200101s.B_Spec
-	err := b.Spec.AssignPropertiesToBSpec(&spec)
+	err := b.Spec.AssignPropertiesToB_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToBSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToB_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -541,13 +543,15 @@ type BList struct {
 }
 
 type B_SpecARM struct {
-	Name       string          `json:"name,omitempty"`
-	Properties *BPropertiesARM `json:"properties,omitempty"`
+	APIVersion B_Spec_APIVersion `json:"apiVersion,omitempty"`
+	Name       string            `json:"name,omitempty"`
+	Properties *BPropertiesARM   `json:"properties,omitempty"`
+	Type       B_Spec_Type       `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &B_SpecARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20200101"
 func (b B_SpecARM) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -557,9 +561,9 @@ func (b *B_SpecARM) GetName() string {
 	return b.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/B"
+// GetType returns the ARM Type of the resource. This is always ""
 func (b *B_SpecARM) GetType() string {
-	return "Microsoft.Azure/B"
+	return ""
 }
 
 // +kubebuilder:object:root=true
@@ -636,7 +640,7 @@ func (c *C) AzureName() string {
 	return c.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20200101"
 func (c C) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -651,9 +655,9 @@ func (c *C) GetSpec() genruntime.ConvertibleSpec {
 	return &c.Spec
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/C"
+// GetType returns the ARM Type of the resource. This is always ""
 func (c *C) GetType() string {
-	return "Microsoft.Azure/C"
+	return ""
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -767,9 +771,9 @@ func (c *C) AssignPropertiesFromC(source *v20200101s.C) error {
 
 	// Spec
 	var spec C_Spec
-	err := spec.AssignPropertiesFromCSpec(&source.Spec)
+	err := spec.AssignPropertiesFromC_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromCSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromC_Spec() to populate field Spec")
 	}
 	c.Spec = spec
 
@@ -785,9 +789,9 @@ func (c *C) AssignPropertiesToC(destination *v20200101s.C) error {
 
 	// Spec
 	var spec v20200101s.C_Spec
-	err := c.Spec.AssignPropertiesToCSpec(&spec)
+	err := c.Spec.AssignPropertiesToC_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToCSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToC_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
@@ -813,13 +817,15 @@ type CList struct {
 }
 
 type C_SpecARM struct {
-	Name       string          `json:"name,omitempty"`
-	Properties *CPropertiesARM `json:"properties,omitempty"`
+	APIVersion C_Spec_APIVersion `json:"apiVersion,omitempty"`
+	Name       string            `json:"name,omitempty"`
+	Properties *CPropertiesARM   `json:"properties,omitempty"`
+	Type       C_Spec_Type       `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &C_SpecARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20200101"
 func (c C_SpecARM) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -829,15 +835,15 @@ func (c *C_SpecARM) GetName() string {
 	return c.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/C"
+// GetType returns the ARM Type of the resource. This is always ""
 func (c *C_SpecARM) GetType() string {
-	return "Microsoft.Azure/C"
+	return ""
 }
 
-// +kubebuilder:validation:Enum={"2020-06-01"}
+// +kubebuilder:validation:Enum={"20200101"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2020-06-01")
+const APIVersionValue = APIVersion("20200101")
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/AProperties
 type APropertiesARM struct {
@@ -847,6 +853,9 @@ type APropertiesARM struct {
 }
 
 type A_Spec struct {
+	// +kubebuilder:validation:Required
+	APIVersion A_Spec_APIVersion `json:"apiVersion,omitempty"`
+
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -857,6 +866,9 @@ type A_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner      *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	Properties *AProperties                       `json:"properties,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Type A_Spec_Type `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &A_Spec{}
@@ -867,6 +879,9 @@ func (a *A_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 		return nil, nil
 	}
 	result := &A_SpecARM{}
+
+	// Set property ‘APIVersion’:
+	result.APIVersion = a.APIVersion
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -880,6 +895,9 @@ func (a *A_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 		properties := *propertiesARM.(*APropertiesARM)
 		result.Properties = &properties
 	}
+
+	// Set property ‘Type’:
+	result.Type = a.Type
 	return result, nil
 }
 
@@ -894,6 +912,9 @@ func (a *A_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected A_SpecARM, got %T", armInput)
 	}
+
+	// Set property ‘APIVersion’:
+	a.APIVersion = typedInput.APIVersion
 
 	// Set property ‘AzureName’:
 	a.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
@@ -914,6 +935,9 @@ func (a *A_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 		a.Properties = &properties
 	}
 
+	// Set property ‘Type’:
+	a.Type = typedInput.Type
+
 	// No error
 	return nil
 }
@@ -925,7 +949,7 @@ func (a *A_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	src, ok := source.(*v20200101s.A_Spec)
 	if ok {
 		// Populate our instance from source
-		return a.AssignPropertiesFromASpec(src)
+		return a.AssignPropertiesFromA_Spec(src)
 	}
 
 	// Convert to an intermediate form
@@ -936,7 +960,7 @@ func (a *A_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	}
 
 	// Update our instance from src
-	err = a.AssignPropertiesFromASpec(src)
+	err = a.AssignPropertiesFromA_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -949,12 +973,12 @@ func (a *A_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	dst, ok := destination.(*v20200101s.A_Spec)
 	if ok {
 		// Populate destination from our instance
-		return a.AssignPropertiesToASpec(dst)
+		return a.AssignPropertiesToA_Spec(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v20200101s.A_Spec{}
-	err := a.AssignPropertiesToASpec(dst)
+	err := a.AssignPropertiesToA_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -968,8 +992,15 @@ func (a *A_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	return nil
 }
 
-// AssignPropertiesFromASpec populates our A_Spec from the provided source A_Spec
-func (a *A_Spec) AssignPropertiesFromASpec(source *v20200101s.A_Spec) error {
+// AssignPropertiesFromA_Spec populates our A_Spec from the provided source A_Spec
+func (a *A_Spec) AssignPropertiesFromA_Spec(source *v20200101s.A_Spec) error {
+
+	// APIVersion
+	if source.APIVersion != nil {
+		a.APIVersion = A_Spec_APIVersion(*source.APIVersion)
+	} else {
+		a.APIVersion = ""
+	}
 
 	// AzureName
 	a.AzureName = source.AzureName
@@ -994,14 +1025,25 @@ func (a *A_Spec) AssignPropertiesFromASpec(source *v20200101s.A_Spec) error {
 		a.Properties = nil
 	}
 
+	// Type
+	if source.Type != nil {
+		a.Type = A_Spec_Type(*source.Type)
+	} else {
+		a.Type = ""
+	}
+
 	// No error
 	return nil
 }
 
-// AssignPropertiesToASpec populates the provided destination A_Spec from our A_Spec
-func (a *A_Spec) AssignPropertiesToASpec(destination *v20200101s.A_Spec) error {
+// AssignPropertiesToA_Spec populates the provided destination A_Spec from our A_Spec
+func (a *A_Spec) AssignPropertiesToA_Spec(destination *v20200101s.A_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
+
+	// APIVersion
+	apiVersion := string(a.APIVersion)
+	destination.APIVersion = &apiVersion
 
 	// AzureName
 	destination.AzureName = a.AzureName
@@ -1029,6 +1071,10 @@ func (a *A_Spec) AssignPropertiesToASpec(destination *v20200101s.A_Spec) error {
 		destination.Properties = nil
 	}
 
+	// Type
+	typeVar := string(a.Type)
+	destination.Type = &typeVar
+
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		destination.PropertyBag = propertyBag
@@ -1048,13 +1094,26 @@ func (a *A_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (a *A_Spec) SetAzureName(azureName string) { a.AzureName = azureName }
 
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type A_Spec_APIVersion string
+
+const A_Spec_APIVersion20200601 = A_Spec_APIVersion("2020-06-01")
+
+// +kubebuilder:validation:Enum={"Microsoft.Azure/A"}
+type A_Spec_Type string
+
+const A_Spec_TypeMicrosoftAzureA = A_Spec_Type("Microsoft.Azure/A")
+
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/BProperties
 type BPropertiesARM struct {
-	EnumField *BPropertiesEnumField `json:"enumField,omitempty"`
-	RefField  *CResourceARM         `json:"refField,omitempty"`
+	EnumField *BProperties_EnumField `json:"enumField,omitempty"`
+	RefField  *CResourceARM          `json:"refField,omitempty"`
 }
 
 type B_Spec struct {
+	// +kubebuilder:validation:Required
+	APIVersion B_Spec_APIVersion `json:"apiVersion,omitempty"`
+
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -1065,6 +1124,9 @@ type B_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner      *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	Properties *BProperties                       `json:"properties,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Type B_Spec_Type `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &B_Spec{}
@@ -1075,6 +1137,9 @@ func (b *B_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 		return nil, nil
 	}
 	result := &B_SpecARM{}
+
+	// Set property ‘APIVersion’:
+	result.APIVersion = b.APIVersion
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -1088,6 +1153,9 @@ func (b *B_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 		properties := *propertiesARM.(*BPropertiesARM)
 		result.Properties = &properties
 	}
+
+	// Set property ‘Type’:
+	result.Type = b.Type
 	return result, nil
 }
 
@@ -1102,6 +1170,9 @@ func (b *B_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected B_SpecARM, got %T", armInput)
 	}
+
+	// Set property ‘APIVersion’:
+	b.APIVersion = typedInput.APIVersion
 
 	// Set property ‘AzureName’:
 	b.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
@@ -1122,6 +1193,9 @@ func (b *B_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 		b.Properties = &properties
 	}
 
+	// Set property ‘Type’:
+	b.Type = typedInput.Type
+
 	// No error
 	return nil
 }
@@ -1133,7 +1207,7 @@ func (b *B_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	src, ok := source.(*v20200101s.B_Spec)
 	if ok {
 		// Populate our instance from source
-		return b.AssignPropertiesFromBSpec(src)
+		return b.AssignPropertiesFromB_Spec(src)
 	}
 
 	// Convert to an intermediate form
@@ -1144,7 +1218,7 @@ func (b *B_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	}
 
 	// Update our instance from src
-	err = b.AssignPropertiesFromBSpec(src)
+	err = b.AssignPropertiesFromB_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -1157,12 +1231,12 @@ func (b *B_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	dst, ok := destination.(*v20200101s.B_Spec)
 	if ok {
 		// Populate destination from our instance
-		return b.AssignPropertiesToBSpec(dst)
+		return b.AssignPropertiesToB_Spec(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v20200101s.B_Spec{}
-	err := b.AssignPropertiesToBSpec(dst)
+	err := b.AssignPropertiesToB_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -1176,8 +1250,15 @@ func (b *B_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	return nil
 }
 
-// AssignPropertiesFromBSpec populates our B_Spec from the provided source B_Spec
-func (b *B_Spec) AssignPropertiesFromBSpec(source *v20200101s.B_Spec) error {
+// AssignPropertiesFromB_Spec populates our B_Spec from the provided source B_Spec
+func (b *B_Spec) AssignPropertiesFromB_Spec(source *v20200101s.B_Spec) error {
+
+	// APIVersion
+	if source.APIVersion != nil {
+		b.APIVersion = B_Spec_APIVersion(*source.APIVersion)
+	} else {
+		b.APIVersion = ""
+	}
 
 	// AzureName
 	b.AzureName = source.AzureName
@@ -1202,14 +1283,25 @@ func (b *B_Spec) AssignPropertiesFromBSpec(source *v20200101s.B_Spec) error {
 		b.Properties = nil
 	}
 
+	// Type
+	if source.Type != nil {
+		b.Type = B_Spec_Type(*source.Type)
+	} else {
+		b.Type = ""
+	}
+
 	// No error
 	return nil
 }
 
-// AssignPropertiesToBSpec populates the provided destination B_Spec from our B_Spec
-func (b *B_Spec) AssignPropertiesToBSpec(destination *v20200101s.B_Spec) error {
+// AssignPropertiesToB_Spec populates the provided destination B_Spec from our B_Spec
+func (b *B_Spec) AssignPropertiesToB_Spec(destination *v20200101s.B_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
+
+	// APIVersion
+	apiVersion := string(b.APIVersion)
+	destination.APIVersion = &apiVersion
 
 	// AzureName
 	destination.AzureName = b.AzureName
@@ -1237,6 +1329,10 @@ func (b *B_Spec) AssignPropertiesToBSpec(destination *v20200101s.B_Spec) error {
 		destination.Properties = nil
 	}
 
+	// Type
+	typeVar := string(b.Type)
+	destination.Type = &typeVar
+
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		destination.PropertyBag = propertyBag
@@ -1256,6 +1352,16 @@ func (b *B_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (b *B_Spec) SetAzureName(azureName string) { b.AzureName = azureName }
 
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type B_Spec_APIVersion string
+
+const B_Spec_APIVersion20200601 = B_Spec_APIVersion("2020-06-01")
+
+// +kubebuilder:validation:Enum={"Microsoft.Azure/B"}
+type B_Spec_Type string
+
+const B_Spec_TypeMicrosoftAzureB = B_Spec_Type("Microsoft.Azure/B")
+
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/CProperties
 type CPropertiesARM struct {
 	IntField    *int    `json:"intField,omitempty"`
@@ -1263,6 +1369,9 @@ type CPropertiesARM struct {
 }
 
 type C_Spec struct {
+	// +kubebuilder:validation:Required
+	APIVersion C_Spec_APIVersion `json:"apiVersion,omitempty"`
+
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
@@ -1273,6 +1382,9 @@ type C_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner      *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	Properties *CProperties                       `json:"properties,omitempty"`
+
+	// +kubebuilder:validation:Required
+	Type C_Spec_Type `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &C_Spec{}
@@ -1283,6 +1395,9 @@ func (c *C_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 		return nil, nil
 	}
 	result := &C_SpecARM{}
+
+	// Set property ‘APIVersion’:
+	result.APIVersion = c.APIVersion
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -1296,6 +1411,9 @@ func (c *C_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 		properties := *propertiesARM.(*CPropertiesARM)
 		result.Properties = &properties
 	}
+
+	// Set property ‘Type’:
+	result.Type = c.Type
 	return result, nil
 }
 
@@ -1310,6 +1428,9 @@ func (c *C_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected C_SpecARM, got %T", armInput)
 	}
+
+	// Set property ‘APIVersion’:
+	c.APIVersion = typedInput.APIVersion
 
 	// Set property ‘AzureName’:
 	c.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
@@ -1330,6 +1451,9 @@ func (c *C_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armIn
 		c.Properties = &properties
 	}
 
+	// Set property ‘Type’:
+	c.Type = typedInput.Type
+
 	// No error
 	return nil
 }
@@ -1341,7 +1465,7 @@ func (c *C_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	src, ok := source.(*v20200101s.C_Spec)
 	if ok {
 		// Populate our instance from source
-		return c.AssignPropertiesFromCSpec(src)
+		return c.AssignPropertiesFromC_Spec(src)
 	}
 
 	// Convert to an intermediate form
@@ -1352,7 +1476,7 @@ func (c *C_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
 	}
 
 	// Update our instance from src
-	err = c.AssignPropertiesFromCSpec(src)
+	err = c.AssignPropertiesFromC_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -1365,12 +1489,12 @@ func (c *C_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	dst, ok := destination.(*v20200101s.C_Spec)
 	if ok {
 		// Populate destination from our instance
-		return c.AssignPropertiesToCSpec(dst)
+		return c.AssignPropertiesToC_Spec(dst)
 	}
 
 	// Convert to an intermediate form
 	dst = &v20200101s.C_Spec{}
-	err := c.AssignPropertiesToCSpec(dst)
+	err := c.AssignPropertiesToC_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -1384,8 +1508,15 @@ func (c *C_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
 	return nil
 }
 
-// AssignPropertiesFromCSpec populates our C_Spec from the provided source C_Spec
-func (c *C_Spec) AssignPropertiesFromCSpec(source *v20200101s.C_Spec) error {
+// AssignPropertiesFromC_Spec populates our C_Spec from the provided source C_Spec
+func (c *C_Spec) AssignPropertiesFromC_Spec(source *v20200101s.C_Spec) error {
+
+	// APIVersion
+	if source.APIVersion != nil {
+		c.APIVersion = C_Spec_APIVersion(*source.APIVersion)
+	} else {
+		c.APIVersion = ""
+	}
 
 	// AzureName
 	c.AzureName = source.AzureName
@@ -1410,14 +1541,25 @@ func (c *C_Spec) AssignPropertiesFromCSpec(source *v20200101s.C_Spec) error {
 		c.Properties = nil
 	}
 
+	// Type
+	if source.Type != nil {
+		c.Type = C_Spec_Type(*source.Type)
+	} else {
+		c.Type = ""
+	}
+
 	// No error
 	return nil
 }
 
-// AssignPropertiesToCSpec populates the provided destination C_Spec from our C_Spec
-func (c *C_Spec) AssignPropertiesToCSpec(destination *v20200101s.C_Spec) error {
+// AssignPropertiesToC_Spec populates the provided destination C_Spec from our C_Spec
+func (c *C_Spec) AssignPropertiesToC_Spec(destination *v20200101s.C_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
+
+	// APIVersion
+	apiVersion := string(c.APIVersion)
+	destination.APIVersion = &apiVersion
 
 	// AzureName
 	destination.AzureName = c.AzureName
@@ -1445,6 +1587,10 @@ func (c *C_Spec) AssignPropertiesToCSpec(destination *v20200101s.C_Spec) error {
 		destination.Properties = nil
 	}
 
+	// Type
+	typeVar := string(c.Type)
+	destination.Type = &typeVar
+
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		destination.PropertyBag = propertyBag
@@ -1463,6 +1609,16 @@ func (c *C_Spec) OriginalVersion() string {
 
 // SetAzureName sets the Azure name of the resource
 func (c *C_Spec) SetAzureName(azureName string) { c.AzureName = azureName }
+
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type C_Spec_APIVersion string
+
+const C_Spec_APIVersion20200601 = C_Spec_APIVersion("2020-06-01")
+
+// +kubebuilder:validation:Enum={"Microsoft.Azure/C"}
+type C_Spec_Type string
+
+const C_Spec_TypeMicrosoftAzureC = C_Spec_Type("Microsoft.Azure/C")
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/AProperties
 type AProperties struct {
@@ -1604,8 +1760,8 @@ func (properties *AProperties) AssignPropertiesToAProperties(destination *v20200
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/BProperties
 type BProperties struct {
-	EnumField *BPropertiesEnumField `json:"enumField,omitempty"`
-	RefField  *CResource            `json:"refField,omitempty"`
+	EnumField *BProperties_EnumField `json:"enumField,omitempty"`
+	RefField  *CResource             `json:"refField,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &BProperties{}
@@ -1673,7 +1829,7 @@ func (properties *BProperties) AssignPropertiesFromBProperties(source *v20200101
 
 	// EnumField
 	if source.EnumField != nil {
-		enumField := BPropertiesEnumField(*source.EnumField)
+		enumField := BProperties_EnumField(*source.EnumField)
 		properties.EnumField = &enumField
 	} else {
 		properties.EnumField = nil
@@ -1732,9 +1888,9 @@ func (properties *BProperties) AssignPropertiesToBProperties(destination *v20200
 }
 
 // +kubebuilder:validation:Enum={"Qux"}
-type BPropertiesEnumField string
+type BProperties_EnumField string
 
-const BPropertiesEnumFieldQux = BPropertiesEnumField("Qux")
+const BProperties_EnumFieldQux = BProperties_EnumField("Qux")
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/BResource
 type BResourceARM struct {

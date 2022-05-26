@@ -22,12 +22,13 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20201101.VirtualNetworksVirtualNetworkPeering
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworks_virtualNetworkPeerings
+// Generator information:
+// - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/virtualNetwork.json
 type VirtualNetworksVirtualNetworkPeering struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              VirtualNetworksVirtualNetworkPeerings_Spec `json:"spec,omitempty"`
-	Status            VirtualNetworkPeering_Status               `json:"status,omitempty"`
+	Spec              VirtualNetworksVirtualNetworkPeering_Spec `json:"spec,omitempty"`
+	Status            VirtualNetworkPeering_STATUS              `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &VirtualNetworksVirtualNetworkPeering{}
@@ -49,7 +50,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering) AzureName() string {
 	return peering.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20201101"
 func (peering VirtualNetworksVirtualNetworkPeering) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -69,14 +70,14 @@ func (peering *VirtualNetworksVirtualNetworkPeering) GetStatus() genruntime.Conv
 	return &peering.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
+// GetType returns the ARM Type of the resource. This is always ""
 func (peering *VirtualNetworksVirtualNetworkPeering) GetType() string {
-	return "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (peering *VirtualNetworksVirtualNetworkPeering) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &VirtualNetworkPeering_Status{}
+	return &VirtualNetworkPeering_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +93,13 @@ func (peering *VirtualNetworksVirtualNetworkPeering) Owner() *genruntime.Resourc
 // SetStatus sets the status of this resource
 func (peering *VirtualNetworksVirtualNetworkPeering) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*VirtualNetworkPeering_Status); ok {
+	if st, ok := status.(*VirtualNetworkPeering_STATUS); ok {
 		peering.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st VirtualNetworkPeering_Status
+	var st VirtualNetworkPeering_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,15 +123,16 @@ func (peering *VirtualNetworksVirtualNetworkPeering) OriginalGVK() *schema.Group
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20201101.VirtualNetworksVirtualNetworkPeering
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/virtualNetworks_virtualNetworkPeerings
+// Generator information:
+// - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/virtualNetwork.json
 type VirtualNetworksVirtualNetworkPeeringList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []VirtualNetworksVirtualNetworkPeering `json:"items"`
 }
 
-// Storage version of v1beta20201101.VirtualNetworkPeering_Status
-type VirtualNetworkPeering_Status struct {
+// Storage version of v1beta20201101.VirtualNetworkPeering_STATUS
+type VirtualNetworkPeering_STATUS struct {
 	AllowForwardedTraffic     *bool                                `json:"allowForwardedTraffic,omitempty"`
 	AllowGatewayTransit       *bool                                `json:"allowGatewayTransit,omitempty"`
 	AllowVirtualNetworkAccess *bool                                `json:"allowVirtualNetworkAccess,omitempty"`
@@ -142,18 +144,18 @@ type VirtualNetworkPeering_Status struct {
 	PeeringState              *string                              `json:"peeringState,omitempty"`
 	PropertyBag               genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
 	ProvisioningState         *string                              `json:"provisioningState,omitempty"`
-	RemoteAddressSpace        *AddressSpace_Status                 `json:"remoteAddressSpace,omitempty"`
-	RemoteBgpCommunities      *VirtualNetworkBgpCommunities_Status `json:"remoteBgpCommunities,omitempty"`
-	RemoteVirtualNetwork      *SubResource_Status                  `json:"remoteVirtualNetwork,omitempty"`
+	RemoteAddressSpace        *AddressSpace_STATUS                 `json:"remoteAddressSpace,omitempty"`
+	RemoteBgpCommunities      *VirtualNetworkBgpCommunities_STATUS `json:"remoteBgpCommunities,omitempty"`
+	RemoteVirtualNetwork      *SubResource_STATUS                  `json:"remoteVirtualNetwork,omitempty"`
 	ResourceGuid              *string                              `json:"resourceGuid,omitempty"`
 	Type                      *string                              `json:"type,omitempty"`
 	UseRemoteGateways         *bool                                `json:"useRemoteGateways,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &VirtualNetworkPeering_Status{}
+var _ genruntime.ConvertibleStatus = &VirtualNetworkPeering_STATUS{}
 
-// ConvertStatusFrom populates our VirtualNetworkPeering_Status from the provided source
-func (peering *VirtualNetworkPeering_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our VirtualNetworkPeering_STATUS from the provided source
+func (peering *VirtualNetworkPeering_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == peering {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -161,8 +163,8 @@ func (peering *VirtualNetworkPeering_Status) ConvertStatusFrom(source genruntime
 	return source.ConvertStatusTo(peering)
 }
 
-// ConvertStatusTo populates the provided destination from our VirtualNetworkPeering_Status
-func (peering *VirtualNetworkPeering_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our VirtualNetworkPeering_STATUS
+func (peering *VirtualNetworkPeering_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == peering {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -170,50 +172,54 @@ func (peering *VirtualNetworkPeering_Status) ConvertStatusTo(destination genrunt
 	return destination.ConvertStatusFrom(peering)
 }
 
-// Storage version of v1beta20201101.VirtualNetworksVirtualNetworkPeerings_Spec
-type VirtualNetworksVirtualNetworkPeerings_Spec struct {
+// Storage version of v1beta20201101.VirtualNetworksVirtualNetworkPeering_Spec
+type VirtualNetworksVirtualNetworkPeering_Spec struct {
 	AllowForwardedTraffic     *bool `json:"allowForwardedTraffic,omitempty"`
 	AllowGatewayTransit       *bool `json:"allowGatewayTransit,omitempty"`
 	AllowVirtualNetworkAccess *bool `json:"allowVirtualNetworkAccess,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string  `json:"azureName,omitempty"`
-	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
+	AzureName                 string  `json:"azureName,omitempty"`
+	DoNotVerifyRemoteGateways *bool   `json:"doNotVerifyRemoteGateways,omitempty"`
+	Etag                      *string `json:"etag,omitempty"`
+	Id                        *string `json:"id,omitempty"`
+	OriginalVersion           string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a network.azure.com/VirtualNetwork resource
-	Owner                *genruntime.KnownResourceReference `group:"network.azure.com" json:"owner,omitempty" kind:"VirtualNetwork"`
+	// reference to a resources.azure.com/ResourceGroup resource
+	Owner                *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PeeringState         *string                            `json:"peeringState,omitempty"`
 	PropertyBag          genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	ProvisioningState    *string                            `json:"provisioningState,omitempty"`
 	RemoteAddressSpace   *AddressSpace                      `json:"remoteAddressSpace,omitempty"`
 	RemoteBgpCommunities *VirtualNetworkBgpCommunities      `json:"remoteBgpCommunities,omitempty"`
 	RemoteVirtualNetwork *SubResource                       `json:"remoteVirtualNetwork,omitempty"`
-	Tags                 map[string]string                  `json:"tags,omitempty"`
+	ResourceGuid         *string                            `json:"resourceGuid,omitempty"`
+	Type                 *string                            `json:"type,omitempty"`
 	UseRemoteGateways    *bool                              `json:"useRemoteGateways,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &VirtualNetworksVirtualNetworkPeerings_Spec{}
+var _ genruntime.ConvertibleSpec = &VirtualNetworksVirtualNetworkPeering_Spec{}
 
-// ConvertSpecFrom populates our VirtualNetworksVirtualNetworkPeerings_Spec from the provided source
-func (peerings *VirtualNetworksVirtualNetworkPeerings_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == peerings {
+// ConvertSpecFrom populates our VirtualNetworksVirtualNetworkPeering_Spec from the provided source
+func (peering *VirtualNetworksVirtualNetworkPeering_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == peering {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(peerings)
+	return source.ConvertSpecTo(peering)
 }
 
-// ConvertSpecTo populates the provided destination from our VirtualNetworksVirtualNetworkPeerings_Spec
-func (peerings *VirtualNetworksVirtualNetworkPeerings_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == peerings {
+// ConvertSpecTo populates the provided destination from our VirtualNetworksVirtualNetworkPeering_Spec
+func (peering *VirtualNetworksVirtualNetworkPeering_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == peering {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(peerings)
+	return destination.ConvertSpecFrom(peering)
 }
 
 func init() {

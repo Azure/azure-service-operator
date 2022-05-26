@@ -45,6 +45,7 @@ type PropertyDefinition struct {
 	flattenedFrom []PropertyName
 
 	isSecret bool
+	readOnly bool
 
 	tags map[string][]string
 }
@@ -143,6 +144,17 @@ func (property *PropertyDefinition) SetFlatten(flatten bool) *PropertyDefinition
 	result := *property
 	result.flatten = flatten
 	return &result
+}
+
+// WithReadOnly returns a new PropertyDefinition with ReadOnly set to the specified value
+func (property *PropertyDefinition) WithReadOnly(readOnly bool) *PropertyDefinition {
+	if property.readOnly == readOnly {
+		return property
+	}
+
+	result := property.copy()
+	result.readOnly = readOnly
+	return result
 }
 
 // WithIsSecret returns a new PropertyDefinition with IsSecret set to the specified value
@@ -364,6 +376,11 @@ func (property *PropertyDefinition) IsRequired() bool {
 // Flatten returns true iff the property is marked with 'flatten'.
 func (property *PropertyDefinition) Flatten() bool {
 	return property.flatten
+}
+
+// ReadOnly returns true iff the property is a secret.
+func (property *PropertyDefinition) ReadOnly() bool {
+	return property.readOnly
 }
 
 // IsSecret returns true iff the property is a secret.

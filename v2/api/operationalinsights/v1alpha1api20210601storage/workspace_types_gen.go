@@ -9,7 +9,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
@@ -26,8 +25,8 @@ import (
 type Workspace struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Workspaces_Spec  `json:"spec,omitempty"`
-	Status            Workspace_Status `json:"status,omitempty"`
+	Spec              Workspace_Spec   `json:"spec,omitempty"`
+	Status            Workspace_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Workspace{}
@@ -71,7 +70,7 @@ func (workspace *Workspace) AzureName() string {
 	return workspace.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20210601"
 func (workspace Workspace) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -91,14 +90,14 @@ func (workspace *Workspace) GetStatus() genruntime.ConvertibleStatus {
 	return &workspace.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.OperationalInsights/workspaces"
+// GetType returns the ARM Type of the resource. This is always ""
 func (workspace *Workspace) GetType() string {
-	return "Microsoft.OperationalInsights/workspaces"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (workspace *Workspace) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Workspace_Status{}
+	return &Workspace_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -114,13 +113,13 @@ func (workspace *Workspace) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (workspace *Workspace) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Workspace_Status); ok {
+	if st, ok := status.(*Workspace_STATUS); ok {
 		workspace.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Workspace_Status
+	var st Workspace_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -137,18 +136,18 @@ func (workspace *Workspace) AssignPropertiesFromWorkspace(source *v20210601s.Wor
 	workspace.ObjectMeta = *source.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec Workspaces_Spec
-	err := spec.AssignPropertiesFromWorkspacesSpec(&source.Spec)
+	var spec Workspace_Spec
+	err := spec.AssignPropertiesFromWorkspace_Spec(&source.Spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromWorkspacesSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesFromWorkspace_Spec() to populate field Spec")
 	}
 	workspace.Spec = spec
 
 	// Status
-	var status Workspace_Status
-	err = status.AssignPropertiesFromWorkspaceStatus(&source.Status)
+	var status Workspace_STATUS
+	err = status.AssignPropertiesFromWorkspace_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromWorkspaceStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromWorkspace_STATUS() to populate field Status")
 	}
 	workspace.Status = status
 
@@ -163,18 +162,18 @@ func (workspace *Workspace) AssignPropertiesToWorkspace(destination *v20210601s.
 	destination.ObjectMeta = *workspace.ObjectMeta.DeepCopy()
 
 	// Spec
-	var spec v20210601s.Workspaces_Spec
-	err := workspace.Spec.AssignPropertiesToWorkspacesSpec(&spec)
+	var spec v20210601s.Workspace_Spec
+	err := workspace.Spec.AssignPropertiesToWorkspace_Spec(&spec)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToWorkspacesSpec() to populate field Spec")
+		return errors.Wrap(err, "calling AssignPropertiesToWorkspace_Spec() to populate field Spec")
 	}
 	destination.Spec = spec
 
 	// Status
-	var status v20210601s.Workspace_Status
-	err = workspace.Status.AssignPropertiesToWorkspaceStatus(&status)
+	var status v20210601s.Workspace_STATUS
+	err = workspace.Status.AssignPropertiesToWorkspace_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToWorkspaceStatus() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToWorkspace_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -202,55 +201,55 @@ type WorkspaceList struct {
 
 // Storage version of v1alpha1api20210601.APIVersion
 // Deprecated version of APIVersion. Use v1beta20210601.APIVersion instead
-// +kubebuilder:validation:Enum={"2021-06-01"}
+// +kubebuilder:validation:Enum={"20210601"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2021-06-01")
+const APIVersionValue = APIVersion("20210601")
 
-// Storage version of v1alpha1api20210601.Workspace_Status
-// Deprecated version of Workspace_Status. Use v1beta20210601.Workspace_Status instead
-type Workspace_Status struct {
+// Storage version of v1alpha1api20210601.Workspace_STATUS
+// Deprecated version of Workspace_STATUS. Use v1beta20210601.Workspace_STATUS instead
+type Workspace_STATUS struct {
 	Conditions                      []conditions.Condition             `json:"conditions,omitempty"`
 	CreatedDate                     *string                            `json:"createdDate,omitempty"`
 	CustomerId                      *string                            `json:"customerId,omitempty"`
 	Etag                            *string                            `json:"etag,omitempty"`
-	Features                        *WorkspaceFeatures_Status          `json:"features,omitempty"`
+	Features                        *WorkspaceFeatures_STATUS          `json:"features,omitempty"`
 	ForceCmkForQuery                *bool                              `json:"forceCmkForQuery,omitempty"`
 	Id                              *string                            `json:"id,omitempty"`
 	Location                        *string                            `json:"location,omitempty"`
 	ModifiedDate                    *string                            `json:"modifiedDate,omitempty"`
 	Name                            *string                            `json:"name,omitempty"`
-	PrivateLinkScopedResources      []PrivateLinkScopedResource_Status `json:"privateLinkScopedResources,omitempty"`
+	PrivateLinkScopedResources      []PrivateLinkScopedResource_STATUS `json:"privateLinkScopedResources,omitempty"`
 	PropertyBag                     genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	ProvisioningState               *string                            `json:"provisioningState,omitempty"`
 	PublicNetworkAccessForIngestion *string                            `json:"publicNetworkAccessForIngestion,omitempty"`
 	PublicNetworkAccessForQuery     *string                            `json:"publicNetworkAccessForQuery,omitempty"`
 	RetentionInDays                 *int                               `json:"retentionInDays,omitempty"`
-	Sku                             *WorkspaceSku_Status               `json:"sku,omitempty"`
+	Sku                             *WorkspaceSku_STATUS               `json:"sku,omitempty"`
 	Tags                            map[string]string                  `json:"tags,omitempty"`
 	Type                            *string                            `json:"type,omitempty"`
-	WorkspaceCapping                *WorkspaceCapping_Status           `json:"workspaceCapping,omitempty"`
+	WorkspaceCapping                *WorkspaceCapping_STATUS           `json:"workspaceCapping,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Workspace_Status{}
+var _ genruntime.ConvertibleStatus = &Workspace_STATUS{}
 
-// ConvertStatusFrom populates our Workspace_Status from the provided source
-func (workspace *Workspace_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210601s.Workspace_Status)
+// ConvertStatusFrom populates our Workspace_STATUS from the provided source
+func (workspace *Workspace_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210601s.Workspace_STATUS)
 	if ok {
 		// Populate our instance from source
-		return workspace.AssignPropertiesFromWorkspaceStatus(src)
+		return workspace.AssignPropertiesFromWorkspace_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210601s.Workspace_Status{}
+	src = &v20210601s.Workspace_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = workspace.AssignPropertiesFromWorkspaceStatus(src)
+	err = workspace.AssignPropertiesFromWorkspace_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -258,17 +257,17 @@ func (workspace *Workspace_Status) ConvertStatusFrom(source genruntime.Convertib
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Workspace_Status
-func (workspace *Workspace_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210601s.Workspace_Status)
+// ConvertStatusTo populates the provided destination from our Workspace_STATUS
+func (workspace *Workspace_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210601s.Workspace_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return workspace.AssignPropertiesToWorkspaceStatus(dst)
+		return workspace.AssignPropertiesToWorkspace_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210601s.Workspace_Status{}
-	err := workspace.AssignPropertiesToWorkspaceStatus(dst)
+	dst = &v20210601s.Workspace_STATUS{}
+	err := workspace.AssignPropertiesToWorkspace_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -282,8 +281,8 @@ func (workspace *Workspace_Status) ConvertStatusTo(destination genruntime.Conver
 	return nil
 }
 
-// AssignPropertiesFromWorkspaceStatus populates our Workspace_Status from the provided source Workspace_Status
-func (workspace *Workspace_Status) AssignPropertiesFromWorkspaceStatus(source *v20210601s.Workspace_Status) error {
+// AssignPropertiesFromWorkspace_STATUS populates our Workspace_STATUS from the provided source Workspace_STATUS
+func (workspace *Workspace_STATUS) AssignPropertiesFromWorkspace_STATUS(source *v20210601s.Workspace_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -301,10 +300,10 @@ func (workspace *Workspace_Status) AssignPropertiesFromWorkspaceStatus(source *v
 
 	// Features
 	if source.Features != nil {
-		var feature WorkspaceFeatures_Status
-		err := feature.AssignPropertiesFromWorkspaceFeaturesStatus(source.Features)
+		var feature WorkspaceFeatures_STATUS
+		err := feature.AssignPropertiesFromWorkspaceFeatures_STATUS(source.Features)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromWorkspaceFeaturesStatus() to populate field Features")
+			return errors.Wrap(err, "calling AssignPropertiesFromWorkspaceFeatures_STATUS() to populate field Features")
 		}
 		workspace.Features = &feature
 	} else {
@@ -333,14 +332,14 @@ func (workspace *Workspace_Status) AssignPropertiesFromWorkspaceStatus(source *v
 
 	// PrivateLinkScopedResources
 	if source.PrivateLinkScopedResources != nil {
-		privateLinkScopedResourceList := make([]PrivateLinkScopedResource_Status, len(source.PrivateLinkScopedResources))
+		privateLinkScopedResourceList := make([]PrivateLinkScopedResource_STATUS, len(source.PrivateLinkScopedResources))
 		for privateLinkScopedResourceIndex, privateLinkScopedResourceItem := range source.PrivateLinkScopedResources {
 			// Shadow the loop variable to avoid aliasing
 			privateLinkScopedResourceItem := privateLinkScopedResourceItem
-			var privateLinkScopedResource PrivateLinkScopedResource_Status
-			err := privateLinkScopedResource.AssignPropertiesFromPrivateLinkScopedResourceStatus(&privateLinkScopedResourceItem)
+			var privateLinkScopedResource PrivateLinkScopedResource_STATUS
+			err := privateLinkScopedResource.AssignPropertiesFromPrivateLinkScopedResource_STATUS(&privateLinkScopedResourceItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromPrivateLinkScopedResourceStatus() to populate field PrivateLinkScopedResources")
+				return errors.Wrap(err, "calling AssignPropertiesFromPrivateLinkScopedResource_STATUS() to populate field PrivateLinkScopedResources")
 			}
 			privateLinkScopedResourceList[privateLinkScopedResourceIndex] = privateLinkScopedResource
 		}
@@ -363,10 +362,10 @@ func (workspace *Workspace_Status) AssignPropertiesFromWorkspaceStatus(source *v
 
 	// Sku
 	if source.Sku != nil {
-		var sku WorkspaceSku_Status
-		err := sku.AssignPropertiesFromWorkspaceSkuStatus(source.Sku)
+		var sku WorkspaceSku_STATUS
+		err := sku.AssignPropertiesFromWorkspaceSku_STATUS(source.Sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromWorkspaceSkuStatus() to populate field Sku")
+			return errors.Wrap(err, "calling AssignPropertiesFromWorkspaceSku_STATUS() to populate field Sku")
 		}
 		workspace.Sku = &sku
 	} else {
@@ -381,10 +380,10 @@ func (workspace *Workspace_Status) AssignPropertiesFromWorkspaceStatus(source *v
 
 	// WorkspaceCapping
 	if source.WorkspaceCapping != nil {
-		var workspaceCapping WorkspaceCapping_Status
-		err := workspaceCapping.AssignPropertiesFromWorkspaceCappingStatus(source.WorkspaceCapping)
+		var workspaceCapping WorkspaceCapping_STATUS
+		err := workspaceCapping.AssignPropertiesFromWorkspaceCapping_STATUS(source.WorkspaceCapping)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromWorkspaceCappingStatus() to populate field WorkspaceCapping")
+			return errors.Wrap(err, "calling AssignPropertiesFromWorkspaceCapping_STATUS() to populate field WorkspaceCapping")
 		}
 		workspace.WorkspaceCapping = &workspaceCapping
 	} else {
@@ -402,8 +401,8 @@ func (workspace *Workspace_Status) AssignPropertiesFromWorkspaceStatus(source *v
 	return nil
 }
 
-// AssignPropertiesToWorkspaceStatus populates the provided destination Workspace_Status from our Workspace_Status
-func (workspace *Workspace_Status) AssignPropertiesToWorkspaceStatus(destination *v20210601s.Workspace_Status) error {
+// AssignPropertiesToWorkspace_STATUS populates the provided destination Workspace_STATUS from our Workspace_STATUS
+func (workspace *Workspace_STATUS) AssignPropertiesToWorkspace_STATUS(destination *v20210601s.Workspace_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(workspace.PropertyBag)
 
@@ -421,10 +420,10 @@ func (workspace *Workspace_Status) AssignPropertiesToWorkspaceStatus(destination
 
 	// Features
 	if workspace.Features != nil {
-		var feature v20210601s.WorkspaceFeatures_Status
-		err := workspace.Features.AssignPropertiesToWorkspaceFeaturesStatus(&feature)
+		var feature v20210601s.WorkspaceFeatures_STATUS
+		err := workspace.Features.AssignPropertiesToWorkspaceFeatures_STATUS(&feature)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToWorkspaceFeaturesStatus() to populate field Features")
+			return errors.Wrap(err, "calling AssignPropertiesToWorkspaceFeatures_STATUS() to populate field Features")
 		}
 		destination.Features = &feature
 	} else {
@@ -453,14 +452,14 @@ func (workspace *Workspace_Status) AssignPropertiesToWorkspaceStatus(destination
 
 	// PrivateLinkScopedResources
 	if workspace.PrivateLinkScopedResources != nil {
-		privateLinkScopedResourceList := make([]v20210601s.PrivateLinkScopedResource_Status, len(workspace.PrivateLinkScopedResources))
+		privateLinkScopedResourceList := make([]v20210601s.PrivateLinkScopedResource_STATUS, len(workspace.PrivateLinkScopedResources))
 		for privateLinkScopedResourceIndex, privateLinkScopedResourceItem := range workspace.PrivateLinkScopedResources {
 			// Shadow the loop variable to avoid aliasing
 			privateLinkScopedResourceItem := privateLinkScopedResourceItem
-			var privateLinkScopedResource v20210601s.PrivateLinkScopedResource_Status
-			err := privateLinkScopedResourceItem.AssignPropertiesToPrivateLinkScopedResourceStatus(&privateLinkScopedResource)
+			var privateLinkScopedResource v20210601s.PrivateLinkScopedResource_STATUS
+			err := privateLinkScopedResourceItem.AssignPropertiesToPrivateLinkScopedResource_STATUS(&privateLinkScopedResource)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToPrivateLinkScopedResourceStatus() to populate field PrivateLinkScopedResources")
+				return errors.Wrap(err, "calling AssignPropertiesToPrivateLinkScopedResource_STATUS() to populate field PrivateLinkScopedResources")
 			}
 			privateLinkScopedResourceList[privateLinkScopedResourceIndex] = privateLinkScopedResource
 		}
@@ -483,10 +482,10 @@ func (workspace *Workspace_Status) AssignPropertiesToWorkspaceStatus(destination
 
 	// Sku
 	if workspace.Sku != nil {
-		var sku v20210601s.WorkspaceSku_Status
-		err := workspace.Sku.AssignPropertiesToWorkspaceSkuStatus(&sku)
+		var sku v20210601s.WorkspaceSku_STATUS
+		err := workspace.Sku.AssignPropertiesToWorkspaceSku_STATUS(&sku)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToWorkspaceSkuStatus() to populate field Sku")
+			return errors.Wrap(err, "calling AssignPropertiesToWorkspaceSku_STATUS() to populate field Sku")
 		}
 		destination.Sku = &sku
 	} else {
@@ -501,10 +500,10 @@ func (workspace *Workspace_Status) AssignPropertiesToWorkspaceStatus(destination
 
 	// WorkspaceCapping
 	if workspace.WorkspaceCapping != nil {
-		var workspaceCapping v20210601s.WorkspaceCapping_Status
-		err := workspace.WorkspaceCapping.AssignPropertiesToWorkspaceCappingStatus(&workspaceCapping)
+		var workspaceCapping v20210601s.WorkspaceCapping_STATUS
+		err := workspace.WorkspaceCapping.AssignPropertiesToWorkspaceCapping_STATUS(&workspaceCapping)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToWorkspaceCappingStatus() to populate field WorkspaceCapping")
+			return errors.Wrap(err, "calling AssignPropertiesToWorkspaceCapping_STATUS() to populate field WorkspaceCapping")
 		}
 		destination.WorkspaceCapping = &workspaceCapping
 	} else {
@@ -522,18 +521,19 @@ func (workspace *Workspace_Status) AssignPropertiesToWorkspaceStatus(destination
 	return nil
 }
 
-// Storage version of v1alpha1api20210601.Workspaces_Spec
-type Workspaces_Spec struct {
-	// +kubebuilder:validation:MaxLength=63
-	// +kubebuilder:validation:MinLength=4
-	// +kubebuilder:validation:Pattern="^[A-Za-z0-9][A-Za-z0-9-]+[A-Za-z0-9]$"
+// Storage version of v1alpha1api20210601.Workspace_Spec
+type Workspace_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName        string             `json:"azureName,omitempty"`
-	ETag             *string            `json:"eTag,omitempty"`
+	CreatedDate      *string            `json:"createdDate,omitempty"`
+	CustomerId       *string            `json:"customerId,omitempty"`
+	Etag             *string            `json:"etag,omitempty"`
 	Features         *WorkspaceFeatures `json:"features,omitempty"`
 	ForceCmkForQuery *bool              `json:"forceCmkForQuery,omitempty"`
+	Id               *string            `json:"id,omitempty"`
 	Location         *string            `json:"location,omitempty"`
+	ModifiedDate     *string            `json:"modifiedDate,omitempty"`
 	OriginalVersion  string             `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -541,6 +541,7 @@ type Workspaces_Spec struct {
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner                           *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PrivateLinkScopedResources      []PrivateLinkScopedResource        `json:"privateLinkScopedResources,omitempty"`
 	PropertyBag                     genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	ProvisioningState               *string                            `json:"provisioningState,omitempty"`
 	PublicNetworkAccessForIngestion *string                            `json:"publicNetworkAccessForIngestion,omitempty"`
@@ -548,28 +549,29 @@ type Workspaces_Spec struct {
 	RetentionInDays                 *int                               `json:"retentionInDays,omitempty"`
 	Sku                             *WorkspaceSku                      `json:"sku,omitempty"`
 	Tags                            map[string]string                  `json:"tags,omitempty"`
+	Type                            *string                            `json:"type,omitempty"`
 	WorkspaceCapping                *WorkspaceCapping                  `json:"workspaceCapping,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &Workspaces_Spec{}
+var _ genruntime.ConvertibleSpec = &Workspace_Spec{}
 
-// ConvertSpecFrom populates our Workspaces_Spec from the provided source
-func (workspaces *Workspaces_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	src, ok := source.(*v20210601s.Workspaces_Spec)
+// ConvertSpecFrom populates our Workspace_Spec from the provided source
+func (workspace *Workspace_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	src, ok := source.(*v20210601s.Workspace_Spec)
 	if ok {
 		// Populate our instance from source
-		return workspaces.AssignPropertiesFromWorkspacesSpec(src)
+		return workspace.AssignPropertiesFromWorkspace_Spec(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210601s.Workspaces_Spec{}
+	src = &v20210601s.Workspace_Spec{}
 	err := src.ConvertSpecFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecFrom()")
 	}
 
 	// Update our instance from src
-	err = workspaces.AssignPropertiesFromWorkspacesSpec(src)
+	err = workspace.AssignPropertiesFromWorkspace_Spec(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertSpecFrom()")
 	}
@@ -577,17 +579,17 @@ func (workspaces *Workspaces_Spec) ConvertSpecFrom(source genruntime.Convertible
 	return nil
 }
 
-// ConvertSpecTo populates the provided destination from our Workspaces_Spec
-func (workspaces *Workspaces_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	dst, ok := destination.(*v20210601s.Workspaces_Spec)
+// ConvertSpecTo populates the provided destination from our Workspace_Spec
+func (workspace *Workspace_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	dst, ok := destination.(*v20210601s.Workspace_Spec)
 	if ok {
 		// Populate destination from our instance
-		return workspaces.AssignPropertiesToWorkspacesSpec(dst)
+		return workspace.AssignPropertiesToWorkspace_Spec(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210601s.Workspaces_Spec{}
-	err := workspaces.AssignPropertiesToWorkspacesSpec(dst)
+	dst = &v20210601s.Workspace_Spec{}
+	err := workspace.AssignPropertiesToWorkspace_Spec(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertSpecTo()")
 	}
@@ -601,16 +603,22 @@ func (workspaces *Workspaces_Spec) ConvertSpecTo(destination genruntime.Converti
 	return nil
 }
 
-// AssignPropertiesFromWorkspacesSpec populates our Workspaces_Spec from the provided source Workspaces_Spec
-func (workspaces *Workspaces_Spec) AssignPropertiesFromWorkspacesSpec(source *v20210601s.Workspaces_Spec) error {
+// AssignPropertiesFromWorkspace_Spec populates our Workspace_Spec from the provided source Workspace_Spec
+func (workspace *Workspace_Spec) AssignPropertiesFromWorkspace_Spec(source *v20210601s.Workspace_Spec) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// AzureName
-	workspaces.AzureName = source.AzureName
+	workspace.AzureName = source.AzureName
 
-	// ETag
-	workspaces.ETag = genruntime.ClonePointerToString(source.ETag)
+	// CreatedDate
+	workspace.CreatedDate = genruntime.ClonePointerToString(source.CreatedDate)
+
+	// CustomerId
+	workspace.CustomerId = genruntime.ClonePointerToString(source.CustomerId)
+
+	// Etag
+	workspace.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// Features
 	if source.Features != nil {
@@ -619,44 +627,68 @@ func (workspaces *Workspaces_Spec) AssignPropertiesFromWorkspacesSpec(source *v2
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromWorkspaceFeatures() to populate field Features")
 		}
-		workspaces.Features = &feature
+		workspace.Features = &feature
 	} else {
-		workspaces.Features = nil
+		workspace.Features = nil
 	}
 
 	// ForceCmkForQuery
 	if source.ForceCmkForQuery != nil {
 		forceCmkForQuery := *source.ForceCmkForQuery
-		workspaces.ForceCmkForQuery = &forceCmkForQuery
+		workspace.ForceCmkForQuery = &forceCmkForQuery
 	} else {
-		workspaces.ForceCmkForQuery = nil
+		workspace.ForceCmkForQuery = nil
 	}
 
+	// Id
+	workspace.Id = genruntime.ClonePointerToString(source.Id)
+
 	// Location
-	workspaces.Location = genruntime.ClonePointerToString(source.Location)
+	workspace.Location = genruntime.ClonePointerToString(source.Location)
+
+	// ModifiedDate
+	workspace.ModifiedDate = genruntime.ClonePointerToString(source.ModifiedDate)
 
 	// OriginalVersion
-	workspaces.OriginalVersion = source.OriginalVersion
+	workspace.OriginalVersion = source.OriginalVersion
 
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
-		workspaces.Owner = &owner
+		workspace.Owner = &owner
 	} else {
-		workspaces.Owner = nil
+		workspace.Owner = nil
+	}
+
+	// PrivateLinkScopedResources
+	if source.PrivateLinkScopedResources != nil {
+		privateLinkScopedResourceList := make([]PrivateLinkScopedResource, len(source.PrivateLinkScopedResources))
+		for privateLinkScopedResourceIndex, privateLinkScopedResourceItem := range source.PrivateLinkScopedResources {
+			// Shadow the loop variable to avoid aliasing
+			privateLinkScopedResourceItem := privateLinkScopedResourceItem
+			var privateLinkScopedResource PrivateLinkScopedResource
+			err := privateLinkScopedResource.AssignPropertiesFromPrivateLinkScopedResource(&privateLinkScopedResourceItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromPrivateLinkScopedResource() to populate field PrivateLinkScopedResources")
+			}
+			privateLinkScopedResourceList[privateLinkScopedResourceIndex] = privateLinkScopedResource
+		}
+		workspace.PrivateLinkScopedResources = privateLinkScopedResourceList
+	} else {
+		workspace.PrivateLinkScopedResources = nil
 	}
 
 	// ProvisioningState
-	workspaces.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+	workspace.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// PublicNetworkAccessForIngestion
-	workspaces.PublicNetworkAccessForIngestion = genruntime.ClonePointerToString(source.PublicNetworkAccessForIngestion)
+	workspace.PublicNetworkAccessForIngestion = genruntime.ClonePointerToString(source.PublicNetworkAccessForIngestion)
 
 	// PublicNetworkAccessForQuery
-	workspaces.PublicNetworkAccessForQuery = genruntime.ClonePointerToString(source.PublicNetworkAccessForQuery)
+	workspace.PublicNetworkAccessForQuery = genruntime.ClonePointerToString(source.PublicNetworkAccessForQuery)
 
 	// RetentionInDays
-	workspaces.RetentionInDays = genruntime.ClonePointerToInt(source.RetentionInDays)
+	workspace.RetentionInDays = genruntime.ClonePointerToInt(source.RetentionInDays)
 
 	// Sku
 	if source.Sku != nil {
@@ -665,13 +697,16 @@ func (workspaces *Workspaces_Spec) AssignPropertiesFromWorkspacesSpec(source *v2
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromWorkspaceSku() to populate field Sku")
 		}
-		workspaces.Sku = &sku
+		workspace.Sku = &sku
 	} else {
-		workspaces.Sku = nil
+		workspace.Sku = nil
 	}
 
 	// Tags
-	workspaces.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	workspace.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	workspace.Type = genruntime.ClonePointerToString(source.Type)
 
 	// WorkspaceCapping
 	if source.WorkspaceCapping != nil {
@@ -680,37 +715,43 @@ func (workspaces *Workspaces_Spec) AssignPropertiesFromWorkspacesSpec(source *v2
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromWorkspaceCapping() to populate field WorkspaceCapping")
 		}
-		workspaces.WorkspaceCapping = &workspaceCapping
+		workspace.WorkspaceCapping = &workspaceCapping
 	} else {
-		workspaces.WorkspaceCapping = nil
+		workspace.WorkspaceCapping = nil
 	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		workspaces.PropertyBag = propertyBag
+		workspace.PropertyBag = propertyBag
 	} else {
-		workspaces.PropertyBag = nil
+		workspace.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToWorkspacesSpec populates the provided destination Workspaces_Spec from our Workspaces_Spec
-func (workspaces *Workspaces_Spec) AssignPropertiesToWorkspacesSpec(destination *v20210601s.Workspaces_Spec) error {
+// AssignPropertiesToWorkspace_Spec populates the provided destination Workspace_Spec from our Workspace_Spec
+func (workspace *Workspace_Spec) AssignPropertiesToWorkspace_Spec(destination *v20210601s.Workspace_Spec) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(workspaces.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(workspace.PropertyBag)
 
 	// AzureName
-	destination.AzureName = workspaces.AzureName
+	destination.AzureName = workspace.AzureName
 
-	// ETag
-	destination.ETag = genruntime.ClonePointerToString(workspaces.ETag)
+	// CreatedDate
+	destination.CreatedDate = genruntime.ClonePointerToString(workspace.CreatedDate)
+
+	// CustomerId
+	destination.CustomerId = genruntime.ClonePointerToString(workspace.CustomerId)
+
+	// Etag
+	destination.Etag = genruntime.ClonePointerToString(workspace.Etag)
 
 	// Features
-	if workspaces.Features != nil {
+	if workspace.Features != nil {
 		var feature v20210601s.WorkspaceFeatures
-		err := workspaces.Features.AssignPropertiesToWorkspaceFeatures(&feature)
+		err := workspace.Features.AssignPropertiesToWorkspaceFeatures(&feature)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToWorkspaceFeatures() to populate field Features")
 		}
@@ -720,43 +761,67 @@ func (workspaces *Workspaces_Spec) AssignPropertiesToWorkspacesSpec(destination 
 	}
 
 	// ForceCmkForQuery
-	if workspaces.ForceCmkForQuery != nil {
-		forceCmkForQuery := *workspaces.ForceCmkForQuery
+	if workspace.ForceCmkForQuery != nil {
+		forceCmkForQuery := *workspace.ForceCmkForQuery
 		destination.ForceCmkForQuery = &forceCmkForQuery
 	} else {
 		destination.ForceCmkForQuery = nil
 	}
 
+	// Id
+	destination.Id = genruntime.ClonePointerToString(workspace.Id)
+
 	// Location
-	destination.Location = genruntime.ClonePointerToString(workspaces.Location)
+	destination.Location = genruntime.ClonePointerToString(workspace.Location)
+
+	// ModifiedDate
+	destination.ModifiedDate = genruntime.ClonePointerToString(workspace.ModifiedDate)
 
 	// OriginalVersion
-	destination.OriginalVersion = workspaces.OriginalVersion
+	destination.OriginalVersion = workspace.OriginalVersion
 
 	// Owner
-	if workspaces.Owner != nil {
-		owner := workspaces.Owner.Copy()
+	if workspace.Owner != nil {
+		owner := workspace.Owner.Copy()
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
 	}
 
+	// PrivateLinkScopedResources
+	if workspace.PrivateLinkScopedResources != nil {
+		privateLinkScopedResourceList := make([]v20210601s.PrivateLinkScopedResource, len(workspace.PrivateLinkScopedResources))
+		for privateLinkScopedResourceIndex, privateLinkScopedResourceItem := range workspace.PrivateLinkScopedResources {
+			// Shadow the loop variable to avoid aliasing
+			privateLinkScopedResourceItem := privateLinkScopedResourceItem
+			var privateLinkScopedResource v20210601s.PrivateLinkScopedResource
+			err := privateLinkScopedResourceItem.AssignPropertiesToPrivateLinkScopedResource(&privateLinkScopedResource)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToPrivateLinkScopedResource() to populate field PrivateLinkScopedResources")
+			}
+			privateLinkScopedResourceList[privateLinkScopedResourceIndex] = privateLinkScopedResource
+		}
+		destination.PrivateLinkScopedResources = privateLinkScopedResourceList
+	} else {
+		destination.PrivateLinkScopedResources = nil
+	}
+
 	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(workspaces.ProvisioningState)
+	destination.ProvisioningState = genruntime.ClonePointerToString(workspace.ProvisioningState)
 
 	// PublicNetworkAccessForIngestion
-	destination.PublicNetworkAccessForIngestion = genruntime.ClonePointerToString(workspaces.PublicNetworkAccessForIngestion)
+	destination.PublicNetworkAccessForIngestion = genruntime.ClonePointerToString(workspace.PublicNetworkAccessForIngestion)
 
 	// PublicNetworkAccessForQuery
-	destination.PublicNetworkAccessForQuery = genruntime.ClonePointerToString(workspaces.PublicNetworkAccessForQuery)
+	destination.PublicNetworkAccessForQuery = genruntime.ClonePointerToString(workspace.PublicNetworkAccessForQuery)
 
 	// RetentionInDays
-	destination.RetentionInDays = genruntime.ClonePointerToInt(workspaces.RetentionInDays)
+	destination.RetentionInDays = genruntime.ClonePointerToInt(workspace.RetentionInDays)
 
 	// Sku
-	if workspaces.Sku != nil {
+	if workspace.Sku != nil {
 		var sku v20210601s.WorkspaceSku
-		err := workspaces.Sku.AssignPropertiesToWorkspaceSku(&sku)
+		err := workspace.Sku.AssignPropertiesToWorkspaceSku(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToWorkspaceSku() to populate field Sku")
 		}
@@ -766,12 +831,15 @@ func (workspaces *Workspaces_Spec) AssignPropertiesToWorkspacesSpec(destination 
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(workspaces.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(workspace.Tags)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(workspace.Type)
 
 	// WorkspaceCapping
-	if workspaces.WorkspaceCapping != nil {
+	if workspace.WorkspaceCapping != nil {
 		var workspaceCapping v20210601s.WorkspaceCapping
-		err := workspaces.WorkspaceCapping.AssignPropertiesToWorkspaceCapping(&workspaceCapping)
+		err := workspace.WorkspaceCapping.AssignPropertiesToWorkspaceCapping(&workspaceCapping)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToWorkspaceCapping() to populate field WorkspaceCapping")
 		}
@@ -791,16 +859,16 @@ func (workspaces *Workspaces_Spec) AssignPropertiesToWorkspacesSpec(destination 
 	return nil
 }
 
-// Storage version of v1alpha1api20210601.PrivateLinkScopedResource_Status
-// Deprecated version of PrivateLinkScopedResource_Status. Use v1beta20210601.PrivateLinkScopedResource_Status instead
-type PrivateLinkScopedResource_Status struct {
+// Storage version of v1alpha1api20210601.PrivateLinkScopedResource
+// Deprecated version of PrivateLinkScopedResource. Use v1beta20210601.PrivateLinkScopedResource instead
+type PrivateLinkScopedResource struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ResourceId  *string                `json:"resourceId,omitempty"`
 	ScopeId     *string                `json:"scopeId,omitempty"`
 }
 
-// AssignPropertiesFromPrivateLinkScopedResourceStatus populates our PrivateLinkScopedResource_Status from the provided source PrivateLinkScopedResource_Status
-func (resource *PrivateLinkScopedResource_Status) AssignPropertiesFromPrivateLinkScopedResourceStatus(source *v20210601s.PrivateLinkScopedResource_Status) error {
+// AssignPropertiesFromPrivateLinkScopedResource populates our PrivateLinkScopedResource from the provided source PrivateLinkScopedResource
+func (resource *PrivateLinkScopedResource) AssignPropertiesFromPrivateLinkScopedResource(source *v20210601s.PrivateLinkScopedResource) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -821,8 +889,60 @@ func (resource *PrivateLinkScopedResource_Status) AssignPropertiesFromPrivateLin
 	return nil
 }
 
-// AssignPropertiesToPrivateLinkScopedResourceStatus populates the provided destination PrivateLinkScopedResource_Status from our PrivateLinkScopedResource_Status
-func (resource *PrivateLinkScopedResource_Status) AssignPropertiesToPrivateLinkScopedResourceStatus(destination *v20210601s.PrivateLinkScopedResource_Status) error {
+// AssignPropertiesToPrivateLinkScopedResource populates the provided destination PrivateLinkScopedResource from our PrivateLinkScopedResource
+func (resource *PrivateLinkScopedResource) AssignPropertiesToPrivateLinkScopedResource(destination *v20210601s.PrivateLinkScopedResource) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
+
+	// ResourceId
+	destination.ResourceId = genruntime.ClonePointerToString(resource.ResourceId)
+
+	// ScopeId
+	destination.ScopeId = genruntime.ClonePointerToString(resource.ScopeId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20210601.PrivateLinkScopedResource_STATUS
+// Deprecated version of PrivateLinkScopedResource_STATUS. Use v1beta20210601.PrivateLinkScopedResource_STATUS instead
+type PrivateLinkScopedResource_STATUS struct {
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ResourceId  *string                `json:"resourceId,omitempty"`
+	ScopeId     *string                `json:"scopeId,omitempty"`
+}
+
+// AssignPropertiesFromPrivateLinkScopedResource_STATUS populates our PrivateLinkScopedResource_STATUS from the provided source PrivateLinkScopedResource_STATUS
+func (resource *PrivateLinkScopedResource_STATUS) AssignPropertiesFromPrivateLinkScopedResource_STATUS(source *v20210601s.PrivateLinkScopedResource_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// ResourceId
+	resource.ResourceId = genruntime.ClonePointerToString(source.ResourceId)
+
+	// ScopeId
+	resource.ScopeId = genruntime.ClonePointerToString(source.ScopeId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		resource.PropertyBag = propertyBag
+	} else {
+		resource.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToPrivateLinkScopedResource_STATUS populates the provided destination PrivateLinkScopedResource_STATUS from our PrivateLinkScopedResource_STATUS
+func (resource *PrivateLinkScopedResource_STATUS) AssignPropertiesToPrivateLinkScopedResource_STATUS(destination *v20210601s.PrivateLinkScopedResource_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
 
@@ -846,69 +966,14 @@ func (resource *PrivateLinkScopedResource_Status) AssignPropertiesToPrivateLinkS
 // Storage version of v1alpha1api20210601.WorkspaceCapping
 // Deprecated version of WorkspaceCapping. Use v1beta20210601.WorkspaceCapping instead
 type WorkspaceCapping struct {
-	DailyQuotaGb *float64               `json:"dailyQuotaGb,omitempty"`
-	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// AssignPropertiesFromWorkspaceCapping populates our WorkspaceCapping from the provided source WorkspaceCapping
-func (capping *WorkspaceCapping) AssignPropertiesFromWorkspaceCapping(source *v20210601s.WorkspaceCapping) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// DailyQuotaGb
-	if source.DailyQuotaGb != nil {
-		dailyQuotaGb := *source.DailyQuotaGb
-		capping.DailyQuotaGb = &dailyQuotaGb
-	} else {
-		capping.DailyQuotaGb = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		capping.PropertyBag = propertyBag
-	} else {
-		capping.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToWorkspaceCapping populates the provided destination WorkspaceCapping from our WorkspaceCapping
-func (capping *WorkspaceCapping) AssignPropertiesToWorkspaceCapping(destination *v20210601s.WorkspaceCapping) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(capping.PropertyBag)
-
-	// DailyQuotaGb
-	if capping.DailyQuotaGb != nil {
-		dailyQuotaGb := *capping.DailyQuotaGb
-		destination.DailyQuotaGb = &dailyQuotaGb
-	} else {
-		destination.DailyQuotaGb = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20210601.WorkspaceCapping_Status
-// Deprecated version of WorkspaceCapping_Status. Use v1beta20210601.WorkspaceCapping_Status instead
-type WorkspaceCapping_Status struct {
 	DailyQuotaGb        *float64               `json:"dailyQuotaGb,omitempty"`
 	DataIngestionStatus *string                `json:"dataIngestionStatus,omitempty"`
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	QuotaNextResetTime  *string                `json:"quotaNextResetTime,omitempty"`
 }
 
-// AssignPropertiesFromWorkspaceCappingStatus populates our WorkspaceCapping_Status from the provided source WorkspaceCapping_Status
-func (capping *WorkspaceCapping_Status) AssignPropertiesFromWorkspaceCappingStatus(source *v20210601s.WorkspaceCapping_Status) error {
+// AssignPropertiesFromWorkspaceCapping populates our WorkspaceCapping from the provided source WorkspaceCapping
+func (capping *WorkspaceCapping) AssignPropertiesFromWorkspaceCapping(source *v20210601s.WorkspaceCapping) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -937,8 +1002,77 @@ func (capping *WorkspaceCapping_Status) AssignPropertiesFromWorkspaceCappingStat
 	return nil
 }
 
-// AssignPropertiesToWorkspaceCappingStatus populates the provided destination WorkspaceCapping_Status from our WorkspaceCapping_Status
-func (capping *WorkspaceCapping_Status) AssignPropertiesToWorkspaceCappingStatus(destination *v20210601s.WorkspaceCapping_Status) error {
+// AssignPropertiesToWorkspaceCapping populates the provided destination WorkspaceCapping from our WorkspaceCapping
+func (capping *WorkspaceCapping) AssignPropertiesToWorkspaceCapping(destination *v20210601s.WorkspaceCapping) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(capping.PropertyBag)
+
+	// DailyQuotaGb
+	if capping.DailyQuotaGb != nil {
+		dailyQuotaGb := *capping.DailyQuotaGb
+		destination.DailyQuotaGb = &dailyQuotaGb
+	} else {
+		destination.DailyQuotaGb = nil
+	}
+
+	// DataIngestionStatus
+	destination.DataIngestionStatus = genruntime.ClonePointerToString(capping.DataIngestionStatus)
+
+	// QuotaNextResetTime
+	destination.QuotaNextResetTime = genruntime.ClonePointerToString(capping.QuotaNextResetTime)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20210601.WorkspaceCapping_STATUS
+// Deprecated version of WorkspaceCapping_STATUS. Use v1beta20210601.WorkspaceCapping_STATUS instead
+type WorkspaceCapping_STATUS struct {
+	DailyQuotaGb        *float64               `json:"dailyQuotaGb,omitempty"`
+	DataIngestionStatus *string                `json:"dataIngestionStatus,omitempty"`
+	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	QuotaNextResetTime  *string                `json:"quotaNextResetTime,omitempty"`
+}
+
+// AssignPropertiesFromWorkspaceCapping_STATUS populates our WorkspaceCapping_STATUS from the provided source WorkspaceCapping_STATUS
+func (capping *WorkspaceCapping_STATUS) AssignPropertiesFromWorkspaceCapping_STATUS(source *v20210601s.WorkspaceCapping_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// DailyQuotaGb
+	if source.DailyQuotaGb != nil {
+		dailyQuotaGb := *source.DailyQuotaGb
+		capping.DailyQuotaGb = &dailyQuotaGb
+	} else {
+		capping.DailyQuotaGb = nil
+	}
+
+	// DataIngestionStatus
+	capping.DataIngestionStatus = genruntime.ClonePointerToString(source.DataIngestionStatus)
+
+	// QuotaNextResetTime
+	capping.QuotaNextResetTime = genruntime.ClonePointerToString(source.QuotaNextResetTime)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		capping.PropertyBag = propertyBag
+	} else {
+		capping.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToWorkspaceCapping_STATUS populates the provided destination WorkspaceCapping_STATUS from our WorkspaceCapping_STATUS
+func (capping *WorkspaceCapping_STATUS) AssignPropertiesToWorkspaceCapping_STATUS(destination *v20210601s.WorkspaceCapping_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(capping.PropertyBag)
 
@@ -970,7 +1104,6 @@ func (capping *WorkspaceCapping_Status) AssignPropertiesToWorkspaceCappingStatus
 // Storage version of v1alpha1api20210601.WorkspaceFeatures
 // Deprecated version of WorkspaceFeatures. Use v1beta20210601.WorkspaceFeatures instead
 type WorkspaceFeatures struct {
-	AdditionalProperties                        map[string]v1.JSON            `json:"additionalProperties,omitempty"`
 	ClusterResourceReference                    *genruntime.ResourceReference `armReference:"ClusterResourceId" json:"clusterResourceReference,omitempty"`
 	DisableLocalAuth                            *bool                         `json:"disableLocalAuth,omitempty"`
 	EnableDataExport                            *bool                         `json:"enableDataExport,omitempty"`
@@ -983,19 +1116,6 @@ type WorkspaceFeatures struct {
 func (features *WorkspaceFeatures) AssignPropertiesFromWorkspaceFeatures(source *v20210601s.WorkspaceFeatures) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// AdditionalProperties
-	if source.AdditionalProperties != nil {
-		additionalPropertyMap := make(map[string]v1.JSON, len(source.AdditionalProperties))
-		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
-			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
-		}
-		features.AdditionalProperties = additionalPropertyMap
-	} else {
-		features.AdditionalProperties = nil
-	}
 
 	// ClusterResourceReference
 	if source.ClusterResourceReference != nil {
@@ -1053,19 +1173,6 @@ func (features *WorkspaceFeatures) AssignPropertiesToWorkspaceFeatures(destinati
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(features.PropertyBag)
 
-	// AdditionalProperties
-	if features.AdditionalProperties != nil {
-		additionalPropertyMap := make(map[string]v1.JSON, len(features.AdditionalProperties))
-		for additionalPropertyKey, additionalPropertyValue := range features.AdditionalProperties {
-			// Shadow the loop variable to avoid aliasing
-			additionalPropertyValue := additionalPropertyValue
-			additionalPropertyMap[additionalPropertyKey] = *additionalPropertyValue.DeepCopy()
-		}
-		destination.AdditionalProperties = additionalPropertyMap
-	} else {
-		destination.AdditionalProperties = nil
-	}
-
 	// ClusterResourceReference
 	if features.ClusterResourceReference != nil {
 		clusterResourceReference := features.ClusterResourceReference.Copy()
@@ -1117,9 +1224,9 @@ func (features *WorkspaceFeatures) AssignPropertiesToWorkspaceFeatures(destinati
 	return nil
 }
 
-// Storage version of v1alpha1api20210601.WorkspaceFeatures_Status
-// Deprecated version of WorkspaceFeatures_Status. Use v1beta20210601.WorkspaceFeatures_Status instead
-type WorkspaceFeatures_Status struct {
+// Storage version of v1alpha1api20210601.WorkspaceFeatures_STATUS
+// Deprecated version of WorkspaceFeatures_STATUS. Use v1beta20210601.WorkspaceFeatures_STATUS instead
+type WorkspaceFeatures_STATUS struct {
 	ClusterResourceId                           *string                `json:"clusterResourceId,omitempty"`
 	DisableLocalAuth                            *bool                  `json:"disableLocalAuth,omitempty"`
 	EnableDataExport                            *bool                  `json:"enableDataExport,omitempty"`
@@ -1128,8 +1235,8 @@ type WorkspaceFeatures_Status struct {
 	PropertyBag                                 genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromWorkspaceFeaturesStatus populates our WorkspaceFeatures_Status from the provided source WorkspaceFeatures_Status
-func (features *WorkspaceFeatures_Status) AssignPropertiesFromWorkspaceFeaturesStatus(source *v20210601s.WorkspaceFeatures_Status) error {
+// AssignPropertiesFromWorkspaceFeatures_STATUS populates our WorkspaceFeatures_STATUS from the provided source WorkspaceFeatures_STATUS
+func (features *WorkspaceFeatures_STATUS) AssignPropertiesFromWorkspaceFeatures_STATUS(source *v20210601s.WorkspaceFeatures_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1179,8 +1286,8 @@ func (features *WorkspaceFeatures_Status) AssignPropertiesFromWorkspaceFeaturesS
 	return nil
 }
 
-// AssignPropertiesToWorkspaceFeaturesStatus populates the provided destination WorkspaceFeatures_Status from our WorkspaceFeatures_Status
-func (features *WorkspaceFeatures_Status) AssignPropertiesToWorkspaceFeaturesStatus(destination *v20210601s.WorkspaceFeatures_Status) error {
+// AssignPropertiesToWorkspaceFeatures_STATUS populates the provided destination WorkspaceFeatures_STATUS from our WorkspaceFeatures_STATUS
+func (features *WorkspaceFeatures_STATUS) AssignPropertiesToWorkspaceFeatures_STATUS(destination *v20210601s.WorkspaceFeatures_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(features.PropertyBag)
 
@@ -1234,65 +1341,13 @@ func (features *WorkspaceFeatures_Status) AssignPropertiesToWorkspaceFeaturesSta
 // Deprecated version of WorkspaceSku. Use v1beta20210601.WorkspaceSku instead
 type WorkspaceSku struct {
 	CapacityReservationLevel *int                   `json:"capacityReservationLevel,omitempty"`
+	LastSkuUpdate            *string                `json:"lastSkuUpdate,omitempty"`
 	Name                     *string                `json:"name,omitempty"`
 	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // AssignPropertiesFromWorkspaceSku populates our WorkspaceSku from the provided source WorkspaceSku
 func (workspaceSku *WorkspaceSku) AssignPropertiesFromWorkspaceSku(source *v20210601s.WorkspaceSku) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// CapacityReservationLevel
-	workspaceSku.CapacityReservationLevel = genruntime.ClonePointerToInt(source.CapacityReservationLevel)
-
-	// Name
-	workspaceSku.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		workspaceSku.PropertyBag = propertyBag
-	} else {
-		workspaceSku.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToWorkspaceSku populates the provided destination WorkspaceSku from our WorkspaceSku
-func (workspaceSku *WorkspaceSku) AssignPropertiesToWorkspaceSku(destination *v20210601s.WorkspaceSku) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(workspaceSku.PropertyBag)
-
-	// CapacityReservationLevel
-	destination.CapacityReservationLevel = genruntime.ClonePointerToInt(workspaceSku.CapacityReservationLevel)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(workspaceSku.Name)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20210601.WorkspaceSku_Status
-// Deprecated version of WorkspaceSku_Status. Use v1beta20210601.WorkspaceSku_Status instead
-type WorkspaceSku_Status struct {
-	CapacityReservationLevel *int                   `json:"capacityReservationLevel,omitempty"`
-	LastSkuUpdate            *string                `json:"lastSkuUpdate,omitempty"`
-	Name                     *string                `json:"name,omitempty"`
-	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// AssignPropertiesFromWorkspaceSkuStatus populates our WorkspaceSku_Status from the provided source WorkspaceSku_Status
-func (workspaceSku *WorkspaceSku_Status) AssignPropertiesFromWorkspaceSkuStatus(source *v20210601s.WorkspaceSku_Status) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -1316,8 +1371,67 @@ func (workspaceSku *WorkspaceSku_Status) AssignPropertiesFromWorkspaceSkuStatus(
 	return nil
 }
 
-// AssignPropertiesToWorkspaceSkuStatus populates the provided destination WorkspaceSku_Status from our WorkspaceSku_Status
-func (workspaceSku *WorkspaceSku_Status) AssignPropertiesToWorkspaceSkuStatus(destination *v20210601s.WorkspaceSku_Status) error {
+// AssignPropertiesToWorkspaceSku populates the provided destination WorkspaceSku from our WorkspaceSku
+func (workspaceSku *WorkspaceSku) AssignPropertiesToWorkspaceSku(destination *v20210601s.WorkspaceSku) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(workspaceSku.PropertyBag)
+
+	// CapacityReservationLevel
+	destination.CapacityReservationLevel = genruntime.ClonePointerToInt(workspaceSku.CapacityReservationLevel)
+
+	// LastSkuUpdate
+	destination.LastSkuUpdate = genruntime.ClonePointerToString(workspaceSku.LastSkuUpdate)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(workspaceSku.Name)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20210601.WorkspaceSku_STATUS
+// Deprecated version of WorkspaceSku_STATUS. Use v1beta20210601.WorkspaceSku_STATUS instead
+type WorkspaceSku_STATUS struct {
+	CapacityReservationLevel *int                   `json:"capacityReservationLevel,omitempty"`
+	LastSkuUpdate            *string                `json:"lastSkuUpdate,omitempty"`
+	Name                     *string                `json:"name,omitempty"`
+	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignPropertiesFromWorkspaceSku_STATUS populates our WorkspaceSku_STATUS from the provided source WorkspaceSku_STATUS
+func (workspaceSku *WorkspaceSku_STATUS) AssignPropertiesFromWorkspaceSku_STATUS(source *v20210601s.WorkspaceSku_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// CapacityReservationLevel
+	workspaceSku.CapacityReservationLevel = genruntime.ClonePointerToInt(source.CapacityReservationLevel)
+
+	// LastSkuUpdate
+	workspaceSku.LastSkuUpdate = genruntime.ClonePointerToString(source.LastSkuUpdate)
+
+	// Name
+	workspaceSku.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		workspaceSku.PropertyBag = propertyBag
+	} else {
+		workspaceSku.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToWorkspaceSku_STATUS populates the provided destination WorkspaceSku_STATUS from our WorkspaceSku_STATUS
+func (workspaceSku *WorkspaceSku_STATUS) AssignPropertiesToWorkspaceSku_STATUS(destination *v20210601s.WorkspaceSku_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(workspaceSku.PropertyBag)
 

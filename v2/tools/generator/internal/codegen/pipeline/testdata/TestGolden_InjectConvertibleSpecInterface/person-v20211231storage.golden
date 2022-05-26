@@ -16,7 +16,7 @@ type Person struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              Person_Spec   `json:"spec,omitempty"`
-	Status            Person_Status `json:"status,omitempty"`
+	Status            Person_STATUS `json:"status,omitempty"`
 }
 
 // +kubebuilder:object:root=true
@@ -25,6 +25,12 @@ type PersonList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Person `json:"items"`
+}
+
+// Storage version of v20211231.Person_STATUS
+type Person_STATUS struct {
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Status      *string                `json:"status,omitempty"`
 }
 
 // Storage version of v20211231.Person_Spec
@@ -51,12 +57,6 @@ func (person *Person_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec)
 	}
 
 	return destination.ConvertSpecFrom(person)
-}
-
-// Storage version of v20211231.Person_Status
-type Person_Status struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Status      *string                `json:"status,omitempty"`
 }
 
 func init() {

@@ -77,9 +77,9 @@ func (error *Error) AssignPropertiesFromError(source *v20200101s.Error) error {
 			// Shadow the loop variable to avoid aliasing
 			errorItem := errorItem
 			var errorLocal Error_Unrolled
-			err := errorLocal.AssignPropertiesFromErrorUnrolled(&errorItem)
+			err := errorLocal.AssignPropertiesFromError_Unrolled(&errorItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromErrorUnrolled() to populate field Errors")
+				return errors.Wrap(err, "calling AssignPropertiesFromError_Unrolled() to populate field Errors")
 			}
 			errorList[errorIndex] = errorLocal
 		}
@@ -107,9 +107,9 @@ func (error *Error) AssignPropertiesToError(destination *v20200101s.Error) error
 			// Shadow the loop variable to avoid aliasing
 			errorItem := errorItem
 			var errorLocal v20200101s.Error_Unrolled
-			err := errorItem.AssignPropertiesToErrorUnrolled(&errorLocal)
+			err := errorItem.AssignPropertiesToError_Unrolled(&errorLocal)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToErrorUnrolled() to populate field Errors")
+				return errors.Wrap(err, "calling AssignPropertiesToError_Unrolled() to populate field Errors")
 			}
 			errorList[errorIndex] = errorLocal
 		}
@@ -136,8 +136,8 @@ type Error_Unrolled struct {
 	Name *string `json:"name,omitempty"`
 }
 
-// AssignPropertiesFromErrorUnrolled populates our Error_Unrolled from the provided source Error_Unrolled
-func (unrolled *Error_Unrolled) AssignPropertiesFromErrorUnrolled(source *v20200101s.Error_Unrolled) error {
+// AssignPropertiesFromError_Unrolled populates our Error_Unrolled from the provided source Error_Unrolled
+func (unrolled *Error_Unrolled) AssignPropertiesFromError_Unrolled(source *v20200101s.Error_Unrolled) error {
 
 	// Name
 	unrolled.Name = genruntime.ClonePointerToString(source.Name)
@@ -146,8 +146,8 @@ func (unrolled *Error_Unrolled) AssignPropertiesFromErrorUnrolled(source *v20200
 	return nil
 }
 
-// AssignPropertiesToErrorUnrolled populates the provided destination Error_Unrolled from our Error_Unrolled
-func (unrolled *Error_Unrolled) AssignPropertiesToErrorUnrolled(destination *v20200101s.Error_Unrolled) error {
+// AssignPropertiesToError_Unrolled populates the provided destination Error_Unrolled from our Error_Unrolled
+func (unrolled *Error_Unrolled) AssignPropertiesToError_Unrolled(destination *v20200101s.Error_Unrolled) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

@@ -1,7 +1,5 @@
-schemaUrl: 'https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json'
-schemaUrlRewrite:
-  from: 'https://schema.management.azure.com/schemas/'
-  to: 'specs/azure-resource-manager-schemas/schemas/'
+schemaRoot: "./specs/azure-rest-api-specs/specification"
+
 destinationGoModuleFile: go.mod
 
 # typesOutputPath specifies the output folder name, relative to the directory containing the mod file above.
@@ -28,66 +26,109 @@ pipeline: azure
 # Filters are applied in document order, with the earliest matching filter being applied for each type.
 #
 typeFilters:
+
   - action: prune
     group: definitions
     name: Expression
     because: expression is an ARM template construct which doesn't belong in CRDs
+
   - action: include
     group: servicebus
     version: v*20210101preview
     because: We want to export this particular preview version
+
   - action: include
     group: insights
     version: v*20180501preview
     because: We're using webTests from this. There is a "newer" version but it's not actually supported, see https://github.com/Azure/azure-rest-api-specs/issues/14827
+
   - action: include
     group: authorization
     version: v*20200801preview
     because: We want to export this particular preview version
+
   - action: prune
     version: '*preview'
     because: preview SDK versions are excluded by default (they often do very strange things)
+
   - action: prune
     group: compute
     name: VirtualMachineScaleSetsExtensionsChildResource;VirtualMachinesExtensionsChildResource
     because: _childResource type which "points" to a resource type that doesn't exist. Need to work with schema owners on why.
+
+  - action: prune
+    name: ScopedDeployment
+    group: resources
+    because: Cannot yet handle scopes in general.
+
+  - action: prune
+    name: Disk
+    group: compute.admin
+    because: "TODO(donotmerge): don't know how to intersect types: []github.com/Azure/azure-service-operator/v2/api/compute.admin/v1beta20210401/Disk and (object)"
+
+  - action: prune
+    name: DiskListInput
+    group: compute.admin
+    because: "TODO(donotmerge): ends up with nil due to above"
+
+  - action: prune
+    name: CreateManagementGroupChildInfo
+    group: management
+    because: directly recursive
+
+  - action: prune
+    name: VirtualMachineExtension
+    group: compute
+    because: TODO(donotmerge) - object type not resource type in determineResourceOwnership
+
   - action: prune
     group: web
     because: Some types (SitesSlotsConfig) use OneOf in a way we don't currently handle. Exclude the whole set for now.
+
   - action: prune
     group: network
     version: 'v*2015*;v*2016*;v*2017*;v*2018*;v*2019*'
     because: Pruning all older networking api versions types since we don't use them anyway (and they have odd issues)
+
   - action: prune
     group: compute
     version: 'v*beta201*'
     because: Pruning all older compute api versions types since we don't use them anyway (and they have odd issues)
+
   - action: prune
     group: kusto
     because: Some types use OneOf in a way we don't currently handle correctly.
+
   - action: prune
     group: timeseriesinsights
     because: Some types use OneOf to model inheritance, which we don't currently support.
+
   - action: prune
     group: databoxedge
     because: Some types use OneOf to model inheritance, which we don't currently support.
+
   - action: prune
     group: datashare
     because: Some types use OneOf to model inheritance, which we don't currently support.
+
   - action: prune
     group: apimanagement
     because: Some types use OneOf to model inheritance, which we don't currently support.
+
   - action: prune
     group: automation
     because: Some types use OneOf to model inheritance, which we don't currently support.
+
   - action: prune
     group: machinelearningservices
     name: WorkspacesService*
     because: Some types use OneOf to model inheritance, which we don't currently support.
+
   - action: prune
     group: resources
     name: DeploymentScript*
     because: Some types use OneOf to model inheritance, which we don't currently support.
+
   - action: prune
     group: resources
     name: Tags
@@ -150,50 +191,31 @@ typeTransformers:
         value:
           name: string
     because: the definition in rest api specs uses additionalProperties + defined fields which we don't support
-  - group: cache
-    name: RedisProperties_Status
-    property: AccessKeys
-    remove: true
-    because: AccessKeys is only set on response to PUT/CREATE, but we fill out Status via GET so this field is always empty. It also contains secrets we wouldn't want to expose in status anyway.
+
+  # TODO(donotmerge)
+  # - group: cache
+  #   name: RedisProperties_Status
+  #   property: AccessKeys
+  #   remove: true
+  #   because: AccessKeys is only set on response to PUT/CREATE, but we fill out Status via GET so this field is always empty. It also contains secrets we wouldn't want to expose in status anyway.
+
   - group: deploymenttemplate
     name: ResourceLocations
     target:
       name: string
     because: Modeling this as an enum doesn't work well in the context of CRDs because new regions are regularly added
+
   - group: definitions
     name: ResourceLocations
     target:
       name: string
     because: Modeling this as an enum doesn't work well in the context of CRDs because new regions are regularly added
-  - name: "*"
-    property: Condition
-    ifType:
-      name: bool
-      optional: true
-    remove: true
-    because: It exists on ARMResource but doesn't make sense in the context of a CRD
-  - name: "*"
-    property: Copy
-    ifType:
-      group: deploymenttemplate
-      version: "2019-04-01"
-      name: ResourceCopy
-      optional: true
-    remove: true
-    because: It exists on ARMResource but doesn't make sense in the context of a CRD
-  - name: "*"
-    property: Copy
-    ifType:
-      group: definitions
-      version: "*"
-      name: ResourceCopy
-      optional: true
-    remove: true
-    because: It exists on ARMResource but doesn't make sense in the context of a CRD. Doesn't match the above because of a quirk in how autogenerated resources include resourceBase.
+
   - name: "*"
     property: DependsOn
     remove: true
     because: It exists on ARMResource but doesn't make sense in the context of a CRD
+
   - name: "*"
     property: Comments
     ifType:
@@ -218,80 +240,100 @@ typeTransformers:
     property: UserAssignedIdentities
     remove: true
     because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
-  - name: StorageAccountsManagementPolicies_Spec
-    group: storage
-    property: Location
-    remove: true
-    because: This property should be marked readonly
+
+  # TODO(donotmerge)
+  # - name: StorageAccountsManagementPolicies_Spec
+  #   group: storage
+  #   property: Location
+  #   remove: true
+  #   because: This property should be marked readonly
+
   - name: ManagedServiceIdentity
     group: documentdb
     property: UserAssignedIdentities
     remove: true
     because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
+
   - name: PrivateEndpointConnectionProperties
     group: storage
     property: PrivateEndpoint
     remove: true
     because: The PrivateEndpoint property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
+
   - name: VirtualMachineScaleSetIdentity
     group: compute
     property: UserAssignedIdentities
     remove: true
     because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
+
   - name: Identity
     group: eventhub
     property: UserAssignedIdentities
     remove: true
     because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
+
   - name: PrivateEndpointConnectionProperties
     group: eventhub
     property: PrivateLinkServiceConnectionState
     remove: true
     because: This property should be marked readonly
+
   - name: PrivateEndpointConnectionProperties
     group: eventhub
     property: ProvisioningState
     remove: true
     because: This property should be marked readonly
-  - name: NamespacesEventhubs_Spec_Properties
-    group: eventhub
-    property: Status
-    remove: true
-    because: This property should be marked readonly
-  - group: eventgrid
-    version: v*20190601
-    name: Domains_Spec
-    property: Properties
-    remove: true
-    because: it has no writable properties in swagger
-  - group: eventgrid
-    version: "*"
-    name: Topics_Spec
-    property: Properties
-    remove: true
-    because: it has no writable properties in swagger
 
-  # Deal with properties that should have been marked readOnly but weren't
-  - group: servicebus
-    name: Namespaces_Spec_Properties  # This type is subsequently flattened into Namespaces_Spec. I don't know why it's called this either (I think it should be SBNamespaceProperties?)
-    property: PrivateEndpointConnections
-    remove: true
-    because: This property should have been marked readonly but wasn't.
+  # TODO(donotmerge)
+  # - name: NamespacesEventhubs_Spec_Properties
+  #   group: eventhub
+  #   property: Status
+  #   remove: true
+  #   because: This property should be marked readonly
+
+  # TODO(donotmerge)
+  # - group: eventgrid
+  #   version: v*20190601
+  #   name: Domains_Spec
+  #   property: Properties
+  #   remove: true
+  #   because: it has no writable properties in swagger
+
+  # TODO(donotmerge)
+  # - group: eventgrid
+  #   version: "*"
+  #   name: Topics_Spec
+  #   property: Properties
+  #   remove: true
+  #   because: it has no writable properties in swagger
+
+  ## Deal with properties that should have been marked readOnly but weren't
+
+  # TODO(donotmerge)
+  # - group: servicebus
+  #   name: Namespaces_Spec_Properties  # This type is subsequently flattened into Namespaces_Spec. I don't know why it's called this either (I think it should be SBNamespaceProperties?)
+  #   property: PrivateEndpointConnections
+  #   remove: true
+  #   because: This property should have been marked readonly but wasn't.
+
   - group: servicebus
     name: SBQueueProperties  # This type is subsequently flattened into NamespacesQueues_Spec
     property: Status
     remove: true
     because: This property should have been marked readonly but wasn't.
+
   - group: servicebus
     name: SBTopicProperties  # This type is subsequently flattened into NamespacesTopics_Spec
     property: Status
     remove: true
     because: This property should have been marked readonly but wasn't.
+
   - group: documentdb
     name: Location  # This type is subsequently flattened into NamespacesTopics_Spec
     property: ProvisioningState
     remove: true
     because: This property should have been marked readonly but wasn't.
+
   - group: compute
     name: DiskProperties  # This type is subsequently flattened into Disks_Spec
     property: DiskState
@@ -322,46 +364,38 @@ typeTransformers:
 
   # Deal with resources that have tags or location included but shouldn't have (proxy resources, etc).
   # See https://github.com/Azure/azure-resource-manager-schemas/issues/1850
-  - group: containerservice
-    name: ManagedClustersAgentPools_Spec
-    property: Tags
-    remove: true
-    because: Tags shouldn't be here (see https://github.com/Azure/azure-resource-manager-schemas/issues/1850)
-  - group: network
-    name: VirtualNetworksSubnets_Spec
-    property: Location
-    remove: true
-    because: Child resource cannot choose location
-  - group: network
-    name: VirtualNetworksSubnets_Spec
-    property: Tags
-    remove: true
-    because: Child resource cannot set tags
-  - group: network
-    name: RouteTablesRoutes_Spec
-    property: Location
-    remove: true
-    because: Child resource cannot choose location
-  - group: network
-    name: RouteTablesRoutes_Spec
-    property: Tags
-    remove: true
-    because: Child resource cannot set tags
 
-  # Deal with service Swaggers that are just wrong
-  - group: insights
-    name: WebTests_Spec
-    property: Kind
-    remove: true
-    because: This shouldn't be here, it's supposed to be on the Properties type (and is already). They somehow accidentally duplicated it.
-  - group: insights
-    name: WebTest_Status
-    property: Kind
-    remove: true
-    because: This shouldn't be here, it's supposed to be on the Properties type (and is already). They somehow accidentally duplicated it.
+  # TODO(donotmerge)
+  # - group: network
+  #   name: VirtualNetworksSubnets_Spec
+  #   property: Location
+  #   remove: true
+  #   because: Child resource cannot choose location
+
+  # TODO(donotmerge)
+  # - group: network
+  #   name: RouteTablesRoutes_Spec
+  #   property: Location
+  #   remove: true
+  #   because: Child resource cannot choose location
+
+  ## Deal with service Swaggers that are just wrong
+
+  # TODO(donotmerge)
+  # - group: insights
+  #   name: WebTests_Spec
+  #   property: Kind
+  #   remove: true
+  #   because: This shouldn't be here, it's supposed to be on the Properties type (and is already). They somehow accidentally duplicated it.
+
+  # TODO(donotmerge)
+  # - group: insights
+  #   name: WebTest_Status
+  #   property: Kind
+  #   remove: true
+  #   because: This shouldn't be here, it's supposed to be on the Properties type (and is already). They somehow accidentally duplicated it.
 
 status:
-  schemaRoot: "./specs/azure-rest-api-specs/specification"
 
   overrides: [
     {
@@ -748,6 +782,9 @@ objectModelConfiguration:
       IdentityProperties:
         PrincipalId:
           $armReference: false
+      PrivateEndpointConnection:
+        Id:
+          $armReference: true
   containerservice:
     2021-05-01:
       Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties:
@@ -796,14 +833,15 @@ objectModelConfiguration:
         $exportAs: Configuration
       ServersDatabase:
         $exportAs: Database
-      ServerPropertiesForCreate_ServerPropertiesForDefaultCreate:
-        $exportAs: ServerPropertiesForDefaultCreate
-      ServerPropertiesForCreate_ServerPropertiesForGeoRestore:
-        $exportAs: ServerPropertiesForGeoRestore
-      ServerPropertiesForCreate_ServerPropertiesForReplica:
-        $exportAs: ServerPropertiesForReplica
-      ServerPropertiesForCreate_ServerPropertiesForRestore:
-        $exportAs: ServerPropertiesForRestore
+      # TODO(donotmerge)
+      # ServerPropertiesForCreate_ServerPropertiesForDefaultCreate:
+      #   $exportAs: ServerPropertiesForDefaultCreate
+      # ServerPropertiesForCreate_ServerPropertiesForGeoRestore:
+      #   $exportAs: ServerPropertiesForGeoRestore
+      # ServerPropertiesForCreate_ServerPropertiesForReplica:
+      #   $exportAs: ServerPropertiesForReplica
+      # ServerPropertiesForCreate_ServerPropertiesForRestore:
+      #   $exportAs: ServerPropertiesForRestore
   dbformysql:
     2021-05-01:
       FlexibleServer: 
@@ -919,9 +957,10 @@ objectModelConfiguration:
       Domain:
         $export: true
         $supportedFrom: v2.0.0-alpha.5
-      DomainsTopic:
-        $export: true
-        $supportedFrom: v2.0.0-alpha.5
+      # TODO(donotmerge)
+      # DomainsTopic:
+      #   $export: true
+      #   $supportedFrom: v2.0.0-alpha.5
       EventSubscription:
         $export: true
         $supportedFrom: v2.0.0-alpha.5
@@ -1018,9 +1057,10 @@ objectModelConfiguration:
       RouteTable:
         $export: true
         $supportedFrom: v2.0.0-beta.1
-      RouteTables_Spec_Properties:
-        Routes:
-          $isResourceLifecycleOwnedByParent: true
+      # TODO(donotmerge)
+      # RouteTables_Spec_Properties:
+      #   Routes:
+      #     $isResourceLifecycleOwnedByParent: true
       RouteTablesRoute:
         $export: true
         $supportedFrom: v2.0.0-beta.1
@@ -1033,13 +1073,14 @@ objectModelConfiguration:
       VirtualNetworkGateway:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
-      VirtualNetworks_Spec_Properties:
-        Subnets:
-          $isResourceLifecycleOwnedByParent: true
-        VirtualNetworkPeerings:
-          # Technically this resource behaves fine (updating the vnet doesn't delete these if they
-          # aren't included in the payload). Marking it here so that the pruning takes effect.
-          $isResourceLifecycleOwnedByParent: true
+      # TODO(donotmerge)
+      # VirtualNetworks_Spec_Properties:
+      #   Subnets:
+      #     $isResourceLifecycleOwnedByParent: true
+      #   VirtualNetworkPeerings:
+      #     # Technically this resource behaves fine (updating the vnet doesn't delete these if they
+      #     # aren't included in the payload). Marking it here so that the pruning takes effect.
+      #     $isResourceLifecycleOwnedByParent: true
       VirtualNetworksSubnet:
         $export: true
         $supportedFrom: v2.0.0-alpha.1

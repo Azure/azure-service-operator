@@ -249,19 +249,9 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{},
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(dbformariadb_v20180601s.Server),
-		Indexes: []registration.Index{
-			{
-				Key:  ".spec.properties.serverPropertiesForDefaultCreate.administratorLoginPassword",
-				Func: indexDbformariadbServerAdministratorLoginPassword,
-			},
-		},
-		Watches: []registration.Watch{
-			{
-				Src:              &source.Kind{Type: &v1.Secret{}},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.serverPropertiesForDefaultCreate.administratorLoginPassword"}, &dbformariadb_v20180601s.ServerList{}),
-			},
-		},
+		Obj:     new(dbformariadb_v20180601s.Server),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{},
 	})
 	result = append(result, &registration.StorageType{
 		Obj: new(dbformysql_v20210501s.FlexibleServer),
@@ -380,11 +370,6 @@ func getKnownStorageTypes() []*registration.StorageType {
 	})
 	result = append(result, &registration.StorageType{
 		Obj:     new(eventgrid_v20200601s.Domain),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
-	})
-	result = append(result, &registration.StorageType{
-		Obj:     new(eventgrid_v20200601s.DomainsTopic),
 		Indexes: []registration.Index{},
 		Watches: []registration.Watch{},
 	})
@@ -705,19 +690,15 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(documentdb_v20210515s.SqlDatabaseContainerUserDefinedFunction))
 	result = append(result, new(documentdb_v20210515s.SqlDatabaseThroughputSetting))
 	result = append(result, new(eventgrid_alpha20200601.Domain))
-	result = append(result, new(eventgrid_alpha20200601.DomainsTopic))
 	result = append(result, new(eventgrid_alpha20200601.EventSubscription))
 	result = append(result, new(eventgrid_alpha20200601.Topic))
 	result = append(result, new(eventgrid_alpha20200601s.Domain))
-	result = append(result, new(eventgrid_alpha20200601s.DomainsTopic))
 	result = append(result, new(eventgrid_alpha20200601s.EventSubscription))
 	result = append(result, new(eventgrid_alpha20200601s.Topic))
 	result = append(result, new(eventgrid_v20200601.Domain))
-	result = append(result, new(eventgrid_v20200601.DomainsTopic))
 	result = append(result, new(eventgrid_v20200601.EventSubscription))
 	result = append(result, new(eventgrid_v20200601.Topic))
 	result = append(result, new(eventgrid_v20200601s.Domain))
-	result = append(result, new(eventgrid_v20200601s.DomainsTopic))
 	result = append(result, new(eventgrid_v20200601s.EventSubscription))
 	result = append(result, new(eventgrid_v20200601s.Topic))
 	result = append(result, new(eventhub_alpha20211101.Namespace))
@@ -980,7 +961,6 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &documentdb_customizations.SqlDatabaseExtension{})
 	result = append(result, &documentdb_customizations.SqlDatabaseThroughputSettingExtension{})
 	result = append(result, &eventgrid_customizations.DomainExtension{})
-	result = append(result, &eventgrid_customizations.DomainsTopicExtension{})
 	result = append(result, &eventgrid_customizations.EventSubscriptionExtension{})
 	result = append(result, &eventgrid_customizations.TopicExtension{})
 	result = append(result, &eventhub_customizations.NamespaceExtension{})
@@ -1047,24 +1027,6 @@ func indexComputeVirtualMachineScaleSetAdminPassword(rawObj client.Object) []str
 		return nil
 	}
 	return []string{obj.Spec.VirtualMachineProfile.OsProfile.AdminPassword.Name}
-}
-
-// indexDbformariadbServerAdministratorLoginPassword an index function for dbformariadb_v20180601s.Server .spec.properties.serverPropertiesForDefaultCreate.administratorLoginPassword
-func indexDbformariadbServerAdministratorLoginPassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*dbformariadb_v20180601s.Server)
-	if !ok {
-		return nil
-	}
-	if obj.Spec.Properties == nil {
-		return nil
-	}
-	if obj.Spec.Properties.ServerPropertiesForDefaultCreate == nil {
-		return nil
-	}
-	if obj.Spec.Properties.ServerPropertiesForDefaultCreate.AdministratorLoginPassword == nil {
-		return nil
-	}
-	return []string{obj.Spec.Properties.ServerPropertiesForDefaultCreate.AdministratorLoginPassword.Name}
 }
 
 // indexDbformysqlFlexibleServerAdministratorLoginPassword an index function for dbformysql_v20210501s.FlexibleServer .spec.administratorLoginPassword

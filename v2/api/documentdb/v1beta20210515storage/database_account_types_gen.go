@@ -22,12 +22,13 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20210515.DatabaseAccount
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts
+// Generator information:
+// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
 type DatabaseAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccounts_Spec            `json:"spec,omitempty"`
-	Status            DatabaseAccountGetResults_Status `json:"status,omitempty"`
+	Spec              DatabaseAccount_Spec                         `json:"spec,omitempty"`
+	Status            DatabaseAccountCreateUpdateParameters_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &DatabaseAccount{}
@@ -49,7 +50,7 @@ func (account *DatabaseAccount) AzureName() string {
 	return account.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20210515"
 func (account DatabaseAccount) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -69,14 +70,14 @@ func (account *DatabaseAccount) GetStatus() genruntime.ConvertibleStatus {
 	return &account.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts"
+// GetType returns the ARM Type of the resource. This is always ""
 func (account *DatabaseAccount) GetType() string {
-	return "Microsoft.DocumentDB/databaseAccounts"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (account *DatabaseAccount) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &DatabaseAccountGetResults_Status{}
+	return &DatabaseAccountCreateUpdateParameters_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +93,13 @@ func (account *DatabaseAccount) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (account *DatabaseAccount) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*DatabaseAccountGetResults_Status); ok {
+	if st, ok := status.(*DatabaseAccountCreateUpdateParameters_STATUS); ok {
 		account.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st DatabaseAccountGetResults_Status
+	var st DatabaseAccountCreateUpdateParameters_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,7 +123,8 @@ func (account *DatabaseAccount) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20210515.DatabaseAccount
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/resourceDefinitions/databaseAccounts
+// Generator information:
+// - Generated from: /cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-05-15/cosmos-db.json
 type DatabaseAccountList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -130,81 +132,72 @@ type DatabaseAccountList struct {
 }
 
 // Storage version of v1beta20210515.APIVersion
-// +kubebuilder:validation:Enum={"2021-05-15"}
+// +kubebuilder:validation:Enum={"20210515"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("2021-05-15")
+const APIVersionValue = APIVersion("20210515")
 
-// Storage version of v1beta20210515.DatabaseAccountGetResults_Status
-type DatabaseAccountGetResults_Status struct {
-	AnalyticalStorageConfiguration     *AnalyticalStorageConfiguration_Status                 `json:"analyticalStorageConfiguration,omitempty"`
-	ApiProperties                      *ApiProperties_Status                                  `json:"apiProperties,omitempty"`
-	BackupPolicy                       *BackupPolicy_Status                                   `json:"backupPolicy,omitempty"`
-	Capabilities                       []Capability_Status                                    `json:"capabilities,omitempty"`
-	Conditions                         []conditions.Condition                                 `json:"conditions,omitempty"`
-	ConnectorOffer                     *string                                                `json:"connectorOffer,omitempty"`
-	ConsistencyPolicy                  *ConsistencyPolicy_Status                              `json:"consistencyPolicy,omitempty"`
-	Cors                               []CorsPolicy_Status                                    `json:"cors,omitempty"`
-	DatabaseAccountOfferType           *string                                                `json:"databaseAccountOfferType,omitempty"`
-	DefaultIdentity                    *string                                                `json:"defaultIdentity,omitempty"`
-	DisableKeyBasedMetadataWriteAccess *bool                                                  `json:"disableKeyBasedMetadataWriteAccess,omitempty"`
-	DocumentEndpoint                   *string                                                `json:"documentEndpoint,omitempty"`
-	EnableAnalyticalStorage            *bool                                                  `json:"enableAnalyticalStorage,omitempty"`
-	EnableAutomaticFailover            *bool                                                  `json:"enableAutomaticFailover,omitempty"`
-	EnableCassandraConnector           *bool                                                  `json:"enableCassandraConnector,omitempty"`
-	EnableFreeTier                     *bool                                                  `json:"enableFreeTier,omitempty"`
-	EnableMultipleWriteLocations       *bool                                                  `json:"enableMultipleWriteLocations,omitempty"`
-	FailoverPolicies                   []FailoverPolicy_Status                                `json:"failoverPolicies,omitempty"`
-	Id                                 *string                                                `json:"id,omitempty"`
-	Identity                           *ManagedServiceIdentity_Status                         `json:"identity,omitempty"`
-	IpRules                            []IpAddressOrRange_Status                              `json:"ipRules,omitempty"`
-	IsVirtualNetworkFilterEnabled      *bool                                                  `json:"isVirtualNetworkFilterEnabled,omitempty"`
-	KeyVaultKeyUri                     *string                                                `json:"keyVaultKeyUri,omitempty"`
-	Kind                               *string                                                `json:"kind,omitempty"`
-	Location                           *string                                                `json:"location,omitempty"`
-	Locations                          []Location_Status                                      `json:"locations,omitempty"`
-	Name                               *string                                                `json:"name,omitempty"`
-	NetworkAclBypass                   *string                                                `json:"networkAclBypass,omitempty"`
-	NetworkAclBypassResourceIds        []string                                               `json:"networkAclBypassResourceIds,omitempty"`
-	PrivateEndpointConnections         []PrivateEndpointConnection_Status_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
-	PropertyBag                        genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
-	ProvisioningState                  *string                                                `json:"provisioningState,omitempty"`
-	PublicNetworkAccess                *string                                                `json:"publicNetworkAccess,omitempty"`
-	ReadLocations                      []Location_Status                                      `json:"readLocations,omitempty"`
-	Tags                               map[string]string                                      `json:"tags,omitempty"`
-	Type                               *string                                                `json:"type,omitempty"`
-	VirtualNetworkRules                []VirtualNetworkRule_Status                            `json:"virtualNetworkRules,omitempty"`
-	WriteLocations                     []Location_Status                                      `json:"writeLocations,omitempty"`
+// Storage version of v1beta20210515.DatabaseAccountCreateUpdateParameters_STATUS
+type DatabaseAccountCreateUpdateParameters_STATUS struct {
+	AnalyticalStorageConfiguration     *AnalyticalStorageConfiguration_STATUS `json:"analyticalStorageConfiguration,omitempty"`
+	ApiProperties                      *ApiProperties_STATUS                  `json:"apiProperties,omitempty"`
+	BackupPolicy                       *BackupPolicy_STATUS                   `json:"backupPolicy,omitempty"`
+	Capabilities                       []Capability_STATUS                    `json:"capabilities,omitempty"`
+	Conditions                         []conditions.Condition                 `json:"conditions,omitempty"`
+	ConnectorOffer                     *string                                `json:"connectorOffer,omitempty"`
+	ConsistencyPolicy                  *ConsistencyPolicy_STATUS              `json:"consistencyPolicy,omitempty"`
+	Cors                               []CorsPolicy_STATUS                    `json:"cors,omitempty"`
+	DatabaseAccountOfferType           *string                                `json:"databaseAccountOfferType,omitempty"`
+	DefaultIdentity                    *string                                `json:"defaultIdentity,omitempty"`
+	DisableKeyBasedMetadataWriteAccess *bool                                  `json:"disableKeyBasedMetadataWriteAccess,omitempty"`
+	EnableAnalyticalStorage            *bool                                  `json:"enableAnalyticalStorage,omitempty"`
+	EnableAutomaticFailover            *bool                                  `json:"enableAutomaticFailover,omitempty"`
+	EnableCassandraConnector           *bool                                  `json:"enableCassandraConnector,omitempty"`
+	EnableFreeTier                     *bool                                  `json:"enableFreeTier,omitempty"`
+	EnableMultipleWriteLocations       *bool                                  `json:"enableMultipleWriteLocations,omitempty"`
+	Id                                 *string                                `json:"id,omitempty"`
+	Identity                           *ManagedServiceIdentity_STATUS         `json:"identity,omitempty"`
+	IpRules                            []IpAddressOrRange_STATUS              `json:"ipRules,omitempty"`
+	IsVirtualNetworkFilterEnabled      *bool                                  `json:"isVirtualNetworkFilterEnabled,omitempty"`
+	KeyVaultKeyUri                     *string                                `json:"keyVaultKeyUri,omitempty"`
+	Kind                               *string                                `json:"kind,omitempty"`
+	Location                           *string                                `json:"location,omitempty"`
+	Locations                          []Location_STATUS                      `json:"locations,omitempty"`
+	Name                               *string                                `json:"name,omitempty"`
+	NetworkAclBypass                   *string                                `json:"networkAclBypass,omitempty"`
+	NetworkAclBypassResourceIds        []string                               `json:"networkAclBypassResourceIds,omitempty"`
+	PropertyBag                        genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
+	PublicNetworkAccess                *string                                `json:"publicNetworkAccess,omitempty"`
+	Tags                               map[string]string                      `json:"tags,omitempty"`
+	Type                               *string                                `json:"type,omitempty"`
+	VirtualNetworkRules                []VirtualNetworkRule_STATUS            `json:"virtualNetworkRules,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &DatabaseAccountGetResults_Status{}
+var _ genruntime.ConvertibleStatus = &DatabaseAccountCreateUpdateParameters_STATUS{}
 
-// ConvertStatusFrom populates our DatabaseAccountGetResults_Status from the provided source
-func (results *DatabaseAccountGetResults_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == results {
+// ConvertStatusFrom populates our DatabaseAccountCreateUpdateParameters_STATUS from the provided source
+func (parameters *DatabaseAccountCreateUpdateParameters_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == parameters {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(results)
+	return source.ConvertStatusTo(parameters)
 }
 
-// ConvertStatusTo populates the provided destination from our DatabaseAccountGetResults_Status
-func (results *DatabaseAccountGetResults_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == results {
+// ConvertStatusTo populates the provided destination from our DatabaseAccountCreateUpdateParameters_STATUS
+func (parameters *DatabaseAccountCreateUpdateParameters_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == parameters {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(results)
+	return destination.ConvertStatusFrom(parameters)
 }
 
-// Storage version of v1beta20210515.DatabaseAccounts_Spec
-type DatabaseAccounts_Spec struct {
+// Storage version of v1beta20210515.DatabaseAccount_Spec
+type DatabaseAccount_Spec struct {
 	AnalyticalStorageConfiguration *AnalyticalStorageConfiguration `json:"analyticalStorageConfiguration,omitempty"`
 	ApiProperties                  *ApiProperties                  `json:"apiProperties,omitempty"`
 
-	// +kubebuilder:validation:MaxLength=50
-	// +kubebuilder:validation:MinLength=3
-	// +kubebuilder:validation:Pattern="^[a-z0-9]+(-[a-z0-9]+)*"
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName                          string                       `json:"azureName,omitempty"`
@@ -221,6 +214,7 @@ type DatabaseAccounts_Spec struct {
 	EnableCassandraConnector           *bool                        `json:"enableCassandraConnector,omitempty"`
 	EnableFreeTier                     *bool                        `json:"enableFreeTier,omitempty"`
 	EnableMultipleWriteLocations       *bool                        `json:"enableMultipleWriteLocations,omitempty"`
+	Id                                 *string                      `json:"id,omitempty"`
 	Identity                           *ManagedServiceIdentity      `json:"identity,omitempty"`
 	IpRules                            []IpAddressOrRange           `json:"ipRules,omitempty"`
 	IsVirtualNetworkFilterEnabled      *bool                        `json:"isVirtualNetworkFilterEnabled,omitempty"`
@@ -241,84 +235,79 @@ type DatabaseAccounts_Spec struct {
 	PropertyBag         genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	PublicNetworkAccess *string                            `json:"publicNetworkAccess,omitempty"`
 	Tags                map[string]string                  `json:"tags,omitempty"`
+	Type                *string                            `json:"type,omitempty"`
 	VirtualNetworkRules []VirtualNetworkRule               `json:"virtualNetworkRules,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &DatabaseAccounts_Spec{}
+var _ genruntime.ConvertibleSpec = &DatabaseAccount_Spec{}
 
-// ConvertSpecFrom populates our DatabaseAccounts_Spec from the provided source
-func (accounts *DatabaseAccounts_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == accounts {
+// ConvertSpecFrom populates our DatabaseAccount_Spec from the provided source
+func (account *DatabaseAccount_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == account {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(accounts)
+	return source.ConvertSpecTo(account)
 }
 
-// ConvertSpecTo populates the provided destination from our DatabaseAccounts_Spec
-func (accounts *DatabaseAccounts_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == accounts {
+// ConvertSpecTo populates the provided destination from our DatabaseAccount_Spec
+func (account *DatabaseAccount_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == account {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(accounts)
+	return destination.ConvertSpecFrom(account)
 }
 
 // Storage version of v1beta20210515.AnalyticalStorageConfiguration
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/AnalyticalStorageConfiguration
 type AnalyticalStorageConfiguration struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SchemaType  *string                `json:"schemaType,omitempty"`
 }
 
-// Storage version of v1beta20210515.AnalyticalStorageConfiguration_Status
-type AnalyticalStorageConfiguration_Status struct {
+// Storage version of v1beta20210515.AnalyticalStorageConfiguration_STATUS
+type AnalyticalStorageConfiguration_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SchemaType  *string                `json:"schemaType,omitempty"`
 }
 
 // Storage version of v1beta20210515.ApiProperties
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ApiProperties
 type ApiProperties struct {
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ServerVersion *string                `json:"serverVersion,omitempty"`
 }
 
-// Storage version of v1beta20210515.ApiProperties_Status
-type ApiProperties_Status struct {
+// Storage version of v1beta20210515.ApiProperties_STATUS
+type ApiProperties_STATUS struct {
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ServerVersion *string                `json:"serverVersion,omitempty"`
 }
 
 // Storage version of v1beta20210515.BackupPolicy
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/BackupPolicy
 type BackupPolicy struct {
-	Continuous  *ContinuousModeBackupPolicy `json:"continuousModeBackupPolicy,omitempty"`
-	Periodic    *PeriodicModeBackupPolicy   `json:"periodicModeBackupPolicy,omitempty"`
-	PropertyBag genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Type        *string                `json:"type,omitempty"`
 }
 
-// Storage version of v1beta20210515.BackupPolicy_Status
-type BackupPolicy_Status struct {
+// Storage version of v1beta20210515.BackupPolicy_STATUS
+type BackupPolicy_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
 // Storage version of v1beta20210515.Capability
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Capability
 type Capability struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210515.Capability_Status
-type Capability_Status struct {
+// Storage version of v1beta20210515.Capability_STATUS
+type Capability_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210515.ConsistencyPolicy
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ConsistencyPolicy
 type ConsistencyPolicy struct {
 	DefaultConsistencyLevel *string                `json:"defaultConsistencyLevel,omitempty"`
 	MaxIntervalInSeconds    *int                   `json:"maxIntervalInSeconds,omitempty"`
@@ -326,8 +315,8 @@ type ConsistencyPolicy struct {
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210515.ConsistencyPolicy_Status
-type ConsistencyPolicy_Status struct {
+// Storage version of v1beta20210515.ConsistencyPolicy_STATUS
+type ConsistencyPolicy_STATUS struct {
 	DefaultConsistencyLevel *string                `json:"defaultConsistencyLevel,omitempty"`
 	MaxIntervalInSeconds    *int                   `json:"maxIntervalInSeconds,omitempty"`
 	MaxStalenessPrefix      *int                   `json:"maxStalenessPrefix,omitempty"`
@@ -335,7 +324,6 @@ type ConsistencyPolicy_Status struct {
 }
 
 // Storage version of v1beta20210515.CorsPolicy
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/CorsPolicy
 type CorsPolicy struct {
 	AllowedHeaders  *string                `json:"allowedHeaders,omitempty"`
 	AllowedMethods  *string                `json:"allowedMethods,omitempty"`
@@ -345,8 +333,8 @@ type CorsPolicy struct {
 	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210515.CorsPolicy_Status
-type CorsPolicy_Status struct {
+// Storage version of v1beta20210515.CorsPolicy_STATUS
+type CorsPolicy_STATUS struct {
 	AllowedHeaders  *string                `json:"allowedHeaders,omitempty"`
 	AllowedMethods  *string                `json:"allowedMethods,omitempty"`
 	AllowedOrigins  *string                `json:"allowedOrigins,omitempty"`
@@ -362,38 +350,30 @@ type DatabaseAccountOperatorSpec struct {
 	Secrets     *DatabaseAccountOperatorSecrets `json:"secrets,omitempty"`
 }
 
-// Storage version of v1beta20210515.FailoverPolicy_Status
-type FailoverPolicy_Status struct {
-	FailoverPriority *int                   `json:"failoverPriority,omitempty"`
-	Id               *string                `json:"id,omitempty"`
-	LocationName     *string                `json:"locationName,omitempty"`
-	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
 // Storage version of v1beta20210515.IpAddressOrRange
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/IpAddressOrRange
 type IpAddressOrRange struct {
 	IpAddressOrRange *string                `json:"ipAddressOrRange,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210515.IpAddressOrRange_Status
-type IpAddressOrRange_Status struct {
+// Storage version of v1beta20210515.IpAddressOrRange_STATUS
+type IpAddressOrRange_STATUS struct {
 	IpAddressOrRange *string                `json:"ipAddressOrRange,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210515.Location
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/Location
 type Location struct {
+	DocumentEndpoint *string                `json:"documentEndpoint,omitempty"`
 	FailoverPriority *int                   `json:"failoverPriority,omitempty"`
+	Id               *string                `json:"id,omitempty"`
 	IsZoneRedundant  *bool                  `json:"isZoneRedundant,omitempty"`
 	LocationName     *string                `json:"locationName,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210515.Location_Status
-type Location_Status struct {
+// Storage version of v1beta20210515.Location_STATUS
+type Location_STATUS struct {
 	DocumentEndpoint  *string                `json:"documentEndpoint,omitempty"`
 	FailoverPriority  *int                   `json:"failoverPriority,omitempty"`
 	Id                *string                `json:"id,omitempty"`
@@ -404,29 +384,23 @@ type Location_Status struct {
 }
 
 // Storage version of v1beta20210515.ManagedServiceIdentity
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ManagedServiceIdentity
 type ManagedServiceIdentity struct {
+	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	TenantId    *string                `json:"tenantId,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
-// Storage version of v1beta20210515.ManagedServiceIdentity_Status
-type ManagedServiceIdentity_Status struct {
+// Storage version of v1beta20210515.ManagedServiceIdentity_STATUS
+type ManagedServiceIdentity_STATUS struct {
 	PrincipalId            *string                                                         `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag                                          `json:"$propertyBag,omitempty"`
 	TenantId               *string                                                         `json:"tenantId,omitempty"`
 	Type                   *string                                                         `json:"type,omitempty"`
-	UserAssignedIdentities map[string]ManagedServiceIdentity_Status_UserAssignedIdentities `json:"userAssignedIdentities,omitempty"`
-}
-
-// Storage version of v1beta20210515.PrivateEndpointConnection_Status_SubResourceEmbedded
-type PrivateEndpointConnection_Status_SubResourceEmbedded struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	UserAssignedIdentities map[string]ManagedServiceIdentity_UserAssignedIdentities_STATUS `json:"userAssignedIdentities,omitempty"`
 }
 
 // Storage version of v1beta20210515.VirtualNetworkRule
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/VirtualNetworkRule
 type VirtualNetworkRule struct {
 	IgnoreMissingVNetServiceEndpoint *bool                  `json:"ignoreMissingVNetServiceEndpoint,omitempty"`
 	PropertyBag                      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -436,18 +410,11 @@ type VirtualNetworkRule struct {
 	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
-// Storage version of v1beta20210515.VirtualNetworkRule_Status
-type VirtualNetworkRule_Status struct {
+// Storage version of v1beta20210515.VirtualNetworkRule_STATUS
+type VirtualNetworkRule_STATUS struct {
 	Id                               *string                `json:"id,omitempty"`
 	IgnoreMissingVNetServiceEndpoint *bool                  `json:"ignoreMissingVNetServiceEndpoint,omitempty"`
 	PropertyBag                      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1beta20210515.ContinuousModeBackupPolicy
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/ContinuousModeBackupPolicy
-type ContinuousModeBackupPolicy struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Type        *string                `json:"type,omitempty"`
 }
 
 // Storage version of v1beta20210515.DatabaseAccountOperatorSecrets
@@ -460,27 +427,11 @@ type DatabaseAccountOperatorSecrets struct {
 	SecondaryReadonlyMasterKey *genruntime.SecretDestination `json:"secondaryReadonlyMasterKey,omitempty"`
 }
 
-// Storage version of v1beta20210515.ManagedServiceIdentity_Status_UserAssignedIdentities
-type ManagedServiceIdentity_Status_UserAssignedIdentities struct {
+// Storage version of v1beta20210515.ManagedServiceIdentity_UserAssignedIdentities_STATUS
+type ManagedServiceIdentity_UserAssignedIdentities_STATUS struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1beta20210515.PeriodicModeBackupPolicy
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/PeriodicModeBackupPolicy
-type PeriodicModeBackupPolicy struct {
-	PeriodicModeProperties *PeriodicModeProperties `json:"periodicModeProperties,omitempty"`
-	PropertyBag            genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
-	Type                   *string                 `json:"type,omitempty"`
-}
-
-// Storage version of v1beta20210515.PeriodicModeProperties
-// Generated from: https://schema.management.azure.com/schemas/2021-05-15/Microsoft.DocumentDB.json#/definitions/PeriodicModeProperties
-type PeriodicModeProperties struct {
-	BackupIntervalInMinutes        *int                   `json:"backupIntervalInMinutes,omitempty"`
-	BackupRetentionIntervalInHours *int                   `json:"backupRetentionIntervalInHours,omitempty"`
-	PropertyBag                    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 func init() {

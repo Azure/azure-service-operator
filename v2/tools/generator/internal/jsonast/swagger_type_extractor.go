@@ -13,6 +13,7 @@ import (
 
 	"github.com/go-openapi/spec"
 	"github.com/pkg/errors"
+	"golang.org/x/exp/slices"
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -36,8 +37,8 @@ func NewSwaggerTypeExtractor(
 	swagger spec.Swagger,
 	swaggerPath string,
 	outputPackage astmodel.LocalPackageReference,
-	cache CachingFileLoader) SwaggerTypeExtractor {
-
+	cache CachingFileLoader,
+) SwaggerTypeExtractor {
 	return SwaggerTypeExtractor{
 		idFactory:     idFactory,
 		swaggerPath:   swaggerPath,
@@ -49,8 +50,16 @@ func NewSwaggerTypeExtractor(
 }
 
 type SwaggerTypes struct {
-	ResourceDefinitions astmodel.TypeDefinitionSet
+	ResourceDefinitions ResourceDefinitionSet
 	OtherDefinitions    astmodel.TypeDefinitionSet
+}
+
+type ResourceDefinitionSet map[astmodel.TypeName]ResourceDefinition
+
+type ResourceDefinition struct {
+	Type       astmodel.Type
+	SourceFile string
+	// TODO: put ARM URI in here and use it for generating Resource URIs
 }
 
 // ExtractTypes finds all operations in the Swagger spec that
@@ -59,30 +68,36 @@ type SwaggerTypes struct {
 // Any additional types required by the resource types are placed into the 'otherTypes' result.
 func (extractor *SwaggerTypeExtractor) ExtractTypes(ctx context.Context) (SwaggerTypes, error) {
 	result := SwaggerTypes{
-		ResourceDefinitions: make(astmodel.TypeDefinitionSet),
+		ResourceDefinitions: make(ResourceDefinitionSet),
 		OtherDefinitions:    make(astmodel.TypeDefinitionSet),
 	}
 
 	scanner := NewSchemaScanner(extractor.idFactory, extractor.config)
 
 	for rawOperationPath, op := range extractor.swagger.Paths.Paths {
-		put := op.Put
-		if put == nil {
+		// a resource must have both PUT and GET
+		if op.Put == nil || op.Get == nil {
 			continue
 		}
 
-		resourceSchema := extractor.findARMResourceSchema(*put)
+		resourceSchema := extractor.findARMResourceSchema(op, rawOperationPath)
 		if resourceSchema == nil {
 			// klog.Warningf("No ARM schema found for %s in %q", rawOperationPath, filePath)
 			continue
 		}
 
-		for _, operationPath := range expandEnumsInPath(rawOperationPath, put.Parameters) {
+		operationPaths, _ := extractor.expandEnumsInPath(ctx, rawOperationPath, scanner, op.Put.Parameters)
+		for _, operationPath := range operationPaths {
 
 			resourceName, err := extractor.resourceNameFromOperationPath(operationPath)
 			if err != nil {
 				klog.Errorf("Error extracting resource name (%s): %s", extractor.swaggerPath, err.Error())
 				continue
+			}
+
+			shouldPrune, because := scanner.configuration.ShouldPrune(resourceName)
+			if shouldPrune == config.Prune {
+				klog.V(3).Infof("Skipping %s because %s", resourceName, because)
 			}
 
 			resourceType, err := scanner.RunHandlerForSchema(ctx, *resourceSchema)
@@ -100,13 +115,16 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(ctx context.Context) (Swagge
 			}
 
 			if existingResource, ok := result.ResourceDefinitions[resourceName]; ok {
-				if !astmodel.TypeEquals(existingResource.Type(), resourceType) {
+				if !astmodel.TypeEquals(existingResource.Type, resourceType) {
 					return SwaggerTypes{}, errors.Errorf("resource already defined differently: %s\ndiff: %s",
 						resourceName,
-						astmodel.DiffTypes(existingResource.Type(), resourceType))
+						astmodel.DiffTypes(existingResource.Type, resourceType))
 				}
 			} else {
-				result.ResourceDefinitions.Add(astmodel.MakeTypeDefinition(resourceName, resourceType))
+				result.ResourceDefinitions[resourceName] = ResourceDefinition{
+					SourceFile: extractor.swaggerPath,
+					Type:       resourceType,
+				}
 			}
 		}
 	}
@@ -132,26 +150,92 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(ctx context.Context) (Swagge
 // Look at the responses of the PUT to determine if this represents an ARM resource,
 // and if so, return the schema for it.
 // see: https://github.com/Azure/autorest/issues/1936#issuecomment-286928591
-func (extractor *SwaggerTypeExtractor) findARMResourceSchema(op spec.Operation) *Schema {
-	if op.Responses != nil {
-		for statusCode, response := range op.Responses.StatusCodeResponses {
+func (extractor *SwaggerTypeExtractor) findARMResourceSchema(op spec.PathItem, rawOperationPath string) *Schema {
+	// to decide if something is a resource, we must look at the GET responses
+	isResource := false
+
+	if op.Get.Responses != nil {
+		for statusCode, response := range op.Get.Responses.StatusCodeResponses {
 			// only check OK and Created (per above linked comment)
+			// TODO: we should really check that the results are the same in each status result
 			if statusCode == 200 || statusCode == 201 {
-				result := extractor.getARMResourceSchemaFromResponse(response)
-				if result != nil {
-					return result
+				if extractor.doesResponseRepresentARMResource(response, rawOperationPath) {
+					isResource = true
+					break
 				}
 			}
 		}
 	}
 
-	// none found
+	if !isResource {
+		return nil
+	}
+
+	params := op.Put.Parameters
+	if op.Parameters != nil {
+		klog.Warningf("overriding parameters for %q in %s", rawOperationPath, extractor.swaggerPath)
+		params = op.Parameters
+	}
+
+	// the actual Schema must come from the PUT parameters
+	for _, param := range params {
+		inBody := param.In == "body"
+		_, innerParam := extractor.fullyResolveParameter(param)
+		inBody = inBody || innerParam.In == "body"
+
+		// note: bug avoidance: we must not pass innerParam to schemaFromParameter
+		// since it will treat it as relative to the current file, which might not be correct.
+		// instead, schemaFromParameter must re-fully-resolve the parameter so that
+		// it knows it comes from another file (if it does).
+
+		if inBody { // must be a (the) body parameter
+			result := extractor.schemaFromParameter(param)
+			if result != nil {
+				return result
+			}
+		}
+	}
+
+	klog.Warningf("Response indicated that type was ARM resource but no schema found for %s in %q", rawOperationPath, extractor.swaggerPath)
 	return nil
 }
 
-func (extractor *SwaggerTypeExtractor) getARMResourceSchemaFromResponse(response spec.Response) *Schema {
+// fullyResolveParameter resolves the parameter and returns the file that contained the parameter and the parameter
+func (extractor *SwaggerTypeExtractor) fullyResolveParameter(param spec.Parameter) (string, spec.Parameter) {
+	if param.Ref.GetURL() == nil {
+		// it is not a $ref parameter, we already have it
+		return extractor.swaggerPath, param
+	}
+
+	paramPath, param, _ := loadRefParameter(param.Ref, extractor.swaggerPath, extractor.cache)
+	if param.Ref.GetURL() == nil {
+		return paramPath, param
+	}
+
+	return extractor.fullyResolveParameter(param)
+}
+
+func (extractor *SwaggerTypeExtractor) schemaFromParameter(param spec.Parameter) *Schema {
+	paramPath, param := extractor.fullyResolveParameter(param)
+
+	if param.Schema == nil {
+		klog.Warningf("schemaFromParameter invoked on parameter without schema")
+		return nil
+	}
+
+	result := MakeOpenAPISchema(
+		*param.Schema, // all params marked as 'body' have schemas
+		paramPath,
+		extractor.outputPackage,
+		extractor.idFactory,
+		extractor.cache)
+
+	return &result
+}
+
+func (extractor *SwaggerTypeExtractor) doesResponseRepresentARMResource(response spec.Response, rawOperationPath string) bool {
+	// the schema can either be directly included
 	if response.Schema != nil {
-		// the schema can either be directly included
 
 		schema := MakeOpenAPISchema(
 			*response.Schema,
@@ -160,11 +244,11 @@ func (extractor *SwaggerTypeExtractor) getARMResourceSchemaFromResponse(response
 			extractor.idFactory,
 			extractor.cache)
 
-		if isMarkedAsARMResource(schema) {
-			return &schema
-		}
-	} else if response.Ref.GetURL() != nil {
-		// or it can be under a $ref
+		return isMarkedAsARMResource(schema)
+	}
+
+	// or it can be under a $ref
+	if response.Ref.GetURL() != nil {
 
 		refFilePath, refSchema, pkg := loadRefSchema(response.Ref, extractor.swaggerPath, extractor.cache)
 		outputPackage := extractor.outputPackage
@@ -179,21 +263,25 @@ func (extractor *SwaggerTypeExtractor) getARMResourceSchemaFromResponse(response
 			extractor.idFactory,
 			extractor.cache)
 
-		if isMarkedAsARMResource(schema) {
-			return &schema
-		}
+		return isMarkedAsARMResource(schema)
 	}
 
-	return nil
+	klog.Warningf("Unable to locate schema on response for %q in %s", rawOperationPath, extractor.swaggerPath)
+	return false
 }
 
 // a Schema represents an ARM resource if it (or anything reachable via $ref or AllOf)
 // is marked with x-ms-azure-resource, or if it (or anything reachable via $ref or AllOf)
-// has each of the properties: id,name,type.
+// has each of the properties: id,name,type, and they are all readonly and required.
+// see: https://github.com/Azure/autorest/issues/1936#issuecomment-286928591
+// and: https://github.com/Azure/autorest/issues/2127
 func isMarkedAsARMResource(schema Schema) bool {
 	hasID := false
+	idRequired := false
 	hasName := false
+	nameRequired := false
 	hasType := false
+	typeRequired := false
 
 	var recurse func(schema Schema) bool
 	recurse = func(schema Schema) bool {
@@ -204,26 +292,38 @@ func isMarkedAsARMResource(schema Schema) bool {
 		props := schema.properties()
 		if !hasID {
 			if idProp, ok := props["id"]; ok {
-				if idProp.hasType("string") {
+				if idProp.hasType("string") && idProp.readOnly() {
 					hasID = true
 				}
 			}
 		}
 
+		if !idRequired {
+			idRequired = slices.Contains(schema.requiredProperties(), "id")
+		}
+
 		if !hasName {
 			if nameProp, ok := props["name"]; ok {
-				if nameProp.hasType("string") {
+				if nameProp.hasType("string") && nameProp.readOnly() {
 					hasName = true
 				}
 			}
 		}
 
+		if !nameRequired {
+			nameRequired = slices.Contains(schema.requiredProperties(), "name")
+		}
+
 		if !hasType {
 			if typeProp, ok := props["type"]; ok {
-				if typeProp.hasType("string") {
+				if typeProp.hasType("string") && typeProp.readOnly() {
 					hasType = true
 				}
 			}
+		}
+
+		if !typeRequired {
+			typeRequired = slices.Contains(schema.requiredProperties(), "type")
 		}
 
 		if schema.isRef() {
@@ -244,33 +344,62 @@ func isMarkedAsARMResource(schema Schema) bool {
 	return recurse(schema)
 }
 
-func expandEnumsInPath(operationPath string, parameters []spec.Parameter) []string {
+func (extractor *SwaggerTypeExtractor) expandEnumsInPath(ctx context.Context, operationPath string, scanner *SchemaScanner, parameters []spec.Parameter) ([]string, map[string]astmodel.Type) {
 	results := []string{operationPath}
+	urlParams := make(map[string]astmodel.Type)
 
-	for _, parameter := range parameters {
+	for _, px := range parameters {
+		// ensure that any $ref params are fully resolved
+		_, parameter := extractor.fullyResolveParameter(px)
+
 		if parameter.In == "path" &&
-			parameter.Required &&
-			len(parameter.Enum) > 0 {
+			parameter.Required {
+			// if an enum:
+			if len(parameter.Enum) > 0 {
 
-			// found an enum that needs expansion, replace '{parameterName}' with
-			// each value of the enum
+				// found an enum that needs expansion, replace '{parameterName}' with
+				// each value of the enum
 
-			var newResults []string
+				var newResults []string
 
-			replace := fmt.Sprintf("{%s}", parameter.Name)
-			values := enumValuesToStrings(parameter.Enum)
+				replace := fmt.Sprintf("{%s}", parameter.Name)
+				values := enumValuesToStrings(parameter.Enum)
 
-			for _, result := range results {
-				for _, enumValue := range values {
-					newResults = append(newResults, strings.ReplaceAll(result, replace, enumValue))
+				for _, result := range results {
+					for _, enumValue := range values {
+						newResults = append(newResults, strings.ReplaceAll(result, replace, enumValue))
+					}
 				}
-			}
 
-			results = newResults
+				results = newResults
+			} else {
+				// non-enum parameter
+				var err error
+				var paramType astmodel.Type
+				if parameter.SimpleSchema.Type != "" {
+					// handle "SimpleSchema"
+					paramType, err = GetPrimitiveType(SchemaType(parameter.SimpleSchema.Type))
+					if err != nil {
+						panic(err)
+					}
+				} else {
+					schema := extractor.schemaFromParameter(parameter)
+					if schema == nil {
+						panic(fmt.Sprintf("no schema generated for parameter %s in path %q", parameter.Name, operationPath))
+					}
+
+					paramType, err = scanner.RunHandlerForSchema(ctx, *schema)
+					if err != nil {
+						panic(err)
+					}
+				}
+
+				urlParams[parameter.Name] = paramType
+			}
 		}
 	}
 
-	return results
+	return results, urlParams
 }
 
 // if you update this you might also need to update "jsonast.enumValuesToLiterals"
@@ -307,7 +436,7 @@ func (extractor *SwaggerTypeExtractor) resourceNameFromOperationPath(operationPa
 // to “ResourceTypeDifferentTypeSomething”.
 func inferNameFromURLPath(operationPath string) (string, string, error) {
 	group := ""
-	name := ""
+	nameParts := []string{}
 
 	urlParts := strings.Split(operationPath, "/")
 	reading := false
@@ -333,7 +462,7 @@ func inferNameFromURLPath(operationPath string) (string, string, error) {
 				skippedLast = true
 			} else {
 				// normal part of path, uppercase first character
-				name += strings.ToUpper(urlPart[0:1]) + urlPart[1:]
+				nameParts = append(nameParts, urlPart)
 				skippedLast = false
 			}
 		} else if SwaggerGroupRegex.MatchString(urlPart) {
@@ -346,9 +475,19 @@ func inferNameFromURLPath(operationPath string) (string, string, error) {
 		return "", "", errors.Errorf("no group name (‘Microsoft…’ = %q) found", group)
 	}
 
-	if name == "" {
+	if len(nameParts) == 0 {
 		return "", "", errors.Errorf("couldn’t infer name")
 	}
+
+	// Uppercase first letter in each part:
+	for ix := range nameParts {
+		nameParts[ix] = strings.ToUpper(nameParts[ix][0:1]) + nameParts[ix][1:]
+	}
+
+	// Singularize last part of name:
+	nameParts[len(nameParts)-1] = astmodel.Singularize(nameParts[len(nameParts)-1])
+
+	name := strings.Join(nameParts, "")
 
 	return group, name, nil
 }

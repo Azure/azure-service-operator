@@ -22,12 +22,13 @@ import (
 // +kubebuilder:printcolumn:name="Reason",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].reason"
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Storage version of v1beta20201101.RouteTable
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/routeTables
+// Generator information:
+// - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/routeTable.json
 type RouteTable struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              RouteTables_Spec  `json:"spec,omitempty"`
-	Status            RouteTable_Status `json:"status,omitempty"`
+	Spec              RouteTable_Spec   `json:"spec,omitempty"`
+	Status            RouteTable_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &RouteTable{}
@@ -49,7 +50,7 @@ func (table *RouteTable) AzureName() string {
 	return table.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
+// GetAPIVersion returns the ARM API version of the resource. This is always "20201101"
 func (table RouteTable) GetAPIVersion() string {
 	return string(APIVersionValue)
 }
@@ -69,14 +70,14 @@ func (table *RouteTable) GetStatus() genruntime.ConvertibleStatus {
 	return &table.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/routeTables"
+// GetType returns the ARM Type of the resource. This is always ""
 func (table *RouteTable) GetType() string {
-	return "Microsoft.Network/routeTables"
+	return ""
 }
 
 // NewEmptyStatus returns a new empty (blank) status
 func (table *RouteTable) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &RouteTable_Status{}
+	return &RouteTable_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -92,13 +93,13 @@ func (table *RouteTable) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (table *RouteTable) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*RouteTable_Status); ok {
+	if st, ok := status.(*RouteTable_STATUS); ok {
 		table.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st RouteTable_Status
+	var st RouteTable_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -122,15 +123,16 @@ func (table *RouteTable) OriginalGVK() *schema.GroupVersionKind {
 
 // +kubebuilder:object:root=true
 // Storage version of v1beta20201101.RouteTable
-// Generated from: https://schema.management.azure.com/schemas/2020-11-01/Microsoft.Network.json#/resourceDefinitions/routeTables
+// Generator information:
+// - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/routeTable.json
 type RouteTableList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []RouteTable `json:"items"`
 }
 
-// Storage version of v1beta20201101.RouteTable_Status
-type RouteTable_Status struct {
+// Storage version of v1beta20201101.RouteTable_STATUS
+type RouteTable_STATUS struct {
 	Conditions                 []conditions.Condition `json:"conditions,omitempty"`
 	DisableBgpRoutePropagation *bool                  `json:"disableBgpRoutePropagation,omitempty"`
 	Etag                       *string                `json:"etag,omitempty"`
@@ -144,10 +146,10 @@ type RouteTable_Status struct {
 	Type                       *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &RouteTable_Status{}
+var _ genruntime.ConvertibleStatus = &RouteTable_STATUS{}
 
-// ConvertStatusFrom populates our RouteTable_Status from the provided source
-func (table *RouteTable_Status) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our RouteTable_STATUS from the provided source
+func (table *RouteTable_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == table {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -155,8 +157,8 @@ func (table *RouteTable_Status) ConvertStatusFrom(source genruntime.ConvertibleS
 	return source.ConvertStatusTo(table)
 }
 
-// ConvertStatusTo populates the provided destination from our RouteTable_Status
-func (table *RouteTable_Status) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our RouteTable_STATUS
+func (table *RouteTable_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == table {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -164,12 +166,14 @@ func (table *RouteTable_Status) ConvertStatusTo(destination genruntime.Convertib
 	return destination.ConvertStatusFrom(table)
 }
 
-// Storage version of v1beta20201101.RouteTables_Spec
-type RouteTables_Spec struct {
+// Storage version of v1beta20201101.RouteTable_Spec
+type RouteTable_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName                  string  `json:"azureName,omitempty"`
 	DisableBgpRoutePropagation *bool   `json:"disableBgpRoutePropagation,omitempty"`
+	Etag                       *string `json:"etag,omitempty"`
+	Id                         *string `json:"id,omitempty"`
 	Location                   *string `json:"location,omitempty"`
 	OriginalVersion            string  `json:"originalVersion,omitempty"`
 
@@ -177,29 +181,46 @@ type RouteTables_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Tags        map[string]string                  `json:"tags,omitempty"`
+	Owner             *genruntime.KnownResourceReference      `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag       genruntime.PropertyBag                  `json:"$propertyBag,omitempty"`
+	ProvisioningState *string                                 `json:"provisioningState,omitempty"`
+	ResourceGuid      *string                                 `json:"resourceGuid,omitempty"`
+	Routes            []Route                                 `json:"routes,omitempty"`
+	Subnets           []Subnet_RouteTable_SubResourceEmbedded `json:"subnets,omitempty"`
+	Tags              map[string]string                       `json:"tags,omitempty"`
+	Type              *string                                 `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleSpec = &RouteTables_Spec{}
+var _ genruntime.ConvertibleSpec = &RouteTable_Spec{}
 
-// ConvertSpecFrom populates our RouteTables_Spec from the provided source
-func (tables *RouteTables_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
-	if source == tables {
+// ConvertSpecFrom populates our RouteTable_Spec from the provided source
+func (table *RouteTable_Spec) ConvertSpecFrom(source genruntime.ConvertibleSpec) error {
+	if source == table {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return source.ConvertSpecTo(tables)
+	return source.ConvertSpecTo(table)
 }
 
-// ConvertSpecTo populates the provided destination from our RouteTables_Spec
-func (tables *RouteTables_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
-	if destination == tables {
+// ConvertSpecTo populates the provided destination from our RouteTable_Spec
+func (table *RouteTable_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) error {
+	if destination == table {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleSpec")
 	}
 
-	return destination.ConvertSpecFrom(tables)
+	return destination.ConvertSpecFrom(table)
+}
+
+// Storage version of v1beta20201101.Route
+type Route struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20201101.Subnet_RouteTable_SubResourceEmbedded
+type Subnet_RouteTable_SubResourceEmbedded struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 func init() {

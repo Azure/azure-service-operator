@@ -29,10 +29,8 @@ const (
 
 // Configuration is used to control which types get generated
 type Configuration struct {
-	// Base URL for the JSON schema to generate
-	SchemaURL string `yaml:"schemaUrl"`
-	// Part of the schema URL to rewrite, allows repointing to local files
-	SchemaURLRewrite *RewriteRule `yaml:"schemaUrlRewrite"`
+	// Where to load Swagger schemas from
+	SchemaRoot string `yaml:"schemaRoot"`
 	// Information about where to locate status (Swagger) files
 	Status StatusConfiguration `yaml:"status"`
 	// The pipeline that should be used for code generation
@@ -209,8 +207,8 @@ func (config *Configuration) VerifyIsResourceLifecycleOwnedByParentConsumed() er
 // initialize checks for common errors and initializes structures inside the configuration
 // which need additional setup after json deserialization
 func (config *Configuration) initialize(configPath string) error {
-	if config.SchemaURL == "" {
-		return errors.New("SchemaURL missing")
+	if config.SchemaRoot == "" {
+		return errors.New("SchemaRoot missing")
 	}
 
 	absConfigLocation, err := filepath.Abs(configPath)
@@ -220,30 +218,8 @@ func (config *Configuration) initialize(configPath string) error {
 
 	configDirectory := filepath.Dir(absConfigLocation)
 
-	schemaURL, err := url.Parse(config.SchemaURL)
-	if err != nil {
-		return errors.Wrapf(err, "SchemaURL invalid")
-	}
-
-	configDirectoryURL := absDirectoryPathToURL(configDirectory)
-
-	// resolve URLs relative to config directory (if needed)
-	config.SchemaURL = configDirectoryURL.ResolveReference(schemaURL).String()
-
-	if config.SchemaURLRewrite != nil {
-		rewrite := config.SchemaURLRewrite
-
-		var toURL *url.URL
-		toURL, err = url.Parse(rewrite.To)
-		if err != nil {
-			return errors.Wrapf(err, "unable to parse rewriteSchemaUrl.to as URL")
-		}
-
-		rewrite.To = configDirectoryURL.ResolveReference(toURL).String()
-	}
-
-	// resolve Status.SchemaRoot relative to config file directory
-	config.Status.SchemaRoot = filepath.Join(configDirectory, config.Status.SchemaRoot)
+	// resolve SchemaRoot relative to config file directory
+	config.SchemaRoot = filepath.Join(configDirectory, config.SchemaRoot)
 
 	if config.TypesOutputPath == "" {
 		// Default to an apis folder if not specified
@@ -398,9 +374,6 @@ func getModulePathFromModFile(modFilePath string) (string, error) {
 // status parts of resources, which are generated from the
 // Azure Swagger specs.
 type StatusConfiguration struct {
-	// The root URL of the status (Swagger) files (relative to this file)
-	SchemaRoot string `yaml:"schemaRoot"`
-
 	// Custom per-group configuration
 	Overrides []SchemaOverride `yaml:"overrides"`
 }

@@ -21,7 +21,6 @@ func RemoveTypeProperty() *Stage {
 		RemoveTypePropertyStageID,
 		"Remove the ARM type property and instead augment the ResourceType with it",
 		func(ctx context.Context, state *State) (*State, error) {
-
 			newDefs := make(astmodel.TypeDefinitionSet)
 
 			defs := state.Definitions()
@@ -60,7 +59,7 @@ func RemoveTypeProperty() *Stage {
 func extractPropertySingleEnumValue(definitions astmodel.TypeDefinitionSet, prop *astmodel.PropertyDefinition) (astmodel.EnumValue, error) {
 	propertyTypeName, ok := astmodel.AsTypeName(prop.PropertyType())
 	if !ok {
-		return astmodel.EnumValue{}, errors.Errorf("property %s was not of type astmodel.TypeName", prop.PropertyName())
+		return astmodel.EnumValue{}, errors.Errorf("property %s was not of type astmodel.TypeName, instead %s", prop.PropertyName(), prop.PropertyType())
 	}
 
 	t, ok := definitions[propertyTypeName]
