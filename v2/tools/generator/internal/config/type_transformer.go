@@ -209,18 +209,28 @@ func (r PropertyTransformResult) String() string {
 	)
 }
 
-func (transformer *TypeTransformer) MatchedRequiredProperties() bool {
+func (transformer *TypeTransformer) RequiredPropertiesWereMatched() error {
 	// If this transformer applies to entire types (instead of just properties on types), we just defer to
 	// transformer.MatchedRequiredTypes
 	if transformer.Property.String() == "" {
-		return transformer.MatchedRequiredTypes()
+		return transformer.RequiredTypesWereMatched()
 	}
 
 	if !*transformer.MatchRequired {
-		return true
+		return nil
 	}
 
-	return transformer.HasMatches() && len(transformer.matchedProperties) != 0
+	if err := transformer.RequiredTypesWereMatched(); err != nil {
+		return err
+	}
+
+	if err := transformer.Property.WasMatched(); err != nil {
+		return errors.Wrap(
+			err,
+			"matched types but all properties were excluded")
+	}
+
+	return nil
 }
 
 // TransformProperty transforms the property on the given object type
