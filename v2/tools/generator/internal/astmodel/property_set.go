@@ -15,12 +15,16 @@ import (
 type PropertySet map[PropertyName]*PropertyDefinition
 
 type ReadOnlyPropertySet interface {
-	ForEach(func(def *PropertyDefinition))
-	Len() int
-	Copy() PropertySet
-	First() *PropertyDefinition
 	AsSlice() []*PropertyDefinition
+	ContainsProperty(name PropertyName) bool
+	Get(name PropertyName) (*PropertyDefinition, bool)
+	Find(predicate func(*PropertyDefinition) bool) (*PropertyDefinition, bool)
+	Copy() PropertySet
+	Equals(other ReadOnlyPropertySet, overrides EqualityOverrides) bool
+	First() *PropertyDefinition
+	ForEach(func(def *PropertyDefinition))
 	IsEmpty() bool
+	Len() int
 }
 
 // NewPropertySet creates a new set of properties
@@ -41,8 +45,43 @@ func (p PropertySet) First() *PropertyDefinition {
 	return nil
 }
 
+func (p PropertySet) ContainsProperty(name PropertyName) bool {
+	_, ok := p[name]
+	return ok
+}
+
+func (p PropertySet) Find(predicate func(*PropertyDefinition) bool) (*PropertyDefinition, bool) {
+	for _, prop := range p {
+		if predicate(prop) {
+			return prop, true
+		}
+	}
+
+	return nil, false
+}
+
+func (p PropertySet) Get(name PropertyName) (*PropertyDefinition, bool) {
+	result, ok := p[name]
+	return result, ok
+}
+
 func (p PropertySet) IsEmpty() bool {
 	return len(p) == 0
+}
+
+func (p PropertySet) Equals(other ReadOnlyPropertySet, overrides EqualityOverrides) bool {
+	if p.Len() != other.Len() {
+		return false
+	}
+
+	for k, v := range p {
+		v2, ok := other.Get(k)
+		if !ok || !v.Equals(v2, overrides) {
+			return false
+		}
+	}
+
+	return true
 }
 
 func (p PropertySet) ForEach(f func(*PropertyDefinition)) {

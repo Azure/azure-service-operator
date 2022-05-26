@@ -10,20 +10,20 @@ import (
 	"sort"
 	"strings"
 
-	"golang.org/x/exp/maps"
-
 	"github.com/dave/dst"
 	"github.com/pkg/errors"
+	"golang.org/x/exp/slices"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/readonly"
 )
 
 // ObjectType represents an (unnamed) object type
 type ObjectType struct {
 	embedded   map[TypeName]*PropertyDefinition
-	properties PropertySet
-	functions  map[string]Function
-	testcases  map[string]TestCase
+	properties ReadOnlyPropertySet
+	functions  readonly.Map[string, Function]
+	testcases  readonly.Map[string, TestCase]
 	InterfaceImplementer
 }
 
@@ -51,8 +51,8 @@ func NewObjectType() *ObjectType {
 	return &ObjectType{
 		embedded:             make(map[TypeName]*PropertyDefinition),
 		properties:           make(PropertySet),
-		functions:            make(map[string]Function),
-		testcases:            make(map[string]TestCase),
+		functions:            readonly.EmptyMap[string, Function](),
+		testcases:            readonly.EmptyMap[string, TestCase](),
 		InterfaceImplementer: MakeInterfaceImplementer(),
 	}
 }
@@ -114,8 +114,7 @@ func (objectType *ObjectType) Properties() ReadOnlyPropertySet {
 
 // Property returns the details of a specific property based on its unique case-sensitive name
 func (objectType *ObjectType) Property(name PropertyName) (*PropertyDefinition, bool) {
-	prop, ok := objectType.properties[name]
-	return prop, ok
+	return objectType.properties.Get(name)
 }
 
 // EmbeddedProperties returns all the embedded properties
@@ -148,10 +147,7 @@ func (objectType *ObjectType) EmbeddedProperties() []*PropertyDefinition {
 // Functions returns all the function implementations
 // A sorted slice is returned to preserve immutability and provide determinism
 func (objectType *ObjectType) Functions() []Function {
-	functions := make([]Function, 0, len(objectType.functions))
-	for _, f := range objectType.functions {
-		functions = append(functions, f)
-	}
+	functions := objectType.functions.Values()
 
 	sort.Slice(functions, func(i int, j int) bool {
 		return functions[i].Name() < functions[j].Name()
@@ -162,8 +158,7 @@ func (objectType *ObjectType) Functions() []Function {
 
 // HasFunctionWithName determines if this object has a function with the given name
 func (objectType *ObjectType) HasFunctionWithName(name string) bool {
-	_, ok := objectType.functions[name]
-	return ok
+	return objectType.functions.ContainsKey(name)
 }
 
 // AsType implements Type for ObjectType
@@ -207,14 +202,14 @@ func (objectType *ObjectType) RequiredPackageReferences() *PackageReferenceSet {
 		result.Merge(propertyType.RequiredPackageReferences())
 	}
 
-	for _, property := range objectType.properties {
+	objectType.properties.ForEach(func(property *PropertyDefinition) {
 		propertyType := property.PropertyType()
 		result.Merge(propertyType.RequiredPackageReferences())
-	}
+	})
 
-	for _, function := range objectType.functions {
+	objectType.functions.ForEach(func(_ string, function Function) {
 		result.Merge(function.RequiredPackageReferences())
-	}
+	})
 
 	result.Merge(objectType.InterfaceImplementer.RequiredPackageReferences())
 
@@ -224,17 +219,17 @@ func (objectType *ObjectType) RequiredPackageReferences() *PackageReferenceSet {
 // References returns the set of all the types referred to by any property.
 func (objectType *ObjectType) References() TypeNameSet {
 	results := NewTypeNameSet()
-	for _, property := range objectType.properties {
+	objectType.properties.ForEach(func(property *PropertyDefinition) {
 		results.AddAll(property.PropertyType().References())
-	}
+	})
 
 	for _, property := range objectType.embedded {
 		results.AddAll(property.PropertyType().References())
 	}
 
-	for _, fn := range objectType.functions {
+	objectType.functions.ForEach(func(_ string, fn Function) {
 		results.AddAll(fn.References())
-	}
+	})
 
 	return results
 }
@@ -269,76 +264,20 @@ func (objectType *ObjectType) Equals(t Type, overrides EqualityOverrides) bool {
 		}
 	}
 
-	if len(objectType.properties) != len(other.properties) {
-		// Different number of properties, not equal
+	if !objectType.properties.Equals(other.properties, overrides) {
 		return false
 	}
 
-	for n, f := range other.properties {
-		ourProperty, ok := objectType.properties[n]
-		if !ok {
-			// Didn't find the property, not equal
-			return false
-		}
-
-		if !ourProperty.Equals(f, overrides) {
-			// Different property, even though same name; not-equal
-			return false
-		}
-	}
-
-	if len(objectType.functions) != len(other.functions) {
-		// Different number of functions, not equal
+	if !objectType.functions.Equals(other.functions, func(l, r Function) bool {
+		return l.Equals(r, overrides)
+	}) {
 		return false
 	}
 
-	for name, function := range other.functions {
-		ourFunction, ok := objectType.functions[name]
-		if !ok {
-			// Didn't find the func, not equal
-			return false
-		}
-
-		if !ourFunction.Equals(function, overrides) {
-			// Different testcase, even though same name; not-equal
-			return false
-		}
-	}
-
-	if len(objectType.testcases) != len(other.testcases) {
-		// Different number of test cases, not equal
+	if !objectType.testcases.Equals(other.testcases, func(l, r TestCase) bool {
+		return l.Equals(r, overrides)
+	}) {
 		return false
-	}
-
-	for name, testcase := range other.testcases {
-		ourCase, ok := objectType.testcases[name]
-		if !ok {
-			// Didn't find the func, not equal
-			return false
-		}
-
-		if !ourCase.Equals(testcase, overrides) {
-			// Different testcase, even though same name; not-equal
-			return false
-		}
-	}
-
-	if len(objectType.testcases) != len(other.testcases) {
-		// Different number of test cases, not equal
-		return false
-	}
-
-	for name, testcase := range other.testcases {
-		ourCase, ok := objectType.testcases[name]
-		if !ok {
-			// Didn't find the func, not equal
-			return false
-		}
-
-		if !ourCase.Equals(testcase, overrides) {
-			// Different testcase, even though same name; not-equal
-			return false
-		}
 	}
 
 	return objectType.InterfaceImplementer.Equals(other.InterfaceImplementer, overrides)
@@ -349,7 +288,10 @@ func (objectType *ObjectType) Equals(t Type, overrides EqualityOverrides) bool {
 func (objectType *ObjectType) WithProperty(property *PropertyDefinition) *ObjectType {
 	// Create a copy of objectType to preserve immutability
 	result := objectType.copy()
-	result.properties[property.propertyName] = property
+
+	props := result.properties.Copy()
+	props[property.propertyName] = property
+	result.properties = props
 
 	return result
 }
@@ -364,9 +306,13 @@ func (objectType *ObjectType) WithProperties(properties ...*PropertyDefinition) 
 
 	// Create a copy of objectType to preserve immutability
 	result := objectType.copy()
+	props := result.properties.Copy()
+
 	for _, f := range properties {
-		result.properties[f.propertyName] = f
+		props[f.propertyName] = f
 	}
+
+	result.properties = props
 
 	return result
 }
@@ -397,7 +343,7 @@ func (objectType *ObjectType) WithEmbeddedProperties(properties ...*PropertyDefi
 // without any properties.
 func (objectType *ObjectType) WithoutProperties() *ObjectType {
 	result := objectType.copy()
-	result.properties = make(map[PropertyName]*PropertyDefinition)
+	result.properties = PropertySet(make(map[PropertyName]*PropertyDefinition))
 	return result
 }
 
@@ -409,9 +355,12 @@ func (objectType *ObjectType) WithoutSpecificProperties(props ...PropertyName) *
 	}
 
 	result := objectType.copy()
+
+	resultProps := result.properties.Copy()
 	for _, name := range props {
-		delete(result.properties, name)
+		delete(resultProps, name)
 	}
+	result.properties = resultProps
 
 	return result
 }
@@ -420,7 +369,10 @@ func (objectType *ObjectType) WithoutSpecificProperties(props ...PropertyName) *
 func (objectType *ObjectType) WithoutProperty(name PropertyName) *ObjectType {
 	// Create a copy of objectType to preserve immutability
 	result := objectType.copy()
-	delete(result.properties, name)
+
+	resultProps := result.properties.Copy()
+	delete(resultProps, name)
+	result.properties = resultProps
 
 	return result
 }
@@ -475,7 +427,7 @@ func (objectType *ObjectType) WithEmbeddedProperty(property *PropertyDefinition)
 func (objectType *ObjectType) WithFunction(function Function) *ObjectType {
 	// Create a copy of objectType to preserve immutability
 	result := objectType.copy()
-	result.functions[function.Name()] = function
+	result.functions = result.functions.With(function.Name(), function)
 
 	return result
 }
@@ -484,7 +436,7 @@ func (objectType *ObjectType) WithFunction(function Function) *ObjectType {
 func (objectType *ObjectType) WithoutFunctions() *ObjectType {
 	// Create a copy to preserve immutability
 	result := objectType.copy()
-	result.functions = make(map[string]Function)
+	result.functions = readonly.EmptyMap[string, Function]()
 
 	return result
 }
@@ -512,15 +464,16 @@ func (objectType *ObjectType) WithoutInterface(name TypeName) *ObjectType {
 func (objectType *ObjectType) WithTestCase(testcase TestCase) *ObjectType {
 	// Create a copy of objectType to preserve immutability
 	result := objectType.copy()
-	result.testcases[testcase.Name()] = testcase
+	result.testcases = result.testcases.With(testcase.Name(), testcase)
 	return result
 }
 
 func (objectType *ObjectType) copy() *ObjectType {
 	result := &ObjectType{
-		properties: maps.Clone(objectType.properties),
-		functions:  maps.Clone(objectType.functions),
-		testcases:  maps.Clone(objectType.testcases),
+		// no need to clone these, they are all readonly
+		properties: objectType.properties,
+		functions:  objectType.functions,
+		testcases:  objectType.testcases,
 	}
 
 	result.embedded = make(map[TypeName]*PropertyDefinition, len(objectType.embedded))
@@ -539,11 +492,11 @@ func (objectType *ObjectType) String() string {
 }
 
 func (objectType *ObjectType) HasTestCases() bool {
-	return len(objectType.testcases) > 0
+	return !objectType.testcases.IsEmpty()
 }
 
 func (objectType *ObjectType) TestCases() []TestCase {
-	result := maps.Values(objectType.testcases)
+	result := objectType.testcases.Values()
 
 	sort.Slice(result, func(i int, j int) bool {
 		return result[i].Name() < result[j].Name()
@@ -580,18 +533,8 @@ func (objectType *ObjectType) WriteDebugDescription(builder *strings.Builder, _ 
 // FindPropertyWithTagValue finds the property with the given tag and value if it exists. The boolean return
 // is false if no match can be found.
 func (objectType *ObjectType) FindPropertyWithTagValue(tag string, value string) (*PropertyDefinition, bool) {
-	for _, prop := range objectType.properties {
+	return objectType.properties.Find(func(prop *PropertyDefinition) bool {
 		values, ok := prop.Tag(tag)
-		if !ok {
-			continue
-		}
-
-		for _, val := range values {
-			if val == value {
-				return prop, true
-			}
-		}
-	}
-
-	return nil, false
+		return ok && slices.Contains(values, value)
+	})
 }

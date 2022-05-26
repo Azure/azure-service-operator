@@ -10,6 +10,8 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/pkg/errors"
+
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/readonly"
 )
 
 // TypeDefinitionSet is a map of TypeName to TypeDefinition, representing a set of type definitions.
@@ -141,6 +143,8 @@ func DiffTypes(x, y interface{}) string {
 		LocalPackageReference{},
 		InterfaceImplementer{},
 		TypeSet{},
+		readonly.Map[string, Function]{},
+		readonly.Map[string, TestCase]{},
 	)
 
 	return cmp.Diff(x, y, allowAll)
