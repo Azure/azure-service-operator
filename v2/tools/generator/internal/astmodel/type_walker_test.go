@@ -230,7 +230,7 @@ func TestTypeWalker_CanPruneCycles(t *testing.T) {
 			g.Expect(TypeEquals(updated.Type(), types[updated.Name()].Type())).To(BeFalse())
 			obj, ok := updated.Type().(*ObjectType)
 			g.Expect(ok).To(BeTrue())
-			g.Expect(len(obj.Properties())).To(Equal(0))
+			g.Expect(obj.Properties().Len()).To(Equal(0))
 		} else {
 			g.Expect(TypeEquals(updated.Type(), types[updated.Name()].Type())).To(BeTrue())
 		}
@@ -288,11 +288,11 @@ func TestTypeWalker_VisitorApplied(t *testing.T) {
 			_ = ctx.(int) // Ensure context is the right shape
 
 			// Find any properties of type string and remove them
-			for _, prop := range it.Properties() {
+			it.Properties().ForEach(func(prop *PropertyDefinition) {
 				if prop.PropertyType() == StringType {
 					it = it.WithoutProperty(prop.PropertyName())
 				}
-			}
+			})
 
 			return IdentityVisitOfObjectType(this, it, ctx)
 		},
@@ -315,8 +315,7 @@ func TestTypeWalker_VisitorApplied(t *testing.T) {
 			g.Expect(TypeEquals(updated.Type(), types[updated.Name()].Type())).To(BeFalse())
 			obj, ok := updated.Type().(*ObjectType)
 			g.Expect(ok).To(BeTrue())
-
-			g.Expect(len(obj.Properties())).To(Equal(0))
+			g.Expect(obj.Properties().Len()).To(Equal(0))
 		} else {
 			g.Expect(TypeEquals(updated.Type(), types[updated.Name()].Type())).To(BeTrue())
 		}

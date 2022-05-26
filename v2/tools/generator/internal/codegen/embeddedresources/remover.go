@@ -160,24 +160,24 @@ func (e EmbeddedResourceRemover) makeEmbeddedResourceRemovalTypeVisitor() astmod
 			// TODO: This is confusing...?
 			// Before visiting, check if any properties are just referring to one of our sub-resources and remove them
 			subResources := e.resourceToSubresourceMap[typedCtx.resource]
-			it.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
+			for _, prop := range it.Properties().AsSlice() { // order matters here
 				propTypeName, ok := astmodel.AsTypeName(prop.PropertyType())
 				if !ok {
-					return // continue
+					continue
 				}
 
 				// TODO: This is currently no different than the below, but it likely will evolve to be different over time
 				if subResources.Contains(propTypeName) {
 					klog.V(5).Infof("Removing resource %q reference to subresource %q on property %q", typedCtx.resource, propTypeName, prop.PropertyName())
 					it = removeResourceLikeProperties(it)
-					return // continue
+					continue
 				}
 
 				if e.resourcePropertiesTypes.Contains(propTypeName) {
 					klog.V(5).Infof("Removing reference to resource %q on property %q", propTypeName, prop.PropertyName())
 					it = removeResourceLikeProperties(it)
 				}
-			})
+			}
 
 			return astmodel.IdentityVisitOfObjectType(this, it, ctx)
 		},
