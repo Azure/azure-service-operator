@@ -129,8 +129,10 @@ func WorkspaceCompute_CRUD(tc *testcommon.KubePerTestContext, owner *genruntime.
 	wsCompute := workspacesCompute(tc, owner, vm, password)
 	tc.CreateResourceAndWait(wsCompute)
 
-	tc.DeleteResourcesAndWait(wsCompute)
-	tc.DeleteResourcesAndWait(vm, networkInterface, vnet)
+	tc.DeleteResourceAndWait(wsCompute)
+	tc.DeleteResourceAndWait(vm)
+	tc.DeleteResourceAndWait(networkInterface)
+	tc.DeleteResourceAndWait(vnet)
 
 }
 
