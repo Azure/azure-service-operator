@@ -6,7 +6,7 @@
 package config
 
 // alwaysMatcher is a matcher that always matches
-type alwaysMatcher struct {}
+type alwaysMatcher struct{}
 
 var _ StringMatcher = &alwaysMatcher{}
 

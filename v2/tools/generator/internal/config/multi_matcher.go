@@ -74,7 +74,7 @@ func HasMultipleMatchers(matcher string) bool {
 func (mm *MultiMatcher) String() string {
 	var builder strings.Builder
 	for i, m := range mm.matchers {
-		if i>0 {
+		if i > 0 {
 			builder.WriteString(";")
 		}
 

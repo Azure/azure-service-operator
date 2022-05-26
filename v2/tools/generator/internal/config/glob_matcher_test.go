@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Microsoft Corporation.
+ * Licensed under the MIT license.
+ */
+
 package config
 
 import (
@@ -33,5 +38,3 @@ func TestGlobMatcher_GivenTerms_MatchesExpectedStrings(t *testing.T) {
 			})
 	}
 }
-
-

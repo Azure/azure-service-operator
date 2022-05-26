@@ -26,7 +26,7 @@ func NewStringMatcher(matcher string) StringMatcher {
 	if matcher == "" {
 		return newAlwaysMatcher()
 	}
-	
+
 	if HasMultipleMatchers(matcher) {
 		return newMultiMatcher(matcher)
 	}

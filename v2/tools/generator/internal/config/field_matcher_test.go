@@ -1,3 +1,8 @@
+/*
+ * Copyright (c) Microsoft Corporation.
+ * Licensed under the MIT license.
+ */
+
 package config
 
 import (
@@ -11,9 +16,9 @@ func TestFieldMatcher_DeserializedFromYaml_GivesExpectedMatchResult(t *testing.T
 	t.Parallel()
 
 	cases := []struct {
-		name          string
-		yaml          string
-		value string
+		name        string
+		yaml        string
+		value       string
 		shouldMatch bool
 	}{
 		{"Literal", "field: foo", "foo", true},
@@ -30,12 +35,12 @@ func TestFieldMatcher_DeserializedFromYaml_GivesExpectedMatchResult(t *testing.T
 			g := NewGomegaWithT(t)
 
 			var h matcherHost
-			g.Expect( yaml.Unmarshal([]byte(c.yaml), &h)).To(Succeed())
+			g.Expect(yaml.Unmarshal([]byte(c.yaml), &h)).To(Succeed())
 			g.Expect(h.Field.Matches(c.value)).To(Equal(c.shouldMatch))
 		})
 	}
 }
 
 type matcherHost struct {
-	Field FieldMatcher `yaml:'field'`
+	Field FieldMatcher `yaml:"field"`
 }
