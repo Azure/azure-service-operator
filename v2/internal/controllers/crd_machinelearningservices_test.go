@@ -44,12 +44,6 @@ func Test_MLS_Workspaces_CRUD(t *testing.T) {
 				WorkspaceCompute_CRUD(tc, testcommon.AsOwner(workspaces), rg)
 			},
 		},
-		testcommon.Subtest{
-			Name: "Test_WorkspacesConnection_CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
-				workspaceConnectionTest(tc, testcommon.AsOwner(workspaces))
-			},
-		},
 	)
 
 	tc.DeleteResourcesAndWait(workspaces, kv, sa, rg)
@@ -79,16 +73,32 @@ func newWorkspaces(tc *testcommon.KubePerTestContext, owner *genruntime.KnownRes
 	return workspaces
 }
 
-func workspaceConnectionTest(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference) {
+func Test_WorkspaceConnection_CRUD(t *testing.T) {
+	t.Parallel()
 
 	jsonValue := "{\"user\":\"admin\", \"password\":\"abctest\"}"
 
 	valueFormat := machinelearningservices.WorkspaceConnectionPropsValueFormatJSON
 
+	tc := globalTestContext.ForTest(t)
+
+	rg := tc.CreateTestResourceGroupAndWait()
+
+	sa := newStorageAccount(tc, rg)
+
+	tc.CreateResourceAndWait(sa)
+
+	kv := newVault(tc, rg)
+	tc.CreateResourceAndWait(kv)
+
+	workspaces := newWorkspaces(tc, testcommon.AsOwner(rg), sa, kv)
+
+	tc.CreateResourcesAndWait(workspaces)
+
 	connection := &machinelearningservices.WorkspacesConnection{
 		ObjectMeta: tc.MakeObjectMeta("conn"),
 		Spec: machinelearningservices.WorkspacesConnections_Spec{
-			Owner:       owner,
+			Owner:       testcommon.AsOwner(workspaces),
 			AuthType:    to.StringPtr("PAT"),
 			Category:    to.StringPtr("ACR"),
 			Location:    tc.AzureRegion,
@@ -101,6 +111,7 @@ func workspaceConnectionTest(tc *testcommon.KubePerTestContext, owner *genruntim
 
 	tc.CreateResourceAndWait(connection)
 	tc.DeleteResourcesAndWait(connection)
+	tc.DeleteResourcesAndWait(workspaces, kv, sa, rg)
 }
 
 func WorkspaceCompute_CRUD(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, rg *resources.ResourceGroup) {
