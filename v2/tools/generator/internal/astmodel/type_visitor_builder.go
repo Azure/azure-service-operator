@@ -69,6 +69,10 @@ func (b TypeVisitorBuilder) Build() TypeVisitor {
 // buildVisitTypeName returns a function to use in the TypeVisitor
 // If the field VisitTypeName is nil, we return an identity visitor. Otherwise we attempt to
 // convert the func found in the field, triggering a panic if no suitable func is found.
+//
+// The boolean result indicates if this visitor is the identity visitor,
+// which allows it to be skipped in many cases. (See TypeVisitor.Visit & uses
+// of the field visitTypeNameIsIdentity for details).
 func (b *TypeVisitorBuilder) buildVisitTypeName() (bool, func(*TypeVisitor, TypeName, interface{}) (Type, error)) {
 	if b.VisitTypeName == nil {
 		return true, IdentityVisitOfTypeName
