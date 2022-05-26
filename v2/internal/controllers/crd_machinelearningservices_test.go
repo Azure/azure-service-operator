@@ -47,7 +47,7 @@ func Test_MLS_Workspaces_CRUD(t *testing.T) {
 		testcommon.Subtest{
 			Name: "Test_WorkspacesConnection_CRUD",
 			Test: func(testContext *testcommon.KubePerTestContext) {
-				WorkspaceConnection_CRUD(tc, testcommon.AsOwner(workspaces))
+				workspaceConnectionTest(tc, testcommon.AsOwner(workspaces))
 			},
 		},
 	)
@@ -79,7 +79,7 @@ func newWorkspaces(tc *testcommon.KubePerTestContext, owner *genruntime.KnownRes
 	return workspaces
 }
 
-func WorkspaceConnection_CRUD(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference) {
+func workspaceConnectionTest(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference) {
 
 	jsonValue := "{\"user\":\"admin\", \"password\":\"abctest\"}"
 
@@ -92,7 +92,7 @@ func WorkspaceConnection_CRUD(tc *testcommon.KubePerTestContext, owner *genrunti
 			AuthType:    to.StringPtr("PAT"),
 			Category:    to.StringPtr("ACR"),
 			Location:    tc.AzureRegion,
-			Target:      to.StringPtr("www.facebook.com"),
+			Target:      to.StringPtr("www.microsoft.com"),
 			Value:       to.StringPtr(jsonValue),
 			ValueFormat: &valueFormat,
 		},
@@ -112,7 +112,8 @@ func WorkspaceCompute_CRUD(tc *testcommon.KubePerTestContext, owner *genruntime.
 	publicIP := newPublicIPAddressForVMSS(tc, testcommon.AsOwner(rg))
 
 	nsg, rule := newNSG(tc, testcommon.AsOwner(rg))
-	tc.CreateResourcesAndWait(nsg, rule)
+	tc.CreateResourceAndWait(nsg)
+	tc.CreateResourceAndWait(rule)
 
 	networkInterface := newVMNetworkInterfaceWithPublicIP(tc, testcommon.AsOwner(rg), subnet, publicIP, nsg)
 	// Inefficient but avoids triggering the vnet/subnets problem.
@@ -129,7 +130,7 @@ func WorkspaceCompute_CRUD(tc *testcommon.KubePerTestContext, owner *genruntime.
 	tc.CreateResourceAndWait(wsCompute)
 
 	tc.DeleteResourcesAndWait(wsCompute)
-	tc.DeleteResourcesAndWait(vm, networkInterface, subnet, vnet)
+	tc.DeleteResourcesAndWait(vm, networkInterface, vnet)
 
 }
 
