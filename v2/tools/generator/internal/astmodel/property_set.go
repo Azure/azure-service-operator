@@ -27,6 +27,8 @@ type ReadOnlyPropertySet interface {
 	Len() int
 }
 
+var _ ReadOnlyPropertySet = PropertySet{} // assert satisfies
+
 // NewPropertySet creates a new set of properties
 func NewPropertySet(properties ...*PropertyDefinition) PropertySet {
 	result := make(PropertySet, len(properties))
