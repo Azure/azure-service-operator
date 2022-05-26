@@ -145,6 +145,7 @@ func DiffTypes(x, y interface{}) string {
 		TypeSet{},
 		readonly.Map[string, Function]{},
 		readonly.Map[string, TestCase]{},
+		readonly.Map[string, []string]{},
 	)
 
 	return cmp.Diff(x, y, allowAll)

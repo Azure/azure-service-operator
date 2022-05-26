@@ -63,9 +63,19 @@ func (m Map[K, V]) With(key K, value V) Map[K, V] {
 	return CreateMapUnsafe(result)
 }
 
+func (m Map[K, V]) Without(key K) Map[K, V] {
+	result := Clone(m.inner)
+	delete(result, key)
+	return CreateMapUnsafe(result)
+}
+
 func (m Map[K, V]) ContainsKey(key K) bool {
 	_, ok := m.inner[key]
 	return ok
+}
+
+func (m Map[K, V]) Keys() []K {
+	return maps.Keys(m.inner)
 }
 
 func (m Map[K, V]) Values() []V {
