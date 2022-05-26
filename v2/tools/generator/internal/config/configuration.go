@@ -93,8 +93,8 @@ func (config *Configuration) FullTypesRegistrationOutputFilePath() string {
 
 func (config *Configuration) GetTypeFiltersError() error {
 	for _, filter := range config.TypeFilters {
-		if !filter.MatchedRequiredTypes() {
-			return errors.Errorf("Type filter action: %q, target: %q matched no types", filter.Action, filter.String())
+		if err := filter.RequiredTypesWereMatched(); err != nil {
+			return errors.Wrapf(err, "type filter action: %q", filter.Action)
 		}
 	}
 
@@ -103,8 +103,8 @@ func (config *Configuration) GetTypeFiltersError() error {
 
 func (config *Configuration) GetTypeTransformersError() error {
 	for _, filter := range config.typeTransformers {
-		if !filter.MatchedRequiredTypes() {
-			return errors.Errorf("Type transformer target: %q matched no types", filter.String())
+		if err := filter.RequiredTypesWereMatched(); err != nil {
+			return errors.Wrap(err, "type transformer")
 		}
 	}
 
@@ -113,11 +113,12 @@ func (config *Configuration) GetTypeTransformersError() error {
 
 func (config *Configuration) GetPropertyTransformersError() error {
 	for _, filter := range config.propertyTransformers {
-		if !filter.MatchedRequiredTypes() {
-			return errors.Errorf("Type transformer target: %q for property %q matched no types", filter.String(), filter.Property.String())
+		if err := filter.RequiredTypesWereMatched(); err != nil {
+			return errors.Wrap(err, "type transformer target")
 		}
-		if !filter.MatchedRequiredProperties() {
-			return errors.Errorf("Type transformer target: %q for property %q matched types, but no types had the property", filter.String(), filter.Property.String())
+
+		if err := filter.RequiredPropertiesWereMatched(); err != nil {
+			return errors.Wrapf(err, "type transformer target")
 		}
 	}
 
