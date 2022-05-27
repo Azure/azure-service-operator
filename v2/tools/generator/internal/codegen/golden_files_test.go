@@ -196,7 +196,6 @@ func NewTestCodeGenerator(
 		return nil, errors.Errorf("unknown pipeline kind %q", string(genPipeline))
 	}
 
-	// TODO(donotmerge)
 	codegen.ReplaceStage(pipeline.LoadTypesStageID, loadTestSchemaIntoTypes(idFactory, cfg, path))
 	codegen.ReplaceStage(pipeline.ExportPackagesStageID, exportPackagesTestPipelineStage(t, testName))
 
@@ -216,6 +215,7 @@ func NewTestCodeGenerator(
 	return codegen, nil
 }
 
+// TODO: we still need to replace this with openapi instead of jsonschema
 func loadTestSchemaIntoTypes(
 	idFactory astmodel.IdentifierFactory,
 	configuration *config.Configuration,
