@@ -235,6 +235,7 @@ func (redis *Redis_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) e
 
 // Storage version of v1beta20201201.RedisCreateProperties_RedisConfiguration_STATUS
 type RedisCreateProperties_RedisConfiguration_STATUS struct {
+	AdditionalProperties           map[string]string      `json:"additionalProperties,omitempty"`
 	AofStorageConnectionString0    *string                `json:"aof-storage-connection-string-0,omitempty"`
 	AofStorageConnectionString1    *string                `json:"aof-storage-connection-string-1,omitempty"`
 	Maxclients                     *string                `json:"maxclients,omitempty"`
@@ -248,7 +249,6 @@ type RedisCreateProperties_RedisConfiguration_STATUS struct {
 	RdbBackupMaxSnapshotCount      *string                `json:"rdb-backup-max-snapshot-count,omitempty"`
 	RdbStorageConnectionString     *string                `json:"rdb-storage-connection-string,omitempty"`
 	ZonalConfiguration             *string                `json:"zonal-configuration,omitempty"`
-	additionalProperties           map[string]string      `json:"additionalProperties,omitempty"`
 }
 
 // Storage version of v1beta20201201.RedisOperatorSpec

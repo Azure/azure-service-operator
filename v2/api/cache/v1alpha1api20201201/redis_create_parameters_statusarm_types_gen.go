@@ -29,6 +29,7 @@ type RedisCreateProperties_STATUSARM struct {
 
 // Deprecated version of RedisCreateProperties_RedisConfiguration_STATUS. Use v1beta20201201.RedisCreateProperties_RedisConfiguration_STATUS instead
 type RedisCreateProperties_RedisConfiguration_STATUSARM struct {
+	AdditionalProperties           map[string]string `json:"additionalProperties,omitempty"`
 	AofStorageConnectionString0    *string           `json:"aof-storage-connection-string-0,omitempty"`
 	AofStorageConnectionString1    *string           `json:"aof-storage-connection-string-1,omitempty"`
 	Maxclients                     *string           `json:"maxclients,omitempty"`
@@ -41,7 +42,6 @@ type RedisCreateProperties_RedisConfiguration_STATUSARM struct {
 	RdbBackupMaxSnapshotCount      *string           `json:"rdb-backup-max-snapshot-count,omitempty"`
 	RdbStorageConnectionString     *string           `json:"rdb-storage-connection-string,omitempty"`
 	ZonalConfiguration             *string           `json:"zonal-configuration,omitempty"`
-	additionalProperties           map[string]string `json:"additionalProperties,omitempty"`
 }
 
 // Deprecated version of Sku_STATUS. Use v1beta20201201.Sku_STATUS instead

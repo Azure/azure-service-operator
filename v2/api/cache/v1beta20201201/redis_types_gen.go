@@ -1456,6 +1456,8 @@ const (
 )
 
 type RedisCreateProperties_RedisConfiguration_STATUS struct {
+	AdditionalProperties map[string]string `json:"additionalProperties,omitempty"`
+
 	// AofStorageConnectionString0: First storage account connection string
 	AofStorageConnectionString0 *string `json:"aof-storage-connection-string-0,omitempty"`
 
@@ -1490,8 +1492,7 @@ type RedisCreateProperties_RedisConfiguration_STATUS struct {
 	RdbStorageConnectionString *string `json:"rdb-storage-connection-string,omitempty"`
 
 	// ZonalConfiguration: Zonal Configuration
-	ZonalConfiguration   *string           `json:"zonal-configuration,omitempty"`
-	additionalProperties map[string]string `json:"additionalProperties,omitempty"`
+	ZonalConfiguration *string `json:"zonal-configuration,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &RedisCreateProperties_RedisConfiguration_STATUS{}
@@ -1506,6 +1507,14 @@ func (configuration *RedisCreateProperties_RedisConfiguration_STATUS) PopulateFr
 	typedInput, ok := armInput.(RedisCreateProperties_RedisConfiguration_STATUSARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RedisCreateProperties_RedisConfiguration_STATUSARM, got %T", armInput)
+	}
+
+	// Set property ‘AdditionalProperties’:
+	if typedInput.AdditionalProperties != nil {
+		configuration.AdditionalProperties = make(map[string]string)
+		for key, value := range typedInput.AdditionalProperties {
+			configuration.AdditionalProperties[key] = value
+		}
 	}
 
 	// Set property ‘AofStorageConnectionString0’:
@@ -1580,20 +1589,15 @@ func (configuration *RedisCreateProperties_RedisConfiguration_STATUS) PopulateFr
 		configuration.ZonalConfiguration = &zonalConfiguration
 	}
 
-	// Set property ‘additionalProperties’:
-	if typedInput.additionalProperties != nil {
-		configuration.additionalProperties = make(map[string]string)
-		for key, value := range typedInput.additionalProperties {
-			configuration.additionalProperties[key] = value
-		}
-	}
-
 	// No error
 	return nil
 }
 
 // AssignPropertiesFromRedisCreateProperties_RedisConfiguration_STATUS populates our RedisCreateProperties_RedisConfiguration_STATUS from the provided source RedisCreateProperties_RedisConfiguration_STATUS
 func (configuration *RedisCreateProperties_RedisConfiguration_STATUS) AssignPropertiesFromRedisCreateProperties_RedisConfiguration_STATUS(source *v20201201s.RedisCreateProperties_RedisConfiguration_STATUS) error {
+
+	// AdditionalProperties
+	configuration.AdditionalProperties = genruntime.CloneMapOfStringToString(source.AdditionalProperties)
 
 	// AofStorageConnectionString0
 	configuration.AofStorageConnectionString0 = genruntime.ClonePointerToString(source.AofStorageConnectionString0)
@@ -1631,9 +1635,6 @@ func (configuration *RedisCreateProperties_RedisConfiguration_STATUS) AssignProp
 	// ZonalConfiguration
 	configuration.ZonalConfiguration = genruntime.ClonePointerToString(source.ZonalConfiguration)
 
-	// additionalProperties
-	configuration.additionalProperties = genruntime.CloneMapOfStringToString(source.additionalProperties)
-
 	// No error
 	return nil
 }
@@ -1642,6 +1643,9 @@ func (configuration *RedisCreateProperties_RedisConfiguration_STATUS) AssignProp
 func (configuration *RedisCreateProperties_RedisConfiguration_STATUS) AssignPropertiesToRedisCreateProperties_RedisConfiguration_STATUS(destination *v20201201s.RedisCreateProperties_RedisConfiguration_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
+
+	// AdditionalProperties
+	destination.AdditionalProperties = genruntime.CloneMapOfStringToString(configuration.AdditionalProperties)
 
 	// AofStorageConnectionString0
 	destination.AofStorageConnectionString0 = genruntime.ClonePointerToString(configuration.AofStorageConnectionString0)
@@ -1678,9 +1682,6 @@ func (configuration *RedisCreateProperties_RedisConfiguration_STATUS) AssignProp
 
 	// ZonalConfiguration
 	destination.ZonalConfiguration = genruntime.ClonePointerToString(configuration.ZonalConfiguration)
-
-	// additionalProperties
-	destination.additionalProperties = genruntime.CloneMapOfStringToString(configuration.additionalProperties)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

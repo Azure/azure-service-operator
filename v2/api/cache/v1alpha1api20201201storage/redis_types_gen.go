@@ -769,6 +769,7 @@ func (redis *Redis_Spec) AssignPropertiesToRedis_Spec(destination *v20201201s.Re
 // Storage version of v1alpha1api20201201.RedisCreateProperties_RedisConfiguration_STATUS
 // Deprecated version of RedisCreateProperties_RedisConfiguration_STATUS. Use v1beta20201201.RedisCreateProperties_RedisConfiguration_STATUS instead
 type RedisCreateProperties_RedisConfiguration_STATUS struct {
+	AdditionalProperties           map[string]string      `json:"additionalProperties,omitempty"`
 	AofStorageConnectionString0    *string                `json:"aof-storage-connection-string-0,omitempty"`
 	AofStorageConnectionString1    *string                `json:"aof-storage-connection-string-1,omitempty"`
 	Maxclients                     *string                `json:"maxclients,omitempty"`
@@ -782,13 +783,15 @@ type RedisCreateProperties_RedisConfiguration_STATUS struct {
 	RdbBackupMaxSnapshotCount      *string                `json:"rdb-backup-max-snapshot-count,omitempty"`
 	RdbStorageConnectionString     *string                `json:"rdb-storage-connection-string,omitempty"`
 	ZonalConfiguration             *string                `json:"zonal-configuration,omitempty"`
-	additionalProperties           map[string]string      `json:"additionalProperties,omitempty"`
 }
 
 // AssignPropertiesFromRedisCreateProperties_RedisConfiguration_STATUS populates our RedisCreateProperties_RedisConfiguration_STATUS from the provided source RedisCreateProperties_RedisConfiguration_STATUS
 func (configuration *RedisCreateProperties_RedisConfiguration_STATUS) AssignPropertiesFromRedisCreateProperties_RedisConfiguration_STATUS(source *v20201201s.RedisCreateProperties_RedisConfiguration_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AdditionalProperties
+	configuration.AdditionalProperties = genruntime.CloneMapOfStringToString(source.AdditionalProperties)
 
 	// AofStorageConnectionString0
 	configuration.AofStorageConnectionString0 = genruntime.ClonePointerToString(source.AofStorageConnectionString0)
@@ -826,9 +829,6 @@ func (configuration *RedisCreateProperties_RedisConfiguration_STATUS) AssignProp
 	// ZonalConfiguration
 	configuration.ZonalConfiguration = genruntime.ClonePointerToString(source.ZonalConfiguration)
 
-	// additionalProperties
-	configuration.additionalProperties = genruntime.CloneMapOfStringToString(source.additionalProperties)
-
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		configuration.PropertyBag = propertyBag
@@ -844,6 +844,9 @@ func (configuration *RedisCreateProperties_RedisConfiguration_STATUS) AssignProp
 func (configuration *RedisCreateProperties_RedisConfiguration_STATUS) AssignPropertiesToRedisCreateProperties_RedisConfiguration_STATUS(destination *v20201201s.RedisCreateProperties_RedisConfiguration_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
+
+	// AdditionalProperties
+	destination.AdditionalProperties = genruntime.CloneMapOfStringToString(configuration.AdditionalProperties)
 
 	// AofStorageConnectionString0
 	destination.AofStorageConnectionString0 = genruntime.ClonePointerToString(configuration.AofStorageConnectionString0)
@@ -880,9 +883,6 @@ func (configuration *RedisCreateProperties_RedisConfiguration_STATUS) AssignProp
 
 	// ZonalConfiguration
 	destination.ZonalConfiguration = genruntime.ClonePointerToString(configuration.ZonalConfiguration)
-
-	// additionalProperties
-	destination.additionalProperties = genruntime.CloneMapOfStringToString(configuration.additionalProperties)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

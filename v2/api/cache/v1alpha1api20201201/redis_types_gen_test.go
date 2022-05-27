@@ -520,6 +520,7 @@ func RedisCreateProperties_RedisConfiguration_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRedisCreateProperties_RedisConfiguration_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRedisCreateProperties_RedisConfiguration_STATUS(gens map[string]gopter.Gen) {
+	gens["AdditionalProperties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["AofStorageConnectionString0"] = gen.PtrOf(gen.AlphaString())
 	gens["AofStorageConnectionString1"] = gen.PtrOf(gen.AlphaString())
 	gens["Maxclients"] = gen.PtrOf(gen.AlphaString())
@@ -532,7 +533,6 @@ func AddIndependentPropertyGeneratorsForRedisCreateProperties_RedisConfiguration
 	gens["RdbBackupMaxSnapshotCount"] = gen.PtrOf(gen.AlphaString())
 	gens["RdbStorageConnectionString"] = gen.PtrOf(gen.AlphaString())
 	gens["ZonalConfiguration"] = gen.PtrOf(gen.AlphaString())
-	gens["additionalProperties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
 func Test_RedisOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

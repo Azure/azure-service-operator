@@ -63,6 +63,8 @@ type RedisCreateProperties_STATUSARM struct {
 }
 
 type RedisCreateProperties_RedisConfiguration_STATUSARM struct {
+	AdditionalProperties map[string]string `json:"additionalProperties,omitempty"`
+
 	// AofStorageConnectionString0: First storage account connection string
 	AofStorageConnectionString0 *string `json:"aof-storage-connection-string-0,omitempty"`
 
@@ -97,8 +99,7 @@ type RedisCreateProperties_RedisConfiguration_STATUSARM struct {
 	RdbStorageConnectionString *string `json:"rdb-storage-connection-string,omitempty"`
 
 	// ZonalConfiguration: Zonal Configuration
-	ZonalConfiguration   *string           `json:"zonal-configuration,omitempty"`
-	additionalProperties map[string]string `json:"additionalProperties,omitempty"`
+	ZonalConfiguration *string `json:"zonal-configuration,omitempty"`
 }
 
 type Sku_STATUSARM struct {

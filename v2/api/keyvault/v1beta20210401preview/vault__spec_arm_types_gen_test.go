@@ -17,19 +17,19 @@ import (
 	"testing"
 )
 
-func Test_Vaults_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Vault_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Vaults_SpecARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVaultsSpecARM, VaultsSpecARMGenerator()))
+		"Round trip of Vault_SpecARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVault_SpecARM, Vault_SpecARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVaultsSpecARM runs a test to see if a specific instance of Vaults_SpecARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForVaultsSpecARM(subject Vaults_SpecARM) string {
+// RunJSONSerializationTestForVault_SpecARM runs a test to see if a specific instance of Vault_SpecARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForVault_SpecARM(subject Vault_SpecARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -37,7 +37,7 @@ func RunJSONSerializationTestForVaultsSpecARM(subject Vaults_SpecARM) string {
 	}
 
 	// Deserialize back into memory
-	var actual Vaults_SpecARM
+	var actual Vault_SpecARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -55,40 +55,41 @@ func RunJSONSerializationTestForVaultsSpecARM(subject Vaults_SpecARM) string {
 	return ""
 }
 
-// Generator of Vaults_SpecARM instances for property testing - lazily instantiated by VaultsSpecARMGenerator()
-var vaultsSpecARMGenerator gopter.Gen
+// Generator of Vault_SpecARM instances for property testing - lazily instantiated by Vault_SpecARMGenerator()
+var vault_SpecARMGenerator gopter.Gen
 
-// VaultsSpecARMGenerator returns a generator of Vaults_SpecARM instances for property testing.
-// We first initialize vaultsSpecARMGenerator with a simplified generator based on the
+// Vault_SpecARMGenerator returns a generator of Vault_SpecARM instances for property testing.
+// We first initialize vault_SpecARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VaultsSpecARMGenerator() gopter.Gen {
-	if vaultsSpecARMGenerator != nil {
-		return vaultsSpecARMGenerator
+func Vault_SpecARMGenerator() gopter.Gen {
+	if vault_SpecARMGenerator != nil {
+		return vault_SpecARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVaultsSpecARM(generators)
-	vaultsSpecARMGenerator = gen.Struct(reflect.TypeOf(Vaults_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForVault_SpecARM(generators)
+	vault_SpecARMGenerator = gen.Struct(reflect.TypeOf(Vault_SpecARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVaultsSpecARM(generators)
-	AddRelatedPropertyGeneratorsForVaultsSpecARM(generators)
-	vaultsSpecARMGenerator = gen.Struct(reflect.TypeOf(Vaults_SpecARM{}), generators)
+	AddIndependentPropertyGeneratorsForVault_SpecARM(generators)
+	AddRelatedPropertyGeneratorsForVault_SpecARM(generators)
+	vault_SpecARMGenerator = gen.Struct(reflect.TypeOf(Vault_SpecARM{}), generators)
 
-	return vaultsSpecARMGenerator
+	return vault_SpecARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVaultsSpecARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVaultsSpecARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVault_SpecARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVault_SpecARM(gens map[string]gopter.Gen) {
+	gens["AzureName"] = gen.AlphaString()
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForVaultsSpecARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVaultsSpecARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForVault_SpecARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVault_SpecARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(VaultPropertiesARMGenerator())
 }
 
@@ -157,14 +158,15 @@ func VaultPropertiesARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVaultPropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVaultPropertiesARM(gens map[string]gopter.Gen) {
-	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(VaultPropertiesCreateModeDefault, VaultPropertiesCreateModeRecover))
+	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(VaultProperties_CreateModeDefault, VaultProperties_CreateModeRecover))
 	gens["EnablePurgeProtection"] = gen.PtrOf(gen.Bool())
 	gens["EnableRbacAuthorization"] = gen.PtrOf(gen.Bool())
 	gens["EnableSoftDelete"] = gen.PtrOf(gen.Bool())
 	gens["EnabledForDeployment"] = gen.PtrOf(gen.Bool())
 	gens["EnabledForDiskEncryption"] = gen.PtrOf(gen.Bool())
 	gens["EnabledForTemplateDeployment"] = gen.PtrOf(gen.Bool())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(VaultPropertiesProvisioningStateRegisteringDns, VaultPropertiesProvisioningStateSucceeded))
+	gens["HsmPoolResourceId"] = gen.PtrOf(gen.AlphaString())
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(VaultProperties_ProvisioningStateRegisteringDns, VaultProperties_ProvisioningStateSucceeded))
 	gens["SoftDeleteRetentionInDays"] = gen.PtrOf(gen.Int())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["VaultUri"] = gen.PtrOf(gen.AlphaString())
@@ -174,6 +176,7 @@ func AddIndependentPropertyGeneratorsForVaultPropertiesARM(gens map[string]gopte
 func AddRelatedPropertyGeneratorsForVaultPropertiesARM(gens map[string]gopter.Gen) {
 	gens["AccessPolicies"] = gen.SliceOf(AccessPolicyEntryARMGenerator())
 	gens["NetworkAcls"] = gen.PtrOf(NetworkRuleSetARMGenerator())
+	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnectionItemARMGenerator())
 	gens["Sku"] = gen.PtrOf(SkuARMGenerator())
 }
 
@@ -318,14 +321,89 @@ func NetworkRuleSetARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNetworkRuleSetARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkRuleSetARM(gens map[string]gopter.Gen) {
-	gens["Bypass"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSetBypassAzureServices, NetworkRuleSetBypassNone))
-	gens["DefaultAction"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSetDefaultActionAllow, NetworkRuleSetDefaultActionDeny))
+	gens["Bypass"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSet_BypassAzureServices, NetworkRuleSet_BypassNone))
+	gens["DefaultAction"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSet_DefaultActionAllow, NetworkRuleSet_DefaultActionDeny))
 }
 
 // AddRelatedPropertyGeneratorsForNetworkRuleSetARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNetworkRuleSetARM(gens map[string]gopter.Gen) {
 	gens["IpRules"] = gen.SliceOf(IPRuleARMGenerator())
 	gens["VirtualNetworkRules"] = gen.SliceOf(VirtualNetworkRuleARMGenerator())
+}
+
+func Test_PrivateEndpointConnectionItemARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of PrivateEndpointConnectionItemARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateEndpointConnectionItemARM, PrivateEndpointConnectionItemARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPrivateEndpointConnectionItemARM runs a test to see if a specific instance of PrivateEndpointConnectionItemARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateEndpointConnectionItemARM(subject PrivateEndpointConnectionItemARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual PrivateEndpointConnectionItemARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of PrivateEndpointConnectionItemARM instances for property testing - lazily instantiated by
+// PrivateEndpointConnectionItemARMGenerator()
+var privateEndpointConnectionItemARMGenerator gopter.Gen
+
+// PrivateEndpointConnectionItemARMGenerator returns a generator of PrivateEndpointConnectionItemARM instances for property testing.
+// We first initialize privateEndpointConnectionItemARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func PrivateEndpointConnectionItemARMGenerator() gopter.Gen {
+	if privateEndpointConnectionItemARMGenerator != nil {
+		return privateEndpointConnectionItemARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPrivateEndpointConnectionItemARM(generators)
+	privateEndpointConnectionItemARMGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnectionItemARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPrivateEndpointConnectionItemARM(generators)
+	AddRelatedPropertyGeneratorsForPrivateEndpointConnectionItemARM(generators)
+	privateEndpointConnectionItemARMGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnectionItemARM{}), generators)
+
+	return privateEndpointConnectionItemARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForPrivateEndpointConnectionItemARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrivateEndpointConnectionItemARM(gens map[string]gopter.Gen) {
+	gens["Etag"] = gen.PtrOf(gen.AlphaString())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForPrivateEndpointConnectionItemARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForPrivateEndpointConnectionItemARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(PrivateEndpointConnectionPropertiesARMGenerator())
 }
 
 func Test_SkuARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -384,8 +462,8 @@ func SkuARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSkuARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSkuARM(gens map[string]gopter.Gen) {
-	gens["Family"] = gen.PtrOf(gen.OneConstOf(SkuFamilyA))
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(SkuNamePremium, SkuNameStandard))
+	gens["Family"] = gen.PtrOf(gen.OneConstOf(Sku_FamilyA))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(Sku_NamePremium, Sku_NameStandard))
 }
 
 func Test_IPRuleARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -504,64 +582,145 @@ func PermissionsARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForPermissionsARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPermissionsARM(gens map[string]gopter.Gen) {
 	gens["Certificates"] = gen.SliceOf(gen.OneConstOf(
-		PermissionsCertificatesBackup,
-		PermissionsCertificatesCreate,
-		PermissionsCertificatesDelete,
-		PermissionsCertificatesDeleteissuers,
-		PermissionsCertificatesGet,
-		PermissionsCertificatesGetissuers,
-		PermissionsCertificatesImport,
-		PermissionsCertificatesList,
-		PermissionsCertificatesListissuers,
-		PermissionsCertificatesManagecontacts,
-		PermissionsCertificatesManageissuers,
-		PermissionsCertificatesPurge,
-		PermissionsCertificatesRecover,
-		PermissionsCertificatesRestore,
-		PermissionsCertificatesSetissuers,
-		PermissionsCertificatesUpdate))
+		Permissions_CertificatesBackup,
+		Permissions_CertificatesCreate,
+		Permissions_CertificatesDelete,
+		Permissions_CertificatesDeleteissuers,
+		Permissions_CertificatesGet,
+		Permissions_CertificatesGetissuers,
+		Permissions_CertificatesImport,
+		Permissions_CertificatesList,
+		Permissions_CertificatesListissuers,
+		Permissions_CertificatesManagecontacts,
+		Permissions_CertificatesManageissuers,
+		Permissions_CertificatesPurge,
+		Permissions_CertificatesRecover,
+		Permissions_CertificatesRestore,
+		Permissions_CertificatesSetissuers,
+		Permissions_CertificatesUpdate))
 	gens["Keys"] = gen.SliceOf(gen.OneConstOf(
-		PermissionsKeysBackup,
-		PermissionsKeysCreate,
-		PermissionsKeysDecrypt,
-		PermissionsKeysDelete,
-		PermissionsKeysEncrypt,
-		PermissionsKeysGet,
-		PermissionsKeysImport,
-		PermissionsKeysList,
-		PermissionsKeysPurge,
-		PermissionsKeysRecover,
-		PermissionsKeysRelease,
-		PermissionsKeysRestore,
-		PermissionsKeysSign,
-		PermissionsKeysUnwrapKey,
-		PermissionsKeysUpdate,
-		PermissionsKeysVerify,
-		PermissionsKeysWrapKey))
+		Permissions_KeysBackup,
+		Permissions_KeysCreate,
+		Permissions_KeysDecrypt,
+		Permissions_KeysDelete,
+		Permissions_KeysEncrypt,
+		Permissions_KeysGet,
+		Permissions_KeysImport,
+		Permissions_KeysList,
+		Permissions_KeysPurge,
+		Permissions_KeysRecover,
+		Permissions_KeysRelease,
+		Permissions_KeysRestore,
+		Permissions_KeysSign,
+		Permissions_KeysUnwrapKey,
+		Permissions_KeysUpdate,
+		Permissions_KeysVerify,
+		Permissions_KeysWrapKey))
 	gens["Secrets"] = gen.SliceOf(gen.OneConstOf(
-		PermissionsSecretsBackup,
-		PermissionsSecretsDelete,
-		PermissionsSecretsGet,
-		PermissionsSecretsList,
-		PermissionsSecretsPurge,
-		PermissionsSecretsRecover,
-		PermissionsSecretsRestore,
-		PermissionsSecretsSet))
+		Permissions_SecretsBackup,
+		Permissions_SecretsDelete,
+		Permissions_SecretsGet,
+		Permissions_SecretsList,
+		Permissions_SecretsPurge,
+		Permissions_SecretsRecover,
+		Permissions_SecretsRestore,
+		Permissions_SecretsSet))
 	gens["Storage"] = gen.SliceOf(gen.OneConstOf(
-		PermissionsStorageBackup,
-		PermissionsStorageDelete,
-		PermissionsStorageDeletesas,
-		PermissionsStorageGet,
-		PermissionsStorageGetsas,
-		PermissionsStorageList,
-		PermissionsStorageListsas,
-		PermissionsStoragePurge,
-		PermissionsStorageRecover,
-		PermissionsStorageRegeneratekey,
-		PermissionsStorageRestore,
-		PermissionsStorageSet,
-		PermissionsStorageSetsas,
-		PermissionsStorageUpdate))
+		Permissions_StorageBackup,
+		Permissions_StorageDelete,
+		Permissions_StorageDeletesas,
+		Permissions_StorageGet,
+		Permissions_StorageGetsas,
+		Permissions_StorageList,
+		Permissions_StorageListsas,
+		Permissions_StoragePurge,
+		Permissions_StorageRecover,
+		Permissions_StorageRegeneratekey,
+		Permissions_StorageRestore,
+		Permissions_StorageSet,
+		Permissions_StorageSetsas,
+		Permissions_StorageUpdate))
+}
+
+func Test_PrivateEndpointConnectionPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of PrivateEndpointConnectionPropertiesARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateEndpointConnectionPropertiesARM, PrivateEndpointConnectionPropertiesARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPrivateEndpointConnectionPropertiesARM runs a test to see if a specific instance of PrivateEndpointConnectionPropertiesARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateEndpointConnectionPropertiesARM(subject PrivateEndpointConnectionPropertiesARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual PrivateEndpointConnectionPropertiesARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of PrivateEndpointConnectionPropertiesARM instances for property testing - lazily instantiated by
+// PrivateEndpointConnectionPropertiesARMGenerator()
+var privateEndpointConnectionPropertiesARMGenerator gopter.Gen
+
+// PrivateEndpointConnectionPropertiesARMGenerator returns a generator of PrivateEndpointConnectionPropertiesARM instances for property testing.
+// We first initialize privateEndpointConnectionPropertiesARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func PrivateEndpointConnectionPropertiesARMGenerator() gopter.Gen {
+	if privateEndpointConnectionPropertiesARMGenerator != nil {
+		return privateEndpointConnectionPropertiesARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPrivateEndpointConnectionPropertiesARM(generators)
+	privateEndpointConnectionPropertiesARMGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnectionPropertiesARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPrivateEndpointConnectionPropertiesARM(generators)
+	AddRelatedPropertyGeneratorsForPrivateEndpointConnectionPropertiesARM(generators)
+	privateEndpointConnectionPropertiesARMGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnectionPropertiesARM{}), generators)
+
+	return privateEndpointConnectionPropertiesARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForPrivateEndpointConnectionPropertiesARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrivateEndpointConnectionPropertiesARM(gens map[string]gopter.Gen) {
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+		PrivateEndpointConnectionProvisioningStateCreating,
+		PrivateEndpointConnectionProvisioningStateDeleting,
+		PrivateEndpointConnectionProvisioningStateDisconnected,
+		PrivateEndpointConnectionProvisioningStateFailed,
+		PrivateEndpointConnectionProvisioningStateSucceeded,
+		PrivateEndpointConnectionProvisioningStateUpdating))
+}
+
+// AddRelatedPropertyGeneratorsForPrivateEndpointConnectionPropertiesARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForPrivateEndpointConnectionPropertiesARM(gens map[string]gopter.Gen) {
+	gens["PrivateEndpoint"] = gen.PtrOf(PrivateEndpointARMGenerator())
+	gens["PrivateLinkServiceConnectionState"] = gen.PtrOf(PrivateLinkServiceConnectionStateARMGenerator())
 }
 
 func Test_VirtualNetworkRuleARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -623,4 +782,129 @@ func VirtualNetworkRuleARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForVirtualNetworkRuleARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["IgnoreMissingVnetServiceEndpoint"] = gen.PtrOf(gen.Bool())
+}
+
+func Test_PrivateEndpointARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of PrivateEndpointARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateEndpointARM, PrivateEndpointARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPrivateEndpointARM runs a test to see if a specific instance of PrivateEndpointARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateEndpointARM(subject PrivateEndpointARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual PrivateEndpointARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of PrivateEndpointARM instances for property testing - lazily instantiated by PrivateEndpointARMGenerator()
+var privateEndpointARMGenerator gopter.Gen
+
+// PrivateEndpointARMGenerator returns a generator of PrivateEndpointARM instances for property testing.
+func PrivateEndpointARMGenerator() gopter.Gen {
+	if privateEndpointARMGenerator != nil {
+		return privateEndpointARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPrivateEndpointARM(generators)
+	privateEndpointARMGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointARM{}), generators)
+
+	return privateEndpointARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForPrivateEndpointARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrivateEndpointARM(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_PrivateLinkServiceConnectionStateARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of PrivateLinkServiceConnectionStateARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateLinkServiceConnectionStateARM, PrivateLinkServiceConnectionStateARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPrivateLinkServiceConnectionStateARM runs a test to see if a specific instance of PrivateLinkServiceConnectionStateARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateLinkServiceConnectionStateARM(subject PrivateLinkServiceConnectionStateARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual PrivateLinkServiceConnectionStateARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of PrivateLinkServiceConnectionStateARM instances for property testing - lazily instantiated by
+// PrivateLinkServiceConnectionStateARMGenerator()
+var privateLinkServiceConnectionStateARMGenerator gopter.Gen
+
+// PrivateLinkServiceConnectionStateARMGenerator returns a generator of PrivateLinkServiceConnectionStateARM instances for property testing.
+func PrivateLinkServiceConnectionStateARMGenerator() gopter.Gen {
+	if privateLinkServiceConnectionStateARMGenerator != nil {
+		return privateLinkServiceConnectionStateARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionStateARM(generators)
+	privateLinkServiceConnectionStateARMGenerator = gen.Struct(reflect.TypeOf(PrivateLinkServiceConnectionStateARM{}), generators)
+
+	return privateLinkServiceConnectionStateARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionStateARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionStateARM(gens map[string]gopter.Gen) {
+	gens["ActionsRequired"] = gen.PtrOf(gen.OneConstOf(PrivateLinkServiceConnectionState_ActionsRequiredNone))
+	gens["Description"] = gen.PtrOf(gen.AlphaString())
+	gens["Status"] = gen.PtrOf(gen.OneConstOf(
+		PrivateEndpointServiceConnectionStatusApproved,
+		PrivateEndpointServiceConnectionStatusDisconnected,
+		PrivateEndpointServiceConnectionStatusPending,
+		PrivateEndpointServiceConnectionStatusRejected))
 }
