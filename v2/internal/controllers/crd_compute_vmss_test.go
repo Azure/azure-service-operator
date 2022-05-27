@@ -61,10 +61,10 @@ func newPublicIPAddressForVMSS(tc *testcommon.KubePerTestContext, owner *genrunt
 }
 
 func newLoadBalancerForVMSS(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, publicIPAddress *network.PublicIPAddress) *network.LoadBalancer {
-	loadBalancerSku := network.LoadBalancerSkuNameStandard
+	loadBalancerSku := network.LoadBalancerSku_Name_Standard
 	lbName := tc.Namer.GenerateName("loadbalancer")
 	lbFrontendName := "LoadBalancerFrontend"
-	protocol := network.InboundNatPoolPropertiesFormatProtocolTcp
+	protocol := network.TransportProtocol_Tcp
 
 	// TODO: Getting this is SUPER awkward
 	frontIPConfigurationARMID, err := genericarmclient.MakeResourceGroupScopeARMID(

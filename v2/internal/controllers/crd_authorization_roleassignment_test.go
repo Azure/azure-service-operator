@@ -119,7 +119,6 @@ func Test_Authorization_RoleAssignment_OnStorageAccount_CRUD(t *testing.T) {
 	roleAssignment := &authorization.RoleAssignment{
 		ObjectMeta: tc.MakeObjectMetaWithName(roleAssignmentGUID.String()),
 		Spec: authorization.RoleAssignment_Spec{
-			Location:    tc.AzureRegion,
 			Owner:       tc.AsExtensionOwner(acct),
 			PrincipalId: mi.Status.PrincipalId,
 			RoleDefinitionReference: &genruntime.ResourceReference{
