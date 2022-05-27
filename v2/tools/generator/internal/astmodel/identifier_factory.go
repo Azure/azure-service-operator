@@ -54,6 +54,12 @@ type idCacheKey struct {
 	visibility Visibility
 }
 
+// Even though we cache input → result for identifier generation,
+// we could (and do) generate the same result many times,
+// for different inputs.
+// internCache lets us share the same result for each different input, which
+// reduces overall memory usage (and speeds up string comparisons,
+// but this is unmeasured).
 type internCache map[string]string
 
 func (c internCache) intern(value string) string {
