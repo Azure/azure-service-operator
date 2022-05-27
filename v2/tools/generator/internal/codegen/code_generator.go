@@ -121,6 +121,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 
 		// De-pluralize resource types
 		// (Must come after type aliases are resolved)
+		// TODO: I think this is redundant now
 		pipeline.ImproveResourcePluralization(),
 
 		pipeline.StripUnreferencedTypeDefinitions(),
@@ -132,12 +133,6 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// Apply export filters before generating
 		// ARM types for resources etc:
 		pipeline.ApplyExportFilters(configuration),
-
-		// TODO: These should be removed if/when we move to Swagger as the single source of truth
-		/*
-			pipeline.RemoveTypeProperty(),
-			pipeline.RemoveAPIVersionProperty(),
-		*/
 
 		pipeline.VerifyNoErroredTypes(),
 
