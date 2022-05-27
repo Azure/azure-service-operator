@@ -29,8 +29,8 @@ import (
 type Namespace struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Namespace_Spec     `json:"spec,omitempty"`
-	Status            SBNamespace_STATUS `json:"status,omitempty"`
+	Spec              Namespace_Spec   `json:"spec,omitempty"`
+	Status            Namespace_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Namespace{}
@@ -124,7 +124,7 @@ func (namespace *Namespace) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (namespace *Namespace) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SBNamespace_STATUS{}
+	return &Namespace_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -140,13 +140,13 @@ func (namespace *Namespace) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (namespace *Namespace) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SBNamespace_STATUS); ok {
+	if st, ok := status.(*Namespace_STATUS); ok {
 		namespace.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SBNamespace_STATUS
+	var st Namespace_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -264,10 +264,10 @@ func (namespace *Namespace) AssignPropertiesFromNamespace(source *v20210101ps.Na
 	namespace.Spec = spec
 
 	// Status
-	var status SBNamespace_STATUS
-	err = status.AssignPropertiesFromSBNamespace_STATUS(&source.Status)
+	var status Namespace_STATUS
+	err = status.AssignPropertiesFromNamespace_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromSBNamespace_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromNamespace_STATUS() to populate field Status")
 	}
 	namespace.Status = status
 
@@ -290,10 +290,10 @@ func (namespace *Namespace) AssignPropertiesToNamespace(destination *v20210101ps
 	destination.Spec = spec
 
 	// Status
-	var status v20210101ps.SBNamespace_STATUS
-	err = namespace.Status.AssignPropertiesToSBNamespace_STATUS(&status)
+	var status v20210101ps.Namespace_STATUS
+	err = namespace.Status.AssignPropertiesToNamespace_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSBNamespace_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToNamespace_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -323,6 +323,530 @@ type NamespaceList struct {
 type APIVersion string
 
 const APIVersionValue = APIVersion("20210101preview")
+
+type Namespace_STATUS struct {
+	// Conditions: The observed state of the resource
+	Conditions []conditions.Condition `json:"conditions,omitempty"`
+
+	// CreatedAt: The time the namespace was created
+	CreatedAt *string `json:"createdAt,omitempty"`
+
+	// Encryption: Properties of BYOK Encryption description
+	Encryption *Encryption_STATUS `json:"encryption,omitempty"`
+
+	// Id: Resource Id
+	Id *string `json:"id,omitempty"`
+
+	// Identity: Properties of BYOK Identity description
+	Identity *Identity_STATUS `json:"identity,omitempty"`
+
+	// Location: The Geo-location where the resource lives
+	Location *string `json:"location,omitempty"`
+
+	// MetricId: Identifier for Azure Insights metrics
+	MetricId *string `json:"metricId,omitempty"`
+
+	// Name: Resource name
+	Name *string `json:"name,omitempty"`
+
+	// PrivateEndpointConnections: List of private endpoint connections.
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS `json:"privateEndpointConnections,omitempty"`
+
+	// ProvisioningState: Provisioning state of the namespace.
+	ProvisioningState *string `json:"provisioningState,omitempty"`
+
+	// ServiceBusEndpoint: Endpoint you can use to perform Service Bus operations.
+	ServiceBusEndpoint *string `json:"serviceBusEndpoint,omitempty"`
+
+	// Sku: Properties of SKU
+	Sku *SBSku_STATUS `json:"sku,omitempty"`
+
+	// Status: Status of the namespace.
+	Status *string `json:"status,omitempty"`
+
+	// SystemData: The system meta data relating to this resource.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
+
+	// Tags: Resource tags
+	Tags map[string]string `json:"tags,omitempty"`
+
+	// Type: Resource type
+	Type *string `json:"type,omitempty"`
+
+	// UpdatedAt: The time the namespace was updated.
+	UpdatedAt *string `json:"updatedAt,omitempty"`
+
+	// ZoneRedundant: Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones.
+	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &Namespace_STATUS{}
+
+// ConvertStatusFrom populates our Namespace_STATUS from the provided source
+func (namespace *Namespace_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210101ps.Namespace_STATUS)
+	if ok {
+		// Populate our instance from source
+		return namespace.AssignPropertiesFromNamespace_STATUS(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20210101ps.Namespace_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = namespace.AssignPropertiesFromNamespace_STATUS(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
+}
+
+// ConvertStatusTo populates the provided destination from our Namespace_STATUS
+func (namespace *Namespace_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210101ps.Namespace_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return namespace.AssignPropertiesToNamespace_STATUS(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20210101ps.Namespace_STATUS{}
+	err := namespace.AssignPropertiesToNamespace_STATUS(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+var _ genruntime.FromARMConverter = &Namespace_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (namespace *Namespace_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Namespace_STATUSARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (namespace *Namespace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Namespace_STATUSARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Namespace_STATUSARM, got %T", armInput)
+	}
+
+	// no assignment for property ‘Conditions’
+
+	// Set property ‘CreatedAt’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.CreatedAt != nil {
+			createdAt := *typedInput.Properties.CreatedAt
+			namespace.CreatedAt = &createdAt
+		}
+	}
+
+	// Set property ‘Encryption’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Encryption != nil {
+			var encryption1 Encryption_STATUS
+			err := encryption1.PopulateFromARM(owner, *typedInput.Properties.Encryption)
+			if err != nil {
+				return err
+			}
+			encryption := encryption1
+			namespace.Encryption = &encryption
+		}
+	}
+
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		namespace.Id = &id
+	}
+
+	// Set property ‘Identity’:
+	if typedInput.Identity != nil {
+		var identity1 Identity_STATUS
+		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
+		if err != nil {
+			return err
+		}
+		identity := identity1
+		namespace.Identity = &identity
+	}
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		namespace.Location = &location
+	}
+
+	// Set property ‘MetricId’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.MetricId != nil {
+			metricId := *typedInput.Properties.MetricId
+			namespace.MetricId = &metricId
+		}
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		namespace.Name = &name
+	}
+
+	// Set property ‘PrivateEndpointConnections’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		for _, item := range typedInput.Properties.PrivateEndpointConnections {
+			var item1 PrivateEndpointConnection_STATUS
+			err := item1.PopulateFromARM(owner, item)
+			if err != nil {
+				return err
+			}
+			namespace.PrivateEndpointConnections = append(namespace.PrivateEndpointConnections, item1)
+		}
+	}
+
+	// Set property ‘ProvisioningState’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ProvisioningState != nil {
+			provisioningState := *typedInput.Properties.ProvisioningState
+			namespace.ProvisioningState = &provisioningState
+		}
+	}
+
+	// Set property ‘ServiceBusEndpoint’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ServiceBusEndpoint != nil {
+			serviceBusEndpoint := *typedInput.Properties.ServiceBusEndpoint
+			namespace.ServiceBusEndpoint = &serviceBusEndpoint
+		}
+	}
+
+	// Set property ‘Sku’:
+	if typedInput.Sku != nil {
+		var sku1 SBSku_STATUS
+		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
+		if err != nil {
+			return err
+		}
+		sku := sku1
+		namespace.Sku = &sku
+	}
+
+	// Set property ‘Status’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Status != nil {
+			status := *typedInput.Properties.Status
+			namespace.Status = &status
+		}
+	}
+
+	// Set property ‘SystemData’:
+	if typedInput.SystemData != nil {
+		var systemData1 SystemData_STATUS
+		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
+		if err != nil {
+			return err
+		}
+		systemData := systemData1
+		namespace.SystemData = &systemData
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		namespace.Tags = make(map[string]string)
+		for key, value := range typedInput.Tags {
+			namespace.Tags[key] = value
+		}
+	}
+
+	// Set property ‘Type’:
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		namespace.Type = &typeVar
+	}
+
+	// Set property ‘UpdatedAt’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.UpdatedAt != nil {
+			updatedAt := *typedInput.Properties.UpdatedAt
+			namespace.UpdatedAt = &updatedAt
+		}
+	}
+
+	// Set property ‘ZoneRedundant’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ZoneRedundant != nil {
+			zoneRedundant := *typedInput.Properties.ZoneRedundant
+			namespace.ZoneRedundant = &zoneRedundant
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromNamespace_STATUS populates our Namespace_STATUS from the provided source Namespace_STATUS
+func (namespace *Namespace_STATUS) AssignPropertiesFromNamespace_STATUS(source *v20210101ps.Namespace_STATUS) error {
+
+	// Conditions
+	namespace.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// CreatedAt
+	namespace.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
+
+	// Encryption
+	if source.Encryption != nil {
+		var encryption Encryption_STATUS
+		err := encryption.AssignPropertiesFromEncryption_STATUS(source.Encryption)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromEncryption_STATUS() to populate field Encryption")
+		}
+		namespace.Encryption = &encryption
+	} else {
+		namespace.Encryption = nil
+	}
+
+	// Id
+	namespace.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Identity
+	if source.Identity != nil {
+		var identity Identity_STATUS
+		err := identity.AssignPropertiesFromIdentity_STATUS(source.Identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromIdentity_STATUS() to populate field Identity")
+		}
+		namespace.Identity = &identity
+	} else {
+		namespace.Identity = nil
+	}
+
+	// Location
+	namespace.Location = genruntime.ClonePointerToString(source.Location)
+
+	// MetricId
+	namespace.MetricId = genruntime.ClonePointerToString(source.MetricId)
+
+	// Name
+	namespace.Name = genruntime.ClonePointerToString(source.Name)
+
+	// PrivateEndpointConnections
+	if source.PrivateEndpointConnections != nil {
+		privateEndpointConnectionList := make([]PrivateEndpointConnection_STATUS, len(source.PrivateEndpointConnections))
+		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
+			// Shadow the loop variable to avoid aliasing
+			privateEndpointConnectionItem := privateEndpointConnectionItem
+			var privateEndpointConnection PrivateEndpointConnection_STATUS
+			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnection_STATUS(&privateEndpointConnectionItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
+			}
+			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
+		}
+		namespace.PrivateEndpointConnections = privateEndpointConnectionList
+	} else {
+		namespace.PrivateEndpointConnections = nil
+	}
+
+	// ProvisioningState
+	namespace.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+
+	// ServiceBusEndpoint
+	namespace.ServiceBusEndpoint = genruntime.ClonePointerToString(source.ServiceBusEndpoint)
+
+	// Sku
+	if source.Sku != nil {
+		var sku SBSku_STATUS
+		err := sku.AssignPropertiesFromSBSku_STATUS(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSBSku_STATUS() to populate field Sku")
+		}
+		namespace.Sku = &sku
+	} else {
+		namespace.Sku = nil
+	}
+
+	// Status
+	namespace.Status = genruntime.ClonePointerToString(source.Status)
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignPropertiesFromSystemData_STATUS(source.SystemData)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemData_STATUS() to populate field SystemData")
+		}
+		namespace.SystemData = &systemDatum
+	} else {
+		namespace.SystemData = nil
+	}
+
+	// Tags
+	namespace.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	namespace.Type = genruntime.ClonePointerToString(source.Type)
+
+	// UpdatedAt
+	namespace.UpdatedAt = genruntime.ClonePointerToString(source.UpdatedAt)
+
+	// ZoneRedundant
+	if source.ZoneRedundant != nil {
+		zoneRedundant := *source.ZoneRedundant
+		namespace.ZoneRedundant = &zoneRedundant
+	} else {
+		namespace.ZoneRedundant = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToNamespace_STATUS populates the provided destination Namespace_STATUS from our Namespace_STATUS
+func (namespace *Namespace_STATUS) AssignPropertiesToNamespace_STATUS(destination *v20210101ps.Namespace_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(namespace.Conditions)
+
+	// CreatedAt
+	destination.CreatedAt = genruntime.ClonePointerToString(namespace.CreatedAt)
+
+	// Encryption
+	if namespace.Encryption != nil {
+		var encryption v20210101ps.Encryption_STATUS
+		err := namespace.Encryption.AssignPropertiesToEncryption_STATUS(&encryption)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToEncryption_STATUS() to populate field Encryption")
+		}
+		destination.Encryption = &encryption
+	} else {
+		destination.Encryption = nil
+	}
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(namespace.Id)
+
+	// Identity
+	if namespace.Identity != nil {
+		var identity v20210101ps.Identity_STATUS
+		err := namespace.Identity.AssignPropertiesToIdentity_STATUS(&identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToIdentity_STATUS() to populate field Identity")
+		}
+		destination.Identity = &identity
+	} else {
+		destination.Identity = nil
+	}
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(namespace.Location)
+
+	// MetricId
+	destination.MetricId = genruntime.ClonePointerToString(namespace.MetricId)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(namespace.Name)
+
+	// PrivateEndpointConnections
+	if namespace.PrivateEndpointConnections != nil {
+		privateEndpointConnectionList := make([]v20210101ps.PrivateEndpointConnection_STATUS, len(namespace.PrivateEndpointConnections))
+		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range namespace.PrivateEndpointConnections {
+			// Shadow the loop variable to avoid aliasing
+			privateEndpointConnectionItem := privateEndpointConnectionItem
+			var privateEndpointConnection v20210101ps.PrivateEndpointConnection_STATUS
+			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnection_STATUS(&privateEndpointConnection)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
+			}
+			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
+		}
+		destination.PrivateEndpointConnections = privateEndpointConnectionList
+	} else {
+		destination.PrivateEndpointConnections = nil
+	}
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(namespace.ProvisioningState)
+
+	// ServiceBusEndpoint
+	destination.ServiceBusEndpoint = genruntime.ClonePointerToString(namespace.ServiceBusEndpoint)
+
+	// Sku
+	if namespace.Sku != nil {
+		var sku v20210101ps.SBSku_STATUS
+		err := namespace.Sku.AssignPropertiesToSBSku_STATUS(&sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSBSku_STATUS() to populate field Sku")
+		}
+		destination.Sku = &sku
+	} else {
+		destination.Sku = nil
+	}
+
+	// Status
+	destination.Status = genruntime.ClonePointerToString(namespace.Status)
+
+	// SystemData
+	if namespace.SystemData != nil {
+		var systemDatum v20210101ps.SystemData_STATUS
+		err := namespace.SystemData.AssignPropertiesToSystemData_STATUS(&systemDatum)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(namespace.Tags)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(namespace.Type)
+
+	// UpdatedAt
+	destination.UpdatedAt = genruntime.ClonePointerToString(namespace.UpdatedAt)
+
+	// ZoneRedundant
+	if namespace.ZoneRedundant != nil {
+		zoneRedundant := *namespace.ZoneRedundant
+		destination.ZoneRedundant = &zoneRedundant
+	} else {
+		destination.ZoneRedundant = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
 
 type Namespace_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -1020,530 +1544,6 @@ func (namespace *Namespace_Spec) OriginalVersion() string {
 
 // SetAzureName sets the Azure name of the resource
 func (namespace *Namespace_Spec) SetAzureName(azureName string) { namespace.AzureName = azureName }
-
-type SBNamespace_STATUS struct {
-	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// CreatedAt: The time the namespace was created
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	// Encryption: Properties of BYOK Encryption description
-	Encryption *Encryption_STATUS `json:"encryption,omitempty"`
-
-	// Id: Resource Id
-	Id *string `json:"id,omitempty"`
-
-	// Identity: Properties of BYOK Identity description
-	Identity *Identity_STATUS `json:"identity,omitempty"`
-
-	// Location: The Geo-location where the resource lives
-	Location *string `json:"location,omitempty"`
-
-	// MetricId: Identifier for Azure Insights metrics
-	MetricId *string `json:"metricId,omitempty"`
-
-	// Name: Resource name
-	Name *string `json:"name,omitempty"`
-
-	// PrivateEndpointConnections: List of private endpoint connections.
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
-
-	// ProvisioningState: Provisioning state of the namespace.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
-
-	// ServiceBusEndpoint: Endpoint you can use to perform Service Bus operations.
-	ServiceBusEndpoint *string `json:"serviceBusEndpoint,omitempty"`
-
-	// Sku: Properties of SKU
-	Sku *SBSku_STATUS `json:"sku,omitempty"`
-
-	// Status: Status of the namespace.
-	Status *string `json:"status,omitempty"`
-
-	// SystemData: The system meta data relating to this resource.
-	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
-
-	// Tags: Resource tags
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: Resource type
-	Type *string `json:"type,omitempty"`
-
-	// UpdatedAt: The time the namespace was updated.
-	UpdatedAt *string `json:"updatedAt,omitempty"`
-
-	// ZoneRedundant: Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones.
-	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &SBNamespace_STATUS{}
-
-// ConvertStatusFrom populates our SBNamespace_STATUS from the provided source
-func (namespace *SBNamespace_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210101ps.SBNamespace_STATUS)
-	if ok {
-		// Populate our instance from source
-		return namespace.AssignPropertiesFromSBNamespace_STATUS(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20210101ps.SBNamespace_STATUS{}
-	err := src.ConvertStatusFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
-	}
-
-	// Update our instance from src
-	err = namespace.AssignPropertiesFromSBNamespace_STATUS(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
-	}
-
-	return nil
-}
-
-// ConvertStatusTo populates the provided destination from our SBNamespace_STATUS
-func (namespace *SBNamespace_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210101ps.SBNamespace_STATUS)
-	if ok {
-		// Populate destination from our instance
-		return namespace.AssignPropertiesToSBNamespace_STATUS(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20210101ps.SBNamespace_STATUS{}
-	err := namespace.AssignPropertiesToSBNamespace_STATUS(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertStatusTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
-	}
-
-	return nil
-}
-
-var _ genruntime.FromARMConverter = &SBNamespace_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (namespace *SBNamespace_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SBNamespace_STATUSARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (namespace *SBNamespace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SBNamespace_STATUSARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SBNamespace_STATUSARM, got %T", armInput)
-	}
-
-	// no assignment for property ‘Conditions’
-
-	// Set property ‘CreatedAt’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.CreatedAt != nil {
-			createdAt := *typedInput.Properties.CreatedAt
-			namespace.CreatedAt = &createdAt
-		}
-	}
-
-	// Set property ‘Encryption’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Encryption != nil {
-			var encryption1 Encryption_STATUS
-			err := encryption1.PopulateFromARM(owner, *typedInput.Properties.Encryption)
-			if err != nil {
-				return err
-			}
-			encryption := encryption1
-			namespace.Encryption = &encryption
-		}
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		namespace.Id = &id
-	}
-
-	// Set property ‘Identity’:
-	if typedInput.Identity != nil {
-		var identity1 Identity_STATUS
-		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
-		if err != nil {
-			return err
-		}
-		identity := identity1
-		namespace.Identity = &identity
-	}
-
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		namespace.Location = &location
-	}
-
-	// Set property ‘MetricId’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.MetricId != nil {
-			metricId := *typedInput.Properties.MetricId
-			namespace.MetricId = &metricId
-		}
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		namespace.Name = &name
-	}
-
-	// Set property ‘PrivateEndpointConnections’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.PrivateEndpointConnections {
-			var item1 PrivateEndpointConnection_STATUS_SubResourceEmbedded
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			namespace.PrivateEndpointConnections = append(namespace.PrivateEndpointConnections, item1)
-		}
-	}
-
-	// Set property ‘ProvisioningState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
-			namespace.ProvisioningState = &provisioningState
-		}
-	}
-
-	// Set property ‘ServiceBusEndpoint’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ServiceBusEndpoint != nil {
-			serviceBusEndpoint := *typedInput.Properties.ServiceBusEndpoint
-			namespace.ServiceBusEndpoint = &serviceBusEndpoint
-		}
-	}
-
-	// Set property ‘Sku’:
-	if typedInput.Sku != nil {
-		var sku1 SBSku_STATUS
-		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
-		if err != nil {
-			return err
-		}
-		sku := sku1
-		namespace.Sku = &sku
-	}
-
-	// Set property ‘Status’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Status != nil {
-			status := *typedInput.Properties.Status
-			namespace.Status = &status
-		}
-	}
-
-	// Set property ‘SystemData’:
-	if typedInput.SystemData != nil {
-		var systemData1 SystemData_STATUS
-		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
-		if err != nil {
-			return err
-		}
-		systemData := systemData1
-		namespace.SystemData = &systemData
-	}
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		namespace.Tags = make(map[string]string)
-		for key, value := range typedInput.Tags {
-			namespace.Tags[key] = value
-		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		namespace.Type = &typeVar
-	}
-
-	// Set property ‘UpdatedAt’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.UpdatedAt != nil {
-			updatedAt := *typedInput.Properties.UpdatedAt
-			namespace.UpdatedAt = &updatedAt
-		}
-	}
-
-	// Set property ‘ZoneRedundant’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ZoneRedundant != nil {
-			zoneRedundant := *typedInput.Properties.ZoneRedundant
-			namespace.ZoneRedundant = &zoneRedundant
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromSBNamespace_STATUS populates our SBNamespace_STATUS from the provided source SBNamespace_STATUS
-func (namespace *SBNamespace_STATUS) AssignPropertiesFromSBNamespace_STATUS(source *v20210101ps.SBNamespace_STATUS) error {
-
-	// Conditions
-	namespace.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
-
-	// CreatedAt
-	namespace.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
-
-	// Encryption
-	if source.Encryption != nil {
-		var encryption Encryption_STATUS
-		err := encryption.AssignPropertiesFromEncryption_STATUS(source.Encryption)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromEncryption_STATUS() to populate field Encryption")
-		}
-		namespace.Encryption = &encryption
-	} else {
-		namespace.Encryption = nil
-	}
-
-	// Id
-	namespace.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Identity
-	if source.Identity != nil {
-		var identity Identity_STATUS
-		err := identity.AssignPropertiesFromIdentity_STATUS(source.Identity)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromIdentity_STATUS() to populate field Identity")
-		}
-		namespace.Identity = &identity
-	} else {
-		namespace.Identity = nil
-	}
-
-	// Location
-	namespace.Location = genruntime.ClonePointerToString(source.Location)
-
-	// MetricId
-	namespace.MetricId = genruntime.ClonePointerToString(source.MetricId)
-
-	// Name
-	namespace.Name = genruntime.ClonePointerToString(source.Name)
-
-	// PrivateEndpointConnections
-	if source.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]PrivateEndpointConnection_STATUS_SubResourceEmbedded, len(source.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection PrivateEndpointConnection_STATUS_SubResourceEmbedded
-			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnection_STATUS_SubResourceEmbedded(&privateEndpointConnectionItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnection_STATUS_SubResourceEmbedded() to populate field PrivateEndpointConnections")
-			}
-			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
-		}
-		namespace.PrivateEndpointConnections = privateEndpointConnectionList
-	} else {
-		namespace.PrivateEndpointConnections = nil
-	}
-
-	// ProvisioningState
-	namespace.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
-	// ServiceBusEndpoint
-	namespace.ServiceBusEndpoint = genruntime.ClonePointerToString(source.ServiceBusEndpoint)
-
-	// Sku
-	if source.Sku != nil {
-		var sku SBSku_STATUS
-		err := sku.AssignPropertiesFromSBSku_STATUS(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSBSku_STATUS() to populate field Sku")
-		}
-		namespace.Sku = &sku
-	} else {
-		namespace.Sku = nil
-	}
-
-	// Status
-	namespace.Status = genruntime.ClonePointerToString(source.Status)
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData_STATUS
-		err := systemDatum.AssignPropertiesFromSystemData_STATUS(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData_STATUS() to populate field SystemData")
-		}
-		namespace.SystemData = &systemDatum
-	} else {
-		namespace.SystemData = nil
-	}
-
-	// Tags
-	namespace.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	namespace.Type = genruntime.ClonePointerToString(source.Type)
-
-	// UpdatedAt
-	namespace.UpdatedAt = genruntime.ClonePointerToString(source.UpdatedAt)
-
-	// ZoneRedundant
-	if source.ZoneRedundant != nil {
-		zoneRedundant := *source.ZoneRedundant
-		namespace.ZoneRedundant = &zoneRedundant
-	} else {
-		namespace.ZoneRedundant = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToSBNamespace_STATUS populates the provided destination SBNamespace_STATUS from our SBNamespace_STATUS
-func (namespace *SBNamespace_STATUS) AssignPropertiesToSBNamespace_STATUS(destination *v20210101ps.SBNamespace_STATUS) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(namespace.Conditions)
-
-	// CreatedAt
-	destination.CreatedAt = genruntime.ClonePointerToString(namespace.CreatedAt)
-
-	// Encryption
-	if namespace.Encryption != nil {
-		var encryption v20210101ps.Encryption_STATUS
-		err := namespace.Encryption.AssignPropertiesToEncryption_STATUS(&encryption)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToEncryption_STATUS() to populate field Encryption")
-		}
-		destination.Encryption = &encryption
-	} else {
-		destination.Encryption = nil
-	}
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(namespace.Id)
-
-	// Identity
-	if namespace.Identity != nil {
-		var identity v20210101ps.Identity_STATUS
-		err := namespace.Identity.AssignPropertiesToIdentity_STATUS(&identity)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToIdentity_STATUS() to populate field Identity")
-		}
-		destination.Identity = &identity
-	} else {
-		destination.Identity = nil
-	}
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(namespace.Location)
-
-	// MetricId
-	destination.MetricId = genruntime.ClonePointerToString(namespace.MetricId)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(namespace.Name)
-
-	// PrivateEndpointConnections
-	if namespace.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]v20210101ps.PrivateEndpointConnection_STATUS_SubResourceEmbedded, len(namespace.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range namespace.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection v20210101ps.PrivateEndpointConnection_STATUS_SubResourceEmbedded
-			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnection_STATUS_SubResourceEmbedded(&privateEndpointConnection)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnection_STATUS_SubResourceEmbedded() to populate field PrivateEndpointConnections")
-			}
-			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
-		}
-		destination.PrivateEndpointConnections = privateEndpointConnectionList
-	} else {
-		destination.PrivateEndpointConnections = nil
-	}
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(namespace.ProvisioningState)
-
-	// ServiceBusEndpoint
-	destination.ServiceBusEndpoint = genruntime.ClonePointerToString(namespace.ServiceBusEndpoint)
-
-	// Sku
-	if namespace.Sku != nil {
-		var sku v20210101ps.SBSku_STATUS
-		err := namespace.Sku.AssignPropertiesToSBSku_STATUS(&sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSBSku_STATUS() to populate field Sku")
-		}
-		destination.Sku = &sku
-	} else {
-		destination.Sku = nil
-	}
-
-	// Status
-	destination.Status = genruntime.ClonePointerToString(namespace.Status)
-
-	// SystemData
-	if namespace.SystemData != nil {
-		var systemDatum v20210101ps.SystemData_STATUS
-		err := namespace.SystemData.AssignPropertiesToSystemData_STATUS(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData_STATUS() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(namespace.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(namespace.Type)
-
-	// UpdatedAt
-	destination.UpdatedAt = genruntime.ClonePointerToString(namespace.UpdatedAt)
-
-	// ZoneRedundant
-	if namespace.ZoneRedundant != nil {
-		zoneRedundant := *namespace.ZoneRedundant
-		destination.ZoneRedundant = &zoneRedundant
-	} else {
-		destination.ZoneRedundant = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
 
 type Encryption struct {
 	// KeySource: Enumerates the possible value of keySource for Encryption
@@ -2255,7 +2255,7 @@ func (connection *PrivateEndpointConnection) AssignPropertiesToPrivateEndpointCo
 	return nil
 }
 
-type PrivateEndpointConnection_STATUS_SubResourceEmbedded struct {
+type PrivateEndpointConnection_STATUS struct {
 	// Id: Resource Id
 	Id *string `json:"id,omitempty"`
 
@@ -2263,24 +2263,24 @@ type PrivateEndpointConnection_STATUS_SubResourceEmbedded struct {
 	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &PrivateEndpointConnection_STATUS_SubResourceEmbedded{}
+var _ genruntime.FromARMConverter = &PrivateEndpointConnection_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM{}
+func (connection *PrivateEndpointConnection_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &PrivateEndpointConnection_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM)
+func (connection *PrivateEndpointConnection_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(PrivateEndpointConnection_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
-		embedded.Id = &id
+		connection.Id = &id
 	}
 
 	// Set property ‘SystemData’:
@@ -2291,18 +2291,18 @@ func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) PopulateFr
 			return err
 		}
 		systemData := systemData1
-		embedded.SystemData = &systemData
+		connection.SystemData = &systemData
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesFromPrivateEndpointConnection_STATUS_SubResourceEmbedded populates our PrivateEndpointConnection_STATUS_SubResourceEmbedded from the provided source PrivateEndpointConnection_STATUS_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignPropertiesFromPrivateEndpointConnection_STATUS_SubResourceEmbedded(source *v20210101ps.PrivateEndpointConnection_STATUS_SubResourceEmbedded) error {
+// AssignPropertiesFromPrivateEndpointConnection_STATUS populates our PrivateEndpointConnection_STATUS from the provided source PrivateEndpointConnection_STATUS
+func (connection *PrivateEndpointConnection_STATUS) AssignPropertiesFromPrivateEndpointConnection_STATUS(source *v20210101ps.PrivateEndpointConnection_STATUS) error {
 
 	// Id
-	embedded.Id = genruntime.ClonePointerToString(source.Id)
+	connection.Id = genruntime.ClonePointerToString(source.Id)
 
 	// SystemData
 	if source.SystemData != nil {
@@ -2311,27 +2311,27 @@ func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignProp
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSystemData_STATUS() to populate field SystemData")
 		}
-		embedded.SystemData = &systemDatum
+		connection.SystemData = &systemDatum
 	} else {
-		embedded.SystemData = nil
+		connection.SystemData = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToPrivateEndpointConnection_STATUS_SubResourceEmbedded populates the provided destination PrivateEndpointConnection_STATUS_SubResourceEmbedded from our PrivateEndpointConnection_STATUS_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_STATUS_SubResourceEmbedded) AssignPropertiesToPrivateEndpointConnection_STATUS_SubResourceEmbedded(destination *v20210101ps.PrivateEndpointConnection_STATUS_SubResourceEmbedded) error {
+// AssignPropertiesToPrivateEndpointConnection_STATUS populates the provided destination PrivateEndpointConnection_STATUS from our PrivateEndpointConnection_STATUS
+func (connection *PrivateEndpointConnection_STATUS) AssignPropertiesToPrivateEndpointConnection_STATUS(destination *v20210101ps.PrivateEndpointConnection_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(embedded.Id)
+	destination.Id = genruntime.ClonePointerToString(connection.Id)
 
 	// SystemData
-	if embedded.SystemData != nil {
+	if connection.SystemData != nil {
 		var systemDatum v20210101ps.SystemData_STATUS
-		err := embedded.SystemData.AssignPropertiesToSystemData_STATUS(&systemDatum)
+		err := connection.SystemData.AssignPropertiesToSystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSystemData_STATUS() to populate field SystemData")
 		}

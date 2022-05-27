@@ -1262,6 +1262,66 @@ func AddIndependentPropertyGeneratorsForManagedClusterWindowsProfile_STATUSARM(g
 	gens["LicenseType"] = gen.PtrOf(gen.OneConstOf(ManagedClusterWindowsProfile_LicenseType_STATUSNone, ManagedClusterWindowsProfile_LicenseType_STATUSWindows_Server))
 }
 
+func Test_PowerState_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of PowerState_STATUSARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPowerState_STATUSARM, PowerState_STATUSARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPowerState_STATUSARM runs a test to see if a specific instance of PowerState_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForPowerState_STATUSARM(subject PowerState_STATUSARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual PowerState_STATUSARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of PowerState_STATUSARM instances for property testing - lazily instantiated by
+// PowerState_STATUSARMGenerator()
+var powerState_STATUSARMGenerator gopter.Gen
+
+// PowerState_STATUSARMGenerator returns a generator of PowerState_STATUSARM instances for property testing.
+func PowerState_STATUSARMGenerator() gopter.Gen {
+	if powerState_STATUSARMGenerator != nil {
+		return powerState_STATUSARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPowerState_STATUSARM(generators)
+	powerState_STATUSARMGenerator = gen.Struct(reflect.TypeOf(PowerState_STATUSARM{}), generators)
+
+	return powerState_STATUSARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForPowerState_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPowerState_STATUSARM(gens map[string]gopter.Gen) {
+	gens["Code"] = gen.PtrOf(gen.OneConstOf(PowerState_Code_STATUSRunning, PowerState_Code_STATUSStopped))
+}
+
 func Test_PrivateLinkResource_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()

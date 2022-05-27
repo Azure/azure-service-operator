@@ -27,8 +27,8 @@ import (
 type RedisLinkedServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              RedisLinkedServer_Spec                   `json:"spec,omitempty"`
-	Status            RedisLinkedServerCreateParameters_STATUS `json:"status,omitempty"`
+	Spec              RedisLinkedServer_Spec   `json:"spec,omitempty"`
+	Status            RedisLinkedServer_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &RedisLinkedServer{}
@@ -77,7 +77,7 @@ func (server *RedisLinkedServer) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (server *RedisLinkedServer) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &RedisLinkedServerCreateParameters_STATUS{}
+	return &RedisLinkedServer_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -93,13 +93,13 @@ func (server *RedisLinkedServer) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (server *RedisLinkedServer) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*RedisLinkedServerCreateParameters_STATUS); ok {
+	if st, ok := status.(*RedisLinkedServer_STATUS); ok {
 		server.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st RedisLinkedServerCreateParameters_STATUS
+	var st RedisLinkedServer_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -131,8 +131,8 @@ type RedisLinkedServerList struct {
 	Items           []RedisLinkedServer `json:"items"`
 }
 
-// Storage version of v1beta20201201.RedisLinkedServerCreateParameters_STATUS
-type RedisLinkedServerCreateParameters_STATUS struct {
+// Storage version of v1beta20201201.RedisLinkedServer_STATUS
+type RedisLinkedServer_STATUS struct {
 	Conditions               []conditions.Condition `json:"conditions,omitempty"`
 	LinkedRedisCacheId       *string                `json:"linkedRedisCacheId,omitempty"`
 	LinkedRedisCacheLocation *string                `json:"linkedRedisCacheLocation,omitempty"`
@@ -140,24 +140,24 @@ type RedisLinkedServerCreateParameters_STATUS struct {
 	ServerRole               *string                `json:"serverRole,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &RedisLinkedServerCreateParameters_STATUS{}
+var _ genruntime.ConvertibleStatus = &RedisLinkedServer_STATUS{}
 
-// ConvertStatusFrom populates our RedisLinkedServerCreateParameters_STATUS from the provided source
-func (parameters *RedisLinkedServerCreateParameters_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == parameters {
+// ConvertStatusFrom populates our RedisLinkedServer_STATUS from the provided source
+func (server *RedisLinkedServer_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == server {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(parameters)
+	return source.ConvertStatusTo(server)
 }
 
-// ConvertStatusTo populates the provided destination from our RedisLinkedServerCreateParameters_STATUS
-func (parameters *RedisLinkedServerCreateParameters_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == parameters {
+// ConvertStatusTo populates the provided destination from our RedisLinkedServer_STATUS
+func (server *RedisLinkedServer_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == server {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(parameters)
+	return destination.ConvertStatusFrom(server)
 }
 
 // Storage version of v1beta20201201.RedisLinkedServer_Spec

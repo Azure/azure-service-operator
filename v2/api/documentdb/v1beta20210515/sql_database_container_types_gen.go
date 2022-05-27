@@ -29,8 +29,8 @@ import (
 type SqlDatabaseContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccountsSqlDatabasesContainer_Spec `json:"spec,omitempty"`
-	Status            SqlContainerCreateUpdateParameters_STATUS  `json:"status,omitempty"`
+	Spec              DatabaseAccountsSqlDatabasesContainer_Spec   `json:"spec,omitempty"`
+	Status            DatabaseAccountsSqlDatabasesContainer_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainer{}
@@ -124,7 +124,7 @@ func (container *SqlDatabaseContainer) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (container *SqlDatabaseContainer) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SqlContainerCreateUpdateParameters_STATUS{}
+	return &DatabaseAccountsSqlDatabasesContainer_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -140,13 +140,13 @@ func (container *SqlDatabaseContainer) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (container *SqlDatabaseContainer) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SqlContainerCreateUpdateParameters_STATUS); ok {
+	if st, ok := status.(*DatabaseAccountsSqlDatabasesContainer_STATUS); ok {
 		container.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SqlContainerCreateUpdateParameters_STATUS
+	var st DatabaseAccountsSqlDatabasesContainer_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -264,10 +264,10 @@ func (container *SqlDatabaseContainer) AssignPropertiesFromSqlDatabaseContainer(
 	container.Spec = spec
 
 	// Status
-	var status SqlContainerCreateUpdateParameters_STATUS
-	err = status.AssignPropertiesFromSqlContainerCreateUpdateParameters_STATUS(&source.Status)
+	var status DatabaseAccountsSqlDatabasesContainer_STATUS
+	err = status.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainer_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromSqlContainerCreateUpdateParameters_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsSqlDatabasesContainer_STATUS() to populate field Status")
 	}
 	container.Status = status
 
@@ -290,10 +290,10 @@ func (container *SqlDatabaseContainer) AssignPropertiesToSqlDatabaseContainer(de
 	destination.Spec = spec
 
 	// Status
-	var status v20210515s.SqlContainerCreateUpdateParameters_STATUS
-	err = container.Status.AssignPropertiesToSqlContainerCreateUpdateParameters_STATUS(&status)
+	var status v20210515s.DatabaseAccountsSqlDatabasesContainer_STATUS
+	err = container.Status.AssignPropertiesToDatabaseAccountsSqlDatabasesContainer_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSqlContainerCreateUpdateParameters_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsSqlDatabasesContainer_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -317,6 +317,268 @@ type SqlDatabaseContainerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []SqlDatabaseContainer `json:"items"`
+}
+
+type DatabaseAccountsSqlDatabasesContainer_STATUS struct {
+	// Conditions: The observed state of the resource
+	Conditions []conditions.Condition `json:"conditions,omitempty"`
+
+	// Id: The unique resource identifier of the ARM resource.
+	Id *string `json:"id,omitempty"`
+
+	// Location: The location of the resource group to which the resource belongs.
+	Location *string `json:"location,omitempty"`
+
+	// Name: The name of the ARM resource.
+	Name *string `json:"name,omitempty"`
+
+	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
+	// request.
+	Options *CreateUpdateOptions_STATUS `json:"options,omitempty"`
+
+	// Resource: The standard JSON format of a container
+	Resource *SqlContainerResource_STATUS `json:"resource,omitempty"`
+	Tags     map[string]string            `json:"tags,omitempty"`
+
+	// Type: The type of Azure resource.
+	Type *string `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &DatabaseAccountsSqlDatabasesContainer_STATUS{}
+
+// ConvertStatusFrom populates our DatabaseAccountsSqlDatabasesContainer_STATUS from the provided source
+func (container *DatabaseAccountsSqlDatabasesContainer_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210515s.DatabaseAccountsSqlDatabasesContainer_STATUS)
+	if ok {
+		// Populate our instance from source
+		return container.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainer_STATUS(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20210515s.DatabaseAccountsSqlDatabasesContainer_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = container.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainer_STATUS(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
+}
+
+// ConvertStatusTo populates the provided destination from our DatabaseAccountsSqlDatabasesContainer_STATUS
+func (container *DatabaseAccountsSqlDatabasesContainer_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210515s.DatabaseAccountsSqlDatabasesContainer_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return container.AssignPropertiesToDatabaseAccountsSqlDatabasesContainer_STATUS(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20210515s.DatabaseAccountsSqlDatabasesContainer_STATUS{}
+	err := container.AssignPropertiesToDatabaseAccountsSqlDatabasesContainer_STATUS(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+var _ genruntime.FromARMConverter = &DatabaseAccountsSqlDatabasesContainer_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (container *DatabaseAccountsSqlDatabasesContainer_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DatabaseAccountsSqlDatabasesContainer_STATUSARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (container *DatabaseAccountsSqlDatabasesContainer_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DatabaseAccountsSqlDatabasesContainer_STATUSARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccountsSqlDatabasesContainer_STATUSARM, got %T", armInput)
+	}
+
+	// no assignment for property ‘Conditions’
+
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		container.Id = &id
+	}
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		container.Location = &location
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		container.Name = &name
+	}
+
+	// Set property ‘Options’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Options != nil {
+			var options1 CreateUpdateOptions_STATUS
+			err := options1.PopulateFromARM(owner, *typedInput.Properties.Options)
+			if err != nil {
+				return err
+			}
+			options := options1
+			container.Options = &options
+		}
+	}
+
+	// Set property ‘Resource’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Resource != nil {
+			var resource1 SqlContainerResource_STATUS
+			err := resource1.PopulateFromARM(owner, *typedInput.Properties.Resource)
+			if err != nil {
+				return err
+			}
+			resource := resource1
+			container.Resource = &resource
+		}
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		container.Tags = make(map[string]string)
+		for key, value := range typedInput.Tags {
+			container.Tags[key] = value
+		}
+	}
+
+	// Set property ‘Type’:
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		container.Type = &typeVar
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromDatabaseAccountsSqlDatabasesContainer_STATUS populates our DatabaseAccountsSqlDatabasesContainer_STATUS from the provided source DatabaseAccountsSqlDatabasesContainer_STATUS
+func (container *DatabaseAccountsSqlDatabasesContainer_STATUS) AssignPropertiesFromDatabaseAccountsSqlDatabasesContainer_STATUS(source *v20210515s.DatabaseAccountsSqlDatabasesContainer_STATUS) error {
+
+	// Conditions
+	container.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Id
+	container.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Location
+	container.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Name
+	container.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Options
+	if source.Options != nil {
+		var option CreateUpdateOptions_STATUS
+		err := option.AssignPropertiesFromCreateUpdateOptions_STATUS(source.Options)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptions_STATUS() to populate field Options")
+		}
+		container.Options = &option
+	} else {
+		container.Options = nil
+	}
+
+	// Resource
+	if source.Resource != nil {
+		var resource SqlContainerResource_STATUS
+		err := resource.AssignPropertiesFromSqlContainerResource_STATUS(source.Resource)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSqlContainerResource_STATUS() to populate field Resource")
+		}
+		container.Resource = &resource
+	} else {
+		container.Resource = nil
+	}
+
+	// Tags
+	container.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	container.Type = genruntime.ClonePointerToString(source.Type)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToDatabaseAccountsSqlDatabasesContainer_STATUS populates the provided destination DatabaseAccountsSqlDatabasesContainer_STATUS from our DatabaseAccountsSqlDatabasesContainer_STATUS
+func (container *DatabaseAccountsSqlDatabasesContainer_STATUS) AssignPropertiesToDatabaseAccountsSqlDatabasesContainer_STATUS(destination *v20210515s.DatabaseAccountsSqlDatabasesContainer_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(container.Conditions)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(container.Id)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(container.Location)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(container.Name)
+
+	// Options
+	if container.Options != nil {
+		var option v20210515s.CreateUpdateOptions_STATUS
+		err := container.Options.AssignPropertiesToCreateUpdateOptions_STATUS(&option)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions_STATUS() to populate field Options")
+		}
+		destination.Options = &option
+	} else {
+		destination.Options = nil
+	}
+
+	// Resource
+	if container.Resource != nil {
+		var resource v20210515s.SqlContainerResource_STATUS
+		err := container.Resource.AssignPropertiesToSqlContainerResource_STATUS(&resource)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSqlContainerResource_STATUS() to populate field Resource")
+		}
+		destination.Resource = &resource
+	} else {
+		destination.Resource = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(container.Tags)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(container.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 type DatabaseAccountsSqlDatabasesContainer_Spec struct {
@@ -669,268 +931,6 @@ func (container *DatabaseAccountsSqlDatabasesContainer_Spec) OriginalVersion() s
 // SetAzureName sets the Azure name of the resource
 func (container *DatabaseAccountsSqlDatabasesContainer_Spec) SetAzureName(azureName string) {
 	container.AzureName = azureName
-}
-
-type SqlContainerCreateUpdateParameters_STATUS struct {
-	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// Id: The unique resource identifier of the ARM resource.
-	Id *string `json:"id,omitempty"`
-
-	// Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the ARM resource.
-	Name *string `json:"name,omitempty"`
-
-	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
-	// request.
-	Options *CreateUpdateOptions_STATUS `json:"options,omitempty"`
-
-	// Resource: The standard JSON format of a container
-	Resource *SqlContainerResource_STATUS `json:"resource,omitempty"`
-	Tags     map[string]string            `json:"tags,omitempty"`
-
-	// Type: The type of Azure resource.
-	Type *string `json:"type,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &SqlContainerCreateUpdateParameters_STATUS{}
-
-// ConvertStatusFrom populates our SqlContainerCreateUpdateParameters_STATUS from the provided source
-func (parameters *SqlContainerCreateUpdateParameters_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210515s.SqlContainerCreateUpdateParameters_STATUS)
-	if ok {
-		// Populate our instance from source
-		return parameters.AssignPropertiesFromSqlContainerCreateUpdateParameters_STATUS(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20210515s.SqlContainerCreateUpdateParameters_STATUS{}
-	err := src.ConvertStatusFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
-	}
-
-	// Update our instance from src
-	err = parameters.AssignPropertiesFromSqlContainerCreateUpdateParameters_STATUS(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
-	}
-
-	return nil
-}
-
-// ConvertStatusTo populates the provided destination from our SqlContainerCreateUpdateParameters_STATUS
-func (parameters *SqlContainerCreateUpdateParameters_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210515s.SqlContainerCreateUpdateParameters_STATUS)
-	if ok {
-		// Populate destination from our instance
-		return parameters.AssignPropertiesToSqlContainerCreateUpdateParameters_STATUS(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20210515s.SqlContainerCreateUpdateParameters_STATUS{}
-	err := parameters.AssignPropertiesToSqlContainerCreateUpdateParameters_STATUS(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertStatusTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
-	}
-
-	return nil
-}
-
-var _ genruntime.FromARMConverter = &SqlContainerCreateUpdateParameters_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *SqlContainerCreateUpdateParameters_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SqlContainerCreateUpdateParameters_STATUSARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *SqlContainerCreateUpdateParameters_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SqlContainerCreateUpdateParameters_STATUSARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlContainerCreateUpdateParameters_STATUSARM, got %T", armInput)
-	}
-
-	// no assignment for property ‘Conditions’
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		parameters.Id = &id
-	}
-
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		parameters.Location = &location
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		parameters.Name = &name
-	}
-
-	// Set property ‘Options’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Options != nil {
-			var options1 CreateUpdateOptions_STATUS
-			err := options1.PopulateFromARM(owner, *typedInput.Properties.Options)
-			if err != nil {
-				return err
-			}
-			options := options1
-			parameters.Options = &options
-		}
-	}
-
-	// Set property ‘Resource’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Resource != nil {
-			var resource1 SqlContainerResource_STATUS
-			err := resource1.PopulateFromARM(owner, *typedInput.Properties.Resource)
-			if err != nil {
-				return err
-			}
-			resource := resource1
-			parameters.Resource = &resource
-		}
-	}
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		parameters.Tags = make(map[string]string)
-		for key, value := range typedInput.Tags {
-			parameters.Tags[key] = value
-		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		parameters.Type = &typeVar
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromSqlContainerCreateUpdateParameters_STATUS populates our SqlContainerCreateUpdateParameters_STATUS from the provided source SqlContainerCreateUpdateParameters_STATUS
-func (parameters *SqlContainerCreateUpdateParameters_STATUS) AssignPropertiesFromSqlContainerCreateUpdateParameters_STATUS(source *v20210515s.SqlContainerCreateUpdateParameters_STATUS) error {
-
-	// Conditions
-	parameters.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
-
-	// Id
-	parameters.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Location
-	parameters.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Name
-	parameters.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Options
-	if source.Options != nil {
-		var option CreateUpdateOptions_STATUS
-		err := option.AssignPropertiesFromCreateUpdateOptions_STATUS(source.Options)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptions_STATUS() to populate field Options")
-		}
-		parameters.Options = &option
-	} else {
-		parameters.Options = nil
-	}
-
-	// Resource
-	if source.Resource != nil {
-		var resource SqlContainerResource_STATUS
-		err := resource.AssignPropertiesFromSqlContainerResource_STATUS(source.Resource)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSqlContainerResource_STATUS() to populate field Resource")
-		}
-		parameters.Resource = &resource
-	} else {
-		parameters.Resource = nil
-	}
-
-	// Tags
-	parameters.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	parameters.Type = genruntime.ClonePointerToString(source.Type)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToSqlContainerCreateUpdateParameters_STATUS populates the provided destination SqlContainerCreateUpdateParameters_STATUS from our SqlContainerCreateUpdateParameters_STATUS
-func (parameters *SqlContainerCreateUpdateParameters_STATUS) AssignPropertiesToSqlContainerCreateUpdateParameters_STATUS(destination *v20210515s.SqlContainerCreateUpdateParameters_STATUS) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(parameters.Conditions)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(parameters.Id)
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(parameters.Location)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(parameters.Name)
-
-	// Options
-	if parameters.Options != nil {
-		var option v20210515s.CreateUpdateOptions_STATUS
-		err := parameters.Options.AssignPropertiesToCreateUpdateOptions_STATUS(&option)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions_STATUS() to populate field Options")
-		}
-		destination.Options = &option
-	} else {
-		destination.Options = nil
-	}
-
-	// Resource
-	if parameters.Resource != nil {
-		var resource v20210515s.SqlContainerResource_STATUS
-		err := parameters.Resource.AssignPropertiesToSqlContainerResource_STATUS(&resource)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSqlContainerResource_STATUS() to populate field Resource")
-		}
-		destination.Resource = &resource
-	} else {
-		destination.Resource = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(parameters.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(parameters.Type)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
 }
 
 type SqlContainerResource struct {

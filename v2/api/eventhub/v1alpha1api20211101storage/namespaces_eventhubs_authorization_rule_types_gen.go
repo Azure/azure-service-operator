@@ -25,8 +25,8 @@ import (
 type NamespacesEventhubsAuthorizationRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              NamespacesEventhubsAuthorizationRule_Spec `json:"spec,omitempty"`
-	Status            AuthorizationRule_STATUS                  `json:"status,omitempty"`
+	Spec              NamespacesEventhubsAuthorizationRule_Spec   `json:"spec,omitempty"`
+	Status            NamespacesEventhubsAuthorizationRule_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NamespacesEventhubsAuthorizationRule{}
@@ -97,7 +97,7 @@ func (rule *NamespacesEventhubsAuthorizationRule) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (rule *NamespacesEventhubsAuthorizationRule) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &AuthorizationRule_STATUS{}
+	return &NamespacesEventhubsAuthorizationRule_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -113,13 +113,13 @@ func (rule *NamespacesEventhubsAuthorizationRule) Owner() *genruntime.ResourceRe
 // SetStatus sets the status of this resource
 func (rule *NamespacesEventhubsAuthorizationRule) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*AuthorizationRule_STATUS); ok {
+	if st, ok := status.(*NamespacesEventhubsAuthorizationRule_STATUS); ok {
 		rule.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st AuthorizationRule_STATUS
+	var st NamespacesEventhubsAuthorizationRule_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -144,10 +144,10 @@ func (rule *NamespacesEventhubsAuthorizationRule) AssignPropertiesFromNamespaces
 	rule.Spec = spec
 
 	// Status
-	var status AuthorizationRule_STATUS
-	err = status.AssignPropertiesFromAuthorizationRule_STATUS(&source.Status)
+	var status NamespacesEventhubsAuthorizationRule_STATUS
+	err = status.AssignPropertiesFromNamespacesEventhubsAuthorizationRule_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromAuthorizationRule_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromNamespacesEventhubsAuthorizationRule_STATUS() to populate field Status")
 	}
 	rule.Status = status
 
@@ -170,10 +170,10 @@ func (rule *NamespacesEventhubsAuthorizationRule) AssignPropertiesToNamespacesEv
 	destination.Spec = spec
 
 	// Status
-	var status v20211101s.AuthorizationRule_STATUS
-	err = rule.Status.AssignPropertiesToAuthorizationRule_STATUS(&status)
+	var status v20211101s.NamespacesEventhubsAuthorizationRule_STATUS
+	err = rule.Status.AssignPropertiesToNamespacesEventhubsAuthorizationRule_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToAuthorizationRule_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToNamespacesEventhubsAuthorizationRule_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -197,6 +197,161 @@ type NamespacesEventhubsAuthorizationRuleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []NamespacesEventhubsAuthorizationRule `json:"items"`
+}
+
+// Storage version of v1alpha1api20211101.NamespacesEventhubsAuthorizationRule_STATUS
+// Deprecated version of NamespacesEventhubsAuthorizationRule_STATUS. Use v1beta20211101.NamespacesEventhubsAuthorizationRule_STATUS instead
+type NamespacesEventhubsAuthorizationRule_STATUS struct {
+	Conditions  []conditions.Condition `json:"conditions,omitempty"`
+	Id          *string                `json:"id,omitempty"`
+	Location    *string                `json:"location,omitempty"`
+	Name        *string                `json:"name,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Rights      []string               `json:"rights,omitempty"`
+	SystemData  *SystemData_STATUS     `json:"systemData,omitempty"`
+	Type        *string                `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &NamespacesEventhubsAuthorizationRule_STATUS{}
+
+// ConvertStatusFrom populates our NamespacesEventhubsAuthorizationRule_STATUS from the provided source
+func (rule *NamespacesEventhubsAuthorizationRule_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20211101s.NamespacesEventhubsAuthorizationRule_STATUS)
+	if ok {
+		// Populate our instance from source
+		return rule.AssignPropertiesFromNamespacesEventhubsAuthorizationRule_STATUS(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20211101s.NamespacesEventhubsAuthorizationRule_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = rule.AssignPropertiesFromNamespacesEventhubsAuthorizationRule_STATUS(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
+}
+
+// ConvertStatusTo populates the provided destination from our NamespacesEventhubsAuthorizationRule_STATUS
+func (rule *NamespacesEventhubsAuthorizationRule_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20211101s.NamespacesEventhubsAuthorizationRule_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return rule.AssignPropertiesToNamespacesEventhubsAuthorizationRule_STATUS(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20211101s.NamespacesEventhubsAuthorizationRule_STATUS{}
+	err := rule.AssignPropertiesToNamespacesEventhubsAuthorizationRule_STATUS(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+// AssignPropertiesFromNamespacesEventhubsAuthorizationRule_STATUS populates our NamespacesEventhubsAuthorizationRule_STATUS from the provided source NamespacesEventhubsAuthorizationRule_STATUS
+func (rule *NamespacesEventhubsAuthorizationRule_STATUS) AssignPropertiesFromNamespacesEventhubsAuthorizationRule_STATUS(source *v20211101s.NamespacesEventhubsAuthorizationRule_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Conditions
+	rule.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Id
+	rule.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Location
+	rule.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Name
+	rule.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Rights
+	rule.Rights = genruntime.CloneSliceOfString(source.Rights)
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignPropertiesFromSystemData_STATUS(source.SystemData)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemData_STATUS() to populate field SystemData")
+		}
+		rule.SystemData = &systemDatum
+	} else {
+		rule.SystemData = nil
+	}
+
+	// Type
+	rule.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		rule.PropertyBag = propertyBag
+	} else {
+		rule.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToNamespacesEventhubsAuthorizationRule_STATUS populates the provided destination NamespacesEventhubsAuthorizationRule_STATUS from our NamespacesEventhubsAuthorizationRule_STATUS
+func (rule *NamespacesEventhubsAuthorizationRule_STATUS) AssignPropertiesToNamespacesEventhubsAuthorizationRule_STATUS(destination *v20211101s.NamespacesEventhubsAuthorizationRule_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(rule.PropertyBag)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(rule.Conditions)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(rule.Id)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(rule.Location)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(rule.Name)
+
+	// Rights
+	destination.Rights = genruntime.CloneSliceOfString(rule.Rights)
+
+	// SystemData
+	if rule.SystemData != nil {
+		var systemDatum v20211101s.SystemData_STATUS
+		err := rule.SystemData.AssignPropertiesToSystemData_STATUS(&systemDatum)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(rule.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 // Storage version of v1alpha1api20211101.NamespacesEventhubsAuthorizationRule_Spec

@@ -27,8 +27,8 @@ import (
 type StorageAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              StorageAccount_Spec                   `json:"spec,omitempty"`
-	Status            StorageAccountCreateParameters_STATUS `json:"status,omitempty"`
+	Spec              StorageAccount_Spec   `json:"spec,omitempty"`
+	Status            StorageAccount_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &StorageAccount{}
@@ -77,7 +77,7 @@ func (account *StorageAccount) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (account *StorageAccount) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &StorageAccountCreateParameters_STATUS{}
+	return &StorageAccount_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -93,13 +93,13 @@ func (account *StorageAccount) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (account *StorageAccount) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*StorageAccountCreateParameters_STATUS); ok {
+	if st, ok := status.(*StorageAccount_STATUS); ok {
 		account.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st StorageAccountCreateParameters_STATUS
+	var st StorageAccount_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -137,8 +137,8 @@ type APIVersion string
 
 const APIVersionValue = APIVersion("20210401")
 
-// Storage version of v1beta20210401.StorageAccountCreateParameters_STATUS
-type StorageAccountCreateParameters_STATUS struct {
+// Storage version of v1beta20210401.StorageAccount_STATUS
+type StorageAccount_STATUS struct {
 	AccessTier                            *string                                       `json:"accessTier,omitempty"`
 	AllowBlobPublicAccess                 *bool                                         `json:"allowBlobPublicAccess,omitempty"`
 	AllowCrossTenantReplication           *bool                                         `json:"allowCrossTenantReplication,omitempty"`
@@ -165,24 +165,24 @@ type StorageAccountCreateParameters_STATUS struct {
 	Tags                                  map[string]string                             `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &StorageAccountCreateParameters_STATUS{}
+var _ genruntime.ConvertibleStatus = &StorageAccount_STATUS{}
 
-// ConvertStatusFrom populates our StorageAccountCreateParameters_STATUS from the provided source
-func (parameters *StorageAccountCreateParameters_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == parameters {
+// ConvertStatusFrom populates our StorageAccount_STATUS from the provided source
+func (account *StorageAccount_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == account {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(parameters)
+	return source.ConvertStatusTo(account)
 }
 
-// ConvertStatusTo populates the provided destination from our StorageAccountCreateParameters_STATUS
-func (parameters *StorageAccountCreateParameters_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == parameters {
+// ConvertStatusTo populates the provided destination from our StorageAccount_STATUS
+func (account *StorageAccount_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == account {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(parameters)
+	return destination.ConvertStatusFrom(account)
 }
 
 // Storage version of v1beta20210401.StorageAccount_Spec

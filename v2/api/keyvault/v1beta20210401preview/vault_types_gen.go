@@ -29,8 +29,8 @@ import (
 type Vault struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Vault_Spec                           `json:"spec,omitempty"`
-	Status            VaultCreateOrUpdateParameters_STATUS `json:"status,omitempty"`
+	Spec              Vault_Spec   `json:"spec,omitempty"`
+	Status            Vault_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Vault{}
@@ -124,7 +124,7 @@ func (vault *Vault) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (vault *Vault) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &VaultCreateOrUpdateParameters_STATUS{}
+	return &Vault_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -140,13 +140,13 @@ func (vault *Vault) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (vault *Vault) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*VaultCreateOrUpdateParameters_STATUS); ok {
+	if st, ok := status.(*Vault_STATUS); ok {
 		vault.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st VaultCreateOrUpdateParameters_STATUS
+	var st Vault_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -264,10 +264,10 @@ func (vault *Vault) AssignPropertiesFromVault(source *v20210401ps.Vault) error {
 	vault.Spec = spec
 
 	// Status
-	var status VaultCreateOrUpdateParameters_STATUS
-	err = status.AssignPropertiesFromVaultCreateOrUpdateParameters_STATUS(&source.Status)
+	var status Vault_STATUS
+	err = status.AssignPropertiesFromVault_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromVaultCreateOrUpdateParameters_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromVault_STATUS() to populate field Status")
 	}
 	vault.Status = status
 
@@ -290,10 +290,10 @@ func (vault *Vault) AssignPropertiesToVault(destination *v20210401ps.Vault) erro
 	destination.Spec = spec
 
 	// Status
-	var status v20210401ps.VaultCreateOrUpdateParameters_STATUS
-	err = vault.Status.AssignPropertiesToVaultCreateOrUpdateParameters_STATUS(&status)
+	var status v20210401ps.Vault_STATUS
+	err = vault.Status.AssignPropertiesToVault_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToVaultCreateOrUpdateParameters_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToVault_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -324,7 +324,7 @@ type APIVersion string
 
 const APIVersionValue = APIVersion("20210401preview")
 
-type VaultCreateOrUpdateParameters_STATUS struct {
+type Vault_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -338,25 +338,25 @@ type VaultCreateOrUpdateParameters_STATUS struct {
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &VaultCreateOrUpdateParameters_STATUS{}
+var _ genruntime.ConvertibleStatus = &Vault_STATUS{}
 
-// ConvertStatusFrom populates our VaultCreateOrUpdateParameters_STATUS from the provided source
-func (parameters *VaultCreateOrUpdateParameters_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210401ps.VaultCreateOrUpdateParameters_STATUS)
+// ConvertStatusFrom populates our Vault_STATUS from the provided source
+func (vault *Vault_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210401ps.Vault_STATUS)
 	if ok {
 		// Populate our instance from source
-		return parameters.AssignPropertiesFromVaultCreateOrUpdateParameters_STATUS(src)
+		return vault.AssignPropertiesFromVault_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210401ps.VaultCreateOrUpdateParameters_STATUS{}
+	src = &v20210401ps.Vault_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = parameters.AssignPropertiesFromVaultCreateOrUpdateParameters_STATUS(src)
+	err = vault.AssignPropertiesFromVault_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -364,17 +364,17 @@ func (parameters *VaultCreateOrUpdateParameters_STATUS) ConvertStatusFrom(source
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our VaultCreateOrUpdateParameters_STATUS
-func (parameters *VaultCreateOrUpdateParameters_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210401ps.VaultCreateOrUpdateParameters_STATUS)
+// ConvertStatusTo populates the provided destination from our Vault_STATUS
+func (vault *Vault_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210401ps.Vault_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return parameters.AssignPropertiesToVaultCreateOrUpdateParameters_STATUS(dst)
+		return vault.AssignPropertiesToVault_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210401ps.VaultCreateOrUpdateParameters_STATUS{}
-	err := parameters.AssignPropertiesToVaultCreateOrUpdateParameters_STATUS(dst)
+	dst = &v20210401ps.Vault_STATUS{}
+	err := vault.AssignPropertiesToVault_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -388,18 +388,18 @@ func (parameters *VaultCreateOrUpdateParameters_STATUS) ConvertStatusTo(destinat
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &VaultCreateOrUpdateParameters_STATUS{}
+var _ genruntime.FromARMConverter = &Vault_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *VaultCreateOrUpdateParameters_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VaultCreateOrUpdateParameters_STATUSARM{}
+func (vault *Vault_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Vault_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *VaultCreateOrUpdateParameters_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VaultCreateOrUpdateParameters_STATUSARM)
+func (vault *Vault_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Vault_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VaultCreateOrUpdateParameters_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Vault_STATUSARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -407,7 +407,7 @@ func (parameters *VaultCreateOrUpdateParameters_STATUS) PopulateFromARM(owner ge
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		parameters.Location = &location
+		vault.Location = &location
 	}
 
 	// Set property ‘Properties’:
@@ -418,14 +418,14 @@ func (parameters *VaultCreateOrUpdateParameters_STATUS) PopulateFromARM(owner ge
 			return err
 		}
 		properties := properties1
-		parameters.Properties = &properties
+		vault.Properties = &properties
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		parameters.Tags = make(map[string]string)
+		vault.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
-			parameters.Tags[key] = value
+			vault.Tags[key] = value
 		}
 	}
 
@@ -433,14 +433,14 @@ func (parameters *VaultCreateOrUpdateParameters_STATUS) PopulateFromARM(owner ge
 	return nil
 }
 
-// AssignPropertiesFromVaultCreateOrUpdateParameters_STATUS populates our VaultCreateOrUpdateParameters_STATUS from the provided source VaultCreateOrUpdateParameters_STATUS
-func (parameters *VaultCreateOrUpdateParameters_STATUS) AssignPropertiesFromVaultCreateOrUpdateParameters_STATUS(source *v20210401ps.VaultCreateOrUpdateParameters_STATUS) error {
+// AssignPropertiesFromVault_STATUS populates our Vault_STATUS from the provided source Vault_STATUS
+func (vault *Vault_STATUS) AssignPropertiesFromVault_STATUS(source *v20210401ps.Vault_STATUS) error {
 
 	// Conditions
-	parameters.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	vault.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Location
-	parameters.Location = genruntime.ClonePointerToString(source.Location)
+	vault.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Properties
 	if source.Properties != nil {
@@ -449,33 +449,33 @@ func (parameters *VaultCreateOrUpdateParameters_STATUS) AssignPropertiesFromVaul
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromVaultProperties_STATUS() to populate field Properties")
 		}
-		parameters.Properties = &property
+		vault.Properties = &property
 	} else {
-		parameters.Properties = nil
+		vault.Properties = nil
 	}
 
 	// Tags
-	parameters.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	vault.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToVaultCreateOrUpdateParameters_STATUS populates the provided destination VaultCreateOrUpdateParameters_STATUS from our VaultCreateOrUpdateParameters_STATUS
-func (parameters *VaultCreateOrUpdateParameters_STATUS) AssignPropertiesToVaultCreateOrUpdateParameters_STATUS(destination *v20210401ps.VaultCreateOrUpdateParameters_STATUS) error {
+// AssignPropertiesToVault_STATUS populates the provided destination Vault_STATUS from our Vault_STATUS
+func (vault *Vault_STATUS) AssignPropertiesToVault_STATUS(destination *v20210401ps.Vault_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(parameters.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(vault.Conditions)
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(parameters.Location)
+	destination.Location = genruntime.ClonePointerToString(vault.Location)
 
 	// Properties
-	if parameters.Properties != nil {
+	if vault.Properties != nil {
 		var property v20210401ps.VaultProperties_STATUS
-		err := parameters.Properties.AssignPropertiesToVaultProperties_STATUS(&property)
+		err := vault.Properties.AssignPropertiesToVaultProperties_STATUS(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToVaultProperties_STATUS() to populate field Properties")
 		}
@@ -485,7 +485,7 @@ func (parameters *VaultCreateOrUpdateParameters_STATUS) AssignPropertiesToVaultC
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(parameters.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(vault.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

@@ -27,8 +27,8 @@ import (
 type SqlDatabase struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccountsSqlDatabase_Spec         `json:"spec,omitempty"`
-	Status            SqlDatabaseCreateUpdateParameters_STATUS `json:"status,omitempty"`
+	Spec              DatabaseAccountsSqlDatabase_Spec   `json:"spec,omitempty"`
+	Status            DatabaseAccountsSqlDatabase_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabase{}
@@ -77,7 +77,7 @@ func (database *SqlDatabase) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (database *SqlDatabase) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SqlDatabaseCreateUpdateParameters_STATUS{}
+	return &DatabaseAccountsSqlDatabase_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -93,13 +93,13 @@ func (database *SqlDatabase) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (database *SqlDatabase) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SqlDatabaseCreateUpdateParameters_STATUS); ok {
+	if st, ok := status.(*DatabaseAccountsSqlDatabase_STATUS); ok {
 		database.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SqlDatabaseCreateUpdateParameters_STATUS
+	var st DatabaseAccountsSqlDatabase_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -129,6 +129,39 @@ type SqlDatabaseList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []SqlDatabase `json:"items"`
+}
+
+// Storage version of v1beta20210515.DatabaseAccountsSqlDatabase_STATUS
+type DatabaseAccountsSqlDatabase_STATUS struct {
+	Conditions  []conditions.Condition      `json:"conditions,omitempty"`
+	Id          *string                     `json:"id,omitempty"`
+	Location    *string                     `json:"location,omitempty"`
+	Name        *string                     `json:"name,omitempty"`
+	Options     *CreateUpdateOptions_STATUS `json:"options,omitempty"`
+	PropertyBag genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	Resource    *SqlDatabaseResource_STATUS `json:"resource,omitempty"`
+	Tags        map[string]string           `json:"tags,omitempty"`
+	Type        *string                     `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &DatabaseAccountsSqlDatabase_STATUS{}
+
+// ConvertStatusFrom populates our DatabaseAccountsSqlDatabase_STATUS from the provided source
+func (database *DatabaseAccountsSqlDatabase_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == database {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(database)
+}
+
+// ConvertStatusTo populates the provided destination from our DatabaseAccountsSqlDatabase_STATUS
+func (database *DatabaseAccountsSqlDatabase_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == database {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(database)
 }
 
 // Storage version of v1beta20210515.DatabaseAccountsSqlDatabase_Spec
@@ -170,39 +203,6 @@ func (database *DatabaseAccountsSqlDatabase_Spec) ConvertSpecTo(destination genr
 	}
 
 	return destination.ConvertSpecFrom(database)
-}
-
-// Storage version of v1beta20210515.SqlDatabaseCreateUpdateParameters_STATUS
-type SqlDatabaseCreateUpdateParameters_STATUS struct {
-	Conditions  []conditions.Condition      `json:"conditions,omitempty"`
-	Id          *string                     `json:"id,omitempty"`
-	Location    *string                     `json:"location,omitempty"`
-	Name        *string                     `json:"name,omitempty"`
-	Options     *CreateUpdateOptions_STATUS `json:"options,omitempty"`
-	PropertyBag genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
-	Resource    *SqlDatabaseResource_STATUS `json:"resource,omitempty"`
-	Tags        map[string]string           `json:"tags,omitempty"`
-	Type        *string                     `json:"type,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &SqlDatabaseCreateUpdateParameters_STATUS{}
-
-// ConvertStatusFrom populates our SqlDatabaseCreateUpdateParameters_STATUS from the provided source
-func (parameters *SqlDatabaseCreateUpdateParameters_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == parameters {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(parameters)
-}
-
-// ConvertStatusTo populates the provided destination from our SqlDatabaseCreateUpdateParameters_STATUS
-func (parameters *SqlDatabaseCreateUpdateParameters_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == parameters {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(parameters)
 }
 
 // Storage version of v1beta20210515.SqlDatabaseResource

@@ -10885,6 +10885,14 @@ const (
 	PowerState_CodeStopped = PowerState_Code("Stopped")
 )
 
+// Deprecated version of PowerState_Code_STATUS. Use v1beta20210501.PowerState_Code_STATUS instead
+type PowerState_Code_STATUS string
+
+const (
+	PowerState_Code_STATUSRunning = PowerState_Code_STATUS("Running")
+	PowerState_Code_STATUSStopped = PowerState_Code_STATUS("Stopped")
+)
+
 // Deprecated version of ContainerServiceSshPublicKey. Use v1beta20210501.ContainerServiceSshPublicKey instead
 type ContainerServiceSshPublicKey struct {
 	// +kubebuilder:validation:Required

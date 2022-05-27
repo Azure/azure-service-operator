@@ -11,8 +11,8 @@
 | ApplicationInsightsComponentProperties_Request_Source          |                            | v1alpha1api20200202 |                       | v1beta20200202 |
 | ApplicationInsightsComponentProperties_Request_Source_STATUS   |                            | v1alpha1api20200202 |                       | v1beta20200202 |
 | ApplicationInsightsComponentProperties_STATUS                  |                            | v1alpha1api20200202 |                       | v1beta20200202 |
-| ApplicationInsightsComponent_STATUS                            |                            | v1alpha1api20200202 |                       | v1beta20200202 |
 | Component                                                      |                            | v1alpha1api20200202 |                       | v1beta20200202 |
+| Component_STATUS                                               |                            | v1alpha1api20200202 |                       | v1beta20200202 |
 | Component_Spec                                                 |                            | v1alpha1api20200202 |                       | v1beta20200202 |
 | HeaderField                                                    | v1alpha1api20180501preview |                     | v1beta20180501preview |                |
 | HeaderField_STATUS                                             | v1alpha1api20180501preview |                     | v1beta20180501preview |                |
@@ -34,8 +34,8 @@
 | WebTestProperties_ValidationRules_ContentValidation            | v1alpha1api20180501preview |                     | v1beta20180501preview |                |
 | WebTestProperties_ValidationRules_ContentValidation_STATUS     | v1alpha1api20180501preview |                     | v1beta20180501preview |                |
 | WebTestProperties_ValidationRules_STATUS                       | v1alpha1api20180501preview |                     | v1beta20180501preview |                |
-| WebTest_Kind_STATUS                                            | v1alpha1api20180501preview |                     | v1beta20180501preview |                |
-| WebTest_STATUS                                                 | v1alpha1api20180501preview |                     | v1beta20180501preview |                |
 | Webtest                                                        | v1alpha1api20180501preview |                     | v1beta20180501preview |                |
+| Webtest_Kind_STATUS                                            | v1alpha1api20180501preview |                     | v1beta20180501preview |                |
+| Webtest_STATUS                                                 | v1alpha1api20180501preview |                     | v1beta20180501preview |                |
 | Webtest_Spec                                                   | v1alpha1api20180501preview |                     | v1beta20180501preview |                |
 | Webtest_Spec_Kind                                              | v1alpha1api20180501preview |                     | v1beta20180501preview |                |

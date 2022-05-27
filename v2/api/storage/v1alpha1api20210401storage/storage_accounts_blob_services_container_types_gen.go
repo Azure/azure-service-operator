@@ -25,8 +25,8 @@ import (
 type StorageAccountsBlobServicesContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              StorageAccountsBlobServicesContainer_Spec `json:"spec,omitempty"`
-	Status            BlobContainer_STATUS                      `json:"status,omitempty"`
+	Spec              StorageAccountsBlobServicesContainer_Spec   `json:"spec,omitempty"`
+	Status            StorageAccountsBlobServicesContainer_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &StorageAccountsBlobServicesContainer{}
@@ -97,7 +97,7 @@ func (container *StorageAccountsBlobServicesContainer) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (container *StorageAccountsBlobServicesContainer) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &BlobContainer_STATUS{}
+	return &StorageAccountsBlobServicesContainer_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -113,13 +113,13 @@ func (container *StorageAccountsBlobServicesContainer) Owner() *genruntime.Resou
 // SetStatus sets the status of this resource
 func (container *StorageAccountsBlobServicesContainer) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*BlobContainer_STATUS); ok {
+	if st, ok := status.(*StorageAccountsBlobServicesContainer_STATUS); ok {
 		container.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st BlobContainer_STATUS
+	var st StorageAccountsBlobServicesContainer_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -144,10 +144,10 @@ func (container *StorageAccountsBlobServicesContainer) AssignPropertiesFromStora
 	container.Spec = spec
 
 	// Status
-	var status BlobContainer_STATUS
-	err = status.AssignPropertiesFromBlobContainer_STATUS(&source.Status)
+	var status StorageAccountsBlobServicesContainer_STATUS
+	err = status.AssignPropertiesFromStorageAccountsBlobServicesContainer_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromBlobContainer_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromStorageAccountsBlobServicesContainer_STATUS() to populate field Status")
 	}
 	container.Status = status
 
@@ -170,10 +170,10 @@ func (container *StorageAccountsBlobServicesContainer) AssignPropertiesToStorage
 	destination.Spec = spec
 
 	// Status
-	var status v20210401s.BlobContainer_STATUS
-	err = container.Status.AssignPropertiesToBlobContainer_STATUS(&status)
+	var status v20210401s.StorageAccountsBlobServicesContainer_STATUS
+	err = container.Status.AssignPropertiesToStorageAccountsBlobServicesContainer_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToBlobContainer_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToStorageAccountsBlobServicesContainer_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -199,9 +199,9 @@ type StorageAccountsBlobServicesContainerList struct {
 	Items           []StorageAccountsBlobServicesContainer `json:"items"`
 }
 
-// Storage version of v1alpha1api20210401.BlobContainer_STATUS
-// Deprecated version of BlobContainer_STATUS. Use v1beta20210401.BlobContainer_STATUS instead
-type BlobContainer_STATUS struct {
+// Storage version of v1alpha1api20210401.StorageAccountsBlobServicesContainer_STATUS
+// Deprecated version of StorageAccountsBlobServicesContainer_STATUS. Use v1beta20210401.StorageAccountsBlobServicesContainer_STATUS instead
+type StorageAccountsBlobServicesContainer_STATUS struct {
 	Conditions                     []conditions.Condition                 `json:"conditions,omitempty"`
 	DefaultEncryptionScope         *string                                `json:"defaultEncryptionScope,omitempty"`
 	Deleted                        *bool                                  `json:"deleted,omitempty"`
@@ -227,25 +227,25 @@ type BlobContainer_STATUS struct {
 	Version                        *string                                `json:"version,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &BlobContainer_STATUS{}
+var _ genruntime.ConvertibleStatus = &StorageAccountsBlobServicesContainer_STATUS{}
 
-// ConvertStatusFrom populates our BlobContainer_STATUS from the provided source
-func (container *BlobContainer_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210401s.BlobContainer_STATUS)
+// ConvertStatusFrom populates our StorageAccountsBlobServicesContainer_STATUS from the provided source
+func (container *StorageAccountsBlobServicesContainer_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210401s.StorageAccountsBlobServicesContainer_STATUS)
 	if ok {
 		// Populate our instance from source
-		return container.AssignPropertiesFromBlobContainer_STATUS(src)
+		return container.AssignPropertiesFromStorageAccountsBlobServicesContainer_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210401s.BlobContainer_STATUS{}
+	src = &v20210401s.StorageAccountsBlobServicesContainer_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = container.AssignPropertiesFromBlobContainer_STATUS(src)
+	err = container.AssignPropertiesFromStorageAccountsBlobServicesContainer_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -253,17 +253,17 @@ func (container *BlobContainer_STATUS) ConvertStatusFrom(source genruntime.Conve
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our BlobContainer_STATUS
-func (container *BlobContainer_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210401s.BlobContainer_STATUS)
+// ConvertStatusTo populates the provided destination from our StorageAccountsBlobServicesContainer_STATUS
+func (container *StorageAccountsBlobServicesContainer_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210401s.StorageAccountsBlobServicesContainer_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return container.AssignPropertiesToBlobContainer_STATUS(dst)
+		return container.AssignPropertiesToStorageAccountsBlobServicesContainer_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210401s.BlobContainer_STATUS{}
-	err := container.AssignPropertiesToBlobContainer_STATUS(dst)
+	dst = &v20210401s.StorageAccountsBlobServicesContainer_STATUS{}
+	err := container.AssignPropertiesToStorageAccountsBlobServicesContainer_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -277,8 +277,8 @@ func (container *BlobContainer_STATUS) ConvertStatusTo(destination genruntime.Co
 	return nil
 }
 
-// AssignPropertiesFromBlobContainer_STATUS populates our BlobContainer_STATUS from the provided source BlobContainer_STATUS
-func (container *BlobContainer_STATUS) AssignPropertiesFromBlobContainer_STATUS(source *v20210401s.BlobContainer_STATUS) error {
+// AssignPropertiesFromStorageAccountsBlobServicesContainer_STATUS populates our StorageAccountsBlobServicesContainer_STATUS from the provided source StorageAccountsBlobServicesContainer_STATUS
+func (container *StorageAccountsBlobServicesContainer_STATUS) AssignPropertiesFromStorageAccountsBlobServicesContainer_STATUS(source *v20210401s.StorageAccountsBlobServicesContainer_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -406,8 +406,8 @@ func (container *BlobContainer_STATUS) AssignPropertiesFromBlobContainer_STATUS(
 	return nil
 }
 
-// AssignPropertiesToBlobContainer_STATUS populates the provided destination BlobContainer_STATUS from our BlobContainer_STATUS
-func (container *BlobContainer_STATUS) AssignPropertiesToBlobContainer_STATUS(destination *v20210401s.BlobContainer_STATUS) error {
+// AssignPropertiesToStorageAccountsBlobServicesContainer_STATUS populates the provided destination StorageAccountsBlobServicesContainer_STATUS from our StorageAccountsBlobServicesContainer_STATUS
+func (container *StorageAccountsBlobServicesContainer_STATUS) AssignPropertiesToStorageAccountsBlobServicesContainer_STATUS(destination *v20210401s.StorageAccountsBlobServicesContainer_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(container.PropertyBag)
 

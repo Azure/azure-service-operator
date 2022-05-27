@@ -239,6 +239,11 @@ type ManagedClusterWindowsProfile_STATUSARM struct {
 	LicenseType    *ManagedClusterWindowsProfile_LicenseType_STATUS `json:"licenseType,omitempty"`
 }
 
+// Deprecated version of PowerState_STATUS. Use v1beta20210501.PowerState_STATUS instead
+type PowerState_STATUSARM struct {
+	Code *PowerState_Code_STATUS `json:"code,omitempty"`
+}
+
 // Deprecated version of PrivateLinkResource_STATUS. Use v1beta20210501.PrivateLinkResource_STATUS instead
 type PrivateLinkResource_STATUSARM struct {
 	GroupId              *string  `json:"groupId,omitempty"`

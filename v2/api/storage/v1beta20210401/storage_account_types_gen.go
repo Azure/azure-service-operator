@@ -29,8 +29,8 @@ import (
 type StorageAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              StorageAccount_Spec                   `json:"spec,omitempty"`
-	Status            StorageAccountCreateParameters_STATUS `json:"status,omitempty"`
+	Spec              StorageAccount_Spec   `json:"spec,omitempty"`
+	Status            StorageAccount_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &StorageAccount{}
@@ -124,7 +124,7 @@ func (account *StorageAccount) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (account *StorageAccount) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &StorageAccountCreateParameters_STATUS{}
+	return &StorageAccount_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -140,13 +140,13 @@ func (account *StorageAccount) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (account *StorageAccount) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*StorageAccountCreateParameters_STATUS); ok {
+	if st, ok := status.(*StorageAccount_STATUS); ok {
 		account.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st StorageAccountCreateParameters_STATUS
+	var st StorageAccount_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -289,10 +289,10 @@ func (account *StorageAccount) AssignPropertiesFromStorageAccount(source *v20210
 	account.Spec = spec
 
 	// Status
-	var status StorageAccountCreateParameters_STATUS
-	err = status.AssignPropertiesFromStorageAccountCreateParameters_STATUS(&source.Status)
+	var status StorageAccount_STATUS
+	err = status.AssignPropertiesFromStorageAccount_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromStorageAccountCreateParameters_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromStorageAccount_STATUS() to populate field Status")
 	}
 	account.Status = status
 
@@ -315,10 +315,10 @@ func (account *StorageAccount) AssignPropertiesToStorageAccount(destination *v20
 	destination.Spec = spec
 
 	// Status
-	var status v20210401s.StorageAccountCreateParameters_STATUS
-	err = account.Status.AssignPropertiesToStorageAccountCreateParameters_STATUS(&status)
+	var status v20210401s.StorageAccount_STATUS
+	err = account.Status.AssignPropertiesToStorageAccount_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToStorageAccountCreateParameters_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToStorageAccount_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -349,7 +349,7 @@ type APIVersion string
 
 const APIVersionValue = APIVersion("20210401")
 
-type StorageAccountCreateParameters_STATUS struct {
+type StorageAccount_STATUS struct {
 	// AccessTier: Required for storage accounts where kind = BlobStorage. The access tier used for billing.
 	AccessTier *StorageAccountPropertiesCreateParameters_AccessTier_STATUS `json:"accessTier,omitempty"`
 
@@ -397,7 +397,7 @@ type StorageAccountCreateParameters_STATUS struct {
 	KeyPolicy *KeyPolicy_STATUS `json:"keyPolicy,omitempty"`
 
 	// Kind: Required. Indicates the type of storage account.
-	Kind *StorageAccountCreateParameters_Kind_STATUS `json:"kind,omitempty"`
+	Kind *StorageAccount_Kind_STATUS `json:"kind,omitempty"`
 
 	// LargeFileSharesState: Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled.
 	LargeFileSharesState *StorageAccountPropertiesCreateParameters_LargeFileSharesState_STATUS `json:"largeFileSharesState,omitempty"`
@@ -433,25 +433,25 @@ type StorageAccountCreateParameters_STATUS struct {
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &StorageAccountCreateParameters_STATUS{}
+var _ genruntime.ConvertibleStatus = &StorageAccount_STATUS{}
 
-// ConvertStatusFrom populates our StorageAccountCreateParameters_STATUS from the provided source
-func (parameters *StorageAccountCreateParameters_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210401s.StorageAccountCreateParameters_STATUS)
+// ConvertStatusFrom populates our StorageAccount_STATUS from the provided source
+func (account *StorageAccount_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210401s.StorageAccount_STATUS)
 	if ok {
 		// Populate our instance from source
-		return parameters.AssignPropertiesFromStorageAccountCreateParameters_STATUS(src)
+		return account.AssignPropertiesFromStorageAccount_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210401s.StorageAccountCreateParameters_STATUS{}
+	src = &v20210401s.StorageAccount_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = parameters.AssignPropertiesFromStorageAccountCreateParameters_STATUS(src)
+	err = account.AssignPropertiesFromStorageAccount_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -459,17 +459,17 @@ func (parameters *StorageAccountCreateParameters_STATUS) ConvertStatusFrom(sourc
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our StorageAccountCreateParameters_STATUS
-func (parameters *StorageAccountCreateParameters_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210401s.StorageAccountCreateParameters_STATUS)
+// ConvertStatusTo populates the provided destination from our StorageAccount_STATUS
+func (account *StorageAccount_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210401s.StorageAccount_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return parameters.AssignPropertiesToStorageAccountCreateParameters_STATUS(dst)
+		return account.AssignPropertiesToStorageAccount_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210401s.StorageAccountCreateParameters_STATUS{}
-	err := parameters.AssignPropertiesToStorageAccountCreateParameters_STATUS(dst)
+	dst = &v20210401s.StorageAccount_STATUS{}
+	err := account.AssignPropertiesToStorageAccount_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -483,18 +483,18 @@ func (parameters *StorageAccountCreateParameters_STATUS) ConvertStatusTo(destina
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &StorageAccountCreateParameters_STATUS{}
+var _ genruntime.FromARMConverter = &StorageAccount_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *StorageAccountCreateParameters_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StorageAccountCreateParameters_STATUSARM{}
+func (account *StorageAccount_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &StorageAccount_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *StorageAccountCreateParameters_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StorageAccountCreateParameters_STATUSARM)
+func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(StorageAccount_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccountCreateParameters_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccount_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘AccessTier’:
@@ -502,7 +502,7 @@ func (parameters *StorageAccountCreateParameters_STATUS) PopulateFromARM(owner g
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AccessTier != nil {
 			accessTier := *typedInput.Properties.AccessTier
-			parameters.AccessTier = &accessTier
+			account.AccessTier = &accessTier
 		}
 	}
 
@@ -511,7 +511,7 @@ func (parameters *StorageAccountCreateParameters_STATUS) PopulateFromARM(owner g
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AllowBlobPublicAccess != nil {
 			allowBlobPublicAccess := *typedInput.Properties.AllowBlobPublicAccess
-			parameters.AllowBlobPublicAccess = &allowBlobPublicAccess
+			account.AllowBlobPublicAccess = &allowBlobPublicAccess
 		}
 	}
 
@@ -520,7 +520,7 @@ func (parameters *StorageAccountCreateParameters_STATUS) PopulateFromARM(owner g
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AllowCrossTenantReplication != nil {
 			allowCrossTenantReplication := *typedInput.Properties.AllowCrossTenantReplication
-			parameters.AllowCrossTenantReplication = &allowCrossTenantReplication
+			account.AllowCrossTenantReplication = &allowCrossTenantReplication
 		}
 	}
 
@@ -529,7 +529,7 @@ func (parameters *StorageAccountCreateParameters_STATUS) PopulateFromARM(owner g
 	if typedInput.Properties != nil {
 		if typedInput.Properties.AllowSharedKeyAccess != nil {
 			allowSharedKeyAccess := *typedInput.Properties.AllowSharedKeyAccess
-			parameters.AllowSharedKeyAccess = &allowSharedKeyAccess
+			account.AllowSharedKeyAccess = &allowSharedKeyAccess
 		}
 	}
 
@@ -543,7 +543,7 @@ func (parameters *StorageAccountCreateParameters_STATUS) PopulateFromARM(owner g
 				return err
 			}
 			azureFilesIdentityBasedAuthentication := azureFilesIdentityBasedAuthentication1
-			parameters.AzureFilesIdentityBasedAuthentication = &azureFilesIdentityBasedAuthentication
+			account.AzureFilesIdentityBasedAuthentication = &azureFilesIdentityBasedAuthentication
 		}
 	}
 
@@ -559,7 +559,7 @@ func (parameters *StorageAccountCreateParameters_STATUS) PopulateFromARM(owner g
 				return err
 			}
 			customDomain := customDomain1
-			parameters.CustomDomain = &customDomain
+			account.CustomDomain = &customDomain
 		}
 	}
 
@@ -573,7 +573,7 @@ func (parameters *StorageAccountCreateParameters_STATUS) PopulateFromARM(owner g
 				return err
 			}
 			encryption := encryption1
-			parameters.Encryption = &encryption
+			account.Encryption = &encryption
 		}
 	}
 
@@ -585,7 +585,7 @@ func (parameters *StorageAccountCreateParameters_STATUS) PopulateFromARM(owner g
 			return err
 		}
 		extendedLocation := extendedLocation1
-		parameters.ExtendedLocation = &extendedLocation
+		account.ExtendedLocation = &extendedLocation
 	}
 
 	// Set property ‘Identity’:
@@ -596,7 +596,7 @@ func (parameters *StorageAccountCreateParameters_STATUS) PopulateFromARM(owner g
 			return err
 		}
 		identity := identity1
-		parameters.Identity = &identity
+		account.Identity = &identity
 	}
 
 	// Set property ‘IsHnsEnabled’:
@@ -604,7 +604,7 @@ func (parameters *StorageAccountCreateParameters_STATUS) PopulateFromARM(owner g
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsHnsEnabled != nil {
 			isHnsEnabled := *typedInput.Properties.IsHnsEnabled
-			parameters.IsHnsEnabled = &isHnsEnabled
+			account.IsHnsEnabled = &isHnsEnabled
 		}
 	}
 
@@ -613,7 +613,7 @@ func (parameters *StorageAccountCreateParameters_STATUS) PopulateFromARM(owner g
 	if typedInput.Properties != nil {
 		if typedInput.Properties.IsNfsV3Enabled != nil {
 			isNfsV3Enabled := *typedInput.Properties.IsNfsV3Enabled
-			parameters.IsNfsV3Enabled = &isNfsV3Enabled
+			account.IsNfsV3Enabled = &isNfsV3Enabled
 		}
 	}
 
@@ -627,14 +627,14 @@ func (parameters *StorageAccountCreateParameters_STATUS) PopulateFromARM(owner g
 				return err
 			}
 			keyPolicy := keyPolicy1
-			parameters.KeyPolicy = &keyPolicy
+			account.KeyPolicy = &keyPolicy
 		}
 	}
 
 	// Set property ‘Kind’:
 	if typedInput.Kind != nil {
 		kind := *typedInput.Kind
-		parameters.Kind = &kind
+		account.Kind = &kind
 	}
 
 	// Set property ‘LargeFileSharesState’:
@@ -642,14 +642,14 @@ func (parameters *StorageAccountCreateParameters_STATUS) PopulateFromARM(owner g
 	if typedInput.Properties != nil {
 		if typedInput.Properties.LargeFileSharesState != nil {
 			largeFileSharesState := *typedInput.Properties.LargeFileSharesState
-			parameters.LargeFileSharesState = &largeFileSharesState
+			account.LargeFileSharesState = &largeFileSharesState
 		}
 	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		parameters.Location = &location
+		account.Location = &location
 	}
 
 	// Set property ‘MinimumTlsVersion’:
@@ -657,7 +657,7 @@ func (parameters *StorageAccountCreateParameters_STATUS) PopulateFromARM(owner g
 	if typedInput.Properties != nil {
 		if typedInput.Properties.MinimumTlsVersion != nil {
 			minimumTlsVersion := *typedInput.Properties.MinimumTlsVersion
-			parameters.MinimumTlsVersion = &minimumTlsVersion
+			account.MinimumTlsVersion = &minimumTlsVersion
 		}
 	}
 
@@ -671,7 +671,7 @@ func (parameters *StorageAccountCreateParameters_STATUS) PopulateFromARM(owner g
 				return err
 			}
 			networkAcls := networkAcls1
-			parameters.NetworkAcls = &networkAcls
+			account.NetworkAcls = &networkAcls
 		}
 	}
 
@@ -685,7 +685,7 @@ func (parameters *StorageAccountCreateParameters_STATUS) PopulateFromARM(owner g
 				return err
 			}
 			routingPreference := routingPreference1
-			parameters.RoutingPreference = &routingPreference
+			account.RoutingPreference = &routingPreference
 		}
 	}
 
@@ -699,7 +699,7 @@ func (parameters *StorageAccountCreateParameters_STATUS) PopulateFromARM(owner g
 				return err
 			}
 			sasPolicy := sasPolicy1
-			parameters.SasPolicy = &sasPolicy
+			account.SasPolicy = &sasPolicy
 		}
 	}
 
@@ -711,7 +711,7 @@ func (parameters *StorageAccountCreateParameters_STATUS) PopulateFromARM(owner g
 			return err
 		}
 		sku := sku1
-		parameters.Sku = &sku
+		account.Sku = &sku
 	}
 
 	// Set property ‘SupportsHttpsTrafficOnly’:
@@ -719,15 +719,15 @@ func (parameters *StorageAccountCreateParameters_STATUS) PopulateFromARM(owner g
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SupportsHttpsTrafficOnly != nil {
 			supportsHttpsTrafficOnly := *typedInput.Properties.SupportsHttpsTrafficOnly
-			parameters.SupportsHttpsTrafficOnly = &supportsHttpsTrafficOnly
+			account.SupportsHttpsTrafficOnly = &supportsHttpsTrafficOnly
 		}
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		parameters.Tags = make(map[string]string)
+		account.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
-			parameters.Tags[key] = value
+			account.Tags[key] = value
 		}
 	}
 
@@ -735,39 +735,39 @@ func (parameters *StorageAccountCreateParameters_STATUS) PopulateFromARM(owner g
 	return nil
 }
 
-// AssignPropertiesFromStorageAccountCreateParameters_STATUS populates our StorageAccountCreateParameters_STATUS from the provided source StorageAccountCreateParameters_STATUS
-func (parameters *StorageAccountCreateParameters_STATUS) AssignPropertiesFromStorageAccountCreateParameters_STATUS(source *v20210401s.StorageAccountCreateParameters_STATUS) error {
+// AssignPropertiesFromStorageAccount_STATUS populates our StorageAccount_STATUS from the provided source StorageAccount_STATUS
+func (account *StorageAccount_STATUS) AssignPropertiesFromStorageAccount_STATUS(source *v20210401s.StorageAccount_STATUS) error {
 
 	// AccessTier
 	if source.AccessTier != nil {
 		accessTier := StorageAccountPropertiesCreateParameters_AccessTier_STATUS(*source.AccessTier)
-		parameters.AccessTier = &accessTier
+		account.AccessTier = &accessTier
 	} else {
-		parameters.AccessTier = nil
+		account.AccessTier = nil
 	}
 
 	// AllowBlobPublicAccess
 	if source.AllowBlobPublicAccess != nil {
 		allowBlobPublicAccess := *source.AllowBlobPublicAccess
-		parameters.AllowBlobPublicAccess = &allowBlobPublicAccess
+		account.AllowBlobPublicAccess = &allowBlobPublicAccess
 	} else {
-		parameters.AllowBlobPublicAccess = nil
+		account.AllowBlobPublicAccess = nil
 	}
 
 	// AllowCrossTenantReplication
 	if source.AllowCrossTenantReplication != nil {
 		allowCrossTenantReplication := *source.AllowCrossTenantReplication
-		parameters.AllowCrossTenantReplication = &allowCrossTenantReplication
+		account.AllowCrossTenantReplication = &allowCrossTenantReplication
 	} else {
-		parameters.AllowCrossTenantReplication = nil
+		account.AllowCrossTenantReplication = nil
 	}
 
 	// AllowSharedKeyAccess
 	if source.AllowSharedKeyAccess != nil {
 		allowSharedKeyAccess := *source.AllowSharedKeyAccess
-		parameters.AllowSharedKeyAccess = &allowSharedKeyAccess
+		account.AllowSharedKeyAccess = &allowSharedKeyAccess
 	} else {
-		parameters.AllowSharedKeyAccess = nil
+		account.AllowSharedKeyAccess = nil
 	}
 
 	// AzureFilesIdentityBasedAuthentication
@@ -777,13 +777,13 @@ func (parameters *StorageAccountCreateParameters_STATUS) AssignPropertiesFromSto
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromAzureFilesIdentityBasedAuthentication_STATUS() to populate field AzureFilesIdentityBasedAuthentication")
 		}
-		parameters.AzureFilesIdentityBasedAuthentication = &azureFilesIdentityBasedAuthentication
+		account.AzureFilesIdentityBasedAuthentication = &azureFilesIdentityBasedAuthentication
 	} else {
-		parameters.AzureFilesIdentityBasedAuthentication = nil
+		account.AzureFilesIdentityBasedAuthentication = nil
 	}
 
 	// Conditions
-	parameters.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	account.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// CustomDomain
 	if source.CustomDomain != nil {
@@ -792,9 +792,9 @@ func (parameters *StorageAccountCreateParameters_STATUS) AssignPropertiesFromSto
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromCustomDomain_STATUS() to populate field CustomDomain")
 		}
-		parameters.CustomDomain = &customDomain
+		account.CustomDomain = &customDomain
 	} else {
-		parameters.CustomDomain = nil
+		account.CustomDomain = nil
 	}
 
 	// Encryption
@@ -804,9 +804,9 @@ func (parameters *StorageAccountCreateParameters_STATUS) AssignPropertiesFromSto
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromEncryption_STATUS() to populate field Encryption")
 		}
-		parameters.Encryption = &encryption
+		account.Encryption = &encryption
 	} else {
-		parameters.Encryption = nil
+		account.Encryption = nil
 	}
 
 	// ExtendedLocation
@@ -816,9 +816,9 @@ func (parameters *StorageAccountCreateParameters_STATUS) AssignPropertiesFromSto
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
-		parameters.ExtendedLocation = &extendedLocation
+		account.ExtendedLocation = &extendedLocation
 	} else {
-		parameters.ExtendedLocation = nil
+		account.ExtendedLocation = nil
 	}
 
 	// Identity
@@ -828,25 +828,25 @@ func (parameters *StorageAccountCreateParameters_STATUS) AssignPropertiesFromSto
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromIdentity_STATUS() to populate field Identity")
 		}
-		parameters.Identity = &identity
+		account.Identity = &identity
 	} else {
-		parameters.Identity = nil
+		account.Identity = nil
 	}
 
 	// IsHnsEnabled
 	if source.IsHnsEnabled != nil {
 		isHnsEnabled := *source.IsHnsEnabled
-		parameters.IsHnsEnabled = &isHnsEnabled
+		account.IsHnsEnabled = &isHnsEnabled
 	} else {
-		parameters.IsHnsEnabled = nil
+		account.IsHnsEnabled = nil
 	}
 
 	// IsNfsV3Enabled
 	if source.IsNfsV3Enabled != nil {
 		isNfsV3Enabled := *source.IsNfsV3Enabled
-		parameters.IsNfsV3Enabled = &isNfsV3Enabled
+		account.IsNfsV3Enabled = &isNfsV3Enabled
 	} else {
-		parameters.IsNfsV3Enabled = nil
+		account.IsNfsV3Enabled = nil
 	}
 
 	// KeyPolicy
@@ -856,36 +856,36 @@ func (parameters *StorageAccountCreateParameters_STATUS) AssignPropertiesFromSto
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromKeyPolicy_STATUS() to populate field KeyPolicy")
 		}
-		parameters.KeyPolicy = &keyPolicy
+		account.KeyPolicy = &keyPolicy
 	} else {
-		parameters.KeyPolicy = nil
+		account.KeyPolicy = nil
 	}
 
 	// Kind
 	if source.Kind != nil {
-		kind := StorageAccountCreateParameters_Kind_STATUS(*source.Kind)
-		parameters.Kind = &kind
+		kind := StorageAccount_Kind_STATUS(*source.Kind)
+		account.Kind = &kind
 	} else {
-		parameters.Kind = nil
+		account.Kind = nil
 	}
 
 	// LargeFileSharesState
 	if source.LargeFileSharesState != nil {
 		largeFileSharesState := StorageAccountPropertiesCreateParameters_LargeFileSharesState_STATUS(*source.LargeFileSharesState)
-		parameters.LargeFileSharesState = &largeFileSharesState
+		account.LargeFileSharesState = &largeFileSharesState
 	} else {
-		parameters.LargeFileSharesState = nil
+		account.LargeFileSharesState = nil
 	}
 
 	// Location
-	parameters.Location = genruntime.ClonePointerToString(source.Location)
+	account.Location = genruntime.ClonePointerToString(source.Location)
 
 	// MinimumTlsVersion
 	if source.MinimumTlsVersion != nil {
 		minimumTlsVersion := StorageAccountPropertiesCreateParameters_MinimumTlsVersion_STATUS(*source.MinimumTlsVersion)
-		parameters.MinimumTlsVersion = &minimumTlsVersion
+		account.MinimumTlsVersion = &minimumTlsVersion
 	} else {
-		parameters.MinimumTlsVersion = nil
+		account.MinimumTlsVersion = nil
 	}
 
 	// NetworkAcls
@@ -895,9 +895,9 @@ func (parameters *StorageAccountCreateParameters_STATUS) AssignPropertiesFromSto
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromNetworkRuleSet_STATUS() to populate field NetworkAcls")
 		}
-		parameters.NetworkAcls = &networkAcl
+		account.NetworkAcls = &networkAcl
 	} else {
-		parameters.NetworkAcls = nil
+		account.NetworkAcls = nil
 	}
 
 	// RoutingPreference
@@ -907,9 +907,9 @@ func (parameters *StorageAccountCreateParameters_STATUS) AssignPropertiesFromSto
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromRoutingPreference_STATUS() to populate field RoutingPreference")
 		}
-		parameters.RoutingPreference = &routingPreference
+		account.RoutingPreference = &routingPreference
 	} else {
-		parameters.RoutingPreference = nil
+		account.RoutingPreference = nil
 	}
 
 	// SasPolicy
@@ -919,9 +919,9 @@ func (parameters *StorageAccountCreateParameters_STATUS) AssignPropertiesFromSto
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSasPolicy_STATUS() to populate field SasPolicy")
 		}
-		parameters.SasPolicy = &sasPolicy
+		account.SasPolicy = &sasPolicy
 	} else {
-		parameters.SasPolicy = nil
+		account.SasPolicy = nil
 	}
 
 	// Sku
@@ -931,67 +931,67 @@ func (parameters *StorageAccountCreateParameters_STATUS) AssignPropertiesFromSto
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSku_STATUS() to populate field Sku")
 		}
-		parameters.Sku = &sku
+		account.Sku = &sku
 	} else {
-		parameters.Sku = nil
+		account.Sku = nil
 	}
 
 	// SupportsHttpsTrafficOnly
 	if source.SupportsHttpsTrafficOnly != nil {
 		supportsHttpsTrafficOnly := *source.SupportsHttpsTrafficOnly
-		parameters.SupportsHttpsTrafficOnly = &supportsHttpsTrafficOnly
+		account.SupportsHttpsTrafficOnly = &supportsHttpsTrafficOnly
 	} else {
-		parameters.SupportsHttpsTrafficOnly = nil
+		account.SupportsHttpsTrafficOnly = nil
 	}
 
 	// Tags
-	parameters.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	account.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToStorageAccountCreateParameters_STATUS populates the provided destination StorageAccountCreateParameters_STATUS from our StorageAccountCreateParameters_STATUS
-func (parameters *StorageAccountCreateParameters_STATUS) AssignPropertiesToStorageAccountCreateParameters_STATUS(destination *v20210401s.StorageAccountCreateParameters_STATUS) error {
+// AssignPropertiesToStorageAccount_STATUS populates the provided destination StorageAccount_STATUS from our StorageAccount_STATUS
+func (account *StorageAccount_STATUS) AssignPropertiesToStorageAccount_STATUS(destination *v20210401s.StorageAccount_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AccessTier
-	if parameters.AccessTier != nil {
-		accessTier := string(*parameters.AccessTier)
+	if account.AccessTier != nil {
+		accessTier := string(*account.AccessTier)
 		destination.AccessTier = &accessTier
 	} else {
 		destination.AccessTier = nil
 	}
 
 	// AllowBlobPublicAccess
-	if parameters.AllowBlobPublicAccess != nil {
-		allowBlobPublicAccess := *parameters.AllowBlobPublicAccess
+	if account.AllowBlobPublicAccess != nil {
+		allowBlobPublicAccess := *account.AllowBlobPublicAccess
 		destination.AllowBlobPublicAccess = &allowBlobPublicAccess
 	} else {
 		destination.AllowBlobPublicAccess = nil
 	}
 
 	// AllowCrossTenantReplication
-	if parameters.AllowCrossTenantReplication != nil {
-		allowCrossTenantReplication := *parameters.AllowCrossTenantReplication
+	if account.AllowCrossTenantReplication != nil {
+		allowCrossTenantReplication := *account.AllowCrossTenantReplication
 		destination.AllowCrossTenantReplication = &allowCrossTenantReplication
 	} else {
 		destination.AllowCrossTenantReplication = nil
 	}
 
 	// AllowSharedKeyAccess
-	if parameters.AllowSharedKeyAccess != nil {
-		allowSharedKeyAccess := *parameters.AllowSharedKeyAccess
+	if account.AllowSharedKeyAccess != nil {
+		allowSharedKeyAccess := *account.AllowSharedKeyAccess
 		destination.AllowSharedKeyAccess = &allowSharedKeyAccess
 	} else {
 		destination.AllowSharedKeyAccess = nil
 	}
 
 	// AzureFilesIdentityBasedAuthentication
-	if parameters.AzureFilesIdentityBasedAuthentication != nil {
+	if account.AzureFilesIdentityBasedAuthentication != nil {
 		var azureFilesIdentityBasedAuthentication v20210401s.AzureFilesIdentityBasedAuthentication_STATUS
-		err := parameters.AzureFilesIdentityBasedAuthentication.AssignPropertiesToAzureFilesIdentityBasedAuthentication_STATUS(&azureFilesIdentityBasedAuthentication)
+		err := account.AzureFilesIdentityBasedAuthentication.AssignPropertiesToAzureFilesIdentityBasedAuthentication_STATUS(&azureFilesIdentityBasedAuthentication)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToAzureFilesIdentityBasedAuthentication_STATUS() to populate field AzureFilesIdentityBasedAuthentication")
 		}
@@ -1001,12 +1001,12 @@ func (parameters *StorageAccountCreateParameters_STATUS) AssignPropertiesToStora
 	}
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(parameters.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(account.Conditions)
 
 	// CustomDomain
-	if parameters.CustomDomain != nil {
+	if account.CustomDomain != nil {
 		var customDomain v20210401s.CustomDomain_STATUS
-		err := parameters.CustomDomain.AssignPropertiesToCustomDomain_STATUS(&customDomain)
+		err := account.CustomDomain.AssignPropertiesToCustomDomain_STATUS(&customDomain)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToCustomDomain_STATUS() to populate field CustomDomain")
 		}
@@ -1016,9 +1016,9 @@ func (parameters *StorageAccountCreateParameters_STATUS) AssignPropertiesToStora
 	}
 
 	// Encryption
-	if parameters.Encryption != nil {
+	if account.Encryption != nil {
 		var encryption v20210401s.Encryption_STATUS
-		err := parameters.Encryption.AssignPropertiesToEncryption_STATUS(&encryption)
+		err := account.Encryption.AssignPropertiesToEncryption_STATUS(&encryption)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToEncryption_STATUS() to populate field Encryption")
 		}
@@ -1028,9 +1028,9 @@ func (parameters *StorageAccountCreateParameters_STATUS) AssignPropertiesToStora
 	}
 
 	// ExtendedLocation
-	if parameters.ExtendedLocation != nil {
+	if account.ExtendedLocation != nil {
 		var extendedLocation v20210401s.ExtendedLocation_STATUS
-		err := parameters.ExtendedLocation.AssignPropertiesToExtendedLocation_STATUS(&extendedLocation)
+		err := account.ExtendedLocation.AssignPropertiesToExtendedLocation_STATUS(&extendedLocation)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToExtendedLocation_STATUS() to populate field ExtendedLocation")
 		}
@@ -1040,9 +1040,9 @@ func (parameters *StorageAccountCreateParameters_STATUS) AssignPropertiesToStora
 	}
 
 	// Identity
-	if parameters.Identity != nil {
+	if account.Identity != nil {
 		var identity v20210401s.Identity_STATUS
-		err := parameters.Identity.AssignPropertiesToIdentity_STATUS(&identity)
+		err := account.Identity.AssignPropertiesToIdentity_STATUS(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToIdentity_STATUS() to populate field Identity")
 		}
@@ -1052,25 +1052,25 @@ func (parameters *StorageAccountCreateParameters_STATUS) AssignPropertiesToStora
 	}
 
 	// IsHnsEnabled
-	if parameters.IsHnsEnabled != nil {
-		isHnsEnabled := *parameters.IsHnsEnabled
+	if account.IsHnsEnabled != nil {
+		isHnsEnabled := *account.IsHnsEnabled
 		destination.IsHnsEnabled = &isHnsEnabled
 	} else {
 		destination.IsHnsEnabled = nil
 	}
 
 	// IsNfsV3Enabled
-	if parameters.IsNfsV3Enabled != nil {
-		isNfsV3Enabled := *parameters.IsNfsV3Enabled
+	if account.IsNfsV3Enabled != nil {
+		isNfsV3Enabled := *account.IsNfsV3Enabled
 		destination.IsNfsV3Enabled = &isNfsV3Enabled
 	} else {
 		destination.IsNfsV3Enabled = nil
 	}
 
 	// KeyPolicy
-	if parameters.KeyPolicy != nil {
+	if account.KeyPolicy != nil {
 		var keyPolicy v20210401s.KeyPolicy_STATUS
-		err := parameters.KeyPolicy.AssignPropertiesToKeyPolicy_STATUS(&keyPolicy)
+		err := account.KeyPolicy.AssignPropertiesToKeyPolicy_STATUS(&keyPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToKeyPolicy_STATUS() to populate field KeyPolicy")
 		}
@@ -1080,36 +1080,36 @@ func (parameters *StorageAccountCreateParameters_STATUS) AssignPropertiesToStora
 	}
 
 	// Kind
-	if parameters.Kind != nil {
-		kind := string(*parameters.Kind)
+	if account.Kind != nil {
+		kind := string(*account.Kind)
 		destination.Kind = &kind
 	} else {
 		destination.Kind = nil
 	}
 
 	// LargeFileSharesState
-	if parameters.LargeFileSharesState != nil {
-		largeFileSharesState := string(*parameters.LargeFileSharesState)
+	if account.LargeFileSharesState != nil {
+		largeFileSharesState := string(*account.LargeFileSharesState)
 		destination.LargeFileSharesState = &largeFileSharesState
 	} else {
 		destination.LargeFileSharesState = nil
 	}
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(parameters.Location)
+	destination.Location = genruntime.ClonePointerToString(account.Location)
 
 	// MinimumTlsVersion
-	if parameters.MinimumTlsVersion != nil {
-		minimumTlsVersion := string(*parameters.MinimumTlsVersion)
+	if account.MinimumTlsVersion != nil {
+		minimumTlsVersion := string(*account.MinimumTlsVersion)
 		destination.MinimumTlsVersion = &minimumTlsVersion
 	} else {
 		destination.MinimumTlsVersion = nil
 	}
 
 	// NetworkAcls
-	if parameters.NetworkAcls != nil {
+	if account.NetworkAcls != nil {
 		var networkAcl v20210401s.NetworkRuleSet_STATUS
-		err := parameters.NetworkAcls.AssignPropertiesToNetworkRuleSet_STATUS(&networkAcl)
+		err := account.NetworkAcls.AssignPropertiesToNetworkRuleSet_STATUS(&networkAcl)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToNetworkRuleSet_STATUS() to populate field NetworkAcls")
 		}
@@ -1119,9 +1119,9 @@ func (parameters *StorageAccountCreateParameters_STATUS) AssignPropertiesToStora
 	}
 
 	// RoutingPreference
-	if parameters.RoutingPreference != nil {
+	if account.RoutingPreference != nil {
 		var routingPreference v20210401s.RoutingPreference_STATUS
-		err := parameters.RoutingPreference.AssignPropertiesToRoutingPreference_STATUS(&routingPreference)
+		err := account.RoutingPreference.AssignPropertiesToRoutingPreference_STATUS(&routingPreference)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToRoutingPreference_STATUS() to populate field RoutingPreference")
 		}
@@ -1131,9 +1131,9 @@ func (parameters *StorageAccountCreateParameters_STATUS) AssignPropertiesToStora
 	}
 
 	// SasPolicy
-	if parameters.SasPolicy != nil {
+	if account.SasPolicy != nil {
 		var sasPolicy v20210401s.SasPolicy_STATUS
-		err := parameters.SasPolicy.AssignPropertiesToSasPolicy_STATUS(&sasPolicy)
+		err := account.SasPolicy.AssignPropertiesToSasPolicy_STATUS(&sasPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSasPolicy_STATUS() to populate field SasPolicy")
 		}
@@ -1143,9 +1143,9 @@ func (parameters *StorageAccountCreateParameters_STATUS) AssignPropertiesToStora
 	}
 
 	// Sku
-	if parameters.Sku != nil {
+	if account.Sku != nil {
 		var sku v20210401s.Sku_STATUS
-		err := parameters.Sku.AssignPropertiesToSku_STATUS(&sku)
+		err := account.Sku.AssignPropertiesToSku_STATUS(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSku_STATUS() to populate field Sku")
 		}
@@ -1155,15 +1155,15 @@ func (parameters *StorageAccountCreateParameters_STATUS) AssignPropertiesToStora
 	}
 
 	// SupportsHttpsTrafficOnly
-	if parameters.SupportsHttpsTrafficOnly != nil {
-		supportsHttpsTrafficOnly := *parameters.SupportsHttpsTrafficOnly
+	if account.SupportsHttpsTrafficOnly != nil {
+		supportsHttpsTrafficOnly := *account.SupportsHttpsTrafficOnly
 		destination.SupportsHttpsTrafficOnly = &supportsHttpsTrafficOnly
 	} else {
 		destination.SupportsHttpsTrafficOnly = nil
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(parameters.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(account.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

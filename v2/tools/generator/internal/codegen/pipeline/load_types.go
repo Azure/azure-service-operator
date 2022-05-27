@@ -153,7 +153,38 @@ func (resourceLookup resourceLookup) add(name astmodel.TypeName, theType astmode
 // all types (apart from Resources) are renamed to have "_STATUS" as a
 // suffix, to avoid name clashes.
 func generateStatusTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.TypeDefinitionSet, astmodel.TypeDefinitionSet, error) {
-	return renamed(swaggerTypes, astmodel.StatusNameSuffix)
+	resourceLookup, otherTypes, err := renamed(swaggerTypes, astmodel.StatusNameSuffix)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	newResources := make(astmodel.TypeDefinitionSet)
+	// often the top-level type in Swagger has a bad name like "CreateParametersX"
+	// we'll try to substitute that with a better name here
+	for resourceName, resourceDef := range resourceLookup {
+		statusTypeName := resourceDef.Type().(astmodel.TypeName) // always a TypeName, see 'renamed' comment
+		desiredStatusName := resourceName.WithName(resourceName.Name() + astmodel.StatusNameSuffix)
+
+		if statusTypeName == desiredStatusName {
+			newResources.Add(resourceDef)
+			continue // nothing to do
+		}
+
+		targetType, err := otherTypes.FullyResolve(statusTypeName)
+		if err != nil {
+			panic("didn't find type in set after renaming; shouldn't be possible")
+		}
+
+		err = otherTypes.AddAllowDuplicates(astmodel.MakeTypeDefinition(desiredStatusName, targetType))
+		if err != nil {
+			// unable to use desiredName
+			newResources.Add(resourceDef)
+		} else {
+			newResources.Add(astmodel.MakeTypeDefinition(resourceName, desiredStatusName))
+		}
+	}
+
+	return newResources, otherTypes, nil
 }
 
 // Note that the first result is for mapping resource names → types, so it is always TypeName→TypeName.

@@ -74,22 +74,22 @@ func VaultGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForVault is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForVault(gens map[string]gopter.Gen) {
 	gens["Spec"] = Vault_SpecGenerator()
-	gens["Status"] = VaultCreateOrUpdateParameters_STATUSGenerator()
+	gens["Status"] = Vault_STATUSGenerator()
 }
 
-func Test_VaultCreateOrUpdateParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Vault_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VaultCreateOrUpdateParameters_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVaultCreateOrUpdateParameters_STATUS, VaultCreateOrUpdateParameters_STATUSGenerator()))
+		"Round trip of Vault_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVault_STATUS, Vault_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVaultCreateOrUpdateParameters_STATUS runs a test to see if a specific instance of VaultCreateOrUpdateParameters_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForVaultCreateOrUpdateParameters_STATUS(subject VaultCreateOrUpdateParameters_STATUS) string {
+// RunJSONSerializationTestForVault_STATUS runs a test to see if a specific instance of Vault_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForVault_STATUS(subject Vault_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -97,7 +97,7 @@ func RunJSONSerializationTestForVaultCreateOrUpdateParameters_STATUS(subject Vau
 	}
 
 	// Deserialize back into memory
-	var actual VaultCreateOrUpdateParameters_STATUS
+	var actual Vault_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -115,40 +115,39 @@ func RunJSONSerializationTestForVaultCreateOrUpdateParameters_STATUS(subject Vau
 	return ""
 }
 
-// Generator of VaultCreateOrUpdateParameters_STATUS instances for property testing - lazily instantiated by
-// VaultCreateOrUpdateParameters_STATUSGenerator()
-var vaultCreateOrUpdateParameters_STATUSGenerator gopter.Gen
+// Generator of Vault_STATUS instances for property testing - lazily instantiated by Vault_STATUSGenerator()
+var vault_STATUSGenerator gopter.Gen
 
-// VaultCreateOrUpdateParameters_STATUSGenerator returns a generator of VaultCreateOrUpdateParameters_STATUS instances for property testing.
-// We first initialize vaultCreateOrUpdateParameters_STATUSGenerator with a simplified generator based on the
+// Vault_STATUSGenerator returns a generator of Vault_STATUS instances for property testing.
+// We first initialize vault_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func VaultCreateOrUpdateParameters_STATUSGenerator() gopter.Gen {
-	if vaultCreateOrUpdateParameters_STATUSGenerator != nil {
-		return vaultCreateOrUpdateParameters_STATUSGenerator
+func Vault_STATUSGenerator() gopter.Gen {
+	if vault_STATUSGenerator != nil {
+		return vault_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVaultCreateOrUpdateParameters_STATUS(generators)
-	vaultCreateOrUpdateParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(VaultCreateOrUpdateParameters_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForVault_STATUS(generators)
+	vault_STATUSGenerator = gen.Struct(reflect.TypeOf(Vault_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVaultCreateOrUpdateParameters_STATUS(generators)
-	AddRelatedPropertyGeneratorsForVaultCreateOrUpdateParameters_STATUS(generators)
-	vaultCreateOrUpdateParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(VaultCreateOrUpdateParameters_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForVault_STATUS(generators)
+	AddRelatedPropertyGeneratorsForVault_STATUS(generators)
+	vault_STATUSGenerator = gen.Struct(reflect.TypeOf(Vault_STATUS{}), generators)
 
-	return vaultCreateOrUpdateParameters_STATUSGenerator
+	return vault_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVaultCreateOrUpdateParameters_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVaultCreateOrUpdateParameters_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVault_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVault_STATUS(gens map[string]gopter.Gen) {
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForVaultCreateOrUpdateParameters_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVaultCreateOrUpdateParameters_STATUS(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForVault_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVault_STATUS(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(VaultProperties_STATUSGenerator())
 }
 

@@ -30,8 +30,8 @@ import (
 type Component struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Component_Spec                      `json:"spec,omitempty"`
-	Status            ApplicationInsightsComponent_STATUS `json:"status,omitempty"`
+	Spec              Component_Spec   `json:"spec,omitempty"`
+	Status            Component_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Component{}
@@ -125,7 +125,7 @@ func (component *Component) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (component *Component) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &ApplicationInsightsComponent_STATUS{}
+	return &Component_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -141,13 +141,13 @@ func (component *Component) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (component *Component) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*ApplicationInsightsComponent_STATUS); ok {
+	if st, ok := status.(*Component_STATUS); ok {
 		component.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st ApplicationInsightsComponent_STATUS
+	var st Component_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -265,10 +265,10 @@ func (component *Component) AssignPropertiesFromComponent(source *v20200202s.Com
 	component.Spec = spec
 
 	// Status
-	var status ApplicationInsightsComponent_STATUS
-	err = status.AssignPropertiesFromApplicationInsightsComponent_STATUS(&source.Status)
+	var status Component_STATUS
+	err = status.AssignPropertiesFromComponent_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromApplicationInsightsComponent_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromComponent_STATUS() to populate field Status")
 	}
 	component.Status = status
 
@@ -291,10 +291,10 @@ func (component *Component) AssignPropertiesToComponent(destination *v20200202s.
 	destination.Spec = spec
 
 	// Status
-	var status v20200202s.ApplicationInsightsComponent_STATUS
-	err = component.Status.AssignPropertiesToApplicationInsightsComponent_STATUS(&status)
+	var status v20200202s.Component_STATUS
+	err = component.Status.AssignPropertiesToComponent_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToApplicationInsightsComponent_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToComponent_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -325,7 +325,7 @@ type APIVersion string
 
 const APIVersionValue = APIVersion("20200202")
 
-type ApplicationInsightsComponent_STATUS struct {
+type Component_STATUS struct {
 	// AppId: Application Insights Unique ID for your Application.
 	AppId *string `json:"AppId,omitempty"`
 
@@ -436,25 +436,25 @@ type ApplicationInsightsComponent_STATUS struct {
 	WorkspaceResourceId *string `json:"WorkspaceResourceId,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &ApplicationInsightsComponent_STATUS{}
+var _ genruntime.ConvertibleStatus = &Component_STATUS{}
 
-// ConvertStatusFrom populates our ApplicationInsightsComponent_STATUS from the provided source
-func (component *ApplicationInsightsComponent_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20200202s.ApplicationInsightsComponent_STATUS)
+// ConvertStatusFrom populates our Component_STATUS from the provided source
+func (component *Component_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20200202s.Component_STATUS)
 	if ok {
 		// Populate our instance from source
-		return component.AssignPropertiesFromApplicationInsightsComponent_STATUS(src)
+		return component.AssignPropertiesFromComponent_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20200202s.ApplicationInsightsComponent_STATUS{}
+	src = &v20200202s.Component_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = component.AssignPropertiesFromApplicationInsightsComponent_STATUS(src)
+	err = component.AssignPropertiesFromComponent_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -462,17 +462,17 @@ func (component *ApplicationInsightsComponent_STATUS) ConvertStatusFrom(source g
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our ApplicationInsightsComponent_STATUS
-func (component *ApplicationInsightsComponent_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20200202s.ApplicationInsightsComponent_STATUS)
+// ConvertStatusTo populates the provided destination from our Component_STATUS
+func (component *Component_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20200202s.Component_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return component.AssignPropertiesToApplicationInsightsComponent_STATUS(dst)
+		return component.AssignPropertiesToComponent_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20200202s.ApplicationInsightsComponent_STATUS{}
-	err := component.AssignPropertiesToApplicationInsightsComponent_STATUS(dst)
+	dst = &v20200202s.Component_STATUS{}
+	err := component.AssignPropertiesToComponent_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -486,18 +486,18 @@ func (component *ApplicationInsightsComponent_STATUS) ConvertStatusTo(destinatio
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &ApplicationInsightsComponent_STATUS{}
+var _ genruntime.FromARMConverter = &Component_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (component *ApplicationInsightsComponent_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApplicationInsightsComponent_STATUSARM{}
+func (component *Component_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Component_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (component *ApplicationInsightsComponent_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApplicationInsightsComponent_STATUSARM)
+func (component *Component_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Component_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApplicationInsightsComponent_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Component_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘AppId’:
@@ -777,8 +777,8 @@ func (component *ApplicationInsightsComponent_STATUS) PopulateFromARM(owner genr
 	return nil
 }
 
-// AssignPropertiesFromApplicationInsightsComponent_STATUS populates our ApplicationInsightsComponent_STATUS from the provided source ApplicationInsightsComponent_STATUS
-func (component *ApplicationInsightsComponent_STATUS) AssignPropertiesFromApplicationInsightsComponent_STATUS(source *v20200202s.ApplicationInsightsComponent_STATUS) error {
+// AssignPropertiesFromComponent_STATUS populates our Component_STATUS from the provided source Component_STATUS
+func (component *Component_STATUS) AssignPropertiesFromComponent_STATUS(source *v20200202s.Component_STATUS) error {
 
 	// AppId
 	component.AppId = genruntime.ClonePointerToString(source.AppId)
@@ -958,8 +958,8 @@ func (component *ApplicationInsightsComponent_STATUS) AssignPropertiesFromApplic
 	return nil
 }
 
-// AssignPropertiesToApplicationInsightsComponent_STATUS populates the provided destination ApplicationInsightsComponent_STATUS from our ApplicationInsightsComponent_STATUS
-func (component *ApplicationInsightsComponent_STATUS) AssignPropertiesToApplicationInsightsComponent_STATUS(destination *v20200202s.ApplicationInsightsComponent_STATUS) error {
+// AssignPropertiesToComponent_STATUS populates the provided destination Component_STATUS from our Component_STATUS
+func (component *Component_STATUS) AssignPropertiesToComponent_STATUS(destination *v20200202s.Component_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2217,10 +2217,21 @@ const (
 	ApplicationInsightsComponentProperties_Application_TypeWeb   = ApplicationInsightsComponentProperties_Application_Type("web")
 )
 
+type ApplicationInsightsComponentProperties_Application_Type_STATUS string
+
+const (
+	ApplicationInsightsComponentProperties_Application_Type_STATUSOther = ApplicationInsightsComponentProperties_Application_Type_STATUS("other")
+	ApplicationInsightsComponentProperties_Application_Type_STATUSWeb   = ApplicationInsightsComponentProperties_Application_Type_STATUS("web")
+)
+
 // +kubebuilder:validation:Enum={"Bluefield"}
 type ApplicationInsightsComponentProperties_Flow_Type string
 
 const ApplicationInsightsComponentProperties_Flow_TypeBluefield = ApplicationInsightsComponentProperties_Flow_Type("Bluefield")
+
+type ApplicationInsightsComponentProperties_Flow_Type_STATUS string
+
+const ApplicationInsightsComponentProperties_Flow_Type_STATUSBluefield = ApplicationInsightsComponentProperties_Flow_Type_STATUS("Bluefield")
 
 // +kubebuilder:validation:Enum={"ApplicationInsights","ApplicationInsightsWithDiagnosticSettings","LogAnalytics"}
 type ApplicationInsightsComponentProperties_IngestionMode string
@@ -2231,10 +2242,22 @@ const (
 	ApplicationInsightsComponentProperties_IngestionModeLogAnalytics                              = ApplicationInsightsComponentProperties_IngestionMode("LogAnalytics")
 )
 
+type ApplicationInsightsComponentProperties_IngestionMode_STATUS string
+
+const (
+	ApplicationInsightsComponentProperties_IngestionMode_STATUSApplicationInsights                       = ApplicationInsightsComponentProperties_IngestionMode_STATUS("ApplicationInsights")
+	ApplicationInsightsComponentProperties_IngestionMode_STATUSApplicationInsightsWithDiagnosticSettings = ApplicationInsightsComponentProperties_IngestionMode_STATUS("ApplicationInsightsWithDiagnosticSettings")
+	ApplicationInsightsComponentProperties_IngestionMode_STATUSLogAnalytics                              = ApplicationInsightsComponentProperties_IngestionMode_STATUS("LogAnalytics")
+)
+
 // +kubebuilder:validation:Enum={"rest"}
 type ApplicationInsightsComponentProperties_Request_Source string
 
 const ApplicationInsightsComponentProperties_Request_SourceRest = ApplicationInsightsComponentProperties_Request_Source("rest")
+
+type ApplicationInsightsComponentProperties_Request_Source_STATUS string
+
+const ApplicationInsightsComponentProperties_Request_Source_STATUSRest = ApplicationInsightsComponentProperties_Request_Source_STATUS("rest")
 
 type PrivateLinkScopedResource struct {
 	// ResourceId: The full resource Id of the private link scope resource.
@@ -2409,6 +2432,13 @@ type PublicNetworkAccessType string
 const (
 	PublicNetworkAccessTypeDisabled = PublicNetworkAccessType("Disabled")
 	PublicNetworkAccessTypeEnabled  = PublicNetworkAccessType("Enabled")
+)
+
+type PublicNetworkAccessType_STATUS string
+
+const (
+	PublicNetworkAccessType_STATUSDisabled = PublicNetworkAccessType_STATUS("Disabled")
+	PublicNetworkAccessType_STATUSEnabled  = PublicNetworkAccessType_STATUS("Enabled")
 )
 
 func init() {

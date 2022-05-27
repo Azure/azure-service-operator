@@ -28,8 +28,8 @@ import (
 type Redis struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Redis_Spec                   `json:"spec,omitempty"`
-	Status            RedisCreateParameters_STATUS `json:"status,omitempty"`
+	Spec              Redis_Spec   `json:"spec,omitempty"`
+	Status            Redis_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Redis{}
@@ -78,7 +78,7 @@ func (redis *Redis) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (redis *Redis) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &RedisCreateParameters_STATUS{}
+	return &Redis_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -94,13 +94,13 @@ func (redis *Redis) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (redis *Redis) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*RedisCreateParameters_STATUS); ok {
+	if st, ok := status.(*Redis_STATUS); ok {
 		redis.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st RedisCreateParameters_STATUS
+	var st Redis_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -138,8 +138,8 @@ type APIVersion string
 
 const APIVersionValue = APIVersion("20201201")
 
-// Storage version of v1beta20201201.RedisCreateParameters_STATUS
-type RedisCreateParameters_STATUS struct {
+// Storage version of v1beta20201201.Redis_STATUS
+type Redis_STATUS struct {
 	Conditions          []conditions.Condition                           `json:"conditions,omitempty"`
 	EnableNonSslPort    *bool                                            `json:"enableNonSslPort,omitempty"`
 	Location            *string                                          `json:"location,omitempty"`
@@ -159,24 +159,24 @@ type RedisCreateParameters_STATUS struct {
 	Zones               []string                                         `json:"zones,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &RedisCreateParameters_STATUS{}
+var _ genruntime.ConvertibleStatus = &Redis_STATUS{}
 
-// ConvertStatusFrom populates our RedisCreateParameters_STATUS from the provided source
-func (parameters *RedisCreateParameters_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == parameters {
+// ConvertStatusFrom populates our Redis_STATUS from the provided source
+func (redis *Redis_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == redis {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(parameters)
+	return source.ConvertStatusTo(redis)
 }
 
-// ConvertStatusTo populates the provided destination from our RedisCreateParameters_STATUS
-func (parameters *RedisCreateParameters_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == parameters {
+// ConvertStatusTo populates the provided destination from our Redis_STATUS
+func (redis *Redis_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == redis {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(parameters)
+	return destination.ConvertStatusFrom(redis)
 }
 
 // Storage version of v1beta20201201.Redis_Spec

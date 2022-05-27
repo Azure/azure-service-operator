@@ -27,8 +27,8 @@ import (
 type Server struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Server_Spec            `json:"spec,omitempty"`
-	Status            ServerForCreate_STATUS `json:"status,omitempty"`
+	Spec              Server_Spec   `json:"spec,omitempty"`
+	Status            Server_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Server{}
@@ -77,7 +77,7 @@ func (server *Server) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (server *Server) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &ServerForCreate_STATUS{}
+	return &Server_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -93,13 +93,13 @@ func (server *Server) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (server *Server) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*ServerForCreate_STATUS); ok {
+	if st, ok := status.(*Server_STATUS); ok {
 		server.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st ServerForCreate_STATUS
+	var st Server_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -131,8 +131,8 @@ type ServerList struct {
 	Items           []Server `json:"items"`
 }
 
-// Storage version of v1beta20180601.ServerForCreate_STATUS
-type ServerForCreate_STATUS struct {
+// Storage version of v1beta20180601.Server_STATUS
+type Server_STATUS struct {
 	Conditions  []conditions.Condition            `json:"conditions,omitempty"`
 	Location    *string                           `json:"location,omitempty"`
 	Properties  *ServerPropertiesForCreate_STATUS `json:"properties,omitempty"`
@@ -141,24 +141,24 @@ type ServerForCreate_STATUS struct {
 	Tags        map[string]string                 `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &ServerForCreate_STATUS{}
+var _ genruntime.ConvertibleStatus = &Server_STATUS{}
 
-// ConvertStatusFrom populates our ServerForCreate_STATUS from the provided source
-func (create *ServerForCreate_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == create {
+// ConvertStatusFrom populates our Server_STATUS from the provided source
+func (server *Server_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == server {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(create)
+	return source.ConvertStatusTo(server)
 }
 
-// ConvertStatusTo populates the provided destination from our ServerForCreate_STATUS
-func (create *ServerForCreate_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == create {
+// ConvertStatusTo populates the provided destination from our Server_STATUS
+func (server *Server_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == server {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(create)
+	return destination.ConvertStatusFrom(server)
 }
 
 // Storage version of v1beta20180601.Server_Spec

@@ -27,8 +27,8 @@ import (
 type MongodbDatabaseCollectionThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec `json:"spec,omitempty"`
-	Status            ThroughputSettingsUpdateParameters_STATUS                         `json:"status,omitempty"`
+	Spec              DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec   `json:"spec,omitempty"`
+	Status            DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &MongodbDatabaseCollectionThroughputSetting{}
@@ -77,7 +77,7 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (setting *MongodbDatabaseCollectionThroughputSetting) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &ThroughputSettingsUpdateParameters_STATUS{}
+	return &DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -93,13 +93,13 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) Owner() *genruntime.R
 // SetStatus sets the status of this resource
 func (setting *MongodbDatabaseCollectionThroughputSetting) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*ThroughputSettingsUpdateParameters_STATUS); ok {
+	if st, ok := status.(*DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS); ok {
 		setting.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st ThroughputSettingsUpdateParameters_STATUS
+	var st DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -129,6 +129,38 @@ type MongodbDatabaseCollectionThroughputSettingList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []MongodbDatabaseCollectionThroughputSetting `json:"items"`
+}
+
+// Storage version of v1beta20210515.DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS
+type DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS struct {
+	Conditions  []conditions.Condition             `json:"conditions,omitempty"`
+	Id          *string                            `json:"id,omitempty"`
+	Location    *string                            `json:"location,omitempty"`
+	Name        *string                            `json:"name,omitempty"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Resource    *ThroughputSettingsResource_STATUS `json:"resource,omitempty"`
+	Tags        map[string]string                  `json:"tags,omitempty"`
+	Type        *string                            `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS{}
+
+// ConvertStatusFrom populates our DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS from the provided source
+func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == setting {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(setting)
+}
+
+// ConvertStatusTo populates the provided destination from our DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS
+func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == setting {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(setting)
 }
 
 // Storage version of v1beta20210515.DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec
@@ -169,38 +201,6 @@ func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec
 	}
 
 	return destination.ConvertSpecFrom(setting)
-}
-
-// Storage version of v1beta20210515.ThroughputSettingsUpdateParameters_STATUS
-type ThroughputSettingsUpdateParameters_STATUS struct {
-	Conditions  []conditions.Condition             `json:"conditions,omitempty"`
-	Id          *string                            `json:"id,omitempty"`
-	Location    *string                            `json:"location,omitempty"`
-	Name        *string                            `json:"name,omitempty"`
-	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Resource    *ThroughputSettingsResource_STATUS `json:"resource,omitempty"`
-	Tags        map[string]string                  `json:"tags,omitempty"`
-	Type        *string                            `json:"type,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &ThroughputSettingsUpdateParameters_STATUS{}
-
-// ConvertStatusFrom populates our ThroughputSettingsUpdateParameters_STATUS from the provided source
-func (parameters *ThroughputSettingsUpdateParameters_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == parameters {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(parameters)
-}
-
-// ConvertStatusTo populates the provided destination from our ThroughputSettingsUpdateParameters_STATUS
-func (parameters *ThroughputSettingsUpdateParameters_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == parameters {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(parameters)
 }
 
 // Storage version of v1beta20210515.ThroughputSettingsResource

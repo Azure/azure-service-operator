@@ -27,8 +27,8 @@ import (
 type Namespace struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Namespace_Spec     `json:"spec,omitempty"`
-	Status            EHNamespace_STATUS `json:"status,omitempty"`
+	Spec              Namespace_Spec   `json:"spec,omitempty"`
+	Status            Namespace_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Namespace{}
@@ -77,7 +77,7 @@ func (namespace *Namespace) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (namespace *Namespace) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &EHNamespace_STATUS{}
+	return &Namespace_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -93,13 +93,13 @@ func (namespace *Namespace) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (namespace *Namespace) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*EHNamespace_STATUS); ok {
+	if st, ok := status.(*Namespace_STATUS); ok {
 		namespace.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st EHNamespace_STATUS
+	var st Namespace_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -137,39 +137,39 @@ type APIVersion string
 
 const APIVersionValue = APIVersion("20211101")
 
-// Storage version of v1beta20211101.EHNamespace_STATUS
-type EHNamespace_STATUS struct {
-	AlternateName              *string                                                `json:"alternateName,omitempty"`
-	ClusterArmId               *string                                                `json:"clusterArmId,omitempty"`
-	Conditions                 []conditions.Condition                                 `json:"conditions,omitempty"`
-	CreatedAt                  *string                                                `json:"createdAt,omitempty"`
-	DisableLocalAuth           *bool                                                  `json:"disableLocalAuth,omitempty"`
-	Encryption                 *Encryption_STATUS                                     `json:"encryption,omitempty"`
-	Id                         *string                                                `json:"id,omitempty"`
-	Identity                   *Identity_STATUS                                       `json:"identity,omitempty"`
-	IsAutoInflateEnabled       *bool                                                  `json:"isAutoInflateEnabled,omitempty"`
-	KafkaEnabled               *bool                                                  `json:"kafkaEnabled,omitempty"`
-	Location                   *string                                                `json:"location,omitempty"`
-	MaximumThroughputUnits     *int                                                   `json:"maximumThroughputUnits,omitempty"`
-	MetricId                   *string                                                `json:"metricId,omitempty"`
-	Name                       *string                                                `json:"name,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
-	PropertyBag                genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
-	ProvisioningState          *string                                                `json:"provisioningState,omitempty"`
-	ServiceBusEndpoint         *string                                                `json:"serviceBusEndpoint,omitempty"`
-	Sku                        *Sku_STATUS                                            `json:"sku,omitempty"`
-	Status                     *string                                                `json:"status,omitempty"`
-	SystemData                 *SystemData_STATUS                                     `json:"systemData,omitempty"`
-	Tags                       map[string]string                                      `json:"tags,omitempty"`
-	Type                       *string                                                `json:"type,omitempty"`
-	UpdatedAt                  *string                                                `json:"updatedAt,omitempty"`
-	ZoneRedundant              *bool                                                  `json:"zoneRedundant,omitempty"`
+// Storage version of v1beta20211101.Namespace_STATUS
+type Namespace_STATUS struct {
+	AlternateName              *string                            `json:"alternateName,omitempty"`
+	ClusterArmId               *string                            `json:"clusterArmId,omitempty"`
+	Conditions                 []conditions.Condition             `json:"conditions,omitempty"`
+	CreatedAt                  *string                            `json:"createdAt,omitempty"`
+	DisableLocalAuth           *bool                              `json:"disableLocalAuth,omitempty"`
+	Encryption                 *Encryption_STATUS                 `json:"encryption,omitempty"`
+	Id                         *string                            `json:"id,omitempty"`
+	Identity                   *Identity_STATUS                   `json:"identity,omitempty"`
+	IsAutoInflateEnabled       *bool                              `json:"isAutoInflateEnabled,omitempty"`
+	KafkaEnabled               *bool                              `json:"kafkaEnabled,omitempty"`
+	Location                   *string                            `json:"location,omitempty"`
+	MaximumThroughputUnits     *int                               `json:"maximumThroughputUnits,omitempty"`
+	MetricId                   *string                            `json:"metricId,omitempty"`
+	Name                       *string                            `json:"name,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS `json:"privateEndpointConnections,omitempty"`
+	PropertyBag                genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	ProvisioningState          *string                            `json:"provisioningState,omitempty"`
+	ServiceBusEndpoint         *string                            `json:"serviceBusEndpoint,omitempty"`
+	Sku                        *Sku_STATUS                        `json:"sku,omitempty"`
+	Status                     *string                            `json:"status,omitempty"`
+	SystemData                 *SystemData_STATUS                 `json:"systemData,omitempty"`
+	Tags                       map[string]string                  `json:"tags,omitempty"`
+	Type                       *string                            `json:"type,omitempty"`
+	UpdatedAt                  *string                            `json:"updatedAt,omitempty"`
+	ZoneRedundant              *bool                              `json:"zoneRedundant,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &EHNamespace_STATUS{}
+var _ genruntime.ConvertibleStatus = &Namespace_STATUS{}
 
-// ConvertStatusFrom populates our EHNamespace_STATUS from the provided source
-func (namespace *EHNamespace_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our Namespace_STATUS from the provided source
+func (namespace *Namespace_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == namespace {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -177,8 +177,8 @@ func (namespace *EHNamespace_STATUS) ConvertStatusFrom(source genruntime.Convert
 	return source.ConvertStatusTo(namespace)
 }
 
-// ConvertStatusTo populates the provided destination from our EHNamespace_STATUS
-func (namespace *EHNamespace_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our Namespace_STATUS
+func (namespace *Namespace_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == namespace {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -284,8 +284,8 @@ type PrivateEndpointConnection struct {
 	SystemData  *SystemData            `json:"systemData,omitempty"`
 }
 
-// Storage version of v1beta20211101.PrivateEndpointConnection_STATUS_SubResourceEmbedded
-type PrivateEndpointConnection_STATUS_SubResourceEmbedded struct {
+// Storage version of v1beta20211101.PrivateEndpointConnection_STATUS
+type PrivateEndpointConnection_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SystemData  *SystemData_STATUS     `json:"systemData,omitempty"`

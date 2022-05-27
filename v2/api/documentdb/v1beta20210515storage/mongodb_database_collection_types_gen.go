@@ -27,8 +27,8 @@ import (
 type MongodbDatabaseCollection struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccountsMongodbDatabasesCollection_Spec `json:"spec,omitempty"`
-	Status            MongoDBCollectionCreateUpdateParameters_STATUS  `json:"status,omitempty"`
+	Spec              DatabaseAccountsMongodbDatabasesCollection_Spec   `json:"spec,omitempty"`
+	Status            DatabaseAccountsMongodbDatabasesCollection_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &MongodbDatabaseCollection{}
@@ -77,7 +77,7 @@ func (collection *MongodbDatabaseCollection) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (collection *MongodbDatabaseCollection) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &MongoDBCollectionCreateUpdateParameters_STATUS{}
+	return &DatabaseAccountsMongodbDatabasesCollection_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -93,13 +93,13 @@ func (collection *MongodbDatabaseCollection) Owner() *genruntime.ResourceReferen
 // SetStatus sets the status of this resource
 func (collection *MongodbDatabaseCollection) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*MongoDBCollectionCreateUpdateParameters_STATUS); ok {
+	if st, ok := status.(*DatabaseAccountsMongodbDatabasesCollection_STATUS); ok {
 		collection.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st MongoDBCollectionCreateUpdateParameters_STATUS
+	var st DatabaseAccountsMongodbDatabasesCollection_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -129,6 +129,39 @@ type MongodbDatabaseCollectionList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []MongodbDatabaseCollection `json:"items"`
+}
+
+// Storage version of v1beta20210515.DatabaseAccountsMongodbDatabasesCollection_STATUS
+type DatabaseAccountsMongodbDatabasesCollection_STATUS struct {
+	Conditions  []conditions.Condition            `json:"conditions,omitempty"`
+	Id          *string                           `json:"id,omitempty"`
+	Location    *string                           `json:"location,omitempty"`
+	Name        *string                           `json:"name,omitempty"`
+	Options     *CreateUpdateOptions_STATUS       `json:"options,omitempty"`
+	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+	Resource    *MongoDBCollectionResource_STATUS `json:"resource,omitempty"`
+	Tags        map[string]string                 `json:"tags,omitempty"`
+	Type        *string                           `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &DatabaseAccountsMongodbDatabasesCollection_STATUS{}
+
+// ConvertStatusFrom populates our DatabaseAccountsMongodbDatabasesCollection_STATUS from the provided source
+func (collection *DatabaseAccountsMongodbDatabasesCollection_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == collection {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(collection)
+}
+
+// ConvertStatusTo populates the provided destination from our DatabaseAccountsMongodbDatabasesCollection_STATUS
+func (collection *DatabaseAccountsMongodbDatabasesCollection_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == collection {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(collection)
 }
 
 // Storage version of v1beta20210515.DatabaseAccountsMongodbDatabasesCollection_Spec
@@ -170,39 +203,6 @@ func (collection *DatabaseAccountsMongodbDatabasesCollection_Spec) ConvertSpecTo
 	}
 
 	return destination.ConvertSpecFrom(collection)
-}
-
-// Storage version of v1beta20210515.MongoDBCollectionCreateUpdateParameters_STATUS
-type MongoDBCollectionCreateUpdateParameters_STATUS struct {
-	Conditions  []conditions.Condition            `json:"conditions,omitempty"`
-	Id          *string                           `json:"id,omitempty"`
-	Location    *string                           `json:"location,omitempty"`
-	Name        *string                           `json:"name,omitempty"`
-	Options     *CreateUpdateOptions_STATUS       `json:"options,omitempty"`
-	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	Resource    *MongoDBCollectionResource_STATUS `json:"resource,omitempty"`
-	Tags        map[string]string                 `json:"tags,omitempty"`
-	Type        *string                           `json:"type,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &MongoDBCollectionCreateUpdateParameters_STATUS{}
-
-// ConvertStatusFrom populates our MongoDBCollectionCreateUpdateParameters_STATUS from the provided source
-func (parameters *MongoDBCollectionCreateUpdateParameters_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == parameters {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(parameters)
-}
-
-// ConvertStatusTo populates the provided destination from our MongoDBCollectionCreateUpdateParameters_STATUS
-func (parameters *MongoDBCollectionCreateUpdateParameters_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == parameters {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(parameters)
 }
 
 // Storage version of v1beta20210515.MongoDBCollectionResource

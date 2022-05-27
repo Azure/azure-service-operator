@@ -27,8 +27,8 @@ import (
 type Vault struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Vault_Spec                           `json:"spec,omitempty"`
-	Status            VaultCreateOrUpdateParameters_STATUS `json:"status,omitempty"`
+	Spec              Vault_Spec   `json:"spec,omitempty"`
+	Status            Vault_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Vault{}
@@ -77,7 +77,7 @@ func (vault *Vault) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (vault *Vault) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &VaultCreateOrUpdateParameters_STATUS{}
+	return &Vault_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -93,13 +93,13 @@ func (vault *Vault) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (vault *Vault) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*VaultCreateOrUpdateParameters_STATUS); ok {
+	if st, ok := status.(*Vault_STATUS); ok {
 		vault.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st VaultCreateOrUpdateParameters_STATUS
+	var st Vault_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -137,8 +137,8 @@ type APIVersion string
 
 const APIVersionValue = APIVersion("20210401preview")
 
-// Storage version of v1beta20210401preview.VaultCreateOrUpdateParameters_STATUS
-type VaultCreateOrUpdateParameters_STATUS struct {
+// Storage version of v1beta20210401preview.Vault_STATUS
+type Vault_STATUS struct {
 	Conditions  []conditions.Condition  `json:"conditions,omitempty"`
 	Location    *string                 `json:"location,omitempty"`
 	Properties  *VaultProperties_STATUS `json:"properties,omitempty"`
@@ -146,24 +146,24 @@ type VaultCreateOrUpdateParameters_STATUS struct {
 	Tags        map[string]string       `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &VaultCreateOrUpdateParameters_STATUS{}
+var _ genruntime.ConvertibleStatus = &Vault_STATUS{}
 
-// ConvertStatusFrom populates our VaultCreateOrUpdateParameters_STATUS from the provided source
-func (parameters *VaultCreateOrUpdateParameters_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == parameters {
+// ConvertStatusFrom populates our Vault_STATUS from the provided source
+func (vault *Vault_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == vault {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(parameters)
+	return source.ConvertStatusTo(vault)
 }
 
-// ConvertStatusTo populates the provided destination from our VaultCreateOrUpdateParameters_STATUS
-func (parameters *VaultCreateOrUpdateParameters_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == parameters {
+// ConvertStatusTo populates the provided destination from our Vault_STATUS
+func (vault *Vault_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == vault {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(parameters)
+	return destination.ConvertStatusFrom(vault)
 }
 
 // Storage version of v1beta20210401preview.Vault_Spec

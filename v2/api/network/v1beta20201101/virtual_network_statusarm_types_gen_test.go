@@ -241,3 +241,64 @@ func DhcpOptions_STATUSARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForDhcpOptions_STATUSARM(gens map[string]gopter.Gen) {
 	gens["DnsServers"] = gen.SliceOf(gen.AlphaString())
 }
+
+func Test_VirtualNetworkBgpCommunities_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of VirtualNetworkBgpCommunities_STATUSARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualNetworkBgpCommunities_STATUSARM, VirtualNetworkBgpCommunities_STATUSARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForVirtualNetworkBgpCommunities_STATUSARM runs a test to see if a specific instance of VirtualNetworkBgpCommunities_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualNetworkBgpCommunities_STATUSARM(subject VirtualNetworkBgpCommunities_STATUSARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual VirtualNetworkBgpCommunities_STATUSARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of VirtualNetworkBgpCommunities_STATUSARM instances for property testing - lazily instantiated by
+// VirtualNetworkBgpCommunities_STATUSARMGenerator()
+var virtualNetworkBgpCommunities_STATUSARMGenerator gopter.Gen
+
+// VirtualNetworkBgpCommunities_STATUSARMGenerator returns a generator of VirtualNetworkBgpCommunities_STATUSARM instances for property testing.
+func VirtualNetworkBgpCommunities_STATUSARMGenerator() gopter.Gen {
+	if virtualNetworkBgpCommunities_STATUSARMGenerator != nil {
+		return virtualNetworkBgpCommunities_STATUSARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunities_STATUSARM(generators)
+	virtualNetworkBgpCommunities_STATUSARMGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkBgpCommunities_STATUSARM{}), generators)
+
+	return virtualNetworkBgpCommunities_STATUSARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunities_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunities_STATUSARM(gens map[string]gopter.Gen) {
+	gens["RegionalCommunity"] = gen.PtrOf(gen.AlphaString())
+	gens["VirtualNetworkCommunity"] = gen.PtrOf(gen.AlphaString())
+}

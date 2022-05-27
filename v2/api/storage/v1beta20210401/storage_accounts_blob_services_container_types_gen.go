@@ -29,8 +29,8 @@ import (
 type StorageAccountsBlobServicesContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              StorageAccountsBlobServicesContainer_Spec `json:"spec,omitempty"`
-	Status            BlobContainer_STATUS                      `json:"status,omitempty"`
+	Spec              StorageAccountsBlobServicesContainer_Spec   `json:"spec,omitempty"`
+	Status            StorageAccountsBlobServicesContainer_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &StorageAccountsBlobServicesContainer{}
@@ -124,7 +124,7 @@ func (container *StorageAccountsBlobServicesContainer) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (container *StorageAccountsBlobServicesContainer) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &BlobContainer_STATUS{}
+	return &StorageAccountsBlobServicesContainer_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -140,13 +140,13 @@ func (container *StorageAccountsBlobServicesContainer) Owner() *genruntime.Resou
 // SetStatus sets the status of this resource
 func (container *StorageAccountsBlobServicesContainer) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*BlobContainer_STATUS); ok {
+	if st, ok := status.(*StorageAccountsBlobServicesContainer_STATUS); ok {
 		container.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st BlobContainer_STATUS
+	var st StorageAccountsBlobServicesContainer_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -264,10 +264,10 @@ func (container *StorageAccountsBlobServicesContainer) AssignPropertiesFromStora
 	container.Spec = spec
 
 	// Status
-	var status BlobContainer_STATUS
-	err = status.AssignPropertiesFromBlobContainer_STATUS(&source.Status)
+	var status StorageAccountsBlobServicesContainer_STATUS
+	err = status.AssignPropertiesFromStorageAccountsBlobServicesContainer_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromBlobContainer_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromStorageAccountsBlobServicesContainer_STATUS() to populate field Status")
 	}
 	container.Status = status
 
@@ -290,10 +290,10 @@ func (container *StorageAccountsBlobServicesContainer) AssignPropertiesToStorage
 	destination.Spec = spec
 
 	// Status
-	var status v20210401s.BlobContainer_STATUS
-	err = container.Status.AssignPropertiesToBlobContainer_STATUS(&status)
+	var status v20210401s.StorageAccountsBlobServicesContainer_STATUS
+	err = container.Status.AssignPropertiesToStorageAccountsBlobServicesContainer_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToBlobContainer_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToStorageAccountsBlobServicesContainer_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -319,7 +319,7 @@ type StorageAccountsBlobServicesContainerList struct {
 	Items           []StorageAccountsBlobServicesContainer `json:"items"`
 }
 
-type BlobContainer_STATUS struct {
+type StorageAccountsBlobServicesContainer_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -394,25 +394,25 @@ type BlobContainer_STATUS struct {
 	Version *string `json:"version,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &BlobContainer_STATUS{}
+var _ genruntime.ConvertibleStatus = &StorageAccountsBlobServicesContainer_STATUS{}
 
-// ConvertStatusFrom populates our BlobContainer_STATUS from the provided source
-func (container *BlobContainer_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210401s.BlobContainer_STATUS)
+// ConvertStatusFrom populates our StorageAccountsBlobServicesContainer_STATUS from the provided source
+func (container *StorageAccountsBlobServicesContainer_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210401s.StorageAccountsBlobServicesContainer_STATUS)
 	if ok {
 		// Populate our instance from source
-		return container.AssignPropertiesFromBlobContainer_STATUS(src)
+		return container.AssignPropertiesFromStorageAccountsBlobServicesContainer_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210401s.BlobContainer_STATUS{}
+	src = &v20210401s.StorageAccountsBlobServicesContainer_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = container.AssignPropertiesFromBlobContainer_STATUS(src)
+	err = container.AssignPropertiesFromStorageAccountsBlobServicesContainer_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -420,17 +420,17 @@ func (container *BlobContainer_STATUS) ConvertStatusFrom(source genruntime.Conve
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our BlobContainer_STATUS
-func (container *BlobContainer_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210401s.BlobContainer_STATUS)
+// ConvertStatusTo populates the provided destination from our StorageAccountsBlobServicesContainer_STATUS
+func (container *StorageAccountsBlobServicesContainer_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210401s.StorageAccountsBlobServicesContainer_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return container.AssignPropertiesToBlobContainer_STATUS(dst)
+		return container.AssignPropertiesToStorageAccountsBlobServicesContainer_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210401s.BlobContainer_STATUS{}
-	err := container.AssignPropertiesToBlobContainer_STATUS(dst)
+	dst = &v20210401s.StorageAccountsBlobServicesContainer_STATUS{}
+	err := container.AssignPropertiesToStorageAccountsBlobServicesContainer_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -444,18 +444,18 @@ func (container *BlobContainer_STATUS) ConvertStatusTo(destination genruntime.Co
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &BlobContainer_STATUS{}
+var _ genruntime.FromARMConverter = &StorageAccountsBlobServicesContainer_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (container *BlobContainer_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BlobContainer_STATUSARM{}
+func (container *StorageAccountsBlobServicesContainer_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &StorageAccountsBlobServicesContainer_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (container *BlobContainer_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BlobContainer_STATUSARM)
+func (container *StorageAccountsBlobServicesContainer_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(StorageAccountsBlobServicesContainer_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BlobContainer_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccountsBlobServicesContainer_STATUSARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -658,8 +658,8 @@ func (container *BlobContainer_STATUS) PopulateFromARM(owner genruntime.Arbitrar
 	return nil
 }
 
-// AssignPropertiesFromBlobContainer_STATUS populates our BlobContainer_STATUS from the provided source BlobContainer_STATUS
-func (container *BlobContainer_STATUS) AssignPropertiesFromBlobContainer_STATUS(source *v20210401s.BlobContainer_STATUS) error {
+// AssignPropertiesFromStorageAccountsBlobServicesContainer_STATUS populates our StorageAccountsBlobServicesContainer_STATUS from the provided source StorageAccountsBlobServicesContainer_STATUS
+func (container *StorageAccountsBlobServicesContainer_STATUS) AssignPropertiesFromStorageAccountsBlobServicesContainer_STATUS(source *v20210401s.StorageAccountsBlobServicesContainer_STATUS) error {
 
 	// Conditions
 	container.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -798,8 +798,8 @@ func (container *BlobContainer_STATUS) AssignPropertiesFromBlobContainer_STATUS(
 	return nil
 }
 
-// AssignPropertiesToBlobContainer_STATUS populates the provided destination BlobContainer_STATUS from our BlobContainer_STATUS
-func (container *BlobContainer_STATUS) AssignPropertiesToBlobContainer_STATUS(destination *v20210401s.BlobContainer_STATUS) error {
+// AssignPropertiesToStorageAccountsBlobServicesContainer_STATUS populates the provided destination StorageAccountsBlobServicesContainer_STATUS from our StorageAccountsBlobServicesContainer_STATUS
+func (container *StorageAccountsBlobServicesContainer_STATUS) AssignPropertiesToStorageAccountsBlobServicesContainer_STATUS(destination *v20210401s.StorageAccountsBlobServicesContainer_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -1766,6 +1766,13 @@ const (
 	ContainerProperties_LeaseDurationInfinite = ContainerProperties_LeaseDuration("Infinite")
 )
 
+type ContainerProperties_LeaseDuration_STATUS string
+
+const (
+	ContainerProperties_LeaseDuration_STATUSFixed    = ContainerProperties_LeaseDuration_STATUS("Fixed")
+	ContainerProperties_LeaseDuration_STATUSInfinite = ContainerProperties_LeaseDuration_STATUS("Infinite")
+)
+
 // +kubebuilder:validation:Enum={"Available","Breaking","Broken","Expired","Leased"}
 type ContainerProperties_LeaseState string
 
@@ -1777,12 +1784,29 @@ const (
 	ContainerProperties_LeaseStateLeased    = ContainerProperties_LeaseState("Leased")
 )
 
+type ContainerProperties_LeaseState_STATUS string
+
+const (
+	ContainerProperties_LeaseState_STATUSAvailable = ContainerProperties_LeaseState_STATUS("Available")
+	ContainerProperties_LeaseState_STATUSBreaking  = ContainerProperties_LeaseState_STATUS("Breaking")
+	ContainerProperties_LeaseState_STATUSBroken    = ContainerProperties_LeaseState_STATUS("Broken")
+	ContainerProperties_LeaseState_STATUSExpired   = ContainerProperties_LeaseState_STATUS("Expired")
+	ContainerProperties_LeaseState_STATUSLeased    = ContainerProperties_LeaseState_STATUS("Leased")
+)
+
 // +kubebuilder:validation:Enum={"Locked","Unlocked"}
 type ContainerProperties_LeaseStatus string
 
 const (
 	ContainerProperties_LeaseStatusLocked   = ContainerProperties_LeaseStatus("Locked")
 	ContainerProperties_LeaseStatusUnlocked = ContainerProperties_LeaseStatus("Unlocked")
+)
+
+type ContainerProperties_LeaseStatus_STATUS string
+
+const (
+	ContainerProperties_LeaseStatus_STATUSLocked   = ContainerProperties_LeaseStatus_STATUS("Locked")
+	ContainerProperties_LeaseStatus_STATUSUnlocked = ContainerProperties_LeaseStatus_STATUS("Unlocked")
 )
 
 // +kubebuilder:validation:Enum={"Blob","Container","None"}
@@ -1792,6 +1816,14 @@ const (
 	ContainerProperties_PublicAccessBlob      = ContainerProperties_PublicAccess("Blob")
 	ContainerProperties_PublicAccessContainer = ContainerProperties_PublicAccess("Container")
 	ContainerProperties_PublicAccessNone      = ContainerProperties_PublicAccess("None")
+)
+
+type ContainerProperties_PublicAccess_STATUS string
+
+const (
+	ContainerProperties_PublicAccess_STATUSBlob      = ContainerProperties_PublicAccess_STATUS("Blob")
+	ContainerProperties_PublicAccess_STATUSContainer = ContainerProperties_PublicAccess_STATUS("Container")
+	ContainerProperties_PublicAccess_STATUSNone      = ContainerProperties_PublicAccess_STATUS("None")
 )
 
 type ImmutabilityPolicyProperties struct {
@@ -2745,6 +2777,13 @@ const (
 	ImmutableStorageWithVersioning_MigrationStateInProgress = ImmutableStorageWithVersioning_MigrationState("InProgress")
 )
 
+type ImmutableStorageWithVersioning_MigrationState_STATUS string
+
+const (
+	ImmutableStorageWithVersioning_MigrationState_STATUSCompleted  = ImmutableStorageWithVersioning_MigrationState_STATUS("Completed")
+	ImmutableStorageWithVersioning_MigrationState_STATUSInProgress = ImmutableStorageWithVersioning_MigrationState_STATUS("InProgress")
+)
+
 type TagProperty struct {
 	// ObjectIdentifier: Returns the Object ID of the user who added the tag.
 	ObjectIdentifier *string `json:"objectIdentifier,omitempty"`
@@ -3380,6 +3419,14 @@ const (
 	UpdateHistoryProperty_UpdateExtend = UpdateHistoryProperty_Update("extend")
 	UpdateHistoryProperty_UpdateLock   = UpdateHistoryProperty_Update("lock")
 	UpdateHistoryProperty_UpdatePut    = UpdateHistoryProperty_Update("put")
+)
+
+type UpdateHistoryProperty_Update_STATUS string
+
+const (
+	UpdateHistoryProperty_Update_STATUSExtend = UpdateHistoryProperty_Update_STATUS("extend")
+	UpdateHistoryProperty_Update_STATUSLock   = UpdateHistoryProperty_Update_STATUS("lock")
+	UpdateHistoryProperty_Update_STATUSPut    = UpdateHistoryProperty_Update_STATUS("put")
 )
 
 func init() {

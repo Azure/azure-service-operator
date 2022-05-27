@@ -27,8 +27,8 @@ import (
 type RoleAssignment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              RoleAssignment_Spec                   `json:"spec,omitempty"`
-	Status            RoleAssignmentCreateParameters_STATUS `json:"status,omitempty"`
+	Spec              RoleAssignment_Spec   `json:"spec,omitempty"`
+	Status            RoleAssignment_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &RoleAssignment{}
@@ -77,7 +77,7 @@ func (assignment *RoleAssignment) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (assignment *RoleAssignment) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &RoleAssignmentCreateParameters_STATUS{}
+	return &RoleAssignment_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -93,13 +93,13 @@ func (assignment *RoleAssignment) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (assignment *RoleAssignment) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*RoleAssignmentCreateParameters_STATUS); ok {
+	if st, ok := status.(*RoleAssignment_STATUS); ok {
 		assignment.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st RoleAssignmentCreateParameters_STATUS
+	var st RoleAssignment_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -137,8 +137,8 @@ type APIVersion string
 
 const APIVersionValue = APIVersion("20200801preview")
 
-// Storage version of v1beta20200801preview.RoleAssignmentCreateParameters_STATUS
-type RoleAssignmentCreateParameters_STATUS struct {
+// Storage version of v1beta20200801preview.RoleAssignment_STATUS
+type RoleAssignment_STATUS struct {
 	Condition                          *string                `json:"condition,omitempty"`
 	ConditionVersion                   *string                `json:"conditionVersion,omitempty"`
 	Conditions                         []conditions.Condition `json:"conditions,omitempty"`
@@ -155,24 +155,24 @@ type RoleAssignmentCreateParameters_STATUS struct {
 	UpdatedOn                          *string                `json:"updatedOn,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &RoleAssignmentCreateParameters_STATUS{}
+var _ genruntime.ConvertibleStatus = &RoleAssignment_STATUS{}
 
-// ConvertStatusFrom populates our RoleAssignmentCreateParameters_STATUS from the provided source
-func (parameters *RoleAssignmentCreateParameters_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == parameters {
+// ConvertStatusFrom populates our RoleAssignment_STATUS from the provided source
+func (assignment *RoleAssignment_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == assignment {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(parameters)
+	return source.ConvertStatusTo(assignment)
 }
 
-// ConvertStatusTo populates the provided destination from our RoleAssignmentCreateParameters_STATUS
-func (parameters *RoleAssignmentCreateParameters_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == parameters {
+// ConvertStatusTo populates the provided destination from our RoleAssignment_STATUS
+func (assignment *RoleAssignment_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == assignment {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(parameters)
+	return destination.ConvertStatusFrom(assignment)
 }
 
 // Storage version of v1beta20200801preview.RoleAssignment_Spec

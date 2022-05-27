@@ -253,7 +253,7 @@
 | VirtualMachineScaleSetExtension                                                            |                     | v1alpha1api20201201 |                     |                | v1beta20201201 |                |
 | VirtualMachineScaleSetExtensionProfile                                                     |                     | v1alpha1api20201201 |                     |                | v1beta20201201 |                |
 | VirtualMachineScaleSetExtensionProfile_STATUS                                              |                     | v1alpha1api20201201 |                     |                | v1beta20201201 |                |
-| VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded                                 |                     | v1alpha1api20201201 |                     |                | v1beta20201201 |                |
+| VirtualMachineScaleSetExtension_STATUS                                                     |                     | v1alpha1api20201201 |                     |                | v1beta20201201 |                |
 | VirtualMachineScaleSetIPConfiguration                                                      |                     | v1alpha1api20201201 |                     |                | v1beta20201201 |                |
 | VirtualMachineScaleSetIPConfigurationProperties                                            |                     | v1alpha1api20201201 |                     |                | v1beta20201201 |                |
 | VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion                    |                     | v1alpha1api20201201 |                     |                | v1beta20201201 |                |

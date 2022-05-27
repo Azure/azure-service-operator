@@ -25,8 +25,8 @@ import (
 type ManagedClustersAgentPool struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ManagedClustersAgentPool_Spec `json:"spec,omitempty"`
-	Status            AgentPool_STATUS              `json:"status,omitempty"`
+	Spec              ManagedClustersAgentPool_Spec   `json:"spec,omitempty"`
+	Status            ManagedClustersAgentPool_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ManagedClustersAgentPool{}
@@ -97,7 +97,7 @@ func (pool *ManagedClustersAgentPool) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (pool *ManagedClustersAgentPool) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &AgentPool_STATUS{}
+	return &ManagedClustersAgentPool_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -113,13 +113,13 @@ func (pool *ManagedClustersAgentPool) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (pool *ManagedClustersAgentPool) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*AgentPool_STATUS); ok {
+	if st, ok := status.(*ManagedClustersAgentPool_STATUS); ok {
 		pool.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st AgentPool_STATUS
+	var st ManagedClustersAgentPool_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -144,10 +144,10 @@ func (pool *ManagedClustersAgentPool) AssignPropertiesFromManagedClustersAgentPo
 	pool.Spec = spec
 
 	// Status
-	var status AgentPool_STATUS
-	err = status.AssignPropertiesFromAgentPool_STATUS(&source.Status)
+	var status ManagedClustersAgentPool_STATUS
+	err = status.AssignPropertiesFromManagedClustersAgentPool_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromAgentPool_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromManagedClustersAgentPool_STATUS() to populate field Status")
 	}
 	pool.Status = status
 
@@ -170,10 +170,10 @@ func (pool *ManagedClustersAgentPool) AssignPropertiesToManagedClustersAgentPool
 	destination.Spec = spec
 
 	// Status
-	var status v20210501s.AgentPool_STATUS
-	err = pool.Status.AssignPropertiesToAgentPool_STATUS(&status)
+	var status v20210501s.ManagedClustersAgentPool_STATUS
+	err = pool.Status.AssignPropertiesToManagedClustersAgentPool_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToAgentPool_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToManagedClustersAgentPool_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -199,9 +199,9 @@ type ManagedClustersAgentPoolList struct {
 	Items           []ManagedClustersAgentPool `json:"items"`
 }
 
-// Storage version of v1alpha1api20210501.AgentPool_STATUS
-// Deprecated version of AgentPool_STATUS. Use v1beta20210501.AgentPool_STATUS instead
-type AgentPool_STATUS struct {
+// Storage version of v1alpha1api20210501.ManagedClustersAgentPool_STATUS
+// Deprecated version of ManagedClustersAgentPool_STATUS. Use v1beta20210501.ManagedClustersAgentPool_STATUS instead
+type ManagedClustersAgentPool_STATUS struct {
 	AvailabilityZones         []string                         `json:"availabilityZones,omitempty"`
 	Conditions                []conditions.Condition           `json:"conditions,omitempty"`
 	Count                     *int                             `json:"count,omitempty"`
@@ -245,25 +245,25 @@ type AgentPool_STATUS struct {
 	VnetSubnetID              *string                          `json:"vnetSubnetID,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &AgentPool_STATUS{}
+var _ genruntime.ConvertibleStatus = &ManagedClustersAgentPool_STATUS{}
 
-// ConvertStatusFrom populates our AgentPool_STATUS from the provided source
-func (pool *AgentPool_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210501s.AgentPool_STATUS)
+// ConvertStatusFrom populates our ManagedClustersAgentPool_STATUS from the provided source
+func (pool *ManagedClustersAgentPool_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210501s.ManagedClustersAgentPool_STATUS)
 	if ok {
 		// Populate our instance from source
-		return pool.AssignPropertiesFromAgentPool_STATUS(src)
+		return pool.AssignPropertiesFromManagedClustersAgentPool_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210501s.AgentPool_STATUS{}
+	src = &v20210501s.ManagedClustersAgentPool_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = pool.AssignPropertiesFromAgentPool_STATUS(src)
+	err = pool.AssignPropertiesFromManagedClustersAgentPool_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -271,17 +271,17 @@ func (pool *AgentPool_STATUS) ConvertStatusFrom(source genruntime.ConvertibleSta
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our AgentPool_STATUS
-func (pool *AgentPool_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210501s.AgentPool_STATUS)
+// ConvertStatusTo populates the provided destination from our ManagedClustersAgentPool_STATUS
+func (pool *ManagedClustersAgentPool_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210501s.ManagedClustersAgentPool_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return pool.AssignPropertiesToAgentPool_STATUS(dst)
+		return pool.AssignPropertiesToManagedClustersAgentPool_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210501s.AgentPool_STATUS{}
-	err := pool.AssignPropertiesToAgentPool_STATUS(dst)
+	dst = &v20210501s.ManagedClustersAgentPool_STATUS{}
+	err := pool.AssignPropertiesToManagedClustersAgentPool_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -295,8 +295,8 @@ func (pool *AgentPool_STATUS) ConvertStatusTo(destination genruntime.Convertible
 	return nil
 }
 
-// AssignPropertiesFromAgentPool_STATUS populates our AgentPool_STATUS from the provided source AgentPool_STATUS
-func (pool *AgentPool_STATUS) AssignPropertiesFromAgentPool_STATUS(source *v20210501s.AgentPool_STATUS) error {
+// AssignPropertiesFromManagedClustersAgentPool_STATUS populates our ManagedClustersAgentPool_STATUS from the provided source ManagedClustersAgentPool_STATUS
+func (pool *ManagedClustersAgentPool_STATUS) AssignPropertiesFromManagedClustersAgentPool_STATUS(source *v20210501s.ManagedClustersAgentPool_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
@@ -497,8 +497,8 @@ func (pool *AgentPool_STATUS) AssignPropertiesFromAgentPool_STATUS(source *v2021
 	return nil
 }
 
-// AssignPropertiesToAgentPool_STATUS populates the provided destination AgentPool_STATUS from our AgentPool_STATUS
-func (pool *AgentPool_STATUS) AssignPropertiesToAgentPool_STATUS(destination *v20210501s.AgentPool_STATUS) error {
+// AssignPropertiesToManagedClustersAgentPool_STATUS populates the provided destination ManagedClustersAgentPool_STATUS from our ManagedClustersAgentPool_STATUS
+func (pool *ManagedClustersAgentPool_STATUS) AssignPropertiesToManagedClustersAgentPool_STATUS(destination *v20210501s.ManagedClustersAgentPool_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(pool.PropertyBag)
 

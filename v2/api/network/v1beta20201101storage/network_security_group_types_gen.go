@@ -134,9 +134,9 @@ type NetworkSecurityGroupList struct {
 // Storage version of v1beta20201101.NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded
 type NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded struct {
 	Conditions           []conditions.Condition                                             `json:"conditions,omitempty"`
-	DefaultSecurityRules []SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded     `json:"defaultSecurityRules,omitempty"`
+	DefaultSecurityRules []SecurityRule_STATUS                                              `json:"defaultSecurityRules,omitempty"`
 	Etag                 *string                                                            `json:"etag,omitempty"`
-	FlowLogs             []FlowLog_STATUS_SubResourceEmbedded                               `json:"flowLogs,omitempty"`
+	FlowLogs             []FlowLog_STATUS                                                   `json:"flowLogs,omitempty"`
 	Id                   *string                                                            `json:"id,omitempty"`
 	Location             *string                                                            `json:"location,omitempty"`
 	Name                 *string                                                            `json:"name,omitempty"`
@@ -144,7 +144,7 @@ type NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbedded struct
 	PropertyBag          genruntime.PropertyBag                                             `json:"$propertyBag,omitempty"`
 	ProvisioningState    *string                                                            `json:"provisioningState,omitempty"`
 	ResourceGuid         *string                                                            `json:"resourceGuid,omitempty"`
-	SecurityRules        []SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded     `json:"securityRules,omitempty"`
+	SecurityRules        []SecurityRule_STATUS                                              `json:"securityRules,omitempty"`
 	Subnets              []Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbedded           `json:"subnets,omitempty"`
 	Tags                 map[string]string                                                  `json:"tags,omitempty"`
 	Type                 *string                                                            `json:"type,omitempty"`
@@ -223,8 +223,8 @@ type FlowLog struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20201101.FlowLog_STATUS_SubResourceEmbedded
-type FlowLog_STATUS_SubResourceEmbedded struct {
+// Storage version of v1beta20201101.FlowLog_STATUS
+type FlowLog_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
@@ -249,8 +249,8 @@ type SecurityRule struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20201101.SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded
-type SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded struct {
+// Storage version of v1beta20201101.SecurityRule_STATUS
+type SecurityRule_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }

@@ -328,7 +328,7 @@ type ScheduledEventsProfile_STATUSARM struct {
 
 type VirtualMachineScaleSetExtensionProfile_STATUSARM struct {
 	// Extensions: The virtual machine scale set child extension resources.
-	Extensions []VirtualMachineScaleSetExtension_STATUS_SubResourceEmbeddedARM `json:"extensions,omitempty"`
+	Extensions []VirtualMachineScaleSetExtension_STATUSARM `json:"extensions,omitempty"`
 
 	// ExtensionsTimeBudget: Specifies the time alloted for all extensions to start. The time duration should be between 15
 	// minutes and 120 minutes (inclusive) and should be specified in ISO 8601 format. The default value is 90 minutes
@@ -458,7 +458,7 @@ type VirtualMachineScaleSetDataDisk_STATUSARM struct {
 	WriteAcceleratorEnabled *bool `json:"writeAcceleratorEnabled,omitempty"`
 }
 
-type VirtualMachineScaleSetExtension_STATUS_SubResourceEmbeddedARM struct {
+type VirtualMachineScaleSetExtension_STATUSARM struct {
 	// Id: Resource Id
 	Id *string `json:"id,omitempty"`
 }

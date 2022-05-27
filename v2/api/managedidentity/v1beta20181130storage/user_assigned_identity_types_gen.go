@@ -27,8 +27,8 @@ import (
 type UserAssignedIdentity struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              UserAssignedIdentity_Spec `json:"spec,omitempty"`
-	Status            Identity_STATUS           `json:"status,omitempty"`
+	Spec              UserAssignedIdentity_Spec   `json:"spec,omitempty"`
+	Status            UserAssignedIdentity_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &UserAssignedIdentity{}
@@ -77,7 +77,7 @@ func (identity *UserAssignedIdentity) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (identity *UserAssignedIdentity) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Identity_STATUS{}
+	return &UserAssignedIdentity_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -93,13 +93,13 @@ func (identity *UserAssignedIdentity) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (identity *UserAssignedIdentity) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Identity_STATUS); ok {
+	if st, ok := status.(*UserAssignedIdentity_STATUS); ok {
 		identity.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Identity_STATUS
+	var st UserAssignedIdentity_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -137,8 +137,8 @@ type APIVersion string
 
 const APIVersionValue = APIVersion("20181130")
 
-// Storage version of v1beta20181130.Identity_STATUS
-type Identity_STATUS struct {
+// Storage version of v1beta20181130.UserAssignedIdentity_STATUS
+type UserAssignedIdentity_STATUS struct {
 	ClientId    *string                `json:"clientId,omitempty"`
 	Conditions  []conditions.Condition `json:"conditions,omitempty"`
 	Id          *string                `json:"id,omitempty"`
@@ -151,10 +151,10 @@ type Identity_STATUS struct {
 	Type        *string                `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Identity_STATUS{}
+var _ genruntime.ConvertibleStatus = &UserAssignedIdentity_STATUS{}
 
-// ConvertStatusFrom populates our Identity_STATUS from the provided source
-func (identity *Identity_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our UserAssignedIdentity_STATUS from the provided source
+func (identity *UserAssignedIdentity_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == identity {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -162,8 +162,8 @@ func (identity *Identity_STATUS) ConvertStatusFrom(source genruntime.Convertible
 	return source.ConvertStatusTo(identity)
 }
 
-// ConvertStatusTo populates the provided destination from our Identity_STATUS
-func (identity *Identity_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our UserAssignedIdentity_STATUS
+func (identity *UserAssignedIdentity_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == identity {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

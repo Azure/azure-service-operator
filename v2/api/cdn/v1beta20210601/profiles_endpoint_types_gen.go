@@ -29,8 +29,8 @@ import (
 type ProfilesEndpoint struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ProfilesEndpoint_Spec `json:"spec,omitempty"`
-	Status            Endpoint_STATUS       `json:"status,omitempty"`
+	Spec              ProfilesEndpoint_Spec   `json:"spec,omitempty"`
+	Status            ProfilesEndpoint_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ProfilesEndpoint{}
@@ -124,7 +124,7 @@ func (endpoint *ProfilesEndpoint) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (endpoint *ProfilesEndpoint) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Endpoint_STATUS{}
+	return &ProfilesEndpoint_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -140,13 +140,13 @@ func (endpoint *ProfilesEndpoint) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (endpoint *ProfilesEndpoint) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Endpoint_STATUS); ok {
+	if st, ok := status.(*ProfilesEndpoint_STATUS); ok {
 		endpoint.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Endpoint_STATUS
+	var st ProfilesEndpoint_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -264,10 +264,10 @@ func (endpoint *ProfilesEndpoint) AssignPropertiesFromProfilesEndpoint(source *v
 	endpoint.Spec = spec
 
 	// Status
-	var status Endpoint_STATUS
-	err = status.AssignPropertiesFromEndpoint_STATUS(&source.Status)
+	var status ProfilesEndpoint_STATUS
+	err = status.AssignPropertiesFromProfilesEndpoint_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromEndpoint_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromProfilesEndpoint_STATUS() to populate field Status")
 	}
 	endpoint.Status = status
 
@@ -290,10 +290,10 @@ func (endpoint *ProfilesEndpoint) AssignPropertiesToProfilesEndpoint(destination
 	destination.Spec = spec
 
 	// Status
-	var status v20210601s.Endpoint_STATUS
-	err = endpoint.Status.AssignPropertiesToEndpoint_STATUS(&status)
+	var status v20210601s.ProfilesEndpoint_STATUS
+	err = endpoint.Status.AssignPropertiesToProfilesEndpoint_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToEndpoint_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToProfilesEndpoint_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -319,7 +319,7 @@ type ProfilesEndpointList struct {
 	Items           []ProfilesEndpoint `json:"items"`
 }
 
-type Endpoint_STATUS struct {
+type ProfilesEndpoint_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -414,25 +414,25 @@ type Endpoint_STATUS struct {
 	WebApplicationFirewallPolicyLink *EndpointProperties_WebApplicationFirewallPolicyLink_STATUS `json:"webApplicationFirewallPolicyLink,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Endpoint_STATUS{}
+var _ genruntime.ConvertibleStatus = &ProfilesEndpoint_STATUS{}
 
-// ConvertStatusFrom populates our Endpoint_STATUS from the provided source
-func (endpoint *Endpoint_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210601s.Endpoint_STATUS)
+// ConvertStatusFrom populates our ProfilesEndpoint_STATUS from the provided source
+func (endpoint *ProfilesEndpoint_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210601s.ProfilesEndpoint_STATUS)
 	if ok {
 		// Populate our instance from source
-		return endpoint.AssignPropertiesFromEndpoint_STATUS(src)
+		return endpoint.AssignPropertiesFromProfilesEndpoint_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210601s.Endpoint_STATUS{}
+	src = &v20210601s.ProfilesEndpoint_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = endpoint.AssignPropertiesFromEndpoint_STATUS(src)
+	err = endpoint.AssignPropertiesFromProfilesEndpoint_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -440,17 +440,17 @@ func (endpoint *Endpoint_STATUS) ConvertStatusFrom(source genruntime.Convertible
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our Endpoint_STATUS
-func (endpoint *Endpoint_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210601s.Endpoint_STATUS)
+// ConvertStatusTo populates the provided destination from our ProfilesEndpoint_STATUS
+func (endpoint *ProfilesEndpoint_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210601s.ProfilesEndpoint_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return endpoint.AssignPropertiesToEndpoint_STATUS(dst)
+		return endpoint.AssignPropertiesToProfilesEndpoint_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210601s.Endpoint_STATUS{}
-	err := endpoint.AssignPropertiesToEndpoint_STATUS(dst)
+	dst = &v20210601s.ProfilesEndpoint_STATUS{}
+	err := endpoint.AssignPropertiesToProfilesEndpoint_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -464,18 +464,18 @@ func (endpoint *Endpoint_STATUS) ConvertStatusTo(destination genruntime.Converti
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &Endpoint_STATUS{}
+var _ genruntime.FromARMConverter = &ProfilesEndpoint_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (endpoint *Endpoint_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Endpoint_STATUSARM{}
+func (endpoint *ProfilesEndpoint_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ProfilesEndpoint_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (endpoint *Endpoint_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Endpoint_STATUSARM)
+func (endpoint *ProfilesEndpoint_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ProfilesEndpoint_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Endpoint_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ProfilesEndpoint_STATUSARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -741,8 +741,8 @@ func (endpoint *Endpoint_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 	return nil
 }
 
-// AssignPropertiesFromEndpoint_STATUS populates our Endpoint_STATUS from the provided source Endpoint_STATUS
-func (endpoint *Endpoint_STATUS) AssignPropertiesFromEndpoint_STATUS(source *v20210601s.Endpoint_STATUS) error {
+// AssignPropertiesFromProfilesEndpoint_STATUS populates our ProfilesEndpoint_STATUS from the provided source ProfilesEndpoint_STATUS
+func (endpoint *ProfilesEndpoint_STATUS) AssignPropertiesFromProfilesEndpoint_STATUS(source *v20210601s.ProfilesEndpoint_STATUS) error {
 
 	// Conditions
 	endpoint.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
@@ -975,8 +975,8 @@ func (endpoint *Endpoint_STATUS) AssignPropertiesFromEndpoint_STATUS(source *v20
 	return nil
 }
 
-// AssignPropertiesToEndpoint_STATUS populates the provided destination Endpoint_STATUS from our Endpoint_STATUS
-func (endpoint *Endpoint_STATUS) AssignPropertiesToEndpoint_STATUS(destination *v20210601s.Endpoint_STATUS) error {
+// AssignPropertiesToProfilesEndpoint_STATUS populates the provided destination ProfilesEndpoint_STATUS from our ProfilesEndpoint_STATUS
+func (endpoint *ProfilesEndpoint_STATUS) AssignPropertiesToProfilesEndpoint_STATUS(destination *v20210601s.ProfilesEndpoint_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -4520,6 +4520,16 @@ const (
 	EndpointProperties_ProvisioningStateUpdating  = EndpointProperties_ProvisioningState("Updating")
 )
 
+type EndpointProperties_ProvisioningState_STATUS string
+
+const (
+	EndpointProperties_ProvisioningState_STATUSCreating  = EndpointProperties_ProvisioningState_STATUS("Creating")
+	EndpointProperties_ProvisioningState_STATUSDeleting  = EndpointProperties_ProvisioningState_STATUS("Deleting")
+	EndpointProperties_ProvisioningState_STATUSFailed    = EndpointProperties_ProvisioningState_STATUS("Failed")
+	EndpointProperties_ProvisioningState_STATUSSucceeded = EndpointProperties_ProvisioningState_STATUS("Succeeded")
+	EndpointProperties_ProvisioningState_STATUSUpdating  = EndpointProperties_ProvisioningState_STATUS("Updating")
+)
+
 // +kubebuilder:validation:Enum={"Creating","Deleting","Running","Starting","Stopped","Stopping"}
 type EndpointProperties_ResourceState string
 
@@ -4530,6 +4540,17 @@ const (
 	EndpointProperties_ResourceStateStarting = EndpointProperties_ResourceState("Starting")
 	EndpointProperties_ResourceStateStopped  = EndpointProperties_ResourceState("Stopped")
 	EndpointProperties_ResourceStateStopping = EndpointProperties_ResourceState("Stopping")
+)
+
+type EndpointProperties_ResourceState_STATUS string
+
+const (
+	EndpointProperties_ResourceState_STATUSCreating = EndpointProperties_ResourceState_STATUS("Creating")
+	EndpointProperties_ResourceState_STATUSDeleting = EndpointProperties_ResourceState_STATUS("Deleting")
+	EndpointProperties_ResourceState_STATUSRunning  = EndpointProperties_ResourceState_STATUS("Running")
+	EndpointProperties_ResourceState_STATUSStarting = EndpointProperties_ResourceState_STATUS("Starting")
+	EndpointProperties_ResourceState_STATUSStopped  = EndpointProperties_ResourceState_STATUS("Stopped")
+	EndpointProperties_ResourceState_STATUSStopping = EndpointProperties_ResourceState_STATUS("Stopping")
 )
 
 type EndpointProperties_WebApplicationFirewallPolicyLink struct {
@@ -4897,6 +4918,16 @@ const (
 	OptimizationTypeVideoOnDemandMediaStreaming = OptimizationType("VideoOnDemandMediaStreaming")
 )
 
+type OptimizationType_STATUS string
+
+const (
+	OptimizationType_STATUSDynamicSiteAcceleration     = OptimizationType_STATUS("DynamicSiteAcceleration")
+	OptimizationType_STATUSGeneralMediaStreaming       = OptimizationType_STATUS("GeneralMediaStreaming")
+	OptimizationType_STATUSGeneralWebDelivery          = OptimizationType_STATUS("GeneralWebDelivery")
+	OptimizationType_STATUSLargeFileDownload           = OptimizationType_STATUS("LargeFileDownload")
+	OptimizationType_STATUSVideoOnDemandMediaStreaming = OptimizationType_STATUS("VideoOnDemandMediaStreaming")
+)
+
 // +kubebuilder:validation:Enum={"BypassCaching","IgnoreQueryString","NotSet","UseQueryString"}
 type QueryStringCachingBehavior string
 
@@ -4905,6 +4936,15 @@ const (
 	QueryStringCachingBehaviorIgnoreQueryString = QueryStringCachingBehavior("IgnoreQueryString")
 	QueryStringCachingBehaviorNotSet            = QueryStringCachingBehavior("NotSet")
 	QueryStringCachingBehaviorUseQueryString    = QueryStringCachingBehavior("UseQueryString")
+)
+
+type QueryStringCachingBehavior_STATUS string
+
+const (
+	QueryStringCachingBehavior_STATUSBypassCaching     = QueryStringCachingBehavior_STATUS("BypassCaching")
+	QueryStringCachingBehavior_STATUSIgnoreQueryString = QueryStringCachingBehavior_STATUS("IgnoreQueryString")
+	QueryStringCachingBehavior_STATUSNotSet            = QueryStringCachingBehavior_STATUS("NotSet")
+	QueryStringCachingBehavior_STATUSUseQueryString    = QueryStringCachingBehavior_STATUS("UseQueryString")
 )
 
 type ResourceReference struct {
@@ -6009,6 +6049,13 @@ type GeoFilter_Action string
 const (
 	GeoFilter_ActionAllow = GeoFilter_Action("Allow")
 	GeoFilter_ActionBlock = GeoFilter_Action("Block")
+)
+
+type GeoFilter_Action_STATUS string
+
+const (
+	GeoFilter_Action_STATUSAllow = GeoFilter_Action_STATUS("Allow")
+	GeoFilter_Action_STATUSBlock = GeoFilter_Action_STATUS("Block")
 )
 
 type HealthProbeParameters struct {
@@ -7546,6 +7593,10 @@ type KeyVaultSigningKeyParameters_TypeName string
 
 const KeyVaultSigningKeyParameters_TypeNameKeyVaultSigningKeyParameters = KeyVaultSigningKeyParameters_TypeName("KeyVaultSigningKeyParameters")
 
+type KeyVaultSigningKeyParameters_TypeName_STATUS string
+
+const KeyVaultSigningKeyParameters_TypeName_STATUSKeyVaultSigningKeyParameters = KeyVaultSigningKeyParameters_TypeName_STATUS("KeyVaultSigningKeyParameters")
+
 // +kubebuilder:validation:Enum={"None","TcpAndHttpErrors","TcpErrorsOnly"}
 type ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes string
 
@@ -7578,6 +7629,20 @@ const (
 	DeliveryRuleAction_NameUrlSigning                 = DeliveryRuleAction_Name("UrlSigning")
 )
 
+type DeliveryRuleAction_Name_STATUS string
+
+const (
+	DeliveryRuleAction_Name_STATUSCacheExpiration            = DeliveryRuleAction_Name_STATUS("CacheExpiration")
+	DeliveryRuleAction_Name_STATUSCacheKeyQueryString        = DeliveryRuleAction_Name_STATUS("CacheKeyQueryString")
+	DeliveryRuleAction_Name_STATUSModifyRequestHeader        = DeliveryRuleAction_Name_STATUS("ModifyRequestHeader")
+	DeliveryRuleAction_Name_STATUSModifyResponseHeader       = DeliveryRuleAction_Name_STATUS("ModifyResponseHeader")
+	DeliveryRuleAction_Name_STATUSOriginGroupOverride        = DeliveryRuleAction_Name_STATUS("OriginGroupOverride")
+	DeliveryRuleAction_Name_STATUSRouteConfigurationOverride = DeliveryRuleAction_Name_STATUS("RouteConfigurationOverride")
+	DeliveryRuleAction_Name_STATUSUrlRedirect                = DeliveryRuleAction_Name_STATUS("UrlRedirect")
+	DeliveryRuleAction_Name_STATUSUrlRewrite                 = DeliveryRuleAction_Name_STATUS("UrlRewrite")
+	DeliveryRuleAction_Name_STATUSUrlSigning                 = DeliveryRuleAction_Name_STATUS("UrlSigning")
+)
+
 // +kubebuilder:validation:Enum={"ClientPort","Cookies","HostName","HttpVersion","IsDevice","PostArgs","QueryString","RemoteAddress","RequestBody","RequestHeader","RequestMethod","RequestScheme","RequestUri","ServerPort","SocketAddr","SslProtocol","UrlFileExtension","UrlFileName","UrlPath"}
 type DeliveryRuleCondition_Name string
 
@@ -7601,6 +7666,30 @@ const (
 	DeliveryRuleCondition_NameUrlFileExtension = DeliveryRuleCondition_Name("UrlFileExtension")
 	DeliveryRuleCondition_NameUrlFileName      = DeliveryRuleCondition_Name("UrlFileName")
 	DeliveryRuleCondition_NameUrlPath          = DeliveryRuleCondition_Name("UrlPath")
+)
+
+type DeliveryRuleCondition_Name_STATUS string
+
+const (
+	DeliveryRuleCondition_Name_STATUSClientPort       = DeliveryRuleCondition_Name_STATUS("ClientPort")
+	DeliveryRuleCondition_Name_STATUSCookies          = DeliveryRuleCondition_Name_STATUS("Cookies")
+	DeliveryRuleCondition_Name_STATUSHostName         = DeliveryRuleCondition_Name_STATUS("HostName")
+	DeliveryRuleCondition_Name_STATUSHttpVersion      = DeliveryRuleCondition_Name_STATUS("HttpVersion")
+	DeliveryRuleCondition_Name_STATUSIsDevice         = DeliveryRuleCondition_Name_STATUS("IsDevice")
+	DeliveryRuleCondition_Name_STATUSPostArgs         = DeliveryRuleCondition_Name_STATUS("PostArgs")
+	DeliveryRuleCondition_Name_STATUSQueryString      = DeliveryRuleCondition_Name_STATUS("QueryString")
+	DeliveryRuleCondition_Name_STATUSRemoteAddress    = DeliveryRuleCondition_Name_STATUS("RemoteAddress")
+	DeliveryRuleCondition_Name_STATUSRequestBody      = DeliveryRuleCondition_Name_STATUS("RequestBody")
+	DeliveryRuleCondition_Name_STATUSRequestHeader    = DeliveryRuleCondition_Name_STATUS("RequestHeader")
+	DeliveryRuleCondition_Name_STATUSRequestMethod    = DeliveryRuleCondition_Name_STATUS("RequestMethod")
+	DeliveryRuleCondition_Name_STATUSRequestScheme    = DeliveryRuleCondition_Name_STATUS("RequestScheme")
+	DeliveryRuleCondition_Name_STATUSRequestUri       = DeliveryRuleCondition_Name_STATUS("RequestUri")
+	DeliveryRuleCondition_Name_STATUSServerPort       = DeliveryRuleCondition_Name_STATUS("ServerPort")
+	DeliveryRuleCondition_Name_STATUSSocketAddr       = DeliveryRuleCondition_Name_STATUS("SocketAddr")
+	DeliveryRuleCondition_Name_STATUSSslProtocol      = DeliveryRuleCondition_Name_STATUS("SslProtocol")
+	DeliveryRuleCondition_Name_STATUSUrlFileExtension = DeliveryRuleCondition_Name_STATUS("UrlFileExtension")
+	DeliveryRuleCondition_Name_STATUSUrlFileName      = DeliveryRuleCondition_Name_STATUS("UrlFileName")
+	DeliveryRuleCondition_Name_STATUSUrlPath          = DeliveryRuleCondition_Name_STATUS("UrlPath")
 )
 
 func init() {

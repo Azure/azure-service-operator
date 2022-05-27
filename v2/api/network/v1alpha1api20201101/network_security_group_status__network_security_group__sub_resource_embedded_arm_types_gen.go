@@ -16,17 +16,17 @@ type NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM str
 
 // Deprecated version of NetworkSecurityGroupPropertiesFormat_STATUS. Use v1beta20201101.NetworkSecurityGroupPropertiesFormat_STATUS instead
 type NetworkSecurityGroupPropertiesFormat_STATUSARM struct {
-	DefaultSecurityRules []SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM     `json:"defaultSecurityRules,omitempty"`
-	FlowLogs             []FlowLog_STATUS_SubResourceEmbeddedARM                               `json:"flowLogs,omitempty"`
+	DefaultSecurityRules []SecurityRule_STATUSARM                                              `json:"defaultSecurityRules,omitempty"`
+	FlowLogs             []FlowLog_STATUSARM                                                   `json:"flowLogs,omitempty"`
 	NetworkInterfaces    []NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM `json:"networkInterfaces,omitempty"`
 	ProvisioningState    *ProvisioningState_STATUS                                             `json:"provisioningState,omitempty"`
 	ResourceGuid         *string                                                               `json:"resourceGuid,omitempty"`
-	SecurityRules        []SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM     `json:"securityRules,omitempty"`
+	SecurityRules        []SecurityRule_STATUSARM                                              `json:"securityRules,omitempty"`
 	Subnets              []Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM           `json:"subnets,omitempty"`
 }
 
-// Deprecated version of FlowLog_STATUS_SubResourceEmbedded. Use v1beta20201101.FlowLog_STATUS_SubResourceEmbedded instead
-type FlowLog_STATUS_SubResourceEmbeddedARM struct {
+// Deprecated version of FlowLog_STATUS. Use v1beta20201101.FlowLog_STATUS instead
+type FlowLog_STATUSARM struct {
 	Id *string `json:"id,omitempty"`
 }
 
@@ -36,8 +36,8 @@ type NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM struct 
 	Id               *string                     `json:"id,omitempty"`
 }
 
-// Deprecated version of SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded instead
-type SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM struct {
+// Deprecated version of SecurityRule_STATUS. Use v1beta20201101.SecurityRule_STATUS instead
+type SecurityRule_STATUSARM struct {
 	Id *string `json:"id,omitempty"`
 }
 

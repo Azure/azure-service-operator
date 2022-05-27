@@ -3071,9 +3071,9 @@ func (profile *VirtualMachineScaleSetExtensionProfile) AssignPropertiesToVirtual
 // Storage version of v1alpha1api20201201.VirtualMachineScaleSetExtensionProfile_STATUS
 // Deprecated version of VirtualMachineScaleSetExtensionProfile_STATUS. Use v1beta20201201.VirtualMachineScaleSetExtensionProfile_STATUS instead
 type VirtualMachineScaleSetExtensionProfile_STATUS struct {
-	Extensions           []VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded `json:"extensions,omitempty"`
-	ExtensionsTimeBudget *string                                                      `json:"extensionsTimeBudget,omitempty"`
-	PropertyBag          genruntime.PropertyBag                                       `json:"$propertyBag,omitempty"`
+	Extensions           []VirtualMachineScaleSetExtension_STATUS `json:"extensions,omitempty"`
+	ExtensionsTimeBudget *string                                  `json:"extensionsTimeBudget,omitempty"`
+	PropertyBag          genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
 }
 
 // AssignPropertiesFromVirtualMachineScaleSetExtensionProfile_STATUS populates our VirtualMachineScaleSetExtensionProfile_STATUS from the provided source VirtualMachineScaleSetExtensionProfile_STATUS
@@ -3083,14 +3083,14 @@ func (profile *VirtualMachineScaleSetExtensionProfile_STATUS) AssignPropertiesFr
 
 	// Extensions
 	if source.Extensions != nil {
-		extensionList := make([]VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded, len(source.Extensions))
+		extensionList := make([]VirtualMachineScaleSetExtension_STATUS, len(source.Extensions))
 		for extensionIndex, extensionItem := range source.Extensions {
 			// Shadow the loop variable to avoid aliasing
 			extensionItem := extensionItem
-			var extension VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded
-			err := extension.AssignPropertiesFromVirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded(&extensionItem)
+			var extension VirtualMachineScaleSetExtension_STATUS
+			err := extension.AssignPropertiesFromVirtualMachineScaleSetExtension_STATUS(&extensionItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded() to populate field Extensions")
+				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetExtension_STATUS() to populate field Extensions")
 			}
 			extensionList[extensionIndex] = extension
 		}
@@ -3120,14 +3120,14 @@ func (profile *VirtualMachineScaleSetExtensionProfile_STATUS) AssignPropertiesTo
 
 	// Extensions
 	if profile.Extensions != nil {
-		extensionList := make([]v20201201s.VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded, len(profile.Extensions))
+		extensionList := make([]v20201201s.VirtualMachineScaleSetExtension_STATUS, len(profile.Extensions))
 		for extensionIndex, extensionItem := range profile.Extensions {
 			// Shadow the loop variable to avoid aliasing
 			extensionItem := extensionItem
-			var extension v20201201s.VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded
-			err := extensionItem.AssignPropertiesToVirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded(&extension)
+			var extension v20201201s.VirtualMachineScaleSetExtension_STATUS
+			err := extensionItem.AssignPropertiesToVirtualMachineScaleSetExtension_STATUS(&extension)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded() to populate field Extensions")
+				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetExtension_STATUS() to populate field Extensions")
 			}
 			extensionList[extensionIndex] = extension
 		}
@@ -4488,39 +4488,39 @@ func (extension *VirtualMachineScaleSetExtension) AssignPropertiesToVirtualMachi
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded
-// Deprecated version of VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded. Use v1beta20201201.VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded instead
-type VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded struct {
+// Storage version of v1alpha1api20201201.VirtualMachineScaleSetExtension_STATUS
+// Deprecated version of VirtualMachineScaleSetExtension_STATUS. Use v1beta20201201.VirtualMachineScaleSetExtension_STATUS instead
+type VirtualMachineScaleSetExtension_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromVirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded populates our VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded from the provided source VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded
-func (embedded *VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded) AssignPropertiesFromVirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded(source *v20201201s.VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded) error {
+// AssignPropertiesFromVirtualMachineScaleSetExtension_STATUS populates our VirtualMachineScaleSetExtension_STATUS from the provided source VirtualMachineScaleSetExtension_STATUS
+func (extension *VirtualMachineScaleSetExtension_STATUS) AssignPropertiesFromVirtualMachineScaleSetExtension_STATUS(source *v20201201s.VirtualMachineScaleSetExtension_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// Id
-	embedded.Id = genruntime.ClonePointerToString(source.Id)
+	extension.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		embedded.PropertyBag = propertyBag
+		extension.PropertyBag = propertyBag
 	} else {
-		embedded.PropertyBag = nil
+		extension.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToVirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded populates the provided destination VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded from our VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded
-func (embedded *VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded) AssignPropertiesToVirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded(destination *v20201201s.VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded) error {
+// AssignPropertiesToVirtualMachineScaleSetExtension_STATUS populates the provided destination VirtualMachineScaleSetExtension_STATUS from our VirtualMachineScaleSetExtension_STATUS
+func (extension *VirtualMachineScaleSetExtension_STATUS) AssignPropertiesToVirtualMachineScaleSetExtension_STATUS(destination *v20201201s.VirtualMachineScaleSetExtension_STATUS) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(extension.PropertyBag)
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(embedded.Id)
+	destination.Id = genruntime.ClonePointerToString(extension.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

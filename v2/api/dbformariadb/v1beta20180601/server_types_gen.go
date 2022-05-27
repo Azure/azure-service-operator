@@ -29,8 +29,8 @@ import (
 type Server struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              Server_Spec            `json:"spec,omitempty"`
-	Status            ServerForCreate_STATUS `json:"status,omitempty"`
+	Spec              Server_Spec   `json:"spec,omitempty"`
+	Status            Server_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Server{}
@@ -124,7 +124,7 @@ func (server *Server) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (server *Server) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &ServerForCreate_STATUS{}
+	return &Server_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -140,13 +140,13 @@ func (server *Server) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (server *Server) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*ServerForCreate_STATUS); ok {
+	if st, ok := status.(*Server_STATUS); ok {
 		server.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st ServerForCreate_STATUS
+	var st Server_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -282,10 +282,10 @@ func (server *Server) AssignPropertiesFromServer(source *v20180601s.Server) erro
 	server.Spec = spec
 
 	// Status
-	var status ServerForCreate_STATUS
-	err = status.AssignPropertiesFromServerForCreate_STATUS(&source.Status)
+	var status Server_STATUS
+	err = status.AssignPropertiesFromServer_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromServerForCreate_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromServer_STATUS() to populate field Status")
 	}
 	server.Status = status
 
@@ -308,10 +308,10 @@ func (server *Server) AssignPropertiesToServer(destination *v20180601s.Server) e
 	destination.Spec = spec
 
 	// Status
-	var status v20180601s.ServerForCreate_STATUS
-	err = server.Status.AssignPropertiesToServerForCreate_STATUS(&status)
+	var status v20180601s.Server_STATUS
+	err = server.Status.AssignPropertiesToServer_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToServerForCreate_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToServer_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -337,7 +337,7 @@ type ServerList struct {
 	Items           []Server `json:"items"`
 }
 
-type ServerForCreate_STATUS struct {
+type Server_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
@@ -354,25 +354,25 @@ type ServerForCreate_STATUS struct {
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &ServerForCreate_STATUS{}
+var _ genruntime.ConvertibleStatus = &Server_STATUS{}
 
-// ConvertStatusFrom populates our ServerForCreate_STATUS from the provided source
-func (create *ServerForCreate_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20180601s.ServerForCreate_STATUS)
+// ConvertStatusFrom populates our Server_STATUS from the provided source
+func (server *Server_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20180601s.Server_STATUS)
 	if ok {
 		// Populate our instance from source
-		return create.AssignPropertiesFromServerForCreate_STATUS(src)
+		return server.AssignPropertiesFromServer_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20180601s.ServerForCreate_STATUS{}
+	src = &v20180601s.Server_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = create.AssignPropertiesFromServerForCreate_STATUS(src)
+	err = server.AssignPropertiesFromServer_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -380,17 +380,17 @@ func (create *ServerForCreate_STATUS) ConvertStatusFrom(source genruntime.Conver
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our ServerForCreate_STATUS
-func (create *ServerForCreate_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20180601s.ServerForCreate_STATUS)
+// ConvertStatusTo populates the provided destination from our Server_STATUS
+func (server *Server_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20180601s.Server_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return create.AssignPropertiesToServerForCreate_STATUS(dst)
+		return server.AssignPropertiesToServer_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20180601s.ServerForCreate_STATUS{}
-	err := create.AssignPropertiesToServerForCreate_STATUS(dst)
+	dst = &v20180601s.Server_STATUS{}
+	err := server.AssignPropertiesToServer_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -404,18 +404,18 @@ func (create *ServerForCreate_STATUS) ConvertStatusTo(destination genruntime.Con
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &ServerForCreate_STATUS{}
+var _ genruntime.FromARMConverter = &Server_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (create *ServerForCreate_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ServerForCreate_STATUSARM{}
+func (server *Server_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Server_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (create *ServerForCreate_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ServerForCreate_STATUSARM)
+func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Server_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ServerForCreate_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Server_STATUSARM, got %T", armInput)
 	}
 
 	// no assignment for property ‘Conditions’
@@ -423,7 +423,7 @@ func (create *ServerForCreate_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		create.Location = &location
+		server.Location = &location
 	}
 
 	// Set property ‘Properties’:
@@ -434,7 +434,7 @@ func (create *ServerForCreate_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 			return err
 		}
 		properties := properties1
-		create.Properties = &properties
+		server.Properties = &properties
 	}
 
 	// Set property ‘Sku’:
@@ -445,14 +445,14 @@ func (create *ServerForCreate_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 			return err
 		}
 		sku := sku1
-		create.Sku = &sku
+		server.Sku = &sku
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		create.Tags = make(map[string]string)
+		server.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
-			create.Tags[key] = value
+			server.Tags[key] = value
 		}
 	}
 
@@ -460,14 +460,14 @@ func (create *ServerForCreate_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 	return nil
 }
 
-// AssignPropertiesFromServerForCreate_STATUS populates our ServerForCreate_STATUS from the provided source ServerForCreate_STATUS
-func (create *ServerForCreate_STATUS) AssignPropertiesFromServerForCreate_STATUS(source *v20180601s.ServerForCreate_STATUS) error {
+// AssignPropertiesFromServer_STATUS populates our Server_STATUS from the provided source Server_STATUS
+func (server *Server_STATUS) AssignPropertiesFromServer_STATUS(source *v20180601s.Server_STATUS) error {
 
 	// Conditions
-	create.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	server.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Location
-	create.Location = genruntime.ClonePointerToString(source.Location)
+	server.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Properties
 	if source.Properties != nil {
@@ -476,9 +476,9 @@ func (create *ServerForCreate_STATUS) AssignPropertiesFromServerForCreate_STATUS
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromServerPropertiesForCreate_STATUS() to populate field Properties")
 		}
-		create.Properties = &property
+		server.Properties = &property
 	} else {
-		create.Properties = nil
+		server.Properties = nil
 	}
 
 	// Sku
@@ -488,33 +488,33 @@ func (create *ServerForCreate_STATUS) AssignPropertiesFromServerForCreate_STATUS
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromSku_STATUS() to populate field Sku")
 		}
-		create.Sku = &sku
+		server.Sku = &sku
 	} else {
-		create.Sku = nil
+		server.Sku = nil
 	}
 
 	// Tags
-	create.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	server.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToServerForCreate_STATUS populates the provided destination ServerForCreate_STATUS from our ServerForCreate_STATUS
-func (create *ServerForCreate_STATUS) AssignPropertiesToServerForCreate_STATUS(destination *v20180601s.ServerForCreate_STATUS) error {
+// AssignPropertiesToServer_STATUS populates the provided destination Server_STATUS from our Server_STATUS
+func (server *Server_STATUS) AssignPropertiesToServer_STATUS(destination *v20180601s.Server_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(create.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(server.Conditions)
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(create.Location)
+	destination.Location = genruntime.ClonePointerToString(server.Location)
 
 	// Properties
-	if create.Properties != nil {
+	if server.Properties != nil {
 		var property v20180601s.ServerPropertiesForCreate_STATUS
-		err := create.Properties.AssignPropertiesToServerPropertiesForCreate_STATUS(&property)
+		err := server.Properties.AssignPropertiesToServerPropertiesForCreate_STATUS(&property)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToServerPropertiesForCreate_STATUS() to populate field Properties")
 		}
@@ -524,9 +524,9 @@ func (create *ServerForCreate_STATUS) AssignPropertiesToServerForCreate_STATUS(d
 	}
 
 	// Sku
-	if create.Sku != nil {
+	if server.Sku != nil {
 		var sku v20180601s.Sku_STATUS
-		err := create.Sku.AssignPropertiesToSku_STATUS(&sku)
+		err := server.Sku.AssignPropertiesToSku_STATUS(&sku)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSku_STATUS() to populate field Sku")
 		}
@@ -536,7 +536,7 @@ func (create *ServerForCreate_STATUS) AssignPropertiesToServerForCreate_STATUS(d
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(create.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(server.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

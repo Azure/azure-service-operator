@@ -27,8 +27,8 @@ import (
 type NamespacesTopic struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              NamespacesTopic_Spec `json:"spec,omitempty"`
-	Status            SBTopic_STATUS       `json:"status,omitempty"`
+	Spec              NamespacesTopic_Spec   `json:"spec,omitempty"`
+	Status            NamespacesTopic_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NamespacesTopic{}
@@ -77,7 +77,7 @@ func (topic *NamespacesTopic) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (topic *NamespacesTopic) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SBTopic_STATUS{}
+	return &NamespacesTopic_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -93,13 +93,13 @@ func (topic *NamespacesTopic) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (topic *NamespacesTopic) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SBTopic_STATUS); ok {
+	if st, ok := status.(*NamespacesTopic_STATUS); ok {
 		topic.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SBTopic_STATUS
+	var st NamespacesTopic_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -129,6 +129,52 @@ type NamespacesTopicList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []NamespacesTopic `json:"items"`
+}
+
+// Storage version of v1beta20210101preview.NamespacesTopic_STATUS
+type NamespacesTopic_STATUS struct {
+	AccessedAt                          *string                     `json:"accessedAt,omitempty"`
+	AutoDeleteOnIdle                    *string                     `json:"autoDeleteOnIdle,omitempty"`
+	Conditions                          []conditions.Condition      `json:"conditions,omitempty"`
+	CountDetails                        *MessageCountDetails_STATUS `json:"countDetails,omitempty"`
+	CreatedAt                           *string                     `json:"createdAt,omitempty"`
+	DefaultMessageTimeToLive            *string                     `json:"defaultMessageTimeToLive,omitempty"`
+	DuplicateDetectionHistoryTimeWindow *string                     `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
+	EnableBatchedOperations             *bool                       `json:"enableBatchedOperations,omitempty"`
+	EnableExpress                       *bool                       `json:"enableExpress,omitempty"`
+	EnablePartitioning                  *bool                       `json:"enablePartitioning,omitempty"`
+	Id                                  *string                     `json:"id,omitempty"`
+	MaxSizeInMegabytes                  *int                        `json:"maxSizeInMegabytes,omitempty"`
+	Name                                *string                     `json:"name,omitempty"`
+	PropertyBag                         genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	RequiresDuplicateDetection          *bool                       `json:"requiresDuplicateDetection,omitempty"`
+	SizeInBytes                         *int                        `json:"sizeInBytes,omitempty"`
+	Status                              *string                     `json:"status,omitempty"`
+	SubscriptionCount                   *int                        `json:"subscriptionCount,omitempty"`
+	SupportOrdering                     *bool                       `json:"supportOrdering,omitempty"`
+	SystemData                          *SystemData_STATUS          `json:"systemData,omitempty"`
+	Type                                *string                     `json:"type,omitempty"`
+	UpdatedAt                           *string                     `json:"updatedAt,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &NamespacesTopic_STATUS{}
+
+// ConvertStatusFrom populates our NamespacesTopic_STATUS from the provided source
+func (topic *NamespacesTopic_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == topic {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(topic)
+}
+
+// ConvertStatusTo populates the provided destination from our NamespacesTopic_STATUS
+func (topic *NamespacesTopic_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == topic {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(topic)
 }
 
 // Storage version of v1beta20210101preview.NamespacesTopic_Spec
@@ -183,52 +229,6 @@ func (topic *NamespacesTopic_Spec) ConvertSpecTo(destination genruntime.Converti
 	}
 
 	return destination.ConvertSpecFrom(topic)
-}
-
-// Storage version of v1beta20210101preview.SBTopic_STATUS
-type SBTopic_STATUS struct {
-	AccessedAt                          *string                     `json:"accessedAt,omitempty"`
-	AutoDeleteOnIdle                    *string                     `json:"autoDeleteOnIdle,omitempty"`
-	Conditions                          []conditions.Condition      `json:"conditions,omitempty"`
-	CountDetails                        *MessageCountDetails_STATUS `json:"countDetails,omitempty"`
-	CreatedAt                           *string                     `json:"createdAt,omitempty"`
-	DefaultMessageTimeToLive            *string                     `json:"defaultMessageTimeToLive,omitempty"`
-	DuplicateDetectionHistoryTimeWindow *string                     `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
-	EnableBatchedOperations             *bool                       `json:"enableBatchedOperations,omitempty"`
-	EnableExpress                       *bool                       `json:"enableExpress,omitempty"`
-	EnablePartitioning                  *bool                       `json:"enablePartitioning,omitempty"`
-	Id                                  *string                     `json:"id,omitempty"`
-	MaxSizeInMegabytes                  *int                        `json:"maxSizeInMegabytes,omitempty"`
-	Name                                *string                     `json:"name,omitempty"`
-	PropertyBag                         genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
-	RequiresDuplicateDetection          *bool                       `json:"requiresDuplicateDetection,omitempty"`
-	SizeInBytes                         *int                        `json:"sizeInBytes,omitempty"`
-	Status                              *string                     `json:"status,omitempty"`
-	SubscriptionCount                   *int                        `json:"subscriptionCount,omitempty"`
-	SupportOrdering                     *bool                       `json:"supportOrdering,omitempty"`
-	SystemData                          *SystemData_STATUS          `json:"systemData,omitempty"`
-	Type                                *string                     `json:"type,omitempty"`
-	UpdatedAt                           *string                     `json:"updatedAt,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &SBTopic_STATUS{}
-
-// ConvertStatusFrom populates our SBTopic_STATUS from the provided source
-func (topic *SBTopic_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == topic {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(topic)
-}
-
-// ConvertStatusTo populates the provided destination from our SBTopic_STATUS
-func (topic *SBTopic_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == topic {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(topic)
 }
 
 func init() {

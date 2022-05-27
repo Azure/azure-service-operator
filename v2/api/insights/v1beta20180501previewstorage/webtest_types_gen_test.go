@@ -74,22 +74,22 @@ func WebtestGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForWebtest is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForWebtest(gens map[string]gopter.Gen) {
 	gens["Spec"] = Webtest_SpecGenerator()
-	gens["Status"] = WebTest_STATUSGenerator()
+	gens["Status"] = Webtest_STATUSGenerator()
 }
 
-func Test_WebTest_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Webtest_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of WebTest_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForWebTest_STATUS, WebTest_STATUSGenerator()))
+		"Round trip of Webtest_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForWebtest_STATUS, Webtest_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForWebTest_STATUS runs a test to see if a specific instance of WebTest_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForWebTest_STATUS(subject WebTest_STATUS) string {
+// RunJSONSerializationTestForWebtest_STATUS runs a test to see if a specific instance of Webtest_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForWebtest_STATUS(subject Webtest_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -97,7 +97,7 @@ func RunJSONSerializationTestForWebTest_STATUS(subject WebTest_STATUS) string {
 	}
 
 	// Deserialize back into memory
-	var actual WebTest_STATUS
+	var actual Webtest_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -115,33 +115,33 @@ func RunJSONSerializationTestForWebTest_STATUS(subject WebTest_STATUS) string {
 	return ""
 }
 
-// Generator of WebTest_STATUS instances for property testing - lazily instantiated by WebTest_STATUSGenerator()
-var webTest_STATUSGenerator gopter.Gen
+// Generator of Webtest_STATUS instances for property testing - lazily instantiated by Webtest_STATUSGenerator()
+var webtest_STATUSGenerator gopter.Gen
 
-// WebTest_STATUSGenerator returns a generator of WebTest_STATUS instances for property testing.
-// We first initialize webTest_STATUSGenerator with a simplified generator based on the
+// Webtest_STATUSGenerator returns a generator of Webtest_STATUS instances for property testing.
+// We first initialize webtest_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func WebTest_STATUSGenerator() gopter.Gen {
-	if webTest_STATUSGenerator != nil {
-		return webTest_STATUSGenerator
+func Webtest_STATUSGenerator() gopter.Gen {
+	if webtest_STATUSGenerator != nil {
+		return webtest_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebTest_STATUS(generators)
-	webTest_STATUSGenerator = gen.Struct(reflect.TypeOf(WebTest_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForWebtest_STATUS(generators)
+	webtest_STATUSGenerator = gen.Struct(reflect.TypeOf(Webtest_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForWebTest_STATUS(generators)
-	AddRelatedPropertyGeneratorsForWebTest_STATUS(generators)
-	webTest_STATUSGenerator = gen.Struct(reflect.TypeOf(WebTest_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForWebtest_STATUS(generators)
+	AddRelatedPropertyGeneratorsForWebtest_STATUS(generators)
+	webtest_STATUSGenerator = gen.Struct(reflect.TypeOf(Webtest_STATUS{}), generators)
 
-	return webTest_STATUSGenerator
+	return webtest_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForWebTest_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForWebTest_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForWebtest_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForWebtest_STATUS(gens map[string]gopter.Gen) {
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["Frequency"] = gen.PtrOf(gen.Int())
@@ -158,8 +158,8 @@ func AddIndependentPropertyGeneratorsForWebTest_STATUS(gens map[string]gopter.Ge
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForWebTest_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForWebTest_STATUS(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForWebtest_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForWebtest_STATUS(gens map[string]gopter.Gen) {
 	gens["Configuration"] = gen.PtrOf(WebTestProperties_Configuration_STATUSGenerator())
 	gens["Locations"] = gen.SliceOf(WebTestGeolocation_STATUSGenerator())
 	gens["Request"] = gen.PtrOf(WebTestProperties_Request_STATUSGenerator())

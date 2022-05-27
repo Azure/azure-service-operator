@@ -29,8 +29,8 @@ import (
 type SqlDatabaseContainerTrigger struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccountsSqlDatabasesContainersTrigger_Spec `json:"spec,omitempty"`
-	Status            SqlTriggerCreateUpdateParameters_STATUS            `json:"status,omitempty"`
+	Spec              DatabaseAccountsSqlDatabasesContainersTrigger_Spec   `json:"spec,omitempty"`
+	Status            DatabaseAccountsSqlDatabasesContainersTrigger_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainerTrigger{}
@@ -124,7 +124,7 @@ func (trigger *SqlDatabaseContainerTrigger) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (trigger *SqlDatabaseContainerTrigger) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SqlTriggerCreateUpdateParameters_STATUS{}
+	return &DatabaseAccountsSqlDatabasesContainersTrigger_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -140,13 +140,13 @@ func (trigger *SqlDatabaseContainerTrigger) Owner() *genruntime.ResourceReferenc
 // SetStatus sets the status of this resource
 func (trigger *SqlDatabaseContainerTrigger) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SqlTriggerCreateUpdateParameters_STATUS); ok {
+	if st, ok := status.(*DatabaseAccountsSqlDatabasesContainersTrigger_STATUS); ok {
 		trigger.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SqlTriggerCreateUpdateParameters_STATUS
+	var st DatabaseAccountsSqlDatabasesContainersTrigger_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -264,10 +264,10 @@ func (trigger *SqlDatabaseContainerTrigger) AssignPropertiesFromSqlDatabaseConta
 	trigger.Spec = spec
 
 	// Status
-	var status SqlTriggerCreateUpdateParameters_STATUS
-	err = status.AssignPropertiesFromSqlTriggerCreateUpdateParameters_STATUS(&source.Status)
+	var status DatabaseAccountsSqlDatabasesContainersTrigger_STATUS
+	err = status.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersTrigger_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromSqlTriggerCreateUpdateParameters_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersTrigger_STATUS() to populate field Status")
 	}
 	trigger.Status = status
 
@@ -290,10 +290,10 @@ func (trigger *SqlDatabaseContainerTrigger) AssignPropertiesToSqlDatabaseContain
 	destination.Spec = spec
 
 	// Status
-	var status v20210515s.SqlTriggerCreateUpdateParameters_STATUS
-	err = trigger.Status.AssignPropertiesToSqlTriggerCreateUpdateParameters_STATUS(&status)
+	var status v20210515s.DatabaseAccountsSqlDatabasesContainersTrigger_STATUS
+	err = trigger.Status.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersTrigger_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSqlTriggerCreateUpdateParameters_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsSqlDatabasesContainersTrigger_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -317,6 +317,268 @@ type SqlDatabaseContainerTriggerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []SqlDatabaseContainerTrigger `json:"items"`
+}
+
+type DatabaseAccountsSqlDatabasesContainersTrigger_STATUS struct {
+	// Conditions: The observed state of the resource
+	Conditions []conditions.Condition `json:"conditions,omitempty"`
+
+	// Id: The unique resource identifier of the ARM resource.
+	Id *string `json:"id,omitempty"`
+
+	// Location: The location of the resource group to which the resource belongs.
+	Location *string `json:"location,omitempty"`
+
+	// Name: The name of the ARM resource.
+	Name *string `json:"name,omitempty"`
+
+	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
+	// request.
+	Options *CreateUpdateOptions_STATUS `json:"options,omitempty"`
+
+	// Resource: The standard JSON format of a trigger
+	Resource *SqlTriggerResource_STATUS `json:"resource,omitempty"`
+	Tags     map[string]string          `json:"tags,omitempty"`
+
+	// Type: The type of Azure resource.
+	Type *string `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &DatabaseAccountsSqlDatabasesContainersTrigger_STATUS{}
+
+// ConvertStatusFrom populates our DatabaseAccountsSqlDatabasesContainersTrigger_STATUS from the provided source
+func (trigger *DatabaseAccountsSqlDatabasesContainersTrigger_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210515s.DatabaseAccountsSqlDatabasesContainersTrigger_STATUS)
+	if ok {
+		// Populate our instance from source
+		return trigger.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersTrigger_STATUS(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20210515s.DatabaseAccountsSqlDatabasesContainersTrigger_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = trigger.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersTrigger_STATUS(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
+}
+
+// ConvertStatusTo populates the provided destination from our DatabaseAccountsSqlDatabasesContainersTrigger_STATUS
+func (trigger *DatabaseAccountsSqlDatabasesContainersTrigger_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210515s.DatabaseAccountsSqlDatabasesContainersTrigger_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return trigger.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersTrigger_STATUS(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20210515s.DatabaseAccountsSqlDatabasesContainersTrigger_STATUS{}
+	err := trigger.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersTrigger_STATUS(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+var _ genruntime.FromARMConverter = &DatabaseAccountsSqlDatabasesContainersTrigger_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (trigger *DatabaseAccountsSqlDatabasesContainersTrigger_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DatabaseAccountsSqlDatabasesContainersTrigger_STATUSARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (trigger *DatabaseAccountsSqlDatabasesContainersTrigger_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DatabaseAccountsSqlDatabasesContainersTrigger_STATUSARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccountsSqlDatabasesContainersTrigger_STATUSARM, got %T", armInput)
+	}
+
+	// no assignment for property ‘Conditions’
+
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		trigger.Id = &id
+	}
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		trigger.Location = &location
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		trigger.Name = &name
+	}
+
+	// Set property ‘Options’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Options != nil {
+			var options1 CreateUpdateOptions_STATUS
+			err := options1.PopulateFromARM(owner, *typedInput.Properties.Options)
+			if err != nil {
+				return err
+			}
+			options := options1
+			trigger.Options = &options
+		}
+	}
+
+	// Set property ‘Resource’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Resource != nil {
+			var resource1 SqlTriggerResource_STATUS
+			err := resource1.PopulateFromARM(owner, *typedInput.Properties.Resource)
+			if err != nil {
+				return err
+			}
+			resource := resource1
+			trigger.Resource = &resource
+		}
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		trigger.Tags = make(map[string]string)
+		for key, value := range typedInput.Tags {
+			trigger.Tags[key] = value
+		}
+	}
+
+	// Set property ‘Type’:
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		trigger.Type = &typeVar
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersTrigger_STATUS populates our DatabaseAccountsSqlDatabasesContainersTrigger_STATUS from the provided source DatabaseAccountsSqlDatabasesContainersTrigger_STATUS
+func (trigger *DatabaseAccountsSqlDatabasesContainersTrigger_STATUS) AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersTrigger_STATUS(source *v20210515s.DatabaseAccountsSqlDatabasesContainersTrigger_STATUS) error {
+
+	// Conditions
+	trigger.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Id
+	trigger.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Location
+	trigger.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Name
+	trigger.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Options
+	if source.Options != nil {
+		var option CreateUpdateOptions_STATUS
+		err := option.AssignPropertiesFromCreateUpdateOptions_STATUS(source.Options)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptions_STATUS() to populate field Options")
+		}
+		trigger.Options = &option
+	} else {
+		trigger.Options = nil
+	}
+
+	// Resource
+	if source.Resource != nil {
+		var resource SqlTriggerResource_STATUS
+		err := resource.AssignPropertiesFromSqlTriggerResource_STATUS(source.Resource)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSqlTriggerResource_STATUS() to populate field Resource")
+		}
+		trigger.Resource = &resource
+	} else {
+		trigger.Resource = nil
+	}
+
+	// Tags
+	trigger.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	trigger.Type = genruntime.ClonePointerToString(source.Type)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToDatabaseAccountsSqlDatabasesContainersTrigger_STATUS populates the provided destination DatabaseAccountsSqlDatabasesContainersTrigger_STATUS from our DatabaseAccountsSqlDatabasesContainersTrigger_STATUS
+func (trigger *DatabaseAccountsSqlDatabasesContainersTrigger_STATUS) AssignPropertiesToDatabaseAccountsSqlDatabasesContainersTrigger_STATUS(destination *v20210515s.DatabaseAccountsSqlDatabasesContainersTrigger_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(trigger.Conditions)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(trigger.Id)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(trigger.Location)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(trigger.Name)
+
+	// Options
+	if trigger.Options != nil {
+		var option v20210515s.CreateUpdateOptions_STATUS
+		err := trigger.Options.AssignPropertiesToCreateUpdateOptions_STATUS(&option)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions_STATUS() to populate field Options")
+		}
+		destination.Options = &option
+	} else {
+		destination.Options = nil
+	}
+
+	// Resource
+	if trigger.Resource != nil {
+		var resource v20210515s.SqlTriggerResource_STATUS
+		err := trigger.Resource.AssignPropertiesToSqlTriggerResource_STATUS(&resource)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSqlTriggerResource_STATUS() to populate field Resource")
+		}
+		destination.Resource = &resource
+	} else {
+		destination.Resource = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(trigger.Tags)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(trigger.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 type DatabaseAccountsSqlDatabasesContainersTrigger_Spec struct {
@@ -671,268 +933,6 @@ func (trigger *DatabaseAccountsSqlDatabasesContainersTrigger_Spec) SetAzureName(
 	trigger.AzureName = azureName
 }
 
-type SqlTriggerCreateUpdateParameters_STATUS struct {
-	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// Id: The unique resource identifier of the ARM resource.
-	Id *string `json:"id,omitempty"`
-
-	// Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the ARM resource.
-	Name *string `json:"name,omitempty"`
-
-	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
-	// request.
-	Options *CreateUpdateOptions_STATUS `json:"options,omitempty"`
-
-	// Resource: The standard JSON format of a trigger
-	Resource *SqlTriggerResource_STATUS `json:"resource,omitempty"`
-	Tags     map[string]string          `json:"tags,omitempty"`
-
-	// Type: The type of Azure resource.
-	Type *string `json:"type,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &SqlTriggerCreateUpdateParameters_STATUS{}
-
-// ConvertStatusFrom populates our SqlTriggerCreateUpdateParameters_STATUS from the provided source
-func (parameters *SqlTriggerCreateUpdateParameters_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210515s.SqlTriggerCreateUpdateParameters_STATUS)
-	if ok {
-		// Populate our instance from source
-		return parameters.AssignPropertiesFromSqlTriggerCreateUpdateParameters_STATUS(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20210515s.SqlTriggerCreateUpdateParameters_STATUS{}
-	err := src.ConvertStatusFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
-	}
-
-	// Update our instance from src
-	err = parameters.AssignPropertiesFromSqlTriggerCreateUpdateParameters_STATUS(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
-	}
-
-	return nil
-}
-
-// ConvertStatusTo populates the provided destination from our SqlTriggerCreateUpdateParameters_STATUS
-func (parameters *SqlTriggerCreateUpdateParameters_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210515s.SqlTriggerCreateUpdateParameters_STATUS)
-	if ok {
-		// Populate destination from our instance
-		return parameters.AssignPropertiesToSqlTriggerCreateUpdateParameters_STATUS(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20210515s.SqlTriggerCreateUpdateParameters_STATUS{}
-	err := parameters.AssignPropertiesToSqlTriggerCreateUpdateParameters_STATUS(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertStatusTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
-	}
-
-	return nil
-}
-
-var _ genruntime.FromARMConverter = &SqlTriggerCreateUpdateParameters_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *SqlTriggerCreateUpdateParameters_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SqlTriggerCreateUpdateParameters_STATUSARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *SqlTriggerCreateUpdateParameters_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SqlTriggerCreateUpdateParameters_STATUSARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlTriggerCreateUpdateParameters_STATUSARM, got %T", armInput)
-	}
-
-	// no assignment for property ‘Conditions’
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		parameters.Id = &id
-	}
-
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		parameters.Location = &location
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		parameters.Name = &name
-	}
-
-	// Set property ‘Options’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Options != nil {
-			var options1 CreateUpdateOptions_STATUS
-			err := options1.PopulateFromARM(owner, *typedInput.Properties.Options)
-			if err != nil {
-				return err
-			}
-			options := options1
-			parameters.Options = &options
-		}
-	}
-
-	// Set property ‘Resource’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Resource != nil {
-			var resource1 SqlTriggerResource_STATUS
-			err := resource1.PopulateFromARM(owner, *typedInput.Properties.Resource)
-			if err != nil {
-				return err
-			}
-			resource := resource1
-			parameters.Resource = &resource
-		}
-	}
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		parameters.Tags = make(map[string]string)
-		for key, value := range typedInput.Tags {
-			parameters.Tags[key] = value
-		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		parameters.Type = &typeVar
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromSqlTriggerCreateUpdateParameters_STATUS populates our SqlTriggerCreateUpdateParameters_STATUS from the provided source SqlTriggerCreateUpdateParameters_STATUS
-func (parameters *SqlTriggerCreateUpdateParameters_STATUS) AssignPropertiesFromSqlTriggerCreateUpdateParameters_STATUS(source *v20210515s.SqlTriggerCreateUpdateParameters_STATUS) error {
-
-	// Conditions
-	parameters.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
-
-	// Id
-	parameters.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Location
-	parameters.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Name
-	parameters.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Options
-	if source.Options != nil {
-		var option CreateUpdateOptions_STATUS
-		err := option.AssignPropertiesFromCreateUpdateOptions_STATUS(source.Options)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptions_STATUS() to populate field Options")
-		}
-		parameters.Options = &option
-	} else {
-		parameters.Options = nil
-	}
-
-	// Resource
-	if source.Resource != nil {
-		var resource SqlTriggerResource_STATUS
-		err := resource.AssignPropertiesFromSqlTriggerResource_STATUS(source.Resource)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSqlTriggerResource_STATUS() to populate field Resource")
-		}
-		parameters.Resource = &resource
-	} else {
-		parameters.Resource = nil
-	}
-
-	// Tags
-	parameters.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	parameters.Type = genruntime.ClonePointerToString(source.Type)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToSqlTriggerCreateUpdateParameters_STATUS populates the provided destination SqlTriggerCreateUpdateParameters_STATUS from our SqlTriggerCreateUpdateParameters_STATUS
-func (parameters *SqlTriggerCreateUpdateParameters_STATUS) AssignPropertiesToSqlTriggerCreateUpdateParameters_STATUS(destination *v20210515s.SqlTriggerCreateUpdateParameters_STATUS) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(parameters.Conditions)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(parameters.Id)
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(parameters.Location)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(parameters.Name)
-
-	// Options
-	if parameters.Options != nil {
-		var option v20210515s.CreateUpdateOptions_STATUS
-		err := parameters.Options.AssignPropertiesToCreateUpdateOptions_STATUS(&option)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions_STATUS() to populate field Options")
-		}
-		destination.Options = &option
-	} else {
-		destination.Options = nil
-	}
-
-	// Resource
-	if parameters.Resource != nil {
-		var resource v20210515s.SqlTriggerResource_STATUS
-		err := parameters.Resource.AssignPropertiesToSqlTriggerResource_STATUS(&resource)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSqlTriggerResource_STATUS() to populate field Resource")
-		}
-		destination.Resource = &resource
-	} else {
-		destination.Resource = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(parameters.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(parameters.Type)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 type SqlTriggerResource struct {
 	// Body: Body of the Trigger
 	Body *string `json:"body,omitempty"`
@@ -1212,23 +1212,6 @@ func (resource *SqlTriggerResource_STATUS) AssignPropertiesToSqlTriggerResource_
 	// No error
 	return nil
 }
-
-type SqlTriggerResource_TriggerOperation_STATUS string
-
-const (
-	SqlTriggerResource_TriggerOperation_STATUSAll     = SqlTriggerResource_TriggerOperation_STATUS("All")
-	SqlTriggerResource_TriggerOperation_STATUSCreate  = SqlTriggerResource_TriggerOperation_STATUS("Create")
-	SqlTriggerResource_TriggerOperation_STATUSDelete  = SqlTriggerResource_TriggerOperation_STATUS("Delete")
-	SqlTriggerResource_TriggerOperation_STATUSReplace = SqlTriggerResource_TriggerOperation_STATUS("Replace")
-	SqlTriggerResource_TriggerOperation_STATUSUpdate  = SqlTriggerResource_TriggerOperation_STATUS("Update")
-)
-
-type SqlTriggerResource_TriggerType_STATUS string
-
-const (
-	SqlTriggerResource_TriggerType_STATUSPost = SqlTriggerResource_TriggerType_STATUS("Post")
-	SqlTriggerResource_TriggerType_STATUSPre  = SqlTriggerResource_TriggerType_STATUS("Pre")
-)
 
 func init() {
 	SchemeBuilder.Register(&SqlDatabaseContainerTrigger{}, &SqlDatabaseContainerTriggerList{})

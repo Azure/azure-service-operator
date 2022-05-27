@@ -42,11 +42,11 @@
 | SignalRProperties_STATUS                                     | v1alpha1api20211001 | v1beta20211001 |
 | SignalRRequestType                                           | v1alpha1api20211001 | v1beta20211001 |
 | SignalRRequestType_STATUS                                    | v1alpha1api20211001 | v1beta20211001 |
-| SignalRResource_STATUS                                       | v1alpha1api20211001 | v1beta20211001 |
 | SignalRSkuTier                                               | v1alpha1api20211001 | v1beta20211001 |
 | SignalRSkuTier_STATUS                                        | v1alpha1api20211001 | v1beta20211001 |
 | SignalRTlsSettings                                           | v1alpha1api20211001 | v1beta20211001 |
 | SignalRTlsSettings_STATUS                                    | v1alpha1api20211001 | v1beta20211001 |
+| SignalR_STATUS                                               | v1alpha1api20211001 | v1beta20211001 |
 | SignalR_Spec                                                 | v1alpha1api20211001 | v1beta20211001 |
 | SystemData                                                   | v1alpha1api20211001 | v1beta20211001 |
 | SystemData_CreatedByType                                     | v1alpha1api20211001 | v1beta20211001 |

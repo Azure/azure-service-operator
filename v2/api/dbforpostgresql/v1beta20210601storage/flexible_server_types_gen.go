@@ -27,8 +27,8 @@ import (
 type FlexibleServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              FlexibleServer_Spec `json:"spec,omitempty"`
-	Status            Server_STATUS       `json:"status,omitempty"`
+	Spec              FlexibleServer_Spec   `json:"spec,omitempty"`
+	Status            FlexibleServer_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &FlexibleServer{}
@@ -77,7 +77,7 @@ func (server *FlexibleServer) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (server *FlexibleServer) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Server_STATUS{}
+	return &FlexibleServer_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -93,13 +93,13 @@ func (server *FlexibleServer) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (server *FlexibleServer) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Server_STATUS); ok {
+	if st, ok := status.(*FlexibleServer_STATUS); ok {
 		server.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Server_STATUS
+	var st FlexibleServer_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -136,6 +136,53 @@ type FlexibleServerList struct {
 type APIVersion string
 
 const APIVersionValue = APIVersion("20210601")
+
+// Storage version of v1beta20210601.FlexibleServer_STATUS
+type FlexibleServer_STATUS struct {
+	AdministratorLogin       *string                   `json:"administratorLogin,omitempty"`
+	AvailabilityZone         *string                   `json:"availabilityZone,omitempty"`
+	Backup                   *Backup_STATUS            `json:"backup,omitempty"`
+	Conditions               []conditions.Condition    `json:"conditions,omitempty"`
+	CreateMode               *string                   `json:"createMode,omitempty"`
+	FullyQualifiedDomainName *string                   `json:"fullyQualifiedDomainName,omitempty"`
+	HighAvailability         *HighAvailability_STATUS  `json:"highAvailability,omitempty"`
+	Id                       *string                   `json:"id,omitempty"`
+	Location                 *string                   `json:"location,omitempty"`
+	MaintenanceWindow        *MaintenanceWindow_STATUS `json:"maintenanceWindow,omitempty"`
+	MinorVersion             *string                   `json:"minorVersion,omitempty"`
+	Name                     *string                   `json:"name,omitempty"`
+	Network                  *Network_STATUS           `json:"network,omitempty"`
+	PointInTimeUTC           *string                   `json:"pointInTimeUTC,omitempty"`
+	PropertyBag              genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
+	Sku                      *Sku_STATUS               `json:"sku,omitempty"`
+	SourceServerResourceId   *string                   `json:"sourceServerResourceId,omitempty"`
+	State                    *string                   `json:"state,omitempty"`
+	Storage                  *Storage_STATUS           `json:"storage,omitempty"`
+	SystemData               *SystemData_STATUS        `json:"systemData,omitempty"`
+	Tags                     map[string]string         `json:"tags,omitempty"`
+	Type                     *string                   `json:"type,omitempty"`
+	Version                  *string                   `json:"version,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &FlexibleServer_STATUS{}
+
+// ConvertStatusFrom populates our FlexibleServer_STATUS from the provided source
+func (server *FlexibleServer_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == server {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(server)
+}
+
+// ConvertStatusTo populates the provided destination from our FlexibleServer_STATUS
+func (server *FlexibleServer_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == server {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(server)
+}
 
 // Storage version of v1beta20210601.FlexibleServer_Spec
 type FlexibleServer_Spec struct {
@@ -196,53 +243,6 @@ func (server *FlexibleServer_Spec) ConvertSpecTo(destination genruntime.Converti
 	}
 
 	return destination.ConvertSpecFrom(server)
-}
-
-// Storage version of v1beta20210601.Server_STATUS
-type Server_STATUS struct {
-	AdministratorLogin       *string                   `json:"administratorLogin,omitempty"`
-	AvailabilityZone         *string                   `json:"availabilityZone,omitempty"`
-	Backup                   *Backup_STATUS            `json:"backup,omitempty"`
-	Conditions               []conditions.Condition    `json:"conditions,omitempty"`
-	CreateMode               *string                   `json:"createMode,omitempty"`
-	FullyQualifiedDomainName *string                   `json:"fullyQualifiedDomainName,omitempty"`
-	HighAvailability         *HighAvailability_STATUS  `json:"highAvailability,omitempty"`
-	Id                       *string                   `json:"id,omitempty"`
-	Location                 *string                   `json:"location,omitempty"`
-	MaintenanceWindow        *MaintenanceWindow_STATUS `json:"maintenanceWindow,omitempty"`
-	MinorVersion             *string                   `json:"minorVersion,omitempty"`
-	Name                     *string                   `json:"name,omitempty"`
-	Network                  *Network_STATUS           `json:"network,omitempty"`
-	PointInTimeUTC           *string                   `json:"pointInTimeUTC,omitempty"`
-	PropertyBag              genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
-	Sku                      *Sku_STATUS               `json:"sku,omitempty"`
-	SourceServerResourceId   *string                   `json:"sourceServerResourceId,omitempty"`
-	State                    *string                   `json:"state,omitempty"`
-	Storage                  *Storage_STATUS           `json:"storage,omitempty"`
-	SystemData               *SystemData_STATUS        `json:"systemData,omitempty"`
-	Tags                     map[string]string         `json:"tags,omitempty"`
-	Type                     *string                   `json:"type,omitempty"`
-	Version                  *string                   `json:"version,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &Server_STATUS{}
-
-// ConvertStatusFrom populates our Server_STATUS from the provided source
-func (server *Server_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == server {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(server)
-}
-
-// ConvertStatusTo populates the provided destination from our Server_STATUS
-func (server *Server_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == server {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(server)
 }
 
 // Storage version of v1beta20210601.Backup

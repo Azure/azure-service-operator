@@ -28,8 +28,8 @@ import (
 type NamespacesQueue struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              NamespacesQueue_Spec `json:"spec,omitempty"`
-	Status            SBQueue_STATUS       `json:"status,omitempty"`
+	Spec              NamespacesQueue_Spec   `json:"spec,omitempty"`
+	Status            NamespacesQueue_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NamespacesQueue{}
@@ -137,7 +137,7 @@ func (queue *NamespacesQueue) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (queue *NamespacesQueue) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SBQueue_STATUS{}
+	return &NamespacesQueue_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -153,13 +153,13 @@ func (queue *NamespacesQueue) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (queue *NamespacesQueue) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SBQueue_STATUS); ok {
+	if st, ok := status.(*NamespacesQueue_STATUS); ok {
 		queue.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SBQueue_STATUS
+	var st NamespacesQueue_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -277,10 +277,10 @@ func (queue *NamespacesQueue) AssignPropertiesFromNamespacesQueue(source *alpha2
 	queue.Spec = spec
 
 	// Status
-	var status SBQueue_STATUS
-	err = status.AssignPropertiesFromSBQueue_STATUS(&source.Status)
+	var status NamespacesQueue_STATUS
+	err = status.AssignPropertiesFromNamespacesQueue_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromSBQueue_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromNamespacesQueue_STATUS() to populate field Status")
 	}
 	queue.Status = status
 
@@ -303,10 +303,10 @@ func (queue *NamespacesQueue) AssignPropertiesToNamespacesQueue(destination *alp
 	destination.Spec = spec
 
 	// Status
-	var status alpha20210101ps.SBQueue_STATUS
-	err = queue.Status.AssignPropertiesToSBQueue_STATUS(&status)
+	var status alpha20210101ps.NamespacesQueue_STATUS
+	err = queue.Status.AssignPropertiesToNamespacesQueue_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSBQueue_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToNamespacesQueue_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -329,6 +329,616 @@ type NamespacesQueueList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []NamespacesQueue `json:"items"`
+}
+
+// Deprecated version of NamespacesQueue_STATUS. Use v1beta20210101preview.NamespacesQueue_STATUS instead
+type NamespacesQueue_STATUS struct {
+	AccessedAt       *string `json:"accessedAt,omitempty"`
+	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
+
+	// Conditions: The observed state of the resource
+	Conditions                          []conditions.Condition      `json:"conditions,omitempty"`
+	CountDetails                        *MessageCountDetails_STATUS `json:"countDetails,omitempty"`
+	CreatedAt                           *string                     `json:"createdAt,omitempty"`
+	DeadLetteringOnMessageExpiration    *bool                       `json:"deadLetteringOnMessageExpiration,omitempty"`
+	DefaultMessageTimeToLive            *string                     `json:"defaultMessageTimeToLive,omitempty"`
+	DuplicateDetectionHistoryTimeWindow *string                     `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
+	EnableBatchedOperations             *bool                       `json:"enableBatchedOperations,omitempty"`
+	EnableExpress                       *bool                       `json:"enableExpress,omitempty"`
+	EnablePartitioning                  *bool                       `json:"enablePartitioning,omitempty"`
+	ForwardDeadLetteredMessagesTo       *string                     `json:"forwardDeadLetteredMessagesTo,omitempty"`
+	ForwardTo                           *string                     `json:"forwardTo,omitempty"`
+	Id                                  *string                     `json:"id,omitempty"`
+	LockDuration                        *string                     `json:"lockDuration,omitempty"`
+	MaxDeliveryCount                    *int                        `json:"maxDeliveryCount,omitempty"`
+	MaxSizeInMegabytes                  *int                        `json:"maxSizeInMegabytes,omitempty"`
+	MessageCount                        *int                        `json:"messageCount,omitempty"`
+	Name                                *string                     `json:"name,omitempty"`
+	RequiresDuplicateDetection          *bool                       `json:"requiresDuplicateDetection,omitempty"`
+	RequiresSession                     *bool                       `json:"requiresSession,omitempty"`
+	SizeInBytes                         *int                        `json:"sizeInBytes,omitempty"`
+	Status                              *EntityStatus_STATUS        `json:"status,omitempty"`
+	SystemData                          *SystemData_STATUS          `json:"systemData,omitempty"`
+	Type                                *string                     `json:"type,omitempty"`
+	UpdatedAt                           *string                     `json:"updatedAt,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &NamespacesQueue_STATUS{}
+
+// ConvertStatusFrom populates our NamespacesQueue_STATUS from the provided source
+func (queue *NamespacesQueue_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*alpha20210101ps.NamespacesQueue_STATUS)
+	if ok {
+		// Populate our instance from source
+		return queue.AssignPropertiesFromNamespacesQueue_STATUS(src)
+	}
+
+	// Convert to an intermediate form
+	src = &alpha20210101ps.NamespacesQueue_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = queue.AssignPropertiesFromNamespacesQueue_STATUS(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
+}
+
+// ConvertStatusTo populates the provided destination from our NamespacesQueue_STATUS
+func (queue *NamespacesQueue_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*alpha20210101ps.NamespacesQueue_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return queue.AssignPropertiesToNamespacesQueue_STATUS(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &alpha20210101ps.NamespacesQueue_STATUS{}
+	err := queue.AssignPropertiesToNamespacesQueue_STATUS(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+var _ genruntime.FromARMConverter = &NamespacesQueue_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (queue *NamespacesQueue_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &NamespacesQueue_STATUSARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (queue *NamespacesQueue_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(NamespacesQueue_STATUSARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NamespacesQueue_STATUSARM, got %T", armInput)
+	}
+
+	// Set property ‘AccessedAt’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AccessedAt != nil {
+			accessedAt := *typedInput.Properties.AccessedAt
+			queue.AccessedAt = &accessedAt
+		}
+	}
+
+	// Set property ‘AutoDeleteOnIdle’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AutoDeleteOnIdle != nil {
+			autoDeleteOnIdle := *typedInput.Properties.AutoDeleteOnIdle
+			queue.AutoDeleteOnIdle = &autoDeleteOnIdle
+		}
+	}
+
+	// no assignment for property ‘Conditions’
+
+	// Set property ‘CountDetails’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.CountDetails != nil {
+			var countDetails1 MessageCountDetails_STATUS
+			err := countDetails1.PopulateFromARM(owner, *typedInput.Properties.CountDetails)
+			if err != nil {
+				return err
+			}
+			countDetails := countDetails1
+			queue.CountDetails = &countDetails
+		}
+	}
+
+	// Set property ‘CreatedAt’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.CreatedAt != nil {
+			createdAt := *typedInput.Properties.CreatedAt
+			queue.CreatedAt = &createdAt
+		}
+	}
+
+	// Set property ‘DeadLetteringOnMessageExpiration’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DeadLetteringOnMessageExpiration != nil {
+			deadLetteringOnMessageExpiration := *typedInput.Properties.DeadLetteringOnMessageExpiration
+			queue.DeadLetteringOnMessageExpiration = &deadLetteringOnMessageExpiration
+		}
+	}
+
+	// Set property ‘DefaultMessageTimeToLive’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DefaultMessageTimeToLive != nil {
+			defaultMessageTimeToLive := *typedInput.Properties.DefaultMessageTimeToLive
+			queue.DefaultMessageTimeToLive = &defaultMessageTimeToLive
+		}
+	}
+
+	// Set property ‘DuplicateDetectionHistoryTimeWindow’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DuplicateDetectionHistoryTimeWindow != nil {
+			duplicateDetectionHistoryTimeWindow := *typedInput.Properties.DuplicateDetectionHistoryTimeWindow
+			queue.DuplicateDetectionHistoryTimeWindow = &duplicateDetectionHistoryTimeWindow
+		}
+	}
+
+	// Set property ‘EnableBatchedOperations’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableBatchedOperations != nil {
+			enableBatchedOperations := *typedInput.Properties.EnableBatchedOperations
+			queue.EnableBatchedOperations = &enableBatchedOperations
+		}
+	}
+
+	// Set property ‘EnableExpress’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnableExpress != nil {
+			enableExpress := *typedInput.Properties.EnableExpress
+			queue.EnableExpress = &enableExpress
+		}
+	}
+
+	// Set property ‘EnablePartitioning’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.EnablePartitioning != nil {
+			enablePartitioning := *typedInput.Properties.EnablePartitioning
+			queue.EnablePartitioning = &enablePartitioning
+		}
+	}
+
+	// Set property ‘ForwardDeadLetteredMessagesTo’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ForwardDeadLetteredMessagesTo != nil {
+			forwardDeadLetteredMessagesTo := *typedInput.Properties.ForwardDeadLetteredMessagesTo
+			queue.ForwardDeadLetteredMessagesTo = &forwardDeadLetteredMessagesTo
+		}
+	}
+
+	// Set property ‘ForwardTo’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ForwardTo != nil {
+			forwardTo := *typedInput.Properties.ForwardTo
+			queue.ForwardTo = &forwardTo
+		}
+	}
+
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		queue.Id = &id
+	}
+
+	// Set property ‘LockDuration’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.LockDuration != nil {
+			lockDuration := *typedInput.Properties.LockDuration
+			queue.LockDuration = &lockDuration
+		}
+	}
+
+	// Set property ‘MaxDeliveryCount’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.MaxDeliveryCount != nil {
+			maxDeliveryCount := *typedInput.Properties.MaxDeliveryCount
+			queue.MaxDeliveryCount = &maxDeliveryCount
+		}
+	}
+
+	// Set property ‘MaxSizeInMegabytes’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.MaxSizeInMegabytes != nil {
+			maxSizeInMegabytes := *typedInput.Properties.MaxSizeInMegabytes
+			queue.MaxSizeInMegabytes = &maxSizeInMegabytes
+		}
+	}
+
+	// Set property ‘MessageCount’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.MessageCount != nil {
+			messageCount := *typedInput.Properties.MessageCount
+			queue.MessageCount = &messageCount
+		}
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		queue.Name = &name
+	}
+
+	// Set property ‘RequiresDuplicateDetection’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.RequiresDuplicateDetection != nil {
+			requiresDuplicateDetection := *typedInput.Properties.RequiresDuplicateDetection
+			queue.RequiresDuplicateDetection = &requiresDuplicateDetection
+		}
+	}
+
+	// Set property ‘RequiresSession’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.RequiresSession != nil {
+			requiresSession := *typedInput.Properties.RequiresSession
+			queue.RequiresSession = &requiresSession
+		}
+	}
+
+	// Set property ‘SizeInBytes’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.SizeInBytes != nil {
+			sizeInBytes := *typedInput.Properties.SizeInBytes
+			queue.SizeInBytes = &sizeInBytes
+		}
+	}
+
+	// Set property ‘Status’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Status != nil {
+			status := *typedInput.Properties.Status
+			queue.Status = &status
+		}
+	}
+
+	// Set property ‘SystemData’:
+	if typedInput.SystemData != nil {
+		var systemData1 SystemData_STATUS
+		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
+		if err != nil {
+			return err
+		}
+		systemData := systemData1
+		queue.SystemData = &systemData
+	}
+
+	// Set property ‘Type’:
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		queue.Type = &typeVar
+	}
+
+	// Set property ‘UpdatedAt’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.UpdatedAt != nil {
+			updatedAt := *typedInput.Properties.UpdatedAt
+			queue.UpdatedAt = &updatedAt
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromNamespacesQueue_STATUS populates our NamespacesQueue_STATUS from the provided source NamespacesQueue_STATUS
+func (queue *NamespacesQueue_STATUS) AssignPropertiesFromNamespacesQueue_STATUS(source *alpha20210101ps.NamespacesQueue_STATUS) error {
+
+	// AccessedAt
+	queue.AccessedAt = genruntime.ClonePointerToString(source.AccessedAt)
+
+	// AutoDeleteOnIdle
+	queue.AutoDeleteOnIdle = genruntime.ClonePointerToString(source.AutoDeleteOnIdle)
+
+	// Conditions
+	queue.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// CountDetails
+	if source.CountDetails != nil {
+		var countDetail MessageCountDetails_STATUS
+		err := countDetail.AssignPropertiesFromMessageCountDetails_STATUS(source.CountDetails)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromMessageCountDetails_STATUS() to populate field CountDetails")
+		}
+		queue.CountDetails = &countDetail
+	} else {
+		queue.CountDetails = nil
+	}
+
+	// CreatedAt
+	queue.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
+
+	// DeadLetteringOnMessageExpiration
+	if source.DeadLetteringOnMessageExpiration != nil {
+		deadLetteringOnMessageExpiration := *source.DeadLetteringOnMessageExpiration
+		queue.DeadLetteringOnMessageExpiration = &deadLetteringOnMessageExpiration
+	} else {
+		queue.DeadLetteringOnMessageExpiration = nil
+	}
+
+	// DefaultMessageTimeToLive
+	queue.DefaultMessageTimeToLive = genruntime.ClonePointerToString(source.DefaultMessageTimeToLive)
+
+	// DuplicateDetectionHistoryTimeWindow
+	queue.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(source.DuplicateDetectionHistoryTimeWindow)
+
+	// EnableBatchedOperations
+	if source.EnableBatchedOperations != nil {
+		enableBatchedOperation := *source.EnableBatchedOperations
+		queue.EnableBatchedOperations = &enableBatchedOperation
+	} else {
+		queue.EnableBatchedOperations = nil
+	}
+
+	// EnableExpress
+	if source.EnableExpress != nil {
+		enableExpress := *source.EnableExpress
+		queue.EnableExpress = &enableExpress
+	} else {
+		queue.EnableExpress = nil
+	}
+
+	// EnablePartitioning
+	if source.EnablePartitioning != nil {
+		enablePartitioning := *source.EnablePartitioning
+		queue.EnablePartitioning = &enablePartitioning
+	} else {
+		queue.EnablePartitioning = nil
+	}
+
+	// ForwardDeadLetteredMessagesTo
+	queue.ForwardDeadLetteredMessagesTo = genruntime.ClonePointerToString(source.ForwardDeadLetteredMessagesTo)
+
+	// ForwardTo
+	queue.ForwardTo = genruntime.ClonePointerToString(source.ForwardTo)
+
+	// Id
+	queue.Id = genruntime.ClonePointerToString(source.Id)
+
+	// LockDuration
+	queue.LockDuration = genruntime.ClonePointerToString(source.LockDuration)
+
+	// MaxDeliveryCount
+	queue.MaxDeliveryCount = genruntime.ClonePointerToInt(source.MaxDeliveryCount)
+
+	// MaxSizeInMegabytes
+	queue.MaxSizeInMegabytes = genruntime.ClonePointerToInt(source.MaxSizeInMegabytes)
+
+	// MessageCount
+	queue.MessageCount = genruntime.ClonePointerToInt(source.MessageCount)
+
+	// Name
+	queue.Name = genruntime.ClonePointerToString(source.Name)
+
+	// RequiresDuplicateDetection
+	if source.RequiresDuplicateDetection != nil {
+		requiresDuplicateDetection := *source.RequiresDuplicateDetection
+		queue.RequiresDuplicateDetection = &requiresDuplicateDetection
+	} else {
+		queue.RequiresDuplicateDetection = nil
+	}
+
+	// RequiresSession
+	if source.RequiresSession != nil {
+		requiresSession := *source.RequiresSession
+		queue.RequiresSession = &requiresSession
+	} else {
+		queue.RequiresSession = nil
+	}
+
+	// SizeInBytes
+	queue.SizeInBytes = genruntime.ClonePointerToInt(source.SizeInBytes)
+
+	// Status
+	if source.Status != nil {
+		status := EntityStatus_STATUS(*source.Status)
+		queue.Status = &status
+	} else {
+		queue.Status = nil
+	}
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignPropertiesFromSystemData_STATUS(source.SystemData)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemData_STATUS() to populate field SystemData")
+		}
+		queue.SystemData = &systemDatum
+	} else {
+		queue.SystemData = nil
+	}
+
+	// Type
+	queue.Type = genruntime.ClonePointerToString(source.Type)
+
+	// UpdatedAt
+	queue.UpdatedAt = genruntime.ClonePointerToString(source.UpdatedAt)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToNamespacesQueue_STATUS populates the provided destination NamespacesQueue_STATUS from our NamespacesQueue_STATUS
+func (queue *NamespacesQueue_STATUS) AssignPropertiesToNamespacesQueue_STATUS(destination *alpha20210101ps.NamespacesQueue_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AccessedAt
+	destination.AccessedAt = genruntime.ClonePointerToString(queue.AccessedAt)
+
+	// AutoDeleteOnIdle
+	destination.AutoDeleteOnIdle = genruntime.ClonePointerToString(queue.AutoDeleteOnIdle)
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(queue.Conditions)
+
+	// CountDetails
+	if queue.CountDetails != nil {
+		var countDetail alpha20210101ps.MessageCountDetails_STATUS
+		err := queue.CountDetails.AssignPropertiesToMessageCountDetails_STATUS(&countDetail)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToMessageCountDetails_STATUS() to populate field CountDetails")
+		}
+		destination.CountDetails = &countDetail
+	} else {
+		destination.CountDetails = nil
+	}
+
+	// CreatedAt
+	destination.CreatedAt = genruntime.ClonePointerToString(queue.CreatedAt)
+
+	// DeadLetteringOnMessageExpiration
+	if queue.DeadLetteringOnMessageExpiration != nil {
+		deadLetteringOnMessageExpiration := *queue.DeadLetteringOnMessageExpiration
+		destination.DeadLetteringOnMessageExpiration = &deadLetteringOnMessageExpiration
+	} else {
+		destination.DeadLetteringOnMessageExpiration = nil
+	}
+
+	// DefaultMessageTimeToLive
+	destination.DefaultMessageTimeToLive = genruntime.ClonePointerToString(queue.DefaultMessageTimeToLive)
+
+	// DuplicateDetectionHistoryTimeWindow
+	destination.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(queue.DuplicateDetectionHistoryTimeWindow)
+
+	// EnableBatchedOperations
+	if queue.EnableBatchedOperations != nil {
+		enableBatchedOperation := *queue.EnableBatchedOperations
+		destination.EnableBatchedOperations = &enableBatchedOperation
+	} else {
+		destination.EnableBatchedOperations = nil
+	}
+
+	// EnableExpress
+	if queue.EnableExpress != nil {
+		enableExpress := *queue.EnableExpress
+		destination.EnableExpress = &enableExpress
+	} else {
+		destination.EnableExpress = nil
+	}
+
+	// EnablePartitioning
+	if queue.EnablePartitioning != nil {
+		enablePartitioning := *queue.EnablePartitioning
+		destination.EnablePartitioning = &enablePartitioning
+	} else {
+		destination.EnablePartitioning = nil
+	}
+
+	// ForwardDeadLetteredMessagesTo
+	destination.ForwardDeadLetteredMessagesTo = genruntime.ClonePointerToString(queue.ForwardDeadLetteredMessagesTo)
+
+	// ForwardTo
+	destination.ForwardTo = genruntime.ClonePointerToString(queue.ForwardTo)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(queue.Id)
+
+	// LockDuration
+	destination.LockDuration = genruntime.ClonePointerToString(queue.LockDuration)
+
+	// MaxDeliveryCount
+	destination.MaxDeliveryCount = genruntime.ClonePointerToInt(queue.MaxDeliveryCount)
+
+	// MaxSizeInMegabytes
+	destination.MaxSizeInMegabytes = genruntime.ClonePointerToInt(queue.MaxSizeInMegabytes)
+
+	// MessageCount
+	destination.MessageCount = genruntime.ClonePointerToInt(queue.MessageCount)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(queue.Name)
+
+	// RequiresDuplicateDetection
+	if queue.RequiresDuplicateDetection != nil {
+		requiresDuplicateDetection := *queue.RequiresDuplicateDetection
+		destination.RequiresDuplicateDetection = &requiresDuplicateDetection
+	} else {
+		destination.RequiresDuplicateDetection = nil
+	}
+
+	// RequiresSession
+	if queue.RequiresSession != nil {
+		requiresSession := *queue.RequiresSession
+		destination.RequiresSession = &requiresSession
+	} else {
+		destination.RequiresSession = nil
+	}
+
+	// SizeInBytes
+	destination.SizeInBytes = genruntime.ClonePointerToInt(queue.SizeInBytes)
+
+	// Status
+	if queue.Status != nil {
+		status := string(*queue.Status)
+		destination.Status = &status
+	} else {
+		destination.Status = nil
+	}
+
+	// SystemData
+	if queue.SystemData != nil {
+		var systemDatum alpha20210101ps.SystemData_STATUS
+		err := queue.SystemData.AssignPropertiesToSystemData_STATUS(&systemDatum)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(queue.Type)
+
+	// UpdatedAt
+	destination.UpdatedAt = genruntime.ClonePointerToString(queue.UpdatedAt)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 type NamespacesQueue_Spec struct {
@@ -1155,616 +1765,6 @@ func (queue *NamespacesQueue_Spec) OriginalVersion() string {
 
 // SetAzureName sets the Azure name of the resource
 func (queue *NamespacesQueue_Spec) SetAzureName(azureName string) { queue.AzureName = azureName }
-
-// Deprecated version of SBQueue_STATUS. Use v1beta20210101preview.SBQueue_STATUS instead
-type SBQueue_STATUS struct {
-	AccessedAt       *string `json:"accessedAt,omitempty"`
-	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
-
-	// Conditions: The observed state of the resource
-	Conditions                          []conditions.Condition      `json:"conditions,omitempty"`
-	CountDetails                        *MessageCountDetails_STATUS `json:"countDetails,omitempty"`
-	CreatedAt                           *string                     `json:"createdAt,omitempty"`
-	DeadLetteringOnMessageExpiration    *bool                       `json:"deadLetteringOnMessageExpiration,omitempty"`
-	DefaultMessageTimeToLive            *string                     `json:"defaultMessageTimeToLive,omitempty"`
-	DuplicateDetectionHistoryTimeWindow *string                     `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
-	EnableBatchedOperations             *bool                       `json:"enableBatchedOperations,omitempty"`
-	EnableExpress                       *bool                       `json:"enableExpress,omitempty"`
-	EnablePartitioning                  *bool                       `json:"enablePartitioning,omitempty"`
-	ForwardDeadLetteredMessagesTo       *string                     `json:"forwardDeadLetteredMessagesTo,omitempty"`
-	ForwardTo                           *string                     `json:"forwardTo,omitempty"`
-	Id                                  *string                     `json:"id,omitempty"`
-	LockDuration                        *string                     `json:"lockDuration,omitempty"`
-	MaxDeliveryCount                    *int                        `json:"maxDeliveryCount,omitempty"`
-	MaxSizeInMegabytes                  *int                        `json:"maxSizeInMegabytes,omitempty"`
-	MessageCount                        *int                        `json:"messageCount,omitempty"`
-	Name                                *string                     `json:"name,omitempty"`
-	RequiresDuplicateDetection          *bool                       `json:"requiresDuplicateDetection,omitempty"`
-	RequiresSession                     *bool                       `json:"requiresSession,omitempty"`
-	SizeInBytes                         *int                        `json:"sizeInBytes,omitempty"`
-	Status                              *EntityStatus_STATUS        `json:"status,omitempty"`
-	SystemData                          *SystemData_STATUS          `json:"systemData,omitempty"`
-	Type                                *string                     `json:"type,omitempty"`
-	UpdatedAt                           *string                     `json:"updatedAt,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &SBQueue_STATUS{}
-
-// ConvertStatusFrom populates our SBQueue_STATUS from the provided source
-func (queue *SBQueue_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*alpha20210101ps.SBQueue_STATUS)
-	if ok {
-		// Populate our instance from source
-		return queue.AssignPropertiesFromSBQueue_STATUS(src)
-	}
-
-	// Convert to an intermediate form
-	src = &alpha20210101ps.SBQueue_STATUS{}
-	err := src.ConvertStatusFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
-	}
-
-	// Update our instance from src
-	err = queue.AssignPropertiesFromSBQueue_STATUS(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
-	}
-
-	return nil
-}
-
-// ConvertStatusTo populates the provided destination from our SBQueue_STATUS
-func (queue *SBQueue_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*alpha20210101ps.SBQueue_STATUS)
-	if ok {
-		// Populate destination from our instance
-		return queue.AssignPropertiesToSBQueue_STATUS(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &alpha20210101ps.SBQueue_STATUS{}
-	err := queue.AssignPropertiesToSBQueue_STATUS(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertStatusTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
-	}
-
-	return nil
-}
-
-var _ genruntime.FromARMConverter = &SBQueue_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (queue *SBQueue_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SBQueue_STATUSARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (queue *SBQueue_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SBQueue_STATUSARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SBQueue_STATUSARM, got %T", armInput)
-	}
-
-	// Set property ‘AccessedAt’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.AccessedAt != nil {
-			accessedAt := *typedInput.Properties.AccessedAt
-			queue.AccessedAt = &accessedAt
-		}
-	}
-
-	// Set property ‘AutoDeleteOnIdle’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.AutoDeleteOnIdle != nil {
-			autoDeleteOnIdle := *typedInput.Properties.AutoDeleteOnIdle
-			queue.AutoDeleteOnIdle = &autoDeleteOnIdle
-		}
-	}
-
-	// no assignment for property ‘Conditions’
-
-	// Set property ‘CountDetails’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.CountDetails != nil {
-			var countDetails1 MessageCountDetails_STATUS
-			err := countDetails1.PopulateFromARM(owner, *typedInput.Properties.CountDetails)
-			if err != nil {
-				return err
-			}
-			countDetails := countDetails1
-			queue.CountDetails = &countDetails
-		}
-	}
-
-	// Set property ‘CreatedAt’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.CreatedAt != nil {
-			createdAt := *typedInput.Properties.CreatedAt
-			queue.CreatedAt = &createdAt
-		}
-	}
-
-	// Set property ‘DeadLetteringOnMessageExpiration’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.DeadLetteringOnMessageExpiration != nil {
-			deadLetteringOnMessageExpiration := *typedInput.Properties.DeadLetteringOnMessageExpiration
-			queue.DeadLetteringOnMessageExpiration = &deadLetteringOnMessageExpiration
-		}
-	}
-
-	// Set property ‘DefaultMessageTimeToLive’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.DefaultMessageTimeToLive != nil {
-			defaultMessageTimeToLive := *typedInput.Properties.DefaultMessageTimeToLive
-			queue.DefaultMessageTimeToLive = &defaultMessageTimeToLive
-		}
-	}
-
-	// Set property ‘DuplicateDetectionHistoryTimeWindow’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.DuplicateDetectionHistoryTimeWindow != nil {
-			duplicateDetectionHistoryTimeWindow := *typedInput.Properties.DuplicateDetectionHistoryTimeWindow
-			queue.DuplicateDetectionHistoryTimeWindow = &duplicateDetectionHistoryTimeWindow
-		}
-	}
-
-	// Set property ‘EnableBatchedOperations’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.EnableBatchedOperations != nil {
-			enableBatchedOperations := *typedInput.Properties.EnableBatchedOperations
-			queue.EnableBatchedOperations = &enableBatchedOperations
-		}
-	}
-
-	// Set property ‘EnableExpress’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.EnableExpress != nil {
-			enableExpress := *typedInput.Properties.EnableExpress
-			queue.EnableExpress = &enableExpress
-		}
-	}
-
-	// Set property ‘EnablePartitioning’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.EnablePartitioning != nil {
-			enablePartitioning := *typedInput.Properties.EnablePartitioning
-			queue.EnablePartitioning = &enablePartitioning
-		}
-	}
-
-	// Set property ‘ForwardDeadLetteredMessagesTo’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ForwardDeadLetteredMessagesTo != nil {
-			forwardDeadLetteredMessagesTo := *typedInput.Properties.ForwardDeadLetteredMessagesTo
-			queue.ForwardDeadLetteredMessagesTo = &forwardDeadLetteredMessagesTo
-		}
-	}
-
-	// Set property ‘ForwardTo’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ForwardTo != nil {
-			forwardTo := *typedInput.Properties.ForwardTo
-			queue.ForwardTo = &forwardTo
-		}
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		queue.Id = &id
-	}
-
-	// Set property ‘LockDuration’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.LockDuration != nil {
-			lockDuration := *typedInput.Properties.LockDuration
-			queue.LockDuration = &lockDuration
-		}
-	}
-
-	// Set property ‘MaxDeliveryCount’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.MaxDeliveryCount != nil {
-			maxDeliveryCount := *typedInput.Properties.MaxDeliveryCount
-			queue.MaxDeliveryCount = &maxDeliveryCount
-		}
-	}
-
-	// Set property ‘MaxSizeInMegabytes’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.MaxSizeInMegabytes != nil {
-			maxSizeInMegabytes := *typedInput.Properties.MaxSizeInMegabytes
-			queue.MaxSizeInMegabytes = &maxSizeInMegabytes
-		}
-	}
-
-	// Set property ‘MessageCount’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.MessageCount != nil {
-			messageCount := *typedInput.Properties.MessageCount
-			queue.MessageCount = &messageCount
-		}
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		queue.Name = &name
-	}
-
-	// Set property ‘RequiresDuplicateDetection’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.RequiresDuplicateDetection != nil {
-			requiresDuplicateDetection := *typedInput.Properties.RequiresDuplicateDetection
-			queue.RequiresDuplicateDetection = &requiresDuplicateDetection
-		}
-	}
-
-	// Set property ‘RequiresSession’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.RequiresSession != nil {
-			requiresSession := *typedInput.Properties.RequiresSession
-			queue.RequiresSession = &requiresSession
-		}
-	}
-
-	// Set property ‘SizeInBytes’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.SizeInBytes != nil {
-			sizeInBytes := *typedInput.Properties.SizeInBytes
-			queue.SizeInBytes = &sizeInBytes
-		}
-	}
-
-	// Set property ‘Status’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Status != nil {
-			status := *typedInput.Properties.Status
-			queue.Status = &status
-		}
-	}
-
-	// Set property ‘SystemData’:
-	if typedInput.SystemData != nil {
-		var systemData1 SystemData_STATUS
-		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
-		if err != nil {
-			return err
-		}
-		systemData := systemData1
-		queue.SystemData = &systemData
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		queue.Type = &typeVar
-	}
-
-	// Set property ‘UpdatedAt’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.UpdatedAt != nil {
-			updatedAt := *typedInput.Properties.UpdatedAt
-			queue.UpdatedAt = &updatedAt
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromSBQueue_STATUS populates our SBQueue_STATUS from the provided source SBQueue_STATUS
-func (queue *SBQueue_STATUS) AssignPropertiesFromSBQueue_STATUS(source *alpha20210101ps.SBQueue_STATUS) error {
-
-	// AccessedAt
-	queue.AccessedAt = genruntime.ClonePointerToString(source.AccessedAt)
-
-	// AutoDeleteOnIdle
-	queue.AutoDeleteOnIdle = genruntime.ClonePointerToString(source.AutoDeleteOnIdle)
-
-	// Conditions
-	queue.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
-
-	// CountDetails
-	if source.CountDetails != nil {
-		var countDetail MessageCountDetails_STATUS
-		err := countDetail.AssignPropertiesFromMessageCountDetails_STATUS(source.CountDetails)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromMessageCountDetails_STATUS() to populate field CountDetails")
-		}
-		queue.CountDetails = &countDetail
-	} else {
-		queue.CountDetails = nil
-	}
-
-	// CreatedAt
-	queue.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
-
-	// DeadLetteringOnMessageExpiration
-	if source.DeadLetteringOnMessageExpiration != nil {
-		deadLetteringOnMessageExpiration := *source.DeadLetteringOnMessageExpiration
-		queue.DeadLetteringOnMessageExpiration = &deadLetteringOnMessageExpiration
-	} else {
-		queue.DeadLetteringOnMessageExpiration = nil
-	}
-
-	// DefaultMessageTimeToLive
-	queue.DefaultMessageTimeToLive = genruntime.ClonePointerToString(source.DefaultMessageTimeToLive)
-
-	// DuplicateDetectionHistoryTimeWindow
-	queue.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(source.DuplicateDetectionHistoryTimeWindow)
-
-	// EnableBatchedOperations
-	if source.EnableBatchedOperations != nil {
-		enableBatchedOperation := *source.EnableBatchedOperations
-		queue.EnableBatchedOperations = &enableBatchedOperation
-	} else {
-		queue.EnableBatchedOperations = nil
-	}
-
-	// EnableExpress
-	if source.EnableExpress != nil {
-		enableExpress := *source.EnableExpress
-		queue.EnableExpress = &enableExpress
-	} else {
-		queue.EnableExpress = nil
-	}
-
-	// EnablePartitioning
-	if source.EnablePartitioning != nil {
-		enablePartitioning := *source.EnablePartitioning
-		queue.EnablePartitioning = &enablePartitioning
-	} else {
-		queue.EnablePartitioning = nil
-	}
-
-	// ForwardDeadLetteredMessagesTo
-	queue.ForwardDeadLetteredMessagesTo = genruntime.ClonePointerToString(source.ForwardDeadLetteredMessagesTo)
-
-	// ForwardTo
-	queue.ForwardTo = genruntime.ClonePointerToString(source.ForwardTo)
-
-	// Id
-	queue.Id = genruntime.ClonePointerToString(source.Id)
-
-	// LockDuration
-	queue.LockDuration = genruntime.ClonePointerToString(source.LockDuration)
-
-	// MaxDeliveryCount
-	queue.MaxDeliveryCount = genruntime.ClonePointerToInt(source.MaxDeliveryCount)
-
-	// MaxSizeInMegabytes
-	queue.MaxSizeInMegabytes = genruntime.ClonePointerToInt(source.MaxSizeInMegabytes)
-
-	// MessageCount
-	queue.MessageCount = genruntime.ClonePointerToInt(source.MessageCount)
-
-	// Name
-	queue.Name = genruntime.ClonePointerToString(source.Name)
-
-	// RequiresDuplicateDetection
-	if source.RequiresDuplicateDetection != nil {
-		requiresDuplicateDetection := *source.RequiresDuplicateDetection
-		queue.RequiresDuplicateDetection = &requiresDuplicateDetection
-	} else {
-		queue.RequiresDuplicateDetection = nil
-	}
-
-	// RequiresSession
-	if source.RequiresSession != nil {
-		requiresSession := *source.RequiresSession
-		queue.RequiresSession = &requiresSession
-	} else {
-		queue.RequiresSession = nil
-	}
-
-	// SizeInBytes
-	queue.SizeInBytes = genruntime.ClonePointerToInt(source.SizeInBytes)
-
-	// Status
-	if source.Status != nil {
-		status := EntityStatus_STATUS(*source.Status)
-		queue.Status = &status
-	} else {
-		queue.Status = nil
-	}
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData_STATUS
-		err := systemDatum.AssignPropertiesFromSystemData_STATUS(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData_STATUS() to populate field SystemData")
-		}
-		queue.SystemData = &systemDatum
-	} else {
-		queue.SystemData = nil
-	}
-
-	// Type
-	queue.Type = genruntime.ClonePointerToString(source.Type)
-
-	// UpdatedAt
-	queue.UpdatedAt = genruntime.ClonePointerToString(source.UpdatedAt)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToSBQueue_STATUS populates the provided destination SBQueue_STATUS from our SBQueue_STATUS
-func (queue *SBQueue_STATUS) AssignPropertiesToSBQueue_STATUS(destination *alpha20210101ps.SBQueue_STATUS) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AccessedAt
-	destination.AccessedAt = genruntime.ClonePointerToString(queue.AccessedAt)
-
-	// AutoDeleteOnIdle
-	destination.AutoDeleteOnIdle = genruntime.ClonePointerToString(queue.AutoDeleteOnIdle)
-
-	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(queue.Conditions)
-
-	// CountDetails
-	if queue.CountDetails != nil {
-		var countDetail alpha20210101ps.MessageCountDetails_STATUS
-		err := queue.CountDetails.AssignPropertiesToMessageCountDetails_STATUS(&countDetail)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToMessageCountDetails_STATUS() to populate field CountDetails")
-		}
-		destination.CountDetails = &countDetail
-	} else {
-		destination.CountDetails = nil
-	}
-
-	// CreatedAt
-	destination.CreatedAt = genruntime.ClonePointerToString(queue.CreatedAt)
-
-	// DeadLetteringOnMessageExpiration
-	if queue.DeadLetteringOnMessageExpiration != nil {
-		deadLetteringOnMessageExpiration := *queue.DeadLetteringOnMessageExpiration
-		destination.DeadLetteringOnMessageExpiration = &deadLetteringOnMessageExpiration
-	} else {
-		destination.DeadLetteringOnMessageExpiration = nil
-	}
-
-	// DefaultMessageTimeToLive
-	destination.DefaultMessageTimeToLive = genruntime.ClonePointerToString(queue.DefaultMessageTimeToLive)
-
-	// DuplicateDetectionHistoryTimeWindow
-	destination.DuplicateDetectionHistoryTimeWindow = genruntime.ClonePointerToString(queue.DuplicateDetectionHistoryTimeWindow)
-
-	// EnableBatchedOperations
-	if queue.EnableBatchedOperations != nil {
-		enableBatchedOperation := *queue.EnableBatchedOperations
-		destination.EnableBatchedOperations = &enableBatchedOperation
-	} else {
-		destination.EnableBatchedOperations = nil
-	}
-
-	// EnableExpress
-	if queue.EnableExpress != nil {
-		enableExpress := *queue.EnableExpress
-		destination.EnableExpress = &enableExpress
-	} else {
-		destination.EnableExpress = nil
-	}
-
-	// EnablePartitioning
-	if queue.EnablePartitioning != nil {
-		enablePartitioning := *queue.EnablePartitioning
-		destination.EnablePartitioning = &enablePartitioning
-	} else {
-		destination.EnablePartitioning = nil
-	}
-
-	// ForwardDeadLetteredMessagesTo
-	destination.ForwardDeadLetteredMessagesTo = genruntime.ClonePointerToString(queue.ForwardDeadLetteredMessagesTo)
-
-	// ForwardTo
-	destination.ForwardTo = genruntime.ClonePointerToString(queue.ForwardTo)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(queue.Id)
-
-	// LockDuration
-	destination.LockDuration = genruntime.ClonePointerToString(queue.LockDuration)
-
-	// MaxDeliveryCount
-	destination.MaxDeliveryCount = genruntime.ClonePointerToInt(queue.MaxDeliveryCount)
-
-	// MaxSizeInMegabytes
-	destination.MaxSizeInMegabytes = genruntime.ClonePointerToInt(queue.MaxSizeInMegabytes)
-
-	// MessageCount
-	destination.MessageCount = genruntime.ClonePointerToInt(queue.MessageCount)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(queue.Name)
-
-	// RequiresDuplicateDetection
-	if queue.RequiresDuplicateDetection != nil {
-		requiresDuplicateDetection := *queue.RequiresDuplicateDetection
-		destination.RequiresDuplicateDetection = &requiresDuplicateDetection
-	} else {
-		destination.RequiresDuplicateDetection = nil
-	}
-
-	// RequiresSession
-	if queue.RequiresSession != nil {
-		requiresSession := *queue.RequiresSession
-		destination.RequiresSession = &requiresSession
-	} else {
-		destination.RequiresSession = nil
-	}
-
-	// SizeInBytes
-	destination.SizeInBytes = genruntime.ClonePointerToInt(queue.SizeInBytes)
-
-	// Status
-	if queue.Status != nil {
-		status := string(*queue.Status)
-		destination.Status = &status
-	} else {
-		destination.Status = nil
-	}
-
-	// SystemData
-	if queue.SystemData != nil {
-		var systemDatum alpha20210101ps.SystemData_STATUS
-		err := queue.SystemData.AssignPropertiesToSystemData_STATUS(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData_STATUS() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(queue.Type)
-
-	// UpdatedAt
-	destination.UpdatedAt = genruntime.ClonePointerToString(queue.UpdatedAt)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
 
 // Deprecated version of EntityStatus_STATUS. Use v1beta20210101preview.EntityStatus_STATUS instead
 type EntityStatus_STATUS string

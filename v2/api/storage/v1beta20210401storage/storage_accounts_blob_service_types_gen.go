@@ -27,8 +27,8 @@ import (
 type StorageAccountsBlobService struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              StorageAccountsBlobService_Spec `json:"spec,omitempty"`
-	Status            BlobServiceProperties_STATUS    `json:"status,omitempty"`
+	Spec              StorageAccountsBlobService_Spec   `json:"spec,omitempty"`
+	Status            StorageAccountsBlobService_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &StorageAccountsBlobService{}
@@ -77,7 +77,7 @@ func (service *StorageAccountsBlobService) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (service *StorageAccountsBlobService) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &BlobServiceProperties_STATUS{}
+	return &StorageAccountsBlobService_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -93,13 +93,13 @@ func (service *StorageAccountsBlobService) Owner() *genruntime.ResourceReference
 // SetStatus sets the status of this resource
 func (service *StorageAccountsBlobService) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*BlobServiceProperties_STATUS); ok {
+	if st, ok := status.(*StorageAccountsBlobService_STATUS); ok {
 		service.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st BlobServiceProperties_STATUS
+	var st StorageAccountsBlobService_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -131,8 +131,8 @@ type StorageAccountsBlobServiceList struct {
 	Items           []StorageAccountsBlobService `json:"items"`
 }
 
-// Storage version of v1beta20210401.BlobServiceProperties_STATUS
-type BlobServiceProperties_STATUS struct {
+// Storage version of v1beta20210401.StorageAccountsBlobService_STATUS
+type StorageAccountsBlobService_STATUS struct {
 	AutomaticSnapshotPolicyEnabled *bool                                `json:"automaticSnapshotPolicyEnabled,omitempty"`
 	ChangeFeed                     *ChangeFeed_STATUS                   `json:"changeFeed,omitempty"`
 	Conditions                     []conditions.Condition               `json:"conditions,omitempty"`
@@ -150,24 +150,24 @@ type BlobServiceProperties_STATUS struct {
 	Type                           *string                              `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &BlobServiceProperties_STATUS{}
+var _ genruntime.ConvertibleStatus = &StorageAccountsBlobService_STATUS{}
 
-// ConvertStatusFrom populates our BlobServiceProperties_STATUS from the provided source
-func (properties *BlobServiceProperties_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == properties {
+// ConvertStatusFrom populates our StorageAccountsBlobService_STATUS from the provided source
+func (service *StorageAccountsBlobService_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == service {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(properties)
+	return source.ConvertStatusTo(service)
 }
 
-// ConvertStatusTo populates the provided destination from our BlobServiceProperties_STATUS
-func (properties *BlobServiceProperties_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == properties {
+// ConvertStatusTo populates the provided destination from our StorageAccountsBlobService_STATUS
+func (service *StorageAccountsBlobService_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == service {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(properties)
+	return destination.ConvertStatusFrom(service)
 }
 
 // Storage version of v1beta20210401.StorageAccountsBlobService_Spec

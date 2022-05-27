@@ -29,7 +29,7 @@ type Webtest struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              Webtest_Spec   `json:"spec,omitempty"`
-	Status            WebTest_STATUS `json:"status,omitempty"`
+	Status            Webtest_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Webtest{}
@@ -78,7 +78,7 @@ func (webtest *Webtest) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (webtest *Webtest) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &WebTest_STATUS{}
+	return &Webtest_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -94,13 +94,13 @@ func (webtest *Webtest) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (webtest *Webtest) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*WebTest_STATUS); ok {
+	if st, ok := status.(*Webtest_STATUS); ok {
 		webtest.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st WebTest_STATUS
+	var st Webtest_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -138,8 +138,8 @@ type APIVersion string
 
 const APIVersionValue = APIVersion("20180501preview")
 
-// Storage version of v1beta20180501preview.WebTest_STATUS
-type WebTest_STATUS struct {
+// Storage version of v1beta20180501preview.Webtest_STATUS
+type Webtest_STATUS struct {
 	Conditions         []conditions.Condition                    `json:"conditions,omitempty"`
 	Configuration      *WebTestProperties_Configuration_STATUS   `json:"Configuration,omitempty"`
 	Description        *string                                   `json:"Description,omitempty"`
@@ -163,24 +163,24 @@ type WebTest_STATUS struct {
 	ValidationRules    *WebTestProperties_ValidationRules_STATUS `json:"ValidationRules,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &WebTest_STATUS{}
+var _ genruntime.ConvertibleStatus = &Webtest_STATUS{}
 
-// ConvertStatusFrom populates our WebTest_STATUS from the provided source
-func (test *WebTest_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == test {
+// ConvertStatusFrom populates our Webtest_STATUS from the provided source
+func (webtest *Webtest_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == webtest {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(test)
+	return source.ConvertStatusTo(webtest)
 }
 
-// ConvertStatusTo populates the provided destination from our WebTest_STATUS
-func (test *WebTest_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == test {
+// ConvertStatusTo populates the provided destination from our Webtest_STATUS
+func (webtest *Webtest_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == webtest {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(test)
+	return destination.ConvertStatusFrom(webtest)
 }
 
 // Storage version of v1beta20180501preview.Webtest_Spec

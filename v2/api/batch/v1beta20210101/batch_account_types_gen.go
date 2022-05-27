@@ -29,8 +29,8 @@ import (
 type BatchAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              BatchAccount_Spec                   `json:"spec,omitempty"`
-	Status            BatchAccountCreateParameters_STATUS `json:"status,omitempty"`
+	Spec              BatchAccount_Spec   `json:"spec,omitempty"`
+	Status            BatchAccount_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &BatchAccount{}
@@ -124,7 +124,7 @@ func (account *BatchAccount) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (account *BatchAccount) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &BatchAccountCreateParameters_STATUS{}
+	return &BatchAccount_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -140,13 +140,13 @@ func (account *BatchAccount) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (account *BatchAccount) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*BatchAccountCreateParameters_STATUS); ok {
+	if st, ok := status.(*BatchAccount_STATUS); ok {
 		account.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st BatchAccountCreateParameters_STATUS
+	var st BatchAccount_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -264,10 +264,10 @@ func (account *BatchAccount) AssignPropertiesFromBatchAccount(source *v20210101s
 	account.Spec = spec
 
 	// Status
-	var status BatchAccountCreateParameters_STATUS
-	err = status.AssignPropertiesFromBatchAccountCreateParameters_STATUS(&source.Status)
+	var status BatchAccount_STATUS
+	err = status.AssignPropertiesFromBatchAccount_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromBatchAccountCreateParameters_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromBatchAccount_STATUS() to populate field Status")
 	}
 	account.Status = status
 
@@ -290,10 +290,10 @@ func (account *BatchAccount) AssignPropertiesToBatchAccount(destination *v202101
 	destination.Spec = spec
 
 	// Status
-	var status v20210101s.BatchAccountCreateParameters_STATUS
-	err = account.Status.AssignPropertiesToBatchAccountCreateParameters_STATUS(&status)
+	var status v20210101s.BatchAccount_STATUS
+	err = account.Status.AssignPropertiesToBatchAccount_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToBatchAccountCreateParameters_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToBatchAccount_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -324,7 +324,7 @@ type APIVersion string
 
 const APIVersionValue = APIVersion("20210101")
 
-type BatchAccountCreateParameters_STATUS struct {
+type BatchAccount_STATUS struct {
 	// AutoStorage: The properties related to the auto-storage account.
 	AutoStorage *AutoStorageBaseProperties_STATUS `json:"autoStorage,omitempty"`
 
@@ -356,25 +356,25 @@ type BatchAccountCreateParameters_STATUS struct {
 	Tags map[string]string `json:"tags,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &BatchAccountCreateParameters_STATUS{}
+var _ genruntime.ConvertibleStatus = &BatchAccount_STATUS{}
 
-// ConvertStatusFrom populates our BatchAccountCreateParameters_STATUS from the provided source
-func (parameters *BatchAccountCreateParameters_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210101s.BatchAccountCreateParameters_STATUS)
+// ConvertStatusFrom populates our BatchAccount_STATUS from the provided source
+func (account *BatchAccount_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210101s.BatchAccount_STATUS)
 	if ok {
 		// Populate our instance from source
-		return parameters.AssignPropertiesFromBatchAccountCreateParameters_STATUS(src)
+		return account.AssignPropertiesFromBatchAccount_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20210101s.BatchAccountCreateParameters_STATUS{}
+	src = &v20210101s.BatchAccount_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = parameters.AssignPropertiesFromBatchAccountCreateParameters_STATUS(src)
+	err = account.AssignPropertiesFromBatchAccount_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -382,17 +382,17 @@ func (parameters *BatchAccountCreateParameters_STATUS) ConvertStatusFrom(source 
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our BatchAccountCreateParameters_STATUS
-func (parameters *BatchAccountCreateParameters_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210101s.BatchAccountCreateParameters_STATUS)
+// ConvertStatusTo populates the provided destination from our BatchAccount_STATUS
+func (account *BatchAccount_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210101s.BatchAccount_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return parameters.AssignPropertiesToBatchAccountCreateParameters_STATUS(dst)
+		return account.AssignPropertiesToBatchAccount_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20210101s.BatchAccountCreateParameters_STATUS{}
-	err := parameters.AssignPropertiesToBatchAccountCreateParameters_STATUS(dst)
+	dst = &v20210101s.BatchAccount_STATUS{}
+	err := account.AssignPropertiesToBatchAccount_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -406,18 +406,18 @@ func (parameters *BatchAccountCreateParameters_STATUS) ConvertStatusTo(destinati
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &BatchAccountCreateParameters_STATUS{}
+var _ genruntime.FromARMConverter = &BatchAccount_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *BatchAccountCreateParameters_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BatchAccountCreateParameters_STATUSARM{}
+func (account *BatchAccount_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &BatchAccount_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *BatchAccountCreateParameters_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BatchAccountCreateParameters_STATUSARM)
+func (account *BatchAccount_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(BatchAccount_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BatchAccountCreateParameters_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BatchAccount_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘AutoStorage’:
@@ -430,7 +430,7 @@ func (parameters *BatchAccountCreateParameters_STATUS) PopulateFromARM(owner gen
 				return err
 			}
 			autoStorage := autoStorage1
-			parameters.AutoStorage = &autoStorage
+			account.AutoStorage = &autoStorage
 		}
 	}
 
@@ -446,7 +446,7 @@ func (parameters *BatchAccountCreateParameters_STATUS) PopulateFromARM(owner gen
 				return err
 			}
 			encryption := encryption1
-			parameters.Encryption = &encryption
+			account.Encryption = &encryption
 		}
 	}
 
@@ -458,7 +458,7 @@ func (parameters *BatchAccountCreateParameters_STATUS) PopulateFromARM(owner gen
 			return err
 		}
 		identity := identity1
-		parameters.Identity = &identity
+		account.Identity = &identity
 	}
 
 	// Set property ‘KeyVaultReference’:
@@ -471,14 +471,14 @@ func (parameters *BatchAccountCreateParameters_STATUS) PopulateFromARM(owner gen
 				return err
 			}
 			keyVaultReference := keyVaultReference1
-			parameters.KeyVaultReference = &keyVaultReference
+			account.KeyVaultReference = &keyVaultReference
 		}
 	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
-		parameters.Location = &location
+		account.Location = &location
 	}
 
 	// Set property ‘PoolAllocationMode’:
@@ -486,7 +486,7 @@ func (parameters *BatchAccountCreateParameters_STATUS) PopulateFromARM(owner gen
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PoolAllocationMode != nil {
 			poolAllocationMode := *typedInput.Properties.PoolAllocationMode
-			parameters.PoolAllocationMode = &poolAllocationMode
+			account.PoolAllocationMode = &poolAllocationMode
 		}
 	}
 
@@ -495,15 +495,15 @@ func (parameters *BatchAccountCreateParameters_STATUS) PopulateFromARM(owner gen
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
 			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
-			parameters.PublicNetworkAccess = &publicNetworkAccess
+			account.PublicNetworkAccess = &publicNetworkAccess
 		}
 	}
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		parameters.Tags = make(map[string]string)
+		account.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
-			parameters.Tags[key] = value
+			account.Tags[key] = value
 		}
 	}
 
@@ -511,8 +511,8 @@ func (parameters *BatchAccountCreateParameters_STATUS) PopulateFromARM(owner gen
 	return nil
 }
 
-// AssignPropertiesFromBatchAccountCreateParameters_STATUS populates our BatchAccountCreateParameters_STATUS from the provided source BatchAccountCreateParameters_STATUS
-func (parameters *BatchAccountCreateParameters_STATUS) AssignPropertiesFromBatchAccountCreateParameters_STATUS(source *v20210101s.BatchAccountCreateParameters_STATUS) error {
+// AssignPropertiesFromBatchAccount_STATUS populates our BatchAccount_STATUS from the provided source BatchAccount_STATUS
+func (account *BatchAccount_STATUS) AssignPropertiesFromBatchAccount_STATUS(source *v20210101s.BatchAccount_STATUS) error {
 
 	// AutoStorage
 	if source.AutoStorage != nil {
@@ -521,13 +521,13 @@ func (parameters *BatchAccountCreateParameters_STATUS) AssignPropertiesFromBatch
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromAutoStorageBaseProperties_STATUS() to populate field AutoStorage")
 		}
-		parameters.AutoStorage = &autoStorage
+		account.AutoStorage = &autoStorage
 	} else {
-		parameters.AutoStorage = nil
+		account.AutoStorage = nil
 	}
 
 	// Conditions
-	parameters.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	account.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Encryption
 	if source.Encryption != nil {
@@ -536,9 +536,9 @@ func (parameters *BatchAccountCreateParameters_STATUS) AssignPropertiesFromBatch
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromEncryptionProperties_STATUS() to populate field Encryption")
 		}
-		parameters.Encryption = &encryption
+		account.Encryption = &encryption
 	} else {
-		parameters.Encryption = nil
+		account.Encryption = nil
 	}
 
 	// Identity
@@ -548,9 +548,9 @@ func (parameters *BatchAccountCreateParameters_STATUS) AssignPropertiesFromBatch
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromBatchAccountIdentity_STATUS() to populate field Identity")
 		}
-		parameters.Identity = &identity
+		account.Identity = &identity
 	} else {
-		parameters.Identity = nil
+		account.Identity = nil
 	}
 
 	// KeyVaultReference
@@ -560,46 +560,46 @@ func (parameters *BatchAccountCreateParameters_STATUS) AssignPropertiesFromBatch
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromKeyVaultReference_STATUS() to populate field KeyVaultReference")
 		}
-		parameters.KeyVaultReference = &keyVaultReference
+		account.KeyVaultReference = &keyVaultReference
 	} else {
-		parameters.KeyVaultReference = nil
+		account.KeyVaultReference = nil
 	}
 
 	// Location
-	parameters.Location = genruntime.ClonePointerToString(source.Location)
+	account.Location = genruntime.ClonePointerToString(source.Location)
 
 	// PoolAllocationMode
 	if source.PoolAllocationMode != nil {
 		poolAllocationMode := PoolAllocationMode_STATUS(*source.PoolAllocationMode)
-		parameters.PoolAllocationMode = &poolAllocationMode
+		account.PoolAllocationMode = &poolAllocationMode
 	} else {
-		parameters.PoolAllocationMode = nil
+		account.PoolAllocationMode = nil
 	}
 
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
 		publicNetworkAccess := PublicNetworkAccessType_STATUS(*source.PublicNetworkAccess)
-		parameters.PublicNetworkAccess = &publicNetworkAccess
+		account.PublicNetworkAccess = &publicNetworkAccess
 	} else {
-		parameters.PublicNetworkAccess = nil
+		account.PublicNetworkAccess = nil
 	}
 
 	// Tags
-	parameters.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+	account.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToBatchAccountCreateParameters_STATUS populates the provided destination BatchAccountCreateParameters_STATUS from our BatchAccountCreateParameters_STATUS
-func (parameters *BatchAccountCreateParameters_STATUS) AssignPropertiesToBatchAccountCreateParameters_STATUS(destination *v20210101s.BatchAccountCreateParameters_STATUS) error {
+// AssignPropertiesToBatchAccount_STATUS populates the provided destination BatchAccount_STATUS from our BatchAccount_STATUS
+func (account *BatchAccount_STATUS) AssignPropertiesToBatchAccount_STATUS(destination *v20210101s.BatchAccount_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
 	// AutoStorage
-	if parameters.AutoStorage != nil {
+	if account.AutoStorage != nil {
 		var autoStorage v20210101s.AutoStorageBaseProperties_STATUS
-		err := parameters.AutoStorage.AssignPropertiesToAutoStorageBaseProperties_STATUS(&autoStorage)
+		err := account.AutoStorage.AssignPropertiesToAutoStorageBaseProperties_STATUS(&autoStorage)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToAutoStorageBaseProperties_STATUS() to populate field AutoStorage")
 		}
@@ -609,12 +609,12 @@ func (parameters *BatchAccountCreateParameters_STATUS) AssignPropertiesToBatchAc
 	}
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(parameters.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(account.Conditions)
 
 	// Encryption
-	if parameters.Encryption != nil {
+	if account.Encryption != nil {
 		var encryption v20210101s.EncryptionProperties_STATUS
-		err := parameters.Encryption.AssignPropertiesToEncryptionProperties_STATUS(&encryption)
+		err := account.Encryption.AssignPropertiesToEncryptionProperties_STATUS(&encryption)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToEncryptionProperties_STATUS() to populate field Encryption")
 		}
@@ -624,9 +624,9 @@ func (parameters *BatchAccountCreateParameters_STATUS) AssignPropertiesToBatchAc
 	}
 
 	// Identity
-	if parameters.Identity != nil {
+	if account.Identity != nil {
 		var identity v20210101s.BatchAccountIdentity_STATUS
-		err := parameters.Identity.AssignPropertiesToBatchAccountIdentity_STATUS(&identity)
+		err := account.Identity.AssignPropertiesToBatchAccountIdentity_STATUS(&identity)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToBatchAccountIdentity_STATUS() to populate field Identity")
 		}
@@ -636,9 +636,9 @@ func (parameters *BatchAccountCreateParameters_STATUS) AssignPropertiesToBatchAc
 	}
 
 	// KeyVaultReference
-	if parameters.KeyVaultReference != nil {
+	if account.KeyVaultReference != nil {
 		var keyVaultReference v20210101s.KeyVaultReference_STATUS
-		err := parameters.KeyVaultReference.AssignPropertiesToKeyVaultReference_STATUS(&keyVaultReference)
+		err := account.KeyVaultReference.AssignPropertiesToKeyVaultReference_STATUS(&keyVaultReference)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToKeyVaultReference_STATUS() to populate field KeyVaultReference")
 		}
@@ -648,26 +648,26 @@ func (parameters *BatchAccountCreateParameters_STATUS) AssignPropertiesToBatchAc
 	}
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(parameters.Location)
+	destination.Location = genruntime.ClonePointerToString(account.Location)
 
 	// PoolAllocationMode
-	if parameters.PoolAllocationMode != nil {
-		poolAllocationMode := string(*parameters.PoolAllocationMode)
+	if account.PoolAllocationMode != nil {
+		poolAllocationMode := string(*account.PoolAllocationMode)
 		destination.PoolAllocationMode = &poolAllocationMode
 	} else {
 		destination.PoolAllocationMode = nil
 	}
 
 	// PublicNetworkAccess
-	if parameters.PublicNetworkAccess != nil {
-		publicNetworkAccess := string(*parameters.PublicNetworkAccess)
+	if account.PublicNetworkAccess != nil {
+		publicNetworkAccess := string(*account.PublicNetworkAccess)
 		destination.PublicNetworkAccess = &publicNetworkAccess
 	} else {
 		destination.PublicNetworkAccess = nil
 	}
 
 	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(parameters.Tags)
+	destination.Tags = genruntime.CloneMapOfStringToString(account.Tags)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

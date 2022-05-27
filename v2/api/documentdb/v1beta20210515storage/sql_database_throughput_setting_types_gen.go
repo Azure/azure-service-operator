@@ -27,8 +27,8 @@ import (
 type SqlDatabaseThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccountsSqlDatabasesThroughputSetting_Spec `json:"spec,omitempty"`
-	Status            ThroughputSettingsUpdateParameters_STATUS          `json:"status,omitempty"`
+	Spec              DatabaseAccountsSqlDatabasesThroughputSetting_Spec   `json:"spec,omitempty"`
+	Status            DatabaseAccountsSqlDatabasesThroughputSetting_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseThroughputSetting{}
@@ -77,7 +77,7 @@ func (setting *SqlDatabaseThroughputSetting) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (setting *SqlDatabaseThroughputSetting) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &ThroughputSettingsUpdateParameters_STATUS{}
+	return &DatabaseAccountsSqlDatabasesThroughputSetting_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -93,13 +93,13 @@ func (setting *SqlDatabaseThroughputSetting) Owner() *genruntime.ResourceReferen
 // SetStatus sets the status of this resource
 func (setting *SqlDatabaseThroughputSetting) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*ThroughputSettingsUpdateParameters_STATUS); ok {
+	if st, ok := status.(*DatabaseAccountsSqlDatabasesThroughputSetting_STATUS); ok {
 		setting.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st ThroughputSettingsUpdateParameters_STATUS
+	var st DatabaseAccountsSqlDatabasesThroughputSetting_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -129,6 +129,38 @@ type SqlDatabaseThroughputSettingList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []SqlDatabaseThroughputSetting `json:"items"`
+}
+
+// Storage version of v1beta20210515.DatabaseAccountsSqlDatabasesThroughputSetting_STATUS
+type DatabaseAccountsSqlDatabasesThroughputSetting_STATUS struct {
+	Conditions  []conditions.Condition             `json:"conditions,omitempty"`
+	Id          *string                            `json:"id,omitempty"`
+	Location    *string                            `json:"location,omitempty"`
+	Name        *string                            `json:"name,omitempty"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Resource    *ThroughputSettingsResource_STATUS `json:"resource,omitempty"`
+	Tags        map[string]string                  `json:"tags,omitempty"`
+	Type        *string                            `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &DatabaseAccountsSqlDatabasesThroughputSetting_STATUS{}
+
+// ConvertStatusFrom populates our DatabaseAccountsSqlDatabasesThroughputSetting_STATUS from the provided source
+func (setting *DatabaseAccountsSqlDatabasesThroughputSetting_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == setting {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(setting)
+}
+
+// ConvertStatusTo populates the provided destination from our DatabaseAccountsSqlDatabasesThroughputSetting_STATUS
+func (setting *DatabaseAccountsSqlDatabasesThroughputSetting_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == setting {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(setting)
 }
 
 // Storage version of v1beta20210515.DatabaseAccountsSqlDatabasesThroughputSetting_Spec

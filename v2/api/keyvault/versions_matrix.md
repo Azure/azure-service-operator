@@ -42,13 +42,13 @@
 | Sku_Name_STATUS                                          | v1beta20210401preview |
 | Sku_STATUS                                               | v1beta20210401preview |
 | Vault                                                    | v1beta20210401preview |
-| VaultCreateOrUpdateParameters_STATUS                     | v1beta20210401preview |
 | VaultProperties                                          | v1beta20210401preview |
 | VaultProperties_CreateMode                               | v1beta20210401preview |
 | VaultProperties_CreateMode_STATUS                        | v1beta20210401preview |
 | VaultProperties_ProvisioningState                        | v1beta20210401preview |
 | VaultProperties_ProvisioningState_STATUS                 | v1beta20210401preview |
 | VaultProperties_STATUS                                   | v1beta20210401preview |
+| Vault_STATUS                                             | v1beta20210401preview |
 | Vault_Spec                                               | v1beta20210401preview |
 | VirtualNetworkRule                                       | v1beta20210401preview |
 | VirtualNetworkRule_STATUS                                | v1beta20210401preview |

@@ -27,8 +27,8 @@ import (
 type VirtualNetworksSubnet struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              VirtualNetworksSubnet_Spec                              `json:"spec,omitempty"`
-	Status            Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded `json:"status,omitempty"`
+	Spec              VirtualNetworksSubnet_Spec   `json:"spec,omitempty"`
+	Status            VirtualNetworksSubnet_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &VirtualNetworksSubnet{}
@@ -77,7 +77,7 @@ func (subnet *VirtualNetworksSubnet) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (subnet *VirtualNetworksSubnet) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded{}
+	return &VirtualNetworksSubnet_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -93,13 +93,13 @@ func (subnet *VirtualNetworksSubnet) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (subnet *VirtualNetworksSubnet) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded); ok {
+	if st, ok := status.(*VirtualNetworksSubnet_STATUS); ok {
 		subnet.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded
+	var st VirtualNetworksSubnet_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -131,8 +131,8 @@ type VirtualNetworksSubnetList struct {
 	Items           []VirtualNetworksSubnet `json:"items"`
 }
 
-// Storage version of v1beta20201101.Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded
-type Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded struct {
+// Storage version of v1beta20201101.VirtualNetworksSubnet_STATUS
+type VirtualNetworksSubnet_STATUS struct {
 	AddressPrefix                      *string                                                                   `json:"addressPrefix,omitempty"`
 	AddressPrefixes                    []string                                                                  `json:"addressPrefixes,omitempty"`
 	ApplicationGatewayIpConfigurations []ApplicationGatewayIPConfiguration_STATUS                                `json:"applicationGatewayIpConfigurations,omitempty"`
@@ -160,24 +160,24 @@ type Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	Type                               *string                                                                   `json:"type,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded{}
+var _ genruntime.ConvertibleStatus = &VirtualNetworksSubnet_STATUS{}
 
-// ConvertStatusFrom populates our Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded from the provided source
-func (embedded *Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == embedded {
+// ConvertStatusFrom populates our VirtualNetworksSubnet_STATUS from the provided source
+func (subnet *VirtualNetworksSubnet_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == subnet {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(embedded)
+	return source.ConvertStatusTo(subnet)
 }
 
-// ConvertStatusTo populates the provided destination from our Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded
-func (embedded *Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == embedded {
+// ConvertStatusTo populates the provided destination from our VirtualNetworksSubnet_STATUS
+func (subnet *VirtualNetworksSubnet_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == subnet {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(embedded)
+	return destination.ConvertStatusFrom(subnet)
 }
 
 // Storage version of v1beta20201101.VirtualNetworksSubnet_Spec
@@ -286,12 +286,13 @@ type Delegation_STATUS struct {
 
 // Storage version of v1beta20201101.IPConfigurationProfile_STATUS_VirtualNetworksSubnet_SubResourceEmbedded
 type IPConfigurationProfile_STATUS_VirtualNetworksSubnet_SubResourceEmbedded struct {
-	Etag              *string                `json:"etag,omitempty"`
-	Id                *string                `json:"id,omitempty"`
-	Name              *string                `json:"name,omitempty"`
-	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ProvisioningState *string                `json:"provisioningState,omitempty"`
-	Type              *string                `json:"type,omitempty"`
+	Etag              *string                                                  `json:"etag,omitempty"`
+	Id                *string                                                  `json:"id,omitempty"`
+	Name              *string                                                  `json:"name,omitempty"`
+	PropertyBag       genruntime.PropertyBag                                   `json:"$propertyBag,omitempty"`
+	ProvisioningState *string                                                  `json:"provisioningState,omitempty"`
+	Subnet            *Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded `json:"subnet,omitempty"`
+	Type              *string                                                  `json:"type,omitempty"`
 }
 
 // Storage version of v1beta20201101.IPConfigurationProfile_VirtualNetworksSubnet_SubResourceEmbedded
@@ -315,6 +316,7 @@ type IPConfiguration_STATUS_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	PropertyBag               genruntime.PropertyBag                                            `json:"$propertyBag,omitempty"`
 	ProvisioningState         *string                                                           `json:"provisioningState,omitempty"`
 	PublicIPAddress           *PublicIPAddress_STATUS_VirtualNetworksSubnet_SubResourceEmbedded `json:"publicIPAddress,omitempty"`
+	Subnet                    *Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded          `json:"subnet,omitempty"`
 }
 
 // Storage version of v1beta20201101.IPConfiguration_VirtualNetworksSubnet_SubResourceEmbedded
@@ -466,6 +468,12 @@ type PublicIPAddress_STATUS_VirtualNetworksSubnet_SubResourceEmbedded struct {
 	PropertyBag      genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
 	Sku              *PublicIPAddressSku_STATUS `json:"sku,omitempty"`
 	Zones            []string                   `json:"zones,omitempty"`
+}
+
+// Storage version of v1beta20201101.Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded
+type Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20201101.Subnet_VirtualNetworksSubnet_SubResourceEmbedded

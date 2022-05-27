@@ -38,7 +38,7 @@
 | ExtendedLocationType_STATUS                                                                      | v1alpha1api20201101 | v1beta20201101 |
 | ExtendedLocation_STATUS                                                                          | v1alpha1api20201101 | v1beta20201101 |
 | FlowLog                                                                                          | v1alpha1api20201101 | v1beta20201101 |
-| FlowLog_STATUS_SubResourceEmbedded                                                               | v1alpha1api20201101 | v1beta20201101 |
+| FlowLog_STATUS                                                                                   | v1alpha1api20201101 | v1beta20201101 |
 | FrontendIPConfigurationPropertiesFormat_LoadBalancer_SubResourceEmbedded                         | v1alpha1api20201101 | v1beta20201101 |
 | FrontendIPConfigurationPropertiesFormat_STATUS_LoadBalancer_SubResourceEmbedded                  | v1alpha1api20201101 | v1beta20201101 |
 | FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded                                         | v1alpha1api20201101 | v1beta20201101 |
@@ -135,6 +135,7 @@
 | NetworkSecurityGroup_STATUS_VirtualNetworksSubnet_SubResourceEmbedded                            | v1alpha1api20201101 | v1beta20201101 |
 | NetworkSecurityGroup_Spec                                                                        | v1alpha1api20201101 | v1beta20201101 |
 | NetworkSecurityGroupsSecurityRule                                                                | v1alpha1api20201101 | v1beta20201101 |
+| NetworkSecurityGroupsSecurityRule_STATUS                                                         | v1alpha1api20201101 | v1beta20201101 |
 | NetworkSecurityGroupsSecurityRule_Spec                                                           | v1alpha1api20201101 | v1beta20201101 |
 | OutboundRule                                                                                     | v1alpha1api20201101 | v1beta20201101 |
 | OutboundRulePropertiesFormat                                                                     | v1alpha1api20201101 | v1beta20201101 |
@@ -199,8 +200,8 @@
 | RouteTable_STATUS_SubResourceEmbedded                                                            | v1alpha1api20201101 | v1beta20201101 |
 | RouteTable_Spec                                                                                  |                     | v1beta20201101 |
 | RouteTablesRoute                                                                                 |                     | v1beta20201101 |
+| RouteTablesRoute_STATUS                                                                          |                     | v1beta20201101 |
 | RouteTablesRoute_Spec                                                                            |                     | v1beta20201101 |
-| Route_STATUS                                                                                     |                     | v1beta20201101 |
 | SecurityRule                                                                                     | v1alpha1api20201101 | v1beta20201101 |
 | SecurityRuleAccess                                                                               | v1alpha1api20201101 | v1beta20201101 |
 | SecurityRuleAccess_STATUS                                                                        | v1alpha1api20201101 | v1beta20201101 |
@@ -210,8 +211,7 @@
 | SecurityRulePropertiesFormat_Protocol                                                            | v1alpha1api20201101 | v1beta20201101 |
 | SecurityRulePropertiesFormat_Protocol_STATUS                                                     | v1alpha1api20201101 | v1beta20201101 |
 | SecurityRulePropertiesFormat_STATUS                                                              | v1alpha1api20201101 | v1beta20201101 |
-| SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbedded                                     | v1alpha1api20201101 | v1beta20201101 |
-| SecurityRule_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded                        | v1alpha1api20201101 | v1beta20201101 |
+| SecurityRule_STATUS                                                                              | v1alpha1api20201101 | v1beta20201101 |
 | ServiceAssociationLink                                                                           | v1alpha1api20201101 | v1beta20201101 |
 | ServiceAssociationLinkPropertiesFormat                                                           | v1alpha1api20201101 | v1beta20201101 |
 | ServiceAssociationLinkPropertiesFormat_STATUS                                                    | v1alpha1api20201101 | v1beta20201101 |
@@ -273,7 +273,6 @@
 | VirtualNetworkPeeringPropertiesFormat_PeeringState                                               | v1alpha1api20201101 | v1beta20201101 |
 | VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS                                        | v1alpha1api20201101 | v1beta20201101 |
 | VirtualNetworkPeeringPropertiesFormat_STATUS                                                     | v1alpha1api20201101 | v1beta20201101 |
-| VirtualNetworkPeering_STATUS                                                                     | v1alpha1api20201101 | v1beta20201101 |
 | VirtualNetworkPropertiesFormat                                                                   | v1alpha1api20201101 | v1beta20201101 |
 | VirtualNetworkPropertiesFormat_STATUS                                                            | v1alpha1api20201101 | v1beta20201101 |
 | VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded                                       | v1alpha1api20201101 | v1beta20201101 |
@@ -281,8 +280,10 @@
 | VirtualNetwork_STATUS                                                                            | v1alpha1api20201101 | v1beta20201101 |
 | VirtualNetwork_Spec                                                                              | v1alpha1api20201101 | v1beta20201101 |
 | VirtualNetworksSubnet                                                                            | v1alpha1api20201101 | v1beta20201101 |
+| VirtualNetworksSubnet_STATUS                                                                     | v1alpha1api20201101 | v1beta20201101 |
 | VirtualNetworksSubnet_Spec                                                                       | v1alpha1api20201101 | v1beta20201101 |
 | VirtualNetworksVirtualNetworkPeering                                                             | v1alpha1api20201101 | v1beta20201101 |
+| VirtualNetworksVirtualNetworkPeering_STATUS                                                      | v1alpha1api20201101 | v1beta20201101 |
 | VirtualNetworksVirtualNetworkPeering_Spec                                                        | v1alpha1api20201101 | v1beta20201101 |
 | VpnClientConfiguration                                                                           | v1alpha1api20201101 | v1beta20201101 |
 | VpnClientConfiguration_STATUS                                                                    | v1alpha1api20201101 | v1beta20201101 |

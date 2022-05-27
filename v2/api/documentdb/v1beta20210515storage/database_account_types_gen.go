@@ -27,8 +27,8 @@ import (
 type DatabaseAccount struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccount_Spec                         `json:"spec,omitempty"`
-	Status            DatabaseAccountCreateUpdateParameters_STATUS `json:"status,omitempty"`
+	Spec              DatabaseAccount_Spec   `json:"spec,omitempty"`
+	Status            DatabaseAccount_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &DatabaseAccount{}
@@ -77,7 +77,7 @@ func (account *DatabaseAccount) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (account *DatabaseAccount) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &DatabaseAccountCreateUpdateParameters_STATUS{}
+	return &DatabaseAccount_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -93,13 +93,13 @@ func (account *DatabaseAccount) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (account *DatabaseAccount) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*DatabaseAccountCreateUpdateParameters_STATUS); ok {
+	if st, ok := status.(*DatabaseAccount_STATUS); ok {
 		account.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st DatabaseAccountCreateUpdateParameters_STATUS
+	var st DatabaseAccount_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -137,8 +137,8 @@ type APIVersion string
 
 const APIVersionValue = APIVersion("20210515")
 
-// Storage version of v1beta20210515.DatabaseAccountCreateUpdateParameters_STATUS
-type DatabaseAccountCreateUpdateParameters_STATUS struct {
+// Storage version of v1beta20210515.DatabaseAccount_STATUS
+type DatabaseAccount_STATUS struct {
 	AnalyticalStorageConfiguration     *AnalyticalStorageConfiguration_STATUS `json:"analyticalStorageConfiguration,omitempty"`
 	ApiProperties                      *ApiProperties_STATUS                  `json:"apiProperties,omitempty"`
 	BackupPolicy                       *BackupPolicy_STATUS                   `json:"backupPolicy,omitempty"`
@@ -173,24 +173,24 @@ type DatabaseAccountCreateUpdateParameters_STATUS struct {
 	VirtualNetworkRules                []VirtualNetworkRule_STATUS            `json:"virtualNetworkRules,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &DatabaseAccountCreateUpdateParameters_STATUS{}
+var _ genruntime.ConvertibleStatus = &DatabaseAccount_STATUS{}
 
-// ConvertStatusFrom populates our DatabaseAccountCreateUpdateParameters_STATUS from the provided source
-func (parameters *DatabaseAccountCreateUpdateParameters_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == parameters {
+// ConvertStatusFrom populates our DatabaseAccount_STATUS from the provided source
+func (account *DatabaseAccount_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == account {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(parameters)
+	return source.ConvertStatusTo(account)
 }
 
-// ConvertStatusTo populates the provided destination from our DatabaseAccountCreateUpdateParameters_STATUS
-func (parameters *DatabaseAccountCreateUpdateParameters_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == parameters {
+// ConvertStatusTo populates the provided destination from our DatabaseAccount_STATUS
+func (account *DatabaseAccount_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == account {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(parameters)
+	return destination.ConvertStatusFrom(account)
 }
 
 // Storage version of v1beta20210515.DatabaseAccount_Spec

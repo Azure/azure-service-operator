@@ -28,10 +28,10 @@ type NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM str
 
 type NetworkSecurityGroupPropertiesFormat_STATUSARM struct {
 	// DefaultSecurityRules: The default security rules of network security group.
-	DefaultSecurityRules []SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM `json:"defaultSecurityRules,omitempty"`
+	DefaultSecurityRules []SecurityRule_STATUSARM `json:"defaultSecurityRules,omitempty"`
 
 	// FlowLogs: A collection of references to flow log resources.
-	FlowLogs []FlowLog_STATUS_SubResourceEmbeddedARM `json:"flowLogs,omitempty"`
+	FlowLogs []FlowLog_STATUSARM `json:"flowLogs,omitempty"`
 
 	// NetworkInterfaces: A collection of references to network interfaces.
 	NetworkInterfaces []NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM `json:"networkInterfaces,omitempty"`
@@ -43,13 +43,13 @@ type NetworkSecurityGroupPropertiesFormat_STATUSARM struct {
 	ResourceGuid *string `json:"resourceGuid,omitempty"`
 
 	// SecurityRules: A collection of security rules of the network security group.
-	SecurityRules []SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM `json:"securityRules,omitempty"`
+	SecurityRules []SecurityRule_STATUSARM `json:"securityRules,omitempty"`
 
 	// Subnets: A collection of references to subnets.
 	Subnets []Subnet_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM `json:"subnets,omitempty"`
 }
 
-type FlowLog_STATUS_SubResourceEmbeddedARM struct {
+type FlowLog_STATUSARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
@@ -62,7 +62,7 @@ type NetworkInterface_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM struct 
 	Id *string `json:"id,omitempty"`
 }
 
-type SecurityRule_STATUS_NetworkSecurityGroup_SubResourceEmbeddedARM struct {
+type SecurityRule_STATUSARM struct {
 	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }

@@ -30,8 +30,8 @@ import (
 type FlexibleServer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              FlexibleServer_Spec `json:"spec,omitempty"`
-	Status            Server_STATUS       `json:"status,omitempty"`
+	Spec              FlexibleServer_Spec   `json:"spec,omitempty"`
+	Status            FlexibleServer_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &FlexibleServer{}
@@ -125,7 +125,7 @@ func (server *FlexibleServer) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (server *FlexibleServer) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Server_STATUS{}
+	return &FlexibleServer_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -141,13 +141,13 @@ func (server *FlexibleServer) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (server *FlexibleServer) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Server_STATUS); ok {
+	if st, ok := status.(*FlexibleServer_STATUS); ok {
 		server.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Server_STATUS
+	var st FlexibleServer_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -283,10 +283,10 @@ func (server *FlexibleServer) AssignPropertiesFromFlexibleServer(source *v202105
 	server.Spec = spec
 
 	// Status
-	var status Server_STATUS
-	err = status.AssignPropertiesFromServer_STATUS(&source.Status)
+	var status FlexibleServer_STATUS
+	err = status.AssignPropertiesFromFlexibleServer_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromServer_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromFlexibleServer_STATUS() to populate field Status")
 	}
 	server.Status = status
 
@@ -309,10 +309,10 @@ func (server *FlexibleServer) AssignPropertiesToFlexibleServer(destination *v202
 	destination.Spec = spec
 
 	// Status
-	var status v20210501s.Server_STATUS
-	err = server.Status.AssignPropertiesToServer_STATUS(&status)
+	var status v20210501s.FlexibleServer_STATUS
+	err = server.Status.AssignPropertiesToFlexibleServer_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToServer_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToFlexibleServer_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -342,6 +342,769 @@ type FlexibleServerList struct {
 type APIVersion string
 
 const APIVersionValue = APIVersion("20210501")
+
+type FlexibleServer_STATUS struct {
+	// AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
+	// (and is required for creation).
+	AdministratorLogin *string `json:"administratorLogin,omitempty"`
+
+	// AvailabilityZone: availability Zone information of the server.
+	AvailabilityZone *string `json:"availabilityZone,omitempty"`
+
+	// Backup: Backup related properties of a server.
+	Backup *Backup_STATUS `json:"backup,omitempty"`
+
+	// Conditions: The observed state of the resource
+	Conditions []conditions.Condition `json:"conditions,omitempty"`
+
+	// CreateMode: The mode to create a new MySQL server.
+	CreateMode *ServerProperties_CreateMode_STATUS `json:"createMode,omitempty"`
+
+	// DataEncryption: The Data Encryption for CMK.
+	DataEncryption *DataEncryption_STATUS `json:"dataEncryption,omitempty"`
+
+	// FullyQualifiedDomainName: The fully qualified domain name of a server.
+	FullyQualifiedDomainName *string `json:"fullyQualifiedDomainName,omitempty"`
+
+	// HighAvailability: High availability related properties of a server.
+	HighAvailability *HighAvailability_STATUS `json:"highAvailability,omitempty"`
+
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	Id *string `json:"id,omitempty"`
+
+	// Identity: The cmk identity for the server.
+	Identity *Identity_STATUS `json:"identity,omitempty"`
+
+	// Location: The geo-location where the resource lives
+	Location *string `json:"location,omitempty"`
+
+	// MaintenanceWindow: Maintenance window of a server.
+	MaintenanceWindow *MaintenanceWindow_STATUS `json:"maintenanceWindow,omitempty"`
+
+	// Name: The name of the resource
+	Name *string `json:"name,omitempty"`
+
+	// Network: Network related properties of a server.
+	Network *Network_STATUS `json:"network,omitempty"`
+
+	// ReplicaCapacity: The maximum number of replicas that a primary server can have.
+	ReplicaCapacity *int `json:"replicaCapacity,omitempty"`
+
+	// ReplicationRole: The replication role.
+	ReplicationRole *ReplicationRole_STATUS `json:"replicationRole,omitempty"`
+
+	// RestorePointInTime: Restore point creation time (ISO8601 format), specifying the time to restore from.
+	RestorePointInTime *string `json:"restorePointInTime,omitempty"`
+
+	// Sku: The SKU (pricing tier) of the server.
+	Sku *Sku_STATUS `json:"sku,omitempty"`
+
+	// SourceServerResourceId: The source MySQL server id.
+	SourceServerResourceId *string `json:"sourceServerResourceId,omitempty"`
+
+	// State: The state of a server.
+	State *ServerProperties_State_STATUS `json:"state,omitempty"`
+
+	// Storage: Storage related properties of a server.
+	Storage *Storage_STATUS `json:"storage,omitempty"`
+
+	// SystemData: The system metadata relating to this resource.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
+
+	// Tags: Resource tags.
+	Tags map[string]string `json:"tags,omitempty"`
+
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+	Type *string `json:"type,omitempty"`
+
+	// Version: Server version.
+	Version *ServerVersion_STATUS `json:"version,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &FlexibleServer_STATUS{}
+
+// ConvertStatusFrom populates our FlexibleServer_STATUS from the provided source
+func (server *FlexibleServer_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20210501s.FlexibleServer_STATUS)
+	if ok {
+		// Populate our instance from source
+		return server.AssignPropertiesFromFlexibleServer_STATUS(src)
+	}
+
+	// Convert to an intermediate form
+	src = &v20210501s.FlexibleServer_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = server.AssignPropertiesFromFlexibleServer_STATUS(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
+}
+
+// ConvertStatusTo populates the provided destination from our FlexibleServer_STATUS
+func (server *FlexibleServer_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20210501s.FlexibleServer_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return server.AssignPropertiesToFlexibleServer_STATUS(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &v20210501s.FlexibleServer_STATUS{}
+	err := server.AssignPropertiesToFlexibleServer_STATUS(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+var _ genruntime.FromARMConverter = &FlexibleServer_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (server *FlexibleServer_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &FlexibleServer_STATUSARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (server *FlexibleServer_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(FlexibleServer_STATUSARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlexibleServer_STATUSARM, got %T", armInput)
+	}
+
+	// Set property ‘AdministratorLogin’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AdministratorLogin != nil {
+			administratorLogin := *typedInput.Properties.AdministratorLogin
+			server.AdministratorLogin = &administratorLogin
+		}
+	}
+
+	// Set property ‘AvailabilityZone’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.AvailabilityZone != nil {
+			availabilityZone := *typedInput.Properties.AvailabilityZone
+			server.AvailabilityZone = &availabilityZone
+		}
+	}
+
+	// Set property ‘Backup’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Backup != nil {
+			var backup1 Backup_STATUS
+			err := backup1.PopulateFromARM(owner, *typedInput.Properties.Backup)
+			if err != nil {
+				return err
+			}
+			backup := backup1
+			server.Backup = &backup
+		}
+	}
+
+	// no assignment for property ‘Conditions’
+
+	// Set property ‘CreateMode’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.CreateMode != nil {
+			createMode := *typedInput.Properties.CreateMode
+			server.CreateMode = &createMode
+		}
+	}
+
+	// Set property ‘DataEncryption’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DataEncryption != nil {
+			var dataEncryption1 DataEncryption_STATUS
+			err := dataEncryption1.PopulateFromARM(owner, *typedInput.Properties.DataEncryption)
+			if err != nil {
+				return err
+			}
+			dataEncryption := dataEncryption1
+			server.DataEncryption = &dataEncryption
+		}
+	}
+
+	// Set property ‘FullyQualifiedDomainName’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.FullyQualifiedDomainName != nil {
+			fullyQualifiedDomainName := *typedInput.Properties.FullyQualifiedDomainName
+			server.FullyQualifiedDomainName = &fullyQualifiedDomainName
+		}
+	}
+
+	// Set property ‘HighAvailability’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.HighAvailability != nil {
+			var highAvailability1 HighAvailability_STATUS
+			err := highAvailability1.PopulateFromARM(owner, *typedInput.Properties.HighAvailability)
+			if err != nil {
+				return err
+			}
+			highAvailability := highAvailability1
+			server.HighAvailability = &highAvailability
+		}
+	}
+
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		server.Id = &id
+	}
+
+	// Set property ‘Identity’:
+	if typedInput.Identity != nil {
+		var identity1 Identity_STATUS
+		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
+		if err != nil {
+			return err
+		}
+		identity := identity1
+		server.Identity = &identity
+	}
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		server.Location = &location
+	}
+
+	// Set property ‘MaintenanceWindow’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.MaintenanceWindow != nil {
+			var maintenanceWindow1 MaintenanceWindow_STATUS
+			err := maintenanceWindow1.PopulateFromARM(owner, *typedInput.Properties.MaintenanceWindow)
+			if err != nil {
+				return err
+			}
+			maintenanceWindow := maintenanceWindow1
+			server.MaintenanceWindow = &maintenanceWindow
+		}
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		server.Name = &name
+	}
+
+	// Set property ‘Network’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Network != nil {
+			var network1 Network_STATUS
+			err := network1.PopulateFromARM(owner, *typedInput.Properties.Network)
+			if err != nil {
+				return err
+			}
+			network := network1
+			server.Network = &network
+		}
+	}
+
+	// Set property ‘ReplicaCapacity’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ReplicaCapacity != nil {
+			replicaCapacity := *typedInput.Properties.ReplicaCapacity
+			server.ReplicaCapacity = &replicaCapacity
+		}
+	}
+
+	// Set property ‘ReplicationRole’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.ReplicationRole != nil {
+			replicationRole := *typedInput.Properties.ReplicationRole
+			server.ReplicationRole = &replicationRole
+		}
+	}
+
+	// Set property ‘RestorePointInTime’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.RestorePointInTime != nil {
+			restorePointInTime := *typedInput.Properties.RestorePointInTime
+			server.RestorePointInTime = &restorePointInTime
+		}
+	}
+
+	// Set property ‘Sku’:
+	if typedInput.Sku != nil {
+		var sku1 Sku_STATUS
+		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
+		if err != nil {
+			return err
+		}
+		sku := sku1
+		server.Sku = &sku
+	}
+
+	// Set property ‘SourceServerResourceId’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.SourceServerResourceId != nil {
+			sourceServerResourceId := *typedInput.Properties.SourceServerResourceId
+			server.SourceServerResourceId = &sourceServerResourceId
+		}
+	}
+
+	// Set property ‘State’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.State != nil {
+			state := *typedInput.Properties.State
+			server.State = &state
+		}
+	}
+
+	// Set property ‘Storage’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Storage != nil {
+			var storage1 Storage_STATUS
+			err := storage1.PopulateFromARM(owner, *typedInput.Properties.Storage)
+			if err != nil {
+				return err
+			}
+			storage := storage1
+			server.Storage = &storage
+		}
+	}
+
+	// Set property ‘SystemData’:
+	if typedInput.SystemData != nil {
+		var systemData1 SystemData_STATUS
+		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
+		if err != nil {
+			return err
+		}
+		systemData := systemData1
+		server.SystemData = &systemData
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		server.Tags = make(map[string]string)
+		for key, value := range typedInput.Tags {
+			server.Tags[key] = value
+		}
+	}
+
+	// Set property ‘Type’:
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		server.Type = &typeVar
+	}
+
+	// Set property ‘Version’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Version != nil {
+			version := *typedInput.Properties.Version
+			server.Version = &version
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromFlexibleServer_STATUS populates our FlexibleServer_STATUS from the provided source FlexibleServer_STATUS
+func (server *FlexibleServer_STATUS) AssignPropertiesFromFlexibleServer_STATUS(source *v20210501s.FlexibleServer_STATUS) error {
+
+	// AdministratorLogin
+	server.AdministratorLogin = genruntime.ClonePointerToString(source.AdministratorLogin)
+
+	// AvailabilityZone
+	server.AvailabilityZone = genruntime.ClonePointerToString(source.AvailabilityZone)
+
+	// Backup
+	if source.Backup != nil {
+		var backup Backup_STATUS
+		err := backup.AssignPropertiesFromBackup_STATUS(source.Backup)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromBackup_STATUS() to populate field Backup")
+		}
+		server.Backup = &backup
+	} else {
+		server.Backup = nil
+	}
+
+	// Conditions
+	server.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// CreateMode
+	if source.CreateMode != nil {
+		createMode := ServerProperties_CreateMode_STATUS(*source.CreateMode)
+		server.CreateMode = &createMode
+	} else {
+		server.CreateMode = nil
+	}
+
+	// DataEncryption
+	if source.DataEncryption != nil {
+		var dataEncryption DataEncryption_STATUS
+		err := dataEncryption.AssignPropertiesFromDataEncryption_STATUS(source.DataEncryption)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDataEncryption_STATUS() to populate field DataEncryption")
+		}
+		server.DataEncryption = &dataEncryption
+	} else {
+		server.DataEncryption = nil
+	}
+
+	// FullyQualifiedDomainName
+	server.FullyQualifiedDomainName = genruntime.ClonePointerToString(source.FullyQualifiedDomainName)
+
+	// HighAvailability
+	if source.HighAvailability != nil {
+		var highAvailability HighAvailability_STATUS
+		err := highAvailability.AssignPropertiesFromHighAvailability_STATUS(source.HighAvailability)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromHighAvailability_STATUS() to populate field HighAvailability")
+		}
+		server.HighAvailability = &highAvailability
+	} else {
+		server.HighAvailability = nil
+	}
+
+	// Id
+	server.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Identity
+	if source.Identity != nil {
+		var identity Identity_STATUS
+		err := identity.AssignPropertiesFromIdentity_STATUS(source.Identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromIdentity_STATUS() to populate field Identity")
+		}
+		server.Identity = &identity
+	} else {
+		server.Identity = nil
+	}
+
+	// Location
+	server.Location = genruntime.ClonePointerToString(source.Location)
+
+	// MaintenanceWindow
+	if source.MaintenanceWindow != nil {
+		var maintenanceWindow MaintenanceWindow_STATUS
+		err := maintenanceWindow.AssignPropertiesFromMaintenanceWindow_STATUS(source.MaintenanceWindow)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromMaintenanceWindow_STATUS() to populate field MaintenanceWindow")
+		}
+		server.MaintenanceWindow = &maintenanceWindow
+	} else {
+		server.MaintenanceWindow = nil
+	}
+
+	// Name
+	server.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Network
+	if source.Network != nil {
+		var network Network_STATUS
+		err := network.AssignPropertiesFromNetwork_STATUS(source.Network)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromNetwork_STATUS() to populate field Network")
+		}
+		server.Network = &network
+	} else {
+		server.Network = nil
+	}
+
+	// ReplicaCapacity
+	server.ReplicaCapacity = genruntime.ClonePointerToInt(source.ReplicaCapacity)
+
+	// ReplicationRole
+	if source.ReplicationRole != nil {
+		replicationRole := ReplicationRole_STATUS(*source.ReplicationRole)
+		server.ReplicationRole = &replicationRole
+	} else {
+		server.ReplicationRole = nil
+	}
+
+	// RestorePointInTime
+	server.RestorePointInTime = genruntime.ClonePointerToString(source.RestorePointInTime)
+
+	// Sku
+	if source.Sku != nil {
+		var sku Sku_STATUS
+		err := sku.AssignPropertiesFromSku_STATUS(source.Sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSku_STATUS() to populate field Sku")
+		}
+		server.Sku = &sku
+	} else {
+		server.Sku = nil
+	}
+
+	// SourceServerResourceId
+	server.SourceServerResourceId = genruntime.ClonePointerToString(source.SourceServerResourceId)
+
+	// State
+	if source.State != nil {
+		state := ServerProperties_State_STATUS(*source.State)
+		server.State = &state
+	} else {
+		server.State = nil
+	}
+
+	// Storage
+	if source.Storage != nil {
+		var storage Storage_STATUS
+		err := storage.AssignPropertiesFromStorage_STATUS(source.Storage)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromStorage_STATUS() to populate field Storage")
+		}
+		server.Storage = &storage
+	} else {
+		server.Storage = nil
+	}
+
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignPropertiesFromSystemData_STATUS(source.SystemData)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemData_STATUS() to populate field SystemData")
+		}
+		server.SystemData = &systemDatum
+	} else {
+		server.SystemData = nil
+	}
+
+	// Tags
+	server.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	server.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Version
+	if source.Version != nil {
+		version := ServerVersion_STATUS(*source.Version)
+		server.Version = &version
+	} else {
+		server.Version = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToFlexibleServer_STATUS populates the provided destination FlexibleServer_STATUS from our FlexibleServer_STATUS
+func (server *FlexibleServer_STATUS) AssignPropertiesToFlexibleServer_STATUS(destination *v20210501s.FlexibleServer_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AdministratorLogin
+	destination.AdministratorLogin = genruntime.ClonePointerToString(server.AdministratorLogin)
+
+	// AvailabilityZone
+	destination.AvailabilityZone = genruntime.ClonePointerToString(server.AvailabilityZone)
+
+	// Backup
+	if server.Backup != nil {
+		var backup v20210501s.Backup_STATUS
+		err := server.Backup.AssignPropertiesToBackup_STATUS(&backup)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToBackup_STATUS() to populate field Backup")
+		}
+		destination.Backup = &backup
+	} else {
+		destination.Backup = nil
+	}
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(server.Conditions)
+
+	// CreateMode
+	if server.CreateMode != nil {
+		createMode := string(*server.CreateMode)
+		destination.CreateMode = &createMode
+	} else {
+		destination.CreateMode = nil
+	}
+
+	// DataEncryption
+	if server.DataEncryption != nil {
+		var dataEncryption v20210501s.DataEncryption_STATUS
+		err := server.DataEncryption.AssignPropertiesToDataEncryption_STATUS(&dataEncryption)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDataEncryption_STATUS() to populate field DataEncryption")
+		}
+		destination.DataEncryption = &dataEncryption
+	} else {
+		destination.DataEncryption = nil
+	}
+
+	// FullyQualifiedDomainName
+	destination.FullyQualifiedDomainName = genruntime.ClonePointerToString(server.FullyQualifiedDomainName)
+
+	// HighAvailability
+	if server.HighAvailability != nil {
+		var highAvailability v20210501s.HighAvailability_STATUS
+		err := server.HighAvailability.AssignPropertiesToHighAvailability_STATUS(&highAvailability)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToHighAvailability_STATUS() to populate field HighAvailability")
+		}
+		destination.HighAvailability = &highAvailability
+	} else {
+		destination.HighAvailability = nil
+	}
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(server.Id)
+
+	// Identity
+	if server.Identity != nil {
+		var identity v20210501s.Identity_STATUS
+		err := server.Identity.AssignPropertiesToIdentity_STATUS(&identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToIdentity_STATUS() to populate field Identity")
+		}
+		destination.Identity = &identity
+	} else {
+		destination.Identity = nil
+	}
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(server.Location)
+
+	// MaintenanceWindow
+	if server.MaintenanceWindow != nil {
+		var maintenanceWindow v20210501s.MaintenanceWindow_STATUS
+		err := server.MaintenanceWindow.AssignPropertiesToMaintenanceWindow_STATUS(&maintenanceWindow)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToMaintenanceWindow_STATUS() to populate field MaintenanceWindow")
+		}
+		destination.MaintenanceWindow = &maintenanceWindow
+	} else {
+		destination.MaintenanceWindow = nil
+	}
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(server.Name)
+
+	// Network
+	if server.Network != nil {
+		var network v20210501s.Network_STATUS
+		err := server.Network.AssignPropertiesToNetwork_STATUS(&network)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToNetwork_STATUS() to populate field Network")
+		}
+		destination.Network = &network
+	} else {
+		destination.Network = nil
+	}
+
+	// ReplicaCapacity
+	destination.ReplicaCapacity = genruntime.ClonePointerToInt(server.ReplicaCapacity)
+
+	// ReplicationRole
+	if server.ReplicationRole != nil {
+		replicationRole := string(*server.ReplicationRole)
+		destination.ReplicationRole = &replicationRole
+	} else {
+		destination.ReplicationRole = nil
+	}
+
+	// RestorePointInTime
+	destination.RestorePointInTime = genruntime.ClonePointerToString(server.RestorePointInTime)
+
+	// Sku
+	if server.Sku != nil {
+		var sku v20210501s.Sku_STATUS
+		err := server.Sku.AssignPropertiesToSku_STATUS(&sku)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSku_STATUS() to populate field Sku")
+		}
+		destination.Sku = &sku
+	} else {
+		destination.Sku = nil
+	}
+
+	// SourceServerResourceId
+	destination.SourceServerResourceId = genruntime.ClonePointerToString(server.SourceServerResourceId)
+
+	// State
+	if server.State != nil {
+		state := string(*server.State)
+		destination.State = &state
+	} else {
+		destination.State = nil
+	}
+
+	// Storage
+	if server.Storage != nil {
+		var storage v20210501s.Storage_STATUS
+		err := server.Storage.AssignPropertiesToStorage_STATUS(&storage)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToStorage_STATUS() to populate field Storage")
+		}
+		destination.Storage = &storage
+	} else {
+		destination.Storage = nil
+	}
+
+	// SystemData
+	if server.SystemData != nil {
+		var systemDatum v20210501s.SystemData_STATUS
+		err := server.SystemData.AssignPropertiesToSystemData_STATUS(&systemDatum)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(server.Tags)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(server.Type)
+
+	// Version
+	if server.Version != nil {
+		version := string(*server.Version)
+		destination.Version = &version
+	} else {
+		destination.Version = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
 
 type FlexibleServer_Spec struct {
 	// AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
@@ -1391,769 +2154,6 @@ func (server *FlexibleServer_Spec) OriginalVersion() string {
 
 // SetAzureName sets the Azure name of the resource
 func (server *FlexibleServer_Spec) SetAzureName(azureName string) { server.AzureName = azureName }
-
-type Server_STATUS struct {
-	// AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
-	// (and is required for creation).
-	AdministratorLogin *string `json:"administratorLogin,omitempty"`
-
-	// AvailabilityZone: availability Zone information of the server.
-	AvailabilityZone *string `json:"availabilityZone,omitempty"`
-
-	// Backup: Backup related properties of a server.
-	Backup *Backup_STATUS `json:"backup,omitempty"`
-
-	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition `json:"conditions,omitempty"`
-
-	// CreateMode: The mode to create a new MySQL server.
-	CreateMode *ServerProperties_CreateMode_STATUS `json:"createMode,omitempty"`
-
-	// DataEncryption: The Data Encryption for CMK.
-	DataEncryption *DataEncryption_STATUS `json:"dataEncryption,omitempty"`
-
-	// FullyQualifiedDomainName: The fully qualified domain name of a server.
-	FullyQualifiedDomainName *string `json:"fullyQualifiedDomainName,omitempty"`
-
-	// HighAvailability: High availability related properties of a server.
-	HighAvailability *HighAvailability_STATUS `json:"highAvailability,omitempty"`
-
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// Identity: The cmk identity for the server.
-	Identity *Identity_STATUS `json:"identity,omitempty"`
-
-	// Location: The geo-location where the resource lives
-	Location *string `json:"location,omitempty"`
-
-	// MaintenanceWindow: Maintenance window of a server.
-	MaintenanceWindow *MaintenanceWindow_STATUS `json:"maintenanceWindow,omitempty"`
-
-	// Name: The name of the resource
-	Name *string `json:"name,omitempty"`
-
-	// Network: Network related properties of a server.
-	Network *Network_STATUS `json:"network,omitempty"`
-
-	// ReplicaCapacity: The maximum number of replicas that a primary server can have.
-	ReplicaCapacity *int `json:"replicaCapacity,omitempty"`
-
-	// ReplicationRole: The replication role.
-	ReplicationRole *ReplicationRole_STATUS `json:"replicationRole,omitempty"`
-
-	// RestorePointInTime: Restore point creation time (ISO8601 format), specifying the time to restore from.
-	RestorePointInTime *string `json:"restorePointInTime,omitempty"`
-
-	// Sku: The SKU (pricing tier) of the server.
-	Sku *Sku_STATUS `json:"sku,omitempty"`
-
-	// SourceServerResourceId: The source MySQL server id.
-	SourceServerResourceId *string `json:"sourceServerResourceId,omitempty"`
-
-	// State: The state of a server.
-	State *ServerProperties_State_STATUS `json:"state,omitempty"`
-
-	// Storage: Storage related properties of a server.
-	Storage *Storage_STATUS `json:"storage,omitempty"`
-
-	// SystemData: The system metadata relating to this resource.
-	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
-
-	// Tags: Resource tags.
-	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
-
-	// Version: Server version.
-	Version *ServerVersion_STATUS `json:"version,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &Server_STATUS{}
-
-// ConvertStatusFrom populates our Server_STATUS from the provided source
-func (server *Server_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20210501s.Server_STATUS)
-	if ok {
-		// Populate our instance from source
-		return server.AssignPropertiesFromServer_STATUS(src)
-	}
-
-	// Convert to an intermediate form
-	src = &v20210501s.Server_STATUS{}
-	err := src.ConvertStatusFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
-	}
-
-	// Update our instance from src
-	err = server.AssignPropertiesFromServer_STATUS(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
-	}
-
-	return nil
-}
-
-// ConvertStatusTo populates the provided destination from our Server_STATUS
-func (server *Server_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20210501s.Server_STATUS)
-	if ok {
-		// Populate destination from our instance
-		return server.AssignPropertiesToServer_STATUS(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &v20210501s.Server_STATUS{}
-	err := server.AssignPropertiesToServer_STATUS(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertStatusTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
-	}
-
-	return nil
-}
-
-var _ genruntime.FromARMConverter = &Server_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (server *Server_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Server_STATUSARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Server_STATUSARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Server_STATUSARM, got %T", armInput)
-	}
-
-	// Set property ‘AdministratorLogin’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.AdministratorLogin != nil {
-			administratorLogin := *typedInput.Properties.AdministratorLogin
-			server.AdministratorLogin = &administratorLogin
-		}
-	}
-
-	// Set property ‘AvailabilityZone’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.AvailabilityZone != nil {
-			availabilityZone := *typedInput.Properties.AvailabilityZone
-			server.AvailabilityZone = &availabilityZone
-		}
-	}
-
-	// Set property ‘Backup’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Backup != nil {
-			var backup1 Backup_STATUS
-			err := backup1.PopulateFromARM(owner, *typedInput.Properties.Backup)
-			if err != nil {
-				return err
-			}
-			backup := backup1
-			server.Backup = &backup
-		}
-	}
-
-	// no assignment for property ‘Conditions’
-
-	// Set property ‘CreateMode’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.CreateMode != nil {
-			createMode := *typedInput.Properties.CreateMode
-			server.CreateMode = &createMode
-		}
-	}
-
-	// Set property ‘DataEncryption’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.DataEncryption != nil {
-			var dataEncryption1 DataEncryption_STATUS
-			err := dataEncryption1.PopulateFromARM(owner, *typedInput.Properties.DataEncryption)
-			if err != nil {
-				return err
-			}
-			dataEncryption := dataEncryption1
-			server.DataEncryption = &dataEncryption
-		}
-	}
-
-	// Set property ‘FullyQualifiedDomainName’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.FullyQualifiedDomainName != nil {
-			fullyQualifiedDomainName := *typedInput.Properties.FullyQualifiedDomainName
-			server.FullyQualifiedDomainName = &fullyQualifiedDomainName
-		}
-	}
-
-	// Set property ‘HighAvailability’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.HighAvailability != nil {
-			var highAvailability1 HighAvailability_STATUS
-			err := highAvailability1.PopulateFromARM(owner, *typedInput.Properties.HighAvailability)
-			if err != nil {
-				return err
-			}
-			highAvailability := highAvailability1
-			server.HighAvailability = &highAvailability
-		}
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		server.Id = &id
-	}
-
-	// Set property ‘Identity’:
-	if typedInput.Identity != nil {
-		var identity1 Identity_STATUS
-		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
-		if err != nil {
-			return err
-		}
-		identity := identity1
-		server.Identity = &identity
-	}
-
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		server.Location = &location
-	}
-
-	// Set property ‘MaintenanceWindow’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.MaintenanceWindow != nil {
-			var maintenanceWindow1 MaintenanceWindow_STATUS
-			err := maintenanceWindow1.PopulateFromARM(owner, *typedInput.Properties.MaintenanceWindow)
-			if err != nil {
-				return err
-			}
-			maintenanceWindow := maintenanceWindow1
-			server.MaintenanceWindow = &maintenanceWindow
-		}
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		server.Name = &name
-	}
-
-	// Set property ‘Network’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Network != nil {
-			var network1 Network_STATUS
-			err := network1.PopulateFromARM(owner, *typedInput.Properties.Network)
-			if err != nil {
-				return err
-			}
-			network := network1
-			server.Network = &network
-		}
-	}
-
-	// Set property ‘ReplicaCapacity’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ReplicaCapacity != nil {
-			replicaCapacity := *typedInput.Properties.ReplicaCapacity
-			server.ReplicaCapacity = &replicaCapacity
-		}
-	}
-
-	// Set property ‘ReplicationRole’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ReplicationRole != nil {
-			replicationRole := *typedInput.Properties.ReplicationRole
-			server.ReplicationRole = &replicationRole
-		}
-	}
-
-	// Set property ‘RestorePointInTime’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.RestorePointInTime != nil {
-			restorePointInTime := *typedInput.Properties.RestorePointInTime
-			server.RestorePointInTime = &restorePointInTime
-		}
-	}
-
-	// Set property ‘Sku’:
-	if typedInput.Sku != nil {
-		var sku1 Sku_STATUS
-		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
-		if err != nil {
-			return err
-		}
-		sku := sku1
-		server.Sku = &sku
-	}
-
-	// Set property ‘SourceServerResourceId’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.SourceServerResourceId != nil {
-			sourceServerResourceId := *typedInput.Properties.SourceServerResourceId
-			server.SourceServerResourceId = &sourceServerResourceId
-		}
-	}
-
-	// Set property ‘State’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.State != nil {
-			state := *typedInput.Properties.State
-			server.State = &state
-		}
-	}
-
-	// Set property ‘Storage’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Storage != nil {
-			var storage1 Storage_STATUS
-			err := storage1.PopulateFromARM(owner, *typedInput.Properties.Storage)
-			if err != nil {
-				return err
-			}
-			storage := storage1
-			server.Storage = &storage
-		}
-	}
-
-	// Set property ‘SystemData’:
-	if typedInput.SystemData != nil {
-		var systemData1 SystemData_STATUS
-		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
-		if err != nil {
-			return err
-		}
-		systemData := systemData1
-		server.SystemData = &systemData
-	}
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		server.Tags = make(map[string]string)
-		for key, value := range typedInput.Tags {
-			server.Tags[key] = value
-		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		server.Type = &typeVar
-	}
-
-	// Set property ‘Version’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Version != nil {
-			version := *typedInput.Properties.Version
-			server.Version = &version
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromServer_STATUS populates our Server_STATUS from the provided source Server_STATUS
-func (server *Server_STATUS) AssignPropertiesFromServer_STATUS(source *v20210501s.Server_STATUS) error {
-
-	// AdministratorLogin
-	server.AdministratorLogin = genruntime.ClonePointerToString(source.AdministratorLogin)
-
-	// AvailabilityZone
-	server.AvailabilityZone = genruntime.ClonePointerToString(source.AvailabilityZone)
-
-	// Backup
-	if source.Backup != nil {
-		var backup Backup_STATUS
-		err := backup.AssignPropertiesFromBackup_STATUS(source.Backup)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromBackup_STATUS() to populate field Backup")
-		}
-		server.Backup = &backup
-	} else {
-		server.Backup = nil
-	}
-
-	// Conditions
-	server.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
-
-	// CreateMode
-	if source.CreateMode != nil {
-		createMode := ServerProperties_CreateMode_STATUS(*source.CreateMode)
-		server.CreateMode = &createMode
-	} else {
-		server.CreateMode = nil
-	}
-
-	// DataEncryption
-	if source.DataEncryption != nil {
-		var dataEncryption DataEncryption_STATUS
-		err := dataEncryption.AssignPropertiesFromDataEncryption_STATUS(source.DataEncryption)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromDataEncryption_STATUS() to populate field DataEncryption")
-		}
-		server.DataEncryption = &dataEncryption
-	} else {
-		server.DataEncryption = nil
-	}
-
-	// FullyQualifiedDomainName
-	server.FullyQualifiedDomainName = genruntime.ClonePointerToString(source.FullyQualifiedDomainName)
-
-	// HighAvailability
-	if source.HighAvailability != nil {
-		var highAvailability HighAvailability_STATUS
-		err := highAvailability.AssignPropertiesFromHighAvailability_STATUS(source.HighAvailability)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromHighAvailability_STATUS() to populate field HighAvailability")
-		}
-		server.HighAvailability = &highAvailability
-	} else {
-		server.HighAvailability = nil
-	}
-
-	// Id
-	server.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Identity
-	if source.Identity != nil {
-		var identity Identity_STATUS
-		err := identity.AssignPropertiesFromIdentity_STATUS(source.Identity)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromIdentity_STATUS() to populate field Identity")
-		}
-		server.Identity = &identity
-	} else {
-		server.Identity = nil
-	}
-
-	// Location
-	server.Location = genruntime.ClonePointerToString(source.Location)
-
-	// MaintenanceWindow
-	if source.MaintenanceWindow != nil {
-		var maintenanceWindow MaintenanceWindow_STATUS
-		err := maintenanceWindow.AssignPropertiesFromMaintenanceWindow_STATUS(source.MaintenanceWindow)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromMaintenanceWindow_STATUS() to populate field MaintenanceWindow")
-		}
-		server.MaintenanceWindow = &maintenanceWindow
-	} else {
-		server.MaintenanceWindow = nil
-	}
-
-	// Name
-	server.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Network
-	if source.Network != nil {
-		var network Network_STATUS
-		err := network.AssignPropertiesFromNetwork_STATUS(source.Network)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromNetwork_STATUS() to populate field Network")
-		}
-		server.Network = &network
-	} else {
-		server.Network = nil
-	}
-
-	// ReplicaCapacity
-	server.ReplicaCapacity = genruntime.ClonePointerToInt(source.ReplicaCapacity)
-
-	// ReplicationRole
-	if source.ReplicationRole != nil {
-		replicationRole := ReplicationRole_STATUS(*source.ReplicationRole)
-		server.ReplicationRole = &replicationRole
-	} else {
-		server.ReplicationRole = nil
-	}
-
-	// RestorePointInTime
-	server.RestorePointInTime = genruntime.ClonePointerToString(source.RestorePointInTime)
-
-	// Sku
-	if source.Sku != nil {
-		var sku Sku_STATUS
-		err := sku.AssignPropertiesFromSku_STATUS(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSku_STATUS() to populate field Sku")
-		}
-		server.Sku = &sku
-	} else {
-		server.Sku = nil
-	}
-
-	// SourceServerResourceId
-	server.SourceServerResourceId = genruntime.ClonePointerToString(source.SourceServerResourceId)
-
-	// State
-	if source.State != nil {
-		state := ServerProperties_State_STATUS(*source.State)
-		server.State = &state
-	} else {
-		server.State = nil
-	}
-
-	// Storage
-	if source.Storage != nil {
-		var storage Storage_STATUS
-		err := storage.AssignPropertiesFromStorage_STATUS(source.Storage)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromStorage_STATUS() to populate field Storage")
-		}
-		server.Storage = &storage
-	} else {
-		server.Storage = nil
-	}
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData_STATUS
-		err := systemDatum.AssignPropertiesFromSystemData_STATUS(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData_STATUS() to populate field SystemData")
-		}
-		server.SystemData = &systemDatum
-	} else {
-		server.SystemData = nil
-	}
-
-	// Tags
-	server.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	server.Type = genruntime.ClonePointerToString(source.Type)
-
-	// Version
-	if source.Version != nil {
-		version := ServerVersion_STATUS(*source.Version)
-		server.Version = &version
-	} else {
-		server.Version = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToServer_STATUS populates the provided destination Server_STATUS from our Server_STATUS
-func (server *Server_STATUS) AssignPropertiesToServer_STATUS(destination *v20210501s.Server_STATUS) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AdministratorLogin
-	destination.AdministratorLogin = genruntime.ClonePointerToString(server.AdministratorLogin)
-
-	// AvailabilityZone
-	destination.AvailabilityZone = genruntime.ClonePointerToString(server.AvailabilityZone)
-
-	// Backup
-	if server.Backup != nil {
-		var backup v20210501s.Backup_STATUS
-		err := server.Backup.AssignPropertiesToBackup_STATUS(&backup)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToBackup_STATUS() to populate field Backup")
-		}
-		destination.Backup = &backup
-	} else {
-		destination.Backup = nil
-	}
-
-	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(server.Conditions)
-
-	// CreateMode
-	if server.CreateMode != nil {
-		createMode := string(*server.CreateMode)
-		destination.CreateMode = &createMode
-	} else {
-		destination.CreateMode = nil
-	}
-
-	// DataEncryption
-	if server.DataEncryption != nil {
-		var dataEncryption v20210501s.DataEncryption_STATUS
-		err := server.DataEncryption.AssignPropertiesToDataEncryption_STATUS(&dataEncryption)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToDataEncryption_STATUS() to populate field DataEncryption")
-		}
-		destination.DataEncryption = &dataEncryption
-	} else {
-		destination.DataEncryption = nil
-	}
-
-	// FullyQualifiedDomainName
-	destination.FullyQualifiedDomainName = genruntime.ClonePointerToString(server.FullyQualifiedDomainName)
-
-	// HighAvailability
-	if server.HighAvailability != nil {
-		var highAvailability v20210501s.HighAvailability_STATUS
-		err := server.HighAvailability.AssignPropertiesToHighAvailability_STATUS(&highAvailability)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToHighAvailability_STATUS() to populate field HighAvailability")
-		}
-		destination.HighAvailability = &highAvailability
-	} else {
-		destination.HighAvailability = nil
-	}
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(server.Id)
-
-	// Identity
-	if server.Identity != nil {
-		var identity v20210501s.Identity_STATUS
-		err := server.Identity.AssignPropertiesToIdentity_STATUS(&identity)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToIdentity_STATUS() to populate field Identity")
-		}
-		destination.Identity = &identity
-	} else {
-		destination.Identity = nil
-	}
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(server.Location)
-
-	// MaintenanceWindow
-	if server.MaintenanceWindow != nil {
-		var maintenanceWindow v20210501s.MaintenanceWindow_STATUS
-		err := server.MaintenanceWindow.AssignPropertiesToMaintenanceWindow_STATUS(&maintenanceWindow)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToMaintenanceWindow_STATUS() to populate field MaintenanceWindow")
-		}
-		destination.MaintenanceWindow = &maintenanceWindow
-	} else {
-		destination.MaintenanceWindow = nil
-	}
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(server.Name)
-
-	// Network
-	if server.Network != nil {
-		var network v20210501s.Network_STATUS
-		err := server.Network.AssignPropertiesToNetwork_STATUS(&network)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToNetwork_STATUS() to populate field Network")
-		}
-		destination.Network = &network
-	} else {
-		destination.Network = nil
-	}
-
-	// ReplicaCapacity
-	destination.ReplicaCapacity = genruntime.ClonePointerToInt(server.ReplicaCapacity)
-
-	// ReplicationRole
-	if server.ReplicationRole != nil {
-		replicationRole := string(*server.ReplicationRole)
-		destination.ReplicationRole = &replicationRole
-	} else {
-		destination.ReplicationRole = nil
-	}
-
-	// RestorePointInTime
-	destination.RestorePointInTime = genruntime.ClonePointerToString(server.RestorePointInTime)
-
-	// Sku
-	if server.Sku != nil {
-		var sku v20210501s.Sku_STATUS
-		err := server.Sku.AssignPropertiesToSku_STATUS(&sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSku_STATUS() to populate field Sku")
-		}
-		destination.Sku = &sku
-	} else {
-		destination.Sku = nil
-	}
-
-	// SourceServerResourceId
-	destination.SourceServerResourceId = genruntime.ClonePointerToString(server.SourceServerResourceId)
-
-	// State
-	if server.State != nil {
-		state := string(*server.State)
-		destination.State = &state
-	} else {
-		destination.State = nil
-	}
-
-	// Storage
-	if server.Storage != nil {
-		var storage v20210501s.Storage_STATUS
-		err := server.Storage.AssignPropertiesToStorage_STATUS(&storage)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToStorage_STATUS() to populate field Storage")
-		}
-		destination.Storage = &storage
-	} else {
-		destination.Storage = nil
-	}
-
-	// SystemData
-	if server.SystemData != nil {
-		var systemDatum v20210501s.SystemData_STATUS
-		err := server.SystemData.AssignPropertiesToSystemData_STATUS(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData_STATUS() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(server.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(server.Type)
-
-	// Version
-	if server.Version != nil {
-		version := string(*server.Version)
-		destination.Version = &version
-	} else {
-		destination.Version = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
 
 type Backup struct {
 	// BackupRetentionDays: Backup retention days for the server.

@@ -27,8 +27,8 @@ import (
 type SignalR struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              SignalR_Spec           `json:"spec,omitempty"`
-	Status            SignalRResource_STATUS `json:"status,omitempty"`
+	Spec              SignalR_Spec   `json:"spec,omitempty"`
+	Status            SignalR_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SignalR{}
@@ -77,7 +77,7 @@ func (signalR *SignalR) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (signalR *SignalR) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SignalRResource_STATUS{}
+	return &SignalR_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -93,13 +93,13 @@ func (signalR *SignalR) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (signalR *SignalR) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SignalRResource_STATUS); ok {
+	if st, ok := status.(*SignalR_STATUS); ok {
 		signalR.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SignalRResource_STATUS
+	var st SignalR_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -137,8 +137,8 @@ type APIVersion string
 
 const APIVersionValue = APIVersion("20211001")
 
-// Storage version of v1beta20211001.SignalRResource_STATUS
-type SignalRResource_STATUS struct {
+// Storage version of v1beta20211001.SignalR_STATUS
+type SignalR_STATUS struct {
 	Conditions                 []conditions.Condition                                         `json:"conditions,omitempty"`
 	Cors                       *SignalRCorsSettings_STATUS                                    `json:"cors,omitempty"`
 	DisableAadAuth             *bool                                                          `json:"disableAadAuth,omitempty"`
@@ -170,24 +170,24 @@ type SignalRResource_STATUS struct {
 	Version                    *string                                                        `json:"version,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &SignalRResource_STATUS{}
+var _ genruntime.ConvertibleStatus = &SignalR_STATUS{}
 
-// ConvertStatusFrom populates our SignalRResource_STATUS from the provided source
-func (resource *SignalRResource_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == resource {
+// ConvertStatusFrom populates our SignalR_STATUS from the provided source
+func (signalR *SignalR_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == signalR {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return source.ConvertStatusTo(resource)
+	return source.ConvertStatusTo(signalR)
 }
 
-// ConvertStatusTo populates the provided destination from our SignalRResource_STATUS
-func (resource *SignalRResource_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == resource {
+// ConvertStatusTo populates the provided destination from our SignalR_STATUS
+func (signalR *SignalR_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == signalR {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
 
-	return destination.ConvertStatusFrom(resource)
+	return destination.ConvertStatusFrom(signalR)
 }
 
 // Storage version of v1beta20211001.SignalR_Spec

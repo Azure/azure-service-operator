@@ -27,8 +27,8 @@ import (
 type SqlDatabaseContainerThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccountsSqlDatabasesContainersThroughputSetting_Spec `json:"spec,omitempty"`
-	Status            ThroughputSettingsUpdateParameters_STATUS                    `json:"status,omitempty"`
+	Spec              DatabaseAccountsSqlDatabasesContainersThroughputSetting_Spec   `json:"spec,omitempty"`
+	Status            DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainerThroughputSetting{}
@@ -77,7 +77,7 @@ func (setting *SqlDatabaseContainerThroughputSetting) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (setting *SqlDatabaseContainerThroughputSetting) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &ThroughputSettingsUpdateParameters_STATUS{}
+	return &DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -93,13 +93,13 @@ func (setting *SqlDatabaseContainerThroughputSetting) Owner() *genruntime.Resour
 // SetStatus sets the status of this resource
 func (setting *SqlDatabaseContainerThroughputSetting) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*ThroughputSettingsUpdateParameters_STATUS); ok {
+	if st, ok := status.(*DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS); ok {
 		setting.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st ThroughputSettingsUpdateParameters_STATUS
+	var st DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -129,6 +129,38 @@ type SqlDatabaseContainerThroughputSettingList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []SqlDatabaseContainerThroughputSetting `json:"items"`
+}
+
+// Storage version of v1beta20210515.DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS
+type DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS struct {
+	Conditions  []conditions.Condition             `json:"conditions,omitempty"`
+	Id          *string                            `json:"id,omitempty"`
+	Location    *string                            `json:"location,omitempty"`
+	Name        *string                            `json:"name,omitempty"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Resource    *ThroughputSettingsResource_STATUS `json:"resource,omitempty"`
+	Tags        map[string]string                  `json:"tags,omitempty"`
+	Type        *string                            `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS{}
+
+// ConvertStatusFrom populates our DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS from the provided source
+func (setting *DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == setting {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(setting)
+}
+
+// ConvertStatusTo populates the provided destination from our DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS
+func (setting *DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == setting {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(setting)
 }
 
 // Storage version of v1beta20210515.DatabaseAccountsSqlDatabasesContainersThroughputSetting_Spec

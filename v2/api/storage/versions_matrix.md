@@ -9,9 +9,6 @@
 | AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions        | v1alpha1api20210401 | v1beta20210401 |
 | AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS | v1alpha1api20210401 | v1beta20210401 |
 | AzureFilesIdentityBasedAuthentication_STATUS                         | v1alpha1api20210401 | v1beta20210401 |
-| BlobContainer_STATUS                                                 | v1alpha1api20210401 | v1beta20210401 |
-| BlobServiceProperties_Properties_STATUS                              | v1alpha1api20210401 | v1beta20210401 |
-| BlobServiceProperties_STATUS                                         | v1alpha1api20210401 | v1beta20210401 |
 | ChangeFeed                                                           | v1alpha1api20210401 | v1beta20210401 |
 | ChangeFeed_STATUS                                                    | v1alpha1api20210401 | v1beta20210401 |
 | ContainerProperties                                                  | v1alpha1api20210401 | v1beta20210401 |
@@ -102,7 +99,6 @@
 | ManagementPolicySnapShot_STATUS                                      |                     | v1beta20210401 |
 | ManagementPolicyVersion                                              |                     | v1beta20210401 |
 | ManagementPolicyVersion_STATUS                                       |                     | v1beta20210401 |
-| ManagementPolicy_STATUS                                              |                     | v1beta20210401 |
 | NetworkRuleSet                                                       | v1alpha1api20210401 | v1beta20210401 |
 | NetworkRuleSet_Bypass                                                | v1alpha1api20210401 | v1beta20210401 |
 | NetworkRuleSet_Bypass_STATUS                                         | v1alpha1api20210401 | v1beta20210401 |
@@ -111,8 +107,6 @@
 | NetworkRuleSet_STATUS                                                | v1alpha1api20210401 | v1beta20210401 |
 | QueueProperties                                                      | v1alpha1api20210401 | v1beta20210401 |
 | QueueProperties_STATUS                                               | v1alpha1api20210401 | v1beta20210401 |
-| QueueServiceProperties_Properties_STATUS                             | v1alpha1api20210401 | v1beta20210401 |
-| QueueServiceProperties_STATUS                                        | v1alpha1api20210401 | v1beta20210401 |
 | ResourceAccessRule                                                   | v1alpha1api20210401 | v1beta20210401 |
 | ResourceAccessRule_STATUS                                            | v1alpha1api20210401 | v1beta20210401 |
 | RestorePolicyProperties                                              | v1alpha1api20210401 | v1beta20210401 |
@@ -130,8 +124,6 @@
 | SkuName_STATUS                                                       | v1alpha1api20210401 | v1beta20210401 |
 | Sku_STATUS                                                           | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccount                                                       | v1alpha1api20210401 | v1beta20210401 |
-| StorageAccountCreateParameters_Kind_STATUS                           | v1alpha1api20210401 | v1beta20210401 |
-| StorageAccountCreateParameters_STATUS                                | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccountPropertiesCreateParameters                             | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccountPropertiesCreateParameters_AccessTier                  | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccountPropertiesCreateParameters_AccessTier_STATUS           | v1alpha1api20210401 | v1beta20210401 |
@@ -140,21 +132,29 @@
 | StorageAccountPropertiesCreateParameters_MinimumTlsVersion           | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccountPropertiesCreateParameters_MinimumTlsVersion_STATUS    | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccountPropertiesCreateParameters_STATUS                      | v1alpha1api20210401 | v1beta20210401 |
+| StorageAccount_Kind_STATUS                                           | v1alpha1api20210401 | v1beta20210401 |
+| StorageAccount_STATUS                                                | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccount_Spec                                                  | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccount_Spec_Kind                                             | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccountsBlobService                                           | v1alpha1api20210401 | v1beta20210401 |
+| StorageAccountsBlobService_Properties_STATUS                         | v1alpha1api20210401 | v1beta20210401 |
+| StorageAccountsBlobService_STATUS                                    | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccountsBlobService_Spec                                      | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccountsBlobService_Spec_Properties                           | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccountsBlobServicesContainer                                 | v1alpha1api20210401 | v1beta20210401 |
+| StorageAccountsBlobServicesContainer_STATUS                          | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccountsBlobServicesContainer_Spec                            | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccountsManagementPolicy                                      |                     | v1beta20210401 |
+| StorageAccountsManagementPolicy_STATUS                               |                     | v1beta20210401 |
 | StorageAccountsManagementPolicy_Spec                                 |                     | v1beta20210401 |
 | StorageAccountsQueueService                                          | v1alpha1api20210401 | v1beta20210401 |
+| StorageAccountsQueueService_Properties_STATUS                        | v1alpha1api20210401 | v1beta20210401 |
+| StorageAccountsQueueService_STATUS                                   | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccountsQueueService_Spec                                     | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccountsQueueService_Spec_Properties                          | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccountsQueueServicesQueue                                    | v1alpha1api20210401 | v1beta20210401 |
+| StorageAccountsQueueServicesQueue_STATUS                             | v1alpha1api20210401 | v1beta20210401 |
 | StorageAccountsQueueServicesQueue_Spec                               | v1alpha1api20210401 | v1beta20210401 |
-| StorageQueue_STATUS                                                  | v1alpha1api20210401 | v1beta20210401 |
 | TagFilter                                                            |                     | v1beta20210401 |
 | TagFilter_STATUS                                                     |                     | v1beta20210401 |
 | TagProperty                                                          | v1alpha1api20210401 | v1beta20210401 |

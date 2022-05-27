@@ -27,8 +27,8 @@ import (
 type NamespacesQueue struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              NamespacesQueue_Spec `json:"spec,omitempty"`
-	Status            SBQueue_STATUS       `json:"status,omitempty"`
+	Spec              NamespacesQueue_Spec   `json:"spec,omitempty"`
+	Status            NamespacesQueue_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &NamespacesQueue{}
@@ -77,7 +77,7 @@ func (queue *NamespacesQueue) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (queue *NamespacesQueue) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SBQueue_STATUS{}
+	return &NamespacesQueue_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -93,13 +93,13 @@ func (queue *NamespacesQueue) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (queue *NamespacesQueue) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SBQueue_STATUS); ok {
+	if st, ok := status.(*NamespacesQueue_STATUS); ok {
 		queue.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SBQueue_STATUS
+	var st NamespacesQueue_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -129,6 +129,57 @@ type NamespacesQueueList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []NamespacesQueue `json:"items"`
+}
+
+// Storage version of v1beta20210101preview.NamespacesQueue_STATUS
+type NamespacesQueue_STATUS struct {
+	AccessedAt                          *string                     `json:"accessedAt,omitempty"`
+	AutoDeleteOnIdle                    *string                     `json:"autoDeleteOnIdle,omitempty"`
+	Conditions                          []conditions.Condition      `json:"conditions,omitempty"`
+	CountDetails                        *MessageCountDetails_STATUS `json:"countDetails,omitempty"`
+	CreatedAt                           *string                     `json:"createdAt,omitempty"`
+	DeadLetteringOnMessageExpiration    *bool                       `json:"deadLetteringOnMessageExpiration,omitempty"`
+	DefaultMessageTimeToLive            *string                     `json:"defaultMessageTimeToLive,omitempty"`
+	DuplicateDetectionHistoryTimeWindow *string                     `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
+	EnableBatchedOperations             *bool                       `json:"enableBatchedOperations,omitempty"`
+	EnableExpress                       *bool                       `json:"enableExpress,omitempty"`
+	EnablePartitioning                  *bool                       `json:"enablePartitioning,omitempty"`
+	ForwardDeadLetteredMessagesTo       *string                     `json:"forwardDeadLetteredMessagesTo,omitempty"`
+	ForwardTo                           *string                     `json:"forwardTo,omitempty"`
+	Id                                  *string                     `json:"id,omitempty"`
+	LockDuration                        *string                     `json:"lockDuration,omitempty"`
+	MaxDeliveryCount                    *int                        `json:"maxDeliveryCount,omitempty"`
+	MaxSizeInMegabytes                  *int                        `json:"maxSizeInMegabytes,omitempty"`
+	MessageCount                        *int                        `json:"messageCount,omitempty"`
+	Name                                *string                     `json:"name,omitempty"`
+	PropertyBag                         genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	RequiresDuplicateDetection          *bool                       `json:"requiresDuplicateDetection,omitempty"`
+	RequiresSession                     *bool                       `json:"requiresSession,omitempty"`
+	SizeInBytes                         *int                        `json:"sizeInBytes,omitempty"`
+	Status                              *string                     `json:"status,omitempty"`
+	SystemData                          *SystemData_STATUS          `json:"systemData,omitempty"`
+	Type                                *string                     `json:"type,omitempty"`
+	UpdatedAt                           *string                     `json:"updatedAt,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &NamespacesQueue_STATUS{}
+
+// ConvertStatusFrom populates our NamespacesQueue_STATUS from the provided source
+func (queue *NamespacesQueue_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == queue {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(queue)
+}
+
+// ConvertStatusTo populates the provided destination from our NamespacesQueue_STATUS
+func (queue *NamespacesQueue_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == queue {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(queue)
 }
 
 // Storage version of v1beta20210101preview.NamespacesQueue_Spec
@@ -188,57 +239,6 @@ func (queue *NamespacesQueue_Spec) ConvertSpecTo(destination genruntime.Converti
 	}
 
 	return destination.ConvertSpecFrom(queue)
-}
-
-// Storage version of v1beta20210101preview.SBQueue_STATUS
-type SBQueue_STATUS struct {
-	AccessedAt                          *string                     `json:"accessedAt,omitempty"`
-	AutoDeleteOnIdle                    *string                     `json:"autoDeleteOnIdle,omitempty"`
-	Conditions                          []conditions.Condition      `json:"conditions,omitempty"`
-	CountDetails                        *MessageCountDetails_STATUS `json:"countDetails,omitempty"`
-	CreatedAt                           *string                     `json:"createdAt,omitempty"`
-	DeadLetteringOnMessageExpiration    *bool                       `json:"deadLetteringOnMessageExpiration,omitempty"`
-	DefaultMessageTimeToLive            *string                     `json:"defaultMessageTimeToLive,omitempty"`
-	DuplicateDetectionHistoryTimeWindow *string                     `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
-	EnableBatchedOperations             *bool                       `json:"enableBatchedOperations,omitempty"`
-	EnableExpress                       *bool                       `json:"enableExpress,omitempty"`
-	EnablePartitioning                  *bool                       `json:"enablePartitioning,omitempty"`
-	ForwardDeadLetteredMessagesTo       *string                     `json:"forwardDeadLetteredMessagesTo,omitempty"`
-	ForwardTo                           *string                     `json:"forwardTo,omitempty"`
-	Id                                  *string                     `json:"id,omitempty"`
-	LockDuration                        *string                     `json:"lockDuration,omitempty"`
-	MaxDeliveryCount                    *int                        `json:"maxDeliveryCount,omitempty"`
-	MaxSizeInMegabytes                  *int                        `json:"maxSizeInMegabytes,omitempty"`
-	MessageCount                        *int                        `json:"messageCount,omitempty"`
-	Name                                *string                     `json:"name,omitempty"`
-	PropertyBag                         genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
-	RequiresDuplicateDetection          *bool                       `json:"requiresDuplicateDetection,omitempty"`
-	RequiresSession                     *bool                       `json:"requiresSession,omitempty"`
-	SizeInBytes                         *int                        `json:"sizeInBytes,omitempty"`
-	Status                              *string                     `json:"status,omitempty"`
-	SystemData                          *SystemData_STATUS          `json:"systemData,omitempty"`
-	Type                                *string                     `json:"type,omitempty"`
-	UpdatedAt                           *string                     `json:"updatedAt,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &SBQueue_STATUS{}
-
-// ConvertStatusFrom populates our SBQueue_STATUS from the provided source
-func (queue *SBQueue_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == queue {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(queue)
-}
-
-// ConvertStatusTo populates the provided destination from our SBQueue_STATUS
-func (queue *SBQueue_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == queue {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(queue)
 }
 
 // Storage version of v1beta20210101preview.MessageCountDetails

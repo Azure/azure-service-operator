@@ -28,8 +28,8 @@ import (
 type SqlDatabaseContainerStoredProcedure struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec `json:"spec,omitempty"`
-	Status            SqlStoredProcedureCreateUpdateParameters_STATUS            `json:"status,omitempty"`
+	Spec              DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec   `json:"spec,omitempty"`
+	Status            DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainerStoredProcedure{}
@@ -137,7 +137,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (procedure *SqlDatabaseContainerStoredProcedure) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SqlStoredProcedureCreateUpdateParameters_STATUS{}
+	return &DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -153,13 +153,13 @@ func (procedure *SqlDatabaseContainerStoredProcedure) Owner() *genruntime.Resour
 // SetStatus sets the status of this resource
 func (procedure *SqlDatabaseContainerStoredProcedure) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SqlStoredProcedureCreateUpdateParameters_STATUS); ok {
+	if st, ok := status.(*DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS); ok {
 		procedure.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SqlStoredProcedureCreateUpdateParameters_STATUS
+	var st DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -277,10 +277,10 @@ func (procedure *SqlDatabaseContainerStoredProcedure) AssignPropertiesFromSqlDat
 	procedure.Spec = spec
 
 	// Status
-	var status SqlStoredProcedureCreateUpdateParameters_STATUS
-	err = status.AssignPropertiesFromSqlStoredProcedureCreateUpdateParameters_STATUS(&source.Status)
+	var status DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS
+	err = status.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromSqlStoredProcedureCreateUpdateParameters_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS() to populate field Status")
 	}
 	procedure.Status = status
 
@@ -303,10 +303,10 @@ func (procedure *SqlDatabaseContainerStoredProcedure) AssignPropertiesToSqlDatab
 	destination.Spec = spec
 
 	// Status
-	var status alpha20210515s.SqlStoredProcedureCreateUpdateParameters_STATUS
-	err = procedure.Status.AssignPropertiesToSqlStoredProcedureCreateUpdateParameters_STATUS(&status)
+	var status alpha20210515s.DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS
+	err = procedure.Status.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToSqlStoredProcedureCreateUpdateParameters_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -329,6 +329,256 @@ type SqlDatabaseContainerStoredProcedureList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []SqlDatabaseContainerStoredProcedure `json:"items"`
+}
+
+// Deprecated version of DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS. Use v1beta20210515.DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS instead
+type DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS struct {
+	// Conditions: The observed state of the resource
+	Conditions []conditions.Condition             `json:"conditions,omitempty"`
+	Id         *string                            `json:"id,omitempty"`
+	Location   *string                            `json:"location,omitempty"`
+	Name       *string                            `json:"name,omitempty"`
+	Options    *CreateUpdateOptions_STATUS        `json:"options,omitempty"`
+	Resource   *SqlStoredProcedureResource_STATUS `json:"resource,omitempty"`
+	Tags       map[string]string                  `json:"tags,omitempty"`
+	Type       *string                            `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS{}
+
+// ConvertStatusFrom populates our DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS from the provided source
+func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*alpha20210515s.DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS)
+	if ok {
+		// Populate our instance from source
+		return procedure.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS(src)
+	}
+
+	// Convert to an intermediate form
+	src = &alpha20210515s.DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = procedure.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
+}
+
+// ConvertStatusTo populates the provided destination from our DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS
+func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*alpha20210515s.DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return procedure.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &alpha20210515s.DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS{}
+	err := procedure.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+var _ genruntime.FromARMConverter = &DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUSARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUSARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUSARM, got %T", armInput)
+	}
+
+	// no assignment for property ‘Conditions’
+
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		procedure.Id = &id
+	}
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		procedure.Location = &location
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		procedure.Name = &name
+	}
+
+	// Set property ‘Options’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Options != nil {
+			var options1 CreateUpdateOptions_STATUS
+			err := options1.PopulateFromARM(owner, *typedInput.Properties.Options)
+			if err != nil {
+				return err
+			}
+			options := options1
+			procedure.Options = &options
+		}
+	}
+
+	// Set property ‘Resource’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Resource != nil {
+			var resource1 SqlStoredProcedureResource_STATUS
+			err := resource1.PopulateFromARM(owner, *typedInput.Properties.Resource)
+			if err != nil {
+				return err
+			}
+			resource := resource1
+			procedure.Resource = &resource
+		}
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		procedure.Tags = make(map[string]string)
+		for key, value := range typedInput.Tags {
+			procedure.Tags[key] = value
+		}
+	}
+
+	// Set property ‘Type’:
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		procedure.Type = &typeVar
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS populates our DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS from the provided source DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS
+func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS) AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS(source *alpha20210515s.DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS) error {
+
+	// Conditions
+	procedure.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Id
+	procedure.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Location
+	procedure.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Name
+	procedure.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Options
+	if source.Options != nil {
+		var option CreateUpdateOptions_STATUS
+		err := option.AssignPropertiesFromCreateUpdateOptions_STATUS(source.Options)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptions_STATUS() to populate field Options")
+		}
+		procedure.Options = &option
+	} else {
+		procedure.Options = nil
+	}
+
+	// Resource
+	if source.Resource != nil {
+		var resource SqlStoredProcedureResource_STATUS
+		err := resource.AssignPropertiesFromSqlStoredProcedureResource_STATUS(source.Resource)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSqlStoredProcedureResource_STATUS() to populate field Resource")
+		}
+		procedure.Resource = &resource
+	} else {
+		procedure.Resource = nil
+	}
+
+	// Tags
+	procedure.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	procedure.Type = genruntime.ClonePointerToString(source.Type)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS populates the provided destination DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS from our DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS
+func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS) AssignPropertiesToDatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS(destination *alpha20210515s.DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(procedure.Conditions)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(procedure.Id)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(procedure.Location)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(procedure.Name)
+
+	// Options
+	if procedure.Options != nil {
+		var option alpha20210515s.CreateUpdateOptions_STATUS
+		err := procedure.Options.AssignPropertiesToCreateUpdateOptions_STATUS(&option)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions_STATUS() to populate field Options")
+		}
+		destination.Options = &option
+	} else {
+		destination.Options = nil
+	}
+
+	// Resource
+	if procedure.Resource != nil {
+		var resource alpha20210515s.SqlStoredProcedureResource_STATUS
+		err := procedure.Resource.AssignPropertiesToSqlStoredProcedureResource_STATUS(&resource)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSqlStoredProcedureResource_STATUS() to populate field Resource")
+		}
+		destination.Resource = &resource
+	} else {
+		destination.Resource = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(procedure.Tags)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(procedure.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 type DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec struct {
@@ -671,256 +921,6 @@ func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec) Ori
 // SetAzureName sets the Azure name of the resource
 func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec) SetAzureName(azureName string) {
 	procedure.AzureName = azureName
-}
-
-// Deprecated version of SqlStoredProcedureCreateUpdateParameters_STATUS. Use v1beta20210515.SqlStoredProcedureCreateUpdateParameters_STATUS instead
-type SqlStoredProcedureCreateUpdateParameters_STATUS struct {
-	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition             `json:"conditions,omitempty"`
-	Id         *string                            `json:"id,omitempty"`
-	Location   *string                            `json:"location,omitempty"`
-	Name       *string                            `json:"name,omitempty"`
-	Options    *CreateUpdateOptions_STATUS        `json:"options,omitempty"`
-	Resource   *SqlStoredProcedureResource_STATUS `json:"resource,omitempty"`
-	Tags       map[string]string                  `json:"tags,omitempty"`
-	Type       *string                            `json:"type,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &SqlStoredProcedureCreateUpdateParameters_STATUS{}
-
-// ConvertStatusFrom populates our SqlStoredProcedureCreateUpdateParameters_STATUS from the provided source
-func (parameters *SqlStoredProcedureCreateUpdateParameters_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*alpha20210515s.SqlStoredProcedureCreateUpdateParameters_STATUS)
-	if ok {
-		// Populate our instance from source
-		return parameters.AssignPropertiesFromSqlStoredProcedureCreateUpdateParameters_STATUS(src)
-	}
-
-	// Convert to an intermediate form
-	src = &alpha20210515s.SqlStoredProcedureCreateUpdateParameters_STATUS{}
-	err := src.ConvertStatusFrom(source)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
-	}
-
-	// Update our instance from src
-	err = parameters.AssignPropertiesFromSqlStoredProcedureCreateUpdateParameters_STATUS(src)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
-	}
-
-	return nil
-}
-
-// ConvertStatusTo populates the provided destination from our SqlStoredProcedureCreateUpdateParameters_STATUS
-func (parameters *SqlStoredProcedureCreateUpdateParameters_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*alpha20210515s.SqlStoredProcedureCreateUpdateParameters_STATUS)
-	if ok {
-		// Populate destination from our instance
-		return parameters.AssignPropertiesToSqlStoredProcedureCreateUpdateParameters_STATUS(dst)
-	}
-
-	// Convert to an intermediate form
-	dst = &alpha20210515s.SqlStoredProcedureCreateUpdateParameters_STATUS{}
-	err := parameters.AssignPropertiesToSqlStoredProcedureCreateUpdateParameters_STATUS(dst)
-	if err != nil {
-		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
-	}
-
-	// Update dst from our instance
-	err = dst.ConvertStatusTo(destination)
-	if err != nil {
-		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
-	}
-
-	return nil
-}
-
-var _ genruntime.FromARMConverter = &SqlStoredProcedureCreateUpdateParameters_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *SqlStoredProcedureCreateUpdateParameters_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SqlStoredProcedureCreateUpdateParameters_STATUSARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *SqlStoredProcedureCreateUpdateParameters_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SqlStoredProcedureCreateUpdateParameters_STATUSARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlStoredProcedureCreateUpdateParameters_STATUSARM, got %T", armInput)
-	}
-
-	// no assignment for property ‘Conditions’
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		parameters.Id = &id
-	}
-
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		parameters.Location = &location
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		parameters.Name = &name
-	}
-
-	// Set property ‘Options’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Options != nil {
-			var options1 CreateUpdateOptions_STATUS
-			err := options1.PopulateFromARM(owner, *typedInput.Properties.Options)
-			if err != nil {
-				return err
-			}
-			options := options1
-			parameters.Options = &options
-		}
-	}
-
-	// Set property ‘Resource’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Resource != nil {
-			var resource1 SqlStoredProcedureResource_STATUS
-			err := resource1.PopulateFromARM(owner, *typedInput.Properties.Resource)
-			if err != nil {
-				return err
-			}
-			resource := resource1
-			parameters.Resource = &resource
-		}
-	}
-
-	// Set property ‘Tags’:
-	if typedInput.Tags != nil {
-		parameters.Tags = make(map[string]string)
-		for key, value := range typedInput.Tags {
-			parameters.Tags[key] = value
-		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		parameters.Type = &typeVar
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromSqlStoredProcedureCreateUpdateParameters_STATUS populates our SqlStoredProcedureCreateUpdateParameters_STATUS from the provided source SqlStoredProcedureCreateUpdateParameters_STATUS
-func (parameters *SqlStoredProcedureCreateUpdateParameters_STATUS) AssignPropertiesFromSqlStoredProcedureCreateUpdateParameters_STATUS(source *alpha20210515s.SqlStoredProcedureCreateUpdateParameters_STATUS) error {
-
-	// Conditions
-	parameters.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
-
-	// Id
-	parameters.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Location
-	parameters.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Name
-	parameters.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Options
-	if source.Options != nil {
-		var option CreateUpdateOptions_STATUS
-		err := option.AssignPropertiesFromCreateUpdateOptions_STATUS(source.Options)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptions_STATUS() to populate field Options")
-		}
-		parameters.Options = &option
-	} else {
-		parameters.Options = nil
-	}
-
-	// Resource
-	if source.Resource != nil {
-		var resource SqlStoredProcedureResource_STATUS
-		err := resource.AssignPropertiesFromSqlStoredProcedureResource_STATUS(source.Resource)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSqlStoredProcedureResource_STATUS() to populate field Resource")
-		}
-		parameters.Resource = &resource
-	} else {
-		parameters.Resource = nil
-	}
-
-	// Tags
-	parameters.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	parameters.Type = genruntime.ClonePointerToString(source.Type)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToSqlStoredProcedureCreateUpdateParameters_STATUS populates the provided destination SqlStoredProcedureCreateUpdateParameters_STATUS from our SqlStoredProcedureCreateUpdateParameters_STATUS
-func (parameters *SqlStoredProcedureCreateUpdateParameters_STATUS) AssignPropertiesToSqlStoredProcedureCreateUpdateParameters_STATUS(destination *alpha20210515s.SqlStoredProcedureCreateUpdateParameters_STATUS) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(parameters.Conditions)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(parameters.Id)
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(parameters.Location)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(parameters.Name)
-
-	// Options
-	if parameters.Options != nil {
-		var option alpha20210515s.CreateUpdateOptions_STATUS
-		err := parameters.Options.AssignPropertiesToCreateUpdateOptions_STATUS(&option)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions_STATUS() to populate field Options")
-		}
-		destination.Options = &option
-	} else {
-		destination.Options = nil
-	}
-
-	// Resource
-	if parameters.Resource != nil {
-		var resource alpha20210515s.SqlStoredProcedureResource_STATUS
-		err := parameters.Resource.AssignPropertiesToSqlStoredProcedureResource_STATUS(&resource)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSqlStoredProcedureResource_STATUS() to populate field Resource")
-		}
-		destination.Resource = &resource
-	} else {
-		destination.Resource = nil
-	}
-
-	// Tags
-	destination.Tags = genruntime.CloneMapOfStringToString(parameters.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(parameters.Type)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
 }
 
 // Deprecated version of SqlStoredProcedureResource. Use v1beta20210515.SqlStoredProcedureResource instead

@@ -11513,6 +11513,13 @@ const (
 	PowerState_CodeStopped = PowerState_Code("Stopped")
 )
 
+type PowerState_Code_STATUS string
+
+const (
+	PowerState_Code_STATUSRunning = PowerState_Code_STATUS("Running")
+	PowerState_Code_STATUSStopped = PowerState_Code_STATUS("Stopped")
+)
+
 type ContainerServiceSshPublicKey struct {
 	// +kubebuilder:validation:Required
 	// KeyData: Certificate public key used to authenticate with VMs through SSH. The certificate must be in PEM format with or

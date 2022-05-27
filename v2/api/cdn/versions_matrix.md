@@ -49,7 +49,6 @@
 | EndpointProperties_STATUS                                                          | v1beta20210601 |
 | EndpointProperties_WebApplicationFirewallPolicyLink                                | v1beta20210601 |
 | EndpointProperties_WebApplicationFirewallPolicyLink_STATUS                         | v1beta20210601 |
-| Endpoint_STATUS                                                                    | v1beta20210601 |
 | GeoFilter                                                                          | v1beta20210601 |
 | GeoFilter_Action                                                                   | v1beta20210601 |
 | GeoFilter_Action_STATUS                                                            | v1beta20210601 |
@@ -82,6 +81,7 @@
 | Profile_STATUS                                                                     | v1beta20210601 |
 | Profile_Spec                                                                       | v1beta20210601 |
 | ProfilesEndpoint                                                                   | v1beta20210601 |
+| ProfilesEndpoint_STATUS                                                            | v1beta20210601 |
 | ProfilesEndpoint_Spec                                                              | v1beta20210601 |
 | QueryStringCachingBehavior                                                         | v1beta20210601 |
 | QueryStringCachingBehavior_STATUS                                                  | v1beta20210601 |

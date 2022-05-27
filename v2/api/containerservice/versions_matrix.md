@@ -7,7 +7,6 @@
 | AgentPoolType_STATUS                                           | v1alpha1api20210501 | v1beta20210501 |
 | AgentPoolUpgradeSettings                                       | v1alpha1api20210501 | v1beta20210501 |
 | AgentPoolUpgradeSettings_STATUS                                | v1alpha1api20210501 | v1beta20210501 |
-| AgentPool_STATUS                                               | v1alpha1api20210501 | v1beta20210501 |
 | ContainerServiceLinuxProfile                                   | v1alpha1api20210501 | v1beta20210501 |
 | ContainerServiceLinuxProfile_STATUS                            | v1alpha1api20210501 | v1beta20210501 |
 | ContainerServiceNetworkProfile                                 | v1alpha1api20210501 | v1beta20210501 |
@@ -105,6 +104,7 @@
 | ManagedCluster_STATUS                                          | v1alpha1api20210501 | v1beta20210501 |
 | ManagedCluster_Spec                                            | v1alpha1api20210501 | v1beta20210501 |
 | ManagedClustersAgentPool                                       | v1alpha1api20210501 | v1beta20210501 |
+| ManagedClustersAgentPool_STATUS                                | v1alpha1api20210501 | v1beta20210501 |
 | ManagedClustersAgentPool_Spec                                  | v1alpha1api20210501 | v1beta20210501 |
 | OSDiskType                                                     | v1alpha1api20210501 | v1beta20210501 |
 | OSDiskType_STATUS                                              | v1alpha1api20210501 | v1beta20210501 |

@@ -27,8 +27,8 @@ import (
 type ProfilesEndpoint struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ProfilesEndpoint_Spec `json:"spec,omitempty"`
-	Status            Endpoint_STATUS       `json:"status,omitempty"`
+	Spec              ProfilesEndpoint_Spec   `json:"spec,omitempty"`
+	Status            ProfilesEndpoint_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ProfilesEndpoint{}
@@ -77,7 +77,7 @@ func (endpoint *ProfilesEndpoint) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (endpoint *ProfilesEndpoint) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &Endpoint_STATUS{}
+	return &ProfilesEndpoint_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -93,13 +93,13 @@ func (endpoint *ProfilesEndpoint) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (endpoint *ProfilesEndpoint) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*Endpoint_STATUS); ok {
+	if st, ok := status.(*ProfilesEndpoint_STATUS); ok {
 		endpoint.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st Endpoint_STATUS
+	var st ProfilesEndpoint_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -131,8 +131,8 @@ type ProfilesEndpointList struct {
 	Items           []ProfilesEndpoint `json:"items"`
 }
 
-// Storage version of v1beta20210601.Endpoint_STATUS
-type Endpoint_STATUS struct {
+// Storage version of v1beta20210601.ProfilesEndpoint_STATUS
+type ProfilesEndpoint_STATUS struct {
 	Conditions                       []conditions.Condition                                      `json:"conditions,omitempty"`
 	ContentTypesToCompress           []string                                                    `json:"contentTypesToCompress,omitempty"`
 	CustomDomains                    []CustomDomain_STATUS                                       `json:"customDomains,omitempty"`
@@ -163,10 +163,10 @@ type Endpoint_STATUS struct {
 	WebApplicationFirewallPolicyLink *EndpointProperties_WebApplicationFirewallPolicyLink_STATUS `json:"webApplicationFirewallPolicyLink,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &Endpoint_STATUS{}
+var _ genruntime.ConvertibleStatus = &ProfilesEndpoint_STATUS{}
 
-// ConvertStatusFrom populates our Endpoint_STATUS from the provided source
-func (endpoint *Endpoint_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+// ConvertStatusFrom populates our ProfilesEndpoint_STATUS from the provided source
+func (endpoint *ProfilesEndpoint_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
 	if source == endpoint {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}
@@ -174,8 +174,8 @@ func (endpoint *Endpoint_STATUS) ConvertStatusFrom(source genruntime.Convertible
 	return source.ConvertStatusTo(endpoint)
 }
 
-// ConvertStatusTo populates the provided destination from our Endpoint_STATUS
-func (endpoint *Endpoint_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+// ConvertStatusTo populates the provided destination from our ProfilesEndpoint_STATUS
+func (endpoint *ProfilesEndpoint_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
 	if destination == endpoint {
 		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
 	}

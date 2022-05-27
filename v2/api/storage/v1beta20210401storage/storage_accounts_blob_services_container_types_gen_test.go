@@ -75,22 +75,22 @@ func StorageAccountsBlobServicesContainerGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForStorageAccountsBlobServicesContainer is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForStorageAccountsBlobServicesContainer(gens map[string]gopter.Gen) {
 	gens["Spec"] = StorageAccountsBlobServicesContainer_SpecGenerator()
-	gens["Status"] = BlobContainer_STATUSGenerator()
+	gens["Status"] = StorageAccountsBlobServicesContainer_STATUSGenerator()
 }
 
-func Test_BlobContainer_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_StorageAccountsBlobServicesContainer_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of BlobContainer_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForBlobContainer_STATUS, BlobContainer_STATUSGenerator()))
+		"Round trip of StorageAccountsBlobServicesContainer_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStorageAccountsBlobServicesContainer_STATUS, StorageAccountsBlobServicesContainer_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForBlobContainer_STATUS runs a test to see if a specific instance of BlobContainer_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForBlobContainer_STATUS(subject BlobContainer_STATUS) string {
+// RunJSONSerializationTestForStorageAccountsBlobServicesContainer_STATUS runs a test to see if a specific instance of StorageAccountsBlobServicesContainer_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForStorageAccountsBlobServicesContainer_STATUS(subject StorageAccountsBlobServicesContainer_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -98,7 +98,7 @@ func RunJSONSerializationTestForBlobContainer_STATUS(subject BlobContainer_STATU
 	}
 
 	// Deserialize back into memory
-	var actual BlobContainer_STATUS
+	var actual StorageAccountsBlobServicesContainer_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -116,34 +116,34 @@ func RunJSONSerializationTestForBlobContainer_STATUS(subject BlobContainer_STATU
 	return ""
 }
 
-// Generator of BlobContainer_STATUS instances for property testing - lazily instantiated by
-// BlobContainer_STATUSGenerator()
-var blobContainer_STATUSGenerator gopter.Gen
+// Generator of StorageAccountsBlobServicesContainer_STATUS instances for property testing - lazily instantiated by
+// StorageAccountsBlobServicesContainer_STATUSGenerator()
+var storageAccountsBlobServicesContainer_STATUSGenerator gopter.Gen
 
-// BlobContainer_STATUSGenerator returns a generator of BlobContainer_STATUS instances for property testing.
-// We first initialize blobContainer_STATUSGenerator with a simplified generator based on the
+// StorageAccountsBlobServicesContainer_STATUSGenerator returns a generator of StorageAccountsBlobServicesContainer_STATUS instances for property testing.
+// We first initialize storageAccountsBlobServicesContainer_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func BlobContainer_STATUSGenerator() gopter.Gen {
-	if blobContainer_STATUSGenerator != nil {
-		return blobContainer_STATUSGenerator
+func StorageAccountsBlobServicesContainer_STATUSGenerator() gopter.Gen {
+	if storageAccountsBlobServicesContainer_STATUSGenerator != nil {
+		return storageAccountsBlobServicesContainer_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBlobContainer_STATUS(generators)
-	blobContainer_STATUSGenerator = gen.Struct(reflect.TypeOf(BlobContainer_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForStorageAccountsBlobServicesContainer_STATUS(generators)
+	storageAccountsBlobServicesContainer_STATUSGenerator = gen.Struct(reflect.TypeOf(StorageAccountsBlobServicesContainer_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForBlobContainer_STATUS(generators)
-	AddRelatedPropertyGeneratorsForBlobContainer_STATUS(generators)
-	blobContainer_STATUSGenerator = gen.Struct(reflect.TypeOf(BlobContainer_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForStorageAccountsBlobServicesContainer_STATUS(generators)
+	AddRelatedPropertyGeneratorsForStorageAccountsBlobServicesContainer_STATUS(generators)
+	storageAccountsBlobServicesContainer_STATUSGenerator = gen.Struct(reflect.TypeOf(StorageAccountsBlobServicesContainer_STATUS{}), generators)
 
-	return blobContainer_STATUSGenerator
+	return storageAccountsBlobServicesContainer_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForBlobContainer_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForBlobContainer_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForStorageAccountsBlobServicesContainer_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForStorageAccountsBlobServicesContainer_STATUS(gens map[string]gopter.Gen) {
 	gens["DefaultEncryptionScope"] = gen.PtrOf(gen.AlphaString())
 	gens["Deleted"] = gen.PtrOf(gen.Bool())
 	gens["DeletedTime"] = gen.PtrOf(gen.AlphaString())
@@ -164,8 +164,8 @@ func AddIndependentPropertyGeneratorsForBlobContainer_STATUS(gens map[string]gop
 	gens["Version"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForBlobContainer_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForBlobContainer_STATUS(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForStorageAccountsBlobServicesContainer_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForStorageAccountsBlobServicesContainer_STATUS(gens map[string]gopter.Gen) {
 	gens["ImmutabilityPolicy"] = gen.PtrOf(ImmutabilityPolicyProperties_STATUSGenerator())
 	gens["ImmutableStorageWithVersioning"] = gen.PtrOf(ImmutableStorageWithVersioning_STATUSGenerator())
 	gens["LegalHold"] = gen.PtrOf(LegalHoldProperties_STATUSGenerator())

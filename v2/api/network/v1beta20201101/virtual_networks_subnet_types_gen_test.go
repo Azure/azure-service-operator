@@ -160,35 +160,35 @@ func VirtualNetworksSubnetGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForVirtualNetworksSubnet is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForVirtualNetworksSubnet(gens map[string]gopter.Gen) {
 	gens["Spec"] = VirtualNetworksSubnet_SpecGenerator()
-	gens["Status"] = Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()
+	gens["Status"] = VirtualNetworksSubnet_STATUSGenerator()
 }
 
-func Test_Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_VirtualNetworksSubnet_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded to Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded via AssignPropertiesToSubnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded & AssignPropertiesFromSubnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSubnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded, Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()))
+		"Round trip from VirtualNetworksSubnet_STATUS to VirtualNetworksSubnet_STATUS via AssignPropertiesToVirtualNetworksSubnet_STATUS & AssignPropertiesFromVirtualNetworksSubnet_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForVirtualNetworksSubnet_STATUS, VirtualNetworksSubnet_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForSubnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded tests if a specific instance of Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
-func RunPropertyAssignmentTestForSubnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded(subject Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded) string {
+// RunPropertyAssignmentTestForVirtualNetworksSubnet_STATUS tests if a specific instance of VirtualNetworksSubnet_STATUS can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForVirtualNetworksSubnet_STATUS(subject VirtualNetworksSubnet_STATUS) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded
-	err := copied.AssignPropertiesToSubnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded(&other)
+	var other v20201101s.VirtualNetworksSubnet_STATUS
+	err := copied.AssignPropertiesToVirtualNetworksSubnet_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded
-	err = actual.AssignPropertiesFromSubnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded(&other)
+	var actual VirtualNetworksSubnet_STATUS
+	err = actual.AssignPropertiesFromVirtualNetworksSubnet_STATUS(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -205,19 +205,19 @@ func RunPropertyAssignmentTestForSubnet_STATUS_VirtualNetworksSubnet_SubResource
 	return ""
 }
 
-func Test_Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VirtualNetworksSubnet_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSubnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded, Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()))
+		"Round trip of VirtualNetworksSubnet_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualNetworksSubnet_STATUS, VirtualNetworksSubnet_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSubnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded runs a test to see if a specific instance of Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForSubnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded(subject Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded) string {
+// RunJSONSerializationTestForVirtualNetworksSubnet_STATUS runs a test to see if a specific instance of VirtualNetworksSubnet_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualNetworksSubnet_STATUS(subject VirtualNetworksSubnet_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -225,7 +225,7 @@ func RunJSONSerializationTestForSubnet_STATUS_VirtualNetworksSubnet_SubResourceE
 	}
 
 	// Deserialize back into memory
-	var actual Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded
+	var actual VirtualNetworksSubnet_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -243,34 +243,34 @@ func RunJSONSerializationTestForSubnet_STATUS_VirtualNetworksSubnet_SubResourceE
 	return ""
 }
 
-// Generator of Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing - lazily
-// instantiated by Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()
-var subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedGenerator gopter.Gen
+// Generator of VirtualNetworksSubnet_STATUS instances for property testing - lazily instantiated by
+// VirtualNetworksSubnet_STATUSGenerator()
+var virtualNetworksSubnet_STATUSGenerator gopter.Gen
 
-// Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedGenerator returns a generator of Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
-// We first initialize subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedGenerator with a simplified generator based on the
+// VirtualNetworksSubnet_STATUSGenerator returns a generator of VirtualNetworksSubnet_STATUS instances for property testing.
+// We first initialize virtualNetworksSubnet_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedGenerator() gopter.Gen {
-	if subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedGenerator != nil {
-		return subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedGenerator
+func VirtualNetworksSubnet_STATUSGenerator() gopter.Gen {
+	if virtualNetworksSubnet_STATUSGenerator != nil {
+		return virtualNetworksSubnet_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSubnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded(generators)
-	subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualNetworksSubnet_STATUS(generators)
+	virtualNetworksSubnet_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualNetworksSubnet_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSubnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded(generators)
-	AddRelatedPropertyGeneratorsForSubnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded(generators)
-	subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualNetworksSubnet_STATUS(generators)
+	AddRelatedPropertyGeneratorsForVirtualNetworksSubnet_STATUS(generators)
+	virtualNetworksSubnet_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualNetworksSubnet_STATUS{}), generators)
 
-	return subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedGenerator
+	return virtualNetworksSubnet_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSubnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSubnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualNetworksSubnet_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualNetworksSubnet_STATUS(gens map[string]gopter.Gen) {
 	gens["AddressPrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["AddressPrefixes"] = gen.SliceOf(gen.AlphaString())
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
@@ -287,8 +287,8 @@ func AddIndependentPropertyGeneratorsForSubnet_STATUS_VirtualNetworksSubnet_SubR
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForSubnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSubnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForVirtualNetworksSubnet_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForVirtualNetworksSubnet_STATUS(gens map[string]gopter.Gen) {
 	gens["ApplicationGatewayIpConfigurations"] = gen.SliceOf(ApplicationGatewayIPConfiguration_STATUSGenerator())
 	gens["Delegations"] = gen.SliceOf(Delegation_STATUSGenerator())
 	gens["IpAllocations"] = gen.SliceOf(SubResource_STATUSGenerator())
@@ -1000,6 +1000,9 @@ func RunJSONSerializationTestForIPConfigurationProfile_STATUS_VirtualNetworksSub
 var ipConfigurationProfile_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedGenerator gopter.Gen
 
 // IPConfigurationProfile_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedGenerator returns a generator of IPConfigurationProfile_STATUS_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
+// We first initialize ipConfigurationProfile_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func IPConfigurationProfile_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedGenerator() gopter.Gen {
 	if ipConfigurationProfile_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedGenerator != nil {
 		return ipConfigurationProfile_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedGenerator
@@ -1007,6 +1010,12 @@ func IPConfigurationProfile_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedGene
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForIPConfigurationProfile_STATUS_VirtualNetworksSubnet_SubResourceEmbedded(generators)
+	ipConfigurationProfile_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(IPConfigurationProfile_STATUS_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForIPConfigurationProfile_STATUS_VirtualNetworksSubnet_SubResourceEmbedded(generators)
+	AddRelatedPropertyGeneratorsForIPConfigurationProfile_STATUS_VirtualNetworksSubnet_SubResourceEmbedded(generators)
 	ipConfigurationProfile_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(IPConfigurationProfile_STATUS_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
 
 	return ipConfigurationProfile_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedGenerator
@@ -1023,6 +1032,11 @@ func AddIndependentPropertyGeneratorsForIPConfigurationProfile_STATUS_VirtualNet
 		ProvisioningState_STATUSSucceeded,
 		ProvisioningState_STATUSUpdating))
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForIPConfigurationProfile_STATUS_VirtualNetworksSubnet_SubResourceEmbedded is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForIPConfigurationProfile_STATUS_VirtualNetworksSubnet_SubResourceEmbedded(gens map[string]gopter.Gen) {
+	gens["Subnet"] = gen.PtrOf(Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedGenerator())
 }
 
 func Test_IPConfigurationProfile_VirtualNetworksSubnet_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1272,6 +1286,7 @@ func AddIndependentPropertyGeneratorsForIPConfiguration_STATUS_VirtualNetworksSu
 // AddRelatedPropertyGeneratorsForIPConfiguration_STATUS_VirtualNetworksSubnet_SubResourceEmbedded is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForIPConfiguration_STATUS_VirtualNetworksSubnet_SubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["PublicIPAddress"] = gen.PtrOf(PublicIPAddress_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedGenerator())
+	gens["Subnet"] = gen.PtrOf(Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedGenerator())
 }
 
 func Test_IPConfiguration_VirtualNetworksSubnet_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -3147,6 +3162,108 @@ func AddIndependentPropertyGeneratorsForPublicIPAddress_STATUS_VirtualNetworksSu
 func AddRelatedPropertyGeneratorsForPublicIPAddress_STATUS_VirtualNetworksSubnet_SubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocation_STATUSGenerator())
 	gens["Sku"] = gen.PtrOf(PublicIPAddressSku_STATUSGenerator())
+}
+
+func Test_Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded to Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded via AssignPropertiesToSubnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded & AssignPropertiesFromSubnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForSubnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded, Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForSubnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded tests if a specific instance of Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForSubnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded(subject Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20201101s.Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded
+	err := copied.AssignPropertiesToSubnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded
+	err = actual.AssignPropertiesFromSubnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSubnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded, Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForSubnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded runs a test to see if a specific instance of Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded round trips to JSON and back losslessly
+func RunJSONSerializationTestForSubnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded(subject Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing - lazily
+// instantiated by Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedGenerator()
+var subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedGenerator gopter.Gen
+
+// Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedGenerator returns a generator of Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded instances for property testing.
+func Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedGenerator() gopter.Gen {
+	if subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedGenerator != nil {
+		return subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForSubnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded(generators)
+	subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(Subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded{}), generators)
+
+	return subnet_STATUS_VirtualNetworksSubnet_SubResourceEmbeddedGenerator
+}
+
+// AddIndependentPropertyGeneratorsForSubnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSubnet_STATUS_VirtualNetworksSubnet_SubResourceEmbedded(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_Subnet_VirtualNetworksSubnet_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

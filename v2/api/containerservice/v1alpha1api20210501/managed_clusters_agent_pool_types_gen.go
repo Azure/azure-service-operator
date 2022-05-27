@@ -28,8 +28,8 @@ import (
 type ManagedClustersAgentPool struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              ManagedClustersAgentPool_Spec `json:"spec,omitempty"`
-	Status            AgentPool_STATUS              `json:"status,omitempty"`
+	Spec              ManagedClustersAgentPool_Spec   `json:"spec,omitempty"`
+	Status            ManagedClustersAgentPool_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &ManagedClustersAgentPool{}
@@ -137,7 +137,7 @@ func (pool *ManagedClustersAgentPool) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (pool *ManagedClustersAgentPool) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &AgentPool_STATUS{}
+	return &ManagedClustersAgentPool_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -153,13 +153,13 @@ func (pool *ManagedClustersAgentPool) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (pool *ManagedClustersAgentPool) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*AgentPool_STATUS); ok {
+	if st, ok := status.(*ManagedClustersAgentPool_STATUS); ok {
 		pool.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st AgentPool_STATUS
+	var st ManagedClustersAgentPool_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -277,10 +277,10 @@ func (pool *ManagedClustersAgentPool) AssignPropertiesFromManagedClustersAgentPo
 	pool.Spec = spec
 
 	// Status
-	var status AgentPool_STATUS
-	err = status.AssignPropertiesFromAgentPool_STATUS(&source.Status)
+	var status ManagedClustersAgentPool_STATUS
+	err = status.AssignPropertiesFromManagedClustersAgentPool_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromAgentPool_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromManagedClustersAgentPool_STATUS() to populate field Status")
 	}
 	pool.Status = status
 
@@ -303,10 +303,10 @@ func (pool *ManagedClustersAgentPool) AssignPropertiesToManagedClustersAgentPool
 	destination.Spec = spec
 
 	// Status
-	var status alpha20210501s.AgentPool_STATUS
-	err = pool.Status.AssignPropertiesToAgentPool_STATUS(&status)
+	var status alpha20210501s.ManagedClustersAgentPool_STATUS
+	err = pool.Status.AssignPropertiesToManagedClustersAgentPool_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToAgentPool_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToManagedClustersAgentPool_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -331,8 +331,8 @@ type ManagedClustersAgentPoolList struct {
 	Items           []ManagedClustersAgentPool `json:"items"`
 }
 
-// Deprecated version of AgentPool_STATUS. Use v1beta20210501.AgentPool_STATUS instead
-type AgentPool_STATUS struct {
+// Deprecated version of ManagedClustersAgentPool_STATUS. Use v1beta20210501.ManagedClustersAgentPool_STATUS instead
+type ManagedClustersAgentPool_STATUS struct {
 	AvailabilityZones []string `json:"availabilityZones,omitempty"`
 
 	// Conditions: The observed state of the resource
@@ -377,25 +377,25 @@ type AgentPool_STATUS struct {
 	VnetSubnetID              *string                          `json:"vnetSubnetID,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &AgentPool_STATUS{}
+var _ genruntime.ConvertibleStatus = &ManagedClustersAgentPool_STATUS{}
 
-// ConvertStatusFrom populates our AgentPool_STATUS from the provided source
-func (pool *AgentPool_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*alpha20210501s.AgentPool_STATUS)
+// ConvertStatusFrom populates our ManagedClustersAgentPool_STATUS from the provided source
+func (pool *ManagedClustersAgentPool_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*alpha20210501s.ManagedClustersAgentPool_STATUS)
 	if ok {
 		// Populate our instance from source
-		return pool.AssignPropertiesFromAgentPool_STATUS(src)
+		return pool.AssignPropertiesFromManagedClustersAgentPool_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &alpha20210501s.AgentPool_STATUS{}
+	src = &alpha20210501s.ManagedClustersAgentPool_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = pool.AssignPropertiesFromAgentPool_STATUS(src)
+	err = pool.AssignPropertiesFromManagedClustersAgentPool_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -403,17 +403,17 @@ func (pool *AgentPool_STATUS) ConvertStatusFrom(source genruntime.ConvertibleSta
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our AgentPool_STATUS
-func (pool *AgentPool_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*alpha20210501s.AgentPool_STATUS)
+// ConvertStatusTo populates the provided destination from our ManagedClustersAgentPool_STATUS
+func (pool *ManagedClustersAgentPool_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*alpha20210501s.ManagedClustersAgentPool_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return pool.AssignPropertiesToAgentPool_STATUS(dst)
+		return pool.AssignPropertiesToManagedClustersAgentPool_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &alpha20210501s.AgentPool_STATUS{}
-	err := pool.AssignPropertiesToAgentPool_STATUS(dst)
+	dst = &alpha20210501s.ManagedClustersAgentPool_STATUS{}
+	err := pool.AssignPropertiesToManagedClustersAgentPool_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -427,18 +427,18 @@ func (pool *AgentPool_STATUS) ConvertStatusTo(destination genruntime.Convertible
 	return nil
 }
 
-var _ genruntime.FromARMConverter = &AgentPool_STATUS{}
+var _ genruntime.FromARMConverter = &ManagedClustersAgentPool_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (pool *AgentPool_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AgentPool_STATUSARM{}
+func (pool *ManagedClustersAgentPool_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ManagedClustersAgentPool_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (pool *AgentPool_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AgentPool_STATUSARM)
+func (pool *ManagedClustersAgentPool_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ManagedClustersAgentPool_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AgentPool_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedClustersAgentPool_STATUSARM, got %T", armInput)
 	}
 
 	// Set property ‘AvailabilityZones’:
@@ -811,8 +811,8 @@ func (pool *AgentPool_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 	return nil
 }
 
-// AssignPropertiesFromAgentPool_STATUS populates our AgentPool_STATUS from the provided source AgentPool_STATUS
-func (pool *AgentPool_STATUS) AssignPropertiesFromAgentPool_STATUS(source *alpha20210501s.AgentPool_STATUS) error {
+// AssignPropertiesFromManagedClustersAgentPool_STATUS populates our ManagedClustersAgentPool_STATUS from the provided source ManagedClustersAgentPool_STATUS
+func (pool *ManagedClustersAgentPool_STATUS) AssignPropertiesFromManagedClustersAgentPool_STATUS(source *alpha20210501s.ManagedClustersAgentPool_STATUS) error {
 
 	// AvailabilityZones
 	pool.AvailabilityZones = genruntime.CloneSliceOfString(source.AvailabilityZones)
@@ -1049,8 +1049,8 @@ func (pool *AgentPool_STATUS) AssignPropertiesFromAgentPool_STATUS(source *alpha
 	return nil
 }
 
-// AssignPropertiesToAgentPool_STATUS populates the provided destination AgentPool_STATUS from our AgentPool_STATUS
-func (pool *AgentPool_STATUS) AssignPropertiesToAgentPool_STATUS(destination *alpha20210501s.AgentPool_STATUS) error {
+// AssignPropertiesToManagedClustersAgentPool_STATUS populates the provided destination ManagedClustersAgentPool_STATUS from our ManagedClustersAgentPool_STATUS
+func (pool *ManagedClustersAgentPool_STATUS) AssignPropertiesToManagedClustersAgentPool_STATUS(destination *alpha20210501s.ManagedClustersAgentPool_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
@@ -2556,6 +2556,14 @@ const (
 	AgentPoolModeUser   = AgentPoolMode("User")
 )
 
+// Deprecated version of AgentPoolMode_STATUS. Use v1beta20210501.AgentPoolMode_STATUS instead
+type AgentPoolMode_STATUS string
+
+const (
+	AgentPoolMode_STATUSSystem = AgentPoolMode_STATUS("System")
+	AgentPoolMode_STATUSUser   = AgentPoolMode_STATUS("User")
+)
+
 // Deprecated version of AgentPoolType. Use v1beta20210501.AgentPoolType instead
 // +kubebuilder:validation:Enum={"AvailabilitySet","VirtualMachineScaleSets"}
 type AgentPoolType string
@@ -2563,6 +2571,14 @@ type AgentPoolType string
 const (
 	AgentPoolTypeAvailabilitySet         = AgentPoolType("AvailabilitySet")
 	AgentPoolTypeVirtualMachineScaleSets = AgentPoolType("VirtualMachineScaleSets")
+)
+
+// Deprecated version of AgentPoolType_STATUS. Use v1beta20210501.AgentPoolType_STATUS instead
+type AgentPoolType_STATUS string
+
+const (
+	AgentPoolType_STATUSAvailabilitySet         = AgentPoolType_STATUS("AvailabilitySet")
+	AgentPoolType_STATUSVirtualMachineScaleSets = AgentPoolType_STATUS("VirtualMachineScaleSets")
 )
 
 // Deprecated version of AgentPoolUpgradeSettings. Use v1beta20210501.AgentPoolUpgradeSettings instead
@@ -2711,6 +2727,17 @@ const (
 	GPUInstanceProfileMIG3G = GPUInstanceProfile("MIG3g")
 	GPUInstanceProfileMIG4G = GPUInstanceProfile("MIG4g")
 	GPUInstanceProfileMIG7G = GPUInstanceProfile("MIG7g")
+)
+
+// Deprecated version of GPUInstanceProfile_STATUS. Use v1beta20210501.GPUInstanceProfile_STATUS instead
+type GPUInstanceProfile_STATUS string
+
+const (
+	GPUInstanceProfile_STATUSMIG1G = GPUInstanceProfile_STATUS("MIG1g")
+	GPUInstanceProfile_STATUSMIG2G = GPUInstanceProfile_STATUS("MIG2g")
+	GPUInstanceProfile_STATUSMIG3G = GPUInstanceProfile_STATUS("MIG3g")
+	GPUInstanceProfile_STATUSMIG4G = GPUInstanceProfile_STATUS("MIG4g")
+	GPUInstanceProfile_STATUSMIG7G = GPUInstanceProfile_STATUS("MIG7g")
 )
 
 // Deprecated version of KubeletConfig. Use v1beta20210501.KubeletConfig instead
@@ -3222,6 +3249,14 @@ const (
 	KubeletDiskTypeTemporary = KubeletDiskType("Temporary")
 )
 
+// Deprecated version of KubeletDiskType_STATUS. Use v1beta20210501.KubeletDiskType_STATUS instead
+type KubeletDiskType_STATUS string
+
+const (
+	KubeletDiskType_STATUSOS        = KubeletDiskType_STATUS("OS")
+	KubeletDiskType_STATUSTemporary = KubeletDiskType_STATUS("Temporary")
+)
+
 // Deprecated version of LinuxOSConfig. Use v1beta20210501.LinuxOSConfig instead
 type LinuxOSConfig struct {
 	SwapFileSizeMB             *int          `json:"swapFileSizeMB,omitempty"`
@@ -3508,6 +3543,14 @@ const (
 	OSDiskTypeManaged   = OSDiskType("Managed")
 )
 
+// Deprecated version of OSDiskType_STATUS. Use v1beta20210501.OSDiskType_STATUS instead
+type OSDiskType_STATUS string
+
+const (
+	OSDiskType_STATUSEphemeral = OSDiskType_STATUS("Ephemeral")
+	OSDiskType_STATUSManaged   = OSDiskType_STATUS("Managed")
+)
+
 // Deprecated version of OSSKU. Use v1beta20210501.OSSKU instead
 // +kubebuilder:validation:Enum={"CBLMariner","Ubuntu"}
 type OSSKU string
@@ -3515,6 +3558,14 @@ type OSSKU string
 const (
 	OSSKUCBLMariner = OSSKU("CBLMariner")
 	OSSKUUbuntu     = OSSKU("Ubuntu")
+)
+
+// Deprecated version of OSSKU_STATUS. Use v1beta20210501.OSSKU_STATUS instead
+type OSSKU_STATUS string
+
+const (
+	OSSKU_STATUSCBLMariner = OSSKU_STATUS("CBLMariner")
+	OSSKU_STATUSUbuntu     = OSSKU_STATUS("Ubuntu")
 )
 
 // Deprecated version of OSType. Use v1beta20210501.OSType instead
@@ -3526,6 +3577,14 @@ const (
 	OSTypeWindows = OSType("Windows")
 )
 
+// Deprecated version of OSType_STATUS. Use v1beta20210501.OSType_STATUS instead
+type OSType_STATUS string
+
+const (
+	OSType_STATUSLinux   = OSType_STATUS("Linux")
+	OSType_STATUSWindows = OSType_STATUS("Windows")
+)
+
 // Deprecated version of ScaleSetEvictionPolicy. Use v1beta20210501.ScaleSetEvictionPolicy instead
 // +kubebuilder:validation:Enum={"Deallocate","Delete"}
 type ScaleSetEvictionPolicy string
@@ -3535,6 +3594,14 @@ const (
 	ScaleSetEvictionPolicyDelete     = ScaleSetEvictionPolicy("Delete")
 )
 
+// Deprecated version of ScaleSetEvictionPolicy_STATUS. Use v1beta20210501.ScaleSetEvictionPolicy_STATUS instead
+type ScaleSetEvictionPolicy_STATUS string
+
+const (
+	ScaleSetEvictionPolicy_STATUSDeallocate = ScaleSetEvictionPolicy_STATUS("Deallocate")
+	ScaleSetEvictionPolicy_STATUSDelete     = ScaleSetEvictionPolicy_STATUS("Delete")
+)
+
 // Deprecated version of ScaleSetPriority. Use v1beta20210501.ScaleSetPriority instead
 // +kubebuilder:validation:Enum={"Regular","Spot"}
 type ScaleSetPriority string
@@ -3542,6 +3609,14 @@ type ScaleSetPriority string
 const (
 	ScaleSetPriorityRegular = ScaleSetPriority("Regular")
 	ScaleSetPrioritySpot    = ScaleSetPriority("Spot")
+)
+
+// Deprecated version of ScaleSetPriority_STATUS. Use v1beta20210501.ScaleSetPriority_STATUS instead
+type ScaleSetPriority_STATUS string
+
+const (
+	ScaleSetPriority_STATUSRegular = ScaleSetPriority_STATUS("Regular")
+	ScaleSetPriority_STATUSSpot    = ScaleSetPriority_STATUS("Spot")
 )
 
 // Deprecated version of SysctlConfig. Use v1beta20210501.SysctlConfig instead

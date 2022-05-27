@@ -154,8 +154,8 @@ type ScheduledEventsProfile_STATUSARM struct {
 
 // Deprecated version of VirtualMachineScaleSetExtensionProfile_STATUS. Use v1beta20201201.VirtualMachineScaleSetExtensionProfile_STATUS instead
 type VirtualMachineScaleSetExtensionProfile_STATUSARM struct {
-	Extensions           []VirtualMachineScaleSetExtension_STATUS_SubResourceEmbeddedARM `json:"extensions,omitempty"`
-	ExtensionsTimeBudget *string                                                         `json:"extensionsTimeBudget,omitempty"`
+	Extensions           []VirtualMachineScaleSetExtension_STATUSARM `json:"extensions,omitempty"`
+	ExtensionsTimeBudget *string                                     `json:"extensionsTimeBudget,omitempty"`
 }
 
 // Deprecated version of VirtualMachineScaleSetNetworkProfile_STATUS. Use v1beta20201201.VirtualMachineScaleSetNetworkProfile_STATUS instead
@@ -205,8 +205,8 @@ type VirtualMachineScaleSetDataDisk_STATUSARM struct {
 	WriteAcceleratorEnabled *bool                                                  `json:"writeAcceleratorEnabled,omitempty"`
 }
 
-// Deprecated version of VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded. Use v1beta20201201.VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded instead
-type VirtualMachineScaleSetExtension_STATUS_SubResourceEmbeddedARM struct {
+// Deprecated version of VirtualMachineScaleSetExtension_STATUS. Use v1beta20201201.VirtualMachineScaleSetExtension_STATUS instead
+type VirtualMachineScaleSetExtension_STATUSARM struct {
 	Id *string `json:"id,omitempty"`
 }
 

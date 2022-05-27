@@ -27,7 +27,7 @@ type Webtest struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
 	Spec              Webtest_Spec   `json:"spec,omitempty"`
-	Status            WebTest_STATUS `json:"status,omitempty"`
+	Status            Webtest_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &Webtest{}
@@ -98,7 +98,7 @@ func (webtest *Webtest) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (webtest *Webtest) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &WebTest_STATUS{}
+	return &Webtest_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -114,13 +114,13 @@ func (webtest *Webtest) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (webtest *Webtest) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*WebTest_STATUS); ok {
+	if st, ok := status.(*Webtest_STATUS); ok {
 		webtest.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st WebTest_STATUS
+	var st Webtest_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -145,10 +145,10 @@ func (webtest *Webtest) AssignPropertiesFromWebtest(source *v20180501ps.Webtest)
 	webtest.Spec = spec
 
 	// Status
-	var status WebTest_STATUS
-	err = status.AssignPropertiesFromWebTest_STATUS(&source.Status)
+	var status Webtest_STATUS
+	err = status.AssignPropertiesFromWebtest_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromWebTest_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromWebtest_STATUS() to populate field Status")
 	}
 	webtest.Status = status
 
@@ -171,10 +171,10 @@ func (webtest *Webtest) AssignPropertiesToWebtest(destination *v20180501ps.Webte
 	destination.Spec = spec
 
 	// Status
-	var status v20180501ps.WebTest_STATUS
-	err = webtest.Status.AssignPropertiesToWebTest_STATUS(&status)
+	var status v20180501ps.Webtest_STATUS
+	err = webtest.Status.AssignPropertiesToWebtest_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToWebTest_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToWebtest_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -207,9 +207,9 @@ type APIVersion string
 
 const APIVersionValue = APIVersion("20180501preview")
 
-// Storage version of v1alpha1api20180501preview.WebTest_STATUS
-// Deprecated version of WebTest_STATUS. Use v1beta20180501preview.WebTest_STATUS instead
-type WebTest_STATUS struct {
+// Storage version of v1alpha1api20180501preview.Webtest_STATUS
+// Deprecated version of Webtest_STATUS. Use v1beta20180501preview.Webtest_STATUS instead
+type Webtest_STATUS struct {
 	Conditions         []conditions.Condition                    `json:"conditions,omitempty"`
 	Configuration      *WebTestProperties_Configuration_STATUS   `json:"Configuration,omitempty"`
 	Description        *string                                   `json:"Description,omitempty"`
@@ -233,25 +233,25 @@ type WebTest_STATUS struct {
 	ValidationRules    *WebTestProperties_ValidationRules_STATUS `json:"ValidationRules,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &WebTest_STATUS{}
+var _ genruntime.ConvertibleStatus = &Webtest_STATUS{}
 
-// ConvertStatusFrom populates our WebTest_STATUS from the provided source
-func (test *WebTest_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20180501ps.WebTest_STATUS)
+// ConvertStatusFrom populates our Webtest_STATUS from the provided source
+func (webtest *Webtest_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20180501ps.Webtest_STATUS)
 	if ok {
 		// Populate our instance from source
-		return test.AssignPropertiesFromWebTest_STATUS(src)
+		return webtest.AssignPropertiesFromWebtest_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20180501ps.WebTest_STATUS{}
+	src = &v20180501ps.Webtest_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = test.AssignPropertiesFromWebTest_STATUS(src)
+	err = webtest.AssignPropertiesFromWebtest_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -259,17 +259,17 @@ func (test *WebTest_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatu
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our WebTest_STATUS
-func (test *WebTest_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20180501ps.WebTest_STATUS)
+// ConvertStatusTo populates the provided destination from our Webtest_STATUS
+func (webtest *Webtest_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20180501ps.Webtest_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return test.AssignPropertiesToWebTest_STATUS(dst)
+		return webtest.AssignPropertiesToWebtest_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20180501ps.WebTest_STATUS{}
-	err := test.AssignPropertiesToWebTest_STATUS(dst)
+	dst = &v20180501ps.Webtest_STATUS{}
+	err := webtest.AssignPropertiesToWebtest_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -283,13 +283,13 @@ func (test *WebTest_STATUS) ConvertStatusTo(destination genruntime.ConvertibleSt
 	return nil
 }
 
-// AssignPropertiesFromWebTest_STATUS populates our WebTest_STATUS from the provided source WebTest_STATUS
-func (test *WebTest_STATUS) AssignPropertiesFromWebTest_STATUS(source *v20180501ps.WebTest_STATUS) error {
+// AssignPropertiesFromWebtest_STATUS populates our Webtest_STATUS from the provided source Webtest_STATUS
+func (webtest *Webtest_STATUS) AssignPropertiesFromWebtest_STATUS(source *v20180501ps.Webtest_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// Conditions
-	test.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	webtest.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// Configuration
 	if source.Configuration != nil {
@@ -298,33 +298,33 @@ func (test *WebTest_STATUS) AssignPropertiesFromWebTest_STATUS(source *v20180501
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromWebTestProperties_Configuration_STATUS() to populate field Configuration")
 		}
-		test.Configuration = &configuration
+		webtest.Configuration = &configuration
 	} else {
-		test.Configuration = nil
+		webtest.Configuration = nil
 	}
 
 	// Description
-	test.Description = genruntime.ClonePointerToString(source.Description)
+	webtest.Description = genruntime.ClonePointerToString(source.Description)
 
 	// Enabled
 	if source.Enabled != nil {
 		enabled := *source.Enabled
-		test.Enabled = &enabled
+		webtest.Enabled = &enabled
 	} else {
-		test.Enabled = nil
+		webtest.Enabled = nil
 	}
 
 	// Frequency
-	test.Frequency = genruntime.ClonePointerToInt(source.Frequency)
+	webtest.Frequency = genruntime.ClonePointerToInt(source.Frequency)
 
 	// Id
-	test.Id = genruntime.ClonePointerToString(source.Id)
+	webtest.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Kind
-	test.Kind = genruntime.ClonePointerToString(source.Kind)
+	webtest.Kind = genruntime.ClonePointerToString(source.Kind)
 
 	// Location
-	test.Location = genruntime.ClonePointerToString(source.Location)
+	webtest.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Locations
 	if source.Locations != nil {
@@ -339,22 +339,22 @@ func (test *WebTest_STATUS) AssignPropertiesFromWebTest_STATUS(source *v20180501
 			}
 			locationList[locationIndex] = location
 		}
-		test.Locations = locationList
+		webtest.Locations = locationList
 	} else {
-		test.Locations = nil
+		webtest.Locations = nil
 	}
 
 	// Name
-	test.Name = genruntime.ClonePointerToString(source.Name)
+	webtest.Name = genruntime.ClonePointerToString(source.Name)
 
 	// PropertiesKind
-	test.PropertiesKind = genruntime.ClonePointerToString(source.PropertiesKind)
+	webtest.PropertiesKind = genruntime.ClonePointerToString(source.PropertiesKind)
 
 	// PropertiesName
-	test.PropertiesName = genruntime.ClonePointerToString(source.PropertiesName)
+	webtest.PropertiesName = genruntime.ClonePointerToString(source.PropertiesName)
 
 	// ProvisioningState
-	test.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+	webtest.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// Request
 	if source.Request != nil {
@@ -363,35 +363,35 @@ func (test *WebTest_STATUS) AssignPropertiesFromWebTest_STATUS(source *v20180501
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromWebTestProperties_Request_STATUS() to populate field Request")
 		}
-		test.Request = &request
+		webtest.Request = &request
 	} else {
-		test.Request = nil
+		webtest.Request = nil
 	}
 
 	// RetryEnabled
 	if source.RetryEnabled != nil {
 		retryEnabled := *source.RetryEnabled
-		test.RetryEnabled = &retryEnabled
+		webtest.RetryEnabled = &retryEnabled
 	} else {
-		test.RetryEnabled = nil
+		webtest.RetryEnabled = nil
 	}
 
 	// SyntheticMonitorId
-	test.SyntheticMonitorId = genruntime.ClonePointerToString(source.SyntheticMonitorId)
+	webtest.SyntheticMonitorId = genruntime.ClonePointerToString(source.SyntheticMonitorId)
 
 	// Tags
 	if source.Tags != nil {
 		tag := *source.Tags.DeepCopy()
-		test.Tags = &tag
+		webtest.Tags = &tag
 	} else {
-		test.Tags = nil
+		webtest.Tags = nil
 	}
 
 	// Timeout
-	test.Timeout = genruntime.ClonePointerToInt(source.Timeout)
+	webtest.Timeout = genruntime.ClonePointerToInt(source.Timeout)
 
 	// Type
-	test.Type = genruntime.ClonePointerToString(source.Type)
+	webtest.Type = genruntime.ClonePointerToString(source.Type)
 
 	// ValidationRules
 	if source.ValidationRules != nil {
@@ -400,34 +400,34 @@ func (test *WebTest_STATUS) AssignPropertiesFromWebTest_STATUS(source *v20180501
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesFromWebTestProperties_ValidationRules_STATUS() to populate field ValidationRules")
 		}
-		test.ValidationRules = &validationRule
+		webtest.ValidationRules = &validationRule
 	} else {
-		test.ValidationRules = nil
+		webtest.ValidationRules = nil
 	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		test.PropertyBag = propertyBag
+		webtest.PropertyBag = propertyBag
 	} else {
-		test.PropertyBag = nil
+		webtest.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToWebTest_STATUS populates the provided destination WebTest_STATUS from our WebTest_STATUS
-func (test *WebTest_STATUS) AssignPropertiesToWebTest_STATUS(destination *v20180501ps.WebTest_STATUS) error {
+// AssignPropertiesToWebtest_STATUS populates the provided destination Webtest_STATUS from our Webtest_STATUS
+func (webtest *Webtest_STATUS) AssignPropertiesToWebtest_STATUS(destination *v20180501ps.Webtest_STATUS) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(test.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(webtest.PropertyBag)
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(test.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(webtest.Conditions)
 
 	// Configuration
-	if test.Configuration != nil {
+	if webtest.Configuration != nil {
 		var configuration v20180501ps.WebTestProperties_Configuration_STATUS
-		err := test.Configuration.AssignPropertiesToWebTestProperties_Configuration_STATUS(&configuration)
+		err := webtest.Configuration.AssignPropertiesToWebTestProperties_Configuration_STATUS(&configuration)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToWebTestProperties_Configuration_STATUS() to populate field Configuration")
 		}
@@ -437,32 +437,32 @@ func (test *WebTest_STATUS) AssignPropertiesToWebTest_STATUS(destination *v20180
 	}
 
 	// Description
-	destination.Description = genruntime.ClonePointerToString(test.Description)
+	destination.Description = genruntime.ClonePointerToString(webtest.Description)
 
 	// Enabled
-	if test.Enabled != nil {
-		enabled := *test.Enabled
+	if webtest.Enabled != nil {
+		enabled := *webtest.Enabled
 		destination.Enabled = &enabled
 	} else {
 		destination.Enabled = nil
 	}
 
 	// Frequency
-	destination.Frequency = genruntime.ClonePointerToInt(test.Frequency)
+	destination.Frequency = genruntime.ClonePointerToInt(webtest.Frequency)
 
 	// Id
-	destination.Id = genruntime.ClonePointerToString(test.Id)
+	destination.Id = genruntime.ClonePointerToString(webtest.Id)
 
 	// Kind
-	destination.Kind = genruntime.ClonePointerToString(test.Kind)
+	destination.Kind = genruntime.ClonePointerToString(webtest.Kind)
 
 	// Location
-	destination.Location = genruntime.ClonePointerToString(test.Location)
+	destination.Location = genruntime.ClonePointerToString(webtest.Location)
 
 	// Locations
-	if test.Locations != nil {
-		locationList := make([]v20180501ps.WebTestGeolocation_STATUS, len(test.Locations))
-		for locationIndex, locationItem := range test.Locations {
+	if webtest.Locations != nil {
+		locationList := make([]v20180501ps.WebTestGeolocation_STATUS, len(webtest.Locations))
+		for locationIndex, locationItem := range webtest.Locations {
 			// Shadow the loop variable to avoid aliasing
 			locationItem := locationItem
 			var location v20180501ps.WebTestGeolocation_STATUS
@@ -478,21 +478,21 @@ func (test *WebTest_STATUS) AssignPropertiesToWebTest_STATUS(destination *v20180
 	}
 
 	// Name
-	destination.Name = genruntime.ClonePointerToString(test.Name)
+	destination.Name = genruntime.ClonePointerToString(webtest.Name)
 
 	// PropertiesKind
-	destination.PropertiesKind = genruntime.ClonePointerToString(test.PropertiesKind)
+	destination.PropertiesKind = genruntime.ClonePointerToString(webtest.PropertiesKind)
 
 	// PropertiesName
-	destination.PropertiesName = genruntime.ClonePointerToString(test.PropertiesName)
+	destination.PropertiesName = genruntime.ClonePointerToString(webtest.PropertiesName)
 
 	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(test.ProvisioningState)
+	destination.ProvisioningState = genruntime.ClonePointerToString(webtest.ProvisioningState)
 
 	// Request
-	if test.Request != nil {
+	if webtest.Request != nil {
 		var request v20180501ps.WebTestProperties_Request_STATUS
-		err := test.Request.AssignPropertiesToWebTestProperties_Request_STATUS(&request)
+		err := webtest.Request.AssignPropertiesToWebTestProperties_Request_STATUS(&request)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToWebTestProperties_Request_STATUS() to populate field Request")
 		}
@@ -502,34 +502,34 @@ func (test *WebTest_STATUS) AssignPropertiesToWebTest_STATUS(destination *v20180
 	}
 
 	// RetryEnabled
-	if test.RetryEnabled != nil {
-		retryEnabled := *test.RetryEnabled
+	if webtest.RetryEnabled != nil {
+		retryEnabled := *webtest.RetryEnabled
 		destination.RetryEnabled = &retryEnabled
 	} else {
 		destination.RetryEnabled = nil
 	}
 
 	// SyntheticMonitorId
-	destination.SyntheticMonitorId = genruntime.ClonePointerToString(test.SyntheticMonitorId)
+	destination.SyntheticMonitorId = genruntime.ClonePointerToString(webtest.SyntheticMonitorId)
 
 	// Tags
-	if test.Tags != nil {
-		tag := *test.Tags.DeepCopy()
+	if webtest.Tags != nil {
+		tag := *webtest.Tags.DeepCopy()
 		destination.Tags = &tag
 	} else {
 		destination.Tags = nil
 	}
 
 	// Timeout
-	destination.Timeout = genruntime.ClonePointerToInt(test.Timeout)
+	destination.Timeout = genruntime.ClonePointerToInt(webtest.Timeout)
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(test.Type)
+	destination.Type = genruntime.ClonePointerToString(webtest.Type)
 
 	// ValidationRules
-	if test.ValidationRules != nil {
+	if webtest.ValidationRules != nil {
 		var validationRule v20180501ps.WebTestProperties_ValidationRules_STATUS
-		err := test.ValidationRules.AssignPropertiesToWebTestProperties_ValidationRules_STATUS(&validationRule)
+		err := webtest.ValidationRules.AssignPropertiesToWebTestProperties_ValidationRules_STATUS(&validationRule)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToWebTestProperties_ValidationRules_STATUS() to populate field ValidationRules")
 		}

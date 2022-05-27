@@ -25,8 +25,8 @@ import (
 type RoleAssignment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              RoleAssignment_Spec                   `json:"spec,omitempty"`
-	Status            RoleAssignmentCreateParameters_STATUS `json:"status,omitempty"`
+	Spec              RoleAssignment_Spec   `json:"spec,omitempty"`
+	Status            RoleAssignment_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &RoleAssignment{}
@@ -97,7 +97,7 @@ func (assignment *RoleAssignment) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (assignment *RoleAssignment) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &RoleAssignmentCreateParameters_STATUS{}
+	return &RoleAssignment_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -113,13 +113,13 @@ func (assignment *RoleAssignment) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (assignment *RoleAssignment) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*RoleAssignmentCreateParameters_STATUS); ok {
+	if st, ok := status.(*RoleAssignment_STATUS); ok {
 		assignment.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st RoleAssignmentCreateParameters_STATUS
+	var st RoleAssignment_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -144,10 +144,10 @@ func (assignment *RoleAssignment) AssignPropertiesFromRoleAssignment(source *v20
 	assignment.Spec = spec
 
 	// Status
-	var status RoleAssignmentCreateParameters_STATUS
-	err = status.AssignPropertiesFromRoleAssignmentCreateParameters_STATUS(&source.Status)
+	var status RoleAssignment_STATUS
+	err = status.AssignPropertiesFromRoleAssignment_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromRoleAssignmentCreateParameters_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromRoleAssignment_STATUS() to populate field Status")
 	}
 	assignment.Status = status
 
@@ -170,10 +170,10 @@ func (assignment *RoleAssignment) AssignPropertiesToRoleAssignment(destination *
 	destination.Spec = spec
 
 	// Status
-	var status v20200801ps.RoleAssignmentCreateParameters_STATUS
-	err = assignment.Status.AssignPropertiesToRoleAssignmentCreateParameters_STATUS(&status)
+	var status v20200801ps.RoleAssignment_STATUS
+	err = assignment.Status.AssignPropertiesToRoleAssignment_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToRoleAssignmentCreateParameters_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToRoleAssignment_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -206,9 +206,9 @@ type APIVersion string
 
 const APIVersionValue = APIVersion("20200801preview")
 
-// Storage version of v1alpha1api20200801preview.RoleAssignmentCreateParameters_STATUS
-// Deprecated version of RoleAssignmentCreateParameters_STATUS. Use v1beta20200801preview.RoleAssignmentCreateParameters_STATUS instead
-type RoleAssignmentCreateParameters_STATUS struct {
+// Storage version of v1alpha1api20200801preview.RoleAssignment_STATUS
+// Deprecated version of RoleAssignment_STATUS. Use v1beta20200801preview.RoleAssignment_STATUS instead
+type RoleAssignment_STATUS struct {
 	Condition                          *string                `json:"condition,omitempty"`
 	ConditionVersion                   *string                `json:"conditionVersion,omitempty"`
 	Conditions                         []conditions.Condition `json:"conditions,omitempty"`
@@ -225,25 +225,25 @@ type RoleAssignmentCreateParameters_STATUS struct {
 	UpdatedOn                          *string                `json:"updatedOn,omitempty"`
 }
 
-var _ genruntime.ConvertibleStatus = &RoleAssignmentCreateParameters_STATUS{}
+var _ genruntime.ConvertibleStatus = &RoleAssignment_STATUS{}
 
-// ConvertStatusFrom populates our RoleAssignmentCreateParameters_STATUS from the provided source
-func (parameters *RoleAssignmentCreateParameters_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	src, ok := source.(*v20200801ps.RoleAssignmentCreateParameters_STATUS)
+// ConvertStatusFrom populates our RoleAssignment_STATUS from the provided source
+func (assignment *RoleAssignment_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*v20200801ps.RoleAssignment_STATUS)
 	if ok {
 		// Populate our instance from source
-		return parameters.AssignPropertiesFromRoleAssignmentCreateParameters_STATUS(src)
+		return assignment.AssignPropertiesFromRoleAssignment_STATUS(src)
 	}
 
 	// Convert to an intermediate form
-	src = &v20200801ps.RoleAssignmentCreateParameters_STATUS{}
+	src = &v20200801ps.RoleAssignment_STATUS{}
 	err := src.ConvertStatusFrom(source)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
 	}
 
 	// Update our instance from src
-	err = parameters.AssignPropertiesFromRoleAssignmentCreateParameters_STATUS(src)
+	err = assignment.AssignPropertiesFromRoleAssignment_STATUS(src)
 	if err != nil {
 		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
 	}
@@ -251,17 +251,17 @@ func (parameters *RoleAssignmentCreateParameters_STATUS) ConvertStatusFrom(sourc
 	return nil
 }
 
-// ConvertStatusTo populates the provided destination from our RoleAssignmentCreateParameters_STATUS
-func (parameters *RoleAssignmentCreateParameters_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	dst, ok := destination.(*v20200801ps.RoleAssignmentCreateParameters_STATUS)
+// ConvertStatusTo populates the provided destination from our RoleAssignment_STATUS
+func (assignment *RoleAssignment_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*v20200801ps.RoleAssignment_STATUS)
 	if ok {
 		// Populate destination from our instance
-		return parameters.AssignPropertiesToRoleAssignmentCreateParameters_STATUS(dst)
+		return assignment.AssignPropertiesToRoleAssignment_STATUS(dst)
 	}
 
 	// Convert to an intermediate form
-	dst = &v20200801ps.RoleAssignmentCreateParameters_STATUS{}
-	err := parameters.AssignPropertiesToRoleAssignmentCreateParameters_STATUS(dst)
+	dst = &v20200801ps.RoleAssignment_STATUS{}
+	err := assignment.AssignPropertiesToRoleAssignment_STATUS(dst)
 	if err != nil {
 		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
 	}
@@ -275,104 +275,104 @@ func (parameters *RoleAssignmentCreateParameters_STATUS) ConvertStatusTo(destina
 	return nil
 }
 
-// AssignPropertiesFromRoleAssignmentCreateParameters_STATUS populates our RoleAssignmentCreateParameters_STATUS from the provided source RoleAssignmentCreateParameters_STATUS
-func (parameters *RoleAssignmentCreateParameters_STATUS) AssignPropertiesFromRoleAssignmentCreateParameters_STATUS(source *v20200801ps.RoleAssignmentCreateParameters_STATUS) error {
+// AssignPropertiesFromRoleAssignment_STATUS populates our RoleAssignment_STATUS from the provided source RoleAssignment_STATUS
+func (assignment *RoleAssignment_STATUS) AssignPropertiesFromRoleAssignment_STATUS(source *v20200801ps.RoleAssignment_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
 	// Condition
-	parameters.Condition = genruntime.ClonePointerToString(source.Condition)
+	assignment.Condition = genruntime.ClonePointerToString(source.Condition)
 
 	// ConditionVersion
-	parameters.ConditionVersion = genruntime.ClonePointerToString(source.ConditionVersion)
+	assignment.ConditionVersion = genruntime.ClonePointerToString(source.ConditionVersion)
 
 	// Conditions
-	parameters.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+	assignment.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
 	// CreatedBy
-	parameters.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
+	assignment.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
 
 	// CreatedOn
-	parameters.CreatedOn = genruntime.ClonePointerToString(source.CreatedOn)
+	assignment.CreatedOn = genruntime.ClonePointerToString(source.CreatedOn)
 
 	// DelegatedManagedIdentityResourceId
-	parameters.DelegatedManagedIdentityResourceId = genruntime.ClonePointerToString(source.DelegatedManagedIdentityResourceId)
+	assignment.DelegatedManagedIdentityResourceId = genruntime.ClonePointerToString(source.DelegatedManagedIdentityResourceId)
 
 	// Description
-	parameters.Description = genruntime.ClonePointerToString(source.Description)
+	assignment.Description = genruntime.ClonePointerToString(source.Description)
 
 	// PrincipalId
-	parameters.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
+	assignment.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
 
 	// PrincipalType
-	parameters.PrincipalType = genruntime.ClonePointerToString(source.PrincipalType)
+	assignment.PrincipalType = genruntime.ClonePointerToString(source.PrincipalType)
 
 	// RoleDefinitionId
-	parameters.RoleDefinitionId = genruntime.ClonePointerToString(source.RoleDefinitionId)
+	assignment.RoleDefinitionId = genruntime.ClonePointerToString(source.RoleDefinitionId)
 
 	// Scope
-	parameters.Scope = genruntime.ClonePointerToString(source.Scope)
+	assignment.Scope = genruntime.ClonePointerToString(source.Scope)
 
 	// UpdatedBy
-	parameters.UpdatedBy = genruntime.ClonePointerToString(source.UpdatedBy)
+	assignment.UpdatedBy = genruntime.ClonePointerToString(source.UpdatedBy)
 
 	// UpdatedOn
-	parameters.UpdatedOn = genruntime.ClonePointerToString(source.UpdatedOn)
+	assignment.UpdatedOn = genruntime.ClonePointerToString(source.UpdatedOn)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		parameters.PropertyBag = propertyBag
+		assignment.PropertyBag = propertyBag
 	} else {
-		parameters.PropertyBag = nil
+		assignment.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToRoleAssignmentCreateParameters_STATUS populates the provided destination RoleAssignmentCreateParameters_STATUS from our RoleAssignmentCreateParameters_STATUS
-func (parameters *RoleAssignmentCreateParameters_STATUS) AssignPropertiesToRoleAssignmentCreateParameters_STATUS(destination *v20200801ps.RoleAssignmentCreateParameters_STATUS) error {
+// AssignPropertiesToRoleAssignment_STATUS populates the provided destination RoleAssignment_STATUS from our RoleAssignment_STATUS
+func (assignment *RoleAssignment_STATUS) AssignPropertiesToRoleAssignment_STATUS(destination *v20200801ps.RoleAssignment_STATUS) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(assignment.PropertyBag)
 
 	// Condition
-	destination.Condition = genruntime.ClonePointerToString(parameters.Condition)
+	destination.Condition = genruntime.ClonePointerToString(assignment.Condition)
 
 	// ConditionVersion
-	destination.ConditionVersion = genruntime.ClonePointerToString(parameters.ConditionVersion)
+	destination.ConditionVersion = genruntime.ClonePointerToString(assignment.ConditionVersion)
 
 	// Conditions
-	destination.Conditions = genruntime.CloneSliceOfCondition(parameters.Conditions)
+	destination.Conditions = genruntime.CloneSliceOfCondition(assignment.Conditions)
 
 	// CreatedBy
-	destination.CreatedBy = genruntime.ClonePointerToString(parameters.CreatedBy)
+	destination.CreatedBy = genruntime.ClonePointerToString(assignment.CreatedBy)
 
 	// CreatedOn
-	destination.CreatedOn = genruntime.ClonePointerToString(parameters.CreatedOn)
+	destination.CreatedOn = genruntime.ClonePointerToString(assignment.CreatedOn)
 
 	// DelegatedManagedIdentityResourceId
-	destination.DelegatedManagedIdentityResourceId = genruntime.ClonePointerToString(parameters.DelegatedManagedIdentityResourceId)
+	destination.DelegatedManagedIdentityResourceId = genruntime.ClonePointerToString(assignment.DelegatedManagedIdentityResourceId)
 
 	// Description
-	destination.Description = genruntime.ClonePointerToString(parameters.Description)
+	destination.Description = genruntime.ClonePointerToString(assignment.Description)
 
 	// PrincipalId
-	destination.PrincipalId = genruntime.ClonePointerToString(parameters.PrincipalId)
+	destination.PrincipalId = genruntime.ClonePointerToString(assignment.PrincipalId)
 
 	// PrincipalType
-	destination.PrincipalType = genruntime.ClonePointerToString(parameters.PrincipalType)
+	destination.PrincipalType = genruntime.ClonePointerToString(assignment.PrincipalType)
 
 	// RoleDefinitionId
-	destination.RoleDefinitionId = genruntime.ClonePointerToString(parameters.RoleDefinitionId)
+	destination.RoleDefinitionId = genruntime.ClonePointerToString(assignment.RoleDefinitionId)
 
 	// Scope
-	destination.Scope = genruntime.ClonePointerToString(parameters.Scope)
+	destination.Scope = genruntime.ClonePointerToString(assignment.Scope)
 
 	// UpdatedBy
-	destination.UpdatedBy = genruntime.ClonePointerToString(parameters.UpdatedBy)
+	destination.UpdatedBy = genruntime.ClonePointerToString(assignment.UpdatedBy)
 
 	// UpdatedOn
-	destination.UpdatedOn = genruntime.ClonePointerToString(parameters.UpdatedOn)
+	destination.UpdatedOn = genruntime.ClonePointerToString(assignment.UpdatedOn)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

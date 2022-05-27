@@ -161,7 +161,113 @@ func StorageAccountsQueueServicesQueueGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForStorageAccountsQueueServicesQueue is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForStorageAccountsQueueServicesQueue(gens map[string]gopter.Gen) {
 	gens["Spec"] = StorageAccountsQueueServicesQueue_SpecGenerator()
-	gens["Status"] = StorageQueue_STATUSGenerator()
+	gens["Status"] = StorageAccountsQueueServicesQueue_STATUSGenerator()
+}
+
+func Test_StorageAccountsQueueServicesQueue_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from StorageAccountsQueueServicesQueue_STATUS to StorageAccountsQueueServicesQueue_STATUS via AssignPropertiesToStorageAccountsQueueServicesQueue_STATUS & AssignPropertiesFromStorageAccountsQueueServicesQueue_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForStorageAccountsQueueServicesQueue_STATUS, StorageAccountsQueueServicesQueue_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForStorageAccountsQueueServicesQueue_STATUS tests if a specific instance of StorageAccountsQueueServicesQueue_STATUS can be assigned to v1alpha1api20210401storage and back losslessly
+func RunPropertyAssignmentTestForStorageAccountsQueueServicesQueue_STATUS(subject StorageAccountsQueueServicesQueue_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other alpha20210401s.StorageAccountsQueueServicesQueue_STATUS
+	err := copied.AssignPropertiesToStorageAccountsQueueServicesQueue_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual StorageAccountsQueueServicesQueue_STATUS
+	err = actual.AssignPropertiesFromStorageAccountsQueueServicesQueue_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_StorageAccountsQueueServicesQueue_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of StorageAccountsQueueServicesQueue_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForStorageAccountsQueueServicesQueue_STATUS, StorageAccountsQueueServicesQueue_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForStorageAccountsQueueServicesQueue_STATUS runs a test to see if a specific instance of StorageAccountsQueueServicesQueue_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForStorageAccountsQueueServicesQueue_STATUS(subject StorageAccountsQueueServicesQueue_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual StorageAccountsQueueServicesQueue_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of StorageAccountsQueueServicesQueue_STATUS instances for property testing - lazily instantiated by
+// StorageAccountsQueueServicesQueue_STATUSGenerator()
+var storageAccountsQueueServicesQueue_STATUSGenerator gopter.Gen
+
+// StorageAccountsQueueServicesQueue_STATUSGenerator returns a generator of StorageAccountsQueueServicesQueue_STATUS instances for property testing.
+func StorageAccountsQueueServicesQueue_STATUSGenerator() gopter.Gen {
+	if storageAccountsQueueServicesQueue_STATUSGenerator != nil {
+		return storageAccountsQueueServicesQueue_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForStorageAccountsQueueServicesQueue_STATUS(generators)
+	storageAccountsQueueServicesQueue_STATUSGenerator = gen.Struct(reflect.TypeOf(StorageAccountsQueueServicesQueue_STATUS{}), generators)
+
+	return storageAccountsQueueServicesQueue_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForStorageAccountsQueueServicesQueue_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForStorageAccountsQueueServicesQueue_STATUS(gens map[string]gopter.Gen) {
+	gens["ApproximateMessageCount"] = gen.PtrOf(gen.Int())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_StorageAccountsQueueServicesQueue_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -267,111 +373,5 @@ func AddIndependentPropertyGeneratorsForStorageAccountsQueueServicesQueue_Spec(g
 	gens["AzureName"] = gen.AlphaString()
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_StorageQueue_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from StorageQueue_STATUS to StorageQueue_STATUS via AssignPropertiesToStorageQueue_STATUS & AssignPropertiesFromStorageQueue_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForStorageQueue_STATUS, StorageQueue_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForStorageQueue_STATUS tests if a specific instance of StorageQueue_STATUS can be assigned to v1alpha1api20210401storage and back losslessly
-func RunPropertyAssignmentTestForStorageQueue_STATUS(subject StorageQueue_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20210401s.StorageQueue_STATUS
-	err := copied.AssignPropertiesToStorageQueue_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual StorageQueue_STATUS
-	err = actual.AssignPropertiesFromStorageQueue_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_StorageQueue_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of StorageQueue_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForStorageQueue_STATUS, StorageQueue_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForStorageQueue_STATUS runs a test to see if a specific instance of StorageQueue_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForStorageQueue_STATUS(subject StorageQueue_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual StorageQueue_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of StorageQueue_STATUS instances for property testing - lazily instantiated by
-// StorageQueue_STATUSGenerator()
-var storageQueue_STATUSGenerator gopter.Gen
-
-// StorageQueue_STATUSGenerator returns a generator of StorageQueue_STATUS instances for property testing.
-func StorageQueue_STATUSGenerator() gopter.Gen {
-	if storageQueue_STATUSGenerator != nil {
-		return storageQueue_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStorageQueue_STATUS(generators)
-	storageQueue_STATUSGenerator = gen.Struct(reflect.TypeOf(StorageQueue_STATUS{}), generators)
-
-	return storageQueue_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForStorageQueue_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForStorageQueue_STATUS(gens map[string]gopter.Gen) {
-	gens["ApproximateMessageCount"] = gen.PtrOf(gen.Int())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }

@@ -75,22 +75,22 @@ func NamespacesAuthorizationRuleGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForNamespacesAuthorizationRule is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespacesAuthorizationRule(gens map[string]gopter.Gen) {
 	gens["Spec"] = NamespacesAuthorizationRule_SpecGenerator()
-	gens["Status"] = AuthorizationRule_STATUSGenerator()
+	gens["Status"] = NamespacesAuthorizationRule_STATUSGenerator()
 }
 
-func Test_AuthorizationRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_NamespacesAuthorizationRule_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of AuthorizationRule_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForAuthorizationRule_STATUS, AuthorizationRule_STATUSGenerator()))
+		"Round trip of NamespacesAuthorizationRule_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForNamespacesAuthorizationRule_STATUS, NamespacesAuthorizationRule_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForAuthorizationRule_STATUS runs a test to see if a specific instance of AuthorizationRule_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForAuthorizationRule_STATUS(subject AuthorizationRule_STATUS) string {
+// RunJSONSerializationTestForNamespacesAuthorizationRule_STATUS runs a test to see if a specific instance of NamespacesAuthorizationRule_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForNamespacesAuthorizationRule_STATUS(subject NamespacesAuthorizationRule_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -98,7 +98,7 @@ func RunJSONSerializationTestForAuthorizationRule_STATUS(subject AuthorizationRu
 	}
 
 	// Deserialize back into memory
-	var actual AuthorizationRule_STATUS
+	var actual NamespacesAuthorizationRule_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -116,34 +116,34 @@ func RunJSONSerializationTestForAuthorizationRule_STATUS(subject AuthorizationRu
 	return ""
 }
 
-// Generator of AuthorizationRule_STATUS instances for property testing - lazily instantiated by
-// AuthorizationRule_STATUSGenerator()
-var authorizationRule_STATUSGenerator gopter.Gen
+// Generator of NamespacesAuthorizationRule_STATUS instances for property testing - lazily instantiated by
+// NamespacesAuthorizationRule_STATUSGenerator()
+var namespacesAuthorizationRule_STATUSGenerator gopter.Gen
 
-// AuthorizationRule_STATUSGenerator returns a generator of AuthorizationRule_STATUS instances for property testing.
-// We first initialize authorizationRule_STATUSGenerator with a simplified generator based on the
+// NamespacesAuthorizationRule_STATUSGenerator returns a generator of NamespacesAuthorizationRule_STATUS instances for property testing.
+// We first initialize namespacesAuthorizationRule_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func AuthorizationRule_STATUSGenerator() gopter.Gen {
-	if authorizationRule_STATUSGenerator != nil {
-		return authorizationRule_STATUSGenerator
+func NamespacesAuthorizationRule_STATUSGenerator() gopter.Gen {
+	if namespacesAuthorizationRule_STATUSGenerator != nil {
+		return namespacesAuthorizationRule_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAuthorizationRule_STATUS(generators)
-	authorizationRule_STATUSGenerator = gen.Struct(reflect.TypeOf(AuthorizationRule_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForNamespacesAuthorizationRule_STATUS(generators)
+	namespacesAuthorizationRule_STATUSGenerator = gen.Struct(reflect.TypeOf(NamespacesAuthorizationRule_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForAuthorizationRule_STATUS(generators)
-	AddRelatedPropertyGeneratorsForAuthorizationRule_STATUS(generators)
-	authorizationRule_STATUSGenerator = gen.Struct(reflect.TypeOf(AuthorizationRule_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForNamespacesAuthorizationRule_STATUS(generators)
+	AddRelatedPropertyGeneratorsForNamespacesAuthorizationRule_STATUS(generators)
+	namespacesAuthorizationRule_STATUSGenerator = gen.Struct(reflect.TypeOf(NamespacesAuthorizationRule_STATUS{}), generators)
 
-	return authorizationRule_STATUSGenerator
+	return namespacesAuthorizationRule_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForAuthorizationRule_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForAuthorizationRule_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForNamespacesAuthorizationRule_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForNamespacesAuthorizationRule_STATUS(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
@@ -151,8 +151,8 @@ func AddIndependentPropertyGeneratorsForAuthorizationRule_STATUS(gens map[string
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForAuthorizationRule_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForAuthorizationRule_STATUS(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForNamespacesAuthorizationRule_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForNamespacesAuthorizationRule_STATUS(gens map[string]gopter.Gen) {
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 

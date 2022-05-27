@@ -1606,7 +1606,7 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtensionProfile_S
 
 // AddRelatedPropertyGeneratorsForVirtualMachineScaleSetExtensionProfile_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetExtensionProfile_STATUS(gens map[string]gopter.Gen) {
-	gens["Extensions"] = gen.SliceOf(VirtualMachineScaleSetExtension_STATUS_SubResourceEmbeddedGenerator())
+	gens["Extensions"] = gen.SliceOf(VirtualMachineScaleSetExtension_STATUSGenerator())
 }
 
 func Test_VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2529,19 +2529,19 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtension(gens map
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
-func Test_VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_VirtualMachineScaleSetExtension_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded, VirtualMachineScaleSetExtension_STATUS_SubResourceEmbeddedGenerator()))
+		"Round trip of VirtualMachineScaleSetExtension_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetExtension_STATUS, VirtualMachineScaleSetExtension_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForVirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded runs a test to see if a specific instance of VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded(subject VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded) string {
+// RunJSONSerializationTestForVirtualMachineScaleSetExtension_STATUS runs a test to see if a specific instance of VirtualMachineScaleSetExtension_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForVirtualMachineScaleSetExtension_STATUS(subject VirtualMachineScaleSetExtension_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -2549,7 +2549,7 @@ func RunJSONSerializationTestForVirtualMachineScaleSetExtension_STATUS_SubResour
 	}
 
 	// Deserialize back into memory
-	var actual VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded
+	var actual VirtualMachineScaleSetExtension_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -2567,25 +2567,25 @@ func RunJSONSerializationTestForVirtualMachineScaleSetExtension_STATUS_SubResour
 	return ""
 }
 
-// Generator of VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded instances for property testing - lazily
-// instantiated by VirtualMachineScaleSetExtension_STATUS_SubResourceEmbeddedGenerator()
-var virtualMachineScaleSetExtension_STATUS_SubResourceEmbeddedGenerator gopter.Gen
+// Generator of VirtualMachineScaleSetExtension_STATUS instances for property testing - lazily instantiated by
+// VirtualMachineScaleSetExtension_STATUSGenerator()
+var virtualMachineScaleSetExtension_STATUSGenerator gopter.Gen
 
-// VirtualMachineScaleSetExtension_STATUS_SubResourceEmbeddedGenerator returns a generator of VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded instances for property testing.
-func VirtualMachineScaleSetExtension_STATUS_SubResourceEmbeddedGenerator() gopter.Gen {
-	if virtualMachineScaleSetExtension_STATUS_SubResourceEmbeddedGenerator != nil {
-		return virtualMachineScaleSetExtension_STATUS_SubResourceEmbeddedGenerator
+// VirtualMachineScaleSetExtension_STATUSGenerator returns a generator of VirtualMachineScaleSetExtension_STATUS instances for property testing.
+func VirtualMachineScaleSetExtension_STATUSGenerator() gopter.Gen {
+	if virtualMachineScaleSetExtension_STATUSGenerator != nil {
+		return virtualMachineScaleSetExtension_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded(generators)
-	virtualMachineScaleSetExtension_STATUS_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded{}), generators)
+	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtension_STATUS(generators)
+	virtualMachineScaleSetExtension_STATUSGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetExtension_STATUS{}), generators)
 
-	return virtualMachineScaleSetExtension_STATUS_SubResourceEmbeddedGenerator
+	return virtualMachineScaleSetExtension_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtension_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtension_STATUS(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 

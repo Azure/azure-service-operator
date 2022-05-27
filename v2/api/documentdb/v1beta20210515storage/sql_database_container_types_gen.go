@@ -27,8 +27,8 @@ import (
 type SqlDatabaseContainer struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccountsSqlDatabasesContainer_Spec `json:"spec,omitempty"`
-	Status            SqlContainerCreateUpdateParameters_STATUS  `json:"status,omitempty"`
+	Spec              DatabaseAccountsSqlDatabasesContainer_Spec   `json:"spec,omitempty"`
+	Status            DatabaseAccountsSqlDatabasesContainer_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainer{}
@@ -77,7 +77,7 @@ func (container *SqlDatabaseContainer) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (container *SqlDatabaseContainer) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &SqlContainerCreateUpdateParameters_STATUS{}
+	return &DatabaseAccountsSqlDatabasesContainer_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -93,13 +93,13 @@ func (container *SqlDatabaseContainer) Owner() *genruntime.ResourceReference {
 // SetStatus sets the status of this resource
 func (container *SqlDatabaseContainer) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*SqlContainerCreateUpdateParameters_STATUS); ok {
+	if st, ok := status.(*DatabaseAccountsSqlDatabasesContainer_STATUS); ok {
 		container.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st SqlContainerCreateUpdateParameters_STATUS
+	var st DatabaseAccountsSqlDatabasesContainer_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -129,6 +129,39 @@ type SqlDatabaseContainerList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []SqlDatabaseContainer `json:"items"`
+}
+
+// Storage version of v1beta20210515.DatabaseAccountsSqlDatabasesContainer_STATUS
+type DatabaseAccountsSqlDatabasesContainer_STATUS struct {
+	Conditions  []conditions.Condition       `json:"conditions,omitempty"`
+	Id          *string                      `json:"id,omitempty"`
+	Location    *string                      `json:"location,omitempty"`
+	Name        *string                      `json:"name,omitempty"`
+	Options     *CreateUpdateOptions_STATUS  `json:"options,omitempty"`
+	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
+	Resource    *SqlContainerResource_STATUS `json:"resource,omitempty"`
+	Tags        map[string]string            `json:"tags,omitempty"`
+	Type        *string                      `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &DatabaseAccountsSqlDatabasesContainer_STATUS{}
+
+// ConvertStatusFrom populates our DatabaseAccountsSqlDatabasesContainer_STATUS from the provided source
+func (container *DatabaseAccountsSqlDatabasesContainer_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	if source == container {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return source.ConvertStatusTo(container)
+}
+
+// ConvertStatusTo populates the provided destination from our DatabaseAccountsSqlDatabasesContainer_STATUS
+func (container *DatabaseAccountsSqlDatabasesContainer_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	if destination == container {
+		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
+	}
+
+	return destination.ConvertStatusFrom(container)
 }
 
 // Storage version of v1beta20210515.DatabaseAccountsSqlDatabasesContainer_Spec
@@ -170,39 +203,6 @@ func (container *DatabaseAccountsSqlDatabasesContainer_Spec) ConvertSpecTo(desti
 	}
 
 	return destination.ConvertSpecFrom(container)
-}
-
-// Storage version of v1beta20210515.SqlContainerCreateUpdateParameters_STATUS
-type SqlContainerCreateUpdateParameters_STATUS struct {
-	Conditions  []conditions.Condition       `json:"conditions,omitempty"`
-	Id          *string                      `json:"id,omitempty"`
-	Location    *string                      `json:"location,omitempty"`
-	Name        *string                      `json:"name,omitempty"`
-	Options     *CreateUpdateOptions_STATUS  `json:"options,omitempty"`
-	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
-	Resource    *SqlContainerResource_STATUS `json:"resource,omitempty"`
-	Tags        map[string]string            `json:"tags,omitempty"`
-	Type        *string                      `json:"type,omitempty"`
-}
-
-var _ genruntime.ConvertibleStatus = &SqlContainerCreateUpdateParameters_STATUS{}
-
-// ConvertStatusFrom populates our SqlContainerCreateUpdateParameters_STATUS from the provided source
-func (parameters *SqlContainerCreateUpdateParameters_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
-	if source == parameters {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return source.ConvertStatusTo(parameters)
-}
-
-// ConvertStatusTo populates the provided destination from our SqlContainerCreateUpdateParameters_STATUS
-func (parameters *SqlContainerCreateUpdateParameters_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
-	if destination == parameters {
-		return errors.New("attempted conversion between unrelated implementations of github.com/Azure/azure-service-operator/v2/pkg/genruntime/ConvertibleStatus")
-	}
-
-	return destination.ConvertStatusFrom(parameters)
 }
 
 // Storage version of v1beta20210515.SqlContainerResource

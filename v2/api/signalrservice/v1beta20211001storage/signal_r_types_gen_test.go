@@ -74,22 +74,22 @@ func SignalRGenerator() gopter.Gen {
 // AddRelatedPropertyGeneratorsForSignalR is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSignalR(gens map[string]gopter.Gen) {
 	gens["Spec"] = SignalR_SpecGenerator()
-	gens["Status"] = SignalRResource_STATUSGenerator()
+	gens["Status"] = SignalR_STATUSGenerator()
 }
 
-func Test_SignalRResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_SignalR_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of SignalRResource_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSignalRResource_STATUS, SignalRResource_STATUSGenerator()))
+		"Round trip of SignalR_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForSignalR_STATUS, SignalR_STATUSGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForSignalRResource_STATUS runs a test to see if a specific instance of SignalRResource_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForSignalRResource_STATUS(subject SignalRResource_STATUS) string {
+// RunJSONSerializationTestForSignalR_STATUS runs a test to see if a specific instance of SignalR_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForSignalR_STATUS(subject SignalR_STATUS) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -97,7 +97,7 @@ func RunJSONSerializationTestForSignalRResource_STATUS(subject SignalRResource_S
 	}
 
 	// Deserialize back into memory
-	var actual SignalRResource_STATUS
+	var actual SignalR_STATUS
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -115,34 +115,33 @@ func RunJSONSerializationTestForSignalRResource_STATUS(subject SignalRResource_S
 	return ""
 }
 
-// Generator of SignalRResource_STATUS instances for property testing - lazily instantiated by
-// SignalRResource_STATUSGenerator()
-var signalRResource_STATUSGenerator gopter.Gen
+// Generator of SignalR_STATUS instances for property testing - lazily instantiated by SignalR_STATUSGenerator()
+var signalR_STATUSGenerator gopter.Gen
 
-// SignalRResource_STATUSGenerator returns a generator of SignalRResource_STATUS instances for property testing.
-// We first initialize signalRResource_STATUSGenerator with a simplified generator based on the
+// SignalR_STATUSGenerator returns a generator of SignalR_STATUS instances for property testing.
+// We first initialize signalR_STATUSGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func SignalRResource_STATUSGenerator() gopter.Gen {
-	if signalRResource_STATUSGenerator != nil {
-		return signalRResource_STATUSGenerator
+func SignalR_STATUSGenerator() gopter.Gen {
+	if signalR_STATUSGenerator != nil {
+		return signalR_STATUSGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSignalRResource_STATUS(generators)
-	signalRResource_STATUSGenerator = gen.Struct(reflect.TypeOf(SignalRResource_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForSignalR_STATUS(generators)
+	signalR_STATUSGenerator = gen.Struct(reflect.TypeOf(SignalR_STATUS{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSignalRResource_STATUS(generators)
-	AddRelatedPropertyGeneratorsForSignalRResource_STATUS(generators)
-	signalRResource_STATUSGenerator = gen.Struct(reflect.TypeOf(SignalRResource_STATUS{}), generators)
+	AddIndependentPropertyGeneratorsForSignalR_STATUS(generators)
+	AddRelatedPropertyGeneratorsForSignalR_STATUS(generators)
+	signalR_STATUSGenerator = gen.Struct(reflect.TypeOf(SignalR_STATUS{}), generators)
 
-	return signalRResource_STATUSGenerator
+	return signalR_STATUSGenerator
 }
 
-// AddIndependentPropertyGeneratorsForSignalRResource_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSignalRResource_STATUS(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForSignalR_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForSignalR_STATUS(gens map[string]gopter.Gen) {
 	gens["DisableAadAuth"] = gen.PtrOf(gen.Bool())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 	gens["ExternalIP"] = gen.PtrOf(gen.AlphaString())
@@ -161,8 +160,8 @@ func AddIndependentPropertyGeneratorsForSignalRResource_STATUS(gens map[string]g
 	gens["Version"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForSignalRResource_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSignalRResource_STATUS(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForSignalR_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForSignalR_STATUS(gens map[string]gopter.Gen) {
 	gens["Cors"] = gen.PtrOf(SignalRCorsSettings_STATUSGenerator())
 	gens["Features"] = gen.SliceOf(SignalRFeature_STATUSGenerator())
 	gens["Identity"] = gen.PtrOf(ManagedIdentity_STATUSGenerator())

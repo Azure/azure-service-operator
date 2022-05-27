@@ -406,9 +406,9 @@ type VirtualMachineScaleSetExtensionProfile struct {
 
 // Storage version of v1beta20201201.VirtualMachineScaleSetExtensionProfile_STATUS
 type VirtualMachineScaleSetExtensionProfile_STATUS struct {
-	Extensions           []VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded `json:"extensions,omitempty"`
-	ExtensionsTimeBudget *string                                                      `json:"extensionsTimeBudget,omitempty"`
-	PropertyBag          genruntime.PropertyBag                                       `json:"$propertyBag,omitempty"`
+	Extensions           []VirtualMachineScaleSetExtension_STATUS `json:"extensions,omitempty"`
+	ExtensionsTimeBudget *string                                  `json:"extensionsTimeBudget,omitempty"`
+	PropertyBag          genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20201201.VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS
@@ -533,8 +533,8 @@ type VirtualMachineScaleSetExtension struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20201201.VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded
-type VirtualMachineScaleSetExtension_STATUS_SubResourceEmbedded struct {
+// Storage version of v1beta20201201.VirtualMachineScaleSetExtension_STATUS
+type VirtualMachineScaleSetExtension_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }

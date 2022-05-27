@@ -545,6 +545,11 @@ type ManagedClusterWindowsProfile_STATUSARM struct {
 	LicenseType *ManagedClusterWindowsProfile_LicenseType_STATUS `json:"licenseType,omitempty"`
 }
 
+type PowerState_STATUSARM struct {
+	// Code: Tells whether the cluster is Running or Stopped
+	Code *PowerState_Code_STATUS `json:"code,omitempty"`
+}
+
 type PrivateLinkResource_STATUSARM struct {
 	// GroupId: The group ID of the resource.
 	GroupId *string `json:"groupId,omitempty"`

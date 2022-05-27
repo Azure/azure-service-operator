@@ -28,8 +28,8 @@ import (
 type SqlDatabaseContainerThroughputSetting struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
-	Spec              DatabaseAccountsSqlDatabasesContainersThroughputSetting_Spec `json:"spec,omitempty"`
-	Status            ThroughputSettingsUpdateParameters_STATUS                    `json:"status,omitempty"`
+	Spec              DatabaseAccountsSqlDatabasesContainersThroughputSetting_Spec   `json:"spec,omitempty"`
+	Status            DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS `json:"status,omitempty"`
 }
 
 var _ conditions.Conditioner = &SqlDatabaseContainerThroughputSetting{}
@@ -137,7 +137,7 @@ func (setting *SqlDatabaseContainerThroughputSetting) GetType() string {
 
 // NewEmptyStatus returns a new empty (blank) status
 func (setting *SqlDatabaseContainerThroughputSetting) NewEmptyStatus() genruntime.ConvertibleStatus {
-	return &ThroughputSettingsUpdateParameters_STATUS{}
+	return &DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS{}
 }
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
@@ -153,13 +153,13 @@ func (setting *SqlDatabaseContainerThroughputSetting) Owner() *genruntime.Resour
 // SetStatus sets the status of this resource
 func (setting *SqlDatabaseContainerThroughputSetting) SetStatus(status genruntime.ConvertibleStatus) error {
 	// If we have exactly the right type of status, assign it
-	if st, ok := status.(*ThroughputSettingsUpdateParameters_STATUS); ok {
+	if st, ok := status.(*DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS); ok {
 		setting.Status = *st
 		return nil
 	}
 
 	// Convert status to required version
-	var st ThroughputSettingsUpdateParameters_STATUS
+	var st DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS
 	err := status.ConvertStatusTo(&st)
 	if err != nil {
 		return errors.Wrap(err, "failed to convert status")
@@ -277,10 +277,10 @@ func (setting *SqlDatabaseContainerThroughputSetting) AssignPropertiesFromSqlDat
 	setting.Spec = spec
 
 	// Status
-	var status ThroughputSettingsUpdateParameters_STATUS
-	err = status.AssignPropertiesFromThroughputSettingsUpdateParameters_STATUS(&source.Status)
+	var status DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS
+	err = status.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS(&source.Status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsUpdateParameters_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS() to populate field Status")
 	}
 	setting.Status = status
 
@@ -303,10 +303,10 @@ func (setting *SqlDatabaseContainerThroughputSetting) AssignPropertiesToSqlDatab
 	destination.Spec = spec
 
 	// Status
-	var status alpha20210515s.ThroughputSettingsUpdateParameters_STATUS
-	err = setting.Status.AssignPropertiesToThroughputSettingsUpdateParameters_STATUS(&status)
+	var status alpha20210515s.DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS
+	err = setting.Status.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS(&status)
 	if err != nil {
-		return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsUpdateParameters_STATUS() to populate field Status")
+		return errors.Wrap(err, "calling AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS() to populate field Status")
 	}
 	destination.Status = status
 
@@ -329,6 +329,217 @@ type SqlDatabaseContainerThroughputSettingList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []SqlDatabaseContainerThroughputSetting `json:"items"`
+}
+
+// Deprecated version of DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS. Use v1beta20210515.DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS instead
+type DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS struct {
+	// Conditions: The observed state of the resource
+	Conditions []conditions.Condition             `json:"conditions,omitempty"`
+	Id         *string                            `json:"id,omitempty"`
+	Location   *string                            `json:"location,omitempty"`
+	Name       *string                            `json:"name,omitempty"`
+	Resource   *ThroughputSettingsResource_STATUS `json:"resource,omitempty"`
+	Tags       map[string]string                  `json:"tags,omitempty"`
+	Type       *string                            `json:"type,omitempty"`
+}
+
+var _ genruntime.ConvertibleStatus = &DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS{}
+
+// ConvertStatusFrom populates our DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS from the provided source
+func (setting *DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS) ConvertStatusFrom(source genruntime.ConvertibleStatus) error {
+	src, ok := source.(*alpha20210515s.DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS)
+	if ok {
+		// Populate our instance from source
+		return setting.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS(src)
+	}
+
+	// Convert to an intermediate form
+	src = &alpha20210515s.DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS{}
+	err := src.ConvertStatusFrom(source)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusFrom()")
+	}
+
+	// Update our instance from src
+	err = setting.AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS(src)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusFrom()")
+	}
+
+	return nil
+}
+
+// ConvertStatusTo populates the provided destination from our DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS
+func (setting *DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS) ConvertStatusTo(destination genruntime.ConvertibleStatus) error {
+	dst, ok := destination.(*alpha20210515s.DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS)
+	if ok {
+		// Populate destination from our instance
+		return setting.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS(dst)
+	}
+
+	// Convert to an intermediate form
+	dst = &alpha20210515s.DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS{}
+	err := setting.AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS(dst)
+	if err != nil {
+		return errors.Wrap(err, "initial step of conversion in ConvertStatusTo()")
+	}
+
+	// Update dst from our instance
+	err = dst.ConvertStatusTo(destination)
+	if err != nil {
+		return errors.Wrap(err, "final step of conversion in ConvertStatusTo()")
+	}
+
+	return nil
+}
+
+var _ genruntime.FromARMConverter = &DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (setting *DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUSARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (setting *DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUSARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUSARM, got %T", armInput)
+	}
+
+	// no assignment for property ‘Conditions’
+
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		setting.Id = &id
+	}
+
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		setting.Location = &location
+	}
+
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		setting.Name = &name
+	}
+
+	// Set property ‘Resource’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Resource != nil {
+			var resource1 ThroughputSettingsResource_STATUS
+			err := resource1.PopulateFromARM(owner, *typedInput.Properties.Resource)
+			if err != nil {
+				return err
+			}
+			resource := resource1
+			setting.Resource = &resource
+		}
+	}
+
+	// Set property ‘Tags’:
+	if typedInput.Tags != nil {
+		setting.Tags = make(map[string]string)
+		for key, value := range typedInput.Tags {
+			setting.Tags[key] = value
+		}
+	}
+
+	// Set property ‘Type’:
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		setting.Type = &typeVar
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS populates our DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS from the provided source DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS
+func (setting *DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS) AssignPropertiesFromDatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS(source *alpha20210515s.DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS) error {
+
+	// Conditions
+	setting.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// Id
+	setting.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Location
+	setting.Location = genruntime.ClonePointerToString(source.Location)
+
+	// Name
+	setting.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Resource
+	if source.Resource != nil {
+		var resource ThroughputSettingsResource_STATUS
+		err := resource.AssignPropertiesFromThroughputSettingsResource_STATUS(source.Resource)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsResource_STATUS() to populate field Resource")
+		}
+		setting.Resource = &resource
+	} else {
+		setting.Resource = nil
+	}
+
+	// Tags
+	setting.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	setting.Type = genruntime.ClonePointerToString(source.Type)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS populates the provided destination DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS from our DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS
+func (setting *DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS) AssignPropertiesToDatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS(destination *alpha20210515s.DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Conditions
+	destination.Conditions = genruntime.CloneSliceOfCondition(setting.Conditions)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(setting.Id)
+
+	// Location
+	destination.Location = genruntime.ClonePointerToString(setting.Location)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(setting.Name)
+
+	// Resource
+	if setting.Resource != nil {
+		var resource alpha20210515s.ThroughputSettingsResource_STATUS
+		err := setting.Resource.AssignPropertiesToThroughputSettingsResource_STATUS(&resource)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsResource_STATUS() to populate field Resource")
+		}
+		destination.Resource = &resource
+	} else {
+		destination.Resource = nil
+	}
+
+	// Tags
+	destination.Tags = genruntime.CloneMapOfStringToString(setting.Tags)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(setting.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
 }
 
 type DatabaseAccountsSqlDatabasesContainersThroughputSetting_Spec struct {

@@ -26,20 +26,20 @@ type IdentityProperties_STATUSARM struct {
 
 // Deprecated version of RegistryProperties_STATUS. Use v1beta20210901.RegistryProperties_STATUS instead
 type RegistryProperties_STATUSARM struct {
-	AdminUserEnabled           *bool                                                     `json:"adminUserEnabled,omitempty"`
-	CreationDate               *string                                                   `json:"creationDate,omitempty"`
-	DataEndpointEnabled        *bool                                                     `json:"dataEndpointEnabled,omitempty"`
-	DataEndpointHostNames      []string                                                  `json:"dataEndpointHostNames,omitempty"`
-	Encryption                 *EncryptionProperty_STATUSARM                             `json:"encryption,omitempty"`
-	LoginServer                *string                                                   `json:"loginServer,omitempty"`
-	NetworkRuleBypassOptions   *RegistryProperties_NetworkRuleBypassOptions_STATUS       `json:"networkRuleBypassOptions,omitempty"`
-	NetworkRuleSet             *NetworkRuleSet_STATUSARM                                 `json:"networkRuleSet,omitempty"`
-	Policies                   *Policies_STATUSARM                                       `json:"policies,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState          *RegistryProperties_ProvisioningState_STATUS              `json:"provisioningState,omitempty"`
-	PublicNetworkAccess        *RegistryProperties_PublicNetworkAccess_STATUS            `json:"publicNetworkAccess,omitempty"`
-	Status                     *Status_STATUSARM                                         `json:"status,omitempty"`
-	ZoneRedundancy             *RegistryProperties_ZoneRedundancy_STATUS                 `json:"zoneRedundancy,omitempty"`
+	AdminUserEnabled           *bool                                               `json:"adminUserEnabled,omitempty"`
+	CreationDate               *string                                             `json:"creationDate,omitempty"`
+	DataEndpointEnabled        *bool                                               `json:"dataEndpointEnabled,omitempty"`
+	DataEndpointHostNames      []string                                            `json:"dataEndpointHostNames,omitempty"`
+	Encryption                 *EncryptionProperty_STATUSARM                       `json:"encryption,omitempty"`
+	LoginServer                *string                                             `json:"loginServer,omitempty"`
+	NetworkRuleBypassOptions   *RegistryProperties_NetworkRuleBypassOptions_STATUS `json:"networkRuleBypassOptions,omitempty"`
+	NetworkRuleSet             *NetworkRuleSet_STATUSARM                           `json:"networkRuleSet,omitempty"`
+	Policies                   *Policies_STATUSARM                                 `json:"policies,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUSARM               `json:"privateEndpointConnections,omitempty"`
+	ProvisioningState          *RegistryProperties_ProvisioningState_STATUS        `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *RegistryProperties_PublicNetworkAccess_STATUS      `json:"publicNetworkAccess,omitempty"`
+	Status                     *Status_STATUSARM                                   `json:"status,omitempty"`
+	ZoneRedundancy             *RegistryProperties_ZoneRedundancy_STATUS           `json:"zoneRedundancy,omitempty"`
 }
 
 // Deprecated version of Sku_STATUS. Use v1beta20210901.Sku_STATUS instead
@@ -88,8 +88,8 @@ type Policies_STATUSARM struct {
 	TrustPolicy      *TrustPolicy_STATUSARM      `json:"trustPolicy,omitempty"`
 }
 
-// Deprecated version of PrivateEndpointConnection_STATUS_SubResourceEmbedded. Use v1beta20210901.PrivateEndpointConnection_STATUS_SubResourceEmbedded instead
-type PrivateEndpointConnection_STATUS_SubResourceEmbeddedARM struct {
+// Deprecated version of PrivateEndpointConnection_STATUS. Use v1beta20210901.PrivateEndpointConnection_STATUS instead
+type PrivateEndpointConnection_STATUSARM struct {
 	Id         *string               `json:"id,omitempty"`
 	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
 }
