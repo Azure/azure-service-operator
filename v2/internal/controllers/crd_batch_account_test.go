@@ -23,7 +23,7 @@ func Test_Batch_Account_CRUD(t *testing.T) {
 
 	account := &batch.BatchAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("batchacc")),
-		Spec: batch.BatchAccounts_Spec{
+		Spec: batch.BatchAccount_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 		},

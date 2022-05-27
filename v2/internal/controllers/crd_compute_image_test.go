@@ -29,7 +29,7 @@ func Test_Compute_Image_CRUD(t *testing.T) {
 	createOption := compute2020.CreationDataCreateOptionEmpty
 	snapshot := &compute2020.Snapshot{
 		ObjectMeta: tc.MakeObjectMeta("snapshot"),
-		Spec: compute2020.Snapshots_Spec{
+		Spec: compute2020.Snapshot_Spec{
 			CreationData: &compute2020.CreationData{
 				CreateOption: &createOption,
 			},

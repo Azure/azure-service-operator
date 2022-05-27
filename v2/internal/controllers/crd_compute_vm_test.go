@@ -46,17 +46,17 @@ func newVM(
 	secretRef genruntime.SecretReference,
 ) *compute.VirtualMachine {
 	adminUsername := "bloom"
-	size := compute.HardwareProfileVmSizeStandardA1V2
+	size := compute.HardwareProfile_VmSizeStandard_A1_V2
 
 	return &compute.VirtualMachine{
 		ObjectMeta: tc.MakeObjectMeta("vm"),
-		Spec: compute.VirtualMachines_Spec{
+		Spec: compute.VirtualMachine_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			HardwareProfile: &compute.HardwareProfile{
 				VmSize: &size,
 			},
-			OsProfile: &compute.VirtualMachines_Spec_Properties_OsProfile{
+			OsProfile: &compute.OSProfile{
 				AdminUsername: &adminUsername,
 				// Specifying AdminPassword here rather than SSH Key to ensure that handling and injection
 				// of secrets works.
@@ -71,8 +71,8 @@ func newVM(
 					Version:   to.StringPtr("latest"),
 				},
 			},
-			NetworkProfile: &compute.VirtualMachines_Spec_Properties_NetworkProfile{
-				NetworkInterfaces: []compute.VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces{{
+			NetworkProfile: &compute.NetworkProfile{
+				NetworkInterfaces: []compute.NetworkInterfaceReference{{
 					Reference: tc.MakeReferenceFromResource(networkInterface),
 				}},
 			},
@@ -84,13 +84,13 @@ func newVMNetworkInterface(tc *testcommon.KubePerTestContext, owner *genruntime.
 	dynamic := network.NetworkInterfaceIPConfigurationPropertiesFormatPrivateIPAllocationMethodDynamic
 	return &network.NetworkInterface{
 		ObjectMeta: tc.MakeObjectMeta("nic"),
-		Spec: network.NetworkInterfaces_Spec{
+		Spec: network.NetworkInterface_Spec{
 			Owner:    owner,
 			Location: tc.AzureRegion,
-			IpConfigurations: []network.NetworkInterfaces_Spec_Properties_IpConfigurations{{
+			IpConfigurations: []network.NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded{{
 				Name:                      to.StringPtr("ipconfig1"),
 				PrivateIPAllocationMethod: &dynamic,
-				Subnet: &network.SubResource{
+				Subnet: &network.Subnet_NetworkInterface_SubResourceEmbedded{
 					Reference: tc.MakeReferenceFromResource(subnet),
 				},
 			}},

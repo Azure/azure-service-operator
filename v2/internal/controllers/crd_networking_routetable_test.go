@@ -26,7 +26,7 @@ func Test_Networking_RouteTable_CRUD(t *testing.T) {
 
 	routeTable := &network.RouteTable{
 		ObjectMeta: tc.MakeObjectMeta("routetable"),
-		Spec: network.RouteTables_Spec{
+		Spec: network.RouteTable_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 		},
@@ -57,10 +57,10 @@ func Test_Networking_RouteTable_CRUD(t *testing.T) {
 }
 
 func Routes_CRUD(tc *testcommon.KubePerTestContext, routeTable *network.RouteTable) {
-	nextHopType := network.RoutePropertiesFormatNextHopTypeVirtualAppliance
+	nextHopType := network.RouteNextHopTypeVirtualAppliance
 	ipv6Route := &network.RouteTablesRoute{
 		ObjectMeta: tc.MakeObjectMeta("ipv6route"),
-		Spec: network.RouteTablesRoutes_Spec{
+		Spec: network.RouteTablesRoute_Spec{
 			Owner:            testcommon.AsOwner(routeTable),
 			AddressPrefix:    to.StringPtr("cab:cab::/96"),
 			NextHopType:      &nextHopType,
@@ -70,7 +70,7 @@ func Routes_CRUD(tc *testcommon.KubePerTestContext, routeTable *network.RouteTab
 
 	ipv4Route := &network.RouteTablesRoute{
 		ObjectMeta: tc.MakeObjectMeta("ipv4route"),
-		Spec: network.RouteTablesRoutes_Spec{
+		Spec: network.RouteTablesRoute_Spec{
 			Owner:            testcommon.AsOwner(routeTable),
 			AddressPrefix:    to.StringPtr("Storage"),
 			NextHopType:      &nextHopType,
@@ -118,16 +118,16 @@ func Test_Networking_Route_CreatedThenRouteTableUpdated_RouteStillExists(t *test
 
 	routeTable := &network.RouteTable{
 		ObjectMeta: tc.MakeObjectMeta("routetable"),
-		Spec: network.RouteTables_Spec{
+		Spec: network.RouteTable_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 		},
 	}
 
-	nextHopType := network.RoutePropertiesFormatNextHopTypeVirtualAppliance
+	nextHopType := network.RouteNextHopTypeVirtualAppliance
 	ipv4Route := &network.RouteTablesRoute{
 		ObjectMeta: tc.MakeObjectMeta("ipv4route"),
-		Spec: network.RouteTablesRoutes_Spec{
+		Spec: network.RouteTablesRoute_Spec{
 			Owner:            testcommon.AsOwner(routeTable),
 			AddressPrefix:    to.StringPtr("Storage"),
 			NextHopType:      &nextHopType,

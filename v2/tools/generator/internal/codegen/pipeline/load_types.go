@@ -156,6 +156,8 @@ func generateStatusTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.TypeDefini
 	return renamed(swaggerTypes, astmodel.StatusNameSuffix)
 }
 
+// Note that the first result is for mapping resource names → types, so it is always TypeName→TypeName.
+// The second contains all the renamed types.
 func renamed(swaggerTypes jsonast.SwaggerTypes, suffix string) (astmodel.TypeDefinitionSet, astmodel.TypeDefinitionSet, error) {
 	renamer := astmodel.NewRenamingVisitorFromLambda(func(typeName astmodel.TypeName) astmodel.TypeName {
 		return typeName.WithName(typeName.Name() + suffix)
@@ -259,6 +261,7 @@ func generateSpecTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.TypeDefiniti
 		}
 	*/
 
+	// next, strip all the readonly properties from the Spec types
 	rewriter := astmodel.TypeVisitorBuilder{
 		VisitObjectType: func(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
 			// strip all readonly props

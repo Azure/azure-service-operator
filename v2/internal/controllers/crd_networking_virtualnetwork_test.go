@@ -24,7 +24,7 @@ func Test_Networking_VirtualNetwork_CRUD(t *testing.T) {
 
 	vnet := &network.VirtualNetwork{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
-		Spec: network.VirtualNetworks_Spec{
+		Spec: network.VirtualNetwork_Spec{
 			Owner:    testcommon.AsOwner(rg),
 			Location: tc.AzureRegion,
 			AddressSpace: &network.AddressSpace{
@@ -59,7 +59,7 @@ func Test_Networking_VirtualNetwork_CRUD(t *testing.T) {
 func Subnet_CRUD(tc *testcommon.KubePerTestContext, vnet *network.VirtualNetwork) {
 	subnet := &network.VirtualNetworksSubnet{
 		ObjectMeta: tc.MakeObjectMeta("subnet"),
-		Spec: network.VirtualNetworksSubnets_Spec{
+		Spec: network.VirtualNetworksSubnet_Spec{
 			Owner:         testcommon.AsOwner(vnet),
 			AddressPrefix: to.StringPtr("10.0.0.0/24"),
 		},
@@ -73,7 +73,7 @@ func Subnet_CRUD(tc *testcommon.KubePerTestContext, vnet *network.VirtualNetwork
 
 	// Update the subnet
 	old := subnet.DeepCopy()
-	subnet.Spec.Delegations = []network.VirtualNetworksSubnets_Spec_Properties_Delegations{
+	subnet.Spec.Delegations = []network.Delegation{
 		{
 			Name:        to.StringPtr("mydelegation"),
 			ServiceName: to.StringPtr("Microsoft.DBforMySQL/serversv2"),
@@ -90,7 +90,7 @@ func Test_Networking_Subnet_CreatedThenVNETUpdated_SubnetStillExists(t *testing.
 
 	vnet := &network.VirtualNetwork{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
-		Spec: network.VirtualNetworks_Spec{
+		Spec: network.VirtualNetwork_Spec{
 			Owner:    testcommon.AsOwner(rg),
 			Location: tc.AzureRegion,
 			AddressSpace: &network.AddressSpace{
@@ -101,7 +101,7 @@ func Test_Networking_Subnet_CreatedThenVNETUpdated_SubnetStillExists(t *testing.
 
 	subnet := &network.VirtualNetworksSubnet{
 		ObjectMeta: tc.MakeObjectMeta("subnet"),
-		Spec: network.VirtualNetworksSubnets_Spec{
+		Spec: network.VirtualNetworksSubnet_Spec{
 			Owner:         testcommon.AsOwner(vnet),
 			AddressPrefix: to.StringPtr("10.0.0.0/24"),
 		},

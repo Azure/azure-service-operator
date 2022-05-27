@@ -25,10 +25,10 @@ func Test_CDN_Profile_CRUD(t *testing.T) {
 	tc := globalTestContext.ForTest(t)
 
 	rg := tc.CreateTestResourceGroupAndWait()
-	sku := cdn.SkuNameStandardMicrosoft
+	sku := cdn.Sku_NameStandard_Microsoft
 	profile := &cdn.Profile{
 		ObjectMeta: tc.MakeObjectMeta("cdnprofile"),
-		Spec: cdn.Profiles_Spec{
+		Spec: cdn.Profile_Spec{
 			Location: to.StringPtr("Global"),
 			Owner:    testcommon.AsOwner(rg),
 			Sku:      &cdn.Sku{Name: &sku},
@@ -60,14 +60,14 @@ func Test_CDN_Profile_CRUD(t *testing.T) {
 func Endpoint_CRUD(tc *testcommon.KubePerTestContext, profile *cdn.Profile) {
 	endpoint := &cdn.ProfilesEndpoint{
 		ObjectMeta: tc.MakeObjectMeta("cdn-endpoint"),
-		Spec: cdn.ProfilesEndpoints_Spec{
+		Spec: cdn.ProfilesEndpoint_Spec{
 			Owner:                  testcommon.AsOwner(profile),
 			Location:               to.StringPtr("Global"),
 			IsCompressionEnabled:   to.BoolPtr(true),
 			ContentTypesToCompress: []string{"application/json"},
 			IsHttpAllowed:          to.BoolPtr(false),
 			IsHttpsAllowed:         to.BoolPtr(true),
-			Origins: []cdn.ProfilesEndpoints_Spec_Properties_Origins{
+			Origins: []cdn.DeepCreatedOrigin{
 				{
 					Name:     to.StringPtr("source"),
 					HostName: to.StringPtr("example.com"),

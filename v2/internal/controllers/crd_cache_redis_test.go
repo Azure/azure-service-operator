@@ -36,7 +36,7 @@ func Test_Cache_Redis_CRUD(t *testing.T) {
 
 	// Perform a simple patch
 	old := redis1.DeepCopy()
-	enabled := cache.RedisCreatePropertiesPublicNetworkAccessEnabled
+	enabled := cache.RedisCreateProperties_PublicNetworkAccessEnabled
 	redis1.Spec.PublicNetworkAccess = &enabled
 	tc.PatchResourceAndWait(old, redis1)
 	tc.Expect(redis1.Status.PublicNetworkAccess).ToNot(BeNil())
@@ -75,9 +75,9 @@ func Test_Cache_Redis_CRUD(t *testing.T) {
 }
 
 func makeRedis(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, prefix string) *cache.Redis {
-	tls12 := cache.RedisCreatePropertiesMinimumTlsVersion12
-	family := cache.SkuFamilyP
-	sku := cache.SkuNamePremium
+	tls12 := cache.RedisCreateProperties_MinimumTlsVersion12
+	family := cache.Sku_FamilyP
+	sku := cache.Sku_NamePremium
 	return &cache.Redis{
 		ObjectMeta: tc.MakeObjectMeta(prefix),
 		Spec: cache.Redis_Spec{
@@ -102,10 +102,10 @@ func makeRedis(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, p
 func Redis_LinkedServer_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, redis1, redis2 *cache.Redis) {
 	// Interesting - the link needs to have the same name as the
 	// secondary server.
-	serverRole := cache.RedisLinkedServerCreatePropertiesServerRoleSecondary
+	serverRole := cache.RedisLinkedServerCreateProperties_ServerRoleSecondary
 	linkedServer := cache.RedisLinkedServer{
 		ObjectMeta: tc.MakeObjectMetaWithName(redis2.ObjectMeta.Name),
-		Spec: cache.RedisLinkedServers_Spec{
+		Spec: cache.RedisLinkedServer_Spec{
 			Owner:                     testcommon.AsOwner(redis1),
 			LinkedRedisCacheLocation:  tc.AzureRegion,
 			LinkedRedisCacheReference: tc.MakeReferenceFromResource(redis2),
@@ -121,10 +121,10 @@ func Redis_LinkedServer_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Re
 }
 
 func Redis_PatchSchedule_CRUD(tc *testcommon.KubePerTestContext, redis *cache.Redis) {
-	monday := cache.ScheduleEntryDayOfWeekMonday
+	monday := cache.ScheduleEntry_DayOfWeekMonday
 	schedule := cache.RedisPatchSchedule{
 		ObjectMeta: tc.MakeObjectMeta("patchsched"),
-		Spec: cache.RedisPatchSchedules_Spec{
+		Spec: cache.RedisPatchSchedule_Spec{
 			Owner: testcommon.AsOwner(redis),
 			ScheduleEntries: []cache.ScheduleEntry{{
 				DayOfWeek:         &monday,
@@ -136,7 +136,7 @@ func Redis_PatchSchedule_CRUD(tc *testcommon.KubePerTestContext, redis *cache.Re
 	tc.CreateResourceAndWait(&schedule)
 	tc.Expect(schedule.Status.Id).ToNot(BeNil())
 
-	wednesday := cache.ScheduleEntryDayOfWeekWednesday
+	wednesday := cache.ScheduleEntry_DayOfWeekWednesday
 	old := schedule.DeepCopy()
 	schedule.Spec.ScheduleEntries = append(schedule.Spec.ScheduleEntries, cache.ScheduleEntry{
 		DayOfWeek:         &wednesday,
@@ -144,9 +144,9 @@ func Redis_PatchSchedule_CRUD(tc *testcommon.KubePerTestContext, redis *cache.Re
 		StartHourUtc:      to.IntPtr(7),
 	})
 	tc.PatchResourceAndWait(old, &schedule)
-	statusMonday := cache.ScheduleEntryStatusDayOfWeekMonday
-	statusWednesday := cache.ScheduleEntryStatusDayOfWeekWednesday
-	tc.Expect(schedule.Status.ScheduleEntries).To(Equal([]cache.ScheduleEntry_Status{{
+	statusMonday := cache.ScheduleEntry_DayOfWeek_STATUSMonday
+	statusWednesday := cache.ScheduleEntry_DayOfWeek_STATUSWednesday
+	tc.Expect(schedule.Status.ScheduleEntries).To(Equal([]cache.ScheduleEntry_STATUS{{
 		DayOfWeek:         &statusMonday,
 		MaintenanceWindow: to.StringPtr("PT6H"),
 		StartHourUtc:      to.IntPtr(6),
@@ -163,7 +163,7 @@ func Redis_FirewallRule_CRUD(tc *testcommon.KubePerTestContext, redis *cache.Red
 	// The RP doesn't like rules with hyphens in the name.
 	rule := cache.RedisFirewallRule{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("fwrule")),
-		Spec: cache.RedisFirewallRules_Spec{
+		Spec: cache.RedisFirewallRule_Spec{
 			Owner:   testcommon.AsOwner(redis),
 			StartIP: to.StringPtr("1.2.3.4"),
 			EndIP:   to.StringPtr("1.2.3.4"),
