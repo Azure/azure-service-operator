@@ -80,16 +80,16 @@ func Test_Cache_RedisEnterprise_CRUD(t *testing.T) {
 }
 
 func RedisEnterprise_Database_CRUD(tc *testcommon.KubePerTestContext, redis *cache.RedisEnterprise) {
-	encrypted := cache.DatabasePropertiesClientProtocolEncrypted
-	enterpriseCluster := cache.DatabasePropertiesClusteringPolicyEnterpriseCluster
-	allKeysLRU := cache.DatabasePropertiesEvictionPolicyAllKeysLRU
-	always := cache.PersistenceAofFrequencyAlways
+	encrypted := cache.DatabaseProperties_ClientProtocolEncrypted
+	enterpriseCluster := cache.DatabaseProperties_ClusteringPolicyEnterpriseCluster
+	allKeysLRU := cache.DatabaseProperties_EvictionPolicyAllKeysLRU
+	always := cache.Persistence_AofFrequencyAlways
 
 	database := cache.RedisEnterpriseDatabase{
 		// The RP currently only allows one database, which must be
 		// named "default", in a cluster.
 		ObjectMeta: tc.MakeObjectMetaWithName("default"),
-		Spec: cache.RedisEnterpriseDatabases_Spec{
+		Spec: cache.RedisEnterpriseDatabase_Spec{
 			Owner:            testcommon.AsOwner(redis),
 			ClientProtocol:   &encrypted,
 			ClusteringPolicy: &enterpriseCluster,

@@ -26,13 +26,13 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 	sshPublicKey, err := tc.GenerateSSHKey(2048)
 	tc.Expect(err).ToNot(HaveOccurred())
 
-	identityKind := aks.ManagedClusterIdentityTypeSystemAssigned
-	osType := aks.ManagedClusterAgentPoolProfileOsTypeLinux
-	agentPoolMode := aks.ManagedClusterAgentPoolProfileModeSystem
+	identityKind := aks.ManagedClusterIdentity_TypeSystemAssigned
+	osType := aks.OSTypeLinux
+	agentPoolMode := aks.AgentPoolModeSystem
 
 	cluster := &aks.ManagedCluster{
 		ObjectMeta: tc.MakeObjectMeta("mc"),
-		Spec: aks.ManagedClusters_Spec{
+		Spec: aks.ManagedCluster_Spec{
 			Location:  tc.AzureRegion,
 			Owner:     testcommon.AsOwner(rg),
 			DnsPrefix: to.StringPtr("aso"),
@@ -67,8 +67,8 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 	armId := *cluster.Status.Id
 
 	// Perform a simple patch
-	skuName := aks.ManagedClusterSKUNameBasic
-	skuTier := aks.ManagedClusterSKUTierPaid
+	skuName := aks.ManagedClusterSKU_NameBasic
+	skuTier := aks.ManagedClusterSKU_TierPaid
 	old := cluster.DeepCopy()
 	cluster.Spec.Sku = &aks.ManagedClusterSKU{
 		Name: &skuName,
@@ -77,9 +77,9 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 	tc.PatchResourceAndWait(old, cluster)
 	tc.Expect(cluster.Status.Sku).ToNot(BeNil())
 	tc.Expect(cluster.Status.Sku.Name).ToNot(BeNil())
-	tc.Expect(*cluster.Status.Sku.Name).To(Equal(aks.ManagedClusterSKUStatusNameBasic))
+	tc.Expect(*cluster.Status.Sku.Name).To(Equal(aks.ManagedClusterSKU_Name_STATUSBasic))
 	tc.Expect(cluster.Status.Sku.Tier).ToNot(BeNil())
-	tc.Expect(*cluster.Status.Sku.Tier).To(Equal(aks.ManagedClusterSKUStatusTierPaid))
+	tc.Expect(*cluster.Status.Sku.Tier).To(Equal(aks.ManagedClusterSKU_Tier_STATUSPaid))
 
 	// Run sub tests
 	tc.RunParallelSubtests(
@@ -101,12 +101,12 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 }
 
 func AKS_ManagedCluster_AgentPool_CRUD(tc *testcommon.KubePerTestContext, cluster *aks.ManagedCluster) {
-	osType := aks.ManagedClusterAgentPoolProfilePropertiesOsTypeLinux
-	agentPoolMode := aks.ManagedClusterAgentPoolProfilePropertiesModeSystem
+	osType := aks.OSTypeLinux
+	agentPoolMode := aks.AgentPoolModeSystem
 
 	agentPool := &aks.ManagedClustersAgentPool{
 		ObjectMeta: tc.MakeObjectMetaWithName("ap2"),
-		Spec: aks.ManagedClustersAgentPools_Spec{
+		Spec: aks.ManagedClustersAgentPool_Spec{
 			Owner:  testcommon.AsOwner(cluster),
 			Count:  to.IntPtr(1),
 			VmSize: to.StringPtr("Standard_DS2_v2"),

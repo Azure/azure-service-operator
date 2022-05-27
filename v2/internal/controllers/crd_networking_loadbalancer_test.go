@@ -30,14 +30,14 @@ func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	// Public IP Address
-	sku := network.PublicIPAddressSkuNameStandard
-	allocationMethod := network.PublicIPAddressPropertiesFormatPublicIPAllocationMethodStatic
+	sku := network.LoadBalancerSku_NameStandard
+	allocationMethod := network.IPAllocationMethodStatic
 	publicIPAddress := &network.PublicIPAddress{
 		TypeMeta: metav1.TypeMeta{
 			Kind: reflect.TypeOf(network.PublicIPAddress{}).Name(),
 		},
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("publicip")),
-		Spec: network.PublicIPAddresses_Spec{
+		Spec: network.PublicIPAddress_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &network.PublicIPAddressSku{
@@ -50,10 +50,10 @@ func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
 	tc.CreateResourceAndWait(publicIPAddress)
 
 	// LoadBalancer
-	loadBalancerSku := network.LoadBalancerSkuNameStandard
+	loadBalancerSku := network.LoadBalancerSku_NameStandard
 	lbName := tc.Namer.GenerateName("loadbalancer")
 	lbFrontendName := "LoadBalancerFrontend"
-	protocol := network.InboundNatPoolPropertiesFormatProtocolTcp
+	protocol := network.TransportProtocolTcp
 
 	// TODO: This is still really awkward
 	frontendIPConfigurationARMID, err := genericarmclient.MakeResourceGroupScopeARMID(
@@ -70,13 +70,13 @@ func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
 
 	loadBalancer := &network.LoadBalancer{
 		ObjectMeta: tc.MakeObjectMetaWithName(lbName),
-		Spec: network.LoadBalancers_Spec{
+		Spec: network.LoadBalancer_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &network.LoadBalancerSku{
 				Name: &loadBalancerSku,
 			},
-			FrontendIPConfigurations: []network.LoadBalancers_Spec_Properties_FrontendIPConfigurations{
+			FrontendIPConfigurations: []network.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded{
 				{
 					Name: &lbFrontendName,
 					PublicIPAddress: &network.SubResource{
@@ -85,7 +85,7 @@ func Test_Networking_LoadBalancer_CRUD(t *testing.T) {
 				},
 			},
 			// TODO: The below stuff isn't really necessary for LB CRUD but is required for VMSS...
-			InboundNatPools: []network.LoadBalancers_Spec_Properties_InboundNatPools{
+			InboundNatPools: []network.InboundNatPool{
 				{
 					Name: to.StringPtr("MyFancyNatPool"),
 					FrontendIPConfiguration: &network.SubResource{

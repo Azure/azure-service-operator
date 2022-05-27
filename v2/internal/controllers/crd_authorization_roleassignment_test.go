@@ -32,7 +32,7 @@ func Test_Authorization_RoleAssignment_OnResourceGroup_CRUD(t *testing.T) {
 	// Create a dummy managed identity which we will assign to a role
 	mi := &managedidentity.UserAssignedIdentity{
 		ObjectMeta: tc.MakeObjectMeta("mi"),
-		Spec: managedidentity.UserAssignedIdentities_Spec{
+		Spec: managedidentity.UserAssignedIdentity_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 		},
@@ -48,9 +48,8 @@ func Test_Authorization_RoleAssignment_OnResourceGroup_CRUD(t *testing.T) {
 
 	roleAssignment := &authorization.RoleAssignment{
 		ObjectMeta: tc.MakeObjectMetaWithName(roleAssignmentGUID.String()),
-		Spec: authorization.RoleAssignments_Spec{
-			Location:    tc.AzureRegion,
-			Owner:       tc.AsExtensionOwner(rg),
+		Spec: authorization.RoleAssignment_Spec{
+			Owner:       testcommon.AsOwner(rg),
 			PrincipalId: mi.Status.PrincipalId,
 			RoleDefinitionReference: &genruntime.ResourceReference{
 				ARMID: fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c", tc.AzureSubscription), // This is contributor
@@ -84,7 +83,7 @@ func Test_Authorization_RoleAssignment_OnStorageAccount_CRUD(t *testing.T) {
 	// Create a dummy managed identity which we will assign to a role
 	mi := &managedidentity.UserAssignedIdentity{
 		ObjectMeta: tc.MakeObjectMeta("mi"),
-		Spec: managedidentity.UserAssignedIdentities_Spec{
+		Spec: managedidentity.UserAssignedIdentity_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 		},
@@ -100,7 +99,7 @@ func Test_Authorization_RoleAssignment_OnStorageAccount_CRUD(t *testing.T) {
 	sku := storage.SkuNameStandardLRS
 	acct := &storage.StorageAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
-		Spec: storage.StorageAccounts_Spec{
+		Spec: storage.StorageAccount_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Kind:     &kind,

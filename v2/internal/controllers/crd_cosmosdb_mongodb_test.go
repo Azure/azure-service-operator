@@ -24,11 +24,11 @@ func Test_CosmosDB_MongoDatabase_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	// Create a Cosmos DB account
-	kind := documentdb.DatabaseAccountsSpecKindMongoDB
-	offerType := documentdb.DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferTypeStandard
+	kind := documentdb.DatabaseAccount_Spec_KindMongoDB
+	offerType := documentdb.DatabaseAccountOfferTypeStandard
 	acct := documentdb.DatabaseAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("db")),
-		Spec: documentdb.DatabaseAccounts_Spec{
+		Spec: documentdb.DatabaseAccount_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Kind:     &kind,
@@ -48,7 +48,7 @@ func Test_CosmosDB_MongoDatabase_CRUD(t *testing.T) {
 	name := tc.Namer.GenerateName("mongo")
 	db := documentdb.MongodbDatabase{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
-		Spec: documentdb.DatabaseAccountsMongodbDatabases_Spec{
+		Spec: documentdb.DatabaseAccountsMongodbDatabase_Spec{
 			Location: tc.AzureRegion,
 			Options: &documentdb.CreateUpdateOptions{
 				AutoscaleSettings: &documentdb.AutoscaleSettings{
@@ -66,7 +66,7 @@ func Test_CosmosDB_MongoDatabase_CRUD(t *testing.T) {
 	defer tc.DeleteResourcesAndWait(&acct, &db)
 
 	// Perform some assertions on the resources we just created
-	expectedKind := documentdb.DatabaseAccountGetResultsStatusKindMongoDB
+	expectedKind := documentdb.DatabaseAccount_Spec_KindMongoDB
 	tc.Expect(*acct.Status.Kind).To(Equal(expectedKind))
 	tc.Expect(acct.Status.Id).ToNot(BeNil())
 
@@ -99,7 +99,7 @@ func CosmosDB_MongoDB_Collection_CRUD(tc *testcommon.KubePerTestContext, db clie
 	name := tc.Namer.GenerateName("collection")
 	collection := documentdb.MongodbDatabaseCollection{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
-		Spec: documentdb.DatabaseAccountsMongodbDatabasesCollections_Spec{
+		Spec: documentdb.DatabaseAccountsMongodbDatabasesCollection_Spec{
 			Location: tc.AzureRegion,
 			Options: &documentdb.CreateUpdateOptions{
 				Throughput: to.IntPtr(400),
@@ -138,8 +138,8 @@ func CosmosDB_MongoDB_Collection_CRUD(tc *testcommon.KubePerTestContext, db clie
 	)
 	tc.PatchResourceAndWait(old, &collection)
 	tc.Expect(collection.Status.Resource).ToNot(BeNil())
-	tc.Expect(collection.Status.Resource.Indexes).To(ContainElement(documentdb.MongoIndex_Status{
-		Key: &documentdb.MongoIndexKeys_Status{
+	tc.Expect(collection.Status.Resource.Indexes).To(ContainElement(documentdb.MongoIndex_STATUS{
+		Key: &documentdb.MongoIndexKeys_STATUS{
 			Keys: []string{"col1"},
 		},
 	}))
@@ -158,7 +158,7 @@ func CosmosDB_MongoDB_Collection_CRUD(tc *testcommon.KubePerTestContext, db clie
 func CosmosDB_MongoDB_Database_ThroughputSettings_CRUD(tc *testcommon.KubePerTestContext, db client.Object) {
 	throughputSettings := documentdb.MongodbDatabaseThroughputSetting{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("throughput")),
-		Spec: documentdb.DatabaseAccountsMongodbDatabasesThroughputSettings_Spec{
+		Spec: documentdb.DatabaseAccountsMongodbDatabasesThroughputSetting_Spec{
 			Owner: testcommon.AsOwner(db),
 			Resource: &documentdb.ThroughputSettingsResource{
 				// We cannot change this to be a fixed throughput as we already created the database using
@@ -191,7 +191,7 @@ func CosmosDB_MongoDB_Database_ThroughputSettings_CRUD(tc *testcommon.KubePerTes
 func CosmosDB_MongoDB_Database_Collections_ThroughputSettings_CRUD(tc *testcommon.KubePerTestContext, collection client.Object) {
 	throughputSettings := documentdb.MongodbDatabaseCollectionThroughputSetting{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("throughput")),
-		Spec: documentdb.DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec{
+		Spec: documentdb.DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec{
 			Owner: testcommon.AsOwner(collection),
 			Resource: &documentdb.ThroughputSettingsResource{
 				Throughput: to.IntPtr(500),

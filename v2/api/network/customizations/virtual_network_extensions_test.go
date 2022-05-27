@@ -59,14 +59,14 @@ func Test_FuzzySetSubnets(t *testing.T) {
 func Test_FuzzySetSubnet(t *testing.T) {
 	t.Parallel()
 
-	embeddedType := reflect.TypeOf(network.VirtualNetworks_Spec_Properties_SubnetsARM{})
+	embeddedType := reflect.TypeOf(network.SubnetPropertiesFormatARM{})
 	properties := gopter.NewProperties(nil)
 	arbitraries := arbitrary.DefaultArbitraries()
 
 	properties.Property(
 		"all subnet types can be converted between non-embedded and embedded",
 		arbitraries.ForAll(
-			func(subnet *network.VirtualNetworksSubnets_SpecARM) bool {
+			func(subnet *network.SubnetPropertiesFormatARM) bool {
 				val := reflect.New(embeddedType)
 				err := fuzzySetSubnet(subnet, val)
 

@@ -26,7 +26,7 @@ func Test_Compute_Image_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	tc.LogSection("Create Snapshot")
-	createOption := compute2020.CreationDataCreateOptionEmpty
+	createOption := compute2020.CreationData_CreateOptionEmpty
 	snapshot := &compute2020.Snapshot{
 		ObjectMeta: tc.MakeObjectMeta("snapshot"),
 		Spec: compute2020.Snapshot_Spec{
@@ -44,12 +44,12 @@ func Test_Compute_Image_CRUD(t *testing.T) {
 	snapshotARMId := *snapshot.Status.Id
 
 	tc.LogSection("Create Image")
-	v2 := compute2021.ImagePropertiesHyperVGenerationV2
-	linuxOS := compute2021.ImageOSDiskOsTypeLinux
-	linuxOSState := compute2021.ImageOSDiskOsStateGeneralized
+	v2 := compute2021.HyperVGenerationTypeV2
+	linuxOS := compute2021.ImageOSDisk_OsTypeLinux
+	linuxOSState := compute2021.ImageOSDisk_OsStateGeneralized
 	image := &compute2021.Image{
 		ObjectMeta: tc.MakeObjectMeta("image"),
-		Spec: compute2021.Images_Spec{
+		Spec: compute2021.Image_Spec{
 			HyperVGeneration: &v2,
 			Location:         tc.AzureRegion,
 			Owner:            testcommon.AsOwner(rg),

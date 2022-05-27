@@ -25,11 +25,11 @@ func Test_CosmosDB_SQLDatabase_CRUD(t *testing.T) {
 	// requirements - no hyphens allowed.
 
 	// Create a Cosmos DB account
-	offerType := documentdb.DatabaseAccountCreateUpdatePropertiesDatabaseAccountOfferTypeStandard
-	kind := documentdb.DatabaseAccountsSpecKindGlobalDocumentDB
+	offerType := documentdb.DatabaseAccountOfferTypeStandard
+	kind := documentdb.DatabaseAccount_Spec_KindGlobalDocumentDB
 	acct := documentdb.DatabaseAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("sqlacct")),
-		Spec: documentdb.DatabaseAccounts_Spec{
+		Spec: documentdb.DatabaseAccount_Spec{
 			Location:                 tc.AzureRegion,
 			Owner:                    testcommon.AsOwner(rg),
 			Kind:                     &kind,
@@ -45,7 +45,7 @@ func Test_CosmosDB_SQLDatabase_CRUD(t *testing.T) {
 	dbName := tc.Namer.GenerateName("sqldb")
 	db := documentdb.SqlDatabase{
 		ObjectMeta: tc.MakeObjectMetaWithName(dbName),
-		Spec: documentdb.DatabaseAccountsSqlDatabases_Spec{
+		Spec: documentdb.DatabaseAccountsSqlDatabase_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(&acct),
 			Options: &documentdb.CreateUpdateOptions{
@@ -83,12 +83,12 @@ func Test_CosmosDB_SQLDatabase_CRUD(t *testing.T) {
 
 func CosmosDB_SQL_Container_CRUD(tc *testcommon.KubePerTestContext, db client.Object) {
 	name := tc.Namer.GenerateName("container")
-	lastWriterWins := documentdb.ConflictResolutionPolicyModeLastWriterWins
-	consistent := documentdb.IndexingPolicyIndexingModeConsistent
-	hash := documentdb.ContainerPartitionKeyKindHash
+	lastWriterWins := documentdb.ConflictResolutionPolicy_ModeLastWriterWins
+	consistent := documentdb.IndexingPolicy_IndexingModeConsistent
+	hash := documentdb.ContainerPartitionKey_KindHash
 	container := documentdb.SqlDatabaseContainer{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
-		Spec: documentdb.DatabaseAccountsSqlDatabasesContainers_Spec{
+		Spec: documentdb.DatabaseAccountsSqlDatabasesContainer_Spec{
 			Location: tc.AzureRegion,
 			Options: &documentdb.CreateUpdateOptions{
 				Throughput: to.IntPtr(400),
@@ -164,7 +164,7 @@ func CosmosDB_SQL_Trigger_CRUD(tc *testcommon.KubePerTestContext, container clie
 	create := documentdb.SqlTriggerResourceTriggerOperationCreate
 	trigger := documentdb.SqlDatabaseContainerTrigger{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
-		Spec: documentdb.DatabaseAccountsSqlDatabasesContainersTriggers_Spec{
+		Spec: documentdb.DatabaseAccountsSqlDatabasesContainersTrigger_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(container),
 			Resource: &documentdb.SqlTriggerResource{
@@ -316,7 +316,7 @@ func CosmosDB_SQL_Database_ThroughputSettings_CRUD(tc *testcommon.KubePerTestCon
 func CosmosDB_SQL_Database_Container_ThroughputSettings_CRUD(tc *testcommon.KubePerTestContext, container client.Object) {
 	throughputSettings := documentdb.SqlDatabaseContainerThroughputSetting{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("throughput")),
-		Spec: documentdb.DatabaseAccountsSqlDatabasesContainersThroughputSettings_Spec{
+		Spec: documentdb.DatabaseAccountsSqlDatabasesContainersThroughputSetting_Spec{
 			Owner: testcommon.AsOwner(container),
 			Resource: &documentdb.ThroughputSettingsResource{
 				Throughput: to.IntPtr(500),

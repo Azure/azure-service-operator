@@ -21,16 +21,16 @@ func Test_ContainerRegistry_Registry_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	publicNetworkAccess := containerregistry.RegistryPropertiesPublicNetworkAccessEnabled
-	zoneRedundancy := containerregistry.RegistryPropertiesZoneRedundancyDisabled
+	publicNetworkAccess := containerregistry.RegistryProperties_PublicNetworkAccessEnabled
+	zoneRedundancy := containerregistry.RegistryProperties_ZoneRedundancyDisabled
 	adminUserEnabled := false
 	name := tc.NoSpaceNamer.GenerateName("registry")
 
 	// Create a ContainerRegistry
-	skuName := containerregistry.SkuNameBasic
+	skuName := containerregistry.Sku_NameBasic
 	acct := containerregistry.Registry{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
-		Spec: containerregistry.Registries_Spec{
+		Spec: containerregistry.Registry_Spec{
 			AdminUserEnabled:    &adminUserEnabled,
 			AzureName:           name,
 			Location:            tc.AzureRegion,

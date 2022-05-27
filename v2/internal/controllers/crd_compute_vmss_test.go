@@ -37,7 +37,7 @@ func newVMVirtualNetwork(tc *testcommon.KubePerTestContext, owner *genruntime.Kn
 func newVMSubnet(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference) *network.VirtualNetworksSubnet {
 	return &network.VirtualNetworksSubnet{
 		ObjectMeta: tc.MakeObjectMeta("subnet"),
-		Spec: network.VirtualNetworksSubnets_Spec{
+		Spec: network.VirtualNetworksSubnet_Spec{
 			Owner:         owner,
 			AddressPrefix: to.StringPtr("10.0.0.0/24"),
 		},
@@ -49,7 +49,7 @@ func newPublicIPAddressForVMSS(tc *testcommon.KubePerTestContext, owner *genrunt
 	allocationMethod := network.PublicIPAddressPropertiesFormatPublicIPAllocationMethodStatic
 	return &network.PublicIPAddress{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("publicip")),
-		Spec: network.PublicIPAddresses_Spec{
+		Spec: network.PublicIPAddress_Spec{
 			Location: tc.AzureRegion,
 			Owner:    owner,
 			Sku: &network.PublicIPAddressSku{
@@ -81,21 +81,21 @@ func newLoadBalancerForVMSS(tc *testcommon.KubePerTestContext, rg *resources.Res
 
 	return &network.LoadBalancer{
 		ObjectMeta: tc.MakeObjectMetaWithName(lbName),
-		Spec: network.LoadBalancers_Spec{
+		Spec: network.LoadBalancer_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &network.LoadBalancerSku{
 				Name: &loadBalancerSku,
 			},
-			FrontendIPConfigurations: []network.LoadBalancers_Spec_Properties_FrontendIPConfigurations{
+			FrontendIPConfigurations: []network.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded{
 				{
 					Name: &lbFrontendName,
-					PublicIPAddress: &network.SubResource{
+					PublicIPAddress: &network.PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded{
 						Reference: tc.MakeReferenceFromResource(publicIPAddress),
 					},
 				},
 			},
-			InboundNatPools: []network.LoadBalancers_Spec_Properties_InboundNatPools{
+			InboundNatPools: []network.InboundNatPool{
 				{
 					Name: to.StringPtr("MyFancyNatPool"),
 					FrontendIPConfiguration: &network.SubResource{
@@ -122,7 +122,7 @@ func newVMSS(
 	sshPublicKey, err := tc.GenerateSSHKey(2048)
 	tc.Expect(err).ToNot(HaveOccurred())
 
-	upgradePolicyMode := compute.UpgradePolicyModeAutomatic
+	upgradePolicyMode := compute.UpgradePolicy_ModeAutomatic
 	adminUsername := "adminUser"
 
 	inboundNATPoolRef := genruntime.ResourceReference{
@@ -132,7 +132,7 @@ func newVMSS(
 
 	return &compute.VirtualMachineScaleSet{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vmss")),
-		Spec: compute.VirtualMachineScaleSets_Spec{
+		Spec: compute.VirtualMachineScaleSet_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &compute.Sku{
@@ -144,7 +144,7 @@ func newVMSS(
 			UpgradePolicy: &compute.UpgradePolicy{
 				Mode: &upgradePolicyMode,
 			},
-			VirtualMachineProfile: &compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile{
+			VirtualMachineProfile: &compute.VirtualMachineScaleSetVMProfile{
 				StorageProfile: &compute.VirtualMachineScaleSetStorageProfile{
 					ImageReference: &compute.ImageReference{
 						Publisher: to.StringPtr("Canonical"),
@@ -153,13 +153,13 @@ func newVMSS(
 						Version:   to.StringPtr("latest"),
 					},
 				},
-				OsProfile: &compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile{
+				OsProfile: &compute.VirtualMachineScaleSetOSProfile{
 					ComputerNamePrefix: to.StringPtr("computer"),
 					AdminUsername:      &adminUsername,
 					LinuxConfiguration: &compute.LinuxConfiguration{
 						DisablePasswordAuthentication: to.BoolPtr(true),
 						Ssh: &compute.SshConfiguration{
-							PublicKeys: []compute.SshPublicKey{
+							PublicKeys: []compute.SshPublicKeySpec{
 								{
 									KeyData: sshPublicKey,
 									Path:    to.StringPtr(fmt.Sprintf("/home/%s/.ssh/authorized_keys", adminUsername)),
@@ -168,12 +168,12 @@ func newVMSS(
 						},
 					},
 				},
-				NetworkProfile: &compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile{
-					NetworkInterfaceConfigurations: []compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations{
+				NetworkProfile: &compute.VirtualMachineScaleSetNetworkProfile{
+					NetworkInterfaceConfigurations: []compute.VirtualMachineScaleSetNetworkConfiguration{
 						{
 							Name:    to.StringPtr("mynicconfig"),
 							Primary: to.BoolPtr(true),
-							IpConfigurations: []compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations{
+							IpConfigurations: []compute.VirtualMachineScaleSetIPConfiguration{
 								{
 									Name: to.StringPtr("myipconfiguration"),
 									Subnet: &compute.ApiEntityReference{
@@ -217,8 +217,8 @@ func Test_Compute_VMSS_CRUD(t *testing.T) {
 	// Perform a simple patch to add a basic custom script extension
 	old := vmss.DeepCopy()
 	extensionName := "mycustomextension"
-	vmss.Spec.VirtualMachineProfile.ExtensionProfile = &compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile{
-		Extensions: []compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions{
+	vmss.Spec.VirtualMachineProfile.ExtensionProfile = &compute.VirtualMachineScaleSetExtensionProfile{
+		Extensions: []compute.VirtualMachineScaleSetExtension{
 			{
 				Name:               &extensionName,
 				Publisher:          to.StringPtr("Microsoft.Azure.Extensions"),

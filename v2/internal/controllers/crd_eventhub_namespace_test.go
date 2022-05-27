@@ -23,11 +23,11 @@ func Test_EventHub_Namespace_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	skuTier := eventhub.SkuTierStandard
-	skuName := eventhub.SkuNameStandard
+	skuTier := eventhub.Sku_TierStandard
+	skuName := eventhub.Sku_NameStandard
 	namespace := &eventhub.Namespace{
 		ObjectMeta: tc.MakeObjectMeta("namespace"),
-		Spec: eventhub.Namespaces_Spec{
+		Spec: eventhub.Namespace_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &eventhub.Sku{
@@ -79,7 +79,7 @@ func Test_EventHub_Namespace_CRUD(t *testing.T) {
 func EventHub_CRUD(tc *testcommon.KubePerTestContext, namespace client.Object) {
 	eh := &eventhub.NamespacesEventhub{
 		ObjectMeta: tc.MakeObjectMeta("eventhub"),
-		Spec: eventhub.NamespacesEventhubs_Spec{
+		Spec: eventhub.NamespacesEventhub_Spec{
 			Owner:                  testcommon.AsOwner(namespace),
 			MessageRetentionInDays: to.IntPtr(7),
 			PartitionCount:         to.IntPtr(1),
@@ -121,11 +121,11 @@ func EventHub_CRUD(tc *testcommon.KubePerTestContext, namespace client.Object) {
 func Namespace_AuthorizationRules_CRUD(tc *testcommon.KubePerTestContext, namespace client.Object) {
 	rule := &eventhub.NamespacesAuthorizationRule{
 		ObjectMeta: tc.MakeObjectMeta("eventhub"),
-		Spec: eventhub.NamespacesAuthorizationRules_Spec{
+		Spec: eventhub.NamespacesAuthorizationRule_Spec{
 			Owner: testcommon.AsOwner(namespace),
-			Rights: []eventhub.AuthorizationRulePropertiesRights{
-				eventhub.AuthorizationRulePropertiesRightsListen,
-				eventhub.AuthorizationRulePropertiesRightsSend,
+			Rights: []eventhub.NamespacesAuthorizationRule_Spec_Properties_Rights{
+				eventhub.NamespacesAuthorizationRule_Spec_Properties_RightsListen,
+				eventhub.NamespacesAuthorizationRule_Spec_Properties_RightsSend,
 			},
 		},
 	}
@@ -142,11 +142,11 @@ func Namespace_AuthorizationRules_CRUD(tc *testcommon.KubePerTestContext, namesp
 func EventHub_AuthorizationRules_CRUD(tc *testcommon.KubePerTestContext, eh client.Object) {
 	rule := &eventhub.NamespacesEventhubsAuthorizationRule{
 		ObjectMeta: tc.MakeObjectMeta("eventhub"),
-		Spec: eventhub.NamespacesEventhubsAuthorizationRules_Spec{
+		Spec: eventhub.NamespacesEventhubsAuthorizationRule_Spec{
 			Owner: testcommon.AsOwner(eh),
-			Rights: []eventhub.AuthorizationRulePropertiesRights{
-				eventhub.AuthorizationRulePropertiesRightsListen,
-				eventhub.AuthorizationRulePropertiesRightsSend,
+			Rights: []eventhub.NamespacesEventhubsAuthorizationRule_Spec_Properties_Rights{
+				eventhub.NamespacesEventhubsAuthorizationRule_Spec_Properties_RightsListen,
+				eventhub.NamespacesEventhubsAuthorizationRule_Spec_Properties_RightsSend,
 			},
 		},
 	}
@@ -164,7 +164,7 @@ func EventHub_ConsumerGroup_CRUD(tc *testcommon.KubePerTestContext, eh client.Ob
 	userMetadata := to.StringPtr("This is some fun metadata")
 	consumerGroup := &eventhub.NamespacesEventhubsConsumerGroup{
 		ObjectMeta: tc.MakeObjectMeta("eventhub"),
-		Spec: eventhub.NamespacesEventhubsConsumergroups_Spec{
+		Spec: eventhub.NamespacesEventhubsConsumergroup_Spec{
 			Owner:        testcommon.AsOwner(eh),
 			UserMetadata: to.StringPtr("This is some fun metadata"),
 		},
