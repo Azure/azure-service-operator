@@ -120,12 +120,15 @@ func (gc *GroupConfiguration) findVersionForLocalPackageReference(ref astmodel.L
 	// Check based on the ApiVersion alone
 	apiKey := strings.ToLower(ref.ApiVersion())
 	if version, ok := gc.versions[apiKey]; ok {
+		// make sure there's an exact match on the actual version name, so we don't generate a recommendation
+		gc.advisor.AddTerm(version.name)
 		return version, nil
 	}
 
 	// Also check the entire package name (allows config to specify just a particular generator version if needed)
 	pkgKey := strings.ToLower(ref.PackageName())
 	if version, ok := gc.versions[pkgKey]; ok {
+		// make sure there's an exact match on the actual version name, so we don't generate a recommendation
 		return version, nil
 	}
 

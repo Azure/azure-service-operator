@@ -77,8 +77,8 @@ These are the resources with Azure Service Operator support committed to our **m
 
 | Resource      | ARM Version | CRD Version    | Supported From | Sample                                                                                                                             |
 |---------------|-------------|----------------|----------------|------------------------------------------------------------------------------------------------------------------------------------|
-| Configuration | 20180601    | v1beta20180601 | -              | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/dbformariadb/v1beta20180601_configuration.yaml) |
-| Database      | 20180601    | v1beta20180601 | -              | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/dbformariadb/v1beta20180601_database.yaml)      |
+| Configuration | 20180601    | v1beta20180601 | v2.0.0-beta.1  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/dbformariadb/v1beta20180601_configuration.yaml) |
+| Database      | 20180601    | v1beta20180601 | v2.0.0-beta.1  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/dbformariadb/v1beta20180601_database.yaml)      |
 | Server        | 20180601    | v1beta20180601 | v2.0.0-beta.1  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/dbformariadb/v1beta20180601_server.yaml)        |
 
 ## Dbformysql
@@ -168,6 +168,12 @@ These are the resources with Azure Service Operator support committed to our **m
 | Component | 20200202        | v1alpha1api20200202        | v2.0.0-alpha.2 | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/insights/v1alpha1api20200202_component.yaml)      |
 | Webtest   | 20180501preview | v1beta20180501preview      | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/insights/v1beta20180501preview_webtest.yaml)      |
 | Webtest   | 20180501preview | v1alpha1api20180501preview | v2.0.0-alpha.4 | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/insights/v1alpha1api20180501preview_webtest.yaml) |
+
+## Keyvault
+
+| Resource | ARM Version     | CRD Version           | Supported From | Sample                                                                                                                        |
+|----------|-----------------|-----------------------|----------------|-------------------------------------------------------------------------------------------------------------------------------|
+| Vault    | 20210401preview | v1beta20210401preview | v2.0.0-beta.1  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/keyvault/v1beta20210401preview_vault.yaml) |
 
 ## Managedidentity
 

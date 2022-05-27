@@ -25,6 +25,10 @@ type ObjectType struct {
 	InterfaceImplementer
 }
 
+// for want of a better place for this to live…
+var AdditionalPropertiesPropertyName = PropertyName("AdditionalProperties")
+var AdditionalPropertiesJsonName = "additionalProperties"
+
 // EmptyObjectType is an empty object
 var EmptyObjectType = NewObjectType()
 

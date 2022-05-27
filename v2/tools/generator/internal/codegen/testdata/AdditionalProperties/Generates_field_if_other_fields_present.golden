@@ -62,28 +62,28 @@ func (test *Test) AssignPropertiesToTest(destination *v20200101s.Test) error {
 }
 
 type Test_Tags struct {
+	AdditionalProperties map[string]float64 `json:"additionalProperties,omitempty"`
 	OtherField           *string            `json:"otherField,omitempty"`
-	additionalProperties map[string]float64 `json:"additionalProperties,omitempty"`
 }
 
 // AssignPropertiesFromTest_Tags populates our Test_Tags from the provided source Test_Tags
 func (tags *Test_Tags) AssignPropertiesFromTest_Tags(source *v20200101s.Test_Tags) error {
 
-	// OtherField
-	tags.OtherField = genruntime.ClonePointerToString(source.OtherField)
-
-	// additionalProperties
-	if source.additionalProperties != nil {
-		additionalPropertyMap := make(map[string]float64, len(source.additionalProperties))
-		for additionalPropertyKey, additionalPropertyValue := range source.additionalProperties {
+	// AdditionalProperties
+	if source.AdditionalProperties != nil {
+		additionalPropertyMap := make(map[string]float64, len(source.AdditionalProperties))
+		for additionalPropertyKey, additionalPropertyValue := range source.AdditionalProperties {
 			// Shadow the loop variable to avoid aliasing
 			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = additionalPropertyValue
 		}
-		tags.additionalProperties = additionalPropertyMap
+		tags.AdditionalProperties = additionalPropertyMap
 	} else {
-		tags.additionalProperties = nil
+		tags.AdditionalProperties = nil
 	}
+
+	// OtherField
+	tags.OtherField = genruntime.ClonePointerToString(source.OtherField)
 
 	// No error
 	return nil
@@ -94,21 +94,21 @@ func (tags *Test_Tags) AssignPropertiesToTest_Tags(destination *v20200101s.Test_
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// OtherField
-	destination.OtherField = genruntime.ClonePointerToString(tags.OtherField)
-
-	// additionalProperties
-	if tags.additionalProperties != nil {
-		additionalPropertyMap := make(map[string]float64, len(tags.additionalProperties))
-		for additionalPropertyKey, additionalPropertyValue := range tags.additionalProperties {
+	// AdditionalProperties
+	if tags.AdditionalProperties != nil {
+		additionalPropertyMap := make(map[string]float64, len(tags.AdditionalProperties))
+		for additionalPropertyKey, additionalPropertyValue := range tags.AdditionalProperties {
 			// Shadow the loop variable to avoid aliasing
 			additionalPropertyValue := additionalPropertyValue
 			additionalPropertyMap[additionalPropertyKey] = additionalPropertyValue
 		}
-		destination.additionalProperties = additionalPropertyMap
+		destination.AdditionalProperties = additionalPropertyMap
 	} else {
-		destination.additionalProperties = nil
+		destination.AdditionalProperties = nil
 	}
+
+	// OtherField
+	destination.OtherField = genruntime.ClonePointerToString(tags.OtherField)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

@@ -38,6 +38,10 @@ typeFilters:
     because: We want to export this particular preview version
 
   - action: include
+    group: keyvault
+    version: v*20210401preview
+    because: We want to support keyvault which is only available in preview version
+  - action: include
     group: insights
     version: v*20180501preview
     because: We're using webTests from this. There is a "newer" version but it's not actually supported, see https://github.com/Azure/azure-rest-api-specs/issues/14827
@@ -831,8 +835,10 @@ objectModelConfiguration:
           - FullyQualifiedDomainName
       ServersConfiguration:
         $exportAs: Configuration
+        $supportedFrom: v2.0.0-beta.1
       ServersDatabase:
         $exportAs: Database
+        $supportedFrom: v2.0.0-beta.1
       # TODO(donotmerge)
       # ServerPropertiesForCreate_ServerPropertiesForDefaultCreate:
       #   $exportAs: ServerPropertiesForDefaultCreate
@@ -1032,6 +1038,14 @@ objectModelConfiguration:
       Component:
         $export: true
         $supportedFrom: v2.0.0-alpha.2
+  keyvault:
+    2021-04-01-preview:
+      Vault:
+        $export: true
+        $supportedFrom: v2.0.0-beta.1
+      VirtualNetworkRule:
+        Id:
+          $armReference: true
   managedidentity:
     2018-11-30:
       UserAssignedIdentity:

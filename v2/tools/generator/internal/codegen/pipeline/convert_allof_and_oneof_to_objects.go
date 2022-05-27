@@ -255,6 +255,13 @@ func (s synthesizer) getOneOfName(t astmodel.Type, propIndex int) (propertyNames
 			json:       s.idFactory.CreateIdentifier(name, astmodel.NotExported),
 			isGoodName: false, // TODO: This name sucks but what alternative do we have?
 		}, nil
+	case *astmodel.MapType:
+		name := fmt.Sprintf("map%d", propIndex)
+		return propertyNames{
+			golang:     s.idFactory.CreatePropertyName(name, astmodel.Exported),
+			json:       s.idFactory.CreateIdentifier(name, astmodel.NotExported),
+			isGoodName: false, // TODO: This name sucks but what alternative do we have?
+		}, nil
 
 	case *astmodel.ValidatedType:
 		// pass-through to inner type
@@ -661,7 +668,11 @@ func (synthesizer) handleMapObject(leftMap *astmodel.MapType, rightObj *astmodel
 			return leftMap, nil
 		}
 
-		additionalProps := astmodel.NewPropertyDefinition("additionalProperties", "additionalProperties", leftMap)
+		additionalProps := astmodel.NewPropertyDefinition(
+			astmodel.AdditionalPropertiesPropertyName,
+			astmodel.AdditionalPropertiesJsonName,
+			leftMap)
+
 		return rightObj.WithProperties(additionalProps), nil
 	}
 
