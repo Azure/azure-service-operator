@@ -72,7 +72,7 @@ func (workspace *Workspace) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20210601"
 func (workspace Workspace) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -204,7 +204,7 @@ type WorkspaceList struct {
 // +kubebuilder:validation:Enum={"20210601"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("20210601")
+const APIVersion_Value = APIVersion("20210601")
 
 // Storage version of v1alpha1api20210601.Workspace_STATUS
 // Deprecated version of Workspace_STATUS. Use v1beta20210601.Workspace_STATUS instead

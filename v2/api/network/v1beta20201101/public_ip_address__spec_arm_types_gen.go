@@ -43,7 +43,7 @@ var _ genruntime.ARMResourceSpec = &PublicIPAddress_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20201101"
 func (address PublicIPAddress_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -176,16 +176,16 @@ type PublicIPAddressDnsSettingsARM struct {
 type PublicIPAddressSku_Name string
 
 const (
-	PublicIPAddressSku_NameBasic    = PublicIPAddressSku_Name("Basic")
-	PublicIPAddressSku_NameStandard = PublicIPAddressSku_Name("Standard")
+	PublicIPAddressSku_Name_Basic    = PublicIPAddressSku_Name("Basic")
+	PublicIPAddressSku_Name_Standard = PublicIPAddressSku_Name("Standard")
 )
 
 // +kubebuilder:validation:Enum={"Global","Regional"}
 type PublicIPAddressSku_Tier string
 
 const (
-	PublicIPAddressSku_TierGlobal   = PublicIPAddressSku_Tier("Global")
-	PublicIPAddressSku_TierRegional = PublicIPAddressSku_Tier("Regional")
+	PublicIPAddressSku_Tier_Global   = PublicIPAddressSku_Tier("Global")
+	PublicIPAddressSku_Tier_Regional = PublicIPAddressSku_Tier("Regional")
 )
 
 type PublicIPAddressSpec_PublicIPAddress_SubResourceEmbeddedARM struct {

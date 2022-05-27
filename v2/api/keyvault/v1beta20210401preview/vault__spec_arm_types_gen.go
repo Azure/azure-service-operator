@@ -23,7 +23,7 @@ var _ genruntime.ARMResourceSpec = &Vault_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20210401preview"
 func (vault Vault_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -154,16 +154,16 @@ type SkuARM struct {
 type VaultProperties_CreateMode string
 
 const (
-	VaultProperties_CreateModeDefault = VaultProperties_CreateMode("default")
-	VaultProperties_CreateModeRecover = VaultProperties_CreateMode("recover")
+	VaultProperties_CreateMode_Default = VaultProperties_CreateMode("default")
+	VaultProperties_CreateMode_Recover = VaultProperties_CreateMode("recover")
 )
 
 // +kubebuilder:validation:Enum={"RegisteringDns","Succeeded"}
 type VaultProperties_ProvisioningState string
 
 const (
-	VaultProperties_ProvisioningStateRegisteringDns = VaultProperties_ProvisioningState("RegisteringDns")
-	VaultProperties_ProvisioningStateSucceeded      = VaultProperties_ProvisioningState("Succeeded")
+	VaultProperties_ProvisioningState_RegisteringDns = VaultProperties_ProvisioningState("RegisteringDns")
+	VaultProperties_ProvisioningState_Succeeded      = VaultProperties_ProvisioningState("Succeeded")
 )
 
 type IPRuleARM struct {
@@ -176,16 +176,16 @@ type IPRuleARM struct {
 type NetworkRuleSet_Bypass string
 
 const (
-	NetworkRuleSet_BypassAzureServices = NetworkRuleSet_Bypass("AzureServices")
-	NetworkRuleSet_BypassNone          = NetworkRuleSet_Bypass("None")
+	NetworkRuleSet_Bypass_AzureServices = NetworkRuleSet_Bypass("AzureServices")
+	NetworkRuleSet_Bypass_None          = NetworkRuleSet_Bypass("None")
 )
 
 // +kubebuilder:validation:Enum={"Allow","Deny"}
 type NetworkRuleSet_DefaultAction string
 
 const (
-	NetworkRuleSet_DefaultActionAllow = NetworkRuleSet_DefaultAction("Allow")
-	NetworkRuleSet_DefaultActionDeny  = NetworkRuleSet_DefaultAction("Deny")
+	NetworkRuleSet_DefaultAction_Allow = NetworkRuleSet_DefaultAction("Allow")
+	NetworkRuleSet_DefaultAction_Deny  = NetworkRuleSet_DefaultAction("Deny")
 )
 
 type PermissionsARM struct {
@@ -216,14 +216,14 @@ type PrivateEndpointConnectionPropertiesARM struct {
 // +kubebuilder:validation:Enum={"A"}
 type Sku_Family string
 
-const Sku_FamilyA = Sku_Family("A")
+const Sku_Family_A = Sku_Family("A")
 
 // +kubebuilder:validation:Enum={"premium","standard"}
 type Sku_Name string
 
 const (
-	Sku_NamePremium  = Sku_Name("premium")
-	Sku_NameStandard = Sku_Name("standard")
+	Sku_Name_Premium  = Sku_Name("premium")
+	Sku_Name_Standard = Sku_Name("standard")
 )
 
 type VirtualNetworkRuleARM struct {
@@ -238,79 +238,79 @@ type VirtualNetworkRuleARM struct {
 type Permissions_Certificates string
 
 const (
-	Permissions_CertificatesBackup         = Permissions_Certificates("backup")
-	Permissions_CertificatesCreate         = Permissions_Certificates("create")
-	Permissions_CertificatesDelete         = Permissions_Certificates("delete")
-	Permissions_CertificatesDeleteissuers  = Permissions_Certificates("deleteissuers")
-	Permissions_CertificatesGet            = Permissions_Certificates("get")
-	Permissions_CertificatesGetissuers     = Permissions_Certificates("getissuers")
-	Permissions_CertificatesImport         = Permissions_Certificates("import")
-	Permissions_CertificatesList           = Permissions_Certificates("list")
-	Permissions_CertificatesListissuers    = Permissions_Certificates("listissuers")
-	Permissions_CertificatesManagecontacts = Permissions_Certificates("managecontacts")
-	Permissions_CertificatesManageissuers  = Permissions_Certificates("manageissuers")
-	Permissions_CertificatesPurge          = Permissions_Certificates("purge")
-	Permissions_CertificatesRecover        = Permissions_Certificates("recover")
-	Permissions_CertificatesRestore        = Permissions_Certificates("restore")
-	Permissions_CertificatesSetissuers     = Permissions_Certificates("setissuers")
-	Permissions_CertificatesUpdate         = Permissions_Certificates("update")
+	Permissions_Certificates_Backup         = Permissions_Certificates("backup")
+	Permissions_Certificates_Create         = Permissions_Certificates("create")
+	Permissions_Certificates_Delete         = Permissions_Certificates("delete")
+	Permissions_Certificates_Deleteissuers  = Permissions_Certificates("deleteissuers")
+	Permissions_Certificates_Get            = Permissions_Certificates("get")
+	Permissions_Certificates_Getissuers     = Permissions_Certificates("getissuers")
+	Permissions_Certificates_Import         = Permissions_Certificates("import")
+	Permissions_Certificates_List           = Permissions_Certificates("list")
+	Permissions_Certificates_Listissuers    = Permissions_Certificates("listissuers")
+	Permissions_Certificates_Managecontacts = Permissions_Certificates("managecontacts")
+	Permissions_Certificates_Manageissuers  = Permissions_Certificates("manageissuers")
+	Permissions_Certificates_Purge          = Permissions_Certificates("purge")
+	Permissions_Certificates_Recover        = Permissions_Certificates("recover")
+	Permissions_Certificates_Restore        = Permissions_Certificates("restore")
+	Permissions_Certificates_Setissuers     = Permissions_Certificates("setissuers")
+	Permissions_Certificates_Update         = Permissions_Certificates("update")
 )
 
 // +kubebuilder:validation:Enum={"backup","create","decrypt","delete","encrypt","get","import","list","purge","recover","release","restore","sign","unwrapKey","update","verify","wrapKey"}
 type Permissions_Keys string
 
 const (
-	Permissions_KeysBackup    = Permissions_Keys("backup")
-	Permissions_KeysCreate    = Permissions_Keys("create")
-	Permissions_KeysDecrypt   = Permissions_Keys("decrypt")
-	Permissions_KeysDelete    = Permissions_Keys("delete")
-	Permissions_KeysEncrypt   = Permissions_Keys("encrypt")
-	Permissions_KeysGet       = Permissions_Keys("get")
-	Permissions_KeysImport    = Permissions_Keys("import")
-	Permissions_KeysList      = Permissions_Keys("list")
-	Permissions_KeysPurge     = Permissions_Keys("purge")
-	Permissions_KeysRecover   = Permissions_Keys("recover")
-	Permissions_KeysRelease   = Permissions_Keys("release")
-	Permissions_KeysRestore   = Permissions_Keys("restore")
-	Permissions_KeysSign      = Permissions_Keys("sign")
-	Permissions_KeysUnwrapKey = Permissions_Keys("unwrapKey")
-	Permissions_KeysUpdate    = Permissions_Keys("update")
-	Permissions_KeysVerify    = Permissions_Keys("verify")
-	Permissions_KeysWrapKey   = Permissions_Keys("wrapKey")
+	Permissions_Keys_Backup    = Permissions_Keys("backup")
+	Permissions_Keys_Create    = Permissions_Keys("create")
+	Permissions_Keys_Decrypt   = Permissions_Keys("decrypt")
+	Permissions_Keys_Delete    = Permissions_Keys("delete")
+	Permissions_Keys_Encrypt   = Permissions_Keys("encrypt")
+	Permissions_Keys_Get       = Permissions_Keys("get")
+	Permissions_Keys_Import    = Permissions_Keys("import")
+	Permissions_Keys_List      = Permissions_Keys("list")
+	Permissions_Keys_Purge     = Permissions_Keys("purge")
+	Permissions_Keys_Recover   = Permissions_Keys("recover")
+	Permissions_Keys_Release   = Permissions_Keys("release")
+	Permissions_Keys_Restore   = Permissions_Keys("restore")
+	Permissions_Keys_Sign      = Permissions_Keys("sign")
+	Permissions_Keys_UnwrapKey = Permissions_Keys("unwrapKey")
+	Permissions_Keys_Update    = Permissions_Keys("update")
+	Permissions_Keys_Verify    = Permissions_Keys("verify")
+	Permissions_Keys_WrapKey   = Permissions_Keys("wrapKey")
 )
 
 // +kubebuilder:validation:Enum={"backup","delete","get","list","purge","recover","restore","set"}
 type Permissions_Secrets string
 
 const (
-	Permissions_SecretsBackup  = Permissions_Secrets("backup")
-	Permissions_SecretsDelete  = Permissions_Secrets("delete")
-	Permissions_SecretsGet     = Permissions_Secrets("get")
-	Permissions_SecretsList    = Permissions_Secrets("list")
-	Permissions_SecretsPurge   = Permissions_Secrets("purge")
-	Permissions_SecretsRecover = Permissions_Secrets("recover")
-	Permissions_SecretsRestore = Permissions_Secrets("restore")
-	Permissions_SecretsSet     = Permissions_Secrets("set")
+	Permissions_Secrets_Backup  = Permissions_Secrets("backup")
+	Permissions_Secrets_Delete  = Permissions_Secrets("delete")
+	Permissions_Secrets_Get     = Permissions_Secrets("get")
+	Permissions_Secrets_List    = Permissions_Secrets("list")
+	Permissions_Secrets_Purge   = Permissions_Secrets("purge")
+	Permissions_Secrets_Recover = Permissions_Secrets("recover")
+	Permissions_Secrets_Restore = Permissions_Secrets("restore")
+	Permissions_Secrets_Set     = Permissions_Secrets("set")
 )
 
 // +kubebuilder:validation:Enum={"backup","delete","deletesas","get","getsas","list","listsas","purge","recover","regeneratekey","restore","set","setsas","update"}
 type Permissions_Storage string
 
 const (
-	Permissions_StorageBackup        = Permissions_Storage("backup")
-	Permissions_StorageDelete        = Permissions_Storage("delete")
-	Permissions_StorageDeletesas     = Permissions_Storage("deletesas")
-	Permissions_StorageGet           = Permissions_Storage("get")
-	Permissions_StorageGetsas        = Permissions_Storage("getsas")
-	Permissions_StorageList          = Permissions_Storage("list")
-	Permissions_StorageListsas       = Permissions_Storage("listsas")
-	Permissions_StoragePurge         = Permissions_Storage("purge")
-	Permissions_StorageRecover       = Permissions_Storage("recover")
-	Permissions_StorageRegeneratekey = Permissions_Storage("regeneratekey")
-	Permissions_StorageRestore       = Permissions_Storage("restore")
-	Permissions_StorageSet           = Permissions_Storage("set")
-	Permissions_StorageSetsas        = Permissions_Storage("setsas")
-	Permissions_StorageUpdate        = Permissions_Storage("update")
+	Permissions_Storage_Backup        = Permissions_Storage("backup")
+	Permissions_Storage_Delete        = Permissions_Storage("delete")
+	Permissions_Storage_Deletesas     = Permissions_Storage("deletesas")
+	Permissions_Storage_Get           = Permissions_Storage("get")
+	Permissions_Storage_Getsas        = Permissions_Storage("getsas")
+	Permissions_Storage_List          = Permissions_Storage("list")
+	Permissions_Storage_Listsas       = Permissions_Storage("listsas")
+	Permissions_Storage_Purge         = Permissions_Storage("purge")
+	Permissions_Storage_Recover       = Permissions_Storage("recover")
+	Permissions_Storage_Regeneratekey = Permissions_Storage("regeneratekey")
+	Permissions_Storage_Restore       = Permissions_Storage("restore")
+	Permissions_Storage_Set           = Permissions_Storage("set")
+	Permissions_Storage_Setsas        = Permissions_Storage("setsas")
+	Permissions_Storage_Update        = Permissions_Storage("update")
 )
 
 type PrivateEndpointARM struct {

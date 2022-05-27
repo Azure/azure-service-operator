@@ -52,7 +52,7 @@ func (route *RouteTablesRoute) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20201101"
 func (route RouteTablesRoute) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource

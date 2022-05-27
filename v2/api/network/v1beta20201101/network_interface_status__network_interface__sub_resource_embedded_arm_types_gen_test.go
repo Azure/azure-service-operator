@@ -168,18 +168,18 @@ func AddIndependentPropertyGeneratorsForNetworkInterfacePropertiesFormat_STATUSA
 	gens["HostedWorkloads"] = gen.SliceOf(gen.AlphaString())
 	gens["MacAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["MigrationPhase"] = gen.PtrOf(gen.OneConstOf(
-		NetworkInterfacePropertiesFormat_MigrationPhase_STATUSAbort,
-		NetworkInterfacePropertiesFormat_MigrationPhase_STATUSCommit,
-		NetworkInterfacePropertiesFormat_MigrationPhase_STATUSCommitted,
-		NetworkInterfacePropertiesFormat_MigrationPhase_STATUSNone,
-		NetworkInterfacePropertiesFormat_MigrationPhase_STATUSPrepare))
-	gens["NicType"] = gen.PtrOf(gen.OneConstOf(NetworkInterfacePropertiesFormat_NicType_STATUSElastic, NetworkInterfacePropertiesFormat_NicType_STATUSStandard))
+		NetworkInterfacePropertiesFormat_MigrationPhase_Abort_STATUS,
+		NetworkInterfacePropertiesFormat_MigrationPhase_Commit_STATUS,
+		NetworkInterfacePropertiesFormat_MigrationPhase_Committed_STATUS,
+		NetworkInterfacePropertiesFormat_MigrationPhase_None_STATUS,
+		NetworkInterfacePropertiesFormat_MigrationPhase_Prepare_STATUS))
+	gens["NicType"] = gen.PtrOf(gen.OneConstOf(NetworkInterfacePropertiesFormat_NicType_Elastic_STATUS, NetworkInterfacePropertiesFormat_NicType_Standard_STATUS))
 	gens["Primary"] = gen.PtrOf(gen.Bool())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_STATUSDeleting,
-		ProvisioningState_STATUSFailed,
-		ProvisioningState_STATUSSucceeded,
-		ProvisioningState_STATUSUpdating))
+		ProvisioningState_Deleting_STATUS,
+		ProvisioningState_Failed_STATUS,
+		ProvisioningState_Succeeded_STATUS,
+		ProvisioningState_Updating_STATUS))
 	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -735,13 +735,13 @@ func NetworkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_Sub
 func AddIndependentPropertyGeneratorsForNetworkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbeddedARM(gens map[string]gopter.Gen) {
 	gens["Primary"] = gen.PtrOf(gen.Bool())
 	gens["PrivateIPAddress"] = gen.PtrOf(gen.AlphaString())
-	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(IPVersion_STATUSIPv4, IPVersion_STATUSIPv6))
-	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_STATUSDynamic, IPAllocationMethod_STATUSStatic))
+	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(IPVersion_IPv4_STATUS, IPVersion_IPv6_STATUS))
+	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_Dynamic_STATUS, IPAllocationMethod_Static_STATUS))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_STATUSDeleting,
-		ProvisioningState_STATUSFailed,
-		ProvisioningState_STATUSSucceeded,
-		ProvisioningState_STATUSUpdating))
+		ProvisioningState_Deleting_STATUS,
+		ProvisioningState_Failed_STATUS,
+		ProvisioningState_Succeeded_STATUS,
+		ProvisioningState_Updating_STATUS))
 }
 
 // AddRelatedPropertyGeneratorsForNetworkInterfaceIPConfigurationPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbeddedARM is a factory method for creating gopter generators
@@ -1340,10 +1340,10 @@ func ApplicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterfac
 // AddIndependentPropertyGeneratorsForApplicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbeddedARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApplicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbeddedARM(gens map[string]gopter.Gen) {
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_STATUSDeleting,
-		ProvisioningState_STATUSFailed,
-		ProvisioningState_STATUSSucceeded,
-		ProvisioningState_STATUSUpdating))
+		ProvisioningState_Deleting_STATUS,
+		ProvisioningState_Failed_STATUS,
+		ProvisioningState_Succeeded_STATUS,
+		ProvisioningState_Updating_STATUS))
 }
 
 // AddRelatedPropertyGeneratorsForApplicationGatewayBackendAddressPoolPropertiesFormat_STATUS_NetworkInterface_SubResourceEmbeddedARM is a factory method for creating gopter generators

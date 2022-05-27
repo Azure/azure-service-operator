@@ -33,7 +33,7 @@ var _ genruntime.ARMResourceSpec = &SignalR_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20211001"
 func (signalR SignalR_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -83,8 +83,8 @@ type ResourceSkuARM struct {
 type ServiceKind string
 
 const (
-	ServiceKindRawWebSockets = ServiceKind("RawWebSockets")
-	ServiceKindSignalR       = ServiceKind("SignalR")
+	ServiceKind_RawWebSockets = ServiceKind("RawWebSockets")
+	ServiceKind_SignalR       = ServiceKind("SignalR")
 )
 
 type SignalRPropertiesARM struct {
@@ -166,9 +166,9 @@ type SystemDataARM struct {
 type ManagedIdentityType string
 
 const (
-	ManagedIdentityTypeNone           = ManagedIdentityType("None")
-	ManagedIdentityTypeSystemAssigned = ManagedIdentityType("SystemAssigned")
-	ManagedIdentityTypeUserAssigned   = ManagedIdentityType("UserAssigned")
+	ManagedIdentityType_None           = ManagedIdentityType("None")
+	ManagedIdentityType_SystemAssigned = ManagedIdentityType("SystemAssigned")
+	ManagedIdentityType_UserAssigned   = ManagedIdentityType("UserAssigned")
 )
 
 type PrivateEndpointConnection_SignalR_SubResourceEmbeddedARM struct {
@@ -222,10 +222,10 @@ type SignalRNetworkACLsARM struct {
 type SignalRSkuTier string
 
 const (
-	SignalRSkuTierBasic    = SignalRSkuTier("Basic")
-	SignalRSkuTierFree     = SignalRSkuTier("Free")
-	SignalRSkuTierPremium  = SignalRSkuTier("Premium")
-	SignalRSkuTierStandard = SignalRSkuTier("Standard")
+	SignalRSkuTier_Basic    = SignalRSkuTier("Basic")
+	SignalRSkuTier_Free     = SignalRSkuTier("Free")
+	SignalRSkuTier_Premium  = SignalRSkuTier("Premium")
+	SignalRSkuTier_Standard = SignalRSkuTier("Standard")
 )
 
 type SignalRTlsSettingsARM struct {
@@ -237,20 +237,20 @@ type SignalRTlsSettingsARM struct {
 type SystemData_CreatedByType string
 
 const (
-	SystemData_CreatedByTypeApplication     = SystemData_CreatedByType("Application")
-	SystemData_CreatedByTypeKey             = SystemData_CreatedByType("Key")
-	SystemData_CreatedByTypeManagedIdentity = SystemData_CreatedByType("ManagedIdentity")
-	SystemData_CreatedByTypeUser            = SystemData_CreatedByType("User")
+	SystemData_CreatedByType_Application     = SystemData_CreatedByType("Application")
+	SystemData_CreatedByType_Key             = SystemData_CreatedByType("Key")
+	SystemData_CreatedByType_ManagedIdentity = SystemData_CreatedByType("ManagedIdentity")
+	SystemData_CreatedByType_User            = SystemData_CreatedByType("User")
 )
 
 // +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
 type SystemData_LastModifiedByType string
 
 const (
-	SystemData_LastModifiedByTypeApplication     = SystemData_LastModifiedByType("Application")
-	SystemData_LastModifiedByTypeKey             = SystemData_LastModifiedByType("Key")
-	SystemData_LastModifiedByTypeManagedIdentity = SystemData_LastModifiedByType("ManagedIdentity")
-	SystemData_LastModifiedByTypeUser            = SystemData_LastModifiedByType("User")
+	SystemData_LastModifiedByType_Application     = SystemData_LastModifiedByType("Application")
+	SystemData_LastModifiedByType_Key             = SystemData_LastModifiedByType("Key")
+	SystemData_LastModifiedByType_ManagedIdentity = SystemData_LastModifiedByType("ManagedIdentity")
+	SystemData_LastModifiedByType_User            = SystemData_LastModifiedByType("User")
 )
 
 type UserAssignedIdentityPropertyARM struct {

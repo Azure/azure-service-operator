@@ -80,7 +80,7 @@ type AutomaticRepairsPolicy_STATUSARM struct {
 // Deprecated version of ExtendedLocationType_STATUS. Use v1beta20201201.ExtendedLocationType_STATUS instead
 type ExtendedLocationType_STATUS string
 
-const ExtendedLocationType_STATUSEdgeZone = ExtendedLocationType_STATUS("EdgeZone")
+const ExtendedLocationType_EdgeZone_STATUS = ExtendedLocationType_STATUS("EdgeZone")
 
 // Deprecated version of ScaleInPolicy_STATUS. Use v1beta20201201.ScaleInPolicy_STATUS instead
 type ScaleInPolicy_STATUSARM struct {
@@ -104,10 +104,10 @@ type UpgradePolicy_STATUSARM struct {
 type VirtualMachineScaleSetIdentity_Type_STATUS string
 
 const (
-	VirtualMachineScaleSetIdentity_Type_STATUSNone                       = VirtualMachineScaleSetIdentity_Type_STATUS("None")
-	VirtualMachineScaleSetIdentity_Type_STATUSSystemAssigned             = VirtualMachineScaleSetIdentity_Type_STATUS("SystemAssigned")
-	VirtualMachineScaleSetIdentity_Type_STATUSSystemAssignedUserAssigned = VirtualMachineScaleSetIdentity_Type_STATUS("SystemAssigned, UserAssigned")
-	VirtualMachineScaleSetIdentity_Type_STATUSUserAssigned               = VirtualMachineScaleSetIdentity_Type_STATUS("UserAssigned")
+	VirtualMachineScaleSetIdentity_Type_None_STATUS                       = VirtualMachineScaleSetIdentity_Type_STATUS("None")
+	VirtualMachineScaleSetIdentity_Type_SystemAssigned_STATUS             = VirtualMachineScaleSetIdentity_Type_STATUS("SystemAssigned")
+	VirtualMachineScaleSetIdentity_Type_SystemAssignedUserAssigned_STATUS = VirtualMachineScaleSetIdentity_Type_STATUS("SystemAssigned, UserAssigned")
+	VirtualMachineScaleSetIdentity_Type_UserAssigned_STATUS               = VirtualMachineScaleSetIdentity_Type_STATUS("UserAssigned")
 )
 
 // Deprecated version of VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS. Use v1beta20201201.VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS instead

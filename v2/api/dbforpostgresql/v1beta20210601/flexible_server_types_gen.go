@@ -99,7 +99,7 @@ func (server *FlexibleServer) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20210601"
 func (server FlexibleServer) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -340,7 +340,7 @@ type FlexibleServerList struct {
 // +kubebuilder:validation:Enum={"20210601"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("20210601")
+const APIVersion_Value = APIVersion("20210601")
 
 type FlexibleServer_STATUS struct {
 	// AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
@@ -2931,61 +2931,61 @@ func (network *Network_STATUS) AssignPropertiesToNetwork_STATUS(destination *v20
 type ServerProperties_CreateMode string
 
 const (
-	ServerProperties_CreateModeCreate             = ServerProperties_CreateMode("Create")
-	ServerProperties_CreateModeDefault            = ServerProperties_CreateMode("Default")
-	ServerProperties_CreateModePointInTimeRestore = ServerProperties_CreateMode("PointInTimeRestore")
-	ServerProperties_CreateModeUpdate             = ServerProperties_CreateMode("Update")
+	ServerProperties_CreateMode_Create             = ServerProperties_CreateMode("Create")
+	ServerProperties_CreateMode_Default            = ServerProperties_CreateMode("Default")
+	ServerProperties_CreateMode_PointInTimeRestore = ServerProperties_CreateMode("PointInTimeRestore")
+	ServerProperties_CreateMode_Update             = ServerProperties_CreateMode("Update")
 )
 
 type ServerProperties_CreateMode_STATUS string
 
 const (
-	ServerProperties_CreateMode_STATUSCreate             = ServerProperties_CreateMode_STATUS("Create")
-	ServerProperties_CreateMode_STATUSDefault            = ServerProperties_CreateMode_STATUS("Default")
-	ServerProperties_CreateMode_STATUSPointInTimeRestore = ServerProperties_CreateMode_STATUS("PointInTimeRestore")
-	ServerProperties_CreateMode_STATUSUpdate             = ServerProperties_CreateMode_STATUS("Update")
+	ServerProperties_CreateMode_Create_STATUS             = ServerProperties_CreateMode_STATUS("Create")
+	ServerProperties_CreateMode_Default_STATUS            = ServerProperties_CreateMode_STATUS("Default")
+	ServerProperties_CreateMode_PointInTimeRestore_STATUS = ServerProperties_CreateMode_STATUS("PointInTimeRestore")
+	ServerProperties_CreateMode_Update_STATUS             = ServerProperties_CreateMode_STATUS("Update")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Dropping","Ready","Starting","Stopped","Stopping","Updating"}
 type ServerProperties_State string
 
 const (
-	ServerProperties_StateDisabled = ServerProperties_State("Disabled")
-	ServerProperties_StateDropping = ServerProperties_State("Dropping")
-	ServerProperties_StateReady    = ServerProperties_State("Ready")
-	ServerProperties_StateStarting = ServerProperties_State("Starting")
-	ServerProperties_StateStopped  = ServerProperties_State("Stopped")
-	ServerProperties_StateStopping = ServerProperties_State("Stopping")
-	ServerProperties_StateUpdating = ServerProperties_State("Updating")
+	ServerProperties_State_Disabled = ServerProperties_State("Disabled")
+	ServerProperties_State_Dropping = ServerProperties_State("Dropping")
+	ServerProperties_State_Ready    = ServerProperties_State("Ready")
+	ServerProperties_State_Starting = ServerProperties_State("Starting")
+	ServerProperties_State_Stopped  = ServerProperties_State("Stopped")
+	ServerProperties_State_Stopping = ServerProperties_State("Stopping")
+	ServerProperties_State_Updating = ServerProperties_State("Updating")
 )
 
 type ServerProperties_State_STATUS string
 
 const (
-	ServerProperties_State_STATUSDisabled = ServerProperties_State_STATUS("Disabled")
-	ServerProperties_State_STATUSDropping = ServerProperties_State_STATUS("Dropping")
-	ServerProperties_State_STATUSReady    = ServerProperties_State_STATUS("Ready")
-	ServerProperties_State_STATUSStarting = ServerProperties_State_STATUS("Starting")
-	ServerProperties_State_STATUSStopped  = ServerProperties_State_STATUS("Stopped")
-	ServerProperties_State_STATUSStopping = ServerProperties_State_STATUS("Stopping")
-	ServerProperties_State_STATUSUpdating = ServerProperties_State_STATUS("Updating")
+	ServerProperties_State_Disabled_STATUS = ServerProperties_State_STATUS("Disabled")
+	ServerProperties_State_Dropping_STATUS = ServerProperties_State_STATUS("Dropping")
+	ServerProperties_State_Ready_STATUS    = ServerProperties_State_STATUS("Ready")
+	ServerProperties_State_Starting_STATUS = ServerProperties_State_STATUS("Starting")
+	ServerProperties_State_Stopped_STATUS  = ServerProperties_State_STATUS("Stopped")
+	ServerProperties_State_Stopping_STATUS = ServerProperties_State_STATUS("Stopping")
+	ServerProperties_State_Updating_STATUS = ServerProperties_State_STATUS("Updating")
 )
 
 // +kubebuilder:validation:Enum={"11","12","13"}
 type ServerVersion string
 
 const (
-	ServerVersion11 = ServerVersion("11")
-	ServerVersion12 = ServerVersion("12")
-	ServerVersion13 = ServerVersion("13")
+	ServerVersion_11 = ServerVersion("11")
+	ServerVersion_12 = ServerVersion("12")
+	ServerVersion_13 = ServerVersion("13")
 )
 
 type ServerVersion_STATUS string
 
 const (
-	ServerVersion_STATUS11 = ServerVersion_STATUS("11")
-	ServerVersion_STATUS12 = ServerVersion_STATUS("12")
-	ServerVersion_STATUS13 = ServerVersion_STATUS("13")
+	ServerVersion_11_STATUS = ServerVersion_STATUS("11")
+	ServerVersion_12_STATUS = ServerVersion_STATUS("12")
+	ServerVersion_13_STATUS = ServerVersion_STATUS("13")
 )
 
 type Sku struct {
@@ -3683,15 +3683,15 @@ func (data *SystemData_STATUS) AssignPropertiesToSystemData_STATUS(destination *
 type Backup_GeoRedundantBackup string
 
 const (
-	Backup_GeoRedundantBackupDisabled = Backup_GeoRedundantBackup("Disabled")
-	Backup_GeoRedundantBackupEnabled  = Backup_GeoRedundantBackup("Enabled")
+	Backup_GeoRedundantBackup_Disabled = Backup_GeoRedundantBackup("Disabled")
+	Backup_GeoRedundantBackup_Enabled  = Backup_GeoRedundantBackup("Enabled")
 )
 
 type Backup_GeoRedundantBackup_STATUS string
 
 const (
-	Backup_GeoRedundantBackup_STATUSDisabled = Backup_GeoRedundantBackup_STATUS("Disabled")
-	Backup_GeoRedundantBackup_STATUSEnabled  = Backup_GeoRedundantBackup_STATUS("Enabled")
+	Backup_GeoRedundantBackup_Disabled_STATUS = Backup_GeoRedundantBackup_STATUS("Disabled")
+	Backup_GeoRedundantBackup_Enabled_STATUS  = Backup_GeoRedundantBackup_STATUS("Enabled")
 )
 
 type FlexibleServerOperatorSecrets struct {
@@ -3743,53 +3743,53 @@ func (secrets *FlexibleServerOperatorSecrets) AssignPropertiesToFlexibleServerOp
 type HighAvailability_Mode string
 
 const (
-	HighAvailability_ModeDisabled      = HighAvailability_Mode("Disabled")
-	HighAvailability_ModeZoneRedundant = HighAvailability_Mode("ZoneRedundant")
+	HighAvailability_Mode_Disabled      = HighAvailability_Mode("Disabled")
+	HighAvailability_Mode_ZoneRedundant = HighAvailability_Mode("ZoneRedundant")
 )
 
 type HighAvailability_Mode_STATUS string
 
 const (
-	HighAvailability_Mode_STATUSDisabled      = HighAvailability_Mode_STATUS("Disabled")
-	HighAvailability_Mode_STATUSZoneRedundant = HighAvailability_Mode_STATUS("ZoneRedundant")
+	HighAvailability_Mode_Disabled_STATUS      = HighAvailability_Mode_STATUS("Disabled")
+	HighAvailability_Mode_ZoneRedundant_STATUS = HighAvailability_Mode_STATUS("ZoneRedundant")
 )
 
 // +kubebuilder:validation:Enum={"CreatingStandby","FailingOver","Healthy","NotEnabled","RemovingStandby","ReplicatingData"}
 type HighAvailability_State string
 
 const (
-	HighAvailability_StateCreatingStandby = HighAvailability_State("CreatingStandby")
-	HighAvailability_StateFailingOver     = HighAvailability_State("FailingOver")
-	HighAvailability_StateHealthy         = HighAvailability_State("Healthy")
-	HighAvailability_StateNotEnabled      = HighAvailability_State("NotEnabled")
-	HighAvailability_StateRemovingStandby = HighAvailability_State("RemovingStandby")
-	HighAvailability_StateReplicatingData = HighAvailability_State("ReplicatingData")
+	HighAvailability_State_CreatingStandby = HighAvailability_State("CreatingStandby")
+	HighAvailability_State_FailingOver     = HighAvailability_State("FailingOver")
+	HighAvailability_State_Healthy         = HighAvailability_State("Healthy")
+	HighAvailability_State_NotEnabled      = HighAvailability_State("NotEnabled")
+	HighAvailability_State_RemovingStandby = HighAvailability_State("RemovingStandby")
+	HighAvailability_State_ReplicatingData = HighAvailability_State("ReplicatingData")
 )
 
 type HighAvailability_State_STATUS string
 
 const (
-	HighAvailability_State_STATUSCreatingStandby = HighAvailability_State_STATUS("CreatingStandby")
-	HighAvailability_State_STATUSFailingOver     = HighAvailability_State_STATUS("FailingOver")
-	HighAvailability_State_STATUSHealthy         = HighAvailability_State_STATUS("Healthy")
-	HighAvailability_State_STATUSNotEnabled      = HighAvailability_State_STATUS("NotEnabled")
-	HighAvailability_State_STATUSRemovingStandby = HighAvailability_State_STATUS("RemovingStandby")
-	HighAvailability_State_STATUSReplicatingData = HighAvailability_State_STATUS("ReplicatingData")
+	HighAvailability_State_CreatingStandby_STATUS = HighAvailability_State_STATUS("CreatingStandby")
+	HighAvailability_State_FailingOver_STATUS     = HighAvailability_State_STATUS("FailingOver")
+	HighAvailability_State_Healthy_STATUS         = HighAvailability_State_STATUS("Healthy")
+	HighAvailability_State_NotEnabled_STATUS      = HighAvailability_State_STATUS("NotEnabled")
+	HighAvailability_State_RemovingStandby_STATUS = HighAvailability_State_STATUS("RemovingStandby")
+	HighAvailability_State_ReplicatingData_STATUS = HighAvailability_State_STATUS("ReplicatingData")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type Network_PublicNetworkAccess string
 
 const (
-	Network_PublicNetworkAccessDisabled = Network_PublicNetworkAccess("Disabled")
-	Network_PublicNetworkAccessEnabled  = Network_PublicNetworkAccess("Enabled")
+	Network_PublicNetworkAccess_Disabled = Network_PublicNetworkAccess("Disabled")
+	Network_PublicNetworkAccess_Enabled  = Network_PublicNetworkAccess("Enabled")
 )
 
 type Network_PublicNetworkAccess_STATUS string
 
 const (
-	Network_PublicNetworkAccess_STATUSDisabled = Network_PublicNetworkAccess_STATUS("Disabled")
-	Network_PublicNetworkAccess_STATUSEnabled  = Network_PublicNetworkAccess_STATUS("Enabled")
+	Network_PublicNetworkAccess_Disabled_STATUS = Network_PublicNetworkAccess_STATUS("Disabled")
+	Network_PublicNetworkAccess_Enabled_STATUS  = Network_PublicNetworkAccess_STATUS("Enabled")
 )
 
 func init() {

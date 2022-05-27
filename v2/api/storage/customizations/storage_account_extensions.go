@@ -12,7 +12,7 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
-	"k8s.io/api/core/v1"
+	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401storage"
@@ -127,7 +127,7 @@ func secretsToWrite(obj *storage.StorageAccount, keys map[string]string) ([]*v1.
 	// There are tons of different endpoints we could write, including secondary endpoints.
 	// For now we're just exposing the main ones. See:
 	// https://docs.microsoft.com/en-us/rest/api/storagerp/storage-accounts/get-properties for more details
-	if obj.Status.PrimaryEndpoints != nil {
+	if obj.Status.Primary_Endpoints != nil {
 		eps := obj.Status.PrimaryEndpoints
 		collector.AddSecretValue(operatorSpecSecrets.BlobEndpoint, to.String(eps.Blob))
 		collector.AddSecretValue(operatorSpecSecrets.QueueEndpoint, to.String(eps.Queue))

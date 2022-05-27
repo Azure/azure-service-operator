@@ -25,7 +25,7 @@ var _ genruntime.ARMResourceSpec = &Disk_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20200930"
 func (disk Disk_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -93,10 +93,10 @@ type CreationDataARM struct {
 type DiskSku_Name string
 
 const (
-	DiskSku_NamePremium_LRS     = DiskSku_Name("Premium_LRS")
-	DiskSku_NameStandardSSD_LRS = DiskSku_Name("StandardSSD_LRS")
-	DiskSku_NameStandard_LRS    = DiskSku_Name("Standard_LRS")
-	DiskSku_NameUltraSSD_LRS    = DiskSku_Name("UltraSSD_LRS")
+	DiskSku_Name_Premium_LRS     = DiskSku_Name("Premium_LRS")
+	DiskSku_Name_StandardSSD_LRS = DiskSku_Name("StandardSSD_LRS")
+	DiskSku_Name_Standard_LRS    = DiskSku_Name("Standard_LRS")
+	DiskSku_Name_UltraSSD_LRS    = DiskSku_Name("UltraSSD_LRS")
 )
 
 // Deprecated version of Encryption. Use v1beta20200930.Encryption instead
@@ -116,7 +116,7 @@ type EncryptionSettingsCollectionARM struct {
 // +kubebuilder:validation:Enum={"EdgeZone"}
 type ExtendedLocationType string
 
-const ExtendedLocationTypeEdgeZone = ExtendedLocationType("EdgeZone")
+const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
 
 // Deprecated version of PurchasePlan. Use v1beta20200930.PurchasePlan instead
 type PurchasePlanARM struct {

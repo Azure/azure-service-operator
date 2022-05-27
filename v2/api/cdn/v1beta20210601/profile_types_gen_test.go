@@ -276,16 +276,16 @@ func AddIndependentPropertyGeneratorsForProfile_STATUS(gens map[string]gopter.Ge
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginResponseTimeoutSeconds"] = gen.PtrOf(gen.Int())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProfileProperties_ProvisioningState_STATUSCreating,
-		ProfileProperties_ProvisioningState_STATUSDeleting,
-		ProfileProperties_ProvisioningState_STATUSFailed,
-		ProfileProperties_ProvisioningState_STATUSSucceeded,
-		ProfileProperties_ProvisioningState_STATUSUpdating))
+		ProfileProperties_ProvisioningState_Creating_STATUS,
+		ProfileProperties_ProvisioningState_Deleting_STATUS,
+		ProfileProperties_ProvisioningState_Failed_STATUS,
+		ProfileProperties_ProvisioningState_Succeeded_STATUS,
+		ProfileProperties_ProvisioningState_Updating_STATUS))
 	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(
-		ProfileProperties_ResourceState_STATUSActive,
-		ProfileProperties_ResourceState_STATUSCreating,
-		ProfileProperties_ResourceState_STATUSDeleting,
-		ProfileProperties_ResourceState_STATUSDisabled))
+		ProfileProperties_ResourceState_Active_STATUS,
+		ProfileProperties_ResourceState_Creating_STATUS,
+		ProfileProperties_ResourceState_Deleting_STATUS,
+		ProfileProperties_ResourceState_Disabled_STATUS))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
@@ -410,16 +410,16 @@ func AddIndependentPropertyGeneratorsForProfile_Spec(gens map[string]gopter.Gen)
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginResponseTimeoutSeconds"] = gen.PtrOf(gen.Int())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProfileProperties_ProvisioningStateCreating,
-		ProfileProperties_ProvisioningStateDeleting,
-		ProfileProperties_ProvisioningStateFailed,
-		ProfileProperties_ProvisioningStateSucceeded,
-		ProfileProperties_ProvisioningStateUpdating))
+		ProfileProperties_ProvisioningState_Creating,
+		ProfileProperties_ProvisioningState_Deleting,
+		ProfileProperties_ProvisioningState_Failed,
+		ProfileProperties_ProvisioningState_Succeeded,
+		ProfileProperties_ProvisioningState_Updating))
 	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(
-		ProfileProperties_ResourceStateActive,
-		ProfileProperties_ResourceStateCreating,
-		ProfileProperties_ResourceStateDeleting,
-		ProfileProperties_ResourceStateDisabled))
+		ProfileProperties_ResourceState_Active,
+		ProfileProperties_ResourceState_Creating,
+		ProfileProperties_ResourceState_Deleting,
+		ProfileProperties_ResourceState_Disabled))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
@@ -529,19 +529,19 @@ func SkuGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSku is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSku(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		Sku_NameCustom_Verizon,
-		Sku_NamePremium_AzureFrontDoor,
-		Sku_NamePremium_Verizon,
-		Sku_NameStandardPlus_955BandWidth_ChinaCdn,
-		Sku_NameStandardPlus_AvgBandWidth_ChinaCdn,
-		Sku_NameStandardPlus_ChinaCdn,
-		Sku_NameStandard_955BandWidth_ChinaCdn,
-		Sku_NameStandard_Akamai,
-		Sku_NameStandard_AvgBandWidth_ChinaCdn,
-		Sku_NameStandard_AzureFrontDoor,
-		Sku_NameStandard_ChinaCdn,
-		Sku_NameStandard_Microsoft,
-		Sku_NameStandard_Verizon))
+		Sku_Name_Custom_Verizon,
+		Sku_Name_Premium_AzureFrontDoor,
+		Sku_Name_Premium_Verizon,
+		Sku_Name_StandardPlus_955BandWidth_ChinaCdn,
+		Sku_Name_StandardPlus_AvgBandWidth_ChinaCdn,
+		Sku_Name_StandardPlus_ChinaCdn,
+		Sku_Name_Standard_955BandWidth_ChinaCdn,
+		Sku_Name_Standard_Akamai,
+		Sku_Name_Standard_AvgBandWidth_ChinaCdn,
+		Sku_Name_Standard_AzureFrontDoor,
+		Sku_Name_Standard_ChinaCdn,
+		Sku_Name_Standard_Microsoft,
+		Sku_Name_Standard_Verizon))
 }
 
 func Test_Sku_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -643,19 +643,19 @@ func Sku_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSku_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSku_STATUS(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		Sku_Name_STATUSCustom_Verizon,
-		Sku_Name_STATUSPremium_AzureFrontDoor,
-		Sku_Name_STATUSPremium_Verizon,
-		Sku_Name_STATUSStandardPlus_955BandWidth_ChinaCdn,
-		Sku_Name_STATUSStandardPlus_AvgBandWidth_ChinaCdn,
-		Sku_Name_STATUSStandardPlus_ChinaCdn,
-		Sku_Name_STATUSStandard_955BandWidth_ChinaCdn,
-		Sku_Name_STATUSStandard_Akamai,
-		Sku_Name_STATUSStandard_AvgBandWidth_ChinaCdn,
-		Sku_Name_STATUSStandard_AzureFrontDoor,
-		Sku_Name_STATUSStandard_ChinaCdn,
-		Sku_Name_STATUSStandard_Microsoft,
-		Sku_Name_STATUSStandard_Verizon))
+		Sku_Name_Custom_Verizon_STATUS,
+		Sku_Name_Premium_AzureFrontDoor_STATUS,
+		Sku_Name_Premium_Verizon_STATUS,
+		Sku_Name_StandardPlus_955BandWidth_ChinaCdn_STATUS,
+		Sku_Name_StandardPlus_AvgBandWidth_ChinaCdn_STATUS,
+		Sku_Name_StandardPlus_ChinaCdn_STATUS,
+		Sku_Name_Standard_955BandWidth_ChinaCdn_STATUS,
+		Sku_Name_Standard_Akamai_STATUS,
+		Sku_Name_Standard_AvgBandWidth_ChinaCdn_STATUS,
+		Sku_Name_Standard_AzureFrontDoor_STATUS,
+		Sku_Name_Standard_ChinaCdn_STATUS,
+		Sku_Name_Standard_Microsoft_STATUS,
+		Sku_Name_Standard_Verizon_STATUS))
 }
 
 func Test_SystemData_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -759,17 +759,17 @@ func AddIndependentPropertyGeneratorsForSystemData(gens map[string]gopter.Gen) {
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		IdentityTypeApplication,
-		IdentityTypeKey,
-		IdentityTypeManagedIdentity,
-		IdentityTypeUser))
+		IdentityType_Application,
+		IdentityType_Key,
+		IdentityType_ManagedIdentity,
+		IdentityType_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		IdentityTypeApplication,
-		IdentityTypeKey,
-		IdentityTypeManagedIdentity,
-		IdentityTypeUser))
+		IdentityType_Application,
+		IdentityType_Key,
+		IdentityType_ManagedIdentity,
+		IdentityType_User))
 }
 
 func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -873,15 +873,15 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUS(gens map[string]gopter
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		IdentityType_STATUSApplication,
-		IdentityType_STATUSKey,
-		IdentityType_STATUSManagedIdentity,
-		IdentityType_STATUSUser))
+		IdentityType_Application_STATUS,
+		IdentityType_Key_STATUS,
+		IdentityType_ManagedIdentity_STATUS,
+		IdentityType_User_STATUS))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		IdentityType_STATUSApplication,
-		IdentityType_STATUSKey,
-		IdentityType_STATUSManagedIdentity,
-		IdentityType_STATUSUser))
+		IdentityType_Application_STATUS,
+		IdentityType_Key_STATUS,
+		IdentityType_ManagedIdentity_STATUS,
+		IdentityType_User_STATUS))
 }

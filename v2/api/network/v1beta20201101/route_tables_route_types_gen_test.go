@@ -268,16 +268,16 @@ func AddIndependentPropertyGeneratorsForRouteTablesRoute_STATUS(gens map[string]
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["NextHopIpAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["NextHopType"] = gen.PtrOf(gen.OneConstOf(
-		RouteNextHopType_STATUSInternet,
-		RouteNextHopType_STATUSNone,
-		RouteNextHopType_STATUSVirtualAppliance,
-		RouteNextHopType_STATUSVirtualNetworkGateway,
-		RouteNextHopType_STATUSVnetLocal))
+		RouteNextHopType_Internet_STATUS,
+		RouteNextHopType_None_STATUS,
+		RouteNextHopType_VirtualAppliance_STATUS,
+		RouteNextHopType_VirtualNetworkGateway_STATUS,
+		RouteNextHopType_VnetLocal_STATUS))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_STATUSDeleting,
-		ProvisioningState_STATUSFailed,
-		ProvisioningState_STATUSSucceeded,
-		ProvisioningState_STATUSUpdating))
+		ProvisioningState_Deleting_STATUS,
+		ProvisioningState_Failed_STATUS,
+		ProvisioningState_Succeeded_STATUS,
+		ProvisioningState_Updating_STATUS))
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -387,15 +387,15 @@ func AddIndependentPropertyGeneratorsForRouteTablesRoute_Spec(gens map[string]go
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["NextHopIpAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["NextHopType"] = gen.PtrOf(gen.OneConstOf(
-		RouteNextHopTypeInternet,
-		RouteNextHopTypeNone,
-		RouteNextHopTypeVirtualAppliance,
-		RouteNextHopTypeVirtualNetworkGateway,
-		RouteNextHopTypeVnetLocal))
+		RouteNextHopType_Internet,
+		RouteNextHopType_None,
+		RouteNextHopType_VirtualAppliance,
+		RouteNextHopType_VirtualNetworkGateway,
+		RouteNextHopType_VnetLocal))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningStateDeleting,
-		ProvisioningStateFailed,
-		ProvisioningStateSucceeded,
-		ProvisioningStateUpdating))
+		ProvisioningState_Deleting,
+		ProvisioningState_Failed,
+		ProvisioningState_Succeeded,
+		ProvisioningState_Updating))
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }

@@ -99,7 +99,7 @@ func (balancer *LoadBalancer) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20201101"
 func (balancer LoadBalancer) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -322,7 +322,7 @@ type LoadBalancerList struct {
 // +kubebuilder:validation:Enum={"20201101"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("20201101")
+const APIVersion_Value = APIVersion("20201101")
 
 type LoadBalancer_STATUS struct {
 	// BackendAddressPools: Collection of backend address pools used by a load balancer.
@@ -6913,70 +6913,70 @@ func (probe *Probe_STATUS) AssignPropertiesToProbe_STATUS(destination *v20201101
 type ProvisioningState string
 
 const (
-	ProvisioningStateDeleting  = ProvisioningState("Deleting")
-	ProvisioningStateFailed    = ProvisioningState("Failed")
-	ProvisioningStateSucceeded = ProvisioningState("Succeeded")
-	ProvisioningStateUpdating  = ProvisioningState("Updating")
+	ProvisioningState_Deleting  = ProvisioningState("Deleting")
+	ProvisioningState_Failed    = ProvisioningState("Failed")
+	ProvisioningState_Succeeded = ProvisioningState("Succeeded")
+	ProvisioningState_Updating  = ProvisioningState("Updating")
 )
 
 type ProvisioningState_STATUS string
 
 const (
-	ProvisioningState_STATUSDeleting  = ProvisioningState_STATUS("Deleting")
-	ProvisioningState_STATUSFailed    = ProvisioningState_STATUS("Failed")
-	ProvisioningState_STATUSSucceeded = ProvisioningState_STATUS("Succeeded")
-	ProvisioningState_STATUSUpdating  = ProvisioningState_STATUS("Updating")
+	ProvisioningState_Deleting_STATUS  = ProvisioningState_STATUS("Deleting")
+	ProvisioningState_Failed_STATUS    = ProvisioningState_STATUS("Failed")
+	ProvisioningState_Succeeded_STATUS = ProvisioningState_STATUS("Succeeded")
+	ProvisioningState_Updating_STATUS  = ProvisioningState_STATUS("Updating")
 )
 
 // +kubebuilder:validation:Enum={"Default","SourceIP","SourceIPProtocol"}
 type LoadBalancingRulePropertiesFormat_LoadDistribution string
 
 const (
-	LoadBalancingRulePropertiesFormat_LoadDistributionDefault          = LoadBalancingRulePropertiesFormat_LoadDistribution("Default")
-	LoadBalancingRulePropertiesFormat_LoadDistributionSourceIP         = LoadBalancingRulePropertiesFormat_LoadDistribution("SourceIP")
-	LoadBalancingRulePropertiesFormat_LoadDistributionSourceIPProtocol = LoadBalancingRulePropertiesFormat_LoadDistribution("SourceIPProtocol")
+	LoadBalancingRulePropertiesFormat_LoadDistribution_Default          = LoadBalancingRulePropertiesFormat_LoadDistribution("Default")
+	LoadBalancingRulePropertiesFormat_LoadDistribution_SourceIP         = LoadBalancingRulePropertiesFormat_LoadDistribution("SourceIP")
+	LoadBalancingRulePropertiesFormat_LoadDistribution_SourceIPProtocol = LoadBalancingRulePropertiesFormat_LoadDistribution("SourceIPProtocol")
 )
 
 type LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS string
 
 const (
-	LoadBalancingRulePropertiesFormat_LoadDistribution_STATUSDefault          = LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS("Default")
-	LoadBalancingRulePropertiesFormat_LoadDistribution_STATUSSourceIP         = LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS("SourceIP")
-	LoadBalancingRulePropertiesFormat_LoadDistribution_STATUSSourceIPProtocol = LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS("SourceIPProtocol")
+	LoadBalancingRulePropertiesFormat_LoadDistribution_Default_STATUS          = LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS("Default")
+	LoadBalancingRulePropertiesFormat_LoadDistribution_SourceIP_STATUS         = LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS("SourceIP")
+	LoadBalancingRulePropertiesFormat_LoadDistribution_SourceIPProtocol_STATUS = LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS("SourceIPProtocol")
 )
 
 // +kubebuilder:validation:Enum={"All","Tcp","Udp"}
 type OutboundRulePropertiesFormat_Protocol string
 
 const (
-	OutboundRulePropertiesFormat_ProtocolAll = OutboundRulePropertiesFormat_Protocol("All")
-	OutboundRulePropertiesFormat_ProtocolTcp = OutboundRulePropertiesFormat_Protocol("Tcp")
-	OutboundRulePropertiesFormat_ProtocolUdp = OutboundRulePropertiesFormat_Protocol("Udp")
+	OutboundRulePropertiesFormat_Protocol_All = OutboundRulePropertiesFormat_Protocol("All")
+	OutboundRulePropertiesFormat_Protocol_Tcp = OutboundRulePropertiesFormat_Protocol("Tcp")
+	OutboundRulePropertiesFormat_Protocol_Udp = OutboundRulePropertiesFormat_Protocol("Udp")
 )
 
 type OutboundRulePropertiesFormat_Protocol_STATUS string
 
 const (
-	OutboundRulePropertiesFormat_Protocol_STATUSAll = OutboundRulePropertiesFormat_Protocol_STATUS("All")
-	OutboundRulePropertiesFormat_Protocol_STATUSTcp = OutboundRulePropertiesFormat_Protocol_STATUS("Tcp")
-	OutboundRulePropertiesFormat_Protocol_STATUSUdp = OutboundRulePropertiesFormat_Protocol_STATUS("Udp")
+	OutboundRulePropertiesFormat_Protocol_All_STATUS = OutboundRulePropertiesFormat_Protocol_STATUS("All")
+	OutboundRulePropertiesFormat_Protocol_Tcp_STATUS = OutboundRulePropertiesFormat_Protocol_STATUS("Tcp")
+	OutboundRulePropertiesFormat_Protocol_Udp_STATUS = OutboundRulePropertiesFormat_Protocol_STATUS("Udp")
 )
 
 // +kubebuilder:validation:Enum={"Http","Https","Tcp"}
 type ProbePropertiesFormat_Protocol string
 
 const (
-	ProbePropertiesFormat_ProtocolHttp  = ProbePropertiesFormat_Protocol("Http")
-	ProbePropertiesFormat_ProtocolHttps = ProbePropertiesFormat_Protocol("Https")
-	ProbePropertiesFormat_ProtocolTcp   = ProbePropertiesFormat_Protocol("Tcp")
+	ProbePropertiesFormat_Protocol_Http  = ProbePropertiesFormat_Protocol("Http")
+	ProbePropertiesFormat_Protocol_Https = ProbePropertiesFormat_Protocol("Https")
+	ProbePropertiesFormat_Protocol_Tcp   = ProbePropertiesFormat_Protocol("Tcp")
 )
 
 type ProbePropertiesFormat_Protocol_STATUS string
 
 const (
-	ProbePropertiesFormat_Protocol_STATUSHttp  = ProbePropertiesFormat_Protocol_STATUS("Http")
-	ProbePropertiesFormat_Protocol_STATUSHttps = ProbePropertiesFormat_Protocol_STATUS("Https")
-	ProbePropertiesFormat_Protocol_STATUSTcp   = ProbePropertiesFormat_Protocol_STATUS("Tcp")
+	ProbePropertiesFormat_Protocol_Http_STATUS  = ProbePropertiesFormat_Protocol_STATUS("Http")
+	ProbePropertiesFormat_Protocol_Https_STATUS = ProbePropertiesFormat_Protocol_STATUS("Https")
+	ProbePropertiesFormat_Protocol_Tcp_STATUS   = ProbePropertiesFormat_Protocol_STATUS("Tcp")
 )
 
 type PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded struct {
@@ -7450,17 +7450,17 @@ func (embedded *Subnet_STATUS_LoadBalancer_SubResourceEmbedded) AssignProperties
 type TransportProtocol string
 
 const (
-	TransportProtocolAll = TransportProtocol("All")
-	TransportProtocolTcp = TransportProtocol("Tcp")
-	TransportProtocolUdp = TransportProtocol("Udp")
+	TransportProtocol_All = TransportProtocol("All")
+	TransportProtocol_Tcp = TransportProtocol("Tcp")
+	TransportProtocol_Udp = TransportProtocol("Udp")
 )
 
 type TransportProtocol_STATUS string
 
 const (
-	TransportProtocol_STATUSAll = TransportProtocol_STATUS("All")
-	TransportProtocol_STATUSTcp = TransportProtocol_STATUS("Tcp")
-	TransportProtocol_STATUSUdp = TransportProtocol_STATUS("Udp")
+	TransportProtocol_All_STATUS = TransportProtocol_STATUS("All")
+	TransportProtocol_Tcp_STATUS = TransportProtocol_STATUS("Tcp")
+	TransportProtocol_Udp_STATUS = TransportProtocol_STATUS("Udp")
 )
 
 func init() {

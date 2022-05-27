@@ -112,7 +112,7 @@ func (subscription *EventSubscription) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20200601"
 func (subscription EventSubscription) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -1997,9 +1997,9 @@ func (filter *EventSubscriptionFilter_STATUS) AssignPropertiesToEventSubscriptio
 type EventSubscriptionProperties_EventDeliverySchema string
 
 const (
-	EventSubscriptionProperties_EventDeliverySchemaCloudEventSchemaV1_0 = EventSubscriptionProperties_EventDeliverySchema("CloudEventSchemaV1_0")
-	EventSubscriptionProperties_EventDeliverySchemaCustomInputSchema    = EventSubscriptionProperties_EventDeliverySchema("CustomInputSchema")
-	EventSubscriptionProperties_EventDeliverySchemaEventGridSchema      = EventSubscriptionProperties_EventDeliverySchema("EventGridSchema")
+	EventSubscriptionProperties_EventDeliverySchema_CloudEventSchemaV1_0 = EventSubscriptionProperties_EventDeliverySchema("CloudEventSchemaV1_0")
+	EventSubscriptionProperties_EventDeliverySchema_CustomInputSchema    = EventSubscriptionProperties_EventDeliverySchema("CustomInputSchema")
+	EventSubscriptionProperties_EventDeliverySchema_EventGridSchema      = EventSubscriptionProperties_EventDeliverySchema("EventGridSchema")
 )
 
 // Deprecated version of EventSubscriptionProperties_EventDeliverySchema_STATUS. Use
@@ -2007,9 +2007,9 @@ const (
 type EventSubscriptionProperties_EventDeliverySchema_STATUS string
 
 const (
-	EventSubscriptionProperties_EventDeliverySchema_STATUSCloudEventSchemaV1_0 = EventSubscriptionProperties_EventDeliverySchema_STATUS("CloudEventSchemaV1_0")
-	EventSubscriptionProperties_EventDeliverySchema_STATUSCustomInputSchema    = EventSubscriptionProperties_EventDeliverySchema_STATUS("CustomInputSchema")
-	EventSubscriptionProperties_EventDeliverySchema_STATUSEventGridSchema      = EventSubscriptionProperties_EventDeliverySchema_STATUS("EventGridSchema")
+	EventSubscriptionProperties_EventDeliverySchema_CloudEventSchemaV1_0_STATUS = EventSubscriptionProperties_EventDeliverySchema_STATUS("CloudEventSchemaV1_0")
+	EventSubscriptionProperties_EventDeliverySchema_CustomInputSchema_STATUS    = EventSubscriptionProperties_EventDeliverySchema_STATUS("CustomInputSchema")
+	EventSubscriptionProperties_EventDeliverySchema_EventGridSchema_STATUS      = EventSubscriptionProperties_EventDeliverySchema_STATUS("EventGridSchema")
 )
 
 // Deprecated version of EventSubscriptionProperties_ProvisioningState. Use
@@ -2018,13 +2018,13 @@ const (
 type EventSubscriptionProperties_ProvisioningState string
 
 const (
-	EventSubscriptionProperties_ProvisioningStateAwaitingManualAction = EventSubscriptionProperties_ProvisioningState("AwaitingManualAction")
-	EventSubscriptionProperties_ProvisioningStateCanceled             = EventSubscriptionProperties_ProvisioningState("Canceled")
-	EventSubscriptionProperties_ProvisioningStateCreating             = EventSubscriptionProperties_ProvisioningState("Creating")
-	EventSubscriptionProperties_ProvisioningStateDeleting             = EventSubscriptionProperties_ProvisioningState("Deleting")
-	EventSubscriptionProperties_ProvisioningStateFailed               = EventSubscriptionProperties_ProvisioningState("Failed")
-	EventSubscriptionProperties_ProvisioningStateSucceeded            = EventSubscriptionProperties_ProvisioningState("Succeeded")
-	EventSubscriptionProperties_ProvisioningStateUpdating             = EventSubscriptionProperties_ProvisioningState("Updating")
+	EventSubscriptionProperties_ProvisioningState_AwaitingManualAction = EventSubscriptionProperties_ProvisioningState("AwaitingManualAction")
+	EventSubscriptionProperties_ProvisioningState_Canceled             = EventSubscriptionProperties_ProvisioningState("Canceled")
+	EventSubscriptionProperties_ProvisioningState_Creating             = EventSubscriptionProperties_ProvisioningState("Creating")
+	EventSubscriptionProperties_ProvisioningState_Deleting             = EventSubscriptionProperties_ProvisioningState("Deleting")
+	EventSubscriptionProperties_ProvisioningState_Failed               = EventSubscriptionProperties_ProvisioningState("Failed")
+	EventSubscriptionProperties_ProvisioningState_Succeeded            = EventSubscriptionProperties_ProvisioningState("Succeeded")
+	EventSubscriptionProperties_ProvisioningState_Updating             = EventSubscriptionProperties_ProvisioningState("Updating")
 )
 
 // Deprecated version of EventSubscriptionProperties_ProvisioningState_STATUS. Use
@@ -2032,13 +2032,13 @@ const (
 type EventSubscriptionProperties_ProvisioningState_STATUS string
 
 const (
-	EventSubscriptionProperties_ProvisioningState_STATUSAwaitingManualAction = EventSubscriptionProperties_ProvisioningState_STATUS("AwaitingManualAction")
-	EventSubscriptionProperties_ProvisioningState_STATUSCanceled             = EventSubscriptionProperties_ProvisioningState_STATUS("Canceled")
-	EventSubscriptionProperties_ProvisioningState_STATUSCreating             = EventSubscriptionProperties_ProvisioningState_STATUS("Creating")
-	EventSubscriptionProperties_ProvisioningState_STATUSDeleting             = EventSubscriptionProperties_ProvisioningState_STATUS("Deleting")
-	EventSubscriptionProperties_ProvisioningState_STATUSFailed               = EventSubscriptionProperties_ProvisioningState_STATUS("Failed")
-	EventSubscriptionProperties_ProvisioningState_STATUSSucceeded            = EventSubscriptionProperties_ProvisioningState_STATUS("Succeeded")
-	EventSubscriptionProperties_ProvisioningState_STATUSUpdating             = EventSubscriptionProperties_ProvisioningState_STATUS("Updating")
+	EventSubscriptionProperties_ProvisioningState_AwaitingManualAction_STATUS = EventSubscriptionProperties_ProvisioningState_STATUS("AwaitingManualAction")
+	EventSubscriptionProperties_ProvisioningState_Canceled_STATUS             = EventSubscriptionProperties_ProvisioningState_STATUS("Canceled")
+	EventSubscriptionProperties_ProvisioningState_Creating_STATUS             = EventSubscriptionProperties_ProvisioningState_STATUS("Creating")
+	EventSubscriptionProperties_ProvisioningState_Deleting_STATUS             = EventSubscriptionProperties_ProvisioningState_STATUS("Deleting")
+	EventSubscriptionProperties_ProvisioningState_Failed_STATUS               = EventSubscriptionProperties_ProvisioningState_STATUS("Failed")
+	EventSubscriptionProperties_ProvisioningState_Succeeded_STATUS            = EventSubscriptionProperties_ProvisioningState_STATUS("Succeeded")
+	EventSubscriptionProperties_ProvisioningState_Updating_STATUS             = EventSubscriptionProperties_ProvisioningState_STATUS("Updating")
 )
 
 // Deprecated version of RetryPolicy. Use v1beta20200601.RetryPolicy instead
@@ -2393,13 +2393,13 @@ func (filter *AdvancedFilter_STATUS) AssignPropertiesToAdvancedFilter_STATUS(des
 // +kubebuilder:validation:Enum={"StorageBlob"}
 type DeadLetterDestination_EndpointType string
 
-const DeadLetterDestination_EndpointTypeStorageBlob = DeadLetterDestination_EndpointType("StorageBlob")
+const DeadLetterDestination_EndpointType_StorageBlob = DeadLetterDestination_EndpointType("StorageBlob")
 
 // Deprecated version of DeadLetterDestination_EndpointType_STATUS. Use
 // v1beta20200601.DeadLetterDestination_EndpointType_STATUS instead
 type DeadLetterDestination_EndpointType_STATUS string
 
-const DeadLetterDestination_EndpointType_STATUSStorageBlob = DeadLetterDestination_EndpointType_STATUS("StorageBlob")
+const DeadLetterDestination_EndpointType_StorageBlob_STATUS = DeadLetterDestination_EndpointType_STATUS("StorageBlob")
 
 // Deprecated version of EventSubscriptionDestination_EndpointType. Use
 // v1beta20200601.EventSubscriptionDestination_EndpointType instead
@@ -2407,13 +2407,13 @@ const DeadLetterDestination_EndpointType_STATUSStorageBlob = DeadLetterDestinati
 type EventSubscriptionDestination_EndpointType string
 
 const (
-	EventSubscriptionDestination_EndpointTypeAzureFunction    = EventSubscriptionDestination_EndpointType("AzureFunction")
-	EventSubscriptionDestination_EndpointTypeEventHub         = EventSubscriptionDestination_EndpointType("EventHub")
-	EventSubscriptionDestination_EndpointTypeHybridConnection = EventSubscriptionDestination_EndpointType("HybridConnection")
-	EventSubscriptionDestination_EndpointTypeServiceBusQueue  = EventSubscriptionDestination_EndpointType("ServiceBusQueue")
-	EventSubscriptionDestination_EndpointTypeServiceBusTopic  = EventSubscriptionDestination_EndpointType("ServiceBusTopic")
-	EventSubscriptionDestination_EndpointTypeStorageQueue     = EventSubscriptionDestination_EndpointType("StorageQueue")
-	EventSubscriptionDestination_EndpointTypeWebHook          = EventSubscriptionDestination_EndpointType("WebHook")
+	EventSubscriptionDestination_EndpointType_AzureFunction    = EventSubscriptionDestination_EndpointType("AzureFunction")
+	EventSubscriptionDestination_EndpointType_EventHub         = EventSubscriptionDestination_EndpointType("EventHub")
+	EventSubscriptionDestination_EndpointType_HybridConnection = EventSubscriptionDestination_EndpointType("HybridConnection")
+	EventSubscriptionDestination_EndpointType_ServiceBusQueue  = EventSubscriptionDestination_EndpointType("ServiceBusQueue")
+	EventSubscriptionDestination_EndpointType_ServiceBusTopic  = EventSubscriptionDestination_EndpointType("ServiceBusTopic")
+	EventSubscriptionDestination_EndpointType_StorageQueue     = EventSubscriptionDestination_EndpointType("StorageQueue")
+	EventSubscriptionDestination_EndpointType_WebHook          = EventSubscriptionDestination_EndpointType("WebHook")
 )
 
 // Deprecated version of EventSubscriptionDestination_EndpointType_STATUS. Use
@@ -2421,13 +2421,13 @@ const (
 type EventSubscriptionDestination_EndpointType_STATUS string
 
 const (
-	EventSubscriptionDestination_EndpointType_STATUSAzureFunction    = EventSubscriptionDestination_EndpointType_STATUS("AzureFunction")
-	EventSubscriptionDestination_EndpointType_STATUSEventHub         = EventSubscriptionDestination_EndpointType_STATUS("EventHub")
-	EventSubscriptionDestination_EndpointType_STATUSHybridConnection = EventSubscriptionDestination_EndpointType_STATUS("HybridConnection")
-	EventSubscriptionDestination_EndpointType_STATUSServiceBusQueue  = EventSubscriptionDestination_EndpointType_STATUS("ServiceBusQueue")
-	EventSubscriptionDestination_EndpointType_STATUSServiceBusTopic  = EventSubscriptionDestination_EndpointType_STATUS("ServiceBusTopic")
-	EventSubscriptionDestination_EndpointType_STATUSStorageQueue     = EventSubscriptionDestination_EndpointType_STATUS("StorageQueue")
-	EventSubscriptionDestination_EndpointType_STATUSWebHook          = EventSubscriptionDestination_EndpointType_STATUS("WebHook")
+	EventSubscriptionDestination_EndpointType_AzureFunction_STATUS    = EventSubscriptionDestination_EndpointType_STATUS("AzureFunction")
+	EventSubscriptionDestination_EndpointType_EventHub_STATUS         = EventSubscriptionDestination_EndpointType_STATUS("EventHub")
+	EventSubscriptionDestination_EndpointType_HybridConnection_STATUS = EventSubscriptionDestination_EndpointType_STATUS("HybridConnection")
+	EventSubscriptionDestination_EndpointType_ServiceBusQueue_STATUS  = EventSubscriptionDestination_EndpointType_STATUS("ServiceBusQueue")
+	EventSubscriptionDestination_EndpointType_ServiceBusTopic_STATUS  = EventSubscriptionDestination_EndpointType_STATUS("ServiceBusTopic")
+	EventSubscriptionDestination_EndpointType_StorageQueue_STATUS     = EventSubscriptionDestination_EndpointType_STATUS("StorageQueue")
+	EventSubscriptionDestination_EndpointType_WebHook_STATUS          = EventSubscriptionDestination_EndpointType_STATUS("WebHook")
 )
 
 // Deprecated version of AdvancedFilter_OperatorType. Use v1beta20200601.AdvancedFilter_OperatorType instead
@@ -2435,36 +2435,36 @@ const (
 type AdvancedFilter_OperatorType string
 
 const (
-	AdvancedFilter_OperatorTypeBoolEquals                = AdvancedFilter_OperatorType("BoolEquals")
-	AdvancedFilter_OperatorTypeNumberGreaterThan         = AdvancedFilter_OperatorType("NumberGreaterThan")
-	AdvancedFilter_OperatorTypeNumberGreaterThanOrEquals = AdvancedFilter_OperatorType("NumberGreaterThanOrEquals")
-	AdvancedFilter_OperatorTypeNumberIn                  = AdvancedFilter_OperatorType("NumberIn")
-	AdvancedFilter_OperatorTypeNumberLessThan            = AdvancedFilter_OperatorType("NumberLessThan")
-	AdvancedFilter_OperatorTypeNumberLessThanOrEquals    = AdvancedFilter_OperatorType("NumberLessThanOrEquals")
-	AdvancedFilter_OperatorTypeNumberNotIn               = AdvancedFilter_OperatorType("NumberNotIn")
-	AdvancedFilter_OperatorTypeStringBeginsWith          = AdvancedFilter_OperatorType("StringBeginsWith")
-	AdvancedFilter_OperatorTypeStringContains            = AdvancedFilter_OperatorType("StringContains")
-	AdvancedFilter_OperatorTypeStringEndsWith            = AdvancedFilter_OperatorType("StringEndsWith")
-	AdvancedFilter_OperatorTypeStringIn                  = AdvancedFilter_OperatorType("StringIn")
-	AdvancedFilter_OperatorTypeStringNotIn               = AdvancedFilter_OperatorType("StringNotIn")
+	AdvancedFilter_OperatorType_BoolEquals                = AdvancedFilter_OperatorType("BoolEquals")
+	AdvancedFilter_OperatorType_NumberGreaterThan         = AdvancedFilter_OperatorType("NumberGreaterThan")
+	AdvancedFilter_OperatorType_NumberGreaterThanOrEquals = AdvancedFilter_OperatorType("NumberGreaterThanOrEquals")
+	AdvancedFilter_OperatorType_NumberIn                  = AdvancedFilter_OperatorType("NumberIn")
+	AdvancedFilter_OperatorType_NumberLessThan            = AdvancedFilter_OperatorType("NumberLessThan")
+	AdvancedFilter_OperatorType_NumberLessThanOrEquals    = AdvancedFilter_OperatorType("NumberLessThanOrEquals")
+	AdvancedFilter_OperatorType_NumberNotIn               = AdvancedFilter_OperatorType("NumberNotIn")
+	AdvancedFilter_OperatorType_StringBeginsWith          = AdvancedFilter_OperatorType("StringBeginsWith")
+	AdvancedFilter_OperatorType_StringContains            = AdvancedFilter_OperatorType("StringContains")
+	AdvancedFilter_OperatorType_StringEndsWith            = AdvancedFilter_OperatorType("StringEndsWith")
+	AdvancedFilter_OperatorType_StringIn                  = AdvancedFilter_OperatorType("StringIn")
+	AdvancedFilter_OperatorType_StringNotIn               = AdvancedFilter_OperatorType("StringNotIn")
 )
 
 // Deprecated version of AdvancedFilter_OperatorType_STATUS. Use v1beta20200601.AdvancedFilter_OperatorType_STATUS instead
 type AdvancedFilter_OperatorType_STATUS string
 
 const (
-	AdvancedFilter_OperatorType_STATUSBoolEquals                = AdvancedFilter_OperatorType_STATUS("BoolEquals")
-	AdvancedFilter_OperatorType_STATUSNumberGreaterThan         = AdvancedFilter_OperatorType_STATUS("NumberGreaterThan")
-	AdvancedFilter_OperatorType_STATUSNumberGreaterThanOrEquals = AdvancedFilter_OperatorType_STATUS("NumberGreaterThanOrEquals")
-	AdvancedFilter_OperatorType_STATUSNumberIn                  = AdvancedFilter_OperatorType_STATUS("NumberIn")
-	AdvancedFilter_OperatorType_STATUSNumberLessThan            = AdvancedFilter_OperatorType_STATUS("NumberLessThan")
-	AdvancedFilter_OperatorType_STATUSNumberLessThanOrEquals    = AdvancedFilter_OperatorType_STATUS("NumberLessThanOrEquals")
-	AdvancedFilter_OperatorType_STATUSNumberNotIn               = AdvancedFilter_OperatorType_STATUS("NumberNotIn")
-	AdvancedFilter_OperatorType_STATUSStringBeginsWith          = AdvancedFilter_OperatorType_STATUS("StringBeginsWith")
-	AdvancedFilter_OperatorType_STATUSStringContains            = AdvancedFilter_OperatorType_STATUS("StringContains")
-	AdvancedFilter_OperatorType_STATUSStringEndsWith            = AdvancedFilter_OperatorType_STATUS("StringEndsWith")
-	AdvancedFilter_OperatorType_STATUSStringIn                  = AdvancedFilter_OperatorType_STATUS("StringIn")
-	AdvancedFilter_OperatorType_STATUSStringNotIn               = AdvancedFilter_OperatorType_STATUS("StringNotIn")
+	AdvancedFilter_OperatorType_BoolEquals_STATUS                = AdvancedFilter_OperatorType_STATUS("BoolEquals")
+	AdvancedFilter_OperatorType_NumberGreaterThan_STATUS         = AdvancedFilter_OperatorType_STATUS("NumberGreaterThan")
+	AdvancedFilter_OperatorType_NumberGreaterThanOrEquals_STATUS = AdvancedFilter_OperatorType_STATUS("NumberGreaterThanOrEquals")
+	AdvancedFilter_OperatorType_NumberIn_STATUS                  = AdvancedFilter_OperatorType_STATUS("NumberIn")
+	AdvancedFilter_OperatorType_NumberLessThan_STATUS            = AdvancedFilter_OperatorType_STATUS("NumberLessThan")
+	AdvancedFilter_OperatorType_NumberLessThanOrEquals_STATUS    = AdvancedFilter_OperatorType_STATUS("NumberLessThanOrEquals")
+	AdvancedFilter_OperatorType_NumberNotIn_STATUS               = AdvancedFilter_OperatorType_STATUS("NumberNotIn")
+	AdvancedFilter_OperatorType_StringBeginsWith_STATUS          = AdvancedFilter_OperatorType_STATUS("StringBeginsWith")
+	AdvancedFilter_OperatorType_StringContains_STATUS            = AdvancedFilter_OperatorType_STATUS("StringContains")
+	AdvancedFilter_OperatorType_StringEndsWith_STATUS            = AdvancedFilter_OperatorType_STATUS("StringEndsWith")
+	AdvancedFilter_OperatorType_StringIn_STATUS                  = AdvancedFilter_OperatorType_STATUS("StringIn")
+	AdvancedFilter_OperatorType_StringNotIn_STATUS               = AdvancedFilter_OperatorType_STATUS("StringNotIn")
 )
 
 func init() {

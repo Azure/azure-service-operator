@@ -166,10 +166,10 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkPropertiesFormat_STATUSARM
 	gens["EnableDdosProtection"] = gen.PtrOf(gen.Bool())
 	gens["EnableVmProtection"] = gen.PtrOf(gen.Bool())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_STATUSDeleting,
-		ProvisioningState_STATUSFailed,
-		ProvisioningState_STATUSSucceeded,
-		ProvisioningState_STATUSUpdating))
+		ProvisioningState_Deleting_STATUS,
+		ProvisioningState_Failed_STATUS,
+		ProvisioningState_Succeeded_STATUS,
+		ProvisioningState_Updating_STATUS))
 	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
 }
 

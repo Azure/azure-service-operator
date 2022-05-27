@@ -83,7 +83,7 @@ func Webtest_STATUSARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForWebtest_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWebtest_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(Webtest_Kind_STATUSMultistep, Webtest_Kind_STATUSPing))
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(Webtest_Kind_Multistep_STATUS, Webtest_Kind_Ping_STATUS))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
@@ -164,10 +164,10 @@ func AddIndependentPropertyGeneratorsForWebTestProperties_STATUSARM(gens map[str
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["Frequency"] = gen.PtrOf(gen.Int())
 	gens["Kind"] = gen.PtrOf(gen.OneConstOf(
-		WebTestProperties_Kind_STATUSBasic,
-		WebTestProperties_Kind_STATUSMultistep,
-		WebTestProperties_Kind_STATUSPing,
-		WebTestProperties_Kind_STATUSStandard))
+		WebTestProperties_Kind_Basic_STATUS,
+		WebTestProperties_Kind_Multistep_STATUS,
+		WebTestProperties_Kind_Ping_STATUS,
+		WebTestProperties_Kind_Standard_STATUS))
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["RetryEnabled"] = gen.PtrOf(gen.Bool())

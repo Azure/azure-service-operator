@@ -132,10 +132,10 @@ type EncryptionProperty_STATUSARM struct {
 type IdentityProperties_Type_STATUS string
 
 const (
-	IdentityProperties_Type_STATUSNone                       = IdentityProperties_Type_STATUS("None")
-	IdentityProperties_Type_STATUSSystemAssigned             = IdentityProperties_Type_STATUS("SystemAssigned")
-	IdentityProperties_Type_STATUSSystemAssignedUserAssigned = IdentityProperties_Type_STATUS("SystemAssigned, UserAssigned")
-	IdentityProperties_Type_STATUSUserAssigned               = IdentityProperties_Type_STATUS("UserAssigned")
+	IdentityProperties_Type_None_STATUS                       = IdentityProperties_Type_STATUS("None")
+	IdentityProperties_Type_SystemAssigned_STATUS             = IdentityProperties_Type_STATUS("SystemAssigned")
+	IdentityProperties_Type_SystemAssignedUserAssigned_STATUS = IdentityProperties_Type_STATUS("SystemAssigned, UserAssigned")
+	IdentityProperties_Type_UserAssigned_STATUS               = IdentityProperties_Type_STATUS("UserAssigned")
 )
 
 type NetworkRuleSet_STATUSARM struct {
@@ -171,19 +171,19 @@ type PrivateEndpointConnection_STATUSARM struct {
 type Sku_Name_STATUS string
 
 const (
-	Sku_Name_STATUSBasic    = Sku_Name_STATUS("Basic")
-	Sku_Name_STATUSClassic  = Sku_Name_STATUS("Classic")
-	Sku_Name_STATUSPremium  = Sku_Name_STATUS("Premium")
-	Sku_Name_STATUSStandard = Sku_Name_STATUS("Standard")
+	Sku_Name_Basic_STATUS    = Sku_Name_STATUS("Basic")
+	Sku_Name_Classic_STATUS  = Sku_Name_STATUS("Classic")
+	Sku_Name_Premium_STATUS  = Sku_Name_STATUS("Premium")
+	Sku_Name_Standard_STATUS = Sku_Name_STATUS("Standard")
 )
 
 type Sku_Tier_STATUS string
 
 const (
-	Sku_Tier_STATUSBasic    = Sku_Tier_STATUS("Basic")
-	Sku_Tier_STATUSClassic  = Sku_Tier_STATUS("Classic")
-	Sku_Tier_STATUSPremium  = Sku_Tier_STATUS("Premium")
-	Sku_Tier_STATUSStandard = Sku_Tier_STATUS("Standard")
+	Sku_Tier_Basic_STATUS    = Sku_Tier_STATUS("Basic")
+	Sku_Tier_Classic_STATUS  = Sku_Tier_STATUS("Classic")
+	Sku_Tier_Premium_STATUS  = Sku_Tier_STATUS("Premium")
+	Sku_Tier_Standard_STATUS = Sku_Tier_STATUS("Standard")
 )
 
 type Status_STATUSARM struct {
@@ -200,19 +200,19 @@ type Status_STATUSARM struct {
 type SystemData_CreatedByType_STATUS string
 
 const (
-	SystemData_CreatedByType_STATUSApplication     = SystemData_CreatedByType_STATUS("Application")
-	SystemData_CreatedByType_STATUSKey             = SystemData_CreatedByType_STATUS("Key")
-	SystemData_CreatedByType_STATUSManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
-	SystemData_CreatedByType_STATUSUser            = SystemData_CreatedByType_STATUS("User")
+	SystemData_CreatedByType_Application_STATUS     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_Key_STATUS             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_ManagedIdentity_STATUS = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_User_STATUS            = SystemData_CreatedByType_STATUS("User")
 )
 
 type SystemData_LastModifiedByType_STATUS string
 
 const (
-	SystemData_LastModifiedByType_STATUSApplication     = SystemData_LastModifiedByType_STATUS("Application")
-	SystemData_LastModifiedByType_STATUSKey             = SystemData_LastModifiedByType_STATUS("Key")
-	SystemData_LastModifiedByType_STATUSManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
-	SystemData_LastModifiedByType_STATUSUser            = SystemData_LastModifiedByType_STATUS("User")
+	SystemData_LastModifiedByType_Application_STATUS     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_Key_STATUS             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_ManagedIdentity_STATUS = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_User_STATUS            = SystemData_LastModifiedByType_STATUS("User")
 )
 
 type UserIdentityProperties_STATUSARM struct {

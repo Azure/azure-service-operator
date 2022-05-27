@@ -41,7 +41,7 @@ var _ genruntime.ARMResourceSpec = &Namespace_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20211101"
 func (namespace Namespace_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -160,10 +160,10 @@ type EncryptionARM struct {
 type Identity_Type string
 
 const (
-	Identity_TypeNone                       = Identity_Type("None")
-	Identity_TypeSystemAssigned             = Identity_Type("SystemAssigned")
-	Identity_TypeSystemAssignedUserAssigned = Identity_Type("SystemAssigned, UserAssigned")
-	Identity_TypeUserAssigned               = Identity_Type("UserAssigned")
+	Identity_Type_None                       = Identity_Type("None")
+	Identity_Type_SystemAssigned             = Identity_Type("SystemAssigned")
+	Identity_Type_SystemAssignedUserAssigned = Identity_Type("SystemAssigned, UserAssigned")
+	Identity_Type_UserAssigned               = Identity_Type("UserAssigned")
 )
 
 type PrivateEndpointConnectionARM struct {
@@ -179,38 +179,38 @@ type PrivateEndpointConnectionARM struct {
 type Sku_Name string
 
 const (
-	Sku_NameBasic    = Sku_Name("Basic")
-	Sku_NamePremium  = Sku_Name("Premium")
-	Sku_NameStandard = Sku_Name("Standard")
+	Sku_Name_Basic    = Sku_Name("Basic")
+	Sku_Name_Premium  = Sku_Name("Premium")
+	Sku_Name_Standard = Sku_Name("Standard")
 )
 
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
 type Sku_Tier string
 
 const (
-	Sku_TierBasic    = Sku_Tier("Basic")
-	Sku_TierPremium  = Sku_Tier("Premium")
-	Sku_TierStandard = Sku_Tier("Standard")
+	Sku_Tier_Basic    = Sku_Tier("Basic")
+	Sku_Tier_Premium  = Sku_Tier("Premium")
+	Sku_Tier_Standard = Sku_Tier("Standard")
 )
 
 // +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
 type SystemData_CreatedByType string
 
 const (
-	SystemData_CreatedByTypeApplication     = SystemData_CreatedByType("Application")
-	SystemData_CreatedByTypeKey             = SystemData_CreatedByType("Key")
-	SystemData_CreatedByTypeManagedIdentity = SystemData_CreatedByType("ManagedIdentity")
-	SystemData_CreatedByTypeUser            = SystemData_CreatedByType("User")
+	SystemData_CreatedByType_Application     = SystemData_CreatedByType("Application")
+	SystemData_CreatedByType_Key             = SystemData_CreatedByType("Key")
+	SystemData_CreatedByType_ManagedIdentity = SystemData_CreatedByType("ManagedIdentity")
+	SystemData_CreatedByType_User            = SystemData_CreatedByType("User")
 )
 
 // +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
 type SystemData_LastModifiedByType string
 
 const (
-	SystemData_LastModifiedByTypeApplication     = SystemData_LastModifiedByType("Application")
-	SystemData_LastModifiedByTypeKey             = SystemData_LastModifiedByType("Key")
-	SystemData_LastModifiedByTypeManagedIdentity = SystemData_LastModifiedByType("ManagedIdentity")
-	SystemData_LastModifiedByTypeUser            = SystemData_LastModifiedByType("User")
+	SystemData_LastModifiedByType_Application     = SystemData_LastModifiedByType("Application")
+	SystemData_LastModifiedByType_Key             = SystemData_LastModifiedByType("Key")
+	SystemData_LastModifiedByType_ManagedIdentity = SystemData_LastModifiedByType("ManagedIdentity")
+	SystemData_LastModifiedByType_User            = SystemData_LastModifiedByType("User")
 )
 
 type KeyVaultPropertiesARM struct {

@@ -217,10 +217,10 @@ func AddIndependentPropertyGeneratorsForSqlTriggerResourceARM(gens map[string]go
 	gens["Body"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["TriggerOperation"] = gen.PtrOf(gen.OneConstOf(
-		SqlTriggerResource_TriggerOperationAll,
-		SqlTriggerResource_TriggerOperationCreate,
-		SqlTriggerResource_TriggerOperationDelete,
-		SqlTriggerResource_TriggerOperationReplace,
-		SqlTriggerResource_TriggerOperationUpdate))
-	gens["TriggerType"] = gen.PtrOf(gen.OneConstOf(SqlTriggerResource_TriggerTypePost, SqlTriggerResource_TriggerTypePre))
+		SqlTriggerResource_TriggerOperation_All,
+		SqlTriggerResource_TriggerOperation_Create,
+		SqlTriggerResource_TriggerOperation_Delete,
+		SqlTriggerResource_TriggerOperation_Replace,
+		SqlTriggerResource_TriggerOperation_Update))
+	gens["TriggerType"] = gen.PtrOf(gen.OneConstOf(SqlTriggerResource_TriggerType_Post, SqlTriggerResource_TriggerType_Pre))
 }

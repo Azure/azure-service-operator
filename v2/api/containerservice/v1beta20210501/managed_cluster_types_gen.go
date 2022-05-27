@@ -100,7 +100,7 @@ func (cluster *ManagedCluster) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20210501"
 func (cluster ManagedCluster) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -323,7 +323,7 @@ type ManagedClusterList struct {
 // +kubebuilder:validation:Enum={"20210501"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("20210501")
+const APIVersion_Value = APIVersion("20210501")
 
 type ManagedCluster_STATUS struct {
 	// AadProfile: The Azure Active Directory configuration.
@@ -9807,75 +9807,75 @@ func (resource *PrivateLinkResource_STATUS) AssignPropertiesToPrivateLinkResourc
 type ContainerServiceNetworkProfile_LoadBalancerSku string
 
 const (
-	ContainerServiceNetworkProfile_LoadBalancerSkuBasic    = ContainerServiceNetworkProfile_LoadBalancerSku("basic")
-	ContainerServiceNetworkProfile_LoadBalancerSkuStandard = ContainerServiceNetworkProfile_LoadBalancerSku("standard")
+	ContainerServiceNetworkProfile_LoadBalancerSku_Basic    = ContainerServiceNetworkProfile_LoadBalancerSku("basic")
+	ContainerServiceNetworkProfile_LoadBalancerSku_Standard = ContainerServiceNetworkProfile_LoadBalancerSku("standard")
 )
 
 type ContainerServiceNetworkProfile_LoadBalancerSku_STATUS string
 
 const (
-	ContainerServiceNetworkProfile_LoadBalancerSku_STATUSBasic    = ContainerServiceNetworkProfile_LoadBalancerSku_STATUS("basic")
-	ContainerServiceNetworkProfile_LoadBalancerSku_STATUSStandard = ContainerServiceNetworkProfile_LoadBalancerSku_STATUS("standard")
+	ContainerServiceNetworkProfile_LoadBalancerSku_Basic_STATUS    = ContainerServiceNetworkProfile_LoadBalancerSku_STATUS("basic")
+	ContainerServiceNetworkProfile_LoadBalancerSku_Standard_STATUS = ContainerServiceNetworkProfile_LoadBalancerSku_STATUS("standard")
 )
 
 // +kubebuilder:validation:Enum={"bridge","transparent"}
 type ContainerServiceNetworkProfile_NetworkMode string
 
 const (
-	ContainerServiceNetworkProfile_NetworkModeBridge      = ContainerServiceNetworkProfile_NetworkMode("bridge")
-	ContainerServiceNetworkProfile_NetworkModeTransparent = ContainerServiceNetworkProfile_NetworkMode("transparent")
+	ContainerServiceNetworkProfile_NetworkMode_Bridge      = ContainerServiceNetworkProfile_NetworkMode("bridge")
+	ContainerServiceNetworkProfile_NetworkMode_Transparent = ContainerServiceNetworkProfile_NetworkMode("transparent")
 )
 
 type ContainerServiceNetworkProfile_NetworkMode_STATUS string
 
 const (
-	ContainerServiceNetworkProfile_NetworkMode_STATUSBridge      = ContainerServiceNetworkProfile_NetworkMode_STATUS("bridge")
-	ContainerServiceNetworkProfile_NetworkMode_STATUSTransparent = ContainerServiceNetworkProfile_NetworkMode_STATUS("transparent")
+	ContainerServiceNetworkProfile_NetworkMode_Bridge_STATUS      = ContainerServiceNetworkProfile_NetworkMode_STATUS("bridge")
+	ContainerServiceNetworkProfile_NetworkMode_Transparent_STATUS = ContainerServiceNetworkProfile_NetworkMode_STATUS("transparent")
 )
 
 // +kubebuilder:validation:Enum={"azure","kubenet"}
 type ContainerServiceNetworkProfile_NetworkPlugin string
 
 const (
-	ContainerServiceNetworkProfile_NetworkPluginAzure   = ContainerServiceNetworkProfile_NetworkPlugin("azure")
-	ContainerServiceNetworkProfile_NetworkPluginKubenet = ContainerServiceNetworkProfile_NetworkPlugin("kubenet")
+	ContainerServiceNetworkProfile_NetworkPlugin_Azure   = ContainerServiceNetworkProfile_NetworkPlugin("azure")
+	ContainerServiceNetworkProfile_NetworkPlugin_Kubenet = ContainerServiceNetworkProfile_NetworkPlugin("kubenet")
 )
 
 type ContainerServiceNetworkProfile_NetworkPlugin_STATUS string
 
 const (
-	ContainerServiceNetworkProfile_NetworkPlugin_STATUSAzure   = ContainerServiceNetworkProfile_NetworkPlugin_STATUS("azure")
-	ContainerServiceNetworkProfile_NetworkPlugin_STATUSKubenet = ContainerServiceNetworkProfile_NetworkPlugin_STATUS("kubenet")
+	ContainerServiceNetworkProfile_NetworkPlugin_Azure_STATUS   = ContainerServiceNetworkProfile_NetworkPlugin_STATUS("azure")
+	ContainerServiceNetworkProfile_NetworkPlugin_Kubenet_STATUS = ContainerServiceNetworkProfile_NetworkPlugin_STATUS("kubenet")
 )
 
 // +kubebuilder:validation:Enum={"azure","calico"}
 type ContainerServiceNetworkProfile_NetworkPolicy string
 
 const (
-	ContainerServiceNetworkProfile_NetworkPolicyAzure  = ContainerServiceNetworkProfile_NetworkPolicy("azure")
-	ContainerServiceNetworkProfile_NetworkPolicyCalico = ContainerServiceNetworkProfile_NetworkPolicy("calico")
+	ContainerServiceNetworkProfile_NetworkPolicy_Azure  = ContainerServiceNetworkProfile_NetworkPolicy("azure")
+	ContainerServiceNetworkProfile_NetworkPolicy_Calico = ContainerServiceNetworkProfile_NetworkPolicy("calico")
 )
 
 type ContainerServiceNetworkProfile_NetworkPolicy_STATUS string
 
 const (
-	ContainerServiceNetworkProfile_NetworkPolicy_STATUSAzure  = ContainerServiceNetworkProfile_NetworkPolicy_STATUS("azure")
-	ContainerServiceNetworkProfile_NetworkPolicy_STATUSCalico = ContainerServiceNetworkProfile_NetworkPolicy_STATUS("calico")
+	ContainerServiceNetworkProfile_NetworkPolicy_Azure_STATUS  = ContainerServiceNetworkProfile_NetworkPolicy_STATUS("azure")
+	ContainerServiceNetworkProfile_NetworkPolicy_Calico_STATUS = ContainerServiceNetworkProfile_NetworkPolicy_STATUS("calico")
 )
 
 // +kubebuilder:validation:Enum={"loadBalancer","userDefinedRouting"}
 type ContainerServiceNetworkProfile_OutboundType string
 
 const (
-	ContainerServiceNetworkProfile_OutboundTypeLoadBalancer       = ContainerServiceNetworkProfile_OutboundType("loadBalancer")
-	ContainerServiceNetworkProfile_OutboundTypeUserDefinedRouting = ContainerServiceNetworkProfile_OutboundType("userDefinedRouting")
+	ContainerServiceNetworkProfile_OutboundType_LoadBalancer       = ContainerServiceNetworkProfile_OutboundType("loadBalancer")
+	ContainerServiceNetworkProfile_OutboundType_UserDefinedRouting = ContainerServiceNetworkProfile_OutboundType("userDefinedRouting")
 )
 
 type ContainerServiceNetworkProfile_OutboundType_STATUS string
 
 const (
-	ContainerServiceNetworkProfile_OutboundType_STATUSLoadBalancer       = ContainerServiceNetworkProfile_OutboundType_STATUS("loadBalancer")
-	ContainerServiceNetworkProfile_OutboundType_STATUSUserDefinedRouting = ContainerServiceNetworkProfile_OutboundType_STATUS("userDefinedRouting")
+	ContainerServiceNetworkProfile_OutboundType_LoadBalancer_STATUS       = ContainerServiceNetworkProfile_OutboundType_STATUS("loadBalancer")
+	ContainerServiceNetworkProfile_OutboundType_UserDefinedRouting_STATUS = ContainerServiceNetworkProfile_OutboundType_STATUS("userDefinedRouting")
 )
 
 type ContainerServiceSshConfiguration struct {
@@ -10085,21 +10085,21 @@ func (configuration *ContainerServiceSshConfiguration_STATUS) AssignPropertiesTo
 type ManagedClusterAutoUpgradeProfile_UpgradeChannel string
 
 const (
-	ManagedClusterAutoUpgradeProfile_UpgradeChannelNodeImage = ManagedClusterAutoUpgradeProfile_UpgradeChannel("node-image")
-	ManagedClusterAutoUpgradeProfile_UpgradeChannelNone      = ManagedClusterAutoUpgradeProfile_UpgradeChannel("none")
-	ManagedClusterAutoUpgradeProfile_UpgradeChannelPatch     = ManagedClusterAutoUpgradeProfile_UpgradeChannel("patch")
-	ManagedClusterAutoUpgradeProfile_UpgradeChannelRapid     = ManagedClusterAutoUpgradeProfile_UpgradeChannel("rapid")
-	ManagedClusterAutoUpgradeProfile_UpgradeChannelStable    = ManagedClusterAutoUpgradeProfile_UpgradeChannel("stable")
+	ManagedClusterAutoUpgradeProfile_UpgradeChannel_NodeImage = ManagedClusterAutoUpgradeProfile_UpgradeChannel("node-image")
+	ManagedClusterAutoUpgradeProfile_UpgradeChannel_None      = ManagedClusterAutoUpgradeProfile_UpgradeChannel("none")
+	ManagedClusterAutoUpgradeProfile_UpgradeChannel_Patch     = ManagedClusterAutoUpgradeProfile_UpgradeChannel("patch")
+	ManagedClusterAutoUpgradeProfile_UpgradeChannel_Rapid     = ManagedClusterAutoUpgradeProfile_UpgradeChannel("rapid")
+	ManagedClusterAutoUpgradeProfile_UpgradeChannel_Stable    = ManagedClusterAutoUpgradeProfile_UpgradeChannel("stable")
 )
 
 type ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS string
 
 const (
-	ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUSNodeImage = ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS("node-image")
-	ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUSNone      = ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS("none")
-	ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUSPatch     = ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS("patch")
-	ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUSRapid     = ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS("rapid")
-	ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUSStable    = ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS("stable")
+	ManagedClusterAutoUpgradeProfile_UpgradeChannel_NodeImage_STATUS = ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS("node-image")
+	ManagedClusterAutoUpgradeProfile_UpgradeChannel_None_STATUS      = ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS("none")
+	ManagedClusterAutoUpgradeProfile_UpgradeChannel_Patch_STATUS     = ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS("patch")
+	ManagedClusterAutoUpgradeProfile_UpgradeChannel_Rapid_STATUS     = ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS("rapid")
+	ManagedClusterAutoUpgradeProfile_UpgradeChannel_Stable_STATUS    = ManagedClusterAutoUpgradeProfile_UpgradeChannel_STATUS("stable")
 )
 
 type ManagedClusterIdentity_UserAssignedIdentities struct {
@@ -11475,49 +11475,49 @@ func (identity *ManagedClusterPodIdentity_STATUS) AssignPropertiesToManagedClust
 type ManagedClusterProperties_AutoScalerProfile_Expander string
 
 const (
-	ManagedClusterProperties_AutoScalerProfile_ExpanderLeastWaste = ManagedClusterProperties_AutoScalerProfile_Expander("least-waste")
-	ManagedClusterProperties_AutoScalerProfile_ExpanderMostPods   = ManagedClusterProperties_AutoScalerProfile_Expander("most-pods")
-	ManagedClusterProperties_AutoScalerProfile_ExpanderPriority   = ManagedClusterProperties_AutoScalerProfile_Expander("priority")
-	ManagedClusterProperties_AutoScalerProfile_ExpanderRandom     = ManagedClusterProperties_AutoScalerProfile_Expander("random")
+	ManagedClusterProperties_AutoScalerProfile_Expander_LeastWaste = ManagedClusterProperties_AutoScalerProfile_Expander("least-waste")
+	ManagedClusterProperties_AutoScalerProfile_Expander_MostPods   = ManagedClusterProperties_AutoScalerProfile_Expander("most-pods")
+	ManagedClusterProperties_AutoScalerProfile_Expander_Priority   = ManagedClusterProperties_AutoScalerProfile_Expander("priority")
+	ManagedClusterProperties_AutoScalerProfile_Expander_Random     = ManagedClusterProperties_AutoScalerProfile_Expander("random")
 )
 
 type ManagedClusterProperties_AutoScalerProfile_Expander_STATUS string
 
 const (
-	ManagedClusterProperties_AutoScalerProfile_Expander_STATUSLeastWaste = ManagedClusterProperties_AutoScalerProfile_Expander_STATUS("least-waste")
-	ManagedClusterProperties_AutoScalerProfile_Expander_STATUSMostPods   = ManagedClusterProperties_AutoScalerProfile_Expander_STATUS("most-pods")
-	ManagedClusterProperties_AutoScalerProfile_Expander_STATUSPriority   = ManagedClusterProperties_AutoScalerProfile_Expander_STATUS("priority")
-	ManagedClusterProperties_AutoScalerProfile_Expander_STATUSRandom     = ManagedClusterProperties_AutoScalerProfile_Expander_STATUS("random")
+	ManagedClusterProperties_AutoScalerProfile_Expander_LeastWaste_STATUS = ManagedClusterProperties_AutoScalerProfile_Expander_STATUS("least-waste")
+	ManagedClusterProperties_AutoScalerProfile_Expander_MostPods_STATUS   = ManagedClusterProperties_AutoScalerProfile_Expander_STATUS("most-pods")
+	ManagedClusterProperties_AutoScalerProfile_Expander_Priority_STATUS   = ManagedClusterProperties_AutoScalerProfile_Expander_STATUS("priority")
+	ManagedClusterProperties_AutoScalerProfile_Expander_Random_STATUS     = ManagedClusterProperties_AutoScalerProfile_Expander_STATUS("random")
 )
 
 // +kubebuilder:validation:Enum={"None","Windows_Server"}
 type ManagedClusterWindowsProfile_LicenseType string
 
 const (
-	ManagedClusterWindowsProfile_LicenseTypeNone           = ManagedClusterWindowsProfile_LicenseType("None")
-	ManagedClusterWindowsProfile_LicenseTypeWindows_Server = ManagedClusterWindowsProfile_LicenseType("Windows_Server")
+	ManagedClusterWindowsProfile_LicenseType_None           = ManagedClusterWindowsProfile_LicenseType("None")
+	ManagedClusterWindowsProfile_LicenseType_Windows_Server = ManagedClusterWindowsProfile_LicenseType("Windows_Server")
 )
 
 type ManagedClusterWindowsProfile_LicenseType_STATUS string
 
 const (
-	ManagedClusterWindowsProfile_LicenseType_STATUSNone           = ManagedClusterWindowsProfile_LicenseType_STATUS("None")
-	ManagedClusterWindowsProfile_LicenseType_STATUSWindows_Server = ManagedClusterWindowsProfile_LicenseType_STATUS("Windows_Server")
+	ManagedClusterWindowsProfile_LicenseType_None_STATUS           = ManagedClusterWindowsProfile_LicenseType_STATUS("None")
+	ManagedClusterWindowsProfile_LicenseType_Windows_Server_STATUS = ManagedClusterWindowsProfile_LicenseType_STATUS("Windows_Server")
 )
 
 // +kubebuilder:validation:Enum={"Running","Stopped"}
 type PowerState_Code string
 
 const (
-	PowerState_CodeRunning = PowerState_Code("Running")
-	PowerState_CodeStopped = PowerState_Code("Stopped")
+	PowerState_Code_Running = PowerState_Code("Running")
+	PowerState_Code_Stopped = PowerState_Code("Stopped")
 )
 
 type PowerState_Code_STATUS string
 
 const (
-	PowerState_Code_STATUSRunning = PowerState_Code_STATUS("Running")
-	PowerState_Code_STATUSStopped = PowerState_Code_STATUS("Stopped")
+	PowerState_Code_Running_STATUS = PowerState_Code_STATUS("Running")
+	PowerState_Code_Stopped_STATUS = PowerState_Code_STATUS("Stopped")
 )
 
 type ContainerServiceSshPublicKey struct {
@@ -12388,19 +12388,19 @@ func (info *ManagedClusterPodIdentity_ProvisioningInfo_STATUS) AssignPropertiesT
 type ManagedClusterPodIdentity_ProvisioningState string
 
 const (
-	ManagedClusterPodIdentity_ProvisioningStateAssigned = ManagedClusterPodIdentity_ProvisioningState("Assigned")
-	ManagedClusterPodIdentity_ProvisioningStateDeleting = ManagedClusterPodIdentity_ProvisioningState("Deleting")
-	ManagedClusterPodIdentity_ProvisioningStateFailed   = ManagedClusterPodIdentity_ProvisioningState("Failed")
-	ManagedClusterPodIdentity_ProvisioningStateUpdating = ManagedClusterPodIdentity_ProvisioningState("Updating")
+	ManagedClusterPodIdentity_ProvisioningState_Assigned = ManagedClusterPodIdentity_ProvisioningState("Assigned")
+	ManagedClusterPodIdentity_ProvisioningState_Deleting = ManagedClusterPodIdentity_ProvisioningState("Deleting")
+	ManagedClusterPodIdentity_ProvisioningState_Failed   = ManagedClusterPodIdentity_ProvisioningState("Failed")
+	ManagedClusterPodIdentity_ProvisioningState_Updating = ManagedClusterPodIdentity_ProvisioningState("Updating")
 )
 
 type ManagedClusterPodIdentity_ProvisioningState_STATUS string
 
 const (
-	ManagedClusterPodIdentity_ProvisioningState_STATUSAssigned = ManagedClusterPodIdentity_ProvisioningState_STATUS("Assigned")
-	ManagedClusterPodIdentity_ProvisioningState_STATUSDeleting = ManagedClusterPodIdentity_ProvisioningState_STATUS("Deleting")
-	ManagedClusterPodIdentity_ProvisioningState_STATUSFailed   = ManagedClusterPodIdentity_ProvisioningState_STATUS("Failed")
-	ManagedClusterPodIdentity_ProvisioningState_STATUSUpdating = ManagedClusterPodIdentity_ProvisioningState_STATUS("Updating")
+	ManagedClusterPodIdentity_ProvisioningState_Assigned_STATUS = ManagedClusterPodIdentity_ProvisioningState_STATUS("Assigned")
+	ManagedClusterPodIdentity_ProvisioningState_Deleting_STATUS = ManagedClusterPodIdentity_ProvisioningState_STATUS("Deleting")
+	ManagedClusterPodIdentity_ProvisioningState_Failed_STATUS   = ManagedClusterPodIdentity_ProvisioningState_STATUS("Failed")
+	ManagedClusterPodIdentity_ProvisioningState_Updating_STATUS = ManagedClusterPodIdentity_ProvisioningState_STATUS("Updating")
 )
 
 type ResourceReference struct {

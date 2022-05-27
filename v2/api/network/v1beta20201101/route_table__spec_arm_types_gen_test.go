@@ -164,10 +164,10 @@ func RouteTablePropertiesFormatARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForRouteTablePropertiesFormatARM(gens map[string]gopter.Gen) {
 	gens["DisableBgpRoutePropagation"] = gen.PtrOf(gen.Bool())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningStateDeleting,
-		ProvisioningStateFailed,
-		ProvisioningStateSucceeded,
-		ProvisioningStateUpdating))
+		ProvisioningState_Deleting,
+		ProvisioningState_Failed,
+		ProvisioningState_Succeeded,
+		ProvisioningState_Updating))
 	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
 }
 

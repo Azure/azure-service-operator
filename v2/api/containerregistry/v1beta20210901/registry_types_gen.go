@@ -99,7 +99,7 @@ func (registry *Registry) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20210901"
 func (registry Registry) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -322,7 +322,7 @@ type RegistryList struct {
 // +kubebuilder:validation:Enum={"20210901"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("20210901")
+const APIVersion_Value = APIVersion("20210901")
 
 type Registry_STATUS struct {
 	// AdminUserEnabled: The value that indicates whether the admin user is enabled.
@@ -3499,68 +3499,68 @@ func (connection *PrivateEndpointConnection_STATUS) AssignPropertiesToPrivateEnd
 type RegistryProperties_NetworkRuleBypassOptions string
 
 const (
-	RegistryProperties_NetworkRuleBypassOptionsAzureServices = RegistryProperties_NetworkRuleBypassOptions("AzureServices")
-	RegistryProperties_NetworkRuleBypassOptionsNone          = RegistryProperties_NetworkRuleBypassOptions("None")
+	RegistryProperties_NetworkRuleBypassOptions_AzureServices = RegistryProperties_NetworkRuleBypassOptions("AzureServices")
+	RegistryProperties_NetworkRuleBypassOptions_None          = RegistryProperties_NetworkRuleBypassOptions("None")
 )
 
 type RegistryProperties_NetworkRuleBypassOptions_STATUS string
 
 const (
-	RegistryProperties_NetworkRuleBypassOptions_STATUSAzureServices = RegistryProperties_NetworkRuleBypassOptions_STATUS("AzureServices")
-	RegistryProperties_NetworkRuleBypassOptions_STATUSNone          = RegistryProperties_NetworkRuleBypassOptions_STATUS("None")
+	RegistryProperties_NetworkRuleBypassOptions_AzureServices_STATUS = RegistryProperties_NetworkRuleBypassOptions_STATUS("AzureServices")
+	RegistryProperties_NetworkRuleBypassOptions_None_STATUS          = RegistryProperties_NetworkRuleBypassOptions_STATUS("None")
 )
 
 // +kubebuilder:validation:Enum={"Canceled","Creating","Deleting","Failed","Succeeded","Updating"}
 type RegistryProperties_ProvisioningState string
 
 const (
-	RegistryProperties_ProvisioningStateCanceled  = RegistryProperties_ProvisioningState("Canceled")
-	RegistryProperties_ProvisioningStateCreating  = RegistryProperties_ProvisioningState("Creating")
-	RegistryProperties_ProvisioningStateDeleting  = RegistryProperties_ProvisioningState("Deleting")
-	RegistryProperties_ProvisioningStateFailed    = RegistryProperties_ProvisioningState("Failed")
-	RegistryProperties_ProvisioningStateSucceeded = RegistryProperties_ProvisioningState("Succeeded")
-	RegistryProperties_ProvisioningStateUpdating  = RegistryProperties_ProvisioningState("Updating")
+	RegistryProperties_ProvisioningState_Canceled  = RegistryProperties_ProvisioningState("Canceled")
+	RegistryProperties_ProvisioningState_Creating  = RegistryProperties_ProvisioningState("Creating")
+	RegistryProperties_ProvisioningState_Deleting  = RegistryProperties_ProvisioningState("Deleting")
+	RegistryProperties_ProvisioningState_Failed    = RegistryProperties_ProvisioningState("Failed")
+	RegistryProperties_ProvisioningState_Succeeded = RegistryProperties_ProvisioningState("Succeeded")
+	RegistryProperties_ProvisioningState_Updating  = RegistryProperties_ProvisioningState("Updating")
 )
 
 type RegistryProperties_ProvisioningState_STATUS string
 
 const (
-	RegistryProperties_ProvisioningState_STATUSCanceled  = RegistryProperties_ProvisioningState_STATUS("Canceled")
-	RegistryProperties_ProvisioningState_STATUSCreating  = RegistryProperties_ProvisioningState_STATUS("Creating")
-	RegistryProperties_ProvisioningState_STATUSDeleting  = RegistryProperties_ProvisioningState_STATUS("Deleting")
-	RegistryProperties_ProvisioningState_STATUSFailed    = RegistryProperties_ProvisioningState_STATUS("Failed")
-	RegistryProperties_ProvisioningState_STATUSSucceeded = RegistryProperties_ProvisioningState_STATUS("Succeeded")
-	RegistryProperties_ProvisioningState_STATUSUpdating  = RegistryProperties_ProvisioningState_STATUS("Updating")
+	RegistryProperties_ProvisioningState_Canceled_STATUS  = RegistryProperties_ProvisioningState_STATUS("Canceled")
+	RegistryProperties_ProvisioningState_Creating_STATUS  = RegistryProperties_ProvisioningState_STATUS("Creating")
+	RegistryProperties_ProvisioningState_Deleting_STATUS  = RegistryProperties_ProvisioningState_STATUS("Deleting")
+	RegistryProperties_ProvisioningState_Failed_STATUS    = RegistryProperties_ProvisioningState_STATUS("Failed")
+	RegistryProperties_ProvisioningState_Succeeded_STATUS = RegistryProperties_ProvisioningState_STATUS("Succeeded")
+	RegistryProperties_ProvisioningState_Updating_STATUS  = RegistryProperties_ProvisioningState_STATUS("Updating")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type RegistryProperties_PublicNetworkAccess string
 
 const (
-	RegistryProperties_PublicNetworkAccessDisabled = RegistryProperties_PublicNetworkAccess("Disabled")
-	RegistryProperties_PublicNetworkAccessEnabled  = RegistryProperties_PublicNetworkAccess("Enabled")
+	RegistryProperties_PublicNetworkAccess_Disabled = RegistryProperties_PublicNetworkAccess("Disabled")
+	RegistryProperties_PublicNetworkAccess_Enabled  = RegistryProperties_PublicNetworkAccess("Enabled")
 )
 
 type RegistryProperties_PublicNetworkAccess_STATUS string
 
 const (
-	RegistryProperties_PublicNetworkAccess_STATUSDisabled = RegistryProperties_PublicNetworkAccess_STATUS("Disabled")
-	RegistryProperties_PublicNetworkAccess_STATUSEnabled  = RegistryProperties_PublicNetworkAccess_STATUS("Enabled")
+	RegistryProperties_PublicNetworkAccess_Disabled_STATUS = RegistryProperties_PublicNetworkAccess_STATUS("Disabled")
+	RegistryProperties_PublicNetworkAccess_Enabled_STATUS  = RegistryProperties_PublicNetworkAccess_STATUS("Enabled")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type RegistryProperties_ZoneRedundancy string
 
 const (
-	RegistryProperties_ZoneRedundancyDisabled = RegistryProperties_ZoneRedundancy("Disabled")
-	RegistryProperties_ZoneRedundancyEnabled  = RegistryProperties_ZoneRedundancy("Enabled")
+	RegistryProperties_ZoneRedundancy_Disabled = RegistryProperties_ZoneRedundancy("Disabled")
+	RegistryProperties_ZoneRedundancy_Enabled  = RegistryProperties_ZoneRedundancy("Enabled")
 )
 
 type RegistryProperties_ZoneRedundancy_STATUS string
 
 const (
-	RegistryProperties_ZoneRedundancy_STATUSDisabled = RegistryProperties_ZoneRedundancy_STATUS("Disabled")
-	RegistryProperties_ZoneRedundancy_STATUSEnabled  = RegistryProperties_ZoneRedundancy_STATUS("Enabled")
+	RegistryProperties_ZoneRedundancy_Disabled_STATUS = RegistryProperties_ZoneRedundancy_STATUS("Disabled")
+	RegistryProperties_ZoneRedundancy_Enabled_STATUS  = RegistryProperties_ZoneRedundancy_STATUS("Enabled")
 )
 
 type Sku struct {
@@ -4359,15 +4359,15 @@ func (data *SystemData_STATUS) AssignPropertiesToSystemData_STATUS(destination *
 type EncryptionProperty_Status string
 
 const (
-	EncryptionProperty_StatusDisabled = EncryptionProperty_Status("disabled")
-	EncryptionProperty_StatusEnabled  = EncryptionProperty_Status("enabled")
+	EncryptionProperty_Status_Disabled = EncryptionProperty_Status("disabled")
+	EncryptionProperty_Status_Enabled  = EncryptionProperty_Status("enabled")
 )
 
 type EncryptionProperty_Status_STATUS string
 
 const (
-	EncryptionProperty_Status_STATUSDisabled = EncryptionProperty_Status_STATUS("disabled")
-	EncryptionProperty_Status_STATUSEnabled  = EncryptionProperty_Status_STATUS("enabled")
+	EncryptionProperty_Status_Disabled_STATUS = EncryptionProperty_Status_STATUS("disabled")
+	EncryptionProperty_Status_Enabled_STATUS  = EncryptionProperty_Status_STATUS("enabled")
 )
 
 type ExportPolicy struct {
@@ -5020,15 +5020,15 @@ func (properties *KeyVaultProperties_STATUS) AssignPropertiesToKeyVaultPropertie
 type NetworkRuleSet_DefaultAction string
 
 const (
-	NetworkRuleSet_DefaultActionAllow = NetworkRuleSet_DefaultAction("Allow")
-	NetworkRuleSet_DefaultActionDeny  = NetworkRuleSet_DefaultAction("Deny")
+	NetworkRuleSet_DefaultAction_Allow = NetworkRuleSet_DefaultAction("Allow")
+	NetworkRuleSet_DefaultAction_Deny  = NetworkRuleSet_DefaultAction("Deny")
 )
 
 type NetworkRuleSet_DefaultAction_STATUS string
 
 const (
-	NetworkRuleSet_DefaultAction_STATUSAllow = NetworkRuleSet_DefaultAction_STATUS("Allow")
-	NetworkRuleSet_DefaultAction_STATUSDeny  = NetworkRuleSet_DefaultAction_STATUS("Deny")
+	NetworkRuleSet_DefaultAction_Allow_STATUS = NetworkRuleSet_DefaultAction_STATUS("Allow")
+	NetworkRuleSet_DefaultAction_Deny_STATUS  = NetworkRuleSet_DefaultAction_STATUS("Deny")
 )
 
 type QuarantinePolicy struct {
@@ -5793,79 +5793,79 @@ func (properties *UserIdentityProperties_STATUS) AssignPropertiesToUserIdentityP
 type ExportPolicy_Status string
 
 const (
-	ExportPolicy_StatusDisabled = ExportPolicy_Status("disabled")
-	ExportPolicy_StatusEnabled  = ExportPolicy_Status("enabled")
+	ExportPolicy_Status_Disabled = ExportPolicy_Status("disabled")
+	ExportPolicy_Status_Enabled  = ExportPolicy_Status("enabled")
 )
 
 type ExportPolicy_Status_STATUS string
 
 const (
-	ExportPolicy_Status_STATUSDisabled = ExportPolicy_Status_STATUS("disabled")
-	ExportPolicy_Status_STATUSEnabled  = ExportPolicy_Status_STATUS("enabled")
+	ExportPolicy_Status_Disabled_STATUS = ExportPolicy_Status_STATUS("disabled")
+	ExportPolicy_Status_Enabled_STATUS  = ExportPolicy_Status_STATUS("enabled")
 )
 
 // +kubebuilder:validation:Enum={"Allow"}
 type IPRule_Action string
 
-const IPRule_ActionAllow = IPRule_Action("Allow")
+const IPRule_Action_Allow = IPRule_Action("Allow")
 
 type IPRule_Action_STATUS string
 
-const IPRule_Action_STATUSAllow = IPRule_Action_STATUS("Allow")
+const IPRule_Action_Allow_STATUS = IPRule_Action_STATUS("Allow")
 
 // +kubebuilder:validation:Enum={"disabled","enabled"}
 type QuarantinePolicy_Status string
 
 const (
-	QuarantinePolicy_StatusDisabled = QuarantinePolicy_Status("disabled")
-	QuarantinePolicy_StatusEnabled  = QuarantinePolicy_Status("enabled")
+	QuarantinePolicy_Status_Disabled = QuarantinePolicy_Status("disabled")
+	QuarantinePolicy_Status_Enabled  = QuarantinePolicy_Status("enabled")
 )
 
 type QuarantinePolicy_Status_STATUS string
 
 const (
-	QuarantinePolicy_Status_STATUSDisabled = QuarantinePolicy_Status_STATUS("disabled")
-	QuarantinePolicy_Status_STATUSEnabled  = QuarantinePolicy_Status_STATUS("enabled")
+	QuarantinePolicy_Status_Disabled_STATUS = QuarantinePolicy_Status_STATUS("disabled")
+	QuarantinePolicy_Status_Enabled_STATUS  = QuarantinePolicy_Status_STATUS("enabled")
 )
 
 // +kubebuilder:validation:Enum={"disabled","enabled"}
 type RetentionPolicy_Status string
 
 const (
-	RetentionPolicy_StatusDisabled = RetentionPolicy_Status("disabled")
-	RetentionPolicy_StatusEnabled  = RetentionPolicy_Status("enabled")
+	RetentionPolicy_Status_Disabled = RetentionPolicy_Status("disabled")
+	RetentionPolicy_Status_Enabled  = RetentionPolicy_Status("enabled")
 )
 
 type RetentionPolicy_Status_STATUS string
 
 const (
-	RetentionPolicy_Status_STATUSDisabled = RetentionPolicy_Status_STATUS("disabled")
-	RetentionPolicy_Status_STATUSEnabled  = RetentionPolicy_Status_STATUS("enabled")
+	RetentionPolicy_Status_Disabled_STATUS = RetentionPolicy_Status_STATUS("disabled")
+	RetentionPolicy_Status_Enabled_STATUS  = RetentionPolicy_Status_STATUS("enabled")
 )
 
 // +kubebuilder:validation:Enum={"disabled","enabled"}
 type TrustPolicy_Status string
 
 const (
-	TrustPolicy_StatusDisabled = TrustPolicy_Status("disabled")
-	TrustPolicy_StatusEnabled  = TrustPolicy_Status("enabled")
+	TrustPolicy_Status_Disabled = TrustPolicy_Status("disabled")
+	TrustPolicy_Status_Enabled  = TrustPolicy_Status("enabled")
 )
 
 type TrustPolicy_Status_STATUS string
 
 const (
-	TrustPolicy_Status_STATUSDisabled = TrustPolicy_Status_STATUS("disabled")
-	TrustPolicy_Status_STATUSEnabled  = TrustPolicy_Status_STATUS("enabled")
+	TrustPolicy_Status_Disabled_STATUS = TrustPolicy_Status_STATUS("disabled")
+	TrustPolicy_Status_Enabled_STATUS  = TrustPolicy_Status_STATUS("enabled")
 )
 
 // +kubebuilder:validation:Enum={"Notary"}
 type TrustPolicy_Type string
 
-const TrustPolicy_TypeNotary = TrustPolicy_Type("Notary")
+const TrustPolicy_Type_Notary = TrustPolicy_Type("Notary")
 
 type TrustPolicy_Type_STATUS string
 
-const TrustPolicy_Type_STATUSNotary = TrustPolicy_Type_STATUS("Notary")
+const TrustPolicy_Type_Notary_STATUS = TrustPolicy_Type_STATUS("Notary")
 
 func init() {
 	SchemeBuilder.Register(&Registry{}, &RegistryList{})

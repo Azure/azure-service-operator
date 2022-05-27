@@ -112,7 +112,7 @@ func (workspace *Workspace) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20210601"
 func (workspace Workspace) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -335,7 +335,7 @@ type WorkspaceList struct {
 // +kubebuilder:validation:Enum={"20210601"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("20210601")
+const APIVersion_Value = APIVersion("20210601")
 
 // Deprecated version of Workspace_STATUS. Use v1beta20210601.Workspace_STATUS instead
 type Workspace_STATUS struct {
@@ -1699,16 +1699,16 @@ func (resource *PrivateLinkScopedResource_STATUS) AssignPropertiesToPrivateLinkS
 type PublicNetworkAccessType string
 
 const (
-	PublicNetworkAccessTypeDisabled = PublicNetworkAccessType("Disabled")
-	PublicNetworkAccessTypeEnabled  = PublicNetworkAccessType("Enabled")
+	PublicNetworkAccessType_Disabled = PublicNetworkAccessType("Disabled")
+	PublicNetworkAccessType_Enabled  = PublicNetworkAccessType("Enabled")
 )
 
 // Deprecated version of PublicNetworkAccessType_STATUS. Use v1beta20210601.PublicNetworkAccessType_STATUS instead
 type PublicNetworkAccessType_STATUS string
 
 const (
-	PublicNetworkAccessType_STATUSDisabled = PublicNetworkAccessType_STATUS("Disabled")
-	PublicNetworkAccessType_STATUSEnabled  = PublicNetworkAccessType_STATUS("Enabled")
+	PublicNetworkAccessType_Disabled_STATUS = PublicNetworkAccessType_STATUS("Disabled")
+	PublicNetworkAccessType_Enabled_STATUS  = PublicNetworkAccessType_STATUS("Enabled")
 )
 
 // Deprecated version of WorkspaceCapping. Use v1beta20210601.WorkspaceCapping instead
@@ -2301,13 +2301,13 @@ func (features *WorkspaceFeatures_STATUS) AssignPropertiesToWorkspaceFeatures_ST
 type WorkspaceProperties_ProvisioningState string
 
 const (
-	WorkspaceProperties_ProvisioningStateCanceled            = WorkspaceProperties_ProvisioningState("Canceled")
-	WorkspaceProperties_ProvisioningStateCreating            = WorkspaceProperties_ProvisioningState("Creating")
-	WorkspaceProperties_ProvisioningStateDeleting            = WorkspaceProperties_ProvisioningState("Deleting")
-	WorkspaceProperties_ProvisioningStateFailed              = WorkspaceProperties_ProvisioningState("Failed")
-	WorkspaceProperties_ProvisioningStateProvisioningAccount = WorkspaceProperties_ProvisioningState("ProvisioningAccount")
-	WorkspaceProperties_ProvisioningStateSucceeded           = WorkspaceProperties_ProvisioningState("Succeeded")
-	WorkspaceProperties_ProvisioningStateUpdating            = WorkspaceProperties_ProvisioningState("Updating")
+	WorkspaceProperties_ProvisioningState_Canceled            = WorkspaceProperties_ProvisioningState("Canceled")
+	WorkspaceProperties_ProvisioningState_Creating            = WorkspaceProperties_ProvisioningState("Creating")
+	WorkspaceProperties_ProvisioningState_Deleting            = WorkspaceProperties_ProvisioningState("Deleting")
+	WorkspaceProperties_ProvisioningState_Failed              = WorkspaceProperties_ProvisioningState("Failed")
+	WorkspaceProperties_ProvisioningState_ProvisioningAccount = WorkspaceProperties_ProvisioningState("ProvisioningAccount")
+	WorkspaceProperties_ProvisioningState_Succeeded           = WorkspaceProperties_ProvisioningState("Succeeded")
+	WorkspaceProperties_ProvisioningState_Updating            = WorkspaceProperties_ProvisioningState("Updating")
 )
 
 // Deprecated version of WorkspaceProperties_ProvisioningState_STATUS. Use
@@ -2315,13 +2315,13 @@ const (
 type WorkspaceProperties_ProvisioningState_STATUS string
 
 const (
-	WorkspaceProperties_ProvisioningState_STATUSCanceled            = WorkspaceProperties_ProvisioningState_STATUS("Canceled")
-	WorkspaceProperties_ProvisioningState_STATUSCreating            = WorkspaceProperties_ProvisioningState_STATUS("Creating")
-	WorkspaceProperties_ProvisioningState_STATUSDeleting            = WorkspaceProperties_ProvisioningState_STATUS("Deleting")
-	WorkspaceProperties_ProvisioningState_STATUSFailed              = WorkspaceProperties_ProvisioningState_STATUS("Failed")
-	WorkspaceProperties_ProvisioningState_STATUSProvisioningAccount = WorkspaceProperties_ProvisioningState_STATUS("ProvisioningAccount")
-	WorkspaceProperties_ProvisioningState_STATUSSucceeded           = WorkspaceProperties_ProvisioningState_STATUS("Succeeded")
-	WorkspaceProperties_ProvisioningState_STATUSUpdating            = WorkspaceProperties_ProvisioningState_STATUS("Updating")
+	WorkspaceProperties_ProvisioningState_Canceled_STATUS            = WorkspaceProperties_ProvisioningState_STATUS("Canceled")
+	WorkspaceProperties_ProvisioningState_Creating_STATUS            = WorkspaceProperties_ProvisioningState_STATUS("Creating")
+	WorkspaceProperties_ProvisioningState_Deleting_STATUS            = WorkspaceProperties_ProvisioningState_STATUS("Deleting")
+	WorkspaceProperties_ProvisioningState_Failed_STATUS              = WorkspaceProperties_ProvisioningState_STATUS("Failed")
+	WorkspaceProperties_ProvisioningState_ProvisioningAccount_STATUS = WorkspaceProperties_ProvisioningState_STATUS("ProvisioningAccount")
+	WorkspaceProperties_ProvisioningState_Succeeded_STATUS           = WorkspaceProperties_ProvisioningState_STATUS("Succeeded")
+	WorkspaceProperties_ProvisioningState_Updating_STATUS            = WorkspaceProperties_ProvisioningState_STATUS("Updating")
 )
 
 // Deprecated version of WorkspaceSku. Use v1beta20210601.WorkspaceSku instead
@@ -2567,12 +2567,12 @@ func (workspaceSku *WorkspaceSku_STATUS) AssignPropertiesToWorkspaceSku_STATUS(d
 type WorkspaceCapping_DataIngestionStatus string
 
 const (
-	WorkspaceCapping_DataIngestionStatusApproachingQuota      = WorkspaceCapping_DataIngestionStatus("ApproachingQuota")
-	WorkspaceCapping_DataIngestionStatusForceOff              = WorkspaceCapping_DataIngestionStatus("ForceOff")
-	WorkspaceCapping_DataIngestionStatusForceOn               = WorkspaceCapping_DataIngestionStatus("ForceOn")
-	WorkspaceCapping_DataIngestionStatusOverQuota             = WorkspaceCapping_DataIngestionStatus("OverQuota")
-	WorkspaceCapping_DataIngestionStatusRespectQuota          = WorkspaceCapping_DataIngestionStatus("RespectQuota")
-	WorkspaceCapping_DataIngestionStatusSubscriptionSuspended = WorkspaceCapping_DataIngestionStatus("SubscriptionSuspended")
+	WorkspaceCapping_DataIngestionStatus_ApproachingQuota      = WorkspaceCapping_DataIngestionStatus("ApproachingQuota")
+	WorkspaceCapping_DataIngestionStatus_ForceOff              = WorkspaceCapping_DataIngestionStatus("ForceOff")
+	WorkspaceCapping_DataIngestionStatus_ForceOn               = WorkspaceCapping_DataIngestionStatus("ForceOn")
+	WorkspaceCapping_DataIngestionStatus_OverQuota             = WorkspaceCapping_DataIngestionStatus("OverQuota")
+	WorkspaceCapping_DataIngestionStatus_RespectQuota          = WorkspaceCapping_DataIngestionStatus("RespectQuota")
+	WorkspaceCapping_DataIngestionStatus_SubscriptionSuspended = WorkspaceCapping_DataIngestionStatus("SubscriptionSuspended")
 )
 
 // Deprecated version of WorkspaceCapping_DataIngestionStatus_STATUS. Use
@@ -2580,12 +2580,12 @@ const (
 type WorkspaceCapping_DataIngestionStatus_STATUS string
 
 const (
-	WorkspaceCapping_DataIngestionStatus_STATUSApproachingQuota      = WorkspaceCapping_DataIngestionStatus_STATUS("ApproachingQuota")
-	WorkspaceCapping_DataIngestionStatus_STATUSForceOff              = WorkspaceCapping_DataIngestionStatus_STATUS("ForceOff")
-	WorkspaceCapping_DataIngestionStatus_STATUSForceOn               = WorkspaceCapping_DataIngestionStatus_STATUS("ForceOn")
-	WorkspaceCapping_DataIngestionStatus_STATUSOverQuota             = WorkspaceCapping_DataIngestionStatus_STATUS("OverQuota")
-	WorkspaceCapping_DataIngestionStatus_STATUSRespectQuota          = WorkspaceCapping_DataIngestionStatus_STATUS("RespectQuota")
-	WorkspaceCapping_DataIngestionStatus_STATUSSubscriptionSuspended = WorkspaceCapping_DataIngestionStatus_STATUS("SubscriptionSuspended")
+	WorkspaceCapping_DataIngestionStatus_ApproachingQuota_STATUS      = WorkspaceCapping_DataIngestionStatus_STATUS("ApproachingQuota")
+	WorkspaceCapping_DataIngestionStatus_ForceOff_STATUS              = WorkspaceCapping_DataIngestionStatus_STATUS("ForceOff")
+	WorkspaceCapping_DataIngestionStatus_ForceOn_STATUS               = WorkspaceCapping_DataIngestionStatus_STATUS("ForceOn")
+	WorkspaceCapping_DataIngestionStatus_OverQuota_STATUS             = WorkspaceCapping_DataIngestionStatus_STATUS("OverQuota")
+	WorkspaceCapping_DataIngestionStatus_RespectQuota_STATUS          = WorkspaceCapping_DataIngestionStatus_STATUS("RespectQuota")
+	WorkspaceCapping_DataIngestionStatus_SubscriptionSuspended_STATUS = WorkspaceCapping_DataIngestionStatus_STATUS("SubscriptionSuspended")
 )
 
 // Deprecated version of WorkspaceSku_CapacityReservationLevel. Use v1beta20210601.WorkspaceSku_CapacityReservationLevel
@@ -2594,14 +2594,14 @@ const (
 type WorkspaceSku_CapacityReservationLevel int
 
 const (
-	WorkspaceSku_CapacityReservationLevel100  = WorkspaceSku_CapacityReservationLevel(100)
-	WorkspaceSku_CapacityReservationLevel1000 = WorkspaceSku_CapacityReservationLevel(1000)
-	WorkspaceSku_CapacityReservationLevel200  = WorkspaceSku_CapacityReservationLevel(200)
-	WorkspaceSku_CapacityReservationLevel2000 = WorkspaceSku_CapacityReservationLevel(2000)
-	WorkspaceSku_CapacityReservationLevel300  = WorkspaceSku_CapacityReservationLevel(300)
-	WorkspaceSku_CapacityReservationLevel400  = WorkspaceSku_CapacityReservationLevel(400)
-	WorkspaceSku_CapacityReservationLevel500  = WorkspaceSku_CapacityReservationLevel(500)
-	WorkspaceSku_CapacityReservationLevel5000 = WorkspaceSku_CapacityReservationLevel(5000)
+	WorkspaceSku_CapacityReservationLevel_100  = WorkspaceSku_CapacityReservationLevel(100)
+	WorkspaceSku_CapacityReservationLevel_1000 = WorkspaceSku_CapacityReservationLevel(1000)
+	WorkspaceSku_CapacityReservationLevel_200  = WorkspaceSku_CapacityReservationLevel(200)
+	WorkspaceSku_CapacityReservationLevel_2000 = WorkspaceSku_CapacityReservationLevel(2000)
+	WorkspaceSku_CapacityReservationLevel_300  = WorkspaceSku_CapacityReservationLevel(300)
+	WorkspaceSku_CapacityReservationLevel_400  = WorkspaceSku_CapacityReservationLevel(400)
+	WorkspaceSku_CapacityReservationLevel_500  = WorkspaceSku_CapacityReservationLevel(500)
+	WorkspaceSku_CapacityReservationLevel_5000 = WorkspaceSku_CapacityReservationLevel(5000)
 )
 
 // Deprecated version of WorkspaceSku_CapacityReservationLevel_STATUS. Use
@@ -2609,14 +2609,14 @@ const (
 type WorkspaceSku_CapacityReservationLevel_STATUS int
 
 const (
-	WorkspaceSku_CapacityReservationLevel_STATUS100  = WorkspaceSku_CapacityReservationLevel_STATUS(100)
-	WorkspaceSku_CapacityReservationLevel_STATUS1000 = WorkspaceSku_CapacityReservationLevel_STATUS(1000)
-	WorkspaceSku_CapacityReservationLevel_STATUS200  = WorkspaceSku_CapacityReservationLevel_STATUS(200)
-	WorkspaceSku_CapacityReservationLevel_STATUS2000 = WorkspaceSku_CapacityReservationLevel_STATUS(2000)
-	WorkspaceSku_CapacityReservationLevel_STATUS300  = WorkspaceSku_CapacityReservationLevel_STATUS(300)
-	WorkspaceSku_CapacityReservationLevel_STATUS400  = WorkspaceSku_CapacityReservationLevel_STATUS(400)
-	WorkspaceSku_CapacityReservationLevel_STATUS500  = WorkspaceSku_CapacityReservationLevel_STATUS(500)
-	WorkspaceSku_CapacityReservationLevel_STATUS5000 = WorkspaceSku_CapacityReservationLevel_STATUS(5000)
+	WorkspaceSku_CapacityReservationLevel_100_STATUS  = WorkspaceSku_CapacityReservationLevel_STATUS(100)
+	WorkspaceSku_CapacityReservationLevel_1000_STATUS = WorkspaceSku_CapacityReservationLevel_STATUS(1000)
+	WorkspaceSku_CapacityReservationLevel_200_STATUS  = WorkspaceSku_CapacityReservationLevel_STATUS(200)
+	WorkspaceSku_CapacityReservationLevel_2000_STATUS = WorkspaceSku_CapacityReservationLevel_STATUS(2000)
+	WorkspaceSku_CapacityReservationLevel_300_STATUS  = WorkspaceSku_CapacityReservationLevel_STATUS(300)
+	WorkspaceSku_CapacityReservationLevel_400_STATUS  = WorkspaceSku_CapacityReservationLevel_STATUS(400)
+	WorkspaceSku_CapacityReservationLevel_500_STATUS  = WorkspaceSku_CapacityReservationLevel_STATUS(500)
+	WorkspaceSku_CapacityReservationLevel_5000_STATUS = WorkspaceSku_CapacityReservationLevel_STATUS(5000)
 )
 
 // Deprecated version of WorkspaceSku_Name. Use v1beta20210601.WorkspaceSku_Name instead
@@ -2624,28 +2624,28 @@ const (
 type WorkspaceSku_Name string
 
 const (
-	WorkspaceSku_NameCapacityReservation = WorkspaceSku_Name("CapacityReservation")
-	WorkspaceSku_NameFree                = WorkspaceSku_Name("Free")
-	WorkspaceSku_NameLACluster           = WorkspaceSku_Name("LACluster")
-	WorkspaceSku_NamePerGB2018           = WorkspaceSku_Name("PerGB2018")
-	WorkspaceSku_NamePerNode             = WorkspaceSku_Name("PerNode")
-	WorkspaceSku_NamePremium             = WorkspaceSku_Name("Premium")
-	WorkspaceSku_NameStandalone          = WorkspaceSku_Name("Standalone")
-	WorkspaceSku_NameStandard            = WorkspaceSku_Name("Standard")
+	WorkspaceSku_Name_CapacityReservation = WorkspaceSku_Name("CapacityReservation")
+	WorkspaceSku_Name_Free                = WorkspaceSku_Name("Free")
+	WorkspaceSku_Name_LACluster           = WorkspaceSku_Name("LACluster")
+	WorkspaceSku_Name_PerGB2018           = WorkspaceSku_Name("PerGB2018")
+	WorkspaceSku_Name_PerNode             = WorkspaceSku_Name("PerNode")
+	WorkspaceSku_Name_Premium             = WorkspaceSku_Name("Premium")
+	WorkspaceSku_Name_Standalone          = WorkspaceSku_Name("Standalone")
+	WorkspaceSku_Name_Standard            = WorkspaceSku_Name("Standard")
 )
 
 // Deprecated version of WorkspaceSku_Name_STATUS. Use v1beta20210601.WorkspaceSku_Name_STATUS instead
 type WorkspaceSku_Name_STATUS string
 
 const (
-	WorkspaceSku_Name_STATUSCapacityReservation = WorkspaceSku_Name_STATUS("CapacityReservation")
-	WorkspaceSku_Name_STATUSFree                = WorkspaceSku_Name_STATUS("Free")
-	WorkspaceSku_Name_STATUSLACluster           = WorkspaceSku_Name_STATUS("LACluster")
-	WorkspaceSku_Name_STATUSPerGB2018           = WorkspaceSku_Name_STATUS("PerGB2018")
-	WorkspaceSku_Name_STATUSPerNode             = WorkspaceSku_Name_STATUS("PerNode")
-	WorkspaceSku_Name_STATUSPremium             = WorkspaceSku_Name_STATUS("Premium")
-	WorkspaceSku_Name_STATUSStandalone          = WorkspaceSku_Name_STATUS("Standalone")
-	WorkspaceSku_Name_STATUSStandard            = WorkspaceSku_Name_STATUS("Standard")
+	WorkspaceSku_Name_CapacityReservation_STATUS = WorkspaceSku_Name_STATUS("CapacityReservation")
+	WorkspaceSku_Name_Free_STATUS                = WorkspaceSku_Name_STATUS("Free")
+	WorkspaceSku_Name_LACluster_STATUS           = WorkspaceSku_Name_STATUS("LACluster")
+	WorkspaceSku_Name_PerGB2018_STATUS           = WorkspaceSku_Name_STATUS("PerGB2018")
+	WorkspaceSku_Name_PerNode_STATUS             = WorkspaceSku_Name_STATUS("PerNode")
+	WorkspaceSku_Name_Premium_STATUS             = WorkspaceSku_Name_STATUS("Premium")
+	WorkspaceSku_Name_Standalone_STATUS          = WorkspaceSku_Name_STATUS("Standalone")
+	WorkspaceSku_Name_Standard_STATUS            = WorkspaceSku_Name_STATUS("Standard")
 )
 
 func init() {

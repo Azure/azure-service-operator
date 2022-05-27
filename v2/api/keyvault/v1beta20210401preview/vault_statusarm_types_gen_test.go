@@ -157,7 +157,7 @@ func VaultProperties_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVaultProperties_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVaultProperties_STATUSARM(gens map[string]gopter.Gen) {
-	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(VaultProperties_CreateMode_STATUSDefault, VaultProperties_CreateMode_STATUSRecover))
+	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(VaultProperties_CreateMode_Default_STATUS, VaultProperties_CreateMode_Recover_STATUS))
 	gens["EnablePurgeProtection"] = gen.PtrOf(gen.Bool())
 	gens["EnableRbacAuthorization"] = gen.PtrOf(gen.Bool())
 	gens["EnableSoftDelete"] = gen.PtrOf(gen.Bool())
@@ -165,7 +165,7 @@ func AddIndependentPropertyGeneratorsForVaultProperties_STATUSARM(gens map[strin
 	gens["EnabledForDiskEncryption"] = gen.PtrOf(gen.Bool())
 	gens["EnabledForTemplateDeployment"] = gen.PtrOf(gen.Bool())
 	gens["HsmPoolResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(VaultProperties_ProvisioningState_STATUSRegisteringDns, VaultProperties_ProvisioningState_STATUSSucceeded))
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(VaultProperties_ProvisioningState_RegisteringDns_STATUS, VaultProperties_ProvisioningState_Succeeded_STATUS))
 	gens["SoftDeleteRetentionInDays"] = gen.PtrOf(gen.Int())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["VaultUri"] = gen.PtrOf(gen.AlphaString())
@@ -321,8 +321,8 @@ func NetworkRuleSet_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNetworkRuleSet_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkRuleSet_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Bypass"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSet_Bypass_STATUSAzureServices, NetworkRuleSet_Bypass_STATUSNone))
-	gens["DefaultAction"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSet_DefaultAction_STATUSAllow, NetworkRuleSet_DefaultAction_STATUSDeny))
+	gens["Bypass"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSet_Bypass_AzureServices_STATUS, NetworkRuleSet_Bypass_None_STATUS))
+	gens["DefaultAction"] = gen.PtrOf(gen.OneConstOf(NetworkRuleSet_DefaultAction_Allow_STATUS, NetworkRuleSet_DefaultAction_Deny_STATUS))
 }
 
 // AddRelatedPropertyGeneratorsForNetworkRuleSet_STATUSARM is a factory method for creating gopter generators
@@ -462,8 +462,8 @@ func Sku_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSku_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSku_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Family"] = gen.PtrOf(gen.OneConstOf(Sku_Family_STATUSA))
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(Sku_Name_STATUSPremium, Sku_Name_STATUSStandard))
+	gens["Family"] = gen.PtrOf(gen.OneConstOf(Sku_Family_A_STATUS))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(Sku_Name_Premium_STATUS, Sku_Name_Standard_STATUS))
 }
 
 func Test_IPRule_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -583,64 +583,64 @@ func Permissions_STATUSARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForPermissions_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPermissions_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Certificates"] = gen.SliceOf(gen.OneConstOf(
-		Permissions_Certificates_STATUSBackup,
-		Permissions_Certificates_STATUSCreate,
-		Permissions_Certificates_STATUSDelete,
-		Permissions_Certificates_STATUSDeleteissuers,
-		Permissions_Certificates_STATUSGet,
-		Permissions_Certificates_STATUSGetissuers,
-		Permissions_Certificates_STATUSImport,
-		Permissions_Certificates_STATUSList,
-		Permissions_Certificates_STATUSListissuers,
-		Permissions_Certificates_STATUSManagecontacts,
-		Permissions_Certificates_STATUSManageissuers,
-		Permissions_Certificates_STATUSPurge,
-		Permissions_Certificates_STATUSRecover,
-		Permissions_Certificates_STATUSRestore,
-		Permissions_Certificates_STATUSSetissuers,
-		Permissions_Certificates_STATUSUpdate))
+		Permissions_Certificates_Backup_STATUS,
+		Permissions_Certificates_Create_STATUS,
+		Permissions_Certificates_Delete_STATUS,
+		Permissions_Certificates_Deleteissuers_STATUS,
+		Permissions_Certificates_Get_STATUS,
+		Permissions_Certificates_Getissuers_STATUS,
+		Permissions_Certificates_Import_STATUS,
+		Permissions_Certificates_List_STATUS,
+		Permissions_Certificates_Listissuers_STATUS,
+		Permissions_Certificates_Managecontacts_STATUS,
+		Permissions_Certificates_Manageissuers_STATUS,
+		Permissions_Certificates_Purge_STATUS,
+		Permissions_Certificates_Recover_STATUS,
+		Permissions_Certificates_Restore_STATUS,
+		Permissions_Certificates_Setissuers_STATUS,
+		Permissions_Certificates_Update_STATUS))
 	gens["Keys"] = gen.SliceOf(gen.OneConstOf(
-		Permissions_Keys_STATUSBackup,
-		Permissions_Keys_STATUSCreate,
-		Permissions_Keys_STATUSDecrypt,
-		Permissions_Keys_STATUSDelete,
-		Permissions_Keys_STATUSEncrypt,
-		Permissions_Keys_STATUSGet,
-		Permissions_Keys_STATUSImport,
-		Permissions_Keys_STATUSList,
-		Permissions_Keys_STATUSPurge,
-		Permissions_Keys_STATUSRecover,
-		Permissions_Keys_STATUSRelease,
-		Permissions_Keys_STATUSRestore,
-		Permissions_Keys_STATUSSign,
-		Permissions_Keys_STATUSUnwrapKey,
-		Permissions_Keys_STATUSUpdate,
-		Permissions_Keys_STATUSVerify,
-		Permissions_Keys_STATUSWrapKey))
+		Permissions_Keys_Backup_STATUS,
+		Permissions_Keys_Create_STATUS,
+		Permissions_Keys_Decrypt_STATUS,
+		Permissions_Keys_Delete_STATUS,
+		Permissions_Keys_Encrypt_STATUS,
+		Permissions_Keys_Get_STATUS,
+		Permissions_Keys_Import_STATUS,
+		Permissions_Keys_List_STATUS,
+		Permissions_Keys_Purge_STATUS,
+		Permissions_Keys_Recover_STATUS,
+		Permissions_Keys_Release_STATUS,
+		Permissions_Keys_Restore_STATUS,
+		Permissions_Keys_Sign_STATUS,
+		Permissions_Keys_UnwrapKey_STATUS,
+		Permissions_Keys_Update_STATUS,
+		Permissions_Keys_Verify_STATUS,
+		Permissions_Keys_WrapKey_STATUS))
 	gens["Secrets"] = gen.SliceOf(gen.OneConstOf(
-		Permissions_Secrets_STATUSBackup,
-		Permissions_Secrets_STATUSDelete,
-		Permissions_Secrets_STATUSGet,
-		Permissions_Secrets_STATUSList,
-		Permissions_Secrets_STATUSPurge,
-		Permissions_Secrets_STATUSRecover,
-		Permissions_Secrets_STATUSRestore,
-		Permissions_Secrets_STATUSSet))
+		Permissions_Secrets_Backup_STATUS,
+		Permissions_Secrets_Delete_STATUS,
+		Permissions_Secrets_Get_STATUS,
+		Permissions_Secrets_List_STATUS,
+		Permissions_Secrets_Purge_STATUS,
+		Permissions_Secrets_Recover_STATUS,
+		Permissions_Secrets_Restore_STATUS,
+		Permissions_Secrets_Set_STATUS))
 	gens["Storage"] = gen.SliceOf(gen.OneConstOf(
-		Permissions_Storage_STATUSBackup,
-		Permissions_Storage_STATUSDelete,
-		Permissions_Storage_STATUSDeletesas,
-		Permissions_Storage_STATUSGet,
-		Permissions_Storage_STATUSGetsas,
-		Permissions_Storage_STATUSList,
-		Permissions_Storage_STATUSListsas,
-		Permissions_Storage_STATUSPurge,
-		Permissions_Storage_STATUSRecover,
-		Permissions_Storage_STATUSRegeneratekey,
-		Permissions_Storage_STATUSRestore,
-		Permissions_Storage_STATUSSet,
-		Permissions_Storage_STATUSSetsas,
-		Permissions_Storage_STATUSUpdate))
+		Permissions_Storage_Backup_STATUS,
+		Permissions_Storage_Delete_STATUS,
+		Permissions_Storage_Deletesas_STATUS,
+		Permissions_Storage_Get_STATUS,
+		Permissions_Storage_Getsas_STATUS,
+		Permissions_Storage_List_STATUS,
+		Permissions_Storage_Listsas_STATUS,
+		Permissions_Storage_Purge_STATUS,
+		Permissions_Storage_Recover_STATUS,
+		Permissions_Storage_Regeneratekey_STATUS,
+		Permissions_Storage_Restore_STATUS,
+		Permissions_Storage_Set_STATUS,
+		Permissions_Storage_Setsas_STATUS,
+		Permissions_Storage_Update_STATUS))
 }
 
 func Test_PrivateEndpointConnectionProperties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -710,12 +710,12 @@ func PrivateEndpointConnectionProperties_STATUSARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForPrivateEndpointConnectionProperties_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPrivateEndpointConnectionProperties_STATUSARM(gens map[string]gopter.Gen) {
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		PrivateEndpointConnectionProvisioningState_STATUSCreating,
-		PrivateEndpointConnectionProvisioningState_STATUSDeleting,
-		PrivateEndpointConnectionProvisioningState_STATUSDisconnected,
-		PrivateEndpointConnectionProvisioningState_STATUSFailed,
-		PrivateEndpointConnectionProvisioningState_STATUSSucceeded,
-		PrivateEndpointConnectionProvisioningState_STATUSUpdating))
+		PrivateEndpointConnectionProvisioningState_Creating_STATUS,
+		PrivateEndpointConnectionProvisioningState_Deleting_STATUS,
+		PrivateEndpointConnectionProvisioningState_Disconnected_STATUS,
+		PrivateEndpointConnectionProvisioningState_Failed_STATUS,
+		PrivateEndpointConnectionProvisioningState_Succeeded_STATUS,
+		PrivateEndpointConnectionProvisioningState_Updating_STATUS))
 }
 
 // AddRelatedPropertyGeneratorsForPrivateEndpointConnectionProperties_STATUSARM is a factory method for creating gopter generators
@@ -902,11 +902,11 @@ func PrivateLinkServiceConnectionState_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionState_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPrivateLinkServiceConnectionState_STATUSARM(gens map[string]gopter.Gen) {
-	gens["ActionsRequired"] = gen.PtrOf(gen.OneConstOf(PrivateLinkServiceConnectionState_ActionsRequired_STATUSNone))
+	gens["ActionsRequired"] = gen.PtrOf(gen.OneConstOf(PrivateLinkServiceConnectionState_ActionsRequired_None_STATUS))
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		PrivateEndpointServiceConnectionStatus_STATUSApproved,
-		PrivateEndpointServiceConnectionStatus_STATUSDisconnected,
-		PrivateEndpointServiceConnectionStatus_STATUSPending,
-		PrivateEndpointServiceConnectionStatus_STATUSRejected))
+		PrivateEndpointServiceConnectionStatus_Approved_STATUS,
+		PrivateEndpointServiceConnectionStatus_Disconnected_STATUS,
+		PrivateEndpointServiceConnectionStatus_Pending_STATUS,
+		PrivateEndpointServiceConnectionStatus_Rejected_STATUS))
 }

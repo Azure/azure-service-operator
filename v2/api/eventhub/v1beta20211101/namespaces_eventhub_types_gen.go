@@ -99,7 +99,7 @@ func (eventhub *NamespacesEventhub) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20211101"
 func (eventhub NamespacesEventhub) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -1625,45 +1625,45 @@ func (description *CaptureDescription_STATUS) AssignPropertiesToCaptureDescripti
 type NamespacesEventhub_Properties_Status_STATUS string
 
 const (
-	NamespacesEventhub_Properties_Status_STATUSActive          = NamespacesEventhub_Properties_Status_STATUS("Active")
-	NamespacesEventhub_Properties_Status_STATUSCreating        = NamespacesEventhub_Properties_Status_STATUS("Creating")
-	NamespacesEventhub_Properties_Status_STATUSDeleting        = NamespacesEventhub_Properties_Status_STATUS("Deleting")
-	NamespacesEventhub_Properties_Status_STATUSDisabled        = NamespacesEventhub_Properties_Status_STATUS("Disabled")
-	NamespacesEventhub_Properties_Status_STATUSReceiveDisabled = NamespacesEventhub_Properties_Status_STATUS("ReceiveDisabled")
-	NamespacesEventhub_Properties_Status_STATUSRenaming        = NamespacesEventhub_Properties_Status_STATUS("Renaming")
-	NamespacesEventhub_Properties_Status_STATUSRestoring       = NamespacesEventhub_Properties_Status_STATUS("Restoring")
-	NamespacesEventhub_Properties_Status_STATUSSendDisabled    = NamespacesEventhub_Properties_Status_STATUS("SendDisabled")
-	NamespacesEventhub_Properties_Status_STATUSUnknown         = NamespacesEventhub_Properties_Status_STATUS("Unknown")
+	NamespacesEventhub_Properties_Status_Active_STATUS          = NamespacesEventhub_Properties_Status_STATUS("Active")
+	NamespacesEventhub_Properties_Status_Creating_STATUS        = NamespacesEventhub_Properties_Status_STATUS("Creating")
+	NamespacesEventhub_Properties_Status_Deleting_STATUS        = NamespacesEventhub_Properties_Status_STATUS("Deleting")
+	NamespacesEventhub_Properties_Status_Disabled_STATUS        = NamespacesEventhub_Properties_Status_STATUS("Disabled")
+	NamespacesEventhub_Properties_Status_ReceiveDisabled_STATUS = NamespacesEventhub_Properties_Status_STATUS("ReceiveDisabled")
+	NamespacesEventhub_Properties_Status_Renaming_STATUS        = NamespacesEventhub_Properties_Status_STATUS("Renaming")
+	NamespacesEventhub_Properties_Status_Restoring_STATUS       = NamespacesEventhub_Properties_Status_STATUS("Restoring")
+	NamespacesEventhub_Properties_Status_SendDisabled_STATUS    = NamespacesEventhub_Properties_Status_STATUS("SendDisabled")
+	NamespacesEventhub_Properties_Status_Unknown_STATUS         = NamespacesEventhub_Properties_Status_STATUS("Unknown")
 )
 
 // +kubebuilder:validation:Enum={"Active","Creating","Deleting","Disabled","ReceiveDisabled","Renaming","Restoring","SendDisabled","Unknown"}
 type NamespacesEventhub_Spec_Properties_Status string
 
 const (
-	NamespacesEventhub_Spec_Properties_StatusActive          = NamespacesEventhub_Spec_Properties_Status("Active")
-	NamespacesEventhub_Spec_Properties_StatusCreating        = NamespacesEventhub_Spec_Properties_Status("Creating")
-	NamespacesEventhub_Spec_Properties_StatusDeleting        = NamespacesEventhub_Spec_Properties_Status("Deleting")
-	NamespacesEventhub_Spec_Properties_StatusDisabled        = NamespacesEventhub_Spec_Properties_Status("Disabled")
-	NamespacesEventhub_Spec_Properties_StatusReceiveDisabled = NamespacesEventhub_Spec_Properties_Status("ReceiveDisabled")
-	NamespacesEventhub_Spec_Properties_StatusRenaming        = NamespacesEventhub_Spec_Properties_Status("Renaming")
-	NamespacesEventhub_Spec_Properties_StatusRestoring       = NamespacesEventhub_Spec_Properties_Status("Restoring")
-	NamespacesEventhub_Spec_Properties_StatusSendDisabled    = NamespacesEventhub_Spec_Properties_Status("SendDisabled")
-	NamespacesEventhub_Spec_Properties_StatusUnknown         = NamespacesEventhub_Spec_Properties_Status("Unknown")
+	NamespacesEventhub_Spec_Properties_Status_Active          = NamespacesEventhub_Spec_Properties_Status("Active")
+	NamespacesEventhub_Spec_Properties_Status_Creating        = NamespacesEventhub_Spec_Properties_Status("Creating")
+	NamespacesEventhub_Spec_Properties_Status_Deleting        = NamespacesEventhub_Spec_Properties_Status("Deleting")
+	NamespacesEventhub_Spec_Properties_Status_Disabled        = NamespacesEventhub_Spec_Properties_Status("Disabled")
+	NamespacesEventhub_Spec_Properties_Status_ReceiveDisabled = NamespacesEventhub_Spec_Properties_Status("ReceiveDisabled")
+	NamespacesEventhub_Spec_Properties_Status_Renaming        = NamespacesEventhub_Spec_Properties_Status("Renaming")
+	NamespacesEventhub_Spec_Properties_Status_Restoring       = NamespacesEventhub_Spec_Properties_Status("Restoring")
+	NamespacesEventhub_Spec_Properties_Status_SendDisabled    = NamespacesEventhub_Spec_Properties_Status("SendDisabled")
+	NamespacesEventhub_Spec_Properties_Status_Unknown         = NamespacesEventhub_Spec_Properties_Status("Unknown")
 )
 
 // +kubebuilder:validation:Enum={"Avro","AvroDeflate"}
 type CaptureDescription_Encoding string
 
 const (
-	CaptureDescription_EncodingAvro        = CaptureDescription_Encoding("Avro")
-	CaptureDescription_EncodingAvroDeflate = CaptureDescription_Encoding("AvroDeflate")
+	CaptureDescription_Encoding_Avro        = CaptureDescription_Encoding("Avro")
+	CaptureDescription_Encoding_AvroDeflate = CaptureDescription_Encoding("AvroDeflate")
 )
 
 type CaptureDescription_Encoding_STATUS string
 
 const (
-	CaptureDescription_Encoding_STATUSAvro        = CaptureDescription_Encoding_STATUS("Avro")
-	CaptureDescription_Encoding_STATUSAvroDeflate = CaptureDescription_Encoding_STATUS("AvroDeflate")
+	CaptureDescription_Encoding_Avro_STATUS        = CaptureDescription_Encoding_STATUS("Avro")
+	CaptureDescription_Encoding_AvroDeflate_STATUS = CaptureDescription_Encoding_STATUS("AvroDeflate")
 )
 
 type Destination struct {

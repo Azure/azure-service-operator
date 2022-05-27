@@ -26,7 +26,7 @@ func Test_Networking_NetworkSecurityGroup_CRUD(t *testing.T) {
 	// Network Security Group
 	nsg := &network.NetworkSecurityGroup{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("nsg")),
-		Spec: network.NetworkSecurityGroups_Spec{
+		Spec: network.NetworkSecurityGroup_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 		},
@@ -58,19 +58,19 @@ func Test_Networking_NetworkSecurityGroup_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(nsg)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersionValue))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
 }
 
 func NetworkSecurityGroup_SecurityRules_CRUD(tc *testcommon.KubePerTestContext, nsg client.Object) {
-	protocol := network.SecurityRulePropertiesFormatProtocolTcp
-	allow := network.SecurityRulePropertiesFormatAccessAllow
-	direction := network.SecurityRulePropertiesFormatDirectionInbound
+	protocol := network.SecurityRulePropertiesFormat_Protocol_Tcp
+	allow := network.SecurityRuleAccess_Allow
+	direction := network.SecurityRuleDirection_Inbound
 	rule1 := &network.NetworkSecurityGroupsSecurityRule{
 		ObjectMeta: tc.MakeObjectMeta("rule1"),
-		Spec: network.NetworkSecurityGroupsSecurityRules_Spec{
+		Spec: network.NetworkSecurityGroupsSecurityRule_Spec{
 			Owner:                    testcommon.AsOwner(nsg),
 			Protocol:                 &protocol,
 			SourcePortRange:          to.StringPtr("23-45"),
@@ -84,10 +84,10 @@ func NetworkSecurityGroup_SecurityRules_CRUD(tc *testcommon.KubePerTestContext, 
 		},
 	}
 
-	deny := network.SecurityRulePropertiesFormatAccessDeny
+	deny := network.SecurityRuleAccess_Deny
 	rule2 := &network.NetworkSecurityGroupsSecurityRule{
 		ObjectMeta: tc.MakeObjectMeta("rule2"),
-		Spec: network.NetworkSecurityGroupsSecurityRules_Spec{
+		Spec: network.NetworkSecurityGroupsSecurityRule_Spec{
 			Owner:    testcommon.AsOwner(nsg),
 			Protocol: &protocol,
 			SourcePortRanges: []string{

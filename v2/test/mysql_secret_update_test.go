@@ -49,15 +49,15 @@ func Test_MySQL_Secret_Updated(t *testing.T) {
 
 	tc.CreateResource(secret)
 
-	version := mysql.ServerPropertiesVersion8021
+	version := mysql.ServerVersion_8021
 	secretRef := genruntime.SecretReference{
 		Name: secret.Name,
 		Key:  adminPasswordKey,
 	}
-	tier := mysql.SkuTierGeneralPurpose
+	tier := mysql.Sku_Tier_GeneralPurpose
 	flexibleServer := &mysql.FlexibleServer{
 		ObjectMeta: tc.MakeObjectMeta("mysql"),
-		Spec: mysql.FlexibleServers_Spec{
+		Spec: mysql.FlexibleServer_Spec{
 			Location: location,
 			Owner:    testcommon.AsOwner(rg),
 			Version:  &version,
@@ -79,7 +79,7 @@ func Test_MySQL_Secret_Updated(t *testing.T) {
 	// because there's no data in the database anyway
 	firewallRule := &mysql.FlexibleServersFirewallRule{
 		ObjectMeta: tc.MakeObjectMeta("firewall"),
-		Spec: mysql.FlexibleServersFirewallRules_Spec{
+		Spec: mysql.FlexibleServersFirewallRule_Spec{
 			Owner:          testcommon.AsOwner(flexibleServer),
 			StartIpAddress: to.StringPtr("0.0.0.0"),
 			EndIpAddress:   to.StringPtr("255.255.255.255"),

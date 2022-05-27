@@ -112,7 +112,7 @@ func (redis *Redis) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20201201"
 func (redis Redis) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -357,7 +357,7 @@ type RedisList struct {
 // +kubebuilder:validation:Enum={"20201201"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("20201201")
+const APIVersion_Value = APIVersion("20201201")
 
 // Deprecated version of Redis_STATUS. Use v1beta20201201.Redis_STATUS instead
 type Redis_STATUS struct {
@@ -1372,9 +1372,9 @@ func (redis *Redis_Spec) SetAzureName(azureName string) { redis.AzureName = azur
 type RedisCreateProperties_MinimumTlsVersion string
 
 const (
-	RedisCreateProperties_MinimumTlsVersion10 = RedisCreateProperties_MinimumTlsVersion("1.0")
-	RedisCreateProperties_MinimumTlsVersion11 = RedisCreateProperties_MinimumTlsVersion("1.1")
-	RedisCreateProperties_MinimumTlsVersion12 = RedisCreateProperties_MinimumTlsVersion("1.2")
+	RedisCreateProperties_MinimumTlsVersion_10 = RedisCreateProperties_MinimumTlsVersion("1.0")
+	RedisCreateProperties_MinimumTlsVersion_11 = RedisCreateProperties_MinimumTlsVersion("1.1")
+	RedisCreateProperties_MinimumTlsVersion_12 = RedisCreateProperties_MinimumTlsVersion("1.2")
 )
 
 // Deprecated version of RedisCreateProperties_MinimumTlsVersion_STATUS. Use
@@ -1382,9 +1382,9 @@ const (
 type RedisCreateProperties_MinimumTlsVersion_STATUS string
 
 const (
-	RedisCreateProperties_MinimumTlsVersion_STATUS10 = RedisCreateProperties_MinimumTlsVersion_STATUS("1.0")
-	RedisCreateProperties_MinimumTlsVersion_STATUS11 = RedisCreateProperties_MinimumTlsVersion_STATUS("1.1")
-	RedisCreateProperties_MinimumTlsVersion_STATUS12 = RedisCreateProperties_MinimumTlsVersion_STATUS("1.2")
+	RedisCreateProperties_MinimumTlsVersion_10_STATUS = RedisCreateProperties_MinimumTlsVersion_STATUS("1.0")
+	RedisCreateProperties_MinimumTlsVersion_11_STATUS = RedisCreateProperties_MinimumTlsVersion_STATUS("1.1")
+	RedisCreateProperties_MinimumTlsVersion_12_STATUS = RedisCreateProperties_MinimumTlsVersion_STATUS("1.2")
 )
 
 // Deprecated version of RedisCreateProperties_PublicNetworkAccess. Use
@@ -1393,8 +1393,8 @@ const (
 type RedisCreateProperties_PublicNetworkAccess string
 
 const (
-	RedisCreateProperties_PublicNetworkAccessDisabled = RedisCreateProperties_PublicNetworkAccess("Disabled")
-	RedisCreateProperties_PublicNetworkAccessEnabled  = RedisCreateProperties_PublicNetworkAccess("Enabled")
+	RedisCreateProperties_PublicNetworkAccess_Disabled = RedisCreateProperties_PublicNetworkAccess("Disabled")
+	RedisCreateProperties_PublicNetworkAccess_Enabled  = RedisCreateProperties_PublicNetworkAccess("Enabled")
 )
 
 // Deprecated version of RedisCreateProperties_PublicNetworkAccess_STATUS. Use
@@ -1402,8 +1402,8 @@ const (
 type RedisCreateProperties_PublicNetworkAccess_STATUS string
 
 const (
-	RedisCreateProperties_PublicNetworkAccess_STATUSDisabled = RedisCreateProperties_PublicNetworkAccess_STATUS("Disabled")
-	RedisCreateProperties_PublicNetworkAccess_STATUSEnabled  = RedisCreateProperties_PublicNetworkAccess_STATUS("Enabled")
+	RedisCreateProperties_PublicNetworkAccess_Disabled_STATUS = RedisCreateProperties_PublicNetworkAccess_STATUS("Disabled")
+	RedisCreateProperties_PublicNetworkAccess_Enabled_STATUS  = RedisCreateProperties_PublicNetworkAccess_STATUS("Enabled")
 )
 
 // Deprecated version of RedisCreateProperties_RedisConfiguration_STATUS. Use v1beta20201201.RedisCreateProperties_RedisConfiguration_STATUS instead
@@ -2042,16 +2042,16 @@ func (secrets *RedisOperatorSecrets) AssignPropertiesToRedisOperatorSecrets(dest
 type Sku_Family string
 
 const (
-	Sku_FamilyC = Sku_Family("C")
-	Sku_FamilyP = Sku_Family("P")
+	Sku_Family_C = Sku_Family("C")
+	Sku_Family_P = Sku_Family("P")
 )
 
 // Deprecated version of Sku_Family_STATUS. Use v1beta20201201.Sku_Family_STATUS instead
 type Sku_Family_STATUS string
 
 const (
-	Sku_Family_STATUSC = Sku_Family_STATUS("C")
-	Sku_Family_STATUSP = Sku_Family_STATUS("P")
+	Sku_Family_C_STATUS = Sku_Family_STATUS("C")
+	Sku_Family_P_STATUS = Sku_Family_STATUS("P")
 )
 
 // Deprecated version of Sku_Name. Use v1beta20201201.Sku_Name instead
@@ -2059,18 +2059,18 @@ const (
 type Sku_Name string
 
 const (
-	Sku_NameBasic    = Sku_Name("Basic")
-	Sku_NamePremium  = Sku_Name("Premium")
-	Sku_NameStandard = Sku_Name("Standard")
+	Sku_Name_Basic    = Sku_Name("Basic")
+	Sku_Name_Premium  = Sku_Name("Premium")
+	Sku_Name_Standard = Sku_Name("Standard")
 )
 
 // Deprecated version of Sku_Name_STATUS. Use v1beta20201201.Sku_Name_STATUS instead
 type Sku_Name_STATUS string
 
 const (
-	Sku_Name_STATUSBasic    = Sku_Name_STATUS("Basic")
-	Sku_Name_STATUSPremium  = Sku_Name_STATUS("Premium")
-	Sku_Name_STATUSStandard = Sku_Name_STATUS("Standard")
+	Sku_Name_Basic_STATUS    = Sku_Name_STATUS("Basic")
+	Sku_Name_Premium_STATUS  = Sku_Name_STATUS("Premium")
+	Sku_Name_Standard_STATUS = Sku_Name_STATUS("Standard")
 )
 
 func init() {

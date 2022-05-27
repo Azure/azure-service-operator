@@ -112,7 +112,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20201101"
 func (peering VirtualNetworksVirtualNetworkPeering) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -1415,9 +1415,9 @@ func (peering *VirtualNetworksVirtualNetworkPeering_Spec) SetAzureName(azureName
 type VirtualNetworkPeeringPropertiesFormat_PeeringState string
 
 const (
-	VirtualNetworkPeeringPropertiesFormat_PeeringStateConnected    = VirtualNetworkPeeringPropertiesFormat_PeeringState("Connected")
-	VirtualNetworkPeeringPropertiesFormat_PeeringStateDisconnected = VirtualNetworkPeeringPropertiesFormat_PeeringState("Disconnected")
-	VirtualNetworkPeeringPropertiesFormat_PeeringStateInitiated    = VirtualNetworkPeeringPropertiesFormat_PeeringState("Initiated")
+	VirtualNetworkPeeringPropertiesFormat_PeeringState_Connected    = VirtualNetworkPeeringPropertiesFormat_PeeringState("Connected")
+	VirtualNetworkPeeringPropertiesFormat_PeeringState_Disconnected = VirtualNetworkPeeringPropertiesFormat_PeeringState("Disconnected")
+	VirtualNetworkPeeringPropertiesFormat_PeeringState_Initiated    = VirtualNetworkPeeringPropertiesFormat_PeeringState("Initiated")
 )
 
 // Deprecated version of VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS. Use
@@ -1425,9 +1425,9 @@ const (
 type VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS string
 
 const (
-	VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUSConnected    = VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS("Connected")
-	VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUSDisconnected = VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS("Disconnected")
-	VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUSInitiated    = VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS("Initiated")
+	VirtualNetworkPeeringPropertiesFormat_PeeringState_Connected_STATUS    = VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS("Connected")
+	VirtualNetworkPeeringPropertiesFormat_PeeringState_Disconnected_STATUS = VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS("Disconnected")
+	VirtualNetworkPeeringPropertiesFormat_PeeringState_Initiated_STATUS    = VirtualNetworkPeeringPropertiesFormat_PeeringState_STATUS("Initiated")
 )
 
 func init() {

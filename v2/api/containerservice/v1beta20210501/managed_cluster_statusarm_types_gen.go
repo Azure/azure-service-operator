@@ -212,7 +212,7 @@ type ContainerServiceNetworkProfile_STATUSARM struct {
 
 type ExtendedLocationType_STATUS string
 
-const ExtendedLocationType_STATUSEdgeZone = ExtendedLocationType_STATUS("EdgeZone")
+const ExtendedLocationType_EdgeZone_STATUS = ExtendedLocationType_STATUS("EdgeZone")
 
 type ManagedClusterAADProfile_STATUSARM struct {
 	// AdminGroupObjectIDs: The list of AAD group object IDs that will have admin role of the cluster.
@@ -402,9 +402,9 @@ type ManagedClusterHTTPProxyConfig_STATUSARM struct {
 type ManagedClusterIdentity_Type_STATUS string
 
 const (
-	ManagedClusterIdentity_Type_STATUSNone           = ManagedClusterIdentity_Type_STATUS("None")
-	ManagedClusterIdentity_Type_STATUSSystemAssigned = ManagedClusterIdentity_Type_STATUS("SystemAssigned")
-	ManagedClusterIdentity_Type_STATUSUserAssigned   = ManagedClusterIdentity_Type_STATUS("UserAssigned")
+	ManagedClusterIdentity_Type_None_STATUS           = ManagedClusterIdentity_Type_STATUS("None")
+	ManagedClusterIdentity_Type_SystemAssigned_STATUS = ManagedClusterIdentity_Type_STATUS("SystemAssigned")
+	ManagedClusterIdentity_Type_UserAssigned_STATUS   = ManagedClusterIdentity_Type_STATUS("UserAssigned")
 )
 
 type ManagedClusterIdentity_UserAssignedIdentities_STATUSARM struct {
@@ -497,13 +497,13 @@ type ManagedClusterProperties_AutoScalerProfile_STATUSARM struct {
 
 type ManagedClusterSKU_Name_STATUS string
 
-const ManagedClusterSKU_Name_STATUSBasic = ManagedClusterSKU_Name_STATUS("Basic")
+const ManagedClusterSKU_Name_Basic_STATUS = ManagedClusterSKU_Name_STATUS("Basic")
 
 type ManagedClusterSKU_Tier_STATUS string
 
 const (
-	ManagedClusterSKU_Tier_STATUSFree = ManagedClusterSKU_Tier_STATUS("Free")
-	ManagedClusterSKU_Tier_STATUSPaid = ManagedClusterSKU_Tier_STATUS("Paid")
+	ManagedClusterSKU_Tier_Free_STATUS = ManagedClusterSKU_Tier_STATUS("Free")
+	ManagedClusterSKU_Tier_Paid_STATUS = ManagedClusterSKU_Tier_STATUS("Paid")
 )
 
 type ManagedClusterServicePrincipalProfile_STATUSARM struct {

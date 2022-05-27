@@ -32,7 +32,7 @@ func Test_Storage_StorageAccount_CRUD(t *testing.T) {
 	tc.CreateResourceAndWait(acct)
 
 	tc.Expect(acct.Status.Location).To(Equal(tc.AzureRegion))
-	expectedKind := storage.StorageAccountStatusKindStorageV2
+	expectedKind := storage.StorageAccount_Spec_Kind_StorageV2
 	tc.Expect(acct.Status.Kind).To(Equal(&expectedKind))
 	tc.Expect(acct.Status.Id).ToNot(BeNil())
 	armId := *acct.Status.Id
@@ -65,7 +65,7 @@ func Test_Storage_StorageAccount_CRUD(t *testing.T) {
 	exists, _, err := tc.AzureClient.HeadByID(
 		tc.Ctx,
 		armId,
-		string(storage.APIVersionValue))
+		string(storage.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }
@@ -73,7 +73,7 @@ func Test_Storage_StorageAccount_CRUD(t *testing.T) {
 func StorageAccount_BlobServices_CRUD(tc *testcommon.KubePerTestContext, storageAccount client.Object) {
 	blobService := &storage.StorageAccountsBlobService{
 		ObjectMeta: tc.MakeObjectMeta("blobservice"),
-		Spec: storage.StorageAccountsBlobServices_Spec{
+		Spec: storage.StorageAccountsBlobService_Spec{
 			Owner: testcommon.AsOwner(storageAccount),
 		},
 	}
@@ -93,7 +93,7 @@ func StorageAccount_BlobServices_CRUD(tc *testcommon.KubePerTestContext, storage
 func StorageAccount_BlobServices_Container_CRUD(tc *testcommon.KubePerTestContext, blobService *storage.StorageAccountsBlobService) {
 	blobContainer := &storage.StorageAccountsBlobServicesContainer{
 		ObjectMeta: tc.MakeObjectMeta("container"),
-		Spec: storage.StorageAccountsBlobServicesContainers_Spec{
+		Spec: storage.StorageAccountsBlobServicesContainer_Spec{
 			Owner: testcommon.AsOwner(blobService),
 		},
 	}
@@ -105,7 +105,7 @@ func StorageAccount_BlobServices_Container_CRUD(tc *testcommon.KubePerTestContex
 func StorageAccount_QueueServices_CRUD(tc *testcommon.KubePerTestContext, storageAccount client.Object) {
 	queueService := &storage.StorageAccountsQueueService{
 		ObjectMeta: tc.MakeObjectMeta("blobservice"),
-		Spec: storage.StorageAccountsQueueServices_Spec{
+		Spec: storage.StorageAccountsQueueService_Spec{
 			Owner: testcommon.AsOwner(storageAccount),
 		},
 	}
@@ -126,7 +126,7 @@ func StorageAccount_QueueServices_CRUD(tc *testcommon.KubePerTestContext, storag
 func StorageAccount_QueueServices_Queue_CRUD(tc *testcommon.KubePerTestContext, queueService *storage.StorageAccountsQueueService) {
 	queue := &storage.StorageAccountsQueueServicesQueue{
 		ObjectMeta: tc.MakeObjectMeta("queue"),
-		Spec: storage.StorageAccountsQueueServicesQueues_Spec{
+		Spec: storage.StorageAccountsQueueServicesQueue_Spec{
 			Owner: testcommon.AsOwner(queueService),
 		},
 	}
@@ -147,7 +147,7 @@ func Test_Storage_StorageAccount_SecretsFromAzure(t *testing.T) {
 	tc.CreateResourceAndWait(acct)
 
 	tc.Expect(acct.Status.Location).To(Equal(tc.AzureRegion))
-	expectedKind := storage.StorageAccountStatusKindStorageV2
+	expectedKind := storage.StorageAccount_Spec_Kind_StorageV2
 	tc.Expect(acct.Status.Kind).To(Equal(&expectedKind))
 
 	// There should be no secrets at this point
@@ -224,11 +224,11 @@ func StorageAccount_SecretsWrittenToDifferentKubeSecrets(tc *testcommon.KubePerT
 }
 
 func StorageAccount_ManagementPolicy_CRUD(tc *testcommon.KubePerTestContext, blobService client.Object) {
-	ruleType := storage.ManagementPolicyRuleTypeLifecycle
+	ruleType := storage.ManagementPolicyRule_Type_Lifecycle
 
 	managementPolicy := &storage.StorageAccountsManagementPolicy{
 		ObjectMeta: tc.MakeObjectMeta("policy"),
-		Spec: storage.StorageAccountsManagementPolicies_Spec{
+		Spec: storage.StorageAccountsManagementPolicy_Spec{
 			Owner: testcommon.AsOwner(blobService),
 			Policy: &storage.ManagementPolicySchema{
 				Rules: []storage.ManagementPolicyRule{
@@ -261,12 +261,12 @@ func StorageAccount_ManagementPolicy_CRUD(tc *testcommon.KubePerTestContext, blo
 
 func newStorageAccount(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *storage.StorageAccount {
 	// Create a storage account
-	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
-	kind := storage.StorageAccountsSpecKindStorageV2
-	sku := storage.SkuNameStandardLRS
+	accessTier := storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot
+	kind := storage.StorageAccount_Spec_Kind_StorageV2
+	sku := storage.SkuName_Standard_LRS
 	acct := &storage.StorageAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
-		Spec: storage.StorageAccounts_Spec{
+		Spec: storage.StorageAccount_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Kind:     &kind,

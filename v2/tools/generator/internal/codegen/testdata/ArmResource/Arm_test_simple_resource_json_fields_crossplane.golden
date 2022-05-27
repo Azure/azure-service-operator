@@ -32,7 +32,7 @@ type FakeResourceList struct {
 // +kubebuilder:validation:Enum={"20200101"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("20200101")
+const APIVersion_Value = APIVersion("20200101")
 
 type FakeResource_Spec struct {
 	v1alpha1.ResourceSpec `json:",inline,omitempty"`
@@ -63,12 +63,12 @@ type FakeResourceParameters struct {
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type FakeResource_Spec_APIVersion string
 
-const FakeResource_Spec_APIVersion20200601 = FakeResource_Spec_APIVersion("2020-06-01")
+const FakeResource_Spec_APIVersion_20200601 = FakeResource_Spec_APIVersion("2020-06-01")
 
 // +kubebuilder:validation:Enum={"Microsoft.Azure/FakeResource"}
 type FakeResource_Spec_Type string
 
-const FakeResource_Spec_TypeMicrosoftAzureFakeResource = FakeResource_Spec_Type("Microsoft.Azure/FakeResource")
+const FakeResource_Spec_Type_MicrosoftAzureFakeResource = FakeResource_Spec_Type("Microsoft.Azure/FakeResource")
 
 func init() {
 	SchemeBuilder.Register(&FakeResource{}, &FakeResourceList{})

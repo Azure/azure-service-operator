@@ -166,15 +166,15 @@ func AddIndependentPropertyGeneratorsForNamespacesEventhub_Properties_STATUSARM(
 	gens["PartitionCount"] = gen.PtrOf(gen.Int())
 	gens["PartitionIds"] = gen.SliceOf(gen.AlphaString())
 	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		NamespacesEventhub_Properties_Status_STATUSActive,
-		NamespacesEventhub_Properties_Status_STATUSCreating,
-		NamespacesEventhub_Properties_Status_STATUSDeleting,
-		NamespacesEventhub_Properties_Status_STATUSDisabled,
-		NamespacesEventhub_Properties_Status_STATUSReceiveDisabled,
-		NamespacesEventhub_Properties_Status_STATUSRenaming,
-		NamespacesEventhub_Properties_Status_STATUSRestoring,
-		NamespacesEventhub_Properties_Status_STATUSSendDisabled,
-		NamespacesEventhub_Properties_Status_STATUSUnknown))
+		NamespacesEventhub_Properties_Status_Active_STATUS,
+		NamespacesEventhub_Properties_Status_Creating_STATUS,
+		NamespacesEventhub_Properties_Status_Deleting_STATUS,
+		NamespacesEventhub_Properties_Status_Disabled_STATUS,
+		NamespacesEventhub_Properties_Status_ReceiveDisabled_STATUS,
+		NamespacesEventhub_Properties_Status_Renaming_STATUS,
+		NamespacesEventhub_Properties_Status_Restoring_STATUS,
+		NamespacesEventhub_Properties_Status_SendDisabled_STATUS,
+		NamespacesEventhub_Properties_Status_Unknown_STATUS))
 	gens["UpdatedAt"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -250,7 +250,7 @@ func CaptureDescription_STATUSARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForCaptureDescription_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCaptureDescription_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["Encoding"] = gen.PtrOf(gen.OneConstOf(CaptureDescription_Encoding_STATUSAvro, CaptureDescription_Encoding_STATUSAvroDeflate))
+	gens["Encoding"] = gen.PtrOf(gen.OneConstOf(CaptureDescription_Encoding_Avro_STATUS, CaptureDescription_Encoding_AvroDeflate_STATUS))
 	gens["IntervalInSeconds"] = gen.PtrOf(gen.Int())
 	gens["SizeLimitInBytes"] = gen.PtrOf(gen.Int())
 	gens["SkipEmptyArchives"] = gen.PtrOf(gen.Bool())

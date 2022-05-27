@@ -99,7 +99,7 @@ func (configuration *Configuration) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20180601"
 func (configuration Configuration) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -322,7 +322,7 @@ type ConfigurationList struct {
 // +kubebuilder:validation:Enum={"20180601"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("20180601")
+const APIVersion_Value = APIVersion("20180601")
 
 type ServersConfiguration_STATUS struct {
 	// AllowedValues: Allowed values of the configuration.

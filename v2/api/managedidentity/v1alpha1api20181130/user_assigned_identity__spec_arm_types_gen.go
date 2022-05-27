@@ -20,7 +20,7 @@ var _ genruntime.ARMResourceSpec = &UserAssignedIdentity_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20181130"
 func (identity UserAssignedIdentity_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource

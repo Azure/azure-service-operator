@@ -292,15 +292,15 @@ func AddIndependentPropertyGeneratorsForNamespacesQueue_STATUS(gens map[string]g
 	gens["RequiresSession"] = gen.PtrOf(gen.Bool())
 	gens["SizeInBytes"] = gen.PtrOf(gen.Int())
 	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		EntityStatus_STATUSActive,
-		EntityStatus_STATUSCreating,
-		EntityStatus_STATUSDeleting,
-		EntityStatus_STATUSDisabled,
-		EntityStatus_STATUSReceiveDisabled,
-		EntityStatus_STATUSRenaming,
-		EntityStatus_STATUSRestoring,
-		EntityStatus_STATUSSendDisabled,
-		EntityStatus_STATUSUnknown))
+		EntityStatus_Active_STATUS,
+		EntityStatus_Creating_STATUS,
+		EntityStatus_Deleting_STATUS,
+		EntityStatus_Disabled_STATUS,
+		EntityStatus_ReceiveDisabled_STATUS,
+		EntityStatus_Renaming_STATUS,
+		EntityStatus_Restoring_STATUS,
+		EntityStatus_SendDisabled_STATUS,
+		EntityStatus_Unknown_STATUS))
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["UpdatedAt"] = gen.PtrOf(gen.AlphaString())
 }

@@ -168,16 +168,16 @@ func AddIndependentPropertyGeneratorsForContainerPropertiesARM(gens map[string]g
 	gens["HasImmutabilityPolicy"] = gen.PtrOf(gen.Bool())
 	gens["HasLegalHold"] = gen.PtrOf(gen.Bool())
 	gens["LastModifiedTime"] = gen.PtrOf(gen.AlphaString())
-	gens["LeaseDuration"] = gen.PtrOf(gen.OneConstOf(ContainerProperties_LeaseDurationFixed, ContainerProperties_LeaseDurationInfinite))
+	gens["LeaseDuration"] = gen.PtrOf(gen.OneConstOf(ContainerProperties_LeaseDuration_Fixed, ContainerProperties_LeaseDuration_Infinite))
 	gens["LeaseState"] = gen.PtrOf(gen.OneConstOf(
-		ContainerProperties_LeaseStateAvailable,
-		ContainerProperties_LeaseStateBreaking,
-		ContainerProperties_LeaseStateBroken,
-		ContainerProperties_LeaseStateExpired,
-		ContainerProperties_LeaseStateLeased))
-	gens["LeaseStatus"] = gen.PtrOf(gen.OneConstOf(ContainerProperties_LeaseStatusLocked, ContainerProperties_LeaseStatusUnlocked))
+		ContainerProperties_LeaseState_Available,
+		ContainerProperties_LeaseState_Breaking,
+		ContainerProperties_LeaseState_Broken,
+		ContainerProperties_LeaseState_Expired,
+		ContainerProperties_LeaseState_Leased))
+	gens["LeaseStatus"] = gen.PtrOf(gen.OneConstOf(ContainerProperties_LeaseStatus_Locked, ContainerProperties_LeaseStatus_Unlocked))
 	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["PublicAccess"] = gen.PtrOf(gen.OneConstOf(ContainerProperties_PublicAccessBlob, ContainerProperties_PublicAccessContainer, ContainerProperties_PublicAccessNone))
+	gens["PublicAccess"] = gen.PtrOf(gen.OneConstOf(ContainerProperties_PublicAccess_Blob, ContainerProperties_PublicAccess_Container, ContainerProperties_PublicAccess_None))
 	gens["RemainingRetentionDays"] = gen.PtrOf(gen.Int())
 	gens["Version"] = gen.PtrOf(gen.AlphaString())
 }
@@ -322,7 +322,7 @@ func ImmutableStorageWithVersioningARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForImmutableStorageWithVersioningARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForImmutableStorageWithVersioningARM(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["MigrationState"] = gen.PtrOf(gen.OneConstOf(ImmutableStorageWithVersioning_MigrationStateCompleted, ImmutableStorageWithVersioning_MigrationStateInProgress))
+	gens["MigrationState"] = gen.PtrOf(gen.OneConstOf(ImmutableStorageWithVersioning_MigrationState_Completed, ImmutableStorageWithVersioning_MigrationState_InProgress))
 	gens["TimeStamp"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -459,7 +459,7 @@ func ImmutabilityPolicyPropertyARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForImmutabilityPolicyPropertyARM(gens map[string]gopter.Gen) {
 	gens["AllowProtectedAppendWrites"] = gen.PtrOf(gen.Bool())
 	gens["ImmutabilityPeriodSinceCreationInDays"] = gen.PtrOf(gen.Int())
-	gens["State"] = gen.PtrOf(gen.OneConstOf(ImmutabilityPolicyProperty_StateLocked, ImmutabilityPolicyProperty_StateUnlocked))
+	gens["State"] = gen.PtrOf(gen.OneConstOf(ImmutabilityPolicyProperty_State_Locked, ImmutabilityPolicyProperty_State_Unlocked))
 }
 
 func Test_TagPropertyARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -586,6 +586,6 @@ func AddIndependentPropertyGeneratorsForUpdateHistoryPropertyARM(gens map[string
 	gens["ObjectIdentifier"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Timestamp"] = gen.PtrOf(gen.AlphaString())
-	gens["Update"] = gen.PtrOf(gen.OneConstOf(UpdateHistoryProperty_UpdateExtend, UpdateHistoryProperty_UpdateLock, UpdateHistoryProperty_UpdatePut))
+	gens["Update"] = gen.PtrOf(gen.OneConstOf(UpdateHistoryProperty_Update_Extend, UpdateHistoryProperty_Update_Lock, UpdateHistoryProperty_Update_Put))
 	gens["Upn"] = gen.PtrOf(gen.AlphaString())
 }

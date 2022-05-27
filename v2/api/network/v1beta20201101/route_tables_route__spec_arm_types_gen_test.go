@@ -156,14 +156,14 @@ func AddIndependentPropertyGeneratorsForRoutePropertiesFormatARM(gens map[string
 	gens["HasBgpOverride"] = gen.PtrOf(gen.Bool())
 	gens["NextHopIpAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["NextHopType"] = gen.PtrOf(gen.OneConstOf(
-		RouteNextHopTypeInternet,
-		RouteNextHopTypeNone,
-		RouteNextHopTypeVirtualAppliance,
-		RouteNextHopTypeVirtualNetworkGateway,
-		RouteNextHopTypeVnetLocal))
+		RouteNextHopType_Internet,
+		RouteNextHopType_None,
+		RouteNextHopType_VirtualAppliance,
+		RouteNextHopType_VirtualNetworkGateway,
+		RouteNextHopType_VnetLocal))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningStateDeleting,
-		ProvisioningStateFailed,
-		ProvisioningStateSucceeded,
-		ProvisioningStateUpdating))
+		ProvisioningState_Deleting,
+		ProvisioningState_Failed,
+		ProvisioningState_Succeeded,
+		ProvisioningState_Updating))
 }

@@ -37,7 +37,7 @@ func Test_Batch_Account_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(account)
 
 	// Ensure that the account was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(batch.APIVersionValue))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(batch.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

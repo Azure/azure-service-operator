@@ -99,7 +99,7 @@ func (enterprise *RedisEnterprise) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20210301"
 func (enterprise RedisEnterprise) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -322,7 +322,7 @@ type RedisEnterpriseList struct {
 // +kubebuilder:validation:Enum={"20210301"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("20210301")
+const APIVersion_Value = APIVersion("20210301")
 
 type RedisEnterprise_STATUS struct {
 	// Conditions: The observed state of the resource
@@ -1262,17 +1262,17 @@ func (enterprise *RedisEnterprise_Spec) SetAzureName(azureName string) {
 type ClusterProperties_MinimumTlsVersion string
 
 const (
-	ClusterProperties_MinimumTlsVersion10 = ClusterProperties_MinimumTlsVersion("1.0")
-	ClusterProperties_MinimumTlsVersion11 = ClusterProperties_MinimumTlsVersion("1.1")
-	ClusterProperties_MinimumTlsVersion12 = ClusterProperties_MinimumTlsVersion("1.2")
+	ClusterProperties_MinimumTlsVersion_10 = ClusterProperties_MinimumTlsVersion("1.0")
+	ClusterProperties_MinimumTlsVersion_11 = ClusterProperties_MinimumTlsVersion("1.1")
+	ClusterProperties_MinimumTlsVersion_12 = ClusterProperties_MinimumTlsVersion("1.2")
 )
 
 type ClusterProperties_MinimumTlsVersion_STATUS string
 
 const (
-	ClusterProperties_MinimumTlsVersion_STATUS10 = ClusterProperties_MinimumTlsVersion_STATUS("1.0")
-	ClusterProperties_MinimumTlsVersion_STATUS11 = ClusterProperties_MinimumTlsVersion_STATUS("1.1")
-	ClusterProperties_MinimumTlsVersion_STATUS12 = ClusterProperties_MinimumTlsVersion_STATUS("1.2")
+	ClusterProperties_MinimumTlsVersion_10_STATUS = ClusterProperties_MinimumTlsVersion_STATUS("1.0")
+	ClusterProperties_MinimumTlsVersion_11_STATUS = ClusterProperties_MinimumTlsVersion_STATUS("1.1")
+	ClusterProperties_MinimumTlsVersion_12_STATUS = ClusterProperties_MinimumTlsVersion_STATUS("1.2")
 )
 
 type PrivateEndpointConnection struct {
@@ -1412,58 +1412,58 @@ func (connection *PrivateEndpointConnection_STATUS) AssignPropertiesToPrivateEnd
 type ProvisioningState string
 
 const (
-	ProvisioningStateCanceled  = ProvisioningState("Canceled")
-	ProvisioningStateCreating  = ProvisioningState("Creating")
-	ProvisioningStateDeleting  = ProvisioningState("Deleting")
-	ProvisioningStateFailed    = ProvisioningState("Failed")
-	ProvisioningStateSucceeded = ProvisioningState("Succeeded")
-	ProvisioningStateUpdating  = ProvisioningState("Updating")
+	ProvisioningState_Canceled  = ProvisioningState("Canceled")
+	ProvisioningState_Creating  = ProvisioningState("Creating")
+	ProvisioningState_Deleting  = ProvisioningState("Deleting")
+	ProvisioningState_Failed    = ProvisioningState("Failed")
+	ProvisioningState_Succeeded = ProvisioningState("Succeeded")
+	ProvisioningState_Updating  = ProvisioningState("Updating")
 )
 
 type ProvisioningState_STATUS string
 
 const (
-	ProvisioningState_STATUSCanceled  = ProvisioningState_STATUS("Canceled")
-	ProvisioningState_STATUSCreating  = ProvisioningState_STATUS("Creating")
-	ProvisioningState_STATUSDeleting  = ProvisioningState_STATUS("Deleting")
-	ProvisioningState_STATUSFailed    = ProvisioningState_STATUS("Failed")
-	ProvisioningState_STATUSSucceeded = ProvisioningState_STATUS("Succeeded")
-	ProvisioningState_STATUSUpdating  = ProvisioningState_STATUS("Updating")
+	ProvisioningState_Canceled_STATUS  = ProvisioningState_STATUS("Canceled")
+	ProvisioningState_Creating_STATUS  = ProvisioningState_STATUS("Creating")
+	ProvisioningState_Deleting_STATUS  = ProvisioningState_STATUS("Deleting")
+	ProvisioningState_Failed_STATUS    = ProvisioningState_STATUS("Failed")
+	ProvisioningState_Succeeded_STATUS = ProvisioningState_STATUS("Succeeded")
+	ProvisioningState_Updating_STATUS  = ProvisioningState_STATUS("Updating")
 )
 
 // +kubebuilder:validation:Enum={"CreateFailed","Creating","DeleteFailed","Deleting","DisableFailed","Disabled","Disabling","EnableFailed","Enabling","Running","UpdateFailed","Updating"}
 type ResourceState string
 
 const (
-	ResourceStateCreateFailed  = ResourceState("CreateFailed")
-	ResourceStateCreating      = ResourceState("Creating")
-	ResourceStateDeleteFailed  = ResourceState("DeleteFailed")
-	ResourceStateDeleting      = ResourceState("Deleting")
-	ResourceStateDisableFailed = ResourceState("DisableFailed")
-	ResourceStateDisabled      = ResourceState("Disabled")
-	ResourceStateDisabling     = ResourceState("Disabling")
-	ResourceStateEnableFailed  = ResourceState("EnableFailed")
-	ResourceStateEnabling      = ResourceState("Enabling")
-	ResourceStateRunning       = ResourceState("Running")
-	ResourceStateUpdateFailed  = ResourceState("UpdateFailed")
-	ResourceStateUpdating      = ResourceState("Updating")
+	ResourceState_CreateFailed  = ResourceState("CreateFailed")
+	ResourceState_Creating      = ResourceState("Creating")
+	ResourceState_DeleteFailed  = ResourceState("DeleteFailed")
+	ResourceState_Deleting      = ResourceState("Deleting")
+	ResourceState_DisableFailed = ResourceState("DisableFailed")
+	ResourceState_Disabled      = ResourceState("Disabled")
+	ResourceState_Disabling     = ResourceState("Disabling")
+	ResourceState_EnableFailed  = ResourceState("EnableFailed")
+	ResourceState_Enabling      = ResourceState("Enabling")
+	ResourceState_Running       = ResourceState("Running")
+	ResourceState_UpdateFailed  = ResourceState("UpdateFailed")
+	ResourceState_Updating      = ResourceState("Updating")
 )
 
 type ResourceState_STATUS string
 
 const (
-	ResourceState_STATUSCreateFailed  = ResourceState_STATUS("CreateFailed")
-	ResourceState_STATUSCreating      = ResourceState_STATUS("Creating")
-	ResourceState_STATUSDeleteFailed  = ResourceState_STATUS("DeleteFailed")
-	ResourceState_STATUSDeleting      = ResourceState_STATUS("Deleting")
-	ResourceState_STATUSDisableFailed = ResourceState_STATUS("DisableFailed")
-	ResourceState_STATUSDisabled      = ResourceState_STATUS("Disabled")
-	ResourceState_STATUSDisabling     = ResourceState_STATUS("Disabling")
-	ResourceState_STATUSEnableFailed  = ResourceState_STATUS("EnableFailed")
-	ResourceState_STATUSEnabling      = ResourceState_STATUS("Enabling")
-	ResourceState_STATUSRunning       = ResourceState_STATUS("Running")
-	ResourceState_STATUSUpdateFailed  = ResourceState_STATUS("UpdateFailed")
-	ResourceState_STATUSUpdating      = ResourceState_STATUS("Updating")
+	ResourceState_CreateFailed_STATUS  = ResourceState_STATUS("CreateFailed")
+	ResourceState_Creating_STATUS      = ResourceState_STATUS("Creating")
+	ResourceState_DeleteFailed_STATUS  = ResourceState_STATUS("DeleteFailed")
+	ResourceState_Deleting_STATUS      = ResourceState_STATUS("Deleting")
+	ResourceState_DisableFailed_STATUS = ResourceState_STATUS("DisableFailed")
+	ResourceState_Disabled_STATUS      = ResourceState_STATUS("Disabled")
+	ResourceState_Disabling_STATUS     = ResourceState_STATUS("Disabling")
+	ResourceState_EnableFailed_STATUS  = ResourceState_STATUS("EnableFailed")
+	ResourceState_Enabling_STATUS      = ResourceState_STATUS("Enabling")
+	ResourceState_Running_STATUS       = ResourceState_STATUS("Running")
+	ResourceState_UpdateFailed_STATUS  = ResourceState_STATUS("UpdateFailed")
+	ResourceState_Updating_STATUS      = ResourceState_STATUS("Updating")
 )
 
 type Sku struct {

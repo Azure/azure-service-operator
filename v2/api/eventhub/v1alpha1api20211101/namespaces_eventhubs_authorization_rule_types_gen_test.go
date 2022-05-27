@@ -275,7 +275,7 @@ func AddIndependentPropertyGeneratorsForNamespacesEventhubsAuthorizationRule_STA
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Rights"] = gen.SliceOf(gen.OneConstOf(NamespacesEventhubsAuthorizationRule_Properties_Rights_STATUSListen, NamespacesEventhubsAuthorizationRule_Properties_Rights_STATUSManage, NamespacesEventhubsAuthorizationRule_Properties_Rights_STATUSSend))
+	gens["Rights"] = gen.SliceOf(gen.OneConstOf(NamespacesEventhubsAuthorizationRule_Properties_Rights_Listen_STATUS, NamespacesEventhubsAuthorizationRule_Properties_Rights_Manage_STATUS, NamespacesEventhubsAuthorizationRule_Properties_Rights_Send_STATUS))
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -395,7 +395,7 @@ func AddIndependentPropertyGeneratorsForNamespacesEventhubsAuthorizationRule_Spe
 	gens["AzureName"] = gen.AlphaString()
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Rights"] = gen.SliceOf(gen.OneConstOf(NamespacesEventhubsAuthorizationRule_Spec_Properties_RightsListen, NamespacesEventhubsAuthorizationRule_Spec_Properties_RightsManage, NamespacesEventhubsAuthorizationRule_Spec_Properties_RightsSend))
+	gens["Rights"] = gen.SliceOf(gen.OneConstOf(NamespacesEventhubsAuthorizationRule_Spec_Properties_Rights_Listen, NamespacesEventhubsAuthorizationRule_Spec_Properties_Rights_Manage, NamespacesEventhubsAuthorizationRule_Spec_Properties_Rights_Send))
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 

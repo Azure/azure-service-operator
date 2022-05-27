@@ -112,7 +112,7 @@ func (gateway *VirtualNetworkGateway) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20201101"
 func (gateway VirtualNetworkGateway) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -2822,9 +2822,9 @@ func (configuration *VirtualNetworkGatewayIPConfiguration_STATUS) AssignProperti
 type VirtualNetworkGatewayPropertiesFormat_GatewayType string
 
 const (
-	VirtualNetworkGatewayPropertiesFormat_GatewayTypeExpressRoute = VirtualNetworkGatewayPropertiesFormat_GatewayType("ExpressRoute")
-	VirtualNetworkGatewayPropertiesFormat_GatewayTypeLocalGateway = VirtualNetworkGatewayPropertiesFormat_GatewayType("LocalGateway")
-	VirtualNetworkGatewayPropertiesFormat_GatewayTypeVpn          = VirtualNetworkGatewayPropertiesFormat_GatewayType("Vpn")
+	VirtualNetworkGatewayPropertiesFormat_GatewayType_ExpressRoute = VirtualNetworkGatewayPropertiesFormat_GatewayType("ExpressRoute")
+	VirtualNetworkGatewayPropertiesFormat_GatewayType_LocalGateway = VirtualNetworkGatewayPropertiesFormat_GatewayType("LocalGateway")
+	VirtualNetworkGatewayPropertiesFormat_GatewayType_Vpn          = VirtualNetworkGatewayPropertiesFormat_GatewayType("Vpn")
 )
 
 // Deprecated version of VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS. Use
@@ -2832,9 +2832,9 @@ const (
 type VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS string
 
 const (
-	VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUSExpressRoute = VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS("ExpressRoute")
-	VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUSLocalGateway = VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS("LocalGateway")
-	VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUSVpn          = VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS("Vpn")
+	VirtualNetworkGatewayPropertiesFormat_GatewayType_ExpressRoute_STATUS = VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS("ExpressRoute")
+	VirtualNetworkGatewayPropertiesFormat_GatewayType_LocalGateway_STATUS = VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS("LocalGateway")
+	VirtualNetworkGatewayPropertiesFormat_GatewayType_Vpn_STATUS          = VirtualNetworkGatewayPropertiesFormat_GatewayType_STATUS("Vpn")
 )
 
 // Deprecated version of VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration. Use
@@ -2843,9 +2843,9 @@ const (
 type VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration string
 
 const (
-	VirtualNetworkGatewayPropertiesFormat_VpnGatewayGenerationGeneration1 = VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration("Generation1")
-	VirtualNetworkGatewayPropertiesFormat_VpnGatewayGenerationGeneration2 = VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration("Generation2")
-	VirtualNetworkGatewayPropertiesFormat_VpnGatewayGenerationNone        = VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration("None")
+	VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_Generation1 = VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration("Generation1")
+	VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_Generation2 = VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration("Generation2")
+	VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_None        = VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration("None")
 )
 
 // Deprecated version of VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS. Use
@@ -2853,9 +2853,9 @@ const (
 type VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS string
 
 const (
-	VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUSGeneration1 = VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS("Generation1")
-	VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUSGeneration2 = VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS("Generation2")
-	VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUSNone        = VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS("None")
+	VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_Generation1_STATUS = VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS("Generation1")
+	VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_Generation2_STATUS = VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS("Generation2")
+	VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_None_STATUS        = VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_STATUS("None")
 )
 
 // Deprecated version of VirtualNetworkGatewayPropertiesFormat_VpnType. Use
@@ -2864,8 +2864,8 @@ const (
 type VirtualNetworkGatewayPropertiesFormat_VpnType string
 
 const (
-	VirtualNetworkGatewayPropertiesFormat_VpnTypePolicyBased = VirtualNetworkGatewayPropertiesFormat_VpnType("PolicyBased")
-	VirtualNetworkGatewayPropertiesFormat_VpnTypeRouteBased  = VirtualNetworkGatewayPropertiesFormat_VpnType("RouteBased")
+	VirtualNetworkGatewayPropertiesFormat_VpnType_PolicyBased = VirtualNetworkGatewayPropertiesFormat_VpnType("PolicyBased")
+	VirtualNetworkGatewayPropertiesFormat_VpnType_RouteBased  = VirtualNetworkGatewayPropertiesFormat_VpnType("RouteBased")
 )
 
 // Deprecated version of VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS. Use
@@ -2873,8 +2873,8 @@ const (
 type VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS string
 
 const (
-	VirtualNetworkGatewayPropertiesFormat_VpnType_STATUSPolicyBased = VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS("PolicyBased")
-	VirtualNetworkGatewayPropertiesFormat_VpnType_STATUSRouteBased  = VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS("RouteBased")
+	VirtualNetworkGatewayPropertiesFormat_VpnType_PolicyBased_STATUS = VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS("PolicyBased")
+	VirtualNetworkGatewayPropertiesFormat_VpnType_RouteBased_STATUS  = VirtualNetworkGatewayPropertiesFormat_VpnType_STATUS("RouteBased")
 )
 
 // Deprecated version of VirtualNetworkGatewaySku. Use v1beta20201101.VirtualNetworkGatewaySku instead
@@ -4912,23 +4912,23 @@ func (server *RadiusServer_STATUS) AssignPropertiesToRadiusServer_STATUS(destina
 type VirtualNetworkGatewaySku_Name string
 
 const (
-	VirtualNetworkGatewaySku_NameBasic            = VirtualNetworkGatewaySku_Name("Basic")
-	VirtualNetworkGatewaySku_NameErGw1AZ          = VirtualNetworkGatewaySku_Name("ErGw1AZ")
-	VirtualNetworkGatewaySku_NameErGw2AZ          = VirtualNetworkGatewaySku_Name("ErGw2AZ")
-	VirtualNetworkGatewaySku_NameErGw3AZ          = VirtualNetworkGatewaySku_Name("ErGw3AZ")
-	VirtualNetworkGatewaySku_NameHighPerformance  = VirtualNetworkGatewaySku_Name("HighPerformance")
-	VirtualNetworkGatewaySku_NameStandard         = VirtualNetworkGatewaySku_Name("Standard")
-	VirtualNetworkGatewaySku_NameUltraPerformance = VirtualNetworkGatewaySku_Name("UltraPerformance")
-	VirtualNetworkGatewaySku_NameVpnGw1           = VirtualNetworkGatewaySku_Name("VpnGw1")
-	VirtualNetworkGatewaySku_NameVpnGw1AZ         = VirtualNetworkGatewaySku_Name("VpnGw1AZ")
-	VirtualNetworkGatewaySku_NameVpnGw2           = VirtualNetworkGatewaySku_Name("VpnGw2")
-	VirtualNetworkGatewaySku_NameVpnGw2AZ         = VirtualNetworkGatewaySku_Name("VpnGw2AZ")
-	VirtualNetworkGatewaySku_NameVpnGw3           = VirtualNetworkGatewaySku_Name("VpnGw3")
-	VirtualNetworkGatewaySku_NameVpnGw3AZ         = VirtualNetworkGatewaySku_Name("VpnGw3AZ")
-	VirtualNetworkGatewaySku_NameVpnGw4           = VirtualNetworkGatewaySku_Name("VpnGw4")
-	VirtualNetworkGatewaySku_NameVpnGw4AZ         = VirtualNetworkGatewaySku_Name("VpnGw4AZ")
-	VirtualNetworkGatewaySku_NameVpnGw5           = VirtualNetworkGatewaySku_Name("VpnGw5")
-	VirtualNetworkGatewaySku_NameVpnGw5AZ         = VirtualNetworkGatewaySku_Name("VpnGw5AZ")
+	VirtualNetworkGatewaySku_Name_Basic            = VirtualNetworkGatewaySku_Name("Basic")
+	VirtualNetworkGatewaySku_Name_ErGw1AZ          = VirtualNetworkGatewaySku_Name("ErGw1AZ")
+	VirtualNetworkGatewaySku_Name_ErGw2AZ          = VirtualNetworkGatewaySku_Name("ErGw2AZ")
+	VirtualNetworkGatewaySku_Name_ErGw3AZ          = VirtualNetworkGatewaySku_Name("ErGw3AZ")
+	VirtualNetworkGatewaySku_Name_HighPerformance  = VirtualNetworkGatewaySku_Name("HighPerformance")
+	VirtualNetworkGatewaySku_Name_Standard         = VirtualNetworkGatewaySku_Name("Standard")
+	VirtualNetworkGatewaySku_Name_UltraPerformance = VirtualNetworkGatewaySku_Name("UltraPerformance")
+	VirtualNetworkGatewaySku_Name_VpnGw1           = VirtualNetworkGatewaySku_Name("VpnGw1")
+	VirtualNetworkGatewaySku_Name_VpnGw1AZ         = VirtualNetworkGatewaySku_Name("VpnGw1AZ")
+	VirtualNetworkGatewaySku_Name_VpnGw2           = VirtualNetworkGatewaySku_Name("VpnGw2")
+	VirtualNetworkGatewaySku_Name_VpnGw2AZ         = VirtualNetworkGatewaySku_Name("VpnGw2AZ")
+	VirtualNetworkGatewaySku_Name_VpnGw3           = VirtualNetworkGatewaySku_Name("VpnGw3")
+	VirtualNetworkGatewaySku_Name_VpnGw3AZ         = VirtualNetworkGatewaySku_Name("VpnGw3AZ")
+	VirtualNetworkGatewaySku_Name_VpnGw4           = VirtualNetworkGatewaySku_Name("VpnGw4")
+	VirtualNetworkGatewaySku_Name_VpnGw4AZ         = VirtualNetworkGatewaySku_Name("VpnGw4AZ")
+	VirtualNetworkGatewaySku_Name_VpnGw5           = VirtualNetworkGatewaySku_Name("VpnGw5")
+	VirtualNetworkGatewaySku_Name_VpnGw5AZ         = VirtualNetworkGatewaySku_Name("VpnGw5AZ")
 )
 
 // Deprecated version of VirtualNetworkGatewaySku_Name_STATUS. Use v1beta20201101.VirtualNetworkGatewaySku_Name_STATUS
@@ -4936,23 +4936,23 @@ const (
 type VirtualNetworkGatewaySku_Name_STATUS string
 
 const (
-	VirtualNetworkGatewaySku_Name_STATUSBasic            = VirtualNetworkGatewaySku_Name_STATUS("Basic")
-	VirtualNetworkGatewaySku_Name_STATUSErGw1AZ          = VirtualNetworkGatewaySku_Name_STATUS("ErGw1AZ")
-	VirtualNetworkGatewaySku_Name_STATUSErGw2AZ          = VirtualNetworkGatewaySku_Name_STATUS("ErGw2AZ")
-	VirtualNetworkGatewaySku_Name_STATUSErGw3AZ          = VirtualNetworkGatewaySku_Name_STATUS("ErGw3AZ")
-	VirtualNetworkGatewaySku_Name_STATUSHighPerformance  = VirtualNetworkGatewaySku_Name_STATUS("HighPerformance")
-	VirtualNetworkGatewaySku_Name_STATUSStandard         = VirtualNetworkGatewaySku_Name_STATUS("Standard")
-	VirtualNetworkGatewaySku_Name_STATUSUltraPerformance = VirtualNetworkGatewaySku_Name_STATUS("UltraPerformance")
-	VirtualNetworkGatewaySku_Name_STATUSVpnGw1           = VirtualNetworkGatewaySku_Name_STATUS("VpnGw1")
-	VirtualNetworkGatewaySku_Name_STATUSVpnGw1AZ         = VirtualNetworkGatewaySku_Name_STATUS("VpnGw1AZ")
-	VirtualNetworkGatewaySku_Name_STATUSVpnGw2           = VirtualNetworkGatewaySku_Name_STATUS("VpnGw2")
-	VirtualNetworkGatewaySku_Name_STATUSVpnGw2AZ         = VirtualNetworkGatewaySku_Name_STATUS("VpnGw2AZ")
-	VirtualNetworkGatewaySku_Name_STATUSVpnGw3           = VirtualNetworkGatewaySku_Name_STATUS("VpnGw3")
-	VirtualNetworkGatewaySku_Name_STATUSVpnGw3AZ         = VirtualNetworkGatewaySku_Name_STATUS("VpnGw3AZ")
-	VirtualNetworkGatewaySku_Name_STATUSVpnGw4           = VirtualNetworkGatewaySku_Name_STATUS("VpnGw4")
-	VirtualNetworkGatewaySku_Name_STATUSVpnGw4AZ         = VirtualNetworkGatewaySku_Name_STATUS("VpnGw4AZ")
-	VirtualNetworkGatewaySku_Name_STATUSVpnGw5           = VirtualNetworkGatewaySku_Name_STATUS("VpnGw5")
-	VirtualNetworkGatewaySku_Name_STATUSVpnGw5AZ         = VirtualNetworkGatewaySku_Name_STATUS("VpnGw5AZ")
+	VirtualNetworkGatewaySku_Name_Basic_STATUS            = VirtualNetworkGatewaySku_Name_STATUS("Basic")
+	VirtualNetworkGatewaySku_Name_ErGw1AZ_STATUS          = VirtualNetworkGatewaySku_Name_STATUS("ErGw1AZ")
+	VirtualNetworkGatewaySku_Name_ErGw2AZ_STATUS          = VirtualNetworkGatewaySku_Name_STATUS("ErGw2AZ")
+	VirtualNetworkGatewaySku_Name_ErGw3AZ_STATUS          = VirtualNetworkGatewaySku_Name_STATUS("ErGw3AZ")
+	VirtualNetworkGatewaySku_Name_HighPerformance_STATUS  = VirtualNetworkGatewaySku_Name_STATUS("HighPerformance")
+	VirtualNetworkGatewaySku_Name_Standard_STATUS         = VirtualNetworkGatewaySku_Name_STATUS("Standard")
+	VirtualNetworkGatewaySku_Name_UltraPerformance_STATUS = VirtualNetworkGatewaySku_Name_STATUS("UltraPerformance")
+	VirtualNetworkGatewaySku_Name_VpnGw1_STATUS           = VirtualNetworkGatewaySku_Name_STATUS("VpnGw1")
+	VirtualNetworkGatewaySku_Name_VpnGw1AZ_STATUS         = VirtualNetworkGatewaySku_Name_STATUS("VpnGw1AZ")
+	VirtualNetworkGatewaySku_Name_VpnGw2_STATUS           = VirtualNetworkGatewaySku_Name_STATUS("VpnGw2")
+	VirtualNetworkGatewaySku_Name_VpnGw2AZ_STATUS         = VirtualNetworkGatewaySku_Name_STATUS("VpnGw2AZ")
+	VirtualNetworkGatewaySku_Name_VpnGw3_STATUS           = VirtualNetworkGatewaySku_Name_STATUS("VpnGw3")
+	VirtualNetworkGatewaySku_Name_VpnGw3AZ_STATUS         = VirtualNetworkGatewaySku_Name_STATUS("VpnGw3AZ")
+	VirtualNetworkGatewaySku_Name_VpnGw4_STATUS           = VirtualNetworkGatewaySku_Name_STATUS("VpnGw4")
+	VirtualNetworkGatewaySku_Name_VpnGw4AZ_STATUS         = VirtualNetworkGatewaySku_Name_STATUS("VpnGw4AZ")
+	VirtualNetworkGatewaySku_Name_VpnGw5_STATUS           = VirtualNetworkGatewaySku_Name_STATUS("VpnGw5")
+	VirtualNetworkGatewaySku_Name_VpnGw5AZ_STATUS         = VirtualNetworkGatewaySku_Name_STATUS("VpnGw5AZ")
 )
 
 // Deprecated version of VirtualNetworkGatewaySku_Tier. Use v1beta20201101.VirtualNetworkGatewaySku_Tier instead
@@ -4960,23 +4960,23 @@ const (
 type VirtualNetworkGatewaySku_Tier string
 
 const (
-	VirtualNetworkGatewaySku_TierBasic            = VirtualNetworkGatewaySku_Tier("Basic")
-	VirtualNetworkGatewaySku_TierErGw1AZ          = VirtualNetworkGatewaySku_Tier("ErGw1AZ")
-	VirtualNetworkGatewaySku_TierErGw2AZ          = VirtualNetworkGatewaySku_Tier("ErGw2AZ")
-	VirtualNetworkGatewaySku_TierErGw3AZ          = VirtualNetworkGatewaySku_Tier("ErGw3AZ")
-	VirtualNetworkGatewaySku_TierHighPerformance  = VirtualNetworkGatewaySku_Tier("HighPerformance")
-	VirtualNetworkGatewaySku_TierStandard         = VirtualNetworkGatewaySku_Tier("Standard")
-	VirtualNetworkGatewaySku_TierUltraPerformance = VirtualNetworkGatewaySku_Tier("UltraPerformance")
-	VirtualNetworkGatewaySku_TierVpnGw1           = VirtualNetworkGatewaySku_Tier("VpnGw1")
-	VirtualNetworkGatewaySku_TierVpnGw1AZ         = VirtualNetworkGatewaySku_Tier("VpnGw1AZ")
-	VirtualNetworkGatewaySku_TierVpnGw2           = VirtualNetworkGatewaySku_Tier("VpnGw2")
-	VirtualNetworkGatewaySku_TierVpnGw2AZ         = VirtualNetworkGatewaySku_Tier("VpnGw2AZ")
-	VirtualNetworkGatewaySku_TierVpnGw3           = VirtualNetworkGatewaySku_Tier("VpnGw3")
-	VirtualNetworkGatewaySku_TierVpnGw3AZ         = VirtualNetworkGatewaySku_Tier("VpnGw3AZ")
-	VirtualNetworkGatewaySku_TierVpnGw4           = VirtualNetworkGatewaySku_Tier("VpnGw4")
-	VirtualNetworkGatewaySku_TierVpnGw4AZ         = VirtualNetworkGatewaySku_Tier("VpnGw4AZ")
-	VirtualNetworkGatewaySku_TierVpnGw5           = VirtualNetworkGatewaySku_Tier("VpnGw5")
-	VirtualNetworkGatewaySku_TierVpnGw5AZ         = VirtualNetworkGatewaySku_Tier("VpnGw5AZ")
+	VirtualNetworkGatewaySku_Tier_Basic            = VirtualNetworkGatewaySku_Tier("Basic")
+	VirtualNetworkGatewaySku_Tier_ErGw1AZ          = VirtualNetworkGatewaySku_Tier("ErGw1AZ")
+	VirtualNetworkGatewaySku_Tier_ErGw2AZ          = VirtualNetworkGatewaySku_Tier("ErGw2AZ")
+	VirtualNetworkGatewaySku_Tier_ErGw3AZ          = VirtualNetworkGatewaySku_Tier("ErGw3AZ")
+	VirtualNetworkGatewaySku_Tier_HighPerformance  = VirtualNetworkGatewaySku_Tier("HighPerformance")
+	VirtualNetworkGatewaySku_Tier_Standard         = VirtualNetworkGatewaySku_Tier("Standard")
+	VirtualNetworkGatewaySku_Tier_UltraPerformance = VirtualNetworkGatewaySku_Tier("UltraPerformance")
+	VirtualNetworkGatewaySku_Tier_VpnGw1           = VirtualNetworkGatewaySku_Tier("VpnGw1")
+	VirtualNetworkGatewaySku_Tier_VpnGw1AZ         = VirtualNetworkGatewaySku_Tier("VpnGw1AZ")
+	VirtualNetworkGatewaySku_Tier_VpnGw2           = VirtualNetworkGatewaySku_Tier("VpnGw2")
+	VirtualNetworkGatewaySku_Tier_VpnGw2AZ         = VirtualNetworkGatewaySku_Tier("VpnGw2AZ")
+	VirtualNetworkGatewaySku_Tier_VpnGw3           = VirtualNetworkGatewaySku_Tier("VpnGw3")
+	VirtualNetworkGatewaySku_Tier_VpnGw3AZ         = VirtualNetworkGatewaySku_Tier("VpnGw3AZ")
+	VirtualNetworkGatewaySku_Tier_VpnGw4           = VirtualNetworkGatewaySku_Tier("VpnGw4")
+	VirtualNetworkGatewaySku_Tier_VpnGw4AZ         = VirtualNetworkGatewaySku_Tier("VpnGw4AZ")
+	VirtualNetworkGatewaySku_Tier_VpnGw5           = VirtualNetworkGatewaySku_Tier("VpnGw5")
+	VirtualNetworkGatewaySku_Tier_VpnGw5AZ         = VirtualNetworkGatewaySku_Tier("VpnGw5AZ")
 )
 
 // Deprecated version of VirtualNetworkGatewaySku_Tier_STATUS. Use v1beta20201101.VirtualNetworkGatewaySku_Tier_STATUS
@@ -4984,23 +4984,23 @@ const (
 type VirtualNetworkGatewaySku_Tier_STATUS string
 
 const (
-	VirtualNetworkGatewaySku_Tier_STATUSBasic            = VirtualNetworkGatewaySku_Tier_STATUS("Basic")
-	VirtualNetworkGatewaySku_Tier_STATUSErGw1AZ          = VirtualNetworkGatewaySku_Tier_STATUS("ErGw1AZ")
-	VirtualNetworkGatewaySku_Tier_STATUSErGw2AZ          = VirtualNetworkGatewaySku_Tier_STATUS("ErGw2AZ")
-	VirtualNetworkGatewaySku_Tier_STATUSErGw3AZ          = VirtualNetworkGatewaySku_Tier_STATUS("ErGw3AZ")
-	VirtualNetworkGatewaySku_Tier_STATUSHighPerformance  = VirtualNetworkGatewaySku_Tier_STATUS("HighPerformance")
-	VirtualNetworkGatewaySku_Tier_STATUSStandard         = VirtualNetworkGatewaySku_Tier_STATUS("Standard")
-	VirtualNetworkGatewaySku_Tier_STATUSUltraPerformance = VirtualNetworkGatewaySku_Tier_STATUS("UltraPerformance")
-	VirtualNetworkGatewaySku_Tier_STATUSVpnGw1           = VirtualNetworkGatewaySku_Tier_STATUS("VpnGw1")
-	VirtualNetworkGatewaySku_Tier_STATUSVpnGw1AZ         = VirtualNetworkGatewaySku_Tier_STATUS("VpnGw1AZ")
-	VirtualNetworkGatewaySku_Tier_STATUSVpnGw2           = VirtualNetworkGatewaySku_Tier_STATUS("VpnGw2")
-	VirtualNetworkGatewaySku_Tier_STATUSVpnGw2AZ         = VirtualNetworkGatewaySku_Tier_STATUS("VpnGw2AZ")
-	VirtualNetworkGatewaySku_Tier_STATUSVpnGw3           = VirtualNetworkGatewaySku_Tier_STATUS("VpnGw3")
-	VirtualNetworkGatewaySku_Tier_STATUSVpnGw3AZ         = VirtualNetworkGatewaySku_Tier_STATUS("VpnGw3AZ")
-	VirtualNetworkGatewaySku_Tier_STATUSVpnGw4           = VirtualNetworkGatewaySku_Tier_STATUS("VpnGw4")
-	VirtualNetworkGatewaySku_Tier_STATUSVpnGw4AZ         = VirtualNetworkGatewaySku_Tier_STATUS("VpnGw4AZ")
-	VirtualNetworkGatewaySku_Tier_STATUSVpnGw5           = VirtualNetworkGatewaySku_Tier_STATUS("VpnGw5")
-	VirtualNetworkGatewaySku_Tier_STATUSVpnGw5AZ         = VirtualNetworkGatewaySku_Tier_STATUS("VpnGw5AZ")
+	VirtualNetworkGatewaySku_Tier_Basic_STATUS            = VirtualNetworkGatewaySku_Tier_STATUS("Basic")
+	VirtualNetworkGatewaySku_Tier_ErGw1AZ_STATUS          = VirtualNetworkGatewaySku_Tier_STATUS("ErGw1AZ")
+	VirtualNetworkGatewaySku_Tier_ErGw2AZ_STATUS          = VirtualNetworkGatewaySku_Tier_STATUS("ErGw2AZ")
+	VirtualNetworkGatewaySku_Tier_ErGw3AZ_STATUS          = VirtualNetworkGatewaySku_Tier_STATUS("ErGw3AZ")
+	VirtualNetworkGatewaySku_Tier_HighPerformance_STATUS  = VirtualNetworkGatewaySku_Tier_STATUS("HighPerformance")
+	VirtualNetworkGatewaySku_Tier_Standard_STATUS         = VirtualNetworkGatewaySku_Tier_STATUS("Standard")
+	VirtualNetworkGatewaySku_Tier_UltraPerformance_STATUS = VirtualNetworkGatewaySku_Tier_STATUS("UltraPerformance")
+	VirtualNetworkGatewaySku_Tier_VpnGw1_STATUS           = VirtualNetworkGatewaySku_Tier_STATUS("VpnGw1")
+	VirtualNetworkGatewaySku_Tier_VpnGw1AZ_STATUS         = VirtualNetworkGatewaySku_Tier_STATUS("VpnGw1AZ")
+	VirtualNetworkGatewaySku_Tier_VpnGw2_STATUS           = VirtualNetworkGatewaySku_Tier_STATUS("VpnGw2")
+	VirtualNetworkGatewaySku_Tier_VpnGw2AZ_STATUS         = VirtualNetworkGatewaySku_Tier_STATUS("VpnGw2AZ")
+	VirtualNetworkGatewaySku_Tier_VpnGw3_STATUS           = VirtualNetworkGatewaySku_Tier_STATUS("VpnGw3")
+	VirtualNetworkGatewaySku_Tier_VpnGw3AZ_STATUS         = VirtualNetworkGatewaySku_Tier_STATUS("VpnGw3AZ")
+	VirtualNetworkGatewaySku_Tier_VpnGw4_STATUS           = VirtualNetworkGatewaySku_Tier_STATUS("VpnGw4")
+	VirtualNetworkGatewaySku_Tier_VpnGw4AZ_STATUS         = VirtualNetworkGatewaySku_Tier_STATUS("VpnGw4AZ")
+	VirtualNetworkGatewaySku_Tier_VpnGw5_STATUS           = VirtualNetworkGatewaySku_Tier_STATUS("VpnGw5")
+	VirtualNetworkGatewaySku_Tier_VpnGw5AZ_STATUS         = VirtualNetworkGatewaySku_Tier_STATUS("VpnGw5AZ")
 )
 
 // Deprecated version of VpnClientConfiguration_VpnAuthenticationTypes. Use
@@ -5009,9 +5009,9 @@ const (
 type VpnClientConfiguration_VpnAuthenticationTypes string
 
 const (
-	VpnClientConfiguration_VpnAuthenticationTypesAAD         = VpnClientConfiguration_VpnAuthenticationTypes("AAD")
-	VpnClientConfiguration_VpnAuthenticationTypesCertificate = VpnClientConfiguration_VpnAuthenticationTypes("Certificate")
-	VpnClientConfiguration_VpnAuthenticationTypesRadius      = VpnClientConfiguration_VpnAuthenticationTypes("Radius")
+	VpnClientConfiguration_VpnAuthenticationTypes_AAD         = VpnClientConfiguration_VpnAuthenticationTypes("AAD")
+	VpnClientConfiguration_VpnAuthenticationTypes_Certificate = VpnClientConfiguration_VpnAuthenticationTypes("Certificate")
+	VpnClientConfiguration_VpnAuthenticationTypes_Radius      = VpnClientConfiguration_VpnAuthenticationTypes("Radius")
 )
 
 // Deprecated version of VpnClientConfiguration_VpnAuthenticationTypes_STATUS. Use
@@ -5019,9 +5019,9 @@ const (
 type VpnClientConfiguration_VpnAuthenticationTypes_STATUS string
 
 const (
-	VpnClientConfiguration_VpnAuthenticationTypes_STATUSAAD         = VpnClientConfiguration_VpnAuthenticationTypes_STATUS("AAD")
-	VpnClientConfiguration_VpnAuthenticationTypes_STATUSCertificate = VpnClientConfiguration_VpnAuthenticationTypes_STATUS("Certificate")
-	VpnClientConfiguration_VpnAuthenticationTypes_STATUSRadius      = VpnClientConfiguration_VpnAuthenticationTypes_STATUS("Radius")
+	VpnClientConfiguration_VpnAuthenticationTypes_AAD_STATUS         = VpnClientConfiguration_VpnAuthenticationTypes_STATUS("AAD")
+	VpnClientConfiguration_VpnAuthenticationTypes_Certificate_STATUS = VpnClientConfiguration_VpnAuthenticationTypes_STATUS("Certificate")
+	VpnClientConfiguration_VpnAuthenticationTypes_Radius_STATUS      = VpnClientConfiguration_VpnAuthenticationTypes_STATUS("Radius")
 )
 
 // Deprecated version of VpnClientConfiguration_VpnClientProtocols. Use
@@ -5030,9 +5030,9 @@ const (
 type VpnClientConfiguration_VpnClientProtocols string
 
 const (
-	VpnClientConfiguration_VpnClientProtocolsIkeV2   = VpnClientConfiguration_VpnClientProtocols("IkeV2")
-	VpnClientConfiguration_VpnClientProtocolsOpenVPN = VpnClientConfiguration_VpnClientProtocols("OpenVPN")
-	VpnClientConfiguration_VpnClientProtocolsSSTP    = VpnClientConfiguration_VpnClientProtocols("SSTP")
+	VpnClientConfiguration_VpnClientProtocols_IkeV2   = VpnClientConfiguration_VpnClientProtocols("IkeV2")
+	VpnClientConfiguration_VpnClientProtocols_OpenVPN = VpnClientConfiguration_VpnClientProtocols("OpenVPN")
+	VpnClientConfiguration_VpnClientProtocols_SSTP    = VpnClientConfiguration_VpnClientProtocols("SSTP")
 )
 
 // Deprecated version of VpnClientConfiguration_VpnClientProtocols_STATUS. Use
@@ -5040,9 +5040,9 @@ const (
 type VpnClientConfiguration_VpnClientProtocols_STATUS string
 
 const (
-	VpnClientConfiguration_VpnClientProtocols_STATUSIkeV2   = VpnClientConfiguration_VpnClientProtocols_STATUS("IkeV2")
-	VpnClientConfiguration_VpnClientProtocols_STATUSOpenVPN = VpnClientConfiguration_VpnClientProtocols_STATUS("OpenVPN")
-	VpnClientConfiguration_VpnClientProtocols_STATUSSSTP    = VpnClientConfiguration_VpnClientProtocols_STATUS("SSTP")
+	VpnClientConfiguration_VpnClientProtocols_IkeV2_STATUS   = VpnClientConfiguration_VpnClientProtocols_STATUS("IkeV2")
+	VpnClientConfiguration_VpnClientProtocols_OpenVPN_STATUS = VpnClientConfiguration_VpnClientProtocols_STATUS("OpenVPN")
+	VpnClientConfiguration_VpnClientProtocols_SSTP_STATUS    = VpnClientConfiguration_VpnClientProtocols_STATUS("SSTP")
 )
 
 // Deprecated version of VpnClientRevokedCertificate. Use v1beta20201101.VpnClientRevokedCertificate instead
@@ -5636,28 +5636,28 @@ func (certificate *VpnClientRootCertificate_STATUS) AssignPropertiesToVpnClientR
 type DhGroup string
 
 const (
-	DhGroupDHGroup1    = DhGroup("DHGroup1")
-	DhGroupDHGroup14   = DhGroup("DHGroup14")
-	DhGroupDHGroup2    = DhGroup("DHGroup2")
-	DhGroupDHGroup2048 = DhGroup("DHGroup2048")
-	DhGroupDHGroup24   = DhGroup("DHGroup24")
-	DhGroupECP256      = DhGroup("ECP256")
-	DhGroupECP384      = DhGroup("ECP384")
-	DhGroupNone        = DhGroup("None")
+	DhGroup_DHGroup1    = DhGroup("DHGroup1")
+	DhGroup_DHGroup14   = DhGroup("DHGroup14")
+	DhGroup_DHGroup2    = DhGroup("DHGroup2")
+	DhGroup_DHGroup2048 = DhGroup("DHGroup2048")
+	DhGroup_DHGroup24   = DhGroup("DHGroup24")
+	DhGroup_ECP256      = DhGroup("ECP256")
+	DhGroup_ECP384      = DhGroup("ECP384")
+	DhGroup_None        = DhGroup("None")
 )
 
 // Deprecated version of DhGroup_STATUS. Use v1beta20201101.DhGroup_STATUS instead
 type DhGroup_STATUS string
 
 const (
-	DhGroup_STATUSDHGroup1    = DhGroup_STATUS("DHGroup1")
-	DhGroup_STATUSDHGroup14   = DhGroup_STATUS("DHGroup14")
-	DhGroup_STATUSDHGroup2    = DhGroup_STATUS("DHGroup2")
-	DhGroup_STATUSDHGroup2048 = DhGroup_STATUS("DHGroup2048")
-	DhGroup_STATUSDHGroup24   = DhGroup_STATUS("DHGroup24")
-	DhGroup_STATUSECP256      = DhGroup_STATUS("ECP256")
-	DhGroup_STATUSECP384      = DhGroup_STATUS("ECP384")
-	DhGroup_STATUSNone        = DhGroup_STATUS("None")
+	DhGroup_DHGroup1_STATUS    = DhGroup_STATUS("DHGroup1")
+	DhGroup_DHGroup14_STATUS   = DhGroup_STATUS("DHGroup14")
+	DhGroup_DHGroup2_STATUS    = DhGroup_STATUS("DHGroup2")
+	DhGroup_DHGroup2048_STATUS = DhGroup_STATUS("DHGroup2048")
+	DhGroup_DHGroup24_STATUS   = DhGroup_STATUS("DHGroup24")
+	DhGroup_ECP256_STATUS      = DhGroup_STATUS("ECP256")
+	DhGroup_ECP384_STATUS      = DhGroup_STATUS("ECP384")
+	DhGroup_None_STATUS        = DhGroup_STATUS("None")
 )
 
 // Deprecated version of IkeEncryption. Use v1beta20201101.IkeEncryption instead
@@ -5665,26 +5665,26 @@ const (
 type IkeEncryption string
 
 const (
-	IkeEncryptionAES128    = IkeEncryption("AES128")
-	IkeEncryptionAES192    = IkeEncryption("AES192")
-	IkeEncryptionAES256    = IkeEncryption("AES256")
-	IkeEncryptionDES       = IkeEncryption("DES")
-	IkeEncryptionDES3      = IkeEncryption("DES3")
-	IkeEncryptionGCMAES128 = IkeEncryption("GCMAES128")
-	IkeEncryptionGCMAES256 = IkeEncryption("GCMAES256")
+	IkeEncryption_AES128    = IkeEncryption("AES128")
+	IkeEncryption_AES192    = IkeEncryption("AES192")
+	IkeEncryption_AES256    = IkeEncryption("AES256")
+	IkeEncryption_DES       = IkeEncryption("DES")
+	IkeEncryption_DES3      = IkeEncryption("DES3")
+	IkeEncryption_GCMAES128 = IkeEncryption("GCMAES128")
+	IkeEncryption_GCMAES256 = IkeEncryption("GCMAES256")
 )
 
 // Deprecated version of IkeEncryption_STATUS. Use v1beta20201101.IkeEncryption_STATUS instead
 type IkeEncryption_STATUS string
 
 const (
-	IkeEncryption_STATUSAES128    = IkeEncryption_STATUS("AES128")
-	IkeEncryption_STATUSAES192    = IkeEncryption_STATUS("AES192")
-	IkeEncryption_STATUSAES256    = IkeEncryption_STATUS("AES256")
-	IkeEncryption_STATUSDES       = IkeEncryption_STATUS("DES")
-	IkeEncryption_STATUSDES3      = IkeEncryption_STATUS("DES3")
-	IkeEncryption_STATUSGCMAES128 = IkeEncryption_STATUS("GCMAES128")
-	IkeEncryption_STATUSGCMAES256 = IkeEncryption_STATUS("GCMAES256")
+	IkeEncryption_AES128_STATUS    = IkeEncryption_STATUS("AES128")
+	IkeEncryption_AES192_STATUS    = IkeEncryption_STATUS("AES192")
+	IkeEncryption_AES256_STATUS    = IkeEncryption_STATUS("AES256")
+	IkeEncryption_DES_STATUS       = IkeEncryption_STATUS("DES")
+	IkeEncryption_DES3_STATUS      = IkeEncryption_STATUS("DES3")
+	IkeEncryption_GCMAES128_STATUS = IkeEncryption_STATUS("GCMAES128")
+	IkeEncryption_GCMAES256_STATUS = IkeEncryption_STATUS("GCMAES256")
 )
 
 // Deprecated version of IkeIntegrity. Use v1beta20201101.IkeIntegrity instead
@@ -5692,24 +5692,24 @@ const (
 type IkeIntegrity string
 
 const (
-	IkeIntegrityGCMAES128 = IkeIntegrity("GCMAES128")
-	IkeIntegrityGCMAES256 = IkeIntegrity("GCMAES256")
-	IkeIntegrityMD5       = IkeIntegrity("MD5")
-	IkeIntegritySHA1      = IkeIntegrity("SHA1")
-	IkeIntegritySHA256    = IkeIntegrity("SHA256")
-	IkeIntegritySHA384    = IkeIntegrity("SHA384")
+	IkeIntegrity_GCMAES128 = IkeIntegrity("GCMAES128")
+	IkeIntegrity_GCMAES256 = IkeIntegrity("GCMAES256")
+	IkeIntegrity_MD5       = IkeIntegrity("MD5")
+	IkeIntegrity_SHA1      = IkeIntegrity("SHA1")
+	IkeIntegrity_SHA256    = IkeIntegrity("SHA256")
+	IkeIntegrity_SHA384    = IkeIntegrity("SHA384")
 )
 
 // Deprecated version of IkeIntegrity_STATUS. Use v1beta20201101.IkeIntegrity_STATUS instead
 type IkeIntegrity_STATUS string
 
 const (
-	IkeIntegrity_STATUSGCMAES128 = IkeIntegrity_STATUS("GCMAES128")
-	IkeIntegrity_STATUSGCMAES256 = IkeIntegrity_STATUS("GCMAES256")
-	IkeIntegrity_STATUSMD5       = IkeIntegrity_STATUS("MD5")
-	IkeIntegrity_STATUSSHA1      = IkeIntegrity_STATUS("SHA1")
-	IkeIntegrity_STATUSSHA256    = IkeIntegrity_STATUS("SHA256")
-	IkeIntegrity_STATUSSHA384    = IkeIntegrity_STATUS("SHA384")
+	IkeIntegrity_GCMAES128_STATUS = IkeIntegrity_STATUS("GCMAES128")
+	IkeIntegrity_GCMAES256_STATUS = IkeIntegrity_STATUS("GCMAES256")
+	IkeIntegrity_MD5_STATUS       = IkeIntegrity_STATUS("MD5")
+	IkeIntegrity_SHA1_STATUS      = IkeIntegrity_STATUS("SHA1")
+	IkeIntegrity_SHA256_STATUS    = IkeIntegrity_STATUS("SHA256")
+	IkeIntegrity_SHA384_STATUS    = IkeIntegrity_STATUS("SHA384")
 )
 
 // Deprecated version of IpsecEncryption. Use v1beta20201101.IpsecEncryption instead
@@ -5717,30 +5717,30 @@ const (
 type IpsecEncryption string
 
 const (
-	IpsecEncryptionAES128    = IpsecEncryption("AES128")
-	IpsecEncryptionAES192    = IpsecEncryption("AES192")
-	IpsecEncryptionAES256    = IpsecEncryption("AES256")
-	IpsecEncryptionDES       = IpsecEncryption("DES")
-	IpsecEncryptionDES3      = IpsecEncryption("DES3")
-	IpsecEncryptionGCMAES128 = IpsecEncryption("GCMAES128")
-	IpsecEncryptionGCMAES192 = IpsecEncryption("GCMAES192")
-	IpsecEncryptionGCMAES256 = IpsecEncryption("GCMAES256")
-	IpsecEncryptionNone      = IpsecEncryption("None")
+	IpsecEncryption_AES128    = IpsecEncryption("AES128")
+	IpsecEncryption_AES192    = IpsecEncryption("AES192")
+	IpsecEncryption_AES256    = IpsecEncryption("AES256")
+	IpsecEncryption_DES       = IpsecEncryption("DES")
+	IpsecEncryption_DES3      = IpsecEncryption("DES3")
+	IpsecEncryption_GCMAES128 = IpsecEncryption("GCMAES128")
+	IpsecEncryption_GCMAES192 = IpsecEncryption("GCMAES192")
+	IpsecEncryption_GCMAES256 = IpsecEncryption("GCMAES256")
+	IpsecEncryption_None      = IpsecEncryption("None")
 )
 
 // Deprecated version of IpsecEncryption_STATUS. Use v1beta20201101.IpsecEncryption_STATUS instead
 type IpsecEncryption_STATUS string
 
 const (
-	IpsecEncryption_STATUSAES128    = IpsecEncryption_STATUS("AES128")
-	IpsecEncryption_STATUSAES192    = IpsecEncryption_STATUS("AES192")
-	IpsecEncryption_STATUSAES256    = IpsecEncryption_STATUS("AES256")
-	IpsecEncryption_STATUSDES       = IpsecEncryption_STATUS("DES")
-	IpsecEncryption_STATUSDES3      = IpsecEncryption_STATUS("DES3")
-	IpsecEncryption_STATUSGCMAES128 = IpsecEncryption_STATUS("GCMAES128")
-	IpsecEncryption_STATUSGCMAES192 = IpsecEncryption_STATUS("GCMAES192")
-	IpsecEncryption_STATUSGCMAES256 = IpsecEncryption_STATUS("GCMAES256")
-	IpsecEncryption_STATUSNone      = IpsecEncryption_STATUS("None")
+	IpsecEncryption_AES128_STATUS    = IpsecEncryption_STATUS("AES128")
+	IpsecEncryption_AES192_STATUS    = IpsecEncryption_STATUS("AES192")
+	IpsecEncryption_AES256_STATUS    = IpsecEncryption_STATUS("AES256")
+	IpsecEncryption_DES_STATUS       = IpsecEncryption_STATUS("DES")
+	IpsecEncryption_DES3_STATUS      = IpsecEncryption_STATUS("DES3")
+	IpsecEncryption_GCMAES128_STATUS = IpsecEncryption_STATUS("GCMAES128")
+	IpsecEncryption_GCMAES192_STATUS = IpsecEncryption_STATUS("GCMAES192")
+	IpsecEncryption_GCMAES256_STATUS = IpsecEncryption_STATUS("GCMAES256")
+	IpsecEncryption_None_STATUS      = IpsecEncryption_STATUS("None")
 )
 
 // Deprecated version of IpsecIntegrity. Use v1beta20201101.IpsecIntegrity instead
@@ -5748,24 +5748,24 @@ const (
 type IpsecIntegrity string
 
 const (
-	IpsecIntegrityGCMAES128 = IpsecIntegrity("GCMAES128")
-	IpsecIntegrityGCMAES192 = IpsecIntegrity("GCMAES192")
-	IpsecIntegrityGCMAES256 = IpsecIntegrity("GCMAES256")
-	IpsecIntegrityMD5       = IpsecIntegrity("MD5")
-	IpsecIntegritySHA1      = IpsecIntegrity("SHA1")
-	IpsecIntegritySHA256    = IpsecIntegrity("SHA256")
+	IpsecIntegrity_GCMAES128 = IpsecIntegrity("GCMAES128")
+	IpsecIntegrity_GCMAES192 = IpsecIntegrity("GCMAES192")
+	IpsecIntegrity_GCMAES256 = IpsecIntegrity("GCMAES256")
+	IpsecIntegrity_MD5       = IpsecIntegrity("MD5")
+	IpsecIntegrity_SHA1      = IpsecIntegrity("SHA1")
+	IpsecIntegrity_SHA256    = IpsecIntegrity("SHA256")
 )
 
 // Deprecated version of IpsecIntegrity_STATUS. Use v1beta20201101.IpsecIntegrity_STATUS instead
 type IpsecIntegrity_STATUS string
 
 const (
-	IpsecIntegrity_STATUSGCMAES128 = IpsecIntegrity_STATUS("GCMAES128")
-	IpsecIntegrity_STATUSGCMAES192 = IpsecIntegrity_STATUS("GCMAES192")
-	IpsecIntegrity_STATUSGCMAES256 = IpsecIntegrity_STATUS("GCMAES256")
-	IpsecIntegrity_STATUSMD5       = IpsecIntegrity_STATUS("MD5")
-	IpsecIntegrity_STATUSSHA1      = IpsecIntegrity_STATUS("SHA1")
-	IpsecIntegrity_STATUSSHA256    = IpsecIntegrity_STATUS("SHA256")
+	IpsecIntegrity_GCMAES128_STATUS = IpsecIntegrity_STATUS("GCMAES128")
+	IpsecIntegrity_GCMAES192_STATUS = IpsecIntegrity_STATUS("GCMAES192")
+	IpsecIntegrity_GCMAES256_STATUS = IpsecIntegrity_STATUS("GCMAES256")
+	IpsecIntegrity_MD5_STATUS       = IpsecIntegrity_STATUS("MD5")
+	IpsecIntegrity_SHA1_STATUS      = IpsecIntegrity_STATUS("SHA1")
+	IpsecIntegrity_SHA256_STATUS    = IpsecIntegrity_STATUS("SHA256")
 )
 
 // Deprecated version of PfsGroup. Use v1beta20201101.PfsGroup instead
@@ -5773,30 +5773,30 @@ const (
 type PfsGroup string
 
 const (
-	PfsGroupECP256  = PfsGroup("ECP256")
-	PfsGroupECP384  = PfsGroup("ECP384")
-	PfsGroupNone    = PfsGroup("None")
-	PfsGroupPFS1    = PfsGroup("PFS1")
-	PfsGroupPFS14   = PfsGroup("PFS14")
-	PfsGroupPFS2    = PfsGroup("PFS2")
-	PfsGroupPFS2048 = PfsGroup("PFS2048")
-	PfsGroupPFS24   = PfsGroup("PFS24")
-	PfsGroupPFSMM   = PfsGroup("PFSMM")
+	PfsGroup_ECP256  = PfsGroup("ECP256")
+	PfsGroup_ECP384  = PfsGroup("ECP384")
+	PfsGroup_None    = PfsGroup("None")
+	PfsGroup_PFS1    = PfsGroup("PFS1")
+	PfsGroup_PFS14   = PfsGroup("PFS14")
+	PfsGroup_PFS2    = PfsGroup("PFS2")
+	PfsGroup_PFS2048 = PfsGroup("PFS2048")
+	PfsGroup_PFS24   = PfsGroup("PFS24")
+	PfsGroup_PFSMM   = PfsGroup("PFSMM")
 )
 
 // Deprecated version of PfsGroup_STATUS. Use v1beta20201101.PfsGroup_STATUS instead
 type PfsGroup_STATUS string
 
 const (
-	PfsGroup_STATUSECP256  = PfsGroup_STATUS("ECP256")
-	PfsGroup_STATUSECP384  = PfsGroup_STATUS("ECP384")
-	PfsGroup_STATUSNone    = PfsGroup_STATUS("None")
-	PfsGroup_STATUSPFS1    = PfsGroup_STATUS("PFS1")
-	PfsGroup_STATUSPFS14   = PfsGroup_STATUS("PFS14")
-	PfsGroup_STATUSPFS2    = PfsGroup_STATUS("PFS2")
-	PfsGroup_STATUSPFS2048 = PfsGroup_STATUS("PFS2048")
-	PfsGroup_STATUSPFS24   = PfsGroup_STATUS("PFS24")
-	PfsGroup_STATUSPFSMM   = PfsGroup_STATUS("PFSMM")
+	PfsGroup_ECP256_STATUS  = PfsGroup_STATUS("ECP256")
+	PfsGroup_ECP384_STATUS  = PfsGroup_STATUS("ECP384")
+	PfsGroup_None_STATUS    = PfsGroup_STATUS("None")
+	PfsGroup_PFS1_STATUS    = PfsGroup_STATUS("PFS1")
+	PfsGroup_PFS14_STATUS   = PfsGroup_STATUS("PFS14")
+	PfsGroup_PFS2_STATUS    = PfsGroup_STATUS("PFS2")
+	PfsGroup_PFS2048_STATUS = PfsGroup_STATUS("PFS2048")
+	PfsGroup_PFS24_STATUS   = PfsGroup_STATUS("PFS24")
+	PfsGroup_PFSMM_STATUS   = PfsGroup_STATUS("PFSMM")
 )
 
 func init() {

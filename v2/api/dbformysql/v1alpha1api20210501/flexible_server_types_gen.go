@@ -113,7 +113,7 @@ func (server *FlexibleServer) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20210501"
 func (server FlexibleServer) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -354,7 +354,7 @@ type FlexibleServerList struct {
 // +kubebuilder:validation:Enum={"20210501"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("20210501")
+const APIVersion_Value = APIVersion("20210501")
 
 // Deprecated version of FlexibleServer_STATUS. Use v1beta20210501.FlexibleServer_STATUS instead
 type FlexibleServer_STATUS struct {
@@ -3625,18 +3625,18 @@ func (network *Network_STATUS) AssignPropertiesToNetwork_STATUS(destination *alp
 type ReplicationRole string
 
 const (
-	ReplicationRoleNone    = ReplicationRole("None")
-	ReplicationRoleReplica = ReplicationRole("Replica")
-	ReplicationRoleSource  = ReplicationRole("Source")
+	ReplicationRole_None    = ReplicationRole("None")
+	ReplicationRole_Replica = ReplicationRole("Replica")
+	ReplicationRole_Source  = ReplicationRole("Source")
 )
 
 // Deprecated version of ReplicationRole_STATUS. Use v1beta20210501.ReplicationRole_STATUS instead
 type ReplicationRole_STATUS string
 
 const (
-	ReplicationRole_STATUSNone    = ReplicationRole_STATUS("None")
-	ReplicationRole_STATUSReplica = ReplicationRole_STATUS("Replica")
-	ReplicationRole_STATUSSource  = ReplicationRole_STATUS("Source")
+	ReplicationRole_None_STATUS    = ReplicationRole_STATUS("None")
+	ReplicationRole_Replica_STATUS = ReplicationRole_STATUS("Replica")
+	ReplicationRole_Source_STATUS  = ReplicationRole_STATUS("Source")
 )
 
 // Deprecated version of ServerProperties_CreateMode. Use v1beta20210501.ServerProperties_CreateMode instead
@@ -3644,20 +3644,20 @@ const (
 type ServerProperties_CreateMode string
 
 const (
-	ServerProperties_CreateModeDefault            = ServerProperties_CreateMode("Default")
-	ServerProperties_CreateModeGeoRestore         = ServerProperties_CreateMode("GeoRestore")
-	ServerProperties_CreateModePointInTimeRestore = ServerProperties_CreateMode("PointInTimeRestore")
-	ServerProperties_CreateModeReplica            = ServerProperties_CreateMode("Replica")
+	ServerProperties_CreateMode_Default            = ServerProperties_CreateMode("Default")
+	ServerProperties_CreateMode_GeoRestore         = ServerProperties_CreateMode("GeoRestore")
+	ServerProperties_CreateMode_PointInTimeRestore = ServerProperties_CreateMode("PointInTimeRestore")
+	ServerProperties_CreateMode_Replica            = ServerProperties_CreateMode("Replica")
 )
 
 // Deprecated version of ServerProperties_CreateMode_STATUS. Use v1beta20210501.ServerProperties_CreateMode_STATUS instead
 type ServerProperties_CreateMode_STATUS string
 
 const (
-	ServerProperties_CreateMode_STATUSDefault            = ServerProperties_CreateMode_STATUS("Default")
-	ServerProperties_CreateMode_STATUSGeoRestore         = ServerProperties_CreateMode_STATUS("GeoRestore")
-	ServerProperties_CreateMode_STATUSPointInTimeRestore = ServerProperties_CreateMode_STATUS("PointInTimeRestore")
-	ServerProperties_CreateMode_STATUSReplica            = ServerProperties_CreateMode_STATUS("Replica")
+	ServerProperties_CreateMode_Default_STATUS            = ServerProperties_CreateMode_STATUS("Default")
+	ServerProperties_CreateMode_GeoRestore_STATUS         = ServerProperties_CreateMode_STATUS("GeoRestore")
+	ServerProperties_CreateMode_PointInTimeRestore_STATUS = ServerProperties_CreateMode_STATUS("PointInTimeRestore")
+	ServerProperties_CreateMode_Replica_STATUS            = ServerProperties_CreateMode_STATUS("Replica")
 )
 
 // Deprecated version of ServerProperties_State. Use v1beta20210501.ServerProperties_State instead
@@ -3665,26 +3665,26 @@ const (
 type ServerProperties_State string
 
 const (
-	ServerProperties_StateDisabled = ServerProperties_State("Disabled")
-	ServerProperties_StateDropping = ServerProperties_State("Dropping")
-	ServerProperties_StateReady    = ServerProperties_State("Ready")
-	ServerProperties_StateStarting = ServerProperties_State("Starting")
-	ServerProperties_StateStopped  = ServerProperties_State("Stopped")
-	ServerProperties_StateStopping = ServerProperties_State("Stopping")
-	ServerProperties_StateUpdating = ServerProperties_State("Updating")
+	ServerProperties_State_Disabled = ServerProperties_State("Disabled")
+	ServerProperties_State_Dropping = ServerProperties_State("Dropping")
+	ServerProperties_State_Ready    = ServerProperties_State("Ready")
+	ServerProperties_State_Starting = ServerProperties_State("Starting")
+	ServerProperties_State_Stopped  = ServerProperties_State("Stopped")
+	ServerProperties_State_Stopping = ServerProperties_State("Stopping")
+	ServerProperties_State_Updating = ServerProperties_State("Updating")
 )
 
 // Deprecated version of ServerProperties_State_STATUS. Use v1beta20210501.ServerProperties_State_STATUS instead
 type ServerProperties_State_STATUS string
 
 const (
-	ServerProperties_State_STATUSDisabled = ServerProperties_State_STATUS("Disabled")
-	ServerProperties_State_STATUSDropping = ServerProperties_State_STATUS("Dropping")
-	ServerProperties_State_STATUSReady    = ServerProperties_State_STATUS("Ready")
-	ServerProperties_State_STATUSStarting = ServerProperties_State_STATUS("Starting")
-	ServerProperties_State_STATUSStopped  = ServerProperties_State_STATUS("Stopped")
-	ServerProperties_State_STATUSStopping = ServerProperties_State_STATUS("Stopping")
-	ServerProperties_State_STATUSUpdating = ServerProperties_State_STATUS("Updating")
+	ServerProperties_State_Disabled_STATUS = ServerProperties_State_STATUS("Disabled")
+	ServerProperties_State_Dropping_STATUS = ServerProperties_State_STATUS("Dropping")
+	ServerProperties_State_Ready_STATUS    = ServerProperties_State_STATUS("Ready")
+	ServerProperties_State_Starting_STATUS = ServerProperties_State_STATUS("Starting")
+	ServerProperties_State_Stopped_STATUS  = ServerProperties_State_STATUS("Stopped")
+	ServerProperties_State_Stopping_STATUS = ServerProperties_State_STATUS("Stopping")
+	ServerProperties_State_Updating_STATUS = ServerProperties_State_STATUS("Updating")
 )
 
 // Deprecated version of ServerVersion. Use v1beta20210501.ServerVersion instead
@@ -3692,16 +3692,16 @@ const (
 type ServerVersion string
 
 const (
-	ServerVersion57   = ServerVersion("5.7")
-	ServerVersion8021 = ServerVersion("8.0.21")
+	ServerVersion_57   = ServerVersion("5.7")
+	ServerVersion_8021 = ServerVersion("8.0.21")
 )
 
 // Deprecated version of ServerVersion_STATUS. Use v1beta20210501.ServerVersion_STATUS instead
 type ServerVersion_STATUS string
 
 const (
-	ServerVersion_STATUS57   = ServerVersion_STATUS("5.7")
-	ServerVersion_STATUS8021 = ServerVersion_STATUS("8.0.21")
+	ServerVersion_57_STATUS   = ServerVersion_STATUS("5.7")
+	ServerVersion_8021_STATUS = ServerVersion_STATUS("8.0.21")
 )
 
 // Deprecated version of Sku. Use v1beta20210501.Sku instead
@@ -4493,16 +4493,16 @@ func (data *SystemData_STATUS) AssignPropertiesToSystemData_STATUS(destination *
 type DataEncryption_Type string
 
 const (
-	DataEncryption_TypeAzureKeyVault = DataEncryption_Type("AzureKeyVault")
-	DataEncryption_TypeSystemManaged = DataEncryption_Type("SystemManaged")
+	DataEncryption_Type_AzureKeyVault = DataEncryption_Type("AzureKeyVault")
+	DataEncryption_Type_SystemManaged = DataEncryption_Type("SystemManaged")
 )
 
 // Deprecated version of DataEncryption_Type_STATUS. Use v1beta20210501.DataEncryption_Type_STATUS instead
 type DataEncryption_Type_STATUS string
 
 const (
-	DataEncryption_Type_STATUSAzureKeyVault = DataEncryption_Type_STATUS("AzureKeyVault")
-	DataEncryption_Type_STATUSSystemManaged = DataEncryption_Type_STATUS("SystemManaged")
+	DataEncryption_Type_AzureKeyVault_STATUS = DataEncryption_Type_STATUS("AzureKeyVault")
+	DataEncryption_Type_SystemManaged_STATUS = DataEncryption_Type_STATUS("SystemManaged")
 )
 
 // Deprecated version of EnableStatusEnum. Use v1beta20210501.EnableStatusEnum instead
@@ -4510,16 +4510,16 @@ const (
 type EnableStatusEnum string
 
 const (
-	EnableStatusEnumDisabled = EnableStatusEnum("Disabled")
-	EnableStatusEnumEnabled  = EnableStatusEnum("Enabled")
+	EnableStatusEnum_Disabled = EnableStatusEnum("Disabled")
+	EnableStatusEnum_Enabled  = EnableStatusEnum("Enabled")
 )
 
 // Deprecated version of EnableStatusEnum_STATUS. Use v1beta20210501.EnableStatusEnum_STATUS instead
 type EnableStatusEnum_STATUS string
 
 const (
-	EnableStatusEnum_STATUSDisabled = EnableStatusEnum_STATUS("Disabled")
-	EnableStatusEnum_STATUSEnabled  = EnableStatusEnum_STATUS("Enabled")
+	EnableStatusEnum_Disabled_STATUS = EnableStatusEnum_STATUS("Disabled")
+	EnableStatusEnum_Enabled_STATUS  = EnableStatusEnum_STATUS("Enabled")
 )
 
 type FlexibleServerOperatorSecrets struct {
@@ -4572,18 +4572,18 @@ func (secrets *FlexibleServerOperatorSecrets) AssignPropertiesToFlexibleServerOp
 type HighAvailability_Mode string
 
 const (
-	HighAvailability_ModeDisabled      = HighAvailability_Mode("Disabled")
-	HighAvailability_ModeSameZone      = HighAvailability_Mode("SameZone")
-	HighAvailability_ModeZoneRedundant = HighAvailability_Mode("ZoneRedundant")
+	HighAvailability_Mode_Disabled      = HighAvailability_Mode("Disabled")
+	HighAvailability_Mode_SameZone      = HighAvailability_Mode("SameZone")
+	HighAvailability_Mode_ZoneRedundant = HighAvailability_Mode("ZoneRedundant")
 )
 
 // Deprecated version of HighAvailability_Mode_STATUS. Use v1beta20210501.HighAvailability_Mode_STATUS instead
 type HighAvailability_Mode_STATUS string
 
 const (
-	HighAvailability_Mode_STATUSDisabled      = HighAvailability_Mode_STATUS("Disabled")
-	HighAvailability_Mode_STATUSSameZone      = HighAvailability_Mode_STATUS("SameZone")
-	HighAvailability_Mode_STATUSZoneRedundant = HighAvailability_Mode_STATUS("ZoneRedundant")
+	HighAvailability_Mode_Disabled_STATUS      = HighAvailability_Mode_STATUS("Disabled")
+	HighAvailability_Mode_SameZone_STATUS      = HighAvailability_Mode_STATUS("SameZone")
+	HighAvailability_Mode_ZoneRedundant_STATUS = HighAvailability_Mode_STATUS("ZoneRedundant")
 )
 
 // Deprecated version of HighAvailability_State. Use v1beta20210501.HighAvailability_State instead
@@ -4591,22 +4591,22 @@ const (
 type HighAvailability_State string
 
 const (
-	HighAvailability_StateCreatingStandby = HighAvailability_State("CreatingStandby")
-	HighAvailability_StateFailingOver     = HighAvailability_State("FailingOver")
-	HighAvailability_StateHealthy         = HighAvailability_State("Healthy")
-	HighAvailability_StateNotEnabled      = HighAvailability_State("NotEnabled")
-	HighAvailability_StateRemovingStandby = HighAvailability_State("RemovingStandby")
+	HighAvailability_State_CreatingStandby = HighAvailability_State("CreatingStandby")
+	HighAvailability_State_FailingOver     = HighAvailability_State("FailingOver")
+	HighAvailability_State_Healthy         = HighAvailability_State("Healthy")
+	HighAvailability_State_NotEnabled      = HighAvailability_State("NotEnabled")
+	HighAvailability_State_RemovingStandby = HighAvailability_State("RemovingStandby")
 )
 
 // Deprecated version of HighAvailability_State_STATUS. Use v1beta20210501.HighAvailability_State_STATUS instead
 type HighAvailability_State_STATUS string
 
 const (
-	HighAvailability_State_STATUSCreatingStandby = HighAvailability_State_STATUS("CreatingStandby")
-	HighAvailability_State_STATUSFailingOver     = HighAvailability_State_STATUS("FailingOver")
-	HighAvailability_State_STATUSHealthy         = HighAvailability_State_STATUS("Healthy")
-	HighAvailability_State_STATUSNotEnabled      = HighAvailability_State_STATUS("NotEnabled")
-	HighAvailability_State_STATUSRemovingStandby = HighAvailability_State_STATUS("RemovingStandby")
+	HighAvailability_State_CreatingStandby_STATUS = HighAvailability_State_STATUS("CreatingStandby")
+	HighAvailability_State_FailingOver_STATUS     = HighAvailability_State_STATUS("FailingOver")
+	HighAvailability_State_Healthy_STATUS         = HighAvailability_State_STATUS("Healthy")
+	HighAvailability_State_NotEnabled_STATUS      = HighAvailability_State_STATUS("NotEnabled")
+	HighAvailability_State_RemovingStandby_STATUS = HighAvailability_State_STATUS("RemovingStandby")
 )
 
 func init() {

@@ -148,15 +148,15 @@ type PublicIPAddressDnsSettings_STATUSARM struct {
 type PublicIPAddressSku_Name_STATUS string
 
 const (
-	PublicIPAddressSku_Name_STATUSBasic    = PublicIPAddressSku_Name_STATUS("Basic")
-	PublicIPAddressSku_Name_STATUSStandard = PublicIPAddressSku_Name_STATUS("Standard")
+	PublicIPAddressSku_Name_Basic_STATUS    = PublicIPAddressSku_Name_STATUS("Basic")
+	PublicIPAddressSku_Name_Standard_STATUS = PublicIPAddressSku_Name_STATUS("Standard")
 )
 
 type PublicIPAddressSku_Tier_STATUS string
 
 const (
-	PublicIPAddressSku_Tier_STATUSGlobal   = PublicIPAddressSku_Tier_STATUS("Global")
-	PublicIPAddressSku_Tier_STATUSRegional = PublicIPAddressSku_Tier_STATUS("Regional")
+	PublicIPAddressSku_Tier_Global_STATUS   = PublicIPAddressSku_Tier_STATUS("Global")
+	PublicIPAddressSku_Tier_Regional_STATUS = PublicIPAddressSku_Tier_STATUS("Regional")
 )
 
 type IPConfigurationPropertiesFormat_STATUS_PublicIPAddress_SubResourceEmbeddedARM struct {

@@ -99,7 +99,7 @@ func (subnet *VirtualNetworksSubnet) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20201101"
 func (subnet VirtualNetworksSubnet) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -5873,30 +5873,30 @@ func (format *ServiceEndpointPropertiesFormat_STATUS) AssignPropertiesToServiceE
 type SubnetPropertiesFormat_PrivateEndpointNetworkPolicies string
 
 const (
-	SubnetPropertiesFormat_PrivateEndpointNetworkPoliciesDisabled = SubnetPropertiesFormat_PrivateEndpointNetworkPolicies("Disabled")
-	SubnetPropertiesFormat_PrivateEndpointNetworkPoliciesEnabled  = SubnetPropertiesFormat_PrivateEndpointNetworkPolicies("Enabled")
+	SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_Disabled = SubnetPropertiesFormat_PrivateEndpointNetworkPolicies("Disabled")
+	SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_Enabled  = SubnetPropertiesFormat_PrivateEndpointNetworkPolicies("Enabled")
 )
 
 type SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUS string
 
 const (
-	SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUSDisabled = SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUS("Disabled")
-	SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUSEnabled  = SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUS("Enabled")
+	SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_Disabled_STATUS = SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUS("Disabled")
+	SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_Enabled_STATUS  = SubnetPropertiesFormat_PrivateEndpointNetworkPolicies_STATUS("Enabled")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies string
 
 const (
-	SubnetPropertiesFormat_PrivateLinkServiceNetworkPoliciesDisabled = SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies("Disabled")
-	SubnetPropertiesFormat_PrivateLinkServiceNetworkPoliciesEnabled  = SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies("Enabled")
+	SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_Disabled = SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies("Disabled")
+	SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_Enabled  = SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies("Enabled")
 )
 
 type SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS string
 
 const (
-	SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUSDisabled = SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS("Disabled")
-	SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUSEnabled  = SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS("Enabled")
+	SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_Disabled_STATUS = SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS("Disabled")
+	SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_Enabled_STATUS  = SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies_STATUS("Enabled")
 )
 
 type PublicIPAddressSpec_VirtualNetworksSubnet_SubResourceEmbedded struct {

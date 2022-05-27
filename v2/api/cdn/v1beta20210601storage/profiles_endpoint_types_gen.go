@@ -52,7 +52,7 @@ func (endpoint *ProfilesEndpoint) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20210601"
 func (endpoint ProfilesEndpoint) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource

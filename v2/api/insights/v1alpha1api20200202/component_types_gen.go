@@ -113,7 +113,7 @@ func (component *Component) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20200202"
 func (component Component) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -336,7 +336,7 @@ type ComponentList struct {
 // +kubebuilder:validation:Enum={"20200202"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("20200202")
+const APIVersion_Value = APIVersion("20200202")
 
 // Deprecated version of Component_STATUS. Use v1beta20200202.Component_STATUS instead
 type Component_STATUS struct {
@@ -2088,8 +2088,8 @@ func (component *Component_Spec) SetAzureName(azureName string) { component.Azur
 type ApplicationInsightsComponentProperties_Application_Type string
 
 const (
-	ApplicationInsightsComponentProperties_Application_TypeOther = ApplicationInsightsComponentProperties_Application_Type("other")
-	ApplicationInsightsComponentProperties_Application_TypeWeb   = ApplicationInsightsComponentProperties_Application_Type("web")
+	ApplicationInsightsComponentProperties_Application_Type_Other = ApplicationInsightsComponentProperties_Application_Type("other")
+	ApplicationInsightsComponentProperties_Application_Type_Web   = ApplicationInsightsComponentProperties_Application_Type("web")
 )
 
 // Deprecated version of ApplicationInsightsComponentProperties_Application_Type_STATUS. Use
@@ -2097,8 +2097,8 @@ const (
 type ApplicationInsightsComponentProperties_Application_Type_STATUS string
 
 const (
-	ApplicationInsightsComponentProperties_Application_Type_STATUSOther = ApplicationInsightsComponentProperties_Application_Type_STATUS("other")
-	ApplicationInsightsComponentProperties_Application_Type_STATUSWeb   = ApplicationInsightsComponentProperties_Application_Type_STATUS("web")
+	ApplicationInsightsComponentProperties_Application_Type_Other_STATUS = ApplicationInsightsComponentProperties_Application_Type_STATUS("other")
+	ApplicationInsightsComponentProperties_Application_Type_Web_STATUS   = ApplicationInsightsComponentProperties_Application_Type_STATUS("web")
 )
 
 // Deprecated version of ApplicationInsightsComponentProperties_Flow_Type. Use
@@ -2106,13 +2106,13 @@ const (
 // +kubebuilder:validation:Enum={"Bluefield"}
 type ApplicationInsightsComponentProperties_Flow_Type string
 
-const ApplicationInsightsComponentProperties_Flow_TypeBluefield = ApplicationInsightsComponentProperties_Flow_Type("Bluefield")
+const ApplicationInsightsComponentProperties_Flow_Type_Bluefield = ApplicationInsightsComponentProperties_Flow_Type("Bluefield")
 
 // Deprecated version of ApplicationInsightsComponentProperties_Flow_Type_STATUS. Use
 // v1beta20200202.ApplicationInsightsComponentProperties_Flow_Type_STATUS instead
 type ApplicationInsightsComponentProperties_Flow_Type_STATUS string
 
-const ApplicationInsightsComponentProperties_Flow_Type_STATUSBluefield = ApplicationInsightsComponentProperties_Flow_Type_STATUS("Bluefield")
+const ApplicationInsightsComponentProperties_Flow_Type_Bluefield_STATUS = ApplicationInsightsComponentProperties_Flow_Type_STATUS("Bluefield")
 
 // Deprecated version of ApplicationInsightsComponentProperties_IngestionMode. Use
 // v1beta20200202.ApplicationInsightsComponentProperties_IngestionMode instead
@@ -2120,9 +2120,9 @@ const ApplicationInsightsComponentProperties_Flow_Type_STATUSBluefield = Applica
 type ApplicationInsightsComponentProperties_IngestionMode string
 
 const (
-	ApplicationInsightsComponentProperties_IngestionModeApplicationInsights                       = ApplicationInsightsComponentProperties_IngestionMode("ApplicationInsights")
-	ApplicationInsightsComponentProperties_IngestionModeApplicationInsightsWithDiagnosticSettings = ApplicationInsightsComponentProperties_IngestionMode("ApplicationInsightsWithDiagnosticSettings")
-	ApplicationInsightsComponentProperties_IngestionModeLogAnalytics                              = ApplicationInsightsComponentProperties_IngestionMode("LogAnalytics")
+	ApplicationInsightsComponentProperties_IngestionMode_ApplicationInsights                       = ApplicationInsightsComponentProperties_IngestionMode("ApplicationInsights")
+	ApplicationInsightsComponentProperties_IngestionMode_ApplicationInsightsWithDiagnosticSettings = ApplicationInsightsComponentProperties_IngestionMode("ApplicationInsightsWithDiagnosticSettings")
+	ApplicationInsightsComponentProperties_IngestionMode_LogAnalytics                              = ApplicationInsightsComponentProperties_IngestionMode("LogAnalytics")
 )
 
 // Deprecated version of ApplicationInsightsComponentProperties_IngestionMode_STATUS. Use
@@ -2130,9 +2130,9 @@ const (
 type ApplicationInsightsComponentProperties_IngestionMode_STATUS string
 
 const (
-	ApplicationInsightsComponentProperties_IngestionMode_STATUSApplicationInsights                       = ApplicationInsightsComponentProperties_IngestionMode_STATUS("ApplicationInsights")
-	ApplicationInsightsComponentProperties_IngestionMode_STATUSApplicationInsightsWithDiagnosticSettings = ApplicationInsightsComponentProperties_IngestionMode_STATUS("ApplicationInsightsWithDiagnosticSettings")
-	ApplicationInsightsComponentProperties_IngestionMode_STATUSLogAnalytics                              = ApplicationInsightsComponentProperties_IngestionMode_STATUS("LogAnalytics")
+	ApplicationInsightsComponentProperties_IngestionMode_ApplicationInsights_STATUS                       = ApplicationInsightsComponentProperties_IngestionMode_STATUS("ApplicationInsights")
+	ApplicationInsightsComponentProperties_IngestionMode_ApplicationInsightsWithDiagnosticSettings_STATUS = ApplicationInsightsComponentProperties_IngestionMode_STATUS("ApplicationInsightsWithDiagnosticSettings")
+	ApplicationInsightsComponentProperties_IngestionMode_LogAnalytics_STATUS                              = ApplicationInsightsComponentProperties_IngestionMode_STATUS("LogAnalytics")
 )
 
 // Deprecated version of ApplicationInsightsComponentProperties_Request_Source. Use
@@ -2140,13 +2140,13 @@ const (
 // +kubebuilder:validation:Enum={"rest"}
 type ApplicationInsightsComponentProperties_Request_Source string
 
-const ApplicationInsightsComponentProperties_Request_SourceRest = ApplicationInsightsComponentProperties_Request_Source("rest")
+const ApplicationInsightsComponentProperties_Request_Source_Rest = ApplicationInsightsComponentProperties_Request_Source("rest")
 
 // Deprecated version of ApplicationInsightsComponentProperties_Request_Source_STATUS. Use
 // v1beta20200202.ApplicationInsightsComponentProperties_Request_Source_STATUS instead
 type ApplicationInsightsComponentProperties_Request_Source_STATUS string
 
-const ApplicationInsightsComponentProperties_Request_Source_STATUSRest = ApplicationInsightsComponentProperties_Request_Source_STATUS("rest")
+const ApplicationInsightsComponentProperties_Request_Source_Rest_STATUS = ApplicationInsightsComponentProperties_Request_Source_STATUS("rest")
 
 // Deprecated version of PrivateLinkScopedResource. Use v1beta20200202.PrivateLinkScopedResource instead
 type PrivateLinkScopedResource struct {
@@ -2316,16 +2316,16 @@ func (resource *PrivateLinkScopedResource_STATUS) AssignPropertiesToPrivateLinkS
 type PublicNetworkAccessType string
 
 const (
-	PublicNetworkAccessTypeDisabled = PublicNetworkAccessType("Disabled")
-	PublicNetworkAccessTypeEnabled  = PublicNetworkAccessType("Enabled")
+	PublicNetworkAccessType_Disabled = PublicNetworkAccessType("Disabled")
+	PublicNetworkAccessType_Enabled  = PublicNetworkAccessType("Enabled")
 )
 
 // Deprecated version of PublicNetworkAccessType_STATUS. Use v1beta20200202.PublicNetworkAccessType_STATUS instead
 type PublicNetworkAccessType_STATUS string
 
 const (
-	PublicNetworkAccessType_STATUSDisabled = PublicNetworkAccessType_STATUS("Disabled")
-	PublicNetworkAccessType_STATUSEnabled  = PublicNetworkAccessType_STATUS("Enabled")
+	PublicNetworkAccessType_Disabled_STATUS = PublicNetworkAccessType_STATUS("Disabled")
+	PublicNetworkAccessType_Enabled_STATUS  = PublicNetworkAccessType_STATUS("Enabled")
 )
 
 func init() {

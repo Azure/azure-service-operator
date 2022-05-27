@@ -99,7 +99,7 @@ func (endpoint *ProfilesEndpoint) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20210601"
 func (endpoint ProfilesEndpoint) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -4513,44 +4513,44 @@ func (policy *EndpointProperties_DeliveryPolicy_STATUS) AssignPropertiesToEndpoi
 type EndpointProperties_ProvisioningState string
 
 const (
-	EndpointProperties_ProvisioningStateCreating  = EndpointProperties_ProvisioningState("Creating")
-	EndpointProperties_ProvisioningStateDeleting  = EndpointProperties_ProvisioningState("Deleting")
-	EndpointProperties_ProvisioningStateFailed    = EndpointProperties_ProvisioningState("Failed")
-	EndpointProperties_ProvisioningStateSucceeded = EndpointProperties_ProvisioningState("Succeeded")
-	EndpointProperties_ProvisioningStateUpdating  = EndpointProperties_ProvisioningState("Updating")
+	EndpointProperties_ProvisioningState_Creating  = EndpointProperties_ProvisioningState("Creating")
+	EndpointProperties_ProvisioningState_Deleting  = EndpointProperties_ProvisioningState("Deleting")
+	EndpointProperties_ProvisioningState_Failed    = EndpointProperties_ProvisioningState("Failed")
+	EndpointProperties_ProvisioningState_Succeeded = EndpointProperties_ProvisioningState("Succeeded")
+	EndpointProperties_ProvisioningState_Updating  = EndpointProperties_ProvisioningState("Updating")
 )
 
 type EndpointProperties_ProvisioningState_STATUS string
 
 const (
-	EndpointProperties_ProvisioningState_STATUSCreating  = EndpointProperties_ProvisioningState_STATUS("Creating")
-	EndpointProperties_ProvisioningState_STATUSDeleting  = EndpointProperties_ProvisioningState_STATUS("Deleting")
-	EndpointProperties_ProvisioningState_STATUSFailed    = EndpointProperties_ProvisioningState_STATUS("Failed")
-	EndpointProperties_ProvisioningState_STATUSSucceeded = EndpointProperties_ProvisioningState_STATUS("Succeeded")
-	EndpointProperties_ProvisioningState_STATUSUpdating  = EndpointProperties_ProvisioningState_STATUS("Updating")
+	EndpointProperties_ProvisioningState_Creating_STATUS  = EndpointProperties_ProvisioningState_STATUS("Creating")
+	EndpointProperties_ProvisioningState_Deleting_STATUS  = EndpointProperties_ProvisioningState_STATUS("Deleting")
+	EndpointProperties_ProvisioningState_Failed_STATUS    = EndpointProperties_ProvisioningState_STATUS("Failed")
+	EndpointProperties_ProvisioningState_Succeeded_STATUS = EndpointProperties_ProvisioningState_STATUS("Succeeded")
+	EndpointProperties_ProvisioningState_Updating_STATUS  = EndpointProperties_ProvisioningState_STATUS("Updating")
 )
 
 // +kubebuilder:validation:Enum={"Creating","Deleting","Running","Starting","Stopped","Stopping"}
 type EndpointProperties_ResourceState string
 
 const (
-	EndpointProperties_ResourceStateCreating = EndpointProperties_ResourceState("Creating")
-	EndpointProperties_ResourceStateDeleting = EndpointProperties_ResourceState("Deleting")
-	EndpointProperties_ResourceStateRunning  = EndpointProperties_ResourceState("Running")
-	EndpointProperties_ResourceStateStarting = EndpointProperties_ResourceState("Starting")
-	EndpointProperties_ResourceStateStopped  = EndpointProperties_ResourceState("Stopped")
-	EndpointProperties_ResourceStateStopping = EndpointProperties_ResourceState("Stopping")
+	EndpointProperties_ResourceState_Creating = EndpointProperties_ResourceState("Creating")
+	EndpointProperties_ResourceState_Deleting = EndpointProperties_ResourceState("Deleting")
+	EndpointProperties_ResourceState_Running  = EndpointProperties_ResourceState("Running")
+	EndpointProperties_ResourceState_Starting = EndpointProperties_ResourceState("Starting")
+	EndpointProperties_ResourceState_Stopped  = EndpointProperties_ResourceState("Stopped")
+	EndpointProperties_ResourceState_Stopping = EndpointProperties_ResourceState("Stopping")
 )
 
 type EndpointProperties_ResourceState_STATUS string
 
 const (
-	EndpointProperties_ResourceState_STATUSCreating = EndpointProperties_ResourceState_STATUS("Creating")
-	EndpointProperties_ResourceState_STATUSDeleting = EndpointProperties_ResourceState_STATUS("Deleting")
-	EndpointProperties_ResourceState_STATUSRunning  = EndpointProperties_ResourceState_STATUS("Running")
-	EndpointProperties_ResourceState_STATUSStarting = EndpointProperties_ResourceState_STATUS("Starting")
-	EndpointProperties_ResourceState_STATUSStopped  = EndpointProperties_ResourceState_STATUS("Stopped")
-	EndpointProperties_ResourceState_STATUSStopping = EndpointProperties_ResourceState_STATUS("Stopping")
+	EndpointProperties_ResourceState_Creating_STATUS = EndpointProperties_ResourceState_STATUS("Creating")
+	EndpointProperties_ResourceState_Deleting_STATUS = EndpointProperties_ResourceState_STATUS("Deleting")
+	EndpointProperties_ResourceState_Running_STATUS  = EndpointProperties_ResourceState_STATUS("Running")
+	EndpointProperties_ResourceState_Starting_STATUS = EndpointProperties_ResourceState_STATUS("Starting")
+	EndpointProperties_ResourceState_Stopped_STATUS  = EndpointProperties_ResourceState_STATUS("Stopped")
+	EndpointProperties_ResourceState_Stopping_STATUS = EndpointProperties_ResourceState_STATUS("Stopping")
 )
 
 type EndpointProperties_WebApplicationFirewallPolicyLink struct {
@@ -4911,40 +4911,40 @@ func (filter *GeoFilter_STATUS) AssignPropertiesToGeoFilter_STATUS(destination *
 type OptimizationType string
 
 const (
-	OptimizationTypeDynamicSiteAcceleration     = OptimizationType("DynamicSiteAcceleration")
-	OptimizationTypeGeneralMediaStreaming       = OptimizationType("GeneralMediaStreaming")
-	OptimizationTypeGeneralWebDelivery          = OptimizationType("GeneralWebDelivery")
-	OptimizationTypeLargeFileDownload           = OptimizationType("LargeFileDownload")
-	OptimizationTypeVideoOnDemandMediaStreaming = OptimizationType("VideoOnDemandMediaStreaming")
+	OptimizationType_DynamicSiteAcceleration     = OptimizationType("DynamicSiteAcceleration")
+	OptimizationType_GeneralMediaStreaming       = OptimizationType("GeneralMediaStreaming")
+	OptimizationType_GeneralWebDelivery          = OptimizationType("GeneralWebDelivery")
+	OptimizationType_LargeFileDownload           = OptimizationType("LargeFileDownload")
+	OptimizationType_VideoOnDemandMediaStreaming = OptimizationType("VideoOnDemandMediaStreaming")
 )
 
 type OptimizationType_STATUS string
 
 const (
-	OptimizationType_STATUSDynamicSiteAcceleration     = OptimizationType_STATUS("DynamicSiteAcceleration")
-	OptimizationType_STATUSGeneralMediaStreaming       = OptimizationType_STATUS("GeneralMediaStreaming")
-	OptimizationType_STATUSGeneralWebDelivery          = OptimizationType_STATUS("GeneralWebDelivery")
-	OptimizationType_STATUSLargeFileDownload           = OptimizationType_STATUS("LargeFileDownload")
-	OptimizationType_STATUSVideoOnDemandMediaStreaming = OptimizationType_STATUS("VideoOnDemandMediaStreaming")
+	OptimizationType_DynamicSiteAcceleration_STATUS     = OptimizationType_STATUS("DynamicSiteAcceleration")
+	OptimizationType_GeneralMediaStreaming_STATUS       = OptimizationType_STATUS("GeneralMediaStreaming")
+	OptimizationType_GeneralWebDelivery_STATUS          = OptimizationType_STATUS("GeneralWebDelivery")
+	OptimizationType_LargeFileDownload_STATUS           = OptimizationType_STATUS("LargeFileDownload")
+	OptimizationType_VideoOnDemandMediaStreaming_STATUS = OptimizationType_STATUS("VideoOnDemandMediaStreaming")
 )
 
 // +kubebuilder:validation:Enum={"BypassCaching","IgnoreQueryString","NotSet","UseQueryString"}
 type QueryStringCachingBehavior string
 
 const (
-	QueryStringCachingBehaviorBypassCaching     = QueryStringCachingBehavior("BypassCaching")
-	QueryStringCachingBehaviorIgnoreQueryString = QueryStringCachingBehavior("IgnoreQueryString")
-	QueryStringCachingBehaviorNotSet            = QueryStringCachingBehavior("NotSet")
-	QueryStringCachingBehaviorUseQueryString    = QueryStringCachingBehavior("UseQueryString")
+	QueryStringCachingBehavior_BypassCaching     = QueryStringCachingBehavior("BypassCaching")
+	QueryStringCachingBehavior_IgnoreQueryString = QueryStringCachingBehavior("IgnoreQueryString")
+	QueryStringCachingBehavior_NotSet            = QueryStringCachingBehavior("NotSet")
+	QueryStringCachingBehavior_UseQueryString    = QueryStringCachingBehavior("UseQueryString")
 )
 
 type QueryStringCachingBehavior_STATUS string
 
 const (
-	QueryStringCachingBehavior_STATUSBypassCaching     = QueryStringCachingBehavior_STATUS("BypassCaching")
-	QueryStringCachingBehavior_STATUSIgnoreQueryString = QueryStringCachingBehavior_STATUS("IgnoreQueryString")
-	QueryStringCachingBehavior_STATUSNotSet            = QueryStringCachingBehavior_STATUS("NotSet")
-	QueryStringCachingBehavior_STATUSUseQueryString    = QueryStringCachingBehavior_STATUS("UseQueryString")
+	QueryStringCachingBehavior_BypassCaching_STATUS     = QueryStringCachingBehavior_STATUS("BypassCaching")
+	QueryStringCachingBehavior_IgnoreQueryString_STATUS = QueryStringCachingBehavior_STATUS("IgnoreQueryString")
+	QueryStringCachingBehavior_NotSet_STATUS            = QueryStringCachingBehavior_STATUS("NotSet")
+	QueryStringCachingBehavior_UseQueryString_STATUS    = QueryStringCachingBehavior_STATUS("UseQueryString")
 )
 
 type ResourceReference struct {
@@ -5578,90 +5578,90 @@ func (parameters *CustomDomainHttpsParameters_STATUS) AssignPropertiesToCustomDo
 type CustomDomainProperties_CustomHttpsProvisioningState string
 
 const (
-	CustomDomainProperties_CustomHttpsProvisioningStateDisabled  = CustomDomainProperties_CustomHttpsProvisioningState("Disabled")
-	CustomDomainProperties_CustomHttpsProvisioningStateDisabling = CustomDomainProperties_CustomHttpsProvisioningState("Disabling")
-	CustomDomainProperties_CustomHttpsProvisioningStateEnabled   = CustomDomainProperties_CustomHttpsProvisioningState("Enabled")
-	CustomDomainProperties_CustomHttpsProvisioningStateEnabling  = CustomDomainProperties_CustomHttpsProvisioningState("Enabling")
-	CustomDomainProperties_CustomHttpsProvisioningStateFailed    = CustomDomainProperties_CustomHttpsProvisioningState("Failed")
+	CustomDomainProperties_CustomHttpsProvisioningState_Disabled  = CustomDomainProperties_CustomHttpsProvisioningState("Disabled")
+	CustomDomainProperties_CustomHttpsProvisioningState_Disabling = CustomDomainProperties_CustomHttpsProvisioningState("Disabling")
+	CustomDomainProperties_CustomHttpsProvisioningState_Enabled   = CustomDomainProperties_CustomHttpsProvisioningState("Enabled")
+	CustomDomainProperties_CustomHttpsProvisioningState_Enabling  = CustomDomainProperties_CustomHttpsProvisioningState("Enabling")
+	CustomDomainProperties_CustomHttpsProvisioningState_Failed    = CustomDomainProperties_CustomHttpsProvisioningState("Failed")
 )
 
 type CustomDomainProperties_CustomHttpsProvisioningState_STATUS string
 
 const (
-	CustomDomainProperties_CustomHttpsProvisioningState_STATUSDisabled  = CustomDomainProperties_CustomHttpsProvisioningState_STATUS("Disabled")
-	CustomDomainProperties_CustomHttpsProvisioningState_STATUSDisabling = CustomDomainProperties_CustomHttpsProvisioningState_STATUS("Disabling")
-	CustomDomainProperties_CustomHttpsProvisioningState_STATUSEnabled   = CustomDomainProperties_CustomHttpsProvisioningState_STATUS("Enabled")
-	CustomDomainProperties_CustomHttpsProvisioningState_STATUSEnabling  = CustomDomainProperties_CustomHttpsProvisioningState_STATUS("Enabling")
-	CustomDomainProperties_CustomHttpsProvisioningState_STATUSFailed    = CustomDomainProperties_CustomHttpsProvisioningState_STATUS("Failed")
+	CustomDomainProperties_CustomHttpsProvisioningState_Disabled_STATUS  = CustomDomainProperties_CustomHttpsProvisioningState_STATUS("Disabled")
+	CustomDomainProperties_CustomHttpsProvisioningState_Disabling_STATUS = CustomDomainProperties_CustomHttpsProvisioningState_STATUS("Disabling")
+	CustomDomainProperties_CustomHttpsProvisioningState_Enabled_STATUS   = CustomDomainProperties_CustomHttpsProvisioningState_STATUS("Enabled")
+	CustomDomainProperties_CustomHttpsProvisioningState_Enabling_STATUS  = CustomDomainProperties_CustomHttpsProvisioningState_STATUS("Enabling")
+	CustomDomainProperties_CustomHttpsProvisioningState_Failed_STATUS    = CustomDomainProperties_CustomHttpsProvisioningState_STATUS("Failed")
 )
 
 // +kubebuilder:validation:Enum={"CertificateDeleted","CertificateDeployed","DeletingCertificate","DeployingCertificate","DomainControlValidationRequestApproved","DomainControlValidationRequestRejected","DomainControlValidationRequestTimedOut","IssuingCertificate","PendingDomainControlValidationREquestApproval","SubmittingDomainControlValidationRequest"}
 type CustomDomainProperties_CustomHttpsProvisioningSubstate string
 
 const (
-	CustomDomainProperties_CustomHttpsProvisioningSubstateCertificateDeleted                            = CustomDomainProperties_CustomHttpsProvisioningSubstate("CertificateDeleted")
-	CustomDomainProperties_CustomHttpsProvisioningSubstateCertificateDeployed                           = CustomDomainProperties_CustomHttpsProvisioningSubstate("CertificateDeployed")
-	CustomDomainProperties_CustomHttpsProvisioningSubstateDeletingCertificate                           = CustomDomainProperties_CustomHttpsProvisioningSubstate("DeletingCertificate")
-	CustomDomainProperties_CustomHttpsProvisioningSubstateDeployingCertificate                          = CustomDomainProperties_CustomHttpsProvisioningSubstate("DeployingCertificate")
-	CustomDomainProperties_CustomHttpsProvisioningSubstateDomainControlValidationRequestApproved        = CustomDomainProperties_CustomHttpsProvisioningSubstate("DomainControlValidationRequestApproved")
-	CustomDomainProperties_CustomHttpsProvisioningSubstateDomainControlValidationRequestRejected        = CustomDomainProperties_CustomHttpsProvisioningSubstate("DomainControlValidationRequestRejected")
-	CustomDomainProperties_CustomHttpsProvisioningSubstateDomainControlValidationRequestTimedOut        = CustomDomainProperties_CustomHttpsProvisioningSubstate("DomainControlValidationRequestTimedOut")
-	CustomDomainProperties_CustomHttpsProvisioningSubstateIssuingCertificate                            = CustomDomainProperties_CustomHttpsProvisioningSubstate("IssuingCertificate")
-	CustomDomainProperties_CustomHttpsProvisioningSubstatePendingDomainControlValidationREquestApproval = CustomDomainProperties_CustomHttpsProvisioningSubstate("PendingDomainControlValidationREquestApproval")
-	CustomDomainProperties_CustomHttpsProvisioningSubstateSubmittingDomainControlValidationRequest      = CustomDomainProperties_CustomHttpsProvisioningSubstate("SubmittingDomainControlValidationRequest")
+	CustomDomainProperties_CustomHttpsProvisioningSubstate_CertificateDeleted                            = CustomDomainProperties_CustomHttpsProvisioningSubstate("CertificateDeleted")
+	CustomDomainProperties_CustomHttpsProvisioningSubstate_CertificateDeployed                           = CustomDomainProperties_CustomHttpsProvisioningSubstate("CertificateDeployed")
+	CustomDomainProperties_CustomHttpsProvisioningSubstate_DeletingCertificate                           = CustomDomainProperties_CustomHttpsProvisioningSubstate("DeletingCertificate")
+	CustomDomainProperties_CustomHttpsProvisioningSubstate_DeployingCertificate                          = CustomDomainProperties_CustomHttpsProvisioningSubstate("DeployingCertificate")
+	CustomDomainProperties_CustomHttpsProvisioningSubstate_DomainControlValidationRequestApproved        = CustomDomainProperties_CustomHttpsProvisioningSubstate("DomainControlValidationRequestApproved")
+	CustomDomainProperties_CustomHttpsProvisioningSubstate_DomainControlValidationRequestRejected        = CustomDomainProperties_CustomHttpsProvisioningSubstate("DomainControlValidationRequestRejected")
+	CustomDomainProperties_CustomHttpsProvisioningSubstate_DomainControlValidationRequestTimedOut        = CustomDomainProperties_CustomHttpsProvisioningSubstate("DomainControlValidationRequestTimedOut")
+	CustomDomainProperties_CustomHttpsProvisioningSubstate_IssuingCertificate                            = CustomDomainProperties_CustomHttpsProvisioningSubstate("IssuingCertificate")
+	CustomDomainProperties_CustomHttpsProvisioningSubstate_PendingDomainControlValidationREquestApproval = CustomDomainProperties_CustomHttpsProvisioningSubstate("PendingDomainControlValidationREquestApproval")
+	CustomDomainProperties_CustomHttpsProvisioningSubstate_SubmittingDomainControlValidationRequest      = CustomDomainProperties_CustomHttpsProvisioningSubstate("SubmittingDomainControlValidationRequest")
 )
 
 type CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS string
 
 const (
-	CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUSCertificateDeleted                            = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("CertificateDeleted")
-	CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUSCertificateDeployed                           = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("CertificateDeployed")
-	CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUSDeletingCertificate                           = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("DeletingCertificate")
-	CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUSDeployingCertificate                          = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("DeployingCertificate")
-	CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUSDomainControlValidationRequestApproved        = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("DomainControlValidationRequestApproved")
-	CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUSDomainControlValidationRequestRejected        = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("DomainControlValidationRequestRejected")
-	CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUSDomainControlValidationRequestTimedOut        = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("DomainControlValidationRequestTimedOut")
-	CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUSIssuingCertificate                            = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("IssuingCertificate")
-	CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUSPendingDomainControlValidationREquestApproval = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("PendingDomainControlValidationREquestApproval")
-	CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUSSubmittingDomainControlValidationRequest      = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("SubmittingDomainControlValidationRequest")
+	CustomDomainProperties_CustomHttpsProvisioningSubstate_CertificateDeleted_STATUS                            = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("CertificateDeleted")
+	CustomDomainProperties_CustomHttpsProvisioningSubstate_CertificateDeployed_STATUS                           = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("CertificateDeployed")
+	CustomDomainProperties_CustomHttpsProvisioningSubstate_DeletingCertificate_STATUS                           = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("DeletingCertificate")
+	CustomDomainProperties_CustomHttpsProvisioningSubstate_DeployingCertificate_STATUS                          = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("DeployingCertificate")
+	CustomDomainProperties_CustomHttpsProvisioningSubstate_DomainControlValidationRequestApproved_STATUS        = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("DomainControlValidationRequestApproved")
+	CustomDomainProperties_CustomHttpsProvisioningSubstate_DomainControlValidationRequestRejected_STATUS        = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("DomainControlValidationRequestRejected")
+	CustomDomainProperties_CustomHttpsProvisioningSubstate_DomainControlValidationRequestTimedOut_STATUS        = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("DomainControlValidationRequestTimedOut")
+	CustomDomainProperties_CustomHttpsProvisioningSubstate_IssuingCertificate_STATUS                            = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("IssuingCertificate")
+	CustomDomainProperties_CustomHttpsProvisioningSubstate_PendingDomainControlValidationREquestApproval_STATUS = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("PendingDomainControlValidationREquestApproval")
+	CustomDomainProperties_CustomHttpsProvisioningSubstate_SubmittingDomainControlValidationRequest_STATUS      = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("SubmittingDomainControlValidationRequest")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Disabling","Enabled","Enabling","Failed"}
 type CustomDomainProperties_ProvisioningState string
 
 const (
-	CustomDomainProperties_ProvisioningStateDisabled  = CustomDomainProperties_ProvisioningState("Disabled")
-	CustomDomainProperties_ProvisioningStateDisabling = CustomDomainProperties_ProvisioningState("Disabling")
-	CustomDomainProperties_ProvisioningStateEnabled   = CustomDomainProperties_ProvisioningState("Enabled")
-	CustomDomainProperties_ProvisioningStateEnabling  = CustomDomainProperties_ProvisioningState("Enabling")
-	CustomDomainProperties_ProvisioningStateFailed    = CustomDomainProperties_ProvisioningState("Failed")
+	CustomDomainProperties_ProvisioningState_Disabled  = CustomDomainProperties_ProvisioningState("Disabled")
+	CustomDomainProperties_ProvisioningState_Disabling = CustomDomainProperties_ProvisioningState("Disabling")
+	CustomDomainProperties_ProvisioningState_Enabled   = CustomDomainProperties_ProvisioningState("Enabled")
+	CustomDomainProperties_ProvisioningState_Enabling  = CustomDomainProperties_ProvisioningState("Enabling")
+	CustomDomainProperties_ProvisioningState_Failed    = CustomDomainProperties_ProvisioningState("Failed")
 )
 
 type CustomDomainProperties_ProvisioningState_STATUS string
 
 const (
-	CustomDomainProperties_ProvisioningState_STATUSDisabled  = CustomDomainProperties_ProvisioningState_STATUS("Disabled")
-	CustomDomainProperties_ProvisioningState_STATUSDisabling = CustomDomainProperties_ProvisioningState_STATUS("Disabling")
-	CustomDomainProperties_ProvisioningState_STATUSEnabled   = CustomDomainProperties_ProvisioningState_STATUS("Enabled")
-	CustomDomainProperties_ProvisioningState_STATUSEnabling  = CustomDomainProperties_ProvisioningState_STATUS("Enabling")
-	CustomDomainProperties_ProvisioningState_STATUSFailed    = CustomDomainProperties_ProvisioningState_STATUS("Failed")
+	CustomDomainProperties_ProvisioningState_Disabled_STATUS  = CustomDomainProperties_ProvisioningState_STATUS("Disabled")
+	CustomDomainProperties_ProvisioningState_Disabling_STATUS = CustomDomainProperties_ProvisioningState_STATUS("Disabling")
+	CustomDomainProperties_ProvisioningState_Enabled_STATUS   = CustomDomainProperties_ProvisioningState_STATUS("Enabled")
+	CustomDomainProperties_ProvisioningState_Enabling_STATUS  = CustomDomainProperties_ProvisioningState_STATUS("Enabling")
+	CustomDomainProperties_ProvisioningState_Failed_STATUS    = CustomDomainProperties_ProvisioningState_STATUS("Failed")
 )
 
 // +kubebuilder:validation:Enum={"Active","Creating","Deleting"}
 type CustomDomainProperties_ResourceState string
 
 const (
-	CustomDomainProperties_ResourceStateActive   = CustomDomainProperties_ResourceState("Active")
-	CustomDomainProperties_ResourceStateCreating = CustomDomainProperties_ResourceState("Creating")
-	CustomDomainProperties_ResourceStateDeleting = CustomDomainProperties_ResourceState("Deleting")
+	CustomDomainProperties_ResourceState_Active   = CustomDomainProperties_ResourceState("Active")
+	CustomDomainProperties_ResourceState_Creating = CustomDomainProperties_ResourceState("Creating")
+	CustomDomainProperties_ResourceState_Deleting = CustomDomainProperties_ResourceState("Deleting")
 )
 
 type CustomDomainProperties_ResourceState_STATUS string
 
 const (
-	CustomDomainProperties_ResourceState_STATUSActive   = CustomDomainProperties_ResourceState_STATUS("Active")
-	CustomDomainProperties_ResourceState_STATUSCreating = CustomDomainProperties_ResourceState_STATUS("Creating")
-	CustomDomainProperties_ResourceState_STATUSDeleting = CustomDomainProperties_ResourceState_STATUS("Deleting")
+	CustomDomainProperties_ResourceState_Active_STATUS   = CustomDomainProperties_ResourceState_STATUS("Active")
+	CustomDomainProperties_ResourceState_Creating_STATUS = CustomDomainProperties_ResourceState_STATUS("Creating")
+	CustomDomainProperties_ResourceState_Deleting_STATUS = CustomDomainProperties_ResourceState_STATUS("Deleting")
 )
 
 type DeliveryRule struct {
@@ -6047,15 +6047,15 @@ func (rule *DeliveryRule_STATUS) AssignPropertiesToDeliveryRule_STATUS(destinati
 type GeoFilter_Action string
 
 const (
-	GeoFilter_ActionAllow = GeoFilter_Action("Allow")
-	GeoFilter_ActionBlock = GeoFilter_Action("Block")
+	GeoFilter_Action_Allow = GeoFilter_Action("Allow")
+	GeoFilter_Action_Block = GeoFilter_Action("Block")
 )
 
 type GeoFilter_Action_STATUS string
 
 const (
-	GeoFilter_Action_STATUSAllow = GeoFilter_Action_STATUS("Allow")
-	GeoFilter_Action_STATUSBlock = GeoFilter_Action_STATUS("Block")
+	GeoFilter_Action_Allow_STATUS = GeoFilter_Action_STATUS("Allow")
+	GeoFilter_Action_Block_STATUS = GeoFilter_Action_STATUS("Block")
 )
 
 type HealthProbeParameters struct {
@@ -6687,21 +6687,21 @@ func (parameters *KeyVaultSigningKeyParameters_STATUS) AssignPropertiesToKeyVaul
 type PrivateEndpointStatus string
 
 const (
-	PrivateEndpointStatusApproved     = PrivateEndpointStatus("Approved")
-	PrivateEndpointStatusDisconnected = PrivateEndpointStatus("Disconnected")
-	PrivateEndpointStatusPending      = PrivateEndpointStatus("Pending")
-	PrivateEndpointStatusRejected     = PrivateEndpointStatus("Rejected")
-	PrivateEndpointStatusTimeout      = PrivateEndpointStatus("Timeout")
+	PrivateEndpointStatus_Approved     = PrivateEndpointStatus("Approved")
+	PrivateEndpointStatus_Disconnected = PrivateEndpointStatus("Disconnected")
+	PrivateEndpointStatus_Pending      = PrivateEndpointStatus("Pending")
+	PrivateEndpointStatus_Rejected     = PrivateEndpointStatus("Rejected")
+	PrivateEndpointStatus_Timeout      = PrivateEndpointStatus("Timeout")
 )
 
 type PrivateEndpointStatus_STATUS string
 
 const (
-	PrivateEndpointStatus_STATUSApproved     = PrivateEndpointStatus_STATUS("Approved")
-	PrivateEndpointStatus_STATUSDisconnected = PrivateEndpointStatus_STATUS("Disconnected")
-	PrivateEndpointStatus_STATUSPending      = PrivateEndpointStatus_STATUS("Pending")
-	PrivateEndpointStatus_STATUSRejected     = PrivateEndpointStatus_STATUS("Rejected")
-	PrivateEndpointStatus_STATUSTimeout      = PrivateEndpointStatus_STATUS("Timeout")
+	PrivateEndpointStatus_Approved_STATUS     = PrivateEndpointStatus_STATUS("Approved")
+	PrivateEndpointStatus_Disconnected_STATUS = PrivateEndpointStatus_STATUS("Disconnected")
+	PrivateEndpointStatus_Pending_STATUS      = PrivateEndpointStatus_STATUS("Pending")
+	PrivateEndpointStatus_Rejected_STATUS     = PrivateEndpointStatus_STATUS("Rejected")
+	PrivateEndpointStatus_Timeout_STATUS      = PrivateEndpointStatus_STATUS("Timeout")
 )
 
 type ResponseBasedOriginErrorDetectionParameters struct {
@@ -7016,47 +7016,47 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) AssignProp
 type CustomDomainHttpsParameters_CertificateSource string
 
 const (
-	CustomDomainHttpsParameters_CertificateSourceAzureKeyVault = CustomDomainHttpsParameters_CertificateSource("AzureKeyVault")
-	CustomDomainHttpsParameters_CertificateSourceCdn           = CustomDomainHttpsParameters_CertificateSource("Cdn")
+	CustomDomainHttpsParameters_CertificateSource_AzureKeyVault = CustomDomainHttpsParameters_CertificateSource("AzureKeyVault")
+	CustomDomainHttpsParameters_CertificateSource_Cdn           = CustomDomainHttpsParameters_CertificateSource("Cdn")
 )
 
 type CustomDomainHttpsParameters_CertificateSource_STATUS string
 
 const (
-	CustomDomainHttpsParameters_CertificateSource_STATUSAzureKeyVault = CustomDomainHttpsParameters_CertificateSource_STATUS("AzureKeyVault")
-	CustomDomainHttpsParameters_CertificateSource_STATUSCdn           = CustomDomainHttpsParameters_CertificateSource_STATUS("Cdn")
+	CustomDomainHttpsParameters_CertificateSource_AzureKeyVault_STATUS = CustomDomainHttpsParameters_CertificateSource_STATUS("AzureKeyVault")
+	CustomDomainHttpsParameters_CertificateSource_Cdn_STATUS           = CustomDomainHttpsParameters_CertificateSource_STATUS("Cdn")
 )
 
 // +kubebuilder:validation:Enum={"None","TLS10","TLS12"}
 type CustomDomainHttpsParameters_MinimumTlsVersion string
 
 const (
-	CustomDomainHttpsParameters_MinimumTlsVersionNone  = CustomDomainHttpsParameters_MinimumTlsVersion("None")
-	CustomDomainHttpsParameters_MinimumTlsVersionTLS10 = CustomDomainHttpsParameters_MinimumTlsVersion("TLS10")
-	CustomDomainHttpsParameters_MinimumTlsVersionTLS12 = CustomDomainHttpsParameters_MinimumTlsVersion("TLS12")
+	CustomDomainHttpsParameters_MinimumTlsVersion_None  = CustomDomainHttpsParameters_MinimumTlsVersion("None")
+	CustomDomainHttpsParameters_MinimumTlsVersion_TLS10 = CustomDomainHttpsParameters_MinimumTlsVersion("TLS10")
+	CustomDomainHttpsParameters_MinimumTlsVersion_TLS12 = CustomDomainHttpsParameters_MinimumTlsVersion("TLS12")
 )
 
 type CustomDomainHttpsParameters_MinimumTlsVersion_STATUS string
 
 const (
-	CustomDomainHttpsParameters_MinimumTlsVersion_STATUSNone  = CustomDomainHttpsParameters_MinimumTlsVersion_STATUS("None")
-	CustomDomainHttpsParameters_MinimumTlsVersion_STATUSTLS10 = CustomDomainHttpsParameters_MinimumTlsVersion_STATUS("TLS10")
-	CustomDomainHttpsParameters_MinimumTlsVersion_STATUSTLS12 = CustomDomainHttpsParameters_MinimumTlsVersion_STATUS("TLS12")
+	CustomDomainHttpsParameters_MinimumTlsVersion_None_STATUS  = CustomDomainHttpsParameters_MinimumTlsVersion_STATUS("None")
+	CustomDomainHttpsParameters_MinimumTlsVersion_TLS10_STATUS = CustomDomainHttpsParameters_MinimumTlsVersion_STATUS("TLS10")
+	CustomDomainHttpsParameters_MinimumTlsVersion_TLS12_STATUS = CustomDomainHttpsParameters_MinimumTlsVersion_STATUS("TLS12")
 )
 
 // +kubebuilder:validation:Enum={"IPBased","ServerNameIndication"}
 type CustomDomainHttpsParameters_ProtocolType string
 
 const (
-	CustomDomainHttpsParameters_ProtocolTypeIPBased              = CustomDomainHttpsParameters_ProtocolType("IPBased")
-	CustomDomainHttpsParameters_ProtocolTypeServerNameIndication = CustomDomainHttpsParameters_ProtocolType("ServerNameIndication")
+	CustomDomainHttpsParameters_ProtocolType_IPBased              = CustomDomainHttpsParameters_ProtocolType("IPBased")
+	CustomDomainHttpsParameters_ProtocolType_ServerNameIndication = CustomDomainHttpsParameters_ProtocolType("ServerNameIndication")
 )
 
 type CustomDomainHttpsParameters_ProtocolType_STATUS string
 
 const (
-	CustomDomainHttpsParameters_ProtocolType_STATUSIPBased              = CustomDomainHttpsParameters_ProtocolType_STATUS("IPBased")
-	CustomDomainHttpsParameters_ProtocolType_STATUSServerNameIndication = CustomDomainHttpsParameters_ProtocolType_STATUS("ServerNameIndication")
+	CustomDomainHttpsParameters_ProtocolType_IPBased_STATUS              = CustomDomainHttpsParameters_ProtocolType_STATUS("IPBased")
+	CustomDomainHttpsParameters_ProtocolType_ServerNameIndication_STATUS = CustomDomainHttpsParameters_ProtocolType_STATUS("ServerNameIndication")
 )
 
 type DeliveryRuleAction struct {
@@ -7367,34 +7367,34 @@ func (condition *DeliveryRuleCondition_STATUS) AssignPropertiesToDeliveryRuleCon
 type HealthProbeParameters_ProbeProtocol string
 
 const (
-	HealthProbeParameters_ProbeProtocolHttp   = HealthProbeParameters_ProbeProtocol("Http")
-	HealthProbeParameters_ProbeProtocolHttps  = HealthProbeParameters_ProbeProtocol("Https")
-	HealthProbeParameters_ProbeProtocolNotSet = HealthProbeParameters_ProbeProtocol("NotSet")
+	HealthProbeParameters_ProbeProtocol_Http   = HealthProbeParameters_ProbeProtocol("Http")
+	HealthProbeParameters_ProbeProtocol_Https  = HealthProbeParameters_ProbeProtocol("Https")
+	HealthProbeParameters_ProbeProtocol_NotSet = HealthProbeParameters_ProbeProtocol("NotSet")
 )
 
 type HealthProbeParameters_ProbeProtocol_STATUS string
 
 const (
-	HealthProbeParameters_ProbeProtocol_STATUSHttp   = HealthProbeParameters_ProbeProtocol_STATUS("Http")
-	HealthProbeParameters_ProbeProtocol_STATUSHttps  = HealthProbeParameters_ProbeProtocol_STATUS("Https")
-	HealthProbeParameters_ProbeProtocol_STATUSNotSet = HealthProbeParameters_ProbeProtocol_STATUS("NotSet")
+	HealthProbeParameters_ProbeProtocol_Http_STATUS   = HealthProbeParameters_ProbeProtocol_STATUS("Http")
+	HealthProbeParameters_ProbeProtocol_Https_STATUS  = HealthProbeParameters_ProbeProtocol_STATUS("Https")
+	HealthProbeParameters_ProbeProtocol_NotSet_STATUS = HealthProbeParameters_ProbeProtocol_STATUS("NotSet")
 )
 
 // +kubebuilder:validation:Enum={"GET","HEAD","NotSet"}
 type HealthProbeParameters_ProbeRequestType string
 
 const (
-	HealthProbeParameters_ProbeRequestTypeGET    = HealthProbeParameters_ProbeRequestType("GET")
-	HealthProbeParameters_ProbeRequestTypeHEAD   = HealthProbeParameters_ProbeRequestType("HEAD")
-	HealthProbeParameters_ProbeRequestTypeNotSet = HealthProbeParameters_ProbeRequestType("NotSet")
+	HealthProbeParameters_ProbeRequestType_GET    = HealthProbeParameters_ProbeRequestType("GET")
+	HealthProbeParameters_ProbeRequestType_HEAD   = HealthProbeParameters_ProbeRequestType("HEAD")
+	HealthProbeParameters_ProbeRequestType_NotSet = HealthProbeParameters_ProbeRequestType("NotSet")
 )
 
 type HealthProbeParameters_ProbeRequestType_STATUS string
 
 const (
-	HealthProbeParameters_ProbeRequestType_STATUSGET    = HealthProbeParameters_ProbeRequestType_STATUS("GET")
-	HealthProbeParameters_ProbeRequestType_STATUSHEAD   = HealthProbeParameters_ProbeRequestType_STATUS("HEAD")
-	HealthProbeParameters_ProbeRequestType_STATUSNotSet = HealthProbeParameters_ProbeRequestType_STATUS("NotSet")
+	HealthProbeParameters_ProbeRequestType_GET_STATUS    = HealthProbeParameters_ProbeRequestType_STATUS("GET")
+	HealthProbeParameters_ProbeRequestType_HEAD_STATUS   = HealthProbeParameters_ProbeRequestType_STATUS("HEAD")
+	HealthProbeParameters_ProbeRequestType_NotSet_STATUS = HealthProbeParameters_ProbeRequestType_STATUS("NotSet")
 )
 
 type HttpErrorRangeParameters struct {
@@ -7591,105 +7591,105 @@ func (parameters *HttpErrorRangeParameters_STATUS) AssignPropertiesToHttpErrorRa
 // +kubebuilder:validation:Enum={"KeyVaultSigningKeyParameters"}
 type KeyVaultSigningKeyParameters_TypeName string
 
-const KeyVaultSigningKeyParameters_TypeNameKeyVaultSigningKeyParameters = KeyVaultSigningKeyParameters_TypeName("KeyVaultSigningKeyParameters")
+const KeyVaultSigningKeyParameters_TypeName_KeyVaultSigningKeyParameters = KeyVaultSigningKeyParameters_TypeName("KeyVaultSigningKeyParameters")
 
 type KeyVaultSigningKeyParameters_TypeName_STATUS string
 
-const KeyVaultSigningKeyParameters_TypeName_STATUSKeyVaultSigningKeyParameters = KeyVaultSigningKeyParameters_TypeName_STATUS("KeyVaultSigningKeyParameters")
+const KeyVaultSigningKeyParameters_TypeName_KeyVaultSigningKeyParameters_STATUS = KeyVaultSigningKeyParameters_TypeName_STATUS("KeyVaultSigningKeyParameters")
 
 // +kubebuilder:validation:Enum={"None","TcpAndHttpErrors","TcpErrorsOnly"}
 type ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes string
 
 const (
-	ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypesNone             = ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes("None")
-	ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypesTcpAndHttpErrors = ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes("TcpAndHttpErrors")
-	ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypesTcpErrorsOnly    = ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes("TcpErrorsOnly")
+	ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_None             = ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes("None")
+	ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_TcpAndHttpErrors = ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes("TcpAndHttpErrors")
+	ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_TcpErrorsOnly    = ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes("TcpErrorsOnly")
 )
 
 type ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS string
 
 const (
-	ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUSNone             = ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS("None")
-	ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUSTcpAndHttpErrors = ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS("TcpAndHttpErrors")
-	ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUSTcpErrorsOnly    = ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS("TcpErrorsOnly")
+	ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_None_STATUS             = ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS("None")
+	ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_TcpAndHttpErrors_STATUS = ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS("TcpAndHttpErrors")
+	ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_TcpErrorsOnly_STATUS    = ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_STATUS("TcpErrorsOnly")
 )
 
 // +kubebuilder:validation:Enum={"CacheExpiration","CacheKeyQueryString","ModifyRequestHeader","ModifyResponseHeader","OriginGroupOverride","RouteConfigurationOverride","UrlRedirect","UrlRewrite","UrlSigning"}
 type DeliveryRuleAction_Name string
 
 const (
-	DeliveryRuleAction_NameCacheExpiration            = DeliveryRuleAction_Name("CacheExpiration")
-	DeliveryRuleAction_NameCacheKeyQueryString        = DeliveryRuleAction_Name("CacheKeyQueryString")
-	DeliveryRuleAction_NameModifyRequestHeader        = DeliveryRuleAction_Name("ModifyRequestHeader")
-	DeliveryRuleAction_NameModifyResponseHeader       = DeliveryRuleAction_Name("ModifyResponseHeader")
-	DeliveryRuleAction_NameOriginGroupOverride        = DeliveryRuleAction_Name("OriginGroupOverride")
-	DeliveryRuleAction_NameRouteConfigurationOverride = DeliveryRuleAction_Name("RouteConfigurationOverride")
-	DeliveryRuleAction_NameUrlRedirect                = DeliveryRuleAction_Name("UrlRedirect")
-	DeliveryRuleAction_NameUrlRewrite                 = DeliveryRuleAction_Name("UrlRewrite")
-	DeliveryRuleAction_NameUrlSigning                 = DeliveryRuleAction_Name("UrlSigning")
+	DeliveryRuleAction_Name_CacheExpiration            = DeliveryRuleAction_Name("CacheExpiration")
+	DeliveryRuleAction_Name_CacheKeyQueryString        = DeliveryRuleAction_Name("CacheKeyQueryString")
+	DeliveryRuleAction_Name_ModifyRequestHeader        = DeliveryRuleAction_Name("ModifyRequestHeader")
+	DeliveryRuleAction_Name_ModifyResponseHeader       = DeliveryRuleAction_Name("ModifyResponseHeader")
+	DeliveryRuleAction_Name_OriginGroupOverride        = DeliveryRuleAction_Name("OriginGroupOverride")
+	DeliveryRuleAction_Name_RouteConfigurationOverride = DeliveryRuleAction_Name("RouteConfigurationOverride")
+	DeliveryRuleAction_Name_UrlRedirect                = DeliveryRuleAction_Name("UrlRedirect")
+	DeliveryRuleAction_Name_UrlRewrite                 = DeliveryRuleAction_Name("UrlRewrite")
+	DeliveryRuleAction_Name_UrlSigning                 = DeliveryRuleAction_Name("UrlSigning")
 )
 
 type DeliveryRuleAction_Name_STATUS string
 
 const (
-	DeliveryRuleAction_Name_STATUSCacheExpiration            = DeliveryRuleAction_Name_STATUS("CacheExpiration")
-	DeliveryRuleAction_Name_STATUSCacheKeyQueryString        = DeliveryRuleAction_Name_STATUS("CacheKeyQueryString")
-	DeliveryRuleAction_Name_STATUSModifyRequestHeader        = DeliveryRuleAction_Name_STATUS("ModifyRequestHeader")
-	DeliveryRuleAction_Name_STATUSModifyResponseHeader       = DeliveryRuleAction_Name_STATUS("ModifyResponseHeader")
-	DeliveryRuleAction_Name_STATUSOriginGroupOverride        = DeliveryRuleAction_Name_STATUS("OriginGroupOverride")
-	DeliveryRuleAction_Name_STATUSRouteConfigurationOverride = DeliveryRuleAction_Name_STATUS("RouteConfigurationOverride")
-	DeliveryRuleAction_Name_STATUSUrlRedirect                = DeliveryRuleAction_Name_STATUS("UrlRedirect")
-	DeliveryRuleAction_Name_STATUSUrlRewrite                 = DeliveryRuleAction_Name_STATUS("UrlRewrite")
-	DeliveryRuleAction_Name_STATUSUrlSigning                 = DeliveryRuleAction_Name_STATUS("UrlSigning")
+	DeliveryRuleAction_Name_CacheExpiration_STATUS            = DeliveryRuleAction_Name_STATUS("CacheExpiration")
+	DeliveryRuleAction_Name_CacheKeyQueryString_STATUS        = DeliveryRuleAction_Name_STATUS("CacheKeyQueryString")
+	DeliveryRuleAction_Name_ModifyRequestHeader_STATUS        = DeliveryRuleAction_Name_STATUS("ModifyRequestHeader")
+	DeliveryRuleAction_Name_ModifyResponseHeader_STATUS       = DeliveryRuleAction_Name_STATUS("ModifyResponseHeader")
+	DeliveryRuleAction_Name_OriginGroupOverride_STATUS        = DeliveryRuleAction_Name_STATUS("OriginGroupOverride")
+	DeliveryRuleAction_Name_RouteConfigurationOverride_STATUS = DeliveryRuleAction_Name_STATUS("RouteConfigurationOverride")
+	DeliveryRuleAction_Name_UrlRedirect_STATUS                = DeliveryRuleAction_Name_STATUS("UrlRedirect")
+	DeliveryRuleAction_Name_UrlRewrite_STATUS                 = DeliveryRuleAction_Name_STATUS("UrlRewrite")
+	DeliveryRuleAction_Name_UrlSigning_STATUS                 = DeliveryRuleAction_Name_STATUS("UrlSigning")
 )
 
 // +kubebuilder:validation:Enum={"ClientPort","Cookies","HostName","HttpVersion","IsDevice","PostArgs","QueryString","RemoteAddress","RequestBody","RequestHeader","RequestMethod","RequestScheme","RequestUri","ServerPort","SocketAddr","SslProtocol","UrlFileExtension","UrlFileName","UrlPath"}
 type DeliveryRuleCondition_Name string
 
 const (
-	DeliveryRuleCondition_NameClientPort       = DeliveryRuleCondition_Name("ClientPort")
-	DeliveryRuleCondition_NameCookies          = DeliveryRuleCondition_Name("Cookies")
-	DeliveryRuleCondition_NameHostName         = DeliveryRuleCondition_Name("HostName")
-	DeliveryRuleCondition_NameHttpVersion      = DeliveryRuleCondition_Name("HttpVersion")
-	DeliveryRuleCondition_NameIsDevice         = DeliveryRuleCondition_Name("IsDevice")
-	DeliveryRuleCondition_NamePostArgs         = DeliveryRuleCondition_Name("PostArgs")
-	DeliveryRuleCondition_NameQueryString      = DeliveryRuleCondition_Name("QueryString")
-	DeliveryRuleCondition_NameRemoteAddress    = DeliveryRuleCondition_Name("RemoteAddress")
-	DeliveryRuleCondition_NameRequestBody      = DeliveryRuleCondition_Name("RequestBody")
-	DeliveryRuleCondition_NameRequestHeader    = DeliveryRuleCondition_Name("RequestHeader")
-	DeliveryRuleCondition_NameRequestMethod    = DeliveryRuleCondition_Name("RequestMethod")
-	DeliveryRuleCondition_NameRequestScheme    = DeliveryRuleCondition_Name("RequestScheme")
-	DeliveryRuleCondition_NameRequestUri       = DeliveryRuleCondition_Name("RequestUri")
-	DeliveryRuleCondition_NameServerPort       = DeliveryRuleCondition_Name("ServerPort")
-	DeliveryRuleCondition_NameSocketAddr       = DeliveryRuleCondition_Name("SocketAddr")
-	DeliveryRuleCondition_NameSslProtocol      = DeliveryRuleCondition_Name("SslProtocol")
-	DeliveryRuleCondition_NameUrlFileExtension = DeliveryRuleCondition_Name("UrlFileExtension")
-	DeliveryRuleCondition_NameUrlFileName      = DeliveryRuleCondition_Name("UrlFileName")
-	DeliveryRuleCondition_NameUrlPath          = DeliveryRuleCondition_Name("UrlPath")
+	DeliveryRuleCondition_Name_ClientPort       = DeliveryRuleCondition_Name("ClientPort")
+	DeliveryRuleCondition_Name_Cookies          = DeliveryRuleCondition_Name("Cookies")
+	DeliveryRuleCondition_Name_HostName         = DeliveryRuleCondition_Name("HostName")
+	DeliveryRuleCondition_Name_HttpVersion      = DeliveryRuleCondition_Name("HttpVersion")
+	DeliveryRuleCondition_Name_IsDevice         = DeliveryRuleCondition_Name("IsDevice")
+	DeliveryRuleCondition_Name_PostArgs         = DeliveryRuleCondition_Name("PostArgs")
+	DeliveryRuleCondition_Name_QueryString      = DeliveryRuleCondition_Name("QueryString")
+	DeliveryRuleCondition_Name_RemoteAddress    = DeliveryRuleCondition_Name("RemoteAddress")
+	DeliveryRuleCondition_Name_RequestBody      = DeliveryRuleCondition_Name("RequestBody")
+	DeliveryRuleCondition_Name_RequestHeader    = DeliveryRuleCondition_Name("RequestHeader")
+	DeliveryRuleCondition_Name_RequestMethod    = DeliveryRuleCondition_Name("RequestMethod")
+	DeliveryRuleCondition_Name_RequestScheme    = DeliveryRuleCondition_Name("RequestScheme")
+	DeliveryRuleCondition_Name_RequestUri       = DeliveryRuleCondition_Name("RequestUri")
+	DeliveryRuleCondition_Name_ServerPort       = DeliveryRuleCondition_Name("ServerPort")
+	DeliveryRuleCondition_Name_SocketAddr       = DeliveryRuleCondition_Name("SocketAddr")
+	DeliveryRuleCondition_Name_SslProtocol      = DeliveryRuleCondition_Name("SslProtocol")
+	DeliveryRuleCondition_Name_UrlFileExtension = DeliveryRuleCondition_Name("UrlFileExtension")
+	DeliveryRuleCondition_Name_UrlFileName      = DeliveryRuleCondition_Name("UrlFileName")
+	DeliveryRuleCondition_Name_UrlPath          = DeliveryRuleCondition_Name("UrlPath")
 )
 
 type DeliveryRuleCondition_Name_STATUS string
 
 const (
-	DeliveryRuleCondition_Name_STATUSClientPort       = DeliveryRuleCondition_Name_STATUS("ClientPort")
-	DeliveryRuleCondition_Name_STATUSCookies          = DeliveryRuleCondition_Name_STATUS("Cookies")
-	DeliveryRuleCondition_Name_STATUSHostName         = DeliveryRuleCondition_Name_STATUS("HostName")
-	DeliveryRuleCondition_Name_STATUSHttpVersion      = DeliveryRuleCondition_Name_STATUS("HttpVersion")
-	DeliveryRuleCondition_Name_STATUSIsDevice         = DeliveryRuleCondition_Name_STATUS("IsDevice")
-	DeliveryRuleCondition_Name_STATUSPostArgs         = DeliveryRuleCondition_Name_STATUS("PostArgs")
-	DeliveryRuleCondition_Name_STATUSQueryString      = DeliveryRuleCondition_Name_STATUS("QueryString")
-	DeliveryRuleCondition_Name_STATUSRemoteAddress    = DeliveryRuleCondition_Name_STATUS("RemoteAddress")
-	DeliveryRuleCondition_Name_STATUSRequestBody      = DeliveryRuleCondition_Name_STATUS("RequestBody")
-	DeliveryRuleCondition_Name_STATUSRequestHeader    = DeliveryRuleCondition_Name_STATUS("RequestHeader")
-	DeliveryRuleCondition_Name_STATUSRequestMethod    = DeliveryRuleCondition_Name_STATUS("RequestMethod")
-	DeliveryRuleCondition_Name_STATUSRequestScheme    = DeliveryRuleCondition_Name_STATUS("RequestScheme")
-	DeliveryRuleCondition_Name_STATUSRequestUri       = DeliveryRuleCondition_Name_STATUS("RequestUri")
-	DeliveryRuleCondition_Name_STATUSServerPort       = DeliveryRuleCondition_Name_STATUS("ServerPort")
-	DeliveryRuleCondition_Name_STATUSSocketAddr       = DeliveryRuleCondition_Name_STATUS("SocketAddr")
-	DeliveryRuleCondition_Name_STATUSSslProtocol      = DeliveryRuleCondition_Name_STATUS("SslProtocol")
-	DeliveryRuleCondition_Name_STATUSUrlFileExtension = DeliveryRuleCondition_Name_STATUS("UrlFileExtension")
-	DeliveryRuleCondition_Name_STATUSUrlFileName      = DeliveryRuleCondition_Name_STATUS("UrlFileName")
-	DeliveryRuleCondition_Name_STATUSUrlPath          = DeliveryRuleCondition_Name_STATUS("UrlPath")
+	DeliveryRuleCondition_Name_ClientPort_STATUS       = DeliveryRuleCondition_Name_STATUS("ClientPort")
+	DeliveryRuleCondition_Name_Cookies_STATUS          = DeliveryRuleCondition_Name_STATUS("Cookies")
+	DeliveryRuleCondition_Name_HostName_STATUS         = DeliveryRuleCondition_Name_STATUS("HostName")
+	DeliveryRuleCondition_Name_HttpVersion_STATUS      = DeliveryRuleCondition_Name_STATUS("HttpVersion")
+	DeliveryRuleCondition_Name_IsDevice_STATUS         = DeliveryRuleCondition_Name_STATUS("IsDevice")
+	DeliveryRuleCondition_Name_PostArgs_STATUS         = DeliveryRuleCondition_Name_STATUS("PostArgs")
+	DeliveryRuleCondition_Name_QueryString_STATUS      = DeliveryRuleCondition_Name_STATUS("QueryString")
+	DeliveryRuleCondition_Name_RemoteAddress_STATUS    = DeliveryRuleCondition_Name_STATUS("RemoteAddress")
+	DeliveryRuleCondition_Name_RequestBody_STATUS      = DeliveryRuleCondition_Name_STATUS("RequestBody")
+	DeliveryRuleCondition_Name_RequestHeader_STATUS    = DeliveryRuleCondition_Name_STATUS("RequestHeader")
+	DeliveryRuleCondition_Name_RequestMethod_STATUS    = DeliveryRuleCondition_Name_STATUS("RequestMethod")
+	DeliveryRuleCondition_Name_RequestScheme_STATUS    = DeliveryRuleCondition_Name_STATUS("RequestScheme")
+	DeliveryRuleCondition_Name_RequestUri_STATUS       = DeliveryRuleCondition_Name_STATUS("RequestUri")
+	DeliveryRuleCondition_Name_ServerPort_STATUS       = DeliveryRuleCondition_Name_STATUS("ServerPort")
+	DeliveryRuleCondition_Name_SocketAddr_STATUS       = DeliveryRuleCondition_Name_STATUS("SocketAddr")
+	DeliveryRuleCondition_Name_SslProtocol_STATUS      = DeliveryRuleCondition_Name_STATUS("SslProtocol")
+	DeliveryRuleCondition_Name_UrlFileExtension_STATUS = DeliveryRuleCondition_Name_STATUS("UrlFileExtension")
+	DeliveryRuleCondition_Name_UrlFileName_STATUS      = DeliveryRuleCondition_Name_STATUS("UrlFileName")
+	DeliveryRuleCondition_Name_UrlPath_STATUS          = DeliveryRuleCondition_Name_STATUS("UrlPath")
 )
 
 func init() {

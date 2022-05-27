@@ -112,7 +112,7 @@ func (machine *VirtualMachine) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20201201"
 func (machine VirtualMachine) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -335,7 +335,7 @@ type VirtualMachineList struct {
 // +kubebuilder:validation:Enum={"20201201"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("20201201")
+const APIVersion_Value = APIVersion("20201201")
 
 // Deprecated version of VirtualMachine_STATUS. Use v1beta20201201.VirtualMachine_STATUS instead
 type VirtualMachine_STATUS struct {
@@ -3036,16 +3036,16 @@ func (profile *DiagnosticsProfile_STATUS) AssignPropertiesToDiagnosticsProfile_S
 type EvictionPolicy string
 
 const (
-	EvictionPolicyDeallocate = EvictionPolicy("Deallocate")
-	EvictionPolicyDelete     = EvictionPolicy("Delete")
+	EvictionPolicy_Deallocate = EvictionPolicy("Deallocate")
+	EvictionPolicy_Delete     = EvictionPolicy("Delete")
 )
 
 // Deprecated version of EvictionPolicy_STATUS. Use v1beta20201201.EvictionPolicy_STATUS instead
 type EvictionPolicy_STATUS string
 
 const (
-	EvictionPolicy_STATUSDeallocate = EvictionPolicy_STATUS("Deallocate")
-	EvictionPolicy_STATUSDelete     = EvictionPolicy_STATUS("Delete")
+	EvictionPolicy_Deallocate_STATUS = EvictionPolicy_STATUS("Deallocate")
+	EvictionPolicy_Delete_STATUS     = EvictionPolicy_STATUS("Delete")
 )
 
 // Deprecated version of ExtendedLocation. Use v1beta20201201.ExtendedLocation instead
@@ -4411,18 +4411,18 @@ func (plan *Plan_STATUS) AssignPropertiesToPlan_STATUS(destination *alpha2020120
 type Priority string
 
 const (
-	PriorityLow     = Priority("Low")
-	PriorityRegular = Priority("Regular")
-	PrioritySpot    = Priority("Spot")
+	Priority_Low     = Priority("Low")
+	Priority_Regular = Priority("Regular")
+	Priority_Spot    = Priority("Spot")
 )
 
 // Deprecated version of Priority_STATUS. Use v1beta20201201.Priority_STATUS instead
 type Priority_STATUS string
 
 const (
-	Priority_STATUSLow     = Priority_STATUS("Low")
-	Priority_STATUSRegular = Priority_STATUS("Regular")
-	Priority_STATUSSpot    = Priority_STATUS("Spot")
+	Priority_Low_STATUS     = Priority_STATUS("Low")
+	Priority_Regular_STATUS = Priority_STATUS("Regular")
+	Priority_Spot_STATUS    = Priority_STATUS("Spot")
 )
 
 // Deprecated version of SecurityProfile. Use v1beta20201201.SecurityProfile instead
@@ -8177,344 +8177,344 @@ func (view *DiskInstanceView_STATUS) AssignPropertiesToDiskInstanceView_STATUS(d
 type HardwareProfile_VmSize string
 
 const (
-	HardwareProfile_VmSizeBasic_A0           = HardwareProfile_VmSize("Basic_A0")
-	HardwareProfile_VmSizeBasic_A1           = HardwareProfile_VmSize("Basic_A1")
-	HardwareProfile_VmSizeBasic_A2           = HardwareProfile_VmSize("Basic_A2")
-	HardwareProfile_VmSizeBasic_A3           = HardwareProfile_VmSize("Basic_A3")
-	HardwareProfile_VmSizeBasic_A4           = HardwareProfile_VmSize("Basic_A4")
-	HardwareProfile_VmSizeStandard_A0        = HardwareProfile_VmSize("Standard_A0")
-	HardwareProfile_VmSizeStandard_A1        = HardwareProfile_VmSize("Standard_A1")
-	HardwareProfile_VmSizeStandard_A10       = HardwareProfile_VmSize("Standard_A10")
-	HardwareProfile_VmSizeStandard_A11       = HardwareProfile_VmSize("Standard_A11")
-	HardwareProfile_VmSizeStandard_A1_V2     = HardwareProfile_VmSize("Standard_A1_v2")
-	HardwareProfile_VmSizeStandard_A2        = HardwareProfile_VmSize("Standard_A2")
-	HardwareProfile_VmSizeStandard_A2M_V2    = HardwareProfile_VmSize("Standard_A2m_v2")
-	HardwareProfile_VmSizeStandard_A2_V2     = HardwareProfile_VmSize("Standard_A2_v2")
-	HardwareProfile_VmSizeStandard_A3        = HardwareProfile_VmSize("Standard_A3")
-	HardwareProfile_VmSizeStandard_A4        = HardwareProfile_VmSize("Standard_A4")
-	HardwareProfile_VmSizeStandard_A4M_V2    = HardwareProfile_VmSize("Standard_A4m_v2")
-	HardwareProfile_VmSizeStandard_A4_V2     = HardwareProfile_VmSize("Standard_A4_v2")
-	HardwareProfile_VmSizeStandard_A5        = HardwareProfile_VmSize("Standard_A5")
-	HardwareProfile_VmSizeStandard_A6        = HardwareProfile_VmSize("Standard_A6")
-	HardwareProfile_VmSizeStandard_A7        = HardwareProfile_VmSize("Standard_A7")
-	HardwareProfile_VmSizeStandard_A8        = HardwareProfile_VmSize("Standard_A8")
-	HardwareProfile_VmSizeStandard_A8M_V2    = HardwareProfile_VmSize("Standard_A8m_v2")
-	HardwareProfile_VmSizeStandard_A8_V2     = HardwareProfile_VmSize("Standard_A8_v2")
-	HardwareProfile_VmSizeStandard_A9        = HardwareProfile_VmSize("Standard_A9")
-	HardwareProfile_VmSizeStandard_B1Ms      = HardwareProfile_VmSize("Standard_B1ms")
-	HardwareProfile_VmSizeStandard_B1S       = HardwareProfile_VmSize("Standard_B1s")
-	HardwareProfile_VmSizeStandard_B2Ms      = HardwareProfile_VmSize("Standard_B2ms")
-	HardwareProfile_VmSizeStandard_B2S       = HardwareProfile_VmSize("Standard_B2s")
-	HardwareProfile_VmSizeStandard_B4Ms      = HardwareProfile_VmSize("Standard_B4ms")
-	HardwareProfile_VmSizeStandard_B8Ms      = HardwareProfile_VmSize("Standard_B8ms")
-	HardwareProfile_VmSizeStandard_D1        = HardwareProfile_VmSize("Standard_D1")
-	HardwareProfile_VmSizeStandard_D11       = HardwareProfile_VmSize("Standard_D11")
-	HardwareProfile_VmSizeStandard_D11_V2    = HardwareProfile_VmSize("Standard_D11_v2")
-	HardwareProfile_VmSizeStandard_D12       = HardwareProfile_VmSize("Standard_D12")
-	HardwareProfile_VmSizeStandard_D12_V2    = HardwareProfile_VmSize("Standard_D12_v2")
-	HardwareProfile_VmSizeStandard_D13       = HardwareProfile_VmSize("Standard_D13")
-	HardwareProfile_VmSizeStandard_D13_V2    = HardwareProfile_VmSize("Standard_D13_v2")
-	HardwareProfile_VmSizeStandard_D14       = HardwareProfile_VmSize("Standard_D14")
-	HardwareProfile_VmSizeStandard_D14_V2    = HardwareProfile_VmSize("Standard_D14_v2")
-	HardwareProfile_VmSizeStandard_D15_V2    = HardwareProfile_VmSize("Standard_D15_v2")
-	HardwareProfile_VmSizeStandard_D16S_V3   = HardwareProfile_VmSize("Standard_D16s_v3")
-	HardwareProfile_VmSizeStandard_D16_V3    = HardwareProfile_VmSize("Standard_D16_v3")
-	HardwareProfile_VmSizeStandard_D1_V2     = HardwareProfile_VmSize("Standard_D1_v2")
-	HardwareProfile_VmSizeStandard_D2        = HardwareProfile_VmSize("Standard_D2")
-	HardwareProfile_VmSizeStandard_D2S_V3    = HardwareProfile_VmSize("Standard_D2s_v3")
-	HardwareProfile_VmSizeStandard_D2_V2     = HardwareProfile_VmSize("Standard_D2_v2")
-	HardwareProfile_VmSizeStandard_D2_V3     = HardwareProfile_VmSize("Standard_D2_v3")
-	HardwareProfile_VmSizeStandard_D3        = HardwareProfile_VmSize("Standard_D3")
-	HardwareProfile_VmSizeStandard_D32S_V3   = HardwareProfile_VmSize("Standard_D32s_v3")
-	HardwareProfile_VmSizeStandard_D32_V3    = HardwareProfile_VmSize("Standard_D32_v3")
-	HardwareProfile_VmSizeStandard_D3_V2     = HardwareProfile_VmSize("Standard_D3_v2")
-	HardwareProfile_VmSizeStandard_D4        = HardwareProfile_VmSize("Standard_D4")
-	HardwareProfile_VmSizeStandard_D4S_V3    = HardwareProfile_VmSize("Standard_D4s_v3")
-	HardwareProfile_VmSizeStandard_D4_V2     = HardwareProfile_VmSize("Standard_D4_v2")
-	HardwareProfile_VmSizeStandard_D4_V3     = HardwareProfile_VmSize("Standard_D4_v3")
-	HardwareProfile_VmSizeStandard_D5_V2     = HardwareProfile_VmSize("Standard_D5_v2")
-	HardwareProfile_VmSizeStandard_D64S_V3   = HardwareProfile_VmSize("Standard_D64s_v3")
-	HardwareProfile_VmSizeStandard_D64_V3    = HardwareProfile_VmSize("Standard_D64_v3")
-	HardwareProfile_VmSizeStandard_D8S_V3    = HardwareProfile_VmSize("Standard_D8s_v3")
-	HardwareProfile_VmSizeStandard_D8_V3     = HardwareProfile_VmSize("Standard_D8_v3")
-	HardwareProfile_VmSizeStandard_DS1       = HardwareProfile_VmSize("Standard_DS1")
-	HardwareProfile_VmSizeStandard_DS11      = HardwareProfile_VmSize("Standard_DS11")
-	HardwareProfile_VmSizeStandard_DS11_V2   = HardwareProfile_VmSize("Standard_DS11_v2")
-	HardwareProfile_VmSizeStandard_DS12      = HardwareProfile_VmSize("Standard_DS12")
-	HardwareProfile_VmSizeStandard_DS12_V2   = HardwareProfile_VmSize("Standard_DS12_v2")
-	HardwareProfile_VmSizeStandard_DS13      = HardwareProfile_VmSize("Standard_DS13")
-	HardwareProfile_VmSizeStandard_DS132_V2  = HardwareProfile_VmSize("Standard_DS13-2_v2")
-	HardwareProfile_VmSizeStandard_DS134_V2  = HardwareProfile_VmSize("Standard_DS13-4_v2")
-	HardwareProfile_VmSizeStandard_DS13_V2   = HardwareProfile_VmSize("Standard_DS13_v2")
-	HardwareProfile_VmSizeStandard_DS14      = HardwareProfile_VmSize("Standard_DS14")
-	HardwareProfile_VmSizeStandard_DS144_V2  = HardwareProfile_VmSize("Standard_DS14-4_v2")
-	HardwareProfile_VmSizeStandard_DS148_V2  = HardwareProfile_VmSize("Standard_DS14-8_v2")
-	HardwareProfile_VmSizeStandard_DS14_V2   = HardwareProfile_VmSize("Standard_DS14_v2")
-	HardwareProfile_VmSizeStandard_DS15_V2   = HardwareProfile_VmSize("Standard_DS15_v2")
-	HardwareProfile_VmSizeStandard_DS1_V2    = HardwareProfile_VmSize("Standard_DS1_v2")
-	HardwareProfile_VmSizeStandard_DS2       = HardwareProfile_VmSize("Standard_DS2")
-	HardwareProfile_VmSizeStandard_DS2_V2    = HardwareProfile_VmSize("Standard_DS2_v2")
-	HardwareProfile_VmSizeStandard_DS3       = HardwareProfile_VmSize("Standard_DS3")
-	HardwareProfile_VmSizeStandard_DS3_V2    = HardwareProfile_VmSize("Standard_DS3_v2")
-	HardwareProfile_VmSizeStandard_DS4       = HardwareProfile_VmSize("Standard_DS4")
-	HardwareProfile_VmSizeStandard_DS4_V2    = HardwareProfile_VmSize("Standard_DS4_v2")
-	HardwareProfile_VmSizeStandard_DS5_V2    = HardwareProfile_VmSize("Standard_DS5_v2")
-	HardwareProfile_VmSizeStandard_E16S_V3   = HardwareProfile_VmSize("Standard_E16s_v3")
-	HardwareProfile_VmSizeStandard_E16_V3    = HardwareProfile_VmSize("Standard_E16_v3")
-	HardwareProfile_VmSizeStandard_E2S_V3    = HardwareProfile_VmSize("Standard_E2s_v3")
-	HardwareProfile_VmSizeStandard_E2_V3     = HardwareProfile_VmSize("Standard_E2_v3")
-	HardwareProfile_VmSizeStandard_E3216_V3  = HardwareProfile_VmSize("Standard_E32-16_v3")
-	HardwareProfile_VmSizeStandard_E328S_V3  = HardwareProfile_VmSize("Standard_E32-8s_v3")
-	HardwareProfile_VmSizeStandard_E32S_V3   = HardwareProfile_VmSize("Standard_E32s_v3")
-	HardwareProfile_VmSizeStandard_E32_V3    = HardwareProfile_VmSize("Standard_E32_v3")
-	HardwareProfile_VmSizeStandard_E4S_V3    = HardwareProfile_VmSize("Standard_E4s_v3")
-	HardwareProfile_VmSizeStandard_E4_V3     = HardwareProfile_VmSize("Standard_E4_v3")
-	HardwareProfile_VmSizeStandard_E6416S_V3 = HardwareProfile_VmSize("Standard_E64-16s_v3")
-	HardwareProfile_VmSizeStandard_E6432S_V3 = HardwareProfile_VmSize("Standard_E64-32s_v3")
-	HardwareProfile_VmSizeStandard_E64S_V3   = HardwareProfile_VmSize("Standard_E64s_v3")
-	HardwareProfile_VmSizeStandard_E64_V3    = HardwareProfile_VmSize("Standard_E64_v3")
-	HardwareProfile_VmSizeStandard_E8S_V3    = HardwareProfile_VmSize("Standard_E8s_v3")
-	HardwareProfile_VmSizeStandard_E8_V3     = HardwareProfile_VmSize("Standard_E8_v3")
-	HardwareProfile_VmSizeStandard_F1        = HardwareProfile_VmSize("Standard_F1")
-	HardwareProfile_VmSizeStandard_F16       = HardwareProfile_VmSize("Standard_F16")
-	HardwareProfile_VmSizeStandard_F16S      = HardwareProfile_VmSize("Standard_F16s")
-	HardwareProfile_VmSizeStandard_F16S_V2   = HardwareProfile_VmSize("Standard_F16s_v2")
-	HardwareProfile_VmSizeStandard_F1S       = HardwareProfile_VmSize("Standard_F1s")
-	HardwareProfile_VmSizeStandard_F2        = HardwareProfile_VmSize("Standard_F2")
-	HardwareProfile_VmSizeStandard_F2S       = HardwareProfile_VmSize("Standard_F2s")
-	HardwareProfile_VmSizeStandard_F2S_V2    = HardwareProfile_VmSize("Standard_F2s_v2")
-	HardwareProfile_VmSizeStandard_F32S_V2   = HardwareProfile_VmSize("Standard_F32s_v2")
-	HardwareProfile_VmSizeStandard_F4        = HardwareProfile_VmSize("Standard_F4")
-	HardwareProfile_VmSizeStandard_F4S       = HardwareProfile_VmSize("Standard_F4s")
-	HardwareProfile_VmSizeStandard_F4S_V2    = HardwareProfile_VmSize("Standard_F4s_v2")
-	HardwareProfile_VmSizeStandard_F64S_V2   = HardwareProfile_VmSize("Standard_F64s_v2")
-	HardwareProfile_VmSizeStandard_F72S_V2   = HardwareProfile_VmSize("Standard_F72s_v2")
-	HardwareProfile_VmSizeStandard_F8        = HardwareProfile_VmSize("Standard_F8")
-	HardwareProfile_VmSizeStandard_F8S       = HardwareProfile_VmSize("Standard_F8s")
-	HardwareProfile_VmSizeStandard_F8S_V2    = HardwareProfile_VmSize("Standard_F8s_v2")
-	HardwareProfile_VmSizeStandard_G1        = HardwareProfile_VmSize("Standard_G1")
-	HardwareProfile_VmSizeStandard_G2        = HardwareProfile_VmSize("Standard_G2")
-	HardwareProfile_VmSizeStandard_G3        = HardwareProfile_VmSize("Standard_G3")
-	HardwareProfile_VmSizeStandard_G4        = HardwareProfile_VmSize("Standard_G4")
-	HardwareProfile_VmSizeStandard_G5        = HardwareProfile_VmSize("Standard_G5")
-	HardwareProfile_VmSizeStandard_GS1       = HardwareProfile_VmSize("Standard_GS1")
-	HardwareProfile_VmSizeStandard_GS2       = HardwareProfile_VmSize("Standard_GS2")
-	HardwareProfile_VmSizeStandard_GS3       = HardwareProfile_VmSize("Standard_GS3")
-	HardwareProfile_VmSizeStandard_GS4       = HardwareProfile_VmSize("Standard_GS4")
-	HardwareProfile_VmSizeStandard_GS44      = HardwareProfile_VmSize("Standard_GS4-4")
-	HardwareProfile_VmSizeStandard_GS48      = HardwareProfile_VmSize("Standard_GS4-8")
-	HardwareProfile_VmSizeStandard_GS5       = HardwareProfile_VmSize("Standard_GS5")
-	HardwareProfile_VmSizeStandard_GS516     = HardwareProfile_VmSize("Standard_GS5-16")
-	HardwareProfile_VmSizeStandard_GS58      = HardwareProfile_VmSize("Standard_GS5-8")
-	HardwareProfile_VmSizeStandard_H16       = HardwareProfile_VmSize("Standard_H16")
-	HardwareProfile_VmSizeStandard_H16M      = HardwareProfile_VmSize("Standard_H16m")
-	HardwareProfile_VmSizeStandard_H16Mr     = HardwareProfile_VmSize("Standard_H16mr")
-	HardwareProfile_VmSizeStandard_H16R      = HardwareProfile_VmSize("Standard_H16r")
-	HardwareProfile_VmSizeStandard_H8        = HardwareProfile_VmSize("Standard_H8")
-	HardwareProfile_VmSizeStandard_H8M       = HardwareProfile_VmSize("Standard_H8m")
-	HardwareProfile_VmSizeStandard_L16S      = HardwareProfile_VmSize("Standard_L16s")
-	HardwareProfile_VmSizeStandard_L32S      = HardwareProfile_VmSize("Standard_L32s")
-	HardwareProfile_VmSizeStandard_L4S       = HardwareProfile_VmSize("Standard_L4s")
-	HardwareProfile_VmSizeStandard_L8S       = HardwareProfile_VmSize("Standard_L8s")
-	HardwareProfile_VmSizeStandard_M12832Ms  = HardwareProfile_VmSize("Standard_M128-32ms")
-	HardwareProfile_VmSizeStandard_M12864Ms  = HardwareProfile_VmSize("Standard_M128-64ms")
-	HardwareProfile_VmSizeStandard_M128Ms    = HardwareProfile_VmSize("Standard_M128ms")
-	HardwareProfile_VmSizeStandard_M128S     = HardwareProfile_VmSize("Standard_M128s")
-	HardwareProfile_VmSizeStandard_M6416Ms   = HardwareProfile_VmSize("Standard_M64-16ms")
-	HardwareProfile_VmSizeStandard_M6432Ms   = HardwareProfile_VmSize("Standard_M64-32ms")
-	HardwareProfile_VmSizeStandard_M64Ms     = HardwareProfile_VmSize("Standard_M64ms")
-	HardwareProfile_VmSizeStandard_M64S      = HardwareProfile_VmSize("Standard_M64s")
-	HardwareProfile_VmSizeStandard_NC12      = HardwareProfile_VmSize("Standard_NC12")
-	HardwareProfile_VmSizeStandard_NC12S_V2  = HardwareProfile_VmSize("Standard_NC12s_v2")
-	HardwareProfile_VmSizeStandard_NC12S_V3  = HardwareProfile_VmSize("Standard_NC12s_v3")
-	HardwareProfile_VmSizeStandard_NC24      = HardwareProfile_VmSize("Standard_NC24")
-	HardwareProfile_VmSizeStandard_NC24R     = HardwareProfile_VmSize("Standard_NC24r")
-	HardwareProfile_VmSizeStandard_NC24Rs_V2 = HardwareProfile_VmSize("Standard_NC24rs_v2")
-	HardwareProfile_VmSizeStandard_NC24Rs_V3 = HardwareProfile_VmSize("Standard_NC24rs_v3")
-	HardwareProfile_VmSizeStandard_NC24S_V2  = HardwareProfile_VmSize("Standard_NC24s_v2")
-	HardwareProfile_VmSizeStandard_NC24S_V3  = HardwareProfile_VmSize("Standard_NC24s_v3")
-	HardwareProfile_VmSizeStandard_NC6       = HardwareProfile_VmSize("Standard_NC6")
-	HardwareProfile_VmSizeStandard_NC6S_V2   = HardwareProfile_VmSize("Standard_NC6s_v2")
-	HardwareProfile_VmSizeStandard_NC6S_V3   = HardwareProfile_VmSize("Standard_NC6s_v3")
-	HardwareProfile_VmSizeStandard_ND12S     = HardwareProfile_VmSize("Standard_ND12s")
-	HardwareProfile_VmSizeStandard_ND24Rs    = HardwareProfile_VmSize("Standard_ND24rs")
-	HardwareProfile_VmSizeStandard_ND24S     = HardwareProfile_VmSize("Standard_ND24s")
-	HardwareProfile_VmSizeStandard_ND6S      = HardwareProfile_VmSize("Standard_ND6s")
-	HardwareProfile_VmSizeStandard_NV12      = HardwareProfile_VmSize("Standard_NV12")
-	HardwareProfile_VmSizeStandard_NV24      = HardwareProfile_VmSize("Standard_NV24")
-	HardwareProfile_VmSizeStandard_NV6       = HardwareProfile_VmSize("Standard_NV6")
+	HardwareProfile_VmSize_Basic_A0           = HardwareProfile_VmSize("Basic_A0")
+	HardwareProfile_VmSize_Basic_A1           = HardwareProfile_VmSize("Basic_A1")
+	HardwareProfile_VmSize_Basic_A2           = HardwareProfile_VmSize("Basic_A2")
+	HardwareProfile_VmSize_Basic_A3           = HardwareProfile_VmSize("Basic_A3")
+	HardwareProfile_VmSize_Basic_A4           = HardwareProfile_VmSize("Basic_A4")
+	HardwareProfile_VmSize_Standard_A0        = HardwareProfile_VmSize("Standard_A0")
+	HardwareProfile_VmSize_Standard_A1        = HardwareProfile_VmSize("Standard_A1")
+	HardwareProfile_VmSize_Standard_A10       = HardwareProfile_VmSize("Standard_A10")
+	HardwareProfile_VmSize_Standard_A11       = HardwareProfile_VmSize("Standard_A11")
+	HardwareProfile_VmSize_Standard_A1_V2     = HardwareProfile_VmSize("Standard_A1_v2")
+	HardwareProfile_VmSize_Standard_A2        = HardwareProfile_VmSize("Standard_A2")
+	HardwareProfile_VmSize_Standard_A2M_V2    = HardwareProfile_VmSize("Standard_A2m_v2")
+	HardwareProfile_VmSize_Standard_A2_V2     = HardwareProfile_VmSize("Standard_A2_v2")
+	HardwareProfile_VmSize_Standard_A3        = HardwareProfile_VmSize("Standard_A3")
+	HardwareProfile_VmSize_Standard_A4        = HardwareProfile_VmSize("Standard_A4")
+	HardwareProfile_VmSize_Standard_A4M_V2    = HardwareProfile_VmSize("Standard_A4m_v2")
+	HardwareProfile_VmSize_Standard_A4_V2     = HardwareProfile_VmSize("Standard_A4_v2")
+	HardwareProfile_VmSize_Standard_A5        = HardwareProfile_VmSize("Standard_A5")
+	HardwareProfile_VmSize_Standard_A6        = HardwareProfile_VmSize("Standard_A6")
+	HardwareProfile_VmSize_Standard_A7        = HardwareProfile_VmSize("Standard_A7")
+	HardwareProfile_VmSize_Standard_A8        = HardwareProfile_VmSize("Standard_A8")
+	HardwareProfile_VmSize_Standard_A8M_V2    = HardwareProfile_VmSize("Standard_A8m_v2")
+	HardwareProfile_VmSize_Standard_A8_V2     = HardwareProfile_VmSize("Standard_A8_v2")
+	HardwareProfile_VmSize_Standard_A9        = HardwareProfile_VmSize("Standard_A9")
+	HardwareProfile_VmSize_Standard_B1Ms      = HardwareProfile_VmSize("Standard_B1ms")
+	HardwareProfile_VmSize_Standard_B1S       = HardwareProfile_VmSize("Standard_B1s")
+	HardwareProfile_VmSize_Standard_B2Ms      = HardwareProfile_VmSize("Standard_B2ms")
+	HardwareProfile_VmSize_Standard_B2S       = HardwareProfile_VmSize("Standard_B2s")
+	HardwareProfile_VmSize_Standard_B4Ms      = HardwareProfile_VmSize("Standard_B4ms")
+	HardwareProfile_VmSize_Standard_B8Ms      = HardwareProfile_VmSize("Standard_B8ms")
+	HardwareProfile_VmSize_Standard_D1        = HardwareProfile_VmSize("Standard_D1")
+	HardwareProfile_VmSize_Standard_D11       = HardwareProfile_VmSize("Standard_D11")
+	HardwareProfile_VmSize_Standard_D11_V2    = HardwareProfile_VmSize("Standard_D11_v2")
+	HardwareProfile_VmSize_Standard_D12       = HardwareProfile_VmSize("Standard_D12")
+	HardwareProfile_VmSize_Standard_D12_V2    = HardwareProfile_VmSize("Standard_D12_v2")
+	HardwareProfile_VmSize_Standard_D13       = HardwareProfile_VmSize("Standard_D13")
+	HardwareProfile_VmSize_Standard_D13_V2    = HardwareProfile_VmSize("Standard_D13_v2")
+	HardwareProfile_VmSize_Standard_D14       = HardwareProfile_VmSize("Standard_D14")
+	HardwareProfile_VmSize_Standard_D14_V2    = HardwareProfile_VmSize("Standard_D14_v2")
+	HardwareProfile_VmSize_Standard_D15_V2    = HardwareProfile_VmSize("Standard_D15_v2")
+	HardwareProfile_VmSize_Standard_D16S_V3   = HardwareProfile_VmSize("Standard_D16s_v3")
+	HardwareProfile_VmSize_Standard_D16_V3    = HardwareProfile_VmSize("Standard_D16_v3")
+	HardwareProfile_VmSize_Standard_D1_V2     = HardwareProfile_VmSize("Standard_D1_v2")
+	HardwareProfile_VmSize_Standard_D2        = HardwareProfile_VmSize("Standard_D2")
+	HardwareProfile_VmSize_Standard_D2S_V3    = HardwareProfile_VmSize("Standard_D2s_v3")
+	HardwareProfile_VmSize_Standard_D2_V2     = HardwareProfile_VmSize("Standard_D2_v2")
+	HardwareProfile_VmSize_Standard_D2_V3     = HardwareProfile_VmSize("Standard_D2_v3")
+	HardwareProfile_VmSize_Standard_D3        = HardwareProfile_VmSize("Standard_D3")
+	HardwareProfile_VmSize_Standard_D32S_V3   = HardwareProfile_VmSize("Standard_D32s_v3")
+	HardwareProfile_VmSize_Standard_D32_V3    = HardwareProfile_VmSize("Standard_D32_v3")
+	HardwareProfile_VmSize_Standard_D3_V2     = HardwareProfile_VmSize("Standard_D3_v2")
+	HardwareProfile_VmSize_Standard_D4        = HardwareProfile_VmSize("Standard_D4")
+	HardwareProfile_VmSize_Standard_D4S_V3    = HardwareProfile_VmSize("Standard_D4s_v3")
+	HardwareProfile_VmSize_Standard_D4_V2     = HardwareProfile_VmSize("Standard_D4_v2")
+	HardwareProfile_VmSize_Standard_D4_V3     = HardwareProfile_VmSize("Standard_D4_v3")
+	HardwareProfile_VmSize_Standard_D5_V2     = HardwareProfile_VmSize("Standard_D5_v2")
+	HardwareProfile_VmSize_Standard_D64S_V3   = HardwareProfile_VmSize("Standard_D64s_v3")
+	HardwareProfile_VmSize_Standard_D64_V3    = HardwareProfile_VmSize("Standard_D64_v3")
+	HardwareProfile_VmSize_Standard_D8S_V3    = HardwareProfile_VmSize("Standard_D8s_v3")
+	HardwareProfile_VmSize_Standard_D8_V3     = HardwareProfile_VmSize("Standard_D8_v3")
+	HardwareProfile_VmSize_Standard_DS1       = HardwareProfile_VmSize("Standard_DS1")
+	HardwareProfile_VmSize_Standard_DS11      = HardwareProfile_VmSize("Standard_DS11")
+	HardwareProfile_VmSize_Standard_DS11_V2   = HardwareProfile_VmSize("Standard_DS11_v2")
+	HardwareProfile_VmSize_Standard_DS12      = HardwareProfile_VmSize("Standard_DS12")
+	HardwareProfile_VmSize_Standard_DS12_V2   = HardwareProfile_VmSize("Standard_DS12_v2")
+	HardwareProfile_VmSize_Standard_DS13      = HardwareProfile_VmSize("Standard_DS13")
+	HardwareProfile_VmSize_Standard_DS132_V2  = HardwareProfile_VmSize("Standard_DS13-2_v2")
+	HardwareProfile_VmSize_Standard_DS134_V2  = HardwareProfile_VmSize("Standard_DS13-4_v2")
+	HardwareProfile_VmSize_Standard_DS13_V2   = HardwareProfile_VmSize("Standard_DS13_v2")
+	HardwareProfile_VmSize_Standard_DS14      = HardwareProfile_VmSize("Standard_DS14")
+	HardwareProfile_VmSize_Standard_DS144_V2  = HardwareProfile_VmSize("Standard_DS14-4_v2")
+	HardwareProfile_VmSize_Standard_DS148_V2  = HardwareProfile_VmSize("Standard_DS14-8_v2")
+	HardwareProfile_VmSize_Standard_DS14_V2   = HardwareProfile_VmSize("Standard_DS14_v2")
+	HardwareProfile_VmSize_Standard_DS15_V2   = HardwareProfile_VmSize("Standard_DS15_v2")
+	HardwareProfile_VmSize_Standard_DS1_V2    = HardwareProfile_VmSize("Standard_DS1_v2")
+	HardwareProfile_VmSize_Standard_DS2       = HardwareProfile_VmSize("Standard_DS2")
+	HardwareProfile_VmSize_Standard_DS2_V2    = HardwareProfile_VmSize("Standard_DS2_v2")
+	HardwareProfile_VmSize_Standard_DS3       = HardwareProfile_VmSize("Standard_DS3")
+	HardwareProfile_VmSize_Standard_DS3_V2    = HardwareProfile_VmSize("Standard_DS3_v2")
+	HardwareProfile_VmSize_Standard_DS4       = HardwareProfile_VmSize("Standard_DS4")
+	HardwareProfile_VmSize_Standard_DS4_V2    = HardwareProfile_VmSize("Standard_DS4_v2")
+	HardwareProfile_VmSize_Standard_DS5_V2    = HardwareProfile_VmSize("Standard_DS5_v2")
+	HardwareProfile_VmSize_Standard_E16S_V3   = HardwareProfile_VmSize("Standard_E16s_v3")
+	HardwareProfile_VmSize_Standard_E16_V3    = HardwareProfile_VmSize("Standard_E16_v3")
+	HardwareProfile_VmSize_Standard_E2S_V3    = HardwareProfile_VmSize("Standard_E2s_v3")
+	HardwareProfile_VmSize_Standard_E2_V3     = HardwareProfile_VmSize("Standard_E2_v3")
+	HardwareProfile_VmSize_Standard_E3216_V3  = HardwareProfile_VmSize("Standard_E32-16_v3")
+	HardwareProfile_VmSize_Standard_E328S_V3  = HardwareProfile_VmSize("Standard_E32-8s_v3")
+	HardwareProfile_VmSize_Standard_E32S_V3   = HardwareProfile_VmSize("Standard_E32s_v3")
+	HardwareProfile_VmSize_Standard_E32_V3    = HardwareProfile_VmSize("Standard_E32_v3")
+	HardwareProfile_VmSize_Standard_E4S_V3    = HardwareProfile_VmSize("Standard_E4s_v3")
+	HardwareProfile_VmSize_Standard_E4_V3     = HardwareProfile_VmSize("Standard_E4_v3")
+	HardwareProfile_VmSize_Standard_E6416S_V3 = HardwareProfile_VmSize("Standard_E64-16s_v3")
+	HardwareProfile_VmSize_Standard_E6432S_V3 = HardwareProfile_VmSize("Standard_E64-32s_v3")
+	HardwareProfile_VmSize_Standard_E64S_V3   = HardwareProfile_VmSize("Standard_E64s_v3")
+	HardwareProfile_VmSize_Standard_E64_V3    = HardwareProfile_VmSize("Standard_E64_v3")
+	HardwareProfile_VmSize_Standard_E8S_V3    = HardwareProfile_VmSize("Standard_E8s_v3")
+	HardwareProfile_VmSize_Standard_E8_V3     = HardwareProfile_VmSize("Standard_E8_v3")
+	HardwareProfile_VmSize_Standard_F1        = HardwareProfile_VmSize("Standard_F1")
+	HardwareProfile_VmSize_Standard_F16       = HardwareProfile_VmSize("Standard_F16")
+	HardwareProfile_VmSize_Standard_F16S      = HardwareProfile_VmSize("Standard_F16s")
+	HardwareProfile_VmSize_Standard_F16S_V2   = HardwareProfile_VmSize("Standard_F16s_v2")
+	HardwareProfile_VmSize_Standard_F1S       = HardwareProfile_VmSize("Standard_F1s")
+	HardwareProfile_VmSize_Standard_F2        = HardwareProfile_VmSize("Standard_F2")
+	HardwareProfile_VmSize_Standard_F2S       = HardwareProfile_VmSize("Standard_F2s")
+	HardwareProfile_VmSize_Standard_F2S_V2    = HardwareProfile_VmSize("Standard_F2s_v2")
+	HardwareProfile_VmSize_Standard_F32S_V2   = HardwareProfile_VmSize("Standard_F32s_v2")
+	HardwareProfile_VmSize_Standard_F4        = HardwareProfile_VmSize("Standard_F4")
+	HardwareProfile_VmSize_Standard_F4S       = HardwareProfile_VmSize("Standard_F4s")
+	HardwareProfile_VmSize_Standard_F4S_V2    = HardwareProfile_VmSize("Standard_F4s_v2")
+	HardwareProfile_VmSize_Standard_F64S_V2   = HardwareProfile_VmSize("Standard_F64s_v2")
+	HardwareProfile_VmSize_Standard_F72S_V2   = HardwareProfile_VmSize("Standard_F72s_v2")
+	HardwareProfile_VmSize_Standard_F8        = HardwareProfile_VmSize("Standard_F8")
+	HardwareProfile_VmSize_Standard_F8S       = HardwareProfile_VmSize("Standard_F8s")
+	HardwareProfile_VmSize_Standard_F8S_V2    = HardwareProfile_VmSize("Standard_F8s_v2")
+	HardwareProfile_VmSize_Standard_G1        = HardwareProfile_VmSize("Standard_G1")
+	HardwareProfile_VmSize_Standard_G2        = HardwareProfile_VmSize("Standard_G2")
+	HardwareProfile_VmSize_Standard_G3        = HardwareProfile_VmSize("Standard_G3")
+	HardwareProfile_VmSize_Standard_G4        = HardwareProfile_VmSize("Standard_G4")
+	HardwareProfile_VmSize_Standard_G5        = HardwareProfile_VmSize("Standard_G5")
+	HardwareProfile_VmSize_Standard_GS1       = HardwareProfile_VmSize("Standard_GS1")
+	HardwareProfile_VmSize_Standard_GS2       = HardwareProfile_VmSize("Standard_GS2")
+	HardwareProfile_VmSize_Standard_GS3       = HardwareProfile_VmSize("Standard_GS3")
+	HardwareProfile_VmSize_Standard_GS4       = HardwareProfile_VmSize("Standard_GS4")
+	HardwareProfile_VmSize_Standard_GS44      = HardwareProfile_VmSize("Standard_GS4-4")
+	HardwareProfile_VmSize_Standard_GS48      = HardwareProfile_VmSize("Standard_GS4-8")
+	HardwareProfile_VmSize_Standard_GS5       = HardwareProfile_VmSize("Standard_GS5")
+	HardwareProfile_VmSize_Standard_GS516     = HardwareProfile_VmSize("Standard_GS5-16")
+	HardwareProfile_VmSize_Standard_GS58      = HardwareProfile_VmSize("Standard_GS5-8")
+	HardwareProfile_VmSize_Standard_H16       = HardwareProfile_VmSize("Standard_H16")
+	HardwareProfile_VmSize_Standard_H16M      = HardwareProfile_VmSize("Standard_H16m")
+	HardwareProfile_VmSize_Standard_H16Mr     = HardwareProfile_VmSize("Standard_H16mr")
+	HardwareProfile_VmSize_Standard_H16R      = HardwareProfile_VmSize("Standard_H16r")
+	HardwareProfile_VmSize_Standard_H8        = HardwareProfile_VmSize("Standard_H8")
+	HardwareProfile_VmSize_Standard_H8M       = HardwareProfile_VmSize("Standard_H8m")
+	HardwareProfile_VmSize_Standard_L16S      = HardwareProfile_VmSize("Standard_L16s")
+	HardwareProfile_VmSize_Standard_L32S      = HardwareProfile_VmSize("Standard_L32s")
+	HardwareProfile_VmSize_Standard_L4S       = HardwareProfile_VmSize("Standard_L4s")
+	HardwareProfile_VmSize_Standard_L8S       = HardwareProfile_VmSize("Standard_L8s")
+	HardwareProfile_VmSize_Standard_M12832Ms  = HardwareProfile_VmSize("Standard_M128-32ms")
+	HardwareProfile_VmSize_Standard_M12864Ms  = HardwareProfile_VmSize("Standard_M128-64ms")
+	HardwareProfile_VmSize_Standard_M128Ms    = HardwareProfile_VmSize("Standard_M128ms")
+	HardwareProfile_VmSize_Standard_M128S     = HardwareProfile_VmSize("Standard_M128s")
+	HardwareProfile_VmSize_Standard_M6416Ms   = HardwareProfile_VmSize("Standard_M64-16ms")
+	HardwareProfile_VmSize_Standard_M6432Ms   = HardwareProfile_VmSize("Standard_M64-32ms")
+	HardwareProfile_VmSize_Standard_M64Ms     = HardwareProfile_VmSize("Standard_M64ms")
+	HardwareProfile_VmSize_Standard_M64S      = HardwareProfile_VmSize("Standard_M64s")
+	HardwareProfile_VmSize_Standard_NC12      = HardwareProfile_VmSize("Standard_NC12")
+	HardwareProfile_VmSize_Standard_NC12S_V2  = HardwareProfile_VmSize("Standard_NC12s_v2")
+	HardwareProfile_VmSize_Standard_NC12S_V3  = HardwareProfile_VmSize("Standard_NC12s_v3")
+	HardwareProfile_VmSize_Standard_NC24      = HardwareProfile_VmSize("Standard_NC24")
+	HardwareProfile_VmSize_Standard_NC24R     = HardwareProfile_VmSize("Standard_NC24r")
+	HardwareProfile_VmSize_Standard_NC24Rs_V2 = HardwareProfile_VmSize("Standard_NC24rs_v2")
+	HardwareProfile_VmSize_Standard_NC24Rs_V3 = HardwareProfile_VmSize("Standard_NC24rs_v3")
+	HardwareProfile_VmSize_Standard_NC24S_V2  = HardwareProfile_VmSize("Standard_NC24s_v2")
+	HardwareProfile_VmSize_Standard_NC24S_V3  = HardwareProfile_VmSize("Standard_NC24s_v3")
+	HardwareProfile_VmSize_Standard_NC6       = HardwareProfile_VmSize("Standard_NC6")
+	HardwareProfile_VmSize_Standard_NC6S_V2   = HardwareProfile_VmSize("Standard_NC6s_v2")
+	HardwareProfile_VmSize_Standard_NC6S_V3   = HardwareProfile_VmSize("Standard_NC6s_v3")
+	HardwareProfile_VmSize_Standard_ND12S     = HardwareProfile_VmSize("Standard_ND12s")
+	HardwareProfile_VmSize_Standard_ND24Rs    = HardwareProfile_VmSize("Standard_ND24rs")
+	HardwareProfile_VmSize_Standard_ND24S     = HardwareProfile_VmSize("Standard_ND24s")
+	HardwareProfile_VmSize_Standard_ND6S      = HardwareProfile_VmSize("Standard_ND6s")
+	HardwareProfile_VmSize_Standard_NV12      = HardwareProfile_VmSize("Standard_NV12")
+	HardwareProfile_VmSize_Standard_NV24      = HardwareProfile_VmSize("Standard_NV24")
+	HardwareProfile_VmSize_Standard_NV6       = HardwareProfile_VmSize("Standard_NV6")
 )
 
 // Deprecated version of HardwareProfile_VmSize_STATUS. Use v1beta20201201.HardwareProfile_VmSize_STATUS instead
 type HardwareProfile_VmSize_STATUS string
 
 const (
-	HardwareProfile_VmSize_STATUSBasic_A0           = HardwareProfile_VmSize_STATUS("Basic_A0")
-	HardwareProfile_VmSize_STATUSBasic_A1           = HardwareProfile_VmSize_STATUS("Basic_A1")
-	HardwareProfile_VmSize_STATUSBasic_A2           = HardwareProfile_VmSize_STATUS("Basic_A2")
-	HardwareProfile_VmSize_STATUSBasic_A3           = HardwareProfile_VmSize_STATUS("Basic_A3")
-	HardwareProfile_VmSize_STATUSBasic_A4           = HardwareProfile_VmSize_STATUS("Basic_A4")
-	HardwareProfile_VmSize_STATUSStandard_A0        = HardwareProfile_VmSize_STATUS("Standard_A0")
-	HardwareProfile_VmSize_STATUSStandard_A1        = HardwareProfile_VmSize_STATUS("Standard_A1")
-	HardwareProfile_VmSize_STATUSStandard_A10       = HardwareProfile_VmSize_STATUS("Standard_A10")
-	HardwareProfile_VmSize_STATUSStandard_A11       = HardwareProfile_VmSize_STATUS("Standard_A11")
-	HardwareProfile_VmSize_STATUSStandard_A1_V2     = HardwareProfile_VmSize_STATUS("Standard_A1_v2")
-	HardwareProfile_VmSize_STATUSStandard_A2        = HardwareProfile_VmSize_STATUS("Standard_A2")
-	HardwareProfile_VmSize_STATUSStandard_A2M_V2    = HardwareProfile_VmSize_STATUS("Standard_A2m_v2")
-	HardwareProfile_VmSize_STATUSStandard_A2_V2     = HardwareProfile_VmSize_STATUS("Standard_A2_v2")
-	HardwareProfile_VmSize_STATUSStandard_A3        = HardwareProfile_VmSize_STATUS("Standard_A3")
-	HardwareProfile_VmSize_STATUSStandard_A4        = HardwareProfile_VmSize_STATUS("Standard_A4")
-	HardwareProfile_VmSize_STATUSStandard_A4M_V2    = HardwareProfile_VmSize_STATUS("Standard_A4m_v2")
-	HardwareProfile_VmSize_STATUSStandard_A4_V2     = HardwareProfile_VmSize_STATUS("Standard_A4_v2")
-	HardwareProfile_VmSize_STATUSStandard_A5        = HardwareProfile_VmSize_STATUS("Standard_A5")
-	HardwareProfile_VmSize_STATUSStandard_A6        = HardwareProfile_VmSize_STATUS("Standard_A6")
-	HardwareProfile_VmSize_STATUSStandard_A7        = HardwareProfile_VmSize_STATUS("Standard_A7")
-	HardwareProfile_VmSize_STATUSStandard_A8        = HardwareProfile_VmSize_STATUS("Standard_A8")
-	HardwareProfile_VmSize_STATUSStandard_A8M_V2    = HardwareProfile_VmSize_STATUS("Standard_A8m_v2")
-	HardwareProfile_VmSize_STATUSStandard_A8_V2     = HardwareProfile_VmSize_STATUS("Standard_A8_v2")
-	HardwareProfile_VmSize_STATUSStandard_A9        = HardwareProfile_VmSize_STATUS("Standard_A9")
-	HardwareProfile_VmSize_STATUSStandard_B1Ms      = HardwareProfile_VmSize_STATUS("Standard_B1ms")
-	HardwareProfile_VmSize_STATUSStandard_B1S       = HardwareProfile_VmSize_STATUS("Standard_B1s")
-	HardwareProfile_VmSize_STATUSStandard_B2Ms      = HardwareProfile_VmSize_STATUS("Standard_B2ms")
-	HardwareProfile_VmSize_STATUSStandard_B2S       = HardwareProfile_VmSize_STATUS("Standard_B2s")
-	HardwareProfile_VmSize_STATUSStandard_B4Ms      = HardwareProfile_VmSize_STATUS("Standard_B4ms")
-	HardwareProfile_VmSize_STATUSStandard_B8Ms      = HardwareProfile_VmSize_STATUS("Standard_B8ms")
-	HardwareProfile_VmSize_STATUSStandard_D1        = HardwareProfile_VmSize_STATUS("Standard_D1")
-	HardwareProfile_VmSize_STATUSStandard_D11       = HardwareProfile_VmSize_STATUS("Standard_D11")
-	HardwareProfile_VmSize_STATUSStandard_D11_V2    = HardwareProfile_VmSize_STATUS("Standard_D11_v2")
-	HardwareProfile_VmSize_STATUSStandard_D12       = HardwareProfile_VmSize_STATUS("Standard_D12")
-	HardwareProfile_VmSize_STATUSStandard_D12_V2    = HardwareProfile_VmSize_STATUS("Standard_D12_v2")
-	HardwareProfile_VmSize_STATUSStandard_D13       = HardwareProfile_VmSize_STATUS("Standard_D13")
-	HardwareProfile_VmSize_STATUSStandard_D13_V2    = HardwareProfile_VmSize_STATUS("Standard_D13_v2")
-	HardwareProfile_VmSize_STATUSStandard_D14       = HardwareProfile_VmSize_STATUS("Standard_D14")
-	HardwareProfile_VmSize_STATUSStandard_D14_V2    = HardwareProfile_VmSize_STATUS("Standard_D14_v2")
-	HardwareProfile_VmSize_STATUSStandard_D15_V2    = HardwareProfile_VmSize_STATUS("Standard_D15_v2")
-	HardwareProfile_VmSize_STATUSStandard_D16S_V3   = HardwareProfile_VmSize_STATUS("Standard_D16s_v3")
-	HardwareProfile_VmSize_STATUSStandard_D16_V3    = HardwareProfile_VmSize_STATUS("Standard_D16_v3")
-	HardwareProfile_VmSize_STATUSStandard_D1_V2     = HardwareProfile_VmSize_STATUS("Standard_D1_v2")
-	HardwareProfile_VmSize_STATUSStandard_D2        = HardwareProfile_VmSize_STATUS("Standard_D2")
-	HardwareProfile_VmSize_STATUSStandard_D2S_V3    = HardwareProfile_VmSize_STATUS("Standard_D2s_v3")
-	HardwareProfile_VmSize_STATUSStandard_D2_V2     = HardwareProfile_VmSize_STATUS("Standard_D2_v2")
-	HardwareProfile_VmSize_STATUSStandard_D2_V3     = HardwareProfile_VmSize_STATUS("Standard_D2_v3")
-	HardwareProfile_VmSize_STATUSStandard_D3        = HardwareProfile_VmSize_STATUS("Standard_D3")
-	HardwareProfile_VmSize_STATUSStandard_D32S_V3   = HardwareProfile_VmSize_STATUS("Standard_D32s_v3")
-	HardwareProfile_VmSize_STATUSStandard_D32_V3    = HardwareProfile_VmSize_STATUS("Standard_D32_v3")
-	HardwareProfile_VmSize_STATUSStandard_D3_V2     = HardwareProfile_VmSize_STATUS("Standard_D3_v2")
-	HardwareProfile_VmSize_STATUSStandard_D4        = HardwareProfile_VmSize_STATUS("Standard_D4")
-	HardwareProfile_VmSize_STATUSStandard_D4S_V3    = HardwareProfile_VmSize_STATUS("Standard_D4s_v3")
-	HardwareProfile_VmSize_STATUSStandard_D4_V2     = HardwareProfile_VmSize_STATUS("Standard_D4_v2")
-	HardwareProfile_VmSize_STATUSStandard_D4_V3     = HardwareProfile_VmSize_STATUS("Standard_D4_v3")
-	HardwareProfile_VmSize_STATUSStandard_D5_V2     = HardwareProfile_VmSize_STATUS("Standard_D5_v2")
-	HardwareProfile_VmSize_STATUSStandard_D64S_V3   = HardwareProfile_VmSize_STATUS("Standard_D64s_v3")
-	HardwareProfile_VmSize_STATUSStandard_D64_V3    = HardwareProfile_VmSize_STATUS("Standard_D64_v3")
-	HardwareProfile_VmSize_STATUSStandard_D8S_V3    = HardwareProfile_VmSize_STATUS("Standard_D8s_v3")
-	HardwareProfile_VmSize_STATUSStandard_D8_V3     = HardwareProfile_VmSize_STATUS("Standard_D8_v3")
-	HardwareProfile_VmSize_STATUSStandard_DS1       = HardwareProfile_VmSize_STATUS("Standard_DS1")
-	HardwareProfile_VmSize_STATUSStandard_DS11      = HardwareProfile_VmSize_STATUS("Standard_DS11")
-	HardwareProfile_VmSize_STATUSStandard_DS11_V2   = HardwareProfile_VmSize_STATUS("Standard_DS11_v2")
-	HardwareProfile_VmSize_STATUSStandard_DS12      = HardwareProfile_VmSize_STATUS("Standard_DS12")
-	HardwareProfile_VmSize_STATUSStandard_DS12_V2   = HardwareProfile_VmSize_STATUS("Standard_DS12_v2")
-	HardwareProfile_VmSize_STATUSStandard_DS13      = HardwareProfile_VmSize_STATUS("Standard_DS13")
-	HardwareProfile_VmSize_STATUSStandard_DS132_V2  = HardwareProfile_VmSize_STATUS("Standard_DS13-2_v2")
-	HardwareProfile_VmSize_STATUSStandard_DS134_V2  = HardwareProfile_VmSize_STATUS("Standard_DS13-4_v2")
-	HardwareProfile_VmSize_STATUSStandard_DS13_V2   = HardwareProfile_VmSize_STATUS("Standard_DS13_v2")
-	HardwareProfile_VmSize_STATUSStandard_DS14      = HardwareProfile_VmSize_STATUS("Standard_DS14")
-	HardwareProfile_VmSize_STATUSStandard_DS144_V2  = HardwareProfile_VmSize_STATUS("Standard_DS14-4_v2")
-	HardwareProfile_VmSize_STATUSStandard_DS148_V2  = HardwareProfile_VmSize_STATUS("Standard_DS14-8_v2")
-	HardwareProfile_VmSize_STATUSStandard_DS14_V2   = HardwareProfile_VmSize_STATUS("Standard_DS14_v2")
-	HardwareProfile_VmSize_STATUSStandard_DS15_V2   = HardwareProfile_VmSize_STATUS("Standard_DS15_v2")
-	HardwareProfile_VmSize_STATUSStandard_DS1_V2    = HardwareProfile_VmSize_STATUS("Standard_DS1_v2")
-	HardwareProfile_VmSize_STATUSStandard_DS2       = HardwareProfile_VmSize_STATUS("Standard_DS2")
-	HardwareProfile_VmSize_STATUSStandard_DS2_V2    = HardwareProfile_VmSize_STATUS("Standard_DS2_v2")
-	HardwareProfile_VmSize_STATUSStandard_DS3       = HardwareProfile_VmSize_STATUS("Standard_DS3")
-	HardwareProfile_VmSize_STATUSStandard_DS3_V2    = HardwareProfile_VmSize_STATUS("Standard_DS3_v2")
-	HardwareProfile_VmSize_STATUSStandard_DS4       = HardwareProfile_VmSize_STATUS("Standard_DS4")
-	HardwareProfile_VmSize_STATUSStandard_DS4_V2    = HardwareProfile_VmSize_STATUS("Standard_DS4_v2")
-	HardwareProfile_VmSize_STATUSStandard_DS5_V2    = HardwareProfile_VmSize_STATUS("Standard_DS5_v2")
-	HardwareProfile_VmSize_STATUSStandard_E16S_V3   = HardwareProfile_VmSize_STATUS("Standard_E16s_v3")
-	HardwareProfile_VmSize_STATUSStandard_E16_V3    = HardwareProfile_VmSize_STATUS("Standard_E16_v3")
-	HardwareProfile_VmSize_STATUSStandard_E2S_V3    = HardwareProfile_VmSize_STATUS("Standard_E2s_v3")
-	HardwareProfile_VmSize_STATUSStandard_E2_V3     = HardwareProfile_VmSize_STATUS("Standard_E2_v3")
-	HardwareProfile_VmSize_STATUSStandard_E3216_V3  = HardwareProfile_VmSize_STATUS("Standard_E32-16_v3")
-	HardwareProfile_VmSize_STATUSStandard_E328S_V3  = HardwareProfile_VmSize_STATUS("Standard_E32-8s_v3")
-	HardwareProfile_VmSize_STATUSStandard_E32S_V3   = HardwareProfile_VmSize_STATUS("Standard_E32s_v3")
-	HardwareProfile_VmSize_STATUSStandard_E32_V3    = HardwareProfile_VmSize_STATUS("Standard_E32_v3")
-	HardwareProfile_VmSize_STATUSStandard_E4S_V3    = HardwareProfile_VmSize_STATUS("Standard_E4s_v3")
-	HardwareProfile_VmSize_STATUSStandard_E4_V3     = HardwareProfile_VmSize_STATUS("Standard_E4_v3")
-	HardwareProfile_VmSize_STATUSStandard_E6416S_V3 = HardwareProfile_VmSize_STATUS("Standard_E64-16s_v3")
-	HardwareProfile_VmSize_STATUSStandard_E6432S_V3 = HardwareProfile_VmSize_STATUS("Standard_E64-32s_v3")
-	HardwareProfile_VmSize_STATUSStandard_E64S_V3   = HardwareProfile_VmSize_STATUS("Standard_E64s_v3")
-	HardwareProfile_VmSize_STATUSStandard_E64_V3    = HardwareProfile_VmSize_STATUS("Standard_E64_v3")
-	HardwareProfile_VmSize_STATUSStandard_E8S_V3    = HardwareProfile_VmSize_STATUS("Standard_E8s_v3")
-	HardwareProfile_VmSize_STATUSStandard_E8_V3     = HardwareProfile_VmSize_STATUS("Standard_E8_v3")
-	HardwareProfile_VmSize_STATUSStandard_F1        = HardwareProfile_VmSize_STATUS("Standard_F1")
-	HardwareProfile_VmSize_STATUSStandard_F16       = HardwareProfile_VmSize_STATUS("Standard_F16")
-	HardwareProfile_VmSize_STATUSStandard_F16S      = HardwareProfile_VmSize_STATUS("Standard_F16s")
-	HardwareProfile_VmSize_STATUSStandard_F16S_V2   = HardwareProfile_VmSize_STATUS("Standard_F16s_v2")
-	HardwareProfile_VmSize_STATUSStandard_F1S       = HardwareProfile_VmSize_STATUS("Standard_F1s")
-	HardwareProfile_VmSize_STATUSStandard_F2        = HardwareProfile_VmSize_STATUS("Standard_F2")
-	HardwareProfile_VmSize_STATUSStandard_F2S       = HardwareProfile_VmSize_STATUS("Standard_F2s")
-	HardwareProfile_VmSize_STATUSStandard_F2S_V2    = HardwareProfile_VmSize_STATUS("Standard_F2s_v2")
-	HardwareProfile_VmSize_STATUSStandard_F32S_V2   = HardwareProfile_VmSize_STATUS("Standard_F32s_v2")
-	HardwareProfile_VmSize_STATUSStandard_F4        = HardwareProfile_VmSize_STATUS("Standard_F4")
-	HardwareProfile_VmSize_STATUSStandard_F4S       = HardwareProfile_VmSize_STATUS("Standard_F4s")
-	HardwareProfile_VmSize_STATUSStandard_F4S_V2    = HardwareProfile_VmSize_STATUS("Standard_F4s_v2")
-	HardwareProfile_VmSize_STATUSStandard_F64S_V2   = HardwareProfile_VmSize_STATUS("Standard_F64s_v2")
-	HardwareProfile_VmSize_STATUSStandard_F72S_V2   = HardwareProfile_VmSize_STATUS("Standard_F72s_v2")
-	HardwareProfile_VmSize_STATUSStandard_F8        = HardwareProfile_VmSize_STATUS("Standard_F8")
-	HardwareProfile_VmSize_STATUSStandard_F8S       = HardwareProfile_VmSize_STATUS("Standard_F8s")
-	HardwareProfile_VmSize_STATUSStandard_F8S_V2    = HardwareProfile_VmSize_STATUS("Standard_F8s_v2")
-	HardwareProfile_VmSize_STATUSStandard_G1        = HardwareProfile_VmSize_STATUS("Standard_G1")
-	HardwareProfile_VmSize_STATUSStandard_G2        = HardwareProfile_VmSize_STATUS("Standard_G2")
-	HardwareProfile_VmSize_STATUSStandard_G3        = HardwareProfile_VmSize_STATUS("Standard_G3")
-	HardwareProfile_VmSize_STATUSStandard_G4        = HardwareProfile_VmSize_STATUS("Standard_G4")
-	HardwareProfile_VmSize_STATUSStandard_G5        = HardwareProfile_VmSize_STATUS("Standard_G5")
-	HardwareProfile_VmSize_STATUSStandard_GS1       = HardwareProfile_VmSize_STATUS("Standard_GS1")
-	HardwareProfile_VmSize_STATUSStandard_GS2       = HardwareProfile_VmSize_STATUS("Standard_GS2")
-	HardwareProfile_VmSize_STATUSStandard_GS3       = HardwareProfile_VmSize_STATUS("Standard_GS3")
-	HardwareProfile_VmSize_STATUSStandard_GS4       = HardwareProfile_VmSize_STATUS("Standard_GS4")
-	HardwareProfile_VmSize_STATUSStandard_GS44      = HardwareProfile_VmSize_STATUS("Standard_GS4-4")
-	HardwareProfile_VmSize_STATUSStandard_GS48      = HardwareProfile_VmSize_STATUS("Standard_GS4-8")
-	HardwareProfile_VmSize_STATUSStandard_GS5       = HardwareProfile_VmSize_STATUS("Standard_GS5")
-	HardwareProfile_VmSize_STATUSStandard_GS516     = HardwareProfile_VmSize_STATUS("Standard_GS5-16")
-	HardwareProfile_VmSize_STATUSStandard_GS58      = HardwareProfile_VmSize_STATUS("Standard_GS5-8")
-	HardwareProfile_VmSize_STATUSStandard_H16       = HardwareProfile_VmSize_STATUS("Standard_H16")
-	HardwareProfile_VmSize_STATUSStandard_H16M      = HardwareProfile_VmSize_STATUS("Standard_H16m")
-	HardwareProfile_VmSize_STATUSStandard_H16Mr     = HardwareProfile_VmSize_STATUS("Standard_H16mr")
-	HardwareProfile_VmSize_STATUSStandard_H16R      = HardwareProfile_VmSize_STATUS("Standard_H16r")
-	HardwareProfile_VmSize_STATUSStandard_H8        = HardwareProfile_VmSize_STATUS("Standard_H8")
-	HardwareProfile_VmSize_STATUSStandard_H8M       = HardwareProfile_VmSize_STATUS("Standard_H8m")
-	HardwareProfile_VmSize_STATUSStandard_L16S      = HardwareProfile_VmSize_STATUS("Standard_L16s")
-	HardwareProfile_VmSize_STATUSStandard_L32S      = HardwareProfile_VmSize_STATUS("Standard_L32s")
-	HardwareProfile_VmSize_STATUSStandard_L4S       = HardwareProfile_VmSize_STATUS("Standard_L4s")
-	HardwareProfile_VmSize_STATUSStandard_L8S       = HardwareProfile_VmSize_STATUS("Standard_L8s")
-	HardwareProfile_VmSize_STATUSStandard_M12832Ms  = HardwareProfile_VmSize_STATUS("Standard_M128-32ms")
-	HardwareProfile_VmSize_STATUSStandard_M12864Ms  = HardwareProfile_VmSize_STATUS("Standard_M128-64ms")
-	HardwareProfile_VmSize_STATUSStandard_M128Ms    = HardwareProfile_VmSize_STATUS("Standard_M128ms")
-	HardwareProfile_VmSize_STATUSStandard_M128S     = HardwareProfile_VmSize_STATUS("Standard_M128s")
-	HardwareProfile_VmSize_STATUSStandard_M6416Ms   = HardwareProfile_VmSize_STATUS("Standard_M64-16ms")
-	HardwareProfile_VmSize_STATUSStandard_M6432Ms   = HardwareProfile_VmSize_STATUS("Standard_M64-32ms")
-	HardwareProfile_VmSize_STATUSStandard_M64Ms     = HardwareProfile_VmSize_STATUS("Standard_M64ms")
-	HardwareProfile_VmSize_STATUSStandard_M64S      = HardwareProfile_VmSize_STATUS("Standard_M64s")
-	HardwareProfile_VmSize_STATUSStandard_NC12      = HardwareProfile_VmSize_STATUS("Standard_NC12")
-	HardwareProfile_VmSize_STATUSStandard_NC12S_V2  = HardwareProfile_VmSize_STATUS("Standard_NC12s_v2")
-	HardwareProfile_VmSize_STATUSStandard_NC12S_V3  = HardwareProfile_VmSize_STATUS("Standard_NC12s_v3")
-	HardwareProfile_VmSize_STATUSStandard_NC24      = HardwareProfile_VmSize_STATUS("Standard_NC24")
-	HardwareProfile_VmSize_STATUSStandard_NC24R     = HardwareProfile_VmSize_STATUS("Standard_NC24r")
-	HardwareProfile_VmSize_STATUSStandard_NC24Rs_V2 = HardwareProfile_VmSize_STATUS("Standard_NC24rs_v2")
-	HardwareProfile_VmSize_STATUSStandard_NC24Rs_V3 = HardwareProfile_VmSize_STATUS("Standard_NC24rs_v3")
-	HardwareProfile_VmSize_STATUSStandard_NC24S_V2  = HardwareProfile_VmSize_STATUS("Standard_NC24s_v2")
-	HardwareProfile_VmSize_STATUSStandard_NC24S_V3  = HardwareProfile_VmSize_STATUS("Standard_NC24s_v3")
-	HardwareProfile_VmSize_STATUSStandard_NC6       = HardwareProfile_VmSize_STATUS("Standard_NC6")
-	HardwareProfile_VmSize_STATUSStandard_NC6S_V2   = HardwareProfile_VmSize_STATUS("Standard_NC6s_v2")
-	HardwareProfile_VmSize_STATUSStandard_NC6S_V3   = HardwareProfile_VmSize_STATUS("Standard_NC6s_v3")
-	HardwareProfile_VmSize_STATUSStandard_ND12S     = HardwareProfile_VmSize_STATUS("Standard_ND12s")
-	HardwareProfile_VmSize_STATUSStandard_ND24Rs    = HardwareProfile_VmSize_STATUS("Standard_ND24rs")
-	HardwareProfile_VmSize_STATUSStandard_ND24S     = HardwareProfile_VmSize_STATUS("Standard_ND24s")
-	HardwareProfile_VmSize_STATUSStandard_ND6S      = HardwareProfile_VmSize_STATUS("Standard_ND6s")
-	HardwareProfile_VmSize_STATUSStandard_NV12      = HardwareProfile_VmSize_STATUS("Standard_NV12")
-	HardwareProfile_VmSize_STATUSStandard_NV24      = HardwareProfile_VmSize_STATUS("Standard_NV24")
-	HardwareProfile_VmSize_STATUSStandard_NV6       = HardwareProfile_VmSize_STATUS("Standard_NV6")
+	HardwareProfile_VmSize_Basic_A0_STATUS           = HardwareProfile_VmSize_STATUS("Basic_A0")
+	HardwareProfile_VmSize_Basic_A1_STATUS           = HardwareProfile_VmSize_STATUS("Basic_A1")
+	HardwareProfile_VmSize_Basic_A2_STATUS           = HardwareProfile_VmSize_STATUS("Basic_A2")
+	HardwareProfile_VmSize_Basic_A3_STATUS           = HardwareProfile_VmSize_STATUS("Basic_A3")
+	HardwareProfile_VmSize_Basic_A4_STATUS           = HardwareProfile_VmSize_STATUS("Basic_A4")
+	HardwareProfile_VmSize_Standard_A0_STATUS        = HardwareProfile_VmSize_STATUS("Standard_A0")
+	HardwareProfile_VmSize_Standard_A1_STATUS        = HardwareProfile_VmSize_STATUS("Standard_A1")
+	HardwareProfile_VmSize_Standard_A10_STATUS       = HardwareProfile_VmSize_STATUS("Standard_A10")
+	HardwareProfile_VmSize_Standard_A11_STATUS       = HardwareProfile_VmSize_STATUS("Standard_A11")
+	HardwareProfile_VmSize_Standard_A1_V2_STATUS     = HardwareProfile_VmSize_STATUS("Standard_A1_v2")
+	HardwareProfile_VmSize_Standard_A2_STATUS        = HardwareProfile_VmSize_STATUS("Standard_A2")
+	HardwareProfile_VmSize_Standard_A2M_V2_STATUS    = HardwareProfile_VmSize_STATUS("Standard_A2m_v2")
+	HardwareProfile_VmSize_Standard_A2_V2_STATUS     = HardwareProfile_VmSize_STATUS("Standard_A2_v2")
+	HardwareProfile_VmSize_Standard_A3_STATUS        = HardwareProfile_VmSize_STATUS("Standard_A3")
+	HardwareProfile_VmSize_Standard_A4_STATUS        = HardwareProfile_VmSize_STATUS("Standard_A4")
+	HardwareProfile_VmSize_Standard_A4M_V2_STATUS    = HardwareProfile_VmSize_STATUS("Standard_A4m_v2")
+	HardwareProfile_VmSize_Standard_A4_V2_STATUS     = HardwareProfile_VmSize_STATUS("Standard_A4_v2")
+	HardwareProfile_VmSize_Standard_A5_STATUS        = HardwareProfile_VmSize_STATUS("Standard_A5")
+	HardwareProfile_VmSize_Standard_A6_STATUS        = HardwareProfile_VmSize_STATUS("Standard_A6")
+	HardwareProfile_VmSize_Standard_A7_STATUS        = HardwareProfile_VmSize_STATUS("Standard_A7")
+	HardwareProfile_VmSize_Standard_A8_STATUS        = HardwareProfile_VmSize_STATUS("Standard_A8")
+	HardwareProfile_VmSize_Standard_A8M_V2_STATUS    = HardwareProfile_VmSize_STATUS("Standard_A8m_v2")
+	HardwareProfile_VmSize_Standard_A8_V2_STATUS     = HardwareProfile_VmSize_STATUS("Standard_A8_v2")
+	HardwareProfile_VmSize_Standard_A9_STATUS        = HardwareProfile_VmSize_STATUS("Standard_A9")
+	HardwareProfile_VmSize_Standard_B1Ms_STATUS      = HardwareProfile_VmSize_STATUS("Standard_B1ms")
+	HardwareProfile_VmSize_Standard_B1S_STATUS       = HardwareProfile_VmSize_STATUS("Standard_B1s")
+	HardwareProfile_VmSize_Standard_B2Ms_STATUS      = HardwareProfile_VmSize_STATUS("Standard_B2ms")
+	HardwareProfile_VmSize_Standard_B2S_STATUS       = HardwareProfile_VmSize_STATUS("Standard_B2s")
+	HardwareProfile_VmSize_Standard_B4Ms_STATUS      = HardwareProfile_VmSize_STATUS("Standard_B4ms")
+	HardwareProfile_VmSize_Standard_B8Ms_STATUS      = HardwareProfile_VmSize_STATUS("Standard_B8ms")
+	HardwareProfile_VmSize_Standard_D1_STATUS        = HardwareProfile_VmSize_STATUS("Standard_D1")
+	HardwareProfile_VmSize_Standard_D11_STATUS       = HardwareProfile_VmSize_STATUS("Standard_D11")
+	HardwareProfile_VmSize_Standard_D11_V2_STATUS    = HardwareProfile_VmSize_STATUS("Standard_D11_v2")
+	HardwareProfile_VmSize_Standard_D12_STATUS       = HardwareProfile_VmSize_STATUS("Standard_D12")
+	HardwareProfile_VmSize_Standard_D12_V2_STATUS    = HardwareProfile_VmSize_STATUS("Standard_D12_v2")
+	HardwareProfile_VmSize_Standard_D13_STATUS       = HardwareProfile_VmSize_STATUS("Standard_D13")
+	HardwareProfile_VmSize_Standard_D13_V2_STATUS    = HardwareProfile_VmSize_STATUS("Standard_D13_v2")
+	HardwareProfile_VmSize_Standard_D14_STATUS       = HardwareProfile_VmSize_STATUS("Standard_D14")
+	HardwareProfile_VmSize_Standard_D14_V2_STATUS    = HardwareProfile_VmSize_STATUS("Standard_D14_v2")
+	HardwareProfile_VmSize_Standard_D15_V2_STATUS    = HardwareProfile_VmSize_STATUS("Standard_D15_v2")
+	HardwareProfile_VmSize_Standard_D16S_V3_STATUS   = HardwareProfile_VmSize_STATUS("Standard_D16s_v3")
+	HardwareProfile_VmSize_Standard_D16_V3_STATUS    = HardwareProfile_VmSize_STATUS("Standard_D16_v3")
+	HardwareProfile_VmSize_Standard_D1_V2_STATUS     = HardwareProfile_VmSize_STATUS("Standard_D1_v2")
+	HardwareProfile_VmSize_Standard_D2_STATUS        = HardwareProfile_VmSize_STATUS("Standard_D2")
+	HardwareProfile_VmSize_Standard_D2S_V3_STATUS    = HardwareProfile_VmSize_STATUS("Standard_D2s_v3")
+	HardwareProfile_VmSize_Standard_D2_V2_STATUS     = HardwareProfile_VmSize_STATUS("Standard_D2_v2")
+	HardwareProfile_VmSize_Standard_D2_V3_STATUS     = HardwareProfile_VmSize_STATUS("Standard_D2_v3")
+	HardwareProfile_VmSize_Standard_D3_STATUS        = HardwareProfile_VmSize_STATUS("Standard_D3")
+	HardwareProfile_VmSize_Standard_D32S_V3_STATUS   = HardwareProfile_VmSize_STATUS("Standard_D32s_v3")
+	HardwareProfile_VmSize_Standard_D32_V3_STATUS    = HardwareProfile_VmSize_STATUS("Standard_D32_v3")
+	HardwareProfile_VmSize_Standard_D3_V2_STATUS     = HardwareProfile_VmSize_STATUS("Standard_D3_v2")
+	HardwareProfile_VmSize_Standard_D4_STATUS        = HardwareProfile_VmSize_STATUS("Standard_D4")
+	HardwareProfile_VmSize_Standard_D4S_V3_STATUS    = HardwareProfile_VmSize_STATUS("Standard_D4s_v3")
+	HardwareProfile_VmSize_Standard_D4_V2_STATUS     = HardwareProfile_VmSize_STATUS("Standard_D4_v2")
+	HardwareProfile_VmSize_Standard_D4_V3_STATUS     = HardwareProfile_VmSize_STATUS("Standard_D4_v3")
+	HardwareProfile_VmSize_Standard_D5_V2_STATUS     = HardwareProfile_VmSize_STATUS("Standard_D5_v2")
+	HardwareProfile_VmSize_Standard_D64S_V3_STATUS   = HardwareProfile_VmSize_STATUS("Standard_D64s_v3")
+	HardwareProfile_VmSize_Standard_D64_V3_STATUS    = HardwareProfile_VmSize_STATUS("Standard_D64_v3")
+	HardwareProfile_VmSize_Standard_D8S_V3_STATUS    = HardwareProfile_VmSize_STATUS("Standard_D8s_v3")
+	HardwareProfile_VmSize_Standard_D8_V3_STATUS     = HardwareProfile_VmSize_STATUS("Standard_D8_v3")
+	HardwareProfile_VmSize_Standard_DS1_STATUS       = HardwareProfile_VmSize_STATUS("Standard_DS1")
+	HardwareProfile_VmSize_Standard_DS11_STATUS      = HardwareProfile_VmSize_STATUS("Standard_DS11")
+	HardwareProfile_VmSize_Standard_DS11_V2_STATUS   = HardwareProfile_VmSize_STATUS("Standard_DS11_v2")
+	HardwareProfile_VmSize_Standard_DS12_STATUS      = HardwareProfile_VmSize_STATUS("Standard_DS12")
+	HardwareProfile_VmSize_Standard_DS12_V2_STATUS   = HardwareProfile_VmSize_STATUS("Standard_DS12_v2")
+	HardwareProfile_VmSize_Standard_DS13_STATUS      = HardwareProfile_VmSize_STATUS("Standard_DS13")
+	HardwareProfile_VmSize_Standard_DS132_V2_STATUS  = HardwareProfile_VmSize_STATUS("Standard_DS13-2_v2")
+	HardwareProfile_VmSize_Standard_DS134_V2_STATUS  = HardwareProfile_VmSize_STATUS("Standard_DS13-4_v2")
+	HardwareProfile_VmSize_Standard_DS13_V2_STATUS   = HardwareProfile_VmSize_STATUS("Standard_DS13_v2")
+	HardwareProfile_VmSize_Standard_DS14_STATUS      = HardwareProfile_VmSize_STATUS("Standard_DS14")
+	HardwareProfile_VmSize_Standard_DS144_V2_STATUS  = HardwareProfile_VmSize_STATUS("Standard_DS14-4_v2")
+	HardwareProfile_VmSize_Standard_DS148_V2_STATUS  = HardwareProfile_VmSize_STATUS("Standard_DS14-8_v2")
+	HardwareProfile_VmSize_Standard_DS14_V2_STATUS   = HardwareProfile_VmSize_STATUS("Standard_DS14_v2")
+	HardwareProfile_VmSize_Standard_DS15_V2_STATUS   = HardwareProfile_VmSize_STATUS("Standard_DS15_v2")
+	HardwareProfile_VmSize_Standard_DS1_V2_STATUS    = HardwareProfile_VmSize_STATUS("Standard_DS1_v2")
+	HardwareProfile_VmSize_Standard_DS2_STATUS       = HardwareProfile_VmSize_STATUS("Standard_DS2")
+	HardwareProfile_VmSize_Standard_DS2_V2_STATUS    = HardwareProfile_VmSize_STATUS("Standard_DS2_v2")
+	HardwareProfile_VmSize_Standard_DS3_STATUS       = HardwareProfile_VmSize_STATUS("Standard_DS3")
+	HardwareProfile_VmSize_Standard_DS3_V2_STATUS    = HardwareProfile_VmSize_STATUS("Standard_DS3_v2")
+	HardwareProfile_VmSize_Standard_DS4_STATUS       = HardwareProfile_VmSize_STATUS("Standard_DS4")
+	HardwareProfile_VmSize_Standard_DS4_V2_STATUS    = HardwareProfile_VmSize_STATUS("Standard_DS4_v2")
+	HardwareProfile_VmSize_Standard_DS5_V2_STATUS    = HardwareProfile_VmSize_STATUS("Standard_DS5_v2")
+	HardwareProfile_VmSize_Standard_E16S_V3_STATUS   = HardwareProfile_VmSize_STATUS("Standard_E16s_v3")
+	HardwareProfile_VmSize_Standard_E16_V3_STATUS    = HardwareProfile_VmSize_STATUS("Standard_E16_v3")
+	HardwareProfile_VmSize_Standard_E2S_V3_STATUS    = HardwareProfile_VmSize_STATUS("Standard_E2s_v3")
+	HardwareProfile_VmSize_Standard_E2_V3_STATUS     = HardwareProfile_VmSize_STATUS("Standard_E2_v3")
+	HardwareProfile_VmSize_Standard_E3216_V3_STATUS  = HardwareProfile_VmSize_STATUS("Standard_E32-16_v3")
+	HardwareProfile_VmSize_Standard_E328S_V3_STATUS  = HardwareProfile_VmSize_STATUS("Standard_E32-8s_v3")
+	HardwareProfile_VmSize_Standard_E32S_V3_STATUS   = HardwareProfile_VmSize_STATUS("Standard_E32s_v3")
+	HardwareProfile_VmSize_Standard_E32_V3_STATUS    = HardwareProfile_VmSize_STATUS("Standard_E32_v3")
+	HardwareProfile_VmSize_Standard_E4S_V3_STATUS    = HardwareProfile_VmSize_STATUS("Standard_E4s_v3")
+	HardwareProfile_VmSize_Standard_E4_V3_STATUS     = HardwareProfile_VmSize_STATUS("Standard_E4_v3")
+	HardwareProfile_VmSize_Standard_E6416S_V3_STATUS = HardwareProfile_VmSize_STATUS("Standard_E64-16s_v3")
+	HardwareProfile_VmSize_Standard_E6432S_V3_STATUS = HardwareProfile_VmSize_STATUS("Standard_E64-32s_v3")
+	HardwareProfile_VmSize_Standard_E64S_V3_STATUS   = HardwareProfile_VmSize_STATUS("Standard_E64s_v3")
+	HardwareProfile_VmSize_Standard_E64_V3_STATUS    = HardwareProfile_VmSize_STATUS("Standard_E64_v3")
+	HardwareProfile_VmSize_Standard_E8S_V3_STATUS    = HardwareProfile_VmSize_STATUS("Standard_E8s_v3")
+	HardwareProfile_VmSize_Standard_E8_V3_STATUS     = HardwareProfile_VmSize_STATUS("Standard_E8_v3")
+	HardwareProfile_VmSize_Standard_F1_STATUS        = HardwareProfile_VmSize_STATUS("Standard_F1")
+	HardwareProfile_VmSize_Standard_F16_STATUS       = HardwareProfile_VmSize_STATUS("Standard_F16")
+	HardwareProfile_VmSize_Standard_F16S_STATUS      = HardwareProfile_VmSize_STATUS("Standard_F16s")
+	HardwareProfile_VmSize_Standard_F16S_V2_STATUS   = HardwareProfile_VmSize_STATUS("Standard_F16s_v2")
+	HardwareProfile_VmSize_Standard_F1S_STATUS       = HardwareProfile_VmSize_STATUS("Standard_F1s")
+	HardwareProfile_VmSize_Standard_F2_STATUS        = HardwareProfile_VmSize_STATUS("Standard_F2")
+	HardwareProfile_VmSize_Standard_F2S_STATUS       = HardwareProfile_VmSize_STATUS("Standard_F2s")
+	HardwareProfile_VmSize_Standard_F2S_V2_STATUS    = HardwareProfile_VmSize_STATUS("Standard_F2s_v2")
+	HardwareProfile_VmSize_Standard_F32S_V2_STATUS   = HardwareProfile_VmSize_STATUS("Standard_F32s_v2")
+	HardwareProfile_VmSize_Standard_F4_STATUS        = HardwareProfile_VmSize_STATUS("Standard_F4")
+	HardwareProfile_VmSize_Standard_F4S_STATUS       = HardwareProfile_VmSize_STATUS("Standard_F4s")
+	HardwareProfile_VmSize_Standard_F4S_V2_STATUS    = HardwareProfile_VmSize_STATUS("Standard_F4s_v2")
+	HardwareProfile_VmSize_Standard_F64S_V2_STATUS   = HardwareProfile_VmSize_STATUS("Standard_F64s_v2")
+	HardwareProfile_VmSize_Standard_F72S_V2_STATUS   = HardwareProfile_VmSize_STATUS("Standard_F72s_v2")
+	HardwareProfile_VmSize_Standard_F8_STATUS        = HardwareProfile_VmSize_STATUS("Standard_F8")
+	HardwareProfile_VmSize_Standard_F8S_STATUS       = HardwareProfile_VmSize_STATUS("Standard_F8s")
+	HardwareProfile_VmSize_Standard_F8S_V2_STATUS    = HardwareProfile_VmSize_STATUS("Standard_F8s_v2")
+	HardwareProfile_VmSize_Standard_G1_STATUS        = HardwareProfile_VmSize_STATUS("Standard_G1")
+	HardwareProfile_VmSize_Standard_G2_STATUS        = HardwareProfile_VmSize_STATUS("Standard_G2")
+	HardwareProfile_VmSize_Standard_G3_STATUS        = HardwareProfile_VmSize_STATUS("Standard_G3")
+	HardwareProfile_VmSize_Standard_G4_STATUS        = HardwareProfile_VmSize_STATUS("Standard_G4")
+	HardwareProfile_VmSize_Standard_G5_STATUS        = HardwareProfile_VmSize_STATUS("Standard_G5")
+	HardwareProfile_VmSize_Standard_GS1_STATUS       = HardwareProfile_VmSize_STATUS("Standard_GS1")
+	HardwareProfile_VmSize_Standard_GS2_STATUS       = HardwareProfile_VmSize_STATUS("Standard_GS2")
+	HardwareProfile_VmSize_Standard_GS3_STATUS       = HardwareProfile_VmSize_STATUS("Standard_GS3")
+	HardwareProfile_VmSize_Standard_GS4_STATUS       = HardwareProfile_VmSize_STATUS("Standard_GS4")
+	HardwareProfile_VmSize_Standard_GS44_STATUS      = HardwareProfile_VmSize_STATUS("Standard_GS4-4")
+	HardwareProfile_VmSize_Standard_GS48_STATUS      = HardwareProfile_VmSize_STATUS("Standard_GS4-8")
+	HardwareProfile_VmSize_Standard_GS5_STATUS       = HardwareProfile_VmSize_STATUS("Standard_GS5")
+	HardwareProfile_VmSize_Standard_GS516_STATUS     = HardwareProfile_VmSize_STATUS("Standard_GS5-16")
+	HardwareProfile_VmSize_Standard_GS58_STATUS      = HardwareProfile_VmSize_STATUS("Standard_GS5-8")
+	HardwareProfile_VmSize_Standard_H16_STATUS       = HardwareProfile_VmSize_STATUS("Standard_H16")
+	HardwareProfile_VmSize_Standard_H16M_STATUS      = HardwareProfile_VmSize_STATUS("Standard_H16m")
+	HardwareProfile_VmSize_Standard_H16Mr_STATUS     = HardwareProfile_VmSize_STATUS("Standard_H16mr")
+	HardwareProfile_VmSize_Standard_H16R_STATUS      = HardwareProfile_VmSize_STATUS("Standard_H16r")
+	HardwareProfile_VmSize_Standard_H8_STATUS        = HardwareProfile_VmSize_STATUS("Standard_H8")
+	HardwareProfile_VmSize_Standard_H8M_STATUS       = HardwareProfile_VmSize_STATUS("Standard_H8m")
+	HardwareProfile_VmSize_Standard_L16S_STATUS      = HardwareProfile_VmSize_STATUS("Standard_L16s")
+	HardwareProfile_VmSize_Standard_L32S_STATUS      = HardwareProfile_VmSize_STATUS("Standard_L32s")
+	HardwareProfile_VmSize_Standard_L4S_STATUS       = HardwareProfile_VmSize_STATUS("Standard_L4s")
+	HardwareProfile_VmSize_Standard_L8S_STATUS       = HardwareProfile_VmSize_STATUS("Standard_L8s")
+	HardwareProfile_VmSize_Standard_M12832Ms_STATUS  = HardwareProfile_VmSize_STATUS("Standard_M128-32ms")
+	HardwareProfile_VmSize_Standard_M12864Ms_STATUS  = HardwareProfile_VmSize_STATUS("Standard_M128-64ms")
+	HardwareProfile_VmSize_Standard_M128Ms_STATUS    = HardwareProfile_VmSize_STATUS("Standard_M128ms")
+	HardwareProfile_VmSize_Standard_M128S_STATUS     = HardwareProfile_VmSize_STATUS("Standard_M128s")
+	HardwareProfile_VmSize_Standard_M6416Ms_STATUS   = HardwareProfile_VmSize_STATUS("Standard_M64-16ms")
+	HardwareProfile_VmSize_Standard_M6432Ms_STATUS   = HardwareProfile_VmSize_STATUS("Standard_M64-32ms")
+	HardwareProfile_VmSize_Standard_M64Ms_STATUS     = HardwareProfile_VmSize_STATUS("Standard_M64ms")
+	HardwareProfile_VmSize_Standard_M64S_STATUS      = HardwareProfile_VmSize_STATUS("Standard_M64s")
+	HardwareProfile_VmSize_Standard_NC12_STATUS      = HardwareProfile_VmSize_STATUS("Standard_NC12")
+	HardwareProfile_VmSize_Standard_NC12S_V2_STATUS  = HardwareProfile_VmSize_STATUS("Standard_NC12s_v2")
+	HardwareProfile_VmSize_Standard_NC12S_V3_STATUS  = HardwareProfile_VmSize_STATUS("Standard_NC12s_v3")
+	HardwareProfile_VmSize_Standard_NC24_STATUS      = HardwareProfile_VmSize_STATUS("Standard_NC24")
+	HardwareProfile_VmSize_Standard_NC24R_STATUS     = HardwareProfile_VmSize_STATUS("Standard_NC24r")
+	HardwareProfile_VmSize_Standard_NC24Rs_V2_STATUS = HardwareProfile_VmSize_STATUS("Standard_NC24rs_v2")
+	HardwareProfile_VmSize_Standard_NC24Rs_V3_STATUS = HardwareProfile_VmSize_STATUS("Standard_NC24rs_v3")
+	HardwareProfile_VmSize_Standard_NC24S_V2_STATUS  = HardwareProfile_VmSize_STATUS("Standard_NC24s_v2")
+	HardwareProfile_VmSize_Standard_NC24S_V3_STATUS  = HardwareProfile_VmSize_STATUS("Standard_NC24s_v3")
+	HardwareProfile_VmSize_Standard_NC6_STATUS       = HardwareProfile_VmSize_STATUS("Standard_NC6")
+	HardwareProfile_VmSize_Standard_NC6S_V2_STATUS   = HardwareProfile_VmSize_STATUS("Standard_NC6s_v2")
+	HardwareProfile_VmSize_Standard_NC6S_V3_STATUS   = HardwareProfile_VmSize_STATUS("Standard_NC6s_v3")
+	HardwareProfile_VmSize_Standard_ND12S_STATUS     = HardwareProfile_VmSize_STATUS("Standard_ND12s")
+	HardwareProfile_VmSize_Standard_ND24Rs_STATUS    = HardwareProfile_VmSize_STATUS("Standard_ND24rs")
+	HardwareProfile_VmSize_Standard_ND24S_STATUS     = HardwareProfile_VmSize_STATUS("Standard_ND24s")
+	HardwareProfile_VmSize_Standard_ND6S_STATUS      = HardwareProfile_VmSize_STATUS("Standard_ND6s")
+	HardwareProfile_VmSize_Standard_NV12_STATUS      = HardwareProfile_VmSize_STATUS("Standard_NV12")
+	HardwareProfile_VmSize_Standard_NV24_STATUS      = HardwareProfile_VmSize_STATUS("Standard_NV24")
+	HardwareProfile_VmSize_Standard_NV6_STATUS       = HardwareProfile_VmSize_STATUS("Standard_NV6")
 )
 
 // Deprecated version of ImageReference. Use v1beta20201201.ImageReference instead
@@ -10856,12 +10856,12 @@ func (disk *OSDisk_STATUS) AssignPropertiesToOSDisk_STATUS(destination *alpha202
 // +kubebuilder:validation:Enum={"TrustedLaunch"}
 type SecurityProfile_SecurityType string
 
-const SecurityProfile_SecurityTypeTrustedLaunch = SecurityProfile_SecurityType("TrustedLaunch")
+const SecurityProfile_SecurityType_TrustedLaunch = SecurityProfile_SecurityType("TrustedLaunch")
 
 // Deprecated version of SecurityProfile_SecurityType_STATUS. Use v1beta20201201.SecurityProfile_SecurityType_STATUS instead
 type SecurityProfile_SecurityType_STATUS string
 
-const SecurityProfile_SecurityType_STATUSTrustedLaunch = SecurityProfile_SecurityType_STATUS("TrustedLaunch")
+const SecurityProfile_SecurityType_TrustedLaunch_STATUS = SecurityProfile_SecurityType_STATUS("TrustedLaunch")
 
 // Deprecated version of UefiSettings. Use v1beta20201201.UefiSettings instead
 type UefiSettings struct {
@@ -12438,8 +12438,8 @@ func (identities *VirtualMachineIdentity_UserAssignedIdentities_STATUS) AssignPr
 type VirtualMachineInstanceView_HyperVGeneration string
 
 const (
-	VirtualMachineInstanceView_HyperVGenerationV1 = VirtualMachineInstanceView_HyperVGeneration("V1")
-	VirtualMachineInstanceView_HyperVGenerationV2 = VirtualMachineInstanceView_HyperVGeneration("V2")
+	VirtualMachineInstanceView_HyperVGeneration_V1 = VirtualMachineInstanceView_HyperVGeneration("V1")
+	VirtualMachineInstanceView_HyperVGeneration_V2 = VirtualMachineInstanceView_HyperVGeneration("V2")
 )
 
 // Deprecated version of VirtualMachineInstanceView_HyperVGeneration_STATUS. Use
@@ -12447,8 +12447,8 @@ const (
 type VirtualMachineInstanceView_HyperVGeneration_STATUS string
 
 const (
-	VirtualMachineInstanceView_HyperVGeneration_STATUSV1 = VirtualMachineInstanceView_HyperVGeneration_STATUS("V1")
-	VirtualMachineInstanceView_HyperVGeneration_STATUSV2 = VirtualMachineInstanceView_HyperVGeneration_STATUS("V2")
+	VirtualMachineInstanceView_HyperVGeneration_V1_STATUS = VirtualMachineInstanceView_HyperVGeneration_STATUS("V1")
+	VirtualMachineInstanceView_HyperVGeneration_V2_STATUS = VirtualMachineInstanceView_HyperVGeneration_STATUS("V2")
 )
 
 // Deprecated version of VirtualMachinePatchStatus. Use v1beta20201201.VirtualMachinePatchStatus instead
@@ -14076,18 +14076,18 @@ func (summary *AvailablePatchSummary_STATUS) AssignPropertiesToAvailablePatchSum
 type Caching string
 
 const (
-	CachingNone      = Caching("None")
-	CachingReadOnly  = Caching("ReadOnly")
-	CachingReadWrite = Caching("ReadWrite")
+	Caching_None      = Caching("None")
+	Caching_ReadOnly  = Caching("ReadOnly")
+	Caching_ReadWrite = Caching("ReadWrite")
 )
 
 // Deprecated version of Caching_STATUS. Use v1beta20201201.Caching_STATUS instead
 type Caching_STATUS string
 
 const (
-	Caching_STATUSNone      = Caching_STATUS("None")
-	Caching_STATUSReadOnly  = Caching_STATUS("ReadOnly")
-	Caching_STATUSReadWrite = Caching_STATUS("ReadWrite")
+	Caching_None_STATUS      = Caching_STATUS("None")
+	Caching_ReadOnly_STATUS  = Caching_STATUS("ReadOnly")
+	Caching_ReadWrite_STATUS = Caching_STATUS("ReadWrite")
 )
 
 // Deprecated version of CreateOption. Use v1beta20201201.CreateOption instead
@@ -14095,30 +14095,30 @@ const (
 type CreateOption string
 
 const (
-	CreateOptionAttach    = CreateOption("Attach")
-	CreateOptionEmpty     = CreateOption("Empty")
-	CreateOptionFromImage = CreateOption("FromImage")
+	CreateOption_Attach    = CreateOption("Attach")
+	CreateOption_Empty     = CreateOption("Empty")
+	CreateOption_FromImage = CreateOption("FromImage")
 )
 
 // Deprecated version of CreateOption_STATUS. Use v1beta20201201.CreateOption_STATUS instead
 type CreateOption_STATUS string
 
 const (
-	CreateOption_STATUSAttach    = CreateOption_STATUS("Attach")
-	CreateOption_STATUSEmpty     = CreateOption_STATUS("Empty")
-	CreateOption_STATUSFromImage = CreateOption_STATUS("FromImage")
+	CreateOption_Attach_STATUS    = CreateOption_STATUS("Attach")
+	CreateOption_Empty_STATUS     = CreateOption_STATUS("Empty")
+	CreateOption_FromImage_STATUS = CreateOption_STATUS("FromImage")
 )
 
 // Deprecated version of DetachOption. Use v1beta20201201.DetachOption instead
 // +kubebuilder:validation:Enum={"ForceDetach"}
 type DetachOption string
 
-const DetachOptionForceDetach = DetachOption("ForceDetach")
+const DetachOption_ForceDetach = DetachOption("ForceDetach")
 
 // Deprecated version of DetachOption_STATUS. Use v1beta20201201.DetachOption_STATUS instead
 type DetachOption_STATUS string
 
-const DetachOption_STATUSForceDetach = DetachOption_STATUS("ForceDetach")
+const DetachOption_ForceDetach_STATUS = DetachOption_STATUS("ForceDetach")
 
 // Deprecated version of DiffDiskSettings. Use v1beta20201201.DiffDiskSettings instead
 type DiffDiskSettings struct {
@@ -14643,18 +14643,18 @@ func (settings *DiskEncryptionSettings_STATUS) AssignPropertiesToDiskEncryptionS
 type InstanceViewStatus_Level string
 
 const (
-	InstanceViewStatus_LevelError   = InstanceViewStatus_Level("Error")
-	InstanceViewStatus_LevelInfo    = InstanceViewStatus_Level("Info")
-	InstanceViewStatus_LevelWarning = InstanceViewStatus_Level("Warning")
+	InstanceViewStatus_Level_Error   = InstanceViewStatus_Level("Error")
+	InstanceViewStatus_Level_Info    = InstanceViewStatus_Level("Info")
+	InstanceViewStatus_Level_Warning = InstanceViewStatus_Level("Warning")
 )
 
 // Deprecated version of InstanceViewStatus_Level_STATUS. Use v1beta20201201.InstanceViewStatus_Level_STATUS instead
 type InstanceViewStatus_Level_STATUS string
 
 const (
-	InstanceViewStatus_Level_STATUSError   = InstanceViewStatus_Level_STATUS("Error")
-	InstanceViewStatus_Level_STATUSInfo    = InstanceViewStatus_Level_STATUS("Info")
-	InstanceViewStatus_Level_STATUSWarning = InstanceViewStatus_Level_STATUS("Warning")
+	InstanceViewStatus_Level_Error_STATUS   = InstanceViewStatus_Level_STATUS("Error")
+	InstanceViewStatus_Level_Info_STATUS    = InstanceViewStatus_Level_STATUS("Info")
+	InstanceViewStatus_Level_Warning_STATUS = InstanceViewStatus_Level_STATUS("Warning")
 )
 
 // Deprecated version of LastPatchInstallationSummary. Use v1beta20201201.LastPatchInstallationSummary instead
@@ -15375,10 +15375,10 @@ func (settings *LinuxPatchSettings_STATUS) AssignPropertiesToLinuxPatchSettings_
 type MaintenanceRedeployStatus_LastOperationResultCode string
 
 const (
-	MaintenanceRedeployStatus_LastOperationResultCodeMaintenanceAborted   = MaintenanceRedeployStatus_LastOperationResultCode("MaintenanceAborted")
-	MaintenanceRedeployStatus_LastOperationResultCodeMaintenanceCompleted = MaintenanceRedeployStatus_LastOperationResultCode("MaintenanceCompleted")
-	MaintenanceRedeployStatus_LastOperationResultCodeNone                 = MaintenanceRedeployStatus_LastOperationResultCode("None")
-	MaintenanceRedeployStatus_LastOperationResultCodeRetryLater           = MaintenanceRedeployStatus_LastOperationResultCode("RetryLater")
+	MaintenanceRedeployStatus_LastOperationResultCode_MaintenanceAborted   = MaintenanceRedeployStatus_LastOperationResultCode("MaintenanceAborted")
+	MaintenanceRedeployStatus_LastOperationResultCode_MaintenanceCompleted = MaintenanceRedeployStatus_LastOperationResultCode("MaintenanceCompleted")
+	MaintenanceRedeployStatus_LastOperationResultCode_None                 = MaintenanceRedeployStatus_LastOperationResultCode("None")
+	MaintenanceRedeployStatus_LastOperationResultCode_RetryLater           = MaintenanceRedeployStatus_LastOperationResultCode("RetryLater")
 )
 
 // Deprecated version of MaintenanceRedeployStatus_LastOperationResultCode_STATUS. Use
@@ -15386,10 +15386,10 @@ const (
 type MaintenanceRedeployStatus_LastOperationResultCode_STATUS string
 
 const (
-	MaintenanceRedeployStatus_LastOperationResultCode_STATUSMaintenanceAborted   = MaintenanceRedeployStatus_LastOperationResultCode_STATUS("MaintenanceAborted")
-	MaintenanceRedeployStatus_LastOperationResultCode_STATUSMaintenanceCompleted = MaintenanceRedeployStatus_LastOperationResultCode_STATUS("MaintenanceCompleted")
-	MaintenanceRedeployStatus_LastOperationResultCode_STATUSNone                 = MaintenanceRedeployStatus_LastOperationResultCode_STATUS("None")
-	MaintenanceRedeployStatus_LastOperationResultCode_STATUSRetryLater           = MaintenanceRedeployStatus_LastOperationResultCode_STATUS("RetryLater")
+	MaintenanceRedeployStatus_LastOperationResultCode_MaintenanceAborted_STATUS   = MaintenanceRedeployStatus_LastOperationResultCode_STATUS("MaintenanceAborted")
+	MaintenanceRedeployStatus_LastOperationResultCode_MaintenanceCompleted_STATUS = MaintenanceRedeployStatus_LastOperationResultCode_STATUS("MaintenanceCompleted")
+	MaintenanceRedeployStatus_LastOperationResultCode_None_STATUS                 = MaintenanceRedeployStatus_LastOperationResultCode_STATUS("None")
+	MaintenanceRedeployStatus_LastOperationResultCode_RetryLater_STATUS           = MaintenanceRedeployStatus_LastOperationResultCode_STATUS("RetryLater")
 )
 
 // Deprecated version of ManagedDiskParameters. Use v1beta20201201.ManagedDiskParameters instead
@@ -15672,16 +15672,16 @@ func (parameters *ManagedDiskParameters_STATUS) AssignPropertiesToManagedDiskPar
 type OSDisk_OsType string
 
 const (
-	OSDisk_OsTypeLinux   = OSDisk_OsType("Linux")
-	OSDisk_OsTypeWindows = OSDisk_OsType("Windows")
+	OSDisk_OsType_Linux   = OSDisk_OsType("Linux")
+	OSDisk_OsType_Windows = OSDisk_OsType("Windows")
 )
 
 // Deprecated version of OSDisk_OsType_STATUS. Use v1beta20201201.OSDisk_OsType_STATUS instead
 type OSDisk_OsType_STATUS string
 
 const (
-	OSDisk_OsType_STATUSLinux   = OSDisk_OsType_STATUS("Linux")
-	OSDisk_OsType_STATUSWindows = OSDisk_OsType_STATUS("Windows")
+	OSDisk_OsType_Linux_STATUS   = OSDisk_OsType_STATUS("Linux")
+	OSDisk_OsType_Windows_STATUS = OSDisk_OsType_STATUS("Windows")
 )
 
 // Deprecated version of PatchSettings. Use v1beta20201201.PatchSettings instead
@@ -16835,25 +16835,25 @@ func (configuration *WinRMConfiguration_STATUS) AssignPropertiesToWinRMConfigura
 // +kubebuilder:validation:Enum={"Microsoft-Windows-Shell-Setup"}
 type AdditionalUnattendContent_ComponentName string
 
-const AdditionalUnattendContent_ComponentNameMicrosoftWindowsShellSetup = AdditionalUnattendContent_ComponentName("Microsoft-Windows-Shell-Setup")
+const AdditionalUnattendContent_ComponentName_MicrosoftWindowsShellSetup = AdditionalUnattendContent_ComponentName("Microsoft-Windows-Shell-Setup")
 
 // Deprecated version of AdditionalUnattendContent_ComponentName_STATUS. Use
 // v1beta20201201.AdditionalUnattendContent_ComponentName_STATUS instead
 type AdditionalUnattendContent_ComponentName_STATUS string
 
-const AdditionalUnattendContent_ComponentName_STATUSMicrosoftWindowsShellSetup = AdditionalUnattendContent_ComponentName_STATUS("Microsoft-Windows-Shell-Setup")
+const AdditionalUnattendContent_ComponentName_MicrosoftWindowsShellSetup_STATUS = AdditionalUnattendContent_ComponentName_STATUS("Microsoft-Windows-Shell-Setup")
 
 // Deprecated version of AdditionalUnattendContent_PassName. Use v1beta20201201.AdditionalUnattendContent_PassName instead
 // +kubebuilder:validation:Enum={"OobeSystem"}
 type AdditionalUnattendContent_PassName string
 
-const AdditionalUnattendContent_PassNameOobeSystem = AdditionalUnattendContent_PassName("OobeSystem")
+const AdditionalUnattendContent_PassName_OobeSystem = AdditionalUnattendContent_PassName("OobeSystem")
 
 // Deprecated version of AdditionalUnattendContent_PassName_STATUS. Use
 // v1beta20201201.AdditionalUnattendContent_PassName_STATUS instead
 type AdditionalUnattendContent_PassName_STATUS string
 
-const AdditionalUnattendContent_PassName_STATUSOobeSystem = AdditionalUnattendContent_PassName_STATUS("OobeSystem")
+const AdditionalUnattendContent_PassName_OobeSystem_STATUS = AdditionalUnattendContent_PassName_STATUS("OobeSystem")
 
 // Deprecated version of AdditionalUnattendContent_SettingName. Use v1beta20201201.AdditionalUnattendContent_SettingName
 // instead
@@ -16861,8 +16861,8 @@ const AdditionalUnattendContent_PassName_STATUSOobeSystem = AdditionalUnattendCo
 type AdditionalUnattendContent_SettingName string
 
 const (
-	AdditionalUnattendContent_SettingNameAutoLogon          = AdditionalUnattendContent_SettingName("AutoLogon")
-	AdditionalUnattendContent_SettingNameFirstLogonCommands = AdditionalUnattendContent_SettingName("FirstLogonCommands")
+	AdditionalUnattendContent_SettingName_AutoLogon          = AdditionalUnattendContent_SettingName("AutoLogon")
+	AdditionalUnattendContent_SettingName_FirstLogonCommands = AdditionalUnattendContent_SettingName("FirstLogonCommands")
 )
 
 // Deprecated version of AdditionalUnattendContent_SettingName_STATUS. Use
@@ -16870,8 +16870,8 @@ const (
 type AdditionalUnattendContent_SettingName_STATUS string
 
 const (
-	AdditionalUnattendContent_SettingName_STATUSAutoLogon          = AdditionalUnattendContent_SettingName_STATUS("AutoLogon")
-	AdditionalUnattendContent_SettingName_STATUSFirstLogonCommands = AdditionalUnattendContent_SettingName_STATUS("FirstLogonCommands")
+	AdditionalUnattendContent_SettingName_AutoLogon_STATUS          = AdditionalUnattendContent_SettingName_STATUS("AutoLogon")
+	AdditionalUnattendContent_SettingName_FirstLogonCommands_STATUS = AdditionalUnattendContent_SettingName_STATUS("FirstLogonCommands")
 )
 
 // Deprecated version of ApiError. Use v1beta20201201.ApiError instead
@@ -17259,50 +17259,50 @@ func (error *ApiError_STATUS) AssignPropertiesToApiError_STATUS(destination *alp
 type AvailablePatchSummary_Status string
 
 const (
-	AvailablePatchSummary_StatusCompletedWithWarnings = AvailablePatchSummary_Status("CompletedWithWarnings")
-	AvailablePatchSummary_StatusFailed                = AvailablePatchSummary_Status("Failed")
-	AvailablePatchSummary_StatusInProgress            = AvailablePatchSummary_Status("InProgress")
-	AvailablePatchSummary_StatusSucceeded             = AvailablePatchSummary_Status("Succeeded")
-	AvailablePatchSummary_StatusUnknown               = AvailablePatchSummary_Status("Unknown")
+	AvailablePatchSummary_Status_CompletedWithWarnings = AvailablePatchSummary_Status("CompletedWithWarnings")
+	AvailablePatchSummary_Status_Failed                = AvailablePatchSummary_Status("Failed")
+	AvailablePatchSummary_Status_InProgress            = AvailablePatchSummary_Status("InProgress")
+	AvailablePatchSummary_Status_Succeeded             = AvailablePatchSummary_Status("Succeeded")
+	AvailablePatchSummary_Status_Unknown               = AvailablePatchSummary_Status("Unknown")
 )
 
 // Deprecated version of AvailablePatchSummary_Status_STATUS. Use v1beta20201201.AvailablePatchSummary_Status_STATUS instead
 type AvailablePatchSummary_Status_STATUS string
 
 const (
-	AvailablePatchSummary_Status_STATUSCompletedWithWarnings = AvailablePatchSummary_Status_STATUS("CompletedWithWarnings")
-	AvailablePatchSummary_Status_STATUSFailed                = AvailablePatchSummary_Status_STATUS("Failed")
-	AvailablePatchSummary_Status_STATUSInProgress            = AvailablePatchSummary_Status_STATUS("InProgress")
-	AvailablePatchSummary_Status_STATUSSucceeded             = AvailablePatchSummary_Status_STATUS("Succeeded")
-	AvailablePatchSummary_Status_STATUSUnknown               = AvailablePatchSummary_Status_STATUS("Unknown")
+	AvailablePatchSummary_Status_CompletedWithWarnings_STATUS = AvailablePatchSummary_Status_STATUS("CompletedWithWarnings")
+	AvailablePatchSummary_Status_Failed_STATUS                = AvailablePatchSummary_Status_STATUS("Failed")
+	AvailablePatchSummary_Status_InProgress_STATUS            = AvailablePatchSummary_Status_STATUS("InProgress")
+	AvailablePatchSummary_Status_Succeeded_STATUS             = AvailablePatchSummary_Status_STATUS("Succeeded")
+	AvailablePatchSummary_Status_Unknown_STATUS               = AvailablePatchSummary_Status_STATUS("Unknown")
 )
 
 // Deprecated version of DiffDiskOption. Use v1beta20201201.DiffDiskOption instead
 // +kubebuilder:validation:Enum={"Local"}
 type DiffDiskOption string
 
-const DiffDiskOptionLocal = DiffDiskOption("Local")
+const DiffDiskOption_Local = DiffDiskOption("Local")
 
 // Deprecated version of DiffDiskOption_STATUS. Use v1beta20201201.DiffDiskOption_STATUS instead
 type DiffDiskOption_STATUS string
 
-const DiffDiskOption_STATUSLocal = DiffDiskOption_STATUS("Local")
+const DiffDiskOption_Local_STATUS = DiffDiskOption_STATUS("Local")
 
 // Deprecated version of DiffDiskPlacement. Use v1beta20201201.DiffDiskPlacement instead
 // +kubebuilder:validation:Enum={"CacheDisk","ResourceDisk"}
 type DiffDiskPlacement string
 
 const (
-	DiffDiskPlacementCacheDisk    = DiffDiskPlacement("CacheDisk")
-	DiffDiskPlacementResourceDisk = DiffDiskPlacement("ResourceDisk")
+	DiffDiskPlacement_CacheDisk    = DiffDiskPlacement("CacheDisk")
+	DiffDiskPlacement_ResourceDisk = DiffDiskPlacement("ResourceDisk")
 )
 
 // Deprecated version of DiffDiskPlacement_STATUS. Use v1beta20201201.DiffDiskPlacement_STATUS instead
 type DiffDiskPlacement_STATUS string
 
 const (
-	DiffDiskPlacement_STATUSCacheDisk    = DiffDiskPlacement_STATUS("CacheDisk")
-	DiffDiskPlacement_STATUSResourceDisk = DiffDiskPlacement_STATUS("ResourceDisk")
+	DiffDiskPlacement_CacheDisk_STATUS    = DiffDiskPlacement_STATUS("CacheDisk")
+	DiffDiskPlacement_ResourceDisk_STATUS = DiffDiskPlacement_STATUS("ResourceDisk")
 )
 
 // Deprecated version of KeyVaultKeyReference. Use v1beta20201201.KeyVaultKeyReference instead
@@ -17742,11 +17742,11 @@ func (reference *KeyVaultSecretReference_STATUS) AssignPropertiesToKeyVaultSecre
 type LastPatchInstallationSummary_Status string
 
 const (
-	LastPatchInstallationSummary_StatusCompletedWithWarnings = LastPatchInstallationSummary_Status("CompletedWithWarnings")
-	LastPatchInstallationSummary_StatusFailed                = LastPatchInstallationSummary_Status("Failed")
-	LastPatchInstallationSummary_StatusInProgress            = LastPatchInstallationSummary_Status("InProgress")
-	LastPatchInstallationSummary_StatusSucceeded             = LastPatchInstallationSummary_Status("Succeeded")
-	LastPatchInstallationSummary_StatusUnknown               = LastPatchInstallationSummary_Status("Unknown")
+	LastPatchInstallationSummary_Status_CompletedWithWarnings = LastPatchInstallationSummary_Status("CompletedWithWarnings")
+	LastPatchInstallationSummary_Status_Failed                = LastPatchInstallationSummary_Status("Failed")
+	LastPatchInstallationSummary_Status_InProgress            = LastPatchInstallationSummary_Status("InProgress")
+	LastPatchInstallationSummary_Status_Succeeded             = LastPatchInstallationSummary_Status("Succeeded")
+	LastPatchInstallationSummary_Status_Unknown               = LastPatchInstallationSummary_Status("Unknown")
 )
 
 // Deprecated version of LastPatchInstallationSummary_Status_STATUS. Use
@@ -17754,11 +17754,11 @@ const (
 type LastPatchInstallationSummary_Status_STATUS string
 
 const (
-	LastPatchInstallationSummary_Status_STATUSCompletedWithWarnings = LastPatchInstallationSummary_Status_STATUS("CompletedWithWarnings")
-	LastPatchInstallationSummary_Status_STATUSFailed                = LastPatchInstallationSummary_Status_STATUS("Failed")
-	LastPatchInstallationSummary_Status_STATUSInProgress            = LastPatchInstallationSummary_Status_STATUS("InProgress")
-	LastPatchInstallationSummary_Status_STATUSSucceeded             = LastPatchInstallationSummary_Status_STATUS("Succeeded")
-	LastPatchInstallationSummary_Status_STATUSUnknown               = LastPatchInstallationSummary_Status_STATUS("Unknown")
+	LastPatchInstallationSummary_Status_CompletedWithWarnings_STATUS = LastPatchInstallationSummary_Status_STATUS("CompletedWithWarnings")
+	LastPatchInstallationSummary_Status_Failed_STATUS                = LastPatchInstallationSummary_Status_STATUS("Failed")
+	LastPatchInstallationSummary_Status_InProgress_STATUS            = LastPatchInstallationSummary_Status_STATUS("InProgress")
+	LastPatchInstallationSummary_Status_Succeeded_STATUS             = LastPatchInstallationSummary_Status_STATUS("Succeeded")
+	LastPatchInstallationSummary_Status_Unknown_STATUS               = LastPatchInstallationSummary_Status_STATUS("Unknown")
 )
 
 // Deprecated version of LinuxPatchSettings_PatchMode. Use v1beta20201201.LinuxPatchSettings_PatchMode instead
@@ -17766,16 +17766,16 @@ const (
 type LinuxPatchSettings_PatchMode string
 
 const (
-	LinuxPatchSettings_PatchModeAutomaticByPlatform = LinuxPatchSettings_PatchMode("AutomaticByPlatform")
-	LinuxPatchSettings_PatchModeImageDefault        = LinuxPatchSettings_PatchMode("ImageDefault")
+	LinuxPatchSettings_PatchMode_AutomaticByPlatform = LinuxPatchSettings_PatchMode("AutomaticByPlatform")
+	LinuxPatchSettings_PatchMode_ImageDefault        = LinuxPatchSettings_PatchMode("ImageDefault")
 )
 
 // Deprecated version of LinuxPatchSettings_PatchMode_STATUS. Use v1beta20201201.LinuxPatchSettings_PatchMode_STATUS instead
 type LinuxPatchSettings_PatchMode_STATUS string
 
 const (
-	LinuxPatchSettings_PatchMode_STATUSAutomaticByPlatform = LinuxPatchSettings_PatchMode_STATUS("AutomaticByPlatform")
-	LinuxPatchSettings_PatchMode_STATUSImageDefault        = LinuxPatchSettings_PatchMode_STATUS("ImageDefault")
+	LinuxPatchSettings_PatchMode_AutomaticByPlatform_STATUS = LinuxPatchSettings_PatchMode_STATUS("AutomaticByPlatform")
+	LinuxPatchSettings_PatchMode_ImageDefault_STATUS        = LinuxPatchSettings_PatchMode_STATUS("ImageDefault")
 )
 
 // Deprecated version of PatchSettings_PatchMode. Use v1beta20201201.PatchSettings_PatchMode instead
@@ -17783,18 +17783,18 @@ const (
 type PatchSettings_PatchMode string
 
 const (
-	PatchSettings_PatchModeAutomaticByOS       = PatchSettings_PatchMode("AutomaticByOS")
-	PatchSettings_PatchModeAutomaticByPlatform = PatchSettings_PatchMode("AutomaticByPlatform")
-	PatchSettings_PatchModeManual              = PatchSettings_PatchMode("Manual")
+	PatchSettings_PatchMode_AutomaticByOS       = PatchSettings_PatchMode("AutomaticByOS")
+	PatchSettings_PatchMode_AutomaticByPlatform = PatchSettings_PatchMode("AutomaticByPlatform")
+	PatchSettings_PatchMode_Manual              = PatchSettings_PatchMode("Manual")
 )
 
 // Deprecated version of PatchSettings_PatchMode_STATUS. Use v1beta20201201.PatchSettings_PatchMode_STATUS instead
 type PatchSettings_PatchMode_STATUS string
 
 const (
-	PatchSettings_PatchMode_STATUSAutomaticByOS       = PatchSettings_PatchMode_STATUS("AutomaticByOS")
-	PatchSettings_PatchMode_STATUSAutomaticByPlatform = PatchSettings_PatchMode_STATUS("AutomaticByPlatform")
-	PatchSettings_PatchMode_STATUSManual              = PatchSettings_PatchMode_STATUS("Manual")
+	PatchSettings_PatchMode_AutomaticByOS_STATUS       = PatchSettings_PatchMode_STATUS("AutomaticByOS")
+	PatchSettings_PatchMode_AutomaticByPlatform_STATUS = PatchSettings_PatchMode_STATUS("AutomaticByPlatform")
+	PatchSettings_PatchMode_Manual_STATUS              = PatchSettings_PatchMode_STATUS("Manual")
 )
 
 // Deprecated version of SshPublicKeySpec. Use v1beta20201201.SshPublicKeySpec instead
@@ -17965,24 +17965,24 @@ func (publicKey *SshPublicKey_STATUS) AssignPropertiesToSshPublicKey_STATUS(dest
 type StorageAccountType string
 
 const (
-	StorageAccountTypePremium_LRS     = StorageAccountType("Premium_LRS")
-	StorageAccountTypePremium_ZRS     = StorageAccountType("Premium_ZRS")
-	StorageAccountTypeStandardSSD_LRS = StorageAccountType("StandardSSD_LRS")
-	StorageAccountTypeStandardSSD_ZRS = StorageAccountType("StandardSSD_ZRS")
-	StorageAccountTypeStandard_LRS    = StorageAccountType("Standard_LRS")
-	StorageAccountTypeUltraSSD_LRS    = StorageAccountType("UltraSSD_LRS")
+	StorageAccountType_Premium_LRS     = StorageAccountType("Premium_LRS")
+	StorageAccountType_Premium_ZRS     = StorageAccountType("Premium_ZRS")
+	StorageAccountType_StandardSSD_LRS = StorageAccountType("StandardSSD_LRS")
+	StorageAccountType_StandardSSD_ZRS = StorageAccountType("StandardSSD_ZRS")
+	StorageAccountType_Standard_LRS    = StorageAccountType("Standard_LRS")
+	StorageAccountType_UltraSSD_LRS    = StorageAccountType("UltraSSD_LRS")
 )
 
 // Deprecated version of StorageAccountType_STATUS. Use v1beta20201201.StorageAccountType_STATUS instead
 type StorageAccountType_STATUS string
 
 const (
-	StorageAccountType_STATUSPremium_LRS     = StorageAccountType_STATUS("Premium_LRS")
-	StorageAccountType_STATUSPremium_ZRS     = StorageAccountType_STATUS("Premium_ZRS")
-	StorageAccountType_STATUSStandardSSD_LRS = StorageAccountType_STATUS("StandardSSD_LRS")
-	StorageAccountType_STATUSStandardSSD_ZRS = StorageAccountType_STATUS("StandardSSD_ZRS")
-	StorageAccountType_STATUSStandard_LRS    = StorageAccountType_STATUS("Standard_LRS")
-	StorageAccountType_STATUSUltraSSD_LRS    = StorageAccountType_STATUS("UltraSSD_LRS")
+	StorageAccountType_Premium_LRS_STATUS     = StorageAccountType_STATUS("Premium_LRS")
+	StorageAccountType_Premium_ZRS_STATUS     = StorageAccountType_STATUS("Premium_ZRS")
+	StorageAccountType_StandardSSD_LRS_STATUS = StorageAccountType_STATUS("StandardSSD_LRS")
+	StorageAccountType_StandardSSD_ZRS_STATUS = StorageAccountType_STATUS("StandardSSD_ZRS")
+	StorageAccountType_Standard_LRS_STATUS    = StorageAccountType_STATUS("Standard_LRS")
+	StorageAccountType_UltraSSD_LRS_STATUS    = StorageAccountType_STATUS("UltraSSD_LRS")
 )
 
 // Deprecated version of WinRMListener. Use v1beta20201201.WinRMListener instead
@@ -18531,16 +18531,16 @@ func (error *InnerError_STATUS) AssignPropertiesToInnerError_STATUS(destination 
 type WinRMListener_Protocol string
 
 const (
-	WinRMListener_ProtocolHttp  = WinRMListener_Protocol("Http")
-	WinRMListener_ProtocolHttps = WinRMListener_Protocol("Https")
+	WinRMListener_Protocol_Http  = WinRMListener_Protocol("Http")
+	WinRMListener_Protocol_Https = WinRMListener_Protocol("Https")
 )
 
 // Deprecated version of WinRMListener_Protocol_STATUS. Use v1beta20201201.WinRMListener_Protocol_STATUS instead
 type WinRMListener_Protocol_STATUS string
 
 const (
-	WinRMListener_Protocol_STATUSHttp  = WinRMListener_Protocol_STATUS("Http")
-	WinRMListener_Protocol_STATUSHttps = WinRMListener_Protocol_STATUS("Https")
+	WinRMListener_Protocol_Http_STATUS  = WinRMListener_Protocol_STATUS("Http")
+	WinRMListener_Protocol_Https_STATUS = WinRMListener_Protocol_STATUS("Https")
 )
 
 func init() {

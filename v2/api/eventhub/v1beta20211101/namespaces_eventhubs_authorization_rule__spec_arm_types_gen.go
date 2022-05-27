@@ -32,7 +32,7 @@ var _ genruntime.ARMResourceSpec = &NamespacesEventhubsAuthorizationRule_SpecARM
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20211101"
 func (rule NamespacesEventhubsAuthorizationRule_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource

@@ -25,8 +25,8 @@ func Test_CosmosDB_SQLDatabase_CRUD(t *testing.T) {
 	// requirements - no hyphens allowed.
 
 	// Create a Cosmos DB account
-	offerType := documentdb.DatabaseAccountOfferTypeStandard
-	kind := documentdb.DatabaseAccount_Spec_KindGlobalDocumentDB
+	offerType := documentdb.DatabaseAccountOfferType_Standard
+	kind := documentdb.DatabaseAccount_Spec_Kind_GlobalDocumentDB
 	acct := documentdb.DatabaseAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("sqlacct")),
 		Spec: documentdb.DatabaseAccount_Spec{
@@ -83,9 +83,9 @@ func Test_CosmosDB_SQLDatabase_CRUD(t *testing.T) {
 
 func CosmosDB_SQL_Container_CRUD(tc *testcommon.KubePerTestContext, db client.Object) {
 	name := tc.Namer.GenerateName("container")
-	lastWriterWins := documentdb.ConflictResolutionPolicy_ModeLastWriterWins
-	consistent := documentdb.IndexingPolicy_IndexingModeConsistent
-	hash := documentdb.ContainerPartitionKey_KindHash
+	lastWriterWins := documentdb.ConflictResolutionPolicy_Mode_LastWriterWins
+	consistent := documentdb.IndexingPolicy_IndexingMode_Consistent
+	hash := documentdb.ContainerPartitionKey_Kind_Hash
 	container := documentdb.SqlDatabaseContainer{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
 		Spec: documentdb.DatabaseAccountsSqlDatabasesContainer_Spec{
@@ -160,8 +160,8 @@ func CosmosDB_SQL_Container_CRUD(tc *testcommon.KubePerTestContext, db client.Ob
 
 func CosmosDB_SQL_Trigger_CRUD(tc *testcommon.KubePerTestContext, container client.Object) {
 	name := tc.Namer.GenerateName("trigger")
-	pre := documentdb.SqlTriggerResourceTriggerTypePre
-	create := documentdb.SqlTriggerResourceTriggerOperationCreate
+	pre := documentdb.SqlTriggerResource_TriggerType_Pre
+	create := documentdb.SqlTriggerResource_TriggerOperation_Create
 	trigger := documentdb.SqlDatabaseContainerTrigger{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
 		Spec: documentdb.DatabaseAccountsSqlDatabasesContainersTrigger_Spec{
@@ -180,7 +180,7 @@ func CosmosDB_SQL_Trigger_CRUD(tc *testcommon.KubePerTestContext, container clie
 	defer tc.DeleteResourceAndWait(&trigger)
 
 	tc.T.Logf("Updating the trigger type on trigger %q", name)
-	post := documentdb.SqlTriggerResourceTriggerTypePost
+	post := documentdb.SqlTriggerResource_TriggerType_Post
 	old := trigger.DeepCopy()
 	trigger.Spec.Resource.TriggerType = &post
 	tc.PatchResourceAndWait(old, &trigger)
@@ -207,7 +207,7 @@ func CosmosDB_SQL_StoredProcedure_CRUD(tc *testcommon.KubePerTestContext, contai
 	name := tc.Namer.GenerateName("storedproc")
 	storedProcedure := documentdb.SqlDatabaseContainerStoredProcedure{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
-		Spec: documentdb.DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec{
+		Spec: documentdb.DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(container),
 			Resource: &documentdb.SqlStoredProcedureResource{
@@ -242,7 +242,7 @@ func CosmosDB_SQL_UserDefinedFunction_CRUD(tc *testcommon.KubePerTestContext, co
 	name := tc.Namer.GenerateName("udf")
 	userDefinedFunction := documentdb.SqlDatabaseContainerUserDefinedFunction{
 		ObjectMeta: tc.MakeObjectMetaWithName(name),
-		Spec: documentdb.DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec{
+		Spec: documentdb.DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec{
 			AzureName: name,
 			Location:  tc.AzureRegion,
 			Owner:     testcommon.AsOwner(container),
@@ -282,7 +282,7 @@ function tax(income) {
 func CosmosDB_SQL_Database_ThroughputSettings_CRUD(tc *testcommon.KubePerTestContext, db client.Object) {
 	throughputSettings := documentdb.SqlDatabaseThroughputSetting{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("throughput")),
-		Spec: documentdb.DatabaseAccountsSqlDatabasesThroughputSettings_Spec{
+		Spec: documentdb.DatabaseAccountsSqlDatabasesThroughputSetting_Spec{
 			Owner: testcommon.AsOwner(db),
 			Resource: &documentdb.ThroughputSettingsResource{
 				// We cannot change this to be a fixed throughput as we already created the database using

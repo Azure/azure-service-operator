@@ -22,7 +22,7 @@ var _ genruntime.ARMResourceSpec = &StorageAccount_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20210401"
 func (account StorageAccount_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -79,11 +79,11 @@ type StorageAccountPropertiesCreateParametersARM struct {
 type StorageAccount_Spec_Kind string
 
 const (
-	StorageAccount_Spec_KindBlobStorage      = StorageAccount_Spec_Kind("BlobStorage")
-	StorageAccount_Spec_KindBlockBlobStorage = StorageAccount_Spec_Kind("BlockBlobStorage")
-	StorageAccount_Spec_KindFileStorage      = StorageAccount_Spec_Kind("FileStorage")
-	StorageAccount_Spec_KindStorage          = StorageAccount_Spec_Kind("Storage")
-	StorageAccount_Spec_KindStorageV2        = StorageAccount_Spec_Kind("StorageV2")
+	StorageAccount_Spec_Kind_BlobStorage      = StorageAccount_Spec_Kind("BlobStorage")
+	StorageAccount_Spec_Kind_BlockBlobStorage = StorageAccount_Spec_Kind("BlockBlobStorage")
+	StorageAccount_Spec_Kind_FileStorage      = StorageAccount_Spec_Kind("FileStorage")
+	StorageAccount_Spec_Kind_Storage          = StorageAccount_Spec_Kind("Storage")
+	StorageAccount_Spec_Kind_StorageV2        = StorageAccount_Spec_Kind("StorageV2")
 )
 
 // Deprecated version of AzureFilesIdentityBasedAuthentication. Use v1beta20210401.AzureFilesIdentityBasedAuthentication instead
@@ -112,17 +112,17 @@ type EncryptionARM struct {
 // +kubebuilder:validation:Enum={"EdgeZone"}
 type ExtendedLocationType string
 
-const ExtendedLocationTypeEdgeZone = ExtendedLocationType("EdgeZone")
+const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
 
 // Deprecated version of Identity_Type. Use v1beta20210401.Identity_Type instead
 // +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned,UserAssigned","UserAssigned"}
 type Identity_Type string
 
 const (
-	Identity_TypeNone                       = Identity_Type("None")
-	Identity_TypeSystemAssigned             = Identity_Type("SystemAssigned")
-	Identity_TypeSystemAssignedUserAssigned = Identity_Type("SystemAssigned,UserAssigned")
-	Identity_TypeUserAssigned               = Identity_Type("UserAssigned")
+	Identity_Type_None                       = Identity_Type("None")
+	Identity_Type_SystemAssigned             = Identity_Type("SystemAssigned")
+	Identity_Type_SystemAssignedUserAssigned = Identity_Type("SystemAssigned,UserAssigned")
+	Identity_Type_UserAssigned               = Identity_Type("UserAssigned")
 )
 
 // Deprecated version of KeyPolicy. Use v1beta20210401.KeyPolicy instead
@@ -157,14 +157,14 @@ type SasPolicyARM struct {
 type SkuName string
 
 const (
-	SkuNamePremium_LRS     = SkuName("Premium_LRS")
-	SkuNamePremium_ZRS     = SkuName("Premium_ZRS")
-	SkuNameStandard_GRS    = SkuName("Standard_GRS")
-	SkuNameStandard_GZRS   = SkuName("Standard_GZRS")
-	SkuNameStandard_LRS    = SkuName("Standard_LRS")
-	SkuNameStandard_RAGRS  = SkuName("Standard_RAGRS")
-	SkuNameStandard_RAGZRS = SkuName("Standard_RAGZRS")
-	SkuNameStandard_ZRS    = SkuName("Standard_ZRS")
+	SkuName_Premium_LRS     = SkuName("Premium_LRS")
+	SkuName_Premium_ZRS     = SkuName("Premium_ZRS")
+	SkuName_Standard_GRS    = SkuName("Standard_GRS")
+	SkuName_Standard_GZRS   = SkuName("Standard_GZRS")
+	SkuName_Standard_LRS    = SkuName("Standard_LRS")
+	SkuName_Standard_RAGRS  = SkuName("Standard_RAGRS")
+	SkuName_Standard_RAGZRS = SkuName("Standard_RAGZRS")
+	SkuName_Standard_ZRS    = SkuName("Standard_ZRS")
 )
 
 // Deprecated version of Tier. Use v1beta20210401.Tier instead
@@ -172,8 +172,8 @@ const (
 type Tier string
 
 const (
-	TierPremium  = Tier("Premium")
-	TierStandard = Tier("Standard")
+	Tier_Premium  = Tier("Premium")
+	Tier_Standard = Tier("Standard")
 )
 
 // Deprecated version of ActiveDirectoryProperties. Use v1beta20210401.ActiveDirectoryProperties instead

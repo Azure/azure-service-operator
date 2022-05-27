@@ -71,10 +71,10 @@ type Encryption_STATUSARM struct {
 type Identity_Type_STATUS string
 
 const (
-	Identity_Type_STATUSNone                       = Identity_Type_STATUS("None")
-	Identity_Type_STATUSSystemAssigned             = Identity_Type_STATUS("SystemAssigned")
-	Identity_Type_STATUSSystemAssignedUserAssigned = Identity_Type_STATUS("SystemAssigned, UserAssigned")
-	Identity_Type_STATUSUserAssigned               = Identity_Type_STATUS("UserAssigned")
+	Identity_Type_None_STATUS                       = Identity_Type_STATUS("None")
+	Identity_Type_SystemAssigned_STATUS             = Identity_Type_STATUS("SystemAssigned")
+	Identity_Type_SystemAssignedUserAssigned_STATUS = Identity_Type_STATUS("SystemAssigned, UserAssigned")
+	Identity_Type_UserAssigned_STATUS               = Identity_Type_STATUS("UserAssigned")
 )
 
 // Deprecated version of PrivateEndpointConnection_STATUS. Use v1beta20210101preview.PrivateEndpointConnection_STATUS instead
@@ -87,28 +87,28 @@ type PrivateEndpointConnection_STATUSARM struct {
 type SBSku_Name_STATUS string
 
 const (
-	SBSku_Name_STATUSBasic    = SBSku_Name_STATUS("Basic")
-	SBSku_Name_STATUSPremium  = SBSku_Name_STATUS("Premium")
-	SBSku_Name_STATUSStandard = SBSku_Name_STATUS("Standard")
+	SBSku_Name_Basic_STATUS    = SBSku_Name_STATUS("Basic")
+	SBSku_Name_Premium_STATUS  = SBSku_Name_STATUS("Premium")
+	SBSku_Name_Standard_STATUS = SBSku_Name_STATUS("Standard")
 )
 
 // Deprecated version of SBSku_Tier_STATUS. Use v1beta20210101preview.SBSku_Tier_STATUS instead
 type SBSku_Tier_STATUS string
 
 const (
-	SBSku_Tier_STATUSBasic    = SBSku_Tier_STATUS("Basic")
-	SBSku_Tier_STATUSPremium  = SBSku_Tier_STATUS("Premium")
-	SBSku_Tier_STATUSStandard = SBSku_Tier_STATUS("Standard")
+	SBSku_Tier_Basic_STATUS    = SBSku_Tier_STATUS("Basic")
+	SBSku_Tier_Premium_STATUS  = SBSku_Tier_STATUS("Premium")
+	SBSku_Tier_Standard_STATUS = SBSku_Tier_STATUS("Standard")
 )
 
 // Deprecated version of SystemData_CreatedByType_STATUS. Use v1beta20210101preview.SystemData_CreatedByType_STATUS instead
 type SystemData_CreatedByType_STATUS string
 
 const (
-	SystemData_CreatedByType_STATUSApplication     = SystemData_CreatedByType_STATUS("Application")
-	SystemData_CreatedByType_STATUSKey             = SystemData_CreatedByType_STATUS("Key")
-	SystemData_CreatedByType_STATUSManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
-	SystemData_CreatedByType_STATUSUser            = SystemData_CreatedByType_STATUS("User")
+	SystemData_CreatedByType_Application_STATUS     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_Key_STATUS             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_ManagedIdentity_STATUS = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_User_STATUS            = SystemData_CreatedByType_STATUS("User")
 )
 
 // Deprecated version of SystemData_LastModifiedByType_STATUS. Use
@@ -116,10 +116,10 @@ const (
 type SystemData_LastModifiedByType_STATUS string
 
 const (
-	SystemData_LastModifiedByType_STATUSApplication     = SystemData_LastModifiedByType_STATUS("Application")
-	SystemData_LastModifiedByType_STATUSKey             = SystemData_LastModifiedByType_STATUS("Key")
-	SystemData_LastModifiedByType_STATUSManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
-	SystemData_LastModifiedByType_STATUSUser            = SystemData_LastModifiedByType_STATUS("User")
+	SystemData_LastModifiedByType_Application_STATUS     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_Key_STATUS             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_ManagedIdentity_STATUS = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_User_STATUS            = SystemData_LastModifiedByType_STATUS("User")
 )
 
 // Deprecated version of KeyVaultProperties_STATUS. Use v1beta20210101preview.KeyVaultProperties_STATUS instead

@@ -25,7 +25,7 @@ func Test_CDN_Profile_CRUD(t *testing.T) {
 	tc := globalTestContext.ForTest(t)
 
 	rg := tc.CreateTestResourceGroupAndWait()
-	sku := cdn.Sku_NameStandard_Microsoft
+	sku := cdn.Sku_Name_Standard_Microsoft
 	profile := &cdn.Profile{
 		ObjectMeta: tc.MakeObjectMeta("cdnprofile"),
 		Spec: cdn.Profile_Spec{
@@ -52,7 +52,7 @@ func Test_CDN_Profile_CRUD(t *testing.T) {
 	exists, _, err := tc.AzureClient.HeadByID(
 		tc.Ctx,
 		armId,
-		string(cdn.APIVersionValue))
+		string(cdn.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }

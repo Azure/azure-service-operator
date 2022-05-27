@@ -274,10 +274,10 @@ func FlexibleServersConfiguration_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForFlexibleServersConfiguration_STATUS(gens map[string]gopter.Gen) {
 	gens["AllowedValues"] = gen.PtrOf(gen.AlphaString())
 	gens["DataType"] = gen.PtrOf(gen.OneConstOf(
-		ConfigurationProperties_DataType_STATUSBoolean,
-		ConfigurationProperties_DataType_STATUSEnumeration,
-		ConfigurationProperties_DataType_STATUSInteger,
-		ConfigurationProperties_DataType_STATUSNumeric))
+		ConfigurationProperties_DataType_Boolean_STATUS,
+		ConfigurationProperties_DataType_Enumeration_STATUS,
+		ConfigurationProperties_DataType_Integer_STATUS,
+		ConfigurationProperties_DataType_Numeric_STATUS))
 	gens["DefaultValue"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DocumentationLink"] = gen.PtrOf(gen.AlphaString())
@@ -408,10 +408,10 @@ func AddIndependentPropertyGeneratorsForFlexibleServersConfiguration_Spec(gens m
 	gens["AllowedValues"] = gen.PtrOf(gen.AlphaString())
 	gens["AzureName"] = gen.AlphaString()
 	gens["DataType"] = gen.PtrOf(gen.OneConstOf(
-		ConfigurationProperties_DataTypeBoolean,
-		ConfigurationProperties_DataTypeEnumeration,
-		ConfigurationProperties_DataTypeInteger,
-		ConfigurationProperties_DataTypeNumeric))
+		ConfigurationProperties_DataType_Boolean,
+		ConfigurationProperties_DataType_Enumeration,
+		ConfigurationProperties_DataType_Integer,
+		ConfigurationProperties_DataType_Numeric))
 	gens["DefaultValue"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DocumentationLink"] = gen.PtrOf(gen.AlphaString())

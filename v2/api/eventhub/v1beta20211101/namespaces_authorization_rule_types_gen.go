@@ -99,7 +99,7 @@ func (rule *NamespacesAuthorizationRule) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20211101"
 func (rule NamespacesAuthorizationRule) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -881,18 +881,18 @@ func (rule *NamespacesAuthorizationRule_Spec) SetAzureName(azureName string) {
 type NamespacesAuthorizationRule_Properties_Rights_STATUS string
 
 const (
-	NamespacesAuthorizationRule_Properties_Rights_STATUSListen = NamespacesAuthorizationRule_Properties_Rights_STATUS("Listen")
-	NamespacesAuthorizationRule_Properties_Rights_STATUSManage = NamespacesAuthorizationRule_Properties_Rights_STATUS("Manage")
-	NamespacesAuthorizationRule_Properties_Rights_STATUSSend   = NamespacesAuthorizationRule_Properties_Rights_STATUS("Send")
+	NamespacesAuthorizationRule_Properties_Rights_Listen_STATUS = NamespacesAuthorizationRule_Properties_Rights_STATUS("Listen")
+	NamespacesAuthorizationRule_Properties_Rights_Manage_STATUS = NamespacesAuthorizationRule_Properties_Rights_STATUS("Manage")
+	NamespacesAuthorizationRule_Properties_Rights_Send_STATUS   = NamespacesAuthorizationRule_Properties_Rights_STATUS("Send")
 )
 
 // +kubebuilder:validation:Enum={"Listen","Manage","Send"}
 type NamespacesAuthorizationRule_Spec_Properties_Rights string
 
 const (
-	NamespacesAuthorizationRule_Spec_Properties_RightsListen = NamespacesAuthorizationRule_Spec_Properties_Rights("Listen")
-	NamespacesAuthorizationRule_Spec_Properties_RightsManage = NamespacesAuthorizationRule_Spec_Properties_Rights("Manage")
-	NamespacesAuthorizationRule_Spec_Properties_RightsSend   = NamespacesAuthorizationRule_Spec_Properties_Rights("Send")
+	NamespacesAuthorizationRule_Spec_Properties_Rights_Listen = NamespacesAuthorizationRule_Spec_Properties_Rights("Listen")
+	NamespacesAuthorizationRule_Spec_Properties_Rights_Manage = NamespacesAuthorizationRule_Spec_Properties_Rights("Manage")
+	NamespacesAuthorizationRule_Spec_Properties_Rights_Send   = NamespacesAuthorizationRule_Spec_Properties_Rights("Send")
 )
 
 func init() {

@@ -159,8 +159,8 @@ func BatchAccountCreateProperties_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForBatchAccountCreateProperties_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBatchAccountCreateProperties_STATUSARM(gens map[string]gopter.Gen) {
-	gens["PoolAllocationMode"] = gen.PtrOf(gen.OneConstOf(PoolAllocationMode_STATUSBatchService, PoolAllocationMode_STATUSUserSubscription))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_STATUSDisabled, PublicNetworkAccessType_STATUSEnabled))
+	gens["PoolAllocationMode"] = gen.PtrOf(gen.OneConstOf(PoolAllocationMode_BatchService_STATUS, PoolAllocationMode_UserSubscription_STATUS))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_Disabled_STATUS, PublicNetworkAccessType_Enabled_STATUS))
 }
 
 // AddRelatedPropertyGeneratorsForBatchAccountCreateProperties_STATUSARM is a factory method for creating gopter generators
@@ -238,7 +238,7 @@ func BatchAccountIdentity_STATUSARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForBatchAccountIdentity_STATUSARM(gens map[string]gopter.Gen) {
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(BatchAccountIdentity_Type_STATUSNone, BatchAccountIdentity_Type_STATUSSystemAssigned, BatchAccountIdentity_Type_STATUSUserAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(BatchAccountIdentity_Type_None_STATUS, BatchAccountIdentity_Type_SystemAssigned_STATUS, BatchAccountIdentity_Type_UserAssigned_STATUS))
 }
 
 // AddRelatedPropertyGeneratorsForBatchAccountIdentity_STATUSARM is a factory method for creating gopter generators
@@ -433,7 +433,7 @@ func EncryptionProperties_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEncryptionProperties_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryptionProperties_STATUSARM(gens map[string]gopter.Gen) {
-	gens["KeySource"] = gen.PtrOf(gen.OneConstOf(EncryptionProperties_KeySource_STATUSMicrosoftBatch, EncryptionProperties_KeySource_STATUSMicrosoftKeyVault))
+	gens["KeySource"] = gen.PtrOf(gen.OneConstOf(EncryptionProperties_KeySource_MicrosoftBatch_STATUS, EncryptionProperties_KeySource_MicrosoftKeyVault_STATUS))
 }
 
 // AddRelatedPropertyGeneratorsForEncryptionProperties_STATUSARM is a factory method for creating gopter generators

@@ -93,7 +93,7 @@ type ContainerServiceNetworkProfile_STATUSARM struct {
 // Deprecated version of ExtendedLocationType_STATUS. Use v1beta20210501.ExtendedLocationType_STATUS instead
 type ExtendedLocationType_STATUS string
 
-const ExtendedLocationType_STATUSEdgeZone = ExtendedLocationType_STATUS("EdgeZone")
+const ExtendedLocationType_EdgeZone_STATUS = ExtendedLocationType_STATUS("EdgeZone")
 
 // Deprecated version of ManagedClusterAADProfile_STATUS. Use v1beta20210501.ManagedClusterAADProfile_STATUS instead
 type ManagedClusterAADProfile_STATUSARM struct {
@@ -172,9 +172,9 @@ type ManagedClusterHTTPProxyConfig_STATUSARM struct {
 type ManagedClusterIdentity_Type_STATUS string
 
 const (
-	ManagedClusterIdentity_Type_STATUSNone           = ManagedClusterIdentity_Type_STATUS("None")
-	ManagedClusterIdentity_Type_STATUSSystemAssigned = ManagedClusterIdentity_Type_STATUS("SystemAssigned")
-	ManagedClusterIdentity_Type_STATUSUserAssigned   = ManagedClusterIdentity_Type_STATUS("UserAssigned")
+	ManagedClusterIdentity_Type_None_STATUS           = ManagedClusterIdentity_Type_STATUS("None")
+	ManagedClusterIdentity_Type_SystemAssigned_STATUS = ManagedClusterIdentity_Type_STATUS("SystemAssigned")
+	ManagedClusterIdentity_Type_UserAssigned_STATUS   = ManagedClusterIdentity_Type_STATUS("UserAssigned")
 )
 
 // Deprecated version of ManagedClusterIdentity_UserAssignedIdentities_STATUS. Use v1beta20210501.ManagedClusterIdentity_UserAssignedIdentities_STATUS instead
@@ -215,14 +215,14 @@ type ManagedClusterProperties_AutoScalerProfile_STATUSARM struct {
 // Deprecated version of ManagedClusterSKU_Name_STATUS. Use v1beta20210501.ManagedClusterSKU_Name_STATUS instead
 type ManagedClusterSKU_Name_STATUS string
 
-const ManagedClusterSKU_Name_STATUSBasic = ManagedClusterSKU_Name_STATUS("Basic")
+const ManagedClusterSKU_Name_Basic_STATUS = ManagedClusterSKU_Name_STATUS("Basic")
 
 // Deprecated version of ManagedClusterSKU_Tier_STATUS. Use v1beta20210501.ManagedClusterSKU_Tier_STATUS instead
 type ManagedClusterSKU_Tier_STATUS string
 
 const (
-	ManagedClusterSKU_Tier_STATUSFree = ManagedClusterSKU_Tier_STATUS("Free")
-	ManagedClusterSKU_Tier_STATUSPaid = ManagedClusterSKU_Tier_STATUS("Paid")
+	ManagedClusterSKU_Tier_Free_STATUS = ManagedClusterSKU_Tier_STATUS("Free")
+	ManagedClusterSKU_Tier_Paid_STATUS = ManagedClusterSKU_Tier_STATUS("Paid")
 )
 
 // Deprecated version of ManagedClusterServicePrincipalProfile_STATUS. Use v1beta20210501.ManagedClusterServicePrincipalProfile_STATUS instead

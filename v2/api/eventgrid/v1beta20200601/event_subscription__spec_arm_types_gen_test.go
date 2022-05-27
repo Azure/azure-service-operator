@@ -161,17 +161,17 @@ func EventSubscriptionPropertiesARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEventSubscriptionPropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEventSubscriptionPropertiesARM(gens map[string]gopter.Gen) {
-	gens["EventDeliverySchema"] = gen.PtrOf(gen.OneConstOf(EventSubscriptionProperties_EventDeliverySchemaCloudEventSchemaV1_0, EventSubscriptionProperties_EventDeliverySchemaCustomInputSchema, EventSubscriptionProperties_EventDeliverySchemaEventGridSchema))
+	gens["EventDeliverySchema"] = gen.PtrOf(gen.OneConstOf(EventSubscriptionProperties_EventDeliverySchema_CloudEventSchemaV1_0, EventSubscriptionProperties_EventDeliverySchema_CustomInputSchema, EventSubscriptionProperties_EventDeliverySchema_EventGridSchema))
 	gens["ExpirationTimeUtc"] = gen.PtrOf(gen.AlphaString())
 	gens["Labels"] = gen.SliceOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		EventSubscriptionProperties_ProvisioningStateAwaitingManualAction,
-		EventSubscriptionProperties_ProvisioningStateCanceled,
-		EventSubscriptionProperties_ProvisioningStateCreating,
-		EventSubscriptionProperties_ProvisioningStateDeleting,
-		EventSubscriptionProperties_ProvisioningStateFailed,
-		EventSubscriptionProperties_ProvisioningStateSucceeded,
-		EventSubscriptionProperties_ProvisioningStateUpdating))
+		EventSubscriptionProperties_ProvisioningState_AwaitingManualAction,
+		EventSubscriptionProperties_ProvisioningState_Canceled,
+		EventSubscriptionProperties_ProvisioningState_Creating,
+		EventSubscriptionProperties_ProvisioningState_Deleting,
+		EventSubscriptionProperties_ProvisioningState_Failed,
+		EventSubscriptionProperties_ProvisioningState_Succeeded,
+		EventSubscriptionProperties_ProvisioningState_Updating))
 	gens["Topic"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -240,7 +240,7 @@ func DeadLetterDestinationARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDeadLetterDestinationARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeadLetterDestinationARM(gens map[string]gopter.Gen) {
-	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(DeadLetterDestination_EndpointTypeStorageBlob))
+	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(DeadLetterDestination_EndpointType_StorageBlob))
 }
 
 func Test_EventSubscriptionDestinationARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -301,13 +301,13 @@ func EventSubscriptionDestinationARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForEventSubscriptionDestinationARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEventSubscriptionDestinationARM(gens map[string]gopter.Gen) {
 	gens["EndpointType"] = gen.PtrOf(gen.OneConstOf(
-		EventSubscriptionDestination_EndpointTypeAzureFunction,
-		EventSubscriptionDestination_EndpointTypeEventHub,
-		EventSubscriptionDestination_EndpointTypeHybridConnection,
-		EventSubscriptionDestination_EndpointTypeServiceBusQueue,
-		EventSubscriptionDestination_EndpointTypeServiceBusTopic,
-		EventSubscriptionDestination_EndpointTypeStorageQueue,
-		EventSubscriptionDestination_EndpointTypeWebHook))
+		EventSubscriptionDestination_EndpointType_AzureFunction,
+		EventSubscriptionDestination_EndpointType_EventHub,
+		EventSubscriptionDestination_EndpointType_HybridConnection,
+		EventSubscriptionDestination_EndpointType_ServiceBusQueue,
+		EventSubscriptionDestination_EndpointType_ServiceBusTopic,
+		EventSubscriptionDestination_EndpointType_StorageQueue,
+		EventSubscriptionDestination_EndpointType_WebHook))
 }
 
 func Test_EventSubscriptionFilterARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -505,16 +505,16 @@ func AdvancedFilterARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForAdvancedFilterARM(gens map[string]gopter.Gen) {
 	gens["Key"] = gen.PtrOf(gen.AlphaString())
 	gens["OperatorType"] = gen.PtrOf(gen.OneConstOf(
-		AdvancedFilter_OperatorTypeBoolEquals,
-		AdvancedFilter_OperatorTypeNumberGreaterThan,
-		AdvancedFilter_OperatorTypeNumberGreaterThanOrEquals,
-		AdvancedFilter_OperatorTypeNumberIn,
-		AdvancedFilter_OperatorTypeNumberLessThan,
-		AdvancedFilter_OperatorTypeNumberLessThanOrEquals,
-		AdvancedFilter_OperatorTypeNumberNotIn,
-		AdvancedFilter_OperatorTypeStringBeginsWith,
-		AdvancedFilter_OperatorTypeStringContains,
-		AdvancedFilter_OperatorTypeStringEndsWith,
-		AdvancedFilter_OperatorTypeStringIn,
-		AdvancedFilter_OperatorTypeStringNotIn))
+		AdvancedFilter_OperatorType_BoolEquals,
+		AdvancedFilter_OperatorType_NumberGreaterThan,
+		AdvancedFilter_OperatorType_NumberGreaterThanOrEquals,
+		AdvancedFilter_OperatorType_NumberIn,
+		AdvancedFilter_OperatorType_NumberLessThan,
+		AdvancedFilter_OperatorType_NumberLessThanOrEquals,
+		AdvancedFilter_OperatorType_NumberNotIn,
+		AdvancedFilter_OperatorType_StringBeginsWith,
+		AdvancedFilter_OperatorType_StringContains,
+		AdvancedFilter_OperatorType_StringEndsWith,
+		AdvancedFilter_OperatorType_StringIn,
+		AdvancedFilter_OperatorType_StringNotIn))
 }

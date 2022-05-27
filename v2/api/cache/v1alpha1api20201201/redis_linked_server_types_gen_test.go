@@ -264,7 +264,7 @@ func RedisLinkedServer_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForRedisLinkedServer_STATUS(gens map[string]gopter.Gen) {
 	gens["LinkedRedisCacheId"] = gen.PtrOf(gen.AlphaString())
 	gens["LinkedRedisCacheLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["ServerRole"] = gen.PtrOf(gen.OneConstOf(RedisLinkedServerCreateProperties_ServerRole_STATUSPrimary, RedisLinkedServerCreateProperties_ServerRole_STATUSSecondary))
+	gens["ServerRole"] = gen.PtrOf(gen.OneConstOf(RedisLinkedServerCreateProperties_ServerRole_Primary_STATUS, RedisLinkedServerCreateProperties_ServerRole_Secondary_STATUS))
 }
 
 func Test_RedisLinkedServer_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -368,5 +368,5 @@ func RedisLinkedServer_SpecGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForRedisLinkedServer_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["LinkedRedisCacheLocation"] = gen.PtrOf(gen.AlphaString())
-	gens["ServerRole"] = gen.PtrOf(gen.OneConstOf(RedisLinkedServerCreateProperties_ServerRolePrimary, RedisLinkedServerCreateProperties_ServerRoleSecondary))
+	gens["ServerRole"] = gen.PtrOf(gen.OneConstOf(RedisLinkedServerCreateProperties_ServerRole_Primary, RedisLinkedServerCreateProperties_ServerRole_Secondary))
 }

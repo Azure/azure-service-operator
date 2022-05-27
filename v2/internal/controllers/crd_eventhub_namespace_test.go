@@ -23,8 +23,8 @@ func Test_EventHub_Namespace_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	skuTier := eventhub.Sku_TierStandard
-	skuName := eventhub.Sku_NameStandard
+	skuTier := eventhub.Sku_Tier_Standard
+	skuName := eventhub.Sku_Name_Standard
 	namespace := &eventhub.Namespace{
 		ObjectMeta: tc.MakeObjectMeta("namespace"),
 		Spec: eventhub.Namespace_Spec{
@@ -70,7 +70,7 @@ func Test_EventHub_Namespace_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(namespace)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(eventhub.APIVersionValue))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(eventhub.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
@@ -124,8 +124,8 @@ func Namespace_AuthorizationRules_CRUD(tc *testcommon.KubePerTestContext, namesp
 		Spec: eventhub.NamespacesAuthorizationRule_Spec{
 			Owner: testcommon.AsOwner(namespace),
 			Rights: []eventhub.NamespacesAuthorizationRule_Spec_Properties_Rights{
-				eventhub.NamespacesAuthorizationRule_Spec_Properties_RightsListen,
-				eventhub.NamespacesAuthorizationRule_Spec_Properties_RightsSend,
+				eventhub.NamespacesAuthorizationRule_Spec_Properties_Rights_Listen,
+				eventhub.NamespacesAuthorizationRule_Spec_Properties_Rights_Send,
 			},
 		},
 	}
@@ -145,8 +145,8 @@ func EventHub_AuthorizationRules_CRUD(tc *testcommon.KubePerTestContext, eh clie
 		Spec: eventhub.NamespacesEventhubsAuthorizationRule_Spec{
 			Owner: testcommon.AsOwner(eh),
 			Rights: []eventhub.NamespacesEventhubsAuthorizationRule_Spec_Properties_Rights{
-				eventhub.NamespacesEventhubsAuthorizationRule_Spec_Properties_RightsListen,
-				eventhub.NamespacesEventhubsAuthorizationRule_Spec_Properties_RightsSend,
+				eventhub.NamespacesEventhubsAuthorizationRule_Spec_Properties_Rights_Listen,
+				eventhub.NamespacesEventhubsAuthorizationRule_Spec_Properties_Rights_Send,
 			},
 		},
 	}

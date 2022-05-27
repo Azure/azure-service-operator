@@ -53,7 +53,7 @@ func (disk *Disk) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20200930"
 func (disk Disk) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -136,7 +136,7 @@ type DiskList struct {
 // +kubebuilder:validation:Enum={"20200930"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("20200930")
+const APIVersion_Value = APIVersion("20200930")
 
 // Storage version of v1beta20200930.Disk_STATUS
 type Disk_STATUS struct {

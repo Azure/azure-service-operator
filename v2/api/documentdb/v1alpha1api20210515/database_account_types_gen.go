@@ -112,7 +112,7 @@ func (account *DatabaseAccount) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20210515"
 func (account DatabaseAccount) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -357,7 +357,7 @@ type DatabaseAccountList struct {
 // +kubebuilder:validation:Enum={"20210515"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("20210515")
+const APIVersion_Value = APIVersion("20210515")
 
 // Deprecated version of DatabaseAccount_STATUS. Use v1beta20210515.DatabaseAccount_STATUS instead
 type DatabaseAccount_STATUS struct {
@@ -3156,12 +3156,12 @@ func (capability *Capability_STATUS) AssignPropertiesToCapability_STATUS(destina
 // +kubebuilder:validation:Enum={"Small"}
 type ConnectorOffer string
 
-const ConnectorOfferSmall = ConnectorOffer("Small")
+const ConnectorOffer_Small = ConnectorOffer("Small")
 
 // Deprecated version of ConnectorOffer_STATUS. Use v1beta20210515.ConnectorOffer_STATUS instead
 type ConnectorOffer_STATUS string
 
-const ConnectorOffer_STATUSSmall = ConnectorOffer_STATUS("Small")
+const ConnectorOffer_Small_STATUS = ConnectorOffer_STATUS("Small")
 
 // Deprecated version of ConsistencyPolicy. Use v1beta20210515.ConsistencyPolicy instead
 type ConsistencyPolicy struct {
@@ -3683,12 +3683,12 @@ func (policy *CorsPolicy_STATUS) AssignPropertiesToCorsPolicy_STATUS(destination
 // +kubebuilder:validation:Enum={"Standard"}
 type DatabaseAccountOfferType string
 
-const DatabaseAccountOfferTypeStandard = DatabaseAccountOfferType("Standard")
+const DatabaseAccountOfferType_Standard = DatabaseAccountOfferType("Standard")
 
 // Deprecated version of DatabaseAccountOfferType_STATUS. Use v1beta20210515.DatabaseAccountOfferType_STATUS instead
 type DatabaseAccountOfferType_STATUS string
 
-const DatabaseAccountOfferType_STATUSStandard = DatabaseAccountOfferType_STATUS("Standard")
+const DatabaseAccountOfferType_Standard_STATUS = DatabaseAccountOfferType_STATUS("Standard")
 
 // Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
 type DatabaseAccountOperatorSpec struct {
@@ -4448,16 +4448,16 @@ func (identity *ManagedServiceIdentity_STATUS) AssignPropertiesToManagedServiceI
 type NetworkAclBypass string
 
 const (
-	NetworkAclBypassAzureServices = NetworkAclBypass("AzureServices")
-	NetworkAclBypassNone          = NetworkAclBypass("None")
+	NetworkAclBypass_AzureServices = NetworkAclBypass("AzureServices")
+	NetworkAclBypass_None          = NetworkAclBypass("None")
 )
 
 // Deprecated version of NetworkAclBypass_STATUS. Use v1beta20210515.NetworkAclBypass_STATUS instead
 type NetworkAclBypass_STATUS string
 
 const (
-	NetworkAclBypass_STATUSAzureServices = NetworkAclBypass_STATUS("AzureServices")
-	NetworkAclBypass_STATUSNone          = NetworkAclBypass_STATUS("None")
+	NetworkAclBypass_AzureServices_STATUS = NetworkAclBypass_STATUS("AzureServices")
+	NetworkAclBypass_None_STATUS          = NetworkAclBypass_STATUS("None")
 )
 
 // Deprecated version of PublicNetworkAccess. Use v1beta20210515.PublicNetworkAccess instead
@@ -4465,16 +4465,16 @@ const (
 type PublicNetworkAccess string
 
 const (
-	PublicNetworkAccessDisabled = PublicNetworkAccess("Disabled")
-	PublicNetworkAccessEnabled  = PublicNetworkAccess("Enabled")
+	PublicNetworkAccess_Disabled = PublicNetworkAccess("Disabled")
+	PublicNetworkAccess_Enabled  = PublicNetworkAccess("Enabled")
 )
 
 // Deprecated version of PublicNetworkAccess_STATUS. Use v1beta20210515.PublicNetworkAccess_STATUS instead
 type PublicNetworkAccess_STATUS string
 
 const (
-	PublicNetworkAccess_STATUSDisabled = PublicNetworkAccess_STATUS("Disabled")
-	PublicNetworkAccess_STATUSEnabled  = PublicNetworkAccess_STATUS("Enabled")
+	PublicNetworkAccess_Disabled_STATUS = PublicNetworkAccess_STATUS("Disabled")
+	PublicNetworkAccess_Enabled_STATUS  = PublicNetworkAccess_STATUS("Enabled")
 )
 
 // Deprecated version of VirtualNetworkRule. Use v1beta20210515.VirtualNetworkRule instead
@@ -4675,16 +4675,16 @@ func (rule *VirtualNetworkRule_STATUS) AssignPropertiesToVirtualNetworkRule_STAT
 type AnalyticalStorageSchemaType string
 
 const (
-	AnalyticalStorageSchemaTypeFullFidelity = AnalyticalStorageSchemaType("FullFidelity")
-	AnalyticalStorageSchemaTypeWellDefined  = AnalyticalStorageSchemaType("WellDefined")
+	AnalyticalStorageSchemaType_FullFidelity = AnalyticalStorageSchemaType("FullFidelity")
+	AnalyticalStorageSchemaType_WellDefined  = AnalyticalStorageSchemaType("WellDefined")
 )
 
 // Deprecated version of AnalyticalStorageSchemaType_STATUS. Use v1beta20210515.AnalyticalStorageSchemaType_STATUS instead
 type AnalyticalStorageSchemaType_STATUS string
 
 const (
-	AnalyticalStorageSchemaType_STATUSFullFidelity = AnalyticalStorageSchemaType_STATUS("FullFidelity")
-	AnalyticalStorageSchemaType_STATUSWellDefined  = AnalyticalStorageSchemaType_STATUS("WellDefined")
+	AnalyticalStorageSchemaType_FullFidelity_STATUS = AnalyticalStorageSchemaType_STATUS("FullFidelity")
+	AnalyticalStorageSchemaType_WellDefined_STATUS  = AnalyticalStorageSchemaType_STATUS("WellDefined")
 )
 
 // Deprecated version of ApiProperties_ServerVersion. Use v1beta20210515.ApiProperties_ServerVersion instead
@@ -4692,18 +4692,18 @@ const (
 type ApiProperties_ServerVersion string
 
 const (
-	ApiProperties_ServerVersion32 = ApiProperties_ServerVersion("3.2")
-	ApiProperties_ServerVersion36 = ApiProperties_ServerVersion("3.6")
-	ApiProperties_ServerVersion40 = ApiProperties_ServerVersion("4.0")
+	ApiProperties_ServerVersion_32 = ApiProperties_ServerVersion("3.2")
+	ApiProperties_ServerVersion_36 = ApiProperties_ServerVersion("3.6")
+	ApiProperties_ServerVersion_40 = ApiProperties_ServerVersion("4.0")
 )
 
 // Deprecated version of ApiProperties_ServerVersion_STATUS. Use v1beta20210515.ApiProperties_ServerVersion_STATUS instead
 type ApiProperties_ServerVersion_STATUS string
 
 const (
-	ApiProperties_ServerVersion_STATUS32 = ApiProperties_ServerVersion_STATUS("3.2")
-	ApiProperties_ServerVersion_STATUS36 = ApiProperties_ServerVersion_STATUS("3.6")
-	ApiProperties_ServerVersion_STATUS40 = ApiProperties_ServerVersion_STATUS("4.0")
+	ApiProperties_ServerVersion_32_STATUS = ApiProperties_ServerVersion_STATUS("3.2")
+	ApiProperties_ServerVersion_36_STATUS = ApiProperties_ServerVersion_STATUS("3.6")
+	ApiProperties_ServerVersion_40_STATUS = ApiProperties_ServerVersion_STATUS("4.0")
 )
 
 // Deprecated version of BackupPolicyType. Use v1beta20210515.BackupPolicyType instead
@@ -4711,16 +4711,16 @@ const (
 type BackupPolicyType string
 
 const (
-	BackupPolicyTypeContinuous = BackupPolicyType("Continuous")
-	BackupPolicyTypePeriodic   = BackupPolicyType("Periodic")
+	BackupPolicyType_Continuous = BackupPolicyType("Continuous")
+	BackupPolicyType_Periodic   = BackupPolicyType("Periodic")
 )
 
 // Deprecated version of BackupPolicyType_STATUS. Use v1beta20210515.BackupPolicyType_STATUS instead
 type BackupPolicyType_STATUS string
 
 const (
-	BackupPolicyType_STATUSContinuous = BackupPolicyType_STATUS("Continuous")
-	BackupPolicyType_STATUSPeriodic   = BackupPolicyType_STATUS("Periodic")
+	BackupPolicyType_Continuous_STATUS = BackupPolicyType_STATUS("Continuous")
+	BackupPolicyType_Periodic_STATUS   = BackupPolicyType_STATUS("Periodic")
 )
 
 // Deprecated version of ConsistencyPolicy_DefaultConsistencyLevel. Use
@@ -4729,11 +4729,11 @@ const (
 type ConsistencyPolicy_DefaultConsistencyLevel string
 
 const (
-	ConsistencyPolicy_DefaultConsistencyLevelBoundedStaleness = ConsistencyPolicy_DefaultConsistencyLevel("BoundedStaleness")
-	ConsistencyPolicy_DefaultConsistencyLevelConsistentPrefix = ConsistencyPolicy_DefaultConsistencyLevel("ConsistentPrefix")
-	ConsistencyPolicy_DefaultConsistencyLevelEventual         = ConsistencyPolicy_DefaultConsistencyLevel("Eventual")
-	ConsistencyPolicy_DefaultConsistencyLevelSession          = ConsistencyPolicy_DefaultConsistencyLevel("Session")
-	ConsistencyPolicy_DefaultConsistencyLevelStrong           = ConsistencyPolicy_DefaultConsistencyLevel("Strong")
+	ConsistencyPolicy_DefaultConsistencyLevel_BoundedStaleness = ConsistencyPolicy_DefaultConsistencyLevel("BoundedStaleness")
+	ConsistencyPolicy_DefaultConsistencyLevel_ConsistentPrefix = ConsistencyPolicy_DefaultConsistencyLevel("ConsistentPrefix")
+	ConsistencyPolicy_DefaultConsistencyLevel_Eventual         = ConsistencyPolicy_DefaultConsistencyLevel("Eventual")
+	ConsistencyPolicy_DefaultConsistencyLevel_Session          = ConsistencyPolicy_DefaultConsistencyLevel("Session")
+	ConsistencyPolicy_DefaultConsistencyLevel_Strong           = ConsistencyPolicy_DefaultConsistencyLevel("Strong")
 )
 
 // Deprecated version of ConsistencyPolicy_DefaultConsistencyLevel_STATUS. Use
@@ -4741,11 +4741,11 @@ const (
 type ConsistencyPolicy_DefaultConsistencyLevel_STATUS string
 
 const (
-	ConsistencyPolicy_DefaultConsistencyLevel_STATUSBoundedStaleness = ConsistencyPolicy_DefaultConsistencyLevel_STATUS("BoundedStaleness")
-	ConsistencyPolicy_DefaultConsistencyLevel_STATUSConsistentPrefix = ConsistencyPolicy_DefaultConsistencyLevel_STATUS("ConsistentPrefix")
-	ConsistencyPolicy_DefaultConsistencyLevel_STATUSEventual         = ConsistencyPolicy_DefaultConsistencyLevel_STATUS("Eventual")
-	ConsistencyPolicy_DefaultConsistencyLevel_STATUSSession          = ConsistencyPolicy_DefaultConsistencyLevel_STATUS("Session")
-	ConsistencyPolicy_DefaultConsistencyLevel_STATUSStrong           = ConsistencyPolicy_DefaultConsistencyLevel_STATUS("Strong")
+	ConsistencyPolicy_DefaultConsistencyLevel_BoundedStaleness_STATUS = ConsistencyPolicy_DefaultConsistencyLevel_STATUS("BoundedStaleness")
+	ConsistencyPolicy_DefaultConsistencyLevel_ConsistentPrefix_STATUS = ConsistencyPolicy_DefaultConsistencyLevel_STATUS("ConsistentPrefix")
+	ConsistencyPolicy_DefaultConsistencyLevel_Eventual_STATUS         = ConsistencyPolicy_DefaultConsistencyLevel_STATUS("Eventual")
+	ConsistencyPolicy_DefaultConsistencyLevel_Session_STATUS          = ConsistencyPolicy_DefaultConsistencyLevel_STATUS("Session")
+	ConsistencyPolicy_DefaultConsistencyLevel_Strong_STATUS           = ConsistencyPolicy_DefaultConsistencyLevel_STATUS("Strong")
 )
 
 type DatabaseAccountOperatorSecrets struct {

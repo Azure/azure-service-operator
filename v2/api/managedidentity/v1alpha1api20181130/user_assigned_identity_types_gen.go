@@ -112,7 +112,7 @@ func (identity *UserAssignedIdentity) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20181130"
 func (identity UserAssignedIdentity) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -335,7 +335,7 @@ type UserAssignedIdentityList struct {
 // +kubebuilder:validation:Enum={"20181130"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("20181130")
+const APIVersion_Value = APIVersion("20181130")
 
 // Deprecated version of UserAssignedIdentity_STATUS. Use v1beta20181130.UserAssignedIdentity_STATUS instead
 type UserAssignedIdentity_STATUS struct {

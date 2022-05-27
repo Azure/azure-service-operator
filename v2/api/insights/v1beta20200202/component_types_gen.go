@@ -100,7 +100,7 @@ func (component *Component) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20200202"
 func (component Component) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -323,7 +323,7 @@ type ComponentList struct {
 // +kubebuilder:validation:Enum={"20200202"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("20200202")
+const APIVersion_Value = APIVersion("20200202")
 
 type Component_STATUS struct {
 	// AppId: Application Insights Unique ID for your Application.
@@ -2213,51 +2213,51 @@ func (component *Component_Spec) SetAzureName(azureName string) { component.Azur
 type ApplicationInsightsComponentProperties_Application_Type string
 
 const (
-	ApplicationInsightsComponentProperties_Application_TypeOther = ApplicationInsightsComponentProperties_Application_Type("other")
-	ApplicationInsightsComponentProperties_Application_TypeWeb   = ApplicationInsightsComponentProperties_Application_Type("web")
+	ApplicationInsightsComponentProperties_Application_Type_Other = ApplicationInsightsComponentProperties_Application_Type("other")
+	ApplicationInsightsComponentProperties_Application_Type_Web   = ApplicationInsightsComponentProperties_Application_Type("web")
 )
 
 type ApplicationInsightsComponentProperties_Application_Type_STATUS string
 
 const (
-	ApplicationInsightsComponentProperties_Application_Type_STATUSOther = ApplicationInsightsComponentProperties_Application_Type_STATUS("other")
-	ApplicationInsightsComponentProperties_Application_Type_STATUSWeb   = ApplicationInsightsComponentProperties_Application_Type_STATUS("web")
+	ApplicationInsightsComponentProperties_Application_Type_Other_STATUS = ApplicationInsightsComponentProperties_Application_Type_STATUS("other")
+	ApplicationInsightsComponentProperties_Application_Type_Web_STATUS   = ApplicationInsightsComponentProperties_Application_Type_STATUS("web")
 )
 
 // +kubebuilder:validation:Enum={"Bluefield"}
 type ApplicationInsightsComponentProperties_Flow_Type string
 
-const ApplicationInsightsComponentProperties_Flow_TypeBluefield = ApplicationInsightsComponentProperties_Flow_Type("Bluefield")
+const ApplicationInsightsComponentProperties_Flow_Type_Bluefield = ApplicationInsightsComponentProperties_Flow_Type("Bluefield")
 
 type ApplicationInsightsComponentProperties_Flow_Type_STATUS string
 
-const ApplicationInsightsComponentProperties_Flow_Type_STATUSBluefield = ApplicationInsightsComponentProperties_Flow_Type_STATUS("Bluefield")
+const ApplicationInsightsComponentProperties_Flow_Type_Bluefield_STATUS = ApplicationInsightsComponentProperties_Flow_Type_STATUS("Bluefield")
 
 // +kubebuilder:validation:Enum={"ApplicationInsights","ApplicationInsightsWithDiagnosticSettings","LogAnalytics"}
 type ApplicationInsightsComponentProperties_IngestionMode string
 
 const (
-	ApplicationInsightsComponentProperties_IngestionModeApplicationInsights                       = ApplicationInsightsComponentProperties_IngestionMode("ApplicationInsights")
-	ApplicationInsightsComponentProperties_IngestionModeApplicationInsightsWithDiagnosticSettings = ApplicationInsightsComponentProperties_IngestionMode("ApplicationInsightsWithDiagnosticSettings")
-	ApplicationInsightsComponentProperties_IngestionModeLogAnalytics                              = ApplicationInsightsComponentProperties_IngestionMode("LogAnalytics")
+	ApplicationInsightsComponentProperties_IngestionMode_ApplicationInsights                       = ApplicationInsightsComponentProperties_IngestionMode("ApplicationInsights")
+	ApplicationInsightsComponentProperties_IngestionMode_ApplicationInsightsWithDiagnosticSettings = ApplicationInsightsComponentProperties_IngestionMode("ApplicationInsightsWithDiagnosticSettings")
+	ApplicationInsightsComponentProperties_IngestionMode_LogAnalytics                              = ApplicationInsightsComponentProperties_IngestionMode("LogAnalytics")
 )
 
 type ApplicationInsightsComponentProperties_IngestionMode_STATUS string
 
 const (
-	ApplicationInsightsComponentProperties_IngestionMode_STATUSApplicationInsights                       = ApplicationInsightsComponentProperties_IngestionMode_STATUS("ApplicationInsights")
-	ApplicationInsightsComponentProperties_IngestionMode_STATUSApplicationInsightsWithDiagnosticSettings = ApplicationInsightsComponentProperties_IngestionMode_STATUS("ApplicationInsightsWithDiagnosticSettings")
-	ApplicationInsightsComponentProperties_IngestionMode_STATUSLogAnalytics                              = ApplicationInsightsComponentProperties_IngestionMode_STATUS("LogAnalytics")
+	ApplicationInsightsComponentProperties_IngestionMode_ApplicationInsights_STATUS                       = ApplicationInsightsComponentProperties_IngestionMode_STATUS("ApplicationInsights")
+	ApplicationInsightsComponentProperties_IngestionMode_ApplicationInsightsWithDiagnosticSettings_STATUS = ApplicationInsightsComponentProperties_IngestionMode_STATUS("ApplicationInsightsWithDiagnosticSettings")
+	ApplicationInsightsComponentProperties_IngestionMode_LogAnalytics_STATUS                              = ApplicationInsightsComponentProperties_IngestionMode_STATUS("LogAnalytics")
 )
 
 // +kubebuilder:validation:Enum={"rest"}
 type ApplicationInsightsComponentProperties_Request_Source string
 
-const ApplicationInsightsComponentProperties_Request_SourceRest = ApplicationInsightsComponentProperties_Request_Source("rest")
+const ApplicationInsightsComponentProperties_Request_Source_Rest = ApplicationInsightsComponentProperties_Request_Source("rest")
 
 type ApplicationInsightsComponentProperties_Request_Source_STATUS string
 
-const ApplicationInsightsComponentProperties_Request_Source_STATUSRest = ApplicationInsightsComponentProperties_Request_Source_STATUS("rest")
+const ApplicationInsightsComponentProperties_Request_Source_Rest_STATUS = ApplicationInsightsComponentProperties_Request_Source_STATUS("rest")
 
 type PrivateLinkScopedResource struct {
 	// ResourceId: The full resource Id of the private link scope resource.
@@ -2430,15 +2430,15 @@ func (resource *PrivateLinkScopedResource_STATUS) AssignPropertiesToPrivateLinkS
 type PublicNetworkAccessType string
 
 const (
-	PublicNetworkAccessTypeDisabled = PublicNetworkAccessType("Disabled")
-	PublicNetworkAccessTypeEnabled  = PublicNetworkAccessType("Enabled")
+	PublicNetworkAccessType_Disabled = PublicNetworkAccessType("Disabled")
+	PublicNetworkAccessType_Enabled  = PublicNetworkAccessType("Enabled")
 )
 
 type PublicNetworkAccessType_STATUS string
 
 const (
-	PublicNetworkAccessType_STATUSDisabled = PublicNetworkAccessType_STATUS("Disabled")
-	PublicNetworkAccessType_STATUSEnabled  = PublicNetworkAccessType_STATUS("Enabled")
+	PublicNetworkAccessType_Disabled_STATUS = PublicNetworkAccessType_STATUS("Disabled")
+	PublicNetworkAccessType_Enabled_STATUS  = PublicNetworkAccessType_STATUS("Enabled")
 )
 
 func init() {

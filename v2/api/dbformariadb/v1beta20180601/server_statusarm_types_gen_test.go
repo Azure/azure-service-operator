@@ -159,18 +159,18 @@ func ServerPropertiesForCreate_STATUSARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForServerPropertiesForCreate_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForServerPropertiesForCreate_STATUSARM(gens map[string]gopter.Gen) {
 	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(
-		ServerPropertiesForCreate_CreateMode_STATUSDefault,
-		ServerPropertiesForCreate_CreateMode_STATUSGeoRestore,
-		ServerPropertiesForCreate_CreateMode_STATUSPointInTimeRestore,
-		ServerPropertiesForCreate_CreateMode_STATUSReplica))
+		ServerPropertiesForCreate_CreateMode_Default_STATUS,
+		ServerPropertiesForCreate_CreateMode_GeoRestore_STATUS,
+		ServerPropertiesForCreate_CreateMode_PointInTimeRestore_STATUS,
+		ServerPropertiesForCreate_CreateMode_Replica_STATUS))
 	gens["MinimalTlsVersion"] = gen.PtrOf(gen.OneConstOf(
-		MinimalTlsVersion_STATUSTLS1_0,
-		MinimalTlsVersion_STATUSTLS1_1,
-		MinimalTlsVersion_STATUSTLS1_2,
-		MinimalTlsVersion_STATUSTLSEnforcementDisabled))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccess_STATUSDisabled, PublicNetworkAccess_STATUSEnabled))
-	gens["SslEnforcement"] = gen.PtrOf(gen.OneConstOf(SslEnforcement_STATUSDisabled, SslEnforcement_STATUSEnabled))
-	gens["Version"] = gen.PtrOf(gen.OneConstOf(ServerVersion_STATUS102, ServerVersion_STATUS103))
+		MinimalTlsVersion_TLS1_0_STATUS,
+		MinimalTlsVersion_TLS1_1_STATUS,
+		MinimalTlsVersion_TLS1_2_STATUS,
+		MinimalTlsVersion_TLSEnforcementDisabled_STATUS))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccess_Disabled_STATUS, PublicNetworkAccess_Enabled_STATUS))
+	gens["SslEnforcement"] = gen.PtrOf(gen.OneConstOf(SslEnforcement_Disabled_STATUS, SslEnforcement_Enabled_STATUS))
+	gens["Version"] = gen.PtrOf(gen.OneConstOf(ServerVersion_102_STATUS, ServerVersion_103_STATUS))
 }
 
 // AddRelatedPropertyGeneratorsForServerPropertiesForCreate_STATUSARM is a factory method for creating gopter generators
@@ -238,7 +238,7 @@ func AddIndependentPropertyGeneratorsForSku_STATUSARM(gens map[string]gopter.Gen
 	gens["Family"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Size"] = gen.PtrOf(gen.AlphaString())
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(Sku_Tier_STATUSBasic, Sku_Tier_STATUSGeneralPurpose, Sku_Tier_STATUSMemoryOptimized))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(Sku_Tier_Basic_STATUS, Sku_Tier_GeneralPurpose_STATUS, Sku_Tier_MemoryOptimized_STATUS))
 }
 
 func Test_StorageProfile_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -299,7 +299,7 @@ func StorageProfile_STATUSARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForStorageProfile_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorageProfile_STATUSARM(gens map[string]gopter.Gen) {
 	gens["BackupRetentionDays"] = gen.PtrOf(gen.Int())
-	gens["GeoRedundantBackup"] = gen.PtrOf(gen.OneConstOf(StorageProfile_GeoRedundantBackup_STATUSDisabled, StorageProfile_GeoRedundantBackup_STATUSEnabled))
-	gens["StorageAutogrow"] = gen.PtrOf(gen.OneConstOf(StorageProfile_StorageAutogrow_STATUSDisabled, StorageProfile_StorageAutogrow_STATUSEnabled))
+	gens["GeoRedundantBackup"] = gen.PtrOf(gen.OneConstOf(StorageProfile_GeoRedundantBackup_Disabled_STATUS, StorageProfile_GeoRedundantBackup_Enabled_STATUS))
+	gens["StorageAutogrow"] = gen.PtrOf(gen.OneConstOf(StorageProfile_StorageAutogrow_Disabled_STATUS, StorageProfile_StorageAutogrow_Enabled_STATUS))
 	gens["StorageMB"] = gen.PtrOf(gen.Int())
 }

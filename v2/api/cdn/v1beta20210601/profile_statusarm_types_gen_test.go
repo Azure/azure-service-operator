@@ -157,16 +157,16 @@ func AddIndependentPropertyGeneratorsForProfileProperties_STATUSARM(gens map[str
 	gens["FrontDoorId"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginResponseTimeoutSeconds"] = gen.PtrOf(gen.Int())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProfileProperties_ProvisioningState_STATUSCreating,
-		ProfileProperties_ProvisioningState_STATUSDeleting,
-		ProfileProperties_ProvisioningState_STATUSFailed,
-		ProfileProperties_ProvisioningState_STATUSSucceeded,
-		ProfileProperties_ProvisioningState_STATUSUpdating))
+		ProfileProperties_ProvisioningState_Creating_STATUS,
+		ProfileProperties_ProvisioningState_Deleting_STATUS,
+		ProfileProperties_ProvisioningState_Failed_STATUS,
+		ProfileProperties_ProvisioningState_Succeeded_STATUS,
+		ProfileProperties_ProvisioningState_Updating_STATUS))
 	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(
-		ProfileProperties_ResourceState_STATUSActive,
-		ProfileProperties_ResourceState_STATUSCreating,
-		ProfileProperties_ResourceState_STATUSDeleting,
-		ProfileProperties_ResourceState_STATUSDisabled))
+		ProfileProperties_ResourceState_Active_STATUS,
+		ProfileProperties_ResourceState_Creating_STATUS,
+		ProfileProperties_ResourceState_Deleting_STATUS,
+		ProfileProperties_ResourceState_Disabled_STATUS))
 }
 
 func Test_Sku_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -226,19 +226,19 @@ func Sku_STATUSARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSku_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSku_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		Sku_Name_STATUSCustom_Verizon,
-		Sku_Name_STATUSPremium_AzureFrontDoor,
-		Sku_Name_STATUSPremium_Verizon,
-		Sku_Name_STATUSStandardPlus_955BandWidth_ChinaCdn,
-		Sku_Name_STATUSStandardPlus_AvgBandWidth_ChinaCdn,
-		Sku_Name_STATUSStandardPlus_ChinaCdn,
-		Sku_Name_STATUSStandard_955BandWidth_ChinaCdn,
-		Sku_Name_STATUSStandard_Akamai,
-		Sku_Name_STATUSStandard_AvgBandWidth_ChinaCdn,
-		Sku_Name_STATUSStandard_AzureFrontDoor,
-		Sku_Name_STATUSStandard_ChinaCdn,
-		Sku_Name_STATUSStandard_Microsoft,
-		Sku_Name_STATUSStandard_Verizon))
+		Sku_Name_Custom_Verizon_STATUS,
+		Sku_Name_Premium_AzureFrontDoor_STATUS,
+		Sku_Name_Premium_Verizon_STATUS,
+		Sku_Name_StandardPlus_955BandWidth_ChinaCdn_STATUS,
+		Sku_Name_StandardPlus_AvgBandWidth_ChinaCdn_STATUS,
+		Sku_Name_StandardPlus_ChinaCdn_STATUS,
+		Sku_Name_Standard_955BandWidth_ChinaCdn_STATUS,
+		Sku_Name_Standard_Akamai_STATUS,
+		Sku_Name_Standard_AvgBandWidth_ChinaCdn_STATUS,
+		Sku_Name_Standard_AzureFrontDoor_STATUS,
+		Sku_Name_Standard_ChinaCdn_STATUS,
+		Sku_Name_Standard_Microsoft_STATUS,
+		Sku_Name_Standard_Verizon_STATUS))
 }
 
 func Test_SystemData_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -301,15 +301,15 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUSARM(gens map[string]gop
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		IdentityType_STATUSApplication,
-		IdentityType_STATUSKey,
-		IdentityType_STATUSManagedIdentity,
-		IdentityType_STATUSUser))
+		IdentityType_Application_STATUS,
+		IdentityType_Key_STATUS,
+		IdentityType_ManagedIdentity_STATUS,
+		IdentityType_User_STATUS))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		IdentityType_STATUSApplication,
-		IdentityType_STATUSKey,
-		IdentityType_STATUSManagedIdentity,
-		IdentityType_STATUSUser))
+		IdentityType_Application_STATUS,
+		IdentityType_Key_STATUS,
+		IdentityType_ManagedIdentity_STATUS,
+		IdentityType_User_STATUS))
 }

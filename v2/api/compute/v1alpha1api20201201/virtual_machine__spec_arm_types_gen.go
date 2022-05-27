@@ -24,7 +24,7 @@ var _ genruntime.ARMResourceSpec = &VirtualMachine_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20201201"
 func (machine VirtualMachine_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -122,10 +122,10 @@ type StorageProfileARM struct {
 type VirtualMachineIdentity_Type string
 
 const (
-	VirtualMachineIdentity_TypeNone                       = VirtualMachineIdentity_Type("None")
-	VirtualMachineIdentity_TypeSystemAssigned             = VirtualMachineIdentity_Type("SystemAssigned")
-	VirtualMachineIdentity_TypeSystemAssignedUserAssigned = VirtualMachineIdentity_Type("SystemAssigned, UserAssigned")
-	VirtualMachineIdentity_TypeUserAssigned               = VirtualMachineIdentity_Type("UserAssigned")
+	VirtualMachineIdentity_Type_None                       = VirtualMachineIdentity_Type("None")
+	VirtualMachineIdentity_Type_SystemAssigned             = VirtualMachineIdentity_Type("SystemAssigned")
+	VirtualMachineIdentity_Type_SystemAssignedUserAssigned = VirtualMachineIdentity_Type("SystemAssigned, UserAssigned")
+	VirtualMachineIdentity_Type_UserAssigned               = VirtualMachineIdentity_Type("UserAssigned")
 )
 
 // Deprecated version of VirtualMachineIdentity_UserAssignedIdentities. Use v1beta20201201.VirtualMachineIdentity_UserAssignedIdentities instead

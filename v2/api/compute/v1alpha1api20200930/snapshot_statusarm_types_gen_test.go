@@ -167,16 +167,16 @@ func AddIndependentPropertyGeneratorsForSnapshotProperties_STATUSARM(gens map[st
 	gens["DiskSizeBytes"] = gen.PtrOf(gen.Int())
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
 	gens["DiskState"] = gen.PtrOf(gen.OneConstOf(
-		DiskState_STATUSActiveSAS,
-		DiskState_STATUSActiveUpload,
-		DiskState_STATUSAttached,
-		DiskState_STATUSReadyToUpload,
-		DiskState_STATUSReserved,
-		DiskState_STATUSUnattached))
-	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(SnapshotProperties_HyperVGeneration_STATUSV1, SnapshotProperties_HyperVGeneration_STATUSV2))
+		DiskState_ActiveSAS_STATUS,
+		DiskState_ActiveUpload_STATUS,
+		DiskState_Attached_STATUS,
+		DiskState_ReadyToUpload_STATUS,
+		DiskState_Reserved_STATUS,
+		DiskState_Unattached_STATUS))
+	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(SnapshotProperties_HyperVGeneration_V1_STATUS, SnapshotProperties_HyperVGeneration_V2_STATUS))
 	gens["Incremental"] = gen.PtrOf(gen.Bool())
-	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.OneConstOf(NetworkAccessPolicy_STATUSAllowAll, NetworkAccessPolicy_STATUSAllowPrivate, NetworkAccessPolicy_STATUSDenyAll))
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(SnapshotProperties_OsType_STATUSLinux, SnapshotProperties_OsType_STATUSWindows))
+	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.OneConstOf(NetworkAccessPolicy_AllowAll_STATUS, NetworkAccessPolicy_AllowPrivate_STATUS, NetworkAccessPolicy_DenyAll_STATUS))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(SnapshotProperties_OsType_Linux_STATUS, SnapshotProperties_OsType_Windows_STATUS))
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["TimeCreated"] = gen.PtrOf(gen.AlphaString())
 	gens["UniqueId"] = gen.PtrOf(gen.AlphaString())
@@ -247,6 +247,6 @@ func SnapshotSku_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSnapshotSku_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSnapshotSku_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(SnapshotSku_Name_STATUSPremium_LRS, SnapshotSku_Name_STATUSStandard_LRS, SnapshotSku_Name_STATUSStandard_ZRS))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(SnapshotSku_Name_Premium_LRS_STATUS, SnapshotSku_Name_Standard_LRS_STATUS, SnapshotSku_Name_Standard_ZRS_STATUS))
 	gens["Tier"] = gen.PtrOf(gen.AlphaString())
 }

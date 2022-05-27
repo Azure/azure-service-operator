@@ -163,16 +163,16 @@ func DomainPropertiesARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDomainPropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDomainPropertiesARM(gens map[string]gopter.Gen) {
 	gens["Endpoint"] = gen.PtrOf(gen.AlphaString())
-	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(DomainProperties_InputSchemaCloudEventSchemaV1_0, DomainProperties_InputSchemaCustomEventSchema, DomainProperties_InputSchemaEventGridSchema))
+	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(DomainProperties_InputSchema_CloudEventSchemaV1_0, DomainProperties_InputSchema_CustomEventSchema, DomainProperties_InputSchema_EventGridSchema))
 	gens["MetricResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		DomainProperties_ProvisioningStateCanceled,
-		DomainProperties_ProvisioningStateCreating,
-		DomainProperties_ProvisioningStateDeleting,
-		DomainProperties_ProvisioningStateFailed,
-		DomainProperties_ProvisioningStateSucceeded,
-		DomainProperties_ProvisioningStateUpdating))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(DomainProperties_PublicNetworkAccessDisabled, DomainProperties_PublicNetworkAccessEnabled))
+		DomainProperties_ProvisioningState_Canceled,
+		DomainProperties_ProvisioningState_Creating,
+		DomainProperties_ProvisioningState_Deleting,
+		DomainProperties_ProvisioningState_Failed,
+		DomainProperties_ProvisioningState_Succeeded,
+		DomainProperties_ProvisioningState_Updating))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(DomainProperties_PublicNetworkAccess_Disabled, DomainProperties_PublicNetworkAccess_Enabled))
 }
 
 // AddRelatedPropertyGeneratorsForDomainPropertiesARM is a factory method for creating gopter generators
@@ -241,17 +241,17 @@ func AddIndependentPropertyGeneratorsForSystemDataARM(gens map[string]gopter.Gen
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByTypeApplication,
-		SystemData_CreatedByTypeKey,
-		SystemData_CreatedByTypeManagedIdentity,
-		SystemData_CreatedByTypeUser))
+		SystemData_CreatedByType_Application,
+		SystemData_CreatedByType_Key,
+		SystemData_CreatedByType_ManagedIdentity,
+		SystemData_CreatedByType_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByTypeApplication,
-		SystemData_LastModifiedByTypeKey,
-		SystemData_LastModifiedByTypeManagedIdentity,
-		SystemData_LastModifiedByTypeUser))
+		SystemData_LastModifiedByType_Application,
+		SystemData_LastModifiedByType_Key,
+		SystemData_LastModifiedByType_ManagedIdentity,
+		SystemData_LastModifiedByType_User))
 }
 
 func Test_InboundIpRuleARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -310,7 +310,7 @@ func InboundIpRuleARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForInboundIpRuleARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForInboundIpRuleARM(gens map[string]gopter.Gen) {
-	gens["Action"] = gen.PtrOf(gen.OneConstOf(InboundIpRule_ActionAllow))
+	gens["Action"] = gen.PtrOf(gen.OneConstOf(InboundIpRule_Action_Allow))
 	gens["IpMask"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -371,7 +371,7 @@ func InputSchemaMappingARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForInputSchemaMappingARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForInputSchemaMappingARM(gens map[string]gopter.Gen) {
-	gens["InputSchemaMappingType"] = gen.PtrOf(gen.OneConstOf(InputSchemaMapping_InputSchemaMappingTypeJson))
+	gens["InputSchemaMappingType"] = gen.PtrOf(gen.OneConstOf(InputSchemaMapping_InputSchemaMappingType_Json))
 }
 
 func Test_PrivateEndpointConnection_Domain_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

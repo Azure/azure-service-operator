@@ -26,7 +26,7 @@ var _ genruntime.ARMResourceSpec = &Server_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20180601"
 func (server Server_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -81,53 +81,53 @@ type SkuARM struct {
 type MinimalTlsVersion string
 
 const (
-	MinimalTlsVersionTLS1_0                 = MinimalTlsVersion("TLS1_0")
-	MinimalTlsVersionTLS1_1                 = MinimalTlsVersion("TLS1_1")
-	MinimalTlsVersionTLS1_2                 = MinimalTlsVersion("TLS1_2")
-	MinimalTlsVersionTLSEnforcementDisabled = MinimalTlsVersion("TLSEnforcementDisabled")
+	MinimalTlsVersion_TLS1_0                 = MinimalTlsVersion("TLS1_0")
+	MinimalTlsVersion_TLS1_1                 = MinimalTlsVersion("TLS1_1")
+	MinimalTlsVersion_TLS1_2                 = MinimalTlsVersion("TLS1_2")
+	MinimalTlsVersion_TLSEnforcementDisabled = MinimalTlsVersion("TLSEnforcementDisabled")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type PublicNetworkAccess string
 
 const (
-	PublicNetworkAccessDisabled = PublicNetworkAccess("Disabled")
-	PublicNetworkAccessEnabled  = PublicNetworkAccess("Enabled")
+	PublicNetworkAccess_Disabled = PublicNetworkAccess("Disabled")
+	PublicNetworkAccess_Enabled  = PublicNetworkAccess("Enabled")
 )
 
 // +kubebuilder:validation:Enum={"Default","GeoRestore","PointInTimeRestore","Replica"}
 type ServerPropertiesForCreate_CreateMode string
 
 const (
-	ServerPropertiesForCreate_CreateModeDefault            = ServerPropertiesForCreate_CreateMode("Default")
-	ServerPropertiesForCreate_CreateModeGeoRestore         = ServerPropertiesForCreate_CreateMode("GeoRestore")
-	ServerPropertiesForCreate_CreateModePointInTimeRestore = ServerPropertiesForCreate_CreateMode("PointInTimeRestore")
-	ServerPropertiesForCreate_CreateModeReplica            = ServerPropertiesForCreate_CreateMode("Replica")
+	ServerPropertiesForCreate_CreateMode_Default            = ServerPropertiesForCreate_CreateMode("Default")
+	ServerPropertiesForCreate_CreateMode_GeoRestore         = ServerPropertiesForCreate_CreateMode("GeoRestore")
+	ServerPropertiesForCreate_CreateMode_PointInTimeRestore = ServerPropertiesForCreate_CreateMode("PointInTimeRestore")
+	ServerPropertiesForCreate_CreateMode_Replica            = ServerPropertiesForCreate_CreateMode("Replica")
 )
 
 // +kubebuilder:validation:Enum={"10.2","10.3"}
 type ServerVersion string
 
 const (
-	ServerVersion102 = ServerVersion("10.2")
-	ServerVersion103 = ServerVersion("10.3")
+	ServerVersion_102 = ServerVersion("10.2")
+	ServerVersion_103 = ServerVersion("10.3")
 )
 
 // +kubebuilder:validation:Enum={"Basic","GeneralPurpose","MemoryOptimized"}
 type Sku_Tier string
 
 const (
-	Sku_TierBasic           = Sku_Tier("Basic")
-	Sku_TierGeneralPurpose  = Sku_Tier("GeneralPurpose")
-	Sku_TierMemoryOptimized = Sku_Tier("MemoryOptimized")
+	Sku_Tier_Basic           = Sku_Tier("Basic")
+	Sku_Tier_GeneralPurpose  = Sku_Tier("GeneralPurpose")
+	Sku_Tier_MemoryOptimized = Sku_Tier("MemoryOptimized")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type SslEnforcement string
 
 const (
-	SslEnforcementDisabled = SslEnforcement("Disabled")
-	SslEnforcementEnabled  = SslEnforcement("Enabled")
+	SslEnforcement_Disabled = SslEnforcement("Disabled")
+	SslEnforcement_Enabled  = SslEnforcement("Enabled")
 )
 
 type StorageProfileARM struct {
@@ -148,14 +148,14 @@ type StorageProfileARM struct {
 type StorageProfile_GeoRedundantBackup string
 
 const (
-	StorageProfile_GeoRedundantBackupDisabled = StorageProfile_GeoRedundantBackup("Disabled")
-	StorageProfile_GeoRedundantBackupEnabled  = StorageProfile_GeoRedundantBackup("Enabled")
+	StorageProfile_GeoRedundantBackup_Disabled = StorageProfile_GeoRedundantBackup("Disabled")
+	StorageProfile_GeoRedundantBackup_Enabled  = StorageProfile_GeoRedundantBackup("Enabled")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type StorageProfile_StorageAutogrow string
 
 const (
-	StorageProfile_StorageAutogrowDisabled = StorageProfile_StorageAutogrow("Disabled")
-	StorageProfile_StorageAutogrowEnabled  = StorageProfile_StorageAutogrow("Enabled")
+	StorageProfile_StorageAutogrow_Disabled = StorageProfile_StorageAutogrow("Disabled")
+	StorageProfile_StorageAutogrow_Enabled  = StorageProfile_StorageAutogrow("Enabled")
 )

@@ -36,7 +36,7 @@ var _ genruntime.ARMResourceSpec = &Snapshot_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20200930"
 func (snapshot Snapshot_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -108,7 +108,7 @@ type SnapshotSkuARM struct {
 type SnapshotSku_Name string
 
 const (
-	SnapshotSku_NamePremium_LRS  = SnapshotSku_Name("Premium_LRS")
-	SnapshotSku_NameStandard_LRS = SnapshotSku_Name("Standard_LRS")
-	SnapshotSku_NameStandard_ZRS = SnapshotSku_Name("Standard_ZRS")
+	SnapshotSku_Name_Premium_LRS  = SnapshotSku_Name("Premium_LRS")
+	SnapshotSku_Name_Standard_LRS = SnapshotSku_Name("Standard_LRS")
+	SnapshotSku_Name_Standard_ZRS = SnapshotSku_Name("Standard_ZRS")
 )

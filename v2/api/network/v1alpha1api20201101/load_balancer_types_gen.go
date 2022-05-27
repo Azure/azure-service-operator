@@ -112,7 +112,7 @@ func (balancer *LoadBalancer) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20201101"
 func (balancer LoadBalancer) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -335,7 +335,7 @@ type LoadBalancerList struct {
 // +kubebuilder:validation:Enum={"20201101"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("20201101")
+const APIVersion_Value = APIVersion("20201101")
 
 // Deprecated version of LoadBalancer_STATUS. Use v1beta20201101.LoadBalancer_STATUS instead
 type LoadBalancer_STATUS struct {
@@ -6548,20 +6548,20 @@ func (probe *Probe_STATUS) AssignPropertiesToProbe_STATUS(destination *alpha2020
 type ProvisioningState string
 
 const (
-	ProvisioningStateDeleting  = ProvisioningState("Deleting")
-	ProvisioningStateFailed    = ProvisioningState("Failed")
-	ProvisioningStateSucceeded = ProvisioningState("Succeeded")
-	ProvisioningStateUpdating  = ProvisioningState("Updating")
+	ProvisioningState_Deleting  = ProvisioningState("Deleting")
+	ProvisioningState_Failed    = ProvisioningState("Failed")
+	ProvisioningState_Succeeded = ProvisioningState("Succeeded")
+	ProvisioningState_Updating  = ProvisioningState("Updating")
 )
 
 // Deprecated version of ProvisioningState_STATUS. Use v1beta20201101.ProvisioningState_STATUS instead
 type ProvisioningState_STATUS string
 
 const (
-	ProvisioningState_STATUSDeleting  = ProvisioningState_STATUS("Deleting")
-	ProvisioningState_STATUSFailed    = ProvisioningState_STATUS("Failed")
-	ProvisioningState_STATUSSucceeded = ProvisioningState_STATUS("Succeeded")
-	ProvisioningState_STATUSUpdating  = ProvisioningState_STATUS("Updating")
+	ProvisioningState_Deleting_STATUS  = ProvisioningState_STATUS("Deleting")
+	ProvisioningState_Failed_STATUS    = ProvisioningState_STATUS("Failed")
+	ProvisioningState_Succeeded_STATUS = ProvisioningState_STATUS("Succeeded")
+	ProvisioningState_Updating_STATUS  = ProvisioningState_STATUS("Updating")
 )
 
 // Deprecated version of LoadBalancingRulePropertiesFormat_LoadDistribution. Use
@@ -6570,9 +6570,9 @@ const (
 type LoadBalancingRulePropertiesFormat_LoadDistribution string
 
 const (
-	LoadBalancingRulePropertiesFormat_LoadDistributionDefault          = LoadBalancingRulePropertiesFormat_LoadDistribution("Default")
-	LoadBalancingRulePropertiesFormat_LoadDistributionSourceIP         = LoadBalancingRulePropertiesFormat_LoadDistribution("SourceIP")
-	LoadBalancingRulePropertiesFormat_LoadDistributionSourceIPProtocol = LoadBalancingRulePropertiesFormat_LoadDistribution("SourceIPProtocol")
+	LoadBalancingRulePropertiesFormat_LoadDistribution_Default          = LoadBalancingRulePropertiesFormat_LoadDistribution("Default")
+	LoadBalancingRulePropertiesFormat_LoadDistribution_SourceIP         = LoadBalancingRulePropertiesFormat_LoadDistribution("SourceIP")
+	LoadBalancingRulePropertiesFormat_LoadDistribution_SourceIPProtocol = LoadBalancingRulePropertiesFormat_LoadDistribution("SourceIPProtocol")
 )
 
 // Deprecated version of LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS. Use
@@ -6580,9 +6580,9 @@ const (
 type LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS string
 
 const (
-	LoadBalancingRulePropertiesFormat_LoadDistribution_STATUSDefault          = LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS("Default")
-	LoadBalancingRulePropertiesFormat_LoadDistribution_STATUSSourceIP         = LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS("SourceIP")
-	LoadBalancingRulePropertiesFormat_LoadDistribution_STATUSSourceIPProtocol = LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS("SourceIPProtocol")
+	LoadBalancingRulePropertiesFormat_LoadDistribution_Default_STATUS          = LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS("Default")
+	LoadBalancingRulePropertiesFormat_LoadDistribution_SourceIP_STATUS         = LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS("SourceIP")
+	LoadBalancingRulePropertiesFormat_LoadDistribution_SourceIPProtocol_STATUS = LoadBalancingRulePropertiesFormat_LoadDistribution_STATUS("SourceIPProtocol")
 )
 
 // Deprecated version of OutboundRulePropertiesFormat_Protocol. Use v1beta20201101.OutboundRulePropertiesFormat_Protocol
@@ -6591,9 +6591,9 @@ const (
 type OutboundRulePropertiesFormat_Protocol string
 
 const (
-	OutboundRulePropertiesFormat_ProtocolAll = OutboundRulePropertiesFormat_Protocol("All")
-	OutboundRulePropertiesFormat_ProtocolTcp = OutboundRulePropertiesFormat_Protocol("Tcp")
-	OutboundRulePropertiesFormat_ProtocolUdp = OutboundRulePropertiesFormat_Protocol("Udp")
+	OutboundRulePropertiesFormat_Protocol_All = OutboundRulePropertiesFormat_Protocol("All")
+	OutboundRulePropertiesFormat_Protocol_Tcp = OutboundRulePropertiesFormat_Protocol("Tcp")
+	OutboundRulePropertiesFormat_Protocol_Udp = OutboundRulePropertiesFormat_Protocol("Udp")
 )
 
 // Deprecated version of OutboundRulePropertiesFormat_Protocol_STATUS. Use
@@ -6601,9 +6601,9 @@ const (
 type OutboundRulePropertiesFormat_Protocol_STATUS string
 
 const (
-	OutboundRulePropertiesFormat_Protocol_STATUSAll = OutboundRulePropertiesFormat_Protocol_STATUS("All")
-	OutboundRulePropertiesFormat_Protocol_STATUSTcp = OutboundRulePropertiesFormat_Protocol_STATUS("Tcp")
-	OutboundRulePropertiesFormat_Protocol_STATUSUdp = OutboundRulePropertiesFormat_Protocol_STATUS("Udp")
+	OutboundRulePropertiesFormat_Protocol_All_STATUS = OutboundRulePropertiesFormat_Protocol_STATUS("All")
+	OutboundRulePropertiesFormat_Protocol_Tcp_STATUS = OutboundRulePropertiesFormat_Protocol_STATUS("Tcp")
+	OutboundRulePropertiesFormat_Protocol_Udp_STATUS = OutboundRulePropertiesFormat_Protocol_STATUS("Udp")
 )
 
 // Deprecated version of ProbePropertiesFormat_Protocol. Use v1beta20201101.ProbePropertiesFormat_Protocol instead
@@ -6611,9 +6611,9 @@ const (
 type ProbePropertiesFormat_Protocol string
 
 const (
-	ProbePropertiesFormat_ProtocolHttp  = ProbePropertiesFormat_Protocol("Http")
-	ProbePropertiesFormat_ProtocolHttps = ProbePropertiesFormat_Protocol("Https")
-	ProbePropertiesFormat_ProtocolTcp   = ProbePropertiesFormat_Protocol("Tcp")
+	ProbePropertiesFormat_Protocol_Http  = ProbePropertiesFormat_Protocol("Http")
+	ProbePropertiesFormat_Protocol_Https = ProbePropertiesFormat_Protocol("Https")
+	ProbePropertiesFormat_Protocol_Tcp   = ProbePropertiesFormat_Protocol("Tcp")
 )
 
 // Deprecated version of ProbePropertiesFormat_Protocol_STATUS. Use v1beta20201101.ProbePropertiesFormat_Protocol_STATUS
@@ -6621,9 +6621,9 @@ const (
 type ProbePropertiesFormat_Protocol_STATUS string
 
 const (
-	ProbePropertiesFormat_Protocol_STATUSHttp  = ProbePropertiesFormat_Protocol_STATUS("Http")
-	ProbePropertiesFormat_Protocol_STATUSHttps = ProbePropertiesFormat_Protocol_STATUS("Https")
-	ProbePropertiesFormat_Protocol_STATUSTcp   = ProbePropertiesFormat_Protocol_STATUS("Tcp")
+	ProbePropertiesFormat_Protocol_Http_STATUS  = ProbePropertiesFormat_Protocol_STATUS("Http")
+	ProbePropertiesFormat_Protocol_Https_STATUS = ProbePropertiesFormat_Protocol_STATUS("Https")
+	ProbePropertiesFormat_Protocol_Tcp_STATUS   = ProbePropertiesFormat_Protocol_STATUS("Tcp")
 )
 
 // Deprecated version of PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded instead
@@ -7086,18 +7086,18 @@ func (embedded *Subnet_STATUS_LoadBalancer_SubResourceEmbedded) AssignProperties
 type TransportProtocol string
 
 const (
-	TransportProtocolAll = TransportProtocol("All")
-	TransportProtocolTcp = TransportProtocol("Tcp")
-	TransportProtocolUdp = TransportProtocol("Udp")
+	TransportProtocol_All = TransportProtocol("All")
+	TransportProtocol_Tcp = TransportProtocol("Tcp")
+	TransportProtocol_Udp = TransportProtocol("Udp")
 )
 
 // Deprecated version of TransportProtocol_STATUS. Use v1beta20201101.TransportProtocol_STATUS instead
 type TransportProtocol_STATUS string
 
 const (
-	TransportProtocol_STATUSAll = TransportProtocol_STATUS("All")
-	TransportProtocol_STATUSTcp = TransportProtocol_STATUS("Tcp")
-	TransportProtocol_STATUSUdp = TransportProtocol_STATUS("Udp")
+	TransportProtocol_All_STATUS = TransportProtocol_STATUS("All")
+	TransportProtocol_Tcp_STATUS = TransportProtocol_STATUS("Tcp")
+	TransportProtocol_Udp_STATUS = TransportProtocol_STATUS("Udp")
 )
 
 func init() {

@@ -748,7 +748,7 @@ func ConflictResolutionPolicyGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForConflictResolutionPolicy(gens map[string]gopter.Gen) {
 	gens["ConflictResolutionPath"] = gen.PtrOf(gen.AlphaString())
 	gens["ConflictResolutionProcedure"] = gen.PtrOf(gen.AlphaString())
-	gens["Mode"] = gen.PtrOf(gen.OneConstOf(ConflictResolutionPolicy_ModeCustom, ConflictResolutionPolicy_ModeLastWriterWins))
+	gens["Mode"] = gen.PtrOf(gen.OneConstOf(ConflictResolutionPolicy_Mode_Custom, ConflictResolutionPolicy_Mode_LastWriterWins))
 }
 
 func Test_ConflictResolutionPolicy_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -852,7 +852,7 @@ func ConflictResolutionPolicy_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForConflictResolutionPolicy_STATUS(gens map[string]gopter.Gen) {
 	gens["ConflictResolutionPath"] = gen.PtrOf(gen.AlphaString())
 	gens["ConflictResolutionProcedure"] = gen.PtrOf(gen.AlphaString())
-	gens["Mode"] = gen.PtrOf(gen.OneConstOf(ConflictResolutionPolicy_Mode_STATUSCustom, ConflictResolutionPolicy_Mode_STATUSLastWriterWins))
+	gens["Mode"] = gen.PtrOf(gen.OneConstOf(ConflictResolutionPolicy_Mode_Custom_STATUS, ConflictResolutionPolicy_Mode_LastWriterWins_STATUS))
 }
 
 func Test_ContainerPartitionKey_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -954,7 +954,7 @@ func ContainerPartitionKeyGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForContainerPartitionKey is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForContainerPartitionKey(gens map[string]gopter.Gen) {
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(ContainerPartitionKey_KindHash, ContainerPartitionKey_KindMultiHash, ContainerPartitionKey_KindRange))
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(ContainerPartitionKey_Kind_Hash, ContainerPartitionKey_Kind_MultiHash, ContainerPartitionKey_Kind_Range))
 	gens["Paths"] = gen.SliceOf(gen.AlphaString())
 	gens["SystemKey"] = gen.PtrOf(gen.Bool())
 	gens["Version"] = gen.PtrOf(gen.Int())
@@ -1059,7 +1059,7 @@ func ContainerPartitionKey_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForContainerPartitionKey_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForContainerPartitionKey_STATUS(gens map[string]gopter.Gen) {
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(ContainerPartitionKey_Kind_STATUSHash, ContainerPartitionKey_Kind_STATUSMultiHash, ContainerPartitionKey_Kind_STATUSRange))
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(ContainerPartitionKey_Kind_Hash_STATUS, ContainerPartitionKey_Kind_MultiHash_STATUS, ContainerPartitionKey_Kind_Range_STATUS))
 	gens["Paths"] = gen.SliceOf(gen.AlphaString())
 	gens["SystemKey"] = gen.PtrOf(gen.Bool())
 	gens["Version"] = gen.PtrOf(gen.Int())
@@ -1173,7 +1173,7 @@ func IndexingPolicyGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForIndexingPolicy is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIndexingPolicy(gens map[string]gopter.Gen) {
 	gens["Automatic"] = gen.PtrOf(gen.Bool())
-	gens["IndexingMode"] = gen.PtrOf(gen.OneConstOf(IndexingPolicy_IndexingModeConsistent, IndexingPolicy_IndexingModeLazy, IndexingPolicy_IndexingModeNone))
+	gens["IndexingMode"] = gen.PtrOf(gen.OneConstOf(IndexingPolicy_IndexingMode_Consistent, IndexingPolicy_IndexingMode_Lazy, IndexingPolicy_IndexingMode_None))
 }
 
 // AddRelatedPropertyGeneratorsForIndexingPolicy is a factory method for creating gopter generators
@@ -1293,7 +1293,7 @@ func IndexingPolicy_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForIndexingPolicy_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIndexingPolicy_STATUS(gens map[string]gopter.Gen) {
 	gens["Automatic"] = gen.PtrOf(gen.Bool())
-	gens["IndexingMode"] = gen.PtrOf(gen.OneConstOf(IndexingPolicy_IndexingMode_STATUSConsistent, IndexingPolicy_IndexingMode_STATUSLazy, IndexingPolicy_IndexingMode_STATUSNone))
+	gens["IndexingMode"] = gen.PtrOf(gen.OneConstOf(IndexingPolicy_IndexingMode_Consistent_STATUS, IndexingPolicy_IndexingMode_Lazy_STATUS, IndexingPolicy_IndexingMode_None_STATUS))
 }
 
 // AddRelatedPropertyGeneratorsForIndexingPolicy_STATUS is a factory method for creating gopter generators
@@ -1605,7 +1605,7 @@ func CompositePathGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForCompositePath is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCompositePath(gens map[string]gopter.Gen) {
-	gens["Order"] = gen.PtrOf(gen.OneConstOf(CompositePath_OrderAscending, CompositePath_OrderDescending))
+	gens["Order"] = gen.PtrOf(gen.OneConstOf(CompositePath_Order_Ascending, CompositePath_Order_Descending))
 	gens["Path"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1708,7 +1708,7 @@ func CompositePath_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForCompositePath_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCompositePath_STATUS(gens map[string]gopter.Gen) {
-	gens["Order"] = gen.PtrOf(gen.OneConstOf(CompositePath_Order_STATUSAscending, CompositePath_Order_STATUSDescending))
+	gens["Order"] = gen.PtrOf(gen.OneConstOf(CompositePath_Order_Ascending_STATUS, CompositePath_Order_Descending_STATUS))
 	gens["Path"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -2246,10 +2246,10 @@ func SpatialSpecGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForSpatialSpec(gens map[string]gopter.Gen) {
 	gens["Path"] = gen.PtrOf(gen.AlphaString())
 	gens["Types"] = gen.SliceOf(gen.OneConstOf(
-		SpatialTypeLineString,
-		SpatialTypeMultiPolygon,
-		SpatialTypePoint,
-		SpatialTypePolygon))
+		SpatialType_LineString,
+		SpatialType_MultiPolygon,
+		SpatialType_Point,
+		SpatialType_Polygon))
 }
 
 func Test_SpatialSpec_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2352,10 +2352,10 @@ func SpatialSpec_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForSpatialSpec_STATUS(gens map[string]gopter.Gen) {
 	gens["Path"] = gen.PtrOf(gen.AlphaString())
 	gens["Types"] = gen.SliceOf(gen.OneConstOf(
-		SpatialType_STATUSLineString,
-		SpatialType_STATUSMultiPolygon,
-		SpatialType_STATUSPoint,
-		SpatialType_STATUSPolygon))
+		SpatialType_LineString_STATUS,
+		SpatialType_MultiPolygon_STATUS,
+		SpatialType_Point_STATUS,
+		SpatialType_Polygon_STATUS))
 }
 
 func Test_UniqueKey_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2659,13 +2659,13 @@ func IndexesGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForIndexes is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIndexes(gens map[string]gopter.Gen) {
 	gens["DataType"] = gen.PtrOf(gen.OneConstOf(
-		Indexes_DataTypeLineString,
-		Indexes_DataTypeMultiPolygon,
-		Indexes_DataTypeNumber,
-		Indexes_DataTypePoint,
-		Indexes_DataTypePolygon,
-		Indexes_DataTypeString))
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(Indexes_KindHash, Indexes_KindRange, Indexes_KindSpatial))
+		Indexes_DataType_LineString,
+		Indexes_DataType_MultiPolygon,
+		Indexes_DataType_Number,
+		Indexes_DataType_Point,
+		Indexes_DataType_Polygon,
+		Indexes_DataType_String))
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(Indexes_Kind_Hash, Indexes_Kind_Range, Indexes_Kind_Spatial))
 	gens["Precision"] = gen.PtrOf(gen.Int())
 }
 
@@ -2768,12 +2768,12 @@ func Indexes_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForIndexes_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIndexes_STATUS(gens map[string]gopter.Gen) {
 	gens["DataType"] = gen.PtrOf(gen.OneConstOf(
-		Indexes_DataType_STATUSLineString,
-		Indexes_DataType_STATUSMultiPolygon,
-		Indexes_DataType_STATUSNumber,
-		Indexes_DataType_STATUSPoint,
-		Indexes_DataType_STATUSPolygon,
-		Indexes_DataType_STATUSString))
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(Indexes_Kind_STATUSHash, Indexes_Kind_STATUSRange, Indexes_Kind_STATUSSpatial))
+		Indexes_DataType_LineString_STATUS,
+		Indexes_DataType_MultiPolygon_STATUS,
+		Indexes_DataType_Number_STATUS,
+		Indexes_DataType_Point_STATUS,
+		Indexes_DataType_Polygon_STATUS,
+		Indexes_DataType_String_STATUS))
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(Indexes_Kind_Hash_STATUS, Indexes_Kind_Range_STATUS, Indexes_Kind_Spatial_STATUS))
 	gens["Precision"] = gen.PtrOf(gen.Int())
 }

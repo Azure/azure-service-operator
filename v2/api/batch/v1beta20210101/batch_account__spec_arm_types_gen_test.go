@@ -161,8 +161,8 @@ func BatchAccountCreatePropertiesARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForBatchAccountCreatePropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBatchAccountCreatePropertiesARM(gens map[string]gopter.Gen) {
-	gens["PoolAllocationMode"] = gen.PtrOf(gen.OneConstOf(PoolAllocationModeBatchService, PoolAllocationModeUserSubscription))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessTypeDisabled, PublicNetworkAccessTypeEnabled))
+	gens["PoolAllocationMode"] = gen.PtrOf(gen.OneConstOf(PoolAllocationMode_BatchService, PoolAllocationMode_UserSubscription))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_Disabled, PublicNetworkAccessType_Enabled))
 }
 
 // AddRelatedPropertyGeneratorsForBatchAccountCreatePropertiesARM is a factory method for creating gopter generators
@@ -231,7 +231,7 @@ func BatchAccountIdentityARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForBatchAccountIdentityARM(gens map[string]gopter.Gen) {
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(BatchAccountIdentity_TypeNone, BatchAccountIdentity_TypeSystemAssigned, BatchAccountIdentity_TypeUserAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(BatchAccountIdentity_Type_None, BatchAccountIdentity_Type_SystemAssigned, BatchAccountIdentity_Type_UserAssigned))
 }
 
 func Test_AutoStorageBasePropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -360,7 +360,7 @@ func EncryptionPropertiesARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForEncryptionPropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryptionPropertiesARM(gens map[string]gopter.Gen) {
-	gens["KeySource"] = gen.PtrOf(gen.OneConstOf(EncryptionProperties_KeySourceMicrosoftBatch, EncryptionProperties_KeySourceMicrosoftKeyVault))
+	gens["KeySource"] = gen.PtrOf(gen.OneConstOf(EncryptionProperties_KeySource_MicrosoftBatch, EncryptionProperties_KeySource_MicrosoftKeyVault))
 }
 
 // AddRelatedPropertyGeneratorsForEncryptionPropertiesARM is a factory method for creating gopter generators

@@ -112,7 +112,7 @@ func (domain *Domain) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20200601"
 func (domain Domain) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -335,7 +335,7 @@ type DomainList struct {
 // +kubebuilder:validation:Enum={"20200601"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("20200601")
+const APIVersion_Value = APIVersion("20200601")
 
 // Deprecated version of Domain_STATUS. Use v1beta20200601.Domain_STATUS instead
 type Domain_STATUS struct {
@@ -1389,18 +1389,18 @@ func (domain *Domain_Spec) SetAzureName(azureName string) { domain.AzureName = a
 type DomainProperties_InputSchema string
 
 const (
-	DomainProperties_InputSchemaCloudEventSchemaV1_0 = DomainProperties_InputSchema("CloudEventSchemaV1_0")
-	DomainProperties_InputSchemaCustomEventSchema    = DomainProperties_InputSchema("CustomEventSchema")
-	DomainProperties_InputSchemaEventGridSchema      = DomainProperties_InputSchema("EventGridSchema")
+	DomainProperties_InputSchema_CloudEventSchemaV1_0 = DomainProperties_InputSchema("CloudEventSchemaV1_0")
+	DomainProperties_InputSchema_CustomEventSchema    = DomainProperties_InputSchema("CustomEventSchema")
+	DomainProperties_InputSchema_EventGridSchema      = DomainProperties_InputSchema("EventGridSchema")
 )
 
 // Deprecated version of DomainProperties_InputSchema_STATUS. Use v1beta20200601.DomainProperties_InputSchema_STATUS instead
 type DomainProperties_InputSchema_STATUS string
 
 const (
-	DomainProperties_InputSchema_STATUSCloudEventSchemaV1_0 = DomainProperties_InputSchema_STATUS("CloudEventSchemaV1_0")
-	DomainProperties_InputSchema_STATUSCustomEventSchema    = DomainProperties_InputSchema_STATUS("CustomEventSchema")
-	DomainProperties_InputSchema_STATUSEventGridSchema      = DomainProperties_InputSchema_STATUS("EventGridSchema")
+	DomainProperties_InputSchema_CloudEventSchemaV1_0_STATUS = DomainProperties_InputSchema_STATUS("CloudEventSchemaV1_0")
+	DomainProperties_InputSchema_CustomEventSchema_STATUS    = DomainProperties_InputSchema_STATUS("CustomEventSchema")
+	DomainProperties_InputSchema_EventGridSchema_STATUS      = DomainProperties_InputSchema_STATUS("EventGridSchema")
 )
 
 // Deprecated version of DomainProperties_ProvisioningState. Use v1beta20200601.DomainProperties_ProvisioningState instead
@@ -1408,12 +1408,12 @@ const (
 type DomainProperties_ProvisioningState string
 
 const (
-	DomainProperties_ProvisioningStateCanceled  = DomainProperties_ProvisioningState("Canceled")
-	DomainProperties_ProvisioningStateCreating  = DomainProperties_ProvisioningState("Creating")
-	DomainProperties_ProvisioningStateDeleting  = DomainProperties_ProvisioningState("Deleting")
-	DomainProperties_ProvisioningStateFailed    = DomainProperties_ProvisioningState("Failed")
-	DomainProperties_ProvisioningStateSucceeded = DomainProperties_ProvisioningState("Succeeded")
-	DomainProperties_ProvisioningStateUpdating  = DomainProperties_ProvisioningState("Updating")
+	DomainProperties_ProvisioningState_Canceled  = DomainProperties_ProvisioningState("Canceled")
+	DomainProperties_ProvisioningState_Creating  = DomainProperties_ProvisioningState("Creating")
+	DomainProperties_ProvisioningState_Deleting  = DomainProperties_ProvisioningState("Deleting")
+	DomainProperties_ProvisioningState_Failed    = DomainProperties_ProvisioningState("Failed")
+	DomainProperties_ProvisioningState_Succeeded = DomainProperties_ProvisioningState("Succeeded")
+	DomainProperties_ProvisioningState_Updating  = DomainProperties_ProvisioningState("Updating")
 )
 
 // Deprecated version of DomainProperties_ProvisioningState_STATUS. Use
@@ -1421,12 +1421,12 @@ const (
 type DomainProperties_ProvisioningState_STATUS string
 
 const (
-	DomainProperties_ProvisioningState_STATUSCanceled  = DomainProperties_ProvisioningState_STATUS("Canceled")
-	DomainProperties_ProvisioningState_STATUSCreating  = DomainProperties_ProvisioningState_STATUS("Creating")
-	DomainProperties_ProvisioningState_STATUSDeleting  = DomainProperties_ProvisioningState_STATUS("Deleting")
-	DomainProperties_ProvisioningState_STATUSFailed    = DomainProperties_ProvisioningState_STATUS("Failed")
-	DomainProperties_ProvisioningState_STATUSSucceeded = DomainProperties_ProvisioningState_STATUS("Succeeded")
-	DomainProperties_ProvisioningState_STATUSUpdating  = DomainProperties_ProvisioningState_STATUS("Updating")
+	DomainProperties_ProvisioningState_Canceled_STATUS  = DomainProperties_ProvisioningState_STATUS("Canceled")
+	DomainProperties_ProvisioningState_Creating_STATUS  = DomainProperties_ProvisioningState_STATUS("Creating")
+	DomainProperties_ProvisioningState_Deleting_STATUS  = DomainProperties_ProvisioningState_STATUS("Deleting")
+	DomainProperties_ProvisioningState_Failed_STATUS    = DomainProperties_ProvisioningState_STATUS("Failed")
+	DomainProperties_ProvisioningState_Succeeded_STATUS = DomainProperties_ProvisioningState_STATUS("Succeeded")
+	DomainProperties_ProvisioningState_Updating_STATUS  = DomainProperties_ProvisioningState_STATUS("Updating")
 )
 
 // Deprecated version of DomainProperties_PublicNetworkAccess. Use v1beta20200601.DomainProperties_PublicNetworkAccess
@@ -1435,8 +1435,8 @@ const (
 type DomainProperties_PublicNetworkAccess string
 
 const (
-	DomainProperties_PublicNetworkAccessDisabled = DomainProperties_PublicNetworkAccess("Disabled")
-	DomainProperties_PublicNetworkAccessEnabled  = DomainProperties_PublicNetworkAccess("Enabled")
+	DomainProperties_PublicNetworkAccess_Disabled = DomainProperties_PublicNetworkAccess("Disabled")
+	DomainProperties_PublicNetworkAccess_Enabled  = DomainProperties_PublicNetworkAccess("Enabled")
 )
 
 // Deprecated version of DomainProperties_PublicNetworkAccess_STATUS. Use
@@ -1444,8 +1444,8 @@ const (
 type DomainProperties_PublicNetworkAccess_STATUS string
 
 const (
-	DomainProperties_PublicNetworkAccess_STATUSDisabled = DomainProperties_PublicNetworkAccess_STATUS("Disabled")
-	DomainProperties_PublicNetworkAccess_STATUSEnabled  = DomainProperties_PublicNetworkAccess_STATUS("Enabled")
+	DomainProperties_PublicNetworkAccess_Disabled_STATUS = DomainProperties_PublicNetworkAccess_STATUS("Disabled")
+	DomainProperties_PublicNetworkAccess_Enabled_STATUS  = DomainProperties_PublicNetworkAccess_STATUS("Enabled")
 )
 
 // Deprecated version of InboundIpRule. Use v1beta20200601.InboundIpRule instead
@@ -2269,25 +2269,25 @@ func (data *SystemData_STATUS) AssignPropertiesToSystemData_STATUS(destination *
 // +kubebuilder:validation:Enum={"Allow"}
 type InboundIpRule_Action string
 
-const InboundIpRule_ActionAllow = InboundIpRule_Action("Allow")
+const InboundIpRule_Action_Allow = InboundIpRule_Action("Allow")
 
 // Deprecated version of InboundIpRule_Action_STATUS. Use v1beta20200601.InboundIpRule_Action_STATUS instead
 type InboundIpRule_Action_STATUS string
 
-const InboundIpRule_Action_STATUSAllow = InboundIpRule_Action_STATUS("Allow")
+const InboundIpRule_Action_Allow_STATUS = InboundIpRule_Action_STATUS("Allow")
 
 // Deprecated version of InputSchemaMapping_InputSchemaMappingType. Use
 // v1beta20200601.InputSchemaMapping_InputSchemaMappingType instead
 // +kubebuilder:validation:Enum={"Json"}
 type InputSchemaMapping_InputSchemaMappingType string
 
-const InputSchemaMapping_InputSchemaMappingTypeJson = InputSchemaMapping_InputSchemaMappingType("Json")
+const InputSchemaMapping_InputSchemaMappingType_Json = InputSchemaMapping_InputSchemaMappingType("Json")
 
 // Deprecated version of InputSchemaMapping_InputSchemaMappingType_STATUS. Use
 // v1beta20200601.InputSchemaMapping_InputSchemaMappingType_STATUS instead
 type InputSchemaMapping_InputSchemaMappingType_STATUS string
 
-const InputSchemaMapping_InputSchemaMappingType_STATUSJson = InputSchemaMapping_InputSchemaMappingType_STATUS("Json")
+const InputSchemaMapping_InputSchemaMappingType_Json_STATUS = InputSchemaMapping_InputSchemaMappingType_STATUS("Json")
 
 func init() {
 	SchemeBuilder.Register(&Domain{}, &DomainList{})

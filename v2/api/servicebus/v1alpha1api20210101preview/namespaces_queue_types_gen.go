@@ -112,7 +112,7 @@ func (queue *NamespacesQueue) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20210101preview"
 func (queue NamespacesQueue) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -1770,15 +1770,15 @@ func (queue *NamespacesQueue_Spec) SetAzureName(azureName string) { queue.AzureN
 type EntityStatus_STATUS string
 
 const (
-	EntityStatus_STATUSActive          = EntityStatus_STATUS("Active")
-	EntityStatus_STATUSCreating        = EntityStatus_STATUS("Creating")
-	EntityStatus_STATUSDeleting        = EntityStatus_STATUS("Deleting")
-	EntityStatus_STATUSDisabled        = EntityStatus_STATUS("Disabled")
-	EntityStatus_STATUSReceiveDisabled = EntityStatus_STATUS("ReceiveDisabled")
-	EntityStatus_STATUSRenaming        = EntityStatus_STATUS("Renaming")
-	EntityStatus_STATUSRestoring       = EntityStatus_STATUS("Restoring")
-	EntityStatus_STATUSSendDisabled    = EntityStatus_STATUS("SendDisabled")
-	EntityStatus_STATUSUnknown         = EntityStatus_STATUS("Unknown")
+	EntityStatus_Active_STATUS          = EntityStatus_STATUS("Active")
+	EntityStatus_Creating_STATUS        = EntityStatus_STATUS("Creating")
+	EntityStatus_Deleting_STATUS        = EntityStatus_STATUS("Deleting")
+	EntityStatus_Disabled_STATUS        = EntityStatus_STATUS("Disabled")
+	EntityStatus_ReceiveDisabled_STATUS = EntityStatus_STATUS("ReceiveDisabled")
+	EntityStatus_Renaming_STATUS        = EntityStatus_STATUS("Renaming")
+	EntityStatus_Restoring_STATUS       = EntityStatus_STATUS("Restoring")
+	EntityStatus_SendDisabled_STATUS    = EntityStatus_STATUS("SendDisabled")
+	EntityStatus_Unknown_STATUS         = EntityStatus_STATUS("Unknown")
 )
 
 // Deprecated version of MessageCountDetails. Use v1beta20210101preview.MessageCountDetails instead

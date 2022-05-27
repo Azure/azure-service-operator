@@ -23,7 +23,7 @@ var _ genruntime.ARMResourceSpec = &Namespace_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20210101preview"
 func (namespace Namespace_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -85,10 +85,10 @@ type EncryptionARM struct {
 type Identity_Type string
 
 const (
-	Identity_TypeNone                       = Identity_Type("None")
-	Identity_TypeSystemAssigned             = Identity_Type("SystemAssigned")
-	Identity_TypeSystemAssignedUserAssigned = Identity_Type("SystemAssigned, UserAssigned")
-	Identity_TypeUserAssigned               = Identity_Type("UserAssigned")
+	Identity_Type_None                       = Identity_Type("None")
+	Identity_Type_SystemAssigned             = Identity_Type("SystemAssigned")
+	Identity_Type_SystemAssignedUserAssigned = Identity_Type("SystemAssigned, UserAssigned")
+	Identity_Type_UserAssigned               = Identity_Type("UserAssigned")
 )
 
 // Deprecated version of PrivateEndpointConnection. Use v1beta20210101preview.PrivateEndpointConnection instead
@@ -102,9 +102,9 @@ type PrivateEndpointConnectionARM struct {
 type SBSku_Name string
 
 const (
-	SBSku_NameBasic    = SBSku_Name("Basic")
-	SBSku_NamePremium  = SBSku_Name("Premium")
-	SBSku_NameStandard = SBSku_Name("Standard")
+	SBSku_Name_Basic    = SBSku_Name("Basic")
+	SBSku_Name_Premium  = SBSku_Name("Premium")
+	SBSku_Name_Standard = SBSku_Name("Standard")
 )
 
 // Deprecated version of SBSku_Tier. Use v1beta20210101preview.SBSku_Tier instead
@@ -112,9 +112,9 @@ const (
 type SBSku_Tier string
 
 const (
-	SBSku_TierBasic    = SBSku_Tier("Basic")
-	SBSku_TierPremium  = SBSku_Tier("Premium")
-	SBSku_TierStandard = SBSku_Tier("Standard")
+	SBSku_Tier_Basic    = SBSku_Tier("Basic")
+	SBSku_Tier_Premium  = SBSku_Tier("Premium")
+	SBSku_Tier_Standard = SBSku_Tier("Standard")
 )
 
 // Deprecated version of SystemData_CreatedByType. Use v1beta20210101preview.SystemData_CreatedByType instead
@@ -122,10 +122,10 @@ const (
 type SystemData_CreatedByType string
 
 const (
-	SystemData_CreatedByTypeApplication     = SystemData_CreatedByType("Application")
-	SystemData_CreatedByTypeKey             = SystemData_CreatedByType("Key")
-	SystemData_CreatedByTypeManagedIdentity = SystemData_CreatedByType("ManagedIdentity")
-	SystemData_CreatedByTypeUser            = SystemData_CreatedByType("User")
+	SystemData_CreatedByType_Application     = SystemData_CreatedByType("Application")
+	SystemData_CreatedByType_Key             = SystemData_CreatedByType("Key")
+	SystemData_CreatedByType_ManagedIdentity = SystemData_CreatedByType("ManagedIdentity")
+	SystemData_CreatedByType_User            = SystemData_CreatedByType("User")
 )
 
 // Deprecated version of SystemData_LastModifiedByType. Use v1beta20210101preview.SystemData_LastModifiedByType instead
@@ -133,10 +133,10 @@ const (
 type SystemData_LastModifiedByType string
 
 const (
-	SystemData_LastModifiedByTypeApplication     = SystemData_LastModifiedByType("Application")
-	SystemData_LastModifiedByTypeKey             = SystemData_LastModifiedByType("Key")
-	SystemData_LastModifiedByTypeManagedIdentity = SystemData_LastModifiedByType("ManagedIdentity")
-	SystemData_LastModifiedByTypeUser            = SystemData_LastModifiedByType("User")
+	SystemData_LastModifiedByType_Application     = SystemData_LastModifiedByType("Application")
+	SystemData_LastModifiedByType_Key             = SystemData_LastModifiedByType("Key")
+	SystemData_LastModifiedByType_ManagedIdentity = SystemData_LastModifiedByType("ManagedIdentity")
+	SystemData_LastModifiedByType_User            = SystemData_LastModifiedByType("User")
 )
 
 // Deprecated version of KeyVaultProperties. Use v1beta20210101preview.KeyVaultProperties instead

@@ -25,12 +25,12 @@ func newStorageAccountWithInvalidKeyExpiration(tc *testcommon.KubePerTestContext
 	// Custom namer because storage accounts have strict names
 
 	// Create a storage account with an invalid key expiration period
-	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
-	kind := storage.StorageAccountsSpecKindBlobStorage
-	sku := storage.SkuNameStandardLRS
+	accessTier := storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot
+	kind := storage.StorageAccount_Spec_Kind_BlobStorage
+	sku := storage.SkuName_Standard_LRS
 	return &storage.StorageAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("stor")),
-		Spec: storage.StorageAccounts_Spec{
+		Spec: storage.StorageAccount_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Kind:     &kind,
@@ -46,11 +46,11 @@ func newStorageAccountWithInvalidKeyExpiration(tc *testcommon.KubePerTestContext
 }
 
 func newVMSSWithInvalidPublisher(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *compute.VirtualMachineScaleSet {
-	upgradePolicyMode := compute.UpgradePolicyModeAutomatic
+	upgradePolicyMode := compute.UpgradePolicy_Mode_Automatic
 	adminUsername := "adminUser"
 	return &compute.VirtualMachineScaleSet{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vmss")),
-		Spec: compute.VirtualMachineScaleSets_Spec{
+		Spec: compute.VirtualMachineScaleSet_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &compute.Sku{
@@ -62,7 +62,7 @@ func newVMSSWithInvalidPublisher(tc *testcommon.KubePerTestContext, rg *resource
 			UpgradePolicy: &compute.UpgradePolicy{
 				Mode: &upgradePolicyMode,
 			},
-			VirtualMachineProfile: &compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile{
+			VirtualMachineProfile: &compute.VirtualMachineScaleSetVMProfile{
 				StorageProfile: &compute.VirtualMachineScaleSetStorageProfile{
 					ImageReference: &compute.ImageReference{
 						Publisher: to.StringPtr("this publisher"),
@@ -71,15 +71,15 @@ func newVMSSWithInvalidPublisher(tc *testcommon.KubePerTestContext, rg *resource
 						Version:   to.StringPtr("latest"),
 					},
 				},
-				OsProfile: &compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile{
+				OsProfile: &compute.VirtualMachineScaleSetOSProfile{
 					ComputerNamePrefix: to.StringPtr("computer"),
 					AdminUsername:      &adminUsername,
 				},
-				NetworkProfile: &compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile{
-					NetworkInterfaceConfigurations: []compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations{
+				NetworkProfile: &compute.VirtualMachineScaleSetNetworkProfile{
+					NetworkInterfaceConfigurations: []compute.VirtualMachineScaleSetNetworkConfiguration{
 						{
 							Name: to.StringPtr("mynicconfig"),
-							IpConfigurations: []compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations{
+							IpConfigurations: []compute.VirtualMachineScaleSetIPConfiguration{
 								{
 									Name: to.StringPtr("test"),
 								},

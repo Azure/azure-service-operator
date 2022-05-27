@@ -415,7 +415,7 @@ func LastAccessTimeTrackingPolicyARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForLastAccessTimeTrackingPolicyARM(gens map[string]gopter.Gen) {
 	gens["BlobType"] = gen.SliceOf(gen.AlphaString())
 	gens["Enable"] = gen.PtrOf(gen.Bool())
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(LastAccessTimeTrackingPolicy_NameAccessTimeTracking))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(LastAccessTimeTrackingPolicy_Name_AccessTimeTracking))
 	gens["TrackingGranularityInDays"] = gen.PtrOf(gen.Int())
 }
 
@@ -540,13 +540,13 @@ func CorsRuleARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForCorsRuleARM(gens map[string]gopter.Gen) {
 	gens["AllowedHeaders"] = gen.SliceOf(gen.AlphaString())
 	gens["AllowedMethods"] = gen.SliceOf(gen.OneConstOf(
-		CorsRule_AllowedMethodsDELETE,
-		CorsRule_AllowedMethodsGET,
-		CorsRule_AllowedMethodsHEAD,
-		CorsRule_AllowedMethodsMERGE,
-		CorsRule_AllowedMethodsOPTIONS,
-		CorsRule_AllowedMethodsPOST,
-		CorsRule_AllowedMethodsPUT))
+		CorsRule_AllowedMethods_DELETE,
+		CorsRule_AllowedMethods_GET,
+		CorsRule_AllowedMethods_HEAD,
+		CorsRule_AllowedMethods_MERGE,
+		CorsRule_AllowedMethods_OPTIONS,
+		CorsRule_AllowedMethods_POST,
+		CorsRule_AllowedMethods_PUT))
 	gens["AllowedOrigins"] = gen.SliceOf(gen.AlphaString())
 	gens["ExposedHeaders"] = gen.SliceOf(gen.AlphaString())
 	gens["MaxAgeInSeconds"] = gen.PtrOf(gen.Int())

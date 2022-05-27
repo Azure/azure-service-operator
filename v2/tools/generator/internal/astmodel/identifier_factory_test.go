@@ -8,6 +8,7 @@ package astmodel
 import (
 	"testing"
 
+	"github.com/onsi/gomega"
 	. "github.com/onsi/gomega"
 )
 
@@ -206,4 +207,22 @@ func Test_CreateReceiver_GivenTypeName_ReturnsExpectedResult(t *testing.T) {
 			g.Expect(actual).To(Equal(c.expected))
 		})
 	}
+}
+
+func TestAppendPreservingSuffixPreservesSuffix(t *testing.T) {
+	t.Parallel()
+
+	g := gomega.NewWithT(t)
+	str := "something3455"
+	result := AppendPreservingSuffix(str, "11", "3456")
+	g.Expect(result).To(gomega.Equal("something123455"))
+}
+
+func TestAppendPreservingSuffixWithoutSuffix(t *testing.T) {
+	t.Parallel()
+
+	g := gomega.NewWithT(t)
+	str := "something_suffix"
+	result := AppendPreservingSuffix(str, "_new", "_elsewise")
+	g.Expect(result).To(gomega.Equal("something_suffix_new"))
 }

@@ -24,7 +24,7 @@ func Test_Networking_VirtualNetworkPeering_CRUD(t *testing.T) {
 
 	vnet1 := &network.VirtualNetwork{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
-		Spec: network.VirtualNetworks_Spec{
+		Spec: network.VirtualNetwork_Spec{
 			Owner:    testcommon.AsOwner(rg),
 			Location: tc.AzureRegion,
 			AddressSpace: &network.AddressSpace{
@@ -35,7 +35,7 @@ func Test_Networking_VirtualNetworkPeering_CRUD(t *testing.T) {
 
 	vnet2 := &network.VirtualNetwork{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
-		Spec: network.VirtualNetworks_Spec{
+		Spec: network.VirtualNetwork_Spec{
 			Owner:    testcommon.AsOwner(rg),
 			Location: tc.AzureRegion,
 			AddressSpace: &network.AddressSpace{
@@ -48,7 +48,7 @@ func Test_Networking_VirtualNetworkPeering_CRUD(t *testing.T) {
 
 	peering := &network.VirtualNetworksVirtualNetworkPeering{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vgateway")),
-		Spec: network.VirtualNetworksVirtualNetworkPeerings_Spec{
+		Spec: network.VirtualNetworksVirtualNetworkPeering_Spec{
 			Owner: testcommon.AsOwner(vnet1),
 			RemoteVirtualNetwork: &network.SubResource{
 				Reference: tc.MakeReferenceFromResource(vnet2),
@@ -72,7 +72,7 @@ func Test_Networking_VirtualNetworkPeering_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(peering)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersionValue))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
@@ -87,7 +87,7 @@ func Test_Networking_VirtualNetworkPeering_CreatedThenVNETUpdated_PeeringStillEx
 
 	vnet1 := &network.VirtualNetwork{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
-		Spec: network.VirtualNetworks_Spec{
+		Spec: network.VirtualNetwork_Spec{
 			Owner:    testcommon.AsOwner(rg),
 			Location: tc.AzureRegion,
 			AddressSpace: &network.AddressSpace{
@@ -98,7 +98,7 @@ func Test_Networking_VirtualNetworkPeering_CreatedThenVNETUpdated_PeeringStillEx
 
 	vnet2 := &network.VirtualNetwork{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vn")),
-		Spec: network.VirtualNetworks_Spec{
+		Spec: network.VirtualNetwork_Spec{
 			Owner:    testcommon.AsOwner(rg),
 			Location: tc.AzureRegion,
 			AddressSpace: &network.AddressSpace{
@@ -111,7 +111,7 @@ func Test_Networking_VirtualNetworkPeering_CreatedThenVNETUpdated_PeeringStillEx
 
 	peering := &network.VirtualNetworksVirtualNetworkPeering{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vgateway")),
-		Spec: network.VirtualNetworksVirtualNetworkPeerings_Spec{
+		Spec: network.VirtualNetworksVirtualNetworkPeering_Spec{
 			Owner: testcommon.AsOwner(vnet1),
 			RemoteVirtualNetwork: &network.SubResource{
 				Reference: tc.MakeReferenceFromResource(vnet2),
@@ -131,7 +131,7 @@ func Test_Networking_VirtualNetworkPeering_CreatedThenVNETUpdated_PeeringStillEx
 	tc.PatchResourceAndWait(old, vnet1)
 
 	// Now ensure that the VirtualNetworkPeering still exists
-	exists, _, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersionValue))
+	exists, _, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeTrue())
 }

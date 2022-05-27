@@ -99,7 +99,7 @@ func (assignment *RoleAssignment) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20200801preview"
 func (assignment RoleAssignment) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -322,7 +322,7 @@ type RoleAssignmentList struct {
 // +kubebuilder:validation:Enum={"20200801preview"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("20200801preview")
+const APIVersion_Value = APIVersion("20200801preview")
 
 type RoleAssignment_STATUS struct {
 	// Condition: The conditions on the role assignment. This limits the resources it can be assigned to. e.g.:
@@ -1142,19 +1142,19 @@ func (assignment *RoleAssignment_Spec) SetAzureName(azureName string) {
 type RoleAssignmentProperties_PrincipalType string
 
 const (
-	RoleAssignmentProperties_PrincipalTypeForeignGroup     = RoleAssignmentProperties_PrincipalType("ForeignGroup")
-	RoleAssignmentProperties_PrincipalTypeGroup            = RoleAssignmentProperties_PrincipalType("Group")
-	RoleAssignmentProperties_PrincipalTypeServicePrincipal = RoleAssignmentProperties_PrincipalType("ServicePrincipal")
-	RoleAssignmentProperties_PrincipalTypeUser             = RoleAssignmentProperties_PrincipalType("User")
+	RoleAssignmentProperties_PrincipalType_ForeignGroup     = RoleAssignmentProperties_PrincipalType("ForeignGroup")
+	RoleAssignmentProperties_PrincipalType_Group            = RoleAssignmentProperties_PrincipalType("Group")
+	RoleAssignmentProperties_PrincipalType_ServicePrincipal = RoleAssignmentProperties_PrincipalType("ServicePrincipal")
+	RoleAssignmentProperties_PrincipalType_User             = RoleAssignmentProperties_PrincipalType("User")
 )
 
 type RoleAssignmentProperties_PrincipalType_STATUS string
 
 const (
-	RoleAssignmentProperties_PrincipalType_STATUSForeignGroup     = RoleAssignmentProperties_PrincipalType_STATUS("ForeignGroup")
-	RoleAssignmentProperties_PrincipalType_STATUSGroup            = RoleAssignmentProperties_PrincipalType_STATUS("Group")
-	RoleAssignmentProperties_PrincipalType_STATUSServicePrincipal = RoleAssignmentProperties_PrincipalType_STATUS("ServicePrincipal")
-	RoleAssignmentProperties_PrincipalType_STATUSUser             = RoleAssignmentProperties_PrincipalType_STATUS("User")
+	RoleAssignmentProperties_PrincipalType_ForeignGroup_STATUS     = RoleAssignmentProperties_PrincipalType_STATUS("ForeignGroup")
+	RoleAssignmentProperties_PrincipalType_Group_STATUS            = RoleAssignmentProperties_PrincipalType_STATUS("Group")
+	RoleAssignmentProperties_PrincipalType_ServicePrincipal_STATUS = RoleAssignmentProperties_PrincipalType_STATUS("ServicePrincipal")
+	RoleAssignmentProperties_PrincipalType_User_STATUS             = RoleAssignmentProperties_PrincipalType_STATUS("User")
 )
 
 func init() {

@@ -22,13 +22,11 @@ func Test_Networking_PublicIP_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	// Public IP Address
-	// TODO: Note the microsoft.networking package also defines a PublicIPAddress type, so
-	// TODO: depluralization of this resource doesn't work because of the collision.
-	sku := network.PublicIPAddressSkuNameStandard
-	allocationMethod := network.PublicIPAddressPropertiesFormatPublicIPAllocationMethodStatic
+	sku := network.PublicIPAddressSku_Name_Standard
+	allocationMethod := network.IPAllocationMethod_Static
 	publicIPAddress := &network.PublicIPAddress{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("publicip")),
-		Spec: network.PublicIPAddresses_Spec{
+		Spec: network.PublicIPAddress_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Sku: &network.PublicIPAddressSku{
@@ -53,7 +51,7 @@ func Test_Networking_PublicIP_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(publicIPAddress)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersionValue))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

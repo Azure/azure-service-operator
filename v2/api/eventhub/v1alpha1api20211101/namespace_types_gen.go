@@ -112,7 +112,7 @@ func (namespace *Namespace) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20211101"
 func (namespace Namespace) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -335,7 +335,7 @@ type NamespaceList struct {
 // +kubebuilder:validation:Enum={"20211101"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("20211101")
+const APIVersion_Value = APIVersion("20211101")
 
 // Deprecated version of Namespace_STATUS. Use v1beta20211101.Namespace_STATUS instead
 type Namespace_STATUS struct {
@@ -3163,12 +3163,12 @@ func (data *SystemData_STATUS) AssignPropertiesToSystemData_STATUS(destination *
 // +kubebuilder:validation:Enum={"Microsoft.KeyVault"}
 type Encryption_KeySource string
 
-const Encryption_KeySourceMicrosoftKeyVault = Encryption_KeySource("Microsoft.KeyVault")
+const Encryption_KeySource_MicrosoftKeyVault = Encryption_KeySource("Microsoft.KeyVault")
 
 // Deprecated version of Encryption_KeySource_STATUS. Use v1beta20211101.Encryption_KeySource_STATUS instead
 type Encryption_KeySource_STATUS string
 
-const Encryption_KeySource_STATUSMicrosoftKeyVault = Encryption_KeySource_STATUS("Microsoft.KeyVault")
+const Encryption_KeySource_MicrosoftKeyVault_STATUS = Encryption_KeySource_STATUS("Microsoft.KeyVault")
 
 // Deprecated version of KeyVaultProperties. Use v1beta20211101.KeyVaultProperties instead
 type KeyVaultProperties struct {

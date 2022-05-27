@@ -26,7 +26,7 @@ var _ genruntime.ARMResourceSpec = &ManagedCluster_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20210501"
 func (cluster ManagedCluster_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -115,7 +115,7 @@ type ContainerServiceNetworkProfileARM struct {
 // +kubebuilder:validation:Enum={"EdgeZone"}
 type ExtendedLocationType string
 
-const ExtendedLocationTypeEdgeZone = ExtendedLocationType("EdgeZone")
+const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
 
 // Deprecated version of ManagedClusterAADProfile. Use v1beta20210501.ManagedClusterAADProfile instead
 type ManagedClusterAADProfileARM struct {
@@ -195,9 +195,9 @@ type ManagedClusterHTTPProxyConfigARM struct {
 type ManagedClusterIdentity_Type string
 
 const (
-	ManagedClusterIdentity_TypeNone           = ManagedClusterIdentity_Type("None")
-	ManagedClusterIdentity_TypeSystemAssigned = ManagedClusterIdentity_Type("SystemAssigned")
-	ManagedClusterIdentity_TypeUserAssigned   = ManagedClusterIdentity_Type("UserAssigned")
+	ManagedClusterIdentity_Type_None           = ManagedClusterIdentity_Type("None")
+	ManagedClusterIdentity_Type_SystemAssigned = ManagedClusterIdentity_Type("SystemAssigned")
+	ManagedClusterIdentity_Type_UserAssigned   = ManagedClusterIdentity_Type("UserAssigned")
 )
 
 // Deprecated version of ManagedClusterIdentity_UserAssignedIdentities. Use v1beta20210501.ManagedClusterIdentity_UserAssignedIdentities instead
@@ -239,15 +239,15 @@ type ManagedClusterProperties_AutoScalerProfileARM struct {
 // +kubebuilder:validation:Enum={"Basic"}
 type ManagedClusterSKU_Name string
 
-const ManagedClusterSKU_NameBasic = ManagedClusterSKU_Name("Basic")
+const ManagedClusterSKU_Name_Basic = ManagedClusterSKU_Name("Basic")
 
 // Deprecated version of ManagedClusterSKU_Tier. Use v1beta20210501.ManagedClusterSKU_Tier instead
 // +kubebuilder:validation:Enum={"Free","Paid"}
 type ManagedClusterSKU_Tier string
 
 const (
-	ManagedClusterSKU_TierFree = ManagedClusterSKU_Tier("Free")
-	ManagedClusterSKU_TierPaid = ManagedClusterSKU_Tier("Paid")
+	ManagedClusterSKU_Tier_Free = ManagedClusterSKU_Tier("Free")
+	ManagedClusterSKU_Tier_Paid = ManagedClusterSKU_Tier("Paid")
 )
 
 // Deprecated version of ManagedClusterServicePrincipalProfile. Use v1beta20210501.ManagedClusterServicePrincipalProfile instead

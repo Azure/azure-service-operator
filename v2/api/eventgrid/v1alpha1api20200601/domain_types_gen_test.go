@@ -272,18 +272,18 @@ func Domain_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForDomain_STATUS(gens map[string]gopter.Gen) {
 	gens["Endpoint"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(DomainProperties_InputSchema_STATUSCloudEventSchemaV1_0, DomainProperties_InputSchema_STATUSCustomEventSchema, DomainProperties_InputSchema_STATUSEventGridSchema))
+	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(DomainProperties_InputSchema_CloudEventSchemaV1_0_STATUS, DomainProperties_InputSchema_CustomEventSchema_STATUS, DomainProperties_InputSchema_EventGridSchema_STATUS))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["MetricResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		DomainProperties_ProvisioningState_STATUSCanceled,
-		DomainProperties_ProvisioningState_STATUSCreating,
-		DomainProperties_ProvisioningState_STATUSDeleting,
-		DomainProperties_ProvisioningState_STATUSFailed,
-		DomainProperties_ProvisioningState_STATUSSucceeded,
-		DomainProperties_ProvisioningState_STATUSUpdating))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(DomainProperties_PublicNetworkAccess_STATUSDisabled, DomainProperties_PublicNetworkAccess_STATUSEnabled))
+		DomainProperties_ProvisioningState_Canceled_STATUS,
+		DomainProperties_ProvisioningState_Creating_STATUS,
+		DomainProperties_ProvisioningState_Deleting_STATUS,
+		DomainProperties_ProvisioningState_Failed_STATUS,
+		DomainProperties_ProvisioningState_Succeeded_STATUS,
+		DomainProperties_ProvisioningState_Updating_STATUS))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(DomainProperties_PublicNetworkAccess_Disabled_STATUS, DomainProperties_PublicNetworkAccess_Enabled_STATUS))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
@@ -406,17 +406,17 @@ func AddIndependentPropertyGeneratorsForDomain_Spec(gens map[string]gopter.Gen) 
 	gens["AzureName"] = gen.AlphaString()
 	gens["Endpoint"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(DomainProperties_InputSchemaCloudEventSchemaV1_0, DomainProperties_InputSchemaCustomEventSchema, DomainProperties_InputSchemaEventGridSchema))
+	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(DomainProperties_InputSchema_CloudEventSchemaV1_0, DomainProperties_InputSchema_CustomEventSchema, DomainProperties_InputSchema_EventGridSchema))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["MetricResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		DomainProperties_ProvisioningStateCanceled,
-		DomainProperties_ProvisioningStateCreating,
-		DomainProperties_ProvisioningStateDeleting,
-		DomainProperties_ProvisioningStateFailed,
-		DomainProperties_ProvisioningStateSucceeded,
-		DomainProperties_ProvisioningStateUpdating))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(DomainProperties_PublicNetworkAccessDisabled, DomainProperties_PublicNetworkAccessEnabled))
+		DomainProperties_ProvisioningState_Canceled,
+		DomainProperties_ProvisioningState_Creating,
+		DomainProperties_ProvisioningState_Deleting,
+		DomainProperties_ProvisioningState_Failed,
+		DomainProperties_ProvisioningState_Succeeded,
+		DomainProperties_ProvisioningState_Updating))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(DomainProperties_PublicNetworkAccess_Disabled, DomainProperties_PublicNetworkAccess_Enabled))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
@@ -527,7 +527,7 @@ func InboundIpRuleGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForInboundIpRule is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForInboundIpRule(gens map[string]gopter.Gen) {
-	gens["Action"] = gen.PtrOf(gen.OneConstOf(InboundIpRule_ActionAllow))
+	gens["Action"] = gen.PtrOf(gen.OneConstOf(InboundIpRule_Action_Allow))
 	gens["IpMask"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -630,7 +630,7 @@ func InboundIpRule_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForInboundIpRule_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForInboundIpRule_STATUS(gens map[string]gopter.Gen) {
-	gens["Action"] = gen.PtrOf(gen.OneConstOf(InboundIpRule_Action_STATUSAllow))
+	gens["Action"] = gen.PtrOf(gen.OneConstOf(InboundIpRule_Action_Allow_STATUS))
 	gens["IpMask"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -732,7 +732,7 @@ func InputSchemaMappingGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForInputSchemaMapping is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForInputSchemaMapping(gens map[string]gopter.Gen) {
-	gens["InputSchemaMappingType"] = gen.PtrOf(gen.OneConstOf(InputSchemaMapping_InputSchemaMappingTypeJson))
+	gens["InputSchemaMappingType"] = gen.PtrOf(gen.OneConstOf(InputSchemaMapping_InputSchemaMappingType_Json))
 }
 
 func Test_InputSchemaMapping_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -834,7 +834,7 @@ func InputSchemaMapping_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForInputSchemaMapping_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForInputSchemaMapping_STATUS(gens map[string]gopter.Gen) {
-	gens["InputSchemaMappingType"] = gen.PtrOf(gen.OneConstOf(InputSchemaMapping_InputSchemaMappingType_STATUSJson))
+	gens["InputSchemaMappingType"] = gen.PtrOf(gen.OneConstOf(InputSchemaMapping_InputSchemaMappingType_Json_STATUS))
 }
 
 func Test_PrivateEndpointConnection_Domain_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1142,17 +1142,17 @@ func AddIndependentPropertyGeneratorsForSystemData(gens map[string]gopter.Gen) {
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByTypeApplication,
-		SystemData_CreatedByTypeKey,
-		SystemData_CreatedByTypeManagedIdentity,
-		SystemData_CreatedByTypeUser))
+		SystemData_CreatedByType_Application,
+		SystemData_CreatedByType_Key,
+		SystemData_CreatedByType_ManagedIdentity,
+		SystemData_CreatedByType_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByTypeApplication,
-		SystemData_LastModifiedByTypeKey,
-		SystemData_LastModifiedByTypeManagedIdentity,
-		SystemData_LastModifiedByTypeUser))
+		SystemData_LastModifiedByType_Application,
+		SystemData_LastModifiedByType_Key,
+		SystemData_LastModifiedByType_ManagedIdentity,
+		SystemData_LastModifiedByType_User))
 }
 
 func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1256,15 +1256,15 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUS(gens map[string]gopter
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByType_STATUSApplication,
-		SystemData_CreatedByType_STATUSKey,
-		SystemData_CreatedByType_STATUSManagedIdentity,
-		SystemData_CreatedByType_STATUSUser))
+		SystemData_CreatedByType_Application_STATUS,
+		SystemData_CreatedByType_Key_STATUS,
+		SystemData_CreatedByType_ManagedIdentity_STATUS,
+		SystemData_CreatedByType_User_STATUS))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByType_STATUSApplication,
-		SystemData_LastModifiedByType_STATUSKey,
-		SystemData_LastModifiedByType_STATUSManagedIdentity,
-		SystemData_LastModifiedByType_STATUSUser))
+		SystemData_LastModifiedByType_Application_STATUS,
+		SystemData_LastModifiedByType_Key_STATUS,
+		SystemData_LastModifiedByType_ManagedIdentity_STATUS,
+		SystemData_LastModifiedByType_User_STATUS))
 }

@@ -56,8 +56,8 @@ func (test *Test) AssignPropertiesToTest(destination *v20200101s.Test) error {
 type Test_MyEnum float64
 
 const (
-	Test_MyEnum0 = Test_MyEnum(0)
-	Test_MyEnum1 = Test_MyEnum(1)
-	Test_MyEnum2 = Test_MyEnum(2)
-	Test_MyEnum3 = Test_MyEnum(3)
+	Test_MyEnum_0 = Test_MyEnum(0)
+	Test_MyEnum_1 = Test_MyEnum(1)
+	Test_MyEnum_2 = Test_MyEnum(2)
+	Test_MyEnum_3 = Test_MyEnum(3)
 )

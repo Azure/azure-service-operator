@@ -159,8 +159,8 @@ func RedisCreateProperties_STATUSARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForRedisCreateProperties_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRedisCreateProperties_STATUSARM(gens map[string]gopter.Gen) {
 	gens["EnableNonSslPort"] = gen.PtrOf(gen.Bool())
-	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(RedisCreateProperties_MinimumTlsVersion_STATUS10, RedisCreateProperties_MinimumTlsVersion_STATUS11, RedisCreateProperties_MinimumTlsVersion_STATUS12))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(RedisCreateProperties_PublicNetworkAccess_STATUSDisabled, RedisCreateProperties_PublicNetworkAccess_STATUSEnabled))
+	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(RedisCreateProperties_MinimumTlsVersion_10_STATUS, RedisCreateProperties_MinimumTlsVersion_11_STATUS, RedisCreateProperties_MinimumTlsVersion_12_STATUS))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(RedisCreateProperties_PublicNetworkAccess_Disabled_STATUS, RedisCreateProperties_PublicNetworkAccess_Enabled_STATUS))
 	gens["RedisVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["ReplicasPerMaster"] = gen.PtrOf(gen.Int())
 	gens["ReplicasPerPrimary"] = gen.PtrOf(gen.Int())
@@ -305,6 +305,6 @@ func Sku_STATUSARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSku_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSku_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
-	gens["Family"] = gen.PtrOf(gen.OneConstOf(Sku_Family_STATUSC, Sku_Family_STATUSP))
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(Sku_Name_STATUSBasic, Sku_Name_STATUSPremium, Sku_Name_STATUSStandard))
+	gens["Family"] = gen.PtrOf(gen.OneConstOf(Sku_Family_C_STATUS, Sku_Family_P_STATUS))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(Sku_Name_Basic_STATUS, Sku_Name_Premium_STATUS, Sku_Name_Standard_STATUS))
 }

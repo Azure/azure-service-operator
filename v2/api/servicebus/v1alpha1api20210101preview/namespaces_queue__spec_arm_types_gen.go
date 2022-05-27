@@ -19,7 +19,7 @@ var _ genruntime.ARMResourceSpec = &NamespacesQueue_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20210101preview"
 func (queue NamespacesQueue_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource

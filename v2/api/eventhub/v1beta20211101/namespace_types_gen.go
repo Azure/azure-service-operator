@@ -99,7 +99,7 @@ func (namespace *Namespace) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20211101"
 func (namespace Namespace) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -322,7 +322,7 @@ type NamespaceList struct {
 // +kubebuilder:validation:Enum={"20211101"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("20211101")
+const APIVersion_Value = APIVersion("20211101")
 
 type Namespace_STATUS struct {
 	// AlternateName: Alternate name specified when alias and namespace names are same.
@@ -3293,11 +3293,11 @@ func (data *SystemData_STATUS) AssignPropertiesToSystemData_STATUS(destination *
 // +kubebuilder:validation:Enum={"Microsoft.KeyVault"}
 type Encryption_KeySource string
 
-const Encryption_KeySourceMicrosoftKeyVault = Encryption_KeySource("Microsoft.KeyVault")
+const Encryption_KeySource_MicrosoftKeyVault = Encryption_KeySource("Microsoft.KeyVault")
 
 type Encryption_KeySource_STATUS string
 
-const Encryption_KeySource_STATUSMicrosoftKeyVault = Encryption_KeySource_STATUS("Microsoft.KeyVault")
+const Encryption_KeySource_MicrosoftKeyVault_STATUS = Encryption_KeySource_STATUS("Microsoft.KeyVault")
 
 type KeyVaultProperties struct {
 	Identity *UserAssignedIdentityProperties `json:"identity,omitempty"`

@@ -131,15 +131,15 @@ type Sku_STATUSARM struct {
 type VaultProperties_CreateMode_STATUS string
 
 const (
-	VaultProperties_CreateMode_STATUSDefault = VaultProperties_CreateMode_STATUS("default")
-	VaultProperties_CreateMode_STATUSRecover = VaultProperties_CreateMode_STATUS("recover")
+	VaultProperties_CreateMode_Default_STATUS = VaultProperties_CreateMode_STATUS("default")
+	VaultProperties_CreateMode_Recover_STATUS = VaultProperties_CreateMode_STATUS("recover")
 )
 
 type VaultProperties_ProvisioningState_STATUS string
 
 const (
-	VaultProperties_ProvisioningState_STATUSRegisteringDns = VaultProperties_ProvisioningState_STATUS("RegisteringDns")
-	VaultProperties_ProvisioningState_STATUSSucceeded      = VaultProperties_ProvisioningState_STATUS("Succeeded")
+	VaultProperties_ProvisioningState_RegisteringDns_STATUS = VaultProperties_ProvisioningState_STATUS("RegisteringDns")
+	VaultProperties_ProvisioningState_Succeeded_STATUS      = VaultProperties_ProvisioningState_STATUS("Succeeded")
 )
 
 type IPRule_STATUSARM struct {
@@ -151,15 +151,15 @@ type IPRule_STATUSARM struct {
 type NetworkRuleSet_Bypass_STATUS string
 
 const (
-	NetworkRuleSet_Bypass_STATUSAzureServices = NetworkRuleSet_Bypass_STATUS("AzureServices")
-	NetworkRuleSet_Bypass_STATUSNone          = NetworkRuleSet_Bypass_STATUS("None")
+	NetworkRuleSet_Bypass_AzureServices_STATUS = NetworkRuleSet_Bypass_STATUS("AzureServices")
+	NetworkRuleSet_Bypass_None_STATUS          = NetworkRuleSet_Bypass_STATUS("None")
 )
 
 type NetworkRuleSet_DefaultAction_STATUS string
 
 const (
-	NetworkRuleSet_DefaultAction_STATUSAllow = NetworkRuleSet_DefaultAction_STATUS("Allow")
-	NetworkRuleSet_DefaultAction_STATUSDeny  = NetworkRuleSet_DefaultAction_STATUS("Deny")
+	NetworkRuleSet_DefaultAction_Allow_STATUS = NetworkRuleSet_DefaultAction_STATUS("Allow")
+	NetworkRuleSet_DefaultAction_Deny_STATUS  = NetworkRuleSet_DefaultAction_STATUS("Deny")
 )
 
 type Permissions_STATUSARM struct {
@@ -189,13 +189,13 @@ type PrivateEndpointConnectionProperties_STATUSARM struct {
 
 type Sku_Family_STATUS string
 
-const Sku_Family_STATUSA = Sku_Family_STATUS("A")
+const Sku_Family_A_STATUS = Sku_Family_STATUS("A")
 
 type Sku_Name_STATUS string
 
 const (
-	Sku_Name_STATUSPremium  = Sku_Name_STATUS("premium")
-	Sku_Name_STATUSStandard = Sku_Name_STATUS("standard")
+	Sku_Name_Premium_STATUS  = Sku_Name_STATUS("premium")
+	Sku_Name_Standard_STATUS = Sku_Name_STATUS("standard")
 )
 
 type VirtualNetworkRule_STATUSARM struct {
@@ -211,76 +211,76 @@ type VirtualNetworkRule_STATUSARM struct {
 type Permissions_Certificates_STATUS string
 
 const (
-	Permissions_Certificates_STATUSBackup         = Permissions_Certificates_STATUS("backup")
-	Permissions_Certificates_STATUSCreate         = Permissions_Certificates_STATUS("create")
-	Permissions_Certificates_STATUSDelete         = Permissions_Certificates_STATUS("delete")
-	Permissions_Certificates_STATUSDeleteissuers  = Permissions_Certificates_STATUS("deleteissuers")
-	Permissions_Certificates_STATUSGet            = Permissions_Certificates_STATUS("get")
-	Permissions_Certificates_STATUSGetissuers     = Permissions_Certificates_STATUS("getissuers")
-	Permissions_Certificates_STATUSImport         = Permissions_Certificates_STATUS("import")
-	Permissions_Certificates_STATUSList           = Permissions_Certificates_STATUS("list")
-	Permissions_Certificates_STATUSListissuers    = Permissions_Certificates_STATUS("listissuers")
-	Permissions_Certificates_STATUSManagecontacts = Permissions_Certificates_STATUS("managecontacts")
-	Permissions_Certificates_STATUSManageissuers  = Permissions_Certificates_STATUS("manageissuers")
-	Permissions_Certificates_STATUSPurge          = Permissions_Certificates_STATUS("purge")
-	Permissions_Certificates_STATUSRecover        = Permissions_Certificates_STATUS("recover")
-	Permissions_Certificates_STATUSRestore        = Permissions_Certificates_STATUS("restore")
-	Permissions_Certificates_STATUSSetissuers     = Permissions_Certificates_STATUS("setissuers")
-	Permissions_Certificates_STATUSUpdate         = Permissions_Certificates_STATUS("update")
+	Permissions_Certificates_Backup_STATUS         = Permissions_Certificates_STATUS("backup")
+	Permissions_Certificates_Create_STATUS         = Permissions_Certificates_STATUS("create")
+	Permissions_Certificates_Delete_STATUS         = Permissions_Certificates_STATUS("delete")
+	Permissions_Certificates_Deleteissuers_STATUS  = Permissions_Certificates_STATUS("deleteissuers")
+	Permissions_Certificates_Get_STATUS            = Permissions_Certificates_STATUS("get")
+	Permissions_Certificates_Getissuers_STATUS     = Permissions_Certificates_STATUS("getissuers")
+	Permissions_Certificates_Import_STATUS         = Permissions_Certificates_STATUS("import")
+	Permissions_Certificates_List_STATUS           = Permissions_Certificates_STATUS("list")
+	Permissions_Certificates_Listissuers_STATUS    = Permissions_Certificates_STATUS("listissuers")
+	Permissions_Certificates_Managecontacts_STATUS = Permissions_Certificates_STATUS("managecontacts")
+	Permissions_Certificates_Manageissuers_STATUS  = Permissions_Certificates_STATUS("manageissuers")
+	Permissions_Certificates_Purge_STATUS          = Permissions_Certificates_STATUS("purge")
+	Permissions_Certificates_Recover_STATUS        = Permissions_Certificates_STATUS("recover")
+	Permissions_Certificates_Restore_STATUS        = Permissions_Certificates_STATUS("restore")
+	Permissions_Certificates_Setissuers_STATUS     = Permissions_Certificates_STATUS("setissuers")
+	Permissions_Certificates_Update_STATUS         = Permissions_Certificates_STATUS("update")
 )
 
 type Permissions_Keys_STATUS string
 
 const (
-	Permissions_Keys_STATUSBackup    = Permissions_Keys_STATUS("backup")
-	Permissions_Keys_STATUSCreate    = Permissions_Keys_STATUS("create")
-	Permissions_Keys_STATUSDecrypt   = Permissions_Keys_STATUS("decrypt")
-	Permissions_Keys_STATUSDelete    = Permissions_Keys_STATUS("delete")
-	Permissions_Keys_STATUSEncrypt   = Permissions_Keys_STATUS("encrypt")
-	Permissions_Keys_STATUSGet       = Permissions_Keys_STATUS("get")
-	Permissions_Keys_STATUSImport    = Permissions_Keys_STATUS("import")
-	Permissions_Keys_STATUSList      = Permissions_Keys_STATUS("list")
-	Permissions_Keys_STATUSPurge     = Permissions_Keys_STATUS("purge")
-	Permissions_Keys_STATUSRecover   = Permissions_Keys_STATUS("recover")
-	Permissions_Keys_STATUSRelease   = Permissions_Keys_STATUS("release")
-	Permissions_Keys_STATUSRestore   = Permissions_Keys_STATUS("restore")
-	Permissions_Keys_STATUSSign      = Permissions_Keys_STATUS("sign")
-	Permissions_Keys_STATUSUnwrapKey = Permissions_Keys_STATUS("unwrapKey")
-	Permissions_Keys_STATUSUpdate    = Permissions_Keys_STATUS("update")
-	Permissions_Keys_STATUSVerify    = Permissions_Keys_STATUS("verify")
-	Permissions_Keys_STATUSWrapKey   = Permissions_Keys_STATUS("wrapKey")
+	Permissions_Keys_Backup_STATUS    = Permissions_Keys_STATUS("backup")
+	Permissions_Keys_Create_STATUS    = Permissions_Keys_STATUS("create")
+	Permissions_Keys_Decrypt_STATUS   = Permissions_Keys_STATUS("decrypt")
+	Permissions_Keys_Delete_STATUS    = Permissions_Keys_STATUS("delete")
+	Permissions_Keys_Encrypt_STATUS   = Permissions_Keys_STATUS("encrypt")
+	Permissions_Keys_Get_STATUS       = Permissions_Keys_STATUS("get")
+	Permissions_Keys_Import_STATUS    = Permissions_Keys_STATUS("import")
+	Permissions_Keys_List_STATUS      = Permissions_Keys_STATUS("list")
+	Permissions_Keys_Purge_STATUS     = Permissions_Keys_STATUS("purge")
+	Permissions_Keys_Recover_STATUS   = Permissions_Keys_STATUS("recover")
+	Permissions_Keys_Release_STATUS   = Permissions_Keys_STATUS("release")
+	Permissions_Keys_Restore_STATUS   = Permissions_Keys_STATUS("restore")
+	Permissions_Keys_Sign_STATUS      = Permissions_Keys_STATUS("sign")
+	Permissions_Keys_UnwrapKey_STATUS = Permissions_Keys_STATUS("unwrapKey")
+	Permissions_Keys_Update_STATUS    = Permissions_Keys_STATUS("update")
+	Permissions_Keys_Verify_STATUS    = Permissions_Keys_STATUS("verify")
+	Permissions_Keys_WrapKey_STATUS   = Permissions_Keys_STATUS("wrapKey")
 )
 
 type Permissions_Secrets_STATUS string
 
 const (
-	Permissions_Secrets_STATUSBackup  = Permissions_Secrets_STATUS("backup")
-	Permissions_Secrets_STATUSDelete  = Permissions_Secrets_STATUS("delete")
-	Permissions_Secrets_STATUSGet     = Permissions_Secrets_STATUS("get")
-	Permissions_Secrets_STATUSList    = Permissions_Secrets_STATUS("list")
-	Permissions_Secrets_STATUSPurge   = Permissions_Secrets_STATUS("purge")
-	Permissions_Secrets_STATUSRecover = Permissions_Secrets_STATUS("recover")
-	Permissions_Secrets_STATUSRestore = Permissions_Secrets_STATUS("restore")
-	Permissions_Secrets_STATUSSet     = Permissions_Secrets_STATUS("set")
+	Permissions_Secrets_Backup_STATUS  = Permissions_Secrets_STATUS("backup")
+	Permissions_Secrets_Delete_STATUS  = Permissions_Secrets_STATUS("delete")
+	Permissions_Secrets_Get_STATUS     = Permissions_Secrets_STATUS("get")
+	Permissions_Secrets_List_STATUS    = Permissions_Secrets_STATUS("list")
+	Permissions_Secrets_Purge_STATUS   = Permissions_Secrets_STATUS("purge")
+	Permissions_Secrets_Recover_STATUS = Permissions_Secrets_STATUS("recover")
+	Permissions_Secrets_Restore_STATUS = Permissions_Secrets_STATUS("restore")
+	Permissions_Secrets_Set_STATUS     = Permissions_Secrets_STATUS("set")
 )
 
 type Permissions_Storage_STATUS string
 
 const (
-	Permissions_Storage_STATUSBackup        = Permissions_Storage_STATUS("backup")
-	Permissions_Storage_STATUSDelete        = Permissions_Storage_STATUS("delete")
-	Permissions_Storage_STATUSDeletesas     = Permissions_Storage_STATUS("deletesas")
-	Permissions_Storage_STATUSGet           = Permissions_Storage_STATUS("get")
-	Permissions_Storage_STATUSGetsas        = Permissions_Storage_STATUS("getsas")
-	Permissions_Storage_STATUSList          = Permissions_Storage_STATUS("list")
-	Permissions_Storage_STATUSListsas       = Permissions_Storage_STATUS("listsas")
-	Permissions_Storage_STATUSPurge         = Permissions_Storage_STATUS("purge")
-	Permissions_Storage_STATUSRecover       = Permissions_Storage_STATUS("recover")
-	Permissions_Storage_STATUSRegeneratekey = Permissions_Storage_STATUS("regeneratekey")
-	Permissions_Storage_STATUSRestore       = Permissions_Storage_STATUS("restore")
-	Permissions_Storage_STATUSSet           = Permissions_Storage_STATUS("set")
-	Permissions_Storage_STATUSSetsas        = Permissions_Storage_STATUS("setsas")
-	Permissions_Storage_STATUSUpdate        = Permissions_Storage_STATUS("update")
+	Permissions_Storage_Backup_STATUS        = Permissions_Storage_STATUS("backup")
+	Permissions_Storage_Delete_STATUS        = Permissions_Storage_STATUS("delete")
+	Permissions_Storage_Deletesas_STATUS     = Permissions_Storage_STATUS("deletesas")
+	Permissions_Storage_Get_STATUS           = Permissions_Storage_STATUS("get")
+	Permissions_Storage_Getsas_STATUS        = Permissions_Storage_STATUS("getsas")
+	Permissions_Storage_List_STATUS          = Permissions_Storage_STATUS("list")
+	Permissions_Storage_Listsas_STATUS       = Permissions_Storage_STATUS("listsas")
+	Permissions_Storage_Purge_STATUS         = Permissions_Storage_STATUS("purge")
+	Permissions_Storage_Recover_STATUS       = Permissions_Storage_STATUS("recover")
+	Permissions_Storage_Regeneratekey_STATUS = Permissions_Storage_STATUS("regeneratekey")
+	Permissions_Storage_Restore_STATUS       = Permissions_Storage_STATUS("restore")
+	Permissions_Storage_Set_STATUS           = Permissions_Storage_STATUS("set")
+	Permissions_Storage_Setsas_STATUS        = Permissions_Storage_STATUS("setsas")
+	Permissions_Storage_Update_STATUS        = Permissions_Storage_STATUS("update")
 )
 
 type PrivateEndpoint_STATUSARM struct {

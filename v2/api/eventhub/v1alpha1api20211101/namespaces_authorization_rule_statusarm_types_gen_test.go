@@ -152,5 +152,5 @@ func NamespacesAuthorizationRule_Properties_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNamespacesAuthorizationRule_Properties_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNamespacesAuthorizationRule_Properties_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Rights"] = gen.SliceOf(gen.OneConstOf(NamespacesAuthorizationRule_Properties_Rights_STATUSListen, NamespacesAuthorizationRule_Properties_Rights_STATUSManage, NamespacesAuthorizationRule_Properties_Rights_STATUSSend))
+	gens["Rights"] = gen.SliceOf(gen.OneConstOf(NamespacesAuthorizationRule_Properties_Rights_Listen_STATUS, NamespacesAuthorizationRule_Properties_Rights_Manage_STATUS, NamespacesAuthorizationRule_Properties_Rights_Send_STATUS))
 }

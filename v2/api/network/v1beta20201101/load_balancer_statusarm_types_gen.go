@@ -91,7 +91,7 @@ type BackendAddressPool_STATUS_LoadBalancer_SubResourceEmbeddedARM struct {
 
 type ExtendedLocationType_STATUS string
 
-const ExtendedLocationType_STATUSEdgeZone = ExtendedLocationType_STATUS("EdgeZone")
+const ExtendedLocationType_EdgeZone_STATUS = ExtendedLocationType_STATUS("EdgeZone")
 
 type FrontendIPConfiguration_STATUS_LoadBalancer_SubResourceEmbeddedARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
@@ -140,15 +140,15 @@ type InboundNatRule_STATUS_LoadBalancer_SubResourceEmbeddedARM struct {
 type LoadBalancerSku_Name_STATUS string
 
 const (
-	LoadBalancerSku_Name_STATUSBasic    = LoadBalancerSku_Name_STATUS("Basic")
-	LoadBalancerSku_Name_STATUSStandard = LoadBalancerSku_Name_STATUS("Standard")
+	LoadBalancerSku_Name_Basic_STATUS    = LoadBalancerSku_Name_STATUS("Basic")
+	LoadBalancerSku_Name_Standard_STATUS = LoadBalancerSku_Name_STATUS("Standard")
 )
 
 type LoadBalancerSku_Tier_STATUS string
 
 const (
-	LoadBalancerSku_Tier_STATUSGlobal   = LoadBalancerSku_Tier_STATUS("Global")
-	LoadBalancerSku_Tier_STATUSRegional = LoadBalancerSku_Tier_STATUS("Regional")
+	LoadBalancerSku_Tier_Global_STATUS   = LoadBalancerSku_Tier_STATUS("Global")
+	LoadBalancerSku_Tier_Regional_STATUS = LoadBalancerSku_Tier_STATUS("Regional")
 )
 
 type LoadBalancingRule_STATUSARM struct {

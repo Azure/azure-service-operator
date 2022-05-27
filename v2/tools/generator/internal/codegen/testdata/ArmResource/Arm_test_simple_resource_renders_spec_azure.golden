@@ -96,7 +96,7 @@ func (resource *FakeResource) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20200101"
 func (resource FakeResource) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -280,7 +280,7 @@ var _ genruntime.ARMResourceSpec = &FakeResource_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20200101"
 func (resource FakeResource_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -296,7 +296,7 @@ func (resource *FakeResource_SpecARM) GetType() string {
 // +kubebuilder:validation:Enum={"20200101"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("20200101")
+const APIVersion_Value = APIVersion("20200101")
 
 type FakeResource_Spec struct {
 	// +kubebuilder:validation:Required
@@ -497,12 +497,12 @@ func (resource *FakeResource_Spec) SetAzureName(azureName string) { resource.Azu
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type FakeResource_Spec_APIVersion string
 
-const FakeResource_Spec_APIVersion20200601 = FakeResource_Spec_APIVersion("2020-06-01")
+const FakeResource_Spec_APIVersion_20200601 = FakeResource_Spec_APIVersion("2020-06-01")
 
 // +kubebuilder:validation:Enum={"Microsoft.Azure/FakeResource"}
 type FakeResource_Spec_Type string
 
-const FakeResource_Spec_TypeMicrosoftAzureFakeResource = FakeResource_Spec_Type("Microsoft.Azure/FakeResource")
+const FakeResource_Spec_Type_MicrosoftAzureFakeResource = FakeResource_Spec_Type("Microsoft.Azure/FakeResource")
 
 func init() {
 	SchemeBuilder.Register(&FakeResource{}, &FakeResourceList{})

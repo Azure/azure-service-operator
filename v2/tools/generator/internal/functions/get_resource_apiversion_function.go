@@ -16,14 +16,14 @@ import (
 
 var GetAPIVersionFunctionName = "Get" + astmodel.APIVersionProperty
 
-// NewGetAPIVersionFunction returns a function that returns a static API Version enum value ('APIVersionValue')
+// NewGetAPIVersionFunction returns a function that returns a static API Version enum value ('APIVersion_Value')
 func NewGetAPIVersionFunction(
 	apiVersionTypeName astmodel.TypeName,
 	apiVersionEnumValue astmodel.EnumValue,
 	idFactory astmodel.IdentifierFactory,
 ) astmodel.Function {
 	comment := fmt.Sprintf("returns the ARM API version of the resource. This is always %s", apiVersionEnumValue.Value)
-	value := dst.NewIdent(apiVersionTypeName.Name() + apiVersionEnumValue.Identifier)
+	value := dst.NewIdent(astmodel.GetEnumValueId(apiVersionTypeName.Name(), apiVersionEnumValue))
 
 	result := NewObjectFunction(GetAPIVersionFunctionName, idFactory,
 		createBodyReturningValue(

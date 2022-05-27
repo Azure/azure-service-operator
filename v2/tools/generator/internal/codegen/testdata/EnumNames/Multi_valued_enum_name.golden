@@ -96,7 +96,7 @@ func (resource *AResource) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20200101"
 func (resource AResource) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -280,7 +280,7 @@ var _ genruntime.ARMResourceSpec = &AResource_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20200101"
 func (resource AResource_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -296,7 +296,7 @@ func (resource *AResource_SpecARM) GetType() string {
 // +kubebuilder:validation:Enum={"20200101"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("20200101")
+const APIVersion_Value = APIVersion("20200101")
 
 type AResource_Spec struct {
 	// +kubebuilder:validation:Required
@@ -501,20 +501,20 @@ func (resource *AResource_Spec) SetAzureName(azureName string) {
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type AResource_Spec_APIVersion string
 
-const AResource_Spec_APIVersion20200601 = AResource_Spec_APIVersion("2020-06-01")
+const AResource_Spec_APIVersion_20200601 = AResource_Spec_APIVersion("2020-06-01")
 
 // +kubebuilder:validation:Enum={"Microsoft.Azure/AResource"}
 type AResource_Spec_Type string
 
-const AResource_Spec_TypeMicrosoftAzureAResource = AResource_Spec_Type("Microsoft.Azure/AResource")
+const AResource_Spec_Type_MicrosoftAzureAResource = AResource_Spec_Type("Microsoft.Azure/AResource")
 
 // +kubebuilder:validation:Enum={"one","three","two"}
 type AResource_Spec_Name string
 
 const (
-	AResource_Spec_NameOne   = AResource_Spec_Name("one")
-	AResource_Spec_NameThree = AResource_Spec_Name("three")
-	AResource_Spec_NameTwo   = AResource_Spec_Name("two")
+	AResource_Spec_Name_One   = AResource_Spec_Name("one")
+	AResource_Spec_Name_Three = AResource_Spec_Name("three")
+	AResource_Spec_Name_Two   = AResource_Spec_Name("two")
 )
 
 func init() {

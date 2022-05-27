@@ -40,7 +40,7 @@ var _ genruntime.ARMResourceSpec = &LoadBalancer_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20201101"
 func (balancer LoadBalancer_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -113,7 +113,7 @@ type BackendAddressPool_LoadBalancer_SubResourceEmbeddedARM struct {
 // +kubebuilder:validation:Enum={"EdgeZone"}
 type ExtendedLocationType string
 
-const ExtendedLocationTypeEdgeZone = ExtendedLocationType("EdgeZone")
+const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
 
 type FrontendIPConfiguration_LoadBalancer_SubResourceEmbeddedARM struct {
 	// Etag: A unique read-only string that changes whenever the resource is updated.
@@ -163,16 +163,16 @@ type InboundNatRule_LoadBalancer_SubResourceEmbeddedARM struct {
 type LoadBalancerSku_Name string
 
 const (
-	LoadBalancerSku_NameBasic    = LoadBalancerSku_Name("Basic")
-	LoadBalancerSku_NameStandard = LoadBalancerSku_Name("Standard")
+	LoadBalancerSku_Name_Basic    = LoadBalancerSku_Name("Basic")
+	LoadBalancerSku_Name_Standard = LoadBalancerSku_Name("Standard")
 )
 
 // +kubebuilder:validation:Enum={"Global","Regional"}
 type LoadBalancerSku_Tier string
 
 const (
-	LoadBalancerSku_TierGlobal   = LoadBalancerSku_Tier("Global")
-	LoadBalancerSku_TierRegional = LoadBalancerSku_Tier("Regional")
+	LoadBalancerSku_Tier_Global   = LoadBalancerSku_Tier("Global")
+	LoadBalancerSku_Tier_Regional = LoadBalancerSku_Tier("Regional")
 )
 
 type LoadBalancingRuleARM struct {

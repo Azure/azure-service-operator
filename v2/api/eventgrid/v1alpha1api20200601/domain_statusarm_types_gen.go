@@ -56,10 +56,10 @@ type PrivateEndpointConnection_STATUS_Domain_SubResourceEmbeddedARM struct {
 type SystemData_CreatedByType_STATUS string
 
 const (
-	SystemData_CreatedByType_STATUSApplication     = SystemData_CreatedByType_STATUS("Application")
-	SystemData_CreatedByType_STATUSKey             = SystemData_CreatedByType_STATUS("Key")
-	SystemData_CreatedByType_STATUSManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
-	SystemData_CreatedByType_STATUSUser            = SystemData_CreatedByType_STATUS("User")
+	SystemData_CreatedByType_Application_STATUS     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_Key_STATUS             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_ManagedIdentity_STATUS = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_User_STATUS            = SystemData_CreatedByType_STATUS("User")
 )
 
 // Deprecated version of SystemData_LastModifiedByType_STATUS. Use v1beta20200601.SystemData_LastModifiedByType_STATUS
@@ -67,8 +67,8 @@ const (
 type SystemData_LastModifiedByType_STATUS string
 
 const (
-	SystemData_LastModifiedByType_STATUSApplication     = SystemData_LastModifiedByType_STATUS("Application")
-	SystemData_LastModifiedByType_STATUSKey             = SystemData_LastModifiedByType_STATUS("Key")
-	SystemData_LastModifiedByType_STATUSManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
-	SystemData_LastModifiedByType_STATUSUser            = SystemData_LastModifiedByType_STATUS("User")
+	SystemData_LastModifiedByType_Application_STATUS     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_Key_STATUS             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_ManagedIdentity_STATUS = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_User_STATUS            = SystemData_LastModifiedByType_STATUS("User")
 )

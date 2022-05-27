@@ -58,11 +58,11 @@ type StorageAccountPropertiesCreateParameters_STATUSARM struct {
 type StorageAccount_Kind_STATUS string
 
 const (
-	StorageAccount_Kind_STATUSBlobStorage      = StorageAccount_Kind_STATUS("BlobStorage")
-	StorageAccount_Kind_STATUSBlockBlobStorage = StorageAccount_Kind_STATUS("BlockBlobStorage")
-	StorageAccount_Kind_STATUSFileStorage      = StorageAccount_Kind_STATUS("FileStorage")
-	StorageAccount_Kind_STATUSStorage          = StorageAccount_Kind_STATUS("Storage")
-	StorageAccount_Kind_STATUSStorageV2        = StorageAccount_Kind_STATUS("StorageV2")
+	StorageAccount_Kind_BlobStorage_STATUS      = StorageAccount_Kind_STATUS("BlobStorage")
+	StorageAccount_Kind_BlockBlobStorage_STATUS = StorageAccount_Kind_STATUS("BlockBlobStorage")
+	StorageAccount_Kind_FileStorage_STATUS      = StorageAccount_Kind_STATUS("FileStorage")
+	StorageAccount_Kind_Storage_STATUS          = StorageAccount_Kind_STATUS("Storage")
+	StorageAccount_Kind_StorageV2_STATUS        = StorageAccount_Kind_STATUS("StorageV2")
 )
 
 // Deprecated version of AzureFilesIdentityBasedAuthentication_STATUS. Use v1beta20210401.AzureFilesIdentityBasedAuthentication_STATUS instead
@@ -90,16 +90,16 @@ type Encryption_STATUSARM struct {
 // Deprecated version of ExtendedLocationType_STATUS. Use v1beta20210401.ExtendedLocationType_STATUS instead
 type ExtendedLocationType_STATUS string
 
-const ExtendedLocationType_STATUSEdgeZone = ExtendedLocationType_STATUS("EdgeZone")
+const ExtendedLocationType_EdgeZone_STATUS = ExtendedLocationType_STATUS("EdgeZone")
 
 // Deprecated version of Identity_Type_STATUS. Use v1beta20210401.Identity_Type_STATUS instead
 type Identity_Type_STATUS string
 
 const (
-	Identity_Type_STATUSNone                       = Identity_Type_STATUS("None")
-	Identity_Type_STATUSSystemAssigned             = Identity_Type_STATUS("SystemAssigned")
-	Identity_Type_STATUSSystemAssignedUserAssigned = Identity_Type_STATUS("SystemAssigned,UserAssigned")
-	Identity_Type_STATUSUserAssigned               = Identity_Type_STATUS("UserAssigned")
+	Identity_Type_None_STATUS                       = Identity_Type_STATUS("None")
+	Identity_Type_SystemAssigned_STATUS             = Identity_Type_STATUS("SystemAssigned")
+	Identity_Type_SystemAssignedUserAssigned_STATUS = Identity_Type_STATUS("SystemAssigned,UserAssigned")
+	Identity_Type_UserAssigned_STATUS               = Identity_Type_STATUS("UserAssigned")
 )
 
 // Deprecated version of KeyPolicy_STATUS. Use v1beta20210401.KeyPolicy_STATUS instead
@@ -133,22 +133,22 @@ type SasPolicy_STATUSARM struct {
 type SkuName_STATUS string
 
 const (
-	SkuName_STATUSPremium_LRS     = SkuName_STATUS("Premium_LRS")
-	SkuName_STATUSPremium_ZRS     = SkuName_STATUS("Premium_ZRS")
-	SkuName_STATUSStandard_GRS    = SkuName_STATUS("Standard_GRS")
-	SkuName_STATUSStandard_GZRS   = SkuName_STATUS("Standard_GZRS")
-	SkuName_STATUSStandard_LRS    = SkuName_STATUS("Standard_LRS")
-	SkuName_STATUSStandard_RAGRS  = SkuName_STATUS("Standard_RAGRS")
-	SkuName_STATUSStandard_RAGZRS = SkuName_STATUS("Standard_RAGZRS")
-	SkuName_STATUSStandard_ZRS    = SkuName_STATUS("Standard_ZRS")
+	SkuName_Premium_LRS_STATUS     = SkuName_STATUS("Premium_LRS")
+	SkuName_Premium_ZRS_STATUS     = SkuName_STATUS("Premium_ZRS")
+	SkuName_Standard_GRS_STATUS    = SkuName_STATUS("Standard_GRS")
+	SkuName_Standard_GZRS_STATUS   = SkuName_STATUS("Standard_GZRS")
+	SkuName_Standard_LRS_STATUS    = SkuName_STATUS("Standard_LRS")
+	SkuName_Standard_RAGRS_STATUS  = SkuName_STATUS("Standard_RAGRS")
+	SkuName_Standard_RAGZRS_STATUS = SkuName_STATUS("Standard_RAGZRS")
+	SkuName_Standard_ZRS_STATUS    = SkuName_STATUS("Standard_ZRS")
 )
 
 // Deprecated version of Tier_STATUS. Use v1beta20210401.Tier_STATUS instead
 type Tier_STATUS string
 
 const (
-	Tier_STATUSPremium  = Tier_STATUS("Premium")
-	Tier_STATUSStandard = Tier_STATUS("Standard")
+	Tier_Premium_STATUS  = Tier_STATUS("Premium")
+	Tier_Standard_STATUS = Tier_STATUS("Standard")
 )
 
 // Deprecated version of UserAssignedIdentity_STATUS. Use v1beta20210401.UserAssignedIdentity_STATUS instead

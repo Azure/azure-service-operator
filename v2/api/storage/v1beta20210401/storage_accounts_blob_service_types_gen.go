@@ -99,7 +99,7 @@ func (service *StorageAccountsBlobService) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20210401"
 func (service StorageAccountsBlobService) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -2974,35 +2974,35 @@ func (rule *CorsRule_STATUS) AssignPropertiesToCorsRule_STATUS(destination *v202
 // +kubebuilder:validation:Enum={"AccessTimeTracking"}
 type LastAccessTimeTrackingPolicy_Name string
 
-const LastAccessTimeTrackingPolicy_NameAccessTimeTracking = LastAccessTimeTrackingPolicy_Name("AccessTimeTracking")
+const LastAccessTimeTrackingPolicy_Name_AccessTimeTracking = LastAccessTimeTrackingPolicy_Name("AccessTimeTracking")
 
 type LastAccessTimeTrackingPolicy_Name_STATUS string
 
-const LastAccessTimeTrackingPolicy_Name_STATUSAccessTimeTracking = LastAccessTimeTrackingPolicy_Name_STATUS("AccessTimeTracking")
+const LastAccessTimeTrackingPolicy_Name_AccessTimeTracking_STATUS = LastAccessTimeTrackingPolicy_Name_STATUS("AccessTimeTracking")
 
 // +kubebuilder:validation:Enum={"DELETE","GET","HEAD","MERGE","OPTIONS","POST","PUT"}
 type CorsRule_AllowedMethods string
 
 const (
-	CorsRule_AllowedMethodsDELETE  = CorsRule_AllowedMethods("DELETE")
-	CorsRule_AllowedMethodsGET     = CorsRule_AllowedMethods("GET")
-	CorsRule_AllowedMethodsHEAD    = CorsRule_AllowedMethods("HEAD")
-	CorsRule_AllowedMethodsMERGE   = CorsRule_AllowedMethods("MERGE")
-	CorsRule_AllowedMethodsOPTIONS = CorsRule_AllowedMethods("OPTIONS")
-	CorsRule_AllowedMethodsPOST    = CorsRule_AllowedMethods("POST")
-	CorsRule_AllowedMethodsPUT     = CorsRule_AllowedMethods("PUT")
+	CorsRule_AllowedMethods_DELETE  = CorsRule_AllowedMethods("DELETE")
+	CorsRule_AllowedMethods_GET     = CorsRule_AllowedMethods("GET")
+	CorsRule_AllowedMethods_HEAD    = CorsRule_AllowedMethods("HEAD")
+	CorsRule_AllowedMethods_MERGE   = CorsRule_AllowedMethods("MERGE")
+	CorsRule_AllowedMethods_OPTIONS = CorsRule_AllowedMethods("OPTIONS")
+	CorsRule_AllowedMethods_POST    = CorsRule_AllowedMethods("POST")
+	CorsRule_AllowedMethods_PUT     = CorsRule_AllowedMethods("PUT")
 )
 
 type CorsRule_AllowedMethods_STATUS string
 
 const (
-	CorsRule_AllowedMethods_STATUSDELETE  = CorsRule_AllowedMethods_STATUS("DELETE")
-	CorsRule_AllowedMethods_STATUSGET     = CorsRule_AllowedMethods_STATUS("GET")
-	CorsRule_AllowedMethods_STATUSHEAD    = CorsRule_AllowedMethods_STATUS("HEAD")
-	CorsRule_AllowedMethods_STATUSMERGE   = CorsRule_AllowedMethods_STATUS("MERGE")
-	CorsRule_AllowedMethods_STATUSOPTIONS = CorsRule_AllowedMethods_STATUS("OPTIONS")
-	CorsRule_AllowedMethods_STATUSPOST    = CorsRule_AllowedMethods_STATUS("POST")
-	CorsRule_AllowedMethods_STATUSPUT     = CorsRule_AllowedMethods_STATUS("PUT")
+	CorsRule_AllowedMethods_DELETE_STATUS  = CorsRule_AllowedMethods_STATUS("DELETE")
+	CorsRule_AllowedMethods_GET_STATUS     = CorsRule_AllowedMethods_STATUS("GET")
+	CorsRule_AllowedMethods_HEAD_STATUS    = CorsRule_AllowedMethods_STATUS("HEAD")
+	CorsRule_AllowedMethods_MERGE_STATUS   = CorsRule_AllowedMethods_STATUS("MERGE")
+	CorsRule_AllowedMethods_OPTIONS_STATUS = CorsRule_AllowedMethods_STATUS("OPTIONS")
+	CorsRule_AllowedMethods_POST_STATUS    = CorsRule_AllowedMethods_STATUS("POST")
+	CorsRule_AllowedMethods_PUT_STATUS     = CorsRule_AllowedMethods_STATUS("PUT")
 )
 
 func init() {

@@ -169,32 +169,32 @@ func AddIndependentPropertyGeneratorsForEndpointPropertiesARM(gens map[string]go
 	gens["IsHttpAllowed"] = gen.PtrOf(gen.Bool())
 	gens["IsHttpsAllowed"] = gen.PtrOf(gen.Bool())
 	gens["OptimizationType"] = gen.PtrOf(gen.OneConstOf(
-		OptimizationTypeDynamicSiteAcceleration,
-		OptimizationTypeGeneralMediaStreaming,
-		OptimizationTypeGeneralWebDelivery,
-		OptimizationTypeLargeFileDownload,
-		OptimizationTypeVideoOnDemandMediaStreaming))
+		OptimizationType_DynamicSiteAcceleration,
+		OptimizationType_GeneralMediaStreaming,
+		OptimizationType_GeneralWebDelivery,
+		OptimizationType_LargeFileDownload,
+		OptimizationType_VideoOnDemandMediaStreaming))
 	gens["OriginHostHeader"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginPath"] = gen.PtrOf(gen.AlphaString())
 	gens["ProbePath"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		EndpointProperties_ProvisioningStateCreating,
-		EndpointProperties_ProvisioningStateDeleting,
-		EndpointProperties_ProvisioningStateFailed,
-		EndpointProperties_ProvisioningStateSucceeded,
-		EndpointProperties_ProvisioningStateUpdating))
+		EndpointProperties_ProvisioningState_Creating,
+		EndpointProperties_ProvisioningState_Deleting,
+		EndpointProperties_ProvisioningState_Failed,
+		EndpointProperties_ProvisioningState_Succeeded,
+		EndpointProperties_ProvisioningState_Updating))
 	gens["QueryStringCachingBehavior"] = gen.PtrOf(gen.OneConstOf(
-		QueryStringCachingBehaviorBypassCaching,
-		QueryStringCachingBehaviorIgnoreQueryString,
-		QueryStringCachingBehaviorNotSet,
-		QueryStringCachingBehaviorUseQueryString))
+		QueryStringCachingBehavior_BypassCaching,
+		QueryStringCachingBehavior_IgnoreQueryString,
+		QueryStringCachingBehavior_NotSet,
+		QueryStringCachingBehavior_UseQueryString))
 	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(
-		EndpointProperties_ResourceStateCreating,
-		EndpointProperties_ResourceStateDeleting,
-		EndpointProperties_ResourceStateRunning,
-		EndpointProperties_ResourceStateStarting,
-		EndpointProperties_ResourceStateStopped,
-		EndpointProperties_ResourceStateStopping))
+		EndpointProperties_ResourceState_Creating,
+		EndpointProperties_ResourceState_Deleting,
+		EndpointProperties_ResourceState_Running,
+		EndpointProperties_ResourceState_Starting,
+		EndpointProperties_ResourceState_Stopped,
+		EndpointProperties_ResourceState_Stopping))
 }
 
 // AddRelatedPropertyGeneratorsForEndpointPropertiesARM is a factory method for creating gopter generators
@@ -623,7 +623,7 @@ func GeoFilterARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForGeoFilterARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForGeoFilterARM(gens map[string]gopter.Gen) {
-	gens["Action"] = gen.PtrOf(gen.OneConstOf(GeoFilter_ActionAllow, GeoFilter_ActionBlock))
+	gens["Action"] = gen.PtrOf(gen.OneConstOf(GeoFilter_Action_Allow, GeoFilter_Action_Block))
 	gens["CountryCodes"] = gen.SliceOf(gen.AlphaString())
 	gens["RelativePath"] = gen.PtrOf(gen.AlphaString())
 }
@@ -828,30 +828,30 @@ func CustomDomainPropertiesARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForCustomDomainPropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCustomDomainPropertiesARM(gens map[string]gopter.Gen) {
 	gens["CustomHttpsProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		CustomDomainProperties_CustomHttpsProvisioningStateDisabled,
-		CustomDomainProperties_CustomHttpsProvisioningStateDisabling,
-		CustomDomainProperties_CustomHttpsProvisioningStateEnabled,
-		CustomDomainProperties_CustomHttpsProvisioningStateEnabling,
-		CustomDomainProperties_CustomHttpsProvisioningStateFailed))
+		CustomDomainProperties_CustomHttpsProvisioningState_Disabled,
+		CustomDomainProperties_CustomHttpsProvisioningState_Disabling,
+		CustomDomainProperties_CustomHttpsProvisioningState_Enabled,
+		CustomDomainProperties_CustomHttpsProvisioningState_Enabling,
+		CustomDomainProperties_CustomHttpsProvisioningState_Failed))
 	gens["CustomHttpsProvisioningSubstate"] = gen.PtrOf(gen.OneConstOf(
-		CustomDomainProperties_CustomHttpsProvisioningSubstateCertificateDeleted,
-		CustomDomainProperties_CustomHttpsProvisioningSubstateCertificateDeployed,
-		CustomDomainProperties_CustomHttpsProvisioningSubstateDeletingCertificate,
-		CustomDomainProperties_CustomHttpsProvisioningSubstateDeployingCertificate,
-		CustomDomainProperties_CustomHttpsProvisioningSubstateDomainControlValidationRequestApproved,
-		CustomDomainProperties_CustomHttpsProvisioningSubstateDomainControlValidationRequestRejected,
-		CustomDomainProperties_CustomHttpsProvisioningSubstateDomainControlValidationRequestTimedOut,
-		CustomDomainProperties_CustomHttpsProvisioningSubstateIssuingCertificate,
-		CustomDomainProperties_CustomHttpsProvisioningSubstatePendingDomainControlValidationREquestApproval,
-		CustomDomainProperties_CustomHttpsProvisioningSubstateSubmittingDomainControlValidationRequest))
+		CustomDomainProperties_CustomHttpsProvisioningSubstate_CertificateDeleted,
+		CustomDomainProperties_CustomHttpsProvisioningSubstate_CertificateDeployed,
+		CustomDomainProperties_CustomHttpsProvisioningSubstate_DeletingCertificate,
+		CustomDomainProperties_CustomHttpsProvisioningSubstate_DeployingCertificate,
+		CustomDomainProperties_CustomHttpsProvisioningSubstate_DomainControlValidationRequestApproved,
+		CustomDomainProperties_CustomHttpsProvisioningSubstate_DomainControlValidationRequestRejected,
+		CustomDomainProperties_CustomHttpsProvisioningSubstate_DomainControlValidationRequestTimedOut,
+		CustomDomainProperties_CustomHttpsProvisioningSubstate_IssuingCertificate,
+		CustomDomainProperties_CustomHttpsProvisioningSubstate_PendingDomainControlValidationREquestApproval,
+		CustomDomainProperties_CustomHttpsProvisioningSubstate_SubmittingDomainControlValidationRequest))
 	gens["HostName"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		CustomDomainProperties_ProvisioningStateDisabled,
-		CustomDomainProperties_ProvisioningStateDisabling,
-		CustomDomainProperties_ProvisioningStateEnabled,
-		CustomDomainProperties_ProvisioningStateEnabling,
-		CustomDomainProperties_ProvisioningStateFailed))
-	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(CustomDomainProperties_ResourceStateActive, CustomDomainProperties_ResourceStateCreating, CustomDomainProperties_ResourceStateDeleting))
+		CustomDomainProperties_ProvisioningState_Disabled,
+		CustomDomainProperties_ProvisioningState_Disabling,
+		CustomDomainProperties_ProvisioningState_Enabled,
+		CustomDomainProperties_ProvisioningState_Enabling,
+		CustomDomainProperties_ProvisioningState_Failed))
+	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(CustomDomainProperties_ResourceState_Active, CustomDomainProperties_ResourceState_Creating, CustomDomainProperties_ResourceState_Deleting))
 	gens["ValidationData"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1000,11 +1000,11 @@ func AddIndependentPropertyGeneratorsForDeepCreatedOriginPropertiesARM(gens map[
 	gens["OriginHostHeader"] = gen.PtrOf(gen.AlphaString())
 	gens["Priority"] = gen.PtrOf(gen.Int())
 	gens["PrivateEndpointStatus"] = gen.PtrOf(gen.OneConstOf(
-		PrivateEndpointStatusApproved,
-		PrivateEndpointStatusDisconnected,
-		PrivateEndpointStatusPending,
-		PrivateEndpointStatusRejected,
-		PrivateEndpointStatusTimeout))
+		PrivateEndpointStatus_Approved,
+		PrivateEndpointStatus_Disconnected,
+		PrivateEndpointStatus_Pending,
+		PrivateEndpointStatus_Rejected,
+		PrivateEndpointStatus_Timeout))
 	gens["PrivateLinkAlias"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateLinkApprovalMessage"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateLinkLocation"] = gen.PtrOf(gen.AlphaString())
@@ -1148,7 +1148,7 @@ func AddIndependentPropertyGeneratorsForKeyVaultSigningKeyParametersARM(gens map
 	gens["SecretName"] = gen.PtrOf(gen.AlphaString())
 	gens["SecretVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["SubscriptionId"] = gen.PtrOf(gen.AlphaString())
-	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(KeyVaultSigningKeyParameters_TypeNameKeyVaultSigningKeyParameters))
+	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(KeyVaultSigningKeyParameters_TypeName_KeyVaultSigningKeyParameters))
 	gens["VaultName"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1209,9 +1209,9 @@ func CustomDomainHttpsParametersARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForCustomDomainHttpsParametersARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCustomDomainHttpsParametersARM(gens map[string]gopter.Gen) {
-	gens["CertificateSource"] = gen.PtrOf(gen.OneConstOf(CustomDomainHttpsParameters_CertificateSourceAzureKeyVault, CustomDomainHttpsParameters_CertificateSourceCdn))
-	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(CustomDomainHttpsParameters_MinimumTlsVersionNone, CustomDomainHttpsParameters_MinimumTlsVersionTLS10, CustomDomainHttpsParameters_MinimumTlsVersionTLS12))
-	gens["ProtocolType"] = gen.PtrOf(gen.OneConstOf(CustomDomainHttpsParameters_ProtocolTypeIPBased, CustomDomainHttpsParameters_ProtocolTypeServerNameIndication))
+	gens["CertificateSource"] = gen.PtrOf(gen.OneConstOf(CustomDomainHttpsParameters_CertificateSource_AzureKeyVault, CustomDomainHttpsParameters_CertificateSource_Cdn))
+	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(CustomDomainHttpsParameters_MinimumTlsVersion_None, CustomDomainHttpsParameters_MinimumTlsVersion_TLS10, CustomDomainHttpsParameters_MinimumTlsVersion_TLS12))
+	gens["ProtocolType"] = gen.PtrOf(gen.OneConstOf(CustomDomainHttpsParameters_ProtocolType_IPBased, CustomDomainHttpsParameters_ProtocolType_ServerNameIndication))
 }
 
 func Test_DeliveryRuleActionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1272,15 +1272,15 @@ func DeliveryRuleActionARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDeliveryRuleActionARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleActionARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		DeliveryRuleAction_NameCacheExpiration,
-		DeliveryRuleAction_NameCacheKeyQueryString,
-		DeliveryRuleAction_NameModifyRequestHeader,
-		DeliveryRuleAction_NameModifyResponseHeader,
-		DeliveryRuleAction_NameOriginGroupOverride,
-		DeliveryRuleAction_NameRouteConfigurationOverride,
-		DeliveryRuleAction_NameUrlRedirect,
-		DeliveryRuleAction_NameUrlRewrite,
-		DeliveryRuleAction_NameUrlSigning))
+		DeliveryRuleAction_Name_CacheExpiration,
+		DeliveryRuleAction_Name_CacheKeyQueryString,
+		DeliveryRuleAction_Name_ModifyRequestHeader,
+		DeliveryRuleAction_Name_ModifyResponseHeader,
+		DeliveryRuleAction_Name_OriginGroupOverride,
+		DeliveryRuleAction_Name_RouteConfigurationOverride,
+		DeliveryRuleAction_Name_UrlRedirect,
+		DeliveryRuleAction_Name_UrlRewrite,
+		DeliveryRuleAction_Name_UrlSigning))
 }
 
 func Test_DeliveryRuleConditionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1341,25 +1341,25 @@ func DeliveryRuleConditionARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDeliveryRuleConditionARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDeliveryRuleConditionARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		DeliveryRuleCondition_NameClientPort,
-		DeliveryRuleCondition_NameCookies,
-		DeliveryRuleCondition_NameHostName,
-		DeliveryRuleCondition_NameHttpVersion,
-		DeliveryRuleCondition_NameIsDevice,
-		DeliveryRuleCondition_NamePostArgs,
-		DeliveryRuleCondition_NameQueryString,
-		DeliveryRuleCondition_NameRemoteAddress,
-		DeliveryRuleCondition_NameRequestBody,
-		DeliveryRuleCondition_NameRequestHeader,
-		DeliveryRuleCondition_NameRequestMethod,
-		DeliveryRuleCondition_NameRequestScheme,
-		DeliveryRuleCondition_NameRequestUri,
-		DeliveryRuleCondition_NameServerPort,
-		DeliveryRuleCondition_NameSocketAddr,
-		DeliveryRuleCondition_NameSslProtocol,
-		DeliveryRuleCondition_NameUrlFileExtension,
-		DeliveryRuleCondition_NameUrlFileName,
-		DeliveryRuleCondition_NameUrlPath))
+		DeliveryRuleCondition_Name_ClientPort,
+		DeliveryRuleCondition_Name_Cookies,
+		DeliveryRuleCondition_Name_HostName,
+		DeliveryRuleCondition_Name_HttpVersion,
+		DeliveryRuleCondition_Name_IsDevice,
+		DeliveryRuleCondition_Name_PostArgs,
+		DeliveryRuleCondition_Name_QueryString,
+		DeliveryRuleCondition_Name_RemoteAddress,
+		DeliveryRuleCondition_Name_RequestBody,
+		DeliveryRuleCondition_Name_RequestHeader,
+		DeliveryRuleCondition_Name_RequestMethod,
+		DeliveryRuleCondition_Name_RequestScheme,
+		DeliveryRuleCondition_Name_RequestUri,
+		DeliveryRuleCondition_Name_ServerPort,
+		DeliveryRuleCondition_Name_SocketAddr,
+		DeliveryRuleCondition_Name_SslProtocol,
+		DeliveryRuleCondition_Name_UrlFileExtension,
+		DeliveryRuleCondition_Name_UrlFileName,
+		DeliveryRuleCondition_Name_UrlPath))
 }
 
 func Test_HealthProbeParametersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1421,8 +1421,8 @@ func HealthProbeParametersARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForHealthProbeParametersARM(gens map[string]gopter.Gen) {
 	gens["ProbeIntervalInSeconds"] = gen.PtrOf(gen.Int())
 	gens["ProbePath"] = gen.PtrOf(gen.AlphaString())
-	gens["ProbeProtocol"] = gen.PtrOf(gen.OneConstOf(HealthProbeParameters_ProbeProtocolHttp, HealthProbeParameters_ProbeProtocolHttps, HealthProbeParameters_ProbeProtocolNotSet))
-	gens["ProbeRequestType"] = gen.PtrOf(gen.OneConstOf(HealthProbeParameters_ProbeRequestTypeGET, HealthProbeParameters_ProbeRequestTypeHEAD, HealthProbeParameters_ProbeRequestTypeNotSet))
+	gens["ProbeProtocol"] = gen.PtrOf(gen.OneConstOf(HealthProbeParameters_ProbeProtocol_Http, HealthProbeParameters_ProbeProtocol_Https, HealthProbeParameters_ProbeProtocol_NotSet))
+	gens["ProbeRequestType"] = gen.PtrOf(gen.OneConstOf(HealthProbeParameters_ProbeRequestType_GET, HealthProbeParameters_ProbeRequestType_HEAD, HealthProbeParameters_ProbeRequestType_NotSet))
 }
 
 func Test_ResponseBasedOriginErrorDetectionParametersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1491,7 +1491,7 @@ func ResponseBasedOriginErrorDetectionParametersARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForResponseBasedOriginErrorDetectionParametersARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForResponseBasedOriginErrorDetectionParametersARM(gens map[string]gopter.Gen) {
-	gens["ResponseBasedDetectedErrorTypes"] = gen.PtrOf(gen.OneConstOf(ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypesNone, ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypesTcpAndHttpErrors, ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypesTcpErrorsOnly))
+	gens["ResponseBasedDetectedErrorTypes"] = gen.PtrOf(gen.OneConstOf(ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_None, ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_TcpAndHttpErrors, ResponseBasedOriginErrorDetectionParameters_ResponseBasedDetectedErrorTypes_TcpErrorsOnly))
 	gens["ResponseBasedFailoverThresholdPercentage"] = gen.PtrOf(gen.Int())
 }
 

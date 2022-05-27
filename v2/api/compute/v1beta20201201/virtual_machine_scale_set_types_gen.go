@@ -99,7 +99,7 @@ func (scaleSet *VirtualMachineScaleSet) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20201201"
 func (scaleSet VirtualMachineScaleSet) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -2421,15 +2421,15 @@ func (policy *AutomaticRepairsPolicy_STATUS) AssignPropertiesToAutomaticRepairsP
 type OrchestrationMode string
 
 const (
-	OrchestrationModeFlexible = OrchestrationMode("Flexible")
-	OrchestrationModeUniform  = OrchestrationMode("Uniform")
+	OrchestrationMode_Flexible = OrchestrationMode("Flexible")
+	OrchestrationMode_Uniform  = OrchestrationMode("Uniform")
 )
 
 type OrchestrationMode_STATUS string
 
 const (
-	OrchestrationMode_STATUSFlexible = OrchestrationMode_STATUS("Flexible")
-	OrchestrationMode_STATUSUniform  = OrchestrationMode_STATUS("Uniform")
+	OrchestrationMode_Flexible_STATUS = OrchestrationMode_STATUS("Flexible")
+	OrchestrationMode_Uniform_STATUS  = OrchestrationMode_STATUS("Uniform")
 )
 
 type ScaleInPolicy struct {
@@ -5034,17 +5034,17 @@ func (policy *RollingUpgradePolicy_STATUS) AssignPropertiesToRollingUpgradePolic
 type ScaleInPolicy_Rules string
 
 const (
-	ScaleInPolicy_RulesDefault  = ScaleInPolicy_Rules("Default")
-	ScaleInPolicy_RulesNewestVM = ScaleInPolicy_Rules("NewestVM")
-	ScaleInPolicy_RulesOldestVM = ScaleInPolicy_Rules("OldestVM")
+	ScaleInPolicy_Rules_Default  = ScaleInPolicy_Rules("Default")
+	ScaleInPolicy_Rules_NewestVM = ScaleInPolicy_Rules("NewestVM")
+	ScaleInPolicy_Rules_OldestVM = ScaleInPolicy_Rules("OldestVM")
 )
 
 type ScaleInPolicy_Rules_STATUS string
 
 const (
-	ScaleInPolicy_Rules_STATUSDefault  = ScaleInPolicy_Rules_STATUS("Default")
-	ScaleInPolicy_Rules_STATUSNewestVM = ScaleInPolicy_Rules_STATUS("NewestVM")
-	ScaleInPolicy_Rules_STATUSOldestVM = ScaleInPolicy_Rules_STATUS("OldestVM")
+	ScaleInPolicy_Rules_Default_STATUS  = ScaleInPolicy_Rules_STATUS("Default")
+	ScaleInPolicy_Rules_NewestVM_STATUS = ScaleInPolicy_Rules_STATUS("NewestVM")
+	ScaleInPolicy_Rules_OldestVM_STATUS = ScaleInPolicy_Rules_STATUS("OldestVM")
 )
 
 type ScheduledEventsProfile struct {
@@ -5232,17 +5232,17 @@ func (profile *ScheduledEventsProfile_STATUS) AssignPropertiesToScheduledEventsP
 type UpgradePolicy_Mode string
 
 const (
-	UpgradePolicy_ModeAutomatic = UpgradePolicy_Mode("Automatic")
-	UpgradePolicy_ModeManual    = UpgradePolicy_Mode("Manual")
-	UpgradePolicy_ModeRolling   = UpgradePolicy_Mode("Rolling")
+	UpgradePolicy_Mode_Automatic = UpgradePolicy_Mode("Automatic")
+	UpgradePolicy_Mode_Manual    = UpgradePolicy_Mode("Manual")
+	UpgradePolicy_Mode_Rolling   = UpgradePolicy_Mode("Rolling")
 )
 
 type UpgradePolicy_Mode_STATUS string
 
 const (
-	UpgradePolicy_Mode_STATUSAutomatic = UpgradePolicy_Mode_STATUS("Automatic")
-	UpgradePolicy_Mode_STATUSManual    = UpgradePolicy_Mode_STATUS("Manual")
-	UpgradePolicy_Mode_STATUSRolling   = UpgradePolicy_Mode_STATUS("Rolling")
+	UpgradePolicy_Mode_Automatic_STATUS = UpgradePolicy_Mode_STATUS("Automatic")
+	UpgradePolicy_Mode_Manual_STATUS    = UpgradePolicy_Mode_STATUS("Manual")
+	UpgradePolicy_Mode_Rolling_STATUS   = UpgradePolicy_Mode_STATUS("Rolling")
 )
 
 type VirtualMachineScaleSetExtensionProfile struct {
@@ -10555,30 +10555,30 @@ func (settings *VirtualMachineScaleSetNetworkConfigurationDnsSettings_STATUS) As
 type VirtualMachineScaleSetOSDisk_OsType string
 
 const (
-	VirtualMachineScaleSetOSDisk_OsTypeLinux   = VirtualMachineScaleSetOSDisk_OsType("Linux")
-	VirtualMachineScaleSetOSDisk_OsTypeWindows = VirtualMachineScaleSetOSDisk_OsType("Windows")
+	VirtualMachineScaleSetOSDisk_OsType_Linux   = VirtualMachineScaleSetOSDisk_OsType("Linux")
+	VirtualMachineScaleSetOSDisk_OsType_Windows = VirtualMachineScaleSetOSDisk_OsType("Windows")
 )
 
 type VirtualMachineScaleSetOSDisk_OsType_STATUS string
 
 const (
-	VirtualMachineScaleSetOSDisk_OsType_STATUSLinux   = VirtualMachineScaleSetOSDisk_OsType_STATUS("Linux")
-	VirtualMachineScaleSetOSDisk_OsType_STATUSWindows = VirtualMachineScaleSetOSDisk_OsType_STATUS("Windows")
+	VirtualMachineScaleSetOSDisk_OsType_Linux_STATUS   = VirtualMachineScaleSetOSDisk_OsType_STATUS("Linux")
+	VirtualMachineScaleSetOSDisk_OsType_Windows_STATUS = VirtualMachineScaleSetOSDisk_OsType_STATUS("Windows")
 )
 
 // +kubebuilder:validation:Enum={"IPv4","IPv6"}
 type VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion string
 
 const (
-	VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersionIPv4 = VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion("IPv4")
-	VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersionIPv6 = VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion("IPv6")
+	VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_IPv4 = VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion("IPv4")
+	VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_IPv6 = VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion("IPv6")
 )
 
 type VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS string
 
 const (
-	VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUSIPv4 = VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS("IPv4")
-	VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUSIPv6 = VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS("IPv6")
+	VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_IPv4_STATUS = VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS("IPv4")
+	VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_IPv6_STATUS = VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUS("IPv6")
 )
 
 type VirtualMachineScaleSetPublicIPAddressConfiguration struct {
@@ -11420,15 +11420,15 @@ func (settings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_ST
 type VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion string
 
 const (
-	VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersionIPv4 = VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion("IPv4")
-	VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersionIPv6 = VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion("IPv6")
+	VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_IPv4 = VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion("IPv4")
+	VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_IPv6 = VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion("IPv6")
 )
 
 type VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS string
 
 const (
-	VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUSIPv4 = VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS("IPv4")
-	VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUSIPv6 = VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS("IPv6")
+	VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_IPv4_STATUS = VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS("IPv4")
+	VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_IPv6_STATUS = VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUS("IPv6")
 )
 
 func init() {

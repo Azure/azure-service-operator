@@ -32,11 +32,11 @@ type SqlTriggerResource_STATUSARM struct {
 type SqlTriggerResource_TriggerOperation_STATUS string
 
 const (
-	SqlTriggerResource_TriggerOperation_STATUSAll     = SqlTriggerResource_TriggerOperation_STATUS("All")
-	SqlTriggerResource_TriggerOperation_STATUSCreate  = SqlTriggerResource_TriggerOperation_STATUS("Create")
-	SqlTriggerResource_TriggerOperation_STATUSDelete  = SqlTriggerResource_TriggerOperation_STATUS("Delete")
-	SqlTriggerResource_TriggerOperation_STATUSReplace = SqlTriggerResource_TriggerOperation_STATUS("Replace")
-	SqlTriggerResource_TriggerOperation_STATUSUpdate  = SqlTriggerResource_TriggerOperation_STATUS("Update")
+	SqlTriggerResource_TriggerOperation_All_STATUS     = SqlTriggerResource_TriggerOperation_STATUS("All")
+	SqlTriggerResource_TriggerOperation_Create_STATUS  = SqlTriggerResource_TriggerOperation_STATUS("Create")
+	SqlTriggerResource_TriggerOperation_Delete_STATUS  = SqlTriggerResource_TriggerOperation_STATUS("Delete")
+	SqlTriggerResource_TriggerOperation_Replace_STATUS = SqlTriggerResource_TriggerOperation_STATUS("Replace")
+	SqlTriggerResource_TriggerOperation_Update_STATUS  = SqlTriggerResource_TriggerOperation_STATUS("Update")
 )
 
 // Deprecated version of SqlTriggerResource_TriggerType_STATUS. Use v1beta20210515.SqlTriggerResource_TriggerType_STATUS
@@ -44,6 +44,6 @@ const (
 type SqlTriggerResource_TriggerType_STATUS string
 
 const (
-	SqlTriggerResource_TriggerType_STATUSPost = SqlTriggerResource_TriggerType_STATUS("Post")
-	SqlTriggerResource_TriggerType_STATUSPre  = SqlTriggerResource_TriggerType_STATUS("Pre")
+	SqlTriggerResource_TriggerType_Post_STATUS = SqlTriggerResource_TriggerType_STATUS("Post")
+	SqlTriggerResource_TriggerType_Pre_STATUS  = SqlTriggerResource_TriggerType_STATUS("Pre")
 )

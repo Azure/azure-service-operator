@@ -112,7 +112,7 @@ func (rule *NetworkSecurityGroupsSecurityRule) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20201101"
 func (rule NetworkSecurityGroupsSecurityRule) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -1655,16 +1655,16 @@ func (embedded *ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRul
 type SecurityRuleAccess string
 
 const (
-	SecurityRuleAccessAllow = SecurityRuleAccess("Allow")
-	SecurityRuleAccessDeny  = SecurityRuleAccess("Deny")
+	SecurityRuleAccess_Allow = SecurityRuleAccess("Allow")
+	SecurityRuleAccess_Deny  = SecurityRuleAccess("Deny")
 )
 
 // Deprecated version of SecurityRuleAccess_STATUS. Use v1beta20201101.SecurityRuleAccess_STATUS instead
 type SecurityRuleAccess_STATUS string
 
 const (
-	SecurityRuleAccess_STATUSAllow = SecurityRuleAccess_STATUS("Allow")
-	SecurityRuleAccess_STATUSDeny  = SecurityRuleAccess_STATUS("Deny")
+	SecurityRuleAccess_Allow_STATUS = SecurityRuleAccess_STATUS("Allow")
+	SecurityRuleAccess_Deny_STATUS  = SecurityRuleAccess_STATUS("Deny")
 )
 
 // Deprecated version of SecurityRuleDirection. Use v1beta20201101.SecurityRuleDirection instead
@@ -1672,16 +1672,16 @@ const (
 type SecurityRuleDirection string
 
 const (
-	SecurityRuleDirectionInbound  = SecurityRuleDirection("Inbound")
-	SecurityRuleDirectionOutbound = SecurityRuleDirection("Outbound")
+	SecurityRuleDirection_Inbound  = SecurityRuleDirection("Inbound")
+	SecurityRuleDirection_Outbound = SecurityRuleDirection("Outbound")
 )
 
 // Deprecated version of SecurityRuleDirection_STATUS. Use v1beta20201101.SecurityRuleDirection_STATUS instead
 type SecurityRuleDirection_STATUS string
 
 const (
-	SecurityRuleDirection_STATUSInbound  = SecurityRuleDirection_STATUS("Inbound")
-	SecurityRuleDirection_STATUSOutbound = SecurityRuleDirection_STATUS("Outbound")
+	SecurityRuleDirection_Inbound_STATUS  = SecurityRuleDirection_STATUS("Inbound")
+	SecurityRuleDirection_Outbound_STATUS = SecurityRuleDirection_STATUS("Outbound")
 )
 
 // Deprecated version of SecurityRulePropertiesFormat_Protocol. Use v1beta20201101.SecurityRulePropertiesFormat_Protocol
@@ -1690,12 +1690,12 @@ const (
 type SecurityRulePropertiesFormat_Protocol string
 
 const (
-	SecurityRulePropertiesFormat_ProtocolAh   = SecurityRulePropertiesFormat_Protocol("Ah")
-	SecurityRulePropertiesFormat_ProtocolEsp  = SecurityRulePropertiesFormat_Protocol("Esp")
-	SecurityRulePropertiesFormat_ProtocolIcmp = SecurityRulePropertiesFormat_Protocol("Icmp")
-	SecurityRulePropertiesFormat_ProtocolStar = SecurityRulePropertiesFormat_Protocol("*")
-	SecurityRulePropertiesFormat_ProtocolTcp  = SecurityRulePropertiesFormat_Protocol("Tcp")
-	SecurityRulePropertiesFormat_ProtocolUdp  = SecurityRulePropertiesFormat_Protocol("Udp")
+	SecurityRulePropertiesFormat_Protocol_Ah   = SecurityRulePropertiesFormat_Protocol("Ah")
+	SecurityRulePropertiesFormat_Protocol_Esp  = SecurityRulePropertiesFormat_Protocol("Esp")
+	SecurityRulePropertiesFormat_Protocol_Icmp = SecurityRulePropertiesFormat_Protocol("Icmp")
+	SecurityRulePropertiesFormat_Protocol_Star = SecurityRulePropertiesFormat_Protocol("*")
+	SecurityRulePropertiesFormat_Protocol_Tcp  = SecurityRulePropertiesFormat_Protocol("Tcp")
+	SecurityRulePropertiesFormat_Protocol_Udp  = SecurityRulePropertiesFormat_Protocol("Udp")
 )
 
 // Deprecated version of SecurityRulePropertiesFormat_Protocol_STATUS. Use
@@ -1703,12 +1703,12 @@ const (
 type SecurityRulePropertiesFormat_Protocol_STATUS string
 
 const (
-	SecurityRulePropertiesFormat_Protocol_STATUSAh   = SecurityRulePropertiesFormat_Protocol_STATUS("Ah")
-	SecurityRulePropertiesFormat_Protocol_STATUSEsp  = SecurityRulePropertiesFormat_Protocol_STATUS("Esp")
-	SecurityRulePropertiesFormat_Protocol_STATUSIcmp = SecurityRulePropertiesFormat_Protocol_STATUS("Icmp")
-	SecurityRulePropertiesFormat_Protocol_STATUSStar = SecurityRulePropertiesFormat_Protocol_STATUS("*")
-	SecurityRulePropertiesFormat_Protocol_STATUSTcp  = SecurityRulePropertiesFormat_Protocol_STATUS("Tcp")
-	SecurityRulePropertiesFormat_Protocol_STATUSUdp  = SecurityRulePropertiesFormat_Protocol_STATUS("Udp")
+	SecurityRulePropertiesFormat_Protocol_Ah_STATUS   = SecurityRulePropertiesFormat_Protocol_STATUS("Ah")
+	SecurityRulePropertiesFormat_Protocol_Esp_STATUS  = SecurityRulePropertiesFormat_Protocol_STATUS("Esp")
+	SecurityRulePropertiesFormat_Protocol_Icmp_STATUS = SecurityRulePropertiesFormat_Protocol_STATUS("Icmp")
+	SecurityRulePropertiesFormat_Protocol_Star_STATUS = SecurityRulePropertiesFormat_Protocol_STATUS("*")
+	SecurityRulePropertiesFormat_Protocol_Tcp_STATUS  = SecurityRulePropertiesFormat_Protocol_STATUS("Tcp")
+	SecurityRulePropertiesFormat_Protocol_Udp_STATUS  = SecurityRulePropertiesFormat_Protocol_STATUS("Udp")
 )
 
 func init() {

@@ -112,7 +112,7 @@ func (topic *Topic) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20200601"
 func (topic Topic) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -1514,18 +1514,18 @@ func (embedded *PrivateEndpointConnection_Topic_SubResourceEmbedded) AssignPrope
 type TopicProperties_InputSchema string
 
 const (
-	TopicProperties_InputSchemaCloudEventSchemaV1_0 = TopicProperties_InputSchema("CloudEventSchemaV1_0")
-	TopicProperties_InputSchemaCustomEventSchema    = TopicProperties_InputSchema("CustomEventSchema")
-	TopicProperties_InputSchemaEventGridSchema      = TopicProperties_InputSchema("EventGridSchema")
+	TopicProperties_InputSchema_CloudEventSchemaV1_0 = TopicProperties_InputSchema("CloudEventSchemaV1_0")
+	TopicProperties_InputSchema_CustomEventSchema    = TopicProperties_InputSchema("CustomEventSchema")
+	TopicProperties_InputSchema_EventGridSchema      = TopicProperties_InputSchema("EventGridSchema")
 )
 
 // Deprecated version of TopicProperties_InputSchema_STATUS. Use v1beta20200601.TopicProperties_InputSchema_STATUS instead
 type TopicProperties_InputSchema_STATUS string
 
 const (
-	TopicProperties_InputSchema_STATUSCloudEventSchemaV1_0 = TopicProperties_InputSchema_STATUS("CloudEventSchemaV1_0")
-	TopicProperties_InputSchema_STATUSCustomEventSchema    = TopicProperties_InputSchema_STATUS("CustomEventSchema")
-	TopicProperties_InputSchema_STATUSEventGridSchema      = TopicProperties_InputSchema_STATUS("EventGridSchema")
+	TopicProperties_InputSchema_CloudEventSchemaV1_0_STATUS = TopicProperties_InputSchema_STATUS("CloudEventSchemaV1_0")
+	TopicProperties_InputSchema_CustomEventSchema_STATUS    = TopicProperties_InputSchema_STATUS("CustomEventSchema")
+	TopicProperties_InputSchema_EventGridSchema_STATUS      = TopicProperties_InputSchema_STATUS("EventGridSchema")
 )
 
 // Deprecated version of TopicProperties_ProvisioningState. Use v1beta20200601.TopicProperties_ProvisioningState instead
@@ -1533,12 +1533,12 @@ const (
 type TopicProperties_ProvisioningState string
 
 const (
-	TopicProperties_ProvisioningStateCanceled  = TopicProperties_ProvisioningState("Canceled")
-	TopicProperties_ProvisioningStateCreating  = TopicProperties_ProvisioningState("Creating")
-	TopicProperties_ProvisioningStateDeleting  = TopicProperties_ProvisioningState("Deleting")
-	TopicProperties_ProvisioningStateFailed    = TopicProperties_ProvisioningState("Failed")
-	TopicProperties_ProvisioningStateSucceeded = TopicProperties_ProvisioningState("Succeeded")
-	TopicProperties_ProvisioningStateUpdating  = TopicProperties_ProvisioningState("Updating")
+	TopicProperties_ProvisioningState_Canceled  = TopicProperties_ProvisioningState("Canceled")
+	TopicProperties_ProvisioningState_Creating  = TopicProperties_ProvisioningState("Creating")
+	TopicProperties_ProvisioningState_Deleting  = TopicProperties_ProvisioningState("Deleting")
+	TopicProperties_ProvisioningState_Failed    = TopicProperties_ProvisioningState("Failed")
+	TopicProperties_ProvisioningState_Succeeded = TopicProperties_ProvisioningState("Succeeded")
+	TopicProperties_ProvisioningState_Updating  = TopicProperties_ProvisioningState("Updating")
 )
 
 // Deprecated version of TopicProperties_ProvisioningState_STATUS. Use
@@ -1546,12 +1546,12 @@ const (
 type TopicProperties_ProvisioningState_STATUS string
 
 const (
-	TopicProperties_ProvisioningState_STATUSCanceled  = TopicProperties_ProvisioningState_STATUS("Canceled")
-	TopicProperties_ProvisioningState_STATUSCreating  = TopicProperties_ProvisioningState_STATUS("Creating")
-	TopicProperties_ProvisioningState_STATUSDeleting  = TopicProperties_ProvisioningState_STATUS("Deleting")
-	TopicProperties_ProvisioningState_STATUSFailed    = TopicProperties_ProvisioningState_STATUS("Failed")
-	TopicProperties_ProvisioningState_STATUSSucceeded = TopicProperties_ProvisioningState_STATUS("Succeeded")
-	TopicProperties_ProvisioningState_STATUSUpdating  = TopicProperties_ProvisioningState_STATUS("Updating")
+	TopicProperties_ProvisioningState_Canceled_STATUS  = TopicProperties_ProvisioningState_STATUS("Canceled")
+	TopicProperties_ProvisioningState_Creating_STATUS  = TopicProperties_ProvisioningState_STATUS("Creating")
+	TopicProperties_ProvisioningState_Deleting_STATUS  = TopicProperties_ProvisioningState_STATUS("Deleting")
+	TopicProperties_ProvisioningState_Failed_STATUS    = TopicProperties_ProvisioningState_STATUS("Failed")
+	TopicProperties_ProvisioningState_Succeeded_STATUS = TopicProperties_ProvisioningState_STATUS("Succeeded")
+	TopicProperties_ProvisioningState_Updating_STATUS  = TopicProperties_ProvisioningState_STATUS("Updating")
 )
 
 // Deprecated version of TopicProperties_PublicNetworkAccess. Use v1beta20200601.TopicProperties_PublicNetworkAccess instead
@@ -1559,8 +1559,8 @@ const (
 type TopicProperties_PublicNetworkAccess string
 
 const (
-	TopicProperties_PublicNetworkAccessDisabled = TopicProperties_PublicNetworkAccess("Disabled")
-	TopicProperties_PublicNetworkAccessEnabled  = TopicProperties_PublicNetworkAccess("Enabled")
+	TopicProperties_PublicNetworkAccess_Disabled = TopicProperties_PublicNetworkAccess("Disabled")
+	TopicProperties_PublicNetworkAccess_Enabled  = TopicProperties_PublicNetworkAccess("Enabled")
 )
 
 // Deprecated version of TopicProperties_PublicNetworkAccess_STATUS. Use
@@ -1568,8 +1568,8 @@ const (
 type TopicProperties_PublicNetworkAccess_STATUS string
 
 const (
-	TopicProperties_PublicNetworkAccess_STATUSDisabled = TopicProperties_PublicNetworkAccess_STATUS("Disabled")
-	TopicProperties_PublicNetworkAccess_STATUSEnabled  = TopicProperties_PublicNetworkAccess_STATUS("Enabled")
+	TopicProperties_PublicNetworkAccess_Disabled_STATUS = TopicProperties_PublicNetworkAccess_STATUS("Disabled")
+	TopicProperties_PublicNetworkAccess_Enabled_STATUS  = TopicProperties_PublicNetworkAccess_STATUS("Enabled")
 )
 
 func init() {

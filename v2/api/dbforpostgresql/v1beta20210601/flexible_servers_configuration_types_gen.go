@@ -99,7 +99,7 @@ func (configuration *FlexibleServersConfiguration) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20210601"
 func (configuration FlexibleServersConfiguration) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -1298,19 +1298,19 @@ func (configuration *FlexibleServersConfiguration_Spec) SetAzureName(azureName s
 type ConfigurationProperties_DataType string
 
 const (
-	ConfigurationProperties_DataTypeBoolean     = ConfigurationProperties_DataType("Boolean")
-	ConfigurationProperties_DataTypeEnumeration = ConfigurationProperties_DataType("Enumeration")
-	ConfigurationProperties_DataTypeInteger     = ConfigurationProperties_DataType("Integer")
-	ConfigurationProperties_DataTypeNumeric     = ConfigurationProperties_DataType("Numeric")
+	ConfigurationProperties_DataType_Boolean     = ConfigurationProperties_DataType("Boolean")
+	ConfigurationProperties_DataType_Enumeration = ConfigurationProperties_DataType("Enumeration")
+	ConfigurationProperties_DataType_Integer     = ConfigurationProperties_DataType("Integer")
+	ConfigurationProperties_DataType_Numeric     = ConfigurationProperties_DataType("Numeric")
 )
 
 type ConfigurationProperties_DataType_STATUS string
 
 const (
-	ConfigurationProperties_DataType_STATUSBoolean     = ConfigurationProperties_DataType_STATUS("Boolean")
-	ConfigurationProperties_DataType_STATUSEnumeration = ConfigurationProperties_DataType_STATUS("Enumeration")
-	ConfigurationProperties_DataType_STATUSInteger     = ConfigurationProperties_DataType_STATUS("Integer")
-	ConfigurationProperties_DataType_STATUSNumeric     = ConfigurationProperties_DataType_STATUS("Numeric")
+	ConfigurationProperties_DataType_Boolean_STATUS     = ConfigurationProperties_DataType_STATUS("Boolean")
+	ConfigurationProperties_DataType_Enumeration_STATUS = ConfigurationProperties_DataType_STATUS("Enumeration")
+	ConfigurationProperties_DataType_Integer_STATUS     = ConfigurationProperties_DataType_STATUS("Integer")
+	ConfigurationProperties_DataType_Numeric_STATUS     = ConfigurationProperties_DataType_STATUS("Numeric")
 )
 
 func init() {

@@ -29,7 +29,7 @@ var _ genruntime.ARMResourceSpec = &DatabaseAccountsSqlDatabasesContainer_SpecAR
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20210515"
 func (container DatabaseAccountsSqlDatabasesContainer_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -141,17 +141,17 @@ type CompositePathARM struct {
 type ConflictResolutionPolicy_Mode string
 
 const (
-	ConflictResolutionPolicy_ModeCustom         = ConflictResolutionPolicy_Mode("Custom")
-	ConflictResolutionPolicy_ModeLastWriterWins = ConflictResolutionPolicy_Mode("LastWriterWins")
+	ConflictResolutionPolicy_Mode_Custom         = ConflictResolutionPolicy_Mode("Custom")
+	ConflictResolutionPolicy_Mode_LastWriterWins = ConflictResolutionPolicy_Mode("LastWriterWins")
 )
 
 // +kubebuilder:validation:Enum={"Hash","MultiHash","Range"}
 type ContainerPartitionKey_Kind string
 
 const (
-	ContainerPartitionKey_KindHash      = ContainerPartitionKey_Kind("Hash")
-	ContainerPartitionKey_KindMultiHash = ContainerPartitionKey_Kind("MultiHash")
-	ContainerPartitionKey_KindRange     = ContainerPartitionKey_Kind("Range")
+	ContainerPartitionKey_Kind_Hash      = ContainerPartitionKey_Kind("Hash")
+	ContainerPartitionKey_Kind_MultiHash = ContainerPartitionKey_Kind("MultiHash")
+	ContainerPartitionKey_Kind_Range     = ContainerPartitionKey_Kind("Range")
 )
 
 type ExcludedPathARM struct {
@@ -173,9 +173,9 @@ type IncludedPathARM struct {
 type IndexingPolicy_IndexingMode string
 
 const (
-	IndexingPolicy_IndexingModeConsistent = IndexingPolicy_IndexingMode("consistent")
-	IndexingPolicy_IndexingModeLazy       = IndexingPolicy_IndexingMode("lazy")
-	IndexingPolicy_IndexingModeNone       = IndexingPolicy_IndexingMode("none")
+	IndexingPolicy_IndexingMode_Consistent = IndexingPolicy_IndexingMode("consistent")
+	IndexingPolicy_IndexingMode_Lazy       = IndexingPolicy_IndexingMode("lazy")
+	IndexingPolicy_IndexingMode_None       = IndexingPolicy_IndexingMode("none")
 )
 
 type SpatialSpecARM struct {
@@ -196,8 +196,8 @@ type UniqueKeyARM struct {
 type CompositePath_Order string
 
 const (
-	CompositePath_OrderAscending  = CompositePath_Order("ascending")
-	CompositePath_OrderDescending = CompositePath_Order("descending")
+	CompositePath_Order_Ascending  = CompositePath_Order("ascending")
+	CompositePath_Order_Descending = CompositePath_Order("descending")
 )
 
 type IndexesARM struct {
@@ -215,29 +215,29 @@ type IndexesARM struct {
 type SpatialType string
 
 const (
-	SpatialTypeLineString   = SpatialType("LineString")
-	SpatialTypeMultiPolygon = SpatialType("MultiPolygon")
-	SpatialTypePoint        = SpatialType("Point")
-	SpatialTypePolygon      = SpatialType("Polygon")
+	SpatialType_LineString   = SpatialType("LineString")
+	SpatialType_MultiPolygon = SpatialType("MultiPolygon")
+	SpatialType_Point        = SpatialType("Point")
+	SpatialType_Polygon      = SpatialType("Polygon")
 )
 
 // +kubebuilder:validation:Enum={"LineString","MultiPolygon","Number","Point","Polygon","String"}
 type Indexes_DataType string
 
 const (
-	Indexes_DataTypeLineString   = Indexes_DataType("LineString")
-	Indexes_DataTypeMultiPolygon = Indexes_DataType("MultiPolygon")
-	Indexes_DataTypeNumber       = Indexes_DataType("Number")
-	Indexes_DataTypePoint        = Indexes_DataType("Point")
-	Indexes_DataTypePolygon      = Indexes_DataType("Polygon")
-	Indexes_DataTypeString       = Indexes_DataType("String")
+	Indexes_DataType_LineString   = Indexes_DataType("LineString")
+	Indexes_DataType_MultiPolygon = Indexes_DataType("MultiPolygon")
+	Indexes_DataType_Number       = Indexes_DataType("Number")
+	Indexes_DataType_Point        = Indexes_DataType("Point")
+	Indexes_DataType_Polygon      = Indexes_DataType("Polygon")
+	Indexes_DataType_String       = Indexes_DataType("String")
 )
 
 // +kubebuilder:validation:Enum={"Hash","Range","Spatial"}
 type Indexes_Kind string
 
 const (
-	Indexes_KindHash    = Indexes_Kind("Hash")
-	Indexes_KindRange   = Indexes_Kind("Range")
-	Indexes_KindSpatial = Indexes_Kind("Spatial")
+	Indexes_Kind_Hash    = Indexes_Kind("Hash")
+	Indexes_Kind_Range   = Indexes_Kind("Range")
+	Indexes_Kind_Spatial = Indexes_Kind("Spatial")
 )

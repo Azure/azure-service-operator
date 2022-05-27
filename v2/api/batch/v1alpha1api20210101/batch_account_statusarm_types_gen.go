@@ -37,9 +37,9 @@ type AutoStorageBaseProperties_STATUSARM struct {
 type BatchAccountIdentity_Type_STATUS string
 
 const (
-	BatchAccountIdentity_Type_STATUSNone           = BatchAccountIdentity_Type_STATUS("None")
-	BatchAccountIdentity_Type_STATUSSystemAssigned = BatchAccountIdentity_Type_STATUS("SystemAssigned")
-	BatchAccountIdentity_Type_STATUSUserAssigned   = BatchAccountIdentity_Type_STATUS("UserAssigned")
+	BatchAccountIdentity_Type_None_STATUS           = BatchAccountIdentity_Type_STATUS("None")
+	BatchAccountIdentity_Type_SystemAssigned_STATUS = BatchAccountIdentity_Type_STATUS("SystemAssigned")
+	BatchAccountIdentity_Type_UserAssigned_STATUS   = BatchAccountIdentity_Type_STATUS("UserAssigned")
 )
 
 // Deprecated version of BatchAccountIdentity_UserAssignedIdentities_STATUS. Use v1beta20210101.BatchAccountIdentity_UserAssignedIdentities_STATUS instead

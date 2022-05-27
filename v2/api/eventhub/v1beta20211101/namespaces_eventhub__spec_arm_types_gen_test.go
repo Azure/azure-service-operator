@@ -167,15 +167,15 @@ func AddIndependentPropertyGeneratorsForNamespacesEventhub_Spec_PropertiesARM(ge
 	gens["PartitionCount"] = gen.PtrOf(gen.Int())
 	gens["PartitionIds"] = gen.SliceOf(gen.AlphaString())
 	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		NamespacesEventhub_Spec_Properties_StatusActive,
-		NamespacesEventhub_Spec_Properties_StatusCreating,
-		NamespacesEventhub_Spec_Properties_StatusDeleting,
-		NamespacesEventhub_Spec_Properties_StatusDisabled,
-		NamespacesEventhub_Spec_Properties_StatusReceiveDisabled,
-		NamespacesEventhub_Spec_Properties_StatusRenaming,
-		NamespacesEventhub_Spec_Properties_StatusRestoring,
-		NamespacesEventhub_Spec_Properties_StatusSendDisabled,
-		NamespacesEventhub_Spec_Properties_StatusUnknown))
+		NamespacesEventhub_Spec_Properties_Status_Active,
+		NamespacesEventhub_Spec_Properties_Status_Creating,
+		NamespacesEventhub_Spec_Properties_Status_Deleting,
+		NamespacesEventhub_Spec_Properties_Status_Disabled,
+		NamespacesEventhub_Spec_Properties_Status_ReceiveDisabled,
+		NamespacesEventhub_Spec_Properties_Status_Renaming,
+		NamespacesEventhub_Spec_Properties_Status_Restoring,
+		NamespacesEventhub_Spec_Properties_Status_SendDisabled,
+		NamespacesEventhub_Spec_Properties_Status_Unknown))
 	gens["UpdatedAt"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -251,7 +251,7 @@ func CaptureDescriptionARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForCaptureDescriptionARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCaptureDescriptionARM(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["Encoding"] = gen.PtrOf(gen.OneConstOf(CaptureDescription_EncodingAvro, CaptureDescription_EncodingAvroDeflate))
+	gens["Encoding"] = gen.PtrOf(gen.OneConstOf(CaptureDescription_Encoding_Avro, CaptureDescription_Encoding_AvroDeflate))
 	gens["IntervalInSeconds"] = gen.PtrOf(gen.Int())
 	gens["SizeLimitInBytes"] = gen.PtrOf(gen.Int())
 	gens["SkipEmptyArchives"] = gen.PtrOf(gen.Bool())

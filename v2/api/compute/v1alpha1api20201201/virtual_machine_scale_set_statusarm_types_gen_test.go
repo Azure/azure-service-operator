@@ -158,7 +158,7 @@ func ExtendedLocation_STATUSARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForExtendedLocation_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForExtendedLocation_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_STATUSEdgeZone))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_EdgeZone_STATUS))
 }
 
 func Test_Plan_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -353,10 +353,10 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentity_STATUSARM
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		VirtualMachineScaleSetIdentity_Type_STATUSNone,
-		VirtualMachineScaleSetIdentity_Type_STATUSSystemAssigned,
-		VirtualMachineScaleSetIdentity_Type_STATUSSystemAssignedUserAssigned,
-		VirtualMachineScaleSetIdentity_Type_STATUSUserAssigned))
+		VirtualMachineScaleSetIdentity_Type_None_STATUS,
+		VirtualMachineScaleSetIdentity_Type_SystemAssigned_STATUS,
+		VirtualMachineScaleSetIdentity_Type_SystemAssignedUserAssigned_STATUS,
+		VirtualMachineScaleSetIdentity_Type_UserAssigned_STATUS))
 }
 
 // AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIdentity_STATUSARM is a factory method for creating gopter generators
@@ -431,7 +431,7 @@ func VirtualMachineScaleSetProperties_STATUSARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForVirtualMachineScaleSetProperties_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetProperties_STATUSARM(gens map[string]gopter.Gen) {
 	gens["DoNotRunExtensionsOnOverprovisionedVMs"] = gen.PtrOf(gen.Bool())
-	gens["OrchestrationMode"] = gen.PtrOf(gen.OneConstOf(OrchestrationMode_STATUSFlexible, OrchestrationMode_STATUSUniform))
+	gens["OrchestrationMode"] = gen.PtrOf(gen.OneConstOf(OrchestrationMode_Flexible_STATUS, OrchestrationMode_Uniform_STATUS))
 	gens["Overprovision"] = gen.PtrOf(gen.Bool())
 	gens["PlatformFaultDomainCount"] = gen.PtrOf(gen.Int())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
@@ -629,7 +629,7 @@ func ScaleInPolicy_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForScaleInPolicy_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForScaleInPolicy_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Rules"] = gen.SliceOf(gen.OneConstOf(ScaleInPolicy_Rules_STATUSDefault, ScaleInPolicy_Rules_STATUSNewestVM, ScaleInPolicy_Rules_STATUSOldestVM))
+	gens["Rules"] = gen.SliceOf(gen.OneConstOf(ScaleInPolicy_Rules_Default_STATUS, ScaleInPolicy_Rules_NewestVM_STATUS, ScaleInPolicy_Rules_OldestVM_STATUS))
 }
 
 func Test_SubResource_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -758,7 +758,7 @@ func UpgradePolicy_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForUpgradePolicy_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForUpgradePolicy_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Mode"] = gen.PtrOf(gen.OneConstOf(UpgradePolicy_Mode_STATUSAutomatic, UpgradePolicy_Mode_STATUSManual, UpgradePolicy_Mode_STATUSRolling))
+	gens["Mode"] = gen.PtrOf(gen.OneConstOf(UpgradePolicy_Mode_Automatic_STATUS, UpgradePolicy_Mode_Manual_STATUS, UpgradePolicy_Mode_Rolling_STATUS))
 }
 
 // AddRelatedPropertyGeneratorsForUpgradePolicy_STATUSARM is a factory method for creating gopter generators
@@ -894,9 +894,9 @@ func VirtualMachineScaleSetVMProfile_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualMachineScaleSetVMProfile_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetVMProfile_STATUSARM(gens map[string]gopter.Gen) {
-	gens["EvictionPolicy"] = gen.PtrOf(gen.OneConstOf(EvictionPolicy_STATUSDeallocate, EvictionPolicy_STATUSDelete))
+	gens["EvictionPolicy"] = gen.PtrOf(gen.OneConstOf(EvictionPolicy_Deallocate_STATUS, EvictionPolicy_Delete_STATUS))
 	gens["LicenseType"] = gen.PtrOf(gen.AlphaString())
-	gens["Priority"] = gen.PtrOf(gen.OneConstOf(Priority_STATUSLow, Priority_STATUSRegular, Priority_STATUSSpot))
+	gens["Priority"] = gen.PtrOf(gen.OneConstOf(Priority_Low_STATUS, Priority_Regular_STATUS, Priority_Spot_STATUS))
 }
 
 // AddRelatedPropertyGeneratorsForVirtualMachineScaleSetVMProfile_STATUSARM is a factory method for creating gopter generators
@@ -1559,8 +1559,8 @@ func VirtualMachineScaleSetDataDisk_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualMachineScaleSetDataDisk_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetDataDisk_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Caching"] = gen.PtrOf(gen.OneConstOf(Caching_STATUSNone, Caching_STATUSReadOnly, Caching_STATUSReadWrite))
-	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(CreateOption_STATUSAttach, CreateOption_STATUSEmpty, CreateOption_STATUSFromImage))
+	gens["Caching"] = gen.PtrOf(gen.OneConstOf(Caching_None_STATUS, Caching_ReadOnly_STATUS, Caching_ReadWrite_STATUS))
+	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(CreateOption_Attach_STATUS, CreateOption_Empty_STATUS, CreateOption_FromImage_STATUS))
 	gens["DiskIOPSReadWrite"] = gen.PtrOf(gen.Int())
 	gens["DiskMBpsReadWrite"] = gen.PtrOf(gen.Int())
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
@@ -1775,11 +1775,11 @@ func VirtualMachineScaleSetOSDisk_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSDisk_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetOSDisk_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Caching"] = gen.PtrOf(gen.OneConstOf(Caching_STATUSNone, Caching_STATUSReadOnly, Caching_STATUSReadWrite))
-	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(CreateOption_STATUSAttach, CreateOption_STATUSEmpty, CreateOption_STATUSFromImage))
+	gens["Caching"] = gen.PtrOf(gen.OneConstOf(Caching_None_STATUS, Caching_ReadOnly_STATUS, Caching_ReadWrite_STATUS))
+	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(CreateOption_Attach_STATUS, CreateOption_Empty_STATUS, CreateOption_FromImage_STATUS))
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetOSDisk_OsType_STATUSLinux, VirtualMachineScaleSetOSDisk_OsType_STATUSWindows))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetOSDisk_OsType_Linux_STATUS, VirtualMachineScaleSetOSDisk_OsType_Windows_STATUS))
 	gens["VhdContainers"] = gen.SliceOf(gen.AlphaString())
 	gens["WriteAcceleratorEnabled"] = gen.PtrOf(gen.Bool())
 }
@@ -1858,12 +1858,12 @@ func VirtualMachineScaleSetManagedDiskParameters_STATUSARMGenerator() gopter.Gen
 // AddIndependentPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParameters_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParameters_STATUSARM(gens map[string]gopter.Gen) {
 	gens["StorageAccountType"] = gen.PtrOf(gen.OneConstOf(
-		StorageAccountType_STATUSPremium_LRS,
-		StorageAccountType_STATUSPremium_ZRS,
-		StorageAccountType_STATUSStandardSSD_LRS,
-		StorageAccountType_STATUSStandardSSD_ZRS,
-		StorageAccountType_STATUSStandard_LRS,
-		StorageAccountType_STATUSUltraSSD_LRS))
+		StorageAccountType_Premium_LRS_STATUS,
+		StorageAccountType_Premium_ZRS_STATUS,
+		StorageAccountType_StandardSSD_LRS_STATUS,
+		StorageAccountType_StandardSSD_ZRS_STATUS,
+		StorageAccountType_Standard_LRS_STATUS,
+		StorageAccountType_UltraSSD_LRS_STATUS))
 }
 
 // AddRelatedPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParameters_STATUSARM is a factory method for creating gopter generators
@@ -2152,7 +2152,7 @@ func VirtualMachineScaleSetIPConfigurationProperties_STATUSARMGenerator() gopter
 // AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIPConfigurationProperties_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIPConfigurationProperties_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Primary"] = gen.PtrOf(gen.Bool())
-	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUSIPv4, VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_STATUSIPv6))
+	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_IPv4_STATUS, VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion_IPv6_STATUS))
 }
 
 // AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIPConfigurationProperties_STATUSARM is a factory method for creating gopter generators
@@ -2306,7 +2306,7 @@ func VirtualMachineScaleSetPublicIPAddressConfigurationProperties_STATUSARMGener
 // AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationProperties_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationProperties_STATUSARM(gens map[string]gopter.Gen) {
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
-	gens["PublicIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUSIPv4, VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_STATUSIPv6))
+	gens["PublicIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_IPv4_STATUS, VirtualMachineScaleSetPublicIPAddressConfigurationProperties_PublicIPAddressVersion_IPv6_STATUS))
 }
 
 // AddRelatedPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigurationProperties_STATUSARM is a factory method for creating gopter generators

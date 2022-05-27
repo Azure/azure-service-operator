@@ -157,7 +157,7 @@ func ExtendedLocationARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForExtendedLocationARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForExtendedLocationARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationTypeEdgeZone))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_EdgeZone))
 }
 
 func Test_LoadBalancerPropertiesFormatARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -227,10 +227,10 @@ func LoadBalancerPropertiesFormatARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForLoadBalancerPropertiesFormatARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLoadBalancerPropertiesFormatARM(gens map[string]gopter.Gen) {
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningStateDeleting,
-		ProvisioningStateFailed,
-		ProvisioningStateSucceeded,
-		ProvisioningStateUpdating))
+		ProvisioningState_Deleting,
+		ProvisioningState_Failed,
+		ProvisioningState_Succeeded,
+		ProvisioningState_Updating))
 	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -301,8 +301,8 @@ func LoadBalancerSkuARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForLoadBalancerSkuARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLoadBalancerSkuARM(gens map[string]gopter.Gen) {
-	gens["Name"] = gen.PtrOf(gen.OneConstOf(LoadBalancerSku_NameBasic, LoadBalancerSku_NameStandard))
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(LoadBalancerSku_TierGlobal, LoadBalancerSku_TierRegional))
+	gens["Name"] = gen.PtrOf(gen.OneConstOf(LoadBalancerSku_Name_Basic, LoadBalancerSku_Name_Standard))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(LoadBalancerSku_Tier_Global, LoadBalancerSku_Tier_Regional))
 }
 
 func Test_BackendAddressPool_LoadBalancer_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -875,13 +875,13 @@ func FrontendIPConfigurationPropertiesFormat_LoadBalancer_SubResourceEmbeddedARM
 // AddIndependentPropertyGeneratorsForFrontendIPConfigurationPropertiesFormat_LoadBalancer_SubResourceEmbeddedARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForFrontendIPConfigurationPropertiesFormat_LoadBalancer_SubResourceEmbeddedARM(gens map[string]gopter.Gen) {
 	gens["PrivateIPAddress"] = gen.PtrOf(gen.AlphaString())
-	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(IPVersionIPv4, IPVersionIPv6))
-	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethodDynamic, IPAllocationMethodStatic))
+	gens["PrivateIPAddressVersion"] = gen.PtrOf(gen.OneConstOf(IPVersion_IPv4, IPVersion_IPv6))
+	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_Dynamic, IPAllocationMethod_Static))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningStateDeleting,
-		ProvisioningStateFailed,
-		ProvisioningStateSucceeded,
-		ProvisioningStateUpdating))
+		ProvisioningState_Deleting,
+		ProvisioningState_Failed,
+		ProvisioningState_Succeeded,
+		ProvisioningState_Updating))
 }
 
 // AddRelatedPropertyGeneratorsForFrontendIPConfigurationPropertiesFormat_LoadBalancer_SubResourceEmbeddedARM is a factory method for creating gopter generators
@@ -967,12 +967,12 @@ func AddIndependentPropertyGeneratorsForInboundNatPoolPropertiesFormatARM(gens m
 	gens["FrontendPortRangeEnd"] = gen.PtrOf(gen.Int())
 	gens["FrontendPortRangeStart"] = gen.PtrOf(gen.Int())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(TransportProtocolAll, TransportProtocolTcp, TransportProtocolUdp))
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(TransportProtocol_All, TransportProtocol_Tcp, TransportProtocol_Udp))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningStateDeleting,
-		ProvisioningStateFailed,
-		ProvisioningStateSucceeded,
-		ProvisioningStateUpdating))
+		ProvisioningState_Deleting,
+		ProvisioningState_Failed,
+		ProvisioningState_Succeeded,
+		ProvisioningState_Updating))
 }
 
 // AddRelatedPropertyGeneratorsForInboundNatPoolPropertiesFormatARM is a factory method for creating gopter generators
@@ -1052,13 +1052,13 @@ func AddIndependentPropertyGeneratorsForLoadBalancingRulePropertiesFormatARM(gen
 	gens["EnableTcpReset"] = gen.PtrOf(gen.Bool())
 	gens["FrontendPort"] = gen.PtrOf(gen.Int())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
-	gens["LoadDistribution"] = gen.PtrOf(gen.OneConstOf(LoadBalancingRulePropertiesFormat_LoadDistributionDefault, LoadBalancingRulePropertiesFormat_LoadDistributionSourceIP, LoadBalancingRulePropertiesFormat_LoadDistributionSourceIPProtocol))
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(TransportProtocolAll, TransportProtocolTcp, TransportProtocolUdp))
+	gens["LoadDistribution"] = gen.PtrOf(gen.OneConstOf(LoadBalancingRulePropertiesFormat_LoadDistribution_Default, LoadBalancingRulePropertiesFormat_LoadDistribution_SourceIP, LoadBalancingRulePropertiesFormat_LoadDistribution_SourceIPProtocol))
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(TransportProtocol_All, TransportProtocol_Tcp, TransportProtocol_Udp))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningStateDeleting,
-		ProvisioningStateFailed,
-		ProvisioningStateSucceeded,
-		ProvisioningStateUpdating))
+		ProvisioningState_Deleting,
+		ProvisioningState_Failed,
+		ProvisioningState_Succeeded,
+		ProvisioningState_Updating))
 }
 
 // AddRelatedPropertyGeneratorsForLoadBalancingRulePropertiesFormatARM is a factory method for creating gopter generators
@@ -1137,12 +1137,12 @@ func AddIndependentPropertyGeneratorsForOutboundRulePropertiesFormatARM(gens map
 	gens["AllocatedOutboundPorts"] = gen.PtrOf(gen.Int())
 	gens["EnableTcpReset"] = gen.PtrOf(gen.Bool())
 	gens["IdleTimeoutInMinutes"] = gen.PtrOf(gen.Int())
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(OutboundRulePropertiesFormat_ProtocolAll, OutboundRulePropertiesFormat_ProtocolTcp, OutboundRulePropertiesFormat_ProtocolUdp))
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(OutboundRulePropertiesFormat_Protocol_All, OutboundRulePropertiesFormat_Protocol_Tcp, OutboundRulePropertiesFormat_Protocol_Udp))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningStateDeleting,
-		ProvisioningStateFailed,
-		ProvisioningStateSucceeded,
-		ProvisioningStateUpdating))
+		ProvisioningState_Deleting,
+		ProvisioningState_Failed,
+		ProvisioningState_Succeeded,
+		ProvisioningState_Updating))
 }
 
 // AddRelatedPropertyGeneratorsForOutboundRulePropertiesFormatARM is a factory method for creating gopter generators
@@ -1220,12 +1220,12 @@ func AddIndependentPropertyGeneratorsForProbePropertiesFormatARM(gens map[string
 	gens["IntervalInSeconds"] = gen.PtrOf(gen.Int())
 	gens["NumberOfProbes"] = gen.PtrOf(gen.Int())
 	gens["Port"] = gen.PtrOf(gen.Int())
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(ProbePropertiesFormat_ProtocolHttp, ProbePropertiesFormat_ProtocolHttps, ProbePropertiesFormat_ProtocolTcp))
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(ProbePropertiesFormat_Protocol_Http, ProbePropertiesFormat_Protocol_Https, ProbePropertiesFormat_Protocol_Tcp))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningStateDeleting,
-		ProvisioningStateFailed,
-		ProvisioningStateSucceeded,
-		ProvisioningStateUpdating))
+		ProvisioningState_Deleting,
+		ProvisioningState_Failed,
+		ProvisioningState_Succeeded,
+		ProvisioningState_Updating))
 	gens["RequestPath"] = gen.PtrOf(gen.AlphaString())
 }
 

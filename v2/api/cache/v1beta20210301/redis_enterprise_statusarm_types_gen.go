@@ -68,11 +68,11 @@ type PrivateEndpointConnection_STATUSARM struct {
 type Sku_Name_STATUS string
 
 const (
-	Sku_Name_STATUSEnterpriseFlash_F1500 = Sku_Name_STATUS("EnterpriseFlash_F1500")
-	Sku_Name_STATUSEnterpriseFlash_F300  = Sku_Name_STATUS("EnterpriseFlash_F300")
-	Sku_Name_STATUSEnterpriseFlash_F700  = Sku_Name_STATUS("EnterpriseFlash_F700")
-	Sku_Name_STATUSEnterprise_E10        = Sku_Name_STATUS("Enterprise_E10")
-	Sku_Name_STATUSEnterprise_E100       = Sku_Name_STATUS("Enterprise_E100")
-	Sku_Name_STATUSEnterprise_E20        = Sku_Name_STATUS("Enterprise_E20")
-	Sku_Name_STATUSEnterprise_E50        = Sku_Name_STATUS("Enterprise_E50")
+	Sku_Name_EnterpriseFlash_F1500_STATUS = Sku_Name_STATUS("EnterpriseFlash_F1500")
+	Sku_Name_EnterpriseFlash_F300_STATUS  = Sku_Name_STATUS("EnterpriseFlash_F300")
+	Sku_Name_EnterpriseFlash_F700_STATUS  = Sku_Name_STATUS("EnterpriseFlash_F700")
+	Sku_Name_Enterprise_E10_STATUS        = Sku_Name_STATUS("Enterprise_E10")
+	Sku_Name_Enterprise_E100_STATUS       = Sku_Name_STATUS("Enterprise_E100")
+	Sku_Name_Enterprise_E20_STATUS        = Sku_Name_STATUS("Enterprise_E20")
+	Sku_Name_Enterprise_E50_STATUS        = Sku_Name_STATUS("Enterprise_E50")
 )

@@ -51,7 +51,7 @@ type ImageProperties_STATUSARM struct {
 
 type ExtendedLocationType_STATUS string
 
-const ExtendedLocationType_STATUSEdgeZone = ExtendedLocationType_STATUS("EdgeZone")
+const ExtendedLocationType_EdgeZone_STATUS = ExtendedLocationType_STATUS("EdgeZone")
 
 type ImageStorageProfile_STATUSARM struct {
 	// DataDisks: Specifies the parameters that are used to add a data disk to a virtual machine.

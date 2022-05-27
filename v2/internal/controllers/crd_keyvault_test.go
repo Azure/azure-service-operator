@@ -33,8 +33,8 @@ func Test_KeyVault_Vault_CRUD(t *testing.T) {
 
 func newVault(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *keyvault.Vault {
 
-	skuFamily := keyvault.Sku_FamilyA
-	skuName := keyvault.Sku_NameStandard
+	skuFamily := keyvault.Sku_Family_A
+	skuName := keyvault.Sku_Name_Standard
 
 	//TODO: This value here is a random generated string to comply with `^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$` regex.
 	// Tried random generator here which gets stored in the recordings and going to differ on each run resulting in test failure.
@@ -51,10 +51,10 @@ func newVault(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *k
 					ApplicationId: to.StringPtr(str),
 					ObjectId:      to.StringPtr(str),
 					Permissions: &keyvault.Permissions{
-						Certificates: []keyvault.Permissions_Certificates{keyvault.Permissions_CertificatesGet},
-						Keys:         []keyvault.Permissions_Keys{keyvault.Permissions_KeysGet},
-						Secrets:      []keyvault.Permissions_Secrets{keyvault.Permissions_SecretsGet},
-						Storage:      []keyvault.Permissions_Storage{keyvault.Permissions_StorageGet},
+						Certificates: []keyvault.Permissions_Certificates{keyvault.Permissions_Certificates_Get},
+						Keys:         []keyvault.Permissions_Keys{keyvault.Permissions_Keys_Get},
+						Secrets:      []keyvault.Permissions_Secrets{keyvault.Permissions_Secrets_Get},
+						Storage:      []keyvault.Permissions_Storage{keyvault.Permissions_Storage_Get},
 					},
 					TenantId: to.StringPtr(str),
 				}},

@@ -73,10 +73,10 @@ type CreationData_STATUSARM struct {
 type DiskSku_Name_STATUS string
 
 const (
-	DiskSku_Name_STATUSPremium_LRS     = DiskSku_Name_STATUS("Premium_LRS")
-	DiskSku_Name_STATUSStandardSSD_LRS = DiskSku_Name_STATUS("StandardSSD_LRS")
-	DiskSku_Name_STATUSStandard_LRS    = DiskSku_Name_STATUS("Standard_LRS")
-	DiskSku_Name_STATUSUltraSSD_LRS    = DiskSku_Name_STATUS("UltraSSD_LRS")
+	DiskSku_Name_Premium_LRS_STATUS     = DiskSku_Name_STATUS("Premium_LRS")
+	DiskSku_Name_StandardSSD_LRS_STATUS = DiskSku_Name_STATUS("StandardSSD_LRS")
+	DiskSku_Name_Standard_LRS_STATUS    = DiskSku_Name_STATUS("Standard_LRS")
+	DiskSku_Name_UltraSSD_LRS_STATUS    = DiskSku_Name_STATUS("UltraSSD_LRS")
 )
 
 // Deprecated version of EncryptionSettingsCollection_STATUS. Use v1beta20200930.EncryptionSettingsCollection_STATUS instead
@@ -95,7 +95,7 @@ type Encryption_STATUSARM struct {
 // Deprecated version of ExtendedLocationType_STATUS. Use v1beta20200930.ExtendedLocationType_STATUS instead
 type ExtendedLocationType_STATUS string
 
-const ExtendedLocationType_STATUSEdgeZone = ExtendedLocationType_STATUS("EdgeZone")
+const ExtendedLocationType_EdgeZone_STATUS = ExtendedLocationType_STATUS("EdgeZone")
 
 // Deprecated version of PurchasePlan_STATUS. Use v1beta20200930.PurchasePlan_STATUS instead
 type PurchasePlan_STATUSARM struct {

@@ -25,7 +25,7 @@ func Test_EventGrid_Topic(t *testing.T) {
 	// Create a topic
 	topic := &eventgrid.Topic{
 		ObjectMeta: tc.MakeObjectMeta("topic"),
-		Spec: eventgrid.Topics_Spec{
+		Spec: eventgrid.Topic_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
 			Tags:     map[string]string{"cheese": "blue"},
@@ -48,13 +48,13 @@ func Test_EventGrid_Topic(t *testing.T) {
 			Test: func(tc *testcommon.KubePerTestContext) {
 				// First create a queue to use as destination
 
-				kind := storage.StorageAccountsSpecKindStorageV2
-				sku := storage.SkuNameStandardLRS
+				kind := storage.StorageAccount_Spec_Kind_StorageV2
+				sku := storage.SkuName_Standard_LRS
 				acctName := tc.NoSpaceNamer.GenerateName("stor")
-				tier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
+				tier := storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot
 				acct := &storage.StorageAccount{
 					ObjectMeta: tc.MakeObjectMetaWithName(acctName),
-					Spec: storage.StorageAccounts_Spec{
+					Spec: storage.StorageAccount_Spec{
 						Owner:      testcommon.AsOwner(rg),
 						Location:   tc.AzureRegion,
 						Kind:       &kind,
@@ -67,7 +67,7 @@ func Test_EventGrid_Topic(t *testing.T) {
 
 				queueService := &storage.StorageAccountsQueueService{
 					ObjectMeta: tc.MakeObjectMeta("qservice"),
-					Spec: storage.StorageAccountsQueueServices_Spec{
+					Spec: storage.StorageAccountsQueueService_Spec{
 						Owner: testcommon.AsOwner(acct),
 					},
 				}
@@ -76,7 +76,7 @@ func Test_EventGrid_Topic(t *testing.T) {
 
 				queue := &storage.StorageAccountsQueueServicesQueue{
 					ObjectMeta: tc.MakeObjectMeta("queue"),
-					Spec: storage.StorageAccountsQueueServicesQueues_Spec{
+					Spec: storage.StorageAccountsQueueServicesQueue_Spec{
 						Owner: testcommon.AsOwner(queueService),
 					},
 				}
@@ -85,10 +85,10 @@ func Test_EventGrid_Topic(t *testing.T) {
 
 				acctReference := tc.MakeReferenceFromResource(acct)
 
-				endpointType := eventgrid.StorageQueueEventSubscriptionDestinationEndpointTypeStorageQueue
+				endpointType := eventgrid.EventSubscriptionDestination_EndpointType_StorageQueue
 				subscription := &eventgrid.EventSubscription{
 					ObjectMeta: tc.MakeObjectMeta("sub"),
-					Spec: eventgrid.EventSubscriptions_Spec{
+					Spec: eventgrid.EventSubscription_Spec{
 						Owner: tc.AsExtensionOwner(topic),
 						Destination: &eventgrid.EventSubscriptionDestination{
 							StorageQueue: &eventgrid.StorageQueueEventSubscriptionDestination{
@@ -113,7 +113,7 @@ func Test_EventGrid_Topic(t *testing.T) {
 	exists, _, err := tc.AzureClient.HeadByID(
 		tc.Ctx,
 		armId,
-		string(eventgrid.APIVersionValue))
+		string(eventgrid.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }

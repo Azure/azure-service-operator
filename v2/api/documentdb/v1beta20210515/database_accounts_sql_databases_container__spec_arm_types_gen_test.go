@@ -295,7 +295,7 @@ func ConflictResolutionPolicyARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForConflictResolutionPolicyARM(gens map[string]gopter.Gen) {
 	gens["ConflictResolutionPath"] = gen.PtrOf(gen.AlphaString())
 	gens["ConflictResolutionProcedure"] = gen.PtrOf(gen.AlphaString())
-	gens["Mode"] = gen.PtrOf(gen.OneConstOf(ConflictResolutionPolicy_ModeCustom, ConflictResolutionPolicy_ModeLastWriterWins))
+	gens["Mode"] = gen.PtrOf(gen.OneConstOf(ConflictResolutionPolicy_Mode_Custom, ConflictResolutionPolicy_Mode_LastWriterWins))
 }
 
 func Test_ContainerPartitionKeyARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -355,7 +355,7 @@ func ContainerPartitionKeyARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForContainerPartitionKeyARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForContainerPartitionKeyARM(gens map[string]gopter.Gen) {
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(ContainerPartitionKey_KindHash, ContainerPartitionKey_KindMultiHash, ContainerPartitionKey_KindRange))
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(ContainerPartitionKey_Kind_Hash, ContainerPartitionKey_Kind_MultiHash, ContainerPartitionKey_Kind_Range))
 	gens["Paths"] = gen.SliceOf(gen.AlphaString())
 	gens["SystemKey"] = gen.PtrOf(gen.Bool())
 	gens["Version"] = gen.PtrOf(gen.Int())
@@ -427,7 +427,7 @@ func IndexingPolicyARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForIndexingPolicyARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIndexingPolicyARM(gens map[string]gopter.Gen) {
 	gens["Automatic"] = gen.PtrOf(gen.Bool())
-	gens["IndexingMode"] = gen.PtrOf(gen.OneConstOf(IndexingPolicy_IndexingModeConsistent, IndexingPolicy_IndexingModeLazy, IndexingPolicy_IndexingModeNone))
+	gens["IndexingMode"] = gen.PtrOf(gen.OneConstOf(IndexingPolicy_IndexingMode_Consistent, IndexingPolicy_IndexingMode_Lazy, IndexingPolicy_IndexingMode_None))
 }
 
 // AddRelatedPropertyGeneratorsForIndexingPolicyARM is a factory method for creating gopter generators
@@ -553,7 +553,7 @@ func CompositePathARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForCompositePathARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCompositePathARM(gens map[string]gopter.Gen) {
-	gens["Order"] = gen.PtrOf(gen.OneConstOf(CompositePath_OrderAscending, CompositePath_OrderDescending))
+	gens["Order"] = gen.PtrOf(gen.OneConstOf(CompositePath_Order_Ascending, CompositePath_Order_Descending))
 	gens["Path"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -747,10 +747,10 @@ func SpatialSpecARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForSpatialSpecARM(gens map[string]gopter.Gen) {
 	gens["Path"] = gen.PtrOf(gen.AlphaString())
 	gens["Types"] = gen.SliceOf(gen.OneConstOf(
-		SpatialTypeLineString,
-		SpatialTypeMultiPolygon,
-		SpatialTypePoint,
-		SpatialTypePolygon))
+		SpatialType_LineString,
+		SpatialType_MultiPolygon,
+		SpatialType_Point,
+		SpatialType_Polygon))
 }
 
 func Test_UniqueKeyARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -869,12 +869,12 @@ func IndexesARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForIndexesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIndexesARM(gens map[string]gopter.Gen) {
 	gens["DataType"] = gen.PtrOf(gen.OneConstOf(
-		Indexes_DataTypeLineString,
-		Indexes_DataTypeMultiPolygon,
-		Indexes_DataTypeNumber,
-		Indexes_DataTypePoint,
-		Indexes_DataTypePolygon,
-		Indexes_DataTypeString))
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(Indexes_KindHash, Indexes_KindRange, Indexes_KindSpatial))
+		Indexes_DataType_LineString,
+		Indexes_DataType_MultiPolygon,
+		Indexes_DataType_Number,
+		Indexes_DataType_Point,
+		Indexes_DataType_Polygon,
+		Indexes_DataType_String))
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(Indexes_Kind_Hash, Indexes_Kind_Range, Indexes_Kind_Spatial))
 	gens["Precision"] = gen.PtrOf(gen.Int())
 }

@@ -160,26 +160,26 @@ func SecurityRulePropertiesFormat_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSecurityRulePropertiesFormat_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSecurityRulePropertiesFormat_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Access"] = gen.PtrOf(gen.OneConstOf(SecurityRuleAccess_STATUSAllow, SecurityRuleAccess_STATUSDeny))
+	gens["Access"] = gen.PtrOf(gen.OneConstOf(SecurityRuleAccess_Allow_STATUS, SecurityRuleAccess_Deny_STATUS))
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DestinationAddressPrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["DestinationAddressPrefixes"] = gen.SliceOf(gen.AlphaString())
 	gens["DestinationPortRange"] = gen.PtrOf(gen.AlphaString())
 	gens["DestinationPortRanges"] = gen.SliceOf(gen.AlphaString())
-	gens["Direction"] = gen.PtrOf(gen.OneConstOf(SecurityRuleDirection_STATUSInbound, SecurityRuleDirection_STATUSOutbound))
+	gens["Direction"] = gen.PtrOf(gen.OneConstOf(SecurityRuleDirection_Inbound_STATUS, SecurityRuleDirection_Outbound_STATUS))
 	gens["Priority"] = gen.PtrOf(gen.Int())
 	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(
-		SecurityRulePropertiesFormat_Protocol_STATUSAh,
-		SecurityRulePropertiesFormat_Protocol_STATUSEsp,
-		SecurityRulePropertiesFormat_Protocol_STATUSIcmp,
-		SecurityRulePropertiesFormat_Protocol_STATUSStar,
-		SecurityRulePropertiesFormat_Protocol_STATUSTcp,
-		SecurityRulePropertiesFormat_Protocol_STATUSUdp))
+		SecurityRulePropertiesFormat_Protocol_Ah_STATUS,
+		SecurityRulePropertiesFormat_Protocol_Esp_STATUS,
+		SecurityRulePropertiesFormat_Protocol_Icmp_STATUS,
+		SecurityRulePropertiesFormat_Protocol_Star_STATUS,
+		SecurityRulePropertiesFormat_Protocol_Tcp_STATUS,
+		SecurityRulePropertiesFormat_Protocol_Udp_STATUS))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_STATUSDeleting,
-		ProvisioningState_STATUSFailed,
-		ProvisioningState_STATUSSucceeded,
-		ProvisioningState_STATUSUpdating))
+		ProvisioningState_Deleting_STATUS,
+		ProvisioningState_Failed_STATUS,
+		ProvisioningState_Succeeded_STATUS,
+		ProvisioningState_Updating_STATUS))
 	gens["SourceAddressPrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceAddressPrefixes"] = gen.SliceOf(gen.AlphaString())
 	gens["SourcePortRange"] = gen.PtrOf(gen.AlphaString())

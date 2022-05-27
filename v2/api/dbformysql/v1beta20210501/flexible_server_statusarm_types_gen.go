@@ -170,7 +170,7 @@ type HighAvailability_STATUSARM struct {
 
 type Identity_Type_STATUS string
 
-const Identity_Type_STATUSUserAssigned = Identity_Type_STATUS("UserAssigned")
+const Identity_Type_UserAssigned_STATUS = Identity_Type_STATUS("UserAssigned")
 
 type MaintenanceWindow_STATUSARM struct {
 	// CustomWindow: indicates whether custom window is enabled or disabled
@@ -201,9 +201,9 @@ type Network_STATUSARM struct {
 type Sku_Tier_STATUS string
 
 const (
-	Sku_Tier_STATUSBurstable       = Sku_Tier_STATUS("Burstable")
-	Sku_Tier_STATUSGeneralPurpose  = Sku_Tier_STATUS("GeneralPurpose")
-	Sku_Tier_STATUSMemoryOptimized = Sku_Tier_STATUS("MemoryOptimized")
+	Sku_Tier_Burstable_STATUS       = Sku_Tier_STATUS("Burstable")
+	Sku_Tier_GeneralPurpose_STATUS  = Sku_Tier_STATUS("GeneralPurpose")
+	Sku_Tier_MemoryOptimized_STATUS = Sku_Tier_STATUS("MemoryOptimized")
 )
 
 type Storage_STATUSARM struct {
@@ -223,17 +223,17 @@ type Storage_STATUSARM struct {
 type SystemData_CreatedByType_STATUS string
 
 const (
-	SystemData_CreatedByType_STATUSApplication     = SystemData_CreatedByType_STATUS("Application")
-	SystemData_CreatedByType_STATUSKey             = SystemData_CreatedByType_STATUS("Key")
-	SystemData_CreatedByType_STATUSManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
-	SystemData_CreatedByType_STATUSUser            = SystemData_CreatedByType_STATUS("User")
+	SystemData_CreatedByType_Application_STATUS     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_Key_STATUS             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_ManagedIdentity_STATUS = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_User_STATUS            = SystemData_CreatedByType_STATUS("User")
 )
 
 type SystemData_LastModifiedByType_STATUS string
 
 const (
-	SystemData_LastModifiedByType_STATUSApplication     = SystemData_LastModifiedByType_STATUS("Application")
-	SystemData_LastModifiedByType_STATUSKey             = SystemData_LastModifiedByType_STATUS("Key")
-	SystemData_LastModifiedByType_STATUSManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
-	SystemData_LastModifiedByType_STATUSUser            = SystemData_LastModifiedByType_STATUS("User")
+	SystemData_LastModifiedByType_Application_STATUS     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_Key_STATUS             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_ManagedIdentity_STATUS = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_User_STATUS            = SystemData_LastModifiedByType_STATUS("User")
 )

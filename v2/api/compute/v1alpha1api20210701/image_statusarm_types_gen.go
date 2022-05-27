@@ -31,7 +31,7 @@ type ImageProperties_STATUSARM struct {
 // Deprecated version of ExtendedLocationType_STATUS. Use v1beta20210701.ExtendedLocationType_STATUS instead
 type ExtendedLocationType_STATUS string
 
-const ExtendedLocationType_STATUSEdgeZone = ExtendedLocationType_STATUS("EdgeZone")
+const ExtendedLocationType_EdgeZone_STATUS = ExtendedLocationType_STATUS("EdgeZone")
 
 // Deprecated version of ImageStorageProfile_STATUS. Use v1beta20210701.ImageStorageProfile_STATUS instead
 type ImageStorageProfile_STATUSARM struct {

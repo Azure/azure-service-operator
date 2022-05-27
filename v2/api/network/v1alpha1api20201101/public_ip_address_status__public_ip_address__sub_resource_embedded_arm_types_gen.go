@@ -79,16 +79,16 @@ type PublicIPAddressDnsSettings_STATUSARM struct {
 type PublicIPAddressSku_Name_STATUS string
 
 const (
-	PublicIPAddressSku_Name_STATUSBasic    = PublicIPAddressSku_Name_STATUS("Basic")
-	PublicIPAddressSku_Name_STATUSStandard = PublicIPAddressSku_Name_STATUS("Standard")
+	PublicIPAddressSku_Name_Basic_STATUS    = PublicIPAddressSku_Name_STATUS("Basic")
+	PublicIPAddressSku_Name_Standard_STATUS = PublicIPAddressSku_Name_STATUS("Standard")
 )
 
 // Deprecated version of PublicIPAddressSku_Tier_STATUS. Use v1beta20201101.PublicIPAddressSku_Tier_STATUS instead
 type PublicIPAddressSku_Tier_STATUS string
 
 const (
-	PublicIPAddressSku_Tier_STATUSGlobal   = PublicIPAddressSku_Tier_STATUS("Global")
-	PublicIPAddressSku_Tier_STATUSRegional = PublicIPAddressSku_Tier_STATUS("Regional")
+	PublicIPAddressSku_Tier_Global_STATUS   = PublicIPAddressSku_Tier_STATUS("Global")
+	PublicIPAddressSku_Tier_Regional_STATUS = PublicIPAddressSku_Tier_STATUS("Regional")
 )
 
 // Deprecated version of IPConfigurationPropertiesFormat_STATUS_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.IPConfigurationPropertiesFormat_STATUS_PublicIPAddress_SubResourceEmbedded instead

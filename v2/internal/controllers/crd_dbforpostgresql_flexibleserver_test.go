@@ -41,8 +41,8 @@ func Test_DBForPostgreSQL_FlexibleServer_CRUD(t *testing.T) {
 		Name: secret.Name,
 		Key:  adminPasswordKey,
 	}
-	version := postgresql.ServerPropertiesVersion13
-	tier := postgresql.SkuTierGeneralPurpose
+	version := postgresql.ServerVersion_13
+	tier := postgresql.Sku_Tier_GeneralPurpose
 	fqdnSecret := "fqdnsecret"
 	flexibleServer := &postgresql.FlexibleServer{
 		ObjectMeta: tc.MakeObjectMeta("postgresql"),
@@ -111,7 +111,7 @@ func Test_DBForPostgreSQL_FlexibleServer_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(flexibleServer)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(ctx, armId, string(postgresql.APIVersionValue))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(ctx, armId, string(postgresql.APIVersion_Value))
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(retryAfter).To(BeZero())
 	g.Expect(exists).To(BeFalse())
@@ -151,7 +151,7 @@ func FlexibleServer_FirewallRule_CRUD(tc *testcommon.KubePerTestContext, flexibl
 func FlexibleServer_Configuration_CRUD(tc *testcommon.KubePerTestContext, flexibleServer *postgresql.FlexibleServer) {
 	configuration := &postgresql.FlexibleServersConfiguration{
 		ObjectMeta: tc.MakeObjectMeta("pgaudit"),
-		Spec: postgresql.FlexibleServersConfigurations_Spec{
+		Spec: postgresql.FlexibleServersConfiguration_Spec{
 			Owner:     testcommon.AsOwner(flexibleServer),
 			AzureName: "pgaudit.log",
 			Source:    to.StringPtr("user-override"),

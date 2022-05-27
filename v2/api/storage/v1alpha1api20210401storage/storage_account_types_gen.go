@@ -72,7 +72,7 @@ func (account *StorageAccount) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20210401"
 func (account StorageAccount) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -204,7 +204,7 @@ type StorageAccountList struct {
 // +kubebuilder:validation:Enum={"20210401"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("20210401")
+const APIVersion_Value = APIVersion("20210401")
 
 // Storage version of v1alpha1api20210401.StorageAccount_STATUS
 // Deprecated version of StorageAccount_STATUS. Use v1beta20210401.StorageAccount_STATUS instead

@@ -101,9 +101,9 @@ type DatabaseAccountCreateUpdateProperties_STATUSARM struct {
 type DatabaseAccount_Kind_STATUS string
 
 const (
-	DatabaseAccount_Kind_STATUSGlobalDocumentDB = DatabaseAccount_Kind_STATUS("GlobalDocumentDB")
-	DatabaseAccount_Kind_STATUSMongoDB          = DatabaseAccount_Kind_STATUS("MongoDB")
-	DatabaseAccount_Kind_STATUSParse            = DatabaseAccount_Kind_STATUS("Parse")
+	DatabaseAccount_Kind_GlobalDocumentDB_STATUS = DatabaseAccount_Kind_STATUS("GlobalDocumentDB")
+	DatabaseAccount_Kind_MongoDB_STATUS          = DatabaseAccount_Kind_STATUS("MongoDB")
+	DatabaseAccount_Kind_Parse_STATUS            = DatabaseAccount_Kind_STATUS("Parse")
 )
 
 type ManagedServiceIdentity_STATUSARM struct {
@@ -209,10 +209,10 @@ type Location_STATUSARM struct {
 type ManagedServiceIdentity_Type_STATUS string
 
 const (
-	ManagedServiceIdentity_Type_STATUSNone                       = ManagedServiceIdentity_Type_STATUS("None")
-	ManagedServiceIdentity_Type_STATUSSystemAssigned             = ManagedServiceIdentity_Type_STATUS("SystemAssigned")
-	ManagedServiceIdentity_Type_STATUSSystemAssignedUserAssigned = ManagedServiceIdentity_Type_STATUS("SystemAssigned,UserAssigned")
-	ManagedServiceIdentity_Type_STATUSUserAssigned               = ManagedServiceIdentity_Type_STATUS("UserAssigned")
+	ManagedServiceIdentity_Type_None_STATUS                       = ManagedServiceIdentity_Type_STATUS("None")
+	ManagedServiceIdentity_Type_SystemAssigned_STATUS             = ManagedServiceIdentity_Type_STATUS("SystemAssigned")
+	ManagedServiceIdentity_Type_SystemAssignedUserAssigned_STATUS = ManagedServiceIdentity_Type_STATUS("SystemAssigned,UserAssigned")
+	ManagedServiceIdentity_Type_UserAssigned_STATUS               = ManagedServiceIdentity_Type_STATUS("UserAssigned")
 )
 
 type ManagedServiceIdentity_UserAssignedIdentities_STATUSARM struct {

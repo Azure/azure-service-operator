@@ -99,7 +99,7 @@ func (pool *ManagedClustersAgentPool) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20210501"
 func (pool ManagedClustersAgentPool) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -2708,30 +2708,30 @@ func (pool *ManagedClustersAgentPool_Spec) SetAzureName(azureName string) { pool
 type AgentPoolMode string
 
 const (
-	AgentPoolModeSystem = AgentPoolMode("System")
-	AgentPoolModeUser   = AgentPoolMode("User")
+	AgentPoolMode_System = AgentPoolMode("System")
+	AgentPoolMode_User   = AgentPoolMode("User")
 )
 
 type AgentPoolMode_STATUS string
 
 const (
-	AgentPoolMode_STATUSSystem = AgentPoolMode_STATUS("System")
-	AgentPoolMode_STATUSUser   = AgentPoolMode_STATUS("User")
+	AgentPoolMode_System_STATUS = AgentPoolMode_STATUS("System")
+	AgentPoolMode_User_STATUS   = AgentPoolMode_STATUS("User")
 )
 
 // +kubebuilder:validation:Enum={"AvailabilitySet","VirtualMachineScaleSets"}
 type AgentPoolType string
 
 const (
-	AgentPoolTypeAvailabilitySet         = AgentPoolType("AvailabilitySet")
-	AgentPoolTypeVirtualMachineScaleSets = AgentPoolType("VirtualMachineScaleSets")
+	AgentPoolType_AvailabilitySet         = AgentPoolType("AvailabilitySet")
+	AgentPoolType_VirtualMachineScaleSets = AgentPoolType("VirtualMachineScaleSets")
 )
 
 type AgentPoolType_STATUS string
 
 const (
-	AgentPoolType_STATUSAvailabilitySet         = AgentPoolType_STATUS("AvailabilitySet")
-	AgentPoolType_STATUSVirtualMachineScaleSets = AgentPoolType_STATUS("VirtualMachineScaleSets")
+	AgentPoolType_AvailabilitySet_STATUS         = AgentPoolType_STATUS("AvailabilitySet")
+	AgentPoolType_VirtualMachineScaleSets_STATUS = AgentPoolType_STATUS("VirtualMachineScaleSets")
 )
 
 type AgentPoolUpgradeSettings struct {
@@ -2879,21 +2879,21 @@ type ContainerServiceOSDisk int
 type GPUInstanceProfile string
 
 const (
-	GPUInstanceProfileMIG1G = GPUInstanceProfile("MIG1g")
-	GPUInstanceProfileMIG2G = GPUInstanceProfile("MIG2g")
-	GPUInstanceProfileMIG3G = GPUInstanceProfile("MIG3g")
-	GPUInstanceProfileMIG4G = GPUInstanceProfile("MIG4g")
-	GPUInstanceProfileMIG7G = GPUInstanceProfile("MIG7g")
+	GPUInstanceProfile_MIG1G = GPUInstanceProfile("MIG1g")
+	GPUInstanceProfile_MIG2G = GPUInstanceProfile("MIG2g")
+	GPUInstanceProfile_MIG3G = GPUInstanceProfile("MIG3g")
+	GPUInstanceProfile_MIG4G = GPUInstanceProfile("MIG4g")
+	GPUInstanceProfile_MIG7G = GPUInstanceProfile("MIG7g")
 )
 
 type GPUInstanceProfile_STATUS string
 
 const (
-	GPUInstanceProfile_STATUSMIG1G = GPUInstanceProfile_STATUS("MIG1g")
-	GPUInstanceProfile_STATUSMIG2G = GPUInstanceProfile_STATUS("MIG2g")
-	GPUInstanceProfile_STATUSMIG3G = GPUInstanceProfile_STATUS("MIG3g")
-	GPUInstanceProfile_STATUSMIG4G = GPUInstanceProfile_STATUS("MIG4g")
-	GPUInstanceProfile_STATUSMIG7G = GPUInstanceProfile_STATUS("MIG7g")
+	GPUInstanceProfile_MIG1G_STATUS = GPUInstanceProfile_STATUS("MIG1g")
+	GPUInstanceProfile_MIG2G_STATUS = GPUInstanceProfile_STATUS("MIG2g")
+	GPUInstanceProfile_MIG3G_STATUS = GPUInstanceProfile_STATUS("MIG3g")
+	GPUInstanceProfile_MIG4G_STATUS = GPUInstanceProfile_STATUS("MIG4g")
+	GPUInstanceProfile_MIG7G_STATUS = GPUInstanceProfile_STATUS("MIG7g")
 )
 
 type KubeletConfig struct {
@@ -3451,15 +3451,15 @@ func (config *KubeletConfig_STATUS) AssignPropertiesToKubeletConfig_STATUS(desti
 type KubeletDiskType string
 
 const (
-	KubeletDiskTypeOS        = KubeletDiskType("OS")
-	KubeletDiskTypeTemporary = KubeletDiskType("Temporary")
+	KubeletDiskType_OS        = KubeletDiskType("OS")
+	KubeletDiskType_Temporary = KubeletDiskType("Temporary")
 )
 
 type KubeletDiskType_STATUS string
 
 const (
-	KubeletDiskType_STATUSOS        = KubeletDiskType_STATUS("OS")
-	KubeletDiskType_STATUSTemporary = KubeletDiskType_STATUS("Temporary")
+	KubeletDiskType_OS_STATUS        = KubeletDiskType_STATUS("OS")
+	KubeletDiskType_Temporary_STATUS = KubeletDiskType_STATUS("Temporary")
 )
 
 type LinuxOSConfig struct {
@@ -3763,75 +3763,75 @@ func (config *LinuxOSConfig_STATUS) AssignPropertiesToLinuxOSConfig_STATUS(desti
 type OSDiskType string
 
 const (
-	OSDiskTypeEphemeral = OSDiskType("Ephemeral")
-	OSDiskTypeManaged   = OSDiskType("Managed")
+	OSDiskType_Ephemeral = OSDiskType("Ephemeral")
+	OSDiskType_Managed   = OSDiskType("Managed")
 )
 
 type OSDiskType_STATUS string
 
 const (
-	OSDiskType_STATUSEphemeral = OSDiskType_STATUS("Ephemeral")
-	OSDiskType_STATUSManaged   = OSDiskType_STATUS("Managed")
+	OSDiskType_Ephemeral_STATUS = OSDiskType_STATUS("Ephemeral")
+	OSDiskType_Managed_STATUS   = OSDiskType_STATUS("Managed")
 )
 
 // +kubebuilder:validation:Enum={"CBLMariner","Ubuntu"}
 type OSSKU string
 
 const (
-	OSSKUCBLMariner = OSSKU("CBLMariner")
-	OSSKUUbuntu     = OSSKU("Ubuntu")
+	OSSKU_CBLMariner = OSSKU("CBLMariner")
+	OSSKU_Ubuntu     = OSSKU("Ubuntu")
 )
 
 type OSSKU_STATUS string
 
 const (
-	OSSKU_STATUSCBLMariner = OSSKU_STATUS("CBLMariner")
-	OSSKU_STATUSUbuntu     = OSSKU_STATUS("Ubuntu")
+	OSSKU_CBLMariner_STATUS = OSSKU_STATUS("CBLMariner")
+	OSSKU_Ubuntu_STATUS     = OSSKU_STATUS("Ubuntu")
 )
 
 // +kubebuilder:validation:Enum={"Linux","Windows"}
 type OSType string
 
 const (
-	OSTypeLinux   = OSType("Linux")
-	OSTypeWindows = OSType("Windows")
+	OSType_Linux   = OSType("Linux")
+	OSType_Windows = OSType("Windows")
 )
 
 type OSType_STATUS string
 
 const (
-	OSType_STATUSLinux   = OSType_STATUS("Linux")
-	OSType_STATUSWindows = OSType_STATUS("Windows")
+	OSType_Linux_STATUS   = OSType_STATUS("Linux")
+	OSType_Windows_STATUS = OSType_STATUS("Windows")
 )
 
 // +kubebuilder:validation:Enum={"Deallocate","Delete"}
 type ScaleSetEvictionPolicy string
 
 const (
-	ScaleSetEvictionPolicyDeallocate = ScaleSetEvictionPolicy("Deallocate")
-	ScaleSetEvictionPolicyDelete     = ScaleSetEvictionPolicy("Delete")
+	ScaleSetEvictionPolicy_Deallocate = ScaleSetEvictionPolicy("Deallocate")
+	ScaleSetEvictionPolicy_Delete     = ScaleSetEvictionPolicy("Delete")
 )
 
 type ScaleSetEvictionPolicy_STATUS string
 
 const (
-	ScaleSetEvictionPolicy_STATUSDeallocate = ScaleSetEvictionPolicy_STATUS("Deallocate")
-	ScaleSetEvictionPolicy_STATUSDelete     = ScaleSetEvictionPolicy_STATUS("Delete")
+	ScaleSetEvictionPolicy_Deallocate_STATUS = ScaleSetEvictionPolicy_STATUS("Deallocate")
+	ScaleSetEvictionPolicy_Delete_STATUS     = ScaleSetEvictionPolicy_STATUS("Delete")
 )
 
 // +kubebuilder:validation:Enum={"Regular","Spot"}
 type ScaleSetPriority string
 
 const (
-	ScaleSetPriorityRegular = ScaleSetPriority("Regular")
-	ScaleSetPrioritySpot    = ScaleSetPriority("Spot")
+	ScaleSetPriority_Regular = ScaleSetPriority("Regular")
+	ScaleSetPriority_Spot    = ScaleSetPriority("Spot")
 )
 
 type ScaleSetPriority_STATUS string
 
 const (
-	ScaleSetPriority_STATUSRegular = ScaleSetPriority_STATUS("Regular")
-	ScaleSetPriority_STATUSSpot    = ScaleSetPriority_STATUS("Spot")
+	ScaleSetPriority_Regular_STATUS = ScaleSetPriority_STATUS("Regular")
+	ScaleSetPriority_Spot_STATUS    = ScaleSetPriority_STATUS("Spot")
 )
 
 type SysctlConfig struct {

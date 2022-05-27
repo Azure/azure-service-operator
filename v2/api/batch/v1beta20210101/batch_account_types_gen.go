@@ -99,7 +99,7 @@ func (account *BatchAccount) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20210101"
 func (account BatchAccount) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -322,7 +322,7 @@ type BatchAccountList struct {
 // +kubebuilder:validation:Enum={"20210101"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("20210101")
+const APIVersion_Value = APIVersion("20210101")
 
 type BatchAccount_STATUS struct {
 	// AutoStorage: The properties related to the auto-storage account.
@@ -1999,30 +1999,30 @@ func (reference *KeyVaultReference_STATUS) AssignPropertiesToKeyVaultReference_S
 type PoolAllocationMode string
 
 const (
-	PoolAllocationModeBatchService     = PoolAllocationMode("BatchService")
-	PoolAllocationModeUserSubscription = PoolAllocationMode("UserSubscription")
+	PoolAllocationMode_BatchService     = PoolAllocationMode("BatchService")
+	PoolAllocationMode_UserSubscription = PoolAllocationMode("UserSubscription")
 )
 
 type PoolAllocationMode_STATUS string
 
 const (
-	PoolAllocationMode_STATUSBatchService     = PoolAllocationMode_STATUS("BatchService")
-	PoolAllocationMode_STATUSUserSubscription = PoolAllocationMode_STATUS("UserSubscription")
+	PoolAllocationMode_BatchService_STATUS     = PoolAllocationMode_STATUS("BatchService")
+	PoolAllocationMode_UserSubscription_STATUS = PoolAllocationMode_STATUS("UserSubscription")
 )
 
 // +kubebuilder:validation:Enum={"Disabled","Enabled"}
 type PublicNetworkAccessType string
 
 const (
-	PublicNetworkAccessTypeDisabled = PublicNetworkAccessType("Disabled")
-	PublicNetworkAccessTypeEnabled  = PublicNetworkAccessType("Enabled")
+	PublicNetworkAccessType_Disabled = PublicNetworkAccessType("Disabled")
+	PublicNetworkAccessType_Enabled  = PublicNetworkAccessType("Enabled")
 )
 
 type PublicNetworkAccessType_STATUS string
 
 const (
-	PublicNetworkAccessType_STATUSDisabled = PublicNetworkAccessType_STATUS("Disabled")
-	PublicNetworkAccessType_STATUSEnabled  = PublicNetworkAccessType_STATUS("Enabled")
+	PublicNetworkAccessType_Disabled_STATUS = PublicNetworkAccessType_STATUS("Disabled")
+	PublicNetworkAccessType_Enabled_STATUS  = PublicNetworkAccessType_STATUS("Enabled")
 )
 
 type BatchAccountIdentity_UserAssignedIdentities_STATUS struct {
@@ -2102,15 +2102,15 @@ func (identities *BatchAccountIdentity_UserAssignedIdentities_STATUS) AssignProp
 type EncryptionProperties_KeySource string
 
 const (
-	EncryptionProperties_KeySourceMicrosoftBatch    = EncryptionProperties_KeySource("Microsoft.Batch")
-	EncryptionProperties_KeySourceMicrosoftKeyVault = EncryptionProperties_KeySource("Microsoft.KeyVault")
+	EncryptionProperties_KeySource_MicrosoftBatch    = EncryptionProperties_KeySource("Microsoft.Batch")
+	EncryptionProperties_KeySource_MicrosoftKeyVault = EncryptionProperties_KeySource("Microsoft.KeyVault")
 )
 
 type EncryptionProperties_KeySource_STATUS string
 
 const (
-	EncryptionProperties_KeySource_STATUSMicrosoftBatch    = EncryptionProperties_KeySource_STATUS("Microsoft.Batch")
-	EncryptionProperties_KeySource_STATUSMicrosoftKeyVault = EncryptionProperties_KeySource_STATUS("Microsoft.KeyVault")
+	EncryptionProperties_KeySource_MicrosoftBatch_STATUS    = EncryptionProperties_KeySource_STATUS("Microsoft.Batch")
+	EncryptionProperties_KeySource_MicrosoftKeyVault_STATUS = EncryptionProperties_KeySource_STATUS("Microsoft.KeyVault")
 )
 
 type KeyVaultProperties struct {

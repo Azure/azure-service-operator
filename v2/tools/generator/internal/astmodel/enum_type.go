@@ -213,7 +213,7 @@ func (enum *EnumType) clone() *EnumType {
 }
 
 func GetEnumValueId(name string, value EnumValue) string {
-	return name + value.Identifier
+	return AppendPreservingSuffix(name, "_"+value.Identifier, StatusNameSuffix)
 }
 
 // String implements fmt.Stringer

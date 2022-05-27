@@ -56,7 +56,7 @@ func (test *Test) AssignPropertiesToTest(destination *v20200101s.Test) error {
 type Test_MyEnum string
 
 const (
-	Test_MyEnumA    = Test_MyEnum("a")
-	Test_MyEnumB    = Test_MyEnum("b")
-	Test_MyEnumStar = Test_MyEnum("*")
+	Test_MyEnum_A    = Test_MyEnum("a")
+	Test_MyEnum_B    = Test_MyEnum("b")
+	Test_MyEnum_Star = Test_MyEnum("*")
 )

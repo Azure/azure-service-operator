@@ -272,18 +272,18 @@ func Topic_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForTopic_STATUS(gens map[string]gopter.Gen) {
 	gens["Endpoint"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(TopicProperties_InputSchema_STATUSCloudEventSchemaV1_0, TopicProperties_InputSchema_STATUSCustomEventSchema, TopicProperties_InputSchema_STATUSEventGridSchema))
+	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(TopicProperties_InputSchema_CloudEventSchemaV1_0_STATUS, TopicProperties_InputSchema_CustomEventSchema_STATUS, TopicProperties_InputSchema_EventGridSchema_STATUS))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["MetricResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		TopicProperties_ProvisioningState_STATUSCanceled,
-		TopicProperties_ProvisioningState_STATUSCreating,
-		TopicProperties_ProvisioningState_STATUSDeleting,
-		TopicProperties_ProvisioningState_STATUSFailed,
-		TopicProperties_ProvisioningState_STATUSSucceeded,
-		TopicProperties_ProvisioningState_STATUSUpdating))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(TopicProperties_PublicNetworkAccess_STATUSDisabled, TopicProperties_PublicNetworkAccess_STATUSEnabled))
+		TopicProperties_ProvisioningState_Canceled_STATUS,
+		TopicProperties_ProvisioningState_Creating_STATUS,
+		TopicProperties_ProvisioningState_Deleting_STATUS,
+		TopicProperties_ProvisioningState_Failed_STATUS,
+		TopicProperties_ProvisioningState_Succeeded_STATUS,
+		TopicProperties_ProvisioningState_Updating_STATUS))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(TopicProperties_PublicNetworkAccess_Disabled_STATUS, TopicProperties_PublicNetworkAccess_Enabled_STATUS))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
@@ -406,17 +406,17 @@ func AddIndependentPropertyGeneratorsForTopic_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Endpoint"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(TopicProperties_InputSchemaCloudEventSchemaV1_0, TopicProperties_InputSchemaCustomEventSchema, TopicProperties_InputSchemaEventGridSchema))
+	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(TopicProperties_InputSchema_CloudEventSchemaV1_0, TopicProperties_InputSchema_CustomEventSchema, TopicProperties_InputSchema_EventGridSchema))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["MetricResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		TopicProperties_ProvisioningStateCanceled,
-		TopicProperties_ProvisioningStateCreating,
-		TopicProperties_ProvisioningStateDeleting,
-		TopicProperties_ProvisioningStateFailed,
-		TopicProperties_ProvisioningStateSucceeded,
-		TopicProperties_ProvisioningStateUpdating))
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(TopicProperties_PublicNetworkAccessDisabled, TopicProperties_PublicNetworkAccessEnabled))
+		TopicProperties_ProvisioningState_Canceled,
+		TopicProperties_ProvisioningState_Creating,
+		TopicProperties_ProvisioningState_Deleting,
+		TopicProperties_ProvisioningState_Failed,
+		TopicProperties_ProvisioningState_Succeeded,
+		TopicProperties_ProvisioningState_Updating))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(TopicProperties_PublicNetworkAccess_Disabled, TopicProperties_PublicNetworkAccess_Enabled))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }

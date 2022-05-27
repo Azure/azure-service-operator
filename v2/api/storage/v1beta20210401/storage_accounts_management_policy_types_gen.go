@@ -99,7 +99,7 @@ func (policy *StorageAccountsManagementPolicy) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20210401"
 func (policy StorageAccountsManagementPolicy) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -1631,11 +1631,11 @@ func (definition *ManagementPolicyDefinition_STATUS) AssignPropertiesToManagemen
 // +kubebuilder:validation:Enum={"Lifecycle"}
 type ManagementPolicyRule_Type string
 
-const ManagementPolicyRule_TypeLifecycle = ManagementPolicyRule_Type("Lifecycle")
+const ManagementPolicyRule_Type_Lifecycle = ManagementPolicyRule_Type("Lifecycle")
 
 type ManagementPolicyRule_Type_STATUS string
 
-const ManagementPolicyRule_Type_STATUSLifecycle = ManagementPolicyRule_Type_STATUS("Lifecycle")
+const ManagementPolicyRule_Type_Lifecycle_STATUS = ManagementPolicyRule_Type_STATUS("Lifecycle")
 
 type ManagementPolicyAction struct {
 	// BaseBlob: The management policy action for base blob

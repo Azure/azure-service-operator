@@ -112,7 +112,7 @@ func (snapshot *Snapshot) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20200930"
 func (snapshot Snapshot) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -1823,12 +1823,12 @@ func (snapshot *Snapshot_Spec) SetAzureName(azureName string) { snapshot.AzureNa
 type DiskState string
 
 const (
-	DiskStateActiveSAS     = DiskState("ActiveSAS")
-	DiskStateActiveUpload  = DiskState("ActiveUpload")
-	DiskStateAttached      = DiskState("Attached")
-	DiskStateReadyToUpload = DiskState("ReadyToUpload")
-	DiskStateReserved      = DiskState("Reserved")
-	DiskStateUnattached    = DiskState("Unattached")
+	DiskState_ActiveSAS     = DiskState("ActiveSAS")
+	DiskState_ActiveUpload  = DiskState("ActiveUpload")
+	DiskState_Attached      = DiskState("Attached")
+	DiskState_ReadyToUpload = DiskState("ReadyToUpload")
+	DiskState_Reserved      = DiskState("Reserved")
+	DiskState_Unattached    = DiskState("Unattached")
 )
 
 // Deprecated version of SnapshotProperties_HyperVGeneration. Use v1beta20200930.SnapshotProperties_HyperVGeneration instead
@@ -1836,8 +1836,8 @@ const (
 type SnapshotProperties_HyperVGeneration string
 
 const (
-	SnapshotProperties_HyperVGenerationV1 = SnapshotProperties_HyperVGeneration("V1")
-	SnapshotProperties_HyperVGenerationV2 = SnapshotProperties_HyperVGeneration("V2")
+	SnapshotProperties_HyperVGeneration_V1 = SnapshotProperties_HyperVGeneration("V1")
+	SnapshotProperties_HyperVGeneration_V2 = SnapshotProperties_HyperVGeneration("V2")
 )
 
 // Deprecated version of SnapshotProperties_HyperVGeneration_STATUS. Use
@@ -1845,8 +1845,8 @@ const (
 type SnapshotProperties_HyperVGeneration_STATUS string
 
 const (
-	SnapshotProperties_HyperVGeneration_STATUSV1 = SnapshotProperties_HyperVGeneration_STATUS("V1")
-	SnapshotProperties_HyperVGeneration_STATUSV2 = SnapshotProperties_HyperVGeneration_STATUS("V2")
+	SnapshotProperties_HyperVGeneration_V1_STATUS = SnapshotProperties_HyperVGeneration_STATUS("V1")
+	SnapshotProperties_HyperVGeneration_V2_STATUS = SnapshotProperties_HyperVGeneration_STATUS("V2")
 )
 
 // Deprecated version of SnapshotProperties_OsType. Use v1beta20200930.SnapshotProperties_OsType instead
@@ -1854,16 +1854,16 @@ const (
 type SnapshotProperties_OsType string
 
 const (
-	SnapshotProperties_OsTypeLinux   = SnapshotProperties_OsType("Linux")
-	SnapshotProperties_OsTypeWindows = SnapshotProperties_OsType("Windows")
+	SnapshotProperties_OsType_Linux   = SnapshotProperties_OsType("Linux")
+	SnapshotProperties_OsType_Windows = SnapshotProperties_OsType("Windows")
 )
 
 // Deprecated version of SnapshotProperties_OsType_STATUS. Use v1beta20200930.SnapshotProperties_OsType_STATUS instead
 type SnapshotProperties_OsType_STATUS string
 
 const (
-	SnapshotProperties_OsType_STATUSLinux   = SnapshotProperties_OsType_STATUS("Linux")
-	SnapshotProperties_OsType_STATUSWindows = SnapshotProperties_OsType_STATUS("Windows")
+	SnapshotProperties_OsType_Linux_STATUS   = SnapshotProperties_OsType_STATUS("Linux")
+	SnapshotProperties_OsType_Windows_STATUS = SnapshotProperties_OsType_STATUS("Windows")
 )
 
 // Deprecated version of SnapshotSku. Use v1beta20200930.SnapshotSku instead

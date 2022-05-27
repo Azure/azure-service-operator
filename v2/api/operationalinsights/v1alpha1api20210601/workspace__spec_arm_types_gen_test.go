@@ -167,15 +167,15 @@ func AddIndependentPropertyGeneratorsForWorkspacePropertiesARM(gens map[string]g
 	gens["ForceCmkForQuery"] = gen.PtrOf(gen.Bool())
 	gens["ModifiedDate"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		WorkspaceProperties_ProvisioningStateCanceled,
-		WorkspaceProperties_ProvisioningStateCreating,
-		WorkspaceProperties_ProvisioningStateDeleting,
-		WorkspaceProperties_ProvisioningStateFailed,
-		WorkspaceProperties_ProvisioningStateProvisioningAccount,
-		WorkspaceProperties_ProvisioningStateSucceeded,
-		WorkspaceProperties_ProvisioningStateUpdating))
-	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessTypeDisabled, PublicNetworkAccessTypeEnabled))
-	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessTypeDisabled, PublicNetworkAccessTypeEnabled))
+		WorkspaceProperties_ProvisioningState_Canceled,
+		WorkspaceProperties_ProvisioningState_Creating,
+		WorkspaceProperties_ProvisioningState_Deleting,
+		WorkspaceProperties_ProvisioningState_Failed,
+		WorkspaceProperties_ProvisioningState_ProvisioningAccount,
+		WorkspaceProperties_ProvisioningState_Succeeded,
+		WorkspaceProperties_ProvisioningState_Updating))
+	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_Disabled, PublicNetworkAccessType_Enabled))
+	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_Disabled, PublicNetworkAccessType_Enabled))
 	gens["RetentionInDays"] = gen.PtrOf(gen.Int())
 }
 
@@ -307,12 +307,12 @@ func WorkspaceCappingARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForWorkspaceCappingARM(gens map[string]gopter.Gen) {
 	gens["DailyQuotaGb"] = gen.PtrOf(gen.Float64())
 	gens["DataIngestionStatus"] = gen.PtrOf(gen.OneConstOf(
-		WorkspaceCapping_DataIngestionStatusApproachingQuota,
-		WorkspaceCapping_DataIngestionStatusForceOff,
-		WorkspaceCapping_DataIngestionStatusForceOn,
-		WorkspaceCapping_DataIngestionStatusOverQuota,
-		WorkspaceCapping_DataIngestionStatusRespectQuota,
-		WorkspaceCapping_DataIngestionStatusSubscriptionSuspended))
+		WorkspaceCapping_DataIngestionStatus_ApproachingQuota,
+		WorkspaceCapping_DataIngestionStatus_ForceOff,
+		WorkspaceCapping_DataIngestionStatus_ForceOn,
+		WorkspaceCapping_DataIngestionStatus_OverQuota,
+		WorkspaceCapping_DataIngestionStatus_RespectQuota,
+		WorkspaceCapping_DataIngestionStatus_SubscriptionSuspended))
 	gens["QuotaNextResetTime"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -437,22 +437,22 @@ func WorkspaceSkuARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForWorkspaceSkuARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWorkspaceSkuARM(gens map[string]gopter.Gen) {
 	gens["CapacityReservationLevel"] = gen.PtrOf(gen.OneConstOf(
-		WorkspaceSku_CapacityReservationLevel100,
-		WorkspaceSku_CapacityReservationLevel1000,
-		WorkspaceSku_CapacityReservationLevel200,
-		WorkspaceSku_CapacityReservationLevel2000,
-		WorkspaceSku_CapacityReservationLevel300,
-		WorkspaceSku_CapacityReservationLevel400,
-		WorkspaceSku_CapacityReservationLevel500,
-		WorkspaceSku_CapacityReservationLevel5000))
+		WorkspaceSku_CapacityReservationLevel_100,
+		WorkspaceSku_CapacityReservationLevel_1000,
+		WorkspaceSku_CapacityReservationLevel_200,
+		WorkspaceSku_CapacityReservationLevel_2000,
+		WorkspaceSku_CapacityReservationLevel_300,
+		WorkspaceSku_CapacityReservationLevel_400,
+		WorkspaceSku_CapacityReservationLevel_500,
+		WorkspaceSku_CapacityReservationLevel_5000))
 	gens["LastSkuUpdate"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		WorkspaceSku_NameCapacityReservation,
-		WorkspaceSku_NameFree,
-		WorkspaceSku_NameLACluster,
-		WorkspaceSku_NamePerGB2018,
-		WorkspaceSku_NamePerNode,
-		WorkspaceSku_NamePremium,
-		WorkspaceSku_NameStandalone,
-		WorkspaceSku_NameStandard))
+		WorkspaceSku_Name_CapacityReservation,
+		WorkspaceSku_Name_Free,
+		WorkspaceSku_Name_LACluster,
+		WorkspaceSku_Name_PerGB2018,
+		WorkspaceSku_Name_PerNode,
+		WorkspaceSku_Name_Premium,
+		WorkspaceSku_Name_Standalone,
+		WorkspaceSku_Name_Standard))
 }

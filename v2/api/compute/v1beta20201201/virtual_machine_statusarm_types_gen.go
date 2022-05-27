@@ -305,10 +305,10 @@ type StorageProfile_STATUSARM struct {
 type VirtualMachineIdentity_Type_STATUS string
 
 const (
-	VirtualMachineIdentity_Type_STATUSNone                       = VirtualMachineIdentity_Type_STATUS("None")
-	VirtualMachineIdentity_Type_STATUSSystemAssigned             = VirtualMachineIdentity_Type_STATUS("SystemAssigned")
-	VirtualMachineIdentity_Type_STATUSSystemAssignedUserAssigned = VirtualMachineIdentity_Type_STATUS("SystemAssigned, UserAssigned")
-	VirtualMachineIdentity_Type_STATUSUserAssigned               = VirtualMachineIdentity_Type_STATUS("UserAssigned")
+	VirtualMachineIdentity_Type_None_STATUS                       = VirtualMachineIdentity_Type_STATUS("None")
+	VirtualMachineIdentity_Type_SystemAssigned_STATUS             = VirtualMachineIdentity_Type_STATUS("SystemAssigned")
+	VirtualMachineIdentity_Type_SystemAssignedUserAssigned_STATUS = VirtualMachineIdentity_Type_STATUS("SystemAssigned, UserAssigned")
+	VirtualMachineIdentity_Type_UserAssigned_STATUS               = VirtualMachineIdentity_Type_STATUS("UserAssigned")
 )
 
 type VirtualMachineIdentity_UserAssignedIdentities_STATUSARM struct {

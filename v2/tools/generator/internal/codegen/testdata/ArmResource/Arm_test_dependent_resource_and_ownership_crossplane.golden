@@ -91,7 +91,7 @@ type DList struct {
 // +kubebuilder:validation:Enum={"20200101"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("20200101")
+const APIVersion_Value = APIVersion("20200101")
 
 type A_Spec struct {
 	v1alpha1.ResourceSpec `json:",inline,omitempty"`
@@ -190,42 +190,42 @@ type DParameters struct {
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type A_Spec_APIVersion string
 
-const A_Spec_APIVersion20200601 = A_Spec_APIVersion("2020-06-01")
+const A_Spec_APIVersion_20200601 = A_Spec_APIVersion("2020-06-01")
 
 // +kubebuilder:validation:Enum={"Microsoft.Azure/A"}
 type A_Spec_Type string
 
-const A_Spec_TypeMicrosoftAzureA = A_Spec_Type("Microsoft.Azure/A")
+const A_Spec_Type_MicrosoftAzureA = A_Spec_Type("Microsoft.Azure/A")
 
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type B_Spec_APIVersion string
 
-const B_Spec_APIVersion20200601 = B_Spec_APIVersion("2020-06-01")
+const B_Spec_APIVersion_20200601 = B_Spec_APIVersion("2020-06-01")
 
 // +kubebuilder:validation:Enum={"Microsoft.Azure/B"}
 type B_Spec_Type string
 
-const B_Spec_TypeMicrosoftAzureB = B_Spec_Type("Microsoft.Azure/B")
+const B_Spec_Type_MicrosoftAzureB = B_Spec_Type("Microsoft.Azure/B")
 
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type C_Spec_APIVersion string
 
-const C_Spec_APIVersion20200601 = C_Spec_APIVersion("2020-06-01")
+const C_Spec_APIVersion_20200601 = C_Spec_APIVersion("2020-06-01")
 
 // +kubebuilder:validation:Enum={"Microsoft.Azure/C"}
 type C_Spec_Type string
 
-const C_Spec_TypeMicrosoftAzureC = C_Spec_Type("Microsoft.Azure/C")
+const C_Spec_Type_MicrosoftAzureC = C_Spec_Type("Microsoft.Azure/C")
 
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type D_Spec_APIVersion string
 
-const D_Spec_APIVersion20200601 = D_Spec_APIVersion("2020-06-01")
+const D_Spec_APIVersion_20200601 = D_Spec_APIVersion("2020-06-01")
 
 // +kubebuilder:validation:Enum={"Microsoft.Azure/D"}
 type D_Spec_Type string
 
-const D_Spec_TypeMicrosoftAzureD = D_Spec_Type("Microsoft.Azure/D")
+const D_Spec_Type_MicrosoftAzureD = D_Spec_Type("Microsoft.Azure/D")
 
 func init() {
 	SchemeBuilder.Register(&A{}, &AList{}, &B{}, &BList{}, &C{}, &CList{}, &D{}, &DList{})

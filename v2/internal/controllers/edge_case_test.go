@@ -272,9 +272,9 @@ func Test_Owner_IsMutableIfNotSuccessfullyCreated(t *testing.T) {
 }
 
 func createStorageAccount(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) *storage.StorageAccount {
-	accessTier := storage.StorageAccountPropertiesCreateParametersAccessTierHot
-	kind := storage.StorageAccountsSpecKindBlobStorage
-	sku := storage.SkuNameStandardLRS
+	accessTier := storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot
+	kind := storage.StorageAccount_Spec_Kind_BlobStorage
+	sku := storage.SkuName_Standard_LRS
 
 	// Create a storage account
 	return &storage.StorageAccount{

@@ -158,16 +158,16 @@ func AddIndependentPropertyGeneratorsForProfilePropertiesARM(gens map[string]gop
 	gens["FrontDoorId"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginResponseTimeoutSeconds"] = gen.PtrOf(gen.Int())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProfileProperties_ProvisioningStateCreating,
-		ProfileProperties_ProvisioningStateDeleting,
-		ProfileProperties_ProvisioningStateFailed,
-		ProfileProperties_ProvisioningStateSucceeded,
-		ProfileProperties_ProvisioningStateUpdating))
+		ProfileProperties_ProvisioningState_Creating,
+		ProfileProperties_ProvisioningState_Deleting,
+		ProfileProperties_ProvisioningState_Failed,
+		ProfileProperties_ProvisioningState_Succeeded,
+		ProfileProperties_ProvisioningState_Updating))
 	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(
-		ProfileProperties_ResourceStateActive,
-		ProfileProperties_ResourceStateCreating,
-		ProfileProperties_ResourceStateDeleting,
-		ProfileProperties_ResourceStateDisabled))
+		ProfileProperties_ResourceState_Active,
+		ProfileProperties_ResourceState_Creating,
+		ProfileProperties_ResourceState_Deleting,
+		ProfileProperties_ResourceState_Disabled))
 }
 
 func Test_SkuARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -227,19 +227,19 @@ func SkuARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSkuARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSkuARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		Sku_NameCustom_Verizon,
-		Sku_NamePremium_AzureFrontDoor,
-		Sku_NamePremium_Verizon,
-		Sku_NameStandardPlus_955BandWidth_ChinaCdn,
-		Sku_NameStandardPlus_AvgBandWidth_ChinaCdn,
-		Sku_NameStandardPlus_ChinaCdn,
-		Sku_NameStandard_955BandWidth_ChinaCdn,
-		Sku_NameStandard_Akamai,
-		Sku_NameStandard_AvgBandWidth_ChinaCdn,
-		Sku_NameStandard_AzureFrontDoor,
-		Sku_NameStandard_ChinaCdn,
-		Sku_NameStandard_Microsoft,
-		Sku_NameStandard_Verizon))
+		Sku_Name_Custom_Verizon,
+		Sku_Name_Premium_AzureFrontDoor,
+		Sku_Name_Premium_Verizon,
+		Sku_Name_StandardPlus_955BandWidth_ChinaCdn,
+		Sku_Name_StandardPlus_AvgBandWidth_ChinaCdn,
+		Sku_Name_StandardPlus_ChinaCdn,
+		Sku_Name_Standard_955BandWidth_ChinaCdn,
+		Sku_Name_Standard_Akamai,
+		Sku_Name_Standard_AvgBandWidth_ChinaCdn,
+		Sku_Name_Standard_AzureFrontDoor,
+		Sku_Name_Standard_ChinaCdn,
+		Sku_Name_Standard_Microsoft,
+		Sku_Name_Standard_Verizon))
 }
 
 func Test_SystemDataARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -301,15 +301,15 @@ func AddIndependentPropertyGeneratorsForSystemDataARM(gens map[string]gopter.Gen
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		IdentityTypeApplication,
-		IdentityTypeKey,
-		IdentityTypeManagedIdentity,
-		IdentityTypeUser))
+		IdentityType_Application,
+		IdentityType_Key,
+		IdentityType_ManagedIdentity,
+		IdentityType_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		IdentityTypeApplication,
-		IdentityTypeKey,
-		IdentityTypeManagedIdentity,
-		IdentityTypeUser))
+		IdentityType_Application,
+		IdentityType_Key,
+		IdentityType_ManagedIdentity,
+		IdentityType_User))
 }

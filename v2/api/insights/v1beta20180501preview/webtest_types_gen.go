@@ -100,7 +100,7 @@ func (webtest *Webtest) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20180501preview"
 func (webtest Webtest) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -323,7 +323,7 @@ type WebtestList struct {
 // +kubebuilder:validation:Enum={"20180501preview"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("20180501preview")
+const APIVersion_Value = APIVersion("20180501preview")
 
 type Webtest_STATUS struct {
 	// Conditions: The observed state of the resource
@@ -1918,19 +1918,19 @@ func (configuration *WebTestProperties_Configuration_STATUS) AssignPropertiesToW
 type WebTestProperties_Kind string
 
 const (
-	WebTestProperties_KindBasic     = WebTestProperties_Kind("basic")
-	WebTestProperties_KindMultistep = WebTestProperties_Kind("multistep")
-	WebTestProperties_KindPing      = WebTestProperties_Kind("ping")
-	WebTestProperties_KindStandard  = WebTestProperties_Kind("standard")
+	WebTestProperties_Kind_Basic     = WebTestProperties_Kind("basic")
+	WebTestProperties_Kind_Multistep = WebTestProperties_Kind("multistep")
+	WebTestProperties_Kind_Ping      = WebTestProperties_Kind("ping")
+	WebTestProperties_Kind_Standard  = WebTestProperties_Kind("standard")
 )
 
 type WebTestProperties_Kind_STATUS string
 
 const (
-	WebTestProperties_Kind_STATUSBasic     = WebTestProperties_Kind_STATUS("basic")
-	WebTestProperties_Kind_STATUSMultistep = WebTestProperties_Kind_STATUS("multistep")
-	WebTestProperties_Kind_STATUSPing      = WebTestProperties_Kind_STATUS("ping")
-	WebTestProperties_Kind_STATUSStandard  = WebTestProperties_Kind_STATUS("standard")
+	WebTestProperties_Kind_Basic_STATUS     = WebTestProperties_Kind_STATUS("basic")
+	WebTestProperties_Kind_Multistep_STATUS = WebTestProperties_Kind_STATUS("multistep")
+	WebTestProperties_Kind_Ping_STATUS      = WebTestProperties_Kind_STATUS("ping")
+	WebTestProperties_Kind_Standard_STATUS  = WebTestProperties_Kind_STATUS("standard")
 )
 
 type WebTestProperties_Request struct {

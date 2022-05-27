@@ -97,7 +97,7 @@ func (resource *FakeResource) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20200101"
 func (resource FakeResource) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -282,7 +282,7 @@ var _ genruntime.ARMResourceSpec = &FakeResource_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20200101"
 func (resource FakeResource_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -298,7 +298,7 @@ func (resource *FakeResource_SpecARM) GetType() string {
 // +kubebuilder:validation:Enum={"20200101"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("20200101")
+const APIVersion_Value = APIVersion("20200101")
 
 type FakeResource_Spec struct {
 	// +kubebuilder:validation:Required
@@ -545,12 +545,12 @@ func (resource *FakeResource_Spec) SetAzureName(azureName string) { resource.Azu
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type FakeResource_Spec_APIVersion string
 
-const FakeResource_Spec_APIVersion20200601 = FakeResource_Spec_APIVersion("2020-06-01")
+const FakeResource_Spec_APIVersion_20200601 = FakeResource_Spec_APIVersion("2020-06-01")
 
 // +kubebuilder:validation:Enum={"Microsoft.Azure/FakeResource"}
 type FakeResource_Spec_Type string
 
-const FakeResource_Spec_TypeMicrosoftAzureFakeResource = FakeResource_Spec_Type("Microsoft.Azure/FakeResource")
+const FakeResource_Spec_Type_MicrosoftAzureFakeResource = FakeResource_Spec_Type("Microsoft.Azure/FakeResource")
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Properties
 type PropertiesARM struct {
@@ -922,7 +922,7 @@ func (bar *Bar) AssignPropertiesToBar(destination *v20200101s.Bar) error {
 // +kubebuilder:validation:Enum={"bar"}
 type Bar_Discrim string
 
-const Bar_DiscrimBar = Bar_Discrim("bar")
+const Bar_Discrim_Bar = Bar_Discrim("bar")
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Baz
 type Baz struct {
@@ -1038,7 +1038,7 @@ func (baz *Baz) AssignPropertiesToBaz(destination *v20200101s.Baz) error {
 // +kubebuilder:validation:Enum={"baz"}
 type Baz_Discrim string
 
-const Baz_DiscrimBaz = Baz_Discrim("baz")
+const Baz_Discrim_Baz = Baz_Discrim("baz")
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Foo
 type Foo struct {
@@ -1142,7 +1142,7 @@ func (foo *Foo) AssignPropertiesToFoo(destination *v20200101s.Foo) error {
 // +kubebuilder:validation:Enum={"foo"}
 type Foo_Discrim string
 
-const Foo_DiscrimFoo = Foo_Discrim("foo")
+const Foo_Discrim_Foo = Foo_Discrim("foo")
 
 func init() {
 	SchemeBuilder.Register(&FakeResource{}, &FakeResourceList{})

@@ -73,7 +73,7 @@ func (webtest *Webtest) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20180501preview"
 func (webtest Webtest) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -205,7 +205,7 @@ type WebtestList struct {
 // +kubebuilder:validation:Enum={"20180501preview"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("20180501preview")
+const APIVersion_Value = APIVersion("20180501preview")
 
 // Storage version of v1alpha1api20180501preview.Webtest_STATUS
 // Deprecated version of Webtest_STATUS. Use v1beta20180501preview.Webtest_STATUS instead

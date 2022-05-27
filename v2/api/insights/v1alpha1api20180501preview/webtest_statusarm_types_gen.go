@@ -37,8 +37,8 @@ type WebTestProperties_STATUSARM struct {
 type Webtest_Kind_STATUS string
 
 const (
-	Webtest_Kind_STATUSMultistep = Webtest_Kind_STATUS("multistep")
-	Webtest_Kind_STATUSPing      = Webtest_Kind_STATUS("ping")
+	Webtest_Kind_Multistep_STATUS = Webtest_Kind_STATUS("multistep")
+	Webtest_Kind_Ping_STATUS      = Webtest_Kind_STATUS("ping")
 )
 
 // Deprecated version of WebTestGeolocation_STATUS. Use v1beta20180501preview.WebTestGeolocation_STATUS instead

@@ -167,16 +167,16 @@ func AddIndependentPropertyGeneratorsForContainerProperties_STATUSARM(gens map[s
 	gens["HasImmutabilityPolicy"] = gen.PtrOf(gen.Bool())
 	gens["HasLegalHold"] = gen.PtrOf(gen.Bool())
 	gens["LastModifiedTime"] = gen.PtrOf(gen.AlphaString())
-	gens["LeaseDuration"] = gen.PtrOf(gen.OneConstOf(ContainerProperties_LeaseDuration_STATUSFixed, ContainerProperties_LeaseDuration_STATUSInfinite))
+	gens["LeaseDuration"] = gen.PtrOf(gen.OneConstOf(ContainerProperties_LeaseDuration_Fixed_STATUS, ContainerProperties_LeaseDuration_Infinite_STATUS))
 	gens["LeaseState"] = gen.PtrOf(gen.OneConstOf(
-		ContainerProperties_LeaseState_STATUSAvailable,
-		ContainerProperties_LeaseState_STATUSBreaking,
-		ContainerProperties_LeaseState_STATUSBroken,
-		ContainerProperties_LeaseState_STATUSExpired,
-		ContainerProperties_LeaseState_STATUSLeased))
-	gens["LeaseStatus"] = gen.PtrOf(gen.OneConstOf(ContainerProperties_LeaseStatus_STATUSLocked, ContainerProperties_LeaseStatus_STATUSUnlocked))
+		ContainerProperties_LeaseState_Available_STATUS,
+		ContainerProperties_LeaseState_Breaking_STATUS,
+		ContainerProperties_LeaseState_Broken_STATUS,
+		ContainerProperties_LeaseState_Expired_STATUS,
+		ContainerProperties_LeaseState_Leased_STATUS))
+	gens["LeaseStatus"] = gen.PtrOf(gen.OneConstOf(ContainerProperties_LeaseStatus_Locked_STATUS, ContainerProperties_LeaseStatus_Unlocked_STATUS))
 	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["PublicAccess"] = gen.PtrOf(gen.OneConstOf(ContainerProperties_PublicAccess_STATUSBlob, ContainerProperties_PublicAccess_STATUSContainer, ContainerProperties_PublicAccess_STATUSNone))
+	gens["PublicAccess"] = gen.PtrOf(gen.OneConstOf(ContainerProperties_PublicAccess_Blob_STATUS, ContainerProperties_PublicAccess_Container_STATUS, ContainerProperties_PublicAccess_None_STATUS))
 	gens["RemainingRetentionDays"] = gen.PtrOf(gen.Int())
 	gens["Version"] = gen.PtrOf(gen.AlphaString())
 }
@@ -321,7 +321,7 @@ func ImmutableStorageWithVersioning_STATUSARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForImmutableStorageWithVersioning_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForImmutableStorageWithVersioning_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["MigrationState"] = gen.PtrOf(gen.OneConstOf(ImmutableStorageWithVersioning_MigrationState_STATUSCompleted, ImmutableStorageWithVersioning_MigrationState_STATUSInProgress))
+	gens["MigrationState"] = gen.PtrOf(gen.OneConstOf(ImmutableStorageWithVersioning_MigrationState_Completed_STATUS, ImmutableStorageWithVersioning_MigrationState_InProgress_STATUS))
 	gens["TimeStamp"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -458,7 +458,7 @@ func ImmutabilityPolicyProperty_STATUSARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForImmutabilityPolicyProperty_STATUSARM(gens map[string]gopter.Gen) {
 	gens["AllowProtectedAppendWrites"] = gen.PtrOf(gen.Bool())
 	gens["ImmutabilityPeriodSinceCreationInDays"] = gen.PtrOf(gen.Int())
-	gens["State"] = gen.PtrOf(gen.OneConstOf(ImmutabilityPolicyProperty_State_STATUSLocked, ImmutabilityPolicyProperty_State_STATUSUnlocked))
+	gens["State"] = gen.PtrOf(gen.OneConstOf(ImmutabilityPolicyProperty_State_Locked_STATUS, ImmutabilityPolicyProperty_State_Unlocked_STATUS))
 }
 
 func Test_TagProperty_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -586,6 +586,6 @@ func AddIndependentPropertyGeneratorsForUpdateHistoryProperty_STATUSARM(gens map
 	gens["ObjectIdentifier"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Timestamp"] = gen.PtrOf(gen.AlphaString())
-	gens["Update"] = gen.PtrOf(gen.OneConstOf(UpdateHistoryProperty_Update_STATUSExtend, UpdateHistoryProperty_Update_STATUSLock, UpdateHistoryProperty_Update_STATUSPut))
+	gens["Update"] = gen.PtrOf(gen.OneConstOf(UpdateHistoryProperty_Update_Extend_STATUS, UpdateHistoryProperty_Update_Lock_STATUS, UpdateHistoryProperty_Update_Put_STATUS))
 	gens["Upn"] = gen.PtrOf(gen.AlphaString())
 }

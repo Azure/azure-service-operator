@@ -22,7 +22,7 @@ var _ genruntime.ARMResourceSpec = &FlexibleServer_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20210601"
 func (server FlexibleServer_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -104,9 +104,9 @@ type NetworkARM struct {
 type Sku_Tier string
 
 const (
-	Sku_TierBurstable       = Sku_Tier("Burstable")
-	Sku_TierGeneralPurpose  = Sku_Tier("GeneralPurpose")
-	Sku_TierMemoryOptimized = Sku_Tier("MemoryOptimized")
+	Sku_Tier_Burstable       = Sku_Tier("Burstable")
+	Sku_Tier_GeneralPurpose  = Sku_Tier("GeneralPurpose")
+	Sku_Tier_MemoryOptimized = Sku_Tier("MemoryOptimized")
 )
 
 // Deprecated version of Storage. Use v1beta20210601.Storage instead
@@ -119,10 +119,10 @@ type StorageARM struct {
 type SystemData_CreatedByType string
 
 const (
-	SystemData_CreatedByTypeApplication     = SystemData_CreatedByType("Application")
-	SystemData_CreatedByTypeKey             = SystemData_CreatedByType("Key")
-	SystemData_CreatedByTypeManagedIdentity = SystemData_CreatedByType("ManagedIdentity")
-	SystemData_CreatedByTypeUser            = SystemData_CreatedByType("User")
+	SystemData_CreatedByType_Application     = SystemData_CreatedByType("Application")
+	SystemData_CreatedByType_Key             = SystemData_CreatedByType("Key")
+	SystemData_CreatedByType_ManagedIdentity = SystemData_CreatedByType("ManagedIdentity")
+	SystemData_CreatedByType_User            = SystemData_CreatedByType("User")
 )
 
 // Deprecated version of SystemData_LastModifiedByType. Use v1beta20210601.SystemData_LastModifiedByType instead
@@ -130,8 +130,8 @@ const (
 type SystemData_LastModifiedByType string
 
 const (
-	SystemData_LastModifiedByTypeApplication     = SystemData_LastModifiedByType("Application")
-	SystemData_LastModifiedByTypeKey             = SystemData_LastModifiedByType("Key")
-	SystemData_LastModifiedByTypeManagedIdentity = SystemData_LastModifiedByType("ManagedIdentity")
-	SystemData_LastModifiedByTypeUser            = SystemData_LastModifiedByType("User")
+	SystemData_LastModifiedByType_Application     = SystemData_LastModifiedByType("Application")
+	SystemData_LastModifiedByType_Key             = SystemData_LastModifiedByType("Key")
+	SystemData_LastModifiedByType_ManagedIdentity = SystemData_LastModifiedByType("ManagedIdentity")
+	SystemData_LastModifiedByType_User            = SystemData_LastModifiedByType("User")
 )

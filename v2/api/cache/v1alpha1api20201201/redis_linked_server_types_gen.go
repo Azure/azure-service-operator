@@ -112,7 +112,7 @@ func (server *RedisLinkedServer) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20201201"
 func (server RedisLinkedServer) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -749,8 +749,8 @@ func (server *RedisLinkedServer_Spec) SetAzureName(azureName string) { server.Az
 type RedisLinkedServerCreateProperties_ServerRole string
 
 const (
-	RedisLinkedServerCreateProperties_ServerRolePrimary   = RedisLinkedServerCreateProperties_ServerRole("Primary")
-	RedisLinkedServerCreateProperties_ServerRoleSecondary = RedisLinkedServerCreateProperties_ServerRole("Secondary")
+	RedisLinkedServerCreateProperties_ServerRole_Primary   = RedisLinkedServerCreateProperties_ServerRole("Primary")
+	RedisLinkedServerCreateProperties_ServerRole_Secondary = RedisLinkedServerCreateProperties_ServerRole("Secondary")
 )
 
 // Deprecated version of RedisLinkedServerCreateProperties_ServerRole_STATUS. Use
@@ -758,8 +758,8 @@ const (
 type RedisLinkedServerCreateProperties_ServerRole_STATUS string
 
 const (
-	RedisLinkedServerCreateProperties_ServerRole_STATUSPrimary   = RedisLinkedServerCreateProperties_ServerRole_STATUS("Primary")
-	RedisLinkedServerCreateProperties_ServerRole_STATUSSecondary = RedisLinkedServerCreateProperties_ServerRole_STATUS("Secondary")
+	RedisLinkedServerCreateProperties_ServerRole_Primary_STATUS   = RedisLinkedServerCreateProperties_ServerRole_STATUS("Primary")
+	RedisLinkedServerCreateProperties_ServerRole_Secondary_STATUS = RedisLinkedServerCreateProperties_ServerRole_STATUS("Secondary")
 )
 
 func init() {

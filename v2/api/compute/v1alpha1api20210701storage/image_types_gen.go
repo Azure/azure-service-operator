@@ -74,7 +74,7 @@ func (image *Image) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20210701"
 func (image Image) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -206,7 +206,7 @@ type ImageList struct {
 // +kubebuilder:validation:Enum={"20210701"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("20210701")
+const APIVersion_Value = APIVersion("20210701")
 
 // Storage version of v1alpha1api20210701.Image_STATUS
 // Deprecated version of Image_STATUS. Use v1beta20210701.Image_STATUS instead

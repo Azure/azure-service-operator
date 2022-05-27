@@ -156,7 +156,7 @@ func Identity_STATUSARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForIdentity_STATUSARM(gens map[string]gopter.Gen) {
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(Identity_Type_STATUSUserAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(Identity_Type_UserAssigned_STATUS))
 }
 
 func Test_ServerProperties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -228,24 +228,24 @@ func AddIndependentPropertyGeneratorsForServerProperties_STATUSARM(gens map[stri
 	gens["AdministratorLogin"] = gen.PtrOf(gen.AlphaString())
 	gens["AvailabilityZone"] = gen.PtrOf(gen.AlphaString())
 	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(
-		ServerProperties_CreateMode_STATUSDefault,
-		ServerProperties_CreateMode_STATUSGeoRestore,
-		ServerProperties_CreateMode_STATUSPointInTimeRestore,
-		ServerProperties_CreateMode_STATUSReplica))
+		ServerProperties_CreateMode_Default_STATUS,
+		ServerProperties_CreateMode_GeoRestore_STATUS,
+		ServerProperties_CreateMode_PointInTimeRestore_STATUS,
+		ServerProperties_CreateMode_Replica_STATUS))
 	gens["FullyQualifiedDomainName"] = gen.PtrOf(gen.AlphaString())
 	gens["ReplicaCapacity"] = gen.PtrOf(gen.Int())
-	gens["ReplicationRole"] = gen.PtrOf(gen.OneConstOf(ReplicationRole_STATUSNone, ReplicationRole_STATUSReplica, ReplicationRole_STATUSSource))
+	gens["ReplicationRole"] = gen.PtrOf(gen.OneConstOf(ReplicationRole_None_STATUS, ReplicationRole_Replica_STATUS, ReplicationRole_Source_STATUS))
 	gens["RestorePointInTime"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceServerResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["State"] = gen.PtrOf(gen.OneConstOf(
-		ServerProperties_State_STATUSDisabled,
-		ServerProperties_State_STATUSDropping,
-		ServerProperties_State_STATUSReady,
-		ServerProperties_State_STATUSStarting,
-		ServerProperties_State_STATUSStopped,
-		ServerProperties_State_STATUSStopping,
-		ServerProperties_State_STATUSUpdating))
-	gens["Version"] = gen.PtrOf(gen.OneConstOf(ServerVersion_STATUS57, ServerVersion_STATUS8021))
+		ServerProperties_State_Disabled_STATUS,
+		ServerProperties_State_Dropping_STATUS,
+		ServerProperties_State_Ready_STATUS,
+		ServerProperties_State_Starting_STATUS,
+		ServerProperties_State_Stopped_STATUS,
+		ServerProperties_State_Stopping_STATUS,
+		ServerProperties_State_Updating_STATUS))
+	gens["Version"] = gen.PtrOf(gen.OneConstOf(ServerVersion_57_STATUS, ServerVersion_8021_STATUS))
 }
 
 // AddRelatedPropertyGeneratorsForServerProperties_STATUSARM is a factory method for creating gopter generators
@@ -315,7 +315,7 @@ func Sku_STATUSARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSku_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSku_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(Sku_Tier_STATUSBurstable, Sku_Tier_STATUSGeneralPurpose, Sku_Tier_STATUSMemoryOptimized))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(Sku_Tier_Burstable_STATUS, Sku_Tier_GeneralPurpose_STATUS, Sku_Tier_MemoryOptimized_STATUS))
 }
 
 func Test_SystemData_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -378,17 +378,17 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUSARM(gens map[string]gop
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByType_STATUSApplication,
-		SystemData_CreatedByType_STATUSKey,
-		SystemData_CreatedByType_STATUSManagedIdentity,
-		SystemData_CreatedByType_STATUSUser))
+		SystemData_CreatedByType_Application_STATUS,
+		SystemData_CreatedByType_Key_STATUS,
+		SystemData_CreatedByType_ManagedIdentity_STATUS,
+		SystemData_CreatedByType_User_STATUS))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByType_STATUSApplication,
-		SystemData_LastModifiedByType_STATUSKey,
-		SystemData_LastModifiedByType_STATUSManagedIdentity,
-		SystemData_LastModifiedByType_STATUSUser))
+		SystemData_LastModifiedByType_Application_STATUS,
+		SystemData_LastModifiedByType_Key_STATUS,
+		SystemData_LastModifiedByType_ManagedIdentity_STATUS,
+		SystemData_LastModifiedByType_User_STATUS))
 }
 
 func Test_Backup_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -449,7 +449,7 @@ func Backup_STATUSARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForBackup_STATUSARM(gens map[string]gopter.Gen) {
 	gens["BackupRetentionDays"] = gen.PtrOf(gen.Int())
 	gens["EarliestRestoreDate"] = gen.PtrOf(gen.AlphaString())
-	gens["GeoRedundantBackup"] = gen.PtrOf(gen.OneConstOf(EnableStatusEnum_STATUSDisabled, EnableStatusEnum_STATUSEnabled))
+	gens["GeoRedundantBackup"] = gen.PtrOf(gen.OneConstOf(EnableStatusEnum_Disabled_STATUS, EnableStatusEnum_Enabled_STATUS))
 }
 
 func Test_DataEncryption_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -513,7 +513,7 @@ func AddIndependentPropertyGeneratorsForDataEncryption_STATUSARM(gens map[string
 	gens["GeoBackupUserAssignedIdentityId"] = gen.PtrOf(gen.AlphaString())
 	gens["PrimaryKeyUri"] = gen.PtrOf(gen.AlphaString())
 	gens["PrimaryUserAssignedIdentityId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(DataEncryption_Type_STATUSAzureKeyVault, DataEncryption_Type_STATUSSystemManaged))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(DataEncryption_Type_AzureKeyVault_STATUS, DataEncryption_Type_SystemManaged_STATUS))
 }
 
 func Test_HighAvailability_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -573,14 +573,14 @@ func HighAvailability_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForHighAvailability_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForHighAvailability_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Mode"] = gen.PtrOf(gen.OneConstOf(HighAvailability_Mode_STATUSDisabled, HighAvailability_Mode_STATUSSameZone, HighAvailability_Mode_STATUSZoneRedundant))
+	gens["Mode"] = gen.PtrOf(gen.OneConstOf(HighAvailability_Mode_Disabled_STATUS, HighAvailability_Mode_SameZone_STATUS, HighAvailability_Mode_ZoneRedundant_STATUS))
 	gens["StandbyAvailabilityZone"] = gen.PtrOf(gen.AlphaString())
 	gens["State"] = gen.PtrOf(gen.OneConstOf(
-		HighAvailability_State_STATUSCreatingStandby,
-		HighAvailability_State_STATUSFailingOver,
-		HighAvailability_State_STATUSHealthy,
-		HighAvailability_State_STATUSNotEnabled,
-		HighAvailability_State_STATUSRemovingStandby))
+		HighAvailability_State_CreatingStandby_STATUS,
+		HighAvailability_State_FailingOver_STATUS,
+		HighAvailability_State_Healthy_STATUS,
+		HighAvailability_State_NotEnabled_STATUS,
+		HighAvailability_State_RemovingStandby_STATUS))
 }
 
 func Test_MaintenanceWindow_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -704,7 +704,7 @@ func Network_STATUSARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForNetwork_STATUSARM(gens map[string]gopter.Gen) {
 	gens["DelegatedSubnetResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateDnsZoneResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(EnableStatusEnum_STATUSDisabled, EnableStatusEnum_STATUSEnabled))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(EnableStatusEnum_Disabled_STATUS, EnableStatusEnum_Enabled_STATUS))
 }
 
 func Test_Storage_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -763,7 +763,7 @@ func Storage_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForStorage_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorage_STATUSARM(gens map[string]gopter.Gen) {
-	gens["AutoGrow"] = gen.PtrOf(gen.OneConstOf(EnableStatusEnum_STATUSDisabled, EnableStatusEnum_STATUSEnabled))
+	gens["AutoGrow"] = gen.PtrOf(gen.OneConstOf(EnableStatusEnum_Disabled_STATUS, EnableStatusEnum_Enabled_STATUS))
 	gens["Iops"] = gen.PtrOf(gen.Int())
 	gens["StorageSizeGB"] = gen.PtrOf(gen.Int())
 	gens["StorageSku"] = gen.PtrOf(gen.AlphaString())

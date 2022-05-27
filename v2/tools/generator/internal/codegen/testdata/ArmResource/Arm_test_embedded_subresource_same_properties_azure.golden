@@ -94,7 +94,7 @@ func (a *A) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20200101"
 func (a A) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -279,7 +279,7 @@ var _ genruntime.ARMResourceSpec = &A_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20200101"
 func (a A_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -368,7 +368,7 @@ func (b *B) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20200101"
 func (b B) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -553,7 +553,7 @@ var _ genruntime.ARMResourceSpec = &B_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20200101"
 func (b B_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -569,7 +569,7 @@ func (b *B_SpecARM) GetType() string {
 // +kubebuilder:validation:Enum={"20200101"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("20200101")
+const APIVersion_Value = APIVersion("20200101")
 
 type A_Spec struct {
 	// +kubebuilder:validation:Required
@@ -816,12 +816,12 @@ func (a *A_Spec) SetAzureName(azureName string) { a.AzureName = azureName }
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type A_Spec_APIVersion string
 
-const A_Spec_APIVersion20200601 = A_Spec_APIVersion("2020-06-01")
+const A_Spec_APIVersion_20200601 = A_Spec_APIVersion("2020-06-01")
 
 // +kubebuilder:validation:Enum={"Microsoft.Azure/A"}
 type A_Spec_Type string
 
-const A_Spec_TypeMicrosoftAzureA = A_Spec_Type("Microsoft.Azure/A")
+const A_Spec_Type_MicrosoftAzureA = A_Spec_Type("Microsoft.Azure/A")
 
 type B_Spec struct {
 	// +kubebuilder:validation:Required
@@ -1068,12 +1068,12 @@ func (b *B_Spec) SetAzureName(azureName string) { b.AzureName = azureName }
 // +kubebuilder:validation:Enum={"2020-06-01"}
 type B_Spec_APIVersion string
 
-const B_Spec_APIVersion20200601 = B_Spec_APIVersion("2020-06-01")
+const B_Spec_APIVersion_20200601 = B_Spec_APIVersion("2020-06-01")
 
 // +kubebuilder:validation:Enum={"Microsoft.Azure/B"}
 type B_Spec_Type string
 
-const B_Spec_TypeMicrosoftAzureB = B_Spec_Type("Microsoft.Azure/B")
+const B_Spec_Type_MicrosoftAzureB = B_Spec_Type("Microsoft.Azure/B")
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/CommonProperties
 type CommonPropertiesARM struct {

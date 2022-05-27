@@ -72,26 +72,26 @@ type SystemData_STATUSARM struct {
 type IdentityType_STATUS string
 
 const (
-	IdentityType_STATUSApplication     = IdentityType_STATUS("application")
-	IdentityType_STATUSKey             = IdentityType_STATUS("key")
-	IdentityType_STATUSManagedIdentity = IdentityType_STATUS("managedIdentity")
-	IdentityType_STATUSUser            = IdentityType_STATUS("user")
+	IdentityType_Application_STATUS     = IdentityType_STATUS("application")
+	IdentityType_Key_STATUS             = IdentityType_STATUS("key")
+	IdentityType_ManagedIdentity_STATUS = IdentityType_STATUS("managedIdentity")
+	IdentityType_User_STATUS            = IdentityType_STATUS("user")
 )
 
 type Sku_Name_STATUS string
 
 const (
-	Sku_Name_STATUSCustom_Verizon                     = Sku_Name_STATUS("Custom_Verizon")
-	Sku_Name_STATUSPremium_AzureFrontDoor             = Sku_Name_STATUS("Premium_AzureFrontDoor")
-	Sku_Name_STATUSPremium_Verizon                    = Sku_Name_STATUS("Premium_Verizon")
-	Sku_Name_STATUSStandardPlus_955BandWidth_ChinaCdn = Sku_Name_STATUS("StandardPlus_955BandWidth_ChinaCdn")
-	Sku_Name_STATUSStandardPlus_AvgBandWidth_ChinaCdn = Sku_Name_STATUS("StandardPlus_AvgBandWidth_ChinaCdn")
-	Sku_Name_STATUSStandardPlus_ChinaCdn              = Sku_Name_STATUS("StandardPlus_ChinaCdn")
-	Sku_Name_STATUSStandard_955BandWidth_ChinaCdn     = Sku_Name_STATUS("Standard_955BandWidth_ChinaCdn")
-	Sku_Name_STATUSStandard_Akamai                    = Sku_Name_STATUS("Standard_Akamai")
-	Sku_Name_STATUSStandard_AvgBandWidth_ChinaCdn     = Sku_Name_STATUS("Standard_AvgBandWidth_ChinaCdn")
-	Sku_Name_STATUSStandard_AzureFrontDoor            = Sku_Name_STATUS("Standard_AzureFrontDoor")
-	Sku_Name_STATUSStandard_ChinaCdn                  = Sku_Name_STATUS("Standard_ChinaCdn")
-	Sku_Name_STATUSStandard_Microsoft                 = Sku_Name_STATUS("Standard_Microsoft")
-	Sku_Name_STATUSStandard_Verizon                   = Sku_Name_STATUS("Standard_Verizon")
+	Sku_Name_Custom_Verizon_STATUS                     = Sku_Name_STATUS("Custom_Verizon")
+	Sku_Name_Premium_AzureFrontDoor_STATUS             = Sku_Name_STATUS("Premium_AzureFrontDoor")
+	Sku_Name_Premium_Verizon_STATUS                    = Sku_Name_STATUS("Premium_Verizon")
+	Sku_Name_StandardPlus_955BandWidth_ChinaCdn_STATUS = Sku_Name_STATUS("StandardPlus_955BandWidth_ChinaCdn")
+	Sku_Name_StandardPlus_AvgBandWidth_ChinaCdn_STATUS = Sku_Name_STATUS("StandardPlus_AvgBandWidth_ChinaCdn")
+	Sku_Name_StandardPlus_ChinaCdn_STATUS              = Sku_Name_STATUS("StandardPlus_ChinaCdn")
+	Sku_Name_Standard_955BandWidth_ChinaCdn_STATUS     = Sku_Name_STATUS("Standard_955BandWidth_ChinaCdn")
+	Sku_Name_Standard_Akamai_STATUS                    = Sku_Name_STATUS("Standard_Akamai")
+	Sku_Name_Standard_AvgBandWidth_ChinaCdn_STATUS     = Sku_Name_STATUS("Standard_AvgBandWidth_ChinaCdn")
+	Sku_Name_Standard_AzureFrontDoor_STATUS            = Sku_Name_STATUS("Standard_AzureFrontDoor")
+	Sku_Name_Standard_ChinaCdn_STATUS                  = Sku_Name_STATUS("Standard_ChinaCdn")
+	Sku_Name_Standard_Microsoft_STATUS                 = Sku_Name_STATUS("Standard_Microsoft")
+	Sku_Name_Standard_Verizon_STATUS                   = Sku_Name_STATUS("Standard_Verizon")
 )

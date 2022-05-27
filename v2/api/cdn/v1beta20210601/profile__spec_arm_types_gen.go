@@ -37,7 +37,7 @@ var _ genruntime.ARMResourceSpec = &Profile_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20210601"
 func (profile Profile_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -94,27 +94,27 @@ type SystemDataARM struct {
 type IdentityType string
 
 const (
-	IdentityTypeApplication     = IdentityType("application")
-	IdentityTypeKey             = IdentityType("key")
-	IdentityTypeManagedIdentity = IdentityType("managedIdentity")
-	IdentityTypeUser            = IdentityType("user")
+	IdentityType_Application     = IdentityType("application")
+	IdentityType_Key             = IdentityType("key")
+	IdentityType_ManagedIdentity = IdentityType("managedIdentity")
+	IdentityType_User            = IdentityType("user")
 )
 
 // +kubebuilder:validation:Enum={"Custom_Verizon","Premium_AzureFrontDoor","Premium_Verizon","StandardPlus_955BandWidth_ChinaCdn","StandardPlus_AvgBandWidth_ChinaCdn","StandardPlus_ChinaCdn","Standard_955BandWidth_ChinaCdn","Standard_Akamai","Standard_AvgBandWidth_ChinaCdn","Standard_AzureFrontDoor","Standard_ChinaCdn","Standard_Microsoft","Standard_Verizon"}
 type Sku_Name string
 
 const (
-	Sku_NameCustom_Verizon                     = Sku_Name("Custom_Verizon")
-	Sku_NamePremium_AzureFrontDoor             = Sku_Name("Premium_AzureFrontDoor")
-	Sku_NamePremium_Verizon                    = Sku_Name("Premium_Verizon")
-	Sku_NameStandardPlus_955BandWidth_ChinaCdn = Sku_Name("StandardPlus_955BandWidth_ChinaCdn")
-	Sku_NameStandardPlus_AvgBandWidth_ChinaCdn = Sku_Name("StandardPlus_AvgBandWidth_ChinaCdn")
-	Sku_NameStandardPlus_ChinaCdn              = Sku_Name("StandardPlus_ChinaCdn")
-	Sku_NameStandard_955BandWidth_ChinaCdn     = Sku_Name("Standard_955BandWidth_ChinaCdn")
-	Sku_NameStandard_Akamai                    = Sku_Name("Standard_Akamai")
-	Sku_NameStandard_AvgBandWidth_ChinaCdn     = Sku_Name("Standard_AvgBandWidth_ChinaCdn")
-	Sku_NameStandard_AzureFrontDoor            = Sku_Name("Standard_AzureFrontDoor")
-	Sku_NameStandard_ChinaCdn                  = Sku_Name("Standard_ChinaCdn")
-	Sku_NameStandard_Microsoft                 = Sku_Name("Standard_Microsoft")
-	Sku_NameStandard_Verizon                   = Sku_Name("Standard_Verizon")
+	Sku_Name_Custom_Verizon                     = Sku_Name("Custom_Verizon")
+	Sku_Name_Premium_AzureFrontDoor             = Sku_Name("Premium_AzureFrontDoor")
+	Sku_Name_Premium_Verizon                    = Sku_Name("Premium_Verizon")
+	Sku_Name_StandardPlus_955BandWidth_ChinaCdn = Sku_Name("StandardPlus_955BandWidth_ChinaCdn")
+	Sku_Name_StandardPlus_AvgBandWidth_ChinaCdn = Sku_Name("StandardPlus_AvgBandWidth_ChinaCdn")
+	Sku_Name_StandardPlus_ChinaCdn              = Sku_Name("StandardPlus_ChinaCdn")
+	Sku_Name_Standard_955BandWidth_ChinaCdn     = Sku_Name("Standard_955BandWidth_ChinaCdn")
+	Sku_Name_Standard_Akamai                    = Sku_Name("Standard_Akamai")
+	Sku_Name_Standard_AvgBandWidth_ChinaCdn     = Sku_Name("Standard_AvgBandWidth_ChinaCdn")
+	Sku_Name_Standard_AzureFrontDoor            = Sku_Name("Standard_AzureFrontDoor")
+	Sku_Name_Standard_ChinaCdn                  = Sku_Name("Standard_ChinaCdn")
+	Sku_Name_Standard_Microsoft                 = Sku_Name("Standard_Microsoft")
+	Sku_Name_Standard_Verizon                   = Sku_Name("Standard_Verizon")
 )

@@ -161,26 +161,26 @@ func SecurityRulePropertiesFormatARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSecurityRulePropertiesFormatARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSecurityRulePropertiesFormatARM(gens map[string]gopter.Gen) {
-	gens["Access"] = gen.PtrOf(gen.OneConstOf(SecurityRuleAccessAllow, SecurityRuleAccessDeny))
+	gens["Access"] = gen.PtrOf(gen.OneConstOf(SecurityRuleAccess_Allow, SecurityRuleAccess_Deny))
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DestinationAddressPrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["DestinationAddressPrefixes"] = gen.SliceOf(gen.AlphaString())
 	gens["DestinationPortRange"] = gen.PtrOf(gen.AlphaString())
 	gens["DestinationPortRanges"] = gen.SliceOf(gen.AlphaString())
-	gens["Direction"] = gen.PtrOf(gen.OneConstOf(SecurityRuleDirectionInbound, SecurityRuleDirectionOutbound))
+	gens["Direction"] = gen.PtrOf(gen.OneConstOf(SecurityRuleDirection_Inbound, SecurityRuleDirection_Outbound))
 	gens["Priority"] = gen.PtrOf(gen.Int())
 	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(
-		SecurityRulePropertiesFormat_ProtocolAh,
-		SecurityRulePropertiesFormat_ProtocolEsp,
-		SecurityRulePropertiesFormat_ProtocolIcmp,
-		SecurityRulePropertiesFormat_ProtocolStar,
-		SecurityRulePropertiesFormat_ProtocolTcp,
-		SecurityRulePropertiesFormat_ProtocolUdp))
+		SecurityRulePropertiesFormat_Protocol_Ah,
+		SecurityRulePropertiesFormat_Protocol_Esp,
+		SecurityRulePropertiesFormat_Protocol_Icmp,
+		SecurityRulePropertiesFormat_Protocol_Star,
+		SecurityRulePropertiesFormat_Protocol_Tcp,
+		SecurityRulePropertiesFormat_Protocol_Udp))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningStateDeleting,
-		ProvisioningStateFailed,
-		ProvisioningStateSucceeded,
-		ProvisioningStateUpdating))
+		ProvisioningState_Deleting,
+		ProvisioningState_Failed,
+		ProvisioningState_Succeeded,
+		ProvisioningState_Updating))
 	gens["SourceAddressPrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceAddressPrefixes"] = gen.SliceOf(gen.AlphaString())
 	gens["SourcePortRange"] = gen.PtrOf(gen.AlphaString())

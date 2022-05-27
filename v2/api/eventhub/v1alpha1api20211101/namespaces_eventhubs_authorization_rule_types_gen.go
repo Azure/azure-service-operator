@@ -112,7 +112,7 @@ func (rule *NamespacesEventhubsAuthorizationRule) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20211101"
 func (rule NamespacesEventhubsAuthorizationRule) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -873,9 +873,9 @@ func (rule *NamespacesEventhubsAuthorizationRule_Spec) SetAzureName(azureName st
 type NamespacesEventhubsAuthorizationRule_Properties_Rights_STATUS string
 
 const (
-	NamespacesEventhubsAuthorizationRule_Properties_Rights_STATUSListen = NamespacesEventhubsAuthorizationRule_Properties_Rights_STATUS("Listen")
-	NamespacesEventhubsAuthorizationRule_Properties_Rights_STATUSManage = NamespacesEventhubsAuthorizationRule_Properties_Rights_STATUS("Manage")
-	NamespacesEventhubsAuthorizationRule_Properties_Rights_STATUSSend   = NamespacesEventhubsAuthorizationRule_Properties_Rights_STATUS("Send")
+	NamespacesEventhubsAuthorizationRule_Properties_Rights_Listen_STATUS = NamespacesEventhubsAuthorizationRule_Properties_Rights_STATUS("Listen")
+	NamespacesEventhubsAuthorizationRule_Properties_Rights_Manage_STATUS = NamespacesEventhubsAuthorizationRule_Properties_Rights_STATUS("Manage")
+	NamespacesEventhubsAuthorizationRule_Properties_Rights_Send_STATUS   = NamespacesEventhubsAuthorizationRule_Properties_Rights_STATUS("Send")
 )
 
 // Deprecated version of NamespacesEventhubsAuthorizationRule_Spec_Properties_Rights. Use
@@ -884,9 +884,9 @@ const (
 type NamespacesEventhubsAuthorizationRule_Spec_Properties_Rights string
 
 const (
-	NamespacesEventhubsAuthorizationRule_Spec_Properties_RightsListen = NamespacesEventhubsAuthorizationRule_Spec_Properties_Rights("Listen")
-	NamespacesEventhubsAuthorizationRule_Spec_Properties_RightsManage = NamespacesEventhubsAuthorizationRule_Spec_Properties_Rights("Manage")
-	NamespacesEventhubsAuthorizationRule_Spec_Properties_RightsSend   = NamespacesEventhubsAuthorizationRule_Spec_Properties_Rights("Send")
+	NamespacesEventhubsAuthorizationRule_Spec_Properties_Rights_Listen = NamespacesEventhubsAuthorizationRule_Spec_Properties_Rights("Listen")
+	NamespacesEventhubsAuthorizationRule_Spec_Properties_Rights_Manage = NamespacesEventhubsAuthorizationRule_Spec_Properties_Rights("Manage")
+	NamespacesEventhubsAuthorizationRule_Spec_Properties_Rights_Send   = NamespacesEventhubsAuthorizationRule_Spec_Properties_Rights("Send")
 )
 
 func init() {

@@ -72,7 +72,7 @@ func (account *BatchAccount) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20210101"
 func (account BatchAccount) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -204,7 +204,7 @@ type BatchAccountList struct {
 // +kubebuilder:validation:Enum={"20210101"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("20210101")
+const APIVersion_Value = APIVersion("20210101")
 
 // Storage version of v1alpha1api20210101.BatchAccount_STATUS
 // Deprecated version of BatchAccount_STATUS. Use v1beta20210101.BatchAccount_STATUS instead

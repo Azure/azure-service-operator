@@ -26,15 +26,12 @@ func Test_Insights_Component_CRUD(t *testing.T) {
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	// Create a component
-	applicationType := insights.ApplicationInsightsComponentPropertiesApplicationTypeOther
 	component := &insights.Component{
 		ObjectMeta: tc.MakeObjectMeta("component"),
-		Spec: insights.Components_Spec{
+		Spec: insights.Component_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
-			// According to their documentation you can set anything here, it's ignored.
-			ApplicationType: &applicationType,
-			Kind:            to.StringPtr("web"),
+			Kind:     to.StringPtr("web"),
 		},
 	}
 
@@ -65,7 +62,7 @@ func Test_Insights_Component_CRUD(t *testing.T) {
 	exists, _, err := tc.AzureClient.HeadByID(
 		tc.Ctx,
 		armId,
-		string(insights.APIVersionValue))
+		string(insights.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }
@@ -75,10 +72,10 @@ func Insights_WebTest_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Reso
 
 	// Create a webtest
 	om := tc.MakeObjectMeta("webtest")
-	kind := insightswebtest.WebTestPropertiesKindStandard
+	kind := insightswebtest.Webtest_Spec_Kind_Ping
 	webtest := &insightswebtest.Webtest{
 		ObjectMeta: om,
-		Spec: insightswebtest.Webtests_Spec{
+		Spec: insightswebtest.Webtest_Spec{
 			Location:           tc.AzureRegion,
 			Owner:              testcommon.AsOwner(rg),
 			SyntheticMonitorId: &om.Name,
@@ -94,11 +91,11 @@ func Insights_WebTest_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Reso
 					Id: to.StringPtr("us-ca-sjc-azr"), // This is US west...
 				},
 			},
-			Request: &insightswebtest.WebTestPropertiesRequest{
+			Request: &insightswebtest.WebTestProperties_Request{
 				HttpVerb:   to.StringPtr("GET"),
 				RequestUrl: to.StringPtr("https://github.com/Azure/azure-service-operator"),
 			},
-			ValidationRules: &insightswebtest.WebTestPropertiesValidationRules{
+			ValidationRules: &insightswebtest.WebTestProperties_ValidationRules{
 				ExpectedHttpStatusCode:        to.IntPtr(200),
 				SSLCheck:                      to.BoolPtr(true),
 				SSLCertRemainingLifetimeCheck: to.IntPtr(7),
@@ -108,7 +105,7 @@ func Insights_WebTest_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Reso
 
 	tc.CreateResourceAndWait(webtest)
 
-	expectedKind := insightswebtest.WebTestPropertiesStatusKindStandard
+	expectedKind := insightswebtest.Webtest_Kind_Ping_STATUS
 	tc.Expect(webtest.Status.Location).To(Equal(tc.AzureRegion))
 	tc.Expect(webtest.Status.Kind).To(Equal(&expectedKind))
 	tc.Expect(webtest.Status.Id).ToNot(BeNil())
@@ -126,7 +123,7 @@ func Insights_WebTest_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Reso
 	exists, _, err := tc.AzureClient.HeadByID(
 		tc.Ctx,
 		armId,
-		string(insightswebtest.APIVersionValue))
+		string(insightswebtest.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }

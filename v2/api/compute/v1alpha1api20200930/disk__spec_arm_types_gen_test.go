@@ -173,10 +173,10 @@ func AddIndependentPropertyGeneratorsForDiskPropertiesARM(gens map[string]gopter
 	gens["DiskMBpsReadWrite"] = gen.PtrOf(gen.Int())
 	gens["DiskSizeBytes"] = gen.PtrOf(gen.Int())
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
-	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(DiskProperties_HyperVGenerationV1, DiskProperties_HyperVGenerationV2))
+	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(DiskProperties_HyperVGeneration_V1, DiskProperties_HyperVGeneration_V2))
 	gens["MaxShares"] = gen.PtrOf(gen.Int())
-	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.OneConstOf(NetworkAccessPolicyAllowAll, NetworkAccessPolicyAllowPrivate, NetworkAccessPolicyDenyAll))
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(DiskProperties_OsTypeLinux, DiskProperties_OsTypeWindows))
+	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.OneConstOf(NetworkAccessPolicy_AllowAll, NetworkAccessPolicy_AllowPrivate, NetworkAccessPolicy_DenyAll))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(DiskProperties_OsType_Linux, DiskProperties_OsType_Windows))
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["Tier"] = gen.PtrOf(gen.AlphaString())
 	gens["TimeCreated"] = gen.PtrOf(gen.AlphaString())
@@ -249,10 +249,10 @@ func DiskSkuARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDiskSkuARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDiskSkuARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		DiskSku_NamePremium_LRS,
-		DiskSku_NameStandardSSD_LRS,
-		DiskSku_NameStandard_LRS,
-		DiskSku_NameUltraSSD_LRS))
+		DiskSku_Name_Premium_LRS,
+		DiskSku_Name_StandardSSD_LRS,
+		DiskSku_Name_Standard_LRS,
+		DiskSku_Name_UltraSSD_LRS))
 	gens["Tier"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -314,7 +314,7 @@ func ExtendedLocationARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForExtendedLocationARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForExtendedLocationARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationTypeEdgeZone))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ExtendedLocationType_EdgeZone))
 }
 
 func Test_CreationDataARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -383,13 +383,13 @@ func CreationDataARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForCreationDataARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCreationDataARM(gens map[string]gopter.Gen) {
 	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(
-		CreationData_CreateOptionAttach,
-		CreationData_CreateOptionCopy,
-		CreationData_CreateOptionEmpty,
-		CreationData_CreateOptionFromImage,
-		CreationData_CreateOptionImport,
-		CreationData_CreateOptionRestore,
-		CreationData_CreateOptionUpload))
+		CreationData_CreateOption_Attach,
+		CreationData_CreateOption_Copy,
+		CreationData_CreateOption_Empty,
+		CreationData_CreateOption_FromImage,
+		CreationData_CreateOption_Import,
+		CreationData_CreateOption_Restore,
+		CreationData_CreateOption_Upload))
 	gens["LogicalSectorSize"] = gen.PtrOf(gen.Int())
 	gens["SourceResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceUniqueId"] = gen.PtrOf(gen.AlphaString())
@@ -461,7 +461,7 @@ func EncryptionARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForEncryptionARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEncryptionARM(gens map[string]gopter.Gen) {
 	gens["DiskEncryptionSetId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(EncryptionTypeEncryptionAtRestWithCustomerKey, EncryptionTypeEncryptionAtRestWithPlatformAndCustomerKeys, EncryptionTypeEncryptionAtRestWithPlatformKey))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(EncryptionType_EncryptionAtRestWithCustomerKey, EncryptionType_EncryptionAtRestWithPlatformAndCustomerKeys, EncryptionType_EncryptionAtRestWithPlatformKey))
 }
 
 func Test_EncryptionSettingsCollectionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

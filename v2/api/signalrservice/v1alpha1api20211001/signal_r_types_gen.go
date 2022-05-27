@@ -112,7 +112,7 @@ func (signalR *SignalR) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20211001"
 func (signalR SignalR) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -335,7 +335,7 @@ type SignalRList struct {
 // +kubebuilder:validation:Enum={"20211001"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("20211001")
+const APIVersion_Value = APIVersion("20211001")
 
 // Deprecated version of SignalR_STATUS. Use v1beta20211001.SignalR_STATUS instead
 type SignalR_STATUS struct {
@@ -2784,30 +2784,30 @@ func (embedded *PrivateEndpointConnection_SignalR_SubResourceEmbedded) AssignPro
 type ProvisioningState string
 
 const (
-	ProvisioningStateCanceled  = ProvisioningState("Canceled")
-	ProvisioningStateCreating  = ProvisioningState("Creating")
-	ProvisioningStateDeleting  = ProvisioningState("Deleting")
-	ProvisioningStateFailed    = ProvisioningState("Failed")
-	ProvisioningStateMoving    = ProvisioningState("Moving")
-	ProvisioningStateRunning   = ProvisioningState("Running")
-	ProvisioningStateSucceeded = ProvisioningState("Succeeded")
-	ProvisioningStateUnknown   = ProvisioningState("Unknown")
-	ProvisioningStateUpdating  = ProvisioningState("Updating")
+	ProvisioningState_Canceled  = ProvisioningState("Canceled")
+	ProvisioningState_Creating  = ProvisioningState("Creating")
+	ProvisioningState_Deleting  = ProvisioningState("Deleting")
+	ProvisioningState_Failed    = ProvisioningState("Failed")
+	ProvisioningState_Moving    = ProvisioningState("Moving")
+	ProvisioningState_Running   = ProvisioningState("Running")
+	ProvisioningState_Succeeded = ProvisioningState("Succeeded")
+	ProvisioningState_Unknown   = ProvisioningState("Unknown")
+	ProvisioningState_Updating  = ProvisioningState("Updating")
 )
 
 // Deprecated version of ProvisioningState_STATUS. Use v1beta20211001.ProvisioningState_STATUS instead
 type ProvisioningState_STATUS string
 
 const (
-	ProvisioningState_STATUSCanceled  = ProvisioningState_STATUS("Canceled")
-	ProvisioningState_STATUSCreating  = ProvisioningState_STATUS("Creating")
-	ProvisioningState_STATUSDeleting  = ProvisioningState_STATUS("Deleting")
-	ProvisioningState_STATUSFailed    = ProvisioningState_STATUS("Failed")
-	ProvisioningState_STATUSMoving    = ProvisioningState_STATUS("Moving")
-	ProvisioningState_STATUSRunning   = ProvisioningState_STATUS("Running")
-	ProvisioningState_STATUSSucceeded = ProvisioningState_STATUS("Succeeded")
-	ProvisioningState_STATUSUnknown   = ProvisioningState_STATUS("Unknown")
-	ProvisioningState_STATUSUpdating  = ProvisioningState_STATUS("Updating")
+	ProvisioningState_Canceled_STATUS  = ProvisioningState_STATUS("Canceled")
+	ProvisioningState_Creating_STATUS  = ProvisioningState_STATUS("Creating")
+	ProvisioningState_Deleting_STATUS  = ProvisioningState_STATUS("Deleting")
+	ProvisioningState_Failed_STATUS    = ProvisioningState_STATUS("Failed")
+	ProvisioningState_Moving_STATUS    = ProvisioningState_STATUS("Moving")
+	ProvisioningState_Running_STATUS   = ProvisioningState_STATUS("Running")
+	ProvisioningState_Succeeded_STATUS = ProvisioningState_STATUS("Succeeded")
+	ProvisioningState_Unknown_STATUS   = ProvisioningState_STATUS("Unknown")
+	ProvisioningState_Updating_STATUS  = ProvisioningState_STATUS("Updating")
 )
 
 // Deprecated version of ResourceLogConfiguration. Use v1beta20211001.ResourceLogConfiguration instead
@@ -4915,16 +4915,16 @@ func (data *SystemData_STATUS) AssignPropertiesToSystemData_STATUS(destination *
 type ACLAction string
 
 const (
-	ACLActionAllow = ACLAction("Allow")
-	ACLActionDeny  = ACLAction("Deny")
+	ACLAction_Allow = ACLAction("Allow")
+	ACLAction_Deny  = ACLAction("Deny")
 )
 
 // Deprecated version of ACLAction_STATUS. Use v1beta20211001.ACLAction_STATUS instead
 type ACLAction_STATUS string
 
 const (
-	ACLAction_STATUSAllow = ACLAction_STATUS("Allow")
-	ACLAction_STATUSDeny  = ACLAction_STATUS("Deny")
+	ACLAction_Allow_STATUS = ACLAction_STATUS("Allow")
+	ACLAction_Deny_STATUS  = ACLAction_STATUS("Deny")
 )
 
 // Deprecated version of FeatureFlags. Use v1beta20211001.FeatureFlags instead
@@ -4932,20 +4932,20 @@ const (
 type FeatureFlags string
 
 const (
-	FeatureFlagsEnableConnectivityLogs = FeatureFlags("EnableConnectivityLogs")
-	FeatureFlagsEnableLiveTrace        = FeatureFlags("EnableLiveTrace")
-	FeatureFlagsEnableMessagingLogs    = FeatureFlags("EnableMessagingLogs")
-	FeatureFlagsServiceMode            = FeatureFlags("ServiceMode")
+	FeatureFlags_EnableConnectivityLogs = FeatureFlags("EnableConnectivityLogs")
+	FeatureFlags_EnableLiveTrace        = FeatureFlags("EnableLiveTrace")
+	FeatureFlags_EnableMessagingLogs    = FeatureFlags("EnableMessagingLogs")
+	FeatureFlags_ServiceMode            = FeatureFlags("ServiceMode")
 )
 
 // Deprecated version of FeatureFlags_STATUS. Use v1beta20211001.FeatureFlags_STATUS instead
 type FeatureFlags_STATUS string
 
 const (
-	FeatureFlags_STATUSEnableConnectivityLogs = FeatureFlags_STATUS("EnableConnectivityLogs")
-	FeatureFlags_STATUSEnableLiveTrace        = FeatureFlags_STATUS("EnableLiveTrace")
-	FeatureFlags_STATUSEnableMessagingLogs    = FeatureFlags_STATUS("EnableMessagingLogs")
-	FeatureFlags_STATUSServiceMode            = FeatureFlags_STATUS("ServiceMode")
+	FeatureFlags_EnableConnectivityLogs_STATUS = FeatureFlags_STATUS("EnableConnectivityLogs")
+	FeatureFlags_EnableLiveTrace_STATUS        = FeatureFlags_STATUS("EnableLiveTrace")
+	FeatureFlags_EnableMessagingLogs_STATUS    = FeatureFlags_STATUS("EnableMessagingLogs")
+	FeatureFlags_ServiceMode_STATUS            = FeatureFlags_STATUS("ServiceMode")
 )
 
 // Deprecated version of NetworkACL. Use v1beta20211001.NetworkACL instead
@@ -6098,20 +6098,20 @@ func (property *UserAssignedIdentityProperty_STATUS) AssignPropertiesToUserAssig
 type SignalRRequestType string
 
 const (
-	SignalRRequestTypeClientConnection = SignalRRequestType("ClientConnection")
-	SignalRRequestTypeRESTAPI          = SignalRRequestType("RESTAPI")
-	SignalRRequestTypeServerConnection = SignalRRequestType("ServerConnection")
-	SignalRRequestTypeTrace            = SignalRRequestType("Trace")
+	SignalRRequestType_ClientConnection = SignalRRequestType("ClientConnection")
+	SignalRRequestType_RESTAPI          = SignalRRequestType("RESTAPI")
+	SignalRRequestType_ServerConnection = SignalRRequestType("ServerConnection")
+	SignalRRequestType_Trace            = SignalRRequestType("Trace")
 )
 
 // Deprecated version of SignalRRequestType_STATUS. Use v1beta20211001.SignalRRequestType_STATUS instead
 type SignalRRequestType_STATUS string
 
 const (
-	SignalRRequestType_STATUSClientConnection = SignalRRequestType_STATUS("ClientConnection")
-	SignalRRequestType_STATUSRESTAPI          = SignalRRequestType_STATUS("RESTAPI")
-	SignalRRequestType_STATUSServerConnection = SignalRRequestType_STATUS("ServerConnection")
-	SignalRRequestType_STATUSTrace            = SignalRRequestType_STATUS("Trace")
+	SignalRRequestType_ClientConnection_STATUS = SignalRRequestType_STATUS("ClientConnection")
+	SignalRRequestType_RESTAPI_STATUS          = SignalRRequestType_STATUS("RESTAPI")
+	SignalRRequestType_ServerConnection_STATUS = SignalRRequestType_STATUS("ServerConnection")
+	SignalRRequestType_Trace_STATUS            = SignalRRequestType_STATUS("Trace")
 )
 
 // Deprecated version of UpstreamAuthSettings. Use v1beta20211001.UpstreamAuthSettings instead
@@ -6483,16 +6483,16 @@ func (settings *ManagedIdentitySettings_STATUS) AssignPropertiesToManagedIdentit
 type UpstreamAuthType string
 
 const (
-	UpstreamAuthTypeManagedIdentity = UpstreamAuthType("ManagedIdentity")
-	UpstreamAuthTypeNone            = UpstreamAuthType("None")
+	UpstreamAuthType_ManagedIdentity = UpstreamAuthType("ManagedIdentity")
+	UpstreamAuthType_None            = UpstreamAuthType("None")
 )
 
 // Deprecated version of UpstreamAuthType_STATUS. Use v1beta20211001.UpstreamAuthType_STATUS instead
 type UpstreamAuthType_STATUS string
 
 const (
-	UpstreamAuthType_STATUSManagedIdentity = UpstreamAuthType_STATUS("ManagedIdentity")
-	UpstreamAuthType_STATUSNone            = UpstreamAuthType_STATUS("None")
+	UpstreamAuthType_ManagedIdentity_STATUS = UpstreamAuthType_STATUS("ManagedIdentity")
+	UpstreamAuthType_None_STATUS            = UpstreamAuthType_STATUS("None")
 )
 
 func init() {

@@ -165,28 +165,28 @@ func ClusterPropertiesARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForClusterPropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForClusterPropertiesARM(gens map[string]gopter.Gen) {
 	gens["HostName"] = gen.PtrOf(gen.AlphaString())
-	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(ClusterProperties_MinimumTlsVersion10, ClusterProperties_MinimumTlsVersion11, ClusterProperties_MinimumTlsVersion12))
+	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(ClusterProperties_MinimumTlsVersion_10, ClusterProperties_MinimumTlsVersion_11, ClusterProperties_MinimumTlsVersion_12))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningStateCanceled,
-		ProvisioningStateCreating,
-		ProvisioningStateDeleting,
-		ProvisioningStateFailed,
-		ProvisioningStateSucceeded,
-		ProvisioningStateUpdating))
+		ProvisioningState_Canceled,
+		ProvisioningState_Creating,
+		ProvisioningState_Deleting,
+		ProvisioningState_Failed,
+		ProvisioningState_Succeeded,
+		ProvisioningState_Updating))
 	gens["RedisVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(
-		ResourceStateCreateFailed,
-		ResourceStateCreating,
-		ResourceStateDeleteFailed,
-		ResourceStateDeleting,
-		ResourceStateDisableFailed,
-		ResourceStateDisabled,
-		ResourceStateDisabling,
-		ResourceStateEnableFailed,
-		ResourceStateEnabling,
-		ResourceStateRunning,
-		ResourceStateUpdateFailed,
-		ResourceStateUpdating))
+		ResourceState_CreateFailed,
+		ResourceState_Creating,
+		ResourceState_DeleteFailed,
+		ResourceState_Deleting,
+		ResourceState_DisableFailed,
+		ResourceState_Disabled,
+		ResourceState_Disabling,
+		ResourceState_EnableFailed,
+		ResourceState_Enabling,
+		ResourceState_Running,
+		ResourceState_UpdateFailed,
+		ResourceState_Updating))
 }
 
 // AddRelatedPropertyGeneratorsForClusterPropertiesARM is a factory method for creating gopter generators
@@ -252,13 +252,13 @@ func SkuARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForSkuARM(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		Sku_NameEnterpriseFlash_F1500,
-		Sku_NameEnterpriseFlash_F300,
-		Sku_NameEnterpriseFlash_F700,
-		Sku_NameEnterprise_E10,
-		Sku_NameEnterprise_E100,
-		Sku_NameEnterprise_E20,
-		Sku_NameEnterprise_E50))
+		Sku_Name_EnterpriseFlash_F1500,
+		Sku_Name_EnterpriseFlash_F300,
+		Sku_Name_EnterpriseFlash_F700,
+		Sku_Name_Enterprise_E10,
+		Sku_Name_Enterprise_E100,
+		Sku_Name_Enterprise_E20,
+		Sku_Name_Enterprise_E50))
 }
 
 func Test_PrivateEndpointConnectionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

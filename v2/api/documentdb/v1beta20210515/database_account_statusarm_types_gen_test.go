@@ -84,7 +84,7 @@ func DatabaseAccount_STATUSARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDatabaseAccount_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabaseAccount_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(DatabaseAccount_Kind_STATUSGlobalDocumentDB, DatabaseAccount_Kind_STATUSMongoDB, DatabaseAccount_Kind_STATUSParse))
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(DatabaseAccount_Kind_GlobalDocumentDB_STATUS, DatabaseAccount_Kind_MongoDB_STATUS, DatabaseAccount_Kind_Parse_STATUS))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
@@ -163,8 +163,8 @@ func DatabaseAccountCreateUpdateProperties_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDatabaseAccountCreateUpdateProperties_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabaseAccountCreateUpdateProperties_STATUSARM(gens map[string]gopter.Gen) {
-	gens["ConnectorOffer"] = gen.PtrOf(gen.OneConstOf(ConnectorOffer_STATUSSmall))
-	gens["DatabaseAccountOfferType"] = gen.PtrOf(gen.OneConstOf(DatabaseAccountOfferType_STATUSStandard))
+	gens["ConnectorOffer"] = gen.PtrOf(gen.OneConstOf(ConnectorOffer_Small_STATUS))
+	gens["DatabaseAccountOfferType"] = gen.PtrOf(gen.OneConstOf(DatabaseAccountOfferType_Standard_STATUS))
 	gens["DefaultIdentity"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableKeyBasedMetadataWriteAccess"] = gen.PtrOf(gen.Bool())
 	gens["EnableAnalyticalStorage"] = gen.PtrOf(gen.Bool())
@@ -174,9 +174,9 @@ func AddIndependentPropertyGeneratorsForDatabaseAccountCreateUpdateProperties_ST
 	gens["EnableMultipleWriteLocations"] = gen.PtrOf(gen.Bool())
 	gens["IsVirtualNetworkFilterEnabled"] = gen.PtrOf(gen.Bool())
 	gens["KeyVaultKeyUri"] = gen.PtrOf(gen.AlphaString())
-	gens["NetworkAclBypass"] = gen.PtrOf(gen.OneConstOf(NetworkAclBypass_STATUSAzureServices, NetworkAclBypass_STATUSNone))
+	gens["NetworkAclBypass"] = gen.PtrOf(gen.OneConstOf(NetworkAclBypass_AzureServices_STATUS, NetworkAclBypass_None_STATUS))
 	gens["NetworkAclBypassResourceIds"] = gen.SliceOf(gen.AlphaString())
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccess_STATUSDisabled, PublicNetworkAccess_STATUSEnabled))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccess_Disabled_STATUS, PublicNetworkAccess_Enabled_STATUS))
 }
 
 // AddRelatedPropertyGeneratorsForDatabaseAccountCreateUpdateProperties_STATUSARM is a factory method for creating gopter generators
@@ -261,10 +261,10 @@ func AddIndependentPropertyGeneratorsForManagedServiceIdentity_STATUSARM(gens ma
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ManagedServiceIdentity_Type_STATUSNone,
-		ManagedServiceIdentity_Type_STATUSSystemAssigned,
-		ManagedServiceIdentity_Type_STATUSSystemAssignedUserAssigned,
-		ManagedServiceIdentity_Type_STATUSUserAssigned))
+		ManagedServiceIdentity_Type_None_STATUS,
+		ManagedServiceIdentity_Type_SystemAssigned_STATUS,
+		ManagedServiceIdentity_Type_SystemAssignedUserAssigned_STATUS,
+		ManagedServiceIdentity_Type_UserAssigned_STATUS))
 }
 
 // AddRelatedPropertyGeneratorsForManagedServiceIdentity_STATUSARM is a factory method for creating gopter generators
@@ -329,7 +329,7 @@ func AnalyticalStorageConfiguration_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAnalyticalStorageConfiguration_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAnalyticalStorageConfiguration_STATUSARM(gens map[string]gopter.Gen) {
-	gens["SchemaType"] = gen.PtrOf(gen.OneConstOf(AnalyticalStorageSchemaType_STATUSFullFidelity, AnalyticalStorageSchemaType_STATUSWellDefined))
+	gens["SchemaType"] = gen.PtrOf(gen.OneConstOf(AnalyticalStorageSchemaType_FullFidelity_STATUS, AnalyticalStorageSchemaType_WellDefined_STATUS))
 }
 
 func Test_ApiProperties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -389,7 +389,7 @@ func ApiProperties_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForApiProperties_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApiProperties_STATUSARM(gens map[string]gopter.Gen) {
-	gens["ServerVersion"] = gen.PtrOf(gen.OneConstOf(ApiProperties_ServerVersion_STATUS32, ApiProperties_ServerVersion_STATUS36, ApiProperties_ServerVersion_STATUS40))
+	gens["ServerVersion"] = gen.PtrOf(gen.OneConstOf(ApiProperties_ServerVersion_32_STATUS, ApiProperties_ServerVersion_36_STATUS, ApiProperties_ServerVersion_40_STATUS))
 }
 
 func Test_BackupPolicy_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -449,7 +449,7 @@ func BackupPolicy_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForBackupPolicy_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBackupPolicy_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(BackupPolicyType_STATUSContinuous, BackupPolicyType_STATUSPeriodic))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(BackupPolicyType_Continuous_STATUS, BackupPolicyType_Periodic_STATUS))
 }
 
 func Test_Capability_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -570,11 +570,11 @@ func ConsistencyPolicy_STATUSARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForConsistencyPolicy_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForConsistencyPolicy_STATUSARM(gens map[string]gopter.Gen) {
 	gens["DefaultConsistencyLevel"] = gen.PtrOf(gen.OneConstOf(
-		ConsistencyPolicy_DefaultConsistencyLevel_STATUSBoundedStaleness,
-		ConsistencyPolicy_DefaultConsistencyLevel_STATUSConsistentPrefix,
-		ConsistencyPolicy_DefaultConsistencyLevel_STATUSEventual,
-		ConsistencyPolicy_DefaultConsistencyLevel_STATUSSession,
-		ConsistencyPolicy_DefaultConsistencyLevel_STATUSStrong))
+		ConsistencyPolicy_DefaultConsistencyLevel_BoundedStaleness_STATUS,
+		ConsistencyPolicy_DefaultConsistencyLevel_ConsistentPrefix_STATUS,
+		ConsistencyPolicy_DefaultConsistencyLevel_Eventual_STATUS,
+		ConsistencyPolicy_DefaultConsistencyLevel_Session_STATUS,
+		ConsistencyPolicy_DefaultConsistencyLevel_Strong_STATUS))
 	gens["MaxIntervalInSeconds"] = gen.PtrOf(gen.Int())
 	gens["MaxStalenessPrefix"] = gen.PtrOf(gen.Int())
 }

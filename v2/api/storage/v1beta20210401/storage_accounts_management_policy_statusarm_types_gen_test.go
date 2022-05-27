@@ -295,7 +295,7 @@ func ManagementPolicyRule_STATUSARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForManagementPolicyRule_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagementPolicyRule_Type_STATUSLifecycle))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagementPolicyRule_Type_Lifecycle_STATUS))
 }
 
 // AddRelatedPropertyGeneratorsForManagementPolicyRule_STATUSARM is a factory method for creating gopter generators

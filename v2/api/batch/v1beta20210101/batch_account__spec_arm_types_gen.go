@@ -26,7 +26,7 @@ var _ genruntime.ARMResourceSpec = &BatchAccount_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20210101"
 func (account BatchAccount_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -79,9 +79,9 @@ type AutoStorageBasePropertiesARM struct {
 type BatchAccountIdentity_Type string
 
 const (
-	BatchAccountIdentity_TypeNone           = BatchAccountIdentity_Type("None")
-	BatchAccountIdentity_TypeSystemAssigned = BatchAccountIdentity_Type("SystemAssigned")
-	BatchAccountIdentity_TypeUserAssigned   = BatchAccountIdentity_Type("UserAssigned")
+	BatchAccountIdentity_Type_None           = BatchAccountIdentity_Type("None")
+	BatchAccountIdentity_Type_SystemAssigned = BatchAccountIdentity_Type("SystemAssigned")
+	BatchAccountIdentity_Type_UserAssigned   = BatchAccountIdentity_Type("UserAssigned")
 )
 
 type EncryptionPropertiesARM struct {

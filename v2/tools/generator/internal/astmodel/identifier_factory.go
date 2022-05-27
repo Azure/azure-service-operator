@@ -326,3 +326,13 @@ func sliceIntoWords(identifier string) []string {
 
 	return result
 }
+
+// Helper function:
+// Appends newSuffix to s, preserving the suffix at the end of the string if it exists
+func AppendPreservingSuffix(s string, newSuffix string, preserveSuffix string) string {
+	if strings.HasSuffix(s, preserveSuffix) {
+		return s[0:len(s)-len(preserveSuffix)] + newSuffix + preserveSuffix
+	}
+
+	return s + newSuffix
+}

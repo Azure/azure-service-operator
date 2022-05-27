@@ -58,48 +58,48 @@ type Sku_STATUSARM struct {
 type MinimalTlsVersion_STATUS string
 
 const (
-	MinimalTlsVersion_STATUSTLS1_0                 = MinimalTlsVersion_STATUS("TLS1_0")
-	MinimalTlsVersion_STATUSTLS1_1                 = MinimalTlsVersion_STATUS("TLS1_1")
-	MinimalTlsVersion_STATUSTLS1_2                 = MinimalTlsVersion_STATUS("TLS1_2")
-	MinimalTlsVersion_STATUSTLSEnforcementDisabled = MinimalTlsVersion_STATUS("TLSEnforcementDisabled")
+	MinimalTlsVersion_TLS1_0_STATUS                 = MinimalTlsVersion_STATUS("TLS1_0")
+	MinimalTlsVersion_TLS1_1_STATUS                 = MinimalTlsVersion_STATUS("TLS1_1")
+	MinimalTlsVersion_TLS1_2_STATUS                 = MinimalTlsVersion_STATUS("TLS1_2")
+	MinimalTlsVersion_TLSEnforcementDisabled_STATUS = MinimalTlsVersion_STATUS("TLSEnforcementDisabled")
 )
 
 type PublicNetworkAccess_STATUS string
 
 const (
-	PublicNetworkAccess_STATUSDisabled = PublicNetworkAccess_STATUS("Disabled")
-	PublicNetworkAccess_STATUSEnabled  = PublicNetworkAccess_STATUS("Enabled")
+	PublicNetworkAccess_Disabled_STATUS = PublicNetworkAccess_STATUS("Disabled")
+	PublicNetworkAccess_Enabled_STATUS  = PublicNetworkAccess_STATUS("Enabled")
 )
 
 type ServerPropertiesForCreate_CreateMode_STATUS string
 
 const (
-	ServerPropertiesForCreate_CreateMode_STATUSDefault            = ServerPropertiesForCreate_CreateMode_STATUS("Default")
-	ServerPropertiesForCreate_CreateMode_STATUSGeoRestore         = ServerPropertiesForCreate_CreateMode_STATUS("GeoRestore")
-	ServerPropertiesForCreate_CreateMode_STATUSPointInTimeRestore = ServerPropertiesForCreate_CreateMode_STATUS("PointInTimeRestore")
-	ServerPropertiesForCreate_CreateMode_STATUSReplica            = ServerPropertiesForCreate_CreateMode_STATUS("Replica")
+	ServerPropertiesForCreate_CreateMode_Default_STATUS            = ServerPropertiesForCreate_CreateMode_STATUS("Default")
+	ServerPropertiesForCreate_CreateMode_GeoRestore_STATUS         = ServerPropertiesForCreate_CreateMode_STATUS("GeoRestore")
+	ServerPropertiesForCreate_CreateMode_PointInTimeRestore_STATUS = ServerPropertiesForCreate_CreateMode_STATUS("PointInTimeRestore")
+	ServerPropertiesForCreate_CreateMode_Replica_STATUS            = ServerPropertiesForCreate_CreateMode_STATUS("Replica")
 )
 
 type ServerVersion_STATUS string
 
 const (
-	ServerVersion_STATUS102 = ServerVersion_STATUS("10.2")
-	ServerVersion_STATUS103 = ServerVersion_STATUS("10.3")
+	ServerVersion_102_STATUS = ServerVersion_STATUS("10.2")
+	ServerVersion_103_STATUS = ServerVersion_STATUS("10.3")
 )
 
 type Sku_Tier_STATUS string
 
 const (
-	Sku_Tier_STATUSBasic           = Sku_Tier_STATUS("Basic")
-	Sku_Tier_STATUSGeneralPurpose  = Sku_Tier_STATUS("GeneralPurpose")
-	Sku_Tier_STATUSMemoryOptimized = Sku_Tier_STATUS("MemoryOptimized")
+	Sku_Tier_Basic_STATUS           = Sku_Tier_STATUS("Basic")
+	Sku_Tier_GeneralPurpose_STATUS  = Sku_Tier_STATUS("GeneralPurpose")
+	Sku_Tier_MemoryOptimized_STATUS = Sku_Tier_STATUS("MemoryOptimized")
 )
 
 type SslEnforcement_STATUS string
 
 const (
-	SslEnforcement_STATUSDisabled = SslEnforcement_STATUS("Disabled")
-	SslEnforcement_STATUSEnabled  = SslEnforcement_STATUS("Enabled")
+	SslEnforcement_Disabled_STATUS = SslEnforcement_STATUS("Disabled")
+	SslEnforcement_Enabled_STATUS  = SslEnforcement_STATUS("Enabled")
 )
 
 type StorageProfile_STATUSARM struct {
@@ -119,13 +119,13 @@ type StorageProfile_STATUSARM struct {
 type StorageProfile_GeoRedundantBackup_STATUS string
 
 const (
-	StorageProfile_GeoRedundantBackup_STATUSDisabled = StorageProfile_GeoRedundantBackup_STATUS("Disabled")
-	StorageProfile_GeoRedundantBackup_STATUSEnabled  = StorageProfile_GeoRedundantBackup_STATUS("Enabled")
+	StorageProfile_GeoRedundantBackup_Disabled_STATUS = StorageProfile_GeoRedundantBackup_STATUS("Disabled")
+	StorageProfile_GeoRedundantBackup_Enabled_STATUS  = StorageProfile_GeoRedundantBackup_STATUS("Enabled")
 )
 
 type StorageProfile_StorageAutogrow_STATUS string
 
 const (
-	StorageProfile_StorageAutogrow_STATUSDisabled = StorageProfile_StorageAutogrow_STATUS("Disabled")
-	StorageProfile_StorageAutogrow_STATUSEnabled  = StorageProfile_StorageAutogrow_STATUS("Enabled")
+	StorageProfile_StorageAutogrow_Disabled_STATUS = StorageProfile_StorageAutogrow_STATUS("Disabled")
+	StorageProfile_StorageAutogrow_Enabled_STATUS  = StorageProfile_StorageAutogrow_STATUS("Enabled")
 )

@@ -119,16 +119,16 @@ type CompositePath_STATUSARM struct {
 type ConflictResolutionPolicy_Mode_STATUS string
 
 const (
-	ConflictResolutionPolicy_Mode_STATUSCustom         = ConflictResolutionPolicy_Mode_STATUS("Custom")
-	ConflictResolutionPolicy_Mode_STATUSLastWriterWins = ConflictResolutionPolicy_Mode_STATUS("LastWriterWins")
+	ConflictResolutionPolicy_Mode_Custom_STATUS         = ConflictResolutionPolicy_Mode_STATUS("Custom")
+	ConflictResolutionPolicy_Mode_LastWriterWins_STATUS = ConflictResolutionPolicy_Mode_STATUS("LastWriterWins")
 )
 
 type ContainerPartitionKey_Kind_STATUS string
 
 const (
-	ContainerPartitionKey_Kind_STATUSHash      = ContainerPartitionKey_Kind_STATUS("Hash")
-	ContainerPartitionKey_Kind_STATUSMultiHash = ContainerPartitionKey_Kind_STATUS("MultiHash")
-	ContainerPartitionKey_Kind_STATUSRange     = ContainerPartitionKey_Kind_STATUS("Range")
+	ContainerPartitionKey_Kind_Hash_STATUS      = ContainerPartitionKey_Kind_STATUS("Hash")
+	ContainerPartitionKey_Kind_MultiHash_STATUS = ContainerPartitionKey_Kind_STATUS("MultiHash")
+	ContainerPartitionKey_Kind_Range_STATUS     = ContainerPartitionKey_Kind_STATUS("Range")
 )
 
 type ExcludedPath_STATUSARM struct {
@@ -149,9 +149,9 @@ type IncludedPath_STATUSARM struct {
 type IndexingPolicy_IndexingMode_STATUS string
 
 const (
-	IndexingPolicy_IndexingMode_STATUSConsistent = IndexingPolicy_IndexingMode_STATUS("consistent")
-	IndexingPolicy_IndexingMode_STATUSLazy       = IndexingPolicy_IndexingMode_STATUS("lazy")
-	IndexingPolicy_IndexingMode_STATUSNone       = IndexingPolicy_IndexingMode_STATUS("none")
+	IndexingPolicy_IndexingMode_Consistent_STATUS = IndexingPolicy_IndexingMode_STATUS("consistent")
+	IndexingPolicy_IndexingMode_Lazy_STATUS       = IndexingPolicy_IndexingMode_STATUS("lazy")
+	IndexingPolicy_IndexingMode_None_STATUS       = IndexingPolicy_IndexingMode_STATUS("none")
 )
 
 type SpatialSpec_STATUSARM struct {
@@ -171,8 +171,8 @@ type UniqueKey_STATUSARM struct {
 type CompositePath_Order_STATUS string
 
 const (
-	CompositePath_Order_STATUSAscending  = CompositePath_Order_STATUS("ascending")
-	CompositePath_Order_STATUSDescending = CompositePath_Order_STATUS("descending")
+	CompositePath_Order_Ascending_STATUS  = CompositePath_Order_STATUS("ascending")
+	CompositePath_Order_Descending_STATUS = CompositePath_Order_STATUS("descending")
 )
 
 type Indexes_STATUSARM struct {
@@ -189,27 +189,27 @@ type Indexes_STATUSARM struct {
 type SpatialType_STATUS string
 
 const (
-	SpatialType_STATUSLineString   = SpatialType_STATUS("LineString")
-	SpatialType_STATUSMultiPolygon = SpatialType_STATUS("MultiPolygon")
-	SpatialType_STATUSPoint        = SpatialType_STATUS("Point")
-	SpatialType_STATUSPolygon      = SpatialType_STATUS("Polygon")
+	SpatialType_LineString_STATUS   = SpatialType_STATUS("LineString")
+	SpatialType_MultiPolygon_STATUS = SpatialType_STATUS("MultiPolygon")
+	SpatialType_Point_STATUS        = SpatialType_STATUS("Point")
+	SpatialType_Polygon_STATUS      = SpatialType_STATUS("Polygon")
 )
 
 type Indexes_DataType_STATUS string
 
 const (
-	Indexes_DataType_STATUSLineString   = Indexes_DataType_STATUS("LineString")
-	Indexes_DataType_STATUSMultiPolygon = Indexes_DataType_STATUS("MultiPolygon")
-	Indexes_DataType_STATUSNumber       = Indexes_DataType_STATUS("Number")
-	Indexes_DataType_STATUSPoint        = Indexes_DataType_STATUS("Point")
-	Indexes_DataType_STATUSPolygon      = Indexes_DataType_STATUS("Polygon")
-	Indexes_DataType_STATUSString       = Indexes_DataType_STATUS("String")
+	Indexes_DataType_LineString_STATUS   = Indexes_DataType_STATUS("LineString")
+	Indexes_DataType_MultiPolygon_STATUS = Indexes_DataType_STATUS("MultiPolygon")
+	Indexes_DataType_Number_STATUS       = Indexes_DataType_STATUS("Number")
+	Indexes_DataType_Point_STATUS        = Indexes_DataType_STATUS("Point")
+	Indexes_DataType_Polygon_STATUS      = Indexes_DataType_STATUS("Polygon")
+	Indexes_DataType_String_STATUS       = Indexes_DataType_STATUS("String")
 )
 
 type Indexes_Kind_STATUS string
 
 const (
-	Indexes_Kind_STATUSHash    = Indexes_Kind_STATUS("Hash")
-	Indexes_Kind_STATUSRange   = Indexes_Kind_STATUS("Range")
-	Indexes_Kind_STATUSSpatial = Indexes_Kind_STATUS("Spatial")
+	Indexes_Kind_Hash_STATUS    = Indexes_Kind_STATUS("Hash")
+	Indexes_Kind_Range_STATUS   = Indexes_Kind_STATUS("Range")
+	Indexes_Kind_Spatial_STATUS = Indexes_Kind_STATUS("Spatial")
 )

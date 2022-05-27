@@ -16,7 +16,7 @@ var _ genruntime.ARMResourceSpec = &RedisLinkedServer_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20201201"
 func (server RedisLinkedServer_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource

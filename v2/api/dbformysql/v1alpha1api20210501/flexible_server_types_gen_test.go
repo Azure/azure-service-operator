@@ -274,29 +274,29 @@ func AddIndependentPropertyGeneratorsForFlexibleServer_STATUS(gens map[string]go
 	gens["AdministratorLogin"] = gen.PtrOf(gen.AlphaString())
 	gens["AvailabilityZone"] = gen.PtrOf(gen.AlphaString())
 	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(
-		ServerProperties_CreateMode_STATUSDefault,
-		ServerProperties_CreateMode_STATUSGeoRestore,
-		ServerProperties_CreateMode_STATUSPointInTimeRestore,
-		ServerProperties_CreateMode_STATUSReplica))
+		ServerProperties_CreateMode_Default_STATUS,
+		ServerProperties_CreateMode_GeoRestore_STATUS,
+		ServerProperties_CreateMode_PointInTimeRestore_STATUS,
+		ServerProperties_CreateMode_Replica_STATUS))
 	gens["FullyQualifiedDomainName"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ReplicaCapacity"] = gen.PtrOf(gen.Int())
-	gens["ReplicationRole"] = gen.PtrOf(gen.OneConstOf(ReplicationRole_STATUSNone, ReplicationRole_STATUSReplica, ReplicationRole_STATUSSource))
+	gens["ReplicationRole"] = gen.PtrOf(gen.OneConstOf(ReplicationRole_None_STATUS, ReplicationRole_Replica_STATUS, ReplicationRole_Source_STATUS))
 	gens["RestorePointInTime"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceServerResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["State"] = gen.PtrOf(gen.OneConstOf(
-		ServerProperties_State_STATUSDisabled,
-		ServerProperties_State_STATUSDropping,
-		ServerProperties_State_STATUSReady,
-		ServerProperties_State_STATUSStarting,
-		ServerProperties_State_STATUSStopped,
-		ServerProperties_State_STATUSStopping,
-		ServerProperties_State_STATUSUpdating))
+		ServerProperties_State_Disabled_STATUS,
+		ServerProperties_State_Dropping_STATUS,
+		ServerProperties_State_Ready_STATUS,
+		ServerProperties_State_Starting_STATUS,
+		ServerProperties_State_Stopped_STATUS,
+		ServerProperties_State_Stopping_STATUS,
+		ServerProperties_State_Updating_STATUS))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["Version"] = gen.PtrOf(gen.OneConstOf(ServerVersion_STATUS57, ServerVersion_STATUS8021))
+	gens["Version"] = gen.PtrOf(gen.OneConstOf(ServerVersion_57_STATUS, ServerVersion_8021_STATUS))
 }
 
 // AddRelatedPropertyGeneratorsForFlexibleServer_STATUS is a factory method for creating gopter generators
@@ -424,28 +424,28 @@ func AddIndependentPropertyGeneratorsForFlexibleServer_Spec(gens map[string]gopt
 	gens["AvailabilityZone"] = gen.PtrOf(gen.AlphaString())
 	gens["AzureName"] = gen.AlphaString()
 	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(
-		ServerProperties_CreateModeDefault,
-		ServerProperties_CreateModeGeoRestore,
-		ServerProperties_CreateModePointInTimeRestore,
-		ServerProperties_CreateModeReplica))
+		ServerProperties_CreateMode_Default,
+		ServerProperties_CreateMode_GeoRestore,
+		ServerProperties_CreateMode_PointInTimeRestore,
+		ServerProperties_CreateMode_Replica))
 	gens["FullyQualifiedDomainName"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["ReplicaCapacity"] = gen.PtrOf(gen.Int())
-	gens["ReplicationRole"] = gen.PtrOf(gen.OneConstOf(ReplicationRoleNone, ReplicationRoleReplica, ReplicationRoleSource))
+	gens["ReplicationRole"] = gen.PtrOf(gen.OneConstOf(ReplicationRole_None, ReplicationRole_Replica, ReplicationRole_Source))
 	gens["RestorePointInTime"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceServerResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["State"] = gen.PtrOf(gen.OneConstOf(
-		ServerProperties_StateDisabled,
-		ServerProperties_StateDropping,
-		ServerProperties_StateReady,
-		ServerProperties_StateStarting,
-		ServerProperties_StateStopped,
-		ServerProperties_StateStopping,
-		ServerProperties_StateUpdating))
+		ServerProperties_State_Disabled,
+		ServerProperties_State_Dropping,
+		ServerProperties_State_Ready,
+		ServerProperties_State_Starting,
+		ServerProperties_State_Stopped,
+		ServerProperties_State_Stopping,
+		ServerProperties_State_Updating))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["Version"] = gen.PtrOf(gen.OneConstOf(ServerVersion57, ServerVersion8021))
+	gens["Version"] = gen.PtrOf(gen.OneConstOf(ServerVersion_57, ServerVersion_8021))
 }
 
 // AddRelatedPropertyGeneratorsForFlexibleServer_Spec is a factory method for creating gopter generators
@@ -562,7 +562,7 @@ func BackupGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForBackup(gens map[string]gopter.Gen) {
 	gens["BackupRetentionDays"] = gen.PtrOf(gen.Int())
 	gens["EarliestRestoreDate"] = gen.PtrOf(gen.AlphaString())
-	gens["GeoRedundantBackup"] = gen.PtrOf(gen.OneConstOf(EnableStatusEnumDisabled, EnableStatusEnumEnabled))
+	gens["GeoRedundantBackup"] = gen.PtrOf(gen.OneConstOf(EnableStatusEnum_Disabled, EnableStatusEnum_Enabled))
 }
 
 func Test_Backup_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -665,7 +665,7 @@ func Backup_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForBackup_STATUS(gens map[string]gopter.Gen) {
 	gens["BackupRetentionDays"] = gen.PtrOf(gen.Int())
 	gens["EarliestRestoreDate"] = gen.PtrOf(gen.AlphaString())
-	gens["GeoRedundantBackup"] = gen.PtrOf(gen.OneConstOf(EnableStatusEnum_STATUSDisabled, EnableStatusEnum_STATUSEnabled))
+	gens["GeoRedundantBackup"] = gen.PtrOf(gen.OneConstOf(EnableStatusEnum_Disabled_STATUS, EnableStatusEnum_Enabled_STATUS))
 }
 
 func Test_DataEncryption_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -770,7 +770,7 @@ func AddIndependentPropertyGeneratorsForDataEncryption(gens map[string]gopter.Ge
 	gens["GeoBackupUserAssignedIdentityId"] = gen.PtrOf(gen.AlphaString())
 	gens["PrimaryKeyUri"] = gen.PtrOf(gen.AlphaString())
 	gens["PrimaryUserAssignedIdentityId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(DataEncryption_TypeAzureKeyVault, DataEncryption_TypeSystemManaged))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(DataEncryption_Type_AzureKeyVault, DataEncryption_Type_SystemManaged))
 }
 
 func Test_DataEncryption_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -876,7 +876,7 @@ func AddIndependentPropertyGeneratorsForDataEncryption_STATUS(gens map[string]go
 	gens["GeoBackupUserAssignedIdentityId"] = gen.PtrOf(gen.AlphaString())
 	gens["PrimaryKeyUri"] = gen.PtrOf(gen.AlphaString())
 	gens["PrimaryUserAssignedIdentityId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(DataEncryption_Type_STATUSAzureKeyVault, DataEncryption_Type_STATUSSystemManaged))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(DataEncryption_Type_AzureKeyVault_STATUS, DataEncryption_Type_SystemManaged_STATUS))
 }
 
 func Test_FlexibleServerOperatorSpec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1079,14 +1079,14 @@ func HighAvailabilityGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForHighAvailability is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForHighAvailability(gens map[string]gopter.Gen) {
-	gens["Mode"] = gen.PtrOf(gen.OneConstOf(HighAvailability_ModeDisabled, HighAvailability_ModeSameZone, HighAvailability_ModeZoneRedundant))
+	gens["Mode"] = gen.PtrOf(gen.OneConstOf(HighAvailability_Mode_Disabled, HighAvailability_Mode_SameZone, HighAvailability_Mode_ZoneRedundant))
 	gens["StandbyAvailabilityZone"] = gen.PtrOf(gen.AlphaString())
 	gens["State"] = gen.PtrOf(gen.OneConstOf(
-		HighAvailability_StateCreatingStandby,
-		HighAvailability_StateFailingOver,
-		HighAvailability_StateHealthy,
-		HighAvailability_StateNotEnabled,
-		HighAvailability_StateRemovingStandby))
+		HighAvailability_State_CreatingStandby,
+		HighAvailability_State_FailingOver,
+		HighAvailability_State_Healthy,
+		HighAvailability_State_NotEnabled,
+		HighAvailability_State_RemovingStandby))
 }
 
 func Test_HighAvailability_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1188,14 +1188,14 @@ func HighAvailability_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForHighAvailability_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForHighAvailability_STATUS(gens map[string]gopter.Gen) {
-	gens["Mode"] = gen.PtrOf(gen.OneConstOf(HighAvailability_Mode_STATUSDisabled, HighAvailability_Mode_STATUSSameZone, HighAvailability_Mode_STATUSZoneRedundant))
+	gens["Mode"] = gen.PtrOf(gen.OneConstOf(HighAvailability_Mode_Disabled_STATUS, HighAvailability_Mode_SameZone_STATUS, HighAvailability_Mode_ZoneRedundant_STATUS))
 	gens["StandbyAvailabilityZone"] = gen.PtrOf(gen.AlphaString())
 	gens["State"] = gen.PtrOf(gen.OneConstOf(
-		HighAvailability_State_STATUSCreatingStandby,
-		HighAvailability_State_STATUSFailingOver,
-		HighAvailability_State_STATUSHealthy,
-		HighAvailability_State_STATUSNotEnabled,
-		HighAvailability_State_STATUSRemovingStandby))
+		HighAvailability_State_CreatingStandby_STATUS,
+		HighAvailability_State_FailingOver_STATUS,
+		HighAvailability_State_Healthy_STATUS,
+		HighAvailability_State_NotEnabled_STATUS,
+		HighAvailability_State_RemovingStandby_STATUS))
 }
 
 func Test_Identity_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1298,7 +1298,7 @@ func IdentityGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForIdentity(gens map[string]gopter.Gen) {
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(Identity_TypeUserAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(Identity_Type_UserAssigned))
 }
 
 func Test_Identity_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1401,7 +1401,7 @@ func Identity_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForIdentity_STATUS(gens map[string]gopter.Gen) {
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(Identity_Type_STATUSUserAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(Identity_Type_UserAssigned_STATUS))
 }
 
 func Test_MaintenanceWindow_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1711,7 +1711,7 @@ func NetworkGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNetwork is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetwork(gens map[string]gopter.Gen) {
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(EnableStatusEnumDisabled, EnableStatusEnumEnabled))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(EnableStatusEnum_Disabled, EnableStatusEnum_Enabled))
 }
 
 func Test_Network_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1814,7 +1814,7 @@ func Network_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForNetwork_STATUS(gens map[string]gopter.Gen) {
 	gens["DelegatedSubnetResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateDnsZoneResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(EnableStatusEnum_STATUSDisabled, EnableStatusEnum_STATUSEnabled))
+	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(EnableStatusEnum_Disabled_STATUS, EnableStatusEnum_Enabled_STATUS))
 }
 
 func Test_Sku_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1916,7 +1916,7 @@ func SkuGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSku is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSku(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(Sku_TierBurstable, Sku_TierGeneralPurpose, Sku_TierMemoryOptimized))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(Sku_Tier_Burstable, Sku_Tier_GeneralPurpose, Sku_Tier_MemoryOptimized))
 }
 
 func Test_Sku_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2018,7 +2018,7 @@ func Sku_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSku_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSku_STATUS(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(Sku_Tier_STATUSBurstable, Sku_Tier_STATUSGeneralPurpose, Sku_Tier_STATUSMemoryOptimized))
+	gens["Tier"] = gen.PtrOf(gen.OneConstOf(Sku_Tier_Burstable_STATUS, Sku_Tier_GeneralPurpose_STATUS, Sku_Tier_MemoryOptimized_STATUS))
 }
 
 func Test_Storage_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2119,7 +2119,7 @@ func StorageGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForStorage is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorage(gens map[string]gopter.Gen) {
-	gens["AutoGrow"] = gen.PtrOf(gen.OneConstOf(EnableStatusEnumDisabled, EnableStatusEnumEnabled))
+	gens["AutoGrow"] = gen.PtrOf(gen.OneConstOf(EnableStatusEnum_Disabled, EnableStatusEnum_Enabled))
 	gens["Iops"] = gen.PtrOf(gen.Int())
 	gens["StorageSizeGB"] = gen.PtrOf(gen.Int())
 	gens["StorageSku"] = gen.PtrOf(gen.AlphaString())
@@ -2223,7 +2223,7 @@ func Storage_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForStorage_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorage_STATUS(gens map[string]gopter.Gen) {
-	gens["AutoGrow"] = gen.PtrOf(gen.OneConstOf(EnableStatusEnum_STATUSDisabled, EnableStatusEnum_STATUSEnabled))
+	gens["AutoGrow"] = gen.PtrOf(gen.OneConstOf(EnableStatusEnum_Disabled_STATUS, EnableStatusEnum_Enabled_STATUS))
 	gens["Iops"] = gen.PtrOf(gen.Int())
 	gens["StorageSizeGB"] = gen.PtrOf(gen.Int())
 	gens["StorageSku"] = gen.PtrOf(gen.AlphaString())
@@ -2330,17 +2330,17 @@ func AddIndependentPropertyGeneratorsForSystemData(gens map[string]gopter.Gen) {
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByTypeApplication,
-		SystemData_CreatedByTypeKey,
-		SystemData_CreatedByTypeManagedIdentity,
-		SystemData_CreatedByTypeUser))
+		SystemData_CreatedByType_Application,
+		SystemData_CreatedByType_Key,
+		SystemData_CreatedByType_ManagedIdentity,
+		SystemData_CreatedByType_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByTypeApplication,
-		SystemData_LastModifiedByTypeKey,
-		SystemData_LastModifiedByTypeManagedIdentity,
-		SystemData_LastModifiedByTypeUser))
+		SystemData_LastModifiedByType_Application,
+		SystemData_LastModifiedByType_Key,
+		SystemData_LastModifiedByType_ManagedIdentity,
+		SystemData_LastModifiedByType_User))
 }
 
 func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2444,17 +2444,17 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUS(gens map[string]gopter
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByType_STATUSApplication,
-		SystemData_CreatedByType_STATUSKey,
-		SystemData_CreatedByType_STATUSManagedIdentity,
-		SystemData_CreatedByType_STATUSUser))
+		SystemData_CreatedByType_Application_STATUS,
+		SystemData_CreatedByType_Key_STATUS,
+		SystemData_CreatedByType_ManagedIdentity_STATUS,
+		SystemData_CreatedByType_User_STATUS))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByType_STATUSApplication,
-		SystemData_LastModifiedByType_STATUSKey,
-		SystemData_LastModifiedByType_STATUSManagedIdentity,
-		SystemData_LastModifiedByType_STATUSUser))
+		SystemData_LastModifiedByType_Application_STATUS,
+		SystemData_LastModifiedByType_Key_STATUS,
+		SystemData_LastModifiedByType_ManagedIdentity_STATUS,
+		SystemData_LastModifiedByType_User_STATUS))
 }
 
 func Test_FlexibleServerOperatorSecrets_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

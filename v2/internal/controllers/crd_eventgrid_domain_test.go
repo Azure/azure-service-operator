@@ -22,7 +22,7 @@ func Test_EventGrid_Domain(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
-	publicNetworkAccess := eventgrid.DomainPropertiesPublicNetworkAccessEnabled
+	publicNetworkAccess := eventgrid.DomainProperties_PublicNetworkAccess_Enabled
 
 	// Create a domain
 	domain := &eventgrid.Domain{
@@ -35,9 +35,9 @@ func Test_EventGrid_Domain(t *testing.T) {
 	}
 
 	// Create a storage account to use as destination
-	accessTier := storage.StorageAccountPropertiesCreateParameters_AccessTierHot
-	kind := storage.StorageAccount_Spec_KindStorageV2
-	sku := storage.SkuNameStandard_LRS
+	accessTier := storage.StorageAccountPropertiesCreateParameters_AccessTier_Hot
+	kind := storage.StorageAccount_Spec_Kind_StorageV2
+	sku := storage.SkuName_Standard_LRS
 	acctName := tc.NoSpaceNamer.GenerateName("dest")
 	acct := &storage.StorageAccount{
 		ObjectMeta: tc.MakeObjectMetaWithName(acctName),
@@ -113,7 +113,7 @@ func Test_EventGrid_Domain(t *testing.T) {
 		testcommon.Subtest{
 			Name: "CreateDomainSubscription",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				endpointType := eventgrid.StorageQueueEventSubscriptionDestinationEndpointTypeStorageQueue
+				endpointType := eventgrid.EventSubscriptionDestination_EndpointType_StorageQueue
 				subscription := &eventgrid.EventSubscription{
 					ObjectMeta: tc.MakeObjectMeta("sub"),
 					Spec: eventgrid.EventSubscription_Spec{
@@ -142,7 +142,7 @@ func Test_EventGrid_Domain(t *testing.T) {
 	exists, _, err := tc.AzureClient.HeadByID(
 		tc.Ctx,
 		armId,
-		string(eventgrid.APIVersionValue))
+		string(eventgrid.APIVersion_Value))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }

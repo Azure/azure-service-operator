@@ -20,7 +20,7 @@ var _ genruntime.ARMResourceSpec = &DatabaseAccountsSqlDatabasesContainersTrigge
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20210515"
 func (trigger DatabaseAccountsSqlDatabasesContainersTrigger_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -52,11 +52,11 @@ type SqlTriggerResourceARM struct {
 type SqlTriggerResource_TriggerOperation string
 
 const (
-	SqlTriggerResource_TriggerOperationAll     = SqlTriggerResource_TriggerOperation("All")
-	SqlTriggerResource_TriggerOperationCreate  = SqlTriggerResource_TriggerOperation("Create")
-	SqlTriggerResource_TriggerOperationDelete  = SqlTriggerResource_TriggerOperation("Delete")
-	SqlTriggerResource_TriggerOperationReplace = SqlTriggerResource_TriggerOperation("Replace")
-	SqlTriggerResource_TriggerOperationUpdate  = SqlTriggerResource_TriggerOperation("Update")
+	SqlTriggerResource_TriggerOperation_All     = SqlTriggerResource_TriggerOperation("All")
+	SqlTriggerResource_TriggerOperation_Create  = SqlTriggerResource_TriggerOperation("Create")
+	SqlTriggerResource_TriggerOperation_Delete  = SqlTriggerResource_TriggerOperation("Delete")
+	SqlTriggerResource_TriggerOperation_Replace = SqlTriggerResource_TriggerOperation("Replace")
+	SqlTriggerResource_TriggerOperation_Update  = SqlTriggerResource_TriggerOperation("Update")
 )
 
 // Deprecated version of SqlTriggerResource_TriggerType. Use v1beta20210515.SqlTriggerResource_TriggerType instead
@@ -64,6 +64,6 @@ const (
 type SqlTriggerResource_TriggerType string
 
 const (
-	SqlTriggerResource_TriggerTypePost = SqlTriggerResource_TriggerType("Post")
-	SqlTriggerResource_TriggerTypePre  = SqlTriggerResource_TriggerType("Pre")
+	SqlTriggerResource_TriggerType_Post = SqlTriggerResource_TriggerType("Post")
+	SqlTriggerResource_TriggerType_Pre  = SqlTriggerResource_TriggerType("Pre")
 )

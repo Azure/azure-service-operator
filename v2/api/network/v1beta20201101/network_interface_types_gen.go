@@ -99,7 +99,7 @@ func (networkInterface *NetworkInterface) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20201101"
 func (networkInterface NetworkInterface) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -3775,36 +3775,36 @@ func (embedded *NetworkInterfaceIPConfiguration_STATUS_NetworkInterface_SubResou
 type NetworkInterfacePropertiesFormat_MigrationPhase string
 
 const (
-	NetworkInterfacePropertiesFormat_MigrationPhaseAbort     = NetworkInterfacePropertiesFormat_MigrationPhase("Abort")
-	NetworkInterfacePropertiesFormat_MigrationPhaseCommit    = NetworkInterfacePropertiesFormat_MigrationPhase("Commit")
-	NetworkInterfacePropertiesFormat_MigrationPhaseCommitted = NetworkInterfacePropertiesFormat_MigrationPhase("Committed")
-	NetworkInterfacePropertiesFormat_MigrationPhaseNone      = NetworkInterfacePropertiesFormat_MigrationPhase("None")
-	NetworkInterfacePropertiesFormat_MigrationPhasePrepare   = NetworkInterfacePropertiesFormat_MigrationPhase("Prepare")
+	NetworkInterfacePropertiesFormat_MigrationPhase_Abort     = NetworkInterfacePropertiesFormat_MigrationPhase("Abort")
+	NetworkInterfacePropertiesFormat_MigrationPhase_Commit    = NetworkInterfacePropertiesFormat_MigrationPhase("Commit")
+	NetworkInterfacePropertiesFormat_MigrationPhase_Committed = NetworkInterfacePropertiesFormat_MigrationPhase("Committed")
+	NetworkInterfacePropertiesFormat_MigrationPhase_None      = NetworkInterfacePropertiesFormat_MigrationPhase("None")
+	NetworkInterfacePropertiesFormat_MigrationPhase_Prepare   = NetworkInterfacePropertiesFormat_MigrationPhase("Prepare")
 )
 
 type NetworkInterfacePropertiesFormat_MigrationPhase_STATUS string
 
 const (
-	NetworkInterfacePropertiesFormat_MigrationPhase_STATUSAbort     = NetworkInterfacePropertiesFormat_MigrationPhase_STATUS("Abort")
-	NetworkInterfacePropertiesFormat_MigrationPhase_STATUSCommit    = NetworkInterfacePropertiesFormat_MigrationPhase_STATUS("Commit")
-	NetworkInterfacePropertiesFormat_MigrationPhase_STATUSCommitted = NetworkInterfacePropertiesFormat_MigrationPhase_STATUS("Committed")
-	NetworkInterfacePropertiesFormat_MigrationPhase_STATUSNone      = NetworkInterfacePropertiesFormat_MigrationPhase_STATUS("None")
-	NetworkInterfacePropertiesFormat_MigrationPhase_STATUSPrepare   = NetworkInterfacePropertiesFormat_MigrationPhase_STATUS("Prepare")
+	NetworkInterfacePropertiesFormat_MigrationPhase_Abort_STATUS     = NetworkInterfacePropertiesFormat_MigrationPhase_STATUS("Abort")
+	NetworkInterfacePropertiesFormat_MigrationPhase_Commit_STATUS    = NetworkInterfacePropertiesFormat_MigrationPhase_STATUS("Commit")
+	NetworkInterfacePropertiesFormat_MigrationPhase_Committed_STATUS = NetworkInterfacePropertiesFormat_MigrationPhase_STATUS("Committed")
+	NetworkInterfacePropertiesFormat_MigrationPhase_None_STATUS      = NetworkInterfacePropertiesFormat_MigrationPhase_STATUS("None")
+	NetworkInterfacePropertiesFormat_MigrationPhase_Prepare_STATUS   = NetworkInterfacePropertiesFormat_MigrationPhase_STATUS("Prepare")
 )
 
 // +kubebuilder:validation:Enum={"Elastic","Standard"}
 type NetworkInterfacePropertiesFormat_NicType string
 
 const (
-	NetworkInterfacePropertiesFormat_NicTypeElastic  = NetworkInterfacePropertiesFormat_NicType("Elastic")
-	NetworkInterfacePropertiesFormat_NicTypeStandard = NetworkInterfacePropertiesFormat_NicType("Standard")
+	NetworkInterfacePropertiesFormat_NicType_Elastic  = NetworkInterfacePropertiesFormat_NicType("Elastic")
+	NetworkInterfacePropertiesFormat_NicType_Standard = NetworkInterfacePropertiesFormat_NicType("Standard")
 )
 
 type NetworkInterfacePropertiesFormat_NicType_STATUS string
 
 const (
-	NetworkInterfacePropertiesFormat_NicType_STATUSElastic  = NetworkInterfacePropertiesFormat_NicType_STATUS("Elastic")
-	NetworkInterfacePropertiesFormat_NicType_STATUSStandard = NetworkInterfacePropertiesFormat_NicType_STATUS("Standard")
+	NetworkInterfacePropertiesFormat_NicType_Elastic_STATUS  = NetworkInterfacePropertiesFormat_NicType_STATUS("Elastic")
+	NetworkInterfacePropertiesFormat_NicType_Standard_STATUS = NetworkInterfacePropertiesFormat_NicType_STATUS("Standard")
 )
 
 type NetworkInterfaceTapConfiguration_NetworkInterface_SubResourceEmbedded struct {

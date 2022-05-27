@@ -24,7 +24,7 @@ var _ genruntime.ARMResourceSpec = &Webtest_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20180501preview"
 func (webtest Webtest_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -59,8 +59,8 @@ type WebTestPropertiesARM struct {
 type Webtest_Spec_Kind string
 
 const (
-	Webtest_Spec_KindMultistep = Webtest_Spec_Kind("multistep")
-	Webtest_Spec_KindPing      = Webtest_Spec_Kind("ping")
+	Webtest_Spec_Kind_Multistep = Webtest_Spec_Kind("multistep")
+	Webtest_Spec_Kind_Ping      = Webtest_Spec_Kind("ping")
 )
 
 // Deprecated version of WebTestGeolocation. Use v1beta20180501preview.WebTestGeolocation instead

@@ -99,7 +99,7 @@ func (container *StorageAccountsBlobServicesContainer) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20210401"
 func (container StorageAccountsBlobServicesContainer) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -1762,68 +1762,68 @@ func (container *StorageAccountsBlobServicesContainer_Spec) SetAzureName(azureNa
 type ContainerProperties_LeaseDuration string
 
 const (
-	ContainerProperties_LeaseDurationFixed    = ContainerProperties_LeaseDuration("Fixed")
-	ContainerProperties_LeaseDurationInfinite = ContainerProperties_LeaseDuration("Infinite")
+	ContainerProperties_LeaseDuration_Fixed    = ContainerProperties_LeaseDuration("Fixed")
+	ContainerProperties_LeaseDuration_Infinite = ContainerProperties_LeaseDuration("Infinite")
 )
 
 type ContainerProperties_LeaseDuration_STATUS string
 
 const (
-	ContainerProperties_LeaseDuration_STATUSFixed    = ContainerProperties_LeaseDuration_STATUS("Fixed")
-	ContainerProperties_LeaseDuration_STATUSInfinite = ContainerProperties_LeaseDuration_STATUS("Infinite")
+	ContainerProperties_LeaseDuration_Fixed_STATUS    = ContainerProperties_LeaseDuration_STATUS("Fixed")
+	ContainerProperties_LeaseDuration_Infinite_STATUS = ContainerProperties_LeaseDuration_STATUS("Infinite")
 )
 
 // +kubebuilder:validation:Enum={"Available","Breaking","Broken","Expired","Leased"}
 type ContainerProperties_LeaseState string
 
 const (
-	ContainerProperties_LeaseStateAvailable = ContainerProperties_LeaseState("Available")
-	ContainerProperties_LeaseStateBreaking  = ContainerProperties_LeaseState("Breaking")
-	ContainerProperties_LeaseStateBroken    = ContainerProperties_LeaseState("Broken")
-	ContainerProperties_LeaseStateExpired   = ContainerProperties_LeaseState("Expired")
-	ContainerProperties_LeaseStateLeased    = ContainerProperties_LeaseState("Leased")
+	ContainerProperties_LeaseState_Available = ContainerProperties_LeaseState("Available")
+	ContainerProperties_LeaseState_Breaking  = ContainerProperties_LeaseState("Breaking")
+	ContainerProperties_LeaseState_Broken    = ContainerProperties_LeaseState("Broken")
+	ContainerProperties_LeaseState_Expired   = ContainerProperties_LeaseState("Expired")
+	ContainerProperties_LeaseState_Leased    = ContainerProperties_LeaseState("Leased")
 )
 
 type ContainerProperties_LeaseState_STATUS string
 
 const (
-	ContainerProperties_LeaseState_STATUSAvailable = ContainerProperties_LeaseState_STATUS("Available")
-	ContainerProperties_LeaseState_STATUSBreaking  = ContainerProperties_LeaseState_STATUS("Breaking")
-	ContainerProperties_LeaseState_STATUSBroken    = ContainerProperties_LeaseState_STATUS("Broken")
-	ContainerProperties_LeaseState_STATUSExpired   = ContainerProperties_LeaseState_STATUS("Expired")
-	ContainerProperties_LeaseState_STATUSLeased    = ContainerProperties_LeaseState_STATUS("Leased")
+	ContainerProperties_LeaseState_Available_STATUS = ContainerProperties_LeaseState_STATUS("Available")
+	ContainerProperties_LeaseState_Breaking_STATUS  = ContainerProperties_LeaseState_STATUS("Breaking")
+	ContainerProperties_LeaseState_Broken_STATUS    = ContainerProperties_LeaseState_STATUS("Broken")
+	ContainerProperties_LeaseState_Expired_STATUS   = ContainerProperties_LeaseState_STATUS("Expired")
+	ContainerProperties_LeaseState_Leased_STATUS    = ContainerProperties_LeaseState_STATUS("Leased")
 )
 
 // +kubebuilder:validation:Enum={"Locked","Unlocked"}
 type ContainerProperties_LeaseStatus string
 
 const (
-	ContainerProperties_LeaseStatusLocked   = ContainerProperties_LeaseStatus("Locked")
-	ContainerProperties_LeaseStatusUnlocked = ContainerProperties_LeaseStatus("Unlocked")
+	ContainerProperties_LeaseStatus_Locked   = ContainerProperties_LeaseStatus("Locked")
+	ContainerProperties_LeaseStatus_Unlocked = ContainerProperties_LeaseStatus("Unlocked")
 )
 
 type ContainerProperties_LeaseStatus_STATUS string
 
 const (
-	ContainerProperties_LeaseStatus_STATUSLocked   = ContainerProperties_LeaseStatus_STATUS("Locked")
-	ContainerProperties_LeaseStatus_STATUSUnlocked = ContainerProperties_LeaseStatus_STATUS("Unlocked")
+	ContainerProperties_LeaseStatus_Locked_STATUS   = ContainerProperties_LeaseStatus_STATUS("Locked")
+	ContainerProperties_LeaseStatus_Unlocked_STATUS = ContainerProperties_LeaseStatus_STATUS("Unlocked")
 )
 
 // +kubebuilder:validation:Enum={"Blob","Container","None"}
 type ContainerProperties_PublicAccess string
 
 const (
-	ContainerProperties_PublicAccessBlob      = ContainerProperties_PublicAccess("Blob")
-	ContainerProperties_PublicAccessContainer = ContainerProperties_PublicAccess("Container")
-	ContainerProperties_PublicAccessNone      = ContainerProperties_PublicAccess("None")
+	ContainerProperties_PublicAccess_Blob      = ContainerProperties_PublicAccess("Blob")
+	ContainerProperties_PublicAccess_Container = ContainerProperties_PublicAccess("Container")
+	ContainerProperties_PublicAccess_None      = ContainerProperties_PublicAccess("None")
 )
 
 type ContainerProperties_PublicAccess_STATUS string
 
 const (
-	ContainerProperties_PublicAccess_STATUSBlob      = ContainerProperties_PublicAccess_STATUS("Blob")
-	ContainerProperties_PublicAccess_STATUSContainer = ContainerProperties_PublicAccess_STATUS("Container")
-	ContainerProperties_PublicAccess_STATUSNone      = ContainerProperties_PublicAccess_STATUS("None")
+	ContainerProperties_PublicAccess_Blob_STATUS      = ContainerProperties_PublicAccess_STATUS("Blob")
+	ContainerProperties_PublicAccess_Container_STATUS = ContainerProperties_PublicAccess_STATUS("Container")
+	ContainerProperties_PublicAccess_None_STATUS      = ContainerProperties_PublicAccess_STATUS("None")
 )
 
 type ImmutabilityPolicyProperties struct {
@@ -2758,30 +2758,30 @@ func (properties *LegalHoldProperties_STATUS) AssignPropertiesToLegalHoldPropert
 type ImmutabilityPolicyProperty_State string
 
 const (
-	ImmutabilityPolicyProperty_StateLocked   = ImmutabilityPolicyProperty_State("Locked")
-	ImmutabilityPolicyProperty_StateUnlocked = ImmutabilityPolicyProperty_State("Unlocked")
+	ImmutabilityPolicyProperty_State_Locked   = ImmutabilityPolicyProperty_State("Locked")
+	ImmutabilityPolicyProperty_State_Unlocked = ImmutabilityPolicyProperty_State("Unlocked")
 )
 
 type ImmutabilityPolicyProperty_State_STATUS string
 
 const (
-	ImmutabilityPolicyProperty_State_STATUSLocked   = ImmutabilityPolicyProperty_State_STATUS("Locked")
-	ImmutabilityPolicyProperty_State_STATUSUnlocked = ImmutabilityPolicyProperty_State_STATUS("Unlocked")
+	ImmutabilityPolicyProperty_State_Locked_STATUS   = ImmutabilityPolicyProperty_State_STATUS("Locked")
+	ImmutabilityPolicyProperty_State_Unlocked_STATUS = ImmutabilityPolicyProperty_State_STATUS("Unlocked")
 )
 
 // +kubebuilder:validation:Enum={"Completed","InProgress"}
 type ImmutableStorageWithVersioning_MigrationState string
 
 const (
-	ImmutableStorageWithVersioning_MigrationStateCompleted  = ImmutableStorageWithVersioning_MigrationState("Completed")
-	ImmutableStorageWithVersioning_MigrationStateInProgress = ImmutableStorageWithVersioning_MigrationState("InProgress")
+	ImmutableStorageWithVersioning_MigrationState_Completed  = ImmutableStorageWithVersioning_MigrationState("Completed")
+	ImmutableStorageWithVersioning_MigrationState_InProgress = ImmutableStorageWithVersioning_MigrationState("InProgress")
 )
 
 type ImmutableStorageWithVersioning_MigrationState_STATUS string
 
 const (
-	ImmutableStorageWithVersioning_MigrationState_STATUSCompleted  = ImmutableStorageWithVersioning_MigrationState_STATUS("Completed")
-	ImmutableStorageWithVersioning_MigrationState_STATUSInProgress = ImmutableStorageWithVersioning_MigrationState_STATUS("InProgress")
+	ImmutableStorageWithVersioning_MigrationState_Completed_STATUS  = ImmutableStorageWithVersioning_MigrationState_STATUS("Completed")
+	ImmutableStorageWithVersioning_MigrationState_InProgress_STATUS = ImmutableStorageWithVersioning_MigrationState_STATUS("InProgress")
 )
 
 type TagProperty struct {
@@ -3416,17 +3416,17 @@ func (property *UpdateHistoryProperty_STATUS) AssignPropertiesToUpdateHistoryPro
 type UpdateHistoryProperty_Update string
 
 const (
-	UpdateHistoryProperty_UpdateExtend = UpdateHistoryProperty_Update("extend")
-	UpdateHistoryProperty_UpdateLock   = UpdateHistoryProperty_Update("lock")
-	UpdateHistoryProperty_UpdatePut    = UpdateHistoryProperty_Update("put")
+	UpdateHistoryProperty_Update_Extend = UpdateHistoryProperty_Update("extend")
+	UpdateHistoryProperty_Update_Lock   = UpdateHistoryProperty_Update("lock")
+	UpdateHistoryProperty_Update_Put    = UpdateHistoryProperty_Update("put")
 )
 
 type UpdateHistoryProperty_Update_STATUS string
 
 const (
-	UpdateHistoryProperty_Update_STATUSExtend = UpdateHistoryProperty_Update_STATUS("extend")
-	UpdateHistoryProperty_Update_STATUSLock   = UpdateHistoryProperty_Update_STATUS("lock")
-	UpdateHistoryProperty_Update_STATUSPut    = UpdateHistoryProperty_Update_STATUS("put")
+	UpdateHistoryProperty_Update_Extend_STATUS = UpdateHistoryProperty_Update_STATUS("extend")
+	UpdateHistoryProperty_Update_Lock_STATUS   = UpdateHistoryProperty_Update_STATUS("lock")
+	UpdateHistoryProperty_Update_Put_STATUS    = UpdateHistoryProperty_Update_STATUS("put")
 )
 
 func init() {

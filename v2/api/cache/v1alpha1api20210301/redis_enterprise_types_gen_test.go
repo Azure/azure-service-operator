@@ -274,29 +274,29 @@ func AddIndependentPropertyGeneratorsForRedisEnterprise_STATUS(gens map[string]g
 	gens["HostName"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(ClusterProperties_MinimumTlsVersion_STATUS10, ClusterProperties_MinimumTlsVersion_STATUS11, ClusterProperties_MinimumTlsVersion_STATUS12))
+	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(ClusterProperties_MinimumTlsVersion_10_STATUS, ClusterProperties_MinimumTlsVersion_11_STATUS, ClusterProperties_MinimumTlsVersion_12_STATUS))
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_STATUSCanceled,
-		ProvisioningState_STATUSCreating,
-		ProvisioningState_STATUSDeleting,
-		ProvisioningState_STATUSFailed,
-		ProvisioningState_STATUSSucceeded,
-		ProvisioningState_STATUSUpdating))
+		ProvisioningState_Canceled_STATUS,
+		ProvisioningState_Creating_STATUS,
+		ProvisioningState_Deleting_STATUS,
+		ProvisioningState_Failed_STATUS,
+		ProvisioningState_Succeeded_STATUS,
+		ProvisioningState_Updating_STATUS))
 	gens["RedisVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(
-		ResourceState_STATUSCreateFailed,
-		ResourceState_STATUSCreating,
-		ResourceState_STATUSDeleteFailed,
-		ResourceState_STATUSDeleting,
-		ResourceState_STATUSDisableFailed,
-		ResourceState_STATUSDisabled,
-		ResourceState_STATUSDisabling,
-		ResourceState_STATUSEnableFailed,
-		ResourceState_STATUSEnabling,
-		ResourceState_STATUSRunning,
-		ResourceState_STATUSUpdateFailed,
-		ResourceState_STATUSUpdating))
+		ResourceState_CreateFailed_STATUS,
+		ResourceState_Creating_STATUS,
+		ResourceState_DeleteFailed_STATUS,
+		ResourceState_Deleting_STATUS,
+		ResourceState_DisableFailed_STATUS,
+		ResourceState_Disabled_STATUS,
+		ResourceState_Disabling_STATUS,
+		ResourceState_EnableFailed_STATUS,
+		ResourceState_Enabling_STATUS,
+		ResourceState_Running_STATUS,
+		ResourceState_UpdateFailed_STATUS,
+		ResourceState_Updating_STATUS))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
@@ -420,28 +420,28 @@ func AddIndependentPropertyGeneratorsForRedisEnterprise_Spec(gens map[string]gop
 	gens["HostName"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(ClusterProperties_MinimumTlsVersion10, ClusterProperties_MinimumTlsVersion11, ClusterProperties_MinimumTlsVersion12))
+	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(ClusterProperties_MinimumTlsVersion_10, ClusterProperties_MinimumTlsVersion_11, ClusterProperties_MinimumTlsVersion_12))
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningStateCanceled,
-		ProvisioningStateCreating,
-		ProvisioningStateDeleting,
-		ProvisioningStateFailed,
-		ProvisioningStateSucceeded,
-		ProvisioningStateUpdating))
+		ProvisioningState_Canceled,
+		ProvisioningState_Creating,
+		ProvisioningState_Deleting,
+		ProvisioningState_Failed,
+		ProvisioningState_Succeeded,
+		ProvisioningState_Updating))
 	gens["RedisVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(
-		ResourceStateCreateFailed,
-		ResourceStateCreating,
-		ResourceStateDeleteFailed,
-		ResourceStateDeleting,
-		ResourceStateDisableFailed,
-		ResourceStateDisabled,
-		ResourceStateDisabling,
-		ResourceStateEnableFailed,
-		ResourceStateEnabling,
-		ResourceStateRunning,
-		ResourceStateUpdateFailed,
-		ResourceStateUpdating))
+		ResourceState_CreateFailed,
+		ResourceState_Creating,
+		ResourceState_DeleteFailed,
+		ResourceState_Deleting,
+		ResourceState_DisableFailed,
+		ResourceState_Disabled,
+		ResourceState_Disabling,
+		ResourceState_EnableFailed,
+		ResourceState_Enabling,
+		ResourceState_Running,
+		ResourceState_UpdateFailed,
+		ResourceState_Updating))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
@@ -757,13 +757,13 @@ func SkuGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForSku(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		Sku_NameEnterpriseFlash_F1500,
-		Sku_NameEnterpriseFlash_F300,
-		Sku_NameEnterpriseFlash_F700,
-		Sku_NameEnterprise_E10,
-		Sku_NameEnterprise_E100,
-		Sku_NameEnterprise_E20,
-		Sku_NameEnterprise_E50))
+		Sku_Name_EnterpriseFlash_F1500,
+		Sku_Name_EnterpriseFlash_F300,
+		Sku_Name_EnterpriseFlash_F700,
+		Sku_Name_Enterprise_E10,
+		Sku_Name_Enterprise_E100,
+		Sku_Name_Enterprise_E20,
+		Sku_Name_Enterprise_E50))
 }
 
 func Test_Sku_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -866,11 +866,11 @@ func Sku_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForSku_STATUS(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
-		Sku_Name_STATUSEnterpriseFlash_F1500,
-		Sku_Name_STATUSEnterpriseFlash_F300,
-		Sku_Name_STATUSEnterpriseFlash_F700,
-		Sku_Name_STATUSEnterprise_E10,
-		Sku_Name_STATUSEnterprise_E100,
-		Sku_Name_STATUSEnterprise_E20,
-		Sku_Name_STATUSEnterprise_E50))
+		Sku_Name_EnterpriseFlash_F1500_STATUS,
+		Sku_Name_EnterpriseFlash_F300_STATUS,
+		Sku_Name_EnterpriseFlash_F700_STATUS,
+		Sku_Name_Enterprise_E10_STATUS,
+		Sku_Name_Enterprise_E100_STATUS,
+		Sku_Name_Enterprise_E20_STATUS,
+		Sku_Name_Enterprise_E50_STATUS))
 }

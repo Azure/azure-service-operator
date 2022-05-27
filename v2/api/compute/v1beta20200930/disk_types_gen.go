@@ -99,7 +99,7 @@ func (disk *Disk) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20200930"
 func (disk Disk) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -322,7 +322,7 @@ type DiskList struct {
 // +kubebuilder:validation:Enum={"20200930"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("20200930")
+const APIVersion_Value = APIVersion("20200930")
 
 type Disk_STATUS struct {
 	// BurstingEnabled: Set to true to enable bursting beyond the provisioned performance target of the disk. Bursting is
@@ -2869,30 +2869,30 @@ func (data *CreationData_STATUS) AssignPropertiesToCreationData_STATUS(destinati
 type DiskProperties_HyperVGeneration string
 
 const (
-	DiskProperties_HyperVGenerationV1 = DiskProperties_HyperVGeneration("V1")
-	DiskProperties_HyperVGenerationV2 = DiskProperties_HyperVGeneration("V2")
+	DiskProperties_HyperVGeneration_V1 = DiskProperties_HyperVGeneration("V1")
+	DiskProperties_HyperVGeneration_V2 = DiskProperties_HyperVGeneration("V2")
 )
 
 type DiskProperties_HyperVGeneration_STATUS string
 
 const (
-	DiskProperties_HyperVGeneration_STATUSV1 = DiskProperties_HyperVGeneration_STATUS("V1")
-	DiskProperties_HyperVGeneration_STATUSV2 = DiskProperties_HyperVGeneration_STATUS("V2")
+	DiskProperties_HyperVGeneration_V1_STATUS = DiskProperties_HyperVGeneration_STATUS("V1")
+	DiskProperties_HyperVGeneration_V2_STATUS = DiskProperties_HyperVGeneration_STATUS("V2")
 )
 
 // +kubebuilder:validation:Enum={"Linux","Windows"}
 type DiskProperties_OsType string
 
 const (
-	DiskProperties_OsTypeLinux   = DiskProperties_OsType("Linux")
-	DiskProperties_OsTypeWindows = DiskProperties_OsType("Windows")
+	DiskProperties_OsType_Linux   = DiskProperties_OsType("Linux")
+	DiskProperties_OsType_Windows = DiskProperties_OsType("Windows")
 )
 
 type DiskProperties_OsType_STATUS string
 
 const (
-	DiskProperties_OsType_STATUSLinux   = DiskProperties_OsType_STATUS("Linux")
-	DiskProperties_OsType_STATUSWindows = DiskProperties_OsType_STATUS("Windows")
+	DiskProperties_OsType_Linux_STATUS   = DiskProperties_OsType_STATUS("Linux")
+	DiskProperties_OsType_Windows_STATUS = DiskProperties_OsType_STATUS("Windows")
 )
 
 type DiskSku struct {
@@ -3085,12 +3085,12 @@ func (diskSku *DiskSku_STATUS) AssignPropertiesToDiskSku_STATUS(destination *v20
 type DiskState_STATUS string
 
 const (
-	DiskState_STATUSActiveSAS     = DiskState_STATUS("ActiveSAS")
-	DiskState_STATUSActiveUpload  = DiskState_STATUS("ActiveUpload")
-	DiskState_STATUSAttached      = DiskState_STATUS("Attached")
-	DiskState_STATUSReadyToUpload = DiskState_STATUS("ReadyToUpload")
-	DiskState_STATUSReserved      = DiskState_STATUS("Reserved")
-	DiskState_STATUSUnattached    = DiskState_STATUS("Unattached")
+	DiskState_ActiveSAS_STATUS     = DiskState_STATUS("ActiveSAS")
+	DiskState_ActiveUpload_STATUS  = DiskState_STATUS("ActiveUpload")
+	DiskState_Attached_STATUS      = DiskState_STATUS("Attached")
+	DiskState_ReadyToUpload_STATUS = DiskState_STATUS("ReadyToUpload")
+	DiskState_Reserved_STATUS      = DiskState_STATUS("Reserved")
+	DiskState_Unattached_STATUS    = DiskState_STATUS("Unattached")
 )
 
 type Encryption struct {
@@ -3778,17 +3778,17 @@ func (location *ExtendedLocation_STATUS) AssignPropertiesToExtendedLocation_STAT
 type NetworkAccessPolicy string
 
 const (
-	NetworkAccessPolicyAllowAll     = NetworkAccessPolicy("AllowAll")
-	NetworkAccessPolicyAllowPrivate = NetworkAccessPolicy("AllowPrivate")
-	NetworkAccessPolicyDenyAll      = NetworkAccessPolicy("DenyAll")
+	NetworkAccessPolicy_AllowAll     = NetworkAccessPolicy("AllowAll")
+	NetworkAccessPolicy_AllowPrivate = NetworkAccessPolicy("AllowPrivate")
+	NetworkAccessPolicy_DenyAll      = NetworkAccessPolicy("DenyAll")
 )
 
 type NetworkAccessPolicy_STATUS string
 
 const (
-	NetworkAccessPolicy_STATUSAllowAll     = NetworkAccessPolicy_STATUS("AllowAll")
-	NetworkAccessPolicy_STATUSAllowPrivate = NetworkAccessPolicy_STATUS("AllowPrivate")
-	NetworkAccessPolicy_STATUSDenyAll      = NetworkAccessPolicy_STATUS("DenyAll")
+	NetworkAccessPolicy_AllowAll_STATUS     = NetworkAccessPolicy_STATUS("AllowAll")
+	NetworkAccessPolicy_AllowPrivate_STATUS = NetworkAccessPolicy_STATUS("AllowPrivate")
+	NetworkAccessPolicy_DenyAll_STATUS      = NetworkAccessPolicy_STATUS("DenyAll")
 )
 
 type PurchasePlan struct {
@@ -4170,25 +4170,25 @@ func (element *ShareInfoElement_STATUS) AssignPropertiesToShareInfoElement_STATU
 type CreationData_CreateOption string
 
 const (
-	CreationData_CreateOptionAttach    = CreationData_CreateOption("Attach")
-	CreationData_CreateOptionCopy      = CreationData_CreateOption("Copy")
-	CreationData_CreateOptionEmpty     = CreationData_CreateOption("Empty")
-	CreationData_CreateOptionFromImage = CreationData_CreateOption("FromImage")
-	CreationData_CreateOptionImport    = CreationData_CreateOption("Import")
-	CreationData_CreateOptionRestore   = CreationData_CreateOption("Restore")
-	CreationData_CreateOptionUpload    = CreationData_CreateOption("Upload")
+	CreationData_CreateOption_Attach    = CreationData_CreateOption("Attach")
+	CreationData_CreateOption_Copy      = CreationData_CreateOption("Copy")
+	CreationData_CreateOption_Empty     = CreationData_CreateOption("Empty")
+	CreationData_CreateOption_FromImage = CreationData_CreateOption("FromImage")
+	CreationData_CreateOption_Import    = CreationData_CreateOption("Import")
+	CreationData_CreateOption_Restore   = CreationData_CreateOption("Restore")
+	CreationData_CreateOption_Upload    = CreationData_CreateOption("Upload")
 )
 
 type CreationData_CreateOption_STATUS string
 
 const (
-	CreationData_CreateOption_STATUSAttach    = CreationData_CreateOption_STATUS("Attach")
-	CreationData_CreateOption_STATUSCopy      = CreationData_CreateOption_STATUS("Copy")
-	CreationData_CreateOption_STATUSEmpty     = CreationData_CreateOption_STATUS("Empty")
-	CreationData_CreateOption_STATUSFromImage = CreationData_CreateOption_STATUS("FromImage")
-	CreationData_CreateOption_STATUSImport    = CreationData_CreateOption_STATUS("Import")
-	CreationData_CreateOption_STATUSRestore   = CreationData_CreateOption_STATUS("Restore")
-	CreationData_CreateOption_STATUSUpload    = CreationData_CreateOption_STATUS("Upload")
+	CreationData_CreateOption_Attach_STATUS    = CreationData_CreateOption_STATUS("Attach")
+	CreationData_CreateOption_Copy_STATUS      = CreationData_CreateOption_STATUS("Copy")
+	CreationData_CreateOption_Empty_STATUS     = CreationData_CreateOption_STATUS("Empty")
+	CreationData_CreateOption_FromImage_STATUS = CreationData_CreateOption_STATUS("FromImage")
+	CreationData_CreateOption_Import_STATUS    = CreationData_CreateOption_STATUS("Import")
+	CreationData_CreateOption_Restore_STATUS   = CreationData_CreateOption_STATUS("Restore")
+	CreationData_CreateOption_Upload_STATUS    = CreationData_CreateOption_STATUS("Upload")
 )
 
 type EncryptionSettingsElement struct {
@@ -4464,17 +4464,17 @@ func (element *EncryptionSettingsElement_STATUS) AssignPropertiesToEncryptionSet
 type EncryptionType string
 
 const (
-	EncryptionTypeEncryptionAtRestWithCustomerKey             = EncryptionType("EncryptionAtRestWithCustomerKey")
-	EncryptionTypeEncryptionAtRestWithPlatformAndCustomerKeys = EncryptionType("EncryptionAtRestWithPlatformAndCustomerKeys")
-	EncryptionTypeEncryptionAtRestWithPlatformKey             = EncryptionType("EncryptionAtRestWithPlatformKey")
+	EncryptionType_EncryptionAtRestWithCustomerKey             = EncryptionType("EncryptionAtRestWithCustomerKey")
+	EncryptionType_EncryptionAtRestWithPlatformAndCustomerKeys = EncryptionType("EncryptionAtRestWithPlatformAndCustomerKeys")
+	EncryptionType_EncryptionAtRestWithPlatformKey             = EncryptionType("EncryptionAtRestWithPlatformKey")
 )
 
 type EncryptionType_STATUS string
 
 const (
-	EncryptionType_STATUSEncryptionAtRestWithCustomerKey             = EncryptionType_STATUS("EncryptionAtRestWithCustomerKey")
-	EncryptionType_STATUSEncryptionAtRestWithPlatformAndCustomerKeys = EncryptionType_STATUS("EncryptionAtRestWithPlatformAndCustomerKeys")
-	EncryptionType_STATUSEncryptionAtRestWithPlatformKey             = EncryptionType_STATUS("EncryptionAtRestWithPlatformKey")
+	EncryptionType_EncryptionAtRestWithCustomerKey_STATUS             = EncryptionType_STATUS("EncryptionAtRestWithCustomerKey")
+	EncryptionType_EncryptionAtRestWithPlatformAndCustomerKeys_STATUS = EncryptionType_STATUS("EncryptionAtRestWithPlatformAndCustomerKeys")
+	EncryptionType_EncryptionAtRestWithPlatformKey_STATUS             = EncryptionType_STATUS("EncryptionAtRestWithPlatformKey")
 )
 
 type ImageDiskReference struct {

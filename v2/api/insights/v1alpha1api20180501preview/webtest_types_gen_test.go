@@ -274,14 +274,14 @@ func AddIndependentPropertyGeneratorsForWebtest_STATUS(gens map[string]gopter.Ge
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["Frequency"] = gen.PtrOf(gen.Int())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(Webtest_Kind_STATUSMultistep, Webtest_Kind_STATUSPing))
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(Webtest_Kind_Multistep_STATUS, Webtest_Kind_Ping_STATUS))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["PropertiesKind"] = gen.PtrOf(gen.OneConstOf(
-		WebTestProperties_Kind_STATUSBasic,
-		WebTestProperties_Kind_STATUSMultistep,
-		WebTestProperties_Kind_STATUSPing,
-		WebTestProperties_Kind_STATUSStandard))
+		WebTestProperties_Kind_Basic_STATUS,
+		WebTestProperties_Kind_Multistep_STATUS,
+		WebTestProperties_Kind_Ping_STATUS,
+		WebTestProperties_Kind_Standard_STATUS))
 	gens["PropertiesName"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["RetryEnabled"] = gen.PtrOf(gen.Bool())
@@ -410,14 +410,14 @@ func AddIndependentPropertyGeneratorsForWebtest_Spec(gens map[string]gopter.Gen)
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["Frequency"] = gen.PtrOf(gen.Int())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(Webtest_Spec_KindMultistep, Webtest_Spec_KindPing))
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(Webtest_Spec_Kind_Multistep, Webtest_Spec_Kind_Ping))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["PropertiesKind"] = gen.PtrOf(gen.OneConstOf(
-		WebTestProperties_KindBasic,
-		WebTestProperties_KindMultistep,
-		WebTestProperties_KindPing,
-		WebTestProperties_KindStandard))
+		WebTestProperties_Kind_Basic,
+		WebTestProperties_Kind_Multistep,
+		WebTestProperties_Kind_Ping,
+		WebTestProperties_Kind_Standard))
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["RetryEnabled"] = gen.PtrOf(gen.Bool())
 	gens["SyntheticMonitorId"] = gen.PtrOf(gen.AlphaString())

@@ -216,10 +216,10 @@ func AddIndependentPropertyGeneratorsForSqlTriggerResource_STATUSARM(gens map[st
 	gens["Body"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["TriggerOperation"] = gen.PtrOf(gen.OneConstOf(
-		SqlTriggerResource_TriggerOperation_STATUSAll,
-		SqlTriggerResource_TriggerOperation_STATUSCreate,
-		SqlTriggerResource_TriggerOperation_STATUSDelete,
-		SqlTriggerResource_TriggerOperation_STATUSReplace,
-		SqlTriggerResource_TriggerOperation_STATUSUpdate))
-	gens["TriggerType"] = gen.PtrOf(gen.OneConstOf(SqlTriggerResource_TriggerType_STATUSPost, SqlTriggerResource_TriggerType_STATUSPre))
+		SqlTriggerResource_TriggerOperation_All_STATUS,
+		SqlTriggerResource_TriggerOperation_Create_STATUS,
+		SqlTriggerResource_TriggerOperation_Delete_STATUS,
+		SqlTriggerResource_TriggerOperation_Replace_STATUS,
+		SqlTriggerResource_TriggerOperation_Update_STATUS))
+	gens["TriggerType"] = gen.PtrOf(gen.OneConstOf(SqlTriggerResource_TriggerType_Post_STATUS, SqlTriggerResource_TriggerType_Pre_STATUS))
 }

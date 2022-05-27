@@ -168,10 +168,10 @@ func AddIndependentPropertyGeneratorsForVirtualMachineIdentity_STATUSARM(gens ma
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		VirtualMachineIdentity_Type_STATUSNone,
-		VirtualMachineIdentity_Type_STATUSSystemAssigned,
-		VirtualMachineIdentity_Type_STATUSSystemAssignedUserAssigned,
-		VirtualMachineIdentity_Type_STATUSUserAssigned))
+		VirtualMachineIdentity_Type_None_STATUS,
+		VirtualMachineIdentity_Type_SystemAssigned_STATUS,
+		VirtualMachineIdentity_Type_SystemAssignedUserAssigned_STATUS,
+		VirtualMachineIdentity_Type_UserAssigned_STATUS))
 }
 
 // AddRelatedPropertyGeneratorsForVirtualMachineIdentity_STATUSARM is a factory method for creating gopter generators
@@ -245,11 +245,11 @@ func VirtualMachineProperties_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualMachineProperties_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineProperties_STATUSARM(gens map[string]gopter.Gen) {
-	gens["EvictionPolicy"] = gen.PtrOf(gen.OneConstOf(EvictionPolicy_STATUSDeallocate, EvictionPolicy_STATUSDelete))
+	gens["EvictionPolicy"] = gen.PtrOf(gen.OneConstOf(EvictionPolicy_Deallocate_STATUS, EvictionPolicy_Delete_STATUS))
 	gens["ExtensionsTimeBudget"] = gen.PtrOf(gen.AlphaString())
 	gens["LicenseType"] = gen.PtrOf(gen.AlphaString())
 	gens["PlatformFaultDomain"] = gen.PtrOf(gen.Int())
-	gens["Priority"] = gen.PtrOf(gen.OneConstOf(Priority_STATUSLow, Priority_STATUSRegular, Priority_STATUSSpot))
+	gens["Priority"] = gen.PtrOf(gen.OneConstOf(Priority_Low_STATUS, Priority_Regular_STATUS, Priority_Spot_STATUS))
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["VmId"] = gen.PtrOf(gen.AlphaString())
 }
@@ -450,172 +450,172 @@ func HardwareProfile_STATUSARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForHardwareProfile_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForHardwareProfile_STATUSARM(gens map[string]gopter.Gen) {
 	gens["VmSize"] = gen.PtrOf(gen.OneConstOf(
-		HardwareProfile_VmSize_STATUSBasic_A0,
-		HardwareProfile_VmSize_STATUSBasic_A1,
-		HardwareProfile_VmSize_STATUSBasic_A2,
-		HardwareProfile_VmSize_STATUSBasic_A3,
-		HardwareProfile_VmSize_STATUSBasic_A4,
-		HardwareProfile_VmSize_STATUSStandard_A0,
-		HardwareProfile_VmSize_STATUSStandard_A1,
-		HardwareProfile_VmSize_STATUSStandard_A10,
-		HardwareProfile_VmSize_STATUSStandard_A11,
-		HardwareProfile_VmSize_STATUSStandard_A1_V2,
-		HardwareProfile_VmSize_STATUSStandard_A2,
-		HardwareProfile_VmSize_STATUSStandard_A2M_V2,
-		HardwareProfile_VmSize_STATUSStandard_A2_V2,
-		HardwareProfile_VmSize_STATUSStandard_A3,
-		HardwareProfile_VmSize_STATUSStandard_A4,
-		HardwareProfile_VmSize_STATUSStandard_A4M_V2,
-		HardwareProfile_VmSize_STATUSStandard_A4_V2,
-		HardwareProfile_VmSize_STATUSStandard_A5,
-		HardwareProfile_VmSize_STATUSStandard_A6,
-		HardwareProfile_VmSize_STATUSStandard_A7,
-		HardwareProfile_VmSize_STATUSStandard_A8,
-		HardwareProfile_VmSize_STATUSStandard_A8M_V2,
-		HardwareProfile_VmSize_STATUSStandard_A8_V2,
-		HardwareProfile_VmSize_STATUSStandard_A9,
-		HardwareProfile_VmSize_STATUSStandard_B1Ms,
-		HardwareProfile_VmSize_STATUSStandard_B1S,
-		HardwareProfile_VmSize_STATUSStandard_B2Ms,
-		HardwareProfile_VmSize_STATUSStandard_B2S,
-		HardwareProfile_VmSize_STATUSStandard_B4Ms,
-		HardwareProfile_VmSize_STATUSStandard_B8Ms,
-		HardwareProfile_VmSize_STATUSStandard_D1,
-		HardwareProfile_VmSize_STATUSStandard_D11,
-		HardwareProfile_VmSize_STATUSStandard_D11_V2,
-		HardwareProfile_VmSize_STATUSStandard_D12,
-		HardwareProfile_VmSize_STATUSStandard_D12_V2,
-		HardwareProfile_VmSize_STATUSStandard_D13,
-		HardwareProfile_VmSize_STATUSStandard_D13_V2,
-		HardwareProfile_VmSize_STATUSStandard_D14,
-		HardwareProfile_VmSize_STATUSStandard_D14_V2,
-		HardwareProfile_VmSize_STATUSStandard_D15_V2,
-		HardwareProfile_VmSize_STATUSStandard_D16S_V3,
-		HardwareProfile_VmSize_STATUSStandard_D16_V3,
-		HardwareProfile_VmSize_STATUSStandard_D1_V2,
-		HardwareProfile_VmSize_STATUSStandard_D2,
-		HardwareProfile_VmSize_STATUSStandard_D2S_V3,
-		HardwareProfile_VmSize_STATUSStandard_D2_V2,
-		HardwareProfile_VmSize_STATUSStandard_D2_V3,
-		HardwareProfile_VmSize_STATUSStandard_D3,
-		HardwareProfile_VmSize_STATUSStandard_D32S_V3,
-		HardwareProfile_VmSize_STATUSStandard_D32_V3,
-		HardwareProfile_VmSize_STATUSStandard_D3_V2,
-		HardwareProfile_VmSize_STATUSStandard_D4,
-		HardwareProfile_VmSize_STATUSStandard_D4S_V3,
-		HardwareProfile_VmSize_STATUSStandard_D4_V2,
-		HardwareProfile_VmSize_STATUSStandard_D4_V3,
-		HardwareProfile_VmSize_STATUSStandard_D5_V2,
-		HardwareProfile_VmSize_STATUSStandard_D64S_V3,
-		HardwareProfile_VmSize_STATUSStandard_D64_V3,
-		HardwareProfile_VmSize_STATUSStandard_D8S_V3,
-		HardwareProfile_VmSize_STATUSStandard_D8_V3,
-		HardwareProfile_VmSize_STATUSStandard_DS1,
-		HardwareProfile_VmSize_STATUSStandard_DS11,
-		HardwareProfile_VmSize_STATUSStandard_DS11_V2,
-		HardwareProfile_VmSize_STATUSStandard_DS12,
-		HardwareProfile_VmSize_STATUSStandard_DS12_V2,
-		HardwareProfile_VmSize_STATUSStandard_DS13,
-		HardwareProfile_VmSize_STATUSStandard_DS132_V2,
-		HardwareProfile_VmSize_STATUSStandard_DS134_V2,
-		HardwareProfile_VmSize_STATUSStandard_DS13_V2,
-		HardwareProfile_VmSize_STATUSStandard_DS14,
-		HardwareProfile_VmSize_STATUSStandard_DS144_V2,
-		HardwareProfile_VmSize_STATUSStandard_DS148_V2,
-		HardwareProfile_VmSize_STATUSStandard_DS14_V2,
-		HardwareProfile_VmSize_STATUSStandard_DS15_V2,
-		HardwareProfile_VmSize_STATUSStandard_DS1_V2,
-		HardwareProfile_VmSize_STATUSStandard_DS2,
-		HardwareProfile_VmSize_STATUSStandard_DS2_V2,
-		HardwareProfile_VmSize_STATUSStandard_DS3,
-		HardwareProfile_VmSize_STATUSStandard_DS3_V2,
-		HardwareProfile_VmSize_STATUSStandard_DS4,
-		HardwareProfile_VmSize_STATUSStandard_DS4_V2,
-		HardwareProfile_VmSize_STATUSStandard_DS5_V2,
-		HardwareProfile_VmSize_STATUSStandard_E16S_V3,
-		HardwareProfile_VmSize_STATUSStandard_E16_V3,
-		HardwareProfile_VmSize_STATUSStandard_E2S_V3,
-		HardwareProfile_VmSize_STATUSStandard_E2_V3,
-		HardwareProfile_VmSize_STATUSStandard_E3216_V3,
-		HardwareProfile_VmSize_STATUSStandard_E328S_V3,
-		HardwareProfile_VmSize_STATUSStandard_E32S_V3,
-		HardwareProfile_VmSize_STATUSStandard_E32_V3,
-		HardwareProfile_VmSize_STATUSStandard_E4S_V3,
-		HardwareProfile_VmSize_STATUSStandard_E4_V3,
-		HardwareProfile_VmSize_STATUSStandard_E6416S_V3,
-		HardwareProfile_VmSize_STATUSStandard_E6432S_V3,
-		HardwareProfile_VmSize_STATUSStandard_E64S_V3,
-		HardwareProfile_VmSize_STATUSStandard_E64_V3,
-		HardwareProfile_VmSize_STATUSStandard_E8S_V3,
-		HardwareProfile_VmSize_STATUSStandard_E8_V3,
-		HardwareProfile_VmSize_STATUSStandard_F1,
-		HardwareProfile_VmSize_STATUSStandard_F16,
-		HardwareProfile_VmSize_STATUSStandard_F16S,
-		HardwareProfile_VmSize_STATUSStandard_F16S_V2,
-		HardwareProfile_VmSize_STATUSStandard_F1S,
-		HardwareProfile_VmSize_STATUSStandard_F2,
-		HardwareProfile_VmSize_STATUSStandard_F2S,
-		HardwareProfile_VmSize_STATUSStandard_F2S_V2,
-		HardwareProfile_VmSize_STATUSStandard_F32S_V2,
-		HardwareProfile_VmSize_STATUSStandard_F4,
-		HardwareProfile_VmSize_STATUSStandard_F4S,
-		HardwareProfile_VmSize_STATUSStandard_F4S_V2,
-		HardwareProfile_VmSize_STATUSStandard_F64S_V2,
-		HardwareProfile_VmSize_STATUSStandard_F72S_V2,
-		HardwareProfile_VmSize_STATUSStandard_F8,
-		HardwareProfile_VmSize_STATUSStandard_F8S,
-		HardwareProfile_VmSize_STATUSStandard_F8S_V2,
-		HardwareProfile_VmSize_STATUSStandard_G1,
-		HardwareProfile_VmSize_STATUSStandard_G2,
-		HardwareProfile_VmSize_STATUSStandard_G3,
-		HardwareProfile_VmSize_STATUSStandard_G4,
-		HardwareProfile_VmSize_STATUSStandard_G5,
-		HardwareProfile_VmSize_STATUSStandard_GS1,
-		HardwareProfile_VmSize_STATUSStandard_GS2,
-		HardwareProfile_VmSize_STATUSStandard_GS3,
-		HardwareProfile_VmSize_STATUSStandard_GS4,
-		HardwareProfile_VmSize_STATUSStandard_GS44,
-		HardwareProfile_VmSize_STATUSStandard_GS48,
-		HardwareProfile_VmSize_STATUSStandard_GS5,
-		HardwareProfile_VmSize_STATUSStandard_GS516,
-		HardwareProfile_VmSize_STATUSStandard_GS58,
-		HardwareProfile_VmSize_STATUSStandard_H16,
-		HardwareProfile_VmSize_STATUSStandard_H16M,
-		HardwareProfile_VmSize_STATUSStandard_H16Mr,
-		HardwareProfile_VmSize_STATUSStandard_H16R,
-		HardwareProfile_VmSize_STATUSStandard_H8,
-		HardwareProfile_VmSize_STATUSStandard_H8M,
-		HardwareProfile_VmSize_STATUSStandard_L16S,
-		HardwareProfile_VmSize_STATUSStandard_L32S,
-		HardwareProfile_VmSize_STATUSStandard_L4S,
-		HardwareProfile_VmSize_STATUSStandard_L8S,
-		HardwareProfile_VmSize_STATUSStandard_M12832Ms,
-		HardwareProfile_VmSize_STATUSStandard_M12864Ms,
-		HardwareProfile_VmSize_STATUSStandard_M128Ms,
-		HardwareProfile_VmSize_STATUSStandard_M128S,
-		HardwareProfile_VmSize_STATUSStandard_M6416Ms,
-		HardwareProfile_VmSize_STATUSStandard_M6432Ms,
-		HardwareProfile_VmSize_STATUSStandard_M64Ms,
-		HardwareProfile_VmSize_STATUSStandard_M64S,
-		HardwareProfile_VmSize_STATUSStandard_NC12,
-		HardwareProfile_VmSize_STATUSStandard_NC12S_V2,
-		HardwareProfile_VmSize_STATUSStandard_NC12S_V3,
-		HardwareProfile_VmSize_STATUSStandard_NC24,
-		HardwareProfile_VmSize_STATUSStandard_NC24R,
-		HardwareProfile_VmSize_STATUSStandard_NC24Rs_V2,
-		HardwareProfile_VmSize_STATUSStandard_NC24Rs_V3,
-		HardwareProfile_VmSize_STATUSStandard_NC24S_V2,
-		HardwareProfile_VmSize_STATUSStandard_NC24S_V3,
-		HardwareProfile_VmSize_STATUSStandard_NC6,
-		HardwareProfile_VmSize_STATUSStandard_NC6S_V2,
-		HardwareProfile_VmSize_STATUSStandard_NC6S_V3,
-		HardwareProfile_VmSize_STATUSStandard_ND12S,
-		HardwareProfile_VmSize_STATUSStandard_ND24Rs,
-		HardwareProfile_VmSize_STATUSStandard_ND24S,
-		HardwareProfile_VmSize_STATUSStandard_ND6S,
-		HardwareProfile_VmSize_STATUSStandard_NV12,
-		HardwareProfile_VmSize_STATUSStandard_NV24,
-		HardwareProfile_VmSize_STATUSStandard_NV6))
+		HardwareProfile_VmSize_Basic_A0_STATUS,
+		HardwareProfile_VmSize_Basic_A1_STATUS,
+		HardwareProfile_VmSize_Basic_A2_STATUS,
+		HardwareProfile_VmSize_Basic_A3_STATUS,
+		HardwareProfile_VmSize_Basic_A4_STATUS,
+		HardwareProfile_VmSize_Standard_A0_STATUS,
+		HardwareProfile_VmSize_Standard_A1_STATUS,
+		HardwareProfile_VmSize_Standard_A10_STATUS,
+		HardwareProfile_VmSize_Standard_A11_STATUS,
+		HardwareProfile_VmSize_Standard_A1_V2_STATUS,
+		HardwareProfile_VmSize_Standard_A2_STATUS,
+		HardwareProfile_VmSize_Standard_A2M_V2_STATUS,
+		HardwareProfile_VmSize_Standard_A2_V2_STATUS,
+		HardwareProfile_VmSize_Standard_A3_STATUS,
+		HardwareProfile_VmSize_Standard_A4_STATUS,
+		HardwareProfile_VmSize_Standard_A4M_V2_STATUS,
+		HardwareProfile_VmSize_Standard_A4_V2_STATUS,
+		HardwareProfile_VmSize_Standard_A5_STATUS,
+		HardwareProfile_VmSize_Standard_A6_STATUS,
+		HardwareProfile_VmSize_Standard_A7_STATUS,
+		HardwareProfile_VmSize_Standard_A8_STATUS,
+		HardwareProfile_VmSize_Standard_A8M_V2_STATUS,
+		HardwareProfile_VmSize_Standard_A8_V2_STATUS,
+		HardwareProfile_VmSize_Standard_A9_STATUS,
+		HardwareProfile_VmSize_Standard_B1Ms_STATUS,
+		HardwareProfile_VmSize_Standard_B1S_STATUS,
+		HardwareProfile_VmSize_Standard_B2Ms_STATUS,
+		HardwareProfile_VmSize_Standard_B2S_STATUS,
+		HardwareProfile_VmSize_Standard_B4Ms_STATUS,
+		HardwareProfile_VmSize_Standard_B8Ms_STATUS,
+		HardwareProfile_VmSize_Standard_D1_STATUS,
+		HardwareProfile_VmSize_Standard_D11_STATUS,
+		HardwareProfile_VmSize_Standard_D11_V2_STATUS,
+		HardwareProfile_VmSize_Standard_D12_STATUS,
+		HardwareProfile_VmSize_Standard_D12_V2_STATUS,
+		HardwareProfile_VmSize_Standard_D13_STATUS,
+		HardwareProfile_VmSize_Standard_D13_V2_STATUS,
+		HardwareProfile_VmSize_Standard_D14_STATUS,
+		HardwareProfile_VmSize_Standard_D14_V2_STATUS,
+		HardwareProfile_VmSize_Standard_D15_V2_STATUS,
+		HardwareProfile_VmSize_Standard_D16S_V3_STATUS,
+		HardwareProfile_VmSize_Standard_D16_V3_STATUS,
+		HardwareProfile_VmSize_Standard_D1_V2_STATUS,
+		HardwareProfile_VmSize_Standard_D2_STATUS,
+		HardwareProfile_VmSize_Standard_D2S_V3_STATUS,
+		HardwareProfile_VmSize_Standard_D2_V2_STATUS,
+		HardwareProfile_VmSize_Standard_D2_V3_STATUS,
+		HardwareProfile_VmSize_Standard_D3_STATUS,
+		HardwareProfile_VmSize_Standard_D32S_V3_STATUS,
+		HardwareProfile_VmSize_Standard_D32_V3_STATUS,
+		HardwareProfile_VmSize_Standard_D3_V2_STATUS,
+		HardwareProfile_VmSize_Standard_D4_STATUS,
+		HardwareProfile_VmSize_Standard_D4S_V3_STATUS,
+		HardwareProfile_VmSize_Standard_D4_V2_STATUS,
+		HardwareProfile_VmSize_Standard_D4_V3_STATUS,
+		HardwareProfile_VmSize_Standard_D5_V2_STATUS,
+		HardwareProfile_VmSize_Standard_D64S_V3_STATUS,
+		HardwareProfile_VmSize_Standard_D64_V3_STATUS,
+		HardwareProfile_VmSize_Standard_D8S_V3_STATUS,
+		HardwareProfile_VmSize_Standard_D8_V3_STATUS,
+		HardwareProfile_VmSize_Standard_DS1_STATUS,
+		HardwareProfile_VmSize_Standard_DS11_STATUS,
+		HardwareProfile_VmSize_Standard_DS11_V2_STATUS,
+		HardwareProfile_VmSize_Standard_DS12_STATUS,
+		HardwareProfile_VmSize_Standard_DS12_V2_STATUS,
+		HardwareProfile_VmSize_Standard_DS13_STATUS,
+		HardwareProfile_VmSize_Standard_DS132_V2_STATUS,
+		HardwareProfile_VmSize_Standard_DS134_V2_STATUS,
+		HardwareProfile_VmSize_Standard_DS13_V2_STATUS,
+		HardwareProfile_VmSize_Standard_DS14_STATUS,
+		HardwareProfile_VmSize_Standard_DS144_V2_STATUS,
+		HardwareProfile_VmSize_Standard_DS148_V2_STATUS,
+		HardwareProfile_VmSize_Standard_DS14_V2_STATUS,
+		HardwareProfile_VmSize_Standard_DS15_V2_STATUS,
+		HardwareProfile_VmSize_Standard_DS1_V2_STATUS,
+		HardwareProfile_VmSize_Standard_DS2_STATUS,
+		HardwareProfile_VmSize_Standard_DS2_V2_STATUS,
+		HardwareProfile_VmSize_Standard_DS3_STATUS,
+		HardwareProfile_VmSize_Standard_DS3_V2_STATUS,
+		HardwareProfile_VmSize_Standard_DS4_STATUS,
+		HardwareProfile_VmSize_Standard_DS4_V2_STATUS,
+		HardwareProfile_VmSize_Standard_DS5_V2_STATUS,
+		HardwareProfile_VmSize_Standard_E16S_V3_STATUS,
+		HardwareProfile_VmSize_Standard_E16_V3_STATUS,
+		HardwareProfile_VmSize_Standard_E2S_V3_STATUS,
+		HardwareProfile_VmSize_Standard_E2_V3_STATUS,
+		HardwareProfile_VmSize_Standard_E3216_V3_STATUS,
+		HardwareProfile_VmSize_Standard_E328S_V3_STATUS,
+		HardwareProfile_VmSize_Standard_E32S_V3_STATUS,
+		HardwareProfile_VmSize_Standard_E32_V3_STATUS,
+		HardwareProfile_VmSize_Standard_E4S_V3_STATUS,
+		HardwareProfile_VmSize_Standard_E4_V3_STATUS,
+		HardwareProfile_VmSize_Standard_E6416S_V3_STATUS,
+		HardwareProfile_VmSize_Standard_E6432S_V3_STATUS,
+		HardwareProfile_VmSize_Standard_E64S_V3_STATUS,
+		HardwareProfile_VmSize_Standard_E64_V3_STATUS,
+		HardwareProfile_VmSize_Standard_E8S_V3_STATUS,
+		HardwareProfile_VmSize_Standard_E8_V3_STATUS,
+		HardwareProfile_VmSize_Standard_F1_STATUS,
+		HardwareProfile_VmSize_Standard_F16_STATUS,
+		HardwareProfile_VmSize_Standard_F16S_STATUS,
+		HardwareProfile_VmSize_Standard_F16S_V2_STATUS,
+		HardwareProfile_VmSize_Standard_F1S_STATUS,
+		HardwareProfile_VmSize_Standard_F2_STATUS,
+		HardwareProfile_VmSize_Standard_F2S_STATUS,
+		HardwareProfile_VmSize_Standard_F2S_V2_STATUS,
+		HardwareProfile_VmSize_Standard_F32S_V2_STATUS,
+		HardwareProfile_VmSize_Standard_F4_STATUS,
+		HardwareProfile_VmSize_Standard_F4S_STATUS,
+		HardwareProfile_VmSize_Standard_F4S_V2_STATUS,
+		HardwareProfile_VmSize_Standard_F64S_V2_STATUS,
+		HardwareProfile_VmSize_Standard_F72S_V2_STATUS,
+		HardwareProfile_VmSize_Standard_F8_STATUS,
+		HardwareProfile_VmSize_Standard_F8S_STATUS,
+		HardwareProfile_VmSize_Standard_F8S_V2_STATUS,
+		HardwareProfile_VmSize_Standard_G1_STATUS,
+		HardwareProfile_VmSize_Standard_G2_STATUS,
+		HardwareProfile_VmSize_Standard_G3_STATUS,
+		HardwareProfile_VmSize_Standard_G4_STATUS,
+		HardwareProfile_VmSize_Standard_G5_STATUS,
+		HardwareProfile_VmSize_Standard_GS1_STATUS,
+		HardwareProfile_VmSize_Standard_GS2_STATUS,
+		HardwareProfile_VmSize_Standard_GS3_STATUS,
+		HardwareProfile_VmSize_Standard_GS4_STATUS,
+		HardwareProfile_VmSize_Standard_GS44_STATUS,
+		HardwareProfile_VmSize_Standard_GS48_STATUS,
+		HardwareProfile_VmSize_Standard_GS5_STATUS,
+		HardwareProfile_VmSize_Standard_GS516_STATUS,
+		HardwareProfile_VmSize_Standard_GS58_STATUS,
+		HardwareProfile_VmSize_Standard_H16_STATUS,
+		HardwareProfile_VmSize_Standard_H16M_STATUS,
+		HardwareProfile_VmSize_Standard_H16Mr_STATUS,
+		HardwareProfile_VmSize_Standard_H16R_STATUS,
+		HardwareProfile_VmSize_Standard_H8_STATUS,
+		HardwareProfile_VmSize_Standard_H8M_STATUS,
+		HardwareProfile_VmSize_Standard_L16S_STATUS,
+		HardwareProfile_VmSize_Standard_L32S_STATUS,
+		HardwareProfile_VmSize_Standard_L4S_STATUS,
+		HardwareProfile_VmSize_Standard_L8S_STATUS,
+		HardwareProfile_VmSize_Standard_M12832Ms_STATUS,
+		HardwareProfile_VmSize_Standard_M12864Ms_STATUS,
+		HardwareProfile_VmSize_Standard_M128Ms_STATUS,
+		HardwareProfile_VmSize_Standard_M128S_STATUS,
+		HardwareProfile_VmSize_Standard_M6416Ms_STATUS,
+		HardwareProfile_VmSize_Standard_M6432Ms_STATUS,
+		HardwareProfile_VmSize_Standard_M64Ms_STATUS,
+		HardwareProfile_VmSize_Standard_M64S_STATUS,
+		HardwareProfile_VmSize_Standard_NC12_STATUS,
+		HardwareProfile_VmSize_Standard_NC12S_V2_STATUS,
+		HardwareProfile_VmSize_Standard_NC12S_V3_STATUS,
+		HardwareProfile_VmSize_Standard_NC24_STATUS,
+		HardwareProfile_VmSize_Standard_NC24R_STATUS,
+		HardwareProfile_VmSize_Standard_NC24Rs_V2_STATUS,
+		HardwareProfile_VmSize_Standard_NC24Rs_V3_STATUS,
+		HardwareProfile_VmSize_Standard_NC24S_V2_STATUS,
+		HardwareProfile_VmSize_Standard_NC24S_V3_STATUS,
+		HardwareProfile_VmSize_Standard_NC6_STATUS,
+		HardwareProfile_VmSize_Standard_NC6S_V2_STATUS,
+		HardwareProfile_VmSize_Standard_NC6S_V3_STATUS,
+		HardwareProfile_VmSize_Standard_ND12S_STATUS,
+		HardwareProfile_VmSize_Standard_ND24Rs_STATUS,
+		HardwareProfile_VmSize_Standard_ND24S_STATUS,
+		HardwareProfile_VmSize_Standard_ND6S_STATUS,
+		HardwareProfile_VmSize_Standard_NV12_STATUS,
+		HardwareProfile_VmSize_Standard_NV24_STATUS,
+		HardwareProfile_VmSize_Standard_NV6_STATUS))
 }
 
 func Test_NetworkProfile_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -825,7 +825,7 @@ func SecurityProfile_STATUSARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSecurityProfile_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSecurityProfile_STATUSARM(gens map[string]gopter.Gen) {
 	gens["EncryptionAtHost"] = gen.PtrOf(gen.Bool())
-	gens["SecurityType"] = gen.PtrOf(gen.OneConstOf(SecurityProfile_SecurityType_STATUSTrustedLaunch))
+	gens["SecurityType"] = gen.PtrOf(gen.OneConstOf(SecurityProfile_SecurityType_TrustedLaunch_STATUS))
 }
 
 // AddRelatedPropertyGeneratorsForSecurityProfile_STATUSARM is a factory method for creating gopter generators
@@ -1024,7 +1024,7 @@ func VirtualMachineInstanceView_STATUSARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForVirtualMachineInstanceView_STATUSARM(gens map[string]gopter.Gen) {
 	gens["AssignedHost"] = gen.PtrOf(gen.AlphaString())
 	gens["ComputerName"] = gen.PtrOf(gen.AlphaString())
-	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(VirtualMachineInstanceView_HyperVGeneration_STATUSV1, VirtualMachineInstanceView_HyperVGeneration_STATUSV2))
+	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(VirtualMachineInstanceView_HyperVGeneration_V1_STATUS, VirtualMachineInstanceView_HyperVGeneration_V2_STATUS))
 	gens["OsName"] = gen.PtrOf(gen.AlphaString())
 	gens["OsVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["PlatformFaultDomain"] = gen.PtrOf(gen.Int())
@@ -1245,9 +1245,9 @@ func DataDisk_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDataDisk_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDataDisk_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Caching"] = gen.PtrOf(gen.OneConstOf(Caching_STATUSNone, Caching_STATUSReadOnly, Caching_STATUSReadWrite))
-	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(CreateOption_STATUSAttach, CreateOption_STATUSEmpty, CreateOption_STATUSFromImage))
-	gens["DetachOption"] = gen.PtrOf(gen.OneConstOf(DetachOption_STATUSForceDetach))
+	gens["Caching"] = gen.PtrOf(gen.OneConstOf(Caching_None_STATUS, Caching_ReadOnly_STATUS, Caching_ReadWrite_STATUS))
+	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(CreateOption_Attach_STATUS, CreateOption_Empty_STATUS, CreateOption_FromImage_STATUS))
+	gens["DetachOption"] = gen.PtrOf(gen.OneConstOf(DetachOption_ForceDetach_STATUS))
 	gens["DiskIOPSReadWrite"] = gen.PtrOf(gen.Int())
 	gens["DiskMBpsReadWrite"] = gen.PtrOf(gen.Int())
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
@@ -1463,7 +1463,7 @@ func InstanceViewStatus_STATUSARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForInstanceViewStatus_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Code"] = gen.PtrOf(gen.AlphaString())
 	gens["DisplayStatus"] = gen.PtrOf(gen.AlphaString())
-	gens["Level"] = gen.PtrOf(gen.OneConstOf(InstanceViewStatus_Level_STATUSError, InstanceViewStatus_Level_STATUSInfo, InstanceViewStatus_Level_STATUSWarning))
+	gens["Level"] = gen.PtrOf(gen.OneConstOf(InstanceViewStatus_Level_Error_STATUS, InstanceViewStatus_Level_Info_STATUS, InstanceViewStatus_Level_Warning_STATUS))
 	gens["Message"] = gen.PtrOf(gen.AlphaString())
 	gens["Time"] = gen.PtrOf(gen.AlphaString())
 }
@@ -1604,10 +1604,10 @@ func AddIndependentPropertyGeneratorsForMaintenanceRedeployStatus_STATUSARM(gens
 	gens["IsCustomerInitiatedMaintenanceAllowed"] = gen.PtrOf(gen.Bool())
 	gens["LastOperationMessage"] = gen.PtrOf(gen.AlphaString())
 	gens["LastOperationResultCode"] = gen.PtrOf(gen.OneConstOf(
-		MaintenanceRedeployStatus_LastOperationResultCode_STATUSMaintenanceAborted,
-		MaintenanceRedeployStatus_LastOperationResultCode_STATUSMaintenanceCompleted,
-		MaintenanceRedeployStatus_LastOperationResultCode_STATUSNone,
-		MaintenanceRedeployStatus_LastOperationResultCode_STATUSRetryLater))
+		MaintenanceRedeployStatus_LastOperationResultCode_MaintenanceAborted_STATUS,
+		MaintenanceRedeployStatus_LastOperationResultCode_MaintenanceCompleted_STATUS,
+		MaintenanceRedeployStatus_LastOperationResultCode_None_STATUS,
+		MaintenanceRedeployStatus_LastOperationResultCode_RetryLater_STATUS))
 	gens["MaintenanceWindowEndTime"] = gen.PtrOf(gen.AlphaString())
 	gens["MaintenanceWindowStartTime"] = gen.PtrOf(gen.AlphaString())
 	gens["PreMaintenanceWindowEndTime"] = gen.PtrOf(gen.AlphaString())
@@ -1753,11 +1753,11 @@ func OSDisk_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForOSDisk_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForOSDisk_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Caching"] = gen.PtrOf(gen.OneConstOf(Caching_STATUSNone, Caching_STATUSReadOnly, Caching_STATUSReadWrite))
-	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(CreateOption_STATUSAttach, CreateOption_STATUSEmpty, CreateOption_STATUSFromImage))
+	gens["Caching"] = gen.PtrOf(gen.OneConstOf(Caching_None_STATUS, Caching_ReadOnly_STATUS, Caching_ReadWrite_STATUS))
+	gens["CreateOption"] = gen.PtrOf(gen.OneConstOf(CreateOption_Attach_STATUS, CreateOption_Empty_STATUS, CreateOption_FromImage_STATUS))
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["OsType"] = gen.PtrOf(gen.OneConstOf(OSDisk_OsType_STATUSLinux, OSDisk_OsType_STATUSWindows))
+	gens["OsType"] = gen.PtrOf(gen.OneConstOf(OSDisk_OsType_Linux_STATUS, OSDisk_OsType_Windows_STATUS))
 	gens["WriteAcceleratorEnabled"] = gen.PtrOf(gen.Bool())
 }
 
@@ -2301,10 +2301,10 @@ func AdditionalUnattendContent_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForAdditionalUnattendContent_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForAdditionalUnattendContent_STATUSARM(gens map[string]gopter.Gen) {
-	gens["ComponentName"] = gen.PtrOf(gen.OneConstOf(AdditionalUnattendContent_ComponentName_STATUSMicrosoftWindowsShellSetup))
+	gens["ComponentName"] = gen.PtrOf(gen.OneConstOf(AdditionalUnattendContent_ComponentName_MicrosoftWindowsShellSetup_STATUS))
 	gens["Content"] = gen.PtrOf(gen.AlphaString())
-	gens["PassName"] = gen.PtrOf(gen.OneConstOf(AdditionalUnattendContent_PassName_STATUSOobeSystem))
-	gens["SettingName"] = gen.PtrOf(gen.OneConstOf(AdditionalUnattendContent_SettingName_STATUSAutoLogon, AdditionalUnattendContent_SettingName_STATUSFirstLogonCommands))
+	gens["PassName"] = gen.PtrOf(gen.OneConstOf(AdditionalUnattendContent_PassName_OobeSystem_STATUS))
+	gens["SettingName"] = gen.PtrOf(gen.OneConstOf(AdditionalUnattendContent_SettingName_AutoLogon_STATUS, AdditionalUnattendContent_SettingName_FirstLogonCommands_STATUS))
 }
 
 func Test_AvailablePatchSummary_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2380,11 +2380,11 @@ func AddIndependentPropertyGeneratorsForAvailablePatchSummary_STATUSARM(gens map
 	gens["RebootPending"] = gen.PtrOf(gen.Bool())
 	gens["StartTime"] = gen.PtrOf(gen.AlphaString())
 	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		AvailablePatchSummary_Status_STATUSCompletedWithWarnings,
-		AvailablePatchSummary_Status_STATUSFailed,
-		AvailablePatchSummary_Status_STATUSInProgress,
-		AvailablePatchSummary_Status_STATUSSucceeded,
-		AvailablePatchSummary_Status_STATUSUnknown))
+		AvailablePatchSummary_Status_CompletedWithWarnings_STATUS,
+		AvailablePatchSummary_Status_Failed_STATUS,
+		AvailablePatchSummary_Status_InProgress_STATUS,
+		AvailablePatchSummary_Status_Succeeded_STATUS,
+		AvailablePatchSummary_Status_Unknown_STATUS))
 }
 
 // AddRelatedPropertyGeneratorsForAvailablePatchSummary_STATUSARM is a factory method for creating gopter generators
@@ -2449,8 +2449,8 @@ func DiffDiskSettings_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDiffDiskSettings_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDiffDiskSettings_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Option"] = gen.PtrOf(gen.OneConstOf(DiffDiskOption_STATUSLocal))
-	gens["Placement"] = gen.PtrOf(gen.OneConstOf(DiffDiskPlacement_STATUSCacheDisk, DiffDiskPlacement_STATUSResourceDisk))
+	gens["Option"] = gen.PtrOf(gen.OneConstOf(DiffDiskOption_Local_STATUS))
+	gens["Placement"] = gen.PtrOf(gen.OneConstOf(DiffDiskPlacement_CacheDisk_STATUS, DiffDiskPlacement_ResourceDisk_STATUS))
 }
 
 func Test_DiskEncryptionSettings_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2604,11 +2604,11 @@ func AddIndependentPropertyGeneratorsForLastPatchInstallationSummary_STATUSARM(g
 	gens["PendingPatchCount"] = gen.PtrOf(gen.Int())
 	gens["StartTime"] = gen.PtrOf(gen.AlphaString())
 	gens["Status"] = gen.PtrOf(gen.OneConstOf(
-		LastPatchInstallationSummary_Status_STATUSCompletedWithWarnings,
-		LastPatchInstallationSummary_Status_STATUSFailed,
-		LastPatchInstallationSummary_Status_STATUSInProgress,
-		LastPatchInstallationSummary_Status_STATUSSucceeded,
-		LastPatchInstallationSummary_Status_STATUSUnknown))
+		LastPatchInstallationSummary_Status_CompletedWithWarnings_STATUS,
+		LastPatchInstallationSummary_Status_Failed_STATUS,
+		LastPatchInstallationSummary_Status_InProgress_STATUS,
+		LastPatchInstallationSummary_Status_Succeeded_STATUS,
+		LastPatchInstallationSummary_Status_Unknown_STATUS))
 }
 
 // AddRelatedPropertyGeneratorsForLastPatchInstallationSummary_STATUSARM is a factory method for creating gopter generators
@@ -2673,7 +2673,7 @@ func LinuxPatchSettings_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForLinuxPatchSettings_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLinuxPatchSettings_STATUSARM(gens map[string]gopter.Gen) {
-	gens["PatchMode"] = gen.PtrOf(gen.OneConstOf(LinuxPatchSettings_PatchMode_STATUSAutomaticByPlatform, LinuxPatchSettings_PatchMode_STATUSImageDefault))
+	gens["PatchMode"] = gen.PtrOf(gen.OneConstOf(LinuxPatchSettings_PatchMode_AutomaticByPlatform_STATUS, LinuxPatchSettings_PatchMode_ImageDefault_STATUS))
 }
 
 func Test_ManagedDiskParameters_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -2744,12 +2744,12 @@ func ManagedDiskParameters_STATUSARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForManagedDiskParameters_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["StorageAccountType"] = gen.PtrOf(gen.OneConstOf(
-		StorageAccountType_STATUSPremium_LRS,
-		StorageAccountType_STATUSPremium_ZRS,
-		StorageAccountType_STATUSStandardSSD_LRS,
-		StorageAccountType_STATUSStandardSSD_ZRS,
-		StorageAccountType_STATUSStandard_LRS,
-		StorageAccountType_STATUSUltraSSD_LRS))
+		StorageAccountType_Premium_LRS_STATUS,
+		StorageAccountType_Premium_ZRS_STATUS,
+		StorageAccountType_StandardSSD_LRS_STATUS,
+		StorageAccountType_StandardSSD_ZRS_STATUS,
+		StorageAccountType_Standard_LRS_STATUS,
+		StorageAccountType_UltraSSD_LRS_STATUS))
 }
 
 // AddRelatedPropertyGeneratorsForManagedDiskParameters_STATUSARM is a factory method for creating gopter generators
@@ -2875,7 +2875,7 @@ func PatchSettings_STATUSARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForPatchSettings_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPatchSettings_STATUSARM(gens map[string]gopter.Gen) {
 	gens["EnableHotpatching"] = gen.PtrOf(gen.Bool())
-	gens["PatchMode"] = gen.PtrOf(gen.OneConstOf(PatchSettings_PatchMode_STATUSAutomaticByOS, PatchSettings_PatchMode_STATUSAutomaticByPlatform, PatchSettings_PatchMode_STATUSManual))
+	gens["PatchMode"] = gen.PtrOf(gen.OneConstOf(PatchSettings_PatchMode_AutomaticByOS_STATUS, PatchSettings_PatchMode_AutomaticByPlatform_STATUS, PatchSettings_PatchMode_Manual_STATUS))
 }
 
 func Test_SshConfiguration_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -3537,7 +3537,7 @@ func WinRMListener_STATUSARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForWinRMListener_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWinRMListener_STATUSARM(gens map[string]gopter.Gen) {
 	gens["CertificateUrl"] = gen.PtrOf(gen.AlphaString())
-	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(WinRMListener_Protocol_STATUSHttp, WinRMListener_Protocol_STATUSHttps))
+	gens["Protocol"] = gen.PtrOf(gen.OneConstOf(WinRMListener_Protocol_Http_STATUS, WinRMListener_Protocol_Https_STATUS))
 }
 
 func Test_ApiErrorBase_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

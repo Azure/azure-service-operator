@@ -99,7 +99,7 @@ func (route *RouteTablesRoute) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20201101"
 func (route RouteTablesRoute) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -981,21 +981,21 @@ func (route *RouteTablesRoute_Spec) SetAzureName(azureName string) { route.Azure
 type RouteNextHopType string
 
 const (
-	RouteNextHopTypeInternet              = RouteNextHopType("Internet")
-	RouteNextHopTypeNone                  = RouteNextHopType("None")
-	RouteNextHopTypeVirtualAppliance      = RouteNextHopType("VirtualAppliance")
-	RouteNextHopTypeVirtualNetworkGateway = RouteNextHopType("VirtualNetworkGateway")
-	RouteNextHopTypeVnetLocal             = RouteNextHopType("VnetLocal")
+	RouteNextHopType_Internet              = RouteNextHopType("Internet")
+	RouteNextHopType_None                  = RouteNextHopType("None")
+	RouteNextHopType_VirtualAppliance      = RouteNextHopType("VirtualAppliance")
+	RouteNextHopType_VirtualNetworkGateway = RouteNextHopType("VirtualNetworkGateway")
+	RouteNextHopType_VnetLocal             = RouteNextHopType("VnetLocal")
 )
 
 type RouteNextHopType_STATUS string
 
 const (
-	RouteNextHopType_STATUSInternet              = RouteNextHopType_STATUS("Internet")
-	RouteNextHopType_STATUSNone                  = RouteNextHopType_STATUS("None")
-	RouteNextHopType_STATUSVirtualAppliance      = RouteNextHopType_STATUS("VirtualAppliance")
-	RouteNextHopType_STATUSVirtualNetworkGateway = RouteNextHopType_STATUS("VirtualNetworkGateway")
-	RouteNextHopType_STATUSVnetLocal             = RouteNextHopType_STATUS("VnetLocal")
+	RouteNextHopType_Internet_STATUS              = RouteNextHopType_STATUS("Internet")
+	RouteNextHopType_None_STATUS                  = RouteNextHopType_STATUS("None")
+	RouteNextHopType_VirtualAppliance_STATUS      = RouteNextHopType_STATUS("VirtualAppliance")
+	RouteNextHopType_VirtualNetworkGateway_STATUS = RouteNextHopType_STATUS("VirtualNetworkGateway")
+	RouteNextHopType_VnetLocal_STATUS             = RouteNextHopType_STATUS("VnetLocal")
 )
 
 func init() {

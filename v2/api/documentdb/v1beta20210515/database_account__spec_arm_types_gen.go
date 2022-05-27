@@ -31,7 +31,7 @@ var _ genruntime.ARMResourceSpec = &DatabaseAccount_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20210515"
 func (account DatabaseAccount_SpecARM) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetName returns the Name of the resource
@@ -123,9 +123,9 @@ type DatabaseAccountCreateUpdatePropertiesARM struct {
 type DatabaseAccount_Spec_Kind string
 
 const (
-	DatabaseAccount_Spec_KindGlobalDocumentDB = DatabaseAccount_Spec_Kind("GlobalDocumentDB")
-	DatabaseAccount_Spec_KindMongoDB          = DatabaseAccount_Spec_Kind("MongoDB")
-	DatabaseAccount_Spec_KindParse            = DatabaseAccount_Spec_Kind("Parse")
+	DatabaseAccount_Spec_Kind_GlobalDocumentDB = DatabaseAccount_Spec_Kind("GlobalDocumentDB")
+	DatabaseAccount_Spec_Kind_MongoDB          = DatabaseAccount_Spec_Kind("MongoDB")
+	DatabaseAccount_Spec_Kind_Parse            = DatabaseAccount_Spec_Kind("Parse")
 )
 
 type ManagedServiceIdentityARM struct {
@@ -226,10 +226,10 @@ type LocationARM struct {
 type ManagedServiceIdentity_Type string
 
 const (
-	ManagedServiceIdentity_TypeNone                       = ManagedServiceIdentity_Type("None")
-	ManagedServiceIdentity_TypeSystemAssigned             = ManagedServiceIdentity_Type("SystemAssigned")
-	ManagedServiceIdentity_TypeSystemAssignedUserAssigned = ManagedServiceIdentity_Type("SystemAssigned,UserAssigned")
-	ManagedServiceIdentity_TypeUserAssigned               = ManagedServiceIdentity_Type("UserAssigned")
+	ManagedServiceIdentity_Type_None                       = ManagedServiceIdentity_Type("None")
+	ManagedServiceIdentity_Type_SystemAssigned             = ManagedServiceIdentity_Type("SystemAssigned")
+	ManagedServiceIdentity_Type_SystemAssignedUserAssigned = ManagedServiceIdentity_Type("SystemAssigned,UserAssigned")
+	ManagedServiceIdentity_Type_UserAssigned               = ManagedServiceIdentity_Type("UserAssigned")
 )
 
 type VirtualNetworkRuleARM struct {

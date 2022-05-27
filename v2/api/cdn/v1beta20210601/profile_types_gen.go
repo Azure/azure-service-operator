@@ -99,7 +99,7 @@ func (profile *Profile) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20210601"
 func (profile Profile) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -322,7 +322,7 @@ type ProfileList struct {
 // +kubebuilder:validation:Enum={"20210601"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("20210601")
+const APIVersion_Value = APIVersion("20210601")
 
 type Profile_STATUS struct {
 	// Conditions: The observed state of the resource
@@ -1185,40 +1185,40 @@ func (profile *Profile_Spec) SetAzureName(azureName string) { profile.AzureName 
 type ProfileProperties_ProvisioningState string
 
 const (
-	ProfileProperties_ProvisioningStateCreating  = ProfileProperties_ProvisioningState("Creating")
-	ProfileProperties_ProvisioningStateDeleting  = ProfileProperties_ProvisioningState("Deleting")
-	ProfileProperties_ProvisioningStateFailed    = ProfileProperties_ProvisioningState("Failed")
-	ProfileProperties_ProvisioningStateSucceeded = ProfileProperties_ProvisioningState("Succeeded")
-	ProfileProperties_ProvisioningStateUpdating  = ProfileProperties_ProvisioningState("Updating")
+	ProfileProperties_ProvisioningState_Creating  = ProfileProperties_ProvisioningState("Creating")
+	ProfileProperties_ProvisioningState_Deleting  = ProfileProperties_ProvisioningState("Deleting")
+	ProfileProperties_ProvisioningState_Failed    = ProfileProperties_ProvisioningState("Failed")
+	ProfileProperties_ProvisioningState_Succeeded = ProfileProperties_ProvisioningState("Succeeded")
+	ProfileProperties_ProvisioningState_Updating  = ProfileProperties_ProvisioningState("Updating")
 )
 
 type ProfileProperties_ProvisioningState_STATUS string
 
 const (
-	ProfileProperties_ProvisioningState_STATUSCreating  = ProfileProperties_ProvisioningState_STATUS("Creating")
-	ProfileProperties_ProvisioningState_STATUSDeleting  = ProfileProperties_ProvisioningState_STATUS("Deleting")
-	ProfileProperties_ProvisioningState_STATUSFailed    = ProfileProperties_ProvisioningState_STATUS("Failed")
-	ProfileProperties_ProvisioningState_STATUSSucceeded = ProfileProperties_ProvisioningState_STATUS("Succeeded")
-	ProfileProperties_ProvisioningState_STATUSUpdating  = ProfileProperties_ProvisioningState_STATUS("Updating")
+	ProfileProperties_ProvisioningState_Creating_STATUS  = ProfileProperties_ProvisioningState_STATUS("Creating")
+	ProfileProperties_ProvisioningState_Deleting_STATUS  = ProfileProperties_ProvisioningState_STATUS("Deleting")
+	ProfileProperties_ProvisioningState_Failed_STATUS    = ProfileProperties_ProvisioningState_STATUS("Failed")
+	ProfileProperties_ProvisioningState_Succeeded_STATUS = ProfileProperties_ProvisioningState_STATUS("Succeeded")
+	ProfileProperties_ProvisioningState_Updating_STATUS  = ProfileProperties_ProvisioningState_STATUS("Updating")
 )
 
 // +kubebuilder:validation:Enum={"Active","Creating","Deleting","Disabled"}
 type ProfileProperties_ResourceState string
 
 const (
-	ProfileProperties_ResourceStateActive   = ProfileProperties_ResourceState("Active")
-	ProfileProperties_ResourceStateCreating = ProfileProperties_ResourceState("Creating")
-	ProfileProperties_ResourceStateDeleting = ProfileProperties_ResourceState("Deleting")
-	ProfileProperties_ResourceStateDisabled = ProfileProperties_ResourceState("Disabled")
+	ProfileProperties_ResourceState_Active   = ProfileProperties_ResourceState("Active")
+	ProfileProperties_ResourceState_Creating = ProfileProperties_ResourceState("Creating")
+	ProfileProperties_ResourceState_Deleting = ProfileProperties_ResourceState("Deleting")
+	ProfileProperties_ResourceState_Disabled = ProfileProperties_ResourceState("Disabled")
 )
 
 type ProfileProperties_ResourceState_STATUS string
 
 const (
-	ProfileProperties_ResourceState_STATUSActive   = ProfileProperties_ResourceState_STATUS("Active")
-	ProfileProperties_ResourceState_STATUSCreating = ProfileProperties_ResourceState_STATUS("Creating")
-	ProfileProperties_ResourceState_STATUSDeleting = ProfileProperties_ResourceState_STATUS("Deleting")
-	ProfileProperties_ResourceState_STATUSDisabled = ProfileProperties_ResourceState_STATUS("Disabled")
+	ProfileProperties_ResourceState_Active_STATUS   = ProfileProperties_ResourceState_STATUS("Active")
+	ProfileProperties_ResourceState_Creating_STATUS = ProfileProperties_ResourceState_STATUS("Creating")
+	ProfileProperties_ResourceState_Deleting_STATUS = ProfileProperties_ResourceState_STATUS("Deleting")
+	ProfileProperties_ResourceState_Disabled_STATUS = ProfileProperties_ResourceState_STATUS("Disabled")
 )
 
 type Sku struct {

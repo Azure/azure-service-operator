@@ -53,7 +53,7 @@ func (cluster *ManagedCluster) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20210501"
 func (cluster ManagedCluster) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -136,7 +136,7 @@ type ManagedClusterList struct {
 // +kubebuilder:validation:Enum={"20210501"}
 type APIVersion string
 
-const APIVersionValue = APIVersion("20210501")
+const APIVersion_Value = APIVersion("20210501")
 
 // Storage version of v1beta20210501.ManagedCluster_STATUS
 type ManagedCluster_STATUS struct {

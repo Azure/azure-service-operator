@@ -275,19 +275,19 @@ func AddIndependentPropertyGeneratorsForSignalR_STATUS(gens map[string]gopter.Ge
 	gens["HostName"] = gen.PtrOf(gen.AlphaString())
 	gens["HostNamePrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(ServiceKind_STATUSRawWebSockets, ServiceKind_STATUSSignalR))
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(ServiceKind_RawWebSockets_STATUS, ServiceKind_SignalR_STATUS))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_STATUSCanceled,
-		ProvisioningState_STATUSCreating,
-		ProvisioningState_STATUSDeleting,
-		ProvisioningState_STATUSFailed,
-		ProvisioningState_STATUSMoving,
-		ProvisioningState_STATUSRunning,
-		ProvisioningState_STATUSSucceeded,
-		ProvisioningState_STATUSUnknown,
-		ProvisioningState_STATUSUpdating))
+		ProvisioningState_Canceled_STATUS,
+		ProvisioningState_Creating_STATUS,
+		ProvisioningState_Deleting_STATUS,
+		ProvisioningState_Failed_STATUS,
+		ProvisioningState_Moving_STATUS,
+		ProvisioningState_Running_STATUS,
+		ProvisioningState_Succeeded_STATUS,
+		ProvisioningState_Unknown_STATUS,
+		ProvisioningState_Updating_STATUS))
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicPort"] = gen.PtrOf(gen.Int())
 	gens["ServerPort"] = gen.PtrOf(gen.Int())
@@ -425,18 +425,18 @@ func AddIndependentPropertyGeneratorsForSignalR_Spec(gens map[string]gopter.Gen)
 	gens["HostName"] = gen.PtrOf(gen.AlphaString())
 	gens["HostNamePrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Kind"] = gen.PtrOf(gen.OneConstOf(ServiceKindRawWebSockets, ServiceKindSignalR))
+	gens["Kind"] = gen.PtrOf(gen.OneConstOf(ServiceKind_RawWebSockets, ServiceKind_SignalR))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningStateCanceled,
-		ProvisioningStateCreating,
-		ProvisioningStateDeleting,
-		ProvisioningStateFailed,
-		ProvisioningStateMoving,
-		ProvisioningStateRunning,
-		ProvisioningStateSucceeded,
-		ProvisioningStateUnknown,
-		ProvisioningStateUpdating))
+		ProvisioningState_Canceled,
+		ProvisioningState_Creating,
+		ProvisioningState_Deleting,
+		ProvisioningState_Failed,
+		ProvisioningState_Moving,
+		ProvisioningState_Running,
+		ProvisioningState_Succeeded,
+		ProvisioningState_Unknown,
+		ProvisioningState_Updating))
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicPort"] = gen.PtrOf(gen.Int())
 	gens["ServerPort"] = gen.PtrOf(gen.Int())
@@ -569,7 +569,7 @@ func ManagedIdentityGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForManagedIdentity(gens map[string]gopter.Gen) {
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagedIdentityTypeNone, ManagedIdentityTypeSystemAssigned, ManagedIdentityTypeUserAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagedIdentityType_None, ManagedIdentityType_SystemAssigned, ManagedIdentityType_UserAssigned))
 }
 
 // AddRelatedPropertyGeneratorsForManagedIdentity is a factory method for creating gopter generators
@@ -687,7 +687,7 @@ func ManagedIdentity_STATUSGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForManagedIdentity_STATUS(gens map[string]gopter.Gen) {
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagedIdentityType_STATUSNone, ManagedIdentityType_STATUSSystemAssigned, ManagedIdentityType_STATUSUserAssigned))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagedIdentityType_None_STATUS, ManagedIdentityType_SystemAssigned_STATUS, ManagedIdentityType_UserAssigned_STATUS))
 }
 
 // AddRelatedPropertyGeneratorsForManagedIdentity_STATUS is a factory method for creating gopter generators
@@ -1234,10 +1234,10 @@ func AddIndependentPropertyGeneratorsForResourceSku(gens map[string]gopter.Gen) 
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Size"] = gen.PtrOf(gen.AlphaString())
 	gens["Tier"] = gen.PtrOf(gen.OneConstOf(
-		SignalRSkuTierBasic,
-		SignalRSkuTierFree,
-		SignalRSkuTierPremium,
-		SignalRSkuTierStandard))
+		SignalRSkuTier_Basic,
+		SignalRSkuTier_Free,
+		SignalRSkuTier_Premium,
+		SignalRSkuTier_Standard))
 }
 
 func Test_ResourceSku_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1343,10 +1343,10 @@ func AddIndependentPropertyGeneratorsForResourceSku_STATUS(gens map[string]gopte
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Size"] = gen.PtrOf(gen.AlphaString())
 	gens["Tier"] = gen.PtrOf(gen.OneConstOf(
-		SignalRSkuTier_STATUSBasic,
-		SignalRSkuTier_STATUSFree,
-		SignalRSkuTier_STATUSPremium,
-		SignalRSkuTier_STATUSStandard))
+		SignalRSkuTier_Basic_STATUS,
+		SignalRSkuTier_Free_STATUS,
+		SignalRSkuTier_Premium_STATUS,
+		SignalRSkuTier_Standard_STATUS))
 }
 
 func Test_ServerlessUpstreamSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2088,10 +2088,10 @@ func SignalRFeatureGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSignalRFeature is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSignalRFeature(gens map[string]gopter.Gen) {
 	gens["Flag"] = gen.PtrOf(gen.OneConstOf(
-		FeatureFlagsEnableConnectivityLogs,
-		FeatureFlagsEnableLiveTrace,
-		FeatureFlagsEnableMessagingLogs,
-		FeatureFlagsServiceMode))
+		FeatureFlags_EnableConnectivityLogs,
+		FeatureFlags_EnableLiveTrace,
+		FeatureFlags_EnableMessagingLogs,
+		FeatureFlags_ServiceMode))
 	gens["Properties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
@@ -2196,10 +2196,10 @@ func SignalRFeature_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSignalRFeature_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSignalRFeature_STATUS(gens map[string]gopter.Gen) {
 	gens["Flag"] = gen.PtrOf(gen.OneConstOf(
-		FeatureFlags_STATUSEnableConnectivityLogs,
-		FeatureFlags_STATUSEnableLiveTrace,
-		FeatureFlags_STATUSEnableMessagingLogs,
-		FeatureFlags_STATUSServiceMode))
+		FeatureFlags_EnableConnectivityLogs_STATUS,
+		FeatureFlags_EnableLiveTrace_STATUS,
+		FeatureFlags_EnableMessagingLogs_STATUS,
+		FeatureFlags_ServiceMode_STATUS))
 	gens["Properties"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }
@@ -2311,7 +2311,7 @@ func SignalRNetworkACLsGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSignalRNetworkACLs is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSignalRNetworkACLs(gens map[string]gopter.Gen) {
-	gens["DefaultAction"] = gen.PtrOf(gen.OneConstOf(ACLActionAllow, ACLActionDeny))
+	gens["DefaultAction"] = gen.PtrOf(gen.OneConstOf(ACLAction_Allow, ACLAction_Deny))
 }
 
 // AddRelatedPropertyGeneratorsForSignalRNetworkACLs is a factory method for creating gopter generators
@@ -2428,7 +2428,7 @@ func SignalRNetworkACLs_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSignalRNetworkACLs_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSignalRNetworkACLs_STATUS(gens map[string]gopter.Gen) {
-	gens["DefaultAction"] = gen.PtrOf(gen.OneConstOf(ACLAction_STATUSAllow, ACLAction_STATUSDeny))
+	gens["DefaultAction"] = gen.PtrOf(gen.OneConstOf(ACLAction_Allow_STATUS, ACLAction_Deny_STATUS))
 }
 
 // AddRelatedPropertyGeneratorsForSignalRNetworkACLs_STATUS is a factory method for creating gopter generators
@@ -2741,17 +2741,17 @@ func AddIndependentPropertyGeneratorsForSystemData(gens map[string]gopter.Gen) {
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByTypeApplication,
-		SystemData_CreatedByTypeKey,
-		SystemData_CreatedByTypeManagedIdentity,
-		SystemData_CreatedByTypeUser))
+		SystemData_CreatedByType_Application,
+		SystemData_CreatedByType_Key,
+		SystemData_CreatedByType_ManagedIdentity,
+		SystemData_CreatedByType_User))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByTypeApplication,
-		SystemData_LastModifiedByTypeKey,
-		SystemData_LastModifiedByTypeManagedIdentity,
-		SystemData_LastModifiedByTypeUser))
+		SystemData_LastModifiedByType_Application,
+		SystemData_LastModifiedByType_Key,
+		SystemData_LastModifiedByType_ManagedIdentity,
+		SystemData_LastModifiedByType_User))
 }
 
 func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2855,17 +2855,17 @@ func AddIndependentPropertyGeneratorsForSystemData_STATUS(gens map[string]gopter
 	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByType_STATUSApplication,
-		SystemData_CreatedByType_STATUSKey,
-		SystemData_CreatedByType_STATUSManagedIdentity,
-		SystemData_CreatedByType_STATUSUser))
+		SystemData_CreatedByType_Application_STATUS,
+		SystemData_CreatedByType_Key_STATUS,
+		SystemData_CreatedByType_ManagedIdentity_STATUS,
+		SystemData_CreatedByType_User_STATUS))
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByType_STATUSApplication,
-		SystemData_LastModifiedByType_STATUSKey,
-		SystemData_LastModifiedByType_STATUSManagedIdentity,
-		SystemData_LastModifiedByType_STATUSUser))
+		SystemData_LastModifiedByType_Application_STATUS,
+		SystemData_LastModifiedByType_Key_STATUS,
+		SystemData_LastModifiedByType_ManagedIdentity_STATUS,
+		SystemData_LastModifiedByType_User_STATUS))
 }
 
 func Test_NetworkACL_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2967,15 +2967,15 @@ func NetworkACLGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForNetworkACL is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkACL(gens map[string]gopter.Gen) {
 	gens["Allow"] = gen.SliceOf(gen.OneConstOf(
-		SignalRRequestTypeClientConnection,
-		SignalRRequestTypeRESTAPI,
-		SignalRRequestTypeServerConnection,
-		SignalRRequestTypeTrace))
+		SignalRRequestType_ClientConnection,
+		SignalRRequestType_RESTAPI,
+		SignalRRequestType_ServerConnection,
+		SignalRRequestType_Trace))
 	gens["Deny"] = gen.SliceOf(gen.OneConstOf(
-		SignalRRequestTypeClientConnection,
-		SignalRRequestTypeRESTAPI,
-		SignalRRequestTypeServerConnection,
-		SignalRRequestTypeTrace))
+		SignalRRequestType_ClientConnection,
+		SignalRRequestType_RESTAPI,
+		SignalRRequestType_ServerConnection,
+		SignalRRequestType_Trace))
 }
 
 func Test_NetworkACL_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -3077,15 +3077,15 @@ func NetworkACL_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForNetworkACL_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNetworkACL_STATUS(gens map[string]gopter.Gen) {
 	gens["Allow"] = gen.SliceOf(gen.OneConstOf(
-		SignalRRequestType_STATUSClientConnection,
-		SignalRRequestType_STATUSRESTAPI,
-		SignalRRequestType_STATUSServerConnection,
-		SignalRRequestType_STATUSTrace))
+		SignalRRequestType_ClientConnection_STATUS,
+		SignalRRequestType_RESTAPI_STATUS,
+		SignalRRequestType_ServerConnection_STATUS,
+		SignalRRequestType_Trace_STATUS))
 	gens["Deny"] = gen.SliceOf(gen.OneConstOf(
-		SignalRRequestType_STATUSClientConnection,
-		SignalRRequestType_STATUSRESTAPI,
-		SignalRRequestType_STATUSServerConnection,
-		SignalRRequestType_STATUSTrace))
+		SignalRRequestType_ClientConnection_STATUS,
+		SignalRRequestType_RESTAPI_STATUS,
+		SignalRRequestType_ServerConnection_STATUS,
+		SignalRRequestType_Trace_STATUS))
 }
 
 func Test_PrivateEndpointACL_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -3187,15 +3187,15 @@ func PrivateEndpointACLGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForPrivateEndpointACL is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPrivateEndpointACL(gens map[string]gopter.Gen) {
 	gens["Allow"] = gen.SliceOf(gen.OneConstOf(
-		SignalRRequestTypeClientConnection,
-		SignalRRequestTypeRESTAPI,
-		SignalRRequestTypeServerConnection,
-		SignalRRequestTypeTrace))
+		SignalRRequestType_ClientConnection,
+		SignalRRequestType_RESTAPI,
+		SignalRRequestType_ServerConnection,
+		SignalRRequestType_Trace))
 	gens["Deny"] = gen.SliceOf(gen.OneConstOf(
-		SignalRRequestTypeClientConnection,
-		SignalRRequestTypeRESTAPI,
-		SignalRRequestTypeServerConnection,
-		SignalRRequestTypeTrace))
+		SignalRRequestType_ClientConnection,
+		SignalRRequestType_RESTAPI,
+		SignalRRequestType_ServerConnection,
+		SignalRRequestType_Trace))
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -3299,15 +3299,15 @@ func PrivateEndpointACL_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForPrivateEndpointACL_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForPrivateEndpointACL_STATUS(gens map[string]gopter.Gen) {
 	gens["Allow"] = gen.SliceOf(gen.OneConstOf(
-		SignalRRequestType_STATUSClientConnection,
-		SignalRRequestType_STATUSRESTAPI,
-		SignalRRequestType_STATUSServerConnection,
-		SignalRRequestType_STATUSTrace))
+		SignalRRequestType_ClientConnection_STATUS,
+		SignalRRequestType_RESTAPI_STATUS,
+		SignalRRequestType_ServerConnection_STATUS,
+		SignalRRequestType_Trace_STATUS))
 	gens["Deny"] = gen.SliceOf(gen.OneConstOf(
-		SignalRRequestType_STATUSClientConnection,
-		SignalRRequestType_STATUSRESTAPI,
-		SignalRRequestType_STATUSServerConnection,
-		SignalRRequestType_STATUSTrace))
+		SignalRRequestType_ClientConnection_STATUS,
+		SignalRRequestType_RESTAPI_STATUS,
+		SignalRRequestType_ServerConnection_STATUS,
+		SignalRRequestType_Trace_STATUS))
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -4068,7 +4068,7 @@ func UpstreamAuthSettingsGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForUpstreamAuthSettings is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForUpstreamAuthSettings(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(UpstreamAuthTypeManagedIdentity, UpstreamAuthTypeNone))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(UpstreamAuthType_ManagedIdentity, UpstreamAuthType_None))
 }
 
 // AddRelatedPropertyGeneratorsForUpstreamAuthSettings is a factory method for creating gopter generators
@@ -4184,7 +4184,7 @@ func UpstreamAuthSettings_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForUpstreamAuthSettings_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForUpstreamAuthSettings_STATUS(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(UpstreamAuthType_STATUSManagedIdentity, UpstreamAuthType_STATUSNone))
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(UpstreamAuthType_ManagedIdentity_STATUS, UpstreamAuthType_None_STATUS))
 }
 
 // AddRelatedPropertyGeneratorsForUpstreamAuthSettings_STATUS is a factory method for creating gopter generators

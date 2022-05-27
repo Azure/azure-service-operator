@@ -153,10 +153,10 @@ func ConfigurationProperties_STATUSARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForConfigurationProperties_STATUSARM(gens map[string]gopter.Gen) {
 	gens["AllowedValues"] = gen.PtrOf(gen.AlphaString())
 	gens["DataType"] = gen.PtrOf(gen.OneConstOf(
-		ConfigurationProperties_DataType_STATUSBoolean,
-		ConfigurationProperties_DataType_STATUSEnumeration,
-		ConfigurationProperties_DataType_STATUSInteger,
-		ConfigurationProperties_DataType_STATUSNumeric))
+		ConfigurationProperties_DataType_Boolean_STATUS,
+		ConfigurationProperties_DataType_Enumeration_STATUS,
+		ConfigurationProperties_DataType_Integer_STATUS,
+		ConfigurationProperties_DataType_Numeric_STATUS))
 	gens["DefaultValue"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["DocumentationLink"] = gen.PtrOf(gen.AlphaString())

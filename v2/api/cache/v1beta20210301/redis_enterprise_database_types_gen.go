@@ -99,7 +99,7 @@ func (database *RedisEnterpriseDatabase) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "20210301"
 func (database RedisEnterpriseDatabase) GetAPIVersion() string {
-	return string(APIVersionValue)
+	return string(APIVersion_Value)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -1232,57 +1232,57 @@ func (database *RedisEnterpriseDatabase_Spec) SetAzureName(azureName string) {
 type DatabaseProperties_ClientProtocol string
 
 const (
-	DatabaseProperties_ClientProtocolEncrypted = DatabaseProperties_ClientProtocol("Encrypted")
-	DatabaseProperties_ClientProtocolPlaintext = DatabaseProperties_ClientProtocol("Plaintext")
+	DatabaseProperties_ClientProtocol_Encrypted = DatabaseProperties_ClientProtocol("Encrypted")
+	DatabaseProperties_ClientProtocol_Plaintext = DatabaseProperties_ClientProtocol("Plaintext")
 )
 
 type DatabaseProperties_ClientProtocol_STATUS string
 
 const (
-	DatabaseProperties_ClientProtocol_STATUSEncrypted = DatabaseProperties_ClientProtocol_STATUS("Encrypted")
-	DatabaseProperties_ClientProtocol_STATUSPlaintext = DatabaseProperties_ClientProtocol_STATUS("Plaintext")
+	DatabaseProperties_ClientProtocol_Encrypted_STATUS = DatabaseProperties_ClientProtocol_STATUS("Encrypted")
+	DatabaseProperties_ClientProtocol_Plaintext_STATUS = DatabaseProperties_ClientProtocol_STATUS("Plaintext")
 )
 
 // +kubebuilder:validation:Enum={"EnterpriseCluster","OSSCluster"}
 type DatabaseProperties_ClusteringPolicy string
 
 const (
-	DatabaseProperties_ClusteringPolicyEnterpriseCluster = DatabaseProperties_ClusteringPolicy("EnterpriseCluster")
-	DatabaseProperties_ClusteringPolicyOSSCluster        = DatabaseProperties_ClusteringPolicy("OSSCluster")
+	DatabaseProperties_ClusteringPolicy_EnterpriseCluster = DatabaseProperties_ClusteringPolicy("EnterpriseCluster")
+	DatabaseProperties_ClusteringPolicy_OSSCluster        = DatabaseProperties_ClusteringPolicy("OSSCluster")
 )
 
 type DatabaseProperties_ClusteringPolicy_STATUS string
 
 const (
-	DatabaseProperties_ClusteringPolicy_STATUSEnterpriseCluster = DatabaseProperties_ClusteringPolicy_STATUS("EnterpriseCluster")
-	DatabaseProperties_ClusteringPolicy_STATUSOSSCluster        = DatabaseProperties_ClusteringPolicy_STATUS("OSSCluster")
+	DatabaseProperties_ClusteringPolicy_EnterpriseCluster_STATUS = DatabaseProperties_ClusteringPolicy_STATUS("EnterpriseCluster")
+	DatabaseProperties_ClusteringPolicy_OSSCluster_STATUS        = DatabaseProperties_ClusteringPolicy_STATUS("OSSCluster")
 )
 
 // +kubebuilder:validation:Enum={"AllKeysLFU","AllKeysLRU","AllKeysRandom","NoEviction","VolatileLFU","VolatileLRU","VolatileRandom","VolatileTTL"}
 type DatabaseProperties_EvictionPolicy string
 
 const (
-	DatabaseProperties_EvictionPolicyAllKeysLFU     = DatabaseProperties_EvictionPolicy("AllKeysLFU")
-	DatabaseProperties_EvictionPolicyAllKeysLRU     = DatabaseProperties_EvictionPolicy("AllKeysLRU")
-	DatabaseProperties_EvictionPolicyAllKeysRandom  = DatabaseProperties_EvictionPolicy("AllKeysRandom")
-	DatabaseProperties_EvictionPolicyNoEviction     = DatabaseProperties_EvictionPolicy("NoEviction")
-	DatabaseProperties_EvictionPolicyVolatileLFU    = DatabaseProperties_EvictionPolicy("VolatileLFU")
-	DatabaseProperties_EvictionPolicyVolatileLRU    = DatabaseProperties_EvictionPolicy("VolatileLRU")
-	DatabaseProperties_EvictionPolicyVolatileRandom = DatabaseProperties_EvictionPolicy("VolatileRandom")
-	DatabaseProperties_EvictionPolicyVolatileTTL    = DatabaseProperties_EvictionPolicy("VolatileTTL")
+	DatabaseProperties_EvictionPolicy_AllKeysLFU     = DatabaseProperties_EvictionPolicy("AllKeysLFU")
+	DatabaseProperties_EvictionPolicy_AllKeysLRU     = DatabaseProperties_EvictionPolicy("AllKeysLRU")
+	DatabaseProperties_EvictionPolicy_AllKeysRandom  = DatabaseProperties_EvictionPolicy("AllKeysRandom")
+	DatabaseProperties_EvictionPolicy_NoEviction     = DatabaseProperties_EvictionPolicy("NoEviction")
+	DatabaseProperties_EvictionPolicy_VolatileLFU    = DatabaseProperties_EvictionPolicy("VolatileLFU")
+	DatabaseProperties_EvictionPolicy_VolatileLRU    = DatabaseProperties_EvictionPolicy("VolatileLRU")
+	DatabaseProperties_EvictionPolicy_VolatileRandom = DatabaseProperties_EvictionPolicy("VolatileRandom")
+	DatabaseProperties_EvictionPolicy_VolatileTTL    = DatabaseProperties_EvictionPolicy("VolatileTTL")
 )
 
 type DatabaseProperties_EvictionPolicy_STATUS string
 
 const (
-	DatabaseProperties_EvictionPolicy_STATUSAllKeysLFU     = DatabaseProperties_EvictionPolicy_STATUS("AllKeysLFU")
-	DatabaseProperties_EvictionPolicy_STATUSAllKeysLRU     = DatabaseProperties_EvictionPolicy_STATUS("AllKeysLRU")
-	DatabaseProperties_EvictionPolicy_STATUSAllKeysRandom  = DatabaseProperties_EvictionPolicy_STATUS("AllKeysRandom")
-	DatabaseProperties_EvictionPolicy_STATUSNoEviction     = DatabaseProperties_EvictionPolicy_STATUS("NoEviction")
-	DatabaseProperties_EvictionPolicy_STATUSVolatileLFU    = DatabaseProperties_EvictionPolicy_STATUS("VolatileLFU")
-	DatabaseProperties_EvictionPolicy_STATUSVolatileLRU    = DatabaseProperties_EvictionPolicy_STATUS("VolatileLRU")
-	DatabaseProperties_EvictionPolicy_STATUSVolatileRandom = DatabaseProperties_EvictionPolicy_STATUS("VolatileRandom")
-	DatabaseProperties_EvictionPolicy_STATUSVolatileTTL    = DatabaseProperties_EvictionPolicy_STATUS("VolatileTTL")
+	DatabaseProperties_EvictionPolicy_AllKeysLFU_STATUS     = DatabaseProperties_EvictionPolicy_STATUS("AllKeysLFU")
+	DatabaseProperties_EvictionPolicy_AllKeysLRU_STATUS     = DatabaseProperties_EvictionPolicy_STATUS("AllKeysLRU")
+	DatabaseProperties_EvictionPolicy_AllKeysRandom_STATUS  = DatabaseProperties_EvictionPolicy_STATUS("AllKeysRandom")
+	DatabaseProperties_EvictionPolicy_NoEviction_STATUS     = DatabaseProperties_EvictionPolicy_STATUS("NoEviction")
+	DatabaseProperties_EvictionPolicy_VolatileLFU_STATUS    = DatabaseProperties_EvictionPolicy_STATUS("VolatileLFU")
+	DatabaseProperties_EvictionPolicy_VolatileLRU_STATUS    = DatabaseProperties_EvictionPolicy_STATUS("VolatileLRU")
+	DatabaseProperties_EvictionPolicy_VolatileRandom_STATUS = DatabaseProperties_EvictionPolicy_STATUS("VolatileRandom")
+	DatabaseProperties_EvictionPolicy_VolatileTTL_STATUS    = DatabaseProperties_EvictionPolicy_STATUS("VolatileTTL")
 )
 
 type Module struct {
@@ -1812,32 +1812,32 @@ func (persistence *Persistence_STATUS) AssignPropertiesToPersistence_STATUS(dest
 type Persistence_AofFrequency string
 
 const (
-	Persistence_AofFrequency1S     = Persistence_AofFrequency("1s")
-	Persistence_AofFrequencyAlways = Persistence_AofFrequency("always")
+	Persistence_AofFrequency_1S     = Persistence_AofFrequency("1s")
+	Persistence_AofFrequency_Always = Persistence_AofFrequency("always")
 )
 
 type Persistence_AofFrequency_STATUS string
 
 const (
-	Persistence_AofFrequency_STATUS1S     = Persistence_AofFrequency_STATUS("1s")
-	Persistence_AofFrequency_STATUSAlways = Persistence_AofFrequency_STATUS("always")
+	Persistence_AofFrequency_1S_STATUS     = Persistence_AofFrequency_STATUS("1s")
+	Persistence_AofFrequency_Always_STATUS = Persistence_AofFrequency_STATUS("always")
 )
 
 // +kubebuilder:validation:Enum={"12h","1h","6h"}
 type Persistence_RdbFrequency string
 
 const (
-	Persistence_RdbFrequency12H = Persistence_RdbFrequency("12h")
-	Persistence_RdbFrequency1H  = Persistence_RdbFrequency("1h")
-	Persistence_RdbFrequency6H  = Persistence_RdbFrequency("6h")
+	Persistence_RdbFrequency_12H = Persistence_RdbFrequency("12h")
+	Persistence_RdbFrequency_1H  = Persistence_RdbFrequency("1h")
+	Persistence_RdbFrequency_6H  = Persistence_RdbFrequency("6h")
 )
 
 type Persistence_RdbFrequency_STATUS string
 
 const (
-	Persistence_RdbFrequency_STATUS12H = Persistence_RdbFrequency_STATUS("12h")
-	Persistence_RdbFrequency_STATUS1H  = Persistence_RdbFrequency_STATUS("1h")
-	Persistence_RdbFrequency_STATUS6H  = Persistence_RdbFrequency_STATUS("6h")
+	Persistence_RdbFrequency_12H_STATUS = Persistence_RdbFrequency_STATUS("12h")
+	Persistence_RdbFrequency_1H_STATUS  = Persistence_RdbFrequency_STATUS("1h")
+	Persistence_RdbFrequency_6H_STATUS  = Persistence_RdbFrequency_STATUS("6h")
 )
 
 func init() {

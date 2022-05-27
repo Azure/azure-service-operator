@@ -165,10 +165,10 @@ type CreationData_STATUSARM struct {
 type DiskSku_Name_STATUS string
 
 const (
-	DiskSku_Name_STATUSPremium_LRS     = DiskSku_Name_STATUS("Premium_LRS")
-	DiskSku_Name_STATUSStandardSSD_LRS = DiskSku_Name_STATUS("StandardSSD_LRS")
-	DiskSku_Name_STATUSStandard_LRS    = DiskSku_Name_STATUS("Standard_LRS")
-	DiskSku_Name_STATUSUltraSSD_LRS    = DiskSku_Name_STATUS("UltraSSD_LRS")
+	DiskSku_Name_Premium_LRS_STATUS     = DiskSku_Name_STATUS("Premium_LRS")
+	DiskSku_Name_StandardSSD_LRS_STATUS = DiskSku_Name_STATUS("StandardSSD_LRS")
+	DiskSku_Name_Standard_LRS_STATUS    = DiskSku_Name_STATUS("Standard_LRS")
+	DiskSku_Name_UltraSSD_LRS_STATUS    = DiskSku_Name_STATUS("UltraSSD_LRS")
 )
 
 type EncryptionSettingsCollection_STATUSARM struct {
@@ -193,7 +193,7 @@ type Encryption_STATUSARM struct {
 
 type ExtendedLocationType_STATUS string
 
-const ExtendedLocationType_STATUSEdgeZone = ExtendedLocationType_STATUS("EdgeZone")
+const ExtendedLocationType_EdgeZone_STATUS = ExtendedLocationType_STATUS("EdgeZone")
 
 type PurchasePlan_STATUSARM struct {
 	// Name: The plan ID.

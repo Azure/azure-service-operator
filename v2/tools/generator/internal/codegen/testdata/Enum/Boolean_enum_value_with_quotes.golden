@@ -55,4 +55,4 @@ func (test *Test) AssignPropertiesToTest(destination *v20200101s.Test) error {
 // +kubebuilder:validation:Enum={true}
 type Test_MyEnum bool
 
-const Test_MyEnumTrue = Test_MyEnum(true)
+const Test_MyEnum_True = Test_MyEnum(true)

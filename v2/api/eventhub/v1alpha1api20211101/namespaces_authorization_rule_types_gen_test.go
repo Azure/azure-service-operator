@@ -275,7 +275,7 @@ func AddIndependentPropertyGeneratorsForNamespacesAuthorizationRule_STATUS(gens 
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Rights"] = gen.SliceOf(gen.OneConstOf(NamespacesAuthorizationRule_Properties_Rights_STATUSListen, NamespacesAuthorizationRule_Properties_Rights_STATUSManage, NamespacesAuthorizationRule_Properties_Rights_STATUSSend))
+	gens["Rights"] = gen.SliceOf(gen.OneConstOf(NamespacesAuthorizationRule_Properties_Rights_Listen_STATUS, NamespacesAuthorizationRule_Properties_Rights_Manage_STATUS, NamespacesAuthorizationRule_Properties_Rights_Send_STATUS))
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -395,7 +395,7 @@ func AddIndependentPropertyGeneratorsForNamespacesAuthorizationRule_Spec(gens ma
 	gens["AzureName"] = gen.AlphaString()
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Rights"] = gen.SliceOf(gen.OneConstOf(NamespacesAuthorizationRule_Spec_Properties_RightsListen, NamespacesAuthorizationRule_Spec_Properties_RightsManage, NamespacesAuthorizationRule_Spec_Properties_RightsSend))
+	gens["Rights"] = gen.SliceOf(gen.OneConstOf(NamespacesAuthorizationRule_Spec_Properties_Rights_Listen, NamespacesAuthorizationRule_Spec_Properties_Rights_Manage, NamespacesAuthorizationRule_Spec_Properties_Rights_Send))
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 

@@ -61,8 +61,8 @@ type ResourceSku_STATUSARM struct {
 type ServiceKind_STATUS string
 
 const (
-	ServiceKind_STATUSRawWebSockets = ServiceKind_STATUS("RawWebSockets")
-	ServiceKind_STATUSSignalR       = ServiceKind_STATUS("SignalR")
+	ServiceKind_RawWebSockets_STATUS = ServiceKind_STATUS("RawWebSockets")
+	ServiceKind_SignalR_STATUS       = ServiceKind_STATUS("SignalR")
 )
 
 type SignalRProperties_STATUSARM struct {
@@ -143,9 +143,9 @@ type SystemData_STATUSARM struct {
 type ManagedIdentityType_STATUS string
 
 const (
-	ManagedIdentityType_STATUSNone           = ManagedIdentityType_STATUS("None")
-	ManagedIdentityType_STATUSSystemAssigned = ManagedIdentityType_STATUS("SystemAssigned")
-	ManagedIdentityType_STATUSUserAssigned   = ManagedIdentityType_STATUS("UserAssigned")
+	ManagedIdentityType_None_STATUS           = ManagedIdentityType_STATUS("None")
+	ManagedIdentityType_SystemAssigned_STATUS = ManagedIdentityType_STATUS("SystemAssigned")
+	ManagedIdentityType_UserAssigned_STATUS   = ManagedIdentityType_STATUS("UserAssigned")
 )
 
 type PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbeddedARM struct {
@@ -198,10 +198,10 @@ type SignalRNetworkACLs_STATUSARM struct {
 type SignalRSkuTier_STATUS string
 
 const (
-	SignalRSkuTier_STATUSBasic    = SignalRSkuTier_STATUS("Basic")
-	SignalRSkuTier_STATUSFree     = SignalRSkuTier_STATUS("Free")
-	SignalRSkuTier_STATUSPremium  = SignalRSkuTier_STATUS("Premium")
-	SignalRSkuTier_STATUSStandard = SignalRSkuTier_STATUS("Standard")
+	SignalRSkuTier_Basic_STATUS    = SignalRSkuTier_STATUS("Basic")
+	SignalRSkuTier_Free_STATUS     = SignalRSkuTier_STATUS("Free")
+	SignalRSkuTier_Premium_STATUS  = SignalRSkuTier_STATUS("Premium")
+	SignalRSkuTier_Standard_STATUS = SignalRSkuTier_STATUS("Standard")
 )
 
 type SignalRTlsSettings_STATUSARM struct {
@@ -212,19 +212,19 @@ type SignalRTlsSettings_STATUSARM struct {
 type SystemData_CreatedByType_STATUS string
 
 const (
-	SystemData_CreatedByType_STATUSApplication     = SystemData_CreatedByType_STATUS("Application")
-	SystemData_CreatedByType_STATUSKey             = SystemData_CreatedByType_STATUS("Key")
-	SystemData_CreatedByType_STATUSManagedIdentity = SystemData_CreatedByType_STATUS("ManagedIdentity")
-	SystemData_CreatedByType_STATUSUser            = SystemData_CreatedByType_STATUS("User")
+	SystemData_CreatedByType_Application_STATUS     = SystemData_CreatedByType_STATUS("Application")
+	SystemData_CreatedByType_Key_STATUS             = SystemData_CreatedByType_STATUS("Key")
+	SystemData_CreatedByType_ManagedIdentity_STATUS = SystemData_CreatedByType_STATUS("ManagedIdentity")
+	SystemData_CreatedByType_User_STATUS            = SystemData_CreatedByType_STATUS("User")
 )
 
 type SystemData_LastModifiedByType_STATUS string
 
 const (
-	SystemData_LastModifiedByType_STATUSApplication     = SystemData_LastModifiedByType_STATUS("Application")
-	SystemData_LastModifiedByType_STATUSKey             = SystemData_LastModifiedByType_STATUS("Key")
-	SystemData_LastModifiedByType_STATUSManagedIdentity = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
-	SystemData_LastModifiedByType_STATUSUser            = SystemData_LastModifiedByType_STATUS("User")
+	SystemData_LastModifiedByType_Application_STATUS     = SystemData_LastModifiedByType_STATUS("Application")
+	SystemData_LastModifiedByType_Key_STATUS             = SystemData_LastModifiedByType_STATUS("Key")
+	SystemData_LastModifiedByType_ManagedIdentity_STATUS = SystemData_LastModifiedByType_STATUS("ManagedIdentity")
+	SystemData_LastModifiedByType_User_STATUS            = SystemData_LastModifiedByType_STATUS("User")
 )
 
 type UserAssignedIdentityProperty_STATUSARM struct {
