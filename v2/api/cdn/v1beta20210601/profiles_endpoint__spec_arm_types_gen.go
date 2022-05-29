@@ -28,7 +28,7 @@ type ProfilesEndpoint_SpecARM struct {
 
 var _ genruntime.ARMResourceSpec = &ProfilesEndpoint_SpecARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20210601"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
 func (endpoint ProfilesEndpoint_SpecARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }

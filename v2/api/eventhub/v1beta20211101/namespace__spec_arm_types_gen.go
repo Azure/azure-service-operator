@@ -39,7 +39,7 @@ type Namespace_SpecARM struct {
 
 var _ genruntime.ARMResourceSpec = &Namespace_SpecARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20211101"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
 func (namespace Namespace_SpecARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }

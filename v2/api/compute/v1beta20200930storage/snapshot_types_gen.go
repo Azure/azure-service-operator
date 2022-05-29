@@ -50,7 +50,7 @@ func (snapshot *Snapshot) AzureName() string {
 	return snapshot.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20200930"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-09-30"
 func (snapshot Snapshot) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }

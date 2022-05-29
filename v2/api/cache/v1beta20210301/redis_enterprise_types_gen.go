@@ -97,7 +97,7 @@ func (enterprise *RedisEnterprise) AzureName() string {
 	return enterprise.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20210301"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-03-01"
 func (enterprise RedisEnterprise) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
@@ -319,10 +319,10 @@ type RedisEnterpriseList struct {
 	Items           []RedisEnterprise `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"20210301"}
+// +kubebuilder:validation:Enum={"2021-03-01"}
 type APIVersion string
 
-const APIVersion_Value = APIVersion("20210301")
+const APIVersion_Value = APIVersion("2021-03-01")
 
 type RedisEnterprise_STATUS struct {
 	// Conditions: The observed state of the resource

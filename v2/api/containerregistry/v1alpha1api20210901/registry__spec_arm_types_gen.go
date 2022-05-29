@@ -21,7 +21,7 @@ type Registry_SpecARM struct {
 
 var _ genruntime.ARMResourceSpec = &Registry_SpecARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20210901"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-09-01"
 func (registry Registry_SpecARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }

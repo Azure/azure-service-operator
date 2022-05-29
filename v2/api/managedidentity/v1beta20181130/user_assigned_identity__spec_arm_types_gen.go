@@ -30,7 +30,7 @@ type UserAssignedIdentity_SpecARM struct {
 
 var _ genruntime.ARMResourceSpec = &UserAssignedIdentity_SpecARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20181130"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2018-11-30"
 func (identity UserAssignedIdentity_SpecARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }

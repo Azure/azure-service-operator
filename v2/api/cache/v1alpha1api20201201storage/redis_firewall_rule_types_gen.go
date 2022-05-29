@@ -70,7 +70,7 @@ func (rule *RedisFirewallRule) AzureName() string {
 	return rule.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20201201"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
 func (rule RedisFirewallRule) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }

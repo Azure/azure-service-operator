@@ -17,7 +17,7 @@ type VirtualNetworksSubnet_SpecARM struct {
 
 var _ genruntime.ARMResourceSpec = &VirtualNetworksSubnet_SpecARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20201101"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (subnet VirtualNetworksSubnet_SpecARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }

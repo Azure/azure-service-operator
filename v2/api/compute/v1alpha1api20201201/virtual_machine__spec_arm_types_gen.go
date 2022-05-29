@@ -22,7 +22,7 @@ type VirtualMachine_SpecARM struct {
 
 var _ genruntime.ARMResourceSpec = &VirtualMachine_SpecARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20201201"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
 func (machine VirtualMachine_SpecARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }

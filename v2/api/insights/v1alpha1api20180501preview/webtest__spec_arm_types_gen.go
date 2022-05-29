@@ -22,7 +22,7 @@ type Webtest_SpecARM struct {
 
 var _ genruntime.ARMResourceSpec = &Webtest_SpecARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20180501preview"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2018-05-01-preview"
 func (webtest Webtest_SpecARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }

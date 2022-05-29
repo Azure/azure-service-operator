@@ -71,7 +71,7 @@ func (component *Component) AzureName() string {
 	return component.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20200202"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-02-02"
 func (component Component) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
@@ -202,10 +202,10 @@ type ComponentList struct {
 
 // Storage version of v1alpha1api20200202.APIVersion
 // Deprecated version of APIVersion. Use v1beta20200202.APIVersion instead
-// +kubebuilder:validation:Enum={"20200202"}
+// +kubebuilder:validation:Enum={"2020-02-02"}
 type APIVersion string
 
-const APIVersion_Value = APIVersion("20200202")
+const APIVersion_Value = APIVersion("2020-02-02")
 
 // Storage version of v1alpha1api20200202.Component_STATUS
 // Deprecated version of Component_STATUS. Use v1beta20200202.Component_STATUS instead

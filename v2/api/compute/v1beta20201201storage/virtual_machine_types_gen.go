@@ -51,7 +51,7 @@ func (machine *VirtualMachine) AzureName() string {
 	return machine.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20201201"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
 func (machine VirtualMachine) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
@@ -133,10 +133,10 @@ type VirtualMachineList struct {
 }
 
 // Storage version of v1beta20201201.APIVersion
-// +kubebuilder:validation:Enum={"20201201"}
+// +kubebuilder:validation:Enum={"2020-12-01"}
 type APIVersion string
 
-const APIVersion_Value = APIVersion("20201201")
+const APIVersion_Value = APIVersion("2020-12-01")
 
 // Storage version of v1beta20201201.VirtualMachine_STATUS
 type VirtualMachine_STATUS struct {

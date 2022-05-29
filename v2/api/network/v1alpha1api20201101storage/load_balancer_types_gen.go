@@ -70,7 +70,7 @@ func (balancer *LoadBalancer) AzureName() string {
 	return balancer.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20201101"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (balancer LoadBalancer) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
@@ -201,10 +201,10 @@ type LoadBalancerList struct {
 
 // Storage version of v1alpha1api20201101.APIVersion
 // Deprecated version of APIVersion. Use v1beta20201101.APIVersion instead
-// +kubebuilder:validation:Enum={"20201101"}
+// +kubebuilder:validation:Enum={"2020-11-01"}
 type APIVersion string
 
-const APIVersion_Value = APIVersion("20201101")
+const APIVersion_Value = APIVersion("2020-11-01")
 
 // Storage version of v1alpha1api20201101.LoadBalancer_STATUS
 // Deprecated version of LoadBalancer_STATUS. Use v1beta20201101.LoadBalancer_STATUS instead

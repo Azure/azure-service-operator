@@ -110,7 +110,7 @@ func (registry *Registry) AzureName() string {
 	return registry.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20210901"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-09-01"
 func (registry Registry) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
@@ -332,10 +332,10 @@ type RegistryList struct {
 }
 
 // Deprecated version of APIVersion. Use v1beta20210901.APIVersion instead
-// +kubebuilder:validation:Enum={"20210901"}
+// +kubebuilder:validation:Enum={"2021-09-01"}
 type APIVersion string
 
-const APIVersion_Value = APIVersion("20210901")
+const APIVersion_Value = APIVersion("2021-09-01")
 
 // Deprecated version of Registry_STATUS. Use v1beta20210901.Registry_STATUS instead
 type Registry_STATUS struct {

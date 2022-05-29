@@ -50,7 +50,7 @@ func (topic *Topic) AzureName() string {
 	return topic.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20200601"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (topic Topic) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }

@@ -31,7 +31,7 @@ type SignalR_SpecARM struct {
 
 var _ genruntime.ARMResourceSpec = &SignalR_SpecARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20211001"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-10-01"
 func (signalR SignalR_SpecARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }

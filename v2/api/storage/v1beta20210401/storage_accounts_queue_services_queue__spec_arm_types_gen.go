@@ -24,7 +24,7 @@ type StorageAccountsQueueServicesQueue_SpecARM struct {
 
 var _ genruntime.ARMResourceSpec = &StorageAccountsQueueServicesQueue_SpecARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20210401"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
 func (queue StorageAccountsQueueServicesQueue_SpecARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }

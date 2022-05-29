@@ -98,7 +98,7 @@ func (cluster *ManagedCluster) AzureName() string {
 	return cluster.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20210501"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
 func (cluster ManagedCluster) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
@@ -320,10 +320,10 @@ type ManagedClusterList struct {
 	Items           []ManagedCluster `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"20210501"}
+// +kubebuilder:validation:Enum={"2021-05-01"}
 type APIVersion string
 
-const APIVersion_Value = APIVersion("20210501")
+const APIVersion_Value = APIVersion("2021-05-01")
 
 type ManagedCluster_STATUS struct {
 	// AadProfile: The Azure Active Directory configuration.

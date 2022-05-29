@@ -21,7 +21,7 @@ type Vault_SpecARM struct {
 
 var _ genruntime.ARMResourceSpec = &Vault_SpecARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20210401preview"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01-preview"
 func (vault Vault_SpecARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }

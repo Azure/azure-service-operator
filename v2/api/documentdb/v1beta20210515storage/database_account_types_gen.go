@@ -50,7 +50,7 @@ func (account *DatabaseAccount) AzureName() string {
 	return account.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20210515"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (account DatabaseAccount) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
@@ -132,10 +132,10 @@ type DatabaseAccountList struct {
 }
 
 // Storage version of v1beta20210515.APIVersion
-// +kubebuilder:validation:Enum={"20210515"}
+// +kubebuilder:validation:Enum={"2021-05-15"}
 type APIVersion string
 
-const APIVersion_Value = APIVersion("20210515")
+const APIVersion_Value = APIVersion("2021-05-15")
 
 // Storage version of v1beta20210515.DatabaseAccount_STATUS
 type DatabaseAccount_STATUS struct {

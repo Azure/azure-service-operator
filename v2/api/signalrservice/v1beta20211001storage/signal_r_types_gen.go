@@ -50,7 +50,7 @@ func (signalR *SignalR) AzureName() string {
 	return signalR.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20211001"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-10-01"
 func (signalR SignalR) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
@@ -132,10 +132,10 @@ type SignalRList struct {
 }
 
 // Storage version of v1beta20211001.APIVersion
-// +kubebuilder:validation:Enum={"20211001"}
+// +kubebuilder:validation:Enum={"2021-10-01"}
 type APIVersion string
 
-const APIVersion_Value = APIVersion("20211001")
+const APIVersion_Value = APIVersion("2021-10-01")
 
 // Storage version of v1beta20211001.SignalR_STATUS
 type SignalR_STATUS struct {

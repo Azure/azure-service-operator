@@ -97,7 +97,7 @@ func (policy *StorageAccountsManagementPolicy) AzureName() string {
 	return policy.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20210401"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
 func (policy StorageAccountsManagementPolicy) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }

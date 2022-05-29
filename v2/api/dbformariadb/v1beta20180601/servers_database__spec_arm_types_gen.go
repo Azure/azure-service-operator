@@ -24,7 +24,7 @@ type ServersDatabase_SpecARM struct {
 
 var _ genruntime.ARMResourceSpec = &ServersDatabase_SpecARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20180601"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2018-06-01"
 func (database ServersDatabase_SpecARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }

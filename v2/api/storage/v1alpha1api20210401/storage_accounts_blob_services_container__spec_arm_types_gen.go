@@ -17,7 +17,7 @@ type StorageAccountsBlobServicesContainer_SpecARM struct {
 
 var _ genruntime.ARMResourceSpec = &StorageAccountsBlobServicesContainer_SpecARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20210401"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
 func (container StorageAccountsBlobServicesContainer_SpecARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }

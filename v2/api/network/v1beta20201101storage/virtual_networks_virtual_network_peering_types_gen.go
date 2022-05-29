@@ -50,7 +50,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering) AzureName() string {
 	return peering.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20201101"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (peering VirtualNetworksVirtualNetworkPeering) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }

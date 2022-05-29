@@ -75,5 +75,5 @@ func apiVersionFromPackageReference(pr astmodel.PackageReference) string {
 		panic("all resources should have local package references")
 	}
 
-	return localPR.ApiVersion()
+	return localPR.ExpandedApiVersion()
 }

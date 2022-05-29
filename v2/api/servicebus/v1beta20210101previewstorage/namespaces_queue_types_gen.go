@@ -50,7 +50,7 @@ func (queue *NamespacesQueue) AzureName() string {
 	return queue.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20210101preview"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01-preview"
 func (queue NamespacesQueue) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }

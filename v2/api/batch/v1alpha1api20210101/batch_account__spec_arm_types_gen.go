@@ -17,7 +17,7 @@ type BatchAccount_SpecARM struct {
 
 var _ genruntime.ARMResourceSpec = &BatchAccount_SpecARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20210101"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01"
 func (account BatchAccount_SpecARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }

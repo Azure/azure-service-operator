@@ -26,7 +26,7 @@ type RouteTablesRoute_SpecARM struct {
 
 var _ genruntime.ARMResourceSpec = &RouteTablesRoute_SpecARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20201101"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (route RouteTablesRoute_SpecARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }

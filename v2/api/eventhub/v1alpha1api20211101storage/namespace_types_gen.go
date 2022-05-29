@@ -70,7 +70,7 @@ func (namespace *Namespace) AzureName() string {
 	return namespace.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20211101"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
 func (namespace Namespace) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
@@ -201,10 +201,10 @@ type NamespaceList struct {
 
 // Storage version of v1alpha1api20211101.APIVersion
 // Deprecated version of APIVersion. Use v1beta20211101.APIVersion instead
-// +kubebuilder:validation:Enum={"20211101"}
+// +kubebuilder:validation:Enum={"2021-11-01"}
 type APIVersion string
 
-const APIVersion_Value = APIVersion("20211101")
+const APIVersion_Value = APIVersion("2021-11-01")
 
 // Storage version of v1alpha1api20211101.Namespace_STATUS
 // Deprecated version of Namespace_STATUS. Use v1beta20211101.Namespace_STATUS instead

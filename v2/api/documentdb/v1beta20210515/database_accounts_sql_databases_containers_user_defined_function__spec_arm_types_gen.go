@@ -27,7 +27,7 @@ type DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_SpecARM struct {
 
 var _ genruntime.ARMResourceSpec = &DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_SpecARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20210515"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (function DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_SpecARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }

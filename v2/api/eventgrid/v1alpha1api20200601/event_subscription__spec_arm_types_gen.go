@@ -17,7 +17,7 @@ type EventSubscription_SpecARM struct {
 
 var _ genruntime.ARMResourceSpec = &EventSubscription_SpecARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20200601"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (subscription EventSubscription_SpecARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }

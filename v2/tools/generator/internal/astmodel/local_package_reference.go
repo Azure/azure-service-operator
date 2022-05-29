@@ -109,6 +109,18 @@ func (pr LocalPackageReference) ApiVersion() string {
 	return pr.apiVersion
 }
 
+// ExpandedApiVersion returns the version in 'yyyy-mm-dd(-preview)' form,
+// instead of 'yyyymmdd(preview)'.
+func (pr LocalPackageReference) ExpandedApiVersion() string {
+	av := pr.apiVersion
+	result := av[0:4] + "-" + av[4:6] + "-" + av[6:8] 
+	if len(av) > 8 {
+		return result + "-" + av[8:]
+	}
+
+	return result
+}
+
 // IsLocalPackageReference returns true if the supplied reference is a local one
 func IsLocalPackageReference(ref PackageReference) bool {
 	_, ok := ref.(LocalPackageReference)

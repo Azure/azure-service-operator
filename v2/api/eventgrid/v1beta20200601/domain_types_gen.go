@@ -97,7 +97,7 @@ func (domain *Domain) AzureName() string {
 	return domain.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20200601"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (domain Domain) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
@@ -319,10 +319,10 @@ type DomainList struct {
 	Items           []Domain `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"20200601"}
+// +kubebuilder:validation:Enum={"2020-06-01"}
 type APIVersion string
 
-const APIVersion_Value = APIVersion("20200601")
+const APIVersion_Value = APIVersion("2020-06-01")
 
 type Domain_STATUS struct {
 	// Conditions: The observed state of the resource

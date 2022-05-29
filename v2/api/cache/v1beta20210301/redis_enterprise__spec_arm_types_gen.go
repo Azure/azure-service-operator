@@ -36,7 +36,7 @@ type RedisEnterprise_SpecARM struct {
 
 var _ genruntime.ARMResourceSpec = &RedisEnterprise_SpecARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20210301"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-03-01"
 func (enterprise RedisEnterprise_SpecARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }

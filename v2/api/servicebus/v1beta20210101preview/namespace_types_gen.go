@@ -97,7 +97,7 @@ func (namespace *Namespace) AzureName() string {
 	return namespace.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20210101preview"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01-preview"
 func (namespace Namespace) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
@@ -319,10 +319,10 @@ type NamespaceList struct {
 	Items           []Namespace `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"20210101preview"}
+// +kubebuilder:validation:Enum={"2021-01-01-preview"}
 type APIVersion string
 
-const APIVersion_Value = APIVersion("20210101preview")
+const APIVersion_Value = APIVersion("2021-01-01-preview")
 
 type Namespace_STATUS struct {
 	// Conditions: The observed state of the resource

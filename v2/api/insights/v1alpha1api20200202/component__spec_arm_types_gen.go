@@ -23,7 +23,7 @@ type Component_SpecARM struct {
 
 var _ genruntime.ARMResourceSpec = &Component_SpecARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20200202"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-02-02"
 func (component Component_SpecARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }

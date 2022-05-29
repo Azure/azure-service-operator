@@ -21,7 +21,7 @@ type LoadBalancer_SpecARM struct {
 
 var _ genruntime.ARMResourceSpec = &LoadBalancer_SpecARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20201101"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (balancer LoadBalancer_SpecARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }

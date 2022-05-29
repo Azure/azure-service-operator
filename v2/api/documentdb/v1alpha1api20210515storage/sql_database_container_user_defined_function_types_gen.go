@@ -70,7 +70,7 @@ func (function *SqlDatabaseContainerUserDefinedFunction) AzureName() string {
 	return function.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20210515"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (function SqlDatabaseContainerUserDefinedFunction) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }

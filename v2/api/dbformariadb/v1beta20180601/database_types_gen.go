@@ -97,7 +97,7 @@ func (database *Database) AzureName() string {
 	return database.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20180601"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2018-06-01"
 func (database Database) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }

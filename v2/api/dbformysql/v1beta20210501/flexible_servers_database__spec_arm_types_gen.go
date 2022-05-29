@@ -27,7 +27,7 @@ type FlexibleServersDatabase_SpecARM struct {
 
 var _ genruntime.ARMResourceSpec = &FlexibleServersDatabase_SpecARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20210501"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
 func (database FlexibleServersDatabase_SpecARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }

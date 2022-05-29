@@ -50,7 +50,7 @@ func (vault *Vault) AzureName() string {
 	return vault.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20210401preview"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01-preview"
 func (vault Vault) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
@@ -132,10 +132,10 @@ type VaultList struct {
 }
 
 // Storage version of v1beta20210401preview.APIVersion
-// +kubebuilder:validation:Enum={"20210401preview"}
+// +kubebuilder:validation:Enum={"2021-04-01-preview"}
 type APIVersion string
 
-const APIVersion_Value = APIVersion("20210401preview")
+const APIVersion_Value = APIVersion("2021-04-01-preview")
 
 // Storage version of v1beta20210401preview.Vault_STATUS
 type Vault_STATUS struct {

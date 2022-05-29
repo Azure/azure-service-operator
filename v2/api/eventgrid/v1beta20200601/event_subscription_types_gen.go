@@ -97,7 +97,7 @@ func (subscription *EventSubscription) AzureName() string {
 	return subscription.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20200601"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (subscription EventSubscription) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }

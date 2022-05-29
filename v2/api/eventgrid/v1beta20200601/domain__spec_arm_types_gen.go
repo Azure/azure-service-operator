@@ -32,7 +32,7 @@ type Domain_SpecARM struct {
 
 var _ genruntime.ARMResourceSpec = &Domain_SpecARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20200601"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (domain Domain_SpecARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }

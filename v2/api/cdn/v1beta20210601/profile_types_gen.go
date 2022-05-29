@@ -97,7 +97,7 @@ func (profile *Profile) AzureName() string {
 	return profile.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20210601"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
 func (profile Profile) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
@@ -319,10 +319,10 @@ type ProfileList struct {
 	Items           []Profile `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"20210601"}
+// +kubebuilder:validation:Enum={"2021-06-01"}
 type APIVersion string
 
-const APIVersion_Value = APIVersion("20210601")
+const APIVersion_Value = APIVersion("2021-06-01")
 
 type Profile_STATUS struct {
 	// Conditions: The observed state of the resource

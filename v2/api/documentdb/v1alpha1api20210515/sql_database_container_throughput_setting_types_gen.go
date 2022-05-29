@@ -110,7 +110,7 @@ func (setting *SqlDatabaseContainerThroughputSetting) AzureName() string {
 	return setting.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20210515"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (setting SqlDatabaseContainerThroughputSetting) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }

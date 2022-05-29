@@ -34,7 +34,7 @@ type Snapshot_SpecARM struct {
 
 var _ genruntime.ARMResourceSpec = &Snapshot_SpecARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20200930"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-09-30"
 func (snapshot Snapshot_SpecARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }

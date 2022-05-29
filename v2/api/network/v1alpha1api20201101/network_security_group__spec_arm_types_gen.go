@@ -19,7 +19,7 @@ type NetworkSecurityGroup_SpecARM struct {
 
 var _ genruntime.ARMResourceSpec = &NetworkSecurityGroup_SpecARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20201101"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (group NetworkSecurityGroup_SpecARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }

@@ -30,7 +30,7 @@ type Image_SpecARM struct {
 
 var _ genruntime.ARMResourceSpec = &Image_SpecARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20210701"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2021-07-01"
 func (image Image_SpecARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
