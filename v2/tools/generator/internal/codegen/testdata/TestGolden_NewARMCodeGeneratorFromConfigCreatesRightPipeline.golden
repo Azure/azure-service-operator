@@ -3,6 +3,7 @@ Expected Pipeline Stages for ARM Code Generation
 loadTypes                                                    Load all types from Swagger files
 allof-anyof-objects                                          Convert allOf and oneOf to object types
 flattenResources                                             Flatten nested resource types
+addIdPropToStatus                                            Adds an 'Id' property to all top-level status types
 stripUnreferenced                                            Strip unreferenced types
 nameTypes                                                    Name inner types for CRD
 propertyRewrites                                             Modify property types using configured transforms
@@ -16,7 +17,6 @@ unrollRecursiveTypes                                         Unroll directly rec
 determineResourceOwnership                                   Determine ARM resource relationships
 removeAliases                                                Remove type aliases
 collapseCrossGroupReferences                                 Find and remove cross group references
-pluralizeNames                                               Improve resource pluralization
 stripUnreferenced                                            Strip unreferenced types
 assertTypesStructureValid                                    Verify that all local TypeNames refer to a type
 removeEmbeddedResources                           azure      Remove properties that point to embedded resources. Only removes structural aspects of embedded resources, Id/ARMId references are retained.
