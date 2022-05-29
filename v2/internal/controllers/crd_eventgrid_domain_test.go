@@ -89,10 +89,10 @@ func Test_EventGrid_Domain(t *testing.T) {
 				tc.CreateResourceAndWait(topic)
 				// don’t bother deleting; deleting domain will clean up
 
-				endpointType := eventgrid.StorageQueueEventSubscriptionDestinationEndpointTypeStorageQueue
+				endpointType := eventgrid.EventSubscriptionDestination_EndpointType_StorageQueue
 				subscription := &eventgrid.EventSubscription{
 					ObjectMeta: tc.MakeObjectMeta("sub"),
-					Spec: eventgrid.EventSubscriptions_Spec{
+					Spec: eventgrid.EventSubscription_Spec{
 						Owner: tc.AsExtensionOwner(topic),
 						Destination: &eventgrid.EventSubscriptionDestination{
 							StorageQueue: &eventgrid.StorageQueueEventSubscriptionDestination{

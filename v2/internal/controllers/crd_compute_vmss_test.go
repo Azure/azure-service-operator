@@ -122,7 +122,7 @@ func newVMSS(
 	sshPublicKey, err := tc.GenerateSSHKey(2048)
 	tc.Expect(err).ToNot(HaveOccurred())
 
-	upgradePolicyMode := compute.UpgradePolicy_ModeAutomatic
+	upgradePolicyMode := compute.UpgradePolicy_Mode_Automatic
 	adminUsername := "adminUser"
 
 	inboundNATPoolRef := genruntime.ResourceReference{
