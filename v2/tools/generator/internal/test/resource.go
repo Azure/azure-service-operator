@@ -15,8 +15,8 @@ func CreateResource(
 	name string,
 	spec astmodel.TypeDefinition,
 	status astmodel.TypeDefinition,
-	functions ...astmodel.Function,
-) astmodel.TypeDefinition {
+	functions ...astmodel.Function) astmodel.TypeDefinition {
+
 	resourceType := astmodel.NewResourceType(spec.Name(), status.Name())
 	for _, fn := range functions {
 		resourceType = resourceType.WithFunction(fn)
@@ -29,8 +29,7 @@ func CreateResource(
 func CreateSpec(
 	pkg astmodel.PackageReference,
 	name string,
-	properties ...*astmodel.PropertyDefinition,
-) astmodel.TypeDefinition {
+	properties ...*astmodel.PropertyDefinition) astmodel.TypeDefinition {
 	specName := astmodel.MakeTypeName(pkg, name+"_Spec")
 	return astmodel.MakeTypeDefinition(
 		specName,
@@ -50,8 +49,8 @@ func CreateStatus(pkg astmodel.PackageReference, name string) astmodel.TypeDefin
 func CreateObjectDefinition(
 	pkg astmodel.PackageReference,
 	name string,
-	properties ...*astmodel.PropertyDefinition,
-) astmodel.TypeDefinition {
+	properties ...*astmodel.PropertyDefinition) astmodel.TypeDefinition {
+
 	typeName := astmodel.MakeTypeName(pkg, name)
 	return astmodel.MakeTypeDefinition(
 		typeName,
@@ -63,8 +62,8 @@ func CreateObjectDefinitionWithFunction(
 	pkg astmodel.PackageReference,
 	name string,
 	function astmodel.Function,
-	properties ...*astmodel.PropertyDefinition,
-) astmodel.TypeDefinition {
+	properties ...*astmodel.PropertyDefinition) astmodel.TypeDefinition {
+
 	typeName := astmodel.MakeTypeName(pkg, name)
 	return astmodel.MakeTypeDefinition(
 		typeName,
@@ -74,8 +73,7 @@ func CreateObjectDefinitionWithFunction(
 func CreateSimpleResource(
 	pkg astmodel.PackageReference,
 	name string,
-	specProperties ...*astmodel.PropertyDefinition,
-) astmodel.TypeDefinition {
+	specProperties ...*astmodel.PropertyDefinition) astmodel.TypeDefinition {
 	spec := CreateSpec(pkg, name, specProperties...)
 	status := CreateStatus(pkg, name)
 	return CreateResource(pkg, name, spec, status)
