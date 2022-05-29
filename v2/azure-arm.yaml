@@ -1097,6 +1097,14 @@ objectModelConfiguration:
       Compute_VirtualMachine:
         ResourceId:
           $armReference: true
+      UserAccountCredentials:
+        AdminUserPassword:
+          $isSecret: true
+        AdminUserSshPublicKey:
+          $isSecret: true
+      VirtualMachineSshCredentials:
+        Password:
+          $isSecret: true
       WorkspacesConnection:
         $export: true
         $supportedFrom: v2.0.0-beta.1
