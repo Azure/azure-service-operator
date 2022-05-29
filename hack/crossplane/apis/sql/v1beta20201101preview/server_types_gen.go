@@ -32,10 +32,10 @@ type ServerList struct {
 	Items           []Server `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"20201101preview"}
+// +kubebuilder:validation:Enum={"2020-11-01-preview"}
 type APIVersion string
 
-const APIVersion_Value = APIVersion("20201101preview")
+const APIVersion_Value = APIVersion("2020-11-01-preview")
 
 type Server_STATUS struct {
 	v1alpha1.ResourceStatus `json:",inline,omitempty"`

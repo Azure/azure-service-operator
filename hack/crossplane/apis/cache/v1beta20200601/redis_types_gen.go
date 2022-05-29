@@ -32,10 +32,10 @@ type RedisList struct {
 	Items           []Redis `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"20200601"}
+// +kubebuilder:validation:Enum={"2020-06-01"}
 type APIVersion string
 
-const APIVersion_Value = APIVersion("20200601")
+const APIVersion_Value = APIVersion("2020-06-01")
 
 type Redis_STATUS struct {
 	v1alpha1.ResourceStatus `json:",inline,omitempty"`
@@ -50,6 +50,9 @@ type Redis_Spec struct {
 type RedisObservation struct {
 	// EnableNonSslPort: Specifies whether the non-ssl Redis server port (6379) is enabled.
 	EnableNonSslPort *bool `json:"enableNonSslPort,omitempty"`
+
+	// Id: The ARM Id for this resource.
+	Id *string `json:"id,omitempty"`
 
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`

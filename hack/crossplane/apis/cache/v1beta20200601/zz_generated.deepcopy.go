@@ -236,6 +236,11 @@ func (in *RedisObservation) DeepCopyInto(out *RedisObservation) {
 		*out = new(bool)
 		**out = **in
 	}
+	if in.Id != nil {
+		in, out := &in.Id, &out.Id
+		*out = new(string)
+		**out = **in
+	}
 	if in.Location != nil {
 		in, out := &in.Location, &out.Location
 		*out = new(string)
