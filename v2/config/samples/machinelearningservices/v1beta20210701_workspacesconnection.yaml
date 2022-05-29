@@ -12,3 +12,4 @@ spec:
   target: www.sample.com
   value: "{}"
   valueFormat: JSON
+  

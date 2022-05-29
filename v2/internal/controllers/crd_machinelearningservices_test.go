@@ -15,10 +15,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/go-autorest/autorest/to"
-	v1 "k8s.io/api/core/v1"
 )
 
-func Test_MLS_Workspaces_CRUD(t *testing.T) {
+func Test_MachineLearning_Workspaces_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
@@ -32,7 +31,7 @@ func Test_MLS_Workspaces_CRUD(t *testing.T) {
 	kv := newVault(tc, rg)
 	tc.CreateResourceAndWait(kv)
 
-	workspaces := newWorkspaces(tc, testcommon.AsOwner(rg), sa, kv)
+	workspaces := newWorkspace(tc, testcommon.AsOwner(rg), sa, kv)
 
 	tc.CreateResourcesAndWait(workspaces)
 
@@ -50,7 +49,7 @@ func Test_MLS_Workspaces_CRUD(t *testing.T) {
 
 }
 
-func newWorkspaces(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, sa *storage.StorageAccount, kv *v1beta20210401preview.Vault) *machinelearningservices.Workspace {
+func newWorkspace(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, sa *storage.StorageAccount, kv *v1beta20210401preview.Vault) *machinelearningservices.Workspace {
 	identityType := machinelearningservices.IdentityTypeSystemAssigned
 
 	workspaces := &machinelearningservices.Workspace{
@@ -76,7 +75,7 @@ func newWorkspaces(tc *testcommon.KubePerTestContext, owner *genruntime.KnownRes
 func Test_WorkspaceConnection_CRUD(t *testing.T) {
 	t.Parallel()
 
-	jsonValue := "{\"user\":\"admin\", \"password\":\"abctest\"}"
+	jsonValue := "{\"foo\":\"bar\", \"baz\":\"bee\"}"
 
 	valueFormat := machinelearningservices.WorkspaceConnectionPropsValueFormatJSON
 
@@ -91,7 +90,7 @@ func Test_WorkspaceConnection_CRUD(t *testing.T) {
 	kv := newVault(tc, rg)
 	tc.CreateResourceAndWait(kv)
 
-	workspaces := newWorkspaces(tc, testcommon.AsOwner(rg), sa, kv)
+	workspaces := newWorkspace(tc, testcommon.AsOwner(rg), sa, kv)
 
 	tc.CreateResourcesAndWait(workspaces)
 
@@ -106,12 +105,10 @@ func Test_WorkspaceConnection_CRUD(t *testing.T) {
 			Value:       to.StringPtr(jsonValue),
 			ValueFormat: &valueFormat,
 		},
-		Status: machinelearningservices.WorkspaceConnection_Status{},
 	}
 
 	tc.CreateResourceAndWait(connection)
 	tc.DeleteResourcesAndWait(connection)
-	tc.DeleteResourcesAndWait(workspaces, kv, sa, rg)
 }
 
 func WorkspaceCompute_CRUD(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, rg *resources.ResourceGroup) {
@@ -122,7 +119,9 @@ func WorkspaceCompute_CRUD(tc *testcommon.KubePerTestContext, owner *genruntime.
 	subnet := newVMSubnet(tc, testcommon.AsOwner(vnet))
 	publicIP := newPublicIPAddressForVMSS(tc, testcommon.AsOwner(rg))
 
-	nsg, rule := newNSG(tc, testcommon.AsOwner(rg))
+	nsg := newNetworkSecurityGroup(tc, testcommon.AsOwner(rg))
+	rule := newNetworkSecurityGroupRule(tc, testcommon.AsOwner(nsg))
+
 	tc.CreateResourceAndWait(nsg)
 	tc.CreateResourceAndWait(rule)
 
@@ -131,13 +130,12 @@ func WorkspaceCompute_CRUD(tc *testcommon.KubePerTestContext, owner *genruntime.
 	// https://github.com/Azure/azure-service-operator/issues/1944
 	tc.CreateResourcesAndWait(subnet, publicIP, networkInterface)
 
-	password := tc.Namer.GeneratePasswordOfLength(20)
-	secret := newPasswordSecretAndRef(tc, password)
+	secret := createVMPasswordSecretAndRef(tc)
 
 	vm := newVM(tc, rg, networkInterface, secret)
 	tc.CreateResourceAndWait(vm)
 
-	wsCompute := workspacesCompute(tc, owner, vm, password)
+	wsCompute := newWorkspacesCompute(tc, owner, vm, secret)
 	tc.CreateResourceAndWait(wsCompute)
 
 	tc.DeleteResourceAndWait(wsCompute)
@@ -147,7 +145,7 @@ func WorkspaceCompute_CRUD(tc *testcommon.KubePerTestContext, owner *genruntime.
 
 }
 
-func workspacesCompute(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, vm *v1beta20201201.VirtualMachine, password string) *machinelearningservices.WorkspacesCompute {
+func newWorkspacesCompute(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, vm *v1beta20201201.VirtualMachine, secret genruntime.SecretReference) *machinelearningservices.WorkspacesCompute {
 	identityType := machinelearningservices.IdentityTypeSystemAssigned
 	computeType := machinelearningservices.ComputeVirtualMachineComputeTypeVirtualMachine
 
@@ -172,7 +170,7 @@ func workspacesCompute(tc *testcommon.KubePerTestContext, owner *genruntime.Know
 					ResourceReference: tc.MakeReferenceFromResource(vm),
 					Properties: &machinelearningservices.VirtualMachineProperties{
 						AdministratorAccount: &machinelearningservices.VirtualMachineSshCredentials{
-							Password: to.StringPtr(password),
+							Password: &secret,
 							Username: to.StringPtr("bloom"),
 						},
 						SshPort: to.IntPtr(22),
@@ -209,13 +207,9 @@ func newVMNetworkInterfaceWithPublicIP(tc *testcommon.KubePerTestContext, owner 
 	}
 }
 
-func newNSG(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference) (*network.NetworkSecurityGroup, *network.NetworkSecurityGroupsSecurityRule) {
-	protocol := network.SecurityRulePropertiesFormatProtocolTcp
-	allow := network.SecurityRulePropertiesFormatAccessAllow
-	direction := network.SecurityRulePropertiesFormatDirectionInbound
-
+func newNetworkSecurityGroup(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference) *network.NetworkSecurityGroup {
 	// Network Security Group
-	nsg := &network.NetworkSecurityGroup{
+	return &network.NetworkSecurityGroup{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("nsg")),
 		Spec: network.NetworkSecurityGroups_Spec{
 			Location: tc.AzureRegion,
@@ -223,11 +217,18 @@ func newNSG(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceRe
 		},
 	}
 
+}
+
+func newNetworkSecurityGroupRule(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference) *network.NetworkSecurityGroupsSecurityRule {
+	protocol := network.SecurityRulePropertiesFormatProtocolTcp
+	allow := network.SecurityRulePropertiesFormatAccessAllow
+	direction := network.SecurityRulePropertiesFormatDirectionInbound
+
 	// Network Security Group rule
-	rule := &network.NetworkSecurityGroupsSecurityRule{
+	return &network.NetworkSecurityGroupsSecurityRule{
 		ObjectMeta: tc.MakeObjectMeta("rule1"),
 		Spec: network.NetworkSecurityGroupsSecurityRules_Spec{
-			Owner:                    testcommon.AsOwner(nsg),
+			Owner:                    owner,
 			Protocol:                 &protocol,
 			SourcePortRange:          to.StringPtr("*"),
 			DestinationPortRange:     to.StringPtr("22"),
@@ -239,26 +240,4 @@ func newNSG(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceRe
 			Description:              to.StringPtr("The first rule of networking is don't talk about networking"),
 		},
 	}
-
-	return nsg, rule
-
-}
-
-func newPasswordSecretAndRef(tc *testcommon.KubePerTestContext, password string) genruntime.SecretReference {
-
-	passwordKey := "password"
-	secret := &v1.Secret{
-		ObjectMeta: tc.MakeObjectMeta("vmsecret"),
-		StringData: map[string]string{
-			passwordKey: password,
-		},
-	}
-
-	tc.CreateResource(secret)
-
-	secretRef := genruntime.SecretReference{
-		Name: secret.Name,
-		Key:  passwordKey,
-	}
-	return secretRef
 }

@@ -563,10 +563,10 @@ type SslConfiguration struct {
 // Storage version of v1beta20210701.UserAccountCredentials
 // Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/UserAccountCredentials
 type UserAccountCredentials struct {
-	AdminUserName         *string                `json:"adminUserName,omitempty"`
-	AdminUserPassword     *string                `json:"adminUserPassword,omitempty"`
-	AdminUserSshPublicKey *string                `json:"adminUserSshPublicKey,omitempty"`
-	PropertyBag           genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	AdminUserName         *string                     `json:"adminUserName,omitempty"`
+	AdminUserPassword     *genruntime.SecretReference `json:"adminUserPassword,omitempty"`
+	AdminUserSshPublicKey *genruntime.SecretReference `json:"adminUserSshPublicKey,omitempty"`
+	PropertyBag           genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210701.VirtualMachineImage
@@ -582,11 +582,11 @@ type VirtualMachineImage struct {
 // Storage version of v1beta20210701.VirtualMachineSshCredentials
 // Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/VirtualMachineSshCredentials
 type VirtualMachineSshCredentials struct {
-	Password       *string                `json:"password,omitempty"`
-	PrivateKeyData *string                `json:"privateKeyData,omitempty"`
-	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	PublicKeyData  *string                `json:"publicKeyData,omitempty"`
-	Username       *string                `json:"username,omitempty"`
+	Password       *genruntime.SecretReference `json:"password,omitempty"`
+	PrivateKeyData *string                     `json:"privateKeyData,omitempty"`
+	PropertyBag    genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	PublicKeyData  *string                     `json:"publicKeyData,omitempty"`
+	Username       *string                     `json:"username,omitempty"`
 }
 
 // Storage version of v1beta20210701.AssignedUser

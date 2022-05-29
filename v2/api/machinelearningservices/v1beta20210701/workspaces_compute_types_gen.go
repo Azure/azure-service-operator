@@ -7358,10 +7358,10 @@ type UserAccountCredentials struct {
 	AdminUserName *string `json:"adminUserName,omitempty"`
 
 	// AdminUserPassword: Password of the administrator user account.
-	AdminUserPassword *string `json:"adminUserPassword,omitempty"`
+	AdminUserPassword *genruntime.SecretReference `json:"adminUserPassword,omitempty"`
 
 	// AdminUserSshPublicKey: SSH public key of the administrator user account.
-	AdminUserSshPublicKey *string `json:"adminUserSshPublicKey,omitempty"`
+	AdminUserSshPublicKey *genruntime.SecretReference `json:"adminUserSshPublicKey,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &UserAccountCredentials{}
@@ -7381,13 +7381,21 @@ func (credentials *UserAccountCredentials) ConvertToARM(resolved genruntime.Conv
 
 	// Set property ‘AdminUserPassword’:
 	if credentials.AdminUserPassword != nil {
-		adminUserPassword := *credentials.AdminUserPassword
+		adminUserPasswordSecret, err := resolved.ResolvedSecrets.LookupSecret(*credentials.AdminUserPassword)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property AdminUserPassword")
+		}
+		adminUserPassword := adminUserPasswordSecret
 		result.AdminUserPassword = &adminUserPassword
 	}
 
 	// Set property ‘AdminUserSshPublicKey’:
 	if credentials.AdminUserSshPublicKey != nil {
-		adminUserSshPublicKey := *credentials.AdminUserSshPublicKey
+		adminUserSshPublicKeySecret, err := resolved.ResolvedSecrets.LookupSecret(*credentials.AdminUserSshPublicKey)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property AdminUserSshPublicKey")
+		}
+		adminUserSshPublicKey := adminUserSshPublicKeySecret
 		result.AdminUserSshPublicKey = &adminUserSshPublicKey
 	}
 	return result, nil
@@ -7411,17 +7419,9 @@ func (credentials *UserAccountCredentials) PopulateFromARM(owner genruntime.Arbi
 		credentials.AdminUserName = &adminUserName
 	}
 
-	// Set property ‘AdminUserPassword’:
-	if typedInput.AdminUserPassword != nil {
-		adminUserPassword := *typedInput.AdminUserPassword
-		credentials.AdminUserPassword = &adminUserPassword
-	}
+	// no assignment for property ‘AdminUserPassword’
 
-	// Set property ‘AdminUserSshPublicKey’:
-	if typedInput.AdminUserSshPublicKey != nil {
-		adminUserSshPublicKey := *typedInput.AdminUserSshPublicKey
-		credentials.AdminUserSshPublicKey = &adminUserSshPublicKey
-	}
+	// no assignment for property ‘AdminUserSshPublicKey’
 
 	// No error
 	return nil
@@ -7434,10 +7434,20 @@ func (credentials *UserAccountCredentials) AssignPropertiesFromUserAccountCreden
 	credentials.AdminUserName = genruntime.ClonePointerToString(source.AdminUserName)
 
 	// AdminUserPassword
-	credentials.AdminUserPassword = genruntime.ClonePointerToString(source.AdminUserPassword)
+	if source.AdminUserPassword != nil {
+		adminUserPassword := source.AdminUserPassword.Copy()
+		credentials.AdminUserPassword = &adminUserPassword
+	} else {
+		credentials.AdminUserPassword = nil
+	}
 
 	// AdminUserSshPublicKey
-	credentials.AdminUserSshPublicKey = genruntime.ClonePointerToString(source.AdminUserSshPublicKey)
+	if source.AdminUserSshPublicKey != nil {
+		adminUserSshPublicKey := source.AdminUserSshPublicKey.Copy()
+		credentials.AdminUserSshPublicKey = &adminUserSshPublicKey
+	} else {
+		credentials.AdminUserSshPublicKey = nil
+	}
 
 	// No error
 	return nil
@@ -7452,10 +7462,20 @@ func (credentials *UserAccountCredentials) AssignPropertiesToUserAccountCredenti
 	destination.AdminUserName = genruntime.ClonePointerToString(credentials.AdminUserName)
 
 	// AdminUserPassword
-	destination.AdminUserPassword = genruntime.ClonePointerToString(credentials.AdminUserPassword)
+	if credentials.AdminUserPassword != nil {
+		adminUserPassword := credentials.AdminUserPassword.Copy()
+		destination.AdminUserPassword = &adminUserPassword
+	} else {
+		destination.AdminUserPassword = nil
+	}
 
 	// AdminUserSshPublicKey
-	destination.AdminUserSshPublicKey = genruntime.ClonePointerToString(credentials.AdminUserSshPublicKey)
+	if credentials.AdminUserSshPublicKey != nil {
+		adminUserSshPublicKey := credentials.AdminUserSshPublicKey.Copy()
+		destination.AdminUserSshPublicKey = &adminUserSshPublicKey
+	} else {
+		destination.AdminUserSshPublicKey = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -7556,7 +7576,7 @@ func (image *VirtualMachineImage) AssignPropertiesToVirtualMachineImage(destinat
 // Generated from: https://schema.management.azure.com/schemas/2021-07-01/Microsoft.MachineLearningServices.json#/definitions/VirtualMachineSshCredentials
 type VirtualMachineSshCredentials struct {
 	// Password: Password of admin account
-	Password *string `json:"password,omitempty"`
+	Password *genruntime.SecretReference `json:"password,omitempty"`
 
 	// PrivateKeyData: Private key data
 	PrivateKeyData *string `json:"privateKeyData,omitempty"`
@@ -7579,7 +7599,11 @@ func (credentials *VirtualMachineSshCredentials) ConvertToARM(resolved genruntim
 
 	// Set property ‘Password’:
 	if credentials.Password != nil {
-		password := *credentials.Password
+		passwordSecret, err := resolved.ResolvedSecrets.LookupSecret(*credentials.Password)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property Password")
+		}
+		password := passwordSecret
 		result.Password = &password
 	}
 
@@ -7615,11 +7639,7 @@ func (credentials *VirtualMachineSshCredentials) PopulateFromARM(owner genruntim
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineSshCredentialsARM, got %T", armInput)
 	}
 
-	// Set property ‘Password’:
-	if typedInput.Password != nil {
-		password := *typedInput.Password
-		credentials.Password = &password
-	}
+	// no assignment for property ‘Password’
 
 	// Set property ‘PrivateKeyData’:
 	if typedInput.PrivateKeyData != nil {
@@ -7647,7 +7667,12 @@ func (credentials *VirtualMachineSshCredentials) PopulateFromARM(owner genruntim
 func (credentials *VirtualMachineSshCredentials) AssignPropertiesFromVirtualMachineSshCredentials(source *v20210701s.VirtualMachineSshCredentials) error {
 
 	// Password
-	credentials.Password = genruntime.ClonePointerToString(source.Password)
+	if source.Password != nil {
+		password := source.Password.Copy()
+		credentials.Password = &password
+	} else {
+		credentials.Password = nil
+	}
 
 	// PrivateKeyData
 	credentials.PrivateKeyData = genruntime.ClonePointerToString(source.PrivateKeyData)
@@ -7668,7 +7693,12 @@ func (credentials *VirtualMachineSshCredentials) AssignPropertiesToVirtualMachin
 	propertyBag := genruntime.NewPropertyBag()
 
 	// Password
-	destination.Password = genruntime.ClonePointerToString(credentials.Password)
+	if credentials.Password != nil {
+		password := credentials.Password.Copy()
+		destination.Password = &password
+	} else {
+		destination.Password = nil
+	}
 
 	// PrivateKeyData
 	destination.PrivateKeyData = genruntime.ClonePointerToString(credentials.PrivateKeyData)

@@ -471,9 +471,31 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{},
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(machinelearningservices_v20210701s.WorkspacesCompute),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(machinelearningservices_v20210701s.WorkspacesCompute),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.properties.amlCompute.properties.userAccountCredentials.adminUserPassword",
+				Func: indexMachinelearningservicesWorkspacesComputeAdminUserPassword,
+			},
+			{
+				Key:  ".spec.properties.amlCompute.properties.userAccountCredentials.adminUserSshPublicKey",
+				Func: indexMachinelearningservicesWorkspacesComputeAdminUserSshPublicKey,
+			},
+			{
+				Key:  ".spec.properties.hdInsight.properties.administratorAccount.password",
+				Func: indexMachinelearningservicesWorkspacesComputePassword,
+			},
+			{
+				Key:  ".spec.properties.virtualMachine.properties.administratorAccount.password",
+				Func: indexMachinelearningservicesWorkspacesComputePassword,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.amlCompute.properties.userAccountCredentials.adminUserPassword", ".spec.properties.amlCompute.properties.userAccountCredentials.adminUserSshPublicKey", ".spec.properties.hdInsight.properties.administratorAccount.password", ".spec.properties.virtualMachine.properties.administratorAccount.password"}, &machinelearningservices_v20210701s.WorkspacesComputeList{}),
+			},
+		},
 	})
 	result = append(result, &registration.StorageType{
 		Obj:     new(machinelearningservices_v20210701s.WorkspacesConnection),
@@ -1175,4 +1197,100 @@ func indexDbforpostgresqlFlexibleServerAdministratorLoginPassword(rawObj client.
 		return nil
 	}
 	return []string{obj.Spec.AdministratorLoginPassword.Name}
+}
+
+// indexMachinelearningservicesWorkspacesComputeAdminUserPassword an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.amlCompute.properties.userAccountCredentials.adminUserPassword
+func indexMachinelearningservicesWorkspacesComputeAdminUserPassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20210701s.WorkspacesCompute)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.AmlCompute == nil {
+		return nil
+	}
+	if obj.Spec.Properties.AmlCompute.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.AmlCompute.Properties.UserAccountCredentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.AmlCompute.Properties.UserAccountCredentials.AdminUserPassword == nil {
+		return nil
+	}
+	return []string{obj.Spec.Properties.AmlCompute.Properties.UserAccountCredentials.AdminUserPassword.Name}
+}
+
+// indexMachinelearningservicesWorkspacesComputeAdminUserSshPublicKey an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.amlCompute.properties.userAccountCredentials.adminUserSshPublicKey
+func indexMachinelearningservicesWorkspacesComputeAdminUserSshPublicKey(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20210701s.WorkspacesCompute)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.AmlCompute == nil {
+		return nil
+	}
+	if obj.Spec.Properties.AmlCompute.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.AmlCompute.Properties.UserAccountCredentials == nil {
+		return nil
+	}
+	if obj.Spec.Properties.AmlCompute.Properties.UserAccountCredentials.AdminUserSshPublicKey == nil {
+		return nil
+	}
+	return []string{obj.Spec.Properties.AmlCompute.Properties.UserAccountCredentials.AdminUserSshPublicKey.Name}
+}
+
+// indexMachinelearningservicesWorkspacesComputePassword an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.hdInsight.properties.administratorAccount.password
+func indexMachinelearningservicesWorkspacesComputePassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20210701s.WorkspacesCompute)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.HDInsight == nil {
+		return nil
+	}
+	if obj.Spec.Properties.HDInsight.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.HDInsight.Properties.AdministratorAccount == nil {
+		return nil
+	}
+	if obj.Spec.Properties.HDInsight.Properties.AdministratorAccount.Password == nil {
+		return nil
+	}
+	return []string{obj.Spec.Properties.HDInsight.Properties.AdministratorAccount.Password.Name}
+}
+
+// indexMachinelearningservicesWorkspacesComputePassword an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.virtualMachine.properties.administratorAccount.password
+func indexMachinelearningservicesWorkspacesComputePassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*machinelearningservices_v20210701s.WorkspacesCompute)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.VirtualMachine == nil {
+		return nil
+	}
+	if obj.Spec.Properties.VirtualMachine.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.VirtualMachine.Properties.AdministratorAccount == nil {
+		return nil
+	}
+	if obj.Spec.Properties.VirtualMachine.Properties.AdministratorAccount.Password == nil {
+		return nil
+	}
+	return []string{obj.Spec.Properties.VirtualMachine.Properties.AdministratorAccount.Password.Name}
 }

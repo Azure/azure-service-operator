@@ -20,4 +20,6 @@ spec:
         sshPort: 22
         administratorAccount:
           username: admin
-          password: password
+          password: # This is the name/key of a Kubernetes secret in the same namespace
+            name: vm-admin-pw
+            key: password
