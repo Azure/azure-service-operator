@@ -146,6 +146,7 @@ type RoleAssignment_STATUS struct {
 	CreatedOn                          *string                `json:"createdOn,omitempty"`
 	DelegatedManagedIdentityResourceId *string                `json:"delegatedManagedIdentityResourceId,omitempty"`
 	Description                        *string                `json:"description,omitempty"`
+	Id                                 *string                `json:"id,omitempty"`
 	PrincipalId                        *string                `json:"principalId,omitempty"`
 	PrincipalType                      *string                `json:"principalType,omitempty"`
 	PropertyBag                        genruntime.PropertyBag `json:"$propertyBag,omitempty"`

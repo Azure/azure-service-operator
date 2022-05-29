@@ -270,6 +270,7 @@ func BatchAccount_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForBatchAccount_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBatchAccount_STATUS(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["PoolAllocationMode"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())

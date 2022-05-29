@@ -4,6 +4,9 @@
 package v1beta20210401preview
 
 type Vault_STATUSARM struct {
+	// Id: The ARM Id for this resource.
+	Id *string `json:"id,omitempty"`
+
 	// Location: The supported Azure location where the key vault should be created.
 	Location *string `json:"location,omitempty"`
 

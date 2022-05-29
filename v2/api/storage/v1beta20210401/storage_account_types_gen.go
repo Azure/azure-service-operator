@@ -384,6 +384,9 @@ type StorageAccount_STATUS struct {
 	// in Azure main region. Otherwise it will be created in the specified extended location
 	ExtendedLocation *ExtendedLocation_STATUS `json:"extendedLocation,omitempty"`
 
+	// Id: The ARM Id for this resource.
+	Id *string `json:"id,omitempty"`
+
 	// Identity: The identity of the resource.
 	Identity *Identity_STATUS `json:"identity,omitempty"`
 
@@ -586,6 +589,12 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 		}
 		extendedLocation := extendedLocation1
 		account.ExtendedLocation = &extendedLocation
+	}
+
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		account.Id = &id
 	}
 
 	// Set property ‘Identity’:
@@ -821,6 +830,9 @@ func (account *StorageAccount_STATUS) AssignPropertiesFromStorageAccount_STATUS(
 		account.ExtendedLocation = nil
 	}
 
+	// Id
+	account.Id = genruntime.ClonePointerToString(source.Id)
+
 	// Identity
 	if source.Identity != nil {
 		var identity Identity_STATUS
@@ -1038,6 +1050,9 @@ func (account *StorageAccount_STATUS) AssignPropertiesToStorageAccount_STATUS(de
 	} else {
 		destination.ExtendedLocation = nil
 	}
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(account.Id)
 
 	// Identity
 	if account.Identity != nil {

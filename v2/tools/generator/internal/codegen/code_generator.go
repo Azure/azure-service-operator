@@ -91,6 +91,8 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 		// get named with names like Resource_Spec_Spec_Spec:
 		pipeline.FlattenResources(),
 
+		pipeline.AddIDPropertyToStatus(),
+
 		pipeline.StripUnreferencedTypeDefinitions(),
 
 		// Name all anonymous object, enum, and validated types (required by controller-gen):

@@ -341,6 +341,9 @@ type Server_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
+	// Id: The ARM Id for this resource.
+	Id *string `json:"id,omitempty"`
+
 	// Location: The location the resource resides in.
 	Location *string `json:"location,omitempty"`
 
@@ -420,6 +423,12 @@ func (server *Server_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 
 	// no assignment for property ‘Conditions’
 
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		server.Id = &id
+	}
+
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
@@ -466,6 +475,9 @@ func (server *Server_STATUS) AssignPropertiesFromServer_STATUS(source *v20180601
 	// Conditions
 	server.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
+	// Id
+	server.Id = genruntime.ClonePointerToString(source.Id)
+
 	// Location
 	server.Location = genruntime.ClonePointerToString(source.Location)
 
@@ -507,6 +519,9 @@ func (server *Server_STATUS) AssignPropertiesToServer_STATUS(destination *v20180
 
 	// Conditions
 	destination.Conditions = genruntime.CloneSliceOfCondition(server.Conditions)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(server.Id)
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(server.Location)

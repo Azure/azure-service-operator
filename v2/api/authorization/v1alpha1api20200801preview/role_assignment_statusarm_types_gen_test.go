@@ -60,16 +60,30 @@ func RunJSONSerializationTestForRoleAssignment_STATUSARM(subject RoleAssignment_
 var roleAssignment_STATUSARMGenerator gopter.Gen
 
 // RoleAssignment_STATUSARMGenerator returns a generator of RoleAssignment_STATUSARM instances for property testing.
+// We first initialize roleAssignment_STATUSARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
 func RoleAssignment_STATUSARMGenerator() gopter.Gen {
 	if roleAssignment_STATUSARMGenerator != nil {
 		return roleAssignment_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForRoleAssignment_STATUSARM(generators)
+	roleAssignment_STATUSARMGenerator = gen.Struct(reflect.TypeOf(RoleAssignment_STATUSARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForRoleAssignment_STATUSARM(generators)
 	AddRelatedPropertyGeneratorsForRoleAssignment_STATUSARM(generators)
 	roleAssignment_STATUSARMGenerator = gen.Struct(reflect.TypeOf(RoleAssignment_STATUSARM{}), generators)
 
 	return roleAssignment_STATUSARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForRoleAssignment_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRoleAssignment_STATUSARM(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForRoleAssignment_STATUSARM is a factory method for creating gopter generators

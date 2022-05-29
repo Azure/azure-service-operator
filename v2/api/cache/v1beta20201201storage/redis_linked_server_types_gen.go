@@ -134,6 +134,7 @@ type RedisLinkedServerList struct {
 // Storage version of v1beta20201201.RedisLinkedServer_STATUS
 type RedisLinkedServer_STATUS struct {
 	Conditions               []conditions.Condition `json:"conditions,omitempty"`
+	Id                       *string                `json:"id,omitempty"`
 	LinkedRedisCacheId       *string                `json:"linkedRedisCacheId,omitempty"`
 	LinkedRedisCacheLocation *string                `json:"linkedRedisCacheLocation,omitempty"`
 	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`

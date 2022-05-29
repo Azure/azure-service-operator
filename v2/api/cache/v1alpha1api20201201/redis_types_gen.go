@@ -364,6 +364,7 @@ type Redis_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions          []conditions.Condition                            `json:"conditions,omitempty"`
 	EnableNonSslPort    *bool                                             `json:"enableNonSslPort,omitempty"`
+	Id                  *string                                           `json:"id,omitempty"`
 	Location            *string                                           `json:"location,omitempty"`
 	MinimumTlsVersion   *RedisCreateProperties_MinimumTlsVersion_STATUS   `json:"minimumTlsVersion,omitempty"`
 	PublicNetworkAccess *RedisCreateProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
@@ -453,6 +454,12 @@ func (redis *Redis_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 			enableNonSslPort := *typedInput.Properties.EnableNonSslPort
 			redis.EnableNonSslPort = &enableNonSslPort
 		}
+	}
+
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		redis.Id = &id
 	}
 
 	// Set property ‘Location’:
@@ -603,6 +610,9 @@ func (redis *Redis_STATUS) AssignPropertiesFromRedis_STATUS(source *alpha2020120
 		redis.EnableNonSslPort = nil
 	}
 
+	// Id
+	redis.Id = genruntime.ClonePointerToString(source.Id)
+
 	// Location
 	redis.Location = genruntime.ClonePointerToString(source.Location)
 
@@ -692,6 +702,9 @@ func (redis *Redis_STATUS) AssignPropertiesToRedis_STATUS(destination *alpha2020
 	} else {
 		destination.EnableNonSslPort = nil
 	}
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(redis.Id)
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(redis.Location)

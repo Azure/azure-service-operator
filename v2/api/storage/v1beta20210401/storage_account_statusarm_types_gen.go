@@ -8,6 +8,9 @@ type StorageAccount_STATUSARM struct {
 	// in Azure main region. Otherwise it will be created in the specified extended location
 	ExtendedLocation *ExtendedLocation_STATUSARM `json:"extendedLocation,omitempty"`
 
+	// Id: The ARM Id for this resource.
+	Id *string `json:"id,omitempty"`
+
 	// Identity: The identity of the resource.
 	Identity *Identity_STATUSARM `json:"identity,omitempty"`
 

@@ -212,6 +212,7 @@ const APIVersion_Value = APIVersion("20201201")
 type Redis_STATUS struct {
 	Conditions          []conditions.Condition                           `json:"conditions,omitempty"`
 	EnableNonSslPort    *bool                                            `json:"enableNonSslPort,omitempty"`
+	Id                  *string                                          `json:"id,omitempty"`
 	Location            *string                                          `json:"location,omitempty"`
 	MinimumTlsVersion   *string                                          `json:"minimumTlsVersion,omitempty"`
 	PropertyBag         genruntime.PropertyBag                           `json:"$propertyBag,omitempty"`
@@ -294,6 +295,9 @@ func (redis *Redis_STATUS) AssignPropertiesFromRedis_STATUS(source *v20201201s.R
 	} else {
 		redis.EnableNonSslPort = nil
 	}
+
+	// Id
+	redis.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Location
 	redis.Location = genruntime.ClonePointerToString(source.Location)
@@ -386,6 +390,9 @@ func (redis *Redis_STATUS) AssignPropertiesToRedis_STATUS(destination *v20201201
 	} else {
 		destination.EnableNonSslPort = nil
 	}
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(redis.Id)
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(redis.Location)

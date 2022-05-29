@@ -148,6 +148,7 @@ type StorageAccount_STATUS struct {
 	CustomDomain                          *CustomDomain_STATUS                          `json:"customDomain,omitempty"`
 	Encryption                            *Encryption_STATUS                            `json:"encryption,omitempty"`
 	ExtendedLocation                      *ExtendedLocation_STATUS                      `json:"extendedLocation,omitempty"`
+	Id                                    *string                                       `json:"id,omitempty"`
 	Identity                              *Identity_STATUS                              `json:"identity,omitempty"`
 	IsHnsEnabled                          *bool                                         `json:"isHnsEnabled,omitempty"`
 	IsNfsV3Enabled                        *bool                                         `json:"isNfsV3Enabled,omitempty"`

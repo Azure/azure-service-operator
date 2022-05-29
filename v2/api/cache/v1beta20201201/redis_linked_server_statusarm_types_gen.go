@@ -4,6 +4,9 @@
 package v1beta20201201
 
 type RedisLinkedServer_STATUSARM struct {
+	// Id: The ARM Id for this resource.
+	Id *string `json:"id,omitempty"`
+
 	// Properties: Properties required to create a linked server.
 	Properties *RedisLinkedServerCreateProperties_STATUSARM `json:"properties,omitempty"`
 }

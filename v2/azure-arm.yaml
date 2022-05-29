@@ -61,9 +61,9 @@ typeFilters:
     because: _childResource type which "points" to a resource type that doesn't exist. Need to work with schema owners on why.
 
   - action: prune
-    name: ScopedDeployment
+    name: Deployment
     group: resources
-    because: Cannot yet handle scopes in general.
+    because: Terrifying.
 
   - action: prune
     name: Disk

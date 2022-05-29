@@ -82,6 +82,7 @@ func Redis_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForRedis_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRedis_STATUSARM(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())

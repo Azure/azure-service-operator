@@ -82,6 +82,7 @@ func Server_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForServer_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForServer_STATUSARM(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 }

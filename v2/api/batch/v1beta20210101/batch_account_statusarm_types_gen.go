@@ -4,6 +4,9 @@
 package v1beta20210101
 
 type BatchAccount_STATUSARM struct {
+	// Id: The ARM Id for this resource.
+	Id *string `json:"id,omitempty"`
+
 	// Identity: The identity of the Batch account.
 	Identity *BatchAccountIdentity_STATUSARM `json:"identity,omitempty"`
 

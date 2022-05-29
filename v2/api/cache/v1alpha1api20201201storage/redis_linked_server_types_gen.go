@@ -203,6 +203,7 @@ type RedisLinkedServerList struct {
 // Deprecated version of RedisLinkedServer_STATUS. Use v1beta20201201.RedisLinkedServer_STATUS instead
 type RedisLinkedServer_STATUS struct {
 	Conditions               []conditions.Condition `json:"conditions,omitempty"`
+	Id                       *string                `json:"id,omitempty"`
 	LinkedRedisCacheId       *string                `json:"linkedRedisCacheId,omitempty"`
 	LinkedRedisCacheLocation *string                `json:"linkedRedisCacheLocation,omitempty"`
 	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -267,6 +268,9 @@ func (server *RedisLinkedServer_STATUS) AssignPropertiesFromRedisLinkedServer_ST
 	// Conditions
 	server.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
+	// Id
+	server.Id = genruntime.ClonePointerToString(source.Id)
+
 	// LinkedRedisCacheId
 	server.LinkedRedisCacheId = genruntime.ClonePointerToString(source.LinkedRedisCacheId)
 
@@ -294,6 +298,9 @@ func (server *RedisLinkedServer_STATUS) AssignPropertiesToRedisLinkedServer_STAT
 
 	// Conditions
 	destination.Conditions = genruntime.CloneSliceOfCondition(server.Conditions)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(server.Id)
 
 	// LinkedRedisCacheId
 	destination.LinkedRedisCacheId = genruntime.ClonePointerToString(server.LinkedRedisCacheId)

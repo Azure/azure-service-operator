@@ -335,6 +335,7 @@ type RedisLinkedServerList struct {
 type RedisLinkedServer_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions               []conditions.Condition                               `json:"conditions,omitempty"`
+	Id                       *string                                              `json:"id,omitempty"`
 	LinkedRedisCacheId       *string                                              `json:"linkedRedisCacheId,omitempty"`
 	LinkedRedisCacheLocation *string                                              `json:"linkedRedisCacheLocation,omitempty"`
 	ServerRole               *RedisLinkedServerCreateProperties_ServerRole_STATUS `json:"serverRole,omitempty"`
@@ -406,6 +407,12 @@ func (server *RedisLinkedServer_STATUS) PopulateFromARM(owner genruntime.Arbitra
 
 	// no assignment for property ‘Conditions’
 
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		server.Id = &id
+	}
+
 	// Set property ‘LinkedRedisCacheId’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -443,6 +450,9 @@ func (server *RedisLinkedServer_STATUS) AssignPropertiesFromRedisLinkedServer_ST
 	// Conditions
 	server.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
+	// Id
+	server.Id = genruntime.ClonePointerToString(source.Id)
+
 	// LinkedRedisCacheId
 	server.LinkedRedisCacheId = genruntime.ClonePointerToString(source.LinkedRedisCacheId)
 
@@ -468,6 +478,9 @@ func (server *RedisLinkedServer_STATUS) AssignPropertiesToRedisLinkedServer_STAT
 
 	// Conditions
 	destination.Conditions = genruntime.CloneSliceOfCondition(server.Conditions)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(server.Id)
 
 	// LinkedRedisCacheId
 	destination.LinkedRedisCacheId = genruntime.ClonePointerToString(server.LinkedRedisCacheId)

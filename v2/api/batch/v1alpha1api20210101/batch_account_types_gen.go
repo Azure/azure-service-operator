@@ -344,6 +344,7 @@ type BatchAccount_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions          []conditions.Condition          `json:"conditions,omitempty"`
 	Encryption          *EncryptionProperties_STATUS    `json:"encryption,omitempty"`
+	Id                  *string                         `json:"id,omitempty"`
 	Identity            *BatchAccountIdentity_STATUS    `json:"identity,omitempty"`
 	KeyVaultReference   *KeyVaultReference_STATUS       `json:"keyVaultReference,omitempty"`
 	Location            *string                         `json:"location,omitempty"`
@@ -446,6 +447,12 @@ func (account *BatchAccount_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		account.Id = &id
+	}
+
 	// Set property ‘Identity’:
 	if typedInput.Identity != nil {
 		var identity1 BatchAccountIdentity_STATUS
@@ -537,6 +544,9 @@ func (account *BatchAccount_STATUS) AssignPropertiesFromBatchAccount_STATUS(sour
 		account.Encryption = nil
 	}
 
+	// Id
+	account.Id = genruntime.ClonePointerToString(source.Id)
+
 	// Identity
 	if source.Identity != nil {
 		var identity BatchAccountIdentity_STATUS
@@ -618,6 +628,9 @@ func (account *BatchAccount_STATUS) AssignPropertiesToBatchAccount_STATUS(destin
 	} else {
 		destination.Encryption = nil
 	}
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(account.Id)
 
 	// Identity
 	if account.Identity != nil {

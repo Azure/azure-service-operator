@@ -142,6 +142,7 @@ type BatchAccount_STATUS struct {
 	AutoStorage         *AutoStorageBaseProperties_STATUS `json:"autoStorage,omitempty"`
 	Conditions          []conditions.Condition            `json:"conditions,omitempty"`
 	Encryption          *EncryptionProperties_STATUS      `json:"encryption,omitempty"`
+	Id                  *string                           `json:"id,omitempty"`
 	Identity            *BatchAccountIdentity_STATUS      `json:"identity,omitempty"`
 	KeyVaultReference   *KeyVaultReference_STATUS         `json:"keyVaultReference,omitempty"`
 	Location            *string                           `json:"location,omitempty"`

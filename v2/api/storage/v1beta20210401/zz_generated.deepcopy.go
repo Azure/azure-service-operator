@@ -5076,6 +5076,11 @@ func (in *StorageAccount_STATUS) DeepCopyInto(out *StorageAccount_STATUS) {
 		*out = new(ExtendedLocation_STATUS)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.Id != nil {
+		in, out := &in.Id, &out.Id
+		*out = new(string)
+		**out = **in
+	}
 	if in.Identity != nil {
 		in, out := &in.Identity, &out.Identity
 		*out = new(Identity_STATUS)
@@ -5167,6 +5172,11 @@ func (in *StorageAccount_STATUSARM) DeepCopyInto(out *StorageAccount_STATUSARM) 
 		in, out := &in.ExtendedLocation, &out.ExtendedLocation
 		*out = new(ExtendedLocation_STATUSARM)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.Id != nil {
+		in, out := &in.Id, &out.Id
+		*out = new(string)
+		**out = **in
 	}
 	if in.Identity != nil {
 		in, out := &in.Identity, &out.Identity

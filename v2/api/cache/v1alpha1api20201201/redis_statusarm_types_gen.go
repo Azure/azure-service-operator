@@ -5,6 +5,7 @@ package v1alpha1api20201201
 
 // Deprecated version of Redis_STATUS. Use v1beta20201201.Redis_STATUS instead
 type Redis_STATUSARM struct {
+	Id         *string                          `json:"id,omitempty"`
 	Location   *string                          `json:"location,omitempty"`
 	Properties *RedisCreateProperties_STATUSARM `json:"properties,omitempty"`
 	Tags       map[string]string                `json:"tags,omitempty"`

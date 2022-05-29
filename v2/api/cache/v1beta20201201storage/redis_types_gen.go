@@ -142,6 +142,7 @@ const APIVersion_Value = APIVersion("20201201")
 type Redis_STATUS struct {
 	Conditions          []conditions.Condition                           `json:"conditions,omitempty"`
 	EnableNonSslPort    *bool                                            `json:"enableNonSslPort,omitempty"`
+	Id                  *string                                          `json:"id,omitempty"`
 	Location            *string                                          `json:"location,omitempty"`
 	MinimumTlsVersion   *string                                          `json:"minimumTlsVersion,omitempty"`
 	PropertyBag         genruntime.PropertyBag                           `json:"$propertyBag,omitempty"`

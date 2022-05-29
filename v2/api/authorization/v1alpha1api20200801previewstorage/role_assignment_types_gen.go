@@ -216,6 +216,7 @@ type RoleAssignment_STATUS struct {
 	CreatedOn                          *string                `json:"createdOn,omitempty"`
 	DelegatedManagedIdentityResourceId *string                `json:"delegatedManagedIdentityResourceId,omitempty"`
 	Description                        *string                `json:"description,omitempty"`
+	Id                                 *string                `json:"id,omitempty"`
 	PrincipalId                        *string                `json:"principalId,omitempty"`
 	PrincipalType                      *string                `json:"principalType,omitempty"`
 	PropertyBag                        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -301,6 +302,9 @@ func (assignment *RoleAssignment_STATUS) AssignPropertiesFromRoleAssignment_STAT
 	// Description
 	assignment.Description = genruntime.ClonePointerToString(source.Description)
 
+	// Id
+	assignment.Id = genruntime.ClonePointerToString(source.Id)
+
 	// PrincipalId
 	assignment.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
 
@@ -355,6 +359,9 @@ func (assignment *RoleAssignment_STATUS) AssignPropertiesToRoleAssignment_STATUS
 
 	// Description
 	destination.Description = genruntime.ClonePointerToString(assignment.Description)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(assignment.Id)
 
 	// PrincipalId
 	destination.PrincipalId = genruntime.ClonePointerToString(assignment.PrincipalId)

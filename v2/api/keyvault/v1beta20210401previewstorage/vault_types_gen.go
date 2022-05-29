@@ -140,6 +140,7 @@ const APIVersion_Value = APIVersion("20210401preview")
 // Storage version of v1beta20210401preview.Vault_STATUS
 type Vault_STATUS struct {
 	Conditions  []conditions.Condition  `json:"conditions,omitempty"`
+	Id          *string                 `json:"id,omitempty"`
 	Location    *string                 `json:"location,omitempty"`
 	Properties  *VaultProperties_STATUS `json:"properties,omitempty"`
 	PropertyBag genruntime.PropertyBag  `json:"$propertyBag,omitempty"`

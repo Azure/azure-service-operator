@@ -5,6 +5,7 @@ package v1alpha1api20210101
 
 // Deprecated version of BatchAccount_STATUS. Use v1beta20210101.BatchAccount_STATUS instead
 type BatchAccount_STATUSARM struct {
+	Id         *string                                 `json:"id,omitempty"`
 	Identity   *BatchAccountIdentity_STATUSARM         `json:"identity,omitempty"`
 	Location   *string                                 `json:"location,omitempty"`
 	Properties *BatchAccountCreateProperties_STATUSARM `json:"properties,omitempty"`

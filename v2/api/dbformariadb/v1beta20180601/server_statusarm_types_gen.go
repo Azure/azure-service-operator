@@ -4,6 +4,9 @@
 package v1beta20180601
 
 type Server_STATUSARM struct {
+	// Id: The ARM Id for this resource.
+	Id *string `json:"id,omitempty"`
+
 	// Location: The location the resource resides in.
 	Location *string `json:"location,omitempty"`
 

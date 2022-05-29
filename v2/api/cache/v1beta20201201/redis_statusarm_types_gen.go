@@ -4,6 +4,9 @@
 package v1beta20201201
 
 type Redis_STATUSARM struct {
+	// Id: The ARM Id for this resource.
+	Id *string `json:"id,omitempty"`
+
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 

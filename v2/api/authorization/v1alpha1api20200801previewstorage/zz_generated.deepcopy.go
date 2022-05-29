@@ -115,6 +115,11 @@ func (in *RoleAssignment_STATUS) DeepCopyInto(out *RoleAssignment_STATUS) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Id != nil {
+		in, out := &in.Id, &out.Id
+		*out = new(string)
+		**out = **in
+	}
 	if in.PrincipalId != nil {
 		in, out := &in.PrincipalId, &out.PrincipalId
 		*out = new(string)

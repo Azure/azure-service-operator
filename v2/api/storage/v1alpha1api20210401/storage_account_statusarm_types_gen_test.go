@@ -83,6 +83,7 @@ func StorageAccount_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForStorageAccount_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorageAccount_STATUSARM(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Kind"] = gen.PtrOf(gen.OneConstOf(
 		StorageAccount_Kind_BlobStorage_STATUS,
 		StorageAccount_Kind_BlockBlobStorage_STATUS,

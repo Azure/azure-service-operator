@@ -5,6 +5,7 @@ package v1alpha1api20201201
 
 // Deprecated version of RedisLinkedServer_STATUS. Use v1beta20201201.RedisLinkedServer_STATUS instead
 type RedisLinkedServer_STATUSARM struct {
+	Id         *string                                      `json:"id,omitempty"`
 	Properties *RedisLinkedServerCreateProperties_STATUSARM `json:"properties,omitempty"`
 }
 

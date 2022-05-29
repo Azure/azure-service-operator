@@ -262,6 +262,11 @@ func (in *BatchAccount_STATUS) DeepCopyInto(out *BatchAccount_STATUS) {
 		*out = new(EncryptionProperties_STATUS)
 		(*in).DeepCopyInto(*out)
 	}
+	if in.Id != nil {
+		in, out := &in.Id, &out.Id
+		*out = new(string)
+		**out = **in
+	}
 	if in.Identity != nil {
 		in, out := &in.Identity, &out.Identity
 		*out = new(BatchAccountIdentity_STATUS)

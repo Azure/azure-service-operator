@@ -218,6 +218,7 @@ type StorageAccount_STATUS struct {
 	CustomDomain                          *CustomDomain_STATUS                          `json:"customDomain,omitempty"`
 	Encryption                            *Encryption_STATUS                            `json:"encryption,omitempty"`
 	ExtendedLocation                      *ExtendedLocation_STATUS                      `json:"extendedLocation,omitempty"`
+	Id                                    *string                                       `json:"id,omitempty"`
 	Identity                              *Identity_STATUS                              `json:"identity,omitempty"`
 	IsHnsEnabled                          *bool                                         `json:"isHnsEnabled,omitempty"`
 	IsNfsV3Enabled                        *bool                                         `json:"isNfsV3Enabled,omitempty"`
@@ -367,6 +368,9 @@ func (account *StorageAccount_STATUS) AssignPropertiesFromStorageAccount_STATUS(
 	} else {
 		account.ExtendedLocation = nil
 	}
+
+	// Id
+	account.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Identity
 	if source.Identity != nil {
@@ -572,6 +576,9 @@ func (account *StorageAccount_STATUS) AssignPropertiesToStorageAccount_STATUS(de
 	} else {
 		destination.ExtendedLocation = nil
 	}
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(account.Id)
 
 	// Identity
 	if account.Identity != nil {

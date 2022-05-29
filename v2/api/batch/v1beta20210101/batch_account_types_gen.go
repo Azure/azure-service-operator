@@ -335,6 +335,9 @@ type BatchAccount_STATUS struct {
 	// a Microsoft managed key. For additional control, a customer-managed key can be used instead.
 	Encryption *EncryptionProperties_STATUS `json:"encryption,omitempty"`
 
+	// Id: The ARM Id for this resource.
+	Id *string `json:"id,omitempty"`
+
 	// Identity: The identity of the Batch account.
 	Identity *BatchAccountIdentity_STATUS `json:"identity,omitempty"`
 
@@ -450,6 +453,12 @@ func (account *BatchAccount_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		account.Id = &id
+	}
+
 	// Set property ‘Identity’:
 	if typedInput.Identity != nil {
 		var identity1 BatchAccountIdentity_STATUS
@@ -541,6 +550,9 @@ func (account *BatchAccount_STATUS) AssignPropertiesFromBatchAccount_STATUS(sour
 		account.Encryption = nil
 	}
 
+	// Id
+	account.Id = genruntime.ClonePointerToString(source.Id)
+
 	// Identity
 	if source.Identity != nil {
 		var identity BatchAccountIdentity_STATUS
@@ -622,6 +634,9 @@ func (account *BatchAccount_STATUS) AssignPropertiesToBatchAccount_STATUS(destin
 	} else {
 		destination.Encryption = nil
 	}
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(account.Id)
 
 	// Identity
 	if account.Identity != nil {

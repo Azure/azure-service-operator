@@ -134,6 +134,7 @@ type ServerList struct {
 // Storage version of v1beta20180601.Server_STATUS
 type Server_STATUS struct {
 	Conditions  []conditions.Condition            `json:"conditions,omitempty"`
+	Id          *string                           `json:"id,omitempty"`
 	Location    *string                           `json:"location,omitempty"`
 	Properties  *ServerPropertiesForCreate_STATUS `json:"properties,omitempty"`
 	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`

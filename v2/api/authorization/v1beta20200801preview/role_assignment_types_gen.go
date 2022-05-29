@@ -348,6 +348,9 @@ type RoleAssignment_STATUS struct {
 	// Description: Description of role assignment
 	Description *string `json:"description,omitempty"`
 
+	// Id: The ARM Id for this resource.
+	Id *string `json:"id,omitempty"`
+
 	// PrincipalId: The principal ID.
 	PrincipalId *string `json:"principalId,omitempty"`
 
@@ -487,6 +490,12 @@ func (assignment *RoleAssignment_STATUS) PopulateFromARM(owner genruntime.Arbitr
 		}
 	}
 
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		assignment.Id = &id
+	}
+
 	// Set property ‘PrincipalId’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -569,6 +578,9 @@ func (assignment *RoleAssignment_STATUS) AssignPropertiesFromRoleAssignment_STAT
 	// Description
 	assignment.Description = genruntime.ClonePointerToString(source.Description)
 
+	// Id
+	assignment.Id = genruntime.ClonePointerToString(source.Id)
+
 	// PrincipalId
 	assignment.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
 
@@ -621,6 +633,9 @@ func (assignment *RoleAssignment_STATUS) AssignPropertiesToRoleAssignment_STATUS
 
 	// Description
 	destination.Description = genruntime.ClonePointerToString(assignment.Description)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(assignment.Id)
 
 	// PrincipalId
 	destination.PrincipalId = genruntime.ClonePointerToString(assignment.PrincipalId)

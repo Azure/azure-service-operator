@@ -6,6 +6,7 @@ package v1alpha1api20210401
 // Deprecated version of StorageAccount_STATUS. Use v1beta20210401.StorageAccount_STATUS instead
 type StorageAccount_STATUSARM struct {
 	ExtendedLocation *ExtendedLocation_STATUSARM                         `json:"extendedLocation,omitempty"`
+	Id               *string                                             `json:"id,omitempty"`
 	Identity         *Identity_STATUSARM                                 `json:"identity,omitempty"`
 	Kind             *StorageAccount_Kind_STATUS                         `json:"kind,omitempty"`
 	Location         *string                                             `json:"location,omitempty"`

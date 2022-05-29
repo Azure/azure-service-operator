@@ -270,6 +270,7 @@ func Redis_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForRedis_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRedis_STATUS(gens map[string]gopter.Gen) {
 	gens["EnableNonSslPort"] = gen.PtrOf(gen.Bool())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(RedisCreateProperties_MinimumTlsVersion_10_STATUS, RedisCreateProperties_MinimumTlsVersion_11_STATUS, RedisCreateProperties_MinimumTlsVersion_12_STATUS))
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(RedisCreateProperties_PublicNetworkAccess_Disabled_STATUS, RedisCreateProperties_PublicNetworkAccess_Enabled_STATUS))

@@ -353,6 +353,9 @@ type Redis_STATUS struct {
 	// EnableNonSslPort: Specifies whether the non-ssl Redis server port (6379) is enabled.
 	EnableNonSslPort *bool `json:"enableNonSslPort,omitempty"`
 
+	// Id: The ARM Id for this resource.
+	Id *string `json:"id,omitempty"`
+
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
@@ -476,6 +479,12 @@ func (redis *Redis_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 			enableNonSslPort := *typedInput.Properties.EnableNonSslPort
 			redis.EnableNonSslPort = &enableNonSslPort
 		}
+	}
+
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		redis.Id = &id
 	}
 
 	// Set property ‘Location’:
@@ -626,6 +635,9 @@ func (redis *Redis_STATUS) AssignPropertiesFromRedis_STATUS(source *v20201201s.R
 		redis.EnableNonSslPort = nil
 	}
 
+	// Id
+	redis.Id = genruntime.ClonePointerToString(source.Id)
+
 	// Location
 	redis.Location = genruntime.ClonePointerToString(source.Location)
 
@@ -715,6 +727,9 @@ func (redis *Redis_STATUS) AssignPropertiesToRedis_STATUS(destination *v20201201
 	} else {
 		destination.EnableNonSslPort = nil
 	}
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(redis.Id)
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(redis.Location)

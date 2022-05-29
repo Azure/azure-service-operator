@@ -361,6 +361,11 @@ func (in *RedisLinkedServer_STATUS) DeepCopyInto(out *RedisLinkedServer_STATUS) 
 			(*in)[i].DeepCopyInto(&(*out)[i])
 		}
 	}
+	if in.Id != nil {
+		in, out := &in.Id, &out.Id
+		*out = new(string)
+		**out = **in
+	}
 	if in.LinkedRedisCacheId != nil {
 		in, out := &in.LinkedRedisCacheId, &out.LinkedRedisCacheId
 		*out = new(string)
@@ -720,6 +725,11 @@ func (in *Redis_STATUS) DeepCopyInto(out *Redis_STATUS) {
 	if in.EnableNonSslPort != nil {
 		in, out := &in.EnableNonSslPort, &out.EnableNonSslPort
 		*out = new(bool)
+		**out = **in
+	}
+	if in.Id != nil {
+		in, out := &in.Id, &out.Id
+		*out = new(string)
 		**out = **in
 	}
 	if in.Location != nil {

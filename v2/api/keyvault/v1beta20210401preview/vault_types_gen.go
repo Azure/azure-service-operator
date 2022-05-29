@@ -328,6 +328,9 @@ type Vault_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
+	// Id: The ARM Id for this resource.
+	Id *string `json:"id,omitempty"`
+
 	// Location: The supported Azure location where the key vault should be created.
 	Location *string `json:"location,omitempty"`
 
@@ -404,6 +407,12 @@ func (vault *Vault_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 
 	// no assignment for property ‘Conditions’
 
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		vault.Id = &id
+	}
+
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
@@ -439,6 +448,9 @@ func (vault *Vault_STATUS) AssignPropertiesFromVault_STATUS(source *v20210401ps.
 	// Conditions
 	vault.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
+	// Id
+	vault.Id = genruntime.ClonePointerToString(source.Id)
+
 	// Location
 	vault.Location = genruntime.ClonePointerToString(source.Location)
 
@@ -468,6 +480,9 @@ func (vault *Vault_STATUS) AssignPropertiesToVault_STATUS(destination *v20210401
 
 	// Conditions
 	destination.Conditions = genruntime.CloneSliceOfCondition(vault.Conditions)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(vault.Id)
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(vault.Location)
