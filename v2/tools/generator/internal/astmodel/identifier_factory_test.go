@@ -213,9 +213,9 @@ func TestAppendPreservingSuffixPreservesSuffix(t *testing.T) {
 	t.Parallel()
 
 	g := gomega.NewWithT(t)
-	str := "something3455"
-	result := AppendPreservingSuffix(str, "11", "3456")
-	g.Expect(result).To(gomega.Equal("something123455"))
+	str := "something3456"
+	result := AppendPreservingSuffix(str, "12", "3456")
+	g.Expect(result).To(gomega.Equal("something123456"))
 }
 
 func TestAppendPreservingSuffixWithoutSuffix(t *testing.T) {
