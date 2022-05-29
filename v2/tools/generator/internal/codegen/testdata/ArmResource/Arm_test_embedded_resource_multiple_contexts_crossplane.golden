@@ -28,10 +28,10 @@ type AList struct {
 	Items           []A `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"20200101"}
+// +kubebuilder:validation:Enum={"2020-01-01"}
 type APIVersion string
 
-const APIVersion_Value = APIVersion("20200101")
+const APIVersion_Value = APIVersion("2020-01-01")
 
 type A_Spec struct {
 	v1alpha1.ResourceSpec `json:",inline,omitempty"`

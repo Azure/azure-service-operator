@@ -113,7 +113,7 @@ func (pr LocalPackageReference) ApiVersion() string {
 // instead of 'yyyymmdd(preview)'.
 func (pr LocalPackageReference) ExpandedApiVersion() string {
 	av := pr.apiVersion
-	result := av[0:4] + "-" + av[4:6] + "-" + av[6:8] 
+	result := av[0:4] + "-" + av[4:6] + "-" + av[6:8]
 	if len(av) > 8 {
 		return result + "-" + av[8:]
 	}

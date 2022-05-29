@@ -92,7 +92,7 @@ func (a *A) AzureName() string {
 	return a.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20200101"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
 func (a A) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
@@ -277,7 +277,7 @@ type A_SpecARM struct {
 
 var _ genruntime.ARMResourceSpec = &A_SpecARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20200101"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
 func (a A_SpecARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
@@ -366,7 +366,7 @@ func (b *B) AzureName() string {
 	return b.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20200101"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
 func (b B) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
@@ -551,7 +551,7 @@ type B_SpecARM struct {
 
 var _ genruntime.ARMResourceSpec = &B_SpecARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20200101"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
 func (b B_SpecARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
@@ -566,10 +566,10 @@ func (b *B_SpecARM) GetType() string {
 	return ""
 }
 
-// +kubebuilder:validation:Enum={"20200101"}
+// +kubebuilder:validation:Enum={"2020-01-01"}
 type APIVersion string
 
-const APIVersion_Value = APIVersion("20200101")
+const APIVersion_Value = APIVersion("2020-01-01")
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/AProperties
 type APropertiesARM struct {

@@ -95,7 +95,7 @@ func (resource *FakeResource) AzureName() string {
 	return resource.Spec.AzureName
 }
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20200101"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
 func (resource FakeResource) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
@@ -280,7 +280,7 @@ type FakeResource_SpecARM struct {
 
 var _ genruntime.ARMResourceSpec = &FakeResource_SpecARM{}
 
-// GetAPIVersion returns the ARM API version of the resource. This is always "20200101"
+// GetAPIVersion returns the ARM API version of the resource. This is always "2020-01-01"
 func (resource FakeResource_SpecARM) GetAPIVersion() string {
 	return string(APIVersion_Value)
 }
@@ -295,10 +295,10 @@ func (resource *FakeResource_SpecARM) GetType() string {
 	return ""
 }
 
-// +kubebuilder:validation:Enum={"20200101"}
+// +kubebuilder:validation:Enum={"2020-01-01"}
 type APIVersion string
 
-const APIVersion_Value = APIVersion("20200101")
+const APIVersion_Value = APIVersion("2020-01-01")
 
 type FakeResource_Spec struct {
 	// +kubebuilder:validation:Required

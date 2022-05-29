@@ -31,6 +31,11 @@ func addIDPropertyToStatus(ctx context.Context, state *State) (*State, error) {
 			continue
 		}
 
+		if rt.StatusType() == nil {
+			// in tests this can be true
+			continue
+		}
+
 		statusType, err := state.Definitions().FullyResolve(rt.StatusType())
 		if err != nil {
 			return nil, err
