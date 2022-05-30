@@ -515,7 +515,7 @@ func applyRenames(renames map[astmodel.TypeName]astmodel.TypeName, typesFromFile
 		}
 
 		newResourceTypes[rn] = jsonast.ResourceDefinition{
-			SpecType:       newSpecType,
+			SpecType:   newSpecType,
 			StatusType: newStatusType,
 			SourceFile: rt.SourceFile,
 		}

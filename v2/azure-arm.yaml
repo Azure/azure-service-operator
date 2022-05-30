@@ -963,10 +963,9 @@ objectModelConfiguration:
       Domain:
         $export: true
         $supportedFrom: v2.0.0-alpha.5
-      # TODO(donotmerge)
-      # DomainsTopic:
-      #   $export: true
-      #   $supportedFrom: v2.0.0-alpha.5
+      DomainsTopic:
+        $export: true
+        $supportedFrom: v2.0.0-alpha.5
       EventSubscription:
         $export: true
         $supportedFrom: v2.0.0-alpha.5

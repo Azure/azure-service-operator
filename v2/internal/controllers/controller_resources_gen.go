@@ -377,6 +377,11 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{},
 	})
 	result = append(result, &registration.StorageType{
+		Obj:     new(eventgrid_v20200601s.DomainsTopic),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{},
+	})
+	result = append(result, &registration.StorageType{
 		Obj:     new(eventgrid_v20200601s.EventSubscription),
 		Indexes: []registration.Index{},
 		Watches: []registration.Watch{},
@@ -698,15 +703,19 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(documentdb_v20210515s.SqlDatabaseContainerUserDefinedFunction))
 	result = append(result, new(documentdb_v20210515s.SqlDatabaseThroughputSetting))
 	result = append(result, new(eventgrid_alpha20200601.Domain))
+	result = append(result, new(eventgrid_alpha20200601.DomainsTopic))
 	result = append(result, new(eventgrid_alpha20200601.EventSubscription))
 	result = append(result, new(eventgrid_alpha20200601.Topic))
 	result = append(result, new(eventgrid_alpha20200601s.Domain))
+	result = append(result, new(eventgrid_alpha20200601s.DomainsTopic))
 	result = append(result, new(eventgrid_alpha20200601s.EventSubscription))
 	result = append(result, new(eventgrid_alpha20200601s.Topic))
 	result = append(result, new(eventgrid_v20200601.Domain))
+	result = append(result, new(eventgrid_v20200601.DomainsTopic))
 	result = append(result, new(eventgrid_v20200601.EventSubscription))
 	result = append(result, new(eventgrid_v20200601.Topic))
 	result = append(result, new(eventgrid_v20200601s.Domain))
+	result = append(result, new(eventgrid_v20200601s.DomainsTopic))
 	result = append(result, new(eventgrid_v20200601s.EventSubscription))
 	result = append(result, new(eventgrid_v20200601s.Topic))
 	result = append(result, new(eventhub_alpha20211101.Namespace))
@@ -973,6 +982,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &documentdb_customizations.SqlDatabaseExtension{})
 	result = append(result, &documentdb_customizations.SqlDatabaseThroughputSettingExtension{})
 	result = append(result, &eventgrid_customizations.DomainExtension{})
+	result = append(result, &eventgrid_customizations.DomainsTopicExtension{})
 	result = append(result, &eventgrid_customizations.EventSubscriptionExtension{})
 	result = append(result, &eventgrid_customizations.TopicExtension{})
 	result = append(result, &eventhub_customizations.NamespaceExtension{})

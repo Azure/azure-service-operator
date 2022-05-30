@@ -79,9 +79,9 @@ func Test_EventGrid_Domain(t *testing.T) {
 		testcommon.Subtest{
 			Name: "CreateDomainTopicAndSubscription",
 			Test: func(tc *testcommon.KubePerTestContext) {
-				topic := &eventgrid.DomainTopic{
+				topic := &eventgrid.DomainsTopic{
 					ObjectMeta: tc.MakeObjectMeta("topic"),
-					Spec: eventgrid.DomainTopics_Spec{
+					Spec: eventgrid.DomainsTopic_Spec{
 						Owner: testcommon.AsOwner(domain),
 					},
 				}

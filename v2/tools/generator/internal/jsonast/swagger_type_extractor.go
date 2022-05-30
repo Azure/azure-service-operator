@@ -81,8 +81,8 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(ctx context.Context) (Swagge
 			continue
 		}
 
-		specSchema, statusSchema := extractor.findARMResourceSchema(op, rawOperationPath)
-		if specSchema == nil {
+		specSchema, statusSchema, ok := extractor.findARMResourceSchema(op, rawOperationPath)
+		if !ok {
 			// klog.Warningf("No ARM schema found for %s in %q", rawOperationPath, filePath)
 			continue
 		}
@@ -102,27 +102,39 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(ctx context.Context) (Swagge
 				continue
 			}
 
-			resourceSpec, err := scanner.RunHandlerForSchema(ctx, *specSchema)
-			if err != nil {
-				if errors.Is(err, context.Canceled) {
-					return SwaggerTypes{}, err
-				}
+			var resourceSpec astmodel.Type
+			if specSchema == nil {
+				// nil indicates empty body
+				resourceSpec = astmodel.NewObjectType()
+			} else {
+				resourceSpec, err = scanner.RunHandlerForSchema(ctx, *specSchema)
+				if err != nil {
+					if errors.Is(err, context.Canceled) {
+						return SwaggerTypes{}, err
+					}
 
-				return SwaggerTypes{}, errors.Wrapf(err, "unable to produce spec type for resource %s", resourceName)
+					return SwaggerTypes{}, errors.Wrapf(err, "unable to produce spec type for resource %s", resourceName)
+				}
 			}
 
 			if resourceSpec == nil {
-				// this indicates a filtered-out type, skip
+				// this indicates a type filtered out by RunHandlerForSchema, skip
 				continue
 			}
 
-			resourceStatus, err := scanner.RunHandlerForSchema(ctx, *statusSchema)
-			if err != nil {
-				if errors.Is(err, context.Canceled) {
-					return SwaggerTypes{}, err
-				}
+			var resourceStatus astmodel.Type
+			if statusSchema == nil {
+				// nil indicates empty body
+				resourceStatus = astmodel.NewObjectType()
+			} else {
+				resourceStatus, err = scanner.RunHandlerForSchema(ctx, *statusSchema)
+				if err != nil {
+					if errors.Is(err, context.Canceled) {
+						return SwaggerTypes{}, err
+					}
 
-				return SwaggerTypes{}, errors.Wrapf(err, "unable to produce status type for resource %s", resourceName)
+					return SwaggerTypes{}, errors.Wrapf(err, "unable to produce status type for resource %s", resourceName)
+				}
 			}
 
 			if existingResource, ok := result.ResourceDefinitions[resourceName]; ok {
@@ -168,7 +180,7 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(ctx context.Context) (Swagge
 // Look at the responses of the PUT to determine if this represents an ARM resource,
 // and if so, return the schema for it.
 // see: https://github.com/Azure/autorest/issues/1936#issuecomment-286928591
-func (extractor *SwaggerTypeExtractor) findARMResourceSchema(op spec.PathItem, rawOperationPath string) (*Schema, *Schema) {
+func (extractor *SwaggerTypeExtractor) findARMResourceSchema(op spec.PathItem, rawOperationPath string) (*Schema, *Schema, bool) {
 	// to decide if something is a resource, we must look at the GET responses
 	isResource := false
 
@@ -189,7 +201,7 @@ func (extractor *SwaggerTypeExtractor) findARMResourceSchema(op spec.PathItem, r
 	}
 
 	if !isResource {
-		return nil, nil
+		return nil, nil, false
 	}
 
 	var foundSpec *Schema
@@ -201,6 +213,7 @@ func (extractor *SwaggerTypeExtractor) findARMResourceSchema(op spec.PathItem, r
 	}
 
 	// the actual Schema must come from the PUT parameters
+	noBody := true
 	for _, param := range params {
 		inBody := param.In == "body"
 		_, innerParam := extractor.fullyResolveParameter(param)
@@ -212,6 +225,7 @@ func (extractor *SwaggerTypeExtractor) findARMResourceSchema(op spec.PathItem, r
 		// it knows it comes from another file (if it does).
 
 		if inBody { // must be a (the) body parameter
+			noBody = false
 			result := extractor.schemaFromParameter(param)
 			if result != nil {
 				foundSpec = result
@@ -221,10 +235,15 @@ func (extractor *SwaggerTypeExtractor) findARMResourceSchema(op spec.PathItem, r
 	}
 
 	if foundSpec == nil {
-		klog.Warningf("Response indicated that type was ARM resource but no schema found for %s in %q", rawOperationPath, extractor.swaggerPath)
+		if noBody {
+			klog.Warningf("Empty body for %s", rawOperationPath)
+		} else {
+			klog.Warningf("Response indicated that type was ARM resource but no schema found for %s in %q", rawOperationPath, extractor.swaggerPath)
+			return nil, nil, false
+		}
 	}
 
-	return foundSpec, foundStatus
+	return foundSpec, foundStatus, true
 }
 
 // fullyResolveParameter resolves the parameter and returns the file that contained the parameter and the parameter

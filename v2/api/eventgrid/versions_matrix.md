@@ -18,8 +18,13 @@
 | DomainProperties_PublicNetworkAccess                        | v1alpha1api20200601 | v1beta20200601 |
 | DomainProperties_PublicNetworkAccess_STATUS                 | v1alpha1api20200601 | v1beta20200601 |
 | DomainProperties_STATUS                                     | v1alpha1api20200601 | v1beta20200601 |
+| DomainTopicProperties_ProvisioningState_STATUS              | v1alpha1api20200601 | v1beta20200601 |
+| DomainTopicProperties_STATUS                                | v1alpha1api20200601 | v1beta20200601 |
 | Domain_STATUS                                               | v1alpha1api20200601 | v1beta20200601 |
 | Domain_Spec                                                 | v1alpha1api20200601 | v1beta20200601 |
+| DomainsTopic                                                | v1alpha1api20200601 | v1beta20200601 |
+| DomainsTopic_STATUS                                         | v1alpha1api20200601 | v1beta20200601 |
+| DomainsTopic_Spec                                           | v1alpha1api20200601 | v1beta20200601 |
 | EventSubscription                                           | v1alpha1api20200601 | v1beta20200601 |
 | EventSubscriptionDestination                                | v1alpha1api20200601 | v1beta20200601 |
 | EventSubscriptionDestination_EndpointType                   | v1alpha1api20200601 | v1beta20200601 |
