@@ -270,53 +270,6 @@ func generateSpecTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.TypeDefiniti
 		resources = newResources
 	}
 
-	/*
-		{
-			// Sorry, this is a bit yuck:
-			// remember that this is a mapping from ResourceName to Spec Type,
-			// so we don't want to change ResourceName, just what it points to
-			newResourceTypes := make(astmodel.Types)
-			renames := make(map[astmodel.TypeName]astmodel.TypeName)
-			for rName, rDef := range resources {
-				// klog.Infof("Resource: %s (%s)", rName.Name(), rName)
-				if tn, ok := rDef.Type().(astmodel.TypeName); ok {
-					newName := tn.WithName(rName.Name() + "_Spec")
-					renames[tn] = newName
-					newResourceTypes.Add(astmodel.MakeTypeDefinition(rName, newName))
-				} else {
-					panic("also here")
-				}
-			}
-			resources = newResourceTypes
-			// also apply any renames generated to the otherTypes
-			renamer := astmodel.NewRenamingVisitor(renames)
-			newOtherTypes, renameErr := renamer.RenameAll(otherTypes)
-			if err != nil {
-				return nil, nil, renameErr
-			}
-			otherTypes = newOtherTypes
-		}
-	*/
-
-	// next, strip all the readonly properties from the Spec types
-	rewriter := astmodel.TypeVisitorBuilder{
-		VisitObjectType: func(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
-			// strip all readonly props
-			for pName, p := range it.Properties() {
-				if p.ReadOnly() {
-					it = it.WithoutProperty(pName)
-				}
-			}
-
-			return astmodel.IdentityVisitOfObjectType(this, it, ctx)
-		},
-	}.Build()
-
-	otherTypes, err = rewriter.VisitDefinitions(otherTypes, nil)
-	if err != nil {
-		return nil, nil, err
-	}
-
 	return resources, otherTypes, nil
 }
 
