@@ -57,12 +57,7 @@ func (mm *MultiMatcher) WasMatched() error {
 		}
 	}
 
-	err := kerrors.NewAggregate(errs)
-	if err != nil {
-		return errors.Wrapf(err, "%d of %d did not match", count, len(mm.matchers))
-	}
-
-	return nil
+	return errors.Wrapf(kerrors.NewAggregate(errs), "%d of %d did not match", count, len(mm.matchers))
 }
 
 // HasMultipleMatchers returns true if the matcher contains multiple definitions
