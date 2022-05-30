@@ -646,7 +646,36 @@ func (o *JSONSerializationTestCase) createIndependentGenerator(
 		defs := genContext.GetDefinitionsInCurrentPackage()
 		def, ok := defs[t]
 		if ok {
-			return o.createIndependentGenerator(def.Name().Name(), def.Type(), genContext)
+			vt, isValidated := def.Type().(*astmodel.ValidatedType)
+
+			g := o.createIndependentGenerator(def.Name().Name(), def.Type(), genContext)
+			if !isValidated || g == nil {
+				return g
+			}
+
+			// typename pointing to validated type needs to cast the result back to the typename
+			// in case it gets wrapped in a pointer, where it will fail at runtime trying to convert
+			// between *int and *ValidatedInt (for example)
+
+			// this generates: ___.Map(func (it <elementType>) <ResultType> { return <ResultType>(it) })
+			genMap := astbuilder.CallExpr(
+				g,
+				"Map",
+				&dst.FuncLit{
+					Type: &dst.FuncType{
+						// sorry
+						Params: &dst.FieldList{List: []*dst.Field{
+							{
+								Names: []*dst.Ident{dst.NewIdent("it")},
+								Type:  dst.NewIdent(vt.ElementType().String()), // assuming this is primitive
+							},
+						}},
+						Results: &dst.FieldList{List: []*dst.Field{{Type: dst.NewIdent(t.Name())}}},
+					},
+					Body: astbuilder.StatementBlock(astbuilder.Returns(astbuilder.CallFunc(t.Name(), dst.NewIdent("it")))),
+				})
+
+			return genMap
 		}
 		return nil
 
