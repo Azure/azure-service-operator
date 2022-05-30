@@ -21,14 +21,14 @@ var _ StringMatcher = &literalMatcher{}
 // newLiteralMatcher returns a new literalMatcher for the given string
 func newLiteralMatcher(literal string) *literalMatcher {
 	return &literalMatcher{
-		literal: literal,
+		literal: strings.TrimSpace(literal),
 		advisor: NewTypoAdvisor(),
 	}
 }
 
 // Matches returns true if the passed value is a case-insensitive match with our configured literal
 func (lm *literalMatcher) Matches(value string) bool {
-	if strings.EqualFold(lm.literal, value) {
+	if strings.EqualFold(lm.literal, strings.TrimSpace(value)) {
 		if !lm.matched {
 			// First time we match, clear out our advisory as we won't be using it
 			lm.matched = true

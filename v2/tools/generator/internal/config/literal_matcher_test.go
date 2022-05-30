@@ -25,8 +25,10 @@ func TestLiteralMatcher_Matches_GivesExpectedResults(t *testing.T) {
 		{"Lowercase literal matches uppercase value", "foo", "FOO", true},
 		{"Mixed case literal matches different mixed case value", "Foo", "foO", true},
 		{"Different strings do not match", "Foo", "Bar", false},
-		{"Leading whitespace does not match", "  Foo", "Foo", false},
-		{"Trailing whitespace does not match", "Foo  ", "Foo", false},
+		{"Leading whitespace in matcher matches", "  Foo", "Foo", true},
+		{"Trailing whitespace in matcher matches", "Foo  ", "Foo", true},
+		{"Leading whitespace in value matches", "Foo", "  Foo", true},
+		{"Trailing whitespace in value matches", "Foo", "Foo  ", true},
 	}
 
 	for _, c := range cases {
