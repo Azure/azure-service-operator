@@ -24,9 +24,9 @@ func (rule *RedisFirewallRule_SpecARM) GetName() string {
 	return rule.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redis/firewallRules"
 func (rule *RedisFirewallRule_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.Cache/redis/firewallRules"
 }
 
 // Deprecated version of RedisFirewallRuleProperties. Use v1beta20201201.RedisFirewallRuleProperties instead

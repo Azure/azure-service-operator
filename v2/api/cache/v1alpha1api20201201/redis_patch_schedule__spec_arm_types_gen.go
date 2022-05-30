@@ -24,9 +24,9 @@ func (schedule *RedisPatchSchedule_SpecARM) GetName() string {
 	return schedule.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redis/patchSchedules"
 func (schedule *RedisPatchSchedule_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.Cache/redis/patchSchedules"
 }
 
 // Deprecated version of ScheduleEntries. Use v1beta20201201.ScheduleEntries instead

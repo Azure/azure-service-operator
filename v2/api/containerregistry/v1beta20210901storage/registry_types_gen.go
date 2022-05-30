@@ -70,9 +70,9 @@ func (registry *Registry) GetStatus() genruntime.ConvertibleStatus {
 	return &registry.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.ContainerRegistry/registries"
 func (registry *Registry) GetType() string {
-	return ""
+	return "Microsoft.ContainerRegistry/registries"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

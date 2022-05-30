@@ -28,9 +28,9 @@ func (registry *Registry_SpecARM) GetName() string {
 	return registry.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.ContainerRegistry/registries"
 func (registry *Registry_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.ContainerRegistry/registries"
 }
 
 // Deprecated version of IdentityProperties. Use v1beta20210901.IdentityProperties instead

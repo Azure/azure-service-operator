@@ -70,9 +70,9 @@ func (topic *Topic) GetStatus() genruntime.ConvertibleStatus {
 	return &topic.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.EventGrid/topics"
 func (topic *Topic) GetType() string {
-	return ""
+	return "Microsoft.EventGrid/topics"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

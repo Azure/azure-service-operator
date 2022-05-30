@@ -26,9 +26,9 @@ func (subnet *VirtualNetworksSubnet_SpecARM) GetName() string {
 	return subnet.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworks/subnets"
 func (subnet *VirtualNetworksSubnet_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.Network/virtualNetworks/subnets"
 }
 
 // Deprecated version of SubnetPropertiesFormat. Use v1beta20201101.SubnetPropertiesFormat instead

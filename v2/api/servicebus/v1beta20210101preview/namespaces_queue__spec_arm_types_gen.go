@@ -25,9 +25,9 @@ func (queue *NamespacesQueue_SpecARM) GetName() string {
 	return queue.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.ServiceBus/namespaces/queues"
 func (queue *NamespacesQueue_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.ServiceBus/namespaces/queues"
 }
 
 type SBQueuePropertiesARM struct {

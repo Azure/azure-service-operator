@@ -117,9 +117,9 @@ func (configuration *FlexibleServersConfiguration) GetStatus() genruntime.Conver
 	return &configuration.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DBforPostgreSQL/flexibleServers/configurations"
 func (configuration *FlexibleServersConfiguration) GetType() string {
-	return ""
+	return "Microsoft.DBforPostgreSQL/flexibleServers/configurations"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

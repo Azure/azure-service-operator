@@ -31,9 +31,9 @@ func (peering *VirtualNetworksVirtualNetworkPeering_SpecARM) GetName() string {
 	return peering.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
 func (peering *VirtualNetworksVirtualNetworkPeering_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.Network/virtualNetworks/virtualNetworkPeerings"
 }
 
 type VirtualNetworkPeeringPropertiesFormatARM struct {

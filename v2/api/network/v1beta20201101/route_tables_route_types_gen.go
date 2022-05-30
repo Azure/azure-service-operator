@@ -117,9 +117,9 @@ func (route *RouteTablesRoute) GetStatus() genruntime.ConvertibleStatus {
 	return &route.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/routeTables/routes"
 func (route *RouteTablesRoute) GetType() string {
-	return ""
+	return "Microsoft.Network/routeTables/routes"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

@@ -29,7 +29,7 @@ func (setting *DatabaseAccountsSqlDatabasesContainersThroughputSetting_SpecARM) 
 	return setting.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/throughputSettings"
 func (setting *DatabaseAccountsSqlDatabasesContainersThroughputSetting_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/throughputSettings"
 }

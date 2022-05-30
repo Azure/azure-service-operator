@@ -30,9 +30,9 @@ func (webtest *Webtest_SpecARM) GetName() string {
 	return webtest.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Insights/webtests"
 func (webtest *Webtest_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.Insights/webtests"
 }
 
 // Deprecated version of WebTestProperties. Use v1beta20180501preview.WebTestProperties instead

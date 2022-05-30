@@ -27,9 +27,9 @@ func (redis *Redis_SpecARM) GetName() string {
 	return redis.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redis"
 func (redis *Redis_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.Cache/redis"
 }
 
 // Deprecated version of RedisCreateProperties. Use v1beta20201201.RedisCreateProperties instead

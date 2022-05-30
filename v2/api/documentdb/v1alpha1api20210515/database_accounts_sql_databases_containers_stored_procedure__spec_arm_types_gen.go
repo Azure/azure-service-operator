@@ -26,9 +26,9 @@ func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_SpecARM) 
 	return procedure.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/storedProcedures"
 func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/storedProcedures"
 }
 
 // Deprecated version of SqlStoredProcedureCreateUpdateProperties. Use v1beta20210515.SqlStoredProcedureCreateUpdateProperties instead

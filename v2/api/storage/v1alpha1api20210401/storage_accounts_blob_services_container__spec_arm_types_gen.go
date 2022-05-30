@@ -24,9 +24,9 @@ func (container *StorageAccountsBlobServicesContainer_SpecARM) GetName() string 
 	return container.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts/blobServices/containers"
 func (container *StorageAccountsBlobServicesContainer_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.Storage/storageAccounts/blobServices/containers"
 }
 
 // Deprecated version of ContainerProperties. Use v1beta20210401.ContainerProperties instead

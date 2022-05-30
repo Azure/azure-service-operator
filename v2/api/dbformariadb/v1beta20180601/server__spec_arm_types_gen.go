@@ -34,9 +34,9 @@ func (server *Server_SpecARM) GetName() string {
 	return server.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DBforMariaDB/servers"
 func (server *Server_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.DBforMariaDB/servers"
 }
 
 type ServerPropertiesForCreateARM struct {

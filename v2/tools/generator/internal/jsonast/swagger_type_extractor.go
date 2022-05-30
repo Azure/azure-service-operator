@@ -60,6 +60,7 @@ type ResourceDefinition struct {
 	SpecType   astmodel.Type
 	StatusType astmodel.Type
 	SourceFile string
+	ARMType string // e.g. Microsoft.XYZ/resourceThings
 	// TODO: put ARM URI in here and use it for generating Resource URIs
 }
 
@@ -90,7 +91,7 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(ctx context.Context) (Swagge
 		operationPaths, _ := extractor.expandEnumsInPath(ctx, rawOperationPath, scanner, op.Put.Parameters)
 		for _, operationPath := range operationPaths {
 
-			resourceName, err := extractor.resourceNameFromOperationPath(operationPath)
+			armType, resourceName, err := extractor.resourceNameFromOperationPath(operationPath)
 			if err != nil {
 				klog.Errorf("Error extracting resource name (%s): %s", extractor.swaggerPath, err.Error())
 				continue
@@ -154,6 +155,7 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(ctx context.Context) (Swagge
 					SourceFile: extractor.swaggerPath,
 					SpecType:   resourceSpec,
 					StatusType: resourceStatus,
+					ARMType: armType,
 				}
 			}
 		}
@@ -466,13 +468,13 @@ func enumValuesToStrings(enumValues []interface{}) []string {
 	return result
 }
 
-func (extractor *SwaggerTypeExtractor) resourceNameFromOperationPath(operationPath string) (astmodel.TypeName, error) {
-	_, name, err := inferNameFromURLPath(operationPath)
+func (extractor *SwaggerTypeExtractor) resourceNameFromOperationPath(operationPath string) (string, astmodel.TypeName, error) {
+	group, resource, name, err := inferNameFromURLPath(operationPath)
 	if err != nil {
-		return astmodel.EmptyTypeName, errors.Wrapf(err, "unable to infer name from path %q", operationPath)
+		return "", astmodel.EmptyTypeName, errors.Wrapf(err, "unable to infer name from path %q", operationPath)
 	}
 
-	return astmodel.MakeTypeName(extractor.outputPackage, name), nil
+	return group+"/"+resource, astmodel.MakeTypeName(extractor.outputPackage, name), nil
 }
 
 // inferNameFromURLPath attempts to extract a name from a Swagger operation path
@@ -480,7 +482,7 @@ func (extractor *SwaggerTypeExtractor) resourceNameFromOperationPath(operationPa
 // in the name “ResourceType”. Child resources are treated by converting (e.g.)
 // “…/Microsoft.GroupName/resourceType/{parameterId}/differentType/{otherId}/something/{moreId}”
 // to “ResourceTypeDifferentTypeSomething”.
-func inferNameFromURLPath(operationPath string) (string, string, error) {
+func inferNameFromURLPath(operationPath string) (string, string, string, error) {
 	group := ""
 	nameParts := []string{}
 
@@ -502,7 +504,7 @@ func inferNameFromURLPath(operationPath string) (string, string, error) {
 
 				if skippedLast {
 					// this means two {parameters} in a row
-					return "", "", errors.Errorf("multiple parameters in path")
+					return "", "", "", errors.Errorf("multiple parameters in path")
 				}
 
 				skippedLast = true
@@ -518,24 +520,26 @@ func inferNameFromURLPath(operationPath string) (string, string, error) {
 	}
 
 	if !reading {
-		return "", "", errors.Errorf("no group name (‘Microsoft…’ = %q) found", group)
+		return "", "", "", errors.Errorf("no group name (‘Microsoft…’ = %q) found", group)
 	}
 
 	if len(nameParts) == 0 {
-		return "", "", errors.Errorf("couldn’t infer name")
+		return "", "", "", errors.Errorf("couldn’t infer name")
 	}
+
+	resource := strings.Join(nameParts, "/") // capture this before uppercasing/singularizing
 
 	// Uppercase first letter in each part:
 	for ix := range nameParts {
 		nameParts[ix] = strings.ToUpper(nameParts[ix][0:1]) + nameParts[ix][1:]
 	}
 
-	// Singularize last part of name:
+	// Now singularize last part of name:
 	nameParts[len(nameParts)-1] = astmodel.Singularize(nameParts[len(nameParts)-1])
 
 	name := strings.Join(nameParts, "")
 
-	return group, name, nil
+	return group, resource, name, nil
 }
 
 // SwaggerGroupRegex matches a “group” (Swagger ‘namespace’)

@@ -28,7 +28,7 @@ func (identity *UserAssignedIdentity_SpecARM) GetName() string {
 	return identity.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.ManagedIdentity/userAssignedIdentities"
 func (identity *UserAssignedIdentity_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.ManagedIdentity/userAssignedIdentities"
 }

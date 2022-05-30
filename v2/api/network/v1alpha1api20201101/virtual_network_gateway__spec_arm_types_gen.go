@@ -28,9 +28,9 @@ func (gateway *VirtualNetworkGateway_SpecARM) GetName() string {
 	return gateway.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworkGateways"
 func (gateway *VirtualNetworkGateway_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.Network/virtualNetworkGateways"
 }
 
 // Deprecated version of VirtualNetworkGatewayPropertiesFormat. Use v1beta20201101.VirtualNetworkGatewayPropertiesFormat instead

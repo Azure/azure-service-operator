@@ -48,9 +48,9 @@ func (account *StorageAccount_SpecARM) GetName() string {
 	return account.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts"
 func (account *StorageAccount_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.Storage/storageAccounts"
 }
 
 type ExtendedLocationARM struct {

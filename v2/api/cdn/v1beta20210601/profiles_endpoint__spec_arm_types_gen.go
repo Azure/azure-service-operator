@@ -29,9 +29,9 @@ func (endpoint *ProfilesEndpoint_SpecARM) GetName() string {
 	return endpoint.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Cdn/profiles/endpoints"
 func (endpoint *ProfilesEndpoint_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.Cdn/profiles/endpoints"
 }
 
 type EndpointPropertiesARM struct {

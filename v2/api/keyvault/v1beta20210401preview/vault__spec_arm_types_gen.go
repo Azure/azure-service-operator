@@ -31,9 +31,9 @@ func (vault *Vault_SpecARM) GetName() string {
 	return vault.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.KeyVault/vaults"
 func (vault *Vault_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.KeyVault/vaults"
 }
 
 type VaultPropertiesARM struct {

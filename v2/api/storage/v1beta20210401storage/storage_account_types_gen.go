@@ -70,9 +70,9 @@ func (account *StorageAccount) GetStatus() genruntime.ConvertibleStatus {
 	return &account.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts"
 func (account *StorageAccount) GetType() string {
-	return ""
+	return "Microsoft.Storage/storageAccounts"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

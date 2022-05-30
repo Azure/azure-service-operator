@@ -31,9 +31,9 @@ func (server *FlexibleServer_SpecARM) GetName() string {
 	return server.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DBforMySQL/flexibleServers"
 func (server *FlexibleServer_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.DBforMySQL/flexibleServers"
 }
 
 // Deprecated version of Identity. Use v1beta20210501.Identity instead

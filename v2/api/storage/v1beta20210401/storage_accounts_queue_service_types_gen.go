@@ -117,9 +117,9 @@ func (service *StorageAccountsQueueService) GetStatus() genruntime.ConvertibleSt
 	return &service.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts/queueServices"
 func (service *StorageAccountsQueueService) GetType() string {
-	return ""
+	return "Microsoft.Storage/storageAccounts/queueServices"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

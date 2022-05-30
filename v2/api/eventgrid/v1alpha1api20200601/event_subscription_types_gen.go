@@ -130,9 +130,9 @@ func (subscription *EventSubscription) GetStatus() genruntime.ConvertibleStatus 
 	return &subscription.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.EventGrid/eventSubscriptions"
 func (subscription *EventSubscription) GetType() string {
-	return ""
+	return "Microsoft.EventGrid/eventSubscriptions"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

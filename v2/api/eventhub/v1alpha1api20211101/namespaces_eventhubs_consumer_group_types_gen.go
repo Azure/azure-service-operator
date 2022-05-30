@@ -130,9 +130,9 @@ func (group *NamespacesEventhubsConsumerGroup) GetStatus() genruntime.Convertibl
 	return &group.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.EventHub/namespaces/eventhubs/consumergroups"
 func (group *NamespacesEventhubsConsumerGroup) GetType() string {
-	return ""
+	return "Microsoft.EventHub/namespaces/eventhubs/consumergroups"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

@@ -117,9 +117,9 @@ func (assignment *RoleAssignment) GetStatus() genruntime.ConvertibleStatus {
 	return &assignment.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Authorization/roleAssignments"
 func (assignment *RoleAssignment) GetType() string {
-	return ""
+	return "Microsoft.Authorization/roleAssignments"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

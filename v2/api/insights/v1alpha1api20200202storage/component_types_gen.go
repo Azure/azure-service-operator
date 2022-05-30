@@ -91,9 +91,9 @@ func (component *Component) GetStatus() genruntime.ConvertibleStatus {
 	return &component.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Insights/components"
 func (component *Component) GetType() string {
-	return ""
+	return "Microsoft.Insights/components"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

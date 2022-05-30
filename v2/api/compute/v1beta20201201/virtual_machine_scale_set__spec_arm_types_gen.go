@@ -47,9 +47,9 @@ func (scaleSet *VirtualMachineScaleSet_SpecARM) GetName() string {
 	return scaleSet.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/virtualMachineScaleSets"
 func (scaleSet *VirtualMachineScaleSet_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.Compute/virtualMachineScaleSets"
 }
 
 type ExtendedLocationARM struct {

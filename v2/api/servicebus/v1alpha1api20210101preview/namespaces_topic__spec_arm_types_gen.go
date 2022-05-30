@@ -24,9 +24,9 @@ func (topic *NamespacesTopic_SpecARM) GetName() string {
 	return topic.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.ServiceBus/namespaces/topics"
 func (topic *NamespacesTopic_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.ServiceBus/namespaces/topics"
 }
 
 // Deprecated version of SBTopicProperties. Use v1beta20210101preview.SBTopicProperties instead

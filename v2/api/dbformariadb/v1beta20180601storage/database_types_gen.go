@@ -70,9 +70,9 @@ func (database *Database) GetStatus() genruntime.ConvertibleStatus {
 	return &database.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DBforMariaDB/servers/databases"
 func (database *Database) GetType() string {
-	return ""
+	return "Microsoft.DBforMariaDB/servers/databases"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

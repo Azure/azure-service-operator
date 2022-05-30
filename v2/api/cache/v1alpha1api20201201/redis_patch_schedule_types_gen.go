@@ -130,9 +130,9 @@ func (schedule *RedisPatchSchedule) GetStatus() genruntime.ConvertibleStatus {
 	return &schedule.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redis/patchSchedules"
 func (schedule *RedisPatchSchedule) GetType() string {
-	return ""
+	return "Microsoft.Cache/redis/patchSchedules"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

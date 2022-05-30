@@ -25,9 +25,9 @@ func (consumergroup *NamespacesEventhubsConsumergroup_SpecARM) GetName() string 
 	return consumergroup.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.EventHub/namespaces/eventhubs/consumergroups"
 func (consumergroup *NamespacesEventhubsConsumergroup_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.EventHub/namespaces/eventhubs/consumergroups"
 }
 
 type NamespacesEventhubsConsumergroup_Spec_PropertiesARM struct {

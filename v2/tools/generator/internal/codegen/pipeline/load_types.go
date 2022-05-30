@@ -77,6 +77,10 @@ func LoadTypes(idFactory astmodel.IdentifierFactory, config *config.Configuratio
 				statusType := status.Type()
 
 				resourceType := astmodel.NewResourceType(specType, statusType)
+
+				// add on ARM Type
+				resourceType = resourceType.WithARMType(resourceInfo.ARMType)
+
 				resourceDefinition := astmodel.MakeTypeDefinition(resourceName, resourceType)
 
 				// document origin of resource
@@ -87,6 +91,7 @@ func LoadTypes(idFactory astmodel.IdentifierFactory, config *config.Configuratio
 						fmt.Sprintf(" - Generated from: %s", sourceFile),
 						// fmt.Sprintf(" - ARM URI: %s", resourceInfo.ARMURI.Path),
 					}))
+
 
 				err := defs.AddAllowDuplicates(resourceDefinition)
 				if err != nil {

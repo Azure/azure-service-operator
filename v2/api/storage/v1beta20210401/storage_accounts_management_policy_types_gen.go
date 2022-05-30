@@ -117,9 +117,9 @@ func (policy *StorageAccountsManagementPolicy) GetStatus() genruntime.Convertibl
 	return &policy.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts/managementPolicies"
 func (policy *StorageAccountsManagementPolicy) GetType() string {
-	return ""
+	return "Microsoft.Storage/storageAccounts/managementPolicies"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

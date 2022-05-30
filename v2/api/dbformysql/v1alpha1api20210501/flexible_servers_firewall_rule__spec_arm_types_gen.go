@@ -24,9 +24,9 @@ func (rule *FlexibleServersFirewallRule_SpecARM) GetName() string {
 	return rule.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DBforMySQL/flexibleServers/firewallRules"
 func (rule *FlexibleServersFirewallRule_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.DBforMySQL/flexibleServers/firewallRules"
 }
 
 // Deprecated version of FirewallRuleProperties. Use v1beta20210501.FirewallRuleProperties instead

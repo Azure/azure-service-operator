@@ -90,9 +90,9 @@ func (address *PublicIPAddress) GetStatus() genruntime.ConvertibleStatus {
 	return &address.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/publicIPAddresses"
 func (address *PublicIPAddress) GetType() string {
-	return ""
+	return "Microsoft.Network/publicIPAddresses"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

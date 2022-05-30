@@ -27,9 +27,9 @@ func (account *BatchAccount_SpecARM) GetName() string {
 	return account.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Batch/batchAccounts"
 func (account *BatchAccount_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.Batch/batchAccounts"
 }
 
 // Deprecated version of BatchAccountCreateProperties. Use v1beta20210101.BatchAccountCreateProperties instead

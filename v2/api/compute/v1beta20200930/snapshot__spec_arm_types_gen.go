@@ -33,9 +33,9 @@ func (snapshot *Snapshot_SpecARM) GetName() string {
 	return snapshot.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/snapshots"
 func (snapshot *Snapshot_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.Compute/snapshots"
 }
 
 type SnapshotPropertiesARM struct {

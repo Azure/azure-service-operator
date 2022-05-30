@@ -25,9 +25,9 @@ func (database *RedisEnterpriseDatabase_SpecARM) GetName() string {
 	return database.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redisEnterprise/databases"
 func (database *RedisEnterpriseDatabase_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.Cache/redisEnterprise/databases"
 }
 
 type DatabasePropertiesARM struct {

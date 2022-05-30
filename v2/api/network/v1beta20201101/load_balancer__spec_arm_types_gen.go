@@ -38,9 +38,9 @@ func (balancer *LoadBalancer_SpecARM) GetName() string {
 	return balancer.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/loadBalancers"
 func (balancer *LoadBalancer_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.Network/loadBalancers"
 }
 
 type ExtendedLocationARM struct {

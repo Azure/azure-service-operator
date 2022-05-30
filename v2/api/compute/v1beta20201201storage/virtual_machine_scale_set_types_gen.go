@@ -70,9 +70,9 @@ func (scaleSet *VirtualMachineScaleSet) GetStatus() genruntime.ConvertibleStatus
 	return &scaleSet.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/virtualMachineScaleSets"
 func (scaleSet *VirtualMachineScaleSet) GetType() string {
-	return ""
+	return "Microsoft.Compute/virtualMachineScaleSets"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

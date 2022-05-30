@@ -90,9 +90,9 @@ func (eventhub *NamespacesEventhub) GetStatus() genruntime.ConvertibleStatus {
 	return &eventhub.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.EventHub/namespaces/eventhubs"
 func (eventhub *NamespacesEventhub) GetType() string {
-	return ""
+	return "Microsoft.EventHub/namespaces/eventhubs"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

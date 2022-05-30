@@ -117,9 +117,9 @@ func (database *MongodbDatabase) GetStatus() genruntime.ConvertibleStatus {
 	return &database.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases"
 func (database *MongodbDatabase) GetType() string {
-	return ""
+	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

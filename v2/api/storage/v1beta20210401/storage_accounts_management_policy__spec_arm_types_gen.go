@@ -25,9 +25,9 @@ func (policy *StorageAccountsManagementPolicy_SpecARM) GetName() string {
 	return policy.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts/managementPolicies"
 func (policy *StorageAccountsManagementPolicy_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.Storage/storageAccounts/managementPolicies"
 }
 
 type ManagementPolicyPropertiesARM struct {

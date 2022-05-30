@@ -23,7 +23,7 @@ func (topic *DomainsTopic_SpecARM) GetName() string {
 	return topic.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.EventGrid/domains/topics"
 func (topic *DomainsTopic_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.EventGrid/domains/topics"
 }

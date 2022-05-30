@@ -30,9 +30,9 @@ func (machine *VirtualMachine_SpecARM) GetName() string {
 	return machine.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/virtualMachines"
 func (machine *VirtualMachine_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.Compute/virtualMachines"
 }
 
 // Deprecated version of VirtualMachineIdentity. Use v1beta20201201.VirtualMachineIdentity instead

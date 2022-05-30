@@ -24,9 +24,9 @@ func (rule *NamespacesAuthorizationRule_SpecARM) GetName() string {
 	return rule.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.EventHub/namespaces/authorizationRules"
 func (rule *NamespacesAuthorizationRule_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.EventHub/namespaces/authorizationRules"
 }
 
 // Deprecated version of NamespacesAuthorizationRule_Spec_Properties. Use v1beta20211101.NamespacesAuthorizationRule_Spec_Properties instead

@@ -90,9 +90,9 @@ func (identity *UserAssignedIdentity) GetStatus() genruntime.ConvertibleStatus {
 	return &identity.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.ManagedIdentity/userAssignedIdentities"
 func (identity *UserAssignedIdentity) GetType() string {
-	return ""
+	return "Microsoft.ManagedIdentity/userAssignedIdentities"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

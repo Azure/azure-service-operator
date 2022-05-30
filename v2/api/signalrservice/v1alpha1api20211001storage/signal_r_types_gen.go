@@ -90,9 +90,9 @@ func (signalR *SignalR) GetStatus() genruntime.ConvertibleStatus {
 	return &signalR.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.SignalRService/signalR"
 func (signalR *SignalR) GetType() string {
-	return ""
+	return "Microsoft.SignalRService/signalR"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

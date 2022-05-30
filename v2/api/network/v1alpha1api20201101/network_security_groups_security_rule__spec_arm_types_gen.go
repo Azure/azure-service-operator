@@ -26,9 +26,9 @@ func (rule *NetworkSecurityGroupsSecurityRule_SpecARM) GetName() string {
 	return rule.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/networkSecurityGroups/securityRules"
 func (rule *NetworkSecurityGroupsSecurityRule_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.Network/networkSecurityGroups/securityRules"
 }
 
 // Deprecated version of SecurityRulePropertiesFormat. Use v1beta20201101.SecurityRulePropertiesFormat instead

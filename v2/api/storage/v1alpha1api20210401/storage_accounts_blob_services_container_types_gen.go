@@ -130,9 +130,9 @@ func (container *StorageAccountsBlobServicesContainer) GetStatus() genruntime.Co
 	return &container.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts/blobServices/containers"
 func (container *StorageAccountsBlobServicesContainer) GetType() string {
-	return ""
+	return "Microsoft.Storage/storageAccounts/blobServices/containers"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

@@ -37,9 +37,9 @@ func (enterprise *RedisEnterprise_SpecARM) GetName() string {
 	return enterprise.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redisEnterprise"
 func (enterprise *RedisEnterprise_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.Cache/redisEnterprise"
 }
 
 type ClusterPropertiesARM struct {

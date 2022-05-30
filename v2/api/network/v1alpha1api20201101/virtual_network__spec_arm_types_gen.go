@@ -28,9 +28,9 @@ func (network *VirtualNetwork_SpecARM) GetName() string {
 	return network.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworks"
 func (network *VirtualNetwork_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.Network/virtualNetworks"
 }
 
 // Deprecated version of VirtualNetworkPropertiesFormat. Use v1beta20201101.VirtualNetworkPropertiesFormat instead

@@ -28,9 +28,9 @@ func (networkInterface *NetworkInterface_SpecARM) GetName() string {
 	return networkInterface.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/networkInterfaces"
 func (networkInterface *NetworkInterface_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.Network/networkInterfaces"
 }
 
 // Deprecated version of NetworkInterfacePropertiesFormat. Use v1beta20201101.NetworkInterfacePropertiesFormat instead

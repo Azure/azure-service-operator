@@ -27,9 +27,9 @@ func (server *FlexibleServer_SpecARM) GetName() string {
 	return server.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DBforPostgreSQL/flexibleServers"
 func (server *FlexibleServer_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.DBforPostgreSQL/flexibleServers"
 }
 
 // Deprecated version of ServerProperties. Use v1beta20210601.ServerProperties instead

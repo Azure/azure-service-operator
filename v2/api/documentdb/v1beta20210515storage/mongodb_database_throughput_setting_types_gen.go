@@ -70,9 +70,9 @@ func (setting *MongodbDatabaseThroughputSetting) GetStatus() genruntime.Converti
 	return &setting.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/throughputSettings"
 func (setting *MongodbDatabaseThroughputSetting) GetType() string {
-	return ""
+	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/throughputSettings"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

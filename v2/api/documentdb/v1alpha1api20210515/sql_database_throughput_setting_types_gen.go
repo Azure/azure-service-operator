@@ -130,9 +130,9 @@ func (setting *SqlDatabaseThroughputSetting) GetStatus() genruntime.ConvertibleS
 	return &setting.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/throughputSettings"
 func (setting *SqlDatabaseThroughputSetting) GetType() string {
-	return ""
+	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/throughputSettings"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

@@ -32,9 +32,9 @@ func (table *RouteTable_SpecARM) GetName() string {
 	return table.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/routeTables"
 func (table *RouteTable_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.Network/routeTables"
 }
 
 type RouteTablePropertiesFormat_RouteTable_SubResourceEmbeddedARM struct {

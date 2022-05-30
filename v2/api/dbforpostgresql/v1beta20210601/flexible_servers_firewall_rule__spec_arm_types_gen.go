@@ -25,9 +25,9 @@ func (rule *FlexibleServersFirewallRule_SpecARM) GetName() string {
 	return rule.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DBforPostgreSQL/flexibleServers/firewallRules"
 func (rule *FlexibleServersFirewallRule_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.DBforPostgreSQL/flexibleServers/firewallRules"
 }
 
 type FirewallRulePropertiesARM struct {

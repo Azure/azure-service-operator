@@ -26,9 +26,9 @@ func (container *DatabaseAccountsSqlDatabasesContainer_SpecARM) GetName() string
 	return container.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers"
 func (container *DatabaseAccountsSqlDatabasesContainer_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers"
 }
 
 // Deprecated version of SqlContainerCreateUpdateProperties. Use v1beta20210515.SqlContainerCreateUpdateProperties instead

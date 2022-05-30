@@ -130,9 +130,9 @@ func (gateway *VirtualNetworkGateway) GetStatus() genruntime.ConvertibleStatus {
 	return &gateway.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworkGateways"
 func (gateway *VirtualNetworkGateway) GetType() string {
-	return ""
+	return "Microsoft.Network/virtualNetworkGateways"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

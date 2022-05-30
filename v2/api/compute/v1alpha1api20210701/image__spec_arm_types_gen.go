@@ -27,9 +27,9 @@ func (image *Image_SpecARM) GetName() string {
 	return image.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/images"
 func (image *Image_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.Compute/images"
 }
 
 // Deprecated version of ExtendedLocation. Use v1beta20210701.ExtendedLocation instead

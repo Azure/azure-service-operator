@@ -33,9 +33,9 @@ func (profile *Profile_SpecARM) GetName() string {
 	return profile.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Cdn/profiles"
 func (profile *Profile_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.Cdn/profiles"
 }
 
 type ProfilePropertiesARM struct {

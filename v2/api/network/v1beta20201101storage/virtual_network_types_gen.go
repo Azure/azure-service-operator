@@ -70,9 +70,9 @@ func (network *VirtualNetwork) GetStatus() genruntime.ConvertibleStatus {
 	return &network.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/virtualNetworks"
 func (network *VirtualNetwork) GetType() string {
-	return ""
+	return "Microsoft.Network/virtualNetworks"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

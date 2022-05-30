@@ -27,9 +27,9 @@ func (group *NetworkSecurityGroup_SpecARM) GetName() string {
 	return group.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/networkSecurityGroups"
 func (group *NetworkSecurityGroup_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.Network/networkSecurityGroups"
 }
 
 // Deprecated version of NetworkSecurityGroupPropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.NetworkSecurityGroupPropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded instead

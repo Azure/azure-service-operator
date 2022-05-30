@@ -70,9 +70,9 @@ func (server *FlexibleServer) GetStatus() genruntime.ConvertibleStatus {
 	return &server.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DBforPostgreSQL/flexibleServers"
 func (server *FlexibleServer) GetType() string {
-	return ""
+	return "Microsoft.DBforPostgreSQL/flexibleServers"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

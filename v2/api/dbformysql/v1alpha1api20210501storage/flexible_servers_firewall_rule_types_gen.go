@@ -90,9 +90,9 @@ func (rule *FlexibleServersFirewallRule) GetStatus() genruntime.ConvertibleStatu
 	return &rule.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DBforMySQL/flexibleServers/firewallRules"
 func (rule *FlexibleServersFirewallRule) GetType() string {
-	return ""
+	return "Microsoft.DBforMySQL/flexibleServers/firewallRules"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

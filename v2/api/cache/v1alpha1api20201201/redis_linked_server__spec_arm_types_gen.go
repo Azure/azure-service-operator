@@ -24,9 +24,9 @@ func (server *RedisLinkedServer_SpecARM) GetName() string {
 	return server.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redis/linkedServers"
 func (server *RedisLinkedServer_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.Cache/redis/linkedServers"
 }
 
 // Deprecated version of RedisLinkedServerCreateProperties. Use v1beta20201201.RedisLinkedServerCreateProperties instead

@@ -29,9 +29,9 @@ func (signalR *SignalR_SpecARM) GetName() string {
 	return signalR.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.SignalRService/signalR"
 func (signalR *SignalR_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.SignalRService/signalR"
 }
 
 // Deprecated version of ManagedIdentity. Use v1beta20211001.ManagedIdentity instead

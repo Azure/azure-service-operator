@@ -130,9 +130,9 @@ func (rule *NetworkSecurityGroupsSecurityRule) GetStatus() genruntime.Convertibl
 	return &rule.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/networkSecurityGroups/securityRules"
 func (rule *NetworkSecurityGroupsSecurityRule) GetType() string {
-	return ""
+	return "Microsoft.Network/networkSecurityGroups/securityRules"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

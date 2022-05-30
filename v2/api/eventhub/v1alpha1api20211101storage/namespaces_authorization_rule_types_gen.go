@@ -90,9 +90,9 @@ func (rule *NamespacesAuthorizationRule) GetStatus() genruntime.ConvertibleStatu
 	return &rule.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.EventHub/namespaces/authorizationRules"
 func (rule *NamespacesAuthorizationRule) GetType() string {
-	return ""
+	return "Microsoft.EventHub/namespaces/authorizationRules"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

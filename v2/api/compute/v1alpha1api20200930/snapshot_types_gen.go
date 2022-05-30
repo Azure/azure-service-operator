@@ -130,9 +130,9 @@ func (snapshot *Snapshot) GetStatus() genruntime.ConvertibleStatus {
 	return &snapshot.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/snapshots"
 func (snapshot *Snapshot) GetType() string {
-	return ""
+	return "Microsoft.Compute/snapshots"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

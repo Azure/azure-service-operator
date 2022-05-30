@@ -31,9 +31,9 @@ func (component *Component_SpecARM) GetName() string {
 	return component.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Insights/components"
 func (component *Component_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.Insights/components"
 }
 
 // Deprecated version of ApplicationInsightsComponentProperties. Use v1beta20200202.ApplicationInsightsComponentProperties instead

@@ -29,9 +29,9 @@ func (trigger *DatabaseAccountsSqlDatabasesContainersTrigger_SpecARM) GetName() 
 	return trigger.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/triggers"
 func (trigger *DatabaseAccountsSqlDatabasesContainersTrigger_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/triggers"
 }
 
 type SqlTriggerCreateUpdatePropertiesARM struct {

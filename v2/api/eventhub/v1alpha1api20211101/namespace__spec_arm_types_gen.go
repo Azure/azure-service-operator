@@ -28,9 +28,9 @@ func (namespace *Namespace_SpecARM) GetName() string {
 	return namespace.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.EventHub/namespaces"
 func (namespace *Namespace_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.EventHub/namespaces"
 }
 
 // Deprecated version of Identity. Use v1beta20211101.Identity instead

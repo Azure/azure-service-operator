@@ -70,9 +70,9 @@ func (account *BatchAccount) GetStatus() genruntime.ConvertibleStatus {
 	return &account.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Batch/batchAccounts"
 func (account *BatchAccount) GetType() string {
-	return ""
+	return "Microsoft.Batch/batchAccounts"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

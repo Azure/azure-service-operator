@@ -130,9 +130,9 @@ func (disk *Disk) GetStatus() genruntime.ConvertibleStatus {
 	return &disk.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/disks"
 func (disk *Disk) GetType() string {
-	return ""
+	return "Microsoft.Compute/disks"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

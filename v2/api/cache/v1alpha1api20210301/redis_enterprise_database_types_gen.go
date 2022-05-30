@@ -130,9 +130,9 @@ func (database *RedisEnterpriseDatabase) GetStatus() genruntime.ConvertibleStatu
 	return &database.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redisEnterprise/databases"
 func (database *RedisEnterpriseDatabase) GetType() string {
-	return ""
+	return "Microsoft.Cache/redisEnterprise/databases"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

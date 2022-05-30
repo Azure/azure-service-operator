@@ -130,9 +130,9 @@ func (redis *Redis) GetStatus() genruntime.ConvertibleStatus {
 	return &redis.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redis"
 func (redis *Redis) GetType() string {
-	return ""
+	return "Microsoft.Cache/redis"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

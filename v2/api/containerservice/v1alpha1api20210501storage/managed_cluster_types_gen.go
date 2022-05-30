@@ -91,9 +91,9 @@ func (cluster *ManagedCluster) GetStatus() genruntime.ConvertibleStatus {
 	return &cluster.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.ContainerService/managedClusters"
 func (cluster *ManagedCluster) GetType() string {
-	return ""
+	return "Microsoft.ContainerService/managedClusters"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

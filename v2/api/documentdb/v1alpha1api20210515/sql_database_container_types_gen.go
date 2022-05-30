@@ -130,9 +130,9 @@ func (container *SqlDatabaseContainer) GetStatus() genruntime.ConvertibleStatus 
 	return &container.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers"
 func (container *SqlDatabaseContainer) GetType() string {
-	return ""
+	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

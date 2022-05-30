@@ -130,9 +130,9 @@ func (balancer *LoadBalancer) GetStatus() genruntime.ConvertibleStatus {
 	return &balancer.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/loadBalancers"
 func (balancer *LoadBalancer) GetType() string {
-	return ""
+	return "Microsoft.Network/loadBalancers"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

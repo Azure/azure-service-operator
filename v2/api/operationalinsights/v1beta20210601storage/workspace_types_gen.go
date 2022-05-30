@@ -70,9 +70,9 @@ func (workspace *Workspace) GetStatus() genruntime.ConvertibleStatus {
 	return &workspace.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.OperationalInsights/workspaces"
 func (workspace *Workspace) GetType() string {
-	return ""
+	return "Microsoft.OperationalInsights/workspaces"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

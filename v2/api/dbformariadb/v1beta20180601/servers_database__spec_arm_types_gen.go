@@ -25,9 +25,9 @@ func (database *ServersDatabase_SpecARM) GetName() string {
 	return database.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DBforMariaDB/servers/databases"
 func (database *ServersDatabase_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.DBforMariaDB/servers/databases"
 }
 
 type DatabasePropertiesARM struct {

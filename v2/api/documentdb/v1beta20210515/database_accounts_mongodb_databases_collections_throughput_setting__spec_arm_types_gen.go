@@ -29,9 +29,9 @@ func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec
 	return setting.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections/throughputSettings"
 func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.DocumentDB/databaseAccounts/mongodbDatabases/collections/throughputSettings"
 }
 
 type ThroughputSettingsUpdatePropertiesARM struct {

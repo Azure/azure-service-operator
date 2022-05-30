@@ -117,9 +117,9 @@ func (image *Image) GetStatus() genruntime.ConvertibleStatus {
 	return &image.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/images"
 func (image *Image) GetType() string {
-	return ""
+	return "Microsoft.Compute/images"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

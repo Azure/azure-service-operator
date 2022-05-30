@@ -25,9 +25,9 @@ func (service *StorageAccountsBlobService_SpecARM) GetName() string {
 	return service.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts/blobServices"
 func (service *StorageAccountsBlobService_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.Storage/storageAccounts/blobServices"
 }
 
 type StorageAccountsBlobService_Spec_PropertiesARM struct {

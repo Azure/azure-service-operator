@@ -117,9 +117,9 @@ func (configuration *Configuration) GetStatus() genruntime.ConvertibleStatus {
 	return &configuration.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DBforMariaDB/servers/configurations"
 func (configuration *Configuration) GetType() string {
-	return ""
+	return "Microsoft.DBforMariaDB/servers/configurations"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

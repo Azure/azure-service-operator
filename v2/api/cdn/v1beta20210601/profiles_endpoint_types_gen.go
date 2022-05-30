@@ -117,9 +117,9 @@ func (endpoint *ProfilesEndpoint) GetStatus() genruntime.ConvertibleStatus {
 	return &endpoint.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Cdn/profiles/endpoints"
 func (endpoint *ProfilesEndpoint) GetType() string {
-	return ""
+	return "Microsoft.Cdn/profiles/endpoints"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

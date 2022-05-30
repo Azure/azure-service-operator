@@ -130,9 +130,9 @@ func (service *StorageAccountsBlobService) GetStatus() genruntime.ConvertibleSta
 	return &service.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts/blobServices"
 func (service *StorageAccountsBlobService) GetType() string {
-	return ""
+	return "Microsoft.Storage/storageAccounts/blobServices"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

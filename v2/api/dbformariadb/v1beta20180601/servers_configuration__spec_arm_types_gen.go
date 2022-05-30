@@ -25,9 +25,9 @@ func (configuration *ServersConfiguration_SpecARM) GetName() string {
 	return configuration.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DBforMariaDB/servers/configurations"
 func (configuration *ServersConfiguration_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.DBforMariaDB/servers/configurations"
 }
 
 type ConfigurationPropertiesARM struct {

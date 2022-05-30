@@ -90,9 +90,9 @@ func (namespace *Namespace) GetStatus() genruntime.ConvertibleStatus {
 	return &namespace.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.ServiceBus/namespaces"
 func (namespace *Namespace) GetType() string {
-	return ""
+	return "Microsoft.ServiceBus/namespaces"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

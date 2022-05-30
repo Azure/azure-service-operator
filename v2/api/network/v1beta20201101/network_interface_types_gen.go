@@ -117,9 +117,9 @@ func (networkInterface *NetworkInterface) GetStatus() genruntime.ConvertibleStat
 	return &networkInterface.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/networkInterfaces"
 func (networkInterface *NetworkInterface) GetType() string {
-	return ""
+	return "Microsoft.Network/networkInterfaces"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

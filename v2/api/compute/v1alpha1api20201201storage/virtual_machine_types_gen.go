@@ -92,9 +92,9 @@ func (machine *VirtualMachine) GetStatus() genruntime.ConvertibleStatus {
 	return &machine.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/virtualMachines"
 func (machine *VirtualMachine) GetType() string {
-	return ""
+	return "Microsoft.Compute/virtualMachines"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

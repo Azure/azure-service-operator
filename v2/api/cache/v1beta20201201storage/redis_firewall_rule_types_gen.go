@@ -70,9 +70,9 @@ func (rule *RedisFirewallRule) GetStatus() genruntime.ConvertibleStatus {
 	return &rule.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redis/firewallRules"
 func (rule *RedisFirewallRule) GetType() string {
-	return ""
+	return "Microsoft.Cache/redis/firewallRules"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

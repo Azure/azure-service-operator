@@ -37,9 +37,9 @@ func (namespace *Namespace_SpecARM) GetName() string {
 	return namespace.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.ServiceBus/namespaces"
 func (namespace *Namespace_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.ServiceBus/namespaces"
 }
 
 type IdentityARM struct {

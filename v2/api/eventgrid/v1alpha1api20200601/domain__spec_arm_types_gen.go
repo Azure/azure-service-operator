@@ -26,9 +26,9 @@ func (domain *Domain_SpecARM) GetName() string {
 	return domain.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.EventGrid/domains"
 func (domain *Domain_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.EventGrid/domains"
 }
 
 // Deprecated version of DomainProperties. Use v1beta20200601.DomainProperties instead

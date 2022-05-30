@@ -28,9 +28,9 @@ func (account *DatabaseAccount_SpecARM) GetName() string {
 	return account.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts"
 func (account *DatabaseAccount_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.DocumentDB/databaseAccounts"
 }
 
 // Deprecated version of DatabaseAccountCreateUpdateProperties. Use v1beta20210515.DatabaseAccountCreateUpdateProperties instead

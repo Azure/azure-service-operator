@@ -27,9 +27,9 @@ func (workspace *Workspace_SpecARM) GetName() string {
 	return workspace.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.OperationalInsights/workspaces"
 func (workspace *Workspace_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.OperationalInsights/workspaces"
 }
 
 // Deprecated version of WorkspaceProperties. Use v1beta20210601.WorkspaceProperties instead

@@ -117,9 +117,9 @@ func (server *RedisLinkedServer) GetStatus() genruntime.ConvertibleStatus {
 	return &server.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redis/linkedServers"
 func (server *RedisLinkedServer) GetType() string {
-	return ""
+	return "Microsoft.Cache/redis/linkedServers"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

@@ -43,9 +43,9 @@ func (cluster *ManagedCluster_SpecARM) GetName() string {
 	return cluster.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.ContainerService/managedClusters"
 func (cluster *ManagedCluster_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.ContainerService/managedClusters"
 }
 
 type ExtendedLocationARM struct {

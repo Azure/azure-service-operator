@@ -24,9 +24,9 @@ func (eventhub *NamespacesEventhub_SpecARM) GetName() string {
 	return eventhub.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.EventHub/namespaces/eventhubs"
 func (eventhub *NamespacesEventhub_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.EventHub/namespaces/eventhubs"
 }
 
 // Deprecated version of NamespacesEventhub_Spec_Properties. Use v1beta20211101.NamespacesEventhub_Spec_Properties instead

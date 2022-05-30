@@ -25,9 +25,9 @@ func (service *StorageAccountsQueueService_SpecARM) GetName() string {
 	return service.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts/queueServices"
 func (service *StorageAccountsQueueService_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.Storage/storageAccounts/queueServices"
 }
 
 type StorageAccountsQueueService_Spec_PropertiesARM struct {

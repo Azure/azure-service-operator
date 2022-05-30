@@ -90,9 +90,9 @@ func (queue *NamespacesQueue) GetStatus() genruntime.ConvertibleStatus {
 	return &queue.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.ServiceBus/namespaces/queues"
 func (queue *NamespacesQueue) GetType() string {
-	return ""
+	return "Microsoft.ServiceBus/namespaces/queues"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

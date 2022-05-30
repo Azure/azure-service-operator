@@ -24,9 +24,9 @@ func (database *FlexibleServersDatabase_SpecARM) GetName() string {
 	return database.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DBforPostgreSQL/flexibleServers/databases"
 func (database *FlexibleServersDatabase_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.DBforPostgreSQL/flexibleServers/databases"
 }
 
 // Deprecated version of DatabaseProperties. Use v1beta20210601.DatabaseProperties instead

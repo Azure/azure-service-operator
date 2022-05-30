@@ -70,9 +70,9 @@ func (function *SqlDatabaseContainerUserDefinedFunction) GetStatus() genruntime.
 	return &function.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/userDefinedFunctions"
 func (function *SqlDatabaseContainerUserDefinedFunction) GetType() string {
-	return ""
+	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/userDefinedFunctions"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

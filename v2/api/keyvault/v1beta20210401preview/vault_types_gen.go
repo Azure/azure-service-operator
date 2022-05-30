@@ -117,9 +117,9 @@ func (vault *Vault) GetStatus() genruntime.ConvertibleStatus {
 	return &vault.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.KeyVault/vaults"
 func (vault *Vault) GetType() string {
-	return ""
+	return "Microsoft.KeyVault/vaults"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

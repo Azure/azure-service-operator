@@ -90,9 +90,9 @@ func (pool *ManagedClustersAgentPool) GetStatus() genruntime.ConvertibleStatus {
 	return &pool.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.ContainerService/managedClusters/agentPools"
 func (pool *ManagedClustersAgentPool) GetType() string {
-	return ""
+	return "Microsoft.ContainerService/managedClusters/agentPools"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

@@ -31,9 +31,9 @@ func (topic *Topic_SpecARM) GetName() string {
 	return topic.Name
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.EventGrid/topics"
 func (topic *Topic_SpecARM) GetType() string {
-	return ""
+	return "Microsoft.EventGrid/topics"
 }
 
 type TopicPropertiesARM struct {

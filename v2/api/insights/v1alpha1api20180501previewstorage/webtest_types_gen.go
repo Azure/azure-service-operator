@@ -91,9 +91,9 @@ func (webtest *Webtest) GetStatus() genruntime.ConvertibleStatus {
 	return &webtest.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Insights/webtests"
 func (webtest *Webtest) GetType() string {
-	return ""
+	return "Microsoft.Insights/webtests"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

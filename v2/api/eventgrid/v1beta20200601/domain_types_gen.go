@@ -117,9 +117,9 @@ func (domain *Domain) GetStatus() genruntime.ConvertibleStatus {
 	return &domain.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.EventGrid/domains"
 func (domain *Domain) GetType() string {
-	return ""
+	return "Microsoft.EventGrid/domains"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

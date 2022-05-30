@@ -70,9 +70,9 @@ func (account *DatabaseAccount) GetStatus() genruntime.ConvertibleStatus {
 	return &account.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts"
 func (account *DatabaseAccount) GetType() string {
-	return ""
+	return "Microsoft.DocumentDB/databaseAccounts"
 }
 
 // NewEmptyStatus returns a new empty (blank) status

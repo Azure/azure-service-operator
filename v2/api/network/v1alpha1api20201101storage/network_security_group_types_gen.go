@@ -90,9 +90,9 @@ func (group *NetworkSecurityGroup) GetStatus() genruntime.ConvertibleStatus {
 	return &group.Status
 }
 
-// GetType returns the ARM Type of the resource. This is always ""
+// GetType returns the ARM Type of the resource. This is always "Microsoft.Network/networkSecurityGroups"
 func (group *NetworkSecurityGroup) GetType() string {
-	return ""
+	return "Microsoft.Network/networkSecurityGroups"
 }
 
 // NewEmptyStatus returns a new empty (blank) status
