@@ -26,6 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
 // - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2020-12-01/redis.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/firewallRules/{ruleName}
 type RedisFirewallRule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -313,6 +314,7 @@ func (rule *RedisFirewallRule) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Generator information:
 // - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2020-12-01/redis.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{cacheName}/firewallRules/{ruleName}
 type RedisFirewallRuleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`

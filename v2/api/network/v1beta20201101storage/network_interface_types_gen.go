@@ -24,6 +24,7 @@ import (
 // Storage version of v1beta20201101.NetworkInterface
 // Generator information:
 // - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/networkInterface.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}
 type NetworkInterface struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -125,6 +126,7 @@ func (networkInterface *NetworkInterface) OriginalGVK() *schema.GroupVersionKind
 // Storage version of v1beta20201101.NetworkInterface
 // Generator information:
 // - Generated from: /network/resource-manager/Microsoft.Network/stable/2020-11-01/networkInterface.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkInterfaces/{networkInterfaceName}
 type NetworkInterfaceList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`

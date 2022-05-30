@@ -61,7 +61,8 @@ type ResourceDefinition struct {
 	StatusType astmodel.Type
 	SourceFile string
 	ARMType    string // e.g. Microsoft.XYZ/resourceThings
-	// TODO: put ARM URI in here and use it for generating Resource URIs
+	ARMURI     string
+	// TODO: use ARMURI for generating Resource URIs (only used for documentation at the moment)
 }
 
 // ExtractTypes finds all operations in the Swagger spec that
@@ -156,6 +157,7 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(ctx context.Context) (Swagge
 					SpecType:   resourceSpec,
 					StatusType: resourceStatus,
 					ARMType:    armType,
+					ARMURI:     operationPath,
 				}
 			}
 		}

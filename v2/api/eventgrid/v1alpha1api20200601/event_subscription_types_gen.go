@@ -117,7 +117,7 @@ func (subscription EventSubscription) GetAPIVersion() string {
 
 // GetResourceKind returns the kind of the resource
 func (subscription *EventSubscription) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+	return genruntime.ResourceKindExtension
 }
 
 // GetSpec returns the specification of this resource
@@ -142,10 +142,9 @@ func (subscription *EventSubscription) NewEmptyStatus() genruntime.ConvertibleSt
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (subscription *EventSubscription) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(subscription.Spec)
 	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
+		Group: subscription.Spec.Owner.Group,
+		Kind:  subscription.Spec.Owner.Kind,
 		Name:  subscription.Spec.Owner.Name,
 	}
 }
@@ -779,10 +778,10 @@ type EventSubscription_Spec struct {
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	RetryPolicy *RetryPolicy                       `json:"retryPolicy,omitempty"`
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
+	// extension resource, which means that any other Azure resource can be its owner.
+	Owner       *genruntime.ArbitraryOwnerReference `json:"owner,omitempty"`
+	RetryPolicy *RetryPolicy                        `json:"retryPolicy,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &EventSubscription_Spec{}
@@ -940,9 +939,7 @@ func (subscription *EventSubscription_Spec) PopulateFromARM(owner genruntime.Arb
 	}
 
 	// Set property ‘Owner’:
-	subscription.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	subscription.Owner = &owner
 
 	// Set property ‘RetryPolicy’:
 	// copying flattened property:

@@ -24,6 +24,7 @@ import (
 // Storage version of v1beta20210701.Image
 // Generator information:
 // - Generated from: /compute/resource-manager/Microsoft.Compute/stable/2021-07-01/compute.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}
 type Image struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -125,6 +126,7 @@ func (image *Image) OriginalGVK() *schema.GroupVersionKind {
 // Storage version of v1beta20210701.Image
 // Generator information:
 // - Generated from: /compute/resource-manager/Microsoft.Compute/stable/2021-07-01/compute.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/images/{imageName}
 type ImageList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`

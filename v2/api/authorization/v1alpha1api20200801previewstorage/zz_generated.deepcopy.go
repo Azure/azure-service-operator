@@ -204,7 +204,7 @@ func (in *RoleAssignment_Spec) DeepCopyInto(out *RoleAssignment_Spec) {
 	}
 	if in.Owner != nil {
 		in, out := &in.Owner, &out.Owner
-		*out = new(genruntime.KnownResourceReference)
+		*out = new(genruntime.ArbitraryOwnerReference)
 		**out = **in
 	}
 	if in.PrincipalId != nil {

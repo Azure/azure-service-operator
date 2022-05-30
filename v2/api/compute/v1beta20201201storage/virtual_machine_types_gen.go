@@ -25,6 +25,7 @@ import (
 // Storage version of v1beta20201201.VirtualMachine
 // Generator information:
 // - Generated from: /compute/resource-manager/Microsoft.Compute/stable/2020-12-01/compute.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}
 type VirtualMachine struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -126,6 +127,7 @@ func (machine *VirtualMachine) OriginalGVK() *schema.GroupVersionKind {
 // Storage version of v1beta20201201.VirtualMachine
 // Generator information:
 // - Generated from: /compute/resource-manager/Microsoft.Compute/stable/2020-12-01/compute.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}
 type VirtualMachineList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`

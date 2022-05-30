@@ -24,6 +24,7 @@ import (
 // Storage version of v1beta20201201.VirtualMachineScaleSet
 // Generator information:
 // - Generated from: /compute/resource-manager/Microsoft.Compute/stable/2020-12-01/compute.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}
 type VirtualMachineScaleSet struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -125,6 +126,7 @@ func (scaleSet *VirtualMachineScaleSet) OriginalGVK() *schema.GroupVersionKind {
 // Storage version of v1beta20201201.VirtualMachineScaleSet
 // Generator information:
 // - Generated from: /compute/resource-manager/Microsoft.Compute/stable/2020-12-01/compute.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}
 type VirtualMachineScaleSetList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`

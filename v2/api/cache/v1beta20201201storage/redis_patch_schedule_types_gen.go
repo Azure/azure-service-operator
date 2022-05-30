@@ -24,6 +24,7 @@ import (
 // Storage version of v1beta20201201.RedisPatchSchedule
 // Generator information:
 // - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2020-12-01/redis.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/patchSchedules/default
 type RedisPatchSchedule struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -125,6 +126,7 @@ func (schedule *RedisPatchSchedule) OriginalGVK() *schema.GroupVersionKind {
 // Storage version of v1beta20201201.RedisPatchSchedule
 // Generator information:
 // - Generated from: /redis/resource-manager/Microsoft.Cache/stable/2020-12-01/redis.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cache/redis/{name}/patchSchedules/default
 type RedisPatchScheduleList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`

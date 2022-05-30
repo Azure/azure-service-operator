@@ -26,6 +26,7 @@ import (
 // +kubebuilder:printcolumn:name="Message",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].message"
 // Generator information:
 // - Generated from: /authorization/resource-manager/Microsoft.Authorization/preview/2020-08-01-preview/authorization-RoleAssignmentsCalls.json
+// - ARM URI: /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}
 type RoleAssignment struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -104,7 +105,7 @@ func (assignment RoleAssignment) GetAPIVersion() string {
 
 // GetResourceKind returns the kind of the resource
 func (assignment *RoleAssignment) GetResourceKind() genruntime.ResourceKind {
-	return genruntime.ResourceKindNormal
+	return genruntime.ResourceKindExtension
 }
 
 // GetSpec returns the specification of this resource
@@ -129,10 +130,9 @@ func (assignment *RoleAssignment) NewEmptyStatus() genruntime.ConvertibleStatus 
 
 // Owner returns the ResourceReference of the owner, or nil if there is no owner
 func (assignment *RoleAssignment) Owner() *genruntime.ResourceReference {
-	group, kind := genruntime.LookupOwnerGroupKind(assignment.Spec)
 	return &genruntime.ResourceReference{
-		Group: group,
-		Kind:  kind,
+		Group: assignment.Spec.Owner.Group,
+		Kind:  assignment.Spec.Owner.Kind,
 		Name:  assignment.Spec.Owner.Name,
 	}
 }
@@ -313,6 +313,7 @@ func (assignment *RoleAssignment) OriginalGVK() *schema.GroupVersionKind {
 // +kubebuilder:object:root=true
 // Generator information:
 // - Generated from: /authorization/resource-manager/Microsoft.Authorization/preview/2020-08-01-preview/authorization-RoleAssignmentsCalls.json
+// - ARM URI: /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}
 type RoleAssignmentList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
@@ -722,9 +723,9 @@ type RoleAssignment_Spec struct {
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
-	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
-	// reference to a resources.azure.com/ResourceGroup resource
-	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. This resource is an
+	// extension resource, which means that any other Azure resource can be its owner.
+	Owner *genruntime.ArbitraryOwnerReference `json:"owner,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// PrincipalId: The principal ID.
@@ -850,9 +851,7 @@ func (assignment *RoleAssignment_Spec) PopulateFromARM(owner genruntime.Arbitrar
 	}
 
 	// Set property ‘Owner’:
-	assignment.Owner = &genruntime.KnownResourceReference{
-		Name: owner.Name,
-	}
+	assignment.Owner = &owner
 
 	// Set property ‘PrincipalId’:
 	// copying flattened property:

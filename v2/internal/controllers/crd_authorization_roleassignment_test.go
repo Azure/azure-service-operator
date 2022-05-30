@@ -49,7 +49,7 @@ func Test_Authorization_RoleAssignment_OnResourceGroup_CRUD(t *testing.T) {
 	roleAssignment := &authorization.RoleAssignment{
 		ObjectMeta: tc.MakeObjectMetaWithName(roleAssignmentGUID.String()),
 		Spec: authorization.RoleAssignment_Spec{
-			Owner:       testcommon.AsOwner(rg),
+			Owner:       tc.AsExtensionOwner(rg),
 			PrincipalId: mi.Status.PrincipalId,
 			RoleDefinitionReference: &genruntime.ResourceReference{
 				ARMID: fmt.Sprintf("/subscriptions/%s/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c", tc.AzureSubscription), // This is contributor
@@ -113,11 +113,10 @@ func Test_Authorization_RoleAssignment_OnStorageAccount_CRUD(t *testing.T) {
 	tc.CreateResourceAndWait(acct)
 
 	// Now assign that managed identity to a new role on the storage account
-	roleAssignmentGUID, err := tc.Namer.GenerateUUID()
-	tc.Expect(err).ToNot(HaveOccurred())
 
 	// TODO: (donotmerge) figure out why this is not an extension type
-/*
+	roleAssignmentGUID, err := tc.Namer.GenerateUUID()
+	tc.Expect(err).ToNot(HaveOccurred())
 	roleAssignment := &authorization.RoleAssignment{
 		ObjectMeta: tc.MakeObjectMetaWithName(roleAssignmentGUID.String()),
 		Spec: authorization.RoleAssignment_Spec{
@@ -138,7 +137,6 @@ func Test_Authorization_RoleAssignment_OnStorageAccount_CRUD(t *testing.T) {
 	tc.Expect(armId).To(ContainSubstring(acct.AzureName()))
 
 	tc.DeleteResourceAndWait(roleAssignment)
-	*/
 
 	// Ensure that the resource group was really deleted in Azure
 	exists, _, err := tc.AzureClient.HeadByID(

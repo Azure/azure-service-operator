@@ -6,11 +6,13 @@ Licensed under the MIT license.
 package controllers_test
 
 import (
+	"encoding/json"
 	"fmt"
 	"testing"
 
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
+	v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 
 	insightswebtest "github.com/Azure/azure-service-operator/v2/api/insights/v1beta20180501preview"
 	insights "github.com/Azure/azure-service-operator/v2/api/insights/v1beta20200202"
@@ -70,6 +72,15 @@ func Test_Insights_Component_CRUD(t *testing.T) {
 func Insights_WebTest_CRUD(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup, component *insights.Component) {
 	horribleHiddenLink := fmt.Sprintf("hidden-link:%s", to.String(component.Status.Id))
 
+	horribleTags := map[string]string{
+		horribleHiddenLink: "Resource",
+	}
+
+	horribleJSON, err := json.Marshal(horribleTags)
+	if err != nil {
+		panic(err)
+	}
+
 	// Create a webtest
 	om := tc.MakeObjectMeta("webtest")
 	kind := insightswebtest.Webtest_Spec_Kind_Ping
@@ -79,13 +90,11 @@ func Insights_WebTest_CRUD(tc *testcommon.KubePerTestContext, rg *resources.Reso
 			Location:           tc.AzureRegion,
 			Owner:              testcommon.AsOwner(rg),
 			SyntheticMonitorId: &om.Name,
-			Tags: map[string]string{
-				horribleHiddenLink: "Resource",
-			},
-			Name:      to.StringPtr("mywebtest"),
-			Enabled:   to.BoolPtr(true),
-			Frequency: to.IntPtr(300),
-			Kind:      &kind,
+			Tags:               &v1.JSON{horribleJSON},
+			Name:               to.StringPtr("mywebtest"),
+			Enabled:            to.BoolPtr(true),
+			Frequency:          to.IntPtr(300),
+			Kind:               &kind,
 			Locations: []insightswebtest.WebTestGeolocation{
 				{
 					Id: to.StringPtr("us-ca-sjc-azr"), // This is US west...

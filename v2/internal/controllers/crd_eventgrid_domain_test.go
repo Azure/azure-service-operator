@@ -51,7 +51,6 @@ func Test_EventGrid_Domain(t *testing.T) {
 		},
 	}
 
-
 	tc.CreateResourcesAndWait(domain, acct)
 
 	queueServices := &storage.StorageAccountsQueueService{

@@ -24,6 +24,7 @@ import (
 // Storage version of v1beta20200930.Snapshot
 // Generator information:
 // - Generated from: /compute/resource-manager/Microsoft.Compute/stable/2020-09-30/disk.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}
 type Snapshot struct {
 	metav1.TypeMeta   `json:",inline"`
 	metav1.ObjectMeta `json:"metadata,omitempty"`
@@ -125,6 +126,7 @@ func (snapshot *Snapshot) OriginalGVK() *schema.GroupVersionKind {
 // Storage version of v1beta20200930.Snapshot
 // Generator information:
 // - Generated from: /compute/resource-manager/Microsoft.Compute/stable/2020-09-30/disk.json
+// - ARM URI: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}
 type SnapshotList struct {
 	metav1.TypeMeta `json:",inline"`
 	metav1.ListMeta `json:"metadata,omitempty"`
