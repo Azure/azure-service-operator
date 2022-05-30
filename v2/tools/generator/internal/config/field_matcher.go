@@ -57,7 +57,6 @@ func (dm *FieldMatcher) UnmarshalYAML(value *yaml.Node) error {
 		return errors.New("expected scalar value")
 	}
 
-	m := NewStringMatcher(value.Value)
-	dm.actual = m
+	dm.actual = NewStringMatcher(value.Value)
 	return nil
 }
