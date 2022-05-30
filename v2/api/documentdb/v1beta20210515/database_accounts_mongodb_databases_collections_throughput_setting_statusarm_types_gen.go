@@ -13,20 +13,19 @@ type DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUSARM stru
 	// Name: The name of the ARM resource.
 	Name *string `json:"name,omitempty"`
 
-	// Properties: Properties to update Azure Cosmos DB resource throughput.
-	Properties *ThroughputSettingsUpdateProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                             `json:"tags,omitempty"`
+	// Properties: The properties of an Azure Cosmos DB resource throughput
+	Properties *ThroughputSettingsGetProperties_STATUSARM `json:"properties,omitempty"`
+	Tags       map[string]string                          `json:"tags,omitempty"`
 
 	// Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
 }
 
-type ThroughputSettingsUpdateProperties_STATUSARM struct {
-	// Resource: The standard JSON format of a resource throughput
-	Resource *ThroughputSettingsResource_STATUSARM `json:"resource,omitempty"`
+type ThroughputSettingsGetProperties_STATUSARM struct {
+	Resource *ThroughputSettingsGetProperties_Resource_STATUSARM `json:"resource,omitempty"`
 }
 
-type ThroughputSettingsResource_STATUSARM struct {
+type ThroughputSettingsGetProperties_Resource_STATUSARM struct {
 	// AutoscaleSettings: Cosmos DB resource for autoscale settings. Either throughput is required or autoscaleSettings is
 	// required, but not both.
 	AutoscaleSettings *AutoscaleSettingsResource_STATUSARM `json:"autoscaleSettings,omitempty"`
@@ -40,6 +39,15 @@ type ThroughputSettingsResource_STATUSARM struct {
 	// Throughput: Value of the Cosmos DB resource throughput. Either throughput is required or autoscaleSettings is required,
 	// but not both.
 	Throughput *int `json:"throughput,omitempty"`
+
+	// _Etag: A system generated property representing the resource etag required for optimistic concurrency control.
+	_Etag *string `json:"_etag,omitempty"`
+
+	// _Rid: A system generated property. A unique identifier.
+	_Rid *string `json:"_rid,omitempty"`
+
+	// _Ts: A system generated property that denotes the last updated timestamp of the resource.
+	_Ts *float64 `json:"_ts,omitempty"`
 }
 
 type AutoscaleSettingsResource_STATUSARM struct {

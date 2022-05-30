@@ -133,15 +133,14 @@ type SqlDatabaseContainerStoredProcedureList struct {
 
 // Storage version of v1beta20210515.DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS
 type DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS struct {
-	Conditions  []conditions.Condition             `json:"conditions,omitempty"`
-	Id          *string                            `json:"id,omitempty"`
-	Location    *string                            `json:"location,omitempty"`
-	Name        *string                            `json:"name,omitempty"`
-	Options     *CreateUpdateOptions_STATUS        `json:"options,omitempty"`
-	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Resource    *SqlStoredProcedureResource_STATUS `json:"resource,omitempty"`
-	Tags        map[string]string                  `json:"tags,omitempty"`
-	Type        *string                            `json:"type,omitempty"`
+	Conditions  []conditions.Condition                           `json:"conditions,omitempty"`
+	Id          *string                                          `json:"id,omitempty"`
+	Location    *string                                          `json:"location,omitempty"`
+	Name        *string                                          `json:"name,omitempty"`
+	PropertyBag genruntime.PropertyBag                           `json:"$propertyBag,omitempty"`
+	Resource    *SqlStoredProcedureGetProperties_Resource_STATUS `json:"resource,omitempty"`
+	Tags        map[string]string                                `json:"tags,omitempty"`
+	Type        *string                                          `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS{}
@@ -205,15 +204,18 @@ func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec) Con
 	return destination.ConvertSpecFrom(procedure)
 }
 
-// Storage version of v1beta20210515.SqlStoredProcedureResource
-type SqlStoredProcedureResource struct {
+// Storage version of v1beta20210515.SqlStoredProcedureGetProperties_Resource_STATUS
+type SqlStoredProcedureGetProperties_Resource_STATUS struct {
 	Body        *string                `json:"body,omitempty"`
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	_Etag       *string                `json:"_etag,omitempty"`
+	_Rid        *string                `json:"_rid,omitempty"`
+	_Ts         *float64               `json:"_ts,omitempty"`
 }
 
-// Storage version of v1beta20210515.SqlStoredProcedureResource_STATUS
-type SqlStoredProcedureResource_STATUS struct {
+// Storage version of v1beta20210515.SqlStoredProcedureResource
+type SqlStoredProcedureResource struct {
 	Body        *string                `json:"body,omitempty"`
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

@@ -5,29 +5,32 @@ package v1alpha1api20210515
 
 // Deprecated version of DatabaseAccountsMongodbDatabase_STATUS. Use v1beta20210515.DatabaseAccountsMongodbDatabase_STATUS instead
 type DatabaseAccountsMongodbDatabase_STATUSARM struct {
-	Id         *string                                          `json:"id,omitempty"`
-	Location   *string                                          `json:"location,omitempty"`
-	Name       *string                                          `json:"name,omitempty"`
-	Properties *MongoDBDatabaseCreateUpdateProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                                `json:"tags,omitempty"`
-	Type       *string                                          `json:"type,omitempty"`
+	Id         *string                                 `json:"id,omitempty"`
+	Location   *string                                 `json:"location,omitempty"`
+	Name       *string                                 `json:"name,omitempty"`
+	Properties *MongoDBDatabaseGetProperties_STATUSARM `json:"properties,omitempty"`
+	Tags       map[string]string                       `json:"tags,omitempty"`
+	Type       *string                                 `json:"type,omitempty"`
 }
 
-// Deprecated version of MongoDBDatabaseCreateUpdateProperties_STATUS. Use v1beta20210515.MongoDBDatabaseCreateUpdateProperties_STATUS instead
-type MongoDBDatabaseCreateUpdateProperties_STATUSARM struct {
-	Options  *CreateUpdateOptions_STATUSARM     `json:"options,omitempty"`
-	Resource *MongoDBDatabaseResource_STATUSARM `json:"resource,omitempty"`
+// Deprecated version of MongoDBDatabaseGetProperties_STATUS. Use v1beta20210515.MongoDBDatabaseGetProperties_STATUS instead
+type MongoDBDatabaseGetProperties_STATUSARM struct {
+	Options  *OptionsResource_STATUSARM                       `json:"options,omitempty"`
+	Resource *MongoDBDatabaseGetProperties_Resource_STATUSARM `json:"resource,omitempty"`
 }
 
-// Deprecated version of CreateUpdateOptions_STATUS. Use v1beta20210515.CreateUpdateOptions_STATUS instead
-type CreateUpdateOptions_STATUSARM struct {
+// Deprecated version of MongoDBDatabaseGetProperties_Resource_STATUS. Use v1beta20210515.MongoDBDatabaseGetProperties_Resource_STATUS instead
+type MongoDBDatabaseGetProperties_Resource_STATUSARM struct {
+	Id    *string  `json:"id,omitempty"`
+	_Etag *string  `json:"_etag,omitempty"`
+	_Rid  *string  `json:"_rid,omitempty"`
+	_Ts   *float64 `json:"_ts,omitempty"`
+}
+
+// Deprecated version of OptionsResource_STATUS. Use v1beta20210515.OptionsResource_STATUS instead
+type OptionsResource_STATUSARM struct {
 	AutoscaleSettings *AutoscaleSettings_STATUSARM `json:"autoscaleSettings,omitempty"`
 	Throughput        *int                         `json:"throughput,omitempty"`
-}
-
-// Deprecated version of MongoDBDatabaseResource_STATUS. Use v1beta20210515.MongoDBDatabaseResource_STATUS instead
-type MongoDBDatabaseResource_STATUSARM struct {
-	Id *string `json:"id,omitempty"`
 }
 
 // Deprecated version of AutoscaleSettings_STATUS. Use v1beta20210515.AutoscaleSettings_STATUS instead

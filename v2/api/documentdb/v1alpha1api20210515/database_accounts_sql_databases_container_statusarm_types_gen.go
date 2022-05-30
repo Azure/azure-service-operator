@@ -5,22 +5,22 @@ package v1alpha1api20210515
 
 // Deprecated version of DatabaseAccountsSqlDatabasesContainer_STATUS. Use v1beta20210515.DatabaseAccountsSqlDatabasesContainer_STATUS instead
 type DatabaseAccountsSqlDatabasesContainer_STATUSARM struct {
-	Id         *string                                       `json:"id,omitempty"`
-	Location   *string                                       `json:"location,omitempty"`
-	Name       *string                                       `json:"name,omitempty"`
-	Properties *SqlContainerCreateUpdateProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                             `json:"tags,omitempty"`
-	Type       *string                                       `json:"type,omitempty"`
+	Id         *string                              `json:"id,omitempty"`
+	Location   *string                              `json:"location,omitempty"`
+	Name       *string                              `json:"name,omitempty"`
+	Properties *SqlContainerGetProperties_STATUSARM `json:"properties,omitempty"`
+	Tags       map[string]string                    `json:"tags,omitempty"`
+	Type       *string                              `json:"type,omitempty"`
 }
 
-// Deprecated version of SqlContainerCreateUpdateProperties_STATUS. Use v1beta20210515.SqlContainerCreateUpdateProperties_STATUS instead
-type SqlContainerCreateUpdateProperties_STATUSARM struct {
-	Options  *CreateUpdateOptions_STATUSARM  `json:"options,omitempty"`
-	Resource *SqlContainerResource_STATUSARM `json:"resource,omitempty"`
+// Deprecated version of SqlContainerGetProperties_STATUS. Use v1beta20210515.SqlContainerGetProperties_STATUS instead
+type SqlContainerGetProperties_STATUSARM struct {
+	Options  *OptionsResource_STATUSARM                    `json:"options,omitempty"`
+	Resource *SqlContainerGetProperties_Resource_STATUSARM `json:"resource,omitempty"`
 }
 
-// Deprecated version of SqlContainerResource_STATUS. Use v1beta20210515.SqlContainerResource_STATUS instead
-type SqlContainerResource_STATUSARM struct {
+// Deprecated version of SqlContainerGetProperties_Resource_STATUS. Use v1beta20210515.SqlContainerGetProperties_Resource_STATUS instead
+type SqlContainerGetProperties_Resource_STATUSARM struct {
 	AnalyticalStorageTtl     *int                                `json:"analyticalStorageTtl,omitempty"`
 	ConflictResolutionPolicy *ConflictResolutionPolicy_STATUSARM `json:"conflictResolutionPolicy,omitempty"`
 	DefaultTtl               *int                                `json:"defaultTtl,omitempty"`
@@ -28,6 +28,9 @@ type SqlContainerResource_STATUSARM struct {
 	IndexingPolicy           *IndexingPolicy_STATUSARM           `json:"indexingPolicy,omitempty"`
 	PartitionKey             *ContainerPartitionKey_STATUSARM    `json:"partitionKey,omitempty"`
 	UniqueKeyPolicy          *UniqueKeyPolicy_STATUSARM          `json:"uniqueKeyPolicy,omitempty"`
+	_Etag                    *string                             `json:"_etag,omitempty"`
+	_Rid                     *string                             `json:"_rid,omitempty"`
+	_Ts                      *float64                            `json:"_ts,omitempty"`
 }
 
 // Deprecated version of ConflictResolutionPolicy_STATUS. Use v1beta20210515.ConflictResolutionPolicy_STATUS instead

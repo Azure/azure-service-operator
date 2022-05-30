@@ -4,38 +4,67 @@
 package v1beta20180601
 
 type Server_STATUSARM struct {
-	// Id: The ARM Id for this resource.
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
-	// Location: The location the resource resides in.
+	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
+	// Name: The name of the resource
+	Name *string `json:"name,omitempty"`
+
 	// Properties: Properties of the server.
-	Properties *ServerPropertiesForCreate_STATUSARM `json:"properties,omitempty"`
+	Properties *ServerProperties_STATUSARM `json:"properties,omitempty"`
 
 	// Sku: The SKU (pricing tier) of the server.
 	Sku *Sku_STATUSARM `json:"sku,omitempty"`
 
-	// Tags: Application-specific metadata in the form of key-value pairs.
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
+
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+	Type *string `json:"type,omitempty"`
 }
 
-type ServerPropertiesForCreate_STATUSARM struct {
-	// CreateMode: The mode to create a new server.
-	CreateMode *ServerPropertiesForCreate_CreateMode_STATUS `json:"createMode,omitempty"`
+type ServerProperties_STATUSARM struct {
+	// AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
+	// (and is required for creation).
+	AdministratorLogin *string `json:"administratorLogin,omitempty"`
+
+	// EarliestRestoreDate: Earliest restore point creation time (ISO8601 format)
+	EarliestRestoreDate *string `json:"earliestRestoreDate,omitempty"`
+
+	// FullyQualifiedDomainName: The fully qualified domain name of a server.
+	FullyQualifiedDomainName *string `json:"fullyQualifiedDomainName,omitempty"`
+
+	// MasterServerId: The master server id of a replica server.
+	MasterServerId *string `json:"masterServerId,omitempty"`
 
 	// MinimalTlsVersion: Enforce a minimal Tls version for the server.
 	MinimalTlsVersion *MinimalTlsVersion_STATUS `json:"minimalTlsVersion,omitempty"`
 
+	// PrivateEndpointConnections: List of private endpoint connections on a server
+	PrivateEndpointConnections []ServerPrivateEndpointConnection_STATUSARM `json:"privateEndpointConnections,omitempty"`
+
 	// PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is optional but if passed
 	// in, must be 'Enabled' or 'Disabled'
 	PublicNetworkAccess *PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
+
+	// ReplicaCapacity: The maximum number of replicas that a master server can have.
+	ReplicaCapacity *int `json:"replicaCapacity,omitempty"`
+
+	// ReplicationRole: The replication role of the server.
+	ReplicationRole *string `json:"replicationRole,omitempty"`
 
 	// SslEnforcement: Enable ssl enforcement or not when connect to server.
 	SslEnforcement *SslEnforcement_STATUS `json:"sslEnforcement,omitempty"`
 
 	// StorageProfile: Storage profile of a server.
 	StorageProfile *StorageProfile_STATUSARM `json:"storageProfile,omitempty"`
+
+	// UserVisibleState: A state of a server that is visible to user.
+	UserVisibleState *ServerProperties_UserVisibleState_STATUS `json:"userVisibleState,omitempty"`
 
 	// Version: Server version.
 	Version *ServerVersion_STATUS `json:"version,omitempty"`
@@ -58,37 +87,13 @@ type Sku_STATUSARM struct {
 	Tier *Sku_Tier_STATUS `json:"tier,omitempty"`
 }
 
-type MinimalTlsVersion_STATUS string
+type ServerPrivateEndpointConnection_STATUSARM struct {
+	// Id: Resource Id of the private endpoint connection.
+	Id *string `json:"id,omitempty"`
 
-const (
-	MinimalTlsVersion_TLS1_0_STATUS                 = MinimalTlsVersion_STATUS("TLS1_0")
-	MinimalTlsVersion_TLS1_1_STATUS                 = MinimalTlsVersion_STATUS("TLS1_1")
-	MinimalTlsVersion_TLS1_2_STATUS                 = MinimalTlsVersion_STATUS("TLS1_2")
-	MinimalTlsVersion_TLSEnforcementDisabled_STATUS = MinimalTlsVersion_STATUS("TLSEnforcementDisabled")
-)
-
-type PublicNetworkAccess_STATUS string
-
-const (
-	PublicNetworkAccess_Disabled_STATUS = PublicNetworkAccess_STATUS("Disabled")
-	PublicNetworkAccess_Enabled_STATUS  = PublicNetworkAccess_STATUS("Enabled")
-)
-
-type ServerPropertiesForCreate_CreateMode_STATUS string
-
-const (
-	ServerPropertiesForCreate_CreateMode_Default_STATUS            = ServerPropertiesForCreate_CreateMode_STATUS("Default")
-	ServerPropertiesForCreate_CreateMode_GeoRestore_STATUS         = ServerPropertiesForCreate_CreateMode_STATUS("GeoRestore")
-	ServerPropertiesForCreate_CreateMode_PointInTimeRestore_STATUS = ServerPropertiesForCreate_CreateMode_STATUS("PointInTimeRestore")
-	ServerPropertiesForCreate_CreateMode_Replica_STATUS            = ServerPropertiesForCreate_CreateMode_STATUS("Replica")
-)
-
-type ServerVersion_STATUS string
-
-const (
-	ServerVersion_102_STATUS = ServerVersion_STATUS("10.2")
-	ServerVersion_103_STATUS = ServerVersion_STATUS("10.3")
-)
+	// Properties: Private endpoint connection properties
+	Properties *ServerPrivateEndpointConnectionProperties_STATUSARM `json:"properties,omitempty"`
+}
 
 type Sku_Tier_STATUS string
 
@@ -96,13 +101,6 @@ const (
 	Sku_Tier_Basic_STATUS           = Sku_Tier_STATUS("Basic")
 	Sku_Tier_GeneralPurpose_STATUS  = Sku_Tier_STATUS("GeneralPurpose")
 	Sku_Tier_MemoryOptimized_STATUS = Sku_Tier_STATUS("MemoryOptimized")
-)
-
-type SslEnforcement_STATUS string
-
-const (
-	SslEnforcement_Disabled_STATUS = SslEnforcement_STATUS("Disabled")
-	SslEnforcement_Enabled_STATUS  = SslEnforcement_STATUS("Enabled")
 )
 
 type StorageProfile_STATUSARM struct {
@@ -119,16 +117,29 @@ type StorageProfile_STATUSARM struct {
 	StorageMB *int `json:"storageMB,omitempty"`
 }
 
-type StorageProfile_GeoRedundantBackup_STATUS string
+type ServerPrivateEndpointConnectionProperties_STATUSARM struct {
+	// PrivateEndpoint: Private endpoint which the connection belongs to.
+	PrivateEndpoint *PrivateEndpointProperty_STATUSARM `json:"privateEndpoint,omitempty"`
 
-const (
-	StorageProfile_GeoRedundantBackup_Disabled_STATUS = StorageProfile_GeoRedundantBackup_STATUS("Disabled")
-	StorageProfile_GeoRedundantBackup_Enabled_STATUS  = StorageProfile_GeoRedundantBackup_STATUS("Enabled")
-)
+	// PrivateLinkServiceConnectionState: Connection state of the private endpoint connection.
+	PrivateLinkServiceConnectionState *ServerPrivateLinkServiceConnectionStateProperty_STATUSARM `json:"privateLinkServiceConnectionState,omitempty"`
 
-type StorageProfile_StorageAutogrow_STATUS string
+	// ProvisioningState: State of the private endpoint connection.
+	ProvisioningState *ServerPrivateEndpointConnectionProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
+}
 
-const (
-	StorageProfile_StorageAutogrow_Disabled_STATUS = StorageProfile_StorageAutogrow_STATUS("Disabled")
-	StorageProfile_StorageAutogrow_Enabled_STATUS  = StorageProfile_StorageAutogrow_STATUS("Enabled")
-)
+type PrivateEndpointProperty_STATUSARM struct {
+	// Id: Resource id of the private endpoint.
+	Id *string `json:"id,omitempty"`
+}
+
+type ServerPrivateLinkServiceConnectionStateProperty_STATUSARM struct {
+	// ActionsRequired: The actions required for private link service connection.
+	ActionsRequired *ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_STATUS `json:"actionsRequired,omitempty"`
+
+	// Description: The private link service connection description.
+	Description *string `json:"description,omitempty"`
+
+	// Status: The private link service connection status.
+	Status *ServerPrivateLinkServiceConnectionStateProperty_Status_STATUS `json:"status,omitempty"`
+}

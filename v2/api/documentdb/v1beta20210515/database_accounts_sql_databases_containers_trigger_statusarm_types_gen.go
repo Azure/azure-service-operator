@@ -13,24 +13,19 @@ type DatabaseAccountsSqlDatabasesContainersTrigger_STATUSARM struct {
 	// Name: The name of the ARM resource.
 	Name *string `json:"name,omitempty"`
 
-	// Properties: Properties to create and update Azure Cosmos DB trigger.
-	Properties *SqlTriggerCreateUpdateProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                           `json:"tags,omitempty"`
+	// Properties: The properties of an Azure Cosmos DB trigger
+	Properties *SqlTriggerGetProperties_STATUSARM `json:"properties,omitempty"`
+	Tags       map[string]string                  `json:"tags,omitempty"`
 
 	// Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
 }
 
-type SqlTriggerCreateUpdateProperties_STATUSARM struct {
-	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
-	// request.
-	Options *CreateUpdateOptions_STATUSARM `json:"options,omitempty"`
-
-	// Resource: The standard JSON format of a trigger
-	Resource *SqlTriggerResource_STATUSARM `json:"resource,omitempty"`
+type SqlTriggerGetProperties_STATUSARM struct {
+	Resource *SqlTriggerGetProperties_Resource_STATUSARM `json:"resource,omitempty"`
 }
 
-type SqlTriggerResource_STATUSARM struct {
+type SqlTriggerGetProperties_Resource_STATUSARM struct {
 	// Body: Body of the Trigger
 	Body *string `json:"body,omitempty"`
 
@@ -38,25 +33,34 @@ type SqlTriggerResource_STATUSARM struct {
 	Id *string `json:"id,omitempty"`
 
 	// TriggerOperation: The operation the trigger is associated with
-	TriggerOperation *SqlTriggerResource_TriggerOperation_STATUS `json:"triggerOperation,omitempty"`
+	TriggerOperation *SqlTriggerGetProperties_Resource_TriggerOperation_STATUS `json:"triggerOperation,omitempty"`
 
 	// TriggerType: Type of the Trigger
-	TriggerType *SqlTriggerResource_TriggerType_STATUS `json:"triggerType,omitempty"`
+	TriggerType *SqlTriggerGetProperties_Resource_TriggerType_STATUS `json:"triggerType,omitempty"`
+
+	// _Etag: A system generated property representing the resource etag required for optimistic concurrency control.
+	_Etag *string `json:"_etag,omitempty"`
+
+	// _Rid: A system generated property. A unique identifier.
+	_Rid *string `json:"_rid,omitempty"`
+
+	// _Ts: A system generated property that denotes the last updated timestamp of the resource.
+	_Ts *float64 `json:"_ts,omitempty"`
 }
 
-type SqlTriggerResource_TriggerOperation_STATUS string
+type SqlTriggerGetProperties_Resource_TriggerOperation_STATUS string
 
 const (
-	SqlTriggerResource_TriggerOperation_All_STATUS     = SqlTriggerResource_TriggerOperation_STATUS("All")
-	SqlTriggerResource_TriggerOperation_Create_STATUS  = SqlTriggerResource_TriggerOperation_STATUS("Create")
-	SqlTriggerResource_TriggerOperation_Delete_STATUS  = SqlTriggerResource_TriggerOperation_STATUS("Delete")
-	SqlTriggerResource_TriggerOperation_Replace_STATUS = SqlTriggerResource_TriggerOperation_STATUS("Replace")
-	SqlTriggerResource_TriggerOperation_Update_STATUS  = SqlTriggerResource_TriggerOperation_STATUS("Update")
+	SqlTriggerGetProperties_Resource_TriggerOperation_All_STATUS     = SqlTriggerGetProperties_Resource_TriggerOperation_STATUS("All")
+	SqlTriggerGetProperties_Resource_TriggerOperation_Create_STATUS  = SqlTriggerGetProperties_Resource_TriggerOperation_STATUS("Create")
+	SqlTriggerGetProperties_Resource_TriggerOperation_Delete_STATUS  = SqlTriggerGetProperties_Resource_TriggerOperation_STATUS("Delete")
+	SqlTriggerGetProperties_Resource_TriggerOperation_Replace_STATUS = SqlTriggerGetProperties_Resource_TriggerOperation_STATUS("Replace")
+	SqlTriggerGetProperties_Resource_TriggerOperation_Update_STATUS  = SqlTriggerGetProperties_Resource_TriggerOperation_STATUS("Update")
 )
 
-type SqlTriggerResource_TriggerType_STATUS string
+type SqlTriggerGetProperties_Resource_TriggerType_STATUS string
 
 const (
-	SqlTriggerResource_TriggerType_Post_STATUS = SqlTriggerResource_TriggerType_STATUS("Post")
-	SqlTriggerResource_TriggerType_Pre_STATUS  = SqlTriggerResource_TriggerType_STATUS("Pre")
+	SqlTriggerGetProperties_Resource_TriggerType_Post_STATUS = SqlTriggerGetProperties_Resource_TriggerType_STATUS("Post")
+	SqlTriggerGetProperties_Resource_TriggerType_Pre_STATUS  = SqlTriggerGetProperties_Resource_TriggerType_STATUS("Pre")
 )

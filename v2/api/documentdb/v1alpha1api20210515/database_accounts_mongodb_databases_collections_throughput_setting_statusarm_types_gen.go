@@ -5,25 +5,28 @@ package v1alpha1api20210515
 
 // Deprecated version of DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS. Use v1beta20210515.DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS instead
 type DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUSARM struct {
-	Id         *string                                       `json:"id,omitempty"`
-	Location   *string                                       `json:"location,omitempty"`
-	Name       *string                                       `json:"name,omitempty"`
-	Properties *ThroughputSettingsUpdateProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                             `json:"tags,omitempty"`
-	Type       *string                                       `json:"type,omitempty"`
+	Id         *string                                    `json:"id,omitempty"`
+	Location   *string                                    `json:"location,omitempty"`
+	Name       *string                                    `json:"name,omitempty"`
+	Properties *ThroughputSettingsGetProperties_STATUSARM `json:"properties,omitempty"`
+	Tags       map[string]string                          `json:"tags,omitempty"`
+	Type       *string                                    `json:"type,omitempty"`
 }
 
-// Deprecated version of ThroughputSettingsUpdateProperties_STATUS. Use v1beta20210515.ThroughputSettingsUpdateProperties_STATUS instead
-type ThroughputSettingsUpdateProperties_STATUSARM struct {
-	Resource *ThroughputSettingsResource_STATUSARM `json:"resource,omitempty"`
+// Deprecated version of ThroughputSettingsGetProperties_STATUS. Use v1beta20210515.ThroughputSettingsGetProperties_STATUS instead
+type ThroughputSettingsGetProperties_STATUSARM struct {
+	Resource *ThroughputSettingsGetProperties_Resource_STATUSARM `json:"resource,omitempty"`
 }
 
-// Deprecated version of ThroughputSettingsResource_STATUS. Use v1beta20210515.ThroughputSettingsResource_STATUS instead
-type ThroughputSettingsResource_STATUSARM struct {
+// Deprecated version of ThroughputSettingsGetProperties_Resource_STATUS. Use v1beta20210515.ThroughputSettingsGetProperties_Resource_STATUS instead
+type ThroughputSettingsGetProperties_Resource_STATUSARM struct {
 	AutoscaleSettings   *AutoscaleSettingsResource_STATUSARM `json:"autoscaleSettings,omitempty"`
 	MinimumThroughput   *string                              `json:"minimumThroughput,omitempty"`
 	OfferReplacePending *string                              `json:"offerReplacePending,omitempty"`
 	Throughput          *int                                 `json:"throughput,omitempty"`
+	_Etag               *string                              `json:"_etag,omitempty"`
+	_Rid                *string                              `json:"_rid,omitempty"`
+	_Ts                 *float64                             `json:"_ts,omitempty"`
 }
 
 // Deprecated version of AutoscaleSettingsResource_STATUS. Use v1beta20210515.AutoscaleSettingsResource_STATUS instead

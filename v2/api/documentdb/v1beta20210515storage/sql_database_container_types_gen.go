@@ -133,15 +133,15 @@ type SqlDatabaseContainerList struct {
 
 // Storage version of v1beta20210515.DatabaseAccountsSqlDatabasesContainer_STATUS
 type DatabaseAccountsSqlDatabasesContainer_STATUS struct {
-	Conditions  []conditions.Condition       `json:"conditions,omitempty"`
-	Id          *string                      `json:"id,omitempty"`
-	Location    *string                      `json:"location,omitempty"`
-	Name        *string                      `json:"name,omitempty"`
-	Options     *CreateUpdateOptions_STATUS  `json:"options,omitempty"`
-	PropertyBag genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
-	Resource    *SqlContainerResource_STATUS `json:"resource,omitempty"`
-	Tags        map[string]string            `json:"tags,omitempty"`
-	Type        *string                      `json:"type,omitempty"`
+	Conditions  []conditions.Condition                     `json:"conditions,omitempty"`
+	Id          *string                                    `json:"id,omitempty"`
+	Location    *string                                    `json:"location,omitempty"`
+	Name        *string                                    `json:"name,omitempty"`
+	Options     *OptionsResource_STATUS                    `json:"options,omitempty"`
+	PropertyBag genruntime.PropertyBag                     `json:"$propertyBag,omitempty"`
+	Resource    *SqlContainerGetProperties_Resource_STATUS `json:"resource,omitempty"`
+	Tags        map[string]string                          `json:"tags,omitempty"`
+	Type        *string                                    `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &DatabaseAccountsSqlDatabasesContainer_STATUS{}
@@ -205,6 +205,21 @@ func (container *DatabaseAccountsSqlDatabasesContainer_Spec) ConvertSpecTo(desti
 	return destination.ConvertSpecFrom(container)
 }
 
+// Storage version of v1beta20210515.SqlContainerGetProperties_Resource_STATUS
+type SqlContainerGetProperties_Resource_STATUS struct {
+	AnalyticalStorageTtl     *int                             `json:"analyticalStorageTtl,omitempty"`
+	ConflictResolutionPolicy *ConflictResolutionPolicy_STATUS `json:"conflictResolutionPolicy,omitempty"`
+	DefaultTtl               *int                             `json:"defaultTtl,omitempty"`
+	Id                       *string                          `json:"id,omitempty"`
+	IndexingPolicy           *IndexingPolicy_STATUS           `json:"indexingPolicy,omitempty"`
+	PartitionKey             *ContainerPartitionKey_STATUS    `json:"partitionKey,omitempty"`
+	PropertyBag              genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
+	UniqueKeyPolicy          *UniqueKeyPolicy_STATUS          `json:"uniqueKeyPolicy,omitempty"`
+	_Etag                    *string                          `json:"_etag,omitempty"`
+	_Rid                     *string                          `json:"_rid,omitempty"`
+	_Ts                      *float64                         `json:"_ts,omitempty"`
+}
+
 // Storage version of v1beta20210515.SqlContainerResource
 type SqlContainerResource struct {
 	AnalyticalStorageTtl     *int                      `json:"analyticalStorageTtl,omitempty"`
@@ -215,18 +230,6 @@ type SqlContainerResource struct {
 	PartitionKey             *ContainerPartitionKey    `json:"partitionKey,omitempty"`
 	PropertyBag              genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
 	UniqueKeyPolicy          *UniqueKeyPolicy          `json:"uniqueKeyPolicy,omitempty"`
-}
-
-// Storage version of v1beta20210515.SqlContainerResource_STATUS
-type SqlContainerResource_STATUS struct {
-	AnalyticalStorageTtl     *int                             `json:"analyticalStorageTtl,omitempty"`
-	ConflictResolutionPolicy *ConflictResolutionPolicy_STATUS `json:"conflictResolutionPolicy,omitempty"`
-	DefaultTtl               *int                             `json:"defaultTtl,omitempty"`
-	Id                       *string                          `json:"id,omitempty"`
-	IndexingPolicy           *IndexingPolicy_STATUS           `json:"indexingPolicy,omitempty"`
-	PartitionKey             *ContainerPartitionKey_STATUS    `json:"partitionKey,omitempty"`
-	PropertyBag              genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
-	UniqueKeyPolicy          *UniqueKeyPolicy_STATUS          `json:"uniqueKeyPolicy,omitempty"`
 }
 
 // Storage version of v1beta20210515.ConflictResolutionPolicy

@@ -144,26 +144,42 @@ type StorageAccount_STATUS struct {
 	AllowCrossTenantReplication           *bool                                         `json:"allowCrossTenantReplication,omitempty"`
 	AllowSharedKeyAccess                  *bool                                         `json:"allowSharedKeyAccess,omitempty"`
 	AzureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthentication_STATUS `json:"azureFilesIdentityBasedAuthentication,omitempty"`
+	BlobRestoreStatus                     *BlobRestoreStatus_STATUS                     `json:"blobRestoreStatus,omitempty"`
 	Conditions                            []conditions.Condition                        `json:"conditions,omitempty"`
+	CreationTime                          *string                                       `json:"creationTime,omitempty"`
 	CustomDomain                          *CustomDomain_STATUS                          `json:"customDomain,omitempty"`
 	Encryption                            *Encryption_STATUS                            `json:"encryption,omitempty"`
 	ExtendedLocation                      *ExtendedLocation_STATUS                      `json:"extendedLocation,omitempty"`
+	FailoverInProgress                    *bool                                         `json:"failoverInProgress,omitempty"`
+	GeoReplicationStats                   *GeoReplicationStats_STATUS                   `json:"geoReplicationStats,omitempty"`
 	Id                                    *string                                       `json:"id,omitempty"`
 	Identity                              *Identity_STATUS                              `json:"identity,omitempty"`
 	IsHnsEnabled                          *bool                                         `json:"isHnsEnabled,omitempty"`
 	IsNfsV3Enabled                        *bool                                         `json:"isNfsV3Enabled,omitempty"`
+	KeyCreationTime                       *KeyCreationTime_STATUS                       `json:"keyCreationTime,omitempty"`
 	KeyPolicy                             *KeyPolicy_STATUS                             `json:"keyPolicy,omitempty"`
 	Kind                                  *string                                       `json:"kind,omitempty"`
 	LargeFileSharesState                  *string                                       `json:"largeFileSharesState,omitempty"`
+	LastGeoFailoverTime                   *string                                       `json:"lastGeoFailoverTime,omitempty"`
 	Location                              *string                                       `json:"location,omitempty"`
 	MinimumTlsVersion                     *string                                       `json:"minimumTlsVersion,omitempty"`
+	Name                                  *string                                       `json:"name,omitempty"`
 	NetworkAcls                           *NetworkRuleSet_STATUS                        `json:"networkAcls,omitempty"`
+	PrimaryEndpoints                      *Endpoints_STATUS                             `json:"primaryEndpoints,omitempty"`
+	PrimaryLocation                       *string                                       `json:"primaryLocation,omitempty"`
+	PrivateEndpointConnections            []PrivateEndpointConnection_STATUS            `json:"privateEndpointConnections,omitempty"`
 	PropertyBag                           genruntime.PropertyBag                        `json:"$propertyBag,omitempty"`
+	ProvisioningState                     *string                                       `json:"provisioningState,omitempty"`
 	RoutingPreference                     *RoutingPreference_STATUS                     `json:"routingPreference,omitempty"`
 	SasPolicy                             *SasPolicy_STATUS                             `json:"sasPolicy,omitempty"`
+	SecondaryEndpoints                    *Endpoints_STATUS                             `json:"secondaryEndpoints,omitempty"`
+	SecondaryLocation                     *string                                       `json:"secondaryLocation,omitempty"`
 	Sku                                   *Sku_STATUS                                   `json:"sku,omitempty"`
+	StatusOfPrimary                       *string                                       `json:"statusOfPrimary,omitempty"`
+	StatusOfSecondary                     *string                                       `json:"statusOfSecondary,omitempty"`
 	SupportsHttpsTrafficOnly              *bool                                         `json:"supportsHttpsTrafficOnly,omitempty"`
 	Tags                                  map[string]string                             `json:"tags,omitempty"`
+	Type                                  *string                                       `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &StorageAccount_STATUS{}
@@ -261,6 +277,15 @@ type AzureFilesIdentityBasedAuthentication_STATUS struct {
 	PropertyBag               genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1beta20210401.BlobRestoreStatus_STATUS
+type BlobRestoreStatus_STATUS struct {
+	FailureReason *string                       `json:"failureReason,omitempty"`
+	Parameters    *BlobRestoreParameters_STATUS `json:"parameters,omitempty"`
+	PropertyBag   genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	RestoreId     *string                       `json:"restoreId,omitempty"`
+	Status        *string                       `json:"status,omitempty"`
+}
+
 // Storage version of v1beta20210401.CustomDomain
 type CustomDomain struct {
 	Name             *string                `json:"name,omitempty"`
@@ -295,6 +320,19 @@ type Encryption_STATUS struct {
 	Services                        *EncryptionServices_STATUS `json:"services,omitempty"`
 }
 
+// Storage version of v1beta20210401.Endpoints_STATUS
+type Endpoints_STATUS struct {
+	Blob               *string                                  `json:"blob,omitempty"`
+	Dfs                *string                                  `json:"dfs,omitempty"`
+	File               *string                                  `json:"file,omitempty"`
+	InternetEndpoints  *StorageAccountInternetEndpoints_STATUS  `json:"internetEndpoints,omitempty"`
+	MicrosoftEndpoints *StorageAccountMicrosoftEndpoints_STATUS `json:"microsoftEndpoints,omitempty"`
+	PropertyBag        genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
+	Queue              *string                                  `json:"queue,omitempty"`
+	Table              *string                                  `json:"table,omitempty"`
+	Web                *string                                  `json:"web,omitempty"`
+}
+
 // Storage version of v1beta20210401.ExtendedLocation
 type ExtendedLocation struct {
 	Name        *string                `json:"name,omitempty"`
@@ -307,6 +345,14 @@ type ExtendedLocation_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Type        *string                `json:"type,omitempty"`
+}
+
+// Storage version of v1beta20210401.GeoReplicationStats_STATUS
+type GeoReplicationStats_STATUS struct {
+	CanFailover  *bool                  `json:"canFailover,omitempty"`
+	LastSyncTime *string                `json:"lastSyncTime,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Status       *string                `json:"status,omitempty"`
 }
 
 // Storage version of v1beta20210401.Identity
@@ -324,6 +370,13 @@ type Identity_STATUS struct {
 	TenantId               *string                                `json:"tenantId,omitempty"`
 	Type                   *string                                `json:"type,omitempty"`
 	UserAssignedIdentities map[string]UserAssignedIdentity_STATUS `json:"userAssignedIdentities,omitempty"`
+}
+
+// Storage version of v1beta20210401.KeyCreationTime_STATUS
+type KeyCreationTime_STATUS struct {
+	Key1        *string                `json:"key1,omitempty"`
+	Key2        *string                `json:"key2,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210401.KeyPolicy
@@ -356,6 +409,12 @@ type NetworkRuleSet_STATUS struct {
 	PropertyBag         genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
 	ResourceAccessRules []ResourceAccessRule_STATUS `json:"resourceAccessRules,omitempty"`
 	VirtualNetworkRules []VirtualNetworkRule_STATUS `json:"virtualNetworkRules,omitempty"`
+}
+
+// Storage version of v1beta20210401.PrivateEndpointConnection_STATUS
+type PrivateEndpointConnection_STATUS struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210401.RoutingPreference
@@ -429,6 +488,13 @@ type ActiveDirectoryProperties_STATUS struct {
 	ForestName        *string                `json:"forestName,omitempty"`
 	NetBiosDomainName *string                `json:"netBiosDomainName,omitempty"`
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20210401.BlobRestoreParameters_STATUS
+type BlobRestoreParameters_STATUS struct {
+	BlobRanges    []BlobRestoreRange_STATUS `json:"blobRanges,omitempty"`
+	PropertyBag   genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
+	TimeToRestore *string                   `json:"timeToRestore,omitempty"`
 }
 
 // Storage version of v1beta20210401.EncryptionIdentity
@@ -514,6 +580,26 @@ type ResourceAccessRule_STATUS struct {
 	TenantId    *string                `json:"tenantId,omitempty"`
 }
 
+// Storage version of v1beta20210401.StorageAccountInternetEndpoints_STATUS
+type StorageAccountInternetEndpoints_STATUS struct {
+	Blob        *string                `json:"blob,omitempty"`
+	Dfs         *string                `json:"dfs,omitempty"`
+	File        *string                `json:"file,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Web         *string                `json:"web,omitempty"`
+}
+
+// Storage version of v1beta20210401.StorageAccountMicrosoftEndpoints_STATUS
+type StorageAccountMicrosoftEndpoints_STATUS struct {
+	Blob        *string                `json:"blob,omitempty"`
+	Dfs         *string                `json:"dfs,omitempty"`
+	File        *string                `json:"file,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Queue       *string                `json:"queue,omitempty"`
+	Table       *string                `json:"table,omitempty"`
+	Web         *string                `json:"web,omitempty"`
+}
+
 // Storage version of v1beta20210401.StorageAccountOperatorSecrets
 type StorageAccountOperatorSecrets struct {
 	BlobEndpoint  *genruntime.SecretDestination `json:"blobEndpoint,omitempty"`
@@ -552,6 +638,13 @@ type VirtualNetworkRule_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	State       *string                `json:"state,omitempty"`
+}
+
+// Storage version of v1beta20210401.BlobRestoreRange_STATUS
+type BlobRestoreRange_STATUS struct {
+	EndRange    *string                `json:"endRange,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	StartRange  *string                `json:"startRange,omitempty"`
 }
 
 // Storage version of v1beta20210401.EncryptionService

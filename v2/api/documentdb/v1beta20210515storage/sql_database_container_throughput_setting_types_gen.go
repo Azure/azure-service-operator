@@ -133,14 +133,14 @@ type SqlDatabaseContainerThroughputSettingList struct {
 
 // Storage version of v1beta20210515.DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS
 type DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS struct {
-	Conditions  []conditions.Condition             `json:"conditions,omitempty"`
-	Id          *string                            `json:"id,omitempty"`
-	Location    *string                            `json:"location,omitempty"`
-	Name        *string                            `json:"name,omitempty"`
-	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Resource    *ThroughputSettingsResource_STATUS `json:"resource,omitempty"`
-	Tags        map[string]string                  `json:"tags,omitempty"`
-	Type        *string                            `json:"type,omitempty"`
+	Conditions  []conditions.Condition                           `json:"conditions,omitempty"`
+	Id          *string                                          `json:"id,omitempty"`
+	Location    *string                                          `json:"location,omitempty"`
+	Name        *string                                          `json:"name,omitempty"`
+	PropertyBag genruntime.PropertyBag                           `json:"$propertyBag,omitempty"`
+	Resource    *ThroughputSettingsGetProperties_Resource_STATUS `json:"resource,omitempty"`
+	Tags        map[string]string                                `json:"tags,omitempty"`
+	Type        *string                                          `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS{}

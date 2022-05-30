@@ -13,34 +13,40 @@ type DatabaseAccountsMongodbDatabase_STATUSARM struct {
 	// Name: The name of the ARM resource.
 	Name *string `json:"name,omitempty"`
 
-	// Properties: Properties to create and update Azure Cosmos DB MongoDB database.
-	Properties *MongoDBDatabaseCreateUpdateProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                                `json:"tags,omitempty"`
+	// Properties: The properties of an Azure Cosmos DB MongoDB database
+	Properties *MongoDBDatabaseGetProperties_STATUSARM `json:"properties,omitempty"`
+	Tags       map[string]string                       `json:"tags,omitempty"`
 
 	// Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
 }
 
-type MongoDBDatabaseCreateUpdateProperties_STATUSARM struct {
-	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
-	// request.
-	Options *CreateUpdateOptions_STATUSARM `json:"options,omitempty"`
-
-	// Resource: The standard JSON format of a MongoDB database
-	Resource *MongoDBDatabaseResource_STATUSARM `json:"resource,omitempty"`
+type MongoDBDatabaseGetProperties_STATUSARM struct {
+	Options  *OptionsResource_STATUSARM                       `json:"options,omitempty"`
+	Resource *MongoDBDatabaseGetProperties_Resource_STATUSARM `json:"resource,omitempty"`
 }
 
-type CreateUpdateOptions_STATUSARM struct {
+type MongoDBDatabaseGetProperties_Resource_STATUSARM struct {
+	// Id: Name of the Cosmos DB MongoDB database
+	Id *string `json:"id,omitempty"`
+
+	// _Etag: A system generated property representing the resource etag required for optimistic concurrency control.
+	_Etag *string `json:"_etag,omitempty"`
+
+	// _Rid: A system generated property. A unique identifier.
+	_Rid *string `json:"_rid,omitempty"`
+
+	// _Ts: A system generated property that denotes the last updated timestamp of the resource.
+	_Ts *float64 `json:"_ts,omitempty"`
+}
+
+type OptionsResource_STATUSARM struct {
 	// AutoscaleSettings: Specifies the Autoscale settings.
 	AutoscaleSettings *AutoscaleSettings_STATUSARM `json:"autoscaleSettings,omitempty"`
 
-	// Throughput: Request Units per second. For example, "throughput": 10000.
+	// Throughput: Value of the Cosmos DB resource throughput or autoscaleSettings. Use the ThroughputSetting resource when
+	// retrieving offer details.
 	Throughput *int `json:"throughput,omitempty"`
-}
-
-type MongoDBDatabaseResource_STATUSARM struct {
-	// Id: Name of the Cosmos DB MongoDB database
-	Id *string `json:"id,omitempty"`
 }
 
 type AutoscaleSettings_STATUSARM struct {

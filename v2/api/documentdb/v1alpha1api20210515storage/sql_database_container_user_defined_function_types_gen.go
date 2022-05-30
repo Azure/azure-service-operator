@@ -202,15 +202,14 @@ type SqlDatabaseContainerUserDefinedFunctionList struct {
 // Storage version of v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_STATUS
 // Deprecated version of DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_STATUS. Use v1beta20210515.DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_STATUS instead
 type DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_STATUS struct {
-	Conditions  []conditions.Condition                 `json:"conditions,omitempty"`
-	Id          *string                                `json:"id,omitempty"`
-	Location    *string                                `json:"location,omitempty"`
-	Name        *string                                `json:"name,omitempty"`
-	Options     *CreateUpdateOptions_STATUS            `json:"options,omitempty"`
-	PropertyBag genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
-	Resource    *SqlUserDefinedFunctionResource_STATUS `json:"resource,omitempty"`
-	Tags        map[string]string                      `json:"tags,omitempty"`
-	Type        *string                                `json:"type,omitempty"`
+	Conditions  []conditions.Condition                               `json:"conditions,omitempty"`
+	Id          *string                                              `json:"id,omitempty"`
+	Location    *string                                              `json:"location,omitempty"`
+	Name        *string                                              `json:"name,omitempty"`
+	PropertyBag genruntime.PropertyBag                               `json:"$propertyBag,omitempty"`
+	Resource    *SqlUserDefinedFunctionGetProperties_Resource_STATUS `json:"resource,omitempty"`
+	Tags        map[string]string                                    `json:"tags,omitempty"`
+	Type        *string                                              `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_STATUS{}
@@ -280,24 +279,12 @@ func (function *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_STATUS
 	// Name
 	function.Name = genruntime.ClonePointerToString(source.Name)
 
-	// Options
-	if source.Options != nil {
-		var option CreateUpdateOptions_STATUS
-		err := option.AssignPropertiesFromCreateUpdateOptions_STATUS(source.Options)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptions_STATUS() to populate field Options")
-		}
-		function.Options = &option
-	} else {
-		function.Options = nil
-	}
-
 	// Resource
 	if source.Resource != nil {
-		var resource SqlUserDefinedFunctionResource_STATUS
-		err := resource.AssignPropertiesFromSqlUserDefinedFunctionResource_STATUS(source.Resource)
+		var resource SqlUserDefinedFunctionGetProperties_Resource_STATUS
+		err := resource.AssignPropertiesFromSqlUserDefinedFunctionGetProperties_Resource_STATUS(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSqlUserDefinedFunctionResource_STATUS() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesFromSqlUserDefinedFunctionGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		function.Resource = &resource
 	} else {
@@ -338,24 +325,12 @@ func (function *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_STATUS
 	// Name
 	destination.Name = genruntime.ClonePointerToString(function.Name)
 
-	// Options
-	if function.Options != nil {
-		var option v20210515s.CreateUpdateOptions_STATUS
-		err := function.Options.AssignPropertiesToCreateUpdateOptions_STATUS(&option)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions_STATUS() to populate field Options")
-		}
-		destination.Options = &option
-	} else {
-		destination.Options = nil
-	}
-
 	// Resource
 	if function.Resource != nil {
-		var resource v20210515s.SqlUserDefinedFunctionResource_STATUS
-		err := function.Resource.AssignPropertiesToSqlUserDefinedFunctionResource_STATUS(&resource)
+		var resource v20210515s.SqlUserDefinedFunctionGetProperties_Resource_STATUS
+		err := function.Resource.AssignPropertiesToSqlUserDefinedFunctionGetProperties_Resource_STATUS(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSqlUserDefinedFunctionResource_STATUS() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesToSqlUserDefinedFunctionGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {
@@ -582,6 +557,89 @@ func (function *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec) 
 	return nil
 }
 
+// Storage version of v1alpha1api20210515.SqlUserDefinedFunctionGetProperties_Resource_STATUS
+// Deprecated version of SqlUserDefinedFunctionGetProperties_Resource_STATUS. Use v1beta20210515.SqlUserDefinedFunctionGetProperties_Resource_STATUS instead
+type SqlUserDefinedFunctionGetProperties_Resource_STATUS struct {
+	Body        *string                `json:"body,omitempty"`
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	_Etag       *string                `json:"_etag,omitempty"`
+	_Rid        *string                `json:"_rid,omitempty"`
+	_Ts         *float64               `json:"_ts,omitempty"`
+}
+
+// AssignPropertiesFromSqlUserDefinedFunctionGetProperties_Resource_STATUS populates our SqlUserDefinedFunctionGetProperties_Resource_STATUS from the provided source SqlUserDefinedFunctionGetProperties_Resource_STATUS
+func (resource *SqlUserDefinedFunctionGetProperties_Resource_STATUS) AssignPropertiesFromSqlUserDefinedFunctionGetProperties_Resource_STATUS(source *v20210515s.SqlUserDefinedFunctionGetProperties_Resource_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Body
+	resource.Body = genruntime.ClonePointerToString(source.Body)
+
+	// Id
+	resource.Id = genruntime.ClonePointerToString(source.Id)
+
+	// _Etag
+	resource._Etag = genruntime.ClonePointerToString(source._Etag)
+
+	// _Rid
+	resource._Rid = genruntime.ClonePointerToString(source._Rid)
+
+	// _Ts
+	if source._Ts != nil {
+		_T := *source._Ts
+		resource._Ts = &_T
+	} else {
+		resource._Ts = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		resource.PropertyBag = propertyBag
+	} else {
+		resource.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToSqlUserDefinedFunctionGetProperties_Resource_STATUS populates the provided destination SqlUserDefinedFunctionGetProperties_Resource_STATUS from our SqlUserDefinedFunctionGetProperties_Resource_STATUS
+func (resource *SqlUserDefinedFunctionGetProperties_Resource_STATUS) AssignPropertiesToSqlUserDefinedFunctionGetProperties_Resource_STATUS(destination *v20210515s.SqlUserDefinedFunctionGetProperties_Resource_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
+
+	// Body
+	destination.Body = genruntime.ClonePointerToString(resource.Body)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(resource.Id)
+
+	// _Etag
+	destination._Etag = genruntime.ClonePointerToString(resource._Etag)
+
+	// _Rid
+	destination._Rid = genruntime.ClonePointerToString(resource._Rid)
+
+	// _Ts
+	if resource._Ts != nil {
+		_T := *resource._Ts
+		destination._Ts = &_T
+	} else {
+		destination._Ts = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1alpha1api20210515.SqlUserDefinedFunctionResource
 // Deprecated version of SqlUserDefinedFunctionResource. Use v1beta20210515.SqlUserDefinedFunctionResource instead
 type SqlUserDefinedFunctionResource struct {
@@ -614,58 +672,6 @@ func (resource *SqlUserDefinedFunctionResource) AssignPropertiesFromSqlUserDefin
 
 // AssignPropertiesToSqlUserDefinedFunctionResource populates the provided destination SqlUserDefinedFunctionResource from our SqlUserDefinedFunctionResource
 func (resource *SqlUserDefinedFunctionResource) AssignPropertiesToSqlUserDefinedFunctionResource(destination *v20210515s.SqlUserDefinedFunctionResource) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
-
-	// Body
-	destination.Body = genruntime.ClonePointerToString(resource.Body)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(resource.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20210515.SqlUserDefinedFunctionResource_STATUS
-// Deprecated version of SqlUserDefinedFunctionResource_STATUS. Use v1beta20210515.SqlUserDefinedFunctionResource_STATUS instead
-type SqlUserDefinedFunctionResource_STATUS struct {
-	Body        *string                `json:"body,omitempty"`
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// AssignPropertiesFromSqlUserDefinedFunctionResource_STATUS populates our SqlUserDefinedFunctionResource_STATUS from the provided source SqlUserDefinedFunctionResource_STATUS
-func (resource *SqlUserDefinedFunctionResource_STATUS) AssignPropertiesFromSqlUserDefinedFunctionResource_STATUS(source *v20210515s.SqlUserDefinedFunctionResource_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Body
-	resource.Body = genruntime.ClonePointerToString(source.Body)
-
-	// Id
-	resource.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		resource.PropertyBag = propertyBag
-	} else {
-		resource.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToSqlUserDefinedFunctionResource_STATUS populates the provided destination SqlUserDefinedFunctionResource_STATUS from our SqlUserDefinedFunctionResource_STATUS
-func (resource *SqlUserDefinedFunctionResource_STATUS) AssignPropertiesToSqlUserDefinedFunctionResource_STATUS(destination *v20210515s.SqlUserDefinedFunctionResource_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
 

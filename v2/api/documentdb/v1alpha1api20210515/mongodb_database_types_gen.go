@@ -334,14 +334,14 @@ type MongodbDatabaseList struct {
 // Deprecated version of DatabaseAccountsMongodbDatabase_STATUS. Use v1beta20210515.DatabaseAccountsMongodbDatabase_STATUS instead
 type DatabaseAccountsMongodbDatabase_STATUS struct {
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition          `json:"conditions,omitempty"`
-	Id         *string                         `json:"id,omitempty"`
-	Location   *string                         `json:"location,omitempty"`
-	Name       *string                         `json:"name,omitempty"`
-	Options    *CreateUpdateOptions_STATUS     `json:"options,omitempty"`
-	Resource   *MongoDBDatabaseResource_STATUS `json:"resource,omitempty"`
-	Tags       map[string]string               `json:"tags,omitempty"`
-	Type       *string                         `json:"type,omitempty"`
+	Conditions []conditions.Condition                        `json:"conditions,omitempty"`
+	Id         *string                                       `json:"id,omitempty"`
+	Location   *string                                       `json:"location,omitempty"`
+	Name       *string                                       `json:"name,omitempty"`
+	Options    *OptionsResource_STATUS                       `json:"options,omitempty"`
+	Resource   *MongoDBDatabaseGetProperties_Resource_STATUS `json:"resource,omitempty"`
+	Tags       map[string]string                             `json:"tags,omitempty"`
+	Type       *string                                       `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &DatabaseAccountsMongodbDatabase_STATUS{}
@@ -432,7 +432,7 @@ func (database *DatabaseAccountsMongodbDatabase_STATUS) PopulateFromARM(owner ge
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Options != nil {
-			var options1 CreateUpdateOptions_STATUS
+			var options1 OptionsResource_STATUS
 			err := options1.PopulateFromARM(owner, *typedInput.Properties.Options)
 			if err != nil {
 				return err
@@ -446,7 +446,7 @@ func (database *DatabaseAccountsMongodbDatabase_STATUS) PopulateFromARM(owner ge
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Resource != nil {
-			var resource1 MongoDBDatabaseResource_STATUS
+			var resource1 MongoDBDatabaseGetProperties_Resource_STATUS
 			err := resource1.PopulateFromARM(owner, *typedInput.Properties.Resource)
 			if err != nil {
 				return err
@@ -491,10 +491,10 @@ func (database *DatabaseAccountsMongodbDatabase_STATUS) AssignPropertiesFromData
 
 	// Options
 	if source.Options != nil {
-		var option CreateUpdateOptions_STATUS
-		err := option.AssignPropertiesFromCreateUpdateOptions_STATUS(source.Options)
+		var option OptionsResource_STATUS
+		err := option.AssignPropertiesFromOptionsResource_STATUS(source.Options)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptions_STATUS() to populate field Options")
+			return errors.Wrap(err, "calling AssignPropertiesFromOptionsResource_STATUS() to populate field Options")
 		}
 		database.Options = &option
 	} else {
@@ -503,10 +503,10 @@ func (database *DatabaseAccountsMongodbDatabase_STATUS) AssignPropertiesFromData
 
 	// Resource
 	if source.Resource != nil {
-		var resource MongoDBDatabaseResource_STATUS
-		err := resource.AssignPropertiesFromMongoDBDatabaseResource_STATUS(source.Resource)
+		var resource MongoDBDatabaseGetProperties_Resource_STATUS
+		err := resource.AssignPropertiesFromMongoDBDatabaseGetProperties_Resource_STATUS(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromMongoDBDatabaseResource_STATUS() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesFromMongoDBDatabaseGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		database.Resource = &resource
 	} else {
@@ -542,10 +542,10 @@ func (database *DatabaseAccountsMongodbDatabase_STATUS) AssignPropertiesToDataba
 
 	// Options
 	if database.Options != nil {
-		var option alpha20210515s.CreateUpdateOptions_STATUS
-		err := database.Options.AssignPropertiesToCreateUpdateOptions_STATUS(&option)
+		var option alpha20210515s.OptionsResource_STATUS
+		err := database.Options.AssignPropertiesToOptionsResource_STATUS(&option)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions_STATUS() to populate field Options")
+			return errors.Wrap(err, "calling AssignPropertiesToOptionsResource_STATUS() to populate field Options")
 		}
 		destination.Options = &option
 	} else {
@@ -554,10 +554,10 @@ func (database *DatabaseAccountsMongodbDatabase_STATUS) AssignPropertiesToDataba
 
 	// Resource
 	if database.Resource != nil {
-		var resource alpha20210515s.MongoDBDatabaseResource_STATUS
-		err := database.Resource.AssignPropertiesToMongoDBDatabaseResource_STATUS(&resource)
+		var resource alpha20210515s.MongoDBDatabaseGetProperties_Resource_STATUS
+		err := database.Resource.AssignPropertiesToMongoDBDatabaseGetProperties_Resource_STATUS(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToMongoDBDatabaseResource_STATUS() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesToMongoDBDatabaseGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {
@@ -1042,88 +1042,101 @@ func (options *CreateUpdateOptions) AssignPropertiesToCreateUpdateOptions(destin
 	return nil
 }
 
-// Deprecated version of CreateUpdateOptions_STATUS. Use v1beta20210515.CreateUpdateOptions_STATUS instead
-type CreateUpdateOptions_STATUS struct {
-	AutoscaleSettings *AutoscaleSettings_STATUS `json:"autoscaleSettings,omitempty"`
-	Throughput        *int                      `json:"throughput,omitempty"`
+// Deprecated version of MongoDBDatabaseGetProperties_Resource_STATUS. Use v1beta20210515.MongoDBDatabaseGetProperties_Resource_STATUS instead
+type MongoDBDatabaseGetProperties_Resource_STATUS struct {
+	Id    *string  `json:"id,omitempty"`
+	_Etag *string  `json:"_etag,omitempty"`
+	_Rid  *string  `json:"_rid,omitempty"`
+	_Ts   *float64 `json:"_ts,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &CreateUpdateOptions_STATUS{}
+var _ genruntime.FromARMConverter = &MongoDBDatabaseGetProperties_Resource_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (options *CreateUpdateOptions_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CreateUpdateOptions_STATUSARM{}
+func (resource *MongoDBDatabaseGetProperties_Resource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &MongoDBDatabaseGetProperties_Resource_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (options *CreateUpdateOptions_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CreateUpdateOptions_STATUSARM)
+func (resource *MongoDBDatabaseGetProperties_Resource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(MongoDBDatabaseGetProperties_Resource_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CreateUpdateOptions_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoDBDatabaseGetProperties_Resource_STATUSARM, got %T", armInput)
 	}
 
-	// Set property ‘AutoscaleSettings’:
-	if typedInput.AutoscaleSettings != nil {
-		var autoscaleSettings1 AutoscaleSettings_STATUS
-		err := autoscaleSettings1.PopulateFromARM(owner, *typedInput.AutoscaleSettings)
-		if err != nil {
-			return err
-		}
-		autoscaleSettings := autoscaleSettings1
-		options.AutoscaleSettings = &autoscaleSettings
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		resource.Id = &id
 	}
 
-	// Set property ‘Throughput’:
-	if typedInput.Throughput != nil {
-		throughput := *typedInput.Throughput
-		options.Throughput = &throughput
+	// Set property ‘_Etag’:
+	if typedInput._Etag != nil {
+		_Etag := *typedInput._Etag
+		resource._Etag = &_Etag
+	}
+
+	// Set property ‘_Rid’:
+	if typedInput._Rid != nil {
+		_Rid := *typedInput._Rid
+		resource._Rid = &_Rid
+	}
+
+	// Set property ‘_Ts’:
+	if typedInput._Ts != nil {
+		_Ts := *typedInput._Ts
+		resource._Ts = &_Ts
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesFromCreateUpdateOptions_STATUS populates our CreateUpdateOptions_STATUS from the provided source CreateUpdateOptions_STATUS
-func (options *CreateUpdateOptions_STATUS) AssignPropertiesFromCreateUpdateOptions_STATUS(source *alpha20210515s.CreateUpdateOptions_STATUS) error {
+// AssignPropertiesFromMongoDBDatabaseGetProperties_Resource_STATUS populates our MongoDBDatabaseGetProperties_Resource_STATUS from the provided source MongoDBDatabaseGetProperties_Resource_STATUS
+func (resource *MongoDBDatabaseGetProperties_Resource_STATUS) AssignPropertiesFromMongoDBDatabaseGetProperties_Resource_STATUS(source *alpha20210515s.MongoDBDatabaseGetProperties_Resource_STATUS) error {
 
-	// AutoscaleSettings
-	if source.AutoscaleSettings != nil {
-		var autoscaleSetting AutoscaleSettings_STATUS
-		err := autoscaleSetting.AssignPropertiesFromAutoscaleSettings_STATUS(source.AutoscaleSettings)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAutoscaleSettings_STATUS() to populate field AutoscaleSettings")
-		}
-		options.AutoscaleSettings = &autoscaleSetting
+	// Id
+	resource.Id = genruntime.ClonePointerToString(source.Id)
+
+	// _Etag
+	resource._Etag = genruntime.ClonePointerToString(source._Etag)
+
+	// _Rid
+	resource._Rid = genruntime.ClonePointerToString(source._Rid)
+
+	// _Ts
+	if source._Ts != nil {
+		_T := *source._Ts
+		resource._Ts = &_T
 	} else {
-		options.AutoscaleSettings = nil
+		resource._Ts = nil
 	}
-
-	// Throughput
-	options.Throughput = genruntime.ClonePointerToInt(source.Throughput)
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToCreateUpdateOptions_STATUS populates the provided destination CreateUpdateOptions_STATUS from our CreateUpdateOptions_STATUS
-func (options *CreateUpdateOptions_STATUS) AssignPropertiesToCreateUpdateOptions_STATUS(destination *alpha20210515s.CreateUpdateOptions_STATUS) error {
+// AssignPropertiesToMongoDBDatabaseGetProperties_Resource_STATUS populates the provided destination MongoDBDatabaseGetProperties_Resource_STATUS from our MongoDBDatabaseGetProperties_Resource_STATUS
+func (resource *MongoDBDatabaseGetProperties_Resource_STATUS) AssignPropertiesToMongoDBDatabaseGetProperties_Resource_STATUS(destination *alpha20210515s.MongoDBDatabaseGetProperties_Resource_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// AutoscaleSettings
-	if options.AutoscaleSettings != nil {
-		var autoscaleSetting alpha20210515s.AutoscaleSettings_STATUS
-		err := options.AutoscaleSettings.AssignPropertiesToAutoscaleSettings_STATUS(&autoscaleSetting)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAutoscaleSettings_STATUS() to populate field AutoscaleSettings")
-		}
-		destination.AutoscaleSettings = &autoscaleSetting
-	} else {
-		destination.AutoscaleSettings = nil
-	}
+	// Id
+	destination.Id = genruntime.ClonePointerToString(resource.Id)
 
-	// Throughput
-	destination.Throughput = genruntime.ClonePointerToInt(options.Throughput)
+	// _Etag
+	destination._Etag = genruntime.ClonePointerToString(resource._Etag)
+
+	// _Rid
+	destination._Rid = genruntime.ClonePointerToString(resource._Rid)
+
+	// _Ts
+	if resource._Ts != nil {
+		_T := *resource._Ts
+		destination._Ts = &_T
+	} else {
+		destination._Ts = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1210,52 +1223,88 @@ func (resource *MongoDBDatabaseResource) AssignPropertiesToMongoDBDatabaseResour
 	return nil
 }
 
-// Deprecated version of MongoDBDatabaseResource_STATUS. Use v1beta20210515.MongoDBDatabaseResource_STATUS instead
-type MongoDBDatabaseResource_STATUS struct {
-	Id *string `json:"id,omitempty"`
+// Deprecated version of OptionsResource_STATUS. Use v1beta20210515.OptionsResource_STATUS instead
+type OptionsResource_STATUS struct {
+	AutoscaleSettings *AutoscaleSettings_STATUS `json:"autoscaleSettings,omitempty"`
+	Throughput        *int                      `json:"throughput,omitempty"`
 }
 
-var _ genruntime.FromARMConverter = &MongoDBDatabaseResource_STATUS{}
+var _ genruntime.FromARMConverter = &OptionsResource_STATUS{}
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (resource *MongoDBDatabaseResource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MongoDBDatabaseResource_STATUSARM{}
+func (resource *OptionsResource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &OptionsResource_STATUSARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (resource *MongoDBDatabaseResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MongoDBDatabaseResource_STATUSARM)
+func (resource *OptionsResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(OptionsResource_STATUSARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoDBDatabaseResource_STATUSARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected OptionsResource_STATUSARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		resource.Id = &id
+	// Set property ‘AutoscaleSettings’:
+	if typedInput.AutoscaleSettings != nil {
+		var autoscaleSettings1 AutoscaleSettings_STATUS
+		err := autoscaleSettings1.PopulateFromARM(owner, *typedInput.AutoscaleSettings)
+		if err != nil {
+			return err
+		}
+		autoscaleSettings := autoscaleSettings1
+		resource.AutoscaleSettings = &autoscaleSettings
+	}
+
+	// Set property ‘Throughput’:
+	if typedInput.Throughput != nil {
+		throughput := *typedInput.Throughput
+		resource.Throughput = &throughput
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesFromMongoDBDatabaseResource_STATUS populates our MongoDBDatabaseResource_STATUS from the provided source MongoDBDatabaseResource_STATUS
-func (resource *MongoDBDatabaseResource_STATUS) AssignPropertiesFromMongoDBDatabaseResource_STATUS(source *alpha20210515s.MongoDBDatabaseResource_STATUS) error {
+// AssignPropertiesFromOptionsResource_STATUS populates our OptionsResource_STATUS from the provided source OptionsResource_STATUS
+func (resource *OptionsResource_STATUS) AssignPropertiesFromOptionsResource_STATUS(source *alpha20210515s.OptionsResource_STATUS) error {
 
-	// Id
-	resource.Id = genruntime.ClonePointerToString(source.Id)
+	// AutoscaleSettings
+	if source.AutoscaleSettings != nil {
+		var autoscaleSetting AutoscaleSettings_STATUS
+		err := autoscaleSetting.AssignPropertiesFromAutoscaleSettings_STATUS(source.AutoscaleSettings)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromAutoscaleSettings_STATUS() to populate field AutoscaleSettings")
+		}
+		resource.AutoscaleSettings = &autoscaleSetting
+	} else {
+		resource.AutoscaleSettings = nil
+	}
+
+	// Throughput
+	resource.Throughput = genruntime.ClonePointerToInt(source.Throughput)
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToMongoDBDatabaseResource_STATUS populates the provided destination MongoDBDatabaseResource_STATUS from our MongoDBDatabaseResource_STATUS
-func (resource *MongoDBDatabaseResource_STATUS) AssignPropertiesToMongoDBDatabaseResource_STATUS(destination *alpha20210515s.MongoDBDatabaseResource_STATUS) error {
+// AssignPropertiesToOptionsResource_STATUS populates the provided destination OptionsResource_STATUS from our OptionsResource_STATUS
+func (resource *OptionsResource_STATUS) AssignPropertiesToOptionsResource_STATUS(destination *alpha20210515s.OptionsResource_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(resource.Id)
+	// AutoscaleSettings
+	if resource.AutoscaleSettings != nil {
+		var autoscaleSetting alpha20210515s.AutoscaleSettings_STATUS
+		err := resource.AutoscaleSettings.AssignPropertiesToAutoscaleSettings_STATUS(&autoscaleSetting)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToAutoscaleSettings_STATUS() to populate field AutoscaleSettings")
+		}
+		destination.AutoscaleSettings = &autoscaleSetting
+	} else {
+		destination.AutoscaleSettings = nil
+	}
+
+	// Throughput
+	destination.Throughput = genruntime.ClonePointerToInt(resource.Throughput)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

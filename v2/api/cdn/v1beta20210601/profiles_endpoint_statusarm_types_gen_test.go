@@ -275,13 +275,10 @@ func CustomDomain_STATUSARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForCustomDomain_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCustomDomain_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForCustomDomain_STATUSARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForCustomDomain_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(CustomDomainProperties_STATUSARMGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSARMGenerator())
 }
 
@@ -763,105 +760,6 @@ func AddRelatedPropertyGeneratorsForUrlSigningKey_STATUSARM(gens map[string]gopt
 	gens["KeySourceParameters"] = gen.PtrOf(KeyVaultSigningKeyParameters_STATUSARMGenerator())
 }
 
-func Test_CustomDomainProperties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CustomDomainProperties_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCustomDomainProperties_STATUSARM, CustomDomainProperties_STATUSARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForCustomDomainProperties_STATUSARM runs a test to see if a specific instance of CustomDomainProperties_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForCustomDomainProperties_STATUSARM(subject CustomDomainProperties_STATUSARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual CustomDomainProperties_STATUSARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of CustomDomainProperties_STATUSARM instances for property testing - lazily instantiated by
-// CustomDomainProperties_STATUSARMGenerator()
-var customDomainProperties_STATUSARMGenerator gopter.Gen
-
-// CustomDomainProperties_STATUSARMGenerator returns a generator of CustomDomainProperties_STATUSARM instances for property testing.
-// We first initialize customDomainProperties_STATUSARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func CustomDomainProperties_STATUSARMGenerator() gopter.Gen {
-	if customDomainProperties_STATUSARMGenerator != nil {
-		return customDomainProperties_STATUSARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCustomDomainProperties_STATUSARM(generators)
-	customDomainProperties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(CustomDomainProperties_STATUSARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCustomDomainProperties_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForCustomDomainProperties_STATUSARM(generators)
-	customDomainProperties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(CustomDomainProperties_STATUSARM{}), generators)
-
-	return customDomainProperties_STATUSARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForCustomDomainProperties_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCustomDomainProperties_STATUSARM(gens map[string]gopter.Gen) {
-	gens["CustomHttpsProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		CustomDomainProperties_CustomHttpsProvisioningState_Disabled_STATUS,
-		CustomDomainProperties_CustomHttpsProvisioningState_Disabling_STATUS,
-		CustomDomainProperties_CustomHttpsProvisioningState_Enabled_STATUS,
-		CustomDomainProperties_CustomHttpsProvisioningState_Enabling_STATUS,
-		CustomDomainProperties_CustomHttpsProvisioningState_Failed_STATUS))
-	gens["CustomHttpsProvisioningSubstate"] = gen.PtrOf(gen.OneConstOf(
-		CustomDomainProperties_CustomHttpsProvisioningSubstate_CertificateDeleted_STATUS,
-		CustomDomainProperties_CustomHttpsProvisioningSubstate_CertificateDeployed_STATUS,
-		CustomDomainProperties_CustomHttpsProvisioningSubstate_DeletingCertificate_STATUS,
-		CustomDomainProperties_CustomHttpsProvisioningSubstate_DeployingCertificate_STATUS,
-		CustomDomainProperties_CustomHttpsProvisioningSubstate_DomainControlValidationRequestApproved_STATUS,
-		CustomDomainProperties_CustomHttpsProvisioningSubstate_DomainControlValidationRequestRejected_STATUS,
-		CustomDomainProperties_CustomHttpsProvisioningSubstate_DomainControlValidationRequestTimedOut_STATUS,
-		CustomDomainProperties_CustomHttpsProvisioningSubstate_IssuingCertificate_STATUS,
-		CustomDomainProperties_CustomHttpsProvisioningSubstate_PendingDomainControlValidationREquestApproval_STATUS,
-		CustomDomainProperties_CustomHttpsProvisioningSubstate_SubmittingDomainControlValidationRequest_STATUS))
-	gens["HostName"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		CustomDomainProperties_ProvisioningState_Disabled_STATUS,
-		CustomDomainProperties_ProvisioningState_Disabling_STATUS,
-		CustomDomainProperties_ProvisioningState_Enabled_STATUS,
-		CustomDomainProperties_ProvisioningState_Enabling_STATUS,
-		CustomDomainProperties_ProvisioningState_Failed_STATUS))
-	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(CustomDomainProperties_ResourceState_Active_STATUS, CustomDomainProperties_ResourceState_Creating_STATUS, CustomDomainProperties_ResourceState_Deleting_STATUS))
-	gens["ValidationData"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForCustomDomainProperties_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForCustomDomainProperties_STATUSARM(gens map[string]gopter.Gen) {
-	gens["CustomHttpsParameters"] = gen.PtrOf(CustomDomainHttpsParameters_STATUSARMGenerator())
-}
-
 func Test_DeepCreatedOriginGroupProperties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1153,68 +1051,6 @@ func AddIndependentPropertyGeneratorsForKeyVaultSigningKeyParameters_STATUSARM(g
 	gens["SubscriptionId"] = gen.PtrOf(gen.AlphaString())
 	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(KeyVaultSigningKeyParameters_TypeName_KeyVaultSigningKeyParameters_STATUS))
 	gens["VaultName"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_CustomDomainHttpsParameters_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CustomDomainHttpsParameters_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCustomDomainHttpsParameters_STATUSARM, CustomDomainHttpsParameters_STATUSARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForCustomDomainHttpsParameters_STATUSARM runs a test to see if a specific instance of CustomDomainHttpsParameters_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForCustomDomainHttpsParameters_STATUSARM(subject CustomDomainHttpsParameters_STATUSARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual CustomDomainHttpsParameters_STATUSARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of CustomDomainHttpsParameters_STATUSARM instances for property testing - lazily instantiated by
-// CustomDomainHttpsParameters_STATUSARMGenerator()
-var customDomainHttpsParameters_STATUSARMGenerator gopter.Gen
-
-// CustomDomainHttpsParameters_STATUSARMGenerator returns a generator of CustomDomainHttpsParameters_STATUSARM instances for property testing.
-func CustomDomainHttpsParameters_STATUSARMGenerator() gopter.Gen {
-	if customDomainHttpsParameters_STATUSARMGenerator != nil {
-		return customDomainHttpsParameters_STATUSARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCustomDomainHttpsParameters_STATUSARM(generators)
-	customDomainHttpsParameters_STATUSARMGenerator = gen.Struct(reflect.TypeOf(CustomDomainHttpsParameters_STATUSARM{}), generators)
-
-	return customDomainHttpsParameters_STATUSARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForCustomDomainHttpsParameters_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCustomDomainHttpsParameters_STATUSARM(gens map[string]gopter.Gen) {
-	gens["CertificateSource"] = gen.PtrOf(gen.OneConstOf(CustomDomainHttpsParameters_CertificateSource_AzureKeyVault_STATUS, CustomDomainHttpsParameters_CertificateSource_Cdn_STATUS))
-	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(CustomDomainHttpsParameters_MinimumTlsVersion_None_STATUS, CustomDomainHttpsParameters_MinimumTlsVersion_TLS10_STATUS, CustomDomainHttpsParameters_MinimumTlsVersion_TLS12_STATUS))
-	gens["ProtocolType"] = gen.PtrOf(gen.OneConstOf(CustomDomainHttpsParameters_ProtocolType_IPBased_STATUS, CustomDomainHttpsParameters_ProtocolType_ServerNameIndication_STATUS))
 }
 
 func Test_DeliveryRuleAction_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

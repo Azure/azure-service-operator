@@ -57,7 +57,8 @@ type SwaggerTypes struct {
 type ResourceDefinitionSet map[astmodel.TypeName]ResourceDefinition
 
 type ResourceDefinition struct {
-	Type       astmodel.Type
+	SpecType   astmodel.Type
+	StatusType astmodel.Type
 	SourceFile string
 	// TODO: put ARM URI in here and use it for generating Resource URIs
 }
@@ -80,8 +81,8 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(ctx context.Context) (Swagge
 			continue
 		}
 
-		resourceSchema := extractor.findARMResourceSchema(op, rawOperationPath)
-		if resourceSchema == nil {
+		specSchema, statusSchema := extractor.findARMResourceSchema(op, rawOperationPath)
+		if specSchema == nil {
 			// klog.Warningf("No ARM schema found for %s in %q", rawOperationPath, filePath)
 			continue
 		}
@@ -98,32 +99,49 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(ctx context.Context) (Swagge
 			shouldPrune, because := scanner.configuration.ShouldPrune(resourceName)
 			if shouldPrune == config.Prune {
 				klog.V(3).Infof("Skipping %s because %s", resourceName, because)
+				continue
 			}
 
-			resourceType, err := scanner.RunHandlerForSchema(ctx, *resourceSchema)
+			resourceSpec, err := scanner.RunHandlerForSchema(ctx, *specSchema)
 			if err != nil {
 				if errors.Is(err, context.Canceled) {
 					return SwaggerTypes{}, err
 				}
 
-				return SwaggerTypes{}, errors.Wrapf(err, "unable to produce type for resource %s", resourceName)
+				return SwaggerTypes{}, errors.Wrapf(err, "unable to produce spec type for resource %s", resourceName)
 			}
 
-			if resourceType == nil {
-				// this indicates a filtered-out type
+			if resourceSpec == nil {
+				// this indicates a filtered-out type, skip
 				continue
 			}
 
+			resourceStatus, err := scanner.RunHandlerForSchema(ctx, *statusSchema)
+			if err != nil {
+				if errors.Is(err, context.Canceled) {
+					return SwaggerTypes{}, err
+				}
+
+				return SwaggerTypes{}, errors.Wrapf(err, "unable to produce status type for resource %s", resourceName)
+			}
+
 			if existingResource, ok := result.ResourceDefinitions[resourceName]; ok {
-				if !astmodel.TypeEquals(existingResource.Type, resourceType) {
+				// TODO: check status types as well
+				if !astmodel.TypeEquals(existingResource.SpecType, resourceSpec) {
 					return SwaggerTypes{}, errors.Errorf("resource already defined differently: %s\ndiff: %s",
 						resourceName,
-						astmodel.DiffTypes(existingResource.Type, resourceType))
+						astmodel.DiffTypes(existingResource.SpecType, resourceSpec))
 				}
 			} else {
+				if resourceSpec != nil && resourceStatus == nil {
+					fmt.Printf("generated nil resourceStatus for %s\n", resourceName)
+					continue
+				}
+
 				result.ResourceDefinitions[resourceName] = ResourceDefinition{
 					SourceFile: extractor.swaggerPath,
-					Type:       resourceType,
+					SpecType:   resourceSpec,
+					StatusType: resourceStatus,
 				}
 			}
 		}
@@ -150,16 +168,19 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(ctx context.Context) (Swagge
 // Look at the responses of the PUT to determine if this represents an ARM resource,
 // and if so, return the schema for it.
 // see: https://github.com/Azure/autorest/issues/1936#issuecomment-286928591
-func (extractor *SwaggerTypeExtractor) findARMResourceSchema(op spec.PathItem, rawOperationPath string) *Schema {
+func (extractor *SwaggerTypeExtractor) findARMResourceSchema(op spec.PathItem, rawOperationPath string) (*Schema, *Schema) {
 	// to decide if something is a resource, we must look at the GET responses
 	isResource := false
 
+	var foundStatus *Schema
 	if op.Get.Responses != nil {
 		for statusCode, response := range op.Get.Responses.StatusCodeResponses {
 			// only check OK and Created (per above linked comment)
 			// TODO: we should really check that the results are the same in each status result
 			if statusCode == 200 || statusCode == 201 {
-				if extractor.doesResponseRepresentARMResource(response, rawOperationPath) {
+				schema, ok := extractor.doesResponseRepresentARMResource(response, rawOperationPath)
+				if ok {
+					foundStatus = schema
 					isResource = true
 					break
 				}
@@ -168,8 +189,10 @@ func (extractor *SwaggerTypeExtractor) findARMResourceSchema(op spec.PathItem, r
 	}
 
 	if !isResource {
-		return nil
+		return nil, nil
 	}
+
+	var foundSpec *Schema
 
 	params := op.Put.Parameters
 	if op.Parameters != nil {
@@ -191,13 +214,17 @@ func (extractor *SwaggerTypeExtractor) findARMResourceSchema(op spec.PathItem, r
 		if inBody { // must be a (the) body parameter
 			result := extractor.schemaFromParameter(param)
 			if result != nil {
-				return result
+				foundSpec = result
+				break
 			}
 		}
 	}
 
-	klog.Warningf("Response indicated that type was ARM resource but no schema found for %s in %q", rawOperationPath, extractor.swaggerPath)
-	return nil
+	if foundSpec == nil {
+		klog.Warningf("Response indicated that type was ARM resource but no schema found for %s in %q", rawOperationPath, extractor.swaggerPath)
+	}
+
+	return foundSpec, foundStatus
 }
 
 // fullyResolveParameter resolves the parameter and returns the file that contained the parameter and the parameter
@@ -233,7 +260,7 @@ func (extractor *SwaggerTypeExtractor) schemaFromParameter(param spec.Parameter)
 	return &result
 }
 
-func (extractor *SwaggerTypeExtractor) doesResponseRepresentARMResource(response spec.Response, rawOperationPath string) bool {
+func (extractor *SwaggerTypeExtractor) doesResponseRepresentARMResource(response spec.Response, rawOperationPath string) (*Schema, bool) {
 	// the schema can either be directly included
 	if response.Schema != nil {
 
@@ -244,7 +271,7 @@ func (extractor *SwaggerTypeExtractor) doesResponseRepresentARMResource(response
 			extractor.idFactory,
 			extractor.cache)
 
-		return isMarkedAsARMResource(schema)
+		return &schema, isMarkedAsARMResource(schema)
 	}
 
 	// or it can be under a $ref
@@ -263,11 +290,11 @@ func (extractor *SwaggerTypeExtractor) doesResponseRepresentARMResource(response
 			extractor.idFactory,
 			extractor.cache)
 
-		return isMarkedAsARMResource(schema)
+		return &schema, isMarkedAsARMResource(schema)
 	}
 
 	klog.Warningf("Unable to locate schema on response for %q in %s", rawOperationPath, extractor.swaggerPath)
-	return false
+	return nil, false
 }
 
 // a Schema represents an ARM resource if it (or anything reachable via $ref or AllOf)

@@ -133,14 +133,14 @@ type MongodbDatabaseCollectionThroughputSettingList struct {
 
 // Storage version of v1beta20210515.DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS
 type DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS struct {
-	Conditions  []conditions.Condition             `json:"conditions,omitempty"`
-	Id          *string                            `json:"id,omitempty"`
-	Location    *string                            `json:"location,omitempty"`
-	Name        *string                            `json:"name,omitempty"`
-	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Resource    *ThroughputSettingsResource_STATUS `json:"resource,omitempty"`
-	Tags        map[string]string                  `json:"tags,omitempty"`
-	Type        *string                            `json:"type,omitempty"`
+	Conditions  []conditions.Condition                           `json:"conditions,omitempty"`
+	Id          *string                                          `json:"id,omitempty"`
+	Location    *string                                          `json:"location,omitempty"`
+	Name        *string                                          `json:"name,omitempty"`
+	PropertyBag genruntime.PropertyBag                           `json:"$propertyBag,omitempty"`
+	Resource    *ThroughputSettingsGetProperties_Resource_STATUS `json:"resource,omitempty"`
+	Tags        map[string]string                                `json:"tags,omitempty"`
+	Type        *string                                          `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS{}
@@ -203,6 +203,18 @@ func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec
 	return destination.ConvertSpecFrom(setting)
 }
 
+// Storage version of v1beta20210515.ThroughputSettingsGetProperties_Resource_STATUS
+type ThroughputSettingsGetProperties_Resource_STATUS struct {
+	AutoscaleSettings   *AutoscaleSettingsResource_STATUS `json:"autoscaleSettings,omitempty"`
+	MinimumThroughput   *string                           `json:"minimumThroughput,omitempty"`
+	OfferReplacePending *string                           `json:"offerReplacePending,omitempty"`
+	PropertyBag         genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+	Throughput          *int                              `json:"throughput,omitempty"`
+	_Etag               *string                           `json:"_etag,omitempty"`
+	_Rid                *string                           `json:"_rid,omitempty"`
+	_Ts                 *float64                          `json:"_ts,omitempty"`
+}
+
 // Storage version of v1beta20210515.ThroughputSettingsResource
 type ThroughputSettingsResource struct {
 	AutoscaleSettings   *AutoscaleSettingsResource `json:"autoscaleSettings,omitempty"`
@@ -210,15 +222,6 @@ type ThroughputSettingsResource struct {
 	OfferReplacePending *string                    `json:"offerReplacePending,omitempty"`
 	PropertyBag         genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
 	Throughput          *int                       `json:"throughput,omitempty"`
-}
-
-// Storage version of v1beta20210515.ThroughputSettingsResource_STATUS
-type ThroughputSettingsResource_STATUS struct {
-	AutoscaleSettings   *AutoscaleSettingsResource_STATUS `json:"autoscaleSettings,omitempty"`
-	MinimumThroughput   *string                           `json:"minimumThroughput,omitempty"`
-	OfferReplacePending *string                           `json:"offerReplacePending,omitempty"`
-	PropertyBag         genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	Throughput          *int                              `json:"throughput,omitempty"`
 }
 
 // Storage version of v1beta20210515.AutoscaleSettingsResource

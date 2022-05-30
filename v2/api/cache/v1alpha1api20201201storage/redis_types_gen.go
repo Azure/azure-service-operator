@@ -210,24 +210,34 @@ const APIVersion_Value = APIVersion("2020-12-01")
 // Storage version of v1alpha1api20201201.Redis_STATUS
 // Deprecated version of Redis_STATUS. Use v1beta20201201.Redis_STATUS instead
 type Redis_STATUS struct {
-	Conditions          []conditions.Condition                           `json:"conditions,omitempty"`
-	EnableNonSslPort    *bool                                            `json:"enableNonSslPort,omitempty"`
-	Id                  *string                                          `json:"id,omitempty"`
-	Location            *string                                          `json:"location,omitempty"`
-	MinimumTlsVersion   *string                                          `json:"minimumTlsVersion,omitempty"`
-	PropertyBag         genruntime.PropertyBag                           `json:"$propertyBag,omitempty"`
-	PublicNetworkAccess *string                                          `json:"publicNetworkAccess,omitempty"`
-	RedisConfiguration  *RedisCreateProperties_RedisConfiguration_STATUS `json:"redisConfiguration,omitempty"`
-	RedisVersion        *string                                          `json:"redisVersion,omitempty"`
-	ReplicasPerMaster   *int                                             `json:"replicasPerMaster,omitempty"`
-	ReplicasPerPrimary  *int                                             `json:"replicasPerPrimary,omitempty"`
-	ShardCount          *int                                             `json:"shardCount,omitempty"`
-	Sku                 *Sku_STATUS                                      `json:"sku,omitempty"`
-	StaticIP            *string                                          `json:"staticIP,omitempty"`
-	SubnetId            *string                                          `json:"subnetId,omitempty"`
-	Tags                map[string]string                                `json:"tags,omitempty"`
-	TenantSettings      map[string]string                                `json:"tenantSettings,omitempty"`
-	Zones               []string                                         `json:"zones,omitempty"`
+	AccessKeys                 *RedisAccessKeys_STATUS            `json:"accessKeys,omitempty"`
+	Conditions                 []conditions.Condition             `json:"conditions,omitempty"`
+	EnableNonSslPort           *bool                              `json:"enableNonSslPort,omitempty"`
+	HostName                   *string                            `json:"hostName,omitempty"`
+	Id                         *string                            `json:"id,omitempty"`
+	Instances                  []RedisInstanceDetails_STATUS      `json:"instances,omitempty"`
+	LinkedServers              []RedisLinkedServer_STATUS         `json:"linkedServers,omitempty"`
+	Location                   *string                            `json:"location,omitempty"`
+	MinimumTlsVersion          *string                            `json:"minimumTlsVersion,omitempty"`
+	Name                       *string                            `json:"name,omitempty"`
+	Port                       *int                               `json:"port,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS `json:"privateEndpointConnections,omitempty"`
+	PropertyBag                genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	ProvisioningState          *string                            `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *string                            `json:"publicNetworkAccess,omitempty"`
+	RedisConfiguration         map[string]string                  `json:"redisConfiguration,omitempty"`
+	RedisVersion               *string                            `json:"redisVersion,omitempty"`
+	ReplicasPerMaster          *int                               `json:"replicasPerMaster,omitempty"`
+	ReplicasPerPrimary         *int                               `json:"replicasPerPrimary,omitempty"`
+	ShardCount                 *int                               `json:"shardCount,omitempty"`
+	Sku                        *Sku_STATUS                        `json:"sku,omitempty"`
+	SslPort                    *int                               `json:"sslPort,omitempty"`
+	StaticIP                   *string                            `json:"staticIP,omitempty"`
+	SubnetId                   *string                            `json:"subnetId,omitempty"`
+	Tags                       map[string]string                  `json:"tags,omitempty"`
+	TenantSettings             map[string]string                  `json:"tenantSettings,omitempty"`
+	Type                       *string                            `json:"type,omitempty"`
+	Zones                      []string                           `json:"zones,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Redis_STATUS{}
@@ -285,6 +295,18 @@ func (redis *Redis_STATUS) AssignPropertiesFromRedis_STATUS(source *v20201201s.R
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
+	// AccessKeys
+	if source.AccessKeys != nil {
+		var accessKey RedisAccessKeys_STATUS
+		err := accessKey.AssignPropertiesFromRedisAccessKeys_STATUS(source.AccessKeys)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromRedisAccessKeys_STATUS() to populate field AccessKeys")
+		}
+		redis.AccessKeys = &accessKey
+	} else {
+		redis.AccessKeys = nil
+	}
+
 	// Conditions
 	redis.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
 
@@ -296,8 +318,47 @@ func (redis *Redis_STATUS) AssignPropertiesFromRedis_STATUS(source *v20201201s.R
 		redis.EnableNonSslPort = nil
 	}
 
+	// HostName
+	redis.HostName = genruntime.ClonePointerToString(source.HostName)
+
 	// Id
 	redis.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Instances
+	if source.Instances != nil {
+		instanceList := make([]RedisInstanceDetails_STATUS, len(source.Instances))
+		for instanceIndex, instanceItem := range source.Instances {
+			// Shadow the loop variable to avoid aliasing
+			instanceItem := instanceItem
+			var instance RedisInstanceDetails_STATUS
+			err := instance.AssignPropertiesFromRedisInstanceDetails_STATUS(&instanceItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromRedisInstanceDetails_STATUS() to populate field Instances")
+			}
+			instanceList[instanceIndex] = instance
+		}
+		redis.Instances = instanceList
+	} else {
+		redis.Instances = nil
+	}
+
+	// LinkedServers
+	if source.LinkedServers != nil {
+		linkedServerList := make([]RedisLinkedServer_STATUS, len(source.LinkedServers))
+		for linkedServerIndex, linkedServerItem := range source.LinkedServers {
+			// Shadow the loop variable to avoid aliasing
+			linkedServerItem := linkedServerItem
+			var linkedServer RedisLinkedServer_STATUS
+			err := linkedServer.AssignPropertiesFromRedisLinkedServer_STATUS(&linkedServerItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromRedisLinkedServer_STATUS() to populate field LinkedServers")
+			}
+			linkedServerList[linkedServerIndex] = linkedServer
+		}
+		redis.LinkedServers = linkedServerList
+	} else {
+		redis.LinkedServers = nil
+	}
 
 	// Location
 	redis.Location = genruntime.ClonePointerToString(source.Location)
@@ -305,20 +366,43 @@ func (redis *Redis_STATUS) AssignPropertiesFromRedis_STATUS(source *v20201201s.R
 	// MinimumTlsVersion
 	redis.MinimumTlsVersion = genruntime.ClonePointerToString(source.MinimumTlsVersion)
 
+	// Name
+	redis.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Port
+	redis.Port = genruntime.ClonePointerToInt(source.Port)
+
+	// PrivateEndpointConnections
+	if source.PrivateEndpointConnections != nil {
+		privateEndpointConnectionList := make([]PrivateEndpointConnection_STATUS, len(source.PrivateEndpointConnections))
+		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
+			// Shadow the loop variable to avoid aliasing
+			privateEndpointConnectionItem := privateEndpointConnectionItem
+			var privateEndpointConnection_STATUSStash alpha20210301s.PrivateEndpointConnection_STATUS
+			err := privateEndpointConnection_STATUSStash.AssignPropertiesFromPrivateEndpointConnection_STATUS(&privateEndpointConnectionItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnection_STATUSStash from PrivateEndpointConnections")
+			}
+			var privateEndpointConnection PrivateEndpointConnection_STATUS
+			err = privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnection_STATUS(&privateEndpointConnection_STATUSStash)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections from PrivateEndpointConnection_STATUSStash")
+			}
+			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
+		}
+		redis.PrivateEndpointConnections = privateEndpointConnectionList
+	} else {
+		redis.PrivateEndpointConnections = nil
+	}
+
+	// ProvisioningState
+	redis.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+
 	// PublicNetworkAccess
 	redis.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
 
 	// RedisConfiguration
-	if source.RedisConfiguration != nil {
-		var redisConfiguration RedisCreateProperties_RedisConfiguration_STATUS
-		err := redisConfiguration.AssignPropertiesFromRedisCreateProperties_RedisConfiguration_STATUS(source.RedisConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromRedisCreateProperties_RedisConfiguration_STATUS() to populate field RedisConfiguration")
-		}
-		redis.RedisConfiguration = &redisConfiguration
-	} else {
-		redis.RedisConfiguration = nil
-	}
+	redis.RedisConfiguration = genruntime.CloneMapOfStringToString(source.RedisConfiguration)
 
 	// RedisVersion
 	redis.RedisVersion = genruntime.ClonePointerToString(source.RedisVersion)
@@ -349,6 +433,9 @@ func (redis *Redis_STATUS) AssignPropertiesFromRedis_STATUS(source *v20201201s.R
 		redis.Sku = nil
 	}
 
+	// SslPort
+	redis.SslPort = genruntime.ClonePointerToInt(source.SslPort)
+
 	// StaticIP
 	redis.StaticIP = genruntime.ClonePointerToString(source.StaticIP)
 
@@ -360,6 +447,9 @@ func (redis *Redis_STATUS) AssignPropertiesFromRedis_STATUS(source *v20201201s.R
 
 	// TenantSettings
 	redis.TenantSettings = genruntime.CloneMapOfStringToString(source.TenantSettings)
+
+	// Type
+	redis.Type = genruntime.ClonePointerToString(source.Type)
 
 	// Zones
 	redis.Zones = genruntime.CloneSliceOfString(source.Zones)
@@ -380,6 +470,18 @@ func (redis *Redis_STATUS) AssignPropertiesToRedis_STATUS(destination *v20201201
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(redis.PropertyBag)
 
+	// AccessKeys
+	if redis.AccessKeys != nil {
+		var accessKey v20201201s.RedisAccessKeys_STATUS
+		err := redis.AccessKeys.AssignPropertiesToRedisAccessKeys_STATUS(&accessKey)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToRedisAccessKeys_STATUS() to populate field AccessKeys")
+		}
+		destination.AccessKeys = &accessKey
+	} else {
+		destination.AccessKeys = nil
+	}
+
 	// Conditions
 	destination.Conditions = genruntime.CloneSliceOfCondition(redis.Conditions)
 
@@ -391,8 +493,47 @@ func (redis *Redis_STATUS) AssignPropertiesToRedis_STATUS(destination *v20201201
 		destination.EnableNonSslPort = nil
 	}
 
+	// HostName
+	destination.HostName = genruntime.ClonePointerToString(redis.HostName)
+
 	// Id
 	destination.Id = genruntime.ClonePointerToString(redis.Id)
+
+	// Instances
+	if redis.Instances != nil {
+		instanceList := make([]v20201201s.RedisInstanceDetails_STATUS, len(redis.Instances))
+		for instanceIndex, instanceItem := range redis.Instances {
+			// Shadow the loop variable to avoid aliasing
+			instanceItem := instanceItem
+			var instance v20201201s.RedisInstanceDetails_STATUS
+			err := instanceItem.AssignPropertiesToRedisInstanceDetails_STATUS(&instance)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToRedisInstanceDetails_STATUS() to populate field Instances")
+			}
+			instanceList[instanceIndex] = instance
+		}
+		destination.Instances = instanceList
+	} else {
+		destination.Instances = nil
+	}
+
+	// LinkedServers
+	if redis.LinkedServers != nil {
+		linkedServerList := make([]v20201201s.RedisLinkedServer_STATUS, len(redis.LinkedServers))
+		for linkedServerIndex, linkedServerItem := range redis.LinkedServers {
+			// Shadow the loop variable to avoid aliasing
+			linkedServerItem := linkedServerItem
+			var linkedServer v20201201s.RedisLinkedServer_STATUS
+			err := linkedServerItem.AssignPropertiesToRedisLinkedServer_STATUS(&linkedServer)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToRedisLinkedServer_STATUS() to populate field LinkedServers")
+			}
+			linkedServerList[linkedServerIndex] = linkedServer
+		}
+		destination.LinkedServers = linkedServerList
+	} else {
+		destination.LinkedServers = nil
+	}
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(redis.Location)
@@ -400,20 +541,43 @@ func (redis *Redis_STATUS) AssignPropertiesToRedis_STATUS(destination *v20201201
 	// MinimumTlsVersion
 	destination.MinimumTlsVersion = genruntime.ClonePointerToString(redis.MinimumTlsVersion)
 
+	// Name
+	destination.Name = genruntime.ClonePointerToString(redis.Name)
+
+	// Port
+	destination.Port = genruntime.ClonePointerToInt(redis.Port)
+
+	// PrivateEndpointConnections
+	if redis.PrivateEndpointConnections != nil {
+		privateEndpointConnectionList := make([]v20201201s.PrivateEndpointConnection_STATUS, len(redis.PrivateEndpointConnections))
+		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range redis.PrivateEndpointConnections {
+			// Shadow the loop variable to avoid aliasing
+			privateEndpointConnectionItem := privateEndpointConnectionItem
+			var privateEndpointConnection_STATUSStash alpha20210301s.PrivateEndpointConnection_STATUS
+			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnection_STATUS(&privateEndpointConnection_STATUSStash)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnection_STATUSStash from PrivateEndpointConnections")
+			}
+			var privateEndpointConnection v20201201s.PrivateEndpointConnection_STATUS
+			err = privateEndpointConnection_STATUSStash.AssignPropertiesToPrivateEndpointConnection_STATUS(&privateEndpointConnection)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections from PrivateEndpointConnection_STATUSStash")
+			}
+			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
+		}
+		destination.PrivateEndpointConnections = privateEndpointConnectionList
+	} else {
+		destination.PrivateEndpointConnections = nil
+	}
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(redis.ProvisioningState)
+
 	// PublicNetworkAccess
 	destination.PublicNetworkAccess = genruntime.ClonePointerToString(redis.PublicNetworkAccess)
 
 	// RedisConfiguration
-	if redis.RedisConfiguration != nil {
-		var redisConfiguration v20201201s.RedisCreateProperties_RedisConfiguration_STATUS
-		err := redis.RedisConfiguration.AssignPropertiesToRedisCreateProperties_RedisConfiguration_STATUS(&redisConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToRedisCreateProperties_RedisConfiguration_STATUS() to populate field RedisConfiguration")
-		}
-		destination.RedisConfiguration = &redisConfiguration
-	} else {
-		destination.RedisConfiguration = nil
-	}
+	destination.RedisConfiguration = genruntime.CloneMapOfStringToString(redis.RedisConfiguration)
 
 	// RedisVersion
 	destination.RedisVersion = genruntime.ClonePointerToString(redis.RedisVersion)
@@ -444,6 +608,9 @@ func (redis *Redis_STATUS) AssignPropertiesToRedis_STATUS(destination *v20201201
 		destination.Sku = nil
 	}
 
+	// SslPort
+	destination.SslPort = genruntime.ClonePointerToInt(redis.SslPort)
+
 	// StaticIP
 	destination.StaticIP = genruntime.ClonePointerToString(redis.StaticIP)
 
@@ -455,6 +622,9 @@ func (redis *Redis_STATUS) AssignPropertiesToRedis_STATUS(destination *v20201201
 
 	// TenantSettings
 	destination.TenantSettings = genruntime.CloneMapOfStringToString(redis.TenantSettings)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(redis.Type)
 
 	// Zones
 	destination.Zones = genruntime.CloneSliceOfString(redis.Zones)
@@ -773,123 +943,236 @@ func (redis *Redis_Spec) AssignPropertiesToRedis_Spec(destination *v20201201s.Re
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.RedisCreateProperties_RedisConfiguration_STATUS
-// Deprecated version of RedisCreateProperties_RedisConfiguration_STATUS. Use v1beta20201201.RedisCreateProperties_RedisConfiguration_STATUS instead
-type RedisCreateProperties_RedisConfiguration_STATUS struct {
-	AdditionalProperties           map[string]string      `json:"additionalProperties,omitempty"`
-	AofStorageConnectionString0    *string                `json:"aof-storage-connection-string-0,omitempty"`
-	AofStorageConnectionString1    *string                `json:"aof-storage-connection-string-1,omitempty"`
-	Maxclients                     *string                `json:"maxclients,omitempty"`
-	MaxfragmentationmemoryReserved *string                `json:"maxfragmentationmemory-reserved,omitempty"`
-	MaxmemoryDelta                 *string                `json:"maxmemory-delta,omitempty"`
-	MaxmemoryPolicy                *string                `json:"maxmemory-policy,omitempty"`
-	MaxmemoryReserved              *string                `json:"maxmemory-reserved,omitempty"`
-	PropertyBag                    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	RdbBackupEnabled               *string                `json:"rdb-backup-enabled,omitempty"`
-	RdbBackupFrequency             *string                `json:"rdb-backup-frequency,omitempty"`
-	RdbBackupMaxSnapshotCount      *string                `json:"rdb-backup-max-snapshot-count,omitempty"`
-	RdbStorageConnectionString     *string                `json:"rdb-storage-connection-string,omitempty"`
-	ZonalConfiguration             *string                `json:"zonal-configuration,omitempty"`
+// Storage version of v1alpha1api20201201.PrivateEndpointConnection_STATUS
+// Deprecated version of PrivateEndpointConnection_STATUS. Use v1beta20201201.PrivateEndpointConnection_STATUS instead
+type PrivateEndpointConnection_STATUS struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// AssignPropertiesFromRedisCreateProperties_RedisConfiguration_STATUS populates our RedisCreateProperties_RedisConfiguration_STATUS from the provided source RedisCreateProperties_RedisConfiguration_STATUS
-func (configuration *RedisCreateProperties_RedisConfiguration_STATUS) AssignPropertiesFromRedisCreateProperties_RedisConfiguration_STATUS(source *v20201201s.RedisCreateProperties_RedisConfiguration_STATUS) error {
+// AssignPropertiesFromPrivateEndpointConnection_STATUS populates our PrivateEndpointConnection_STATUS from the provided source PrivateEndpointConnection_STATUS
+func (connection *PrivateEndpointConnection_STATUS) AssignPropertiesFromPrivateEndpointConnection_STATUS(source *alpha20210301s.PrivateEndpointConnection_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// AdditionalProperties
-	configuration.AdditionalProperties = genruntime.CloneMapOfStringToString(source.AdditionalProperties)
-
-	// AofStorageConnectionString0
-	configuration.AofStorageConnectionString0 = genruntime.ClonePointerToString(source.AofStorageConnectionString0)
-
-	// AofStorageConnectionString1
-	configuration.AofStorageConnectionString1 = genruntime.ClonePointerToString(source.AofStorageConnectionString1)
-
-	// Maxclients
-	configuration.Maxclients = genruntime.ClonePointerToString(source.Maxclients)
-
-	// MaxfragmentationmemoryReserved
-	configuration.MaxfragmentationmemoryReserved = genruntime.ClonePointerToString(source.MaxfragmentationmemoryReserved)
-
-	// MaxmemoryDelta
-	configuration.MaxmemoryDelta = genruntime.ClonePointerToString(source.MaxmemoryDelta)
-
-	// MaxmemoryPolicy
-	configuration.MaxmemoryPolicy = genruntime.ClonePointerToString(source.MaxmemoryPolicy)
-
-	// MaxmemoryReserved
-	configuration.MaxmemoryReserved = genruntime.ClonePointerToString(source.MaxmemoryReserved)
-
-	// RdbBackupEnabled
-	configuration.RdbBackupEnabled = genruntime.ClonePointerToString(source.RdbBackupEnabled)
-
-	// RdbBackupFrequency
-	configuration.RdbBackupFrequency = genruntime.ClonePointerToString(source.RdbBackupFrequency)
-
-	// RdbBackupMaxSnapshotCount
-	configuration.RdbBackupMaxSnapshotCount = genruntime.ClonePointerToString(source.RdbBackupMaxSnapshotCount)
-
-	// RdbStorageConnectionString
-	configuration.RdbStorageConnectionString = genruntime.ClonePointerToString(source.RdbStorageConnectionString)
-
-	// ZonalConfiguration
-	configuration.ZonalConfiguration = genruntime.ClonePointerToString(source.ZonalConfiguration)
+	// Id
+	connection.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
-		configuration.PropertyBag = propertyBag
+		connection.PropertyBag = propertyBag
 	} else {
-		configuration.PropertyBag = nil
+		connection.PropertyBag = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesToRedisCreateProperties_RedisConfiguration_STATUS populates the provided destination RedisCreateProperties_RedisConfiguration_STATUS from our RedisCreateProperties_RedisConfiguration_STATUS
-func (configuration *RedisCreateProperties_RedisConfiguration_STATUS) AssignPropertiesToRedisCreateProperties_RedisConfiguration_STATUS(destination *v20201201s.RedisCreateProperties_RedisConfiguration_STATUS) error {
+// AssignPropertiesToPrivateEndpointConnection_STATUS populates the provided destination PrivateEndpointConnection_STATUS from our PrivateEndpointConnection_STATUS
+func (connection *PrivateEndpointConnection_STATUS) AssignPropertiesToPrivateEndpointConnection_STATUS(destination *alpha20210301s.PrivateEndpointConnection_STATUS) error {
 	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
+	propertyBag := genruntime.NewPropertyBag(connection.PropertyBag)
 
-	// AdditionalProperties
-	destination.AdditionalProperties = genruntime.CloneMapOfStringToString(configuration.AdditionalProperties)
+	// Id
+	destination.Id = genruntime.ClonePointerToString(connection.Id)
 
-	// AofStorageConnectionString0
-	destination.AofStorageConnectionString0 = genruntime.ClonePointerToString(configuration.AofStorageConnectionString0)
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
 
-	// AofStorageConnectionString1
-	destination.AofStorageConnectionString1 = genruntime.ClonePointerToString(configuration.AofStorageConnectionString1)
+	// No error
+	return nil
+}
 
-	// Maxclients
-	destination.Maxclients = genruntime.ClonePointerToString(configuration.Maxclients)
+// Storage version of v1alpha1api20201201.RedisAccessKeys_STATUS
+// Deprecated version of RedisAccessKeys_STATUS. Use v1beta20201201.RedisAccessKeys_STATUS instead
+type RedisAccessKeys_STATUS struct {
+	PrimaryKey   *string                `json:"primaryKey,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	SecondaryKey *string                `json:"secondaryKey,omitempty"`
+}
 
-	// MaxfragmentationmemoryReserved
-	destination.MaxfragmentationmemoryReserved = genruntime.ClonePointerToString(configuration.MaxfragmentationmemoryReserved)
+// AssignPropertiesFromRedisAccessKeys_STATUS populates our RedisAccessKeys_STATUS from the provided source RedisAccessKeys_STATUS
+func (keys *RedisAccessKeys_STATUS) AssignPropertiesFromRedisAccessKeys_STATUS(source *v20201201s.RedisAccessKeys_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// MaxmemoryDelta
-	destination.MaxmemoryDelta = genruntime.ClonePointerToString(configuration.MaxmemoryDelta)
+	// PrimaryKey
+	keys.PrimaryKey = genruntime.ClonePointerToString(source.PrimaryKey)
 
-	// MaxmemoryPolicy
-	destination.MaxmemoryPolicy = genruntime.ClonePointerToString(configuration.MaxmemoryPolicy)
+	// SecondaryKey
+	keys.SecondaryKey = genruntime.ClonePointerToString(source.SecondaryKey)
 
-	// MaxmemoryReserved
-	destination.MaxmemoryReserved = genruntime.ClonePointerToString(configuration.MaxmemoryReserved)
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		keys.PropertyBag = propertyBag
+	} else {
+		keys.PropertyBag = nil
+	}
 
-	// RdbBackupEnabled
-	destination.RdbBackupEnabled = genruntime.ClonePointerToString(configuration.RdbBackupEnabled)
+	// No error
+	return nil
+}
 
-	// RdbBackupFrequency
-	destination.RdbBackupFrequency = genruntime.ClonePointerToString(configuration.RdbBackupFrequency)
+// AssignPropertiesToRedisAccessKeys_STATUS populates the provided destination RedisAccessKeys_STATUS from our RedisAccessKeys_STATUS
+func (keys *RedisAccessKeys_STATUS) AssignPropertiesToRedisAccessKeys_STATUS(destination *v20201201s.RedisAccessKeys_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(keys.PropertyBag)
 
-	// RdbBackupMaxSnapshotCount
-	destination.RdbBackupMaxSnapshotCount = genruntime.ClonePointerToString(configuration.RdbBackupMaxSnapshotCount)
+	// PrimaryKey
+	destination.PrimaryKey = genruntime.ClonePointerToString(keys.PrimaryKey)
 
-	// RdbStorageConnectionString
-	destination.RdbStorageConnectionString = genruntime.ClonePointerToString(configuration.RdbStorageConnectionString)
+	// SecondaryKey
+	destination.SecondaryKey = genruntime.ClonePointerToString(keys.SecondaryKey)
 
-	// ZonalConfiguration
-	destination.ZonalConfiguration = genruntime.ClonePointerToString(configuration.ZonalConfiguration)
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20201201.RedisInstanceDetails_STATUS
+// Deprecated version of RedisInstanceDetails_STATUS. Use v1beta20201201.RedisInstanceDetails_STATUS instead
+type RedisInstanceDetails_STATUS struct {
+	IsMaster    *bool                  `json:"isMaster,omitempty"`
+	IsPrimary   *bool                  `json:"isPrimary,omitempty"`
+	NonSslPort  *int                   `json:"nonSslPort,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ShardId     *int                   `json:"shardId,omitempty"`
+	SslPort     *int                   `json:"sslPort,omitempty"`
+	Zone        *string                `json:"zone,omitempty"`
+}
+
+// AssignPropertiesFromRedisInstanceDetails_STATUS populates our RedisInstanceDetails_STATUS from the provided source RedisInstanceDetails_STATUS
+func (details *RedisInstanceDetails_STATUS) AssignPropertiesFromRedisInstanceDetails_STATUS(source *v20201201s.RedisInstanceDetails_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// IsMaster
+	if source.IsMaster != nil {
+		isMaster := *source.IsMaster
+		details.IsMaster = &isMaster
+	} else {
+		details.IsMaster = nil
+	}
+
+	// IsPrimary
+	if source.IsPrimary != nil {
+		isPrimary := *source.IsPrimary
+		details.IsPrimary = &isPrimary
+	} else {
+		details.IsPrimary = nil
+	}
+
+	// NonSslPort
+	details.NonSslPort = genruntime.ClonePointerToInt(source.NonSslPort)
+
+	// ShardId
+	details.ShardId = genruntime.ClonePointerToInt(source.ShardId)
+
+	// SslPort
+	details.SslPort = genruntime.ClonePointerToInt(source.SslPort)
+
+	// Zone
+	details.Zone = genruntime.ClonePointerToString(source.Zone)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		details.PropertyBag = propertyBag
+	} else {
+		details.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToRedisInstanceDetails_STATUS populates the provided destination RedisInstanceDetails_STATUS from our RedisInstanceDetails_STATUS
+func (details *RedisInstanceDetails_STATUS) AssignPropertiesToRedisInstanceDetails_STATUS(destination *v20201201s.RedisInstanceDetails_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(details.PropertyBag)
+
+	// IsMaster
+	if details.IsMaster != nil {
+		isMaster := *details.IsMaster
+		destination.IsMaster = &isMaster
+	} else {
+		destination.IsMaster = nil
+	}
+
+	// IsPrimary
+	if details.IsPrimary != nil {
+		isPrimary := *details.IsPrimary
+		destination.IsPrimary = &isPrimary
+	} else {
+		destination.IsPrimary = nil
+	}
+
+	// NonSslPort
+	destination.NonSslPort = genruntime.ClonePointerToInt(details.NonSslPort)
+
+	// ShardId
+	destination.ShardId = genruntime.ClonePointerToInt(details.ShardId)
+
+	// SslPort
+	destination.SslPort = genruntime.ClonePointerToInt(details.SslPort)
+
+	// Zone
+	destination.Zone = genruntime.ClonePointerToString(details.Zone)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20201201.RedisLinkedServer_STATUS
+// Deprecated version of RedisLinkedServer_STATUS. Use v1beta20201201.RedisLinkedServer_STATUS instead
+type RedisLinkedServer_STATUS struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignPropertiesFromRedisLinkedServer_STATUS populates our RedisLinkedServer_STATUS from the provided source RedisLinkedServer_STATUS
+func (server *RedisLinkedServer_STATUS) AssignPropertiesFromRedisLinkedServer_STATUS(source *v20201201s.RedisLinkedServer_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Id
+	server.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		server.PropertyBag = propertyBag
+	} else {
+		server.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToRedisLinkedServer_STATUS populates the provided destination RedisLinkedServer_STATUS from our RedisLinkedServer_STATUS
+func (server *RedisLinkedServer_STATUS) AssignPropertiesToRedisLinkedServer_STATUS(destination *v20201201s.RedisLinkedServer_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(server.PropertyBag)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(server.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

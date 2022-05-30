@@ -5,26 +5,29 @@ package v1alpha1api20210515
 
 // Deprecated version of DatabaseAccountsMongodbDatabasesCollection_STATUS. Use v1beta20210515.DatabaseAccountsMongodbDatabasesCollection_STATUS instead
 type DatabaseAccountsMongodbDatabasesCollection_STATUSARM struct {
-	Id         *string                                            `json:"id,omitempty"`
-	Location   *string                                            `json:"location,omitempty"`
-	Name       *string                                            `json:"name,omitempty"`
-	Properties *MongoDBCollectionCreateUpdateProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                                  `json:"tags,omitempty"`
-	Type       *string                                            `json:"type,omitempty"`
+	Id         *string                                   `json:"id,omitempty"`
+	Location   *string                                   `json:"location,omitempty"`
+	Name       *string                                   `json:"name,omitempty"`
+	Properties *MongoDBCollectionGetProperties_STATUSARM `json:"properties,omitempty"`
+	Tags       map[string]string                         `json:"tags,omitempty"`
+	Type       *string                                   `json:"type,omitempty"`
 }
 
-// Deprecated version of MongoDBCollectionCreateUpdateProperties_STATUS. Use v1beta20210515.MongoDBCollectionCreateUpdateProperties_STATUS instead
-type MongoDBCollectionCreateUpdateProperties_STATUSARM struct {
-	Options  *CreateUpdateOptions_STATUSARM       `json:"options,omitempty"`
-	Resource *MongoDBCollectionResource_STATUSARM `json:"resource,omitempty"`
+// Deprecated version of MongoDBCollectionGetProperties_STATUS. Use v1beta20210515.MongoDBCollectionGetProperties_STATUS instead
+type MongoDBCollectionGetProperties_STATUSARM struct {
+	Options  *OptionsResource_STATUSARM                         `json:"options,omitempty"`
+	Resource *MongoDBCollectionGetProperties_Resource_STATUSARM `json:"resource,omitempty"`
 }
 
-// Deprecated version of MongoDBCollectionResource_STATUS. Use v1beta20210515.MongoDBCollectionResource_STATUS instead
-type MongoDBCollectionResource_STATUSARM struct {
+// Deprecated version of MongoDBCollectionGetProperties_Resource_STATUS. Use v1beta20210515.MongoDBCollectionGetProperties_Resource_STATUS instead
+type MongoDBCollectionGetProperties_Resource_STATUSARM struct {
 	AnalyticalStorageTtl *int                   `json:"analyticalStorageTtl,omitempty"`
 	Id                   *string                `json:"id,omitempty"`
 	Indexes              []MongoIndex_STATUSARM `json:"indexes,omitempty"`
 	ShardKey             map[string]string      `json:"shardKey,omitempty"`
+	_Etag                *string                `json:"_etag,omitempty"`
+	_Rid                 *string                `json:"_rid,omitempty"`
+	_Ts                  *float64               `json:"_ts,omitempty"`
 }
 
 // Deprecated version of MongoIndex_STATUS. Use v1beta20210515.MongoIndex_STATUS instead

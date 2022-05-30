@@ -214,26 +214,42 @@ type StorageAccount_STATUS struct {
 	AllowCrossTenantReplication           *bool                                         `json:"allowCrossTenantReplication,omitempty"`
 	AllowSharedKeyAccess                  *bool                                         `json:"allowSharedKeyAccess,omitempty"`
 	AzureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthentication_STATUS `json:"azureFilesIdentityBasedAuthentication,omitempty"`
+	BlobRestoreStatus                     *BlobRestoreStatus_STATUS                     `json:"blobRestoreStatus,omitempty"`
 	Conditions                            []conditions.Condition                        `json:"conditions,omitempty"`
+	CreationTime                          *string                                       `json:"creationTime,omitempty"`
 	CustomDomain                          *CustomDomain_STATUS                          `json:"customDomain,omitempty"`
 	Encryption                            *Encryption_STATUS                            `json:"encryption,omitempty"`
 	ExtendedLocation                      *ExtendedLocation_STATUS                      `json:"extendedLocation,omitempty"`
+	FailoverInProgress                    *bool                                         `json:"failoverInProgress,omitempty"`
+	GeoReplicationStats                   *GeoReplicationStats_STATUS                   `json:"geoReplicationStats,omitempty"`
 	Id                                    *string                                       `json:"id,omitempty"`
 	Identity                              *Identity_STATUS                              `json:"identity,omitempty"`
 	IsHnsEnabled                          *bool                                         `json:"isHnsEnabled,omitempty"`
 	IsNfsV3Enabled                        *bool                                         `json:"isNfsV3Enabled,omitempty"`
+	KeyCreationTime                       *KeyCreationTime_STATUS                       `json:"keyCreationTime,omitempty"`
 	KeyPolicy                             *KeyPolicy_STATUS                             `json:"keyPolicy,omitempty"`
 	Kind                                  *string                                       `json:"kind,omitempty"`
 	LargeFileSharesState                  *string                                       `json:"largeFileSharesState,omitempty"`
+	LastGeoFailoverTime                   *string                                       `json:"lastGeoFailoverTime,omitempty"`
 	Location                              *string                                       `json:"location,omitempty"`
 	MinimumTlsVersion                     *string                                       `json:"minimumTlsVersion,omitempty"`
+	Name                                  *string                                       `json:"name,omitempty"`
 	NetworkAcls                           *NetworkRuleSet_STATUS                        `json:"networkAcls,omitempty"`
+	PrimaryEndpoints                      *Endpoints_STATUS                             `json:"primaryEndpoints,omitempty"`
+	PrimaryLocation                       *string                                       `json:"primaryLocation,omitempty"`
+	PrivateEndpointConnections            []PrivateEndpointConnection_STATUS            `json:"privateEndpointConnections,omitempty"`
 	PropertyBag                           genruntime.PropertyBag                        `json:"$propertyBag,omitempty"`
+	ProvisioningState                     *string                                       `json:"provisioningState,omitempty"`
 	RoutingPreference                     *RoutingPreference_STATUS                     `json:"routingPreference,omitempty"`
 	SasPolicy                             *SasPolicy_STATUS                             `json:"sasPolicy,omitempty"`
+	SecondaryEndpoints                    *Endpoints_STATUS                             `json:"secondaryEndpoints,omitempty"`
+	SecondaryLocation                     *string                                       `json:"secondaryLocation,omitempty"`
 	Sku                                   *Sku_STATUS                                   `json:"sku,omitempty"`
+	StatusOfPrimary                       *string                                       `json:"statusOfPrimary,omitempty"`
+	StatusOfSecondary                     *string                                       `json:"statusOfSecondary,omitempty"`
 	SupportsHttpsTrafficOnly              *bool                                         `json:"supportsHttpsTrafficOnly,omitempty"`
 	Tags                                  map[string]string                             `json:"tags,omitempty"`
+	Type                                  *string                                       `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &StorageAccount_STATUS{}
@@ -330,8 +346,23 @@ func (account *StorageAccount_STATUS) AssignPropertiesFromStorageAccount_STATUS(
 		account.AzureFilesIdentityBasedAuthentication = nil
 	}
 
+	// BlobRestoreStatus
+	if source.BlobRestoreStatus != nil {
+		var blobRestoreStatus BlobRestoreStatus_STATUS
+		err := blobRestoreStatus.AssignPropertiesFromBlobRestoreStatus_STATUS(source.BlobRestoreStatus)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromBlobRestoreStatus_STATUS() to populate field BlobRestoreStatus")
+		}
+		account.BlobRestoreStatus = &blobRestoreStatus
+	} else {
+		account.BlobRestoreStatus = nil
+	}
+
 	// Conditions
 	account.Conditions = genruntime.CloneSliceOfCondition(source.Conditions)
+
+	// CreationTime
+	account.CreationTime = genruntime.ClonePointerToString(source.CreationTime)
 
 	// CustomDomain
 	if source.CustomDomain != nil {
@@ -369,6 +400,26 @@ func (account *StorageAccount_STATUS) AssignPropertiesFromStorageAccount_STATUS(
 		account.ExtendedLocation = nil
 	}
 
+	// FailoverInProgress
+	if source.FailoverInProgress != nil {
+		failoverInProgress := *source.FailoverInProgress
+		account.FailoverInProgress = &failoverInProgress
+	} else {
+		account.FailoverInProgress = nil
+	}
+
+	// GeoReplicationStats
+	if source.GeoReplicationStats != nil {
+		var geoReplicationStat GeoReplicationStats_STATUS
+		err := geoReplicationStat.AssignPropertiesFromGeoReplicationStats_STATUS(source.GeoReplicationStats)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromGeoReplicationStats_STATUS() to populate field GeoReplicationStats")
+		}
+		account.GeoReplicationStats = &geoReplicationStat
+	} else {
+		account.GeoReplicationStats = nil
+	}
+
 	// Id
 	account.Id = genruntime.ClonePointerToString(source.Id)
 
@@ -400,6 +451,18 @@ func (account *StorageAccount_STATUS) AssignPropertiesFromStorageAccount_STATUS(
 		account.IsNfsV3Enabled = nil
 	}
 
+	// KeyCreationTime
+	if source.KeyCreationTime != nil {
+		var keyCreationTime KeyCreationTime_STATUS
+		err := keyCreationTime.AssignPropertiesFromKeyCreationTime_STATUS(source.KeyCreationTime)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromKeyCreationTime_STATUS() to populate field KeyCreationTime")
+		}
+		account.KeyCreationTime = &keyCreationTime
+	} else {
+		account.KeyCreationTime = nil
+	}
+
 	// KeyPolicy
 	if source.KeyPolicy != nil {
 		var keyPolicy KeyPolicy_STATUS
@@ -418,11 +481,17 @@ func (account *StorageAccount_STATUS) AssignPropertiesFromStorageAccount_STATUS(
 	// LargeFileSharesState
 	account.LargeFileSharesState = genruntime.ClonePointerToString(source.LargeFileSharesState)
 
+	// LastGeoFailoverTime
+	account.LastGeoFailoverTime = genruntime.ClonePointerToString(source.LastGeoFailoverTime)
+
 	// Location
 	account.Location = genruntime.ClonePointerToString(source.Location)
 
 	// MinimumTlsVersion
 	account.MinimumTlsVersion = genruntime.ClonePointerToString(source.MinimumTlsVersion)
+
+	// Name
+	account.Name = genruntime.ClonePointerToString(source.Name)
 
 	// NetworkAcls
 	if source.NetworkAcls != nil {
@@ -435,6 +504,42 @@ func (account *StorageAccount_STATUS) AssignPropertiesFromStorageAccount_STATUS(
 	} else {
 		account.NetworkAcls = nil
 	}
+
+	// PrimaryEndpoints
+	if source.PrimaryEndpoints != nil {
+		var primaryEndpoint Endpoints_STATUS
+		err := primaryEndpoint.AssignPropertiesFromEndpoints_STATUS(source.PrimaryEndpoints)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromEndpoints_STATUS() to populate field PrimaryEndpoints")
+		}
+		account.PrimaryEndpoints = &primaryEndpoint
+	} else {
+		account.PrimaryEndpoints = nil
+	}
+
+	// PrimaryLocation
+	account.PrimaryLocation = genruntime.ClonePointerToString(source.PrimaryLocation)
+
+	// PrivateEndpointConnections
+	if source.PrivateEndpointConnections != nil {
+		privateEndpointConnectionList := make([]PrivateEndpointConnection_STATUS, len(source.PrivateEndpointConnections))
+		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
+			// Shadow the loop variable to avoid aliasing
+			privateEndpointConnectionItem := privateEndpointConnectionItem
+			var privateEndpointConnection PrivateEndpointConnection_STATUS
+			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnection_STATUS(&privateEndpointConnectionItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
+			}
+			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
+		}
+		account.PrivateEndpointConnections = privateEndpointConnectionList
+	} else {
+		account.PrivateEndpointConnections = nil
+	}
+
+	// ProvisioningState
+	account.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// RoutingPreference
 	if source.RoutingPreference != nil {
@@ -460,6 +565,21 @@ func (account *StorageAccount_STATUS) AssignPropertiesFromStorageAccount_STATUS(
 		account.SasPolicy = nil
 	}
 
+	// SecondaryEndpoints
+	if source.SecondaryEndpoints != nil {
+		var secondaryEndpoint Endpoints_STATUS
+		err := secondaryEndpoint.AssignPropertiesFromEndpoints_STATUS(source.SecondaryEndpoints)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromEndpoints_STATUS() to populate field SecondaryEndpoints")
+		}
+		account.SecondaryEndpoints = &secondaryEndpoint
+	} else {
+		account.SecondaryEndpoints = nil
+	}
+
+	// SecondaryLocation
+	account.SecondaryLocation = genruntime.ClonePointerToString(source.SecondaryLocation)
+
 	// Sku
 	if source.Sku != nil {
 		var sku Sku_STATUS
@@ -472,6 +592,12 @@ func (account *StorageAccount_STATUS) AssignPropertiesFromStorageAccount_STATUS(
 		account.Sku = nil
 	}
 
+	// StatusOfPrimary
+	account.StatusOfPrimary = genruntime.ClonePointerToString(source.StatusOfPrimary)
+
+	// StatusOfSecondary
+	account.StatusOfSecondary = genruntime.ClonePointerToString(source.StatusOfSecondary)
+
 	// SupportsHttpsTrafficOnly
 	if source.SupportsHttpsTrafficOnly != nil {
 		supportsHttpsTrafficOnly := *source.SupportsHttpsTrafficOnly
@@ -482,6 +608,9 @@ func (account *StorageAccount_STATUS) AssignPropertiesFromStorageAccount_STATUS(
 
 	// Tags
 	account.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	account.Type = genruntime.ClonePointerToString(source.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -538,8 +667,23 @@ func (account *StorageAccount_STATUS) AssignPropertiesToStorageAccount_STATUS(de
 		destination.AzureFilesIdentityBasedAuthentication = nil
 	}
 
+	// BlobRestoreStatus
+	if account.BlobRestoreStatus != nil {
+		var blobRestoreStatus v20210401s.BlobRestoreStatus_STATUS
+		err := account.BlobRestoreStatus.AssignPropertiesToBlobRestoreStatus_STATUS(&blobRestoreStatus)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToBlobRestoreStatus_STATUS() to populate field BlobRestoreStatus")
+		}
+		destination.BlobRestoreStatus = &blobRestoreStatus
+	} else {
+		destination.BlobRestoreStatus = nil
+	}
+
 	// Conditions
 	destination.Conditions = genruntime.CloneSliceOfCondition(account.Conditions)
+
+	// CreationTime
+	destination.CreationTime = genruntime.ClonePointerToString(account.CreationTime)
 
 	// CustomDomain
 	if account.CustomDomain != nil {
@@ -577,6 +721,26 @@ func (account *StorageAccount_STATUS) AssignPropertiesToStorageAccount_STATUS(de
 		destination.ExtendedLocation = nil
 	}
 
+	// FailoverInProgress
+	if account.FailoverInProgress != nil {
+		failoverInProgress := *account.FailoverInProgress
+		destination.FailoverInProgress = &failoverInProgress
+	} else {
+		destination.FailoverInProgress = nil
+	}
+
+	// GeoReplicationStats
+	if account.GeoReplicationStats != nil {
+		var geoReplicationStat v20210401s.GeoReplicationStats_STATUS
+		err := account.GeoReplicationStats.AssignPropertiesToGeoReplicationStats_STATUS(&geoReplicationStat)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToGeoReplicationStats_STATUS() to populate field GeoReplicationStats")
+		}
+		destination.GeoReplicationStats = &geoReplicationStat
+	} else {
+		destination.GeoReplicationStats = nil
+	}
+
 	// Id
 	destination.Id = genruntime.ClonePointerToString(account.Id)
 
@@ -608,6 +772,18 @@ func (account *StorageAccount_STATUS) AssignPropertiesToStorageAccount_STATUS(de
 		destination.IsNfsV3Enabled = nil
 	}
 
+	// KeyCreationTime
+	if account.KeyCreationTime != nil {
+		var keyCreationTime v20210401s.KeyCreationTime_STATUS
+		err := account.KeyCreationTime.AssignPropertiesToKeyCreationTime_STATUS(&keyCreationTime)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToKeyCreationTime_STATUS() to populate field KeyCreationTime")
+		}
+		destination.KeyCreationTime = &keyCreationTime
+	} else {
+		destination.KeyCreationTime = nil
+	}
+
 	// KeyPolicy
 	if account.KeyPolicy != nil {
 		var keyPolicy v20210401s.KeyPolicy_STATUS
@@ -626,11 +802,17 @@ func (account *StorageAccount_STATUS) AssignPropertiesToStorageAccount_STATUS(de
 	// LargeFileSharesState
 	destination.LargeFileSharesState = genruntime.ClonePointerToString(account.LargeFileSharesState)
 
+	// LastGeoFailoverTime
+	destination.LastGeoFailoverTime = genruntime.ClonePointerToString(account.LastGeoFailoverTime)
+
 	// Location
 	destination.Location = genruntime.ClonePointerToString(account.Location)
 
 	// MinimumTlsVersion
 	destination.MinimumTlsVersion = genruntime.ClonePointerToString(account.MinimumTlsVersion)
+
+	// Name
+	destination.Name = genruntime.ClonePointerToString(account.Name)
 
 	// NetworkAcls
 	if account.NetworkAcls != nil {
@@ -643,6 +825,42 @@ func (account *StorageAccount_STATUS) AssignPropertiesToStorageAccount_STATUS(de
 	} else {
 		destination.NetworkAcls = nil
 	}
+
+	// PrimaryEndpoints
+	if account.PrimaryEndpoints != nil {
+		var primaryEndpoint v20210401s.Endpoints_STATUS
+		err := account.PrimaryEndpoints.AssignPropertiesToEndpoints_STATUS(&primaryEndpoint)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToEndpoints_STATUS() to populate field PrimaryEndpoints")
+		}
+		destination.PrimaryEndpoints = &primaryEndpoint
+	} else {
+		destination.PrimaryEndpoints = nil
+	}
+
+	// PrimaryLocation
+	destination.PrimaryLocation = genruntime.ClonePointerToString(account.PrimaryLocation)
+
+	// PrivateEndpointConnections
+	if account.PrivateEndpointConnections != nil {
+		privateEndpointConnectionList := make([]v20210401s.PrivateEndpointConnection_STATUS, len(account.PrivateEndpointConnections))
+		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range account.PrivateEndpointConnections {
+			// Shadow the loop variable to avoid aliasing
+			privateEndpointConnectionItem := privateEndpointConnectionItem
+			var privateEndpointConnection v20210401s.PrivateEndpointConnection_STATUS
+			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnection_STATUS(&privateEndpointConnection)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnection_STATUS() to populate field PrivateEndpointConnections")
+			}
+			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
+		}
+		destination.PrivateEndpointConnections = privateEndpointConnectionList
+	} else {
+		destination.PrivateEndpointConnections = nil
+	}
+
+	// ProvisioningState
+	destination.ProvisioningState = genruntime.ClonePointerToString(account.ProvisioningState)
 
 	// RoutingPreference
 	if account.RoutingPreference != nil {
@@ -668,6 +886,21 @@ func (account *StorageAccount_STATUS) AssignPropertiesToStorageAccount_STATUS(de
 		destination.SasPolicy = nil
 	}
 
+	// SecondaryEndpoints
+	if account.SecondaryEndpoints != nil {
+		var secondaryEndpoint v20210401s.Endpoints_STATUS
+		err := account.SecondaryEndpoints.AssignPropertiesToEndpoints_STATUS(&secondaryEndpoint)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToEndpoints_STATUS() to populate field SecondaryEndpoints")
+		}
+		destination.SecondaryEndpoints = &secondaryEndpoint
+	} else {
+		destination.SecondaryEndpoints = nil
+	}
+
+	// SecondaryLocation
+	destination.SecondaryLocation = genruntime.ClonePointerToString(account.SecondaryLocation)
+
 	// Sku
 	if account.Sku != nil {
 		var sku v20210401s.Sku_STATUS
@@ -680,6 +913,12 @@ func (account *StorageAccount_STATUS) AssignPropertiesToStorageAccount_STATUS(de
 		destination.Sku = nil
 	}
 
+	// StatusOfPrimary
+	destination.StatusOfPrimary = genruntime.ClonePointerToString(account.StatusOfPrimary)
+
+	// StatusOfSecondary
+	destination.StatusOfSecondary = genruntime.ClonePointerToString(account.StatusOfSecondary)
+
 	// SupportsHttpsTrafficOnly
 	if account.SupportsHttpsTrafficOnly != nil {
 		supportsHttpsTrafficOnly := *account.SupportsHttpsTrafficOnly
@@ -690,6 +929,9 @@ func (account *StorageAccount_STATUS) AssignPropertiesToStorageAccount_STATUS(de
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(account.Tags)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(account.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1401,6 +1643,90 @@ func (authentication *AzureFilesIdentityBasedAuthentication_STATUS) AssignProper
 	return nil
 }
 
+// Storage version of v1alpha1api20210401.BlobRestoreStatus_STATUS
+// Deprecated version of BlobRestoreStatus_STATUS. Use v1beta20210401.BlobRestoreStatus_STATUS instead
+type BlobRestoreStatus_STATUS struct {
+	FailureReason *string                       `json:"failureReason,omitempty"`
+	Parameters    *BlobRestoreParameters_STATUS `json:"parameters,omitempty"`
+	PropertyBag   genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	RestoreId     *string                       `json:"restoreId,omitempty"`
+	Status        *string                       `json:"status,omitempty"`
+}
+
+// AssignPropertiesFromBlobRestoreStatus_STATUS populates our BlobRestoreStatus_STATUS from the provided source BlobRestoreStatus_STATUS
+func (status *BlobRestoreStatus_STATUS) AssignPropertiesFromBlobRestoreStatus_STATUS(source *v20210401s.BlobRestoreStatus_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// FailureReason
+	status.FailureReason = genruntime.ClonePointerToString(source.FailureReason)
+
+	// Parameters
+	if source.Parameters != nil {
+		var parameter BlobRestoreParameters_STATUS
+		err := parameter.AssignPropertiesFromBlobRestoreParameters_STATUS(source.Parameters)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromBlobRestoreParameters_STATUS() to populate field Parameters")
+		}
+		status.Parameters = &parameter
+	} else {
+		status.Parameters = nil
+	}
+
+	// RestoreId
+	status.RestoreId = genruntime.ClonePointerToString(source.RestoreId)
+
+	// Status
+	status.Status = genruntime.ClonePointerToString(source.Status)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		status.PropertyBag = propertyBag
+	} else {
+		status.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToBlobRestoreStatus_STATUS populates the provided destination BlobRestoreStatus_STATUS from our BlobRestoreStatus_STATUS
+func (status *BlobRestoreStatus_STATUS) AssignPropertiesToBlobRestoreStatus_STATUS(destination *v20210401s.BlobRestoreStatus_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(status.PropertyBag)
+
+	// FailureReason
+	destination.FailureReason = genruntime.ClonePointerToString(status.FailureReason)
+
+	// Parameters
+	if status.Parameters != nil {
+		var parameter v20210401s.BlobRestoreParameters_STATUS
+		err := status.Parameters.AssignPropertiesToBlobRestoreParameters_STATUS(&parameter)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToBlobRestoreParameters_STATUS() to populate field Parameters")
+		}
+		destination.Parameters = &parameter
+	} else {
+		destination.Parameters = nil
+	}
+
+	// RestoreId
+	destination.RestoreId = genruntime.ClonePointerToString(status.RestoreId)
+
+	// Status
+	destination.Status = genruntime.ClonePointerToString(status.Status)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1alpha1api20210401.CustomDomain
 // Deprecated version of CustomDomain. Use v1beta20210401.CustomDomain instead
 type CustomDomain struct {
@@ -1799,6 +2125,136 @@ func (encryption *Encryption_STATUS) AssignPropertiesToEncryption_STATUS(destina
 	return nil
 }
 
+// Storage version of v1alpha1api20210401.Endpoints_STATUS
+// Deprecated version of Endpoints_STATUS. Use v1beta20210401.Endpoints_STATUS instead
+type Endpoints_STATUS struct {
+	Blob               *string                                  `json:"blob,omitempty"`
+	Dfs                *string                                  `json:"dfs,omitempty"`
+	File               *string                                  `json:"file,omitempty"`
+	InternetEndpoints  *StorageAccountInternetEndpoints_STATUS  `json:"internetEndpoints,omitempty"`
+	MicrosoftEndpoints *StorageAccountMicrosoftEndpoints_STATUS `json:"microsoftEndpoints,omitempty"`
+	PropertyBag        genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
+	Queue              *string                                  `json:"queue,omitempty"`
+	Table              *string                                  `json:"table,omitempty"`
+	Web                *string                                  `json:"web,omitempty"`
+}
+
+// AssignPropertiesFromEndpoints_STATUS populates our Endpoints_STATUS from the provided source Endpoints_STATUS
+func (endpoints *Endpoints_STATUS) AssignPropertiesFromEndpoints_STATUS(source *v20210401s.Endpoints_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Blob
+	endpoints.Blob = genruntime.ClonePointerToString(source.Blob)
+
+	// Dfs
+	endpoints.Dfs = genruntime.ClonePointerToString(source.Dfs)
+
+	// File
+	endpoints.File = genruntime.ClonePointerToString(source.File)
+
+	// InternetEndpoints
+	if source.InternetEndpoints != nil {
+		var internetEndpoint StorageAccountInternetEndpoints_STATUS
+		err := internetEndpoint.AssignPropertiesFromStorageAccountInternetEndpoints_STATUS(source.InternetEndpoints)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromStorageAccountInternetEndpoints_STATUS() to populate field InternetEndpoints")
+		}
+		endpoints.InternetEndpoints = &internetEndpoint
+	} else {
+		endpoints.InternetEndpoints = nil
+	}
+
+	// MicrosoftEndpoints
+	if source.MicrosoftEndpoints != nil {
+		var microsoftEndpoint StorageAccountMicrosoftEndpoints_STATUS
+		err := microsoftEndpoint.AssignPropertiesFromStorageAccountMicrosoftEndpoints_STATUS(source.MicrosoftEndpoints)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromStorageAccountMicrosoftEndpoints_STATUS() to populate field MicrosoftEndpoints")
+		}
+		endpoints.MicrosoftEndpoints = &microsoftEndpoint
+	} else {
+		endpoints.MicrosoftEndpoints = nil
+	}
+
+	// Queue
+	endpoints.Queue = genruntime.ClonePointerToString(source.Queue)
+
+	// Table
+	endpoints.Table = genruntime.ClonePointerToString(source.Table)
+
+	// Web
+	endpoints.Web = genruntime.ClonePointerToString(source.Web)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		endpoints.PropertyBag = propertyBag
+	} else {
+		endpoints.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToEndpoints_STATUS populates the provided destination Endpoints_STATUS from our Endpoints_STATUS
+func (endpoints *Endpoints_STATUS) AssignPropertiesToEndpoints_STATUS(destination *v20210401s.Endpoints_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(endpoints.PropertyBag)
+
+	// Blob
+	destination.Blob = genruntime.ClonePointerToString(endpoints.Blob)
+
+	// Dfs
+	destination.Dfs = genruntime.ClonePointerToString(endpoints.Dfs)
+
+	// File
+	destination.File = genruntime.ClonePointerToString(endpoints.File)
+
+	// InternetEndpoints
+	if endpoints.InternetEndpoints != nil {
+		var internetEndpoint v20210401s.StorageAccountInternetEndpoints_STATUS
+		err := endpoints.InternetEndpoints.AssignPropertiesToStorageAccountInternetEndpoints_STATUS(&internetEndpoint)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToStorageAccountInternetEndpoints_STATUS() to populate field InternetEndpoints")
+		}
+		destination.InternetEndpoints = &internetEndpoint
+	} else {
+		destination.InternetEndpoints = nil
+	}
+
+	// MicrosoftEndpoints
+	if endpoints.MicrosoftEndpoints != nil {
+		var microsoftEndpoint v20210401s.StorageAccountMicrosoftEndpoints_STATUS
+		err := endpoints.MicrosoftEndpoints.AssignPropertiesToStorageAccountMicrosoftEndpoints_STATUS(&microsoftEndpoint)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToStorageAccountMicrosoftEndpoints_STATUS() to populate field MicrosoftEndpoints")
+		}
+		destination.MicrosoftEndpoints = &microsoftEndpoint
+	} else {
+		destination.MicrosoftEndpoints = nil
+	}
+
+	// Queue
+	destination.Queue = genruntime.ClonePointerToString(endpoints.Queue)
+
+	// Table
+	destination.Table = genruntime.ClonePointerToString(endpoints.Table)
+
+	// Web
+	destination.Web = genruntime.ClonePointerToString(endpoints.Web)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1alpha1api20210401.ExtendedLocation
 // Deprecated version of ExtendedLocation. Use v1beta20210401.ExtendedLocation instead
 type ExtendedLocation struct {
@@ -1891,6 +2347,75 @@ func (location *ExtendedLocation_STATUS) AssignPropertiesToExtendedLocation_STAT
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(location.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20210401.GeoReplicationStats_STATUS
+// Deprecated version of GeoReplicationStats_STATUS. Use v1beta20210401.GeoReplicationStats_STATUS instead
+type GeoReplicationStats_STATUS struct {
+	CanFailover  *bool                  `json:"canFailover,omitempty"`
+	LastSyncTime *string                `json:"lastSyncTime,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Status       *string                `json:"status,omitempty"`
+}
+
+// AssignPropertiesFromGeoReplicationStats_STATUS populates our GeoReplicationStats_STATUS from the provided source GeoReplicationStats_STATUS
+func (stats *GeoReplicationStats_STATUS) AssignPropertiesFromGeoReplicationStats_STATUS(source *v20210401s.GeoReplicationStats_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// CanFailover
+	if source.CanFailover != nil {
+		canFailover := *source.CanFailover
+		stats.CanFailover = &canFailover
+	} else {
+		stats.CanFailover = nil
+	}
+
+	// LastSyncTime
+	stats.LastSyncTime = genruntime.ClonePointerToString(source.LastSyncTime)
+
+	// Status
+	stats.Status = genruntime.ClonePointerToString(source.Status)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		stats.PropertyBag = propertyBag
+	} else {
+		stats.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToGeoReplicationStats_STATUS populates the provided destination GeoReplicationStats_STATUS from our GeoReplicationStats_STATUS
+func (stats *GeoReplicationStats_STATUS) AssignPropertiesToGeoReplicationStats_STATUS(destination *v20210401s.GeoReplicationStats_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(stats.PropertyBag)
+
+	// CanFailover
+	if stats.CanFailover != nil {
+		canFailover := *stats.CanFailover
+		destination.CanFailover = &canFailover
+	} else {
+		destination.CanFailover = nil
+	}
+
+	// LastSyncTime
+	destination.LastSyncTime = genruntime.ClonePointerToString(stats.LastSyncTime)
+
+	// Status
+	destination.Status = genruntime.ClonePointerToString(stats.Status)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2046,6 +2571,58 @@ func (identity *Identity_STATUS) AssignPropertiesToIdentity_STATUS(destination *
 	} else {
 		destination.UserAssignedIdentities = nil
 	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20210401.KeyCreationTime_STATUS
+// Deprecated version of KeyCreationTime_STATUS. Use v1beta20210401.KeyCreationTime_STATUS instead
+type KeyCreationTime_STATUS struct {
+	Key1        *string                `json:"key1,omitempty"`
+	Key2        *string                `json:"key2,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignPropertiesFromKeyCreationTime_STATUS populates our KeyCreationTime_STATUS from the provided source KeyCreationTime_STATUS
+func (time *KeyCreationTime_STATUS) AssignPropertiesFromKeyCreationTime_STATUS(source *v20210401s.KeyCreationTime_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Key1
+	time.Key1 = genruntime.ClonePointerToString(source.Key1)
+
+	// Key2
+	time.Key2 = genruntime.ClonePointerToString(source.Key2)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		time.PropertyBag = propertyBag
+	} else {
+		time.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToKeyCreationTime_STATUS populates the provided destination KeyCreationTime_STATUS from our KeyCreationTime_STATUS
+func (time *KeyCreationTime_STATUS) AssignPropertiesToKeyCreationTime_STATUS(destination *v20210401s.KeyCreationTime_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(time.PropertyBag)
+
+	// Key1
+	destination.Key1 = genruntime.ClonePointerToString(time.Key1)
+
+	// Key2
+	destination.Key2 = genruntime.ClonePointerToString(time.Key2)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2462,6 +3039,51 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignPropertiesToNetworkRuleSet_STATUS(de
 	} else {
 		destination.VirtualNetworkRules = nil
 	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20210401.PrivateEndpointConnection_STATUS
+// Deprecated version of PrivateEndpointConnection_STATUS. Use v1beta20210401.PrivateEndpointConnection_STATUS instead
+type PrivateEndpointConnection_STATUS struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignPropertiesFromPrivateEndpointConnection_STATUS populates our PrivateEndpointConnection_STATUS from the provided source PrivateEndpointConnection_STATUS
+func (connection *PrivateEndpointConnection_STATUS) AssignPropertiesFromPrivateEndpointConnection_STATUS(source *v20210401s.PrivateEndpointConnection_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Id
+	connection.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		connection.PropertyBag = propertyBag
+	} else {
+		connection.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToPrivateEndpointConnection_STATUS populates the provided destination PrivateEndpointConnection_STATUS from our PrivateEndpointConnection_STATUS
+func (connection *PrivateEndpointConnection_STATUS) AssignPropertiesToPrivateEndpointConnection_STATUS(destination *v20210401s.PrivateEndpointConnection_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(connection.PropertyBag)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(connection.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3051,6 +3673,88 @@ func (properties *ActiveDirectoryProperties_STATUS) AssignPropertiesToActiveDire
 
 	// NetBiosDomainName
 	destination.NetBiosDomainName = genruntime.ClonePointerToString(properties.NetBiosDomainName)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20210401.BlobRestoreParameters_STATUS
+// Deprecated version of BlobRestoreParameters_STATUS. Use v1beta20210401.BlobRestoreParameters_STATUS instead
+type BlobRestoreParameters_STATUS struct {
+	BlobRanges    []BlobRestoreRange_STATUS `json:"blobRanges,omitempty"`
+	PropertyBag   genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
+	TimeToRestore *string                   `json:"timeToRestore,omitempty"`
+}
+
+// AssignPropertiesFromBlobRestoreParameters_STATUS populates our BlobRestoreParameters_STATUS from the provided source BlobRestoreParameters_STATUS
+func (parameters *BlobRestoreParameters_STATUS) AssignPropertiesFromBlobRestoreParameters_STATUS(source *v20210401s.BlobRestoreParameters_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// BlobRanges
+	if source.BlobRanges != nil {
+		blobRangeList := make([]BlobRestoreRange_STATUS, len(source.BlobRanges))
+		for blobRangeIndex, blobRangeItem := range source.BlobRanges {
+			// Shadow the loop variable to avoid aliasing
+			blobRangeItem := blobRangeItem
+			var blobRange BlobRestoreRange_STATUS
+			err := blobRange.AssignPropertiesFromBlobRestoreRange_STATUS(&blobRangeItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromBlobRestoreRange_STATUS() to populate field BlobRanges")
+			}
+			blobRangeList[blobRangeIndex] = blobRange
+		}
+		parameters.BlobRanges = blobRangeList
+	} else {
+		parameters.BlobRanges = nil
+	}
+
+	// TimeToRestore
+	parameters.TimeToRestore = genruntime.ClonePointerToString(source.TimeToRestore)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		parameters.PropertyBag = propertyBag
+	} else {
+		parameters.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToBlobRestoreParameters_STATUS populates the provided destination BlobRestoreParameters_STATUS from our BlobRestoreParameters_STATUS
+func (parameters *BlobRestoreParameters_STATUS) AssignPropertiesToBlobRestoreParameters_STATUS(destination *v20210401s.BlobRestoreParameters_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(parameters.PropertyBag)
+
+	// BlobRanges
+	if parameters.BlobRanges != nil {
+		blobRangeList := make([]v20210401s.BlobRestoreRange_STATUS, len(parameters.BlobRanges))
+		for blobRangeIndex, blobRangeItem := range parameters.BlobRanges {
+			// Shadow the loop variable to avoid aliasing
+			blobRangeItem := blobRangeItem
+			var blobRange v20210401s.BlobRestoreRange_STATUS
+			err := blobRangeItem.AssignPropertiesToBlobRestoreRange_STATUS(&blobRange)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToBlobRestoreRange_STATUS() to populate field BlobRanges")
+			}
+			blobRangeList[blobRangeIndex] = blobRange
+		}
+		destination.BlobRanges = blobRangeList
+	} else {
+		destination.BlobRanges = nil
+	}
+
+	// TimeToRestore
+	destination.TimeToRestore = genruntime.ClonePointerToString(parameters.TimeToRestore)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3803,6 +4507,152 @@ func (rule *ResourceAccessRule_STATUS) AssignPropertiesToResourceAccessRule_STAT
 	return nil
 }
 
+// Storage version of v1alpha1api20210401.StorageAccountInternetEndpoints_STATUS
+// Deprecated version of StorageAccountInternetEndpoints_STATUS. Use v1beta20210401.StorageAccountInternetEndpoints_STATUS instead
+type StorageAccountInternetEndpoints_STATUS struct {
+	Blob        *string                `json:"blob,omitempty"`
+	Dfs         *string                `json:"dfs,omitempty"`
+	File        *string                `json:"file,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Web         *string                `json:"web,omitempty"`
+}
+
+// AssignPropertiesFromStorageAccountInternetEndpoints_STATUS populates our StorageAccountInternetEndpoints_STATUS from the provided source StorageAccountInternetEndpoints_STATUS
+func (endpoints *StorageAccountInternetEndpoints_STATUS) AssignPropertiesFromStorageAccountInternetEndpoints_STATUS(source *v20210401s.StorageAccountInternetEndpoints_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Blob
+	endpoints.Blob = genruntime.ClonePointerToString(source.Blob)
+
+	// Dfs
+	endpoints.Dfs = genruntime.ClonePointerToString(source.Dfs)
+
+	// File
+	endpoints.File = genruntime.ClonePointerToString(source.File)
+
+	// Web
+	endpoints.Web = genruntime.ClonePointerToString(source.Web)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		endpoints.PropertyBag = propertyBag
+	} else {
+		endpoints.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToStorageAccountInternetEndpoints_STATUS populates the provided destination StorageAccountInternetEndpoints_STATUS from our StorageAccountInternetEndpoints_STATUS
+func (endpoints *StorageAccountInternetEndpoints_STATUS) AssignPropertiesToStorageAccountInternetEndpoints_STATUS(destination *v20210401s.StorageAccountInternetEndpoints_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(endpoints.PropertyBag)
+
+	// Blob
+	destination.Blob = genruntime.ClonePointerToString(endpoints.Blob)
+
+	// Dfs
+	destination.Dfs = genruntime.ClonePointerToString(endpoints.Dfs)
+
+	// File
+	destination.File = genruntime.ClonePointerToString(endpoints.File)
+
+	// Web
+	destination.Web = genruntime.ClonePointerToString(endpoints.Web)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20210401.StorageAccountMicrosoftEndpoints_STATUS
+// Deprecated version of StorageAccountMicrosoftEndpoints_STATUS. Use v1beta20210401.StorageAccountMicrosoftEndpoints_STATUS instead
+type StorageAccountMicrosoftEndpoints_STATUS struct {
+	Blob        *string                `json:"blob,omitempty"`
+	Dfs         *string                `json:"dfs,omitempty"`
+	File        *string                `json:"file,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Queue       *string                `json:"queue,omitempty"`
+	Table       *string                `json:"table,omitempty"`
+	Web         *string                `json:"web,omitempty"`
+}
+
+// AssignPropertiesFromStorageAccountMicrosoftEndpoints_STATUS populates our StorageAccountMicrosoftEndpoints_STATUS from the provided source StorageAccountMicrosoftEndpoints_STATUS
+func (endpoints *StorageAccountMicrosoftEndpoints_STATUS) AssignPropertiesFromStorageAccountMicrosoftEndpoints_STATUS(source *v20210401s.StorageAccountMicrosoftEndpoints_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Blob
+	endpoints.Blob = genruntime.ClonePointerToString(source.Blob)
+
+	// Dfs
+	endpoints.Dfs = genruntime.ClonePointerToString(source.Dfs)
+
+	// File
+	endpoints.File = genruntime.ClonePointerToString(source.File)
+
+	// Queue
+	endpoints.Queue = genruntime.ClonePointerToString(source.Queue)
+
+	// Table
+	endpoints.Table = genruntime.ClonePointerToString(source.Table)
+
+	// Web
+	endpoints.Web = genruntime.ClonePointerToString(source.Web)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		endpoints.PropertyBag = propertyBag
+	} else {
+		endpoints.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToStorageAccountMicrosoftEndpoints_STATUS populates the provided destination StorageAccountMicrosoftEndpoints_STATUS from our StorageAccountMicrosoftEndpoints_STATUS
+func (endpoints *StorageAccountMicrosoftEndpoints_STATUS) AssignPropertiesToStorageAccountMicrosoftEndpoints_STATUS(destination *v20210401s.StorageAccountMicrosoftEndpoints_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(endpoints.PropertyBag)
+
+	// Blob
+	destination.Blob = genruntime.ClonePointerToString(endpoints.Blob)
+
+	// Dfs
+	destination.Dfs = genruntime.ClonePointerToString(endpoints.Dfs)
+
+	// File
+	destination.File = genruntime.ClonePointerToString(endpoints.File)
+
+	// Queue
+	destination.Queue = genruntime.ClonePointerToString(endpoints.Queue)
+
+	// Table
+	destination.Table = genruntime.ClonePointerToString(endpoints.Table)
+
+	// Web
+	destination.Web = genruntime.ClonePointerToString(endpoints.Web)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1alpha1api20210401.StorageAccountOperatorSecrets
 type StorageAccountOperatorSecrets struct {
 	BlobEndpoint  *genruntime.SecretDestination `json:"blobEndpoint,omitempty"`
@@ -4146,6 +4996,58 @@ func (rule *VirtualNetworkRule_STATUS) AssignPropertiesToVirtualNetworkRule_STAT
 
 	// State
 	destination.State = genruntime.ClonePointerToString(rule.State)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20210401.BlobRestoreRange_STATUS
+// Deprecated version of BlobRestoreRange_STATUS. Use v1beta20210401.BlobRestoreRange_STATUS instead
+type BlobRestoreRange_STATUS struct {
+	EndRange    *string                `json:"endRange,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	StartRange  *string                `json:"startRange,omitempty"`
+}
+
+// AssignPropertiesFromBlobRestoreRange_STATUS populates our BlobRestoreRange_STATUS from the provided source BlobRestoreRange_STATUS
+func (restoreRange *BlobRestoreRange_STATUS) AssignPropertiesFromBlobRestoreRange_STATUS(source *v20210401s.BlobRestoreRange_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// EndRange
+	restoreRange.EndRange = genruntime.ClonePointerToString(source.EndRange)
+
+	// StartRange
+	restoreRange.StartRange = genruntime.ClonePointerToString(source.StartRange)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		restoreRange.PropertyBag = propertyBag
+	} else {
+		restoreRange.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToBlobRestoreRange_STATUS populates the provided destination BlobRestoreRange_STATUS from our BlobRestoreRange_STATUS
+func (restoreRange *BlobRestoreRange_STATUS) AssignPropertiesToBlobRestoreRange_STATUS(destination *v20210401s.BlobRestoreRange_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(restoreRange.PropertyBag)
+
+	// EndRange
+	destination.EndRange = genruntime.ClonePointerToString(restoreRange.EndRange)
+
+	// StartRange
+	destination.StartRange = genruntime.ClonePointerToString(restoreRange.StartRange)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

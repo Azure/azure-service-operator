@@ -5,22 +5,24 @@ package v1alpha1api20210515
 
 // Deprecated version of DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS. Use v1beta20210515.DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS instead
 type DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUSARM struct {
-	Id         *string                                             `json:"id,omitempty"`
-	Location   *string                                             `json:"location,omitempty"`
-	Name       *string                                             `json:"name,omitempty"`
-	Properties *SqlStoredProcedureCreateUpdateProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                                   `json:"tags,omitempty"`
-	Type       *string                                             `json:"type,omitempty"`
+	Id         *string                                    `json:"id,omitempty"`
+	Location   *string                                    `json:"location,omitempty"`
+	Name       *string                                    `json:"name,omitempty"`
+	Properties *SqlStoredProcedureGetProperties_STATUSARM `json:"properties,omitempty"`
+	Tags       map[string]string                          `json:"tags,omitempty"`
+	Type       *string                                    `json:"type,omitempty"`
 }
 
-// Deprecated version of SqlStoredProcedureCreateUpdateProperties_STATUS. Use v1beta20210515.SqlStoredProcedureCreateUpdateProperties_STATUS instead
-type SqlStoredProcedureCreateUpdateProperties_STATUSARM struct {
-	Options  *CreateUpdateOptions_STATUSARM        `json:"options,omitempty"`
-	Resource *SqlStoredProcedureResource_STATUSARM `json:"resource,omitempty"`
+// Deprecated version of SqlStoredProcedureGetProperties_STATUS. Use v1beta20210515.SqlStoredProcedureGetProperties_STATUS instead
+type SqlStoredProcedureGetProperties_STATUSARM struct {
+	Resource *SqlStoredProcedureGetProperties_Resource_STATUSARM `json:"resource,omitempty"`
 }
 
-// Deprecated version of SqlStoredProcedureResource_STATUS. Use v1beta20210515.SqlStoredProcedureResource_STATUS instead
-type SqlStoredProcedureResource_STATUSARM struct {
-	Body *string `json:"body,omitempty"`
-	Id   *string `json:"id,omitempty"`
+// Deprecated version of SqlStoredProcedureGetProperties_Resource_STATUS. Use v1beta20210515.SqlStoredProcedureGetProperties_Resource_STATUS instead
+type SqlStoredProcedureGetProperties_Resource_STATUSARM struct {
+	Body  *string  `json:"body,omitempty"`
+	Id    *string  `json:"id,omitempty"`
+	_Etag *string  `json:"_etag,omitempty"`
+	_Rid  *string  `json:"_rid,omitempty"`
+	_Ts   *float64 `json:"_ts,omitempty"`
 }

@@ -330,11 +330,9 @@ type DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS struct {
 	Location *string `json:"location,omitempty"`
 
 	// Name: The name of the ARM resource.
-	Name *string `json:"name,omitempty"`
-
-	// Resource: The standard JSON format of a resource throughput
-	Resource *ThroughputSettingsResource_STATUS `json:"resource,omitempty"`
-	Tags     map[string]string                  `json:"tags,omitempty"`
+	Name     *string                                          `json:"name,omitempty"`
+	Resource *ThroughputSettingsGetProperties_Resource_STATUS `json:"resource,omitempty"`
+	Tags     map[string]string                                `json:"tags,omitempty"`
 
 	// Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
@@ -428,7 +426,7 @@ func (setting *DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS) P
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Resource != nil {
-			var resource1 ThroughputSettingsResource_STATUS
+			var resource1 ThroughputSettingsGetProperties_Resource_STATUS
 			err := resource1.PopulateFromARM(owner, *typedInput.Properties.Resource)
 			if err != nil {
 				return err
@@ -473,10 +471,10 @@ func (setting *DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS) A
 
 	// Resource
 	if source.Resource != nil {
-		var resource ThroughputSettingsResource_STATUS
-		err := resource.AssignPropertiesFromThroughputSettingsResource_STATUS(source.Resource)
+		var resource ThroughputSettingsGetProperties_Resource_STATUS
+		err := resource.AssignPropertiesFromThroughputSettingsGetProperties_Resource_STATUS(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsResource_STATUS() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		setting.Resource = &resource
 	} else {
@@ -512,10 +510,10 @@ func (setting *DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUS) A
 
 	// Resource
 	if setting.Resource != nil {
-		var resource v20210515s.ThroughputSettingsResource_STATUS
-		err := setting.Resource.AssignPropertiesToThroughputSettingsResource_STATUS(&resource)
+		var resource v20210515s.ThroughputSettingsGetProperties_Resource_STATUS
+		err := setting.Resource.AssignPropertiesToThroughputSettingsGetProperties_Resource_STATUS(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsResource_STATUS() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {

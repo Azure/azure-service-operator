@@ -4,34 +4,36 @@
 package v1beta20210401
 
 type StorageAccount_STATUSARM struct {
-	// ExtendedLocation: Optional. Set the extended location of the resource. If not set, the storage account will be created
-	// in Azure main region. Otherwise it will be created in the specified extended location
+	// ExtendedLocation: The extendedLocation of the resource.
 	ExtendedLocation *ExtendedLocation_STATUSARM `json:"extendedLocation,omitempty"`
 
-	// Id: The ARM Id for this resource.
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
 	// Identity: The identity of the resource.
 	Identity *Identity_STATUSARM `json:"identity,omitempty"`
 
-	// Kind: Required. Indicates the type of storage account.
+	// Kind: Gets the Kind.
 	Kind *StorageAccount_Kind_STATUS `json:"kind,omitempty"`
 
-	// Location: Required. Gets or sets the location of the resource. This will be one of the supported and registered Azure
-	// Geo Regions (e.g. West US, East US, Southeast Asia, etc.). The geo region of a resource cannot be changed once it is
-	// created, but if an identical geo region is specified on update, the request will succeed.
+	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
-	// Properties: The parameters used to create the storage account.
-	Properties *StorageAccountPropertiesCreateParameters_STATUSARM `json:"properties,omitempty"`
+	// Name: The name of the resource
+	Name *string `json:"name,omitempty"`
 
-	// Sku: Required. Gets or sets the SKU name.
+	// Properties: Properties of the storage account.
+	Properties *StorageAccountProperties_STATUSARM `json:"properties,omitempty"`
+
+	// Sku: Gets the SKU.
 	Sku *Sku_STATUSARM `json:"sku,omitempty"`
 
-	// Tags: Gets or sets a list of key value pairs that describe the resource. These tags can be used for viewing and grouping
-	// this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key
-	// with a length no greater than 128 characters and a value with a length no greater than 256 characters.
+	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
+
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+	Type *string `json:"type,omitempty"`
 }
 
 type ExtendedLocation_STATUSARM struct {
@@ -63,9 +65,9 @@ type Sku_STATUSARM struct {
 	Tier *Tier_STATUS    `json:"tier,omitempty"`
 }
 
-type StorageAccountPropertiesCreateParameters_STATUSARM struct {
+type StorageAccountProperties_STATUSARM struct {
 	// AccessTier: Required for storage accounts where kind = BlobStorage. The access tier used for billing.
-	AccessTier *StorageAccountPropertiesCreateParameters_AccessTier_STATUS `json:"accessTier,omitempty"`
+	AccessTier *StorageAccountProperties_AccessTier_STATUS `json:"accessTier,omitempty"`
 
 	// AllowBlobPublicAccess: Allow or disallow public access to all blobs or containers in the storage account. The default
 	// interpretation is true for this property.
@@ -83,13 +85,23 @@ type StorageAccountPropertiesCreateParameters_STATUSARM struct {
 	// AzureFilesIdentityBasedAuthentication: Provides the identity based authentication settings for Azure Files.
 	AzureFilesIdentityBasedAuthentication *AzureFilesIdentityBasedAuthentication_STATUSARM `json:"azureFilesIdentityBasedAuthentication,omitempty"`
 
-	// CustomDomain: User domain assigned to the storage account. Name is the CNAME source. Only one custom domain is supported
-	// per storage account at this time. To clear the existing custom domain, use an empty string for the custom domain name
-	// property.
+	// BlobRestoreStatus: Blob restore status
+	BlobRestoreStatus *BlobRestoreStatus_STATUSARM `json:"blobRestoreStatus,omitempty"`
+
+	// CreationTime: Gets the creation date and time of the storage account in UTC.
+	CreationTime *string `json:"creationTime,omitempty"`
+
+	// CustomDomain: Gets the custom domain the user assigned to this storage account.
 	CustomDomain *CustomDomain_STATUSARM `json:"customDomain,omitempty"`
 
-	// Encryption: Not applicable. Azure Storage encryption is enabled for all storage accounts and cannot be disabled.
+	// Encryption: Gets the encryption settings on the account. If unspecified, the account is unencrypted.
 	Encryption *Encryption_STATUSARM `json:"encryption,omitempty"`
+
+	// FailoverInProgress: If the failover is in progress, the value will be true, otherwise, it will be null.
+	FailoverInProgress *bool `json:"failoverInProgress,omitempty"`
+
+	// GeoReplicationStats: Geo Replication Stats
+	GeoReplicationStats *GeoReplicationStats_STATUSARM `json:"geoReplicationStats,omitempty"`
 
 	// IsHnsEnabled: Account HierarchicalNamespace enabled if sets to true.
 	IsHnsEnabled *bool `json:"isHnsEnabled,omitempty"`
@@ -97,18 +109,39 @@ type StorageAccountPropertiesCreateParameters_STATUSARM struct {
 	// IsNfsV3Enabled: NFS 3.0 protocol support enabled if set to true.
 	IsNfsV3Enabled *bool `json:"isNfsV3Enabled,omitempty"`
 
+	// KeyCreationTime: Storage account keys creation time.
+	KeyCreationTime *KeyCreationTime_STATUSARM `json:"keyCreationTime,omitempty"`
+
 	// KeyPolicy: KeyPolicy assigned to the storage account.
 	KeyPolicy *KeyPolicy_STATUSARM `json:"keyPolicy,omitempty"`
 
 	// LargeFileSharesState: Allow large file shares if sets to Enabled. It cannot be disabled once it is enabled.
-	LargeFileSharesState *StorageAccountPropertiesCreateParameters_LargeFileSharesState_STATUS `json:"largeFileSharesState,omitempty"`
+	LargeFileSharesState *StorageAccountProperties_LargeFileSharesState_STATUS `json:"largeFileSharesState,omitempty"`
+
+	// LastGeoFailoverTime: Gets the timestamp of the most recent instance of a failover to the secondary location. Only the
+	// most recent timestamp is retained. This element is not returned if there has never been a failover instance. Only
+	// available if the accountType is Standard_GRS or Standard_RAGRS.
+	LastGeoFailoverTime *string `json:"lastGeoFailoverTime,omitempty"`
 
 	// MinimumTlsVersion: Set the minimum TLS version to be permitted on requests to storage. The default interpretation is TLS
 	// 1.0 for this property.
-	MinimumTlsVersion *StorageAccountPropertiesCreateParameters_MinimumTlsVersion_STATUS `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *StorageAccountProperties_MinimumTlsVersion_STATUS `json:"minimumTlsVersion,omitempty"`
 
 	// NetworkAcls: Network rule set
 	NetworkAcls *NetworkRuleSet_STATUSARM `json:"networkAcls,omitempty"`
+
+	// PrimaryEndpoints: Gets the URLs that are used to perform a retrieval of a public blob, queue, or table object. Note that
+	// Standard_ZRS and Premium_LRS accounts only return the blob endpoint.
+	PrimaryEndpoints *Endpoints_STATUSARM `json:"primaryEndpoints,omitempty"`
+
+	// PrimaryLocation: Gets the location of the primary data center for the storage account.
+	PrimaryLocation *string `json:"primaryLocation,omitempty"`
+
+	// PrivateEndpointConnections: List of private endpoint connection associated with the specified storage account
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUSARM `json:"privateEndpointConnections,omitempty"`
+
+	// ProvisioningState: Gets the status of the storage account at the time the operation was called.
+	ProvisioningState *StorageAccountProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// RoutingPreference: Maintains information about the network routing choice opted by the user for data transfer
 	RoutingPreference *RoutingPreference_STATUSARM `json:"routingPreference,omitempty"`
@@ -116,8 +149,23 @@ type StorageAccountPropertiesCreateParameters_STATUSARM struct {
 	// SasPolicy: SasPolicy assigned to the storage account.
 	SasPolicy *SasPolicy_STATUSARM `json:"sasPolicy,omitempty"`
 
-	// SupportsHttpsTrafficOnly: Allows https traffic only to storage service if sets to true. The default value is true since
-	// API version 2019-04-01.
+	// SecondaryEndpoints: Gets the URLs that are used to perform a retrieval of a public blob, queue, or table object from the
+	// secondary location of the storage account. Only available if the SKU name is Standard_RAGRS.
+	SecondaryEndpoints *Endpoints_STATUSARM `json:"secondaryEndpoints,omitempty"`
+
+	// SecondaryLocation: Gets the location of the geo-replicated secondary for the storage account. Only available if the
+	// accountType is Standard_GRS or Standard_RAGRS.
+	SecondaryLocation *string `json:"secondaryLocation,omitempty"`
+
+	// StatusOfPrimary: Gets the status indicating whether the primary location of the storage account is available or
+	// unavailable.
+	StatusOfPrimary *StorageAccountProperties_StatusOfPrimary_STATUS `json:"statusOfPrimary,omitempty"`
+
+	// StatusOfSecondary: Gets the status indicating whether the secondary location of the storage account is available or
+	// unavailable. Only available if the SKU name is Standard_GRS or Standard_RAGRS.
+	StatusOfSecondary *StorageAccountProperties_StatusOfSecondary_STATUS `json:"statusOfSecondary,omitempty"`
+
+	// SupportsHttpsTrafficOnly: Allows https traffic only to storage service if sets to true.
 	SupportsHttpsTrafficOnly *bool `json:"supportsHttpsTrafficOnly,omitempty"`
 }
 
@@ -140,6 +188,21 @@ type AzureFilesIdentityBasedAuthentication_STATUSARM struct {
 
 	// DirectoryServiceOptions: Indicates the directory service used.
 	DirectoryServiceOptions *AzureFilesIdentityBasedAuthentication_DirectoryServiceOptions_STATUS `json:"directoryServiceOptions,omitempty"`
+}
+
+type BlobRestoreStatus_STATUSARM struct {
+	// FailureReason: Failure reason when blob restore is failed.
+	FailureReason *string `json:"failureReason,omitempty"`
+
+	// Parameters: Blob restore request parameters.
+	Parameters *BlobRestoreParameters_STATUSARM `json:"parameters,omitempty"`
+
+	// RestoreId: Id for tracking blob restore request.
+	RestoreId *string `json:"restoreId,omitempty"`
+
+	// Status: The status of blob restore progress. Possible values are: - InProgress: Indicates that blob restore is ongoing.
+	// - Complete: Indicates that blob restore has been completed successfully. - Failed: Indicates that blob restore is failed.
+	Status *BlobRestoreStatus_Status_STATUS `json:"status,omitempty"`
 }
 
 type CustomDomain_STATUSARM struct {
@@ -170,9 +233,51 @@ type Encryption_STATUSARM struct {
 	Services *EncryptionServices_STATUSARM `json:"services,omitempty"`
 }
 
+type Endpoints_STATUSARM struct {
+	// Blob: Gets the blob endpoint.
+	Blob *string `json:"blob,omitempty"`
+
+	// Dfs: Gets the dfs endpoint.
+	Dfs *string `json:"dfs,omitempty"`
+
+	// File: Gets the file endpoint.
+	File *string `json:"file,omitempty"`
+
+	// InternetEndpoints: Gets the internet routing storage endpoints
+	InternetEndpoints *StorageAccountInternetEndpoints_STATUSARM `json:"internetEndpoints,omitempty"`
+
+	// MicrosoftEndpoints: Gets the microsoft routing storage endpoints.
+	MicrosoftEndpoints *StorageAccountMicrosoftEndpoints_STATUSARM `json:"microsoftEndpoints,omitempty"`
+
+	// Queue: Gets the queue endpoint.
+	Queue *string `json:"queue,omitempty"`
+
+	// Table: Gets the table endpoint.
+	Table *string `json:"table,omitempty"`
+
+	// Web: Gets the web endpoint.
+	Web *string `json:"web,omitempty"`
+}
+
 type ExtendedLocationType_STATUS string
 
 const ExtendedLocationType_EdgeZone_STATUS = ExtendedLocationType_STATUS("EdgeZone")
+
+type GeoReplicationStats_STATUSARM struct {
+	// CanFailover: A boolean flag which indicates whether or not account failover is supported for the account.
+	CanFailover *bool `json:"canFailover,omitempty"`
+
+	// LastSyncTime: All primary writes preceding this UTC date/time value are guaranteed to be available for read operations.
+	// Primary writes following this point in time may or may not be available for reads. Element may be default value if value
+	// of LastSyncTime is not available, this can happen if secondary is offline or we are in bootstrap.
+	LastSyncTime *string `json:"lastSyncTime,omitempty"`
+
+	// Status: The status of the secondary location. Possible values are: - Live: Indicates that the secondary location is
+	// active and operational. - Bootstrap: Indicates initial synchronization from the primary location to the secondary
+	// location is in progress.This typically occurs when replication is first enabled. - Unavailable: Indicates that the
+	// secondary location is temporarily unavailable.
+	Status *GeoReplicationStats_Status_STATUS `json:"status,omitempty"`
+}
 
 type Identity_Type_STATUS string
 
@@ -182,6 +287,11 @@ const (
 	Identity_Type_SystemAssignedUserAssigned_STATUS = Identity_Type_STATUS("SystemAssigned,UserAssigned")
 	Identity_Type_UserAssigned_STATUS               = Identity_Type_STATUS("UserAssigned")
 )
+
+type KeyCreationTime_STATUSARM struct {
+	Key1 *string `json:"key1,omitempty"`
+	Key2 *string `json:"key2,omitempty"`
+}
 
 type KeyPolicy_STATUSARM struct {
 	// KeyExpirationPeriodInDays: The key expiration period in days.
@@ -204,6 +314,12 @@ type NetworkRuleSet_STATUSARM struct {
 
 	// VirtualNetworkRules: Sets the virtual network rules
 	VirtualNetworkRules []VirtualNetworkRule_STATUSARM `json:"virtualNetworkRules,omitempty"`
+}
+
+type PrivateEndpointConnection_STATUSARM struct {
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	Id *string `json:"id,omitempty"`
 }
 
 type RoutingPreference_STATUSARM struct {
@@ -273,6 +389,14 @@ type ActiveDirectoryProperties_STATUSARM struct {
 	NetBiosDomainName *string `json:"netBiosDomainName,omitempty"`
 }
 
+type BlobRestoreParameters_STATUSARM struct {
+	// BlobRanges: Blob ranges to restore.
+	BlobRanges []BlobRestoreRange_STATUSARM `json:"blobRanges,omitempty"`
+
+	// TimeToRestore: Restore blob to the specified time.
+	TimeToRestore *string `json:"timeToRestore,omitempty"`
+}
+
 type EncryptionIdentity_STATUSARM struct {
 	// UserAssignedIdentity: Resource identifier of the UserAssigned identity to be associated with server-side encryption on
 	// the storage account.
@@ -326,6 +450,40 @@ type ResourceAccessRule_STATUSARM struct {
 	TenantId *string `json:"tenantId,omitempty"`
 }
 
+type StorageAccountInternetEndpoints_STATUSARM struct {
+	// Blob: Gets the blob endpoint.
+	Blob *string `json:"blob,omitempty"`
+
+	// Dfs: Gets the dfs endpoint.
+	Dfs *string `json:"dfs,omitempty"`
+
+	// File: Gets the file endpoint.
+	File *string `json:"file,omitempty"`
+
+	// Web: Gets the web endpoint.
+	Web *string `json:"web,omitempty"`
+}
+
+type StorageAccountMicrosoftEndpoints_STATUSARM struct {
+	// Blob: Gets the blob endpoint.
+	Blob *string `json:"blob,omitempty"`
+
+	// Dfs: Gets the dfs endpoint.
+	Dfs *string `json:"dfs,omitempty"`
+
+	// File: Gets the file endpoint.
+	File *string `json:"file,omitempty"`
+
+	// Queue: Gets the queue endpoint.
+	Queue *string `json:"queue,omitempty"`
+
+	// Table: Gets the table endpoint.
+	Table *string `json:"table,omitempty"`
+
+	// Web: Gets the web endpoint.
+	Web *string `json:"web,omitempty"`
+}
+
 type VirtualNetworkRule_STATUSARM struct {
 	// Action: The action of virtual network rule.
 	Action *VirtualNetworkRule_Action_STATUS `json:"action,omitempty"`
@@ -336,6 +494,14 @@ type VirtualNetworkRule_STATUSARM struct {
 
 	// State: Gets the state of virtual network rule.
 	State *VirtualNetworkRule_State_STATUS `json:"state,omitempty"`
+}
+
+type BlobRestoreRange_STATUSARM struct {
+	// EndRange: Blob end range. This is exclusive. Empty means account end.
+	EndRange *string `json:"endRange,omitempty"`
+
+	// StartRange: Blob start range. This is inclusive. Empty means account start.
+	StartRange *string `json:"startRange,omitempty"`
 }
 
 type EncryptionService_STATUSARM struct {

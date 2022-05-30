@@ -13,24 +13,35 @@ type DatabaseAccountsSqlDatabase_STATUSARM struct {
 	// Name: The name of the ARM resource.
 	Name *string `json:"name,omitempty"`
 
-	// Properties: Properties to create and update Azure Cosmos DB SQL database.
-	Properties *SqlDatabaseCreateUpdateProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                            `json:"tags,omitempty"`
+	// Properties: The properties of an Azure Cosmos DB SQL database
+	Properties *SqlDatabaseGetProperties_STATUSARM `json:"properties,omitempty"`
+	Tags       map[string]string                   `json:"tags,omitempty"`
 
 	// Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
 }
 
-type SqlDatabaseCreateUpdateProperties_STATUSARM struct {
-	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
-	// request.
-	Options *CreateUpdateOptions_STATUSARM `json:"options,omitempty"`
-
-	// Resource: The standard JSON format of a SQL database
-	Resource *SqlDatabaseResource_STATUSARM `json:"resource,omitempty"`
+type SqlDatabaseGetProperties_STATUSARM struct {
+	Options  *OptionsResource_STATUSARM                   `json:"options,omitempty"`
+	Resource *SqlDatabaseGetProperties_Resource_STATUSARM `json:"resource,omitempty"`
 }
 
-type SqlDatabaseResource_STATUSARM struct {
+type SqlDatabaseGetProperties_Resource_STATUSARM struct {
 	// Id: Name of the Cosmos DB SQL database
 	Id *string `json:"id,omitempty"`
+
+	// _Colls: A system generated property that specified the addressable path of the collections resource.
+	_Colls *string `json:"_colls,omitempty"`
+
+	// _Etag: A system generated property representing the resource etag required for optimistic concurrency control.
+	_Etag *string `json:"_etag,omitempty"`
+
+	// _Rid: A system generated property. A unique identifier.
+	_Rid *string `json:"_rid,omitempty"`
+
+	// _Ts: A system generated property that denotes the last updated timestamp of the resource.
+	_Ts *float64 `json:"_ts,omitempty"`
+
+	// _Users: A system generated property that specifies the addressable path of the users resource.
+	_Users *string `json:"_users,omitempty"`
 }

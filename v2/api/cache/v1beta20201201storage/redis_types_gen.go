@@ -140,24 +140,34 @@ const APIVersion_Value = APIVersion("2020-12-01")
 
 // Storage version of v1beta20201201.Redis_STATUS
 type Redis_STATUS struct {
-	Conditions          []conditions.Condition                           `json:"conditions,omitempty"`
-	EnableNonSslPort    *bool                                            `json:"enableNonSslPort,omitempty"`
-	Id                  *string                                          `json:"id,omitempty"`
-	Location            *string                                          `json:"location,omitempty"`
-	MinimumTlsVersion   *string                                          `json:"minimumTlsVersion,omitempty"`
-	PropertyBag         genruntime.PropertyBag                           `json:"$propertyBag,omitempty"`
-	PublicNetworkAccess *string                                          `json:"publicNetworkAccess,omitempty"`
-	RedisConfiguration  *RedisCreateProperties_RedisConfiguration_STATUS `json:"redisConfiguration,omitempty"`
-	RedisVersion        *string                                          `json:"redisVersion,omitempty"`
-	ReplicasPerMaster   *int                                             `json:"replicasPerMaster,omitempty"`
-	ReplicasPerPrimary  *int                                             `json:"replicasPerPrimary,omitempty"`
-	ShardCount          *int                                             `json:"shardCount,omitempty"`
-	Sku                 *Sku_STATUS                                      `json:"sku,omitempty"`
-	StaticIP            *string                                          `json:"staticIP,omitempty"`
-	SubnetId            *string                                          `json:"subnetId,omitempty"`
-	Tags                map[string]string                                `json:"tags,omitempty"`
-	TenantSettings      map[string]string                                `json:"tenantSettings,omitempty"`
-	Zones               []string                                         `json:"zones,omitempty"`
+	AccessKeys                 *RedisAccessKeys_STATUS            `json:"accessKeys,omitempty"`
+	Conditions                 []conditions.Condition             `json:"conditions,omitempty"`
+	EnableNonSslPort           *bool                              `json:"enableNonSslPort,omitempty"`
+	HostName                   *string                            `json:"hostName,omitempty"`
+	Id                         *string                            `json:"id,omitempty"`
+	Instances                  []RedisInstanceDetails_STATUS      `json:"instances,omitempty"`
+	LinkedServers              []RedisLinkedServer_STATUS         `json:"linkedServers,omitempty"`
+	Location                   *string                            `json:"location,omitempty"`
+	MinimumTlsVersion          *string                            `json:"minimumTlsVersion,omitempty"`
+	Name                       *string                            `json:"name,omitempty"`
+	Port                       *int                               `json:"port,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUS `json:"privateEndpointConnections,omitempty"`
+	PropertyBag                genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	ProvisioningState          *string                            `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *string                            `json:"publicNetworkAccess,omitempty"`
+	RedisConfiguration         map[string]string                  `json:"redisConfiguration,omitempty"`
+	RedisVersion               *string                            `json:"redisVersion,omitempty"`
+	ReplicasPerMaster          *int                               `json:"replicasPerMaster,omitempty"`
+	ReplicasPerPrimary         *int                               `json:"replicasPerPrimary,omitempty"`
+	ShardCount                 *int                               `json:"shardCount,omitempty"`
+	Sku                        *Sku_STATUS                        `json:"sku,omitempty"`
+	SslPort                    *int                               `json:"sslPort,omitempty"`
+	StaticIP                   *string                            `json:"staticIP,omitempty"`
+	SubnetId                   *string                            `json:"subnetId,omitempty"`
+	Tags                       map[string]string                  `json:"tags,omitempty"`
+	TenantSettings             map[string]string                  `json:"tenantSettings,omitempty"`
+	Type                       *string                            `json:"type,omitempty"`
+	Zones                      []string                           `json:"zones,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Redis_STATUS{}
@@ -234,22 +244,72 @@ func (redis *Redis_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) e
 	return destination.ConvertSpecFrom(redis)
 }
 
-// Storage version of v1beta20201201.RedisCreateProperties_RedisConfiguration_STATUS
-type RedisCreateProperties_RedisConfiguration_STATUS struct {
-	AdditionalProperties           map[string]string      `json:"additionalProperties,omitempty"`
-	AofStorageConnectionString0    *string                `json:"aof-storage-connection-string-0,omitempty"`
-	AofStorageConnectionString1    *string                `json:"aof-storage-connection-string-1,omitempty"`
-	Maxclients                     *string                `json:"maxclients,omitempty"`
-	MaxfragmentationmemoryReserved *string                `json:"maxfragmentationmemory-reserved,omitempty"`
-	MaxmemoryDelta                 *string                `json:"maxmemory-delta,omitempty"`
-	MaxmemoryPolicy                *string                `json:"maxmemory-policy,omitempty"`
-	MaxmemoryReserved              *string                `json:"maxmemory-reserved,omitempty"`
-	PropertyBag                    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	RdbBackupEnabled               *string                `json:"rdb-backup-enabled,omitempty"`
-	RdbBackupFrequency             *string                `json:"rdb-backup-frequency,omitempty"`
-	RdbBackupMaxSnapshotCount      *string                `json:"rdb-backup-max-snapshot-count,omitempty"`
-	RdbStorageConnectionString     *string                `json:"rdb-storage-connection-string,omitempty"`
-	ZonalConfiguration             *string                `json:"zonal-configuration,omitempty"`
+// Storage version of v1beta20201201.PrivateEndpointConnection_STATUS
+type PrivateEndpointConnection_STATUS struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// AssignPropertiesFromPrivateEndpointConnection_STATUS populates our PrivateEndpointConnection_STATUS from the provided source PrivateEndpointConnection_STATUS
+func (connection *PrivateEndpointConnection_STATUS) AssignPropertiesFromPrivateEndpointConnection_STATUS(source *v20210301s.PrivateEndpointConnection_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Id
+	connection.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		connection.PropertyBag = propertyBag
+	} else {
+		connection.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToPrivateEndpointConnection_STATUS populates the provided destination PrivateEndpointConnection_STATUS from our PrivateEndpointConnection_STATUS
+func (connection *PrivateEndpointConnection_STATUS) AssignPropertiesToPrivateEndpointConnection_STATUS(destination *v20210301s.PrivateEndpointConnection_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(connection.PropertyBag)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(connection.Id)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1beta20201201.RedisAccessKeys_STATUS
+type RedisAccessKeys_STATUS struct {
+	PrimaryKey   *string                `json:"primaryKey,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	SecondaryKey *string                `json:"secondaryKey,omitempty"`
+}
+
+// Storage version of v1beta20201201.RedisInstanceDetails_STATUS
+type RedisInstanceDetails_STATUS struct {
+	IsMaster    *bool                  `json:"isMaster,omitempty"`
+	IsPrimary   *bool                  `json:"isPrimary,omitempty"`
+	NonSslPort  *int                   `json:"nonSslPort,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ShardId     *int                   `json:"shardId,omitempty"`
+	SslPort     *int                   `json:"sslPort,omitempty"`
+	Zone        *string                `json:"zone,omitempty"`
+}
+
+// Storage version of v1beta20201201.RedisLinkedServer_STATUS
+type RedisLinkedServer_STATUS struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20201201.RedisOperatorSpec

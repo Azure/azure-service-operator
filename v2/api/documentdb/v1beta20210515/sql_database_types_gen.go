@@ -330,15 +330,10 @@ type DatabaseAccountsSqlDatabase_STATUS struct {
 	Location *string `json:"location,omitempty"`
 
 	// Name: The name of the ARM resource.
-	Name *string `json:"name,omitempty"`
-
-	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
-	// request.
-	Options *CreateUpdateOptions_STATUS `json:"options,omitempty"`
-
-	// Resource: The standard JSON format of a SQL database
-	Resource *SqlDatabaseResource_STATUS `json:"resource,omitempty"`
-	Tags     map[string]string           `json:"tags,omitempty"`
+	Name     *string                                   `json:"name,omitempty"`
+	Options  *OptionsResource_STATUS                   `json:"options,omitempty"`
+	Resource *SqlDatabaseGetProperties_Resource_STATUS `json:"resource,omitempty"`
+	Tags     map[string]string                         `json:"tags,omitempty"`
 
 	// Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
@@ -432,7 +427,7 @@ func (database *DatabaseAccountsSqlDatabase_STATUS) PopulateFromARM(owner genrun
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Options != nil {
-			var options1 CreateUpdateOptions_STATUS
+			var options1 OptionsResource_STATUS
 			err := options1.PopulateFromARM(owner, *typedInput.Properties.Options)
 			if err != nil {
 				return err
@@ -446,7 +441,7 @@ func (database *DatabaseAccountsSqlDatabase_STATUS) PopulateFromARM(owner genrun
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Resource != nil {
-			var resource1 SqlDatabaseResource_STATUS
+			var resource1 SqlDatabaseGetProperties_Resource_STATUS
 			err := resource1.PopulateFromARM(owner, *typedInput.Properties.Resource)
 			if err != nil {
 				return err
@@ -491,10 +486,10 @@ func (database *DatabaseAccountsSqlDatabase_STATUS) AssignPropertiesFromDatabase
 
 	// Options
 	if source.Options != nil {
-		var option CreateUpdateOptions_STATUS
-		err := option.AssignPropertiesFromCreateUpdateOptions_STATUS(source.Options)
+		var option OptionsResource_STATUS
+		err := option.AssignPropertiesFromOptionsResource_STATUS(source.Options)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptions_STATUS() to populate field Options")
+			return errors.Wrap(err, "calling AssignPropertiesFromOptionsResource_STATUS() to populate field Options")
 		}
 		database.Options = &option
 	} else {
@@ -503,10 +498,10 @@ func (database *DatabaseAccountsSqlDatabase_STATUS) AssignPropertiesFromDatabase
 
 	// Resource
 	if source.Resource != nil {
-		var resource SqlDatabaseResource_STATUS
-		err := resource.AssignPropertiesFromSqlDatabaseResource_STATUS(source.Resource)
+		var resource SqlDatabaseGetProperties_Resource_STATUS
+		err := resource.AssignPropertiesFromSqlDatabaseGetProperties_Resource_STATUS(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSqlDatabaseResource_STATUS() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesFromSqlDatabaseGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		database.Resource = &resource
 	} else {
@@ -542,10 +537,10 @@ func (database *DatabaseAccountsSqlDatabase_STATUS) AssignPropertiesToDatabaseAc
 
 	// Options
 	if database.Options != nil {
-		var option v20210515s.CreateUpdateOptions_STATUS
-		err := database.Options.AssignPropertiesToCreateUpdateOptions_STATUS(&option)
+		var option v20210515s.OptionsResource_STATUS
+		err := database.Options.AssignPropertiesToOptionsResource_STATUS(&option)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions_STATUS() to populate field Options")
+			return errors.Wrap(err, "calling AssignPropertiesToOptionsResource_STATUS() to populate field Options")
 		}
 		destination.Options = &option
 	} else {
@@ -554,10 +549,10 @@ func (database *DatabaseAccountsSqlDatabase_STATUS) AssignPropertiesToDatabaseAc
 
 	// Resource
 	if database.Resource != nil {
-		var resource v20210515s.SqlDatabaseResource_STATUS
-		err := database.Resource.AssignPropertiesToSqlDatabaseResource_STATUS(&resource)
+		var resource v20210515s.SqlDatabaseGetProperties_Resource_STATUS
+		err := database.Resource.AssignPropertiesToSqlDatabaseGetProperties_Resource_STATUS(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSqlDatabaseResource_STATUS() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesToSqlDatabaseGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {
@@ -933,6 +928,149 @@ func (database *DatabaseAccountsSqlDatabase_Spec) SetAzureName(azureName string)
 	database.AzureName = azureName
 }
 
+type SqlDatabaseGetProperties_Resource_STATUS struct {
+	// Id: Name of the Cosmos DB SQL database
+	Id *string `json:"id,omitempty"`
+
+	// _Colls: A system generated property that specified the addressable path of the collections resource.
+	_Colls *string `json:"_colls,omitempty"`
+
+	// _Etag: A system generated property representing the resource etag required for optimistic concurrency control.
+	_Etag *string `json:"_etag,omitempty"`
+
+	// _Rid: A system generated property. A unique identifier.
+	_Rid *string `json:"_rid,omitempty"`
+
+	// _Ts: A system generated property that denotes the last updated timestamp of the resource.
+	_Ts *float64 `json:"_ts,omitempty"`
+
+	// _Users: A system generated property that specifies the addressable path of the users resource.
+	_Users *string `json:"_users,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &SqlDatabaseGetProperties_Resource_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (resource *SqlDatabaseGetProperties_Resource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SqlDatabaseGetProperties_Resource_STATUSARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (resource *SqlDatabaseGetProperties_Resource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(SqlDatabaseGetProperties_Resource_STATUSARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlDatabaseGetProperties_Resource_STATUSARM, got %T", armInput)
+	}
+
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		resource.Id = &id
+	}
+
+	// Set property ‘_Colls’:
+	if typedInput._Colls != nil {
+		_Colls := *typedInput._Colls
+		resource._Colls = &_Colls
+	}
+
+	// Set property ‘_Etag’:
+	if typedInput._Etag != nil {
+		_Etag := *typedInput._Etag
+		resource._Etag = &_Etag
+	}
+
+	// Set property ‘_Rid’:
+	if typedInput._Rid != nil {
+		_Rid := *typedInput._Rid
+		resource._Rid = &_Rid
+	}
+
+	// Set property ‘_Ts’:
+	if typedInput._Ts != nil {
+		_Ts := *typedInput._Ts
+		resource._Ts = &_Ts
+	}
+
+	// Set property ‘_Users’:
+	if typedInput._Users != nil {
+		_Users := *typedInput._Users
+		resource._Users = &_Users
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromSqlDatabaseGetProperties_Resource_STATUS populates our SqlDatabaseGetProperties_Resource_STATUS from the provided source SqlDatabaseGetProperties_Resource_STATUS
+func (resource *SqlDatabaseGetProperties_Resource_STATUS) AssignPropertiesFromSqlDatabaseGetProperties_Resource_STATUS(source *v20210515s.SqlDatabaseGetProperties_Resource_STATUS) error {
+
+	// Id
+	resource.Id = genruntime.ClonePointerToString(source.Id)
+
+	// _Colls
+	resource._Colls = genruntime.ClonePointerToString(source._Colls)
+
+	// _Etag
+	resource._Etag = genruntime.ClonePointerToString(source._Etag)
+
+	// _Rid
+	resource._Rid = genruntime.ClonePointerToString(source._Rid)
+
+	// _Ts
+	if source._Ts != nil {
+		_T := *source._Ts
+		resource._Ts = &_T
+	} else {
+		resource._Ts = nil
+	}
+
+	// _Users
+	resource._Users = genruntime.ClonePointerToString(source._Users)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToSqlDatabaseGetProperties_Resource_STATUS populates the provided destination SqlDatabaseGetProperties_Resource_STATUS from our SqlDatabaseGetProperties_Resource_STATUS
+func (resource *SqlDatabaseGetProperties_Resource_STATUS) AssignPropertiesToSqlDatabaseGetProperties_Resource_STATUS(destination *v20210515s.SqlDatabaseGetProperties_Resource_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(resource.Id)
+
+	// _Colls
+	destination._Colls = genruntime.ClonePointerToString(resource._Colls)
+
+	// _Etag
+	destination._Etag = genruntime.ClonePointerToString(resource._Etag)
+
+	// _Rid
+	destination._Rid = genruntime.ClonePointerToString(resource._Rid)
+
+	// _Ts
+	if resource._Ts != nil {
+		_T := *resource._Ts
+		destination._Ts = &_T
+	} else {
+		destination._Ts = nil
+	}
+
+	// _Users
+	destination._Users = genruntime.ClonePointerToString(resource._Users)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type SqlDatabaseResource struct {
 	// +kubebuilder:validation:Required
 	// Id: Name of the Cosmos DB SQL database
@@ -990,64 +1128,6 @@ func (resource *SqlDatabaseResource) AssignPropertiesFromSqlDatabaseResource(sou
 
 // AssignPropertiesToSqlDatabaseResource populates the provided destination SqlDatabaseResource from our SqlDatabaseResource
 func (resource *SqlDatabaseResource) AssignPropertiesToSqlDatabaseResource(destination *v20210515s.SqlDatabaseResource) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(resource.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type SqlDatabaseResource_STATUS struct {
-	// Id: Name of the Cosmos DB SQL database
-	Id *string `json:"id,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &SqlDatabaseResource_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (resource *SqlDatabaseResource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SqlDatabaseResource_STATUSARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (resource *SqlDatabaseResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SqlDatabaseResource_STATUSARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlDatabaseResource_STATUSARM, got %T", armInput)
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		resource.Id = &id
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromSqlDatabaseResource_STATUS populates our SqlDatabaseResource_STATUS from the provided source SqlDatabaseResource_STATUS
-func (resource *SqlDatabaseResource_STATUS) AssignPropertiesFromSqlDatabaseResource_STATUS(source *v20210515s.SqlDatabaseResource_STATUS) error {
-
-	// Id
-	resource.Id = genruntime.ClonePointerToString(source.Id)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToSqlDatabaseResource_STATUS populates the provided destination SqlDatabaseResource_STATUS from our SqlDatabaseResource_STATUS
-func (resource *SqlDatabaseResource_STATUS) AssignPropertiesToSqlDatabaseResource_STATUS(destination *v20210515s.SqlDatabaseResource_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

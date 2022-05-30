@@ -281,8 +281,8 @@ func AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollecti
 
 // AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollection_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollection_STATUS(gens map[string]gopter.Gen) {
-	gens["Options"] = gen.PtrOf(CreateUpdateOptions_STATUSGenerator())
-	gens["Resource"] = gen.PtrOf(MongoDBCollectionResource_STATUSGenerator())
+	gens["Options"] = gen.PtrOf(OptionsResource_STATUSGenerator())
+	gens["Resource"] = gen.PtrOf(MongoDBCollectionGetProperties_Resource_STATUSGenerator())
 }
 
 func Test_DatabaseAccountsMongodbDatabasesCollection_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -406,6 +406,127 @@ func AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollection_S
 	gens["Resource"] = gen.PtrOf(MongoDBCollectionResourceGenerator())
 }
 
+func Test_MongoDBCollectionGetProperties_Resource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from MongoDBCollectionGetProperties_Resource_STATUS to MongoDBCollectionGetProperties_Resource_STATUS via AssignPropertiesToMongoDBCollectionGetProperties_Resource_STATUS & AssignPropertiesFromMongoDBCollectionGetProperties_Resource_STATUS returns original",
+		prop.ForAll(RunPropertyAssignmentTestForMongoDBCollectionGetProperties_Resource_STATUS, MongoDBCollectionGetProperties_Resource_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForMongoDBCollectionGetProperties_Resource_STATUS tests if a specific instance of MongoDBCollectionGetProperties_Resource_STATUS can be assigned to v1alpha1api20210515storage and back losslessly
+func RunPropertyAssignmentTestForMongoDBCollectionGetProperties_Resource_STATUS(subject MongoDBCollectionGetProperties_Resource_STATUS) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other alpha20210515s.MongoDBCollectionGetProperties_Resource_STATUS
+	err := copied.AssignPropertiesToMongoDBCollectionGetProperties_Resource_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual MongoDBCollectionGetProperties_Resource_STATUS
+	err = actual.AssignPropertiesFromMongoDBCollectionGetProperties_Resource_STATUS(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_MongoDBCollectionGetProperties_Resource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of MongoDBCollectionGetProperties_Resource_STATUS via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMongoDBCollectionGetProperties_Resource_STATUS, MongoDBCollectionGetProperties_Resource_STATUSGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForMongoDBCollectionGetProperties_Resource_STATUS runs a test to see if a specific instance of MongoDBCollectionGetProperties_Resource_STATUS round trips to JSON and back losslessly
+func RunJSONSerializationTestForMongoDBCollectionGetProperties_Resource_STATUS(subject MongoDBCollectionGetProperties_Resource_STATUS) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual MongoDBCollectionGetProperties_Resource_STATUS
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of MongoDBCollectionGetProperties_Resource_STATUS instances for property testing - lazily instantiated by
+// MongoDBCollectionGetProperties_Resource_STATUSGenerator()
+var mongoDBCollectionGetProperties_Resource_STATUSGenerator gopter.Gen
+
+// MongoDBCollectionGetProperties_Resource_STATUSGenerator returns a generator of MongoDBCollectionGetProperties_Resource_STATUS instances for property testing.
+// We first initialize mongoDBCollectionGetProperties_Resource_STATUSGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func MongoDBCollectionGetProperties_Resource_STATUSGenerator() gopter.Gen {
+	if mongoDBCollectionGetProperties_Resource_STATUSGenerator != nil {
+		return mongoDBCollectionGetProperties_Resource_STATUSGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForMongoDBCollectionGetProperties_Resource_STATUS(generators)
+	mongoDBCollectionGetProperties_Resource_STATUSGenerator = gen.Struct(reflect.TypeOf(MongoDBCollectionGetProperties_Resource_STATUS{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForMongoDBCollectionGetProperties_Resource_STATUS(generators)
+	AddRelatedPropertyGeneratorsForMongoDBCollectionGetProperties_Resource_STATUS(generators)
+	mongoDBCollectionGetProperties_Resource_STATUSGenerator = gen.Struct(reflect.TypeOf(MongoDBCollectionGetProperties_Resource_STATUS{}), generators)
+
+	return mongoDBCollectionGetProperties_Resource_STATUSGenerator
+}
+
+// AddIndependentPropertyGeneratorsForMongoDBCollectionGetProperties_Resource_STATUS is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMongoDBCollectionGetProperties_Resource_STATUS(gens map[string]gopter.Gen) {
+	gens["AnalyticalStorageTtl"] = gen.PtrOf(gen.Int())
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["ShardKey"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["_Etag"] = gen.PtrOf(gen.AlphaString())
+	gens["_Rid"] = gen.PtrOf(gen.AlphaString())
+	gens["_Ts"] = gen.PtrOf(gen.Float64())
+}
+
+// AddRelatedPropertyGeneratorsForMongoDBCollectionGetProperties_Resource_STATUS is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForMongoDBCollectionGetProperties_Resource_STATUS(gens map[string]gopter.Gen) {
+	gens["Indexes"] = gen.SliceOf(MongoIndex_STATUSGenerator())
+}
+
 func Test_MongoDBCollectionResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -522,124 +643,6 @@ func AddIndependentPropertyGeneratorsForMongoDBCollectionResource(gens map[strin
 // AddRelatedPropertyGeneratorsForMongoDBCollectionResource is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForMongoDBCollectionResource(gens map[string]gopter.Gen) {
 	gens["Indexes"] = gen.SliceOf(MongoIndexGenerator())
-}
-
-func Test_MongoDBCollectionResource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from MongoDBCollectionResource_STATUS to MongoDBCollectionResource_STATUS via AssignPropertiesToMongoDBCollectionResource_STATUS & AssignPropertiesFromMongoDBCollectionResource_STATUS returns original",
-		prop.ForAll(RunPropertyAssignmentTestForMongoDBCollectionResource_STATUS, MongoDBCollectionResource_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForMongoDBCollectionResource_STATUS tests if a specific instance of MongoDBCollectionResource_STATUS can be assigned to v1alpha1api20210515storage and back losslessly
-func RunPropertyAssignmentTestForMongoDBCollectionResource_STATUS(subject MongoDBCollectionResource_STATUS) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20210515s.MongoDBCollectionResource_STATUS
-	err := copied.AssignPropertiesToMongoDBCollectionResource_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual MongoDBCollectionResource_STATUS
-	err = actual.AssignPropertiesFromMongoDBCollectionResource_STATUS(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_MongoDBCollectionResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of MongoDBCollectionResource_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMongoDBCollectionResource_STATUS, MongoDBCollectionResource_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForMongoDBCollectionResource_STATUS runs a test to see if a specific instance of MongoDBCollectionResource_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForMongoDBCollectionResource_STATUS(subject MongoDBCollectionResource_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual MongoDBCollectionResource_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of MongoDBCollectionResource_STATUS instances for property testing - lazily instantiated by
-// MongoDBCollectionResource_STATUSGenerator()
-var mongoDBCollectionResource_STATUSGenerator gopter.Gen
-
-// MongoDBCollectionResource_STATUSGenerator returns a generator of MongoDBCollectionResource_STATUS instances for property testing.
-// We first initialize mongoDBCollectionResource_STATUSGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func MongoDBCollectionResource_STATUSGenerator() gopter.Gen {
-	if mongoDBCollectionResource_STATUSGenerator != nil {
-		return mongoDBCollectionResource_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMongoDBCollectionResource_STATUS(generators)
-	mongoDBCollectionResource_STATUSGenerator = gen.Struct(reflect.TypeOf(MongoDBCollectionResource_STATUS{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMongoDBCollectionResource_STATUS(generators)
-	AddRelatedPropertyGeneratorsForMongoDBCollectionResource_STATUS(generators)
-	mongoDBCollectionResource_STATUSGenerator = gen.Struct(reflect.TypeOf(MongoDBCollectionResource_STATUS{}), generators)
-
-	return mongoDBCollectionResource_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForMongoDBCollectionResource_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMongoDBCollectionResource_STATUS(gens map[string]gopter.Gen) {
-	gens["AnalyticalStorageTtl"] = gen.PtrOf(gen.Int())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["ShardKey"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForMongoDBCollectionResource_STATUS is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForMongoDBCollectionResource_STATUS(gens map[string]gopter.Gen) {
-	gens["Indexes"] = gen.SliceOf(MongoIndex_STATUSGenerator())
 }
 
 func Test_MongoIndex_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

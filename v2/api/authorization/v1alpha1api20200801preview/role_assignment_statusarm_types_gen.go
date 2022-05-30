@@ -6,7 +6,9 @@ package v1alpha1api20200801preview
 // Deprecated version of RoleAssignment_STATUS. Use v1beta20200801preview.RoleAssignment_STATUS instead
 type RoleAssignment_STATUSARM struct {
 	Id         *string                             `json:"id,omitempty"`
+	Name       *string                             `json:"name,omitempty"`
 	Properties *RoleAssignmentProperties_STATUSARM `json:"properties,omitempty"`
+	Type       *string                             `json:"type,omitempty"`
 }
 
 // Deprecated version of RoleAssignmentProperties_STATUS. Use v1beta20200801preview.RoleAssignmentProperties_STATUS instead

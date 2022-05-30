@@ -5,6 +5,7 @@
 | AccessPolicyEntry_STATUS                                 | v1beta20210401preview |
 | IPRule                                                   | v1beta20210401preview |
 | IPRule_STATUS                                            | v1beta20210401preview |
+| IdentityType_STATUS                                      | v1beta20210401preview |
 | NetworkRuleSet                                           | v1beta20210401preview |
 | NetworkRuleSet_Bypass                                    | v1beta20210401preview |
 | NetworkRuleSet_Bypass_STATUS                             | v1beta20210401preview |
@@ -41,6 +42,7 @@
 | Sku_Name                                                 | v1beta20210401preview |
 | Sku_Name_STATUS                                          | v1beta20210401preview |
 | Sku_STATUS                                               | v1beta20210401preview |
+| SystemData_STATUS                                        | v1beta20210401preview |
 | Vault                                                    | v1beta20210401preview |
 | VaultProperties                                          | v1beta20210401preview |
 | VaultProperties_CreateMode                               | v1beta20210401preview |

@@ -330,15 +330,9 @@ type DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS struct {
 	Location *string `json:"location,omitempty"`
 
 	// Name: The name of the ARM resource.
-	Name *string `json:"name,omitempty"`
-
-	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
-	// request.
-	Options *CreateUpdateOptions_STATUS `json:"options,omitempty"`
-
-	// Resource: The standard JSON format of a storedProcedure
-	Resource *SqlStoredProcedureResource_STATUS `json:"resource,omitempty"`
-	Tags     map[string]string                  `json:"tags,omitempty"`
+	Name     *string                                          `json:"name,omitempty"`
+	Resource *SqlStoredProcedureGetProperties_Resource_STATUS `json:"resource,omitempty"`
+	Tags     map[string]string                                `json:"tags,omitempty"`
 
 	// Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
@@ -428,25 +422,11 @@ func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS) P
 		procedure.Name = &name
 	}
 
-	// Set property ‘Options’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Options != nil {
-			var options1 CreateUpdateOptions_STATUS
-			err := options1.PopulateFromARM(owner, *typedInput.Properties.Options)
-			if err != nil {
-				return err
-			}
-			options := options1
-			procedure.Options = &options
-		}
-	}
-
 	// Set property ‘Resource’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Resource != nil {
-			var resource1 SqlStoredProcedureResource_STATUS
+			var resource1 SqlStoredProcedureGetProperties_Resource_STATUS
 			err := resource1.PopulateFromARM(owner, *typedInput.Properties.Resource)
 			if err != nil {
 				return err
@@ -489,24 +469,12 @@ func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS) A
 	// Name
 	procedure.Name = genruntime.ClonePointerToString(source.Name)
 
-	// Options
-	if source.Options != nil {
-		var option CreateUpdateOptions_STATUS
-		err := option.AssignPropertiesFromCreateUpdateOptions_STATUS(source.Options)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptions_STATUS() to populate field Options")
-		}
-		procedure.Options = &option
-	} else {
-		procedure.Options = nil
-	}
-
 	// Resource
 	if source.Resource != nil {
-		var resource SqlStoredProcedureResource_STATUS
-		err := resource.AssignPropertiesFromSqlStoredProcedureResource_STATUS(source.Resource)
+		var resource SqlStoredProcedureGetProperties_Resource_STATUS
+		err := resource.AssignPropertiesFromSqlStoredProcedureGetProperties_Resource_STATUS(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSqlStoredProcedureResource_STATUS() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesFromSqlStoredProcedureGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		procedure.Resource = &resource
 	} else {
@@ -540,24 +508,12 @@ func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS) A
 	// Name
 	destination.Name = genruntime.ClonePointerToString(procedure.Name)
 
-	// Options
-	if procedure.Options != nil {
-		var option v20210515s.CreateUpdateOptions_STATUS
-		err := procedure.Options.AssignPropertiesToCreateUpdateOptions_STATUS(&option)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions_STATUS() to populate field Options")
-		}
-		destination.Options = &option
-	} else {
-		destination.Options = nil
-	}
-
 	// Resource
 	if procedure.Resource != nil {
-		var resource v20210515s.SqlStoredProcedureResource_STATUS
-		err := procedure.Resource.AssignPropertiesToSqlStoredProcedureResource_STATUS(&resource)
+		var resource v20210515s.SqlStoredProcedureGetProperties_Resource_STATUS
+		err := procedure.Resource.AssignPropertiesToSqlStoredProcedureGetProperties_Resource_STATUS(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSqlStoredProcedureResource_STATUS() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesToSqlStoredProcedureGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {
@@ -933,6 +889,134 @@ func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec) Set
 	procedure.AzureName = azureName
 }
 
+type SqlStoredProcedureGetProperties_Resource_STATUS struct {
+	// Body: Body of the Stored Procedure
+	Body *string `json:"body,omitempty"`
+
+	// Id: Name of the Cosmos DB SQL storedProcedure
+	Id *string `json:"id,omitempty"`
+
+	// _Etag: A system generated property representing the resource etag required for optimistic concurrency control.
+	_Etag *string `json:"_etag,omitempty"`
+
+	// _Rid: A system generated property. A unique identifier.
+	_Rid *string `json:"_rid,omitempty"`
+
+	// _Ts: A system generated property that denotes the last updated timestamp of the resource.
+	_Ts *float64 `json:"_ts,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &SqlStoredProcedureGetProperties_Resource_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (resource *SqlStoredProcedureGetProperties_Resource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SqlStoredProcedureGetProperties_Resource_STATUSARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (resource *SqlStoredProcedureGetProperties_Resource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(SqlStoredProcedureGetProperties_Resource_STATUSARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlStoredProcedureGetProperties_Resource_STATUSARM, got %T", armInput)
+	}
+
+	// Set property ‘Body’:
+	if typedInput.Body != nil {
+		body := *typedInput.Body
+		resource.Body = &body
+	}
+
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		resource.Id = &id
+	}
+
+	// Set property ‘_Etag’:
+	if typedInput._Etag != nil {
+		_Etag := *typedInput._Etag
+		resource._Etag = &_Etag
+	}
+
+	// Set property ‘_Rid’:
+	if typedInput._Rid != nil {
+		_Rid := *typedInput._Rid
+		resource._Rid = &_Rid
+	}
+
+	// Set property ‘_Ts’:
+	if typedInput._Ts != nil {
+		_Ts := *typedInput._Ts
+		resource._Ts = &_Ts
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromSqlStoredProcedureGetProperties_Resource_STATUS populates our SqlStoredProcedureGetProperties_Resource_STATUS from the provided source SqlStoredProcedureGetProperties_Resource_STATUS
+func (resource *SqlStoredProcedureGetProperties_Resource_STATUS) AssignPropertiesFromSqlStoredProcedureGetProperties_Resource_STATUS(source *v20210515s.SqlStoredProcedureGetProperties_Resource_STATUS) error {
+
+	// Body
+	resource.Body = genruntime.ClonePointerToString(source.Body)
+
+	// Id
+	resource.Id = genruntime.ClonePointerToString(source.Id)
+
+	// _Etag
+	resource._Etag = genruntime.ClonePointerToString(source._Etag)
+
+	// _Rid
+	resource._Rid = genruntime.ClonePointerToString(source._Rid)
+
+	// _Ts
+	if source._Ts != nil {
+		_T := *source._Ts
+		resource._Ts = &_T
+	} else {
+		resource._Ts = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToSqlStoredProcedureGetProperties_Resource_STATUS populates the provided destination SqlStoredProcedureGetProperties_Resource_STATUS from our SqlStoredProcedureGetProperties_Resource_STATUS
+func (resource *SqlStoredProcedureGetProperties_Resource_STATUS) AssignPropertiesToSqlStoredProcedureGetProperties_Resource_STATUS(destination *v20210515s.SqlStoredProcedureGetProperties_Resource_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Body
+	destination.Body = genruntime.ClonePointerToString(resource.Body)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(resource.Id)
+
+	// _Etag
+	destination._Etag = genruntime.ClonePointerToString(resource._Etag)
+
+	// _Rid
+	destination._Rid = genruntime.ClonePointerToString(resource._Rid)
+
+	// _Ts
+	if resource._Ts != nil {
+		_T := *resource._Ts
+		destination._Ts = &_T
+	} else {
+		destination._Ts = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type SqlStoredProcedureResource struct {
 	// Body: Body of the Stored Procedure
 	Body *string `json:"body,omitempty"`
@@ -1008,79 +1092,6 @@ func (resource *SqlStoredProcedureResource) AssignPropertiesFromSqlStoredProcedu
 
 // AssignPropertiesToSqlStoredProcedureResource populates the provided destination SqlStoredProcedureResource from our SqlStoredProcedureResource
 func (resource *SqlStoredProcedureResource) AssignPropertiesToSqlStoredProcedureResource(destination *v20210515s.SqlStoredProcedureResource) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Body
-	destination.Body = genruntime.ClonePointerToString(resource.Body)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(resource.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type SqlStoredProcedureResource_STATUS struct {
-	// Body: Body of the Stored Procedure
-	Body *string `json:"body,omitempty"`
-
-	// Id: Name of the Cosmos DB SQL storedProcedure
-	Id *string `json:"id,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &SqlStoredProcedureResource_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (resource *SqlStoredProcedureResource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SqlStoredProcedureResource_STATUSARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (resource *SqlStoredProcedureResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SqlStoredProcedureResource_STATUSARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlStoredProcedureResource_STATUSARM, got %T", armInput)
-	}
-
-	// Set property ‘Body’:
-	if typedInput.Body != nil {
-		body := *typedInput.Body
-		resource.Body = &body
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		resource.Id = &id
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromSqlStoredProcedureResource_STATUS populates our SqlStoredProcedureResource_STATUS from the provided source SqlStoredProcedureResource_STATUS
-func (resource *SqlStoredProcedureResource_STATUS) AssignPropertiesFromSqlStoredProcedureResource_STATUS(source *v20210515s.SqlStoredProcedureResource_STATUS) error {
-
-	// Body
-	resource.Body = genruntime.ClonePointerToString(source.Body)
-
-	// Id
-	resource.Id = genruntime.ClonePointerToString(source.Id)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToSqlStoredProcedureResource_STATUS populates the provided destination SqlStoredProcedureResource_STATUS from our SqlStoredProcedureResource_STATUS
-func (resource *SqlStoredProcedureResource_STATUS) AssignPropertiesToSqlStoredProcedureResource_STATUS(destination *v20210515s.SqlStoredProcedureResource_STATUS) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 

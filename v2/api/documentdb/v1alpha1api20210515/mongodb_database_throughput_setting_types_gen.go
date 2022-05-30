@@ -334,13 +334,13 @@ type MongodbDatabaseThroughputSettingList struct {
 // Deprecated version of DatabaseAccountsMongodbDatabasesThroughputSetting_STATUS. Use v1beta20210515.DatabaseAccountsMongodbDatabasesThroughputSetting_STATUS instead
 type DatabaseAccountsMongodbDatabasesThroughputSetting_STATUS struct {
 	// Conditions: The observed state of the resource
-	Conditions []conditions.Condition             `json:"conditions,omitempty"`
-	Id         *string                            `json:"id,omitempty"`
-	Location   *string                            `json:"location,omitempty"`
-	Name       *string                            `json:"name,omitempty"`
-	Resource   *ThroughputSettingsResource_STATUS `json:"resource,omitempty"`
-	Tags       map[string]string                  `json:"tags,omitempty"`
-	Type       *string                            `json:"type,omitempty"`
+	Conditions []conditions.Condition                           `json:"conditions,omitempty"`
+	Id         *string                                          `json:"id,omitempty"`
+	Location   *string                                          `json:"location,omitempty"`
+	Name       *string                                          `json:"name,omitempty"`
+	Resource   *ThroughputSettingsGetProperties_Resource_STATUS `json:"resource,omitempty"`
+	Tags       map[string]string                                `json:"tags,omitempty"`
+	Type       *string                                          `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &DatabaseAccountsMongodbDatabasesThroughputSetting_STATUS{}
@@ -431,7 +431,7 @@ func (setting *DatabaseAccountsMongodbDatabasesThroughputSetting_STATUS) Populat
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Resource != nil {
-			var resource1 ThroughputSettingsResource_STATUS
+			var resource1 ThroughputSettingsGetProperties_Resource_STATUS
 			err := resource1.PopulateFromARM(owner, *typedInput.Properties.Resource)
 			if err != nil {
 				return err
@@ -476,10 +476,10 @@ func (setting *DatabaseAccountsMongodbDatabasesThroughputSetting_STATUS) AssignP
 
 	// Resource
 	if source.Resource != nil {
-		var resource ThroughputSettingsResource_STATUS
-		err := resource.AssignPropertiesFromThroughputSettingsResource_STATUS(source.Resource)
+		var resource ThroughputSettingsGetProperties_Resource_STATUS
+		err := resource.AssignPropertiesFromThroughputSettingsGetProperties_Resource_STATUS(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsResource_STATUS() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		setting.Resource = &resource
 	} else {
@@ -515,10 +515,10 @@ func (setting *DatabaseAccountsMongodbDatabasesThroughputSetting_STATUS) AssignP
 
 	// Resource
 	if setting.Resource != nil {
-		var resource alpha20210515s.ThroughputSettingsResource_STATUS
-		err := setting.Resource.AssignPropertiesToThroughputSettingsResource_STATUS(&resource)
+		var resource alpha20210515s.ThroughputSettingsGetProperties_Resource_STATUS
+		err := setting.Resource.AssignPropertiesToThroughputSettingsGetProperties_Resource_STATUS(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsResource_STATUS() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {

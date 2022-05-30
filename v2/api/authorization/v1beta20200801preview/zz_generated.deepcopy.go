@@ -270,6 +270,11 @@ func (in *RoleAssignment_STATUS) DeepCopyInto(out *RoleAssignment_STATUS) {
 		*out = new(string)
 		**out = **in
 	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
 	if in.PrincipalId != nil {
 		in, out := &in.PrincipalId, &out.PrincipalId
 		*out = new(string)
@@ -287,6 +292,11 @@ func (in *RoleAssignment_STATUS) DeepCopyInto(out *RoleAssignment_STATUS) {
 	}
 	if in.Scope != nil {
 		in, out := &in.Scope, &out.Scope
+		*out = new(string)
+		**out = **in
+	}
+	if in.Type != nil {
+		in, out := &in.Type, &out.Type
 		*out = new(string)
 		**out = **in
 	}
@@ -320,10 +330,20 @@ func (in *RoleAssignment_STATUSARM) DeepCopyInto(out *RoleAssignment_STATUSARM) 
 		*out = new(string)
 		**out = **in
 	}
+	if in.Name != nil {
+		in, out := &in.Name, &out.Name
+		*out = new(string)
+		**out = **in
+	}
 	if in.Properties != nil {
 		in, out := &in.Properties, &out.Properties
 		*out = new(RoleAssignmentProperties_STATUSARM)
 		(*in).DeepCopyInto(*out)
+	}
+	if in.Type != nil {
+		in, out := &in.Type, &out.Type
+		*out = new(string)
+		**out = **in
 	}
 }
 

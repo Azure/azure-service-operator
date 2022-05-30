@@ -217,11 +217,13 @@ type RoleAssignment_STATUS struct {
 	DelegatedManagedIdentityResourceId *string                `json:"delegatedManagedIdentityResourceId,omitempty"`
 	Description                        *string                `json:"description,omitempty"`
 	Id                                 *string                `json:"id,omitempty"`
+	Name                               *string                `json:"name,omitempty"`
 	PrincipalId                        *string                `json:"principalId,omitempty"`
 	PrincipalType                      *string                `json:"principalType,omitempty"`
 	PropertyBag                        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	RoleDefinitionId                   *string                `json:"roleDefinitionId,omitempty"`
 	Scope                              *string                `json:"scope,omitempty"`
+	Type                               *string                `json:"type,omitempty"`
 	UpdatedBy                          *string                `json:"updatedBy,omitempty"`
 	UpdatedOn                          *string                `json:"updatedOn,omitempty"`
 }
@@ -305,6 +307,9 @@ func (assignment *RoleAssignment_STATUS) AssignPropertiesFromRoleAssignment_STAT
 	// Id
 	assignment.Id = genruntime.ClonePointerToString(source.Id)
 
+	// Name
+	assignment.Name = genruntime.ClonePointerToString(source.Name)
+
 	// PrincipalId
 	assignment.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
 
@@ -316,6 +321,9 @@ func (assignment *RoleAssignment_STATUS) AssignPropertiesFromRoleAssignment_STAT
 
 	// Scope
 	assignment.Scope = genruntime.ClonePointerToString(source.Scope)
+
+	// Type
+	assignment.Type = genruntime.ClonePointerToString(source.Type)
 
 	// UpdatedBy
 	assignment.UpdatedBy = genruntime.ClonePointerToString(source.UpdatedBy)
@@ -363,6 +371,9 @@ func (assignment *RoleAssignment_STATUS) AssignPropertiesToRoleAssignment_STATUS
 	// Id
 	destination.Id = genruntime.ClonePointerToString(assignment.Id)
 
+	// Name
+	destination.Name = genruntime.ClonePointerToString(assignment.Name)
+
 	// PrincipalId
 	destination.PrincipalId = genruntime.ClonePointerToString(assignment.PrincipalId)
 
@@ -374,6 +385,9 @@ func (assignment *RoleAssignment_STATUS) AssignPropertiesToRoleAssignment_STATUS
 
 	// Scope
 	destination.Scope = genruntime.ClonePointerToString(assignment.Scope)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(assignment.Type)
 
 	// UpdatedBy
 	destination.UpdatedBy = genruntime.ClonePointerToString(assignment.UpdatedBy)

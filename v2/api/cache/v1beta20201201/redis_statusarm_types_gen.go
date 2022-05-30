@@ -4,39 +4,67 @@
 package v1beta20201201
 
 type Redis_STATUSARM struct {
-	// Id: The ARM Id for this resource.
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
+	// Name: The name of the resource
+	Name *string `json:"name,omitempty"`
+
 	// Properties: Redis cache properties.
-	Properties *RedisCreateProperties_STATUSARM `json:"properties,omitempty"`
+	Properties *RedisProperties_STATUSARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
+
+	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+	Type *string `json:"type,omitempty"`
 
 	// Zones: A list of availability zones denoting where the resource needs to come from.
 	Zones []string `json:"zones,omitempty"`
 }
 
-type RedisCreateProperties_STATUSARM struct {
+type RedisProperties_STATUSARM struct {
+	// AccessKeys: The keys of the Redis cache - not set if this object is not the response to Create or Update redis cache
+	AccessKeys *RedisAccessKeys_STATUSARM `json:"accessKeys,omitempty"`
+
 	// EnableNonSslPort: Specifies whether the non-ssl Redis server port (6379) is enabled.
 	EnableNonSslPort *bool `json:"enableNonSslPort,omitempty"`
 
+	// HostName: Redis host name.
+	HostName *string `json:"hostName,omitempty"`
+
+	// Instances: List of the Redis instances associated with the cache
+	Instances []RedisInstanceDetails_STATUSARM `json:"instances,omitempty"`
+
+	// LinkedServers: List of the linked servers associated with the cache
+	LinkedServers []RedisLinkedServer_STATUSARM `json:"linkedServers,omitempty"`
+
 	// MinimumTlsVersion: Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1',
 	// '1.2')
-	MinimumTlsVersion *RedisCreateProperties_MinimumTlsVersion_STATUS `json:"minimumTlsVersion,omitempty"`
+	MinimumTlsVersion *RedisProperties_MinimumTlsVersion_STATUS `json:"minimumTlsVersion,omitempty"`
+
+	// Port: Redis non-SSL port.
+	Port *int `json:"port,omitempty"`
+
+	// PrivateEndpointConnections: List of private endpoint connection associated with the specified redis cache
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUSARM `json:"privateEndpointConnections,omitempty"`
+
+	// ProvisioningState: Redis instance provisioning status.
+	ProvisioningState *RedisProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccess: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed
 	// in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is
 	// 'Enabled'
-	PublicNetworkAccess *RedisCreateProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
+	PublicNetworkAccess *RedisProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
 
 	// RedisConfiguration: All Redis Settings. Few possible keys:
 	// rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta,maxmemory-policy,notify-keyspace-events,maxmemory-samples,slowlog-log-slower-than,slowlog-max-len,list-max-ziplist-entries,list-max-ziplist-value,hash-max-ziplist-entries,hash-max-ziplist-value,set-max-intset-entries,zset-max-ziplist-entries,zset-max-ziplist-value
 	// etc.
-	RedisConfiguration *RedisCreateProperties_RedisConfiguration_STATUSARM `json:"redisConfiguration,omitempty"`
+	RedisConfiguration map[string]string `json:"redisConfiguration,omitempty"`
 
 	// RedisVersion: Redis version. Only major version will be used in PUT/PATCH request with current valid values: (4, 6)
 	RedisVersion *string `json:"redisVersion,omitempty"`
@@ -53,6 +81,9 @@ type RedisCreateProperties_STATUSARM struct {
 	// Sku: The SKU of the Redis cache to deploy.
 	Sku *Sku_STATUSARM `json:"sku,omitempty"`
 
+	// SslPort: Redis SSL port.
+	SslPort *int `json:"sslPort,omitempty"`
+
 	// StaticIP: Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual
 	// Network; auto assigned by default.
 	StaticIP *string `json:"staticIP,omitempty"`
@@ -65,44 +96,43 @@ type RedisCreateProperties_STATUSARM struct {
 	TenantSettings map[string]string `json:"tenantSettings,omitempty"`
 }
 
-type RedisCreateProperties_RedisConfiguration_STATUSARM struct {
-	AdditionalProperties map[string]string `json:"additionalProperties,omitempty"`
+type PrivateEndpointConnection_STATUSARM struct {
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	Id *string `json:"id,omitempty"`
+}
 
-	// AofStorageConnectionString0: First storage account connection string
-	AofStorageConnectionString0 *string `json:"aof-storage-connection-string-0,omitempty"`
+type RedisAccessKeys_STATUSARM struct {
+	// PrimaryKey: The current primary key that clients can use to authenticate with Redis cache.
+	PrimaryKey *string `json:"primaryKey,omitempty"`
 
-	// AofStorageConnectionString1: Second storage account connection string
-	AofStorageConnectionString1 *string `json:"aof-storage-connection-string-1,omitempty"`
+	// SecondaryKey: The current secondary key that clients can use to authenticate with Redis cache.
+	SecondaryKey *string `json:"secondaryKey,omitempty"`
+}
 
-	// Maxclients: The max clients config
-	Maxclients *string `json:"maxclients,omitempty"`
+type RedisInstanceDetails_STATUSARM struct {
+	// IsMaster: Specifies whether the instance is a primary node.
+	IsMaster *bool `json:"isMaster,omitempty"`
 
-	// MaxfragmentationmemoryReserved: Value in megabytes reserved for fragmentation per shard
-	MaxfragmentationmemoryReserved *string `json:"maxfragmentationmemory-reserved,omitempty"`
+	// IsPrimary: Specifies whether the instance is a primary node.
+	IsPrimary *bool `json:"isPrimary,omitempty"`
 
-	// MaxmemoryDelta: Value in megabytes reserved for non-cache usage per shard e.g. failover.
-	MaxmemoryDelta *string `json:"maxmemory-delta,omitempty"`
+	// NonSslPort: If enableNonSslPort is true, provides Redis instance Non-SSL port.
+	NonSslPort *int `json:"nonSslPort,omitempty"`
 
-	// MaxmemoryPolicy: The eviction strategy used when your data won't fit within its memory limit.
-	MaxmemoryPolicy *string `json:"maxmemory-policy,omitempty"`
+	// ShardId: If clustering is enabled, the Shard ID of Redis Instance
+	ShardId *int `json:"shardId,omitempty"`
 
-	// MaxmemoryReserved: Value in megabytes reserved for non-cache usage per shard e.g. failover.
-	MaxmemoryReserved *string `json:"maxmemory-reserved,omitempty"`
+	// SslPort: Redis instance SSL port.
+	SslPort *int `json:"sslPort,omitempty"`
 
-	// RdbBackupEnabled: Specifies whether the rdb backup is enabled
-	RdbBackupEnabled *string `json:"rdb-backup-enabled,omitempty"`
+	// Zone: If the Cache uses availability zones, specifies availability zone where this instance is located.
+	Zone *string `json:"zone,omitempty"`
+}
 
-	// RdbBackupFrequency: Specifies the frequency for creating rdb backup
-	RdbBackupFrequency *string `json:"rdb-backup-frequency,omitempty"`
-
-	// RdbBackupMaxSnapshotCount: Specifies the maximum number of snapshots for rdb backup
-	RdbBackupMaxSnapshotCount *string `json:"rdb-backup-max-snapshot-count,omitempty"`
-
-	// RdbStorageConnectionString: The storage account connection string for storing rdb file
-	RdbStorageConnectionString *string `json:"rdb-storage-connection-string,omitempty"`
-
-	// ZonalConfiguration: Zonal Configuration
-	ZonalConfiguration *string `json:"zonal-configuration,omitempty"`
+type RedisLinkedServer_STATUSARM struct {
+	// Id: Linked server Id.
+	Id *string `json:"id,omitempty"`
 }
 
 type Sku_STATUSARM struct {

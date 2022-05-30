@@ -5,44 +5,63 @@ package v1alpha1api20201201
 
 // Deprecated version of Redis_STATUS. Use v1beta20201201.Redis_STATUS instead
 type Redis_STATUSARM struct {
-	Id         *string                          `json:"id,omitempty"`
-	Location   *string                          `json:"location,omitempty"`
-	Properties *RedisCreateProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                `json:"tags,omitempty"`
-	Zones      []string                         `json:"zones,omitempty"`
+	Id         *string                    `json:"id,omitempty"`
+	Location   *string                    `json:"location,omitempty"`
+	Name       *string                    `json:"name,omitempty"`
+	Properties *RedisProperties_STATUSARM `json:"properties,omitempty"`
+	Tags       map[string]string          `json:"tags,omitempty"`
+	Type       *string                    `json:"type,omitempty"`
+	Zones      []string                   `json:"zones,omitempty"`
 }
 
-// Deprecated version of RedisCreateProperties_STATUS. Use v1beta20201201.RedisCreateProperties_STATUS instead
-type RedisCreateProperties_STATUSARM struct {
-	EnableNonSslPort    *bool                                               `json:"enableNonSslPort,omitempty"`
-	MinimumTlsVersion   *RedisCreateProperties_MinimumTlsVersion_STATUS     `json:"minimumTlsVersion,omitempty"`
-	PublicNetworkAccess *RedisCreateProperties_PublicNetworkAccess_STATUS   `json:"publicNetworkAccess,omitempty"`
-	RedisConfiguration  *RedisCreateProperties_RedisConfiguration_STATUSARM `json:"redisConfiguration,omitempty"`
-	RedisVersion        *string                                             `json:"redisVersion,omitempty"`
-	ReplicasPerMaster   *int                                                `json:"replicasPerMaster,omitempty"`
-	ReplicasPerPrimary  *int                                                `json:"replicasPerPrimary,omitempty"`
-	ShardCount          *int                                                `json:"shardCount,omitempty"`
-	Sku                 *Sku_STATUSARM                                      `json:"sku,omitempty"`
-	StaticIP            *string                                             `json:"staticIP,omitempty"`
-	SubnetId            *string                                             `json:"subnetId,omitempty"`
-	TenantSettings      map[string]string                                   `json:"tenantSettings,omitempty"`
+// Deprecated version of RedisProperties_STATUS. Use v1beta20201201.RedisProperties_STATUS instead
+type RedisProperties_STATUSARM struct {
+	AccessKeys                 *RedisAccessKeys_STATUSARM                  `json:"accessKeys,omitempty"`
+	EnableNonSslPort           *bool                                       `json:"enableNonSslPort,omitempty"`
+	HostName                   *string                                     `json:"hostName,omitempty"`
+	Instances                  []RedisInstanceDetails_STATUSARM            `json:"instances,omitempty"`
+	LinkedServers              []RedisLinkedServer_STATUSARM               `json:"linkedServers,omitempty"`
+	MinimumTlsVersion          *RedisProperties_MinimumTlsVersion_STATUS   `json:"minimumTlsVersion,omitempty"`
+	Port                       *int                                        `json:"port,omitempty"`
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUSARM       `json:"privateEndpointConnections,omitempty"`
+	ProvisioningState          *RedisProperties_ProvisioningState_STATUS   `json:"provisioningState,omitempty"`
+	PublicNetworkAccess        *RedisProperties_PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
+	RedisConfiguration         map[string]string                           `json:"redisConfiguration,omitempty"`
+	RedisVersion               *string                                     `json:"redisVersion,omitempty"`
+	ReplicasPerMaster          *int                                        `json:"replicasPerMaster,omitempty"`
+	ReplicasPerPrimary         *int                                        `json:"replicasPerPrimary,omitempty"`
+	ShardCount                 *int                                        `json:"shardCount,omitempty"`
+	Sku                        *Sku_STATUSARM                              `json:"sku,omitempty"`
+	SslPort                    *int                                        `json:"sslPort,omitempty"`
+	StaticIP                   *string                                     `json:"staticIP,omitempty"`
+	SubnetId                   *string                                     `json:"subnetId,omitempty"`
+	TenantSettings             map[string]string                           `json:"tenantSettings,omitempty"`
 }
 
-// Deprecated version of RedisCreateProperties_RedisConfiguration_STATUS. Use v1beta20201201.RedisCreateProperties_RedisConfiguration_STATUS instead
-type RedisCreateProperties_RedisConfiguration_STATUSARM struct {
-	AdditionalProperties           map[string]string `json:"additionalProperties,omitempty"`
-	AofStorageConnectionString0    *string           `json:"aof-storage-connection-string-0,omitempty"`
-	AofStorageConnectionString1    *string           `json:"aof-storage-connection-string-1,omitempty"`
-	Maxclients                     *string           `json:"maxclients,omitempty"`
-	MaxfragmentationmemoryReserved *string           `json:"maxfragmentationmemory-reserved,omitempty"`
-	MaxmemoryDelta                 *string           `json:"maxmemory-delta,omitempty"`
-	MaxmemoryPolicy                *string           `json:"maxmemory-policy,omitempty"`
-	MaxmemoryReserved              *string           `json:"maxmemory-reserved,omitempty"`
-	RdbBackupEnabled               *string           `json:"rdb-backup-enabled,omitempty"`
-	RdbBackupFrequency             *string           `json:"rdb-backup-frequency,omitempty"`
-	RdbBackupMaxSnapshotCount      *string           `json:"rdb-backup-max-snapshot-count,omitempty"`
-	RdbStorageConnectionString     *string           `json:"rdb-storage-connection-string,omitempty"`
-	ZonalConfiguration             *string           `json:"zonal-configuration,omitempty"`
+// Deprecated version of PrivateEndpointConnection_STATUS. Use v1beta20201201.PrivateEndpointConnection_STATUS instead
+type PrivateEndpointConnection_STATUSARM struct {
+	Id *string `json:"id,omitempty"`
+}
+
+// Deprecated version of RedisAccessKeys_STATUS. Use v1beta20201201.RedisAccessKeys_STATUS instead
+type RedisAccessKeys_STATUSARM struct {
+	PrimaryKey   *string `json:"primaryKey,omitempty"`
+	SecondaryKey *string `json:"secondaryKey,omitempty"`
+}
+
+// Deprecated version of RedisInstanceDetails_STATUS. Use v1beta20201201.RedisInstanceDetails_STATUS instead
+type RedisInstanceDetails_STATUSARM struct {
+	IsMaster   *bool   `json:"isMaster,omitempty"`
+	IsPrimary  *bool   `json:"isPrimary,omitempty"`
+	NonSslPort *int    `json:"nonSslPort,omitempty"`
+	ShardId    *int    `json:"shardId,omitempty"`
+	SslPort    *int    `json:"sslPort,omitempty"`
+	Zone       *string `json:"zone,omitempty"`
+}
+
+// Deprecated version of RedisLinkedServer_STATUS. Use v1beta20201201.RedisLinkedServer_STATUS instead
+type RedisLinkedServer_STATUSARM struct {
+	Id *string `json:"id,omitempty"`
 }
 
 // Deprecated version of Sku_STATUS. Use v1beta20201201.Sku_STATUS instead

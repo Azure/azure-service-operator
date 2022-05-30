@@ -76,9 +76,9 @@ typeFilters:
     because: "TODO(donotmerge): ends up with nil due to above"
 
   - action: prune
-    name: CreateManagementGroupChildInfo
+    name: ManagementGroup
     group: management
-    because: directly recursive
+    because: Contains directly recursive type.
 
   - action: prune
     name: VirtualMachineExtension

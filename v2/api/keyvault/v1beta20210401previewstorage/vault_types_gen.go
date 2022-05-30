@@ -142,9 +142,12 @@ type Vault_STATUS struct {
 	Conditions  []conditions.Condition  `json:"conditions,omitempty"`
 	Id          *string                 `json:"id,omitempty"`
 	Location    *string                 `json:"location,omitempty"`
+	Name        *string                 `json:"name,omitempty"`
 	Properties  *VaultProperties_STATUS `json:"properties,omitempty"`
 	PropertyBag genruntime.PropertyBag  `json:"$propertyBag,omitempty"`
+	SystemData  *SystemData_STATUS      `json:"systemData,omitempty"`
 	Tags        map[string]string       `json:"tags,omitempty"`
+	Type        *string                 `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Vault_STATUS{}
@@ -203,6 +206,17 @@ func (vault *Vault_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpec) e
 	}
 
 	return destination.ConvertSpecFrom(vault)
+}
+
+// Storage version of v1beta20210401preview.SystemData_STATUS
+type SystemData_STATUS struct {
+	CreatedAt          *string                `json:"createdAt,omitempty"`
+	CreatedBy          *string                `json:"createdBy,omitempty"`
+	CreatedByType      *string                `json:"createdByType,omitempty"`
+	LastModifiedAt     *string                `json:"lastModifiedAt,omitempty"`
+	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
+	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
+	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210401preview.VaultProperties

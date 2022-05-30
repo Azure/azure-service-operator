@@ -133,15 +133,15 @@ type MongodbDatabaseCollectionList struct {
 
 // Storage version of v1beta20210515.DatabaseAccountsMongodbDatabasesCollection_STATUS
 type DatabaseAccountsMongodbDatabasesCollection_STATUS struct {
-	Conditions  []conditions.Condition            `json:"conditions,omitempty"`
-	Id          *string                           `json:"id,omitempty"`
-	Location    *string                           `json:"location,omitempty"`
-	Name        *string                           `json:"name,omitempty"`
-	Options     *CreateUpdateOptions_STATUS       `json:"options,omitempty"`
-	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	Resource    *MongoDBCollectionResource_STATUS `json:"resource,omitempty"`
-	Tags        map[string]string                 `json:"tags,omitempty"`
-	Type        *string                           `json:"type,omitempty"`
+	Conditions  []conditions.Condition                          `json:"conditions,omitempty"`
+	Id          *string                                         `json:"id,omitempty"`
+	Location    *string                                         `json:"location,omitempty"`
+	Name        *string                                         `json:"name,omitempty"`
+	Options     *OptionsResource_STATUS                         `json:"options,omitempty"`
+	PropertyBag genruntime.PropertyBag                          `json:"$propertyBag,omitempty"`
+	Resource    *MongoDBCollectionGetProperties_Resource_STATUS `json:"resource,omitempty"`
+	Tags        map[string]string                               `json:"tags,omitempty"`
+	Type        *string                                         `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &DatabaseAccountsMongodbDatabasesCollection_STATUS{}
@@ -205,20 +205,23 @@ func (collection *DatabaseAccountsMongodbDatabasesCollection_Spec) ConvertSpecTo
 	return destination.ConvertSpecFrom(collection)
 }
 
+// Storage version of v1beta20210515.MongoDBCollectionGetProperties_Resource_STATUS
+type MongoDBCollectionGetProperties_Resource_STATUS struct {
+	AnalyticalStorageTtl *int                   `json:"analyticalStorageTtl,omitempty"`
+	Id                   *string                `json:"id,omitempty"`
+	Indexes              []MongoIndex_STATUS    `json:"indexes,omitempty"`
+	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ShardKey             map[string]string      `json:"shardKey,omitempty"`
+	_Etag                *string                `json:"_etag,omitempty"`
+	_Rid                 *string                `json:"_rid,omitempty"`
+	_Ts                  *float64               `json:"_ts,omitempty"`
+}
+
 // Storage version of v1beta20210515.MongoDBCollectionResource
 type MongoDBCollectionResource struct {
 	AnalyticalStorageTtl *int                   `json:"analyticalStorageTtl,omitempty"`
 	Id                   *string                `json:"id,omitempty"`
 	Indexes              []MongoIndex           `json:"indexes,omitempty"`
-	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ShardKey             map[string]string      `json:"shardKey,omitempty"`
-}
-
-// Storage version of v1beta20210515.MongoDBCollectionResource_STATUS
-type MongoDBCollectionResource_STATUS struct {
-	AnalyticalStorageTtl *int                   `json:"analyticalStorageTtl,omitempty"`
-	Id                   *string                `json:"id,omitempty"`
-	Indexes              []MongoIndex_STATUS    `json:"indexes,omitempty"`
 	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	ShardKey             map[string]string      `json:"shardKey,omitempty"`
 }

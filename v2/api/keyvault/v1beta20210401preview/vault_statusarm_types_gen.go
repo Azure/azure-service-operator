@@ -4,17 +4,46 @@
 package v1beta20210401preview
 
 type Vault_STATUSARM struct {
-	// Id: The ARM Id for this resource.
+	// Id: Fully qualified identifier of the key vault resource.
 	Id *string `json:"id,omitempty"`
 
-	// Location: The supported Azure location where the key vault should be created.
+	// Location: Azure location of the key vault resource.
 	Location *string `json:"location,omitempty"`
+
+	// Name: Name of the key vault resource.
+	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the vault
 	Properties *VaultProperties_STATUSARM `json:"properties,omitempty"`
 
-	// Tags: The tags that will be assigned to the key vault.
+	// SystemData: System metadata for the key vault.
+	SystemData *SystemData_STATUSARM `json:"systemData,omitempty"`
+
+	// Tags: Tags assigned to the key vault resource.
 	Tags map[string]string `json:"tags,omitempty"`
+
+	// Type: Resource type of the key vault resource.
+	Type *string `json:"type,omitempty"`
+}
+
+type SystemData_STATUSARM struct {
+	// CreatedAt: The timestamp of the key vault resource creation (UTC).
+	CreatedAt *string `json:"createdAt,omitempty"`
+
+	// CreatedBy: The identity that created the key vault resource.
+	CreatedBy *string `json:"createdBy,omitempty"`
+
+	// CreatedByType: The type of identity that created the key vault resource.
+	CreatedByType *IdentityType_STATUS `json:"createdByType,omitempty"`
+
+	// LastModifiedAt: The timestamp of the key vault resource last modification (UTC).
+	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
+
+	// LastModifiedBy: The identity that last modified the key vault resource.
+	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
+
+	// LastModifiedByType: The type of identity that last modified the key vault resource.
+	LastModifiedByType *IdentityType_STATUS `json:"lastModifiedByType,omitempty"`
 }
 
 type VaultProperties_STATUSARM struct {
@@ -95,6 +124,15 @@ type AccessPolicyEntry_STATUSARM struct {
 	// TenantId: The Azure Active Directory tenant ID that should be used for authenticating requests to the key vault.
 	TenantId *string `json:"tenantId,omitempty"`
 }
+
+type IdentityType_STATUS string
+
+const (
+	IdentityType_Application_STATUS     = IdentityType_STATUS("Application")
+	IdentityType_Key_STATUS             = IdentityType_STATUS("Key")
+	IdentityType_ManagedIdentity_STATUS = IdentityType_STATUS("ManagedIdentity")
+	IdentityType_User_STATUS            = IdentityType_STATUS("User")
+)
 
 type NetworkRuleSet_STATUSARM struct {
 	// Bypass: Tells what traffic can bypass network rules. This can be 'AzureServices' or 'None'.  If not specified the

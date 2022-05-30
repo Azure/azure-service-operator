@@ -5,10 +5,10 @@ package v1alpha1api20210515
 
 // Deprecated version of DatabaseAccountsMongodbDatabasesThroughputSetting_STATUS. Use v1beta20210515.DatabaseAccountsMongodbDatabasesThroughputSetting_STATUS instead
 type DatabaseAccountsMongodbDatabasesThroughputSetting_STATUSARM struct {
-	Id         *string                                       `json:"id,omitempty"`
-	Location   *string                                       `json:"location,omitempty"`
-	Name       *string                                       `json:"name,omitempty"`
-	Properties *ThroughputSettingsUpdateProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                             `json:"tags,omitempty"`
-	Type       *string                                       `json:"type,omitempty"`
+	Id         *string                                    `json:"id,omitempty"`
+	Location   *string                                    `json:"location,omitempty"`
+	Name       *string                                    `json:"name,omitempty"`
+	Properties *ThroughputSettingsGetProperties_STATUSARM `json:"properties,omitempty"`
+	Tags       map[string]string                          `json:"tags,omitempty"`
+	Type       *string                                    `json:"type,omitempty"`
 }

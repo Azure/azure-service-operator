@@ -13,9 +13,9 @@ type DatabaseAccountsSqlDatabasesContainersThroughputSetting_STATUSARM struct {
 	// Name: The name of the ARM resource.
 	Name *string `json:"name,omitempty"`
 
-	// Properties: Properties to update Azure Cosmos DB resource throughput.
-	Properties *ThroughputSettingsUpdateProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                             `json:"tags,omitempty"`
+	// Properties: The properties of an Azure Cosmos DB resource throughput
+	Properties *ThroughputSettingsGetProperties_STATUSARM `json:"properties,omitempty"`
+	Tags       map[string]string                          `json:"tags,omitempty"`
 
 	// Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`

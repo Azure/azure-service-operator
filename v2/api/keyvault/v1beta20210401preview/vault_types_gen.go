@@ -328,17 +328,26 @@ type Vault_STATUS struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
 
-	// Id: The ARM Id for this resource.
+	// Id: Fully qualified identifier of the key vault resource.
 	Id *string `json:"id,omitempty"`
 
-	// Location: The supported Azure location where the key vault should be created.
+	// Location: Azure location of the key vault resource.
 	Location *string `json:"location,omitempty"`
+
+	// Name: Name of the key vault resource.
+	Name *string `json:"name,omitempty"`
 
 	// Properties: Properties of the vault
 	Properties *VaultProperties_STATUS `json:"properties,omitempty"`
 
-	// Tags: The tags that will be assigned to the key vault.
+	// SystemData: System metadata for the key vault.
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
+
+	// Tags: Tags assigned to the key vault resource.
 	Tags map[string]string `json:"tags,omitempty"`
+
+	// Type: Resource type of the key vault resource.
+	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &Vault_STATUS{}
@@ -419,6 +428,12 @@ func (vault *Vault_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		vault.Location = &location
 	}
 
+	// Set property ‘Name’:
+	if typedInput.Name != nil {
+		name := *typedInput.Name
+		vault.Name = &name
+	}
+
 	// Set property ‘Properties’:
 	if typedInput.Properties != nil {
 		var properties1 VaultProperties_STATUS
@@ -430,12 +445,29 @@ func (vault *Vault_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 		vault.Properties = &properties
 	}
 
+	// Set property ‘SystemData’:
+	if typedInput.SystemData != nil {
+		var systemData1 SystemData_STATUS
+		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
+		if err != nil {
+			return err
+		}
+		systemData := systemData1
+		vault.SystemData = &systemData
+	}
+
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
 		vault.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
 			vault.Tags[key] = value
 		}
+	}
+
+	// Set property ‘Type’:
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		vault.Type = &typeVar
 	}
 
 	// No error
@@ -454,6 +486,9 @@ func (vault *Vault_STATUS) AssignPropertiesFromVault_STATUS(source *v20210401ps.
 	// Location
 	vault.Location = genruntime.ClonePointerToString(source.Location)
 
+	// Name
+	vault.Name = genruntime.ClonePointerToString(source.Name)
+
 	// Properties
 	if source.Properties != nil {
 		var property VaultProperties_STATUS
@@ -466,8 +501,23 @@ func (vault *Vault_STATUS) AssignPropertiesFromVault_STATUS(source *v20210401ps.
 		vault.Properties = nil
 	}
 
+	// SystemData
+	if source.SystemData != nil {
+		var systemDatum SystemData_STATUS
+		err := systemDatum.AssignPropertiesFromSystemData_STATUS(source.SystemData)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromSystemData_STATUS() to populate field SystemData")
+		}
+		vault.SystemData = &systemDatum
+	} else {
+		vault.SystemData = nil
+	}
+
 	// Tags
 	vault.Tags = genruntime.CloneMapOfStringToString(source.Tags)
+
+	// Type
+	vault.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -487,6 +537,9 @@ func (vault *Vault_STATUS) AssignPropertiesToVault_STATUS(destination *v20210401
 	// Location
 	destination.Location = genruntime.ClonePointerToString(vault.Location)
 
+	// Name
+	destination.Name = genruntime.ClonePointerToString(vault.Name)
+
 	// Properties
 	if vault.Properties != nil {
 		var property v20210401ps.VaultProperties_STATUS
@@ -499,8 +552,23 @@ func (vault *Vault_STATUS) AssignPropertiesToVault_STATUS(destination *v20210401
 		destination.Properties = nil
 	}
 
+	// SystemData
+	if vault.SystemData != nil {
+		var systemDatum v20210401ps.SystemData_STATUS
+		err := vault.SystemData.AssignPropertiesToSystemData_STATUS(&systemDatum)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToSystemData_STATUS() to populate field SystemData")
+		}
+		destination.SystemData = &systemDatum
+	} else {
+		destination.SystemData = nil
+	}
+
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(vault.Tags)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(vault.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -767,6 +835,159 @@ func (vault *Vault_Spec) OriginalVersion() string {
 
 // SetAzureName sets the Azure name of the resource
 func (vault *Vault_Spec) SetAzureName(azureName string) { vault.AzureName = azureName }
+
+type SystemData_STATUS struct {
+	// CreatedAt: The timestamp of the key vault resource creation (UTC).
+	CreatedAt *string `json:"createdAt,omitempty"`
+
+	// CreatedBy: The identity that created the key vault resource.
+	CreatedBy *string `json:"createdBy,omitempty"`
+
+	// CreatedByType: The type of identity that created the key vault resource.
+	CreatedByType *IdentityType_STATUS `json:"createdByType,omitempty"`
+
+	// LastModifiedAt: The timestamp of the key vault resource last modification (UTC).
+	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
+
+	// LastModifiedBy: The identity that last modified the key vault resource.
+	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
+
+	// LastModifiedByType: The type of identity that last modified the key vault resource.
+	LastModifiedByType *IdentityType_STATUS `json:"lastModifiedByType,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &SystemData_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (data *SystemData_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SystemData_STATUSARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (data *SystemData_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(SystemData_STATUSARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemData_STATUSARM, got %T", armInput)
+	}
+
+	// Set property ‘CreatedAt’:
+	if typedInput.CreatedAt != nil {
+		createdAt := *typedInput.CreatedAt
+		data.CreatedAt = &createdAt
+	}
+
+	// Set property ‘CreatedBy’:
+	if typedInput.CreatedBy != nil {
+		createdBy := *typedInput.CreatedBy
+		data.CreatedBy = &createdBy
+	}
+
+	// Set property ‘CreatedByType’:
+	if typedInput.CreatedByType != nil {
+		createdByType := *typedInput.CreatedByType
+		data.CreatedByType = &createdByType
+	}
+
+	// Set property ‘LastModifiedAt’:
+	if typedInput.LastModifiedAt != nil {
+		lastModifiedAt := *typedInput.LastModifiedAt
+		data.LastModifiedAt = &lastModifiedAt
+	}
+
+	// Set property ‘LastModifiedBy’:
+	if typedInput.LastModifiedBy != nil {
+		lastModifiedBy := *typedInput.LastModifiedBy
+		data.LastModifiedBy = &lastModifiedBy
+	}
+
+	// Set property ‘LastModifiedByType’:
+	if typedInput.LastModifiedByType != nil {
+		lastModifiedByType := *typedInput.LastModifiedByType
+		data.LastModifiedByType = &lastModifiedByType
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromSystemData_STATUS populates our SystemData_STATUS from the provided source SystemData_STATUS
+func (data *SystemData_STATUS) AssignPropertiesFromSystemData_STATUS(source *v20210401ps.SystemData_STATUS) error {
+
+	// CreatedAt
+	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
+
+	// CreatedBy
+	data.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
+
+	// CreatedByType
+	if source.CreatedByType != nil {
+		createdByType := IdentityType_STATUS(*source.CreatedByType)
+		data.CreatedByType = &createdByType
+	} else {
+		data.CreatedByType = nil
+	}
+
+	// LastModifiedAt
+	data.LastModifiedAt = genruntime.ClonePointerToString(source.LastModifiedAt)
+
+	// LastModifiedBy
+	data.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
+
+	// LastModifiedByType
+	if source.LastModifiedByType != nil {
+		lastModifiedByType := IdentityType_STATUS(*source.LastModifiedByType)
+		data.LastModifiedByType = &lastModifiedByType
+	} else {
+		data.LastModifiedByType = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToSystemData_STATUS populates the provided destination SystemData_STATUS from our SystemData_STATUS
+func (data *SystemData_STATUS) AssignPropertiesToSystemData_STATUS(destination *v20210401ps.SystemData_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// CreatedAt
+	destination.CreatedAt = genruntime.ClonePointerToString(data.CreatedAt)
+
+	// CreatedBy
+	destination.CreatedBy = genruntime.ClonePointerToString(data.CreatedBy)
+
+	// CreatedByType
+	if data.CreatedByType != nil {
+		createdByType := string(*data.CreatedByType)
+		destination.CreatedByType = &createdByType
+	} else {
+		destination.CreatedByType = nil
+	}
+
+	// LastModifiedAt
+	destination.LastModifiedAt = genruntime.ClonePointerToString(data.LastModifiedAt)
+
+	// LastModifiedBy
+	destination.LastModifiedBy = genruntime.ClonePointerToString(data.LastModifiedBy)
+
+	// LastModifiedByType
+	if data.LastModifiedByType != nil {
+		lastModifiedByType := string(*data.LastModifiedByType)
+		destination.LastModifiedByType = &lastModifiedByType
+	} else {
+		destination.LastModifiedByType = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
 
 type VaultProperties struct {
 	// AccessPolicies: An array of 0 to 1024 identities that have access to the key vault. All identities in the array must use

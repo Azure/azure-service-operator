@@ -2722,38 +2722,9 @@ func (domain *CustomDomain) AssignPropertiesToCustomDomain(destination *v2021060
 }
 
 type CustomDomain_STATUS struct {
-	// CustomHttpsParameters: Certificate parameters for securing custom HTTPS
-	CustomHttpsParameters *CustomDomainHttpsParameters_STATUS `json:"customHttpsParameters,omitempty"`
-
-	// CustomHttpsProvisioningState: Provisioning status of the custom domain.
-	CustomHttpsProvisioningState *CustomDomainProperties_CustomHttpsProvisioningState_STATUS `json:"customHttpsProvisioningState,omitempty"`
-
-	// CustomHttpsProvisioningSubstate: Provisioning substate shows the progress of custom HTTPS enabling/disabling process
-	// step by step.
-	CustomHttpsProvisioningSubstate *CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS `json:"customHttpsProvisioningSubstate,omitempty"`
-
-	// HostName: The host name of the custom domain. Must be a domain name.
-	HostName *string `json:"hostName,omitempty"`
-
 	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	// Name: Resource name.
-	Name *string `json:"name,omitempty"`
-
-	// ProvisioningState: Provisioning status of Custom Https of the custom domain.
-	ProvisioningState *CustomDomainProperties_ProvisioningState_STATUS `json:"provisioningState,omitempty"`
-
-	// ResourceState: Resource status of the custom domain.
-	ResourceState *CustomDomainProperties_ResourceState_STATUS `json:"resourceState,omitempty"`
-	SystemData    *SystemData_STATUS                           `json:"systemData,omitempty"`
-
-	// Type: Resource type.
-	Type *string `json:"type,omitempty"`
-
-	// ValidationData: Special validation or data may be required when delivering CDN to some regions due to local compliance
-	// reasons. E.g. ICP license number of a custom domain is required to deliver content in China.
-	ValidationData *string `json:"validationData,omitempty"`
+	Id         *string            `json:"id,omitempty"`
+	SystemData *SystemData_STATUS `json:"systemData,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &CustomDomain_STATUS{}
@@ -2770,75 +2741,10 @@ func (domain *CustomDomain_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CustomDomain_STATUSARM, got %T", armInput)
 	}
 
-	// Set property ‘CustomHttpsParameters’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.CustomHttpsParameters != nil {
-			var customHttpsParameters1 CustomDomainHttpsParameters_STATUS
-			err := customHttpsParameters1.PopulateFromARM(owner, *typedInput.Properties.CustomHttpsParameters)
-			if err != nil {
-				return err
-			}
-			customHttpsParameters := customHttpsParameters1
-			domain.CustomHttpsParameters = &customHttpsParameters
-		}
-	}
-
-	// Set property ‘CustomHttpsProvisioningState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.CustomHttpsProvisioningState != nil {
-			customHttpsProvisioningState := *typedInput.Properties.CustomHttpsProvisioningState
-			domain.CustomHttpsProvisioningState = &customHttpsProvisioningState
-		}
-	}
-
-	// Set property ‘CustomHttpsProvisioningSubstate’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.CustomHttpsProvisioningSubstate != nil {
-			customHttpsProvisioningSubstate := *typedInput.Properties.CustomHttpsProvisioningSubstate
-			domain.CustomHttpsProvisioningSubstate = &customHttpsProvisioningSubstate
-		}
-	}
-
-	// Set property ‘HostName’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.HostName != nil {
-			hostName := *typedInput.Properties.HostName
-			domain.HostName = &hostName
-		}
-	}
-
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		domain.Id = &id
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		domain.Name = &name
-	}
-
-	// Set property ‘ProvisioningState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
-			domain.ProvisioningState = &provisioningState
-		}
-	}
-
-	// Set property ‘ResourceState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ResourceState != nil {
-			resourceState := *typedInput.Properties.ResourceState
-			domain.ResourceState = &resourceState
-		}
 	}
 
 	// Set property ‘SystemData’:
@@ -2852,21 +2758,6 @@ func (domain *CustomDomain_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 		domain.SystemData = &systemData
 	}
 
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		domain.Type = &typeVar
-	}
-
-	// Set property ‘ValidationData’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ValidationData != nil {
-			validationData := *typedInput.Properties.ValidationData
-			domain.ValidationData = &validationData
-		}
-	}
-
 	// No error
 	return nil
 }
@@ -2874,58 +2765,8 @@ func (domain *CustomDomain_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 // AssignPropertiesFromCustomDomain_STATUS populates our CustomDomain_STATUS from the provided source CustomDomain_STATUS
 func (domain *CustomDomain_STATUS) AssignPropertiesFromCustomDomain_STATUS(source *v20210601s.CustomDomain_STATUS) error {
 
-	// CustomHttpsParameters
-	if source.CustomHttpsParameters != nil {
-		var customHttpsParameter CustomDomainHttpsParameters_STATUS
-		err := customHttpsParameter.AssignPropertiesFromCustomDomainHttpsParameters_STATUS(source.CustomHttpsParameters)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromCustomDomainHttpsParameters_STATUS() to populate field CustomHttpsParameters")
-		}
-		domain.CustomHttpsParameters = &customHttpsParameter
-	} else {
-		domain.CustomHttpsParameters = nil
-	}
-
-	// CustomHttpsProvisioningState
-	if source.CustomHttpsProvisioningState != nil {
-		customHttpsProvisioningState := CustomDomainProperties_CustomHttpsProvisioningState_STATUS(*source.CustomHttpsProvisioningState)
-		domain.CustomHttpsProvisioningState = &customHttpsProvisioningState
-	} else {
-		domain.CustomHttpsProvisioningState = nil
-	}
-
-	// CustomHttpsProvisioningSubstate
-	if source.CustomHttpsProvisioningSubstate != nil {
-		customHttpsProvisioningSubstate := CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS(*source.CustomHttpsProvisioningSubstate)
-		domain.CustomHttpsProvisioningSubstate = &customHttpsProvisioningSubstate
-	} else {
-		domain.CustomHttpsProvisioningSubstate = nil
-	}
-
-	// HostName
-	domain.HostName = genruntime.ClonePointerToString(source.HostName)
-
 	// Id
 	domain.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Name
-	domain.Name = genruntime.ClonePointerToString(source.Name)
-
-	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := CustomDomainProperties_ProvisioningState_STATUS(*source.ProvisioningState)
-		domain.ProvisioningState = &provisioningState
-	} else {
-		domain.ProvisioningState = nil
-	}
-
-	// ResourceState
-	if source.ResourceState != nil {
-		resourceState := CustomDomainProperties_ResourceState_STATUS(*source.ResourceState)
-		domain.ResourceState = &resourceState
-	} else {
-		domain.ResourceState = nil
-	}
 
 	// SystemData
 	if source.SystemData != nil {
@@ -2939,12 +2780,6 @@ func (domain *CustomDomain_STATUS) AssignPropertiesFromCustomDomain_STATUS(sourc
 		domain.SystemData = nil
 	}
 
-	// Type
-	domain.Type = genruntime.ClonePointerToString(source.Type)
-
-	// ValidationData
-	domain.ValidationData = genruntime.ClonePointerToString(source.ValidationData)
-
 	// No error
 	return nil
 }
@@ -2954,58 +2789,8 @@ func (domain *CustomDomain_STATUS) AssignPropertiesToCustomDomain_STATUS(destina
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// CustomHttpsParameters
-	if domain.CustomHttpsParameters != nil {
-		var customHttpsParameter v20210601s.CustomDomainHttpsParameters_STATUS
-		err := domain.CustomHttpsParameters.AssignPropertiesToCustomDomainHttpsParameters_STATUS(&customHttpsParameter)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToCustomDomainHttpsParameters_STATUS() to populate field CustomHttpsParameters")
-		}
-		destination.CustomHttpsParameters = &customHttpsParameter
-	} else {
-		destination.CustomHttpsParameters = nil
-	}
-
-	// CustomHttpsProvisioningState
-	if domain.CustomHttpsProvisioningState != nil {
-		customHttpsProvisioningState := string(*domain.CustomHttpsProvisioningState)
-		destination.CustomHttpsProvisioningState = &customHttpsProvisioningState
-	} else {
-		destination.CustomHttpsProvisioningState = nil
-	}
-
-	// CustomHttpsProvisioningSubstate
-	if domain.CustomHttpsProvisioningSubstate != nil {
-		customHttpsProvisioningSubstate := string(*domain.CustomHttpsProvisioningSubstate)
-		destination.CustomHttpsProvisioningSubstate = &customHttpsProvisioningSubstate
-	} else {
-		destination.CustomHttpsProvisioningSubstate = nil
-	}
-
-	// HostName
-	destination.HostName = genruntime.ClonePointerToString(domain.HostName)
-
 	// Id
 	destination.Id = genruntime.ClonePointerToString(domain.Id)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(domain.Name)
-
-	// ProvisioningState
-	if domain.ProvisioningState != nil {
-		provisioningState := string(*domain.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
-
-	// ResourceState
-	if domain.ResourceState != nil {
-		resourceState := string(*domain.ResourceState)
-		destination.ResourceState = &resourceState
-	} else {
-		destination.ResourceState = nil
-	}
 
 	// SystemData
 	if domain.SystemData != nil {
@@ -3018,12 +2803,6 @@ func (domain *CustomDomain_STATUS) AssignPropertiesToCustomDomain_STATUS(destina
 	} else {
 		destination.SystemData = nil
 	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(domain.Type)
-
-	// ValidationData
-	destination.ValidationData = genruntime.ClonePointerToString(domain.ValidationData)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -5456,124 +5235,6 @@ func (parameters *CustomDomainHttpsParameters) AssignPropertiesToCustomDomainHtt
 	return nil
 }
 
-type CustomDomainHttpsParameters_STATUS struct {
-	// CertificateSource: Defines the source of the SSL certificate.
-	CertificateSource *CustomDomainHttpsParameters_CertificateSource_STATUS `json:"certificateSource,omitempty"`
-
-	// MinimumTlsVersion: TLS protocol version that will be used for Https
-	MinimumTlsVersion *CustomDomainHttpsParameters_MinimumTlsVersion_STATUS `json:"minimumTlsVersion,omitempty"`
-
-	// ProtocolType: Defines the TLS extension protocol that is used for secure delivery.
-	ProtocolType *CustomDomainHttpsParameters_ProtocolType_STATUS `json:"protocolType,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &CustomDomainHttpsParameters_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *CustomDomainHttpsParameters_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CustomDomainHttpsParameters_STATUSARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *CustomDomainHttpsParameters_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CustomDomainHttpsParameters_STATUSARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CustomDomainHttpsParameters_STATUSARM, got %T", armInput)
-	}
-
-	// Set property ‘CertificateSource’:
-	if typedInput.CertificateSource != nil {
-		certificateSource := *typedInput.CertificateSource
-		parameters.CertificateSource = &certificateSource
-	}
-
-	// Set property ‘MinimumTlsVersion’:
-	if typedInput.MinimumTlsVersion != nil {
-		minimumTlsVersion := *typedInput.MinimumTlsVersion
-		parameters.MinimumTlsVersion = &minimumTlsVersion
-	}
-
-	// Set property ‘ProtocolType’:
-	if typedInput.ProtocolType != nil {
-		protocolType := *typedInput.ProtocolType
-		parameters.ProtocolType = &protocolType
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromCustomDomainHttpsParameters_STATUS populates our CustomDomainHttpsParameters_STATUS from the provided source CustomDomainHttpsParameters_STATUS
-func (parameters *CustomDomainHttpsParameters_STATUS) AssignPropertiesFromCustomDomainHttpsParameters_STATUS(source *v20210601s.CustomDomainHttpsParameters_STATUS) error {
-
-	// CertificateSource
-	if source.CertificateSource != nil {
-		certificateSource := CustomDomainHttpsParameters_CertificateSource_STATUS(*source.CertificateSource)
-		parameters.CertificateSource = &certificateSource
-	} else {
-		parameters.CertificateSource = nil
-	}
-
-	// MinimumTlsVersion
-	if source.MinimumTlsVersion != nil {
-		minimumTlsVersion := CustomDomainHttpsParameters_MinimumTlsVersion_STATUS(*source.MinimumTlsVersion)
-		parameters.MinimumTlsVersion = &minimumTlsVersion
-	} else {
-		parameters.MinimumTlsVersion = nil
-	}
-
-	// ProtocolType
-	if source.ProtocolType != nil {
-		protocolType := CustomDomainHttpsParameters_ProtocolType_STATUS(*source.ProtocolType)
-		parameters.ProtocolType = &protocolType
-	} else {
-		parameters.ProtocolType = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToCustomDomainHttpsParameters_STATUS populates the provided destination CustomDomainHttpsParameters_STATUS from our CustomDomainHttpsParameters_STATUS
-func (parameters *CustomDomainHttpsParameters_STATUS) AssignPropertiesToCustomDomainHttpsParameters_STATUS(destination *v20210601s.CustomDomainHttpsParameters_STATUS) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// CertificateSource
-	if parameters.CertificateSource != nil {
-		certificateSource := string(*parameters.CertificateSource)
-		destination.CertificateSource = &certificateSource
-	} else {
-		destination.CertificateSource = nil
-	}
-
-	// MinimumTlsVersion
-	if parameters.MinimumTlsVersion != nil {
-		minimumTlsVersion := string(*parameters.MinimumTlsVersion)
-		destination.MinimumTlsVersion = &minimumTlsVersion
-	} else {
-		destination.MinimumTlsVersion = nil
-	}
-
-	// ProtocolType
-	if parameters.ProtocolType != nil {
-		protocolType := string(*parameters.ProtocolType)
-		destination.ProtocolType = &protocolType
-	} else {
-		destination.ProtocolType = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // +kubebuilder:validation:Enum={"Disabled","Disabling","Enabled","Enabling","Failed"}
 type CustomDomainProperties_CustomHttpsProvisioningState string
 
@@ -5583,16 +5244,6 @@ const (
 	CustomDomainProperties_CustomHttpsProvisioningState_Enabled   = CustomDomainProperties_CustomHttpsProvisioningState("Enabled")
 	CustomDomainProperties_CustomHttpsProvisioningState_Enabling  = CustomDomainProperties_CustomHttpsProvisioningState("Enabling")
 	CustomDomainProperties_CustomHttpsProvisioningState_Failed    = CustomDomainProperties_CustomHttpsProvisioningState("Failed")
-)
-
-type CustomDomainProperties_CustomHttpsProvisioningState_STATUS string
-
-const (
-	CustomDomainProperties_CustomHttpsProvisioningState_Disabled_STATUS  = CustomDomainProperties_CustomHttpsProvisioningState_STATUS("Disabled")
-	CustomDomainProperties_CustomHttpsProvisioningState_Disabling_STATUS = CustomDomainProperties_CustomHttpsProvisioningState_STATUS("Disabling")
-	CustomDomainProperties_CustomHttpsProvisioningState_Enabled_STATUS   = CustomDomainProperties_CustomHttpsProvisioningState_STATUS("Enabled")
-	CustomDomainProperties_CustomHttpsProvisioningState_Enabling_STATUS  = CustomDomainProperties_CustomHttpsProvisioningState_STATUS("Enabling")
-	CustomDomainProperties_CustomHttpsProvisioningState_Failed_STATUS    = CustomDomainProperties_CustomHttpsProvisioningState_STATUS("Failed")
 )
 
 // +kubebuilder:validation:Enum={"CertificateDeleted","CertificateDeployed","DeletingCertificate","DeployingCertificate","DomainControlValidationRequestApproved","DomainControlValidationRequestRejected","DomainControlValidationRequestTimedOut","IssuingCertificate","PendingDomainControlValidationREquestApproval","SubmittingDomainControlValidationRequest"}
@@ -5611,21 +5262,6 @@ const (
 	CustomDomainProperties_CustomHttpsProvisioningSubstate_SubmittingDomainControlValidationRequest      = CustomDomainProperties_CustomHttpsProvisioningSubstate("SubmittingDomainControlValidationRequest")
 )
 
-type CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS string
-
-const (
-	CustomDomainProperties_CustomHttpsProvisioningSubstate_CertificateDeleted_STATUS                            = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("CertificateDeleted")
-	CustomDomainProperties_CustomHttpsProvisioningSubstate_CertificateDeployed_STATUS                           = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("CertificateDeployed")
-	CustomDomainProperties_CustomHttpsProvisioningSubstate_DeletingCertificate_STATUS                           = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("DeletingCertificate")
-	CustomDomainProperties_CustomHttpsProvisioningSubstate_DeployingCertificate_STATUS                          = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("DeployingCertificate")
-	CustomDomainProperties_CustomHttpsProvisioningSubstate_DomainControlValidationRequestApproved_STATUS        = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("DomainControlValidationRequestApproved")
-	CustomDomainProperties_CustomHttpsProvisioningSubstate_DomainControlValidationRequestRejected_STATUS        = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("DomainControlValidationRequestRejected")
-	CustomDomainProperties_CustomHttpsProvisioningSubstate_DomainControlValidationRequestTimedOut_STATUS        = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("DomainControlValidationRequestTimedOut")
-	CustomDomainProperties_CustomHttpsProvisioningSubstate_IssuingCertificate_STATUS                            = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("IssuingCertificate")
-	CustomDomainProperties_CustomHttpsProvisioningSubstate_PendingDomainControlValidationREquestApproval_STATUS = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("PendingDomainControlValidationREquestApproval")
-	CustomDomainProperties_CustomHttpsProvisioningSubstate_SubmittingDomainControlValidationRequest_STATUS      = CustomDomainProperties_CustomHttpsProvisioningSubstate_STATUS("SubmittingDomainControlValidationRequest")
-)
-
 // +kubebuilder:validation:Enum={"Disabled","Disabling","Enabled","Enabling","Failed"}
 type CustomDomainProperties_ProvisioningState string
 
@@ -5637,16 +5273,6 @@ const (
 	CustomDomainProperties_ProvisioningState_Failed    = CustomDomainProperties_ProvisioningState("Failed")
 )
 
-type CustomDomainProperties_ProvisioningState_STATUS string
-
-const (
-	CustomDomainProperties_ProvisioningState_Disabled_STATUS  = CustomDomainProperties_ProvisioningState_STATUS("Disabled")
-	CustomDomainProperties_ProvisioningState_Disabling_STATUS = CustomDomainProperties_ProvisioningState_STATUS("Disabling")
-	CustomDomainProperties_ProvisioningState_Enabled_STATUS   = CustomDomainProperties_ProvisioningState_STATUS("Enabled")
-	CustomDomainProperties_ProvisioningState_Enabling_STATUS  = CustomDomainProperties_ProvisioningState_STATUS("Enabling")
-	CustomDomainProperties_ProvisioningState_Failed_STATUS    = CustomDomainProperties_ProvisioningState_STATUS("Failed")
-)
-
 // +kubebuilder:validation:Enum={"Active","Creating","Deleting"}
 type CustomDomainProperties_ResourceState string
 
@@ -5654,14 +5280,6 @@ const (
 	CustomDomainProperties_ResourceState_Active   = CustomDomainProperties_ResourceState("Active")
 	CustomDomainProperties_ResourceState_Creating = CustomDomainProperties_ResourceState("Creating")
 	CustomDomainProperties_ResourceState_Deleting = CustomDomainProperties_ResourceState("Deleting")
-)
-
-type CustomDomainProperties_ResourceState_STATUS string
-
-const (
-	CustomDomainProperties_ResourceState_Active_STATUS   = CustomDomainProperties_ResourceState_STATUS("Active")
-	CustomDomainProperties_ResourceState_Creating_STATUS = CustomDomainProperties_ResourceState_STATUS("Creating")
-	CustomDomainProperties_ResourceState_Deleting_STATUS = CustomDomainProperties_ResourceState_STATUS("Deleting")
 )
 
 type DeliveryRule struct {
@@ -7020,13 +6638,6 @@ const (
 	CustomDomainHttpsParameters_CertificateSource_Cdn           = CustomDomainHttpsParameters_CertificateSource("Cdn")
 )
 
-type CustomDomainHttpsParameters_CertificateSource_STATUS string
-
-const (
-	CustomDomainHttpsParameters_CertificateSource_AzureKeyVault_STATUS = CustomDomainHttpsParameters_CertificateSource_STATUS("AzureKeyVault")
-	CustomDomainHttpsParameters_CertificateSource_Cdn_STATUS           = CustomDomainHttpsParameters_CertificateSource_STATUS("Cdn")
-)
-
 // +kubebuilder:validation:Enum={"None","TLS10","TLS12"}
 type CustomDomainHttpsParameters_MinimumTlsVersion string
 
@@ -7036,27 +6647,12 @@ const (
 	CustomDomainHttpsParameters_MinimumTlsVersion_TLS12 = CustomDomainHttpsParameters_MinimumTlsVersion("TLS12")
 )
 
-type CustomDomainHttpsParameters_MinimumTlsVersion_STATUS string
-
-const (
-	CustomDomainHttpsParameters_MinimumTlsVersion_None_STATUS  = CustomDomainHttpsParameters_MinimumTlsVersion_STATUS("None")
-	CustomDomainHttpsParameters_MinimumTlsVersion_TLS10_STATUS = CustomDomainHttpsParameters_MinimumTlsVersion_STATUS("TLS10")
-	CustomDomainHttpsParameters_MinimumTlsVersion_TLS12_STATUS = CustomDomainHttpsParameters_MinimumTlsVersion_STATUS("TLS12")
-)
-
 // +kubebuilder:validation:Enum={"IPBased","ServerNameIndication"}
 type CustomDomainHttpsParameters_ProtocolType string
 
 const (
 	CustomDomainHttpsParameters_ProtocolType_IPBased              = CustomDomainHttpsParameters_ProtocolType("IPBased")
 	CustomDomainHttpsParameters_ProtocolType_ServerNameIndication = CustomDomainHttpsParameters_ProtocolType("ServerNameIndication")
-)
-
-type CustomDomainHttpsParameters_ProtocolType_STATUS string
-
-const (
-	CustomDomainHttpsParameters_ProtocolType_IPBased_STATUS              = CustomDomainHttpsParameters_ProtocolType_STATUS("IPBased")
-	CustomDomainHttpsParameters_ProtocolType_ServerNameIndication_STATUS = CustomDomainHttpsParameters_ProtocolType_STATUS("ServerNameIndication")
 )
 
 type DeliveryRuleAction struct {

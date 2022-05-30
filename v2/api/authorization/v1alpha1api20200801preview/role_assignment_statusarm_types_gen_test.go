@@ -84,6 +84,8 @@ func RoleAssignment_STATUSARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForRoleAssignment_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRoleAssignment_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForRoleAssignment_STATUSARM is a factory method for creating gopter generators

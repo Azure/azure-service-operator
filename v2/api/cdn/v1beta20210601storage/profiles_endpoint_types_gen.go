@@ -261,18 +261,9 @@ type CustomDomain struct {
 
 // Storage version of v1beta20210601.CustomDomain_STATUS
 type CustomDomain_STATUS struct {
-	CustomHttpsParameters           *CustomDomainHttpsParameters_STATUS `json:"customHttpsParameters,omitempty"`
-	CustomHttpsProvisioningState    *string                             `json:"customHttpsProvisioningState,omitempty"`
-	CustomHttpsProvisioningSubstate *string                             `json:"customHttpsProvisioningSubstate,omitempty"`
-	HostName                        *string                             `json:"hostName,omitempty"`
-	Id                              *string                             `json:"id,omitempty"`
-	Name                            *string                             `json:"name,omitempty"`
-	PropertyBag                     genruntime.PropertyBag              `json:"$propertyBag,omitempty"`
-	ProvisioningState               *string                             `json:"provisioningState,omitempty"`
-	ResourceState                   *string                             `json:"resourceState,omitempty"`
-	SystemData                      *SystemData_STATUS                  `json:"systemData,omitempty"`
-	Type                            *string                             `json:"type,omitempty"`
-	ValidationData                  *string                             `json:"validationData,omitempty"`
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	SystemData  *SystemData_STATUS     `json:"systemData,omitempty"`
 }
 
 // Storage version of v1beta20210601.DeepCreatedOrigin
@@ -409,14 +400,6 @@ type UrlSigningKey_STATUS struct {
 
 // Storage version of v1beta20210601.CustomDomainHttpsParameters
 type CustomDomainHttpsParameters struct {
-	CertificateSource *string                `json:"certificateSource,omitempty"`
-	MinimumTlsVersion *string                `json:"minimumTlsVersion,omitempty"`
-	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ProtocolType      *string                `json:"protocolType,omitempty"`
-}
-
-// Storage version of v1beta20210601.CustomDomainHttpsParameters_STATUS
-type CustomDomainHttpsParameters_STATUS struct {
 	CertificateSource *string                `json:"certificateSource,omitempty"`
 	MinimumTlsVersion *string                `json:"minimumTlsVersion,omitempty"`
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`

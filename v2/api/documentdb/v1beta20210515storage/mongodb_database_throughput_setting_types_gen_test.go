@@ -153,7 +153,7 @@ func AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesThroughp
 
 // AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesThroughputSetting_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesThroughputSetting_STATUS(gens map[string]gopter.Gen) {
-	gens["Resource"] = gen.PtrOf(ThroughputSettingsResource_STATUSGenerator())
+	gens["Resource"] = gen.PtrOf(ThroughputSettingsGetProperties_Resource_STATUSGenerator())
 }
 
 func Test_DatabaseAccountsMongodbDatabasesThroughputSetting_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

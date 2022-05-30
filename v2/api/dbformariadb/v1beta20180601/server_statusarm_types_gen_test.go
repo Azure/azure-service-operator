@@ -84,28 +84,30 @@ func Server_STATUSARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForServer_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
+	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForServer_STATUSARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForServer_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(ServerPropertiesForCreate_STATUSARMGenerator())
+	gens["Properties"] = gen.PtrOf(ServerProperties_STATUSARMGenerator())
 	gens["Sku"] = gen.PtrOf(Sku_STATUSARMGenerator())
 }
 
-func Test_ServerPropertiesForCreate_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_ServerProperties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of ServerPropertiesForCreate_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForServerPropertiesForCreate_STATUSARM, ServerPropertiesForCreate_STATUSARMGenerator()))
+		"Round trip of ServerProperties_STATUSARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServerProperties_STATUSARM, ServerProperties_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForServerPropertiesForCreate_STATUSARM runs a test to see if a specific instance of ServerPropertiesForCreate_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForServerPropertiesForCreate_STATUSARM(subject ServerPropertiesForCreate_STATUSARM) string {
+// RunJSONSerializationTestForServerProperties_STATUSARM runs a test to see if a specific instance of ServerProperties_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForServerProperties_STATUSARM(subject ServerProperties_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -113,7 +115,7 @@ func RunJSONSerializationTestForServerPropertiesForCreate_STATUSARM(subject Serv
 	}
 
 	// Deserialize back into memory
-	var actual ServerPropertiesForCreate_STATUSARM
+	var actual ServerProperties_STATUSARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -131,51 +133,54 @@ func RunJSONSerializationTestForServerPropertiesForCreate_STATUSARM(subject Serv
 	return ""
 }
 
-// Generator of ServerPropertiesForCreate_STATUSARM instances for property testing - lazily instantiated by
-// ServerPropertiesForCreate_STATUSARMGenerator()
-var serverPropertiesForCreate_STATUSARMGenerator gopter.Gen
+// Generator of ServerProperties_STATUSARM instances for property testing - lazily instantiated by
+// ServerProperties_STATUSARMGenerator()
+var serverProperties_STATUSARMGenerator gopter.Gen
 
-// ServerPropertiesForCreate_STATUSARMGenerator returns a generator of ServerPropertiesForCreate_STATUSARM instances for property testing.
-// We first initialize serverPropertiesForCreate_STATUSARMGenerator with a simplified generator based on the
+// ServerProperties_STATUSARMGenerator returns a generator of ServerProperties_STATUSARM instances for property testing.
+// We first initialize serverProperties_STATUSARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func ServerPropertiesForCreate_STATUSARMGenerator() gopter.Gen {
-	if serverPropertiesForCreate_STATUSARMGenerator != nil {
-		return serverPropertiesForCreate_STATUSARMGenerator
+func ServerProperties_STATUSARMGenerator() gopter.Gen {
+	if serverProperties_STATUSARMGenerator != nil {
+		return serverProperties_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServerPropertiesForCreate_STATUSARM(generators)
-	serverPropertiesForCreate_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ServerPropertiesForCreate_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForServerProperties_STATUSARM(generators)
+	serverProperties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ServerProperties_STATUSARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForServerPropertiesForCreate_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForServerPropertiesForCreate_STATUSARM(generators)
-	serverPropertiesForCreate_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ServerPropertiesForCreate_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForServerProperties_STATUSARM(generators)
+	AddRelatedPropertyGeneratorsForServerProperties_STATUSARM(generators)
+	serverProperties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ServerProperties_STATUSARM{}), generators)
 
-	return serverPropertiesForCreate_STATUSARMGenerator
+	return serverProperties_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForServerPropertiesForCreate_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForServerPropertiesForCreate_STATUSARM(gens map[string]gopter.Gen) {
-	gens["CreateMode"] = gen.PtrOf(gen.OneConstOf(
-		ServerPropertiesForCreate_CreateMode_Default_STATUS,
-		ServerPropertiesForCreate_CreateMode_GeoRestore_STATUS,
-		ServerPropertiesForCreate_CreateMode_PointInTimeRestore_STATUS,
-		ServerPropertiesForCreate_CreateMode_Replica_STATUS))
+// AddIndependentPropertyGeneratorsForServerProperties_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServerProperties_STATUSARM(gens map[string]gopter.Gen) {
+	gens["AdministratorLogin"] = gen.PtrOf(gen.AlphaString())
+	gens["EarliestRestoreDate"] = gen.PtrOf(gen.AlphaString())
+	gens["FullyQualifiedDomainName"] = gen.PtrOf(gen.AlphaString())
+	gens["MasterServerId"] = gen.PtrOf(gen.AlphaString())
 	gens["MinimalTlsVersion"] = gen.PtrOf(gen.OneConstOf(
 		MinimalTlsVersion_TLS1_0_STATUS,
 		MinimalTlsVersion_TLS1_1_STATUS,
 		MinimalTlsVersion_TLS1_2_STATUS,
 		MinimalTlsVersion_TLSEnforcementDisabled_STATUS))
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccess_Disabled_STATUS, PublicNetworkAccess_Enabled_STATUS))
+	gens["ReplicaCapacity"] = gen.PtrOf(gen.Int())
+	gens["ReplicationRole"] = gen.PtrOf(gen.AlphaString())
 	gens["SslEnforcement"] = gen.PtrOf(gen.OneConstOf(SslEnforcement_Disabled_STATUS, SslEnforcement_Enabled_STATUS))
+	gens["UserVisibleState"] = gen.PtrOf(gen.OneConstOf(ServerProperties_UserVisibleState_Disabled_STATUS, ServerProperties_UserVisibleState_Dropping_STATUS, ServerProperties_UserVisibleState_Ready_STATUS))
 	gens["Version"] = gen.PtrOf(gen.OneConstOf(ServerVersion_102_STATUS, ServerVersion_103_STATUS))
 }
 
-// AddRelatedPropertyGeneratorsForServerPropertiesForCreate_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForServerPropertiesForCreate_STATUSARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForServerProperties_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServerProperties_STATUSARM(gens map[string]gopter.Gen) {
+	gens["PrivateEndpointConnections"] = gen.SliceOf(ServerPrivateEndpointConnection_STATUSARMGenerator())
 	gens["StorageProfile"] = gen.PtrOf(StorageProfile_STATUSARMGenerator())
 }
 
@@ -242,6 +247,80 @@ func AddIndependentPropertyGeneratorsForSku_STATUSARM(gens map[string]gopter.Gen
 	gens["Tier"] = gen.PtrOf(gen.OneConstOf(Sku_Tier_Basic_STATUS, Sku_Tier_GeneralPurpose_STATUS, Sku_Tier_MemoryOptimized_STATUS))
 }
 
+func Test_ServerPrivateEndpointConnection_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ServerPrivateEndpointConnection_STATUSARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServerPrivateEndpointConnection_STATUSARM, ServerPrivateEndpointConnection_STATUSARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForServerPrivateEndpointConnection_STATUSARM runs a test to see if a specific instance of ServerPrivateEndpointConnection_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForServerPrivateEndpointConnection_STATUSARM(subject ServerPrivateEndpointConnection_STATUSARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ServerPrivateEndpointConnection_STATUSARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ServerPrivateEndpointConnection_STATUSARM instances for property testing - lazily instantiated by
+// ServerPrivateEndpointConnection_STATUSARMGenerator()
+var serverPrivateEndpointConnection_STATUSARMGenerator gopter.Gen
+
+// ServerPrivateEndpointConnection_STATUSARMGenerator returns a generator of ServerPrivateEndpointConnection_STATUSARM instances for property testing.
+// We first initialize serverPrivateEndpointConnection_STATUSARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ServerPrivateEndpointConnection_STATUSARMGenerator() gopter.Gen {
+	if serverPrivateEndpointConnection_STATUSARMGenerator != nil {
+		return serverPrivateEndpointConnection_STATUSARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServerPrivateEndpointConnection_STATUSARM(generators)
+	serverPrivateEndpointConnection_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ServerPrivateEndpointConnection_STATUSARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServerPrivateEndpointConnection_STATUSARM(generators)
+	AddRelatedPropertyGeneratorsForServerPrivateEndpointConnection_STATUSARM(generators)
+	serverPrivateEndpointConnection_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ServerPrivateEndpointConnection_STATUSARM{}), generators)
+
+	return serverPrivateEndpointConnection_STATUSARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForServerPrivateEndpointConnection_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServerPrivateEndpointConnection_STATUSARM(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
+
+// AddRelatedPropertyGeneratorsForServerPrivateEndpointConnection_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServerPrivateEndpointConnection_STATUSARM(gens map[string]gopter.Gen) {
+	gens["Properties"] = gen.PtrOf(ServerPrivateEndpointConnectionProperties_STATUSARMGenerator())
+}
+
 func Test_StorageProfile_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -303,4 +382,210 @@ func AddIndependentPropertyGeneratorsForStorageProfile_STATUSARM(gens map[string
 	gens["GeoRedundantBackup"] = gen.PtrOf(gen.OneConstOf(StorageProfile_GeoRedundantBackup_Disabled_STATUS, StorageProfile_GeoRedundantBackup_Enabled_STATUS))
 	gens["StorageAutogrow"] = gen.PtrOf(gen.OneConstOf(StorageProfile_StorageAutogrow_Disabled_STATUS, StorageProfile_StorageAutogrow_Enabled_STATUS))
 	gens["StorageMB"] = gen.PtrOf(gen.Int())
+}
+
+func Test_ServerPrivateEndpointConnectionProperties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ServerPrivateEndpointConnectionProperties_STATUSARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServerPrivateEndpointConnectionProperties_STATUSARM, ServerPrivateEndpointConnectionProperties_STATUSARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForServerPrivateEndpointConnectionProperties_STATUSARM runs a test to see if a specific instance of ServerPrivateEndpointConnectionProperties_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForServerPrivateEndpointConnectionProperties_STATUSARM(subject ServerPrivateEndpointConnectionProperties_STATUSARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ServerPrivateEndpointConnectionProperties_STATUSARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ServerPrivateEndpointConnectionProperties_STATUSARM instances for property testing - lazily instantiated
+// by ServerPrivateEndpointConnectionProperties_STATUSARMGenerator()
+var serverPrivateEndpointConnectionProperties_STATUSARMGenerator gopter.Gen
+
+// ServerPrivateEndpointConnectionProperties_STATUSARMGenerator returns a generator of ServerPrivateEndpointConnectionProperties_STATUSARM instances for property testing.
+// We first initialize serverPrivateEndpointConnectionProperties_STATUSARMGenerator with a simplified generator based on the
+// fields with primitive types then replacing it with a more complex one that also handles complex fields
+// to ensure any cycles in the object graph properly terminate.
+func ServerPrivateEndpointConnectionProperties_STATUSARMGenerator() gopter.Gen {
+	if serverPrivateEndpointConnectionProperties_STATUSARMGenerator != nil {
+		return serverPrivateEndpointConnectionProperties_STATUSARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServerPrivateEndpointConnectionProperties_STATUSARM(generators)
+	serverPrivateEndpointConnectionProperties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ServerPrivateEndpointConnectionProperties_STATUSARM{}), generators)
+
+	// The above call to gen.Struct() captures the map, so create a new one
+	generators = make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServerPrivateEndpointConnectionProperties_STATUSARM(generators)
+	AddRelatedPropertyGeneratorsForServerPrivateEndpointConnectionProperties_STATUSARM(generators)
+	serverPrivateEndpointConnectionProperties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ServerPrivateEndpointConnectionProperties_STATUSARM{}), generators)
+
+	return serverPrivateEndpointConnectionProperties_STATUSARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForServerPrivateEndpointConnectionProperties_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServerPrivateEndpointConnectionProperties_STATUSARM(gens map[string]gopter.Gen) {
+	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
+		ServerPrivateEndpointConnectionProperties_ProvisioningState_Approving_STATUS,
+		ServerPrivateEndpointConnectionProperties_ProvisioningState_Dropping_STATUS,
+		ServerPrivateEndpointConnectionProperties_ProvisioningState_Failed_STATUS,
+		ServerPrivateEndpointConnectionProperties_ProvisioningState_Ready_STATUS,
+		ServerPrivateEndpointConnectionProperties_ProvisioningState_Rejecting_STATUS))
+}
+
+// AddRelatedPropertyGeneratorsForServerPrivateEndpointConnectionProperties_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForServerPrivateEndpointConnectionProperties_STATUSARM(gens map[string]gopter.Gen) {
+	gens["PrivateEndpoint"] = gen.PtrOf(PrivateEndpointProperty_STATUSARMGenerator())
+	gens["PrivateLinkServiceConnectionState"] = gen.PtrOf(ServerPrivateLinkServiceConnectionStateProperty_STATUSARMGenerator())
+}
+
+func Test_PrivateEndpointProperty_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of PrivateEndpointProperty_STATUSARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForPrivateEndpointProperty_STATUSARM, PrivateEndpointProperty_STATUSARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForPrivateEndpointProperty_STATUSARM runs a test to see if a specific instance of PrivateEndpointProperty_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForPrivateEndpointProperty_STATUSARM(subject PrivateEndpointProperty_STATUSARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual PrivateEndpointProperty_STATUSARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of PrivateEndpointProperty_STATUSARM instances for property testing - lazily instantiated by
+// PrivateEndpointProperty_STATUSARMGenerator()
+var privateEndpointProperty_STATUSARMGenerator gopter.Gen
+
+// PrivateEndpointProperty_STATUSARMGenerator returns a generator of PrivateEndpointProperty_STATUSARM instances for property testing.
+func PrivateEndpointProperty_STATUSARMGenerator() gopter.Gen {
+	if privateEndpointProperty_STATUSARMGenerator != nil {
+		return privateEndpointProperty_STATUSARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForPrivateEndpointProperty_STATUSARM(generators)
+	privateEndpointProperty_STATUSARMGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointProperty_STATUSARM{}), generators)
+
+	return privateEndpointProperty_STATUSARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForPrivateEndpointProperty_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForPrivateEndpointProperty_STATUSARM(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_ServerPrivateLinkServiceConnectionStateProperty_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ServerPrivateLinkServiceConnectionStateProperty_STATUSARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForServerPrivateLinkServiceConnectionStateProperty_STATUSARM, ServerPrivateLinkServiceConnectionStateProperty_STATUSARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForServerPrivateLinkServiceConnectionStateProperty_STATUSARM runs a test to see if a specific instance of ServerPrivateLinkServiceConnectionStateProperty_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForServerPrivateLinkServiceConnectionStateProperty_STATUSARM(subject ServerPrivateLinkServiceConnectionStateProperty_STATUSARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ServerPrivateLinkServiceConnectionStateProperty_STATUSARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ServerPrivateLinkServiceConnectionStateProperty_STATUSARM instances for property testing - lazily
+// instantiated by ServerPrivateLinkServiceConnectionStateProperty_STATUSARMGenerator()
+var serverPrivateLinkServiceConnectionStateProperty_STATUSARMGenerator gopter.Gen
+
+// ServerPrivateLinkServiceConnectionStateProperty_STATUSARMGenerator returns a generator of ServerPrivateLinkServiceConnectionStateProperty_STATUSARM instances for property testing.
+func ServerPrivateLinkServiceConnectionStateProperty_STATUSARMGenerator() gopter.Gen {
+	if serverPrivateLinkServiceConnectionStateProperty_STATUSARMGenerator != nil {
+		return serverPrivateLinkServiceConnectionStateProperty_STATUSARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForServerPrivateLinkServiceConnectionStateProperty_STATUSARM(generators)
+	serverPrivateLinkServiceConnectionStateProperty_STATUSARMGenerator = gen.Struct(reflect.TypeOf(ServerPrivateLinkServiceConnectionStateProperty_STATUSARM{}), generators)
+
+	return serverPrivateLinkServiceConnectionStateProperty_STATUSARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForServerPrivateLinkServiceConnectionStateProperty_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForServerPrivateLinkServiceConnectionStateProperty_STATUSARM(gens map[string]gopter.Gen) {
+	gens["ActionsRequired"] = gen.PtrOf(gen.OneConstOf(ServerPrivateLinkServiceConnectionStateProperty_ActionsRequired_None_STATUS))
+	gens["Description"] = gen.PtrOf(gen.AlphaString())
+	gens["Status"] = gen.PtrOf(gen.OneConstOf(
+		ServerPrivateLinkServiceConnectionStateProperty_Status_Approved_STATUS,
+		ServerPrivateLinkServiceConnectionStateProperty_Status_Disconnected_STATUS,
+		ServerPrivateLinkServiceConnectionStateProperty_Status_Pending_STATUS,
+		ServerPrivateLinkServiceConnectionStateProperty_Status_Rejected_STATUS))
 }

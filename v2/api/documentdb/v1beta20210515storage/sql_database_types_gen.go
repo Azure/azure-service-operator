@@ -133,15 +133,15 @@ type SqlDatabaseList struct {
 
 // Storage version of v1beta20210515.DatabaseAccountsSqlDatabase_STATUS
 type DatabaseAccountsSqlDatabase_STATUS struct {
-	Conditions  []conditions.Condition      `json:"conditions,omitempty"`
-	Id          *string                     `json:"id,omitempty"`
-	Location    *string                     `json:"location,omitempty"`
-	Name        *string                     `json:"name,omitempty"`
-	Options     *CreateUpdateOptions_STATUS `json:"options,omitempty"`
-	PropertyBag genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
-	Resource    *SqlDatabaseResource_STATUS `json:"resource,omitempty"`
-	Tags        map[string]string           `json:"tags,omitempty"`
-	Type        *string                     `json:"type,omitempty"`
+	Conditions  []conditions.Condition                    `json:"conditions,omitempty"`
+	Id          *string                                   `json:"id,omitempty"`
+	Location    *string                                   `json:"location,omitempty"`
+	Name        *string                                   `json:"name,omitempty"`
+	Options     *OptionsResource_STATUS                   `json:"options,omitempty"`
+	PropertyBag genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
+	Resource    *SqlDatabaseGetProperties_Resource_STATUS `json:"resource,omitempty"`
+	Tags        map[string]string                         `json:"tags,omitempty"`
+	Type        *string                                   `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &DatabaseAccountsSqlDatabase_STATUS{}
@@ -205,14 +205,19 @@ func (database *DatabaseAccountsSqlDatabase_Spec) ConvertSpecTo(destination genr
 	return destination.ConvertSpecFrom(database)
 }
 
-// Storage version of v1beta20210515.SqlDatabaseResource
-type SqlDatabaseResource struct {
+// Storage version of v1beta20210515.SqlDatabaseGetProperties_Resource_STATUS
+type SqlDatabaseGetProperties_Resource_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	_Colls      *string                `json:"_colls,omitempty"`
+	_Etag       *string                `json:"_etag,omitempty"`
+	_Rid        *string                `json:"_rid,omitempty"`
+	_Ts         *float64               `json:"_ts,omitempty"`
+	_Users      *string                `json:"_users,omitempty"`
 }
 
-// Storage version of v1beta20210515.SqlDatabaseResource_STATUS
-type SqlDatabaseResource_STATUS struct {
+// Storage version of v1beta20210515.SqlDatabaseResource
+type SqlDatabaseResource struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }

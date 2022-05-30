@@ -4,11 +4,17 @@
 package v1beta20200801preview
 
 type RoleAssignment_STATUSARM struct {
-	// Id: The ARM Id for this resource.
+	// Id: The role assignment ID.
 	Id *string `json:"id,omitempty"`
+
+	// Name: The role assignment name.
+	Name *string `json:"name,omitempty"`
 
 	// Properties: Role assignment properties.
 	Properties *RoleAssignmentProperties_STATUSARM `json:"properties,omitempty"`
+
+	// Type: The role assignment type.
+	Type *string `json:"type,omitempty"`
 }
 
 type RoleAssignmentProperties_STATUSARM struct {

@@ -3,7 +3,6 @@ Expected Pipeline Stages for Test Code Generation
 loadTestSchema                                       Load and walk schema (test)
 allof-anyof-objects                                  Convert allOf and oneOf to object types
 flattenResources                                     Flatten nested resource types
-addIdPropToStatus                                    Adds an 'Id' property to all top-level status types
 stripUnused                                          Strip unused types for test
 nameTypes                                            Name inner types for CRD
 propertyRewrites                                     Modify property types using configured transforms

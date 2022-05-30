@@ -202,15 +202,14 @@ type SqlDatabaseContainerStoredProcedureList struct {
 // Storage version of v1alpha1api20210515.DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS
 // Deprecated version of DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS. Use v1beta20210515.DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS instead
 type DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS struct {
-	Conditions  []conditions.Condition             `json:"conditions,omitempty"`
-	Id          *string                            `json:"id,omitempty"`
-	Location    *string                            `json:"location,omitempty"`
-	Name        *string                            `json:"name,omitempty"`
-	Options     *CreateUpdateOptions_STATUS        `json:"options,omitempty"`
-	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Resource    *SqlStoredProcedureResource_STATUS `json:"resource,omitempty"`
-	Tags        map[string]string                  `json:"tags,omitempty"`
-	Type        *string                            `json:"type,omitempty"`
+	Conditions  []conditions.Condition                           `json:"conditions,omitempty"`
+	Id          *string                                          `json:"id,omitempty"`
+	Location    *string                                          `json:"location,omitempty"`
+	Name        *string                                          `json:"name,omitempty"`
+	PropertyBag genruntime.PropertyBag                           `json:"$propertyBag,omitempty"`
+	Resource    *SqlStoredProcedureGetProperties_Resource_STATUS `json:"resource,omitempty"`
+	Tags        map[string]string                                `json:"tags,omitempty"`
+	Type        *string                                          `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS{}
@@ -280,24 +279,12 @@ func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS) A
 	// Name
 	procedure.Name = genruntime.ClonePointerToString(source.Name)
 
-	// Options
-	if source.Options != nil {
-		var option CreateUpdateOptions_STATUS
-		err := option.AssignPropertiesFromCreateUpdateOptions_STATUS(source.Options)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptions_STATUS() to populate field Options")
-		}
-		procedure.Options = &option
-	} else {
-		procedure.Options = nil
-	}
-
 	// Resource
 	if source.Resource != nil {
-		var resource SqlStoredProcedureResource_STATUS
-		err := resource.AssignPropertiesFromSqlStoredProcedureResource_STATUS(source.Resource)
+		var resource SqlStoredProcedureGetProperties_Resource_STATUS
+		err := resource.AssignPropertiesFromSqlStoredProcedureGetProperties_Resource_STATUS(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSqlStoredProcedureResource_STATUS() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesFromSqlStoredProcedureGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		procedure.Resource = &resource
 	} else {
@@ -338,24 +325,12 @@ func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS) A
 	// Name
 	destination.Name = genruntime.ClonePointerToString(procedure.Name)
 
-	// Options
-	if procedure.Options != nil {
-		var option v20210515s.CreateUpdateOptions_STATUS
-		err := procedure.Options.AssignPropertiesToCreateUpdateOptions_STATUS(&option)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions_STATUS() to populate field Options")
-		}
-		destination.Options = &option
-	} else {
-		destination.Options = nil
-	}
-
 	// Resource
 	if procedure.Resource != nil {
-		var resource v20210515s.SqlStoredProcedureResource_STATUS
-		err := procedure.Resource.AssignPropertiesToSqlStoredProcedureResource_STATUS(&resource)
+		var resource v20210515s.SqlStoredProcedureGetProperties_Resource_STATUS
+		err := procedure.Resource.AssignPropertiesToSqlStoredProcedureGetProperties_Resource_STATUS(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSqlStoredProcedureResource_STATUS() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesToSqlStoredProcedureGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {
@@ -582,6 +557,89 @@ func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec) Ass
 	return nil
 }
 
+// Storage version of v1alpha1api20210515.SqlStoredProcedureGetProperties_Resource_STATUS
+// Deprecated version of SqlStoredProcedureGetProperties_Resource_STATUS. Use v1beta20210515.SqlStoredProcedureGetProperties_Resource_STATUS instead
+type SqlStoredProcedureGetProperties_Resource_STATUS struct {
+	Body        *string                `json:"body,omitempty"`
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	_Etag       *string                `json:"_etag,omitempty"`
+	_Rid        *string                `json:"_rid,omitempty"`
+	_Ts         *float64               `json:"_ts,omitempty"`
+}
+
+// AssignPropertiesFromSqlStoredProcedureGetProperties_Resource_STATUS populates our SqlStoredProcedureGetProperties_Resource_STATUS from the provided source SqlStoredProcedureGetProperties_Resource_STATUS
+func (resource *SqlStoredProcedureGetProperties_Resource_STATUS) AssignPropertiesFromSqlStoredProcedureGetProperties_Resource_STATUS(source *v20210515s.SqlStoredProcedureGetProperties_Resource_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Body
+	resource.Body = genruntime.ClonePointerToString(source.Body)
+
+	// Id
+	resource.Id = genruntime.ClonePointerToString(source.Id)
+
+	// _Etag
+	resource._Etag = genruntime.ClonePointerToString(source._Etag)
+
+	// _Rid
+	resource._Rid = genruntime.ClonePointerToString(source._Rid)
+
+	// _Ts
+	if source._Ts != nil {
+		_T := *source._Ts
+		resource._Ts = &_T
+	} else {
+		resource._Ts = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		resource.PropertyBag = propertyBag
+	} else {
+		resource.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToSqlStoredProcedureGetProperties_Resource_STATUS populates the provided destination SqlStoredProcedureGetProperties_Resource_STATUS from our SqlStoredProcedureGetProperties_Resource_STATUS
+func (resource *SqlStoredProcedureGetProperties_Resource_STATUS) AssignPropertiesToSqlStoredProcedureGetProperties_Resource_STATUS(destination *v20210515s.SqlStoredProcedureGetProperties_Resource_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
+
+	// Body
+	destination.Body = genruntime.ClonePointerToString(resource.Body)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(resource.Id)
+
+	// _Etag
+	destination._Etag = genruntime.ClonePointerToString(resource._Etag)
+
+	// _Rid
+	destination._Rid = genruntime.ClonePointerToString(resource._Rid)
+
+	// _Ts
+	if resource._Ts != nil {
+		_T := *resource._Ts
+		destination._Ts = &_T
+	} else {
+		destination._Ts = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1alpha1api20210515.SqlStoredProcedureResource
 // Deprecated version of SqlStoredProcedureResource. Use v1beta20210515.SqlStoredProcedureResource instead
 type SqlStoredProcedureResource struct {
@@ -614,58 +672,6 @@ func (resource *SqlStoredProcedureResource) AssignPropertiesFromSqlStoredProcedu
 
 // AssignPropertiesToSqlStoredProcedureResource populates the provided destination SqlStoredProcedureResource from our SqlStoredProcedureResource
 func (resource *SqlStoredProcedureResource) AssignPropertiesToSqlStoredProcedureResource(destination *v20210515s.SqlStoredProcedureResource) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
-
-	// Body
-	destination.Body = genruntime.ClonePointerToString(resource.Body)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(resource.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20210515.SqlStoredProcedureResource_STATUS
-// Deprecated version of SqlStoredProcedureResource_STATUS. Use v1beta20210515.SqlStoredProcedureResource_STATUS instead
-type SqlStoredProcedureResource_STATUS struct {
-	Body        *string                `json:"body,omitempty"`
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// AssignPropertiesFromSqlStoredProcedureResource_STATUS populates our SqlStoredProcedureResource_STATUS from the provided source SqlStoredProcedureResource_STATUS
-func (resource *SqlStoredProcedureResource_STATUS) AssignPropertiesFromSqlStoredProcedureResource_STATUS(source *v20210515s.SqlStoredProcedureResource_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Body
-	resource.Body = genruntime.ClonePointerToString(source.Body)
-
-	// Id
-	resource.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		resource.PropertyBag = propertyBag
-	} else {
-		resource.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToSqlStoredProcedureResource_STATUS populates the provided destination SqlStoredProcedureResource_STATUS from our SqlStoredProcedureResource_STATUS
-func (resource *SqlStoredProcedureResource_STATUS) AssignPropertiesToSqlStoredProcedureResource_STATUS(destination *v20210515s.SqlStoredProcedureResource_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
 

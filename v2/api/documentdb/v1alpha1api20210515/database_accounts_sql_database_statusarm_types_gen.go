@@ -5,21 +5,26 @@ package v1alpha1api20210515
 
 // Deprecated version of DatabaseAccountsSqlDatabase_STATUS. Use v1beta20210515.DatabaseAccountsSqlDatabase_STATUS instead
 type DatabaseAccountsSqlDatabase_STATUSARM struct {
-	Id         *string                                      `json:"id,omitempty"`
-	Location   *string                                      `json:"location,omitempty"`
-	Name       *string                                      `json:"name,omitempty"`
-	Properties *SqlDatabaseCreateUpdateProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                            `json:"tags,omitempty"`
-	Type       *string                                      `json:"type,omitempty"`
+	Id         *string                             `json:"id,omitempty"`
+	Location   *string                             `json:"location,omitempty"`
+	Name       *string                             `json:"name,omitempty"`
+	Properties *SqlDatabaseGetProperties_STATUSARM `json:"properties,omitempty"`
+	Tags       map[string]string                   `json:"tags,omitempty"`
+	Type       *string                             `json:"type,omitempty"`
 }
 
-// Deprecated version of SqlDatabaseCreateUpdateProperties_STATUS. Use v1beta20210515.SqlDatabaseCreateUpdateProperties_STATUS instead
-type SqlDatabaseCreateUpdateProperties_STATUSARM struct {
-	Options  *CreateUpdateOptions_STATUSARM `json:"options,omitempty"`
-	Resource *SqlDatabaseResource_STATUSARM `json:"resource,omitempty"`
+// Deprecated version of SqlDatabaseGetProperties_STATUS. Use v1beta20210515.SqlDatabaseGetProperties_STATUS instead
+type SqlDatabaseGetProperties_STATUSARM struct {
+	Options  *OptionsResource_STATUSARM                   `json:"options,omitempty"`
+	Resource *SqlDatabaseGetProperties_Resource_STATUSARM `json:"resource,omitempty"`
 }
 
-// Deprecated version of SqlDatabaseResource_STATUS. Use v1beta20210515.SqlDatabaseResource_STATUS instead
-type SqlDatabaseResource_STATUSARM struct {
-	Id *string `json:"id,omitempty"`
+// Deprecated version of SqlDatabaseGetProperties_Resource_STATUS. Use v1beta20210515.SqlDatabaseGetProperties_Resource_STATUS instead
+type SqlDatabaseGetProperties_Resource_STATUSARM struct {
+	Id     *string  `json:"id,omitempty"`
+	_Colls *string  `json:"_colls,omitempty"`
+	_Etag  *string  `json:"_etag,omitempty"`
+	_Rid   *string  `json:"_rid,omitempty"`
+	_Ts    *float64 `json:"_ts,omitempty"`
+	_Users *string  `json:"_users,omitempty"`
 }

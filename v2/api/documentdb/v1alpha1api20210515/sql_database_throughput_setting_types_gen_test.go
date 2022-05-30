@@ -281,7 +281,7 @@ func AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesThroughputSe
 
 // AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesThroughputSetting_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesThroughputSetting_STATUS(gens map[string]gopter.Gen) {
-	gens["Resource"] = gen.PtrOf(ThroughputSettingsResource_STATUSGenerator())
+	gens["Resource"] = gen.PtrOf(ThroughputSettingsGetProperties_Resource_STATUSGenerator())
 }
 
 func Test_DatabaseAccountsSqlDatabasesThroughputSetting_Spec_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

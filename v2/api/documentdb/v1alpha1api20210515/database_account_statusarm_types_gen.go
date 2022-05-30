@@ -5,18 +5,18 @@ package v1alpha1api20210515
 
 // Deprecated version of DatabaseAccount_STATUS. Use v1beta20210515.DatabaseAccount_STATUS instead
 type DatabaseAccount_STATUSARM struct {
-	Id         *string                                          `json:"id,omitempty"`
-	Identity   *ManagedServiceIdentity_STATUSARM                `json:"identity,omitempty"`
-	Kind       *DatabaseAccount_Kind_STATUS                     `json:"kind,omitempty"`
-	Location   *string                                          `json:"location,omitempty"`
-	Name       *string                                          `json:"name,omitempty"`
-	Properties *DatabaseAccountCreateUpdateProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                                `json:"tags,omitempty"`
-	Type       *string                                          `json:"type,omitempty"`
+	Id         *string                                 `json:"id,omitempty"`
+	Identity   *ManagedServiceIdentity_STATUSARM       `json:"identity,omitempty"`
+	Kind       *DatabaseAccount_Kind_STATUS            `json:"kind,omitempty"`
+	Location   *string                                 `json:"location,omitempty"`
+	Name       *string                                 `json:"name,omitempty"`
+	Properties *DatabaseAccountGetProperties_STATUSARM `json:"properties,omitempty"`
+	Tags       map[string]string                       `json:"tags,omitempty"`
+	Type       *string                                 `json:"type,omitempty"`
 }
 
-// Deprecated version of DatabaseAccountCreateUpdateProperties_STATUS. Use v1beta20210515.DatabaseAccountCreateUpdateProperties_STATUS instead
-type DatabaseAccountCreateUpdateProperties_STATUSARM struct {
+// Deprecated version of DatabaseAccountGetProperties_STATUS. Use v1beta20210515.DatabaseAccountGetProperties_STATUS instead
+type DatabaseAccountGetProperties_STATUSARM struct {
 	AnalyticalStorageConfiguration     *AnalyticalStorageConfiguration_STATUSARM `json:"analyticalStorageConfiguration,omitempty"`
 	ApiProperties                      *ApiProperties_STATUSARM                  `json:"apiProperties,omitempty"`
 	BackupPolicy                       *BackupPolicy_STATUSARM                   `json:"backupPolicy,omitempty"`
@@ -27,19 +27,25 @@ type DatabaseAccountCreateUpdateProperties_STATUSARM struct {
 	DatabaseAccountOfferType           *DatabaseAccountOfferType_STATUS          `json:"databaseAccountOfferType,omitempty"`
 	DefaultIdentity                    *string                                   `json:"defaultIdentity,omitempty"`
 	DisableKeyBasedMetadataWriteAccess *bool                                     `json:"disableKeyBasedMetadataWriteAccess,omitempty"`
+	DocumentEndpoint                   *string                                   `json:"documentEndpoint,omitempty"`
 	EnableAnalyticalStorage            *bool                                     `json:"enableAnalyticalStorage,omitempty"`
 	EnableAutomaticFailover            *bool                                     `json:"enableAutomaticFailover,omitempty"`
 	EnableCassandraConnector           *bool                                     `json:"enableCassandraConnector,omitempty"`
 	EnableFreeTier                     *bool                                     `json:"enableFreeTier,omitempty"`
 	EnableMultipleWriteLocations       *bool                                     `json:"enableMultipleWriteLocations,omitempty"`
+	FailoverPolicies                   []FailoverPolicy_STATUSARM                `json:"failoverPolicies,omitempty"`
 	IpRules                            []IpAddressOrRange_STATUSARM              `json:"ipRules,omitempty"`
 	IsVirtualNetworkFilterEnabled      *bool                                     `json:"isVirtualNetworkFilterEnabled,omitempty"`
 	KeyVaultKeyUri                     *string                                   `json:"keyVaultKeyUri,omitempty"`
 	Locations                          []Location_STATUSARM                      `json:"locations,omitempty"`
 	NetworkAclBypass                   *NetworkAclBypass_STATUS                  `json:"networkAclBypass,omitempty"`
 	NetworkAclBypassResourceIds        []string                                  `json:"networkAclBypassResourceIds,omitempty"`
+	PrivateEndpointConnections         []PrivateEndpointConnection_STATUSARM     `json:"privateEndpointConnections,omitempty"`
+	ProvisioningState                  *string                                   `json:"provisioningState,omitempty"`
 	PublicNetworkAccess                *PublicNetworkAccess_STATUS               `json:"publicNetworkAccess,omitempty"`
+	ReadLocations                      []Location_STATUSARM                      `json:"readLocations,omitempty"`
 	VirtualNetworkRules                []VirtualNetworkRule_STATUSARM            `json:"virtualNetworkRules,omitempty"`
+	WriteLocations                     []Location_STATUSARM                      `json:"writeLocations,omitempty"`
 }
 
 // Deprecated version of DatabaseAccount_Kind_STATUS. Use v1beta20210515.DatabaseAccount_Kind_STATUS instead
@@ -95,6 +101,13 @@ type CorsPolicy_STATUSARM struct {
 	MaxAgeInSeconds *int    `json:"maxAgeInSeconds,omitempty"`
 }
 
+// Deprecated version of FailoverPolicy_STATUS. Use v1beta20210515.FailoverPolicy_STATUS instead
+type FailoverPolicy_STATUSARM struct {
+	FailoverPriority *int    `json:"failoverPriority,omitempty"`
+	Id               *string `json:"id,omitempty"`
+	LocationName     *string `json:"locationName,omitempty"`
+}
+
 // Deprecated version of IpAddressOrRange_STATUS. Use v1beta20210515.IpAddressOrRange_STATUS instead
 type IpAddressOrRange_STATUSARM struct {
 	IpAddressOrRange *string `json:"ipAddressOrRange,omitempty"`
@@ -124,6 +137,11 @@ const (
 type ManagedServiceIdentity_UserAssignedIdentities_STATUSARM struct {
 	ClientId    *string `json:"clientId,omitempty"`
 	PrincipalId *string `json:"principalId,omitempty"`
+}
+
+// Deprecated version of PrivateEndpointConnection_STATUS. Use v1beta20210515.PrivateEndpointConnection_STATUS instead
+type PrivateEndpointConnection_STATUSARM struct {
+	Id *string `json:"id,omitempty"`
 }
 
 // Deprecated version of VirtualNetworkRule_STATUS. Use v1beta20210515.VirtualNetworkRule_STATUS instead

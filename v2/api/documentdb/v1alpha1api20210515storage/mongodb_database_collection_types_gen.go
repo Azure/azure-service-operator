@@ -202,15 +202,15 @@ type MongodbDatabaseCollectionList struct {
 // Storage version of v1alpha1api20210515.DatabaseAccountsMongodbDatabasesCollection_STATUS
 // Deprecated version of DatabaseAccountsMongodbDatabasesCollection_STATUS. Use v1beta20210515.DatabaseAccountsMongodbDatabasesCollection_STATUS instead
 type DatabaseAccountsMongodbDatabasesCollection_STATUS struct {
-	Conditions  []conditions.Condition            `json:"conditions,omitempty"`
-	Id          *string                           `json:"id,omitempty"`
-	Location    *string                           `json:"location,omitempty"`
-	Name        *string                           `json:"name,omitempty"`
-	Options     *CreateUpdateOptions_STATUS       `json:"options,omitempty"`
-	PropertyBag genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
-	Resource    *MongoDBCollectionResource_STATUS `json:"resource,omitempty"`
-	Tags        map[string]string                 `json:"tags,omitempty"`
-	Type        *string                           `json:"type,omitempty"`
+	Conditions  []conditions.Condition                          `json:"conditions,omitempty"`
+	Id          *string                                         `json:"id,omitempty"`
+	Location    *string                                         `json:"location,omitempty"`
+	Name        *string                                         `json:"name,omitempty"`
+	Options     *OptionsResource_STATUS                         `json:"options,omitempty"`
+	PropertyBag genruntime.PropertyBag                          `json:"$propertyBag,omitempty"`
+	Resource    *MongoDBCollectionGetProperties_Resource_STATUS `json:"resource,omitempty"`
+	Tags        map[string]string                               `json:"tags,omitempty"`
+	Type        *string                                         `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &DatabaseAccountsMongodbDatabasesCollection_STATUS{}
@@ -282,10 +282,10 @@ func (collection *DatabaseAccountsMongodbDatabasesCollection_STATUS) AssignPrope
 
 	// Options
 	if source.Options != nil {
-		var option CreateUpdateOptions_STATUS
-		err := option.AssignPropertiesFromCreateUpdateOptions_STATUS(source.Options)
+		var option OptionsResource_STATUS
+		err := option.AssignPropertiesFromOptionsResource_STATUS(source.Options)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptions_STATUS() to populate field Options")
+			return errors.Wrap(err, "calling AssignPropertiesFromOptionsResource_STATUS() to populate field Options")
 		}
 		collection.Options = &option
 	} else {
@@ -294,10 +294,10 @@ func (collection *DatabaseAccountsMongodbDatabasesCollection_STATUS) AssignPrope
 
 	// Resource
 	if source.Resource != nil {
-		var resource MongoDBCollectionResource_STATUS
-		err := resource.AssignPropertiesFromMongoDBCollectionResource_STATUS(source.Resource)
+		var resource MongoDBCollectionGetProperties_Resource_STATUS
+		err := resource.AssignPropertiesFromMongoDBCollectionGetProperties_Resource_STATUS(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromMongoDBCollectionResource_STATUS() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesFromMongoDBCollectionGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		collection.Resource = &resource
 	} else {
@@ -340,10 +340,10 @@ func (collection *DatabaseAccountsMongodbDatabasesCollection_STATUS) AssignPrope
 
 	// Options
 	if collection.Options != nil {
-		var option v20210515s.CreateUpdateOptions_STATUS
-		err := collection.Options.AssignPropertiesToCreateUpdateOptions_STATUS(&option)
+		var option v20210515s.OptionsResource_STATUS
+		err := collection.Options.AssignPropertiesToOptionsResource_STATUS(&option)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions_STATUS() to populate field Options")
+			return errors.Wrap(err, "calling AssignPropertiesToOptionsResource_STATUS() to populate field Options")
 		}
 		destination.Options = &option
 	} else {
@@ -352,10 +352,10 @@ func (collection *DatabaseAccountsMongodbDatabasesCollection_STATUS) AssignPrope
 
 	// Resource
 	if collection.Resource != nil {
-		var resource v20210515s.MongoDBCollectionResource_STATUS
-		err := collection.Resource.AssignPropertiesToMongoDBCollectionResource_STATUS(&resource)
+		var resource v20210515s.MongoDBCollectionGetProperties_Resource_STATUS
+		err := collection.Resource.AssignPropertiesToMongoDBCollectionGetProperties_Resource_STATUS(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToMongoDBCollectionResource_STATUS() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesToMongoDBCollectionGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {
@@ -582,6 +582,133 @@ func (collection *DatabaseAccountsMongodbDatabasesCollection_Spec) AssignPropert
 	return nil
 }
 
+// Storage version of v1alpha1api20210515.MongoDBCollectionGetProperties_Resource_STATUS
+// Deprecated version of MongoDBCollectionGetProperties_Resource_STATUS. Use v1beta20210515.MongoDBCollectionGetProperties_Resource_STATUS instead
+type MongoDBCollectionGetProperties_Resource_STATUS struct {
+	AnalyticalStorageTtl *int                   `json:"analyticalStorageTtl,omitempty"`
+	Id                   *string                `json:"id,omitempty"`
+	Indexes              []MongoIndex_STATUS    `json:"indexes,omitempty"`
+	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ShardKey             map[string]string      `json:"shardKey,omitempty"`
+	_Etag                *string                `json:"_etag,omitempty"`
+	_Rid                 *string                `json:"_rid,omitempty"`
+	_Ts                  *float64               `json:"_ts,omitempty"`
+}
+
+// AssignPropertiesFromMongoDBCollectionGetProperties_Resource_STATUS populates our MongoDBCollectionGetProperties_Resource_STATUS from the provided source MongoDBCollectionGetProperties_Resource_STATUS
+func (resource *MongoDBCollectionGetProperties_Resource_STATUS) AssignPropertiesFromMongoDBCollectionGetProperties_Resource_STATUS(source *v20210515s.MongoDBCollectionGetProperties_Resource_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// AnalyticalStorageTtl
+	resource.AnalyticalStorageTtl = genruntime.ClonePointerToInt(source.AnalyticalStorageTtl)
+
+	// Id
+	resource.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Indexes
+	if source.Indexes != nil {
+		indexList := make([]MongoIndex_STATUS, len(source.Indexes))
+		for index, indexItem := range source.Indexes {
+			// Shadow the loop variable to avoid aliasing
+			indexItem := indexItem
+			var indexLocal MongoIndex_STATUS
+			err := indexLocal.AssignPropertiesFromMongoIndex_STATUS(&indexItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromMongoIndex_STATUS() to populate field Indexes")
+			}
+			indexList[index] = indexLocal
+		}
+		resource.Indexes = indexList
+	} else {
+		resource.Indexes = nil
+	}
+
+	// ShardKey
+	resource.ShardKey = genruntime.CloneMapOfStringToString(source.ShardKey)
+
+	// _Etag
+	resource._Etag = genruntime.ClonePointerToString(source._Etag)
+
+	// _Rid
+	resource._Rid = genruntime.ClonePointerToString(source._Rid)
+
+	// _Ts
+	if source._Ts != nil {
+		_T := *source._Ts
+		resource._Ts = &_T
+	} else {
+		resource._Ts = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		resource.PropertyBag = propertyBag
+	} else {
+		resource.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToMongoDBCollectionGetProperties_Resource_STATUS populates the provided destination MongoDBCollectionGetProperties_Resource_STATUS from our MongoDBCollectionGetProperties_Resource_STATUS
+func (resource *MongoDBCollectionGetProperties_Resource_STATUS) AssignPropertiesToMongoDBCollectionGetProperties_Resource_STATUS(destination *v20210515s.MongoDBCollectionGetProperties_Resource_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
+
+	// AnalyticalStorageTtl
+	destination.AnalyticalStorageTtl = genruntime.ClonePointerToInt(resource.AnalyticalStorageTtl)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(resource.Id)
+
+	// Indexes
+	if resource.Indexes != nil {
+		indexList := make([]v20210515s.MongoIndex_STATUS, len(resource.Indexes))
+		for index, indexItem := range resource.Indexes {
+			// Shadow the loop variable to avoid aliasing
+			indexItem := indexItem
+			var indexLocal v20210515s.MongoIndex_STATUS
+			err := indexItem.AssignPropertiesToMongoIndex_STATUS(&indexLocal)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToMongoIndex_STATUS() to populate field Indexes")
+			}
+			indexList[index] = indexLocal
+		}
+		destination.Indexes = indexList
+	} else {
+		destination.Indexes = nil
+	}
+
+	// ShardKey
+	destination.ShardKey = genruntime.CloneMapOfStringToString(resource.ShardKey)
+
+	// _Etag
+	destination._Etag = genruntime.ClonePointerToString(resource._Etag)
+
+	// _Rid
+	destination._Rid = genruntime.ClonePointerToString(resource._Rid)
+
+	// _Ts
+	if resource._Ts != nil {
+		_T := *resource._Ts
+		destination._Ts = &_T
+	} else {
+		destination._Ts = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1alpha1api20210515.MongoDBCollectionResource
 // Deprecated version of MongoDBCollectionResource. Use v1beta20210515.MongoDBCollectionResource instead
 type MongoDBCollectionResource struct {
@@ -656,102 +783,6 @@ func (resource *MongoDBCollectionResource) AssignPropertiesToMongoDBCollectionRe
 			err := indexItem.AssignPropertiesToMongoIndex(&indexLocal)
 			if err != nil {
 				return errors.Wrap(err, "calling AssignPropertiesToMongoIndex() to populate field Indexes")
-			}
-			indexList[index] = indexLocal
-		}
-		destination.Indexes = indexList
-	} else {
-		destination.Indexes = nil
-	}
-
-	// ShardKey
-	destination.ShardKey = genruntime.CloneMapOfStringToString(resource.ShardKey)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20210515.MongoDBCollectionResource_STATUS
-// Deprecated version of MongoDBCollectionResource_STATUS. Use v1beta20210515.MongoDBCollectionResource_STATUS instead
-type MongoDBCollectionResource_STATUS struct {
-	AnalyticalStorageTtl *int                   `json:"analyticalStorageTtl,omitempty"`
-	Id                   *string                `json:"id,omitempty"`
-	Indexes              []MongoIndex_STATUS    `json:"indexes,omitempty"`
-	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ShardKey             map[string]string      `json:"shardKey,omitempty"`
-}
-
-// AssignPropertiesFromMongoDBCollectionResource_STATUS populates our MongoDBCollectionResource_STATUS from the provided source MongoDBCollectionResource_STATUS
-func (resource *MongoDBCollectionResource_STATUS) AssignPropertiesFromMongoDBCollectionResource_STATUS(source *v20210515s.MongoDBCollectionResource_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// AnalyticalStorageTtl
-	resource.AnalyticalStorageTtl = genruntime.ClonePointerToInt(source.AnalyticalStorageTtl)
-
-	// Id
-	resource.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Indexes
-	if source.Indexes != nil {
-		indexList := make([]MongoIndex_STATUS, len(source.Indexes))
-		for index, indexItem := range source.Indexes {
-			// Shadow the loop variable to avoid aliasing
-			indexItem := indexItem
-			var indexLocal MongoIndex_STATUS
-			err := indexLocal.AssignPropertiesFromMongoIndex_STATUS(&indexItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromMongoIndex_STATUS() to populate field Indexes")
-			}
-			indexList[index] = indexLocal
-		}
-		resource.Indexes = indexList
-	} else {
-		resource.Indexes = nil
-	}
-
-	// ShardKey
-	resource.ShardKey = genruntime.CloneMapOfStringToString(source.ShardKey)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		resource.PropertyBag = propertyBag
-	} else {
-		resource.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToMongoDBCollectionResource_STATUS populates the provided destination MongoDBCollectionResource_STATUS from our MongoDBCollectionResource_STATUS
-func (resource *MongoDBCollectionResource_STATUS) AssignPropertiesToMongoDBCollectionResource_STATUS(destination *v20210515s.MongoDBCollectionResource_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
-
-	// AnalyticalStorageTtl
-	destination.AnalyticalStorageTtl = genruntime.ClonePointerToInt(resource.AnalyticalStorageTtl)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(resource.Id)
-
-	// Indexes
-	if resource.Indexes != nil {
-		indexList := make([]v20210515s.MongoIndex_STATUS, len(resource.Indexes))
-		for index, indexItem := range resource.Indexes {
-			// Shadow the loop variable to avoid aliasing
-			indexItem := indexItem
-			var indexLocal v20210515s.MongoIndex_STATUS
-			err := indexItem.AssignPropertiesToMongoIndex_STATUS(&indexLocal)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToMongoIndex_STATUS() to populate field Indexes")
 			}
 			indexList[index] = indexLocal
 		}

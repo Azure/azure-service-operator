@@ -92,5 +92,5 @@ func AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabasesThroughp
 
 // AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesThroughputSetting_STATUSARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesThroughputSetting_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(ThroughputSettingsUpdateProperties_STATUSARMGenerator())
+	gens["Properties"] = gen.PtrOf(ThroughputSettingsGetProperties_STATUSARMGenerator())
 }

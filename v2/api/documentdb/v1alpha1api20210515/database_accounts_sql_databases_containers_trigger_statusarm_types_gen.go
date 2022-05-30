@@ -5,45 +5,47 @@ package v1alpha1api20210515
 
 // Deprecated version of DatabaseAccountsSqlDatabasesContainersTrigger_STATUS. Use v1beta20210515.DatabaseAccountsSqlDatabasesContainersTrigger_STATUS instead
 type DatabaseAccountsSqlDatabasesContainersTrigger_STATUSARM struct {
-	Id         *string                                     `json:"id,omitempty"`
-	Location   *string                                     `json:"location,omitempty"`
-	Name       *string                                     `json:"name,omitempty"`
-	Properties *SqlTriggerCreateUpdateProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                           `json:"tags,omitempty"`
-	Type       *string                                     `json:"type,omitempty"`
+	Id         *string                            `json:"id,omitempty"`
+	Location   *string                            `json:"location,omitempty"`
+	Name       *string                            `json:"name,omitempty"`
+	Properties *SqlTriggerGetProperties_STATUSARM `json:"properties,omitempty"`
+	Tags       map[string]string                  `json:"tags,omitempty"`
+	Type       *string                            `json:"type,omitempty"`
 }
 
-// Deprecated version of SqlTriggerCreateUpdateProperties_STATUS. Use v1beta20210515.SqlTriggerCreateUpdateProperties_STATUS instead
-type SqlTriggerCreateUpdateProperties_STATUSARM struct {
-	Options  *CreateUpdateOptions_STATUSARM `json:"options,omitempty"`
-	Resource *SqlTriggerResource_STATUSARM  `json:"resource,omitempty"`
+// Deprecated version of SqlTriggerGetProperties_STATUS. Use v1beta20210515.SqlTriggerGetProperties_STATUS instead
+type SqlTriggerGetProperties_STATUSARM struct {
+	Resource *SqlTriggerGetProperties_Resource_STATUSARM `json:"resource,omitempty"`
 }
 
-// Deprecated version of SqlTriggerResource_STATUS. Use v1beta20210515.SqlTriggerResource_STATUS instead
-type SqlTriggerResource_STATUSARM struct {
-	Body             *string                                     `json:"body,omitempty"`
-	Id               *string                                     `json:"id,omitempty"`
-	TriggerOperation *SqlTriggerResource_TriggerOperation_STATUS `json:"triggerOperation,omitempty"`
-	TriggerType      *SqlTriggerResource_TriggerType_STATUS      `json:"triggerType,omitempty"`
+// Deprecated version of SqlTriggerGetProperties_Resource_STATUS. Use v1beta20210515.SqlTriggerGetProperties_Resource_STATUS instead
+type SqlTriggerGetProperties_Resource_STATUSARM struct {
+	Body             *string                                                   `json:"body,omitempty"`
+	Id               *string                                                   `json:"id,omitempty"`
+	TriggerOperation *SqlTriggerGetProperties_Resource_TriggerOperation_STATUS `json:"triggerOperation,omitempty"`
+	TriggerType      *SqlTriggerGetProperties_Resource_TriggerType_STATUS      `json:"triggerType,omitempty"`
+	_Etag            *string                                                   `json:"_etag,omitempty"`
+	_Rid             *string                                                   `json:"_rid,omitempty"`
+	_Ts              *float64                                                  `json:"_ts,omitempty"`
 }
 
-// Deprecated version of SqlTriggerResource_TriggerOperation_STATUS. Use
-// v1beta20210515.SqlTriggerResource_TriggerOperation_STATUS instead
-type SqlTriggerResource_TriggerOperation_STATUS string
+// Deprecated version of SqlTriggerGetProperties_Resource_TriggerOperation_STATUS. Use
+// v1beta20210515.SqlTriggerGetProperties_Resource_TriggerOperation_STATUS instead
+type SqlTriggerGetProperties_Resource_TriggerOperation_STATUS string
 
 const (
-	SqlTriggerResource_TriggerOperation_All_STATUS     = SqlTriggerResource_TriggerOperation_STATUS("All")
-	SqlTriggerResource_TriggerOperation_Create_STATUS  = SqlTriggerResource_TriggerOperation_STATUS("Create")
-	SqlTriggerResource_TriggerOperation_Delete_STATUS  = SqlTriggerResource_TriggerOperation_STATUS("Delete")
-	SqlTriggerResource_TriggerOperation_Replace_STATUS = SqlTriggerResource_TriggerOperation_STATUS("Replace")
-	SqlTriggerResource_TriggerOperation_Update_STATUS  = SqlTriggerResource_TriggerOperation_STATUS("Update")
+	SqlTriggerGetProperties_Resource_TriggerOperation_All_STATUS     = SqlTriggerGetProperties_Resource_TriggerOperation_STATUS("All")
+	SqlTriggerGetProperties_Resource_TriggerOperation_Create_STATUS  = SqlTriggerGetProperties_Resource_TriggerOperation_STATUS("Create")
+	SqlTriggerGetProperties_Resource_TriggerOperation_Delete_STATUS  = SqlTriggerGetProperties_Resource_TriggerOperation_STATUS("Delete")
+	SqlTriggerGetProperties_Resource_TriggerOperation_Replace_STATUS = SqlTriggerGetProperties_Resource_TriggerOperation_STATUS("Replace")
+	SqlTriggerGetProperties_Resource_TriggerOperation_Update_STATUS  = SqlTriggerGetProperties_Resource_TriggerOperation_STATUS("Update")
 )
 
-// Deprecated version of SqlTriggerResource_TriggerType_STATUS. Use v1beta20210515.SqlTriggerResource_TriggerType_STATUS
-// instead
-type SqlTriggerResource_TriggerType_STATUS string
+// Deprecated version of SqlTriggerGetProperties_Resource_TriggerType_STATUS. Use
+// v1beta20210515.SqlTriggerGetProperties_Resource_TriggerType_STATUS instead
+type SqlTriggerGetProperties_Resource_TriggerType_STATUS string
 
 const (
-	SqlTriggerResource_TriggerType_Post_STATUS = SqlTriggerResource_TriggerType_STATUS("Post")
-	SqlTriggerResource_TriggerType_Pre_STATUS  = SqlTriggerResource_TriggerType_STATUS("Pre")
+	SqlTriggerGetProperties_Resource_TriggerType_Post_STATUS = SqlTriggerGetProperties_Resource_TriggerType_STATUS("Post")
+	SqlTriggerGetProperties_Resource_TriggerType_Pre_STATUS  = SqlTriggerGetProperties_Resource_TriggerType_STATUS("Pre")
 )

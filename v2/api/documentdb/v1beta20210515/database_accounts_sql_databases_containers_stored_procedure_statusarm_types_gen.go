@@ -13,27 +13,31 @@ type DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUSARM struct {
 	// Name: The name of the ARM resource.
 	Name *string `json:"name,omitempty"`
 
-	// Properties: Properties to create and update Azure Cosmos DB storedProcedure.
-	Properties *SqlStoredProcedureCreateUpdateProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                                   `json:"tags,omitempty"`
+	// Properties: The properties of an Azure Cosmos DB storedProcedure
+	Properties *SqlStoredProcedureGetProperties_STATUSARM `json:"properties,omitempty"`
+	Tags       map[string]string                          `json:"tags,omitempty"`
 
 	// Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
 }
 
-type SqlStoredProcedureCreateUpdateProperties_STATUSARM struct {
-	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
-	// request.
-	Options *CreateUpdateOptions_STATUSARM `json:"options,omitempty"`
-
-	// Resource: The standard JSON format of a storedProcedure
-	Resource *SqlStoredProcedureResource_STATUSARM `json:"resource,omitempty"`
+type SqlStoredProcedureGetProperties_STATUSARM struct {
+	Resource *SqlStoredProcedureGetProperties_Resource_STATUSARM `json:"resource,omitempty"`
 }
 
-type SqlStoredProcedureResource_STATUSARM struct {
+type SqlStoredProcedureGetProperties_Resource_STATUSARM struct {
 	// Body: Body of the Stored Procedure
 	Body *string `json:"body,omitempty"`
 
 	// Id: Name of the Cosmos DB SQL storedProcedure
 	Id *string `json:"id,omitempty"`
+
+	// _Etag: A system generated property representing the resource etag required for optimistic concurrency control.
+	_Etag *string `json:"_etag,omitempty"`
+
+	// _Rid: A system generated property. A unique identifier.
+	_Rid *string `json:"_rid,omitempty"`
+
+	// _Ts: A system generated property that denotes the last updated timestamp of the resource.
+	_Ts *float64 `json:"_ts,omitempty"`
 }

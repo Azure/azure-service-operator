@@ -153,7 +153,7 @@ func (resourceLookup resourceLookup) add(name astmodel.TypeName, theType astmode
 // all types (apart from Resources) are renamed to have "_STATUS" as a
 // suffix, to avoid name clashes.
 func generateStatusTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.TypeDefinitionSet, astmodel.TypeDefinitionSet, error) {
-	resourceLookup, otherTypes, err := renamed(swaggerTypes, astmodel.StatusNameSuffix)
+	resourceLookup, otherTypes, err := renamed(swaggerTypes, true, astmodel.StatusNameSuffix)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -189,7 +189,7 @@ func generateStatusTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.TypeDefini
 
 // Note that the first result is for mapping resource names → types, so it is always TypeName→TypeName.
 // The second contains all the renamed types.
-func renamed(swaggerTypes jsonast.SwaggerTypes, suffix string) (astmodel.TypeDefinitionSet, astmodel.TypeDefinitionSet, error) {
+func renamed(swaggerTypes jsonast.SwaggerTypes, status bool, suffix string) (astmodel.TypeDefinitionSet, astmodel.TypeDefinitionSet, error) {
 	renamer := astmodel.NewRenamingVisitorFromLambda(func(typeName astmodel.TypeName) astmodel.TypeName {
 		return typeName.WithName(typeName.Name() + suffix)
 	})
@@ -208,7 +208,11 @@ func renamed(swaggerTypes jsonast.SwaggerTypes, suffix string) (astmodel.TypeDef
 	resources := make(astmodel.TypeDefinitionSet)
 	for resourceName, resourceDef := range swaggerTypes.ResourceDefinitions {
 		// resourceName is not renamed as this is a lookup for the resource type
-		renamedType, err := renamer.Rename(resourceDef.Type)
+		typeToRename := resourceDef.SpecType
+		if status {
+			typeToRename = resourceDef.StatusType
+		}
+		renamedType, err := renamer.Rename(typeToRename)
 		if err != nil {
 			errs = append(errs, err)
 		} else {
@@ -225,7 +229,9 @@ func renamed(swaggerTypes jsonast.SwaggerTypes, suffix string) (astmodel.TypeDef
 }
 
 func generateSpecTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.TypeDefinitionSet, astmodel.TypeDefinitionSet, error) {
-	resources, otherTypes, err := renamed(swaggerTypes, "") // TODO: I think this should be renamed to "_Spec" for consistency, but will do in a separate PR for cleanliness #Naming
+	// TODO: I think this should be renamed to "_Spec" for consistency, but will do in a separate PR for cleanliness #Naming
+	// the alternative is that we place them in their own package
+	resources, otherTypes, err := renamed(swaggerTypes, false, "")
 	if err != nil {
 		return nil, nil, err
 	}
@@ -442,7 +448,7 @@ func mergeTypesForPackage(idFactory astmodel.IdentifierFactory, typesFromFiles [
 
 		for rn, rt := range typesFromFile.ResourceDefinitions {
 			if foundRT, ok := mergedResult.ResourceDefinitions[rn]; ok &&
-				!astmodel.TypeEquals(foundRT.Type, rt.Type) {
+				!(astmodel.TypeEquals(foundRT.SpecType, rt.SpecType) && astmodel.TypeEquals(foundRT.StatusType, rt.StatusType)) {
 				panic(fmt.Sprintf("While merging file %s: duplicate resource types generated", typesFromFile.filePath))
 			}
 
@@ -545,13 +551,19 @@ func applyRenames(renames map[astmodel.TypeName]astmodel.TypeName, typesFromFile
 	// visit all resource types
 	newResourceTypes := make(jsonast.ResourceDefinitionSet)
 	for rn, rt := range typesFromFile.ResourceDefinitions {
-		newType, err := visitor.Rename(rt.Type)
+		newSpecType, err := visitor.Rename(rt.SpecType)
+		if err != nil {
+			panic(err)
+		}
+
+		newStatusType, err := visitor.Rename(rt.StatusType)
 		if err != nil {
 			panic(err)
 		}
 
 		newResourceTypes[rn] = jsonast.ResourceDefinition{
-			Type:       newType,
+			SpecType:       newSpecType,
+			StatusType: newStatusType,
 			SourceFile: rt.SourceFile,
 		}
 	}

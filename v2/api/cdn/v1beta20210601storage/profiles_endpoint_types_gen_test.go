@@ -422,20 +422,11 @@ func CustomDomain_STATUSGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForCustomDomain_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCustomDomain_STATUS(gens map[string]gopter.Gen) {
-	gens["CustomHttpsProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["CustomHttpsProvisioningSubstate"] = gen.PtrOf(gen.AlphaString())
-	gens["HostName"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["ResourceState"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["ValidationData"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForCustomDomain_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForCustomDomain_STATUS(gens map[string]gopter.Gen) {
-	gens["CustomHttpsParameters"] = gen.PtrOf(CustomDomainHttpsParameters_STATUSGenerator())
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
 }
 
@@ -1441,68 +1432,6 @@ func CustomDomainHttpsParametersGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForCustomDomainHttpsParameters is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForCustomDomainHttpsParameters(gens map[string]gopter.Gen) {
-	gens["CertificateSource"] = gen.PtrOf(gen.AlphaString())
-	gens["MinimumTlsVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["ProtocolType"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_CustomDomainHttpsParameters_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CustomDomainHttpsParameters_STATUS via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCustomDomainHttpsParameters_STATUS, CustomDomainHttpsParameters_STATUSGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForCustomDomainHttpsParameters_STATUS runs a test to see if a specific instance of CustomDomainHttpsParameters_STATUS round trips to JSON and back losslessly
-func RunJSONSerializationTestForCustomDomainHttpsParameters_STATUS(subject CustomDomainHttpsParameters_STATUS) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual CustomDomainHttpsParameters_STATUS
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of CustomDomainHttpsParameters_STATUS instances for property testing - lazily instantiated by
-// CustomDomainHttpsParameters_STATUSGenerator()
-var customDomainHttpsParameters_STATUSGenerator gopter.Gen
-
-// CustomDomainHttpsParameters_STATUSGenerator returns a generator of CustomDomainHttpsParameters_STATUS instances for property testing.
-func CustomDomainHttpsParameters_STATUSGenerator() gopter.Gen {
-	if customDomainHttpsParameters_STATUSGenerator != nil {
-		return customDomainHttpsParameters_STATUSGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCustomDomainHttpsParameters_STATUS(generators)
-	customDomainHttpsParameters_STATUSGenerator = gen.Struct(reflect.TypeOf(CustomDomainHttpsParameters_STATUS{}), generators)
-
-	return customDomainHttpsParameters_STATUSGenerator
-}
-
-// AddIndependentPropertyGeneratorsForCustomDomainHttpsParameters_STATUS is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCustomDomainHttpsParameters_STATUS(gens map[string]gopter.Gen) {
 	gens["CertificateSource"] = gen.PtrOf(gen.AlphaString())
 	gens["MinimumTlsVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["ProtocolType"] = gen.PtrOf(gen.AlphaString())

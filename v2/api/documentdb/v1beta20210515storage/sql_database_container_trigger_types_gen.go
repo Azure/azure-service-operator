@@ -133,15 +133,14 @@ type SqlDatabaseContainerTriggerList struct {
 
 // Storage version of v1beta20210515.DatabaseAccountsSqlDatabasesContainersTrigger_STATUS
 type DatabaseAccountsSqlDatabasesContainersTrigger_STATUS struct {
-	Conditions  []conditions.Condition      `json:"conditions,omitempty"`
-	Id          *string                     `json:"id,omitempty"`
-	Location    *string                     `json:"location,omitempty"`
-	Name        *string                     `json:"name,omitempty"`
-	Options     *CreateUpdateOptions_STATUS `json:"options,omitempty"`
-	PropertyBag genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
-	Resource    *SqlTriggerResource_STATUS  `json:"resource,omitempty"`
-	Tags        map[string]string           `json:"tags,omitempty"`
-	Type        *string                     `json:"type,omitempty"`
+	Conditions  []conditions.Condition                   `json:"conditions,omitempty"`
+	Id          *string                                  `json:"id,omitempty"`
+	Location    *string                                  `json:"location,omitempty"`
+	Name        *string                                  `json:"name,omitempty"`
+	PropertyBag genruntime.PropertyBag                   `json:"$propertyBag,omitempty"`
+	Resource    *SqlTriggerGetProperties_Resource_STATUS `json:"resource,omitempty"`
+	Tags        map[string]string                        `json:"tags,omitempty"`
+	Type        *string                                  `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &DatabaseAccountsSqlDatabasesContainersTrigger_STATUS{}
@@ -205,17 +204,20 @@ func (trigger *DatabaseAccountsSqlDatabasesContainersTrigger_Spec) ConvertSpecTo
 	return destination.ConvertSpecFrom(trigger)
 }
 
-// Storage version of v1beta20210515.SqlTriggerResource
-type SqlTriggerResource struct {
+// Storage version of v1beta20210515.SqlTriggerGetProperties_Resource_STATUS
+type SqlTriggerGetProperties_Resource_STATUS struct {
 	Body             *string                `json:"body,omitempty"`
 	Id               *string                `json:"id,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	TriggerOperation *string                `json:"triggerOperation,omitempty"`
 	TriggerType      *string                `json:"triggerType,omitempty"`
+	_Etag            *string                `json:"_etag,omitempty"`
+	_Rid             *string                `json:"_rid,omitempty"`
+	_Ts              *float64               `json:"_ts,omitempty"`
 }
 
-// Storage version of v1beta20210515.SqlTriggerResource_STATUS
-type SqlTriggerResource_STATUS struct {
+// Storage version of v1beta20210515.SqlTriggerResource
+type SqlTriggerResource struct {
 	Body             *string                `json:"body,omitempty"`
 	Id               *string                `json:"id,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`

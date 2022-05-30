@@ -202,15 +202,15 @@ type SqlDatabaseList struct {
 // Storage version of v1alpha1api20210515.DatabaseAccountsSqlDatabase_STATUS
 // Deprecated version of DatabaseAccountsSqlDatabase_STATUS. Use v1beta20210515.DatabaseAccountsSqlDatabase_STATUS instead
 type DatabaseAccountsSqlDatabase_STATUS struct {
-	Conditions  []conditions.Condition      `json:"conditions,omitempty"`
-	Id          *string                     `json:"id,omitempty"`
-	Location    *string                     `json:"location,omitempty"`
-	Name        *string                     `json:"name,omitempty"`
-	Options     *CreateUpdateOptions_STATUS `json:"options,omitempty"`
-	PropertyBag genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
-	Resource    *SqlDatabaseResource_STATUS `json:"resource,omitempty"`
-	Tags        map[string]string           `json:"tags,omitempty"`
-	Type        *string                     `json:"type,omitempty"`
+	Conditions  []conditions.Condition                    `json:"conditions,omitempty"`
+	Id          *string                                   `json:"id,omitempty"`
+	Location    *string                                   `json:"location,omitempty"`
+	Name        *string                                   `json:"name,omitempty"`
+	Options     *OptionsResource_STATUS                   `json:"options,omitempty"`
+	PropertyBag genruntime.PropertyBag                    `json:"$propertyBag,omitempty"`
+	Resource    *SqlDatabaseGetProperties_Resource_STATUS `json:"resource,omitempty"`
+	Tags        map[string]string                         `json:"tags,omitempty"`
+	Type        *string                                   `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &DatabaseAccountsSqlDatabase_STATUS{}
@@ -282,10 +282,10 @@ func (database *DatabaseAccountsSqlDatabase_STATUS) AssignPropertiesFromDatabase
 
 	// Options
 	if source.Options != nil {
-		var option CreateUpdateOptions_STATUS
-		err := option.AssignPropertiesFromCreateUpdateOptions_STATUS(source.Options)
+		var option OptionsResource_STATUS
+		err := option.AssignPropertiesFromOptionsResource_STATUS(source.Options)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptions_STATUS() to populate field Options")
+			return errors.Wrap(err, "calling AssignPropertiesFromOptionsResource_STATUS() to populate field Options")
 		}
 		database.Options = &option
 	} else {
@@ -294,10 +294,10 @@ func (database *DatabaseAccountsSqlDatabase_STATUS) AssignPropertiesFromDatabase
 
 	// Resource
 	if source.Resource != nil {
-		var resource SqlDatabaseResource_STATUS
-		err := resource.AssignPropertiesFromSqlDatabaseResource_STATUS(source.Resource)
+		var resource SqlDatabaseGetProperties_Resource_STATUS
+		err := resource.AssignPropertiesFromSqlDatabaseGetProperties_Resource_STATUS(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSqlDatabaseResource_STATUS() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesFromSqlDatabaseGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		database.Resource = &resource
 	} else {
@@ -340,10 +340,10 @@ func (database *DatabaseAccountsSqlDatabase_STATUS) AssignPropertiesToDatabaseAc
 
 	// Options
 	if database.Options != nil {
-		var option v20210515s.CreateUpdateOptions_STATUS
-		err := database.Options.AssignPropertiesToCreateUpdateOptions_STATUS(&option)
+		var option v20210515s.OptionsResource_STATUS
+		err := database.Options.AssignPropertiesToOptionsResource_STATUS(&option)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions_STATUS() to populate field Options")
+			return errors.Wrap(err, "calling AssignPropertiesToOptionsResource_STATUS() to populate field Options")
 		}
 		destination.Options = &option
 	} else {
@@ -352,10 +352,10 @@ func (database *DatabaseAccountsSqlDatabase_STATUS) AssignPropertiesToDatabaseAc
 
 	// Resource
 	if database.Resource != nil {
-		var resource v20210515s.SqlDatabaseResource_STATUS
-		err := database.Resource.AssignPropertiesToSqlDatabaseResource_STATUS(&resource)
+		var resource v20210515s.SqlDatabaseGetProperties_Resource_STATUS
+		err := database.Resource.AssignPropertiesToSqlDatabaseGetProperties_Resource_STATUS(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSqlDatabaseResource_STATUS() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesToSqlDatabaseGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {
@@ -582,6 +582,96 @@ func (database *DatabaseAccountsSqlDatabase_Spec) AssignPropertiesToDatabaseAcco
 	return nil
 }
 
+// Storage version of v1alpha1api20210515.SqlDatabaseGetProperties_Resource_STATUS
+// Deprecated version of SqlDatabaseGetProperties_Resource_STATUS. Use v1beta20210515.SqlDatabaseGetProperties_Resource_STATUS instead
+type SqlDatabaseGetProperties_Resource_STATUS struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	_Colls      *string                `json:"_colls,omitempty"`
+	_Etag       *string                `json:"_etag,omitempty"`
+	_Rid        *string                `json:"_rid,omitempty"`
+	_Ts         *float64               `json:"_ts,omitempty"`
+	_Users      *string                `json:"_users,omitempty"`
+}
+
+// AssignPropertiesFromSqlDatabaseGetProperties_Resource_STATUS populates our SqlDatabaseGetProperties_Resource_STATUS from the provided source SqlDatabaseGetProperties_Resource_STATUS
+func (resource *SqlDatabaseGetProperties_Resource_STATUS) AssignPropertiesFromSqlDatabaseGetProperties_Resource_STATUS(source *v20210515s.SqlDatabaseGetProperties_Resource_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Id
+	resource.Id = genruntime.ClonePointerToString(source.Id)
+
+	// _Colls
+	resource._Colls = genruntime.ClonePointerToString(source._Colls)
+
+	// _Etag
+	resource._Etag = genruntime.ClonePointerToString(source._Etag)
+
+	// _Rid
+	resource._Rid = genruntime.ClonePointerToString(source._Rid)
+
+	// _Ts
+	if source._Ts != nil {
+		_T := *source._Ts
+		resource._Ts = &_T
+	} else {
+		resource._Ts = nil
+	}
+
+	// _Users
+	resource._Users = genruntime.ClonePointerToString(source._Users)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		resource.PropertyBag = propertyBag
+	} else {
+		resource.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToSqlDatabaseGetProperties_Resource_STATUS populates the provided destination SqlDatabaseGetProperties_Resource_STATUS from our SqlDatabaseGetProperties_Resource_STATUS
+func (resource *SqlDatabaseGetProperties_Resource_STATUS) AssignPropertiesToSqlDatabaseGetProperties_Resource_STATUS(destination *v20210515s.SqlDatabaseGetProperties_Resource_STATUS) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(resource.Id)
+
+	// _Colls
+	destination._Colls = genruntime.ClonePointerToString(resource._Colls)
+
+	// _Etag
+	destination._Etag = genruntime.ClonePointerToString(resource._Etag)
+
+	// _Rid
+	destination._Rid = genruntime.ClonePointerToString(resource._Rid)
+
+	// _Ts
+	if resource._Ts != nil {
+		_T := *resource._Ts
+		destination._Ts = &_T
+	} else {
+		destination._Ts = nil
+	}
+
+	// _Users
+	destination._Users = genruntime.ClonePointerToString(resource._Users)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1alpha1api20210515.SqlDatabaseResource
 // Deprecated version of SqlDatabaseResource. Use v1beta20210515.SqlDatabaseResource instead
 type SqlDatabaseResource struct {
@@ -610,51 +700,6 @@ func (resource *SqlDatabaseResource) AssignPropertiesFromSqlDatabaseResource(sou
 
 // AssignPropertiesToSqlDatabaseResource populates the provided destination SqlDatabaseResource from our SqlDatabaseResource
 func (resource *SqlDatabaseResource) AssignPropertiesToSqlDatabaseResource(destination *v20210515s.SqlDatabaseResource) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(resource.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20210515.SqlDatabaseResource_STATUS
-// Deprecated version of SqlDatabaseResource_STATUS. Use v1beta20210515.SqlDatabaseResource_STATUS instead
-type SqlDatabaseResource_STATUS struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// AssignPropertiesFromSqlDatabaseResource_STATUS populates our SqlDatabaseResource_STATUS from the provided source SqlDatabaseResource_STATUS
-func (resource *SqlDatabaseResource_STATUS) AssignPropertiesFromSqlDatabaseResource_STATUS(source *v20210515s.SqlDatabaseResource_STATUS) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Id
-	resource.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		resource.PropertyBag = propertyBag
-	} else {
-		resource.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToSqlDatabaseResource_STATUS populates the provided destination SqlDatabaseResource_STATUS from our SqlDatabaseResource_STATUS
-func (resource *SqlDatabaseResource_STATUS) AssignPropertiesToSqlDatabaseResource_STATUS(destination *v20210515s.SqlDatabaseResource_STATUS) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
 

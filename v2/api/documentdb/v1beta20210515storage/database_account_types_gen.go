@@ -150,11 +150,13 @@ type DatabaseAccount_STATUS struct {
 	DatabaseAccountOfferType           *string                                `json:"databaseAccountOfferType,omitempty"`
 	DefaultIdentity                    *string                                `json:"defaultIdentity,omitempty"`
 	DisableKeyBasedMetadataWriteAccess *bool                                  `json:"disableKeyBasedMetadataWriteAccess,omitempty"`
+	DocumentEndpoint                   *string                                `json:"documentEndpoint,omitempty"`
 	EnableAnalyticalStorage            *bool                                  `json:"enableAnalyticalStorage,omitempty"`
 	EnableAutomaticFailover            *bool                                  `json:"enableAutomaticFailover,omitempty"`
 	EnableCassandraConnector           *bool                                  `json:"enableCassandraConnector,omitempty"`
 	EnableFreeTier                     *bool                                  `json:"enableFreeTier,omitempty"`
 	EnableMultipleWriteLocations       *bool                                  `json:"enableMultipleWriteLocations,omitempty"`
+	FailoverPolicies                   []FailoverPolicy_STATUS                `json:"failoverPolicies,omitempty"`
 	Id                                 *string                                `json:"id,omitempty"`
 	Identity                           *ManagedServiceIdentity_STATUS         `json:"identity,omitempty"`
 	IpRules                            []IpAddressOrRange_STATUS              `json:"ipRules,omitempty"`
@@ -166,11 +168,15 @@ type DatabaseAccount_STATUS struct {
 	Name                               *string                                `json:"name,omitempty"`
 	NetworkAclBypass                   *string                                `json:"networkAclBypass,omitempty"`
 	NetworkAclBypassResourceIds        []string                               `json:"networkAclBypassResourceIds,omitempty"`
+	PrivateEndpointConnections         []PrivateEndpointConnection_STATUS     `json:"privateEndpointConnections,omitempty"`
 	PropertyBag                        genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
+	ProvisioningState                  *string                                `json:"provisioningState,omitempty"`
 	PublicNetworkAccess                *string                                `json:"publicNetworkAccess,omitempty"`
+	ReadLocations                      []Location_STATUS                      `json:"readLocations,omitempty"`
 	Tags                               map[string]string                      `json:"tags,omitempty"`
 	Type                               *string                                `json:"type,omitempty"`
 	VirtualNetworkRules                []VirtualNetworkRule_STATUS            `json:"virtualNetworkRules,omitempty"`
+	WriteLocations                     []Location_STATUS                      `json:"writeLocations,omitempty"`
 }
 
 var _ genruntime.ConvertibleStatus = &DatabaseAccount_STATUS{}
@@ -350,6 +356,14 @@ type DatabaseAccountOperatorSpec struct {
 	Secrets     *DatabaseAccountOperatorSecrets `json:"secrets,omitempty"`
 }
 
+// Storage version of v1beta20210515.FailoverPolicy_STATUS
+type FailoverPolicy_STATUS struct {
+	FailoverPriority *int                   `json:"failoverPriority,omitempty"`
+	Id               *string                `json:"id,omitempty"`
+	LocationName     *string                `json:"locationName,omitempty"`
+	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
 // Storage version of v1beta20210515.IpAddressOrRange
 type IpAddressOrRange struct {
 	IpAddressOrRange *string                `json:"ipAddressOrRange,omitempty"`
@@ -398,6 +412,12 @@ type ManagedServiceIdentity_STATUS struct {
 	TenantId               *string                                                         `json:"tenantId,omitempty"`
 	Type                   *string                                                         `json:"type,omitempty"`
 	UserAssignedIdentities map[string]ManagedServiceIdentity_UserAssignedIdentities_STATUS `json:"userAssignedIdentities,omitempty"`
+}
+
+// Storage version of v1beta20210515.PrivateEndpointConnection_STATUS
+type PrivateEndpointConnection_STATUS struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210515.VirtualNetworkRule

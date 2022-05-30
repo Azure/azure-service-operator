@@ -330,11 +330,9 @@ type DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STATUS struct 
 	Location *string `json:"location,omitempty"`
 
 	// Name: The name of the ARM resource.
-	Name *string `json:"name,omitempty"`
-
-	// Resource: The standard JSON format of a resource throughput
-	Resource *ThroughputSettingsResource_STATUS `json:"resource,omitempty"`
-	Tags     map[string]string                  `json:"tags,omitempty"`
+	Name     *string                                          `json:"name,omitempty"`
+	Resource *ThroughputSettingsGetProperties_Resource_STATUS `json:"resource,omitempty"`
+	Tags     map[string]string                                `json:"tags,omitempty"`
 
 	// Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
@@ -428,7 +426,7 @@ func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STAT
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Resource != nil {
-			var resource1 ThroughputSettingsResource_STATUS
+			var resource1 ThroughputSettingsGetProperties_Resource_STATUS
 			err := resource1.PopulateFromARM(owner, *typedInput.Properties.Resource)
 			if err != nil {
 				return err
@@ -473,10 +471,10 @@ func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STAT
 
 	// Resource
 	if source.Resource != nil {
-		var resource ThroughputSettingsResource_STATUS
-		err := resource.AssignPropertiesFromThroughputSettingsResource_STATUS(source.Resource)
+		var resource ThroughputSettingsGetProperties_Resource_STATUS
+		err := resource.AssignPropertiesFromThroughputSettingsGetProperties_Resource_STATUS(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsResource_STATUS() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesFromThroughputSettingsGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		setting.Resource = &resource
 	} else {
@@ -512,10 +510,10 @@ func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_STAT
 
 	// Resource
 	if setting.Resource != nil {
-		var resource v20210515s.ThroughputSettingsResource_STATUS
-		err := setting.Resource.AssignPropertiesToThroughputSettingsResource_STATUS(&resource)
+		var resource v20210515s.ThroughputSettingsGetProperties_Resource_STATUS
+		err := setting.Resource.AssignPropertiesToThroughputSettingsGetProperties_Resource_STATUS(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsResource_STATUS() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesToThroughputSettingsGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {
@@ -841,6 +839,189 @@ func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec
 	setting.AzureName = azureName
 }
 
+type ThroughputSettingsGetProperties_Resource_STATUS struct {
+	// AutoscaleSettings: Cosmos DB resource for autoscale settings. Either throughput is required or autoscaleSettings is
+	// required, but not both.
+	AutoscaleSettings *AutoscaleSettingsResource_STATUS `json:"autoscaleSettings,omitempty"`
+
+	// MinimumThroughput: The minimum throughput of the resource
+	MinimumThroughput *string `json:"minimumThroughput,omitempty"`
+
+	// OfferReplacePending: The throughput replace is pending
+	OfferReplacePending *string `json:"offerReplacePending,omitempty"`
+
+	// Throughput: Value of the Cosmos DB resource throughput. Either throughput is required or autoscaleSettings is required,
+	// but not both.
+	Throughput *int `json:"throughput,omitempty"`
+
+	// _Etag: A system generated property representing the resource etag required for optimistic concurrency control.
+	_Etag *string `json:"_etag,omitempty"`
+
+	// _Rid: A system generated property. A unique identifier.
+	_Rid *string `json:"_rid,omitempty"`
+
+	// _Ts: A system generated property that denotes the last updated timestamp of the resource.
+	_Ts *float64 `json:"_ts,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &ThroughputSettingsGetProperties_Resource_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (resource *ThroughputSettingsGetProperties_Resource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ThroughputSettingsGetProperties_Resource_STATUSARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (resource *ThroughputSettingsGetProperties_Resource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ThroughputSettingsGetProperties_Resource_STATUSARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ThroughputSettingsGetProperties_Resource_STATUSARM, got %T", armInput)
+	}
+
+	// Set property ‘AutoscaleSettings’:
+	if typedInput.AutoscaleSettings != nil {
+		var autoscaleSettings1 AutoscaleSettingsResource_STATUS
+		err := autoscaleSettings1.PopulateFromARM(owner, *typedInput.AutoscaleSettings)
+		if err != nil {
+			return err
+		}
+		autoscaleSettings := autoscaleSettings1
+		resource.AutoscaleSettings = &autoscaleSettings
+	}
+
+	// Set property ‘MinimumThroughput’:
+	if typedInput.MinimumThroughput != nil {
+		minimumThroughput := *typedInput.MinimumThroughput
+		resource.MinimumThroughput = &minimumThroughput
+	}
+
+	// Set property ‘OfferReplacePending’:
+	if typedInput.OfferReplacePending != nil {
+		offerReplacePending := *typedInput.OfferReplacePending
+		resource.OfferReplacePending = &offerReplacePending
+	}
+
+	// Set property ‘Throughput’:
+	if typedInput.Throughput != nil {
+		throughput := *typedInput.Throughput
+		resource.Throughput = &throughput
+	}
+
+	// Set property ‘_Etag’:
+	if typedInput._Etag != nil {
+		_Etag := *typedInput._Etag
+		resource._Etag = &_Etag
+	}
+
+	// Set property ‘_Rid’:
+	if typedInput._Rid != nil {
+		_Rid := *typedInput._Rid
+		resource._Rid = &_Rid
+	}
+
+	// Set property ‘_Ts’:
+	if typedInput._Ts != nil {
+		_Ts := *typedInput._Ts
+		resource._Ts = &_Ts
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromThroughputSettingsGetProperties_Resource_STATUS populates our ThroughputSettingsGetProperties_Resource_STATUS from the provided source ThroughputSettingsGetProperties_Resource_STATUS
+func (resource *ThroughputSettingsGetProperties_Resource_STATUS) AssignPropertiesFromThroughputSettingsGetProperties_Resource_STATUS(source *v20210515s.ThroughputSettingsGetProperties_Resource_STATUS) error {
+
+	// AutoscaleSettings
+	if source.AutoscaleSettings != nil {
+		var autoscaleSetting AutoscaleSettingsResource_STATUS
+		err := autoscaleSetting.AssignPropertiesFromAutoscaleSettingsResource_STATUS(source.AutoscaleSettings)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromAutoscaleSettingsResource_STATUS() to populate field AutoscaleSettings")
+		}
+		resource.AutoscaleSettings = &autoscaleSetting
+	} else {
+		resource.AutoscaleSettings = nil
+	}
+
+	// MinimumThroughput
+	resource.MinimumThroughput = genruntime.ClonePointerToString(source.MinimumThroughput)
+
+	// OfferReplacePending
+	resource.OfferReplacePending = genruntime.ClonePointerToString(source.OfferReplacePending)
+
+	// Throughput
+	resource.Throughput = genruntime.ClonePointerToInt(source.Throughput)
+
+	// _Etag
+	resource._Etag = genruntime.ClonePointerToString(source._Etag)
+
+	// _Rid
+	resource._Rid = genruntime.ClonePointerToString(source._Rid)
+
+	// _Ts
+	if source._Ts != nil {
+		_T := *source._Ts
+		resource._Ts = &_T
+	} else {
+		resource._Ts = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToThroughputSettingsGetProperties_Resource_STATUS populates the provided destination ThroughputSettingsGetProperties_Resource_STATUS from our ThroughputSettingsGetProperties_Resource_STATUS
+func (resource *ThroughputSettingsGetProperties_Resource_STATUS) AssignPropertiesToThroughputSettingsGetProperties_Resource_STATUS(destination *v20210515s.ThroughputSettingsGetProperties_Resource_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AutoscaleSettings
+	if resource.AutoscaleSettings != nil {
+		var autoscaleSetting v20210515s.AutoscaleSettingsResource_STATUS
+		err := resource.AutoscaleSettings.AssignPropertiesToAutoscaleSettingsResource_STATUS(&autoscaleSetting)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToAutoscaleSettingsResource_STATUS() to populate field AutoscaleSettings")
+		}
+		destination.AutoscaleSettings = &autoscaleSetting
+	} else {
+		destination.AutoscaleSettings = nil
+	}
+
+	// MinimumThroughput
+	destination.MinimumThroughput = genruntime.ClonePointerToString(resource.MinimumThroughput)
+
+	// OfferReplacePending
+	destination.OfferReplacePending = genruntime.ClonePointerToString(resource.OfferReplacePending)
+
+	// Throughput
+	destination.Throughput = genruntime.ClonePointerToInt(resource.Throughput)
+
+	// _Etag
+	destination._Etag = genruntime.ClonePointerToString(resource._Etag)
+
+	// _Rid
+	destination._Rid = genruntime.ClonePointerToString(resource._Rid)
+
+	// _Ts
+	if resource._Ts != nil {
+		_T := *resource._Ts
+		destination._Ts = &_T
+	} else {
+		destination._Ts = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type ThroughputSettingsResource struct {
 	// AutoscaleSettings: Cosmos DB resource for autoscale settings. Either throughput is required or autoscaleSettings is
 	// required, but not both.
@@ -980,134 +1161,6 @@ func (resource *ThroughputSettingsResource) AssignPropertiesToThroughputSettings
 		err := resource.AutoscaleSettings.AssignPropertiesToAutoscaleSettingsResource(&autoscaleSetting)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToAutoscaleSettingsResource() to populate field AutoscaleSettings")
-		}
-		destination.AutoscaleSettings = &autoscaleSetting
-	} else {
-		destination.AutoscaleSettings = nil
-	}
-
-	// MinimumThroughput
-	destination.MinimumThroughput = genruntime.ClonePointerToString(resource.MinimumThroughput)
-
-	// OfferReplacePending
-	destination.OfferReplacePending = genruntime.ClonePointerToString(resource.OfferReplacePending)
-
-	// Throughput
-	destination.Throughput = genruntime.ClonePointerToInt(resource.Throughput)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type ThroughputSettingsResource_STATUS struct {
-	// AutoscaleSettings: Cosmos DB resource for autoscale settings. Either throughput is required or autoscaleSettings is
-	// required, but not both.
-	AutoscaleSettings *AutoscaleSettingsResource_STATUS `json:"autoscaleSettings,omitempty"`
-
-	// MinimumThroughput: The minimum throughput of the resource
-	MinimumThroughput *string `json:"minimumThroughput,omitempty"`
-
-	// OfferReplacePending: The throughput replace is pending
-	OfferReplacePending *string `json:"offerReplacePending,omitempty"`
-
-	// Throughput: Value of the Cosmos DB resource throughput. Either throughput is required or autoscaleSettings is required,
-	// but not both.
-	Throughput *int `json:"throughput,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &ThroughputSettingsResource_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (resource *ThroughputSettingsResource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ThroughputSettingsResource_STATUSARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (resource *ThroughputSettingsResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ThroughputSettingsResource_STATUSARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ThroughputSettingsResource_STATUSARM, got %T", armInput)
-	}
-
-	// Set property ‘AutoscaleSettings’:
-	if typedInput.AutoscaleSettings != nil {
-		var autoscaleSettings1 AutoscaleSettingsResource_STATUS
-		err := autoscaleSettings1.PopulateFromARM(owner, *typedInput.AutoscaleSettings)
-		if err != nil {
-			return err
-		}
-		autoscaleSettings := autoscaleSettings1
-		resource.AutoscaleSettings = &autoscaleSettings
-	}
-
-	// Set property ‘MinimumThroughput’:
-	if typedInput.MinimumThroughput != nil {
-		minimumThroughput := *typedInput.MinimumThroughput
-		resource.MinimumThroughput = &minimumThroughput
-	}
-
-	// Set property ‘OfferReplacePending’:
-	if typedInput.OfferReplacePending != nil {
-		offerReplacePending := *typedInput.OfferReplacePending
-		resource.OfferReplacePending = &offerReplacePending
-	}
-
-	// Set property ‘Throughput’:
-	if typedInput.Throughput != nil {
-		throughput := *typedInput.Throughput
-		resource.Throughput = &throughput
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromThroughputSettingsResource_STATUS populates our ThroughputSettingsResource_STATUS from the provided source ThroughputSettingsResource_STATUS
-func (resource *ThroughputSettingsResource_STATUS) AssignPropertiesFromThroughputSettingsResource_STATUS(source *v20210515s.ThroughputSettingsResource_STATUS) error {
-
-	// AutoscaleSettings
-	if source.AutoscaleSettings != nil {
-		var autoscaleSetting AutoscaleSettingsResource_STATUS
-		err := autoscaleSetting.AssignPropertiesFromAutoscaleSettingsResource_STATUS(source.AutoscaleSettings)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAutoscaleSettingsResource_STATUS() to populate field AutoscaleSettings")
-		}
-		resource.AutoscaleSettings = &autoscaleSetting
-	} else {
-		resource.AutoscaleSettings = nil
-	}
-
-	// MinimumThroughput
-	resource.MinimumThroughput = genruntime.ClonePointerToString(source.MinimumThroughput)
-
-	// OfferReplacePending
-	resource.OfferReplacePending = genruntime.ClonePointerToString(source.OfferReplacePending)
-
-	// Throughput
-	resource.Throughput = genruntime.ClonePointerToInt(source.Throughput)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToThroughputSettingsResource_STATUS populates the provided destination ThroughputSettingsResource_STATUS from our ThroughputSettingsResource_STATUS
-func (resource *ThroughputSettingsResource_STATUS) AssignPropertiesToThroughputSettingsResource_STATUS(destination *v20210515s.ThroughputSettingsResource_STATUS) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AutoscaleSettings
-	if resource.AutoscaleSettings != nil {
-		var autoscaleSetting v20210515s.AutoscaleSettingsResource_STATUS
-		err := resource.AutoscaleSettings.AssignPropertiesToAutoscaleSettingsResource_STATUS(&autoscaleSetting)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAutoscaleSettingsResource_STATUS() to populate field AutoscaleSettings")
 		}
 		destination.AutoscaleSettings = &autoscaleSetting
 	} else {

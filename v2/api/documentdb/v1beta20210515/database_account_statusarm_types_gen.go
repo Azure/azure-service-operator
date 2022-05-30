@@ -15,19 +15,19 @@ type DatabaseAccount_STATUSARM struct {
 	Location *string `json:"location,omitempty"`
 
 	// Name: The name of the ARM resource.
-	Name       *string                                          `json:"name,omitempty"`
-	Properties *DatabaseAccountCreateUpdateProperties_STATUSARM `json:"properties,omitempty"`
-	Tags       map[string]string                                `json:"tags,omitempty"`
+	Name       *string                                 `json:"name,omitempty"`
+	Properties *DatabaseAccountGetProperties_STATUSARM `json:"properties,omitempty"`
+	Tags       map[string]string                       `json:"tags,omitempty"`
 
 	// Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
 }
 
-type DatabaseAccountCreateUpdateProperties_STATUSARM struct {
+type DatabaseAccountGetProperties_STATUSARM struct {
 	// AnalyticalStorageConfiguration: Analytical storage specific properties.
 	AnalyticalStorageConfiguration *AnalyticalStorageConfiguration_STATUSARM `json:"analyticalStorageConfiguration,omitempty"`
 
-	// ApiProperties: API specific properties. Currently, supported only for MongoDB API.
+	// ApiProperties: API specific properties.
 	ApiProperties *ApiProperties_STATUSARM `json:"apiProperties,omitempty"`
 
 	// BackupPolicy: The object representing the policy for taking backups on an account.
@@ -39,13 +39,13 @@ type DatabaseAccountCreateUpdateProperties_STATUSARM struct {
 	// ConnectorOffer: The cassandra connector offer type for the Cosmos DB database C* account.
 	ConnectorOffer *ConnectorOffer_STATUS `json:"connectorOffer,omitempty"`
 
-	// ConsistencyPolicy: The consistency policy for the Cosmos DB account.
+	// ConsistencyPolicy: The consistency policy for the Cosmos DB database account.
 	ConsistencyPolicy *ConsistencyPolicy_STATUSARM `json:"consistencyPolicy,omitempty"`
 
 	// Cors: The CORS policy for the Cosmos DB database account.
 	Cors []CorsPolicy_STATUSARM `json:"cors,omitempty"`
 
-	// DatabaseAccountOfferType: The offer type for the database
+	// DatabaseAccountOfferType: The offer type for the Cosmos DB database account. Default value: Standard.
 	DatabaseAccountOfferType *DatabaseAccountOfferType_STATUS `json:"databaseAccountOfferType,omitempty"`
 
 	// DefaultIdentity: The default identity for accessing key vault used in features like customer managed keys. The default
@@ -55,6 +55,9 @@ type DatabaseAccountCreateUpdateProperties_STATUSARM struct {
 	// DisableKeyBasedMetadataWriteAccess: Disable write operations on metadata resources (databases, containers, throughput)
 	// via account keys
 	DisableKeyBasedMetadataWriteAccess *bool `json:"disableKeyBasedMetadataWriteAccess,omitempty"`
+
+	// DocumentEndpoint: The connection endpoint for the Cosmos DB database account.
+	DocumentEndpoint *string `json:"documentEndpoint,omitempty"`
 
 	// EnableAnalyticalStorage: Flag to indicate whether to enable storage analytics.
 	EnableAnalyticalStorage *bool `json:"enableAnalyticalStorage,omitempty"`
@@ -73,6 +76,9 @@ type DatabaseAccountCreateUpdateProperties_STATUSARM struct {
 	// EnableMultipleWriteLocations: Enables the account to write in multiple locations
 	EnableMultipleWriteLocations *bool `json:"enableMultipleWriteLocations,omitempty"`
 
+	// FailoverPolicies: An array that contains the regions ordered by their failover priorities.
+	FailoverPolicies []FailoverPolicy_STATUSARM `json:"failoverPolicies,omitempty"`
+
 	// IpRules: List of IpRules.
 	IpRules []IpAddressOrRange_STATUSARM `json:"ipRules,omitempty"`
 
@@ -82,7 +88,7 @@ type DatabaseAccountCreateUpdateProperties_STATUSARM struct {
 	// KeyVaultKeyUri: The URI of the key vault
 	KeyVaultKeyUri *string `json:"keyVaultKeyUri,omitempty"`
 
-	// Locations: An array that contains the georeplication locations enabled for the Cosmos DB account.
+	// Locations: An array that contains all of the locations enabled for the Cosmos DB account.
 	Locations []Location_STATUSARM `json:"locations,omitempty"`
 
 	// NetworkAclBypass: Indicates what services are allowed to bypass firewall checks.
@@ -91,11 +97,21 @@ type DatabaseAccountCreateUpdateProperties_STATUSARM struct {
 	// NetworkAclBypassResourceIds: An array that contains the Resource Ids for Network Acl Bypass for the Cosmos DB account.
 	NetworkAclBypassResourceIds []string `json:"networkAclBypassResourceIds,omitempty"`
 
+	// PrivateEndpointConnections: List of Private Endpoint Connections configured for the Cosmos DB account.
+	PrivateEndpointConnections []PrivateEndpointConnection_STATUSARM `json:"privateEndpointConnections,omitempty"`
+	ProvisioningState          *string                               `json:"provisioningState,omitempty"`
+
 	// PublicNetworkAccess: Whether requests from Public Network are allowed
 	PublicNetworkAccess *PublicNetworkAccess_STATUS `json:"publicNetworkAccess,omitempty"`
 
+	// ReadLocations: An array that contains of the read locations enabled for the Cosmos DB account.
+	ReadLocations []Location_STATUSARM `json:"readLocations,omitempty"`
+
 	// VirtualNetworkRules: List of Virtual Network ACL rules configured for the Cosmos DB account.
 	VirtualNetworkRules []VirtualNetworkRule_STATUSARM `json:"virtualNetworkRules,omitempty"`
+
+	// WriteLocations: An array that contains the write location for the Cosmos DB account.
+	WriteLocations []Location_STATUSARM `json:"writeLocations,omitempty"`
 }
 
 type DatabaseAccount_Kind_STATUS string
@@ -177,6 +193,20 @@ type CorsPolicy_STATUSARM struct {
 	MaxAgeInSeconds *int `json:"maxAgeInSeconds,omitempty"`
 }
 
+type FailoverPolicy_STATUSARM struct {
+	// FailoverPriority: The failover priority of the region. A failover priority of 0 indicates a write region. The maximum
+	// value for a failover priority = (total number of regions - 1). Failover priority values must be unique for each of the
+	// regions in which the database account exists.
+	FailoverPriority *int `json:"failoverPriority,omitempty"`
+
+	// Id: The unique identifier of the region in which the database account replicates to. Example:
+	// &lt;accountName&gt;-&lt;locationName&gt;.
+	Id *string `json:"id,omitempty"`
+
+	// LocationName: The name of the region in which the database account exists.
+	LocationName *string `json:"locationName,omitempty"`
+}
+
 type IpAddressOrRange_STATUSARM struct {
 	// IpAddressOrRange: A single IPv4 address or a single IPv4 address range in CIDR format. Provided IPs must be
 	// well-formatted and cannot be contained in one of the following ranges: 10.0.0.0/8, 100.64.0.0/10, 172.16.0.0/12,
@@ -221,6 +251,12 @@ type ManagedServiceIdentity_UserAssignedIdentities_STATUSARM struct {
 
 	// PrincipalId: The principal id of user assigned identity.
 	PrincipalId *string `json:"principalId,omitempty"`
+}
+
+type PrivateEndpointConnection_STATUSARM struct {
+	// Id: Fully qualified resource ID for the resource. Ex -
+	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+	Id *string `json:"id,omitempty"`
 }
 
 type VirtualNetworkRule_STATUSARM struct {

@@ -92,22 +92,22 @@ func AddIndependentPropertyGeneratorsForDatabaseAccountsMongodbDatabase_STATUSAR
 
 // AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabase_STATUSARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabase_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(MongoDBDatabaseCreateUpdateProperties_STATUSARMGenerator())
+	gens["Properties"] = gen.PtrOf(MongoDBDatabaseGetProperties_STATUSARMGenerator())
 }
 
-func Test_MongoDBDatabaseCreateUpdateProperties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_MongoDBDatabaseGetProperties_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of MongoDBDatabaseCreateUpdateProperties_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMongoDBDatabaseCreateUpdateProperties_STATUSARM, MongoDBDatabaseCreateUpdateProperties_STATUSARMGenerator()))
+		"Round trip of MongoDBDatabaseGetProperties_STATUSARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMongoDBDatabaseGetProperties_STATUSARM, MongoDBDatabaseGetProperties_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForMongoDBDatabaseCreateUpdateProperties_STATUSARM runs a test to see if a specific instance of MongoDBDatabaseCreateUpdateProperties_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForMongoDBDatabaseCreateUpdateProperties_STATUSARM(subject MongoDBDatabaseCreateUpdateProperties_STATUSARM) string {
+// RunJSONSerializationTestForMongoDBDatabaseGetProperties_STATUSARM runs a test to see if a specific instance of MongoDBDatabaseGetProperties_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForMongoDBDatabaseGetProperties_STATUSARM(subject MongoDBDatabaseGetProperties_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -115,7 +115,7 @@ func RunJSONSerializationTestForMongoDBDatabaseCreateUpdateProperties_STATUSARM(
 	}
 
 	// Deserialize back into memory
-	var actual MongoDBDatabaseCreateUpdateProperties_STATUSARM
+	var actual MongoDBDatabaseGetProperties_STATUSARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -133,42 +133,42 @@ func RunJSONSerializationTestForMongoDBDatabaseCreateUpdateProperties_STATUSARM(
 	return ""
 }
 
-// Generator of MongoDBDatabaseCreateUpdateProperties_STATUSARM instances for property testing - lazily instantiated by
-// MongoDBDatabaseCreateUpdateProperties_STATUSARMGenerator()
-var mongoDBDatabaseCreateUpdateProperties_STATUSARMGenerator gopter.Gen
+// Generator of MongoDBDatabaseGetProperties_STATUSARM instances for property testing - lazily instantiated by
+// MongoDBDatabaseGetProperties_STATUSARMGenerator()
+var mongoDBDatabaseGetProperties_STATUSARMGenerator gopter.Gen
 
-// MongoDBDatabaseCreateUpdateProperties_STATUSARMGenerator returns a generator of MongoDBDatabaseCreateUpdateProperties_STATUSARM instances for property testing.
-func MongoDBDatabaseCreateUpdateProperties_STATUSARMGenerator() gopter.Gen {
-	if mongoDBDatabaseCreateUpdateProperties_STATUSARMGenerator != nil {
-		return mongoDBDatabaseCreateUpdateProperties_STATUSARMGenerator
+// MongoDBDatabaseGetProperties_STATUSARMGenerator returns a generator of MongoDBDatabaseGetProperties_STATUSARM instances for property testing.
+func MongoDBDatabaseGetProperties_STATUSARMGenerator() gopter.Gen {
+	if mongoDBDatabaseGetProperties_STATUSARMGenerator != nil {
+		return mongoDBDatabaseGetProperties_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForMongoDBDatabaseCreateUpdateProperties_STATUSARM(generators)
-	mongoDBDatabaseCreateUpdateProperties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(MongoDBDatabaseCreateUpdateProperties_STATUSARM{}), generators)
+	AddRelatedPropertyGeneratorsForMongoDBDatabaseGetProperties_STATUSARM(generators)
+	mongoDBDatabaseGetProperties_STATUSARMGenerator = gen.Struct(reflect.TypeOf(MongoDBDatabaseGetProperties_STATUSARM{}), generators)
 
-	return mongoDBDatabaseCreateUpdateProperties_STATUSARMGenerator
+	return mongoDBDatabaseGetProperties_STATUSARMGenerator
 }
 
-// AddRelatedPropertyGeneratorsForMongoDBDatabaseCreateUpdateProperties_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForMongoDBDatabaseCreateUpdateProperties_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Options"] = gen.PtrOf(CreateUpdateOptions_STATUSARMGenerator())
-	gens["Resource"] = gen.PtrOf(MongoDBDatabaseResource_STATUSARMGenerator())
+// AddRelatedPropertyGeneratorsForMongoDBDatabaseGetProperties_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForMongoDBDatabaseGetProperties_STATUSARM(gens map[string]gopter.Gen) {
+	gens["Options"] = gen.PtrOf(OptionsResource_STATUSARMGenerator())
+	gens["Resource"] = gen.PtrOf(MongoDBDatabaseGetProperties_Resource_STATUSARMGenerator())
 }
 
-func Test_CreateUpdateOptions_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_MongoDBDatabaseGetProperties_Resource_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of CreateUpdateOptions_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCreateUpdateOptions_STATUSARM, CreateUpdateOptions_STATUSARMGenerator()))
+		"Round trip of MongoDBDatabaseGetProperties_Resource_STATUSARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForMongoDBDatabaseGetProperties_Resource_STATUSARM, MongoDBDatabaseGetProperties_Resource_STATUSARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForCreateUpdateOptions_STATUSARM runs a test to see if a specific instance of CreateUpdateOptions_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForCreateUpdateOptions_STATUSARM(subject CreateUpdateOptions_STATUSARM) string {
+// RunJSONSerializationTestForMongoDBDatabaseGetProperties_Resource_STATUSARM runs a test to see if a specific instance of MongoDBDatabaseGetProperties_Resource_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForMongoDBDatabaseGetProperties_Resource_STATUSARM(subject MongoDBDatabaseGetProperties_Resource_STATUSARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -176,7 +176,7 @@ func RunJSONSerializationTestForCreateUpdateOptions_STATUSARM(subject CreateUpda
 	}
 
 	// Deserialize back into memory
-	var actual CreateUpdateOptions_STATUSARM
+	var actual MongoDBDatabaseGetProperties_Resource_STATUSARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -194,100 +194,103 @@ func RunJSONSerializationTestForCreateUpdateOptions_STATUSARM(subject CreateUpda
 	return ""
 }
 
-// Generator of CreateUpdateOptions_STATUSARM instances for property testing - lazily instantiated by
-// CreateUpdateOptions_STATUSARMGenerator()
-var createUpdateOptions_STATUSARMGenerator gopter.Gen
+// Generator of MongoDBDatabaseGetProperties_Resource_STATUSARM instances for property testing - lazily instantiated by
+// MongoDBDatabaseGetProperties_Resource_STATUSARMGenerator()
+var mongoDBDatabaseGetProperties_Resource_STATUSARMGenerator gopter.Gen
 
-// CreateUpdateOptions_STATUSARMGenerator returns a generator of CreateUpdateOptions_STATUSARM instances for property testing.
-// We first initialize createUpdateOptions_STATUSARMGenerator with a simplified generator based on the
+// MongoDBDatabaseGetProperties_Resource_STATUSARMGenerator returns a generator of MongoDBDatabaseGetProperties_Resource_STATUSARM instances for property testing.
+func MongoDBDatabaseGetProperties_Resource_STATUSARMGenerator() gopter.Gen {
+	if mongoDBDatabaseGetProperties_Resource_STATUSARMGenerator != nil {
+		return mongoDBDatabaseGetProperties_Resource_STATUSARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForMongoDBDatabaseGetProperties_Resource_STATUSARM(generators)
+	mongoDBDatabaseGetProperties_Resource_STATUSARMGenerator = gen.Struct(reflect.TypeOf(MongoDBDatabaseGetProperties_Resource_STATUSARM{}), generators)
+
+	return mongoDBDatabaseGetProperties_Resource_STATUSARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForMongoDBDatabaseGetProperties_Resource_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForMongoDBDatabaseGetProperties_Resource_STATUSARM(gens map[string]gopter.Gen) {
+	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["_Etag"] = gen.PtrOf(gen.AlphaString())
+	gens["_Rid"] = gen.PtrOf(gen.AlphaString())
+	gens["_Ts"] = gen.PtrOf(gen.Float64())
+}
+
+func Test_OptionsResource_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of OptionsResource_STATUSARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForOptionsResource_STATUSARM, OptionsResource_STATUSARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForOptionsResource_STATUSARM runs a test to see if a specific instance of OptionsResource_STATUSARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForOptionsResource_STATUSARM(subject OptionsResource_STATUSARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual OptionsResource_STATUSARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of OptionsResource_STATUSARM instances for property testing - lazily instantiated by
+// OptionsResource_STATUSARMGenerator()
+var optionsResource_STATUSARMGenerator gopter.Gen
+
+// OptionsResource_STATUSARMGenerator returns a generator of OptionsResource_STATUSARM instances for property testing.
+// We first initialize optionsResource_STATUSARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func CreateUpdateOptions_STATUSARMGenerator() gopter.Gen {
-	if createUpdateOptions_STATUSARMGenerator != nil {
-		return createUpdateOptions_STATUSARMGenerator
+func OptionsResource_STATUSARMGenerator() gopter.Gen {
+	if optionsResource_STATUSARMGenerator != nil {
+		return optionsResource_STATUSARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCreateUpdateOptions_STATUSARM(generators)
-	createUpdateOptions_STATUSARMGenerator = gen.Struct(reflect.TypeOf(CreateUpdateOptions_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForOptionsResource_STATUSARM(generators)
+	optionsResource_STATUSARMGenerator = gen.Struct(reflect.TypeOf(OptionsResource_STATUSARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCreateUpdateOptions_STATUSARM(generators)
-	AddRelatedPropertyGeneratorsForCreateUpdateOptions_STATUSARM(generators)
-	createUpdateOptions_STATUSARMGenerator = gen.Struct(reflect.TypeOf(CreateUpdateOptions_STATUSARM{}), generators)
+	AddIndependentPropertyGeneratorsForOptionsResource_STATUSARM(generators)
+	AddRelatedPropertyGeneratorsForOptionsResource_STATUSARM(generators)
+	optionsResource_STATUSARMGenerator = gen.Struct(reflect.TypeOf(OptionsResource_STATUSARM{}), generators)
 
-	return createUpdateOptions_STATUSARMGenerator
+	return optionsResource_STATUSARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForCreateUpdateOptions_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCreateUpdateOptions_STATUSARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForOptionsResource_STATUSARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForOptionsResource_STATUSARM(gens map[string]gopter.Gen) {
 	gens["Throughput"] = gen.PtrOf(gen.Int())
 }
 
-// AddRelatedPropertyGeneratorsForCreateUpdateOptions_STATUSARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForCreateUpdateOptions_STATUSARM(gens map[string]gopter.Gen) {
+// AddRelatedPropertyGeneratorsForOptionsResource_STATUSARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForOptionsResource_STATUSARM(gens map[string]gopter.Gen) {
 	gens["AutoscaleSettings"] = gen.PtrOf(AutoscaleSettings_STATUSARMGenerator())
-}
-
-func Test_MongoDBDatabaseResource_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of MongoDBDatabaseResource_STATUSARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMongoDBDatabaseResource_STATUSARM, MongoDBDatabaseResource_STATUSARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForMongoDBDatabaseResource_STATUSARM runs a test to see if a specific instance of MongoDBDatabaseResource_STATUSARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForMongoDBDatabaseResource_STATUSARM(subject MongoDBDatabaseResource_STATUSARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual MongoDBDatabaseResource_STATUSARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of MongoDBDatabaseResource_STATUSARM instances for property testing - lazily instantiated by
-// MongoDBDatabaseResource_STATUSARMGenerator()
-var mongoDBDatabaseResource_STATUSARMGenerator gopter.Gen
-
-// MongoDBDatabaseResource_STATUSARMGenerator returns a generator of MongoDBDatabaseResource_STATUSARM instances for property testing.
-func MongoDBDatabaseResource_STATUSARMGenerator() gopter.Gen {
-	if mongoDBDatabaseResource_STATUSARMGenerator != nil {
-		return mongoDBDatabaseResource_STATUSARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMongoDBDatabaseResource_STATUSARM(generators)
-	mongoDBDatabaseResource_STATUSARMGenerator = gen.Struct(reflect.TypeOf(MongoDBDatabaseResource_STATUSARM{}), generators)
-
-	return mongoDBDatabaseResource_STATUSARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForMongoDBDatabaseResource_STATUSARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMongoDBDatabaseResource_STATUSARM(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_AutoscaleSettings_STATUSARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

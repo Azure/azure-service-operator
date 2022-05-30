@@ -330,15 +330,10 @@ type DatabaseAccountsSqlDatabasesContainer_STATUS struct {
 	Location *string `json:"location,omitempty"`
 
 	// Name: The name of the ARM resource.
-	Name *string `json:"name,omitempty"`
-
-	// Options: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the
-	// request.
-	Options *CreateUpdateOptions_STATUS `json:"options,omitempty"`
-
-	// Resource: The standard JSON format of a container
-	Resource *SqlContainerResource_STATUS `json:"resource,omitempty"`
-	Tags     map[string]string            `json:"tags,omitempty"`
+	Name     *string                                    `json:"name,omitempty"`
+	Options  *OptionsResource_STATUS                    `json:"options,omitempty"`
+	Resource *SqlContainerGetProperties_Resource_STATUS `json:"resource,omitempty"`
+	Tags     map[string]string                          `json:"tags,omitempty"`
 
 	// Type: The type of Azure resource.
 	Type *string `json:"type,omitempty"`
@@ -432,7 +427,7 @@ func (container *DatabaseAccountsSqlDatabasesContainer_STATUS) PopulateFromARM(o
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Options != nil {
-			var options1 CreateUpdateOptions_STATUS
+			var options1 OptionsResource_STATUS
 			err := options1.PopulateFromARM(owner, *typedInput.Properties.Options)
 			if err != nil {
 				return err
@@ -446,7 +441,7 @@ func (container *DatabaseAccountsSqlDatabasesContainer_STATUS) PopulateFromARM(o
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Resource != nil {
-			var resource1 SqlContainerResource_STATUS
+			var resource1 SqlContainerGetProperties_Resource_STATUS
 			err := resource1.PopulateFromARM(owner, *typedInput.Properties.Resource)
 			if err != nil {
 				return err
@@ -491,10 +486,10 @@ func (container *DatabaseAccountsSqlDatabasesContainer_STATUS) AssignPropertiesF
 
 	// Options
 	if source.Options != nil {
-		var option CreateUpdateOptions_STATUS
-		err := option.AssignPropertiesFromCreateUpdateOptions_STATUS(source.Options)
+		var option OptionsResource_STATUS
+		err := option.AssignPropertiesFromOptionsResource_STATUS(source.Options)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromCreateUpdateOptions_STATUS() to populate field Options")
+			return errors.Wrap(err, "calling AssignPropertiesFromOptionsResource_STATUS() to populate field Options")
 		}
 		container.Options = &option
 	} else {
@@ -503,10 +498,10 @@ func (container *DatabaseAccountsSqlDatabasesContainer_STATUS) AssignPropertiesF
 
 	// Resource
 	if source.Resource != nil {
-		var resource SqlContainerResource_STATUS
-		err := resource.AssignPropertiesFromSqlContainerResource_STATUS(source.Resource)
+		var resource SqlContainerGetProperties_Resource_STATUS
+		err := resource.AssignPropertiesFromSqlContainerGetProperties_Resource_STATUS(source.Resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSqlContainerResource_STATUS() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesFromSqlContainerGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		container.Resource = &resource
 	} else {
@@ -542,10 +537,10 @@ func (container *DatabaseAccountsSqlDatabasesContainer_STATUS) AssignPropertiesT
 
 	// Options
 	if container.Options != nil {
-		var option v20210515s.CreateUpdateOptions_STATUS
-		err := container.Options.AssignPropertiesToCreateUpdateOptions_STATUS(&option)
+		var option v20210515s.OptionsResource_STATUS
+		err := container.Options.AssignPropertiesToOptionsResource_STATUS(&option)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToCreateUpdateOptions_STATUS() to populate field Options")
+			return errors.Wrap(err, "calling AssignPropertiesToOptionsResource_STATUS() to populate field Options")
 		}
 		destination.Options = &option
 	} else {
@@ -554,10 +549,10 @@ func (container *DatabaseAccountsSqlDatabasesContainer_STATUS) AssignPropertiesT
 
 	// Resource
 	if container.Resource != nil {
-		var resource v20210515s.SqlContainerResource_STATUS
-		err := container.Resource.AssignPropertiesToSqlContainerResource_STATUS(&resource)
+		var resource v20210515s.SqlContainerGetProperties_Resource_STATUS
+		err := container.Resource.AssignPropertiesToSqlContainerGetProperties_Resource_STATUS(&resource)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSqlContainerResource_STATUS() to populate field Resource")
+			return errors.Wrap(err, "calling AssignPropertiesToSqlContainerGetProperties_Resource_STATUS() to populate field Resource")
 		}
 		destination.Resource = &resource
 	} else {
@@ -933,6 +928,303 @@ func (container *DatabaseAccountsSqlDatabasesContainer_Spec) SetAzureName(azureN
 	container.AzureName = azureName
 }
 
+type SqlContainerGetProperties_Resource_STATUS struct {
+	// AnalyticalStorageTtl: Analytical TTL.
+	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
+
+	// ConflictResolutionPolicy: The conflict resolution policy for the container.
+	ConflictResolutionPolicy *ConflictResolutionPolicy_STATUS `json:"conflictResolutionPolicy,omitempty"`
+
+	// DefaultTtl: Default time to live
+	DefaultTtl *int `json:"defaultTtl,omitempty"`
+
+	// Id: Name of the Cosmos DB SQL container
+	Id *string `json:"id,omitempty"`
+
+	// IndexingPolicy: The configuration of the indexing policy. By default, the indexing is automatic for all document paths
+	// within the container
+	IndexingPolicy *IndexingPolicy_STATUS `json:"indexingPolicy,omitempty"`
+
+	// PartitionKey: The configuration of the partition key to be used for partitioning data into multiple partitions
+	PartitionKey *ContainerPartitionKey_STATUS `json:"partitionKey,omitempty"`
+
+	// UniqueKeyPolicy: The unique key policy configuration for specifying uniqueness constraints on documents in the
+	// collection in the Azure Cosmos DB service.
+	UniqueKeyPolicy *UniqueKeyPolicy_STATUS `json:"uniqueKeyPolicy,omitempty"`
+
+	// _Etag: A system generated property representing the resource etag required for optimistic concurrency control.
+	_Etag *string `json:"_etag,omitempty"`
+
+	// _Rid: A system generated property. A unique identifier.
+	_Rid *string `json:"_rid,omitempty"`
+
+	// _Ts: A system generated property that denotes the last updated timestamp of the resource.
+	_Ts *float64 `json:"_ts,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &SqlContainerGetProperties_Resource_STATUS{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (resource *SqlContainerGetProperties_Resource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &SqlContainerGetProperties_Resource_STATUSARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (resource *SqlContainerGetProperties_Resource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(SqlContainerGetProperties_Resource_STATUSARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlContainerGetProperties_Resource_STATUSARM, got %T", armInput)
+	}
+
+	// Set property ‘AnalyticalStorageTtl’:
+	if typedInput.AnalyticalStorageTtl != nil {
+		analyticalStorageTtl := *typedInput.AnalyticalStorageTtl
+		resource.AnalyticalStorageTtl = &analyticalStorageTtl
+	}
+
+	// Set property ‘ConflictResolutionPolicy’:
+	if typedInput.ConflictResolutionPolicy != nil {
+		var conflictResolutionPolicy1 ConflictResolutionPolicy_STATUS
+		err := conflictResolutionPolicy1.PopulateFromARM(owner, *typedInput.ConflictResolutionPolicy)
+		if err != nil {
+			return err
+		}
+		conflictResolutionPolicy := conflictResolutionPolicy1
+		resource.ConflictResolutionPolicy = &conflictResolutionPolicy
+	}
+
+	// Set property ‘DefaultTtl’:
+	if typedInput.DefaultTtl != nil {
+		defaultTtl := *typedInput.DefaultTtl
+		resource.DefaultTtl = &defaultTtl
+	}
+
+	// Set property ‘Id’:
+	if typedInput.Id != nil {
+		id := *typedInput.Id
+		resource.Id = &id
+	}
+
+	// Set property ‘IndexingPolicy’:
+	if typedInput.IndexingPolicy != nil {
+		var indexingPolicy1 IndexingPolicy_STATUS
+		err := indexingPolicy1.PopulateFromARM(owner, *typedInput.IndexingPolicy)
+		if err != nil {
+			return err
+		}
+		indexingPolicy := indexingPolicy1
+		resource.IndexingPolicy = &indexingPolicy
+	}
+
+	// Set property ‘PartitionKey’:
+	if typedInput.PartitionKey != nil {
+		var partitionKey1 ContainerPartitionKey_STATUS
+		err := partitionKey1.PopulateFromARM(owner, *typedInput.PartitionKey)
+		if err != nil {
+			return err
+		}
+		partitionKey := partitionKey1
+		resource.PartitionKey = &partitionKey
+	}
+
+	// Set property ‘UniqueKeyPolicy’:
+	if typedInput.UniqueKeyPolicy != nil {
+		var uniqueKeyPolicy1 UniqueKeyPolicy_STATUS
+		err := uniqueKeyPolicy1.PopulateFromARM(owner, *typedInput.UniqueKeyPolicy)
+		if err != nil {
+			return err
+		}
+		uniqueKeyPolicy := uniqueKeyPolicy1
+		resource.UniqueKeyPolicy = &uniqueKeyPolicy
+	}
+
+	// Set property ‘_Etag’:
+	if typedInput._Etag != nil {
+		_Etag := *typedInput._Etag
+		resource._Etag = &_Etag
+	}
+
+	// Set property ‘_Rid’:
+	if typedInput._Rid != nil {
+		_Rid := *typedInput._Rid
+		resource._Rid = &_Rid
+	}
+
+	// Set property ‘_Ts’:
+	if typedInput._Ts != nil {
+		_Ts := *typedInput._Ts
+		resource._Ts = &_Ts
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromSqlContainerGetProperties_Resource_STATUS populates our SqlContainerGetProperties_Resource_STATUS from the provided source SqlContainerGetProperties_Resource_STATUS
+func (resource *SqlContainerGetProperties_Resource_STATUS) AssignPropertiesFromSqlContainerGetProperties_Resource_STATUS(source *v20210515s.SqlContainerGetProperties_Resource_STATUS) error {
+
+	// AnalyticalStorageTtl
+	resource.AnalyticalStorageTtl = genruntime.ClonePointerToInt(source.AnalyticalStorageTtl)
+
+	// ConflictResolutionPolicy
+	if source.ConflictResolutionPolicy != nil {
+		var conflictResolutionPolicy ConflictResolutionPolicy_STATUS
+		err := conflictResolutionPolicy.AssignPropertiesFromConflictResolutionPolicy_STATUS(source.ConflictResolutionPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromConflictResolutionPolicy_STATUS() to populate field ConflictResolutionPolicy")
+		}
+		resource.ConflictResolutionPolicy = &conflictResolutionPolicy
+	} else {
+		resource.ConflictResolutionPolicy = nil
+	}
+
+	// DefaultTtl
+	resource.DefaultTtl = genruntime.ClonePointerToInt(source.DefaultTtl)
+
+	// Id
+	resource.Id = genruntime.ClonePointerToString(source.Id)
+
+	// IndexingPolicy
+	if source.IndexingPolicy != nil {
+		var indexingPolicy IndexingPolicy_STATUS
+		err := indexingPolicy.AssignPropertiesFromIndexingPolicy_STATUS(source.IndexingPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromIndexingPolicy_STATUS() to populate field IndexingPolicy")
+		}
+		resource.IndexingPolicy = &indexingPolicy
+	} else {
+		resource.IndexingPolicy = nil
+	}
+
+	// PartitionKey
+	if source.PartitionKey != nil {
+		var partitionKey ContainerPartitionKey_STATUS
+		err := partitionKey.AssignPropertiesFromContainerPartitionKey_STATUS(source.PartitionKey)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromContainerPartitionKey_STATUS() to populate field PartitionKey")
+		}
+		resource.PartitionKey = &partitionKey
+	} else {
+		resource.PartitionKey = nil
+	}
+
+	// UniqueKeyPolicy
+	if source.UniqueKeyPolicy != nil {
+		var uniqueKeyPolicy UniqueKeyPolicy_STATUS
+		err := uniqueKeyPolicy.AssignPropertiesFromUniqueKeyPolicy_STATUS(source.UniqueKeyPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromUniqueKeyPolicy_STATUS() to populate field UniqueKeyPolicy")
+		}
+		resource.UniqueKeyPolicy = &uniqueKeyPolicy
+	} else {
+		resource.UniqueKeyPolicy = nil
+	}
+
+	// _Etag
+	resource._Etag = genruntime.ClonePointerToString(source._Etag)
+
+	// _Rid
+	resource._Rid = genruntime.ClonePointerToString(source._Rid)
+
+	// _Ts
+	if source._Ts != nil {
+		_T := *source._Ts
+		resource._Ts = &_T
+	} else {
+		resource._Ts = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToSqlContainerGetProperties_Resource_STATUS populates the provided destination SqlContainerGetProperties_Resource_STATUS from our SqlContainerGetProperties_Resource_STATUS
+func (resource *SqlContainerGetProperties_Resource_STATUS) AssignPropertiesToSqlContainerGetProperties_Resource_STATUS(destination *v20210515s.SqlContainerGetProperties_Resource_STATUS) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AnalyticalStorageTtl
+	destination.AnalyticalStorageTtl = genruntime.ClonePointerToInt(resource.AnalyticalStorageTtl)
+
+	// ConflictResolutionPolicy
+	if resource.ConflictResolutionPolicy != nil {
+		var conflictResolutionPolicy v20210515s.ConflictResolutionPolicy_STATUS
+		err := resource.ConflictResolutionPolicy.AssignPropertiesToConflictResolutionPolicy_STATUS(&conflictResolutionPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToConflictResolutionPolicy_STATUS() to populate field ConflictResolutionPolicy")
+		}
+		destination.ConflictResolutionPolicy = &conflictResolutionPolicy
+	} else {
+		destination.ConflictResolutionPolicy = nil
+	}
+
+	// DefaultTtl
+	destination.DefaultTtl = genruntime.ClonePointerToInt(resource.DefaultTtl)
+
+	// Id
+	destination.Id = genruntime.ClonePointerToString(resource.Id)
+
+	// IndexingPolicy
+	if resource.IndexingPolicy != nil {
+		var indexingPolicy v20210515s.IndexingPolicy_STATUS
+		err := resource.IndexingPolicy.AssignPropertiesToIndexingPolicy_STATUS(&indexingPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToIndexingPolicy_STATUS() to populate field IndexingPolicy")
+		}
+		destination.IndexingPolicy = &indexingPolicy
+	} else {
+		destination.IndexingPolicy = nil
+	}
+
+	// PartitionKey
+	if resource.PartitionKey != nil {
+		var partitionKey v20210515s.ContainerPartitionKey_STATUS
+		err := resource.PartitionKey.AssignPropertiesToContainerPartitionKey_STATUS(&partitionKey)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToContainerPartitionKey_STATUS() to populate field PartitionKey")
+		}
+		destination.PartitionKey = &partitionKey
+	} else {
+		destination.PartitionKey = nil
+	}
+
+	// UniqueKeyPolicy
+	if resource.UniqueKeyPolicy != nil {
+		var uniqueKeyPolicy v20210515s.UniqueKeyPolicy_STATUS
+		err := resource.UniqueKeyPolicy.AssignPropertiesToUniqueKeyPolicy_STATUS(&uniqueKeyPolicy)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToUniqueKeyPolicy_STATUS() to populate field UniqueKeyPolicy")
+		}
+		destination.UniqueKeyPolicy = &uniqueKeyPolicy
+	} else {
+		destination.UniqueKeyPolicy = nil
+	}
+
+	// _Etag
+	destination._Etag = genruntime.ClonePointerToString(resource._Etag)
+
+	// _Rid
+	destination._Rid = genruntime.ClonePointerToString(resource._Rid)
+
+	// _Ts
+	if resource._Ts != nil {
+		_T := *resource._Ts
+		destination._Ts = &_T
+	} else {
+		destination._Ts = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type SqlContainerResource struct {
 	// AnalyticalStorageTtl: Analytical TTL.
 	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
@@ -1226,248 +1518,6 @@ func (resource *SqlContainerResource) AssignPropertiesToSqlContainerResource(des
 		err := resource.UniqueKeyPolicy.AssignPropertiesToUniqueKeyPolicy(&uniqueKeyPolicy)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToUniqueKeyPolicy() to populate field UniqueKeyPolicy")
-		}
-		destination.UniqueKeyPolicy = &uniqueKeyPolicy
-	} else {
-		destination.UniqueKeyPolicy = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type SqlContainerResource_STATUS struct {
-	// AnalyticalStorageTtl: Analytical TTL.
-	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
-
-	// ConflictResolutionPolicy: The conflict resolution policy for the container.
-	ConflictResolutionPolicy *ConflictResolutionPolicy_STATUS `json:"conflictResolutionPolicy,omitempty"`
-
-	// DefaultTtl: Default time to live
-	DefaultTtl *int `json:"defaultTtl,omitempty"`
-
-	// Id: Name of the Cosmos DB SQL container
-	Id *string `json:"id,omitempty"`
-
-	// IndexingPolicy: The configuration of the indexing policy. By default, the indexing is automatic for all document paths
-	// within the container
-	IndexingPolicy *IndexingPolicy_STATUS `json:"indexingPolicy,omitempty"`
-
-	// PartitionKey: The configuration of the partition key to be used for partitioning data into multiple partitions
-	PartitionKey *ContainerPartitionKey_STATUS `json:"partitionKey,omitempty"`
-
-	// UniqueKeyPolicy: The unique key policy configuration for specifying uniqueness constraints on documents in the
-	// collection in the Azure Cosmos DB service.
-	UniqueKeyPolicy *UniqueKeyPolicy_STATUS `json:"uniqueKeyPolicy,omitempty"`
-}
-
-var _ genruntime.FromARMConverter = &SqlContainerResource_STATUS{}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (resource *SqlContainerResource_STATUS) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SqlContainerResource_STATUSARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (resource *SqlContainerResource_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SqlContainerResource_STATUSARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlContainerResource_STATUSARM, got %T", armInput)
-	}
-
-	// Set property ‘AnalyticalStorageTtl’:
-	if typedInput.AnalyticalStorageTtl != nil {
-		analyticalStorageTtl := *typedInput.AnalyticalStorageTtl
-		resource.AnalyticalStorageTtl = &analyticalStorageTtl
-	}
-
-	// Set property ‘ConflictResolutionPolicy’:
-	if typedInput.ConflictResolutionPolicy != nil {
-		var conflictResolutionPolicy1 ConflictResolutionPolicy_STATUS
-		err := conflictResolutionPolicy1.PopulateFromARM(owner, *typedInput.ConflictResolutionPolicy)
-		if err != nil {
-			return err
-		}
-		conflictResolutionPolicy := conflictResolutionPolicy1
-		resource.ConflictResolutionPolicy = &conflictResolutionPolicy
-	}
-
-	// Set property ‘DefaultTtl’:
-	if typedInput.DefaultTtl != nil {
-		defaultTtl := *typedInput.DefaultTtl
-		resource.DefaultTtl = &defaultTtl
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		resource.Id = &id
-	}
-
-	// Set property ‘IndexingPolicy’:
-	if typedInput.IndexingPolicy != nil {
-		var indexingPolicy1 IndexingPolicy_STATUS
-		err := indexingPolicy1.PopulateFromARM(owner, *typedInput.IndexingPolicy)
-		if err != nil {
-			return err
-		}
-		indexingPolicy := indexingPolicy1
-		resource.IndexingPolicy = &indexingPolicy
-	}
-
-	// Set property ‘PartitionKey’:
-	if typedInput.PartitionKey != nil {
-		var partitionKey1 ContainerPartitionKey_STATUS
-		err := partitionKey1.PopulateFromARM(owner, *typedInput.PartitionKey)
-		if err != nil {
-			return err
-		}
-		partitionKey := partitionKey1
-		resource.PartitionKey = &partitionKey
-	}
-
-	// Set property ‘UniqueKeyPolicy’:
-	if typedInput.UniqueKeyPolicy != nil {
-		var uniqueKeyPolicy1 UniqueKeyPolicy_STATUS
-		err := uniqueKeyPolicy1.PopulateFromARM(owner, *typedInput.UniqueKeyPolicy)
-		if err != nil {
-			return err
-		}
-		uniqueKeyPolicy := uniqueKeyPolicy1
-		resource.UniqueKeyPolicy = &uniqueKeyPolicy
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromSqlContainerResource_STATUS populates our SqlContainerResource_STATUS from the provided source SqlContainerResource_STATUS
-func (resource *SqlContainerResource_STATUS) AssignPropertiesFromSqlContainerResource_STATUS(source *v20210515s.SqlContainerResource_STATUS) error {
-
-	// AnalyticalStorageTtl
-	resource.AnalyticalStorageTtl = genruntime.ClonePointerToInt(source.AnalyticalStorageTtl)
-
-	// ConflictResolutionPolicy
-	if source.ConflictResolutionPolicy != nil {
-		var conflictResolutionPolicy ConflictResolutionPolicy_STATUS
-		err := conflictResolutionPolicy.AssignPropertiesFromConflictResolutionPolicy_STATUS(source.ConflictResolutionPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromConflictResolutionPolicy_STATUS() to populate field ConflictResolutionPolicy")
-		}
-		resource.ConflictResolutionPolicy = &conflictResolutionPolicy
-	} else {
-		resource.ConflictResolutionPolicy = nil
-	}
-
-	// DefaultTtl
-	resource.DefaultTtl = genruntime.ClonePointerToInt(source.DefaultTtl)
-
-	// Id
-	resource.Id = genruntime.ClonePointerToString(source.Id)
-
-	// IndexingPolicy
-	if source.IndexingPolicy != nil {
-		var indexingPolicy IndexingPolicy_STATUS
-		err := indexingPolicy.AssignPropertiesFromIndexingPolicy_STATUS(source.IndexingPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromIndexingPolicy_STATUS() to populate field IndexingPolicy")
-		}
-		resource.IndexingPolicy = &indexingPolicy
-	} else {
-		resource.IndexingPolicy = nil
-	}
-
-	// PartitionKey
-	if source.PartitionKey != nil {
-		var partitionKey ContainerPartitionKey_STATUS
-		err := partitionKey.AssignPropertiesFromContainerPartitionKey_STATUS(source.PartitionKey)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromContainerPartitionKey_STATUS() to populate field PartitionKey")
-		}
-		resource.PartitionKey = &partitionKey
-	} else {
-		resource.PartitionKey = nil
-	}
-
-	// UniqueKeyPolicy
-	if source.UniqueKeyPolicy != nil {
-		var uniqueKeyPolicy UniqueKeyPolicy_STATUS
-		err := uniqueKeyPolicy.AssignPropertiesFromUniqueKeyPolicy_STATUS(source.UniqueKeyPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromUniqueKeyPolicy_STATUS() to populate field UniqueKeyPolicy")
-		}
-		resource.UniqueKeyPolicy = &uniqueKeyPolicy
-	} else {
-		resource.UniqueKeyPolicy = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToSqlContainerResource_STATUS populates the provided destination SqlContainerResource_STATUS from our SqlContainerResource_STATUS
-func (resource *SqlContainerResource_STATUS) AssignPropertiesToSqlContainerResource_STATUS(destination *v20210515s.SqlContainerResource_STATUS) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AnalyticalStorageTtl
-	destination.AnalyticalStorageTtl = genruntime.ClonePointerToInt(resource.AnalyticalStorageTtl)
-
-	// ConflictResolutionPolicy
-	if resource.ConflictResolutionPolicy != nil {
-		var conflictResolutionPolicy v20210515s.ConflictResolutionPolicy_STATUS
-		err := resource.ConflictResolutionPolicy.AssignPropertiesToConflictResolutionPolicy_STATUS(&conflictResolutionPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToConflictResolutionPolicy_STATUS() to populate field ConflictResolutionPolicy")
-		}
-		destination.ConflictResolutionPolicy = &conflictResolutionPolicy
-	} else {
-		destination.ConflictResolutionPolicy = nil
-	}
-
-	// DefaultTtl
-	destination.DefaultTtl = genruntime.ClonePointerToInt(resource.DefaultTtl)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(resource.Id)
-
-	// IndexingPolicy
-	if resource.IndexingPolicy != nil {
-		var indexingPolicy v20210515s.IndexingPolicy_STATUS
-		err := resource.IndexingPolicy.AssignPropertiesToIndexingPolicy_STATUS(&indexingPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToIndexingPolicy_STATUS() to populate field IndexingPolicy")
-		}
-		destination.IndexingPolicy = &indexingPolicy
-	} else {
-		destination.IndexingPolicy = nil
-	}
-
-	// PartitionKey
-	if resource.PartitionKey != nil {
-		var partitionKey v20210515s.ContainerPartitionKey_STATUS
-		err := resource.PartitionKey.AssignPropertiesToContainerPartitionKey_STATUS(&partitionKey)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToContainerPartitionKey_STATUS() to populate field PartitionKey")
-		}
-		destination.PartitionKey = &partitionKey
-	} else {
-		destination.PartitionKey = nil
-	}
-
-	// UniqueKeyPolicy
-	if resource.UniqueKeyPolicy != nil {
-		var uniqueKeyPolicy v20210515s.UniqueKeyPolicy_STATUS
-		err := resource.UniqueKeyPolicy.AssignPropertiesToUniqueKeyPolicy_STATUS(&uniqueKeyPolicy)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToUniqueKeyPolicy_STATUS() to populate field UniqueKeyPolicy")
 		}
 		destination.UniqueKeyPolicy = &uniqueKeyPolicy
 	} else {
