@@ -51,6 +51,7 @@ func (set Set[T]) Copy() Set[T] {
 // Clear removes all the itesm from this set
 func (set Set[T]) Clear() {
 	// TODO: Once the generics bug in Go 1.18.2 is fixed, revert to this implementation
+	// See https://github.com/golang/go/issues/53087 for details
 	// maps.Clear(set)
 	for k := range set {
 		delete(set, k)
