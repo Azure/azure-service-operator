@@ -60,7 +60,7 @@ type ResourceDefinition struct {
 	SpecType   astmodel.Type
 	StatusType astmodel.Type
 	SourceFile string
-	ARMType string // e.g. Microsoft.XYZ/resourceThings
+	ARMType    string // e.g. Microsoft.XYZ/resourceThings
 	// TODO: put ARM URI in here and use it for generating Resource URIs
 }
 
@@ -155,7 +155,7 @@ func (extractor *SwaggerTypeExtractor) ExtractTypes(ctx context.Context) (Swagge
 					SourceFile: extractor.swaggerPath,
 					SpecType:   resourceSpec,
 					StatusType: resourceStatus,
-					ARMType: armType,
+					ARMType:    armType,
 				}
 			}
 		}
@@ -474,7 +474,7 @@ func (extractor *SwaggerTypeExtractor) resourceNameFromOperationPath(operationPa
 		return "", astmodel.EmptyTypeName, errors.Wrapf(err, "unable to infer name from path %q", operationPath)
 	}
 
-	return group+"/"+resource, astmodel.MakeTypeName(extractor.outputPackage, name), nil
+	return group + "/" + resource, astmodel.MakeTypeName(extractor.outputPackage, name), nil
 }
 
 // inferNameFromURLPath attempts to extract a name from a Swagger operation path
