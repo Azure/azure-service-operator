@@ -36,6 +36,9 @@ type SqlContainerGetProperties_Resource_STATUSARM struct {
 	// DefaultTtl: Default time to live
 	DefaultTtl *int `json:"defaultTtl,omitempty"`
 
+	// Etag: A system generated property representing the resource etag required for optimistic concurrency control.
+	Etag *string `json:"_etag,omitempty"`
+
 	// Id: Name of the Cosmos DB SQL container
 	Id *string `json:"id,omitempty"`
 
@@ -46,18 +49,15 @@ type SqlContainerGetProperties_Resource_STATUSARM struct {
 	// PartitionKey: The configuration of the partition key to be used for partitioning data into multiple partitions
 	PartitionKey *ContainerPartitionKey_STATUSARM `json:"partitionKey,omitempty"`
 
+	// Rid: A system generated property. A unique identifier.
+	Rid *string `json:"_rid,omitempty"`
+
+	// Ts: A system generated property that denotes the last updated timestamp of the resource.
+	Ts *float64 `json:"_ts,omitempty"`
+
 	// UniqueKeyPolicy: The unique key policy configuration for specifying uniqueness constraints on documents in the
 	// collection in the Azure Cosmos DB service.
 	UniqueKeyPolicy *UniqueKeyPolicy_STATUSARM `json:"uniqueKeyPolicy,omitempty"`
-
-	// _Etag: A system generated property representing the resource etag required for optimistic concurrency control.
-	_Etag *string `json:"_etag,omitempty"`
-
-	// _Rid: A system generated property. A unique identifier.
-	_Rid *string `json:"_rid,omitempty"`
-
-	// _Ts: A system generated property that denotes the last updated timestamp of the resource.
-	_Ts *float64 `json:"_ts,omitempty"`
 }
 
 type ConflictResolutionPolicy_STATUSARM struct {

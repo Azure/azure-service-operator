@@ -886,11 +886,11 @@ func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec) Set
 
 // Deprecated version of SqlStoredProcedureGetProperties_Resource_STATUS. Use v1beta20210515.SqlStoredProcedureGetProperties_Resource_STATUS instead
 type SqlStoredProcedureGetProperties_Resource_STATUS struct {
-	Body  *string  `json:"body,omitempty"`
-	Id    *string  `json:"id,omitempty"`
-	_Etag *string  `json:"_etag,omitempty"`
-	_Rid  *string  `json:"_rid,omitempty"`
-	_Ts   *float64 `json:"_ts,omitempty"`
+	Body *string  `json:"body,omitempty"`
+	Etag *string  `json:"_etag,omitempty"`
+	Id   *string  `json:"id,omitempty"`
+	Rid  *string  `json:"_rid,omitempty"`
+	Ts   *float64 `json:"_ts,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SqlStoredProcedureGetProperties_Resource_STATUS{}
@@ -913,28 +913,28 @@ func (resource *SqlStoredProcedureGetProperties_Resource_STATUS) PopulateFromARM
 		resource.Body = &body
 	}
 
+	// Set property ‘Etag’:
+	if typedInput.Etag != nil {
+		etag := *typedInput.Etag
+		resource.Etag = &etag
+	}
+
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		resource.Id = &id
 	}
 
-	// Set property ‘_Etag’:
-	if typedInput._Etag != nil {
-		_Etag := *typedInput._Etag
-		resource._Etag = &_Etag
+	// Set property ‘Rid’:
+	if typedInput.Rid != nil {
+		rid := *typedInput.Rid
+		resource.Rid = &rid
 	}
 
-	// Set property ‘_Rid’:
-	if typedInput._Rid != nil {
-		_Rid := *typedInput._Rid
-		resource._Rid = &_Rid
-	}
-
-	// Set property ‘_Ts’:
-	if typedInput._Ts != nil {
-		_Ts := *typedInput._Ts
-		resource._Ts = &_Ts
+	// Set property ‘Ts’:
+	if typedInput.Ts != nil {
+		ts := *typedInput.Ts
+		resource.Ts = &ts
 	}
 
 	// No error
@@ -947,21 +947,21 @@ func (resource *SqlStoredProcedureGetProperties_Resource_STATUS) AssignPropertie
 	// Body
 	resource.Body = genruntime.ClonePointerToString(source.Body)
 
+	// Etag
+	resource.Etag = genruntime.ClonePointerToString(source.Etag)
+
 	// Id
 	resource.Id = genruntime.ClonePointerToString(source.Id)
 
-	// _Etag
-	resource._Etag = genruntime.ClonePointerToString(source._Etag)
+	// Rid
+	resource.Rid = genruntime.ClonePointerToString(source.Rid)
 
-	// _Rid
-	resource._Rid = genruntime.ClonePointerToString(source._Rid)
-
-	// _Ts
-	if source._Ts != nil {
-		_T := *source._Ts
-		resource._Ts = &_T
+	// Ts
+	if source.Ts != nil {
+		t := *source.Ts
+		resource.Ts = &t
 	} else {
-		resource._Ts = nil
+		resource.Ts = nil
 	}
 
 	// No error
@@ -976,21 +976,21 @@ func (resource *SqlStoredProcedureGetProperties_Resource_STATUS) AssignPropertie
 	// Body
 	destination.Body = genruntime.ClonePointerToString(resource.Body)
 
+	// Etag
+	destination.Etag = genruntime.ClonePointerToString(resource.Etag)
+
 	// Id
 	destination.Id = genruntime.ClonePointerToString(resource.Id)
 
-	// _Etag
-	destination._Etag = genruntime.ClonePointerToString(resource._Etag)
+	// Rid
+	destination.Rid = genruntime.ClonePointerToString(resource.Rid)
 
-	// _Rid
-	destination._Rid = genruntime.ClonePointerToString(resource._Rid)
-
-	// _Ts
-	if resource._Ts != nil {
-		_T := *resource._Ts
-		destination._Ts = &_T
+	// Ts
+	if resource.Ts != nil {
+		t := *resource.Ts
+		destination.Ts = &t
 	} else {
-		destination._Ts = nil
+		destination.Ts = nil
 	}
 
 	// Update the property bag

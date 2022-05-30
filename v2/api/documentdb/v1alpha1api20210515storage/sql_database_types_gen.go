@@ -585,13 +585,13 @@ func (database *DatabaseAccountsSqlDatabase_Spec) AssignPropertiesToDatabaseAcco
 // Storage version of v1alpha1api20210515.SqlDatabaseGetProperties_Resource_STATUS
 // Deprecated version of SqlDatabaseGetProperties_Resource_STATUS. Use v1beta20210515.SqlDatabaseGetProperties_Resource_STATUS instead
 type SqlDatabaseGetProperties_Resource_STATUS struct {
+	Colls       *string                `json:"_colls,omitempty"`
+	Etag        *string                `json:"_etag,omitempty"`
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	_Colls      *string                `json:"_colls,omitempty"`
-	_Etag       *string                `json:"_etag,omitempty"`
-	_Rid        *string                `json:"_rid,omitempty"`
-	_Ts         *float64               `json:"_ts,omitempty"`
-	_Users      *string                `json:"_users,omitempty"`
+	Rid         *string                `json:"_rid,omitempty"`
+	Ts          *float64               `json:"_ts,omitempty"`
+	Users       *string                `json:"_users,omitempty"`
 }
 
 // AssignPropertiesFromSqlDatabaseGetProperties_Resource_STATUS populates our SqlDatabaseGetProperties_Resource_STATUS from the provided source SqlDatabaseGetProperties_Resource_STATUS
@@ -599,28 +599,28 @@ func (resource *SqlDatabaseGetProperties_Resource_STATUS) AssignPropertiesFromSq
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
+	// Colls
+	resource.Colls = genruntime.ClonePointerToString(source.Colls)
+
+	// Etag
+	resource.Etag = genruntime.ClonePointerToString(source.Etag)
+
 	// Id
 	resource.Id = genruntime.ClonePointerToString(source.Id)
 
-	// _Colls
-	resource._Colls = genruntime.ClonePointerToString(source._Colls)
+	// Rid
+	resource.Rid = genruntime.ClonePointerToString(source.Rid)
 
-	// _Etag
-	resource._Etag = genruntime.ClonePointerToString(source._Etag)
-
-	// _Rid
-	resource._Rid = genruntime.ClonePointerToString(source._Rid)
-
-	// _Ts
-	if source._Ts != nil {
-		_T := *source._Ts
-		resource._Ts = &_T
+	// Ts
+	if source.Ts != nil {
+		t := *source.Ts
+		resource.Ts = &t
 	} else {
-		resource._Ts = nil
+		resource.Ts = nil
 	}
 
-	// _Users
-	resource._Users = genruntime.ClonePointerToString(source._Users)
+	// Users
+	resource.Users = genruntime.ClonePointerToString(source.Users)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -638,28 +638,28 @@ func (resource *SqlDatabaseGetProperties_Resource_STATUS) AssignPropertiesToSqlD
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
 
+	// Colls
+	destination.Colls = genruntime.ClonePointerToString(resource.Colls)
+
+	// Etag
+	destination.Etag = genruntime.ClonePointerToString(resource.Etag)
+
 	// Id
 	destination.Id = genruntime.ClonePointerToString(resource.Id)
 
-	// _Colls
-	destination._Colls = genruntime.ClonePointerToString(resource._Colls)
+	// Rid
+	destination.Rid = genruntime.ClonePointerToString(resource.Rid)
 
-	// _Etag
-	destination._Etag = genruntime.ClonePointerToString(resource._Etag)
-
-	// _Rid
-	destination._Rid = genruntime.ClonePointerToString(resource._Rid)
-
-	// _Ts
-	if resource._Ts != nil {
-		_T := *resource._Ts
-		destination._Ts = &_T
+	// Ts
+	if resource.Ts != nil {
+		t := *resource.Ts
+		destination.Ts = &t
 	} else {
-		destination._Ts = nil
+		destination.Ts = nil
 	}
 
-	// _Users
-	destination._Users = genruntime.ClonePointerToString(resource._Users)
+	// Users
+	destination.Users = genruntime.ClonePointerToString(resource.Users)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

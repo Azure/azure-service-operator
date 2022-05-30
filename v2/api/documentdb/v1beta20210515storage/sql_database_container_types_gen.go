@@ -210,14 +210,14 @@ type SqlContainerGetProperties_Resource_STATUS struct {
 	AnalyticalStorageTtl     *int                             `json:"analyticalStorageTtl,omitempty"`
 	ConflictResolutionPolicy *ConflictResolutionPolicy_STATUS `json:"conflictResolutionPolicy,omitempty"`
 	DefaultTtl               *int                             `json:"defaultTtl,omitempty"`
+	Etag                     *string                          `json:"_etag,omitempty"`
 	Id                       *string                          `json:"id,omitempty"`
 	IndexingPolicy           *IndexingPolicy_STATUS           `json:"indexingPolicy,omitempty"`
 	PartitionKey             *ContainerPartitionKey_STATUS    `json:"partitionKey,omitempty"`
 	PropertyBag              genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
+	Rid                      *string                          `json:"_rid,omitempty"`
+	Ts                       *float64                         `json:"_ts,omitempty"`
 	UniqueKeyPolicy          *UniqueKeyPolicy_STATUS          `json:"uniqueKeyPolicy,omitempty"`
-	_Etag                    *string                          `json:"_etag,omitempty"`
-	_Rid                     *string                          `json:"_rid,omitempty"`
-	_Ts                      *float64                         `json:"_ts,omitempty"`
 }
 
 // Storage version of v1beta20210515.SqlContainerResource

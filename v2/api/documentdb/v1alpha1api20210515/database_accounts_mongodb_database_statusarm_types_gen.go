@@ -21,10 +21,10 @@ type MongoDBDatabaseGetProperties_STATUSARM struct {
 
 // Deprecated version of MongoDBDatabaseGetProperties_Resource_STATUS. Use v1beta20210515.MongoDBDatabaseGetProperties_Resource_STATUS instead
 type MongoDBDatabaseGetProperties_Resource_STATUSARM struct {
-	Id    *string  `json:"id,omitempty"`
-	_Etag *string  `json:"_etag,omitempty"`
-	_Rid  *string  `json:"_rid,omitempty"`
-	_Ts   *float64 `json:"_ts,omitempty"`
+	Etag *string  `json:"_etag,omitempty"`
+	Id   *string  `json:"id,omitempty"`
+	Rid  *string  `json:"_rid,omitempty"`
+	Ts   *float64 `json:"_ts,omitempty"`
 }
 
 // Deprecated version of OptionsResource_STATUS. Use v1beta20210515.OptionsResource_STATUS instead

@@ -207,13 +207,13 @@ func (trigger *DatabaseAccountsSqlDatabasesContainersTrigger_Spec) ConvertSpecTo
 // Storage version of v1beta20210515.SqlTriggerGetProperties_Resource_STATUS
 type SqlTriggerGetProperties_Resource_STATUS struct {
 	Body             *string                `json:"body,omitempty"`
+	Etag             *string                `json:"_etag,omitempty"`
 	Id               *string                `json:"id,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Rid              *string                `json:"_rid,omitempty"`
 	TriggerOperation *string                `json:"triggerOperation,omitempty"`
 	TriggerType      *string                `json:"triggerType,omitempty"`
-	_Etag            *string                `json:"_etag,omitempty"`
-	_Rid             *string                `json:"_rid,omitempty"`
-	_Ts              *float64               `json:"_ts,omitempty"`
+	Ts               *float64               `json:"_ts,omitempty"`
 }
 
 // Storage version of v1beta20210515.SqlTriggerResource

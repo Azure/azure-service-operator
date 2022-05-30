@@ -214,11 +214,11 @@ type CreateUpdateOptions struct {
 
 // Storage version of v1beta20210515.MongoDBDatabaseGetProperties_Resource_STATUS
 type MongoDBDatabaseGetProperties_Resource_STATUS struct {
+	Etag        *string                `json:"_etag,omitempty"`
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	_Etag       *string                `json:"_etag,omitempty"`
-	_Rid        *string                `json:"_rid,omitempty"`
-	_Ts         *float64               `json:"_ts,omitempty"`
+	Rid         *string                `json:"_rid,omitempty"`
+	Ts          *float64               `json:"_ts,omitempty"`
 }
 
 // Storage version of v1beta20210515.MongoDBDatabaseResource

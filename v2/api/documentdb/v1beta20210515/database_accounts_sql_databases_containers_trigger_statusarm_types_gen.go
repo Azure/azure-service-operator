@@ -29,8 +29,14 @@ type SqlTriggerGetProperties_Resource_STATUSARM struct {
 	// Body: Body of the Trigger
 	Body *string `json:"body,omitempty"`
 
+	// Etag: A system generated property representing the resource etag required for optimistic concurrency control.
+	Etag *string `json:"_etag,omitempty"`
+
 	// Id: Name of the Cosmos DB SQL trigger
 	Id *string `json:"id,omitempty"`
+
+	// Rid: A system generated property. A unique identifier.
+	Rid *string `json:"_rid,omitempty"`
 
 	// TriggerOperation: The operation the trigger is associated with
 	TriggerOperation *SqlTriggerGetProperties_Resource_TriggerOperation_STATUS `json:"triggerOperation,omitempty"`
@@ -38,14 +44,8 @@ type SqlTriggerGetProperties_Resource_STATUSARM struct {
 	// TriggerType: Type of the Trigger
 	TriggerType *SqlTriggerGetProperties_Resource_TriggerType_STATUS `json:"triggerType,omitempty"`
 
-	// _Etag: A system generated property representing the resource etag required for optimistic concurrency control.
-	_Etag *string `json:"_etag,omitempty"`
-
-	// _Rid: A system generated property. A unique identifier.
-	_Rid *string `json:"_rid,omitempty"`
-
-	// _Ts: A system generated property that denotes the last updated timestamp of the resource.
-	_Ts *float64 `json:"_ts,omitempty"`
+	// Ts: A system generated property that denotes the last updated timestamp of the resource.
+	Ts *float64 `json:"_ts,omitempty"`
 }
 
 type SqlTriggerGetProperties_Resource_TriggerOperation_STATUS string

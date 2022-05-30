@@ -887,12 +887,12 @@ func (trigger *DatabaseAccountsSqlDatabasesContainersTrigger_Spec) SetAzureName(
 // Deprecated version of SqlTriggerGetProperties_Resource_STATUS. Use v1beta20210515.SqlTriggerGetProperties_Resource_STATUS instead
 type SqlTriggerGetProperties_Resource_STATUS struct {
 	Body             *string                                                   `json:"body,omitempty"`
+	Etag             *string                                                   `json:"_etag,omitempty"`
 	Id               *string                                                   `json:"id,omitempty"`
+	Rid              *string                                                   `json:"_rid,omitempty"`
 	TriggerOperation *SqlTriggerGetProperties_Resource_TriggerOperation_STATUS `json:"triggerOperation,omitempty"`
 	TriggerType      *SqlTriggerGetProperties_Resource_TriggerType_STATUS      `json:"triggerType,omitempty"`
-	_Etag            *string                                                   `json:"_etag,omitempty"`
-	_Rid             *string                                                   `json:"_rid,omitempty"`
-	_Ts              *float64                                                  `json:"_ts,omitempty"`
+	Ts               *float64                                                  `json:"_ts,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SqlTriggerGetProperties_Resource_STATUS{}
@@ -915,10 +915,22 @@ func (resource *SqlTriggerGetProperties_Resource_STATUS) PopulateFromARM(owner g
 		resource.Body = &body
 	}
 
+	// Set property ‘Etag’:
+	if typedInput.Etag != nil {
+		etag := *typedInput.Etag
+		resource.Etag = &etag
+	}
+
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		resource.Id = &id
+	}
+
+	// Set property ‘Rid’:
+	if typedInput.Rid != nil {
+		rid := *typedInput.Rid
+		resource.Rid = &rid
 	}
 
 	// Set property ‘TriggerOperation’:
@@ -933,22 +945,10 @@ func (resource *SqlTriggerGetProperties_Resource_STATUS) PopulateFromARM(owner g
 		resource.TriggerType = &triggerType
 	}
 
-	// Set property ‘_Etag’:
-	if typedInput._Etag != nil {
-		_Etag := *typedInput._Etag
-		resource._Etag = &_Etag
-	}
-
-	// Set property ‘_Rid’:
-	if typedInput._Rid != nil {
-		_Rid := *typedInput._Rid
-		resource._Rid = &_Rid
-	}
-
-	// Set property ‘_Ts’:
-	if typedInput._Ts != nil {
-		_Ts := *typedInput._Ts
-		resource._Ts = &_Ts
+	// Set property ‘Ts’:
+	if typedInput.Ts != nil {
+		ts := *typedInput.Ts
+		resource.Ts = &ts
 	}
 
 	// No error
@@ -961,8 +961,14 @@ func (resource *SqlTriggerGetProperties_Resource_STATUS) AssignPropertiesFromSql
 	// Body
 	resource.Body = genruntime.ClonePointerToString(source.Body)
 
+	// Etag
+	resource.Etag = genruntime.ClonePointerToString(source.Etag)
+
 	// Id
 	resource.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Rid
+	resource.Rid = genruntime.ClonePointerToString(source.Rid)
 
 	// TriggerOperation
 	if source.TriggerOperation != nil {
@@ -980,18 +986,12 @@ func (resource *SqlTriggerGetProperties_Resource_STATUS) AssignPropertiesFromSql
 		resource.TriggerType = nil
 	}
 
-	// _Etag
-	resource._Etag = genruntime.ClonePointerToString(source._Etag)
-
-	// _Rid
-	resource._Rid = genruntime.ClonePointerToString(source._Rid)
-
-	// _Ts
-	if source._Ts != nil {
-		_T := *source._Ts
-		resource._Ts = &_T
+	// Ts
+	if source.Ts != nil {
+		t := *source.Ts
+		resource.Ts = &t
 	} else {
-		resource._Ts = nil
+		resource.Ts = nil
 	}
 
 	// No error
@@ -1006,8 +1006,14 @@ func (resource *SqlTriggerGetProperties_Resource_STATUS) AssignPropertiesToSqlTr
 	// Body
 	destination.Body = genruntime.ClonePointerToString(resource.Body)
 
+	// Etag
+	destination.Etag = genruntime.ClonePointerToString(resource.Etag)
+
 	// Id
 	destination.Id = genruntime.ClonePointerToString(resource.Id)
+
+	// Rid
+	destination.Rid = genruntime.ClonePointerToString(resource.Rid)
 
 	// TriggerOperation
 	if resource.TriggerOperation != nil {
@@ -1025,18 +1031,12 @@ func (resource *SqlTriggerGetProperties_Resource_STATUS) AssignPropertiesToSqlTr
 		destination.TriggerType = nil
 	}
 
-	// _Etag
-	destination._Etag = genruntime.ClonePointerToString(resource._Etag)
-
-	// _Rid
-	destination._Rid = genruntime.ClonePointerToString(resource._Rid)
-
-	// _Ts
-	if resource._Ts != nil {
-		_T := *resource._Ts
-		destination._Ts = &_T
+	// Ts
+	if resource.Ts != nil {
+		t := *resource.Ts
+		destination.Ts = &t
 	} else {
-		destination._Ts = nil
+		destination.Ts = nil
 	}
 
 	// Update the property bag

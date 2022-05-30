@@ -208,13 +208,13 @@ func (collection *DatabaseAccountsMongodbDatabasesCollection_Spec) ConvertSpecTo
 // Storage version of v1beta20210515.MongoDBCollectionGetProperties_Resource_STATUS
 type MongoDBCollectionGetProperties_Resource_STATUS struct {
 	AnalyticalStorageTtl *int                   `json:"analyticalStorageTtl,omitempty"`
+	Etag                 *string                `json:"_etag,omitempty"`
 	Id                   *string                `json:"id,omitempty"`
 	Indexes              []MongoIndex_STATUS    `json:"indexes,omitempty"`
 	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Rid                  *string                `json:"_rid,omitempty"`
 	ShardKey             map[string]string      `json:"shardKey,omitempty"`
-	_Etag                *string                `json:"_etag,omitempty"`
-	_Rid                 *string                `json:"_rid,omitempty"`
-	_Ts                  *float64               `json:"_ts,omitempty"`
+	Ts                   *float64               `json:"_ts,omitempty"`
 }
 
 // Storage version of v1beta20210515.MongoDBCollectionResource

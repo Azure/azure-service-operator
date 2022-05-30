@@ -127,7 +127,7 @@ func secretsToWrite(obj *storage.StorageAccount, keys map[string]string) ([]*v1.
 	// There are tons of different endpoints we could write, including secondary endpoints.
 	// For now we're just exposing the main ones. See:
 	// https://docs.microsoft.com/en-us/rest/api/storagerp/storage-accounts/get-properties for more details
-	if obj.Status.Primary_Endpoints != nil {
+	if obj.Status.PrimaryEndpoints != nil {
 		eps := obj.Status.PrimaryEndpoints
 		collector.AddSecretValue(operatorSpecSecrets.BlobEndpoint, to.String(eps.Blob))
 		collector.AddSecretValue(operatorSpecSecrets.QueueEndpoint, to.String(eps.Queue))

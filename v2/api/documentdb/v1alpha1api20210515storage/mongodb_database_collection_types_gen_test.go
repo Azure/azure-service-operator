@@ -515,11 +515,11 @@ func MongoDBCollectionGetProperties_Resource_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForMongoDBCollectionGetProperties_Resource_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForMongoDBCollectionGetProperties_Resource_STATUS(gens map[string]gopter.Gen) {
 	gens["AnalyticalStorageTtl"] = gen.PtrOf(gen.Int())
+	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Rid"] = gen.PtrOf(gen.AlphaString())
 	gens["ShardKey"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["_Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["_Rid"] = gen.PtrOf(gen.AlphaString())
-	gens["_Ts"] = gen.PtrOf(gen.Float64())
+	gens["Ts"] = gen.PtrOf(gen.Float64())
 }
 
 // AddRelatedPropertyGeneratorsForMongoDBCollectionGetProperties_Resource_STATUS is a factory method for creating gopter generators

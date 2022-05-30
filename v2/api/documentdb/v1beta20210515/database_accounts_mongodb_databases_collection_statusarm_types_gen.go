@@ -30,23 +30,23 @@ type MongoDBCollectionGetProperties_Resource_STATUSARM struct {
 	// AnalyticalStorageTtl: Analytical TTL.
 	AnalyticalStorageTtl *int `json:"analyticalStorageTtl,omitempty"`
 
+	// Etag: A system generated property representing the resource etag required for optimistic concurrency control.
+	Etag *string `json:"_etag,omitempty"`
+
 	// Id: Name of the Cosmos DB MongoDB collection
 	Id *string `json:"id,omitempty"`
 
 	// Indexes: List of index keys
 	Indexes []MongoIndex_STATUSARM `json:"indexes,omitempty"`
 
+	// Rid: A system generated property. A unique identifier.
+	Rid *string `json:"_rid,omitempty"`
+
 	// ShardKey: A key-value pair of shard keys to be applied for the request.
 	ShardKey map[string]string `json:"shardKey,omitempty"`
 
-	// _Etag: A system generated property representing the resource etag required for optimistic concurrency control.
-	_Etag *string `json:"_etag,omitempty"`
-
-	// _Rid: A system generated property. A unique identifier.
-	_Rid *string `json:"_rid,omitempty"`
-
-	// _Ts: A system generated property that denotes the last updated timestamp of the resource.
-	_Ts *float64 `json:"_ts,omitempty"`
+	// Ts: A system generated property that denotes the last updated timestamp of the resource.
+	Ts *float64 `json:"_ts,omitempty"`
 }
 
 type MongoIndex_STATUSARM struct {

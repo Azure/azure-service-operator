@@ -840,12 +840,12 @@ func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec
 // Deprecated version of ThroughputSettingsGetProperties_Resource_STATUS. Use v1beta20210515.ThroughputSettingsGetProperties_Resource_STATUS instead
 type ThroughputSettingsGetProperties_Resource_STATUS struct {
 	AutoscaleSettings   *AutoscaleSettingsResource_STATUS `json:"autoscaleSettings,omitempty"`
+	Etag                *string                           `json:"_etag,omitempty"`
 	MinimumThroughput   *string                           `json:"minimumThroughput,omitempty"`
 	OfferReplacePending *string                           `json:"offerReplacePending,omitempty"`
+	Rid                 *string                           `json:"_rid,omitempty"`
 	Throughput          *int                              `json:"throughput,omitempty"`
-	_Etag               *string                           `json:"_etag,omitempty"`
-	_Rid                *string                           `json:"_rid,omitempty"`
-	_Ts                 *float64                          `json:"_ts,omitempty"`
+	Ts                  *float64                          `json:"_ts,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &ThroughputSettingsGetProperties_Resource_STATUS{}
@@ -873,6 +873,12 @@ func (resource *ThroughputSettingsGetProperties_Resource_STATUS) PopulateFromARM
 		resource.AutoscaleSettings = &autoscaleSettings
 	}
 
+	// Set property ‘Etag’:
+	if typedInput.Etag != nil {
+		etag := *typedInput.Etag
+		resource.Etag = &etag
+	}
+
 	// Set property ‘MinimumThroughput’:
 	if typedInput.MinimumThroughput != nil {
 		minimumThroughput := *typedInput.MinimumThroughput
@@ -885,28 +891,22 @@ func (resource *ThroughputSettingsGetProperties_Resource_STATUS) PopulateFromARM
 		resource.OfferReplacePending = &offerReplacePending
 	}
 
+	// Set property ‘Rid’:
+	if typedInput.Rid != nil {
+		rid := *typedInput.Rid
+		resource.Rid = &rid
+	}
+
 	// Set property ‘Throughput’:
 	if typedInput.Throughput != nil {
 		throughput := *typedInput.Throughput
 		resource.Throughput = &throughput
 	}
 
-	// Set property ‘_Etag’:
-	if typedInput._Etag != nil {
-		_Etag := *typedInput._Etag
-		resource._Etag = &_Etag
-	}
-
-	// Set property ‘_Rid’:
-	if typedInput._Rid != nil {
-		_Rid := *typedInput._Rid
-		resource._Rid = &_Rid
-	}
-
-	// Set property ‘_Ts’:
-	if typedInput._Ts != nil {
-		_Ts := *typedInput._Ts
-		resource._Ts = &_Ts
+	// Set property ‘Ts’:
+	if typedInput.Ts != nil {
+		ts := *typedInput.Ts
+		resource.Ts = &ts
 	}
 
 	// No error
@@ -928,27 +928,27 @@ func (resource *ThroughputSettingsGetProperties_Resource_STATUS) AssignPropertie
 		resource.AutoscaleSettings = nil
 	}
 
+	// Etag
+	resource.Etag = genruntime.ClonePointerToString(source.Etag)
+
 	// MinimumThroughput
 	resource.MinimumThroughput = genruntime.ClonePointerToString(source.MinimumThroughput)
 
 	// OfferReplacePending
 	resource.OfferReplacePending = genruntime.ClonePointerToString(source.OfferReplacePending)
 
+	// Rid
+	resource.Rid = genruntime.ClonePointerToString(source.Rid)
+
 	// Throughput
 	resource.Throughput = genruntime.ClonePointerToInt(source.Throughput)
 
-	// _Etag
-	resource._Etag = genruntime.ClonePointerToString(source._Etag)
-
-	// _Rid
-	resource._Rid = genruntime.ClonePointerToString(source._Rid)
-
-	// _Ts
-	if source._Ts != nil {
-		_T := *source._Ts
-		resource._Ts = &_T
+	// Ts
+	if source.Ts != nil {
+		t := *source.Ts
+		resource.Ts = &t
 	} else {
-		resource._Ts = nil
+		resource.Ts = nil
 	}
 
 	// No error
@@ -972,27 +972,27 @@ func (resource *ThroughputSettingsGetProperties_Resource_STATUS) AssignPropertie
 		destination.AutoscaleSettings = nil
 	}
 
+	// Etag
+	destination.Etag = genruntime.ClonePointerToString(resource.Etag)
+
 	// MinimumThroughput
 	destination.MinimumThroughput = genruntime.ClonePointerToString(resource.MinimumThroughput)
 
 	// OfferReplacePending
 	destination.OfferReplacePending = genruntime.ClonePointerToString(resource.OfferReplacePending)
 
+	// Rid
+	destination.Rid = genruntime.ClonePointerToString(resource.Rid)
+
 	// Throughput
 	destination.Throughput = genruntime.ClonePointerToInt(resource.Throughput)
 
-	// _Etag
-	destination._Etag = genruntime.ClonePointerToString(resource._Etag)
-
-	// _Rid
-	destination._Rid = genruntime.ClonePointerToString(resource._Rid)
-
-	// _Ts
-	if resource._Ts != nil {
-		_T := *resource._Ts
-		destination._Ts = &_T
+	// Ts
+	if resource.Ts != nil {
+		t := *resource.Ts
+		destination.Ts = &t
 	} else {
-		destination._Ts = nil
+		destination.Ts = nil
 	}
 
 	// Update the property bag

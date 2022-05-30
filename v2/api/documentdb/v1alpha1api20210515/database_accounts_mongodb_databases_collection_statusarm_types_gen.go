@@ -22,12 +22,12 @@ type MongoDBCollectionGetProperties_STATUSARM struct {
 // Deprecated version of MongoDBCollectionGetProperties_Resource_STATUS. Use v1beta20210515.MongoDBCollectionGetProperties_Resource_STATUS instead
 type MongoDBCollectionGetProperties_Resource_STATUSARM struct {
 	AnalyticalStorageTtl *int                   `json:"analyticalStorageTtl,omitempty"`
+	Etag                 *string                `json:"_etag,omitempty"`
 	Id                   *string                `json:"id,omitempty"`
 	Indexes              []MongoIndex_STATUSARM `json:"indexes,omitempty"`
+	Rid                  *string                `json:"_rid,omitempty"`
 	ShardKey             map[string]string      `json:"shardKey,omitempty"`
-	_Etag                *string                `json:"_etag,omitempty"`
-	_Rid                 *string                `json:"_rid,omitempty"`
-	_Ts                  *float64               `json:"_ts,omitempty"`
+	Ts                   *float64               `json:"_ts,omitempty"`
 }
 
 // Deprecated version of MongoIndex_STATUS. Use v1beta20210515.MongoIndex_STATUS instead

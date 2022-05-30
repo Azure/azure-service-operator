@@ -24,13 +24,13 @@ type SqlContainerGetProperties_Resource_STATUSARM struct {
 	AnalyticalStorageTtl     *int                                `json:"analyticalStorageTtl,omitempty"`
 	ConflictResolutionPolicy *ConflictResolutionPolicy_STATUSARM `json:"conflictResolutionPolicy,omitempty"`
 	DefaultTtl               *int                                `json:"defaultTtl,omitempty"`
+	Etag                     *string                             `json:"_etag,omitempty"`
 	Id                       *string                             `json:"id,omitempty"`
 	IndexingPolicy           *IndexingPolicy_STATUSARM           `json:"indexingPolicy,omitempty"`
 	PartitionKey             *ContainerPartitionKey_STATUSARM    `json:"partitionKey,omitempty"`
+	Rid                      *string                             `json:"_rid,omitempty"`
+	Ts                       *float64                            `json:"_ts,omitempty"`
 	UniqueKeyPolicy          *UniqueKeyPolicy_STATUSARM          `json:"uniqueKeyPolicy,omitempty"`
-	_Etag                    *string                             `json:"_etag,omitempty"`
-	_Rid                     *string                             `json:"_rid,omitempty"`
-	_Ts                      *float64                            `json:"_ts,omitempty"`
 }
 
 // Deprecated version of ConflictResolutionPolicy_STATUS. Use v1beta20210515.ConflictResolutionPolicy_STATUS instead

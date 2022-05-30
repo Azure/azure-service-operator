@@ -588,14 +588,14 @@ type SqlContainerGetProperties_Resource_STATUS struct {
 	AnalyticalStorageTtl     *int                             `json:"analyticalStorageTtl,omitempty"`
 	ConflictResolutionPolicy *ConflictResolutionPolicy_STATUS `json:"conflictResolutionPolicy,omitempty"`
 	DefaultTtl               *int                             `json:"defaultTtl,omitempty"`
+	Etag                     *string                          `json:"_etag,omitempty"`
 	Id                       *string                          `json:"id,omitempty"`
 	IndexingPolicy           *IndexingPolicy_STATUS           `json:"indexingPolicy,omitempty"`
 	PartitionKey             *ContainerPartitionKey_STATUS    `json:"partitionKey,omitempty"`
 	PropertyBag              genruntime.PropertyBag           `json:"$propertyBag,omitempty"`
+	Rid                      *string                          `json:"_rid,omitempty"`
+	Ts                       *float64                         `json:"_ts,omitempty"`
 	UniqueKeyPolicy          *UniqueKeyPolicy_STATUS          `json:"uniqueKeyPolicy,omitempty"`
-	_Etag                    *string                          `json:"_etag,omitempty"`
-	_Rid                     *string                          `json:"_rid,omitempty"`
-	_Ts                      *float64                         `json:"_ts,omitempty"`
 }
 
 // AssignPropertiesFromSqlContainerGetProperties_Resource_STATUS populates our SqlContainerGetProperties_Resource_STATUS from the provided source SqlContainerGetProperties_Resource_STATUS
@@ -620,6 +620,9 @@ func (resource *SqlContainerGetProperties_Resource_STATUS) AssignPropertiesFromS
 
 	// DefaultTtl
 	resource.DefaultTtl = genruntime.ClonePointerToInt(source.DefaultTtl)
+
+	// Etag
+	resource.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// Id
 	resource.Id = genruntime.ClonePointerToString(source.Id)
@@ -648,6 +651,17 @@ func (resource *SqlContainerGetProperties_Resource_STATUS) AssignPropertiesFromS
 		resource.PartitionKey = nil
 	}
 
+	// Rid
+	resource.Rid = genruntime.ClonePointerToString(source.Rid)
+
+	// Ts
+	if source.Ts != nil {
+		t := *source.Ts
+		resource.Ts = &t
+	} else {
+		resource.Ts = nil
+	}
+
 	// UniqueKeyPolicy
 	if source.UniqueKeyPolicy != nil {
 		var uniqueKeyPolicy UniqueKeyPolicy_STATUS
@@ -658,20 +672,6 @@ func (resource *SqlContainerGetProperties_Resource_STATUS) AssignPropertiesFromS
 		resource.UniqueKeyPolicy = &uniqueKeyPolicy
 	} else {
 		resource.UniqueKeyPolicy = nil
-	}
-
-	// _Etag
-	resource._Etag = genruntime.ClonePointerToString(source._Etag)
-
-	// _Rid
-	resource._Rid = genruntime.ClonePointerToString(source._Rid)
-
-	// _Ts
-	if source._Ts != nil {
-		_T := *source._Ts
-		resource._Ts = &_T
-	} else {
-		resource._Ts = nil
 	}
 
 	// Update the property bag
@@ -708,6 +708,9 @@ func (resource *SqlContainerGetProperties_Resource_STATUS) AssignPropertiesToSql
 	// DefaultTtl
 	destination.DefaultTtl = genruntime.ClonePointerToInt(resource.DefaultTtl)
 
+	// Etag
+	destination.Etag = genruntime.ClonePointerToString(resource.Etag)
+
 	// Id
 	destination.Id = genruntime.ClonePointerToString(resource.Id)
 
@@ -735,6 +738,17 @@ func (resource *SqlContainerGetProperties_Resource_STATUS) AssignPropertiesToSql
 		destination.PartitionKey = nil
 	}
 
+	// Rid
+	destination.Rid = genruntime.ClonePointerToString(resource.Rid)
+
+	// Ts
+	if resource.Ts != nil {
+		t := *resource.Ts
+		destination.Ts = &t
+	} else {
+		destination.Ts = nil
+	}
+
 	// UniqueKeyPolicy
 	if resource.UniqueKeyPolicy != nil {
 		var uniqueKeyPolicy v20210515s.UniqueKeyPolicy_STATUS
@@ -745,20 +759,6 @@ func (resource *SqlContainerGetProperties_Resource_STATUS) AssignPropertiesToSql
 		destination.UniqueKeyPolicy = &uniqueKeyPolicy
 	} else {
 		destination.UniqueKeyPolicy = nil
-	}
-
-	// _Etag
-	destination._Etag = genruntime.ClonePointerToString(resource._Etag)
-
-	// _Rid
-	destination._Rid = genruntime.ClonePointerToString(resource._Rid)
-
-	// _Ts
-	if resource._Ts != nil {
-		_T := *resource._Ts
-		destination._Ts = &_T
-	} else {
-		destination._Ts = nil
 	}
 
 	// Update the property bag

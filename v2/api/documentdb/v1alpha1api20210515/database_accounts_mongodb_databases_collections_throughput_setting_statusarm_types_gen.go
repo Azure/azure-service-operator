@@ -21,12 +21,12 @@ type ThroughputSettingsGetProperties_STATUSARM struct {
 // Deprecated version of ThroughputSettingsGetProperties_Resource_STATUS. Use v1beta20210515.ThroughputSettingsGetProperties_Resource_STATUS instead
 type ThroughputSettingsGetProperties_Resource_STATUSARM struct {
 	AutoscaleSettings   *AutoscaleSettingsResource_STATUSARM `json:"autoscaleSettings,omitempty"`
+	Etag                *string                              `json:"_etag,omitempty"`
 	MinimumThroughput   *string                              `json:"minimumThroughput,omitempty"`
 	OfferReplacePending *string                              `json:"offerReplacePending,omitempty"`
+	Rid                 *string                              `json:"_rid,omitempty"`
 	Throughput          *int                                 `json:"throughput,omitempty"`
-	_Etag               *string                              `json:"_etag,omitempty"`
-	_Rid                *string                              `json:"_rid,omitempty"`
-	_Ts                 *float64                             `json:"_ts,omitempty"`
+	Ts                  *float64                             `json:"_ts,omitempty"`
 }
 
 // Deprecated version of AutoscaleSettingsResource_STATUS. Use v1beta20210515.AutoscaleSettingsResource_STATUS instead

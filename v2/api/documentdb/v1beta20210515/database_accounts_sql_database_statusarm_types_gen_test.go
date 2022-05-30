@@ -213,10 +213,10 @@ func SqlDatabaseGetProperties_Resource_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForSqlDatabaseGetProperties_Resource_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSqlDatabaseGetProperties_Resource_STATUSARM(gens map[string]gopter.Gen) {
+	gens["Colls"] = gen.PtrOf(gen.AlphaString())
+	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["_Colls"] = gen.PtrOf(gen.AlphaString())
-	gens["_Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["_Rid"] = gen.PtrOf(gen.AlphaString())
-	gens["_Ts"] = gen.PtrOf(gen.Float64())
-	gens["_Users"] = gen.PtrOf(gen.AlphaString())
+	gens["Rid"] = gen.PtrOf(gen.AlphaString())
+	gens["Ts"] = gen.PtrOf(gen.Float64())
+	gens["Users"] = gen.PtrOf(gen.AlphaString())
 }

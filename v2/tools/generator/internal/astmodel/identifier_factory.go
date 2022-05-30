@@ -87,6 +87,10 @@ func (factory *identifierFactory) CreateIdentifier(name string, visibility Visib
 }
 
 func (factory *identifierFactory) createIdentifierUncached(name string, visibility Visibility) string {
+
+	// Trim any leading underscores before proceeding.
+	name = strings.TrimLeft(name, "_")
+
 	if identifier, ok := factory.renames[name]; ok {
 		// Case the first character according to visibility
 		r := []rune(identifier)

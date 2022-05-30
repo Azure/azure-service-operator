@@ -929,23 +929,23 @@ func (database *DatabaseAccountsSqlDatabase_Spec) SetAzureName(azureName string)
 }
 
 type SqlDatabaseGetProperties_Resource_STATUS struct {
+	// Colls: A system generated property that specified the addressable path of the collections resource.
+	Colls *string `json:"_colls,omitempty"`
+
+	// Etag: A system generated property representing the resource etag required for optimistic concurrency control.
+	Etag *string `json:"_etag,omitempty"`
+
 	// Id: Name of the Cosmos DB SQL database
 	Id *string `json:"id,omitempty"`
 
-	// _Colls: A system generated property that specified the addressable path of the collections resource.
-	_Colls *string `json:"_colls,omitempty"`
+	// Rid: A system generated property. A unique identifier.
+	Rid *string `json:"_rid,omitempty"`
 
-	// _Etag: A system generated property representing the resource etag required for optimistic concurrency control.
-	_Etag *string `json:"_etag,omitempty"`
+	// Ts: A system generated property that denotes the last updated timestamp of the resource.
+	Ts *float64 `json:"_ts,omitempty"`
 
-	// _Rid: A system generated property. A unique identifier.
-	_Rid *string `json:"_rid,omitempty"`
-
-	// _Ts: A system generated property that denotes the last updated timestamp of the resource.
-	_Ts *float64 `json:"_ts,omitempty"`
-
-	// _Users: A system generated property that specifies the addressable path of the users resource.
-	_Users *string `json:"_users,omitempty"`
+	// Users: A system generated property that specifies the addressable path of the users resource.
+	Users *string `json:"_users,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &SqlDatabaseGetProperties_Resource_STATUS{}
@@ -962,40 +962,40 @@ func (resource *SqlDatabaseGetProperties_Resource_STATUS) PopulateFromARM(owner 
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SqlDatabaseGetProperties_Resource_STATUSARM, got %T", armInput)
 	}
 
+	// Set property ‘Colls’:
+	if typedInput.Colls != nil {
+		colls := *typedInput.Colls
+		resource.Colls = &colls
+	}
+
+	// Set property ‘Etag’:
+	if typedInput.Etag != nil {
+		etag := *typedInput.Etag
+		resource.Etag = &etag
+	}
+
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		resource.Id = &id
 	}
 
-	// Set property ‘_Colls’:
-	if typedInput._Colls != nil {
-		_Colls := *typedInput._Colls
-		resource._Colls = &_Colls
+	// Set property ‘Rid’:
+	if typedInput.Rid != nil {
+		rid := *typedInput.Rid
+		resource.Rid = &rid
 	}
 
-	// Set property ‘_Etag’:
-	if typedInput._Etag != nil {
-		_Etag := *typedInput._Etag
-		resource._Etag = &_Etag
+	// Set property ‘Ts’:
+	if typedInput.Ts != nil {
+		ts := *typedInput.Ts
+		resource.Ts = &ts
 	}
 
-	// Set property ‘_Rid’:
-	if typedInput._Rid != nil {
-		_Rid := *typedInput._Rid
-		resource._Rid = &_Rid
-	}
-
-	// Set property ‘_Ts’:
-	if typedInput._Ts != nil {
-		_Ts := *typedInput._Ts
-		resource._Ts = &_Ts
-	}
-
-	// Set property ‘_Users’:
-	if typedInput._Users != nil {
-		_Users := *typedInput._Users
-		resource._Users = &_Users
+	// Set property ‘Users’:
+	if typedInput.Users != nil {
+		users := *typedInput.Users
+		resource.Users = &users
 	}
 
 	// No error
@@ -1005,28 +1005,28 @@ func (resource *SqlDatabaseGetProperties_Resource_STATUS) PopulateFromARM(owner 
 // AssignPropertiesFromSqlDatabaseGetProperties_Resource_STATUS populates our SqlDatabaseGetProperties_Resource_STATUS from the provided source SqlDatabaseGetProperties_Resource_STATUS
 func (resource *SqlDatabaseGetProperties_Resource_STATUS) AssignPropertiesFromSqlDatabaseGetProperties_Resource_STATUS(source *v20210515s.SqlDatabaseGetProperties_Resource_STATUS) error {
 
+	// Colls
+	resource.Colls = genruntime.ClonePointerToString(source.Colls)
+
+	// Etag
+	resource.Etag = genruntime.ClonePointerToString(source.Etag)
+
 	// Id
 	resource.Id = genruntime.ClonePointerToString(source.Id)
 
-	// _Colls
-	resource._Colls = genruntime.ClonePointerToString(source._Colls)
+	// Rid
+	resource.Rid = genruntime.ClonePointerToString(source.Rid)
 
-	// _Etag
-	resource._Etag = genruntime.ClonePointerToString(source._Etag)
-
-	// _Rid
-	resource._Rid = genruntime.ClonePointerToString(source._Rid)
-
-	// _Ts
-	if source._Ts != nil {
-		_T := *source._Ts
-		resource._Ts = &_T
+	// Ts
+	if source.Ts != nil {
+		t := *source.Ts
+		resource.Ts = &t
 	} else {
-		resource._Ts = nil
+		resource.Ts = nil
 	}
 
-	// _Users
-	resource._Users = genruntime.ClonePointerToString(source._Users)
+	// Users
+	resource.Users = genruntime.ClonePointerToString(source.Users)
 
 	// No error
 	return nil
@@ -1037,28 +1037,28 @@ func (resource *SqlDatabaseGetProperties_Resource_STATUS) AssignPropertiesToSqlD
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
+	// Colls
+	destination.Colls = genruntime.ClonePointerToString(resource.Colls)
+
+	// Etag
+	destination.Etag = genruntime.ClonePointerToString(resource.Etag)
+
 	// Id
 	destination.Id = genruntime.ClonePointerToString(resource.Id)
 
-	// _Colls
-	destination._Colls = genruntime.ClonePointerToString(resource._Colls)
+	// Rid
+	destination.Rid = genruntime.ClonePointerToString(resource.Rid)
 
-	// _Etag
-	destination._Etag = genruntime.ClonePointerToString(resource._Etag)
-
-	// _Rid
-	destination._Rid = genruntime.ClonePointerToString(resource._Rid)
-
-	// _Ts
-	if resource._Ts != nil {
-		_T := *resource._Ts
-		destination._Ts = &_T
+	// Ts
+	if resource.Ts != nil {
+		t := *resource.Ts
+		destination.Ts = &t
 	} else {
-		destination._Ts = nil
+		destination.Ts = nil
 	}
 
-	// _Users
-	destination._Users = genruntime.ClonePointerToString(resource._Users)
+	// Users
+	destination.Users = genruntime.ClonePointerToString(resource.Users)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

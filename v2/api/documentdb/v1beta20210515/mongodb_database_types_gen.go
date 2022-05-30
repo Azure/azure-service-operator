@@ -1050,17 +1050,17 @@ func (options *CreateUpdateOptions) AssignPropertiesToCreateUpdateOptions(destin
 }
 
 type MongoDBDatabaseGetProperties_Resource_STATUS struct {
+	// Etag: A system generated property representing the resource etag required for optimistic concurrency control.
+	Etag *string `json:"_etag,omitempty"`
+
 	// Id: Name of the Cosmos DB MongoDB database
 	Id *string `json:"id,omitempty"`
 
-	// _Etag: A system generated property representing the resource etag required for optimistic concurrency control.
-	_Etag *string `json:"_etag,omitempty"`
+	// Rid: A system generated property. A unique identifier.
+	Rid *string `json:"_rid,omitempty"`
 
-	// _Rid: A system generated property. A unique identifier.
-	_Rid *string `json:"_rid,omitempty"`
-
-	// _Ts: A system generated property that denotes the last updated timestamp of the resource.
-	_Ts *float64 `json:"_ts,omitempty"`
+	// Ts: A system generated property that denotes the last updated timestamp of the resource.
+	Ts *float64 `json:"_ts,omitempty"`
 }
 
 var _ genruntime.FromARMConverter = &MongoDBDatabaseGetProperties_Resource_STATUS{}
@@ -1077,28 +1077,28 @@ func (resource *MongoDBDatabaseGetProperties_Resource_STATUS) PopulateFromARM(ow
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MongoDBDatabaseGetProperties_Resource_STATUSARM, got %T", armInput)
 	}
 
+	// Set property ‘Etag’:
+	if typedInput.Etag != nil {
+		etag := *typedInput.Etag
+		resource.Etag = &etag
+	}
+
 	// Set property ‘Id’:
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		resource.Id = &id
 	}
 
-	// Set property ‘_Etag’:
-	if typedInput._Etag != nil {
-		_Etag := *typedInput._Etag
-		resource._Etag = &_Etag
+	// Set property ‘Rid’:
+	if typedInput.Rid != nil {
+		rid := *typedInput.Rid
+		resource.Rid = &rid
 	}
 
-	// Set property ‘_Rid’:
-	if typedInput._Rid != nil {
-		_Rid := *typedInput._Rid
-		resource._Rid = &_Rid
-	}
-
-	// Set property ‘_Ts’:
-	if typedInput._Ts != nil {
-		_Ts := *typedInput._Ts
-		resource._Ts = &_Ts
+	// Set property ‘Ts’:
+	if typedInput.Ts != nil {
+		ts := *typedInput.Ts
+		resource.Ts = &ts
 	}
 
 	// No error
@@ -1108,21 +1108,21 @@ func (resource *MongoDBDatabaseGetProperties_Resource_STATUS) PopulateFromARM(ow
 // AssignPropertiesFromMongoDBDatabaseGetProperties_Resource_STATUS populates our MongoDBDatabaseGetProperties_Resource_STATUS from the provided source MongoDBDatabaseGetProperties_Resource_STATUS
 func (resource *MongoDBDatabaseGetProperties_Resource_STATUS) AssignPropertiesFromMongoDBDatabaseGetProperties_Resource_STATUS(source *v20210515s.MongoDBDatabaseGetProperties_Resource_STATUS) error {
 
+	// Etag
+	resource.Etag = genruntime.ClonePointerToString(source.Etag)
+
 	// Id
 	resource.Id = genruntime.ClonePointerToString(source.Id)
 
-	// _Etag
-	resource._Etag = genruntime.ClonePointerToString(source._Etag)
+	// Rid
+	resource.Rid = genruntime.ClonePointerToString(source.Rid)
 
-	// _Rid
-	resource._Rid = genruntime.ClonePointerToString(source._Rid)
-
-	// _Ts
-	if source._Ts != nil {
-		_T := *source._Ts
-		resource._Ts = &_T
+	// Ts
+	if source.Ts != nil {
+		t := *source.Ts
+		resource.Ts = &t
 	} else {
-		resource._Ts = nil
+		resource.Ts = nil
 	}
 
 	// No error
@@ -1134,21 +1134,21 @@ func (resource *MongoDBDatabaseGetProperties_Resource_STATUS) AssignPropertiesTo
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
+	// Etag
+	destination.Etag = genruntime.ClonePointerToString(resource.Etag)
+
 	// Id
 	destination.Id = genruntime.ClonePointerToString(resource.Id)
 
-	// _Etag
-	destination._Etag = genruntime.ClonePointerToString(resource._Etag)
+	// Rid
+	destination.Rid = genruntime.ClonePointerToString(resource.Rid)
 
-	// _Rid
-	destination._Rid = genruntime.ClonePointerToString(resource._Rid)
-
-	// _Ts
-	if resource._Ts != nil {
-		_T := *resource._Ts
-		destination._Ts = &_T
+	// Ts
+	if resource.Ts != nil {
+		t := *resource.Ts
+		destination.Ts = &t
 	} else {
-		destination._Ts = nil
+		destination.Ts = nil
 	}
 
 	// Update the property bag

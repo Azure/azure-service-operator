@@ -27,21 +27,21 @@ type SqlDatabaseGetProperties_STATUSARM struct {
 }
 
 type SqlDatabaseGetProperties_Resource_STATUSARM struct {
+	// Colls: A system generated property that specified the addressable path of the collections resource.
+	Colls *string `json:"_colls,omitempty"`
+
+	// Etag: A system generated property representing the resource etag required for optimistic concurrency control.
+	Etag *string `json:"_etag,omitempty"`
+
 	// Id: Name of the Cosmos DB SQL database
 	Id *string `json:"id,omitempty"`
 
-	// _Colls: A system generated property that specified the addressable path of the collections resource.
-	_Colls *string `json:"_colls,omitempty"`
+	// Rid: A system generated property. A unique identifier.
+	Rid *string `json:"_rid,omitempty"`
 
-	// _Etag: A system generated property representing the resource etag required for optimistic concurrency control.
-	_Etag *string `json:"_etag,omitempty"`
+	// Ts: A system generated property that denotes the last updated timestamp of the resource.
+	Ts *float64 `json:"_ts,omitempty"`
 
-	// _Rid: A system generated property. A unique identifier.
-	_Rid *string `json:"_rid,omitempty"`
-
-	// _Ts: A system generated property that denotes the last updated timestamp of the resource.
-	_Ts *float64 `json:"_ts,omitempty"`
-
-	// _Users: A system generated property that specifies the addressable path of the users resource.
-	_Users *string `json:"_users,omitempty"`
+	// Users: A system generated property that specifies the addressable path of the users resource.
+	Users *string `json:"_users,omitempty"`
 }

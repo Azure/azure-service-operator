@@ -221,12 +221,12 @@ func ThroughputSettingsGetProperties_Resource_STATUSARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForThroughputSettingsGetProperties_Resource_STATUSARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForThroughputSettingsGetProperties_Resource_STATUSARM(gens map[string]gopter.Gen) {
+	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["MinimumThroughput"] = gen.PtrOf(gen.AlphaString())
 	gens["OfferReplacePending"] = gen.PtrOf(gen.AlphaString())
+	gens["Rid"] = gen.PtrOf(gen.AlphaString())
 	gens["Throughput"] = gen.PtrOf(gen.Int())
-	gens["_Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["_Rid"] = gen.PtrOf(gen.AlphaString())
-	gens["_Ts"] = gen.PtrOf(gen.Float64())
+	gens["Ts"] = gen.PtrOf(gen.Float64())
 }
 
 // AddRelatedPropertyGeneratorsForThroughputSettingsGetProperties_Resource_STATUSARM is a factory method for creating gopter generators

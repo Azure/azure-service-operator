@@ -207,13 +207,13 @@ func (database *DatabaseAccountsSqlDatabase_Spec) ConvertSpecTo(destination genr
 
 // Storage version of v1beta20210515.SqlDatabaseGetProperties_Resource_STATUS
 type SqlDatabaseGetProperties_Resource_STATUS struct {
+	Colls       *string                `json:"_colls,omitempty"`
+	Etag        *string                `json:"_etag,omitempty"`
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	_Colls      *string                `json:"_colls,omitempty"`
-	_Etag       *string                `json:"_etag,omitempty"`
-	_Rid        *string                `json:"_rid,omitempty"`
-	_Ts         *float64               `json:"_ts,omitempty"`
-	_Users      *string                `json:"_users,omitempty"`
+	Rid         *string                `json:"_rid,omitempty"`
+	Ts          *float64               `json:"_ts,omitempty"`
+	Users       *string                `json:"_users,omitempty"`
 }
 
 // Storage version of v1beta20210515.SqlDatabaseResource

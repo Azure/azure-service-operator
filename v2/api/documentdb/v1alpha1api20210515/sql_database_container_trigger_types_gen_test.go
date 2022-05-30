@@ -505,7 +505,9 @@ func SqlTriggerGetProperties_Resource_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSqlTriggerGetProperties_Resource_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSqlTriggerGetProperties_Resource_STATUS(gens map[string]gopter.Gen) {
 	gens["Body"] = gen.PtrOf(gen.AlphaString())
+	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	gens["Rid"] = gen.PtrOf(gen.AlphaString())
 	gens["TriggerOperation"] = gen.PtrOf(gen.OneConstOf(
 		SqlTriggerGetProperties_Resource_TriggerOperation_All_STATUS,
 		SqlTriggerGetProperties_Resource_TriggerOperation_Create_STATUS,
@@ -513,9 +515,7 @@ func AddIndependentPropertyGeneratorsForSqlTriggerGetProperties_Resource_STATUS(
 		SqlTriggerGetProperties_Resource_TriggerOperation_Replace_STATUS,
 		SqlTriggerGetProperties_Resource_TriggerOperation_Update_STATUS))
 	gens["TriggerType"] = gen.PtrOf(gen.OneConstOf(SqlTriggerGetProperties_Resource_TriggerType_Post_STATUS, SqlTriggerGetProperties_Resource_TriggerType_Pre_STATUS))
-	gens["_Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["_Rid"] = gen.PtrOf(gen.AlphaString())
-	gens["_Ts"] = gen.PtrOf(gen.Float64())
+	gens["Ts"] = gen.PtrOf(gen.Float64())
 }
 
 func Test_SqlTriggerResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
