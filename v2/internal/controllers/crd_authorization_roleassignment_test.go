@@ -113,10 +113,9 @@ func Test_Authorization_RoleAssignment_OnStorageAccount_CRUD(t *testing.T) {
 	tc.CreateResourceAndWait(acct)
 
 	// Now assign that managed identity to a new role on the storage account
-
-	// TODO: (donotmerge) figure out why this is not an extension type
 	roleAssignmentGUID, err := tc.Namer.GenerateUUID()
 	tc.Expect(err).ToNot(HaveOccurred())
+
 	roleAssignment := &authorization.RoleAssignment{
 		ObjectMeta: tc.MakeObjectMetaWithName(roleAssignmentGUID.String()),
 		Spec: authorization.RoleAssignment_Spec{
