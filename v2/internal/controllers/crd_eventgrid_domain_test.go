@@ -51,7 +51,6 @@ func Test_EventGrid_Domain(t *testing.T) {
 		},
 	}
 
-	acctReference := tc.MakeReferenceFromResource(acct)
 
 	tc.CreateResourcesAndWait(domain, acct)
 
@@ -77,66 +76,67 @@ func Test_EventGrid_Domain(t *testing.T) {
 
 	// TODO: disabled pending (evildiscriminator)
 	/*
-	tc.RunParallelSubtests(
-		testcommon.Subtest{
-			Name: "CreateDomainTopicAndSubscription",
-			Test: func(tc *testcommon.KubePerTestContext) {
-				topic := &eventgrid.DomainsTopic{
-					ObjectMeta: tc.MakeObjectMeta("topic"),
-					Spec: eventgrid.DomainsTopic_Spec{
-						Owner: testcommon.AsOwner(domain),
-					},
-				}
+		acctReference := tc.MakeReferenceFromResource(acct)
+		tc.RunParallelSubtests(
+			testcommon.Subtest{
+				Name: "CreateDomainTopicAndSubscription",
+				Test: func(tc *testcommon.KubePerTestContext) {
+					topic := &eventgrid.DomainsTopic{
+						ObjectMeta: tc.MakeObjectMeta("topic"),
+						Spec: eventgrid.DomainsTopic_Spec{
+							Owner: testcommon.AsOwner(domain),
+						},
+					}
 
-				tc.CreateResourceAndWait(topic)
-				// don’t bother deleting; deleting domain will clean up
+					tc.CreateResourceAndWait(topic)
+					// don’t bother deleting; deleting domain will clean up
 
-				endpointType := eventgrid.EventSubscriptionDestination_EndpointType_StorageQueue
-				subscription := &eventgrid.EventSubscription{
-					ObjectMeta: tc.MakeObjectMeta("sub"),
-					Spec: eventgrid.EventSubscription_Spec{
-						Owner: tc.AsExtensionOwner(topic),
-						Destination: &eventgrid.EventSubscriptionDestination{
-							StorageQueue: &eventgrid.StorageQueueEventSubscriptionDestination{
-								EndpointType: &endpointType,
-								Properties: &eventgrid.StorageQueueEventSubscriptionDestinationProperties{
-									ResourceReference: acctReference,
-									QueueName:         &queue.Name,
+					endpointType := eventgrid.EventSubscriptionDestination_EndpointType_StorageQueue
+					subscription := &eventgrid.EventSubscription{
+						ObjectMeta: tc.MakeObjectMeta("sub"),
+						Spec: eventgrid.EventSubscription_Spec{
+							Owner: tc.AsExtensionOwner(topic),
+							Destination: &eventgrid.EventSubscriptionDestination{
+								StorageQueue: &eventgrid.StorageQueueEventSubscriptionDestination{
+									EndpointType: &endpointType,
+									Properties: &eventgrid.StorageQueueEventSubscriptionDestinationProperties{
+										ResourceReference: acctReference,
+										QueueName:         &queue.Name,
+									},
 								},
 							},
 						},
-					},
-				}
+					}
 
-				tc.CreateResourceAndWait(subscription)
-				// don’t bother deleting
+					tc.CreateResourceAndWait(subscription)
+					// don’t bother deleting
+				},
 			},
-		},
-		testcommon.Subtest{
-			Name: "CreateDomainSubscription",
-			Test: func(tc *testcommon.KubePerTestContext) {
-				endpointType := eventgrid.EventSubscriptionDestination_EndpointType_StorageQueue
-				subscription := &eventgrid.EventSubscription{
-					ObjectMeta: tc.MakeObjectMeta("sub"),
-					Spec: eventgrid.EventSubscription_Spec{
-						Owner: tc.AsExtensionOwner(domain),
-						Destination: &eventgrid.EventSubscriptionDestination{
-							StorageQueue: &eventgrid.StorageQueueEventSubscriptionDestination{
-								EndpointType: &endpointType,
-								Properties: &eventgrid.StorageQueueEventSubscriptionDestinationProperties{
-									ResourceReference: acctReference,
-									QueueName:         &queue.Name,
+			testcommon.Subtest{
+				Name: "CreateDomainSubscription",
+				Test: func(tc *testcommon.KubePerTestContext) {
+					endpointType := eventgrid.EventSubscriptionDestination_EndpointType_StorageQueue
+					subscription := &eventgrid.EventSubscription{
+						ObjectMeta: tc.MakeObjectMeta("sub"),
+						Spec: eventgrid.EventSubscription_Spec{
+							Owner: tc.AsExtensionOwner(domain),
+							Destination: &eventgrid.EventSubscriptionDestination{
+								StorageQueue: &eventgrid.StorageQueueEventSubscriptionDestination{
+									EndpointType: &endpointType,
+									Properties: &eventgrid.StorageQueueEventSubscriptionDestinationProperties{
+										ResourceReference: acctReference,
+										QueueName:         &queue.Name,
+									},
 								},
 							},
 						},
-					},
-				}
+					}
 
-				tc.CreateResourceAndWait(subscription)
-				// don’t bother deleting
+					tc.CreateResourceAndWait(subscription)
+					// don’t bother deleting
+				},
 			},
-		},
-	)
+		)
 	*/
 
 	tc.DeleteResourceAndWait(domain)

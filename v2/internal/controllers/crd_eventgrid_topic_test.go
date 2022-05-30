@@ -83,8 +83,8 @@ func Test_EventGrid_Topic(t *testing.T) {
 
 				tc.CreateResourceAndWait(queue)
 
+				/* TODO pending (evildiscriminator)
 				acctReference := tc.MakeReferenceFromResource(acct)
-
 				endpointType := eventgrid.EventSubscriptionDestination_EndpointType_StorageQueue
 				subscription := &eventgrid.EventSubscription{
 					ObjectMeta: tc.MakeObjectMeta("sub"),
@@ -103,6 +103,7 @@ func Test_EventGrid_Topic(t *testing.T) {
 				}
 
 				tc.CreateResourceAndWait(subscription)
+				*/
 			},
 		},
 	)
