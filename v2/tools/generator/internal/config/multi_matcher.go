@@ -57,7 +57,11 @@ func (mm *MultiMatcher) WasMatched() error {
 		}
 	}
 
-	return errors.Wrapf(kerrors.NewAggregate(errs), "%d of %d did not match", count, len(mm.matchers))
+	return errors.Wrapf(
+		kerrors.NewAggregate(errs),
+		"%d of %d did not match",
+		count,
+		len(mm.matchers))
 }
 
 // HasMultipleMatchers returns true if the matcher contains multiple definitions
