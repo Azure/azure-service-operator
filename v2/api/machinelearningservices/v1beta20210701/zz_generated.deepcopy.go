@@ -3916,12 +3916,12 @@ func (in *UserAccountCredentials) DeepCopyInto(out *UserAccountCredentials) {
 	}
 	if in.AdminUserPassword != nil {
 		in, out := &in.AdminUserPassword, &out.AdminUserPassword
-		*out = new(string)
+		*out = new(genruntime.SecretReference)
 		**out = **in
 	}
 	if in.AdminUserSshPublicKey != nil {
 		in, out := &in.AdminUserSshPublicKey, &out.AdminUserSshPublicKey
-		*out = new(string)
+		*out = new(genruntime.SecretReference)
 		**out = **in
 	}
 }
@@ -4151,7 +4151,7 @@ func (in *VirtualMachineSshCredentials) DeepCopyInto(out *VirtualMachineSshCrede
 	*out = *in
 	if in.Password != nil {
 		in, out := &in.Password, &out.Password
-		*out = new(string)
+		*out = new(genruntime.SecretReference)
 		**out = **in
 	}
 	if in.PrivateKeyData != nil {
