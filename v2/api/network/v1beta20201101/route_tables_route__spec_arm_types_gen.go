@@ -6,13 +6,8 @@ package v1beta20201101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type RouteTablesRoute_SpecARM struct {
-	AzureName string `json:"azureName,omitempty"`
-
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
+	AzureName string  `json:"azureName,omitempty"`
+	Id        *string `json:"id,omitempty"`
 
 	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name string `json:"name,omitempty"`
@@ -54,7 +49,4 @@ type RoutePropertiesFormatARM struct {
 
 	// NextHopType: The type of Azure hop the packet should be sent to.
 	NextHopType *RouteNextHopType `json:"nextHopType,omitempty"`
-
-	// ProvisioningState: The provisioning state of the route resource.
-	ProvisioningState *ProvisioningState `json:"provisioningState,omitempty"`
 }

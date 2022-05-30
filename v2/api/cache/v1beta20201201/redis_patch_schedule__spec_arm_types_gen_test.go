@@ -84,10 +84,7 @@ func RedisPatchSchedule_SpecARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForRedisPatchSchedule_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRedisPatchSchedule_SpecARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForRedisPatchSchedule_SpecARM is a factory method for creating gopter generators

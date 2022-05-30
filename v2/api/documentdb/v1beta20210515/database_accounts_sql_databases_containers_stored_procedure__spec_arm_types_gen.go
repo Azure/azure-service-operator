@@ -8,21 +8,13 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 type DatabaseAccountsSqlDatabasesContainersStoredProcedure_SpecARM struct {
 	AzureName string `json:"azureName,omitempty"`
 
-	// Id: The unique resource identifier of the ARM resource.
-	Id *string `json:"id,omitempty"`
-
 	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the ARM resource.
-	Name string `json:"name,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
 	// Properties: Properties to create and update Azure Cosmos DB storedProcedure.
 	Properties *SqlStoredProcedureCreateUpdatePropertiesARM `json:"properties,omitempty"`
 	Tags       map[string]string                            `json:"tags,omitempty"`
-
-	// Type: The type of Azure resource.
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &DatabaseAccountsSqlDatabasesContainersStoredProcedure_SpecARM{}

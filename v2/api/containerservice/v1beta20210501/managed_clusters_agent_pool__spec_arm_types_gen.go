@@ -7,18 +7,10 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type ManagedClustersAgentPool_SpecARM struct {
 	AzureName string `json:"azureName,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-	Name string `json:"name,omitempty"`
+	Name      string `json:"name,omitempty"`
 
 	// Properties: Properties of an agent pool.
 	Properties *ManagedClusterAgentPoolProfilePropertiesARM `json:"properties,omitempty"`
-
-	// Type: Resource type
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &ManagedClustersAgentPool_SpecARM{}
@@ -89,9 +81,6 @@ type ManagedClusterAgentPoolProfilePropertiesARM struct {
 	MinCount *int           `json:"minCount,omitempty"`
 	Mode     *AgentPoolMode `json:"mode,omitempty"`
 
-	// NodeImageVersion: The version of node image
-	NodeImageVersion *string `json:"nodeImageVersion,omitempty"`
-
 	// NodeLabels: The node labels to be persisted across all nodes in agent pool.
 	NodeLabels           map[string]string `json:"nodeLabels,omitempty"`
 	NodePublicIPPrefixID *string           `json:"nodePublicIPPrefixID,omitempty"`
@@ -110,12 +99,6 @@ type ManagedClusterAgentPoolProfilePropertiesARM struct {
 	OsSKU               *OSSKU                  `json:"osSKU,omitempty"`
 	OsType              *OSType                 `json:"osType,omitempty"`
 	PodSubnetID         *string                 `json:"podSubnetID,omitempty"`
-
-	// PowerState: Describes whether the Agent Pool is Running or Stopped
-	PowerState *PowerStateARM `json:"powerState,omitempty"`
-
-	// ProvisioningState: The current deployment or provisioning state.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// ProximityPlacementGroupID: The ID for Proximity Placement Group.
 	ProximityPlacementGroupID *string `json:"proximityPlacementGroupID,omitempty"`

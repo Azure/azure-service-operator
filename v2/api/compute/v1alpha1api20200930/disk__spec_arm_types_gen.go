@@ -7,18 +7,14 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of Disk_Spec. Use v1beta20200930.Disk_Spec instead
 type Disk_SpecARM struct {
-	AzureName         string               `json:"azureName,omitempty"`
-	ExtendedLocation  *ExtendedLocationARM `json:"extendedLocation,omitempty"`
-	Id                *string              `json:"id,omitempty"`
-	Location          *string              `json:"location,omitempty"`
-	ManagedBy         *string              `json:"managedBy,omitempty"`
-	ManagedByExtended []string             `json:"managedByExtended,omitempty"`
-	Name              string               `json:"name,omitempty"`
-	Properties        *DiskPropertiesARM   `json:"properties,omitempty"`
-	Sku               *DiskSkuARM          `json:"sku,omitempty"`
-	Tags              map[string]string    `json:"tags,omitempty"`
-	Type              *string              `json:"type,omitempty"`
-	Zones             []string             `json:"zones,omitempty"`
+	AzureName        string               `json:"azureName,omitempty"`
+	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
+	Location         *string              `json:"location,omitempty"`
+	Name             string               `json:"name,omitempty"`
+	Properties       *DiskPropertiesARM   `json:"properties,omitempty"`
+	Sku              *DiskSkuARM          `json:"sku,omitempty"`
+	Tags             map[string]string    `json:"tags,omitempty"`
+	Zones            []string             `json:"zones,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Disk_SpecARM{}
@@ -47,7 +43,6 @@ type DiskPropertiesARM struct {
 	DiskIOPSReadWrite            *int                             `json:"diskIOPSReadWrite,omitempty"`
 	DiskMBpsReadOnly             *int                             `json:"diskMBpsReadOnly,omitempty"`
 	DiskMBpsReadWrite            *int                             `json:"diskMBpsReadWrite,omitempty"`
-	DiskSizeBytes                *int                             `json:"diskSizeBytes,omitempty"`
 	DiskSizeGB                   *int                             `json:"diskSizeGB,omitempty"`
 	Encryption                   *EncryptionARM                   `json:"encryption,omitempty"`
 	EncryptionSettingsCollection *EncryptionSettingsCollectionARM `json:"encryptionSettingsCollection,omitempty"`
@@ -55,18 +50,13 @@ type DiskPropertiesARM struct {
 	MaxShares                    *int                             `json:"maxShares,omitempty"`
 	NetworkAccessPolicy          *NetworkAccessPolicy             `json:"networkAccessPolicy,omitempty"`
 	OsType                       *DiskProperties_OsType           `json:"osType,omitempty"`
-	ProvisioningState            *string                          `json:"provisioningState,omitempty"`
 	PurchasePlan                 *PurchasePlanARM                 `json:"purchasePlan,omitempty"`
-	ShareInfo                    []ShareInfoElementARM            `json:"shareInfo,omitempty"`
 	Tier                         *string                          `json:"tier,omitempty"`
-	TimeCreated                  *string                          `json:"timeCreated,omitempty"`
-	UniqueId                     *string                          `json:"uniqueId,omitempty"`
 }
 
 // Deprecated version of DiskSku. Use v1beta20200930.DiskSku instead
 type DiskSkuARM struct {
 	Name *DiskSku_Name `json:"name,omitempty"`
-	Tier *string       `json:"tier,omitempty"`
 }
 
 // Deprecated version of ExtendedLocation. Use v1beta20200930.ExtendedLocation instead
@@ -82,7 +72,6 @@ type CreationDataARM struct {
 	ImageReference        *ImageDiskReferenceARM     `json:"imageReference,omitempty"`
 	LogicalSectorSize     *int                       `json:"logicalSectorSize,omitempty"`
 	SourceResourceId      *string                    `json:"sourceResourceId,omitempty"`
-	SourceUniqueId        *string                    `json:"sourceUniqueId,omitempty"`
 	SourceUri             *string                    `json:"sourceUri,omitempty"`
 	StorageAccountId      *string                    `json:"storageAccountId,omitempty"`
 	UploadSizeBytes       *int                       `json:"uploadSizeBytes,omitempty"`
@@ -124,11 +113,6 @@ type PurchasePlanARM struct {
 	Product       *string `json:"product,omitempty"`
 	PromotionCode *string `json:"promotionCode,omitempty"`
 	Publisher     *string `json:"publisher,omitempty"`
-}
-
-// Deprecated version of ShareInfoElement. Use v1beta20200930.ShareInfoElement instead
-type ShareInfoElementARM struct {
-	VmUri *string `json:"vmUri,omitempty"`
 }
 
 // Deprecated version of EncryptionSettingsElement. Use v1beta20200930.EncryptionSettingsElement instead

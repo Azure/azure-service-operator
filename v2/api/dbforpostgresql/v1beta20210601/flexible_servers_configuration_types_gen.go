@@ -746,37 +746,9 @@ func (configuration *FlexibleServersConfiguration_STATUS) AssignPropertiesToFlex
 }
 
 type FlexibleServersConfiguration_Spec struct {
-	// AllowedValues: Allowed values of the configuration.
-	AllowedValues *string `json:"allowedValues,omitempty"`
-
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
-
-	// DataType: Data type of the configuration.
-	DataType *ConfigurationProperties_DataType `json:"dataType,omitempty"`
-
-	// DefaultValue: Default value of the configuration.
-	DefaultValue *string `json:"defaultValue,omitempty"`
-
-	// Description: Description of the configuration.
-	Description *string `json:"description,omitempty"`
-
-	// DocumentationLink: Configuration documentation link.
-	DocumentationLink *string `json:"documentationLink,omitempty"`
-
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// IsConfigPendingRestart: Configuration is pending restart or not.
-	IsConfigPendingRestart *bool `json:"isConfigPendingRestart,omitempty"`
-
-	// IsDynamicConfig: Configuration dynamic or static.
-	IsDynamicConfig *bool `json:"isDynamicConfig,omitempty"`
-
-	// IsReadOnly: Configuration read-only or not.
-	IsReadOnly *bool `json:"isReadOnly,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -786,15 +758,6 @@ type FlexibleServersConfiguration_Spec struct {
 
 	// Source: Source of the configuration.
 	Source *string `json:"source,omitempty"`
-
-	// SystemData: The system metadata relating to this resource.
-	SystemData *SystemData `json:"systemData,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
-
-	// Unit: Configuration unit.
-	Unit *string `json:"unit,omitempty"`
 
 	// Value: Value of the configuration.
 	Value *string `json:"value,omitempty"`
@@ -812,88 +775,20 @@ func (configuration *FlexibleServersConfiguration_Spec) ConvertToARM(resolved ge
 	// Set property ‘AzureName’:
 	result.AzureName = configuration.AzureName
 
-	// Set property ‘Id’:
-	if configuration.Id != nil {
-		id := *configuration.Id
-		result.Id = &id
-	}
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if configuration.AllowedValues != nil ||
-		configuration.DataType != nil ||
-		configuration.DefaultValue != nil ||
-		configuration.Description != nil ||
-		configuration.DocumentationLink != nil ||
-		configuration.IsConfigPendingRestart != nil ||
-		configuration.IsDynamicConfig != nil ||
-		configuration.IsReadOnly != nil ||
-		configuration.Source != nil ||
-		configuration.Unit != nil ||
-		configuration.Value != nil {
+	if configuration.Source != nil || configuration.Value != nil {
 		result.Properties = &ConfigurationPropertiesARM{}
-	}
-	if configuration.AllowedValues != nil {
-		allowedValues := *configuration.AllowedValues
-		result.Properties.AllowedValues = &allowedValues
-	}
-	if configuration.DataType != nil {
-		dataType := *configuration.DataType
-		result.Properties.DataType = &dataType
-	}
-	if configuration.DefaultValue != nil {
-		defaultValue := *configuration.DefaultValue
-		result.Properties.DefaultValue = &defaultValue
-	}
-	if configuration.Description != nil {
-		description := *configuration.Description
-		result.Properties.Description = &description
-	}
-	if configuration.DocumentationLink != nil {
-		documentationLink := *configuration.DocumentationLink
-		result.Properties.DocumentationLink = &documentationLink
-	}
-	if configuration.IsConfigPendingRestart != nil {
-		isConfigPendingRestart := *configuration.IsConfigPendingRestart
-		result.Properties.IsConfigPendingRestart = &isConfigPendingRestart
-	}
-	if configuration.IsDynamicConfig != nil {
-		isDynamicConfig := *configuration.IsDynamicConfig
-		result.Properties.IsDynamicConfig = &isDynamicConfig
-	}
-	if configuration.IsReadOnly != nil {
-		isReadOnly := *configuration.IsReadOnly
-		result.Properties.IsReadOnly = &isReadOnly
 	}
 	if configuration.Source != nil {
 		source := *configuration.Source
 		result.Properties.Source = &source
 	}
-	if configuration.Unit != nil {
-		unit := *configuration.Unit
-		result.Properties.Unit = &unit
-	}
 	if configuration.Value != nil {
 		value := *configuration.Value
 		result.Properties.Value = &value
-	}
-
-	// Set property ‘SystemData’:
-	if configuration.SystemData != nil {
-		systemDataARM, err := (*configuration.SystemData).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		systemData := *systemDataARM.(*SystemDataARM)
-		result.SystemData = &systemData
-	}
-
-	// Set property ‘Type’:
-	if configuration.Type != nil {
-		typeVar := *configuration.Type
-		result.Type = &typeVar
 	}
 	return result, nil
 }
@@ -910,86 +805,8 @@ func (configuration *FlexibleServersConfiguration_Spec) PopulateFromARM(owner ge
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected FlexibleServersConfiguration_SpecARM, got %T", armInput)
 	}
 
-	// Set property ‘AllowedValues’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.AllowedValues != nil {
-			allowedValues := *typedInput.Properties.AllowedValues
-			configuration.AllowedValues = &allowedValues
-		}
-	}
-
 	// Set property ‘AzureName’:
 	configuration.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘DataType’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.DataType != nil {
-			dataType := *typedInput.Properties.DataType
-			configuration.DataType = &dataType
-		}
-	}
-
-	// Set property ‘DefaultValue’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.DefaultValue != nil {
-			defaultValue := *typedInput.Properties.DefaultValue
-			configuration.DefaultValue = &defaultValue
-		}
-	}
-
-	// Set property ‘Description’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Description != nil {
-			description := *typedInput.Properties.Description
-			configuration.Description = &description
-		}
-	}
-
-	// Set property ‘DocumentationLink’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.DocumentationLink != nil {
-			documentationLink := *typedInput.Properties.DocumentationLink
-			configuration.DocumentationLink = &documentationLink
-		}
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		configuration.Id = &id
-	}
-
-	// Set property ‘IsConfigPendingRestart’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.IsConfigPendingRestart != nil {
-			isConfigPendingRestart := *typedInput.Properties.IsConfigPendingRestart
-			configuration.IsConfigPendingRestart = &isConfigPendingRestart
-		}
-	}
-
-	// Set property ‘IsDynamicConfig’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.IsDynamicConfig != nil {
-			isDynamicConfig := *typedInput.Properties.IsDynamicConfig
-			configuration.IsDynamicConfig = &isDynamicConfig
-		}
-	}
-
-	// Set property ‘IsReadOnly’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.IsReadOnly != nil {
-			isReadOnly := *typedInput.Properties.IsReadOnly
-			configuration.IsReadOnly = &isReadOnly
-		}
-	}
 
 	// Set property ‘Owner’:
 	configuration.Owner = &genruntime.KnownResourceReference{
@@ -1002,32 +819,6 @@ func (configuration *FlexibleServersConfiguration_Spec) PopulateFromARM(owner ge
 		if typedInput.Properties.Source != nil {
 			source := *typedInput.Properties.Source
 			configuration.Source = &source
-		}
-	}
-
-	// Set property ‘SystemData’:
-	if typedInput.SystemData != nil {
-		var systemData1 SystemData
-		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
-		if err != nil {
-			return err
-		}
-		systemData := systemData1
-		configuration.SystemData = &systemData
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		configuration.Type = &typeVar
-	}
-
-	// Set property ‘Unit’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Unit != nil {
-			unit := *typedInput.Properties.Unit
-			configuration.Unit = &unit
 		}
 	}
 
@@ -1097,55 +888,8 @@ func (configuration *FlexibleServersConfiguration_Spec) ConvertSpecTo(destinatio
 // AssignPropertiesFromFlexibleServersConfiguration_Spec populates our FlexibleServersConfiguration_Spec from the provided source FlexibleServersConfiguration_Spec
 func (configuration *FlexibleServersConfiguration_Spec) AssignPropertiesFromFlexibleServersConfiguration_Spec(source *v20210601s.FlexibleServersConfiguration_Spec) error {
 
-	// AllowedValues
-	configuration.AllowedValues = genruntime.ClonePointerToString(source.AllowedValues)
-
 	// AzureName
 	configuration.AzureName = source.AzureName
-
-	// DataType
-	if source.DataType != nil {
-		dataType := ConfigurationProperties_DataType(*source.DataType)
-		configuration.DataType = &dataType
-	} else {
-		configuration.DataType = nil
-	}
-
-	// DefaultValue
-	configuration.DefaultValue = genruntime.ClonePointerToString(source.DefaultValue)
-
-	// Description
-	configuration.Description = genruntime.ClonePointerToString(source.Description)
-
-	// DocumentationLink
-	configuration.DocumentationLink = genruntime.ClonePointerToString(source.DocumentationLink)
-
-	// Id
-	configuration.Id = genruntime.ClonePointerToString(source.Id)
-
-	// IsConfigPendingRestart
-	if source.IsConfigPendingRestart != nil {
-		isConfigPendingRestart := *source.IsConfigPendingRestart
-		configuration.IsConfigPendingRestart = &isConfigPendingRestart
-	} else {
-		configuration.IsConfigPendingRestart = nil
-	}
-
-	// IsDynamicConfig
-	if source.IsDynamicConfig != nil {
-		isDynamicConfig := *source.IsDynamicConfig
-		configuration.IsDynamicConfig = &isDynamicConfig
-	} else {
-		configuration.IsDynamicConfig = nil
-	}
-
-	// IsReadOnly
-	if source.IsReadOnly != nil {
-		isReadOnly := *source.IsReadOnly
-		configuration.IsReadOnly = &isReadOnly
-	} else {
-		configuration.IsReadOnly = nil
-	}
 
 	// Owner
 	if source.Owner != nil {
@@ -1157,24 +901,6 @@ func (configuration *FlexibleServersConfiguration_Spec) AssignPropertiesFromFlex
 
 	// Source
 	configuration.Source = genruntime.ClonePointerToString(source.Source)
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
-		}
-		configuration.SystemData = &systemDatum
-	} else {
-		configuration.SystemData = nil
-	}
-
-	// Type
-	configuration.Type = genruntime.ClonePointerToString(source.Type)
-
-	// Unit
-	configuration.Unit = genruntime.ClonePointerToString(source.Unit)
 
 	// Value
 	configuration.Value = genruntime.ClonePointerToString(source.Value)
@@ -1188,55 +914,8 @@ func (configuration *FlexibleServersConfiguration_Spec) AssignPropertiesToFlexib
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// AllowedValues
-	destination.AllowedValues = genruntime.ClonePointerToString(configuration.AllowedValues)
-
 	// AzureName
 	destination.AzureName = configuration.AzureName
-
-	// DataType
-	if configuration.DataType != nil {
-		dataType := string(*configuration.DataType)
-		destination.DataType = &dataType
-	} else {
-		destination.DataType = nil
-	}
-
-	// DefaultValue
-	destination.DefaultValue = genruntime.ClonePointerToString(configuration.DefaultValue)
-
-	// Description
-	destination.Description = genruntime.ClonePointerToString(configuration.Description)
-
-	// DocumentationLink
-	destination.DocumentationLink = genruntime.ClonePointerToString(configuration.DocumentationLink)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(configuration.Id)
-
-	// IsConfigPendingRestart
-	if configuration.IsConfigPendingRestart != nil {
-		isConfigPendingRestart := *configuration.IsConfigPendingRestart
-		destination.IsConfigPendingRestart = &isConfigPendingRestart
-	} else {
-		destination.IsConfigPendingRestart = nil
-	}
-
-	// IsDynamicConfig
-	if configuration.IsDynamicConfig != nil {
-		isDynamicConfig := *configuration.IsDynamicConfig
-		destination.IsDynamicConfig = &isDynamicConfig
-	} else {
-		destination.IsDynamicConfig = nil
-	}
-
-	// IsReadOnly
-	if configuration.IsReadOnly != nil {
-		isReadOnly := *configuration.IsReadOnly
-		destination.IsReadOnly = &isReadOnly
-	} else {
-		destination.IsReadOnly = nil
-	}
 
 	// OriginalVersion
 	destination.OriginalVersion = configuration.OriginalVersion()
@@ -1251,24 +930,6 @@ func (configuration *FlexibleServersConfiguration_Spec) AssignPropertiesToFlexib
 
 	// Source
 	destination.Source = genruntime.ClonePointerToString(configuration.Source)
-
-	// SystemData
-	if configuration.SystemData != nil {
-		var systemDatum v20210601s.SystemData
-		err := configuration.SystemData.AssignPropertiesToSystemData(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(configuration.Type)
-
-	// Unit
-	destination.Unit = genruntime.ClonePointerToString(configuration.Unit)
 
 	// Value
 	destination.Value = genruntime.ClonePointerToString(configuration.Value)
@@ -1293,16 +954,6 @@ func (configuration *FlexibleServersConfiguration_Spec) OriginalVersion() string
 func (configuration *FlexibleServersConfiguration_Spec) SetAzureName(azureName string) {
 	configuration.AzureName = azureName
 }
-
-// +kubebuilder:validation:Enum={"Boolean","Enumeration","Integer","Numeric"}
-type ConfigurationProperties_DataType string
-
-const (
-	ConfigurationProperties_DataType_Boolean     = ConfigurationProperties_DataType("Boolean")
-	ConfigurationProperties_DataType_Enumeration = ConfigurationProperties_DataType("Enumeration")
-	ConfigurationProperties_DataType_Integer     = ConfigurationProperties_DataType("Integer")
-	ConfigurationProperties_DataType_Numeric     = ConfigurationProperties_DataType("Numeric")
-)
 
 type ConfigurationProperties_DataType_STATUS string
 

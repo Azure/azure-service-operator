@@ -192,14 +192,10 @@ type Registry_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName                string              `json:"azureName,omitempty"`
-	CreationDate             *string             `json:"creationDate,omitempty"`
 	DataEndpointEnabled      *bool               `json:"dataEndpointEnabled,omitempty"`
-	DataEndpointHostNames    []string            `json:"dataEndpointHostNames,omitempty"`
 	Encryption               *EncryptionProperty `json:"encryption,omitempty"`
-	Id                       *string             `json:"id,omitempty"`
 	Identity                 *IdentityProperties `json:"identity,omitempty"`
 	Location                 *string             `json:"location,omitempty"`
-	LoginServer              *string             `json:"loginServer,omitempty"`
 	NetworkRuleBypassOptions *string             `json:"networkRuleBypassOptions,omitempty"`
 	NetworkRuleSet           *NetworkRuleSet     `json:"networkRuleSet,omitempty"`
 	OriginalVersion          string              `json:"originalVersion,omitempty"`
@@ -208,18 +204,13 @@ type Registry_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner                      *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	Policies                   *Policies                          `json:"policies,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnection        `json:"privateEndpointConnections,omitempty"`
-	PropertyBag                genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	ProvisioningState          *string                            `json:"provisioningState,omitempty"`
-	PublicNetworkAccess        *string                            `json:"publicNetworkAccess,omitempty"`
-	Sku                        *Sku                               `json:"sku,omitempty"`
-	Status                     *Status                            `json:"status,omitempty"`
-	SystemData                 *SystemData                        `json:"systemData,omitempty"`
-	Tags                       map[string]string                  `json:"tags,omitempty"`
-	Type                       *string                            `json:"type,omitempty"`
-	ZoneRedundancy             *string                            `json:"zoneRedundancy,omitempty"`
+	Owner               *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	Policies            *Policies                          `json:"policies,omitempty"`
+	PropertyBag         genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	PublicNetworkAccess *string                            `json:"publicNetworkAccess,omitempty"`
+	Sku                 *Sku                               `json:"sku,omitempty"`
+	Tags                map[string]string                  `json:"tags,omitempty"`
+	ZoneRedundancy      *string                            `json:"zoneRedundancy,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &Registry_Spec{}
@@ -306,15 +297,6 @@ type Policies_STATUS struct {
 	TrustPolicy      *TrustPolicy_STATUS      `json:"trustPolicy,omitempty"`
 }
 
-// Storage version of v1beta20210901.PrivateEndpointConnection
-type PrivateEndpointConnection struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-
-	// Reference: The resource ID.
-	Reference  *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	SystemData *SystemData                   `json:"systemData,omitempty"`
-}
-
 // Storage version of v1beta20210901.PrivateEndpointConnection_STATUS
 type PrivateEndpointConnection_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
@@ -326,7 +308,6 @@ type PrivateEndpointConnection_STATUS struct {
 type Sku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Tier        *string                `json:"tier,omitempty"`
 }
 
 // Storage version of v1beta20210901.Sku_STATUS
@@ -336,31 +317,12 @@ type Sku_STATUS struct {
 	Tier        *string                `json:"tier,omitempty"`
 }
 
-// Storage version of v1beta20210901.Status
-type Status struct {
-	DisplayStatus *string                `json:"displayStatus,omitempty"`
-	Message       *string                `json:"message,omitempty"`
-	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Timestamp     *string                `json:"timestamp,omitempty"`
-}
-
 // Storage version of v1beta20210901.Status_STATUS
 type Status_STATUS struct {
 	DisplayStatus *string                `json:"displayStatus,omitempty"`
 	Message       *string                `json:"message,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Timestamp     *string                `json:"timestamp,omitempty"`
-}
-
-// Storage version of v1beta20210901.SystemData
-type SystemData struct {
-	CreatedAt          *string                `json:"createdAt,omitempty"`
-	CreatedBy          *string                `json:"createdBy,omitempty"`
-	CreatedByType      *string                `json:"createdByType,omitempty"`
-	LastModifiedAt     *string                `json:"lastModifiedAt,omitempty"`
-	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
-	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210901.SystemData_STATUS
@@ -402,12 +364,9 @@ type IPRule_STATUS struct {
 
 // Storage version of v1beta20210901.KeyVaultProperties
 type KeyVaultProperties struct {
-	Identity                 *string                `json:"identity,omitempty"`
-	KeyIdentifier            *string                `json:"keyIdentifier,omitempty"`
-	KeyRotationEnabled       *bool                  `json:"keyRotationEnabled,omitempty"`
-	LastKeyRotationTimestamp *string                `json:"lastKeyRotationTimestamp,omitempty"`
-	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	VersionedKeyIdentifier   *string                `json:"versionedKeyIdentifier,omitempty"`
+	Identity      *string                `json:"identity,omitempty"`
+	KeyIdentifier *string                `json:"keyIdentifier,omitempty"`
+	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210901.KeyVaultProperties_STATUS
@@ -434,10 +393,9 @@ type QuarantinePolicy_STATUS struct {
 
 // Storage version of v1beta20210901.RetentionPolicy
 type RetentionPolicy struct {
-	Days            *int                   `json:"days,omitempty"`
-	LastUpdatedTime *string                `json:"lastUpdatedTime,omitempty"`
-	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Status          *string                `json:"status,omitempty"`
+	Days        *int                   `json:"days,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Status      *string                `json:"status,omitempty"`
 }
 
 // Storage version of v1beta20210901.RetentionPolicy_STATUS

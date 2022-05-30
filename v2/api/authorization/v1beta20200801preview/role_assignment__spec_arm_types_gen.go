@@ -39,12 +39,6 @@ type RoleAssignmentPropertiesARM struct {
 	// ConditionVersion: Version of the condition. Currently accepted value is '2.0'
 	ConditionVersion *string `json:"conditionVersion,omitempty"`
 
-	// CreatedBy: Id of the user who created the assignment
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	// CreatedOn: Time it was created
-	CreatedOn *string `json:"createdOn,omitempty"`
-
 	// DelegatedManagedIdentityResourceId: Id of the delegated managed identity resource
 	DelegatedManagedIdentityResourceId *string `json:"delegatedManagedIdentityResourceId,omitempty"`
 
@@ -57,13 +51,4 @@ type RoleAssignmentPropertiesARM struct {
 	// PrincipalType: The principal type of the assigned principal ID.
 	PrincipalType    *RoleAssignmentProperties_PrincipalType `json:"principalType,omitempty"`
 	RoleDefinitionId *string                                 `json:"roleDefinitionId,omitempty"`
-
-	// Scope: The role assignment scope.
-	Scope *string `json:"scope,omitempty"`
-
-	// UpdatedBy: Id of the user who updated the assignment
-	UpdatedBy *string `json:"updatedBy,omitempty"`
-
-	// UpdatedOn: Time it was updated
-	UpdatedOn *string `json:"updatedOn,omitempty"`
 }

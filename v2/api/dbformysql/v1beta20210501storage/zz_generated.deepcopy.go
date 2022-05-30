@@ -25,11 +25,6 @@ func (in *Backup) DeepCopyInto(out *Backup) {
 		*out = new(int)
 		**out = **in
 	}
-	if in.EarliestRestoreDate != nil {
-		in, out := &in.EarliestRestoreDate, &out.EarliestRestoreDate
-		*out = new(string)
-		**out = **in
-	}
 	if in.GeoRedundantBackup != nil {
 		in, out := &in.GeoRedundantBackup, &out.GeoRedundantBackup
 		*out = new(string)
@@ -99,9 +94,9 @@ func (in *DataEncryption) DeepCopyInto(out *DataEncryption) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.GeoBackupUserAssignedIdentityId != nil {
-		in, out := &in.GeoBackupUserAssignedIdentityId, &out.GeoBackupUserAssignedIdentityId
-		*out = new(string)
+	if in.GeoBackupUserAssignedIdentityReference != nil {
+		in, out := &in.GeoBackupUserAssignedIdentityReference, &out.GeoBackupUserAssignedIdentityReference
+		*out = new(genruntime.ResourceReference)
 		**out = **in
 	}
 	if in.PrimaryKeyUri != nil {
@@ -109,9 +104,9 @@ func (in *DataEncryption) DeepCopyInto(out *DataEncryption) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.PrimaryUserAssignedIdentityId != nil {
-		in, out := &in.PrimaryUserAssignedIdentityId, &out.PrimaryUserAssignedIdentityId
-		*out = new(string)
+	if in.PrimaryUserAssignedIdentityReference != nil {
+		in, out := &in.PrimaryUserAssignedIdentityReference, &out.PrimaryUserAssignedIdentityReference
+		*out = new(genruntime.ResourceReference)
 		**out = **in
 	}
 	if in.PropertyBag != nil {
@@ -482,20 +477,10 @@ func (in *FlexibleServer_Spec) DeepCopyInto(out *FlexibleServer_Spec) {
 		*out = new(DataEncryption)
 		(*in).DeepCopyInto(*out)
 	}
-	if in.FullyQualifiedDomainName != nil {
-		in, out := &in.FullyQualifiedDomainName, &out.FullyQualifiedDomainName
-		*out = new(string)
-		**out = **in
-	}
 	if in.HighAvailability != nil {
 		in, out := &in.HighAvailability, &out.HighAvailability
 		*out = new(HighAvailability)
 		(*in).DeepCopyInto(*out)
-	}
-	if in.Id != nil {
-		in, out := &in.Id, &out.Id
-		*out = new(string)
-		**out = **in
 	}
 	if in.Identity != nil {
 		in, out := &in.Identity, &out.Identity
@@ -534,11 +519,6 @@ func (in *FlexibleServer_Spec) DeepCopyInto(out *FlexibleServer_Spec) {
 			(*out)[key] = val
 		}
 	}
-	if in.ReplicaCapacity != nil {
-		in, out := &in.ReplicaCapacity, &out.ReplicaCapacity
-		*out = new(int)
-		**out = **in
-	}
 	if in.ReplicationRole != nil {
 		in, out := &in.ReplicationRole, &out.ReplicationRole
 		*out = new(string)
@@ -559,19 +539,9 @@ func (in *FlexibleServer_Spec) DeepCopyInto(out *FlexibleServer_Spec) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.State != nil {
-		in, out := &in.State, &out.State
-		*out = new(string)
-		**out = **in
-	}
 	if in.Storage != nil {
 		in, out := &in.Storage, &out.Storage
 		*out = new(Storage)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.SystemData != nil {
-		in, out := &in.SystemData, &out.SystemData
-		*out = new(SystemData)
 		(*in).DeepCopyInto(*out)
 	}
 	if in.Tags != nil {
@@ -580,11 +550,6 @@ func (in *FlexibleServer_Spec) DeepCopyInto(out *FlexibleServer_Spec) {
 		for key, val := range *in {
 			(*out)[key] = val
 		}
-	}
-	if in.Type != nil {
-		in, out := &in.Type, &out.Type
-		*out = new(string)
-		**out = **in
 	}
 	if in.Version != nil {
 		in, out := &in.Version, &out.Version
@@ -734,11 +699,6 @@ func (in *FlexibleServersDatabase_Spec) DeepCopyInto(out *FlexibleServersDatabas
 		*out = new(string)
 		**out = **in
 	}
-	if in.Id != nil {
-		in, out := &in.Id, &out.Id
-		*out = new(string)
-		**out = **in
-	}
 	if in.Owner != nil {
 		in, out := &in.Owner, &out.Owner
 		*out = new(genruntime.KnownResourceReference)
@@ -750,16 +710,6 @@ func (in *FlexibleServersDatabase_Spec) DeepCopyInto(out *FlexibleServersDatabas
 		for key, val := range *in {
 			(*out)[key] = val
 		}
-	}
-	if in.SystemData != nil {
-		in, out := &in.SystemData, &out.SystemData
-		*out = new(SystemData)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Type != nil {
-		in, out := &in.Type, &out.Type
-		*out = new(string)
-		**out = **in
 	}
 }
 
@@ -899,11 +849,6 @@ func (in *FlexibleServersFirewallRule_Spec) DeepCopyInto(out *FlexibleServersFir
 		*out = new(string)
 		**out = **in
 	}
-	if in.Id != nil {
-		in, out := &in.Id, &out.Id
-		*out = new(string)
-		**out = **in
-	}
 	if in.Owner != nil {
 		in, out := &in.Owner, &out.Owner
 		*out = new(genruntime.KnownResourceReference)
@@ -918,16 +863,6 @@ func (in *FlexibleServersFirewallRule_Spec) DeepCopyInto(out *FlexibleServersFir
 	}
 	if in.StartIpAddress != nil {
 		in, out := &in.StartIpAddress, &out.StartIpAddress
-		*out = new(string)
-		**out = **in
-	}
-	if in.SystemData != nil {
-		in, out := &in.SystemData, &out.SystemData
-		*out = new(SystemData)
-		(*in).DeepCopyInto(*out)
-	}
-	if in.Type != nil {
-		in, out := &in.Type, &out.Type
 		*out = new(string)
 		**out = **in
 	}
@@ -960,11 +895,6 @@ func (in *HighAvailability) DeepCopyInto(out *HighAvailability) {
 	}
 	if in.StandbyAvailabilityZone != nil {
 		in, out := &in.StandbyAvailabilityZone, &out.StandbyAvailabilityZone
-		*out = new(string)
-		**out = **in
-	}
-	if in.State != nil {
-		in, out := &in.State, &out.State
 		*out = new(string)
 		**out = **in
 	}
@@ -1020,22 +950,12 @@ func (in *HighAvailability_STATUS) DeepCopy() *HighAvailability_STATUS {
 // DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
 func (in *Identity) DeepCopyInto(out *Identity) {
 	*out = *in
-	if in.PrincipalId != nil {
-		in, out := &in.PrincipalId, &out.PrincipalId
-		*out = new(string)
-		**out = **in
-	}
 	if in.PropertyBag != nil {
 		in, out := &in.PropertyBag, &out.PropertyBag
 		*out = make(genruntime.PropertyBag, len(*in))
 		for key, val := range *in {
 			(*out)[key] = val
 		}
-	}
-	if in.TenantId != nil {
-		in, out := &in.TenantId, &out.TenantId
-		*out = new(string)
-		**out = **in
 	}
 	if in.Type != nil {
 		in, out := &in.Type, &out.Type
@@ -1209,11 +1129,6 @@ func (in *Network) DeepCopyInto(out *Network) {
 			(*out)[key] = val
 		}
 	}
-	if in.PublicNetworkAccess != nil {
-		in, out := &in.PublicNetworkAccess, &out.PublicNetworkAccess
-		*out = new(string)
-		**out = **in
-	}
 }
 
 // DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new Network.
@@ -1352,11 +1267,6 @@ func (in *Storage) DeepCopyInto(out *Storage) {
 		*out = new(int)
 		**out = **in
 	}
-	if in.StorageSku != nil {
-		in, out := &in.StorageSku, &out.StorageSku
-		*out = new(string)
-		**out = **in
-	}
 }
 
 // DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new Storage.
@@ -1407,58 +1317,6 @@ func (in *Storage_STATUS) DeepCopy() *Storage_STATUS {
 		return nil
 	}
 	out := new(Storage_STATUS)
-	in.DeepCopyInto(out)
-	return out
-}
-
-// DeepCopyInto is an autogenerated deepcopy function, copying the receiver, writing into out. in must be non-nil.
-func (in *SystemData) DeepCopyInto(out *SystemData) {
-	*out = *in
-	if in.CreatedAt != nil {
-		in, out := &in.CreatedAt, &out.CreatedAt
-		*out = new(string)
-		**out = **in
-	}
-	if in.CreatedBy != nil {
-		in, out := &in.CreatedBy, &out.CreatedBy
-		*out = new(string)
-		**out = **in
-	}
-	if in.CreatedByType != nil {
-		in, out := &in.CreatedByType, &out.CreatedByType
-		*out = new(string)
-		**out = **in
-	}
-	if in.LastModifiedAt != nil {
-		in, out := &in.LastModifiedAt, &out.LastModifiedAt
-		*out = new(string)
-		**out = **in
-	}
-	if in.LastModifiedBy != nil {
-		in, out := &in.LastModifiedBy, &out.LastModifiedBy
-		*out = new(string)
-		**out = **in
-	}
-	if in.LastModifiedByType != nil {
-		in, out := &in.LastModifiedByType, &out.LastModifiedByType
-		*out = new(string)
-		**out = **in
-	}
-	if in.PropertyBag != nil {
-		in, out := &in.PropertyBag, &out.PropertyBag
-		*out = make(genruntime.PropertyBag, len(*in))
-		for key, val := range *in {
-			(*out)[key] = val
-		}
-	}
-}
-
-// DeepCopy is an autogenerated deepcopy function, copying the receiver, creating a new SystemData.
-func (in *SystemData) DeepCopy() *SystemData {
-	if in == nil {
-		return nil
-	}
-	out := new(SystemData)
 	in.DeepCopyInto(out)
 	return out
 }

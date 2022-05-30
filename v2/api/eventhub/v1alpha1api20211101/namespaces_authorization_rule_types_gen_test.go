@@ -369,9 +369,6 @@ func RunJSONSerializationTestForNamespacesAuthorizationRule_Spec(subject Namespa
 var namespacesAuthorizationRule_SpecGenerator gopter.Gen
 
 // NamespacesAuthorizationRule_SpecGenerator returns a generator of NamespacesAuthorizationRule_Spec instances for property testing.
-// We first initialize namespacesAuthorizationRule_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func NamespacesAuthorizationRule_SpecGenerator() gopter.Gen {
 	if namespacesAuthorizationRule_SpecGenerator != nil {
 		return namespacesAuthorizationRule_SpecGenerator
@@ -381,25 +378,11 @@ func NamespacesAuthorizationRule_SpecGenerator() gopter.Gen {
 	AddIndependentPropertyGeneratorsForNamespacesAuthorizationRule_Spec(generators)
 	namespacesAuthorizationRule_SpecGenerator = gen.Struct(reflect.TypeOf(NamespacesAuthorizationRule_Spec{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespacesAuthorizationRule_Spec(generators)
-	AddRelatedPropertyGeneratorsForNamespacesAuthorizationRule_Spec(generators)
-	namespacesAuthorizationRule_SpecGenerator = gen.Struct(reflect.TypeOf(NamespacesAuthorizationRule_Spec{}), generators)
-
 	return namespacesAuthorizationRule_SpecGenerator
 }
 
 // AddIndependentPropertyGeneratorsForNamespacesAuthorizationRule_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNamespacesAuthorizationRule_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Rights"] = gen.SliceOf(gen.OneConstOf(NamespacesAuthorizationRule_Spec_Properties_Rights_Listen, NamespacesAuthorizationRule_Spec_Properties_Rights_Manage, NamespacesAuthorizationRule_Spec_Properties_Rights_Send))
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForNamespacesAuthorizationRule_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNamespacesAuthorizationRule_Spec(gens map[string]gopter.Gen) {
-	gens["SystemData"] = gen.PtrOf(SystemDataGenerator())
 }

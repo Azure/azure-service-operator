@@ -84,12 +84,10 @@ func VirtualNetworkGateway_SpecARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForVirtualNetworkGateway_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualNetworkGateway_SpecARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForVirtualNetworkGateway_SpecARM is a factory method for creating gopter generators
@@ -169,13 +167,6 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkGatewayPropertiesFormatARM
 	gens["EnableDnsForwarding"] = gen.PtrOf(gen.Bool())
 	gens["EnablePrivateIpAddress"] = gen.PtrOf(gen.Bool())
 	gens["GatewayType"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewayPropertiesFormat_GatewayType_ExpressRoute, VirtualNetworkGatewayPropertiesFormat_GatewayType_LocalGateway, VirtualNetworkGatewayPropertiesFormat_GatewayType_Vpn))
-	gens["InboundDnsForwardingEndpoint"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_Deleting,
-		ProvisioningState_Failed,
-		ProvisioningState_Succeeded,
-		ProvisioningState_Updating))
-	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
 	gens["VNetExtendedLocationResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["VpnGatewayGeneration"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_Generation1, VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_Generation2, VirtualNetworkGatewayPropertiesFormat_VpnGatewayGeneration_None))
 	gens["VpnType"] = gen.PtrOf(gen.OneConstOf(VirtualNetworkGatewayPropertiesFormat_VpnType_PolicyBased, VirtualNetworkGatewayPropertiesFormat_VpnType_RouteBased))
@@ -391,7 +382,6 @@ func VirtualNetworkGatewayIPConfigurationARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualNetworkGatewayIPConfigurationARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualNetworkGatewayIPConfigurationARM(gens map[string]gopter.Gen) {
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
@@ -458,7 +448,6 @@ func VirtualNetworkGatewaySkuARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySkuARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySkuARM(gens map[string]gopter.Gen) {
-	gens["Capacity"] = gen.PtrOf(gen.Int())
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(
 		VirtualNetworkGatewaySku_Name_Basic,
 		VirtualNetworkGatewaySku_Name_ErGw1AZ,
@@ -639,9 +628,7 @@ func IPConfigurationBgpPeeringAddressARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForIPConfigurationBgpPeeringAddressARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIPConfigurationBgpPeeringAddressARM(gens map[string]gopter.Gen) {
 	gens["CustomBgpIpAddresses"] = gen.SliceOf(gen.AlphaString())
-	gens["DefaultBgpIpAddresses"] = gen.SliceOf(gen.AlphaString())
 	gens["IpconfigurationId"] = gen.PtrOf(gen.AlphaString())
-	gens["TunnelIpAddresses"] = gen.SliceOf(gen.AlphaString())
 }
 
 func Test_IpsecPolicyARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -882,13 +869,7 @@ func VirtualNetworkGatewayIPConfigurationPropertiesFormatARMGenerator() gopter.G
 
 // AddIndependentPropertyGeneratorsForVirtualNetworkGatewayIPConfigurationPropertiesFormatARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualNetworkGatewayIPConfigurationPropertiesFormatARM(gens map[string]gopter.Gen) {
-	gens["PrivateIPAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateIPAllocationMethod"] = gen.PtrOf(gen.OneConstOf(IPAllocationMethod_Dynamic, IPAllocationMethod_Static))
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_Deleting,
-		ProvisioningState_Failed,
-		ProvisioningState_Succeeded,
-		ProvisioningState_Updating))
 }
 
 // AddRelatedPropertyGeneratorsForVirtualNetworkGatewayIPConfigurationPropertiesFormatARM is a factory method for creating gopter generators
@@ -963,7 +944,6 @@ func VpnClientRevokedCertificateARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVpnClientRevokedCertificateARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVpnClientRevokedCertificateARM(gens map[string]gopter.Gen) {
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
@@ -1039,7 +1019,6 @@ func VpnClientRootCertificateARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVpnClientRootCertificateARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVpnClientRootCertificateARM(gens map[string]gopter.Gen) {
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
@@ -1106,11 +1085,6 @@ func VpnClientRevokedCertificatePropertiesFormatARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVpnClientRevokedCertificatePropertiesFormatARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVpnClientRevokedCertificatePropertiesFormatARM(gens map[string]gopter.Gen) {
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_Deleting,
-		ProvisioningState_Failed,
-		ProvisioningState_Succeeded,
-		ProvisioningState_Updating))
 	gens["Thumbprint"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1171,10 +1145,5 @@ func VpnClientRootCertificatePropertiesFormatARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVpnClientRootCertificatePropertiesFormatARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVpnClientRootCertificatePropertiesFormatARM(gens map[string]gopter.Gen) {
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_Deleting,
-		ProvisioningState_Failed,
-		ProvisioningState_Succeeded,
-		ProvisioningState_Updating))
 	gens["PublicCertData"] = gen.PtrOf(gen.AlphaString())
 }

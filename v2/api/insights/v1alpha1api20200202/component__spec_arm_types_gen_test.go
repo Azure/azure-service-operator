@@ -84,11 +84,9 @@ func Component_SpecARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForComponent_SpecARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Kind"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForComponent_SpecARM is a factory method for creating gopter generators
@@ -139,9 +137,6 @@ func RunJSONSerializationTestForApplicationInsightsComponentPropertiesARM(subjec
 var applicationInsightsComponentPropertiesARMGenerator gopter.Gen
 
 // ApplicationInsightsComponentPropertiesARMGenerator returns a generator of ApplicationInsightsComponentPropertiesARM instances for property testing.
-// We first initialize applicationInsightsComponentPropertiesARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func ApplicationInsightsComponentPropertiesARMGenerator() gopter.Gen {
 	if applicationInsightsComponentPropertiesARMGenerator != nil {
 		return applicationInsightsComponentPropertiesARMGenerator
@@ -151,105 +146,23 @@ func ApplicationInsightsComponentPropertiesARMGenerator() gopter.Gen {
 	AddIndependentPropertyGeneratorsForApplicationInsightsComponentPropertiesARM(generators)
 	applicationInsightsComponentPropertiesARMGenerator = gen.Struct(reflect.TypeOf(ApplicationInsightsComponentPropertiesARM{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForApplicationInsightsComponentPropertiesARM(generators)
-	AddRelatedPropertyGeneratorsForApplicationInsightsComponentPropertiesARM(generators)
-	applicationInsightsComponentPropertiesARMGenerator = gen.Struct(reflect.TypeOf(ApplicationInsightsComponentPropertiesARM{}), generators)
-
 	return applicationInsightsComponentPropertiesARMGenerator
 }
 
 // AddIndependentPropertyGeneratorsForApplicationInsightsComponentPropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForApplicationInsightsComponentPropertiesARM(gens map[string]gopter.Gen) {
-	gens["AppId"] = gen.PtrOf(gen.AlphaString())
-	gens["ApplicationId"] = gen.PtrOf(gen.AlphaString())
 	gens["Application_Type"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_Application_Type_Other, ApplicationInsightsComponentProperties_Application_Type_Web))
-	gens["ConnectionString"] = gen.PtrOf(gen.AlphaString())
-	gens["CreationDate"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableIpMasking"] = gen.PtrOf(gen.Bool())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 	gens["Flow_Type"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_Flow_Type_Bluefield))
 	gens["ForceCustomerStorageForProfiler"] = gen.PtrOf(gen.Bool())
 	gens["HockeyAppId"] = gen.PtrOf(gen.AlphaString())
-	gens["HockeyAppToken"] = gen.PtrOf(gen.AlphaString())
 	gens["ImmediatePurgeDataOn30Days"] = gen.PtrOf(gen.Bool())
 	gens["IngestionMode"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_IngestionMode_ApplicationInsights, ApplicationInsightsComponentProperties_IngestionMode_ApplicationInsightsWithDiagnosticSettings, ApplicationInsightsComponentProperties_IngestionMode_LogAnalytics))
-	gens["InstrumentationKey"] = gen.PtrOf(gen.AlphaString())
-	gens["LaMigrationDate"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_Disabled, PublicNetworkAccessType_Enabled))
 	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccessType_Disabled, PublicNetworkAccessType_Enabled))
 	gens["Request_Source"] = gen.PtrOf(gen.OneConstOf(ApplicationInsightsComponentProperties_Request_Source_Rest))
 	gens["RetentionInDays"] = gen.PtrOf(gen.Int())
 	gens["SamplingPercentage"] = gen.PtrOf(gen.Float64())
-	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["WorkspaceResourceId"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForApplicationInsightsComponentPropertiesARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForApplicationInsightsComponentPropertiesARM(gens map[string]gopter.Gen) {
-	gens["PrivateLinkScopedResources"] = gen.SliceOf(PrivateLinkScopedResourceARMGenerator())
-}
-
-func Test_PrivateLinkScopedResourceARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrivateLinkScopedResourceARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateLinkScopedResourceARM, PrivateLinkScopedResourceARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForPrivateLinkScopedResourceARM runs a test to see if a specific instance of PrivateLinkScopedResourceARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateLinkScopedResourceARM(subject PrivateLinkScopedResourceARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual PrivateLinkScopedResourceARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of PrivateLinkScopedResourceARM instances for property testing - lazily instantiated by
-// PrivateLinkScopedResourceARMGenerator()
-var privateLinkScopedResourceARMGenerator gopter.Gen
-
-// PrivateLinkScopedResourceARMGenerator returns a generator of PrivateLinkScopedResourceARM instances for property testing.
-func PrivateLinkScopedResourceARMGenerator() gopter.Gen {
-	if privateLinkScopedResourceARMGenerator != nil {
-		return privateLinkScopedResourceARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateLinkScopedResourceARM(generators)
-	privateLinkScopedResourceARMGenerator = gen.Struct(reflect.TypeOf(PrivateLinkScopedResourceARM{}), generators)
-
-	return privateLinkScopedResourceARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPrivateLinkScopedResourceARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateLinkScopedResourceARM(gens map[string]gopter.Gen) {
-	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["ScopeId"] = gen.PtrOf(gen.AlphaString())
 }

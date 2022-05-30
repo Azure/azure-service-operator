@@ -602,17 +602,14 @@ type Snapshot_Spec struct {
 	AzureName                    string                        `json:"azureName,omitempty"`
 	CreationData                 *CreationData                 `json:"creationData,omitempty"`
 	DiskAccessReference          *genruntime.ResourceReference `armReference:"DiskAccessId" json:"diskAccessReference,omitempty"`
-	DiskSizeBytes                *int                          `json:"diskSizeBytes,omitempty"`
 	DiskSizeGB                   *int                          `json:"diskSizeGB,omitempty"`
 	DiskState                    *string                       `json:"diskState,omitempty"`
 	Encryption                   *Encryption                   `json:"encryption,omitempty"`
 	EncryptionSettingsCollection *EncryptionSettingsCollection `json:"encryptionSettingsCollection,omitempty"`
 	ExtendedLocation             *ExtendedLocation             `json:"extendedLocation,omitempty"`
 	HyperVGeneration             *string                       `json:"hyperVGeneration,omitempty"`
-	Id                           *string                       `json:"id,omitempty"`
 	Incremental                  *bool                         `json:"incremental,omitempty"`
 	Location                     *string                       `json:"location,omitempty"`
-	ManagedBy                    *string                       `json:"managedBy,omitempty"`
 	NetworkAccessPolicy          *string                       `json:"networkAccessPolicy,omitempty"`
 	OriginalVersion              string                        `json:"originalVersion,omitempty"`
 	OsType                       *string                       `json:"osType,omitempty"`
@@ -621,15 +618,11 @@ type Snapshot_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner             *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag       genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	ProvisioningState *string                            `json:"provisioningState,omitempty"`
-	PurchasePlan      *PurchasePlan                      `json:"purchasePlan,omitempty"`
-	Sku               *SnapshotSku                       `json:"sku,omitempty"`
-	Tags              map[string]string                  `json:"tags,omitempty"`
-	TimeCreated       *string                            `json:"timeCreated,omitempty"`
-	Type              *string                            `json:"type,omitempty"`
-	UniqueId          *string                            `json:"uniqueId,omitempty"`
+	Owner        *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag  genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	PurchasePlan *PurchasePlan                      `json:"purchasePlan,omitempty"`
+	Sku          *SnapshotSku                       `json:"sku,omitempty"`
+	Tags         map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &Snapshot_Spec{}
@@ -710,9 +703,6 @@ func (snapshot *Snapshot_Spec) AssignPropertiesFromSnapshot_Spec(source *v202009
 		snapshot.DiskAccessReference = nil
 	}
 
-	// DiskSizeBytes
-	snapshot.DiskSizeBytes = genruntime.ClonePointerToInt(source.DiskSizeBytes)
-
 	// DiskSizeGB
 	snapshot.DiskSizeGB = genruntime.ClonePointerToInt(source.DiskSizeGB)
 
@@ -768,9 +758,6 @@ func (snapshot *Snapshot_Spec) AssignPropertiesFromSnapshot_Spec(source *v202009
 	// HyperVGeneration
 	snapshot.HyperVGeneration = genruntime.ClonePointerToString(source.HyperVGeneration)
 
-	// Id
-	snapshot.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Incremental
 	if source.Incremental != nil {
 		incremental := *source.Incremental
@@ -781,9 +768,6 @@ func (snapshot *Snapshot_Spec) AssignPropertiesFromSnapshot_Spec(source *v202009
 
 	// Location
 	snapshot.Location = genruntime.ClonePointerToString(source.Location)
-
-	// ManagedBy
-	snapshot.ManagedBy = genruntime.ClonePointerToString(source.ManagedBy)
 
 	// NetworkAccessPolicy
 	snapshot.NetworkAccessPolicy = genruntime.ClonePointerToString(source.NetworkAccessPolicy)
@@ -801,9 +785,6 @@ func (snapshot *Snapshot_Spec) AssignPropertiesFromSnapshot_Spec(source *v202009
 	} else {
 		snapshot.Owner = nil
 	}
-
-	// ProvisioningState
-	snapshot.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// PurchasePlan
 	if source.PurchasePlan != nil {
@@ -831,15 +812,6 @@ func (snapshot *Snapshot_Spec) AssignPropertiesFromSnapshot_Spec(source *v202009
 
 	// Tags
 	snapshot.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// TimeCreated
-	snapshot.TimeCreated = genruntime.ClonePointerToString(source.TimeCreated)
-
-	// Type
-	snapshot.Type = genruntime.ClonePointerToString(source.Type)
-
-	// UniqueId
-	snapshot.UniqueId = genruntime.ClonePointerToString(source.UniqueId)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -879,9 +851,6 @@ func (snapshot *Snapshot_Spec) AssignPropertiesToSnapshot_Spec(destination *v202
 	} else {
 		destination.DiskAccessReference = nil
 	}
-
-	// DiskSizeBytes
-	destination.DiskSizeBytes = genruntime.ClonePointerToInt(snapshot.DiskSizeBytes)
 
 	// DiskSizeGB
 	destination.DiskSizeGB = genruntime.ClonePointerToInt(snapshot.DiskSizeGB)
@@ -938,9 +907,6 @@ func (snapshot *Snapshot_Spec) AssignPropertiesToSnapshot_Spec(destination *v202
 	// HyperVGeneration
 	destination.HyperVGeneration = genruntime.ClonePointerToString(snapshot.HyperVGeneration)
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(snapshot.Id)
-
 	// Incremental
 	if snapshot.Incremental != nil {
 		incremental := *snapshot.Incremental
@@ -951,9 +917,6 @@ func (snapshot *Snapshot_Spec) AssignPropertiesToSnapshot_Spec(destination *v202
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(snapshot.Location)
-
-	// ManagedBy
-	destination.ManagedBy = genruntime.ClonePointerToString(snapshot.ManagedBy)
 
 	// NetworkAccessPolicy
 	destination.NetworkAccessPolicy = genruntime.ClonePointerToString(snapshot.NetworkAccessPolicy)
@@ -971,9 +934,6 @@ func (snapshot *Snapshot_Spec) AssignPropertiesToSnapshot_Spec(destination *v202
 	} else {
 		destination.Owner = nil
 	}
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(snapshot.ProvisioningState)
 
 	// PurchasePlan
 	if snapshot.PurchasePlan != nil {
@@ -1002,15 +962,6 @@ func (snapshot *Snapshot_Spec) AssignPropertiesToSnapshot_Spec(destination *v202
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(snapshot.Tags)
 
-	// TimeCreated
-	destination.TimeCreated = genruntime.ClonePointerToString(snapshot.TimeCreated)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(snapshot.Type)
-
-	// UniqueId
-	destination.UniqueId = genruntime.ClonePointerToString(snapshot.UniqueId)
-
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		destination.PropertyBag = propertyBag
@@ -1027,7 +978,6 @@ func (snapshot *Snapshot_Spec) AssignPropertiesToSnapshot_Spec(destination *v202
 type SnapshotSku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Tier        *string                `json:"tier,omitempty"`
 }
 
 // AssignPropertiesFromSnapshotSku populates our SnapshotSku from the provided source SnapshotSku
@@ -1037,9 +987,6 @@ func (snapshotSku *SnapshotSku) AssignPropertiesFromSnapshotSku(source *v2020093
 
 	// Name
 	snapshotSku.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Tier
-	snapshotSku.Tier = genruntime.ClonePointerToString(source.Tier)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1059,9 +1006,6 @@ func (snapshotSku *SnapshotSku) AssignPropertiesToSnapshotSku(destination *v2020
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(snapshotSku.Name)
-
-	// Tier
-	destination.Tier = genruntime.ClonePointerToString(snapshotSku.Tier)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

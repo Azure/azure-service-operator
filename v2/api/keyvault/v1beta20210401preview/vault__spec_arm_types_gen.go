@@ -75,14 +75,8 @@ type VaultPropertiesARM struct {
 	// the key vault.
 	EnabledForTemplateDeployment *bool `json:"enabledForTemplateDeployment,omitempty"`
 
-	// HsmPoolResourceId: The resource id of HSM Pool.
-	HsmPoolResourceId *string `json:"hsmPoolResourceId,omitempty"`
-
 	// NetworkAcls: Rules governing the accessibility of the key vault from specific network locations.
 	NetworkAcls *NetworkRuleSetARM `json:"networkAcls,omitempty"`
-
-	// PrivateEndpointConnections: List of private endpoint connections associated with the key vault.
-	PrivateEndpointConnections []PrivateEndpointConnectionItemARM `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: Provisioning state of the vault.
 	ProvisioningState *VaultProperties_ProvisioningState `json:"provisioningState,omitempty"`
@@ -129,17 +123,6 @@ type NetworkRuleSetARM struct {
 
 	// VirtualNetworkRules: The list of virtual network rules.
 	VirtualNetworkRules []VirtualNetworkRuleARM `json:"virtualNetworkRules,omitempty"`
-}
-
-type PrivateEndpointConnectionItemARM struct {
-	// Etag: Modified whenever there is a change in the state of private endpoint connection.
-	Etag *string `json:"etag,omitempty"`
-
-	// Id: Id of private endpoint connection.
-	Id *string `json:"id,omitempty"`
-
-	// Properties: Private endpoint connection properties.
-	Properties *PrivateEndpointConnectionPropertiesARM `json:"properties,omitempty"`
 }
 
 type SkuARM struct {
@@ -200,17 +183,6 @@ type PermissionsARM struct {
 
 	// Storage: Permissions to storage accounts
 	Storage []Permissions_Storage `json:"storage,omitempty"`
-}
-
-type PrivateEndpointConnectionPropertiesARM struct {
-	// PrivateEndpoint: Properties of the private endpoint object.
-	PrivateEndpoint *PrivateEndpointARM `json:"privateEndpoint,omitempty"`
-
-	// PrivateLinkServiceConnectionState: Approval state of the private link connection.
-	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionStateARM `json:"privateLinkServiceConnectionState,omitempty"`
-
-	// ProvisioningState: Provisioning state of the private endpoint connection.
-	ProvisioningState *PrivateEndpointConnectionProvisioningState `json:"provisioningState,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"A"}
@@ -312,19 +284,3 @@ const (
 	Permissions_Storage_Setsas        = Permissions_Storage("setsas")
 	Permissions_Storage_Update        = Permissions_Storage("update")
 )
-
-type PrivateEndpointARM struct {
-	// Id: Full identifier of the private endpoint resource.
-	Id *string `json:"id,omitempty"`
-}
-
-type PrivateLinkServiceConnectionStateARM struct {
-	// ActionsRequired: A message indicating if changes on the service provider require any updates on the consumer.
-	ActionsRequired *PrivateLinkServiceConnectionState_ActionsRequired `json:"actionsRequired,omitempty"`
-
-	// Description: The reason for approval or rejection.
-	Description *string `json:"description,omitempty"`
-
-	// Status: Indicates whether the connection has been approved, rejected or removed by the key vault owner.
-	Status *PrivateEndpointServiceConnectionStatus `json:"status,omitempty"`
-}

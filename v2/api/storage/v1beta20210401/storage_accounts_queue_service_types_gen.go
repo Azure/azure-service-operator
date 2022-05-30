@@ -522,18 +522,11 @@ type StorageAccountsQueueService_Spec struct {
 	// Queue service.
 	Cors *CorsRules `json:"cors,omitempty"`
 
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &StorageAccountsQueueService_Spec{}
@@ -547,12 +540,6 @@ func (service *StorageAccountsQueueService_Spec) ConvertToARM(resolved genruntim
 
 	// Set property ‘AzureName’:
 	result.AzureName = service.AzureName
-
-	// Set property ‘Id’:
-	if service.Id != nil {
-		id := *service.Id
-		result.Id = &id
-	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -568,12 +555,6 @@ func (service *StorageAccountsQueueService_Spec) ConvertToARM(resolved genruntim
 		}
 		cors := *corsARM.(*CorsRulesARM)
 		result.Properties.Cors = &cors
-	}
-
-	// Set property ‘Type’:
-	if service.Type != nil {
-		typeVar := *service.Type
-		result.Type = &typeVar
 	}
 	return result, nil
 }
@@ -607,21 +588,9 @@ func (service *StorageAccountsQueueService_Spec) PopulateFromARM(owner genruntim
 		}
 	}
 
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		service.Id = &id
-	}
-
 	// Set property ‘Owner’:
 	service.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		service.Type = &typeVar
 	}
 
 	// No error
@@ -696,9 +665,6 @@ func (service *StorageAccountsQueueService_Spec) AssignPropertiesFromStorageAcco
 		service.Cors = nil
 	}
 
-	// Id
-	service.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -706,9 +672,6 @@ func (service *StorageAccountsQueueService_Spec) AssignPropertiesFromStorageAcco
 	} else {
 		service.Owner = nil
 	}
-
-	// Type
-	service.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -734,9 +697,6 @@ func (service *StorageAccountsQueueService_Spec) AssignPropertiesToStorageAccoun
 		destination.Cors = nil
 	}
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(service.Id)
-
 	// OriginalVersion
 	destination.OriginalVersion = service.OriginalVersion()
 
@@ -747,9 +707,6 @@ func (service *StorageAccountsQueueService_Spec) AssignPropertiesToStorageAccoun
 	} else {
 		destination.Owner = nil
 	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(service.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

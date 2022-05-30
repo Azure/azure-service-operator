@@ -8,15 +8,9 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 type RedisEnterprise_SpecARM struct {
 	AzureName string `json:"azureName,omitempty"`
 
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the resource
-	Name string `json:"name,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
 	// Properties: Other properties of the cluster.
 	Properties *ClusterPropertiesARM `json:"properties,omitempty"`
@@ -26,9 +20,6 @@ type RedisEnterprise_SpecARM struct {
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
 
 	// Zones: The Availability Zones where this cluster will be deployed.
 	Zones []string `json:"zones,omitempty"`
@@ -52,23 +43,8 @@ func (enterprise *RedisEnterprise_SpecARM) GetType() string {
 }
 
 type ClusterPropertiesARM struct {
-	// HostName: DNS name of the cluster endpoint
-	HostName *string `json:"hostName,omitempty"`
-
 	// MinimumTlsVersion: The minimum TLS version for the cluster to support, e.g. '1.2'
 	MinimumTlsVersion *ClusterProperties_MinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
-
-	// PrivateEndpointConnections: List of private endpoint connections associated with the specified RedisEnterprise cluster
-	PrivateEndpointConnections []PrivateEndpointConnectionARM `json:"privateEndpointConnections,omitempty"`
-
-	// ProvisioningState: Current provisioning status of the cluster
-	ProvisioningState *ProvisioningState `json:"provisioningState,omitempty"`
-
-	// RedisVersion: Version of redis the cluster supports, e.g. '6'
-	RedisVersion *string `json:"redisVersion,omitempty"`
-
-	// ResourceState: Current resource status of the cluster
-	ResourceState *ResourceState `json:"resourceState,omitempty"`
 }
 
 type SkuARM struct {
@@ -78,12 +54,6 @@ type SkuARM struct {
 
 	// Name: The type of RedisEnterprise cluster to deploy. Possible values: (Enterprise_E10, EnterpriseFlash_F300 etc.)
 	Name *Sku_Name `json:"name,omitempty"`
-}
-
-type PrivateEndpointConnectionARM struct {
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"EnterpriseFlash_F1500","EnterpriseFlash_F300","EnterpriseFlash_F700","Enterprise_E10","Enterprise_E100","Enterprise_E20","Enterprise_E50"}

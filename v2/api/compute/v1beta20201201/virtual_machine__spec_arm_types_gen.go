@@ -11,17 +11,12 @@ type VirtualMachine_SpecARM struct {
 	// ExtendedLocation: The extended location of the Virtual Machine.
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
 
-	// Id: Resource Id
-	Id *string `json:"id,omitempty"`
-
 	// Identity: The identity of the virtual machine, if configured.
 	Identity *VirtualMachineIdentityARM `json:"identity,omitempty"`
 
 	// Location: Resource location
 	Location *string `json:"location,omitempty"`
-
-	// Name: Resource name
-	Name string `json:"name,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
 	// Plan: Specifies information about the marketplace image used to create the virtual machine. This element is only used
 	// for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic
@@ -32,9 +27,6 @@ type VirtualMachine_SpecARM struct {
 
 	// Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: Resource type
-	Type *string `json:"type,omitempty"`
 
 	// Zones: The virtual machine zones.
 	Zones []string `json:"zones,omitempty"`
@@ -58,23 +50,10 @@ func (machine *VirtualMachine_SpecARM) GetType() string {
 }
 
 type VirtualMachineIdentityARM struct {
-	// PrincipalId: The principal id of virtual machine identity. This property will only be provided for a system assigned
-	// identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	// TenantId: The tenant id associated with the virtual machine. This property will only be provided for a system assigned
-	// identity.
-	TenantId *string `json:"tenantId,omitempty"`
-
 	// Type: The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an
 	// implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the
 	// virtual machine.
 	Type *VirtualMachineIdentity_Type `json:"type,omitempty"`
-
-	// UserAssignedIdentities: The list of user identities associated with the Virtual Machine. The user identity dictionary
-	// key references will be ARM resource ids in the form:
-	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-	UserAssignedIdentities map[string]VirtualMachineIdentity_UserAssignedIdentitiesARM `json:"userAssignedIdentities,omitempty"`
 }
 
 type VirtualMachinePropertiesARM struct {
@@ -125,9 +104,6 @@ type VirtualMachinePropertiesARM struct {
 	// NOTE: User cannot specify both host and hostGroup properties.
 	HostGroup *SubResourceARM `json:"hostGroup,omitempty"`
 
-	// InstanceView: The virtual machine instance view.
-	InstanceView *VirtualMachineInstanceViewARM `json:"instanceView,omitempty"`
-
 	// LicenseType: Specifies that the image or disk that is being used was licensed on-premises.
 	// Possible values for Windows Server operating system are:
 	// Windows_Client
@@ -162,9 +138,6 @@ type VirtualMachinePropertiesARM struct {
 	// Minimum api-version: 2019-03-01
 	Priority *Priority `json:"priority,omitempty"`
 
-	// ProvisioningState: The provisioning state, which only appears in the response.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
-
 	// ProximityPlacementGroup: Specifies information about the proximity placement group that the virtual machine should be
 	// assigned to.
 	// Minimum api-version: 2018-04-01.
@@ -183,10 +156,6 @@ type VirtualMachinePropertiesARM struct {
 	// This property cannot exist along with a non-null properties.availabilitySet reference.
 	// Minimum api‐version: 2019‐03‐01
 	VirtualMachineScaleSet *SubResourceARM `json:"virtualMachineScaleSet,omitempty"`
-
-	// VmId: Specifies the VM unique ID which is a 128-bits identifier that is encoded and stored in all Azure IaaS VMs SMBIOS
-	// and can be read using platform BIOS commands.
-	VmId *string `json:"vmId,omitempty"`
 }
 
 type BillingProfileARM struct {
@@ -351,69 +320,6 @@ const (
 	VirtualMachineIdentity_Type_UserAssigned               = VirtualMachineIdentity_Type("UserAssigned")
 )
 
-type VirtualMachineIdentity_UserAssignedIdentitiesARM struct {
-	// ClientId: The client id of user assigned identity.
-	ClientId *string `json:"clientId,omitempty"`
-
-	// PrincipalId: The principal id of user assigned identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-}
-
-type VirtualMachineInstanceViewARM struct {
-	// AssignedHost: Resource id of the dedicated host, on which the virtual machine is allocated through automatic placement,
-	// when the virtual machine is associated with a dedicated host group that has automatic placement enabled.
-	// Minimum api-version: 2020-06-01.
-	AssignedHost *string `json:"assignedHost,omitempty"`
-
-	// BootDiagnostics: Boot Diagnostics is a debugging feature which allows you to view Console Output and Screenshot to
-	// diagnose VM status.
-	// You can easily view the output of your console log.
-	// Azure also enables you to see a screenshot of the VM from the hypervisor.
-	BootDiagnostics *BootDiagnosticsInstanceViewARM `json:"bootDiagnostics,omitempty"`
-
-	// ComputerName: The computer name assigned to the virtual machine.
-	ComputerName *string `json:"computerName,omitempty"`
-
-	// Disks: The virtual machine disk information.
-	Disks []DiskInstanceViewARM `json:"disks,omitempty"`
-
-	// Extensions: The extensions information.
-	Extensions []VirtualMachineExtensionInstanceViewARM `json:"extensions,omitempty"`
-
-	// HyperVGeneration: Specifies the HyperVGeneration Type associated with a resource
-	HyperVGeneration *VirtualMachineInstanceView_HyperVGeneration `json:"hyperVGeneration,omitempty"`
-
-	// MaintenanceRedeployStatus: The Maintenance Operation status on the virtual machine.
-	MaintenanceRedeployStatus *MaintenanceRedeployStatusARM `json:"maintenanceRedeployStatus,omitempty"`
-
-	// OsName: The Operating System running on the virtual machine.
-	OsName *string `json:"osName,omitempty"`
-
-	// OsVersion: The version of Operating System running on the virtual machine.
-	OsVersion *string `json:"osVersion,omitempty"`
-
-	// PatchStatus: [Preview Feature] The status of virtual machine patch operations.
-	PatchStatus *VirtualMachinePatchStatusARM `json:"patchStatus,omitempty"`
-
-	// PlatformFaultDomain: Specifies the fault domain of the virtual machine.
-	PlatformFaultDomain *int `json:"platformFaultDomain,omitempty"`
-
-	// PlatformUpdateDomain: Specifies the update domain of the virtual machine.
-	PlatformUpdateDomain *int `json:"platformUpdateDomain,omitempty"`
-
-	// RdpThumbPrint: The Remote desktop certificate thumbprint.
-	RdpThumbPrint *string `json:"rdpThumbPrint,omitempty"`
-
-	// Statuses: The resource status information.
-	Statuses []InstanceViewStatusARM `json:"statuses,omitempty"`
-
-	// VmAgent: The VM Agent running on the virtual machine.
-	VmAgent *VirtualMachineAgentInstanceViewARM `json:"vmAgent,omitempty"`
-
-	// VmHealth: The health status for the VM.
-	VmHealth *VirtualMachineHealthStatusARM `json:"vmHealth,omitempty"`
-}
-
 type BootDiagnosticsARM struct {
 	// Enabled: Whether boot diagnostics should be enabled on the Virtual Machine.
 	Enabled *bool `json:"enabled,omitempty"`
@@ -421,20 +327,6 @@ type BootDiagnosticsARM struct {
 	// StorageUri: Uri of the storage account to use for placing the console output and screenshot.
 	// If storageUri is not specified while enabling boot diagnostics, managed storage will be used.
 	StorageUri *string `json:"storageUri,omitempty"`
-}
-
-type BootDiagnosticsInstanceViewARM struct {
-	// ConsoleScreenshotBlobUri: The console screenshot blob URI.
-	// NOTE: This will not be set if boot diagnostics is currently enabled with managed storage.
-	ConsoleScreenshotBlobUri *string `json:"consoleScreenshotBlobUri,omitempty"`
-
-	// SerialConsoleLogBlobUri: The serial console log blob Uri.
-	// NOTE: This will not be set if boot diagnostics is currently enabled with managed storage.
-	SerialConsoleLogBlobUri *string `json:"serialConsoleLogBlobUri,omitempty"`
-
-	// Status: The boot diagnostics status information for the VM.
-	// NOTE: It will be set only if there are errors encountered in enabling boot diagnostics.
-	Status *InstanceViewStatusARM `json:"status,omitempty"`
 }
 
 type DataDiskARM struct {
@@ -463,15 +355,6 @@ type DataDiskARM struct {
 	// This feature is still in preview mode and is not supported for VirtualMachineScaleSet. To force-detach a data disk
 	// update toBeDetached to 'true' along with setting detachOption: 'ForceDetach'.
 	DetachOption *DetachOption `json:"detachOption,omitempty"`
-
-	// DiskIOPSReadWrite: Specifies the Read-Write IOPS for the managed disk when StorageAccountType is UltraSSD_LRS. Returned
-	// only for VirtualMachine ScaleSet VM disks. Can be updated only via updates to the VirtualMachine Scale Set.
-	DiskIOPSReadWrite *int `json:"diskIOPSReadWrite,omitempty"`
-
-	// DiskMBpsReadWrite: Specifies the bandwidth in MB per second for the managed disk when StorageAccountType is
-	// UltraSSD_LRS. Returned only for VirtualMachine ScaleSet VM disks. Can be updated only via updates to the VirtualMachine
-	// Scale Set.
-	DiskMBpsReadWrite *int `json:"diskMBpsReadWrite,omitempty"`
 
 	// DiskSizeGB: Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the
 	// disk in a virtual machine image.
@@ -502,23 +385,8 @@ type DataDiskARM struct {
 	WriteAcceleratorEnabled *bool `json:"writeAcceleratorEnabled,omitempty"`
 }
 
-type DiskInstanceViewARM struct {
-	// EncryptionSettings: Specifies the encryption settings for the OS Disk.
-	// Minimum api-version: 2015-06-15
-	EncryptionSettings []DiskEncryptionSettingsARM `json:"encryptionSettings,omitempty"`
-
-	// Name: The disk name.
-	Name *string `json:"name,omitempty"`
-
-	// Statuses: The resource status information.
-	Statuses []InstanceViewStatusARM `json:"statuses,omitempty"`
-}
-
 type ImageReferenceARM struct {
-	// ExactVersion: Specifies in decimal numbers, the version of platform image or marketplace image used to create the
-	// virtual machine. This readonly field differs from 'version', only if the value specified in 'version' field is 'latest'.
-	ExactVersion *string `json:"exactVersion,omitempty"`
-	Id           *string `json:"id,omitempty"`
+	Id *string `json:"id,omitempty"`
 
 	// Offer: Specifies the offer of the platform image or marketplace image used to create the virtual machine.
 	Offer *string `json:"offer,omitempty"`
@@ -534,23 +402,6 @@ type ImageReferenceARM struct {
 	// the latest version of an image available at deploy time. Even if you use 'latest', the VM image will not automatically
 	// update after deploy time even if a new version becomes available.
 	Version *string `json:"version,omitempty"`
-}
-
-type InstanceViewStatusARM struct {
-	// Code: The status code.
-	Code *string `json:"code,omitempty"`
-
-	// DisplayStatus: The short localizable label for the status.
-	DisplayStatus *string `json:"displayStatus,omitempty"`
-
-	// Level: The level code.
-	Level *InstanceViewStatus_Level `json:"level,omitempty"`
-
-	// Message: The detailed status message, including for alerts and error messages.
-	Message *string `json:"message,omitempty"`
-
-	// Time: The time of the status.
-	Time *string `json:"time,omitempty"`
 }
 
 type LinuxConfigurationARM struct {
@@ -569,31 +420,7 @@ type LinuxConfigurationARM struct {
 	Ssh *SshConfigurationARM `json:"ssh,omitempty"`
 }
 
-type MaintenanceRedeployStatusARM struct {
-	// IsCustomerInitiatedMaintenanceAllowed: True, if customer is allowed to perform Maintenance.
-	IsCustomerInitiatedMaintenanceAllowed *bool `json:"isCustomerInitiatedMaintenanceAllowed,omitempty"`
-
-	// LastOperationMessage: Message returned for the last Maintenance Operation.
-	LastOperationMessage *string `json:"lastOperationMessage,omitempty"`
-
-	// LastOperationResultCode: The Last Maintenance Operation Result Code.
-	LastOperationResultCode *MaintenanceRedeployStatus_LastOperationResultCode `json:"lastOperationResultCode,omitempty"`
-
-	// MaintenanceWindowEndTime: End Time for the Maintenance Window.
-	MaintenanceWindowEndTime *string `json:"maintenanceWindowEndTime,omitempty"`
-
-	// MaintenanceWindowStartTime: Start Time for the Maintenance Window.
-	MaintenanceWindowStartTime *string `json:"maintenanceWindowStartTime,omitempty"`
-
-	// PreMaintenanceWindowEndTime: End Time for the Pre Maintenance Window.
-	PreMaintenanceWindowEndTime *string `json:"preMaintenanceWindowEndTime,omitempty"`
-
-	// PreMaintenanceWindowStartTime: Start Time for the Pre Maintenance Window.
-	PreMaintenanceWindowStartTime *string `json:"preMaintenanceWindowStartTime,omitempty"`
-}
-
 type NetworkInterfaceReferenceARM struct {
-	// Id: Resource Id
 	Id         *string                                 `json:"id,omitempty"`
 	Properties *NetworkInterfaceReferencePropertiesARM `json:"properties,omitempty"`
 }
@@ -669,50 +496,6 @@ type VaultSecretGroupARM struct {
 	VaultCertificates []VaultCertificateARM `json:"vaultCertificates,omitempty"`
 }
 
-type VirtualMachineAgentInstanceViewARM struct {
-	// ExtensionHandlers: The virtual machine extension handler instance view.
-	ExtensionHandlers []VirtualMachineExtensionHandlerInstanceViewARM `json:"extensionHandlers,omitempty"`
-
-	// Statuses: The resource status information.
-	Statuses []InstanceViewStatusARM `json:"statuses,omitempty"`
-
-	// VmAgentVersion: The VM Agent full version.
-	VmAgentVersion *string `json:"vmAgentVersion,omitempty"`
-}
-
-type VirtualMachineExtensionInstanceViewARM struct {
-	// Name: The virtual machine extension name.
-	Name *string `json:"name,omitempty"`
-
-	// Statuses: The resource status information.
-	Statuses []InstanceViewStatusARM `json:"statuses,omitempty"`
-
-	// Substatuses: The resource status information.
-	Substatuses []InstanceViewStatusARM `json:"substatuses,omitempty"`
-
-	// Type: Specifies the type of the extension; an example is "CustomScriptExtension".
-	Type *string `json:"type,omitempty"`
-
-	// TypeHandlerVersion: Specifies the version of the script handler.
-	TypeHandlerVersion *string `json:"typeHandlerVersion,omitempty"`
-}
-
-type VirtualMachineHealthStatusARM struct {
-	// Status: The health status information for the VM.
-	Status *InstanceViewStatusARM `json:"status,omitempty"`
-}
-
-type VirtualMachinePatchStatusARM struct {
-	// AvailablePatchSummary: The available patch summary of the latest assessment operation for the virtual machine.
-	AvailablePatchSummary *AvailablePatchSummaryARM `json:"availablePatchSummary,omitempty"`
-
-	// ConfigurationStatuses: The enablement status of the specified patchMode
-	ConfigurationStatuses []InstanceViewStatusARM `json:"configurationStatuses,omitempty"`
-
-	// LastPatchInstallationSummary: The installation summary of the latest installation operation for the virtual machine.
-	LastPatchInstallationSummary *LastPatchInstallationSummaryARM `json:"lastPatchInstallationSummary,omitempty"`
-}
-
 type WindowsConfigurationARM struct {
 	// AdditionalUnattendContent: Specifies additional base-64 encoded XML formatted information that can be included in the
 	// Unattend.xml file, which is used by Windows Setup.
@@ -759,36 +542,6 @@ type AdditionalUnattendContentARM struct {
 	SettingName *AdditionalUnattendContent_SettingName `json:"settingName,omitempty"`
 }
 
-type AvailablePatchSummaryARM struct {
-	// AssessmentActivityId: The activity ID of the operation that produced this result. It is used to correlate across CRP and
-	// extension logs.
-	AssessmentActivityId *string `json:"assessmentActivityId,omitempty"`
-
-	// CriticalAndSecurityPatchCount: The number of critical or security patches that have been detected as available and not
-	// yet installed.
-	CriticalAndSecurityPatchCount *int `json:"criticalAndSecurityPatchCount,omitempty"`
-
-	// Error: The errors that were encountered during execution of the operation. The details array contains the list of them.
-	Error *ApiErrorARM `json:"error,omitempty"`
-
-	// LastModifiedTime: The UTC timestamp when the operation began.
-	LastModifiedTime *string `json:"lastModifiedTime,omitempty"`
-
-	// OtherPatchCount: The number of all available patches excluding critical and security.
-	OtherPatchCount *int `json:"otherPatchCount,omitempty"`
-
-	// RebootPending: The overall reboot status of the VM. It will be true when partially installed patches require a reboot to
-	// complete installation but the reboot has not yet occurred.
-	RebootPending *bool `json:"rebootPending,omitempty"`
-
-	// StartTime: The UTC timestamp when the operation began.
-	StartTime *string `json:"startTime,omitempty"`
-
-	// Status: The overall success or failure status of the operation. It remains "InProgress" until the operation completes.
-	// At that point it will become "Unknown", "Failed", "Succeeded", or "CompletedWithWarnings."
-	Status *AvailablePatchSummary_Status `json:"status,omitempty"`
-}
-
 type DiffDiskSettingsARM struct {
 	// Option: Specifies the ephemeral disk settings for operating system disk.
 	Option *DiffDiskOption `json:"option,omitempty"`
@@ -813,46 +566,6 @@ type DiskEncryptionSettingsARM struct {
 
 	// KeyEncryptionKey: Specifies the location of the key encryption key in Key Vault.
 	KeyEncryptionKey *KeyVaultKeyReferenceARM `json:"keyEncryptionKey,omitempty"`
-}
-
-type LastPatchInstallationSummaryARM struct {
-	// Error: The errors that were encountered during execution of the operation. The details array contains the list of them.
-	Error *ApiErrorARM `json:"error,omitempty"`
-
-	// ExcludedPatchCount: The number of all available patches but excluded explicitly by a customer-specified exclusion list
-	// match.
-	ExcludedPatchCount *int `json:"excludedPatchCount,omitempty"`
-
-	// FailedPatchCount: The count of patches that failed installation.
-	FailedPatchCount *int `json:"failedPatchCount,omitempty"`
-
-	// InstallationActivityId: The activity ID of the operation that produced this result. It is used to correlate across CRP
-	// and extension logs.
-	InstallationActivityId *string `json:"installationActivityId,omitempty"`
-
-	// InstalledPatchCount: The count of patches that successfully installed.
-	InstalledPatchCount *int `json:"installedPatchCount,omitempty"`
-
-	// LastModifiedTime: The UTC timestamp when the operation began.
-	LastModifiedTime *string `json:"lastModifiedTime,omitempty"`
-
-	// MaintenanceWindowExceeded: Describes whether the operation ran out of time before it completed all its intended actions
-	MaintenanceWindowExceeded *bool `json:"maintenanceWindowExceeded,omitempty"`
-
-	// NotSelectedPatchCount: The number of all available patches but not going to be installed because it didn't match a
-	// classification or inclusion list entry.
-	NotSelectedPatchCount *int `json:"notSelectedPatchCount,omitempty"`
-
-	// PendingPatchCount: The number of all available patches expected to be installed over the course of the patch
-	// installation operation.
-	PendingPatchCount *int `json:"pendingPatchCount,omitempty"`
-
-	// StartTime: The UTC timestamp when the operation began.
-	StartTime *string `json:"startTime,omitempty"`
-
-	// Status: The overall success or failure status of the operation. It remains "InProgress" until the operation completes.
-	// At that point it will become "Unknown", "Failed", "Succeeded", or "CompletedWithWarnings."
-	Status *LastPatchInstallationSummary_Status `json:"status,omitempty"`
 }
 
 type LinuxPatchSettingsARM struct {
@@ -927,37 +640,9 @@ type VirtualHardDiskARM struct {
 	Uri *string `json:"uri,omitempty"`
 }
 
-type VirtualMachineExtensionHandlerInstanceViewARM struct {
-	// Status: The extension handler status.
-	Status *InstanceViewStatusARM `json:"status,omitempty"`
-
-	// Type: Specifies the type of the extension; an example is "CustomScriptExtension".
-	Type *string `json:"type,omitempty"`
-
-	// TypeHandlerVersion: Specifies the version of the script handler.
-	TypeHandlerVersion *string `json:"typeHandlerVersion,omitempty"`
-}
-
 type WinRMConfigurationARM struct {
 	// Listeners: The list of Windows Remote Management listeners
 	Listeners []WinRMListenerARM `json:"listeners,omitempty"`
-}
-
-type ApiErrorARM struct {
-	// Code: The error code.
-	Code *string `json:"code,omitempty"`
-
-	// Details: The Api error details
-	Details []ApiErrorBaseARM `json:"details,omitempty"`
-
-	// Innererror: The Api inner error
-	Innererror *InnerErrorARM `json:"innererror,omitempty"`
-
-	// Message: The error message.
-	Message *string `json:"message,omitempty"`
-
-	// Target: The target of the particular error.
-	Target *string `json:"target,omitempty"`
 }
 
 type KeyVaultKeyReferenceARM struct {
@@ -1005,23 +690,4 @@ type WinRMListenerARM struct {
 	// http
 	// https
 	Protocol *WinRMListener_Protocol `json:"protocol,omitempty"`
-}
-
-type ApiErrorBaseARM struct {
-	// Code: The error code.
-	Code *string `json:"code,omitempty"`
-
-	// Message: The error message.
-	Message *string `json:"message,omitempty"`
-
-	// Target: The target of the particular error.
-	Target *string `json:"target,omitempty"`
-}
-
-type InnerErrorARM struct {
-	// Errordetail: The internal error message or exception dump.
-	Errordetail *string `json:"errordetail,omitempty"`
-
-	// Exceptiontype: The exception type.
-	Exceptiontype *string `json:"exceptiontype,omitempty"`
 }

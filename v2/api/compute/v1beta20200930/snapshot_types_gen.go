@@ -1015,9 +1015,6 @@ type Snapshot_Spec struct {
 	// DiskAccessReference: ARM id of the DiskAccess resource for using private endpoints on disks.
 	DiskAccessReference *genruntime.ResourceReference `armReference:"DiskAccessId" json:"diskAccessReference,omitempty"`
 
-	// DiskSizeBytes: The size of the disk in bytes. This field is read only.
-	DiskSizeBytes *int `json:"diskSizeBytes,omitempty"`
-
 	// DiskSizeGB: If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to
 	// create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only
 	// allowed if the disk is not attached to a running VM, and can only increase the disk's size.
@@ -1039,19 +1036,13 @@ type Snapshot_Spec struct {
 	// HyperVGeneration: The hypervisor generation of the Virtual Machine. Applicable to OS disks only.
 	HyperVGeneration *SnapshotProperties_HyperVGeneration `json:"hyperVGeneration,omitempty"`
 
-	// Id: Resource Id
-	Id *string `json:"id,omitempty"`
-
 	// Incremental: Whether a snapshot is incremental. Incremental snapshots on the same disk occupy less space than full
 	// snapshots and can be diffed.
 	Incremental *bool `json:"incremental,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Location: Resource location
-	Location *string `json:"location,omitempty"`
-
-	// ManagedBy: Unused. Always Null.
-	ManagedBy           *string              `json:"managedBy,omitempty"`
+	Location            *string              `json:"location,omitempty"`
 	NetworkAccessPolicy *NetworkAccessPolicy `json:"networkAccessPolicy,omitempty"`
 
 	// OsType: The Operating System type.
@@ -1063,24 +1054,12 @@ type Snapshot_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
-	// ProvisioningState: The disk provisioning state.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
-
 	// PurchasePlan: Purchase plan information for the image from which the source disk for the snapshot was originally created.
 	PurchasePlan *PurchasePlan `json:"purchasePlan,omitempty"`
 	Sku          *SnapshotSku  `json:"sku,omitempty"`
 
 	// Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
-
-	// TimeCreated: The time when the snapshot was created.
-	TimeCreated *string `json:"timeCreated,omitempty"`
-
-	// Type: Resource type
-	Type *string `json:"type,omitempty"`
-
-	// UniqueId: Unique Guid identifying the resource.
-	UniqueId *string `json:"uniqueId,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Snapshot_Spec{}
@@ -1105,22 +1084,10 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.ExtendedLocation = &extendedLocation
 	}
 
-	// Set property ‘Id’:
-	if snapshot.Id != nil {
-		id := *snapshot.Id
-		result.Id = &id
-	}
-
 	// Set property ‘Location’:
 	if snapshot.Location != nil {
 		location := *snapshot.Location
 		result.Location = &location
-	}
-
-	// Set property ‘ManagedBy’:
-	if snapshot.ManagedBy != nil {
-		managedBy := *snapshot.ManagedBy
-		result.ManagedBy = &managedBy
 	}
 
 	// Set property ‘Name’:
@@ -1129,7 +1096,6 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 	// Set property ‘Properties’:
 	if snapshot.CreationData != nil ||
 		snapshot.DiskAccessReference != nil ||
-		snapshot.DiskSizeBytes != nil ||
 		snapshot.DiskSizeGB != nil ||
 		snapshot.DiskState != nil ||
 		snapshot.Encryption != nil ||
@@ -1138,10 +1104,7 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		snapshot.Incremental != nil ||
 		snapshot.NetworkAccessPolicy != nil ||
 		snapshot.OsType != nil ||
-		snapshot.ProvisioningState != nil ||
-		snapshot.PurchasePlan != nil ||
-		snapshot.TimeCreated != nil ||
-		snapshot.UniqueId != nil {
+		snapshot.PurchasePlan != nil {
 		result.Properties = &SnapshotPropertiesARM{}
 	}
 	if snapshot.CreationData != nil {
@@ -1159,10 +1122,6 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		}
 		diskAccessId := diskAccessIdARMID
 		result.Properties.DiskAccessId = &diskAccessId
-	}
-	if snapshot.DiskSizeBytes != nil {
-		diskSizeBytes := *snapshot.DiskSizeBytes
-		result.Properties.DiskSizeBytes = &diskSizeBytes
 	}
 	if snapshot.DiskSizeGB != nil {
 		diskSizeGB := *snapshot.DiskSizeGB
@@ -1204,10 +1163,6 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		osType := *snapshot.OsType
 		result.Properties.OsType = &osType
 	}
-	if snapshot.ProvisioningState != nil {
-		provisioningState := *snapshot.ProvisioningState
-		result.Properties.ProvisioningState = &provisioningState
-	}
 	if snapshot.PurchasePlan != nil {
 		purchasePlanARM, err := (*snapshot.PurchasePlan).ConvertToARM(resolved)
 		if err != nil {
@@ -1215,14 +1170,6 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		}
 		purchasePlan := *purchasePlanARM.(*PurchasePlanARM)
 		result.Properties.PurchasePlan = &purchasePlan
-	}
-	if snapshot.TimeCreated != nil {
-		timeCreated := *snapshot.TimeCreated
-		result.Properties.TimeCreated = &timeCreated
-	}
-	if snapshot.UniqueId != nil {
-		uniqueId := *snapshot.UniqueId
-		result.Properties.UniqueId = &uniqueId
 	}
 
 	// Set property ‘Sku’:
@@ -1241,12 +1188,6 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		for key, value := range snapshot.Tags {
 			result.Tags[key] = value
 		}
-	}
-
-	// Set property ‘Type’:
-	if snapshot.Type != nil {
-		typeVar := *snapshot.Type
-		result.Type = &typeVar
 	}
 	return result, nil
 }
@@ -1281,15 +1222,6 @@ func (snapshot *Snapshot_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	}
 
 	// no assignment for property ‘DiskAccessReference’
-
-	// Set property ‘DiskSizeBytes’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.DiskSizeBytes != nil {
-			diskSizeBytes := *typedInput.Properties.DiskSizeBytes
-			snapshot.DiskSizeBytes = &diskSizeBytes
-		}
-	}
 
 	// Set property ‘DiskSizeGB’:
 	// copying flattened property:
@@ -1357,12 +1289,6 @@ func (snapshot *Snapshot_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		snapshot.Id = &id
-	}
-
 	// Set property ‘Incremental’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -1376,12 +1302,6 @@ func (snapshot *Snapshot_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		snapshot.Location = &location
-	}
-
-	// Set property ‘ManagedBy’:
-	if typedInput.ManagedBy != nil {
-		managedBy := *typedInput.ManagedBy
-		snapshot.ManagedBy = &managedBy
 	}
 
 	// Set property ‘NetworkAccessPolicy’:
@@ -1405,15 +1325,6 @@ func (snapshot *Snapshot_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	// Set property ‘Owner’:
 	snapshot.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
-	}
-
-	// Set property ‘ProvisioningState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
-			snapshot.ProvisioningState = &provisioningState
-		}
 	}
 
 	// Set property ‘PurchasePlan’:
@@ -1446,30 +1357,6 @@ func (snapshot *Snapshot_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		snapshot.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
 			snapshot.Tags[key] = value
-		}
-	}
-
-	// Set property ‘TimeCreated’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.TimeCreated != nil {
-			timeCreated := *typedInput.Properties.TimeCreated
-			snapshot.TimeCreated = &timeCreated
-		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		snapshot.Type = &typeVar
-	}
-
-	// Set property ‘UniqueId’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.UniqueId != nil {
-			uniqueId := *typedInput.Properties.UniqueId
-			snapshot.UniqueId = &uniqueId
 		}
 	}
 
@@ -1553,9 +1440,6 @@ func (snapshot *Snapshot_Spec) AssignPropertiesFromSnapshot_Spec(source *v202009
 		snapshot.DiskAccessReference = nil
 	}
 
-	// DiskSizeBytes
-	snapshot.DiskSizeBytes = genruntime.ClonePointerToInt(source.DiskSizeBytes)
-
 	// DiskSizeGB
 	snapshot.DiskSizeGB = genruntime.ClonePointerToInt(source.DiskSizeGB)
 
@@ -1611,9 +1495,6 @@ func (snapshot *Snapshot_Spec) AssignPropertiesFromSnapshot_Spec(source *v202009
 		snapshot.HyperVGeneration = nil
 	}
 
-	// Id
-	snapshot.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Incremental
 	if source.Incremental != nil {
 		incremental := *source.Incremental
@@ -1624,9 +1505,6 @@ func (snapshot *Snapshot_Spec) AssignPropertiesFromSnapshot_Spec(source *v202009
 
 	// Location
 	snapshot.Location = genruntime.ClonePointerToString(source.Location)
-
-	// ManagedBy
-	snapshot.ManagedBy = genruntime.ClonePointerToString(source.ManagedBy)
 
 	// NetworkAccessPolicy
 	if source.NetworkAccessPolicy != nil {
@@ -1651,9 +1529,6 @@ func (snapshot *Snapshot_Spec) AssignPropertiesFromSnapshot_Spec(source *v202009
 	} else {
 		snapshot.Owner = nil
 	}
-
-	// ProvisioningState
-	snapshot.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// PurchasePlan
 	if source.PurchasePlan != nil {
@@ -1681,20 +1556,6 @@ func (snapshot *Snapshot_Spec) AssignPropertiesFromSnapshot_Spec(source *v202009
 
 	// Tags
 	snapshot.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// TimeCreated
-	if source.TimeCreated != nil {
-		timeCreated := *source.TimeCreated
-		snapshot.TimeCreated = &timeCreated
-	} else {
-		snapshot.TimeCreated = nil
-	}
-
-	// Type
-	snapshot.Type = genruntime.ClonePointerToString(source.Type)
-
-	// UniqueId
-	snapshot.UniqueId = genruntime.ClonePointerToString(source.UniqueId)
 
 	// No error
 	return nil
@@ -1727,9 +1588,6 @@ func (snapshot *Snapshot_Spec) AssignPropertiesToSnapshot_Spec(destination *v202
 	} else {
 		destination.DiskAccessReference = nil
 	}
-
-	// DiskSizeBytes
-	destination.DiskSizeBytes = genruntime.ClonePointerToInt(snapshot.DiskSizeBytes)
 
 	// DiskSizeGB
 	destination.DiskSizeGB = genruntime.ClonePointerToInt(snapshot.DiskSizeGB)
@@ -1786,9 +1644,6 @@ func (snapshot *Snapshot_Spec) AssignPropertiesToSnapshot_Spec(destination *v202
 		destination.HyperVGeneration = nil
 	}
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(snapshot.Id)
-
 	// Incremental
 	if snapshot.Incremental != nil {
 		incremental := *snapshot.Incremental
@@ -1799,9 +1654,6 @@ func (snapshot *Snapshot_Spec) AssignPropertiesToSnapshot_Spec(destination *v202
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(snapshot.Location)
-
-	// ManagedBy
-	destination.ManagedBy = genruntime.ClonePointerToString(snapshot.ManagedBy)
 
 	// NetworkAccessPolicy
 	if snapshot.NetworkAccessPolicy != nil {
@@ -1830,9 +1682,6 @@ func (snapshot *Snapshot_Spec) AssignPropertiesToSnapshot_Spec(destination *v202
 		destination.Owner = nil
 	}
 
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(snapshot.ProvisioningState)
-
 	// PurchasePlan
 	if snapshot.PurchasePlan != nil {
 		var purchasePlan v20200930s.PurchasePlan
@@ -1859,20 +1708,6 @@ func (snapshot *Snapshot_Spec) AssignPropertiesToSnapshot_Spec(destination *v202
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(snapshot.Tags)
-
-	// TimeCreated
-	if snapshot.TimeCreated != nil {
-		timeCreated := *snapshot.TimeCreated
-		destination.TimeCreated = &timeCreated
-	} else {
-		destination.TimeCreated = nil
-	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(snapshot.Type)
-
-	// UniqueId
-	destination.UniqueId = genruntime.ClonePointerToString(snapshot.UniqueId)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1938,9 +1773,6 @@ const (
 type SnapshotSku struct {
 	// Name: The sku name.
 	Name *SnapshotSku_Name `json:"name,omitempty"`
-
-	// Tier: The sku tier.
-	Tier *string `json:"tier,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &SnapshotSku{}
@@ -1956,12 +1788,6 @@ func (snapshotSku *SnapshotSku) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if snapshotSku.Name != nil {
 		name := *snapshotSku.Name
 		result.Name = &name
-	}
-
-	// Set property ‘Tier’:
-	if snapshotSku.Tier != nil {
-		tier := *snapshotSku.Tier
-		result.Tier = &tier
 	}
 	return result, nil
 }
@@ -1984,12 +1810,6 @@ func (snapshotSku *SnapshotSku) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		snapshotSku.Name = &name
 	}
 
-	// Set property ‘Tier’:
-	if typedInput.Tier != nil {
-		tier := *typedInput.Tier
-		snapshotSku.Tier = &tier
-	}
-
 	// No error
 	return nil
 }
@@ -2004,9 +1824,6 @@ func (snapshotSku *SnapshotSku) AssignPropertiesFromSnapshotSku(source *v2020093
 	} else {
 		snapshotSku.Name = nil
 	}
-
-	// Tier
-	snapshotSku.Tier = genruntime.ClonePointerToString(source.Tier)
 
 	// No error
 	return nil
@@ -2024,9 +1841,6 @@ func (snapshotSku *SnapshotSku) AssignPropertiesToSnapshotSku(destination *v2020
 	} else {
 		destination.Name = nil
 	}
-
-	// Tier
-	destination.Tier = genruntime.ClonePointerToString(snapshotSku.Tier)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

@@ -390,8 +390,6 @@ func StorageAccountsQueueService_SpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForStorageAccountsQueueService_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorageAccountsQueueService_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForStorageAccountsQueueService_Spec is a factory method for creating gopter generators

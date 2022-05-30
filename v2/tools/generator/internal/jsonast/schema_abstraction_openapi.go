@@ -102,6 +102,10 @@ func (schema *OpenAPISchema) oneOf() []Schema {
 	return schema.transformOpenAPISlice(schema.inner.OneOf)
 }
 
+func (schema *OpenAPISchema) discriminator() string {
+	return schema.inner.Discriminator
+}
+
 func (schema *OpenAPISchema) requiredProperties() []string {
 	return schema.inner.Required
 }

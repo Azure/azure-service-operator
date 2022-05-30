@@ -550,15 +550,12 @@ type FlexibleServersDatabase_Spec struct {
 	AzureName string  `json:"azureName,omitempty"`
 	Charset   *string `json:"charset,omitempty"`
 	Collation *string `json:"collation,omitempty"`
-	Id        *string `json:"id,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner      *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	SystemData *SystemData                        `json:"systemData,omitempty"`
-	Type       *string                            `json:"type,omitempty"`
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 }
 
 var _ genruntime.ARMTransformer = &FlexibleServersDatabase_Spec{}
@@ -572,12 +569,6 @@ func (database *FlexibleServersDatabase_Spec) ConvertToARM(resolved genruntime.C
 
 	// Set property ‘AzureName’:
 	result.AzureName = database.AzureName
-
-	// Set property ‘Id’:
-	if database.Id != nil {
-		id := *database.Id
-		result.Id = &id
-	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -593,22 +584,6 @@ func (database *FlexibleServersDatabase_Spec) ConvertToARM(resolved genruntime.C
 	if database.Collation != nil {
 		collation := *database.Collation
 		result.Properties.Collation = &collation
-	}
-
-	// Set property ‘SystemData’:
-	if database.SystemData != nil {
-		systemDataARM, err := (*database.SystemData).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		systemData := *systemDataARM.(*SystemDataARM)
-		result.SystemData = &systemData
-	}
-
-	// Set property ‘Type’:
-	if database.Type != nil {
-		typeVar := *database.Type
-		result.Type = &typeVar
 	}
 	return result, nil
 }
@@ -646,32 +621,9 @@ func (database *FlexibleServersDatabase_Spec) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		database.Id = &id
-	}
-
 	// Set property ‘Owner’:
 	database.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
-	}
-
-	// Set property ‘SystemData’:
-	if typedInput.SystemData != nil {
-		var systemData1 SystemData
-		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
-		if err != nil {
-			return err
-		}
-		systemData := systemData1
-		database.SystemData = &systemData
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		database.Type = &typeVar
 	}
 
 	// No error
@@ -740,9 +692,6 @@ func (database *FlexibleServersDatabase_Spec) AssignPropertiesFromFlexibleServer
 	// Collation
 	database.Collation = genruntime.ClonePointerToString(source.Collation)
 
-	// Id
-	database.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -750,21 +699,6 @@ func (database *FlexibleServersDatabase_Spec) AssignPropertiesFromFlexibleServer
 	} else {
 		database.Owner = nil
 	}
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
-		}
-		database.SystemData = &systemDatum
-	} else {
-		database.SystemData = nil
-	}
-
-	// Type
-	database.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -784,9 +718,6 @@ func (database *FlexibleServersDatabase_Spec) AssignPropertiesToFlexibleServersD
 	// Collation
 	destination.Collation = genruntime.ClonePointerToString(database.Collation)
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(database.Id)
-
 	// OriginalVersion
 	destination.OriginalVersion = database.OriginalVersion()
 
@@ -797,21 +728,6 @@ func (database *FlexibleServersDatabase_Spec) AssignPropertiesToFlexibleServersD
 	} else {
 		destination.Owner = nil
 	}
-
-	// SystemData
-	if database.SystemData != nil {
-		var systemDatum alpha20210601s.SystemData
-		err := database.SystemData.AssignPropertiesToSystemData(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(database.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

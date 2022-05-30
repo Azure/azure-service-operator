@@ -170,7 +170,6 @@ type FlexibleServersDatabase_Spec struct {
 	AzureName       string  `json:"azureName,omitempty"`
 	Charset         *string `json:"charset,omitempty"`
 	Collation       *string `json:"collation,omitempty"`
-	Id              *string `json:"id,omitempty"`
 	OriginalVersion string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -179,8 +178,6 @@ type FlexibleServersDatabase_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	SystemData  *SystemData                        `json:"systemData,omitempty"`
-	Type        *string                            `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &FlexibleServersDatabase_Spec{}

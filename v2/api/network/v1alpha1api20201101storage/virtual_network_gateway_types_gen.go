@@ -646,37 +646,32 @@ type VirtualNetworkGateway_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName                    string                                 `json:"azureName,omitempty"`
-	BgpSettings                  *BgpSettings                           `json:"bgpSettings,omitempty"`
-	CustomRoutes                 *AddressSpace                          `json:"customRoutes,omitempty"`
-	EnableBgp                    *bool                                  `json:"enableBgp,omitempty"`
-	EnableDnsForwarding          *bool                                  `json:"enableDnsForwarding,omitempty"`
-	EnablePrivateIpAddress       *bool                                  `json:"enablePrivateIpAddress,omitempty"`
-	Etag                         *string                                `json:"etag,omitempty"`
-	ExtendedLocation             *ExtendedLocation                      `json:"extendedLocation,omitempty"`
-	GatewayDefaultSite           *SubResource                           `json:"gatewayDefaultSite,omitempty"`
-	GatewayType                  *string                                `json:"gatewayType,omitempty"`
-	Id                           *string                                `json:"id,omitempty"`
-	InboundDnsForwardingEndpoint *string                                `json:"inboundDnsForwardingEndpoint,omitempty"`
-	IpConfigurations             []VirtualNetworkGatewayIPConfiguration `json:"ipConfigurations,omitempty"`
-	Location                     *string                                `json:"location,omitempty"`
-	OriginalVersion              string                                 `json:"originalVersion,omitempty"`
+	AzureName              string                                 `json:"azureName,omitempty"`
+	BgpSettings            *BgpSettings                           `json:"bgpSettings,omitempty"`
+	CustomRoutes           *AddressSpace                          `json:"customRoutes,omitempty"`
+	EnableBgp              *bool                                  `json:"enableBgp,omitempty"`
+	EnableDnsForwarding    *bool                                  `json:"enableDnsForwarding,omitempty"`
+	EnablePrivateIpAddress *bool                                  `json:"enablePrivateIpAddress,omitempty"`
+	ExtendedLocation       *ExtendedLocation                      `json:"extendedLocation,omitempty"`
+	GatewayDefaultSite     *SubResource                           `json:"gatewayDefaultSite,omitempty"`
+	GatewayType            *string                                `json:"gatewayType,omitempty"`
+	IpConfigurations       []VirtualNetworkGatewayIPConfiguration `json:"ipConfigurations,omitempty"`
+	Location               *string                                `json:"location,omitempty"`
+	OriginalVersion        string                                 `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner                          *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag                    genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	ProvisioningState              *string                            `json:"provisioningState,omitempty"`
-	ResourceGuid                   *string                            `json:"resourceGuid,omitempty"`
-	Sku                            *VirtualNetworkGatewaySku          `json:"sku,omitempty"`
-	Tags                           map[string]string                  `json:"tags,omitempty"`
-	Type                           *string                            `json:"type,omitempty"`
-	VNetExtendedLocationResourceId *string                            `json:"vNetExtendedLocationResourceId,omitempty"`
-	VpnClientConfiguration         *VpnClientConfiguration            `json:"vpnClientConfiguration,omitempty"`
-	VpnGatewayGeneration           *string                            `json:"vpnGatewayGeneration,omitempty"`
-	VpnType                        *string                            `json:"vpnType,omitempty"`
+	Owner                                 *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag                           genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Reference                             *genruntime.ResourceReference      `armReference:"Id" json:"reference,omitempty"`
+	Sku                                   *VirtualNetworkGatewaySku          `json:"sku,omitempty"`
+	Tags                                  map[string]string                  `json:"tags,omitempty"`
+	VNetExtendedLocationResourceReference *genruntime.ResourceReference      `armReference:"VNetExtendedLocationResourceId" json:"vNetExtendedLocationResourceReference,omitempty"`
+	VpnClientConfiguration                *VpnClientConfiguration            `json:"vpnClientConfiguration,omitempty"`
+	VpnGatewayGeneration                  *string                            `json:"vpnGatewayGeneration,omitempty"`
+	VpnType                               *string                            `json:"vpnType,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &VirtualNetworkGateway_Spec{}
@@ -793,9 +788,6 @@ func (gateway *VirtualNetworkGateway_Spec) AssignPropertiesFromVirtualNetworkGat
 		gateway.EnablePrivateIpAddress = nil
 	}
 
-	// Etag
-	gateway.Etag = genruntime.ClonePointerToString(source.Etag)
-
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
 		var extendedLocation ExtendedLocation
@@ -822,12 +814,6 @@ func (gateway *VirtualNetworkGateway_Spec) AssignPropertiesFromVirtualNetworkGat
 
 	// GatewayType
 	gateway.GatewayType = genruntime.ClonePointerToString(source.GatewayType)
-
-	// Id
-	gateway.Id = genruntime.ClonePointerToString(source.Id)
-
-	// InboundDnsForwardingEndpoint
-	gateway.InboundDnsForwardingEndpoint = genruntime.ClonePointerToString(source.InboundDnsForwardingEndpoint)
 
 	// IpConfigurations
 	if source.IpConfigurations != nil {
@@ -861,11 +847,13 @@ func (gateway *VirtualNetworkGateway_Spec) AssignPropertiesFromVirtualNetworkGat
 		gateway.Owner = nil
 	}
 
-	// ProvisioningState
-	gateway.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
-	// ResourceGuid
-	gateway.ResourceGuid = genruntime.ClonePointerToString(source.ResourceGuid)
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		gateway.Reference = &reference
+	} else {
+		gateway.Reference = nil
+	}
 
 	// Sku
 	if source.Sku != nil {
@@ -882,11 +870,13 @@ func (gateway *VirtualNetworkGateway_Spec) AssignPropertiesFromVirtualNetworkGat
 	// Tags
 	gateway.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
-	// Type
-	gateway.Type = genruntime.ClonePointerToString(source.Type)
-
-	// VNetExtendedLocationResourceId
-	gateway.VNetExtendedLocationResourceId = genruntime.ClonePointerToString(source.VNetExtendedLocationResourceId)
+	// VNetExtendedLocationResourceReference
+	if source.VNetExtendedLocationResourceReference != nil {
+		vNetExtendedLocationResourceReference := source.VNetExtendedLocationResourceReference.Copy()
+		gateway.VNetExtendedLocationResourceReference = &vNetExtendedLocationResourceReference
+	} else {
+		gateway.VNetExtendedLocationResourceReference = nil
+	}
 
 	// VpnClientConfiguration
 	if source.VpnClientConfiguration != nil {
@@ -981,9 +971,6 @@ func (gateway *VirtualNetworkGateway_Spec) AssignPropertiesToVirtualNetworkGatew
 		destination.EnablePrivateIpAddress = nil
 	}
 
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(gateway.Etag)
-
 	// ExtendedLocation
 	if gateway.ExtendedLocation != nil {
 		var extendedLocation v20201101s.ExtendedLocation
@@ -1010,12 +997,6 @@ func (gateway *VirtualNetworkGateway_Spec) AssignPropertiesToVirtualNetworkGatew
 
 	// GatewayType
 	destination.GatewayType = genruntime.ClonePointerToString(gateway.GatewayType)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(gateway.Id)
-
-	// InboundDnsForwardingEndpoint
-	destination.InboundDnsForwardingEndpoint = genruntime.ClonePointerToString(gateway.InboundDnsForwardingEndpoint)
 
 	// IpConfigurations
 	if gateway.IpConfigurations != nil {
@@ -1049,11 +1030,13 @@ func (gateway *VirtualNetworkGateway_Spec) AssignPropertiesToVirtualNetworkGatew
 		destination.Owner = nil
 	}
 
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(gateway.ProvisioningState)
-
-	// ResourceGuid
-	destination.ResourceGuid = genruntime.ClonePointerToString(gateway.ResourceGuid)
+	// Reference
+	if gateway.Reference != nil {
+		reference := gateway.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
+	}
 
 	// Sku
 	if gateway.Sku != nil {
@@ -1070,11 +1053,13 @@ func (gateway *VirtualNetworkGateway_Spec) AssignPropertiesToVirtualNetworkGatew
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(gateway.Tags)
 
-	// Type
-	destination.Type = genruntime.ClonePointerToString(gateway.Type)
-
-	// VNetExtendedLocationResourceId
-	destination.VNetExtendedLocationResourceId = genruntime.ClonePointerToString(gateway.VNetExtendedLocationResourceId)
+	// VNetExtendedLocationResourceReference
+	if gateway.VNetExtendedLocationResourceReference != nil {
+		vNetExtendedLocationResourceReference := gateway.VNetExtendedLocationResourceReference.Copy()
+		destination.VNetExtendedLocationResourceReference = &vNetExtendedLocationResourceReference
+	} else {
+		destination.VNetExtendedLocationResourceReference = nil
+	}
 
 	// VpnClientConfiguration
 	if gateway.VpnClientConfiguration != nil {
@@ -1320,15 +1305,12 @@ func (settings *BgpSettings_STATUS) AssignPropertiesToBgpSettings_STATUS(destina
 // Storage version of v1alpha1api20201101.VirtualNetworkGatewayIPConfiguration
 // Deprecated version of VirtualNetworkGatewayIPConfiguration. Use v1beta20201101.VirtualNetworkGatewayIPConfiguration instead
 type VirtualNetworkGatewayIPConfiguration struct {
-	Etag                      *string                `json:"etag,omitempty"`
-	Id                        *string                `json:"id,omitempty"`
-	Name                      *string                `json:"name,omitempty"`
-	PrivateIPAddress          *string                `json:"privateIPAddress,omitempty"`
-	PrivateIPAllocationMethod *string                `json:"privateIPAllocationMethod,omitempty"`
-	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ProvisioningState         *string                `json:"provisioningState,omitempty"`
-	PublicIPAddress           *SubResource           `json:"publicIPAddress,omitempty"`
-	Subnet                    *SubResource           `json:"subnet,omitempty"`
+	Name                      *string                       `json:"name,omitempty"`
+	PrivateIPAllocationMethod *string                       `json:"privateIPAllocationMethod,omitempty"`
+	PropertyBag               genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	PublicIPAddress           *SubResource                  `json:"publicIPAddress,omitempty"`
+	Reference                 *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	Subnet                    *SubResource                  `json:"subnet,omitempty"`
 }
 
 // AssignPropertiesFromVirtualNetworkGatewayIPConfiguration populates our VirtualNetworkGatewayIPConfiguration from the provided source VirtualNetworkGatewayIPConfiguration
@@ -1336,23 +1318,11 @@ func (configuration *VirtualNetworkGatewayIPConfiguration) AssignPropertiesFromV
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// Etag
-	configuration.Etag = genruntime.ClonePointerToString(source.Etag)
-
-	// Id
-	configuration.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Name
 	configuration.Name = genruntime.ClonePointerToString(source.Name)
 
-	// PrivateIPAddress
-	configuration.PrivateIPAddress = genruntime.ClonePointerToString(source.PrivateIPAddress)
-
 	// PrivateIPAllocationMethod
 	configuration.PrivateIPAllocationMethod = genruntime.ClonePointerToString(source.PrivateIPAllocationMethod)
-
-	// ProvisioningState
-	configuration.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// PublicIPAddress
 	if source.PublicIPAddress != nil {
@@ -1364,6 +1334,14 @@ func (configuration *VirtualNetworkGatewayIPConfiguration) AssignPropertiesFromV
 		configuration.PublicIPAddress = &publicIPAddress
 	} else {
 		configuration.PublicIPAddress = nil
+	}
+
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		configuration.Reference = &reference
+	} else {
+		configuration.Reference = nil
 	}
 
 	// Subnet
@@ -1394,23 +1372,11 @@ func (configuration *VirtualNetworkGatewayIPConfiguration) AssignPropertiesToVir
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
 
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(configuration.Etag)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(configuration.Id)
-
 	// Name
 	destination.Name = genruntime.ClonePointerToString(configuration.Name)
 
-	// PrivateIPAddress
-	destination.PrivateIPAddress = genruntime.ClonePointerToString(configuration.PrivateIPAddress)
-
 	// PrivateIPAllocationMethod
 	destination.PrivateIPAllocationMethod = genruntime.ClonePointerToString(configuration.PrivateIPAllocationMethod)
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(configuration.ProvisioningState)
 
 	// PublicIPAddress
 	if configuration.PublicIPAddress != nil {
@@ -1422,6 +1388,14 @@ func (configuration *VirtualNetworkGatewayIPConfiguration) AssignPropertiesToVir
 		destination.PublicIPAddress = &publicIPAddress
 	} else {
 		destination.PublicIPAddress = nil
+	}
+
+	// Reference
+	if configuration.Reference != nil {
+		reference := configuration.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
 	}
 
 	// Subnet
@@ -1580,7 +1554,6 @@ func (configuration *VirtualNetworkGatewayIPConfiguration_STATUS) AssignProperti
 // Storage version of v1alpha1api20201101.VirtualNetworkGatewaySku
 // Deprecated version of VirtualNetworkGatewaySku. Use v1beta20201101.VirtualNetworkGatewaySku instead
 type VirtualNetworkGatewaySku struct {
-	Capacity    *int                   `json:"capacity,omitempty"`
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Tier        *string                `json:"tier,omitempty"`
@@ -1590,9 +1563,6 @@ type VirtualNetworkGatewaySku struct {
 func (gatewaySku *VirtualNetworkGatewaySku) AssignPropertiesFromVirtualNetworkGatewaySku(source *v20201101s.VirtualNetworkGatewaySku) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Capacity
-	gatewaySku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
 
 	// Name
 	gatewaySku.Name = genruntime.ClonePointerToString(source.Name)
@@ -1615,9 +1585,6 @@ func (gatewaySku *VirtualNetworkGatewaySku) AssignPropertiesFromVirtualNetworkGa
 func (gatewaySku *VirtualNetworkGatewaySku) AssignPropertiesToVirtualNetworkGatewaySku(destination *v20201101s.VirtualNetworkGatewaySku) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(gatewaySku.PropertyBag)
-
-	// Capacity
-	destination.Capacity = genruntime.ClonePointerToInt(gatewaySku.Capacity)
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(gatewaySku.Name)
@@ -2218,11 +2185,9 @@ func (configuration *VpnClientConfiguration_STATUS) AssignPropertiesToVpnClientC
 // Storage version of v1alpha1api20201101.IPConfigurationBgpPeeringAddress
 // Deprecated version of IPConfigurationBgpPeeringAddress. Use v1beta20201101.IPConfigurationBgpPeeringAddress instead
 type IPConfigurationBgpPeeringAddress struct {
-	CustomBgpIpAddresses  []string               `json:"customBgpIpAddresses,omitempty"`
-	DefaultBgpIpAddresses []string               `json:"defaultBgpIpAddresses,omitempty"`
-	IpconfigurationId     *string                `json:"ipconfigurationId,omitempty"`
-	PropertyBag           genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	TunnelIpAddresses     []string               `json:"tunnelIpAddresses,omitempty"`
+	CustomBgpIpAddresses []string               `json:"customBgpIpAddresses,omitempty"`
+	IpconfigurationId    *string                `json:"ipconfigurationId,omitempty"`
+	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // AssignPropertiesFromIPConfigurationBgpPeeringAddress populates our IPConfigurationBgpPeeringAddress from the provided source IPConfigurationBgpPeeringAddress
@@ -2233,14 +2198,8 @@ func (address *IPConfigurationBgpPeeringAddress) AssignPropertiesFromIPConfigura
 	// CustomBgpIpAddresses
 	address.CustomBgpIpAddresses = genruntime.CloneSliceOfString(source.CustomBgpIpAddresses)
 
-	// DefaultBgpIpAddresses
-	address.DefaultBgpIpAddresses = genruntime.CloneSliceOfString(source.DefaultBgpIpAddresses)
-
 	// IpconfigurationId
 	address.IpconfigurationId = genruntime.ClonePointerToString(source.IpconfigurationId)
-
-	// TunnelIpAddresses
-	address.TunnelIpAddresses = genruntime.CloneSliceOfString(source.TunnelIpAddresses)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2261,14 +2220,8 @@ func (address *IPConfigurationBgpPeeringAddress) AssignPropertiesToIPConfigurati
 	// CustomBgpIpAddresses
 	destination.CustomBgpIpAddresses = genruntime.CloneSliceOfString(address.CustomBgpIpAddresses)
 
-	// DefaultBgpIpAddresses
-	destination.DefaultBgpIpAddresses = genruntime.CloneSliceOfString(address.DefaultBgpIpAddresses)
-
 	// IpconfigurationId
 	destination.IpconfigurationId = genruntime.ClonePointerToString(address.IpconfigurationId)
-
-	// TunnelIpAddresses
-	destination.TunnelIpAddresses = genruntime.CloneSliceOfString(address.TunnelIpAddresses)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2656,12 +2609,10 @@ func (server *RadiusServer_STATUS) AssignPropertiesToRadiusServer_STATUS(destina
 // Storage version of v1alpha1api20201101.VpnClientRevokedCertificate
 // Deprecated version of VpnClientRevokedCertificate. Use v1beta20201101.VpnClientRevokedCertificate instead
 type VpnClientRevokedCertificate struct {
-	Etag              *string                `json:"etag,omitempty"`
-	Id                *string                `json:"id,omitempty"`
-	Name              *string                `json:"name,omitempty"`
-	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ProvisioningState *string                `json:"provisioningState,omitempty"`
-	Thumbprint        *string                `json:"thumbprint,omitempty"`
+	Name        *string                       `json:"name,omitempty"`
+	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Reference   *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	Thumbprint  *string                       `json:"thumbprint,omitempty"`
 }
 
 // AssignPropertiesFromVpnClientRevokedCertificate populates our VpnClientRevokedCertificate from the provided source VpnClientRevokedCertificate
@@ -2669,17 +2620,16 @@ func (certificate *VpnClientRevokedCertificate) AssignPropertiesFromVpnClientRev
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// Etag
-	certificate.Etag = genruntime.ClonePointerToString(source.Etag)
-
-	// Id
-	certificate.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Name
 	certificate.Name = genruntime.ClonePointerToString(source.Name)
 
-	// ProvisioningState
-	certificate.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		certificate.Reference = &reference
+	} else {
+		certificate.Reference = nil
+	}
 
 	// Thumbprint
 	certificate.Thumbprint = genruntime.ClonePointerToString(source.Thumbprint)
@@ -2700,17 +2650,16 @@ func (certificate *VpnClientRevokedCertificate) AssignPropertiesToVpnClientRevok
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(certificate.PropertyBag)
 
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(certificate.Etag)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(certificate.Id)
-
 	// Name
 	destination.Name = genruntime.ClonePointerToString(certificate.Name)
 
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(certificate.ProvisioningState)
+	// Reference
+	if certificate.Reference != nil {
+		reference := certificate.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
+	}
 
 	// Thumbprint
 	destination.Thumbprint = genruntime.ClonePointerToString(certificate.Thumbprint)
@@ -2802,12 +2751,10 @@ func (certificate *VpnClientRevokedCertificate_STATUS) AssignPropertiesToVpnClie
 // Storage version of v1alpha1api20201101.VpnClientRootCertificate
 // Deprecated version of VpnClientRootCertificate. Use v1beta20201101.VpnClientRootCertificate instead
 type VpnClientRootCertificate struct {
-	Etag              *string                `json:"etag,omitempty"`
-	Id                *string                `json:"id,omitempty"`
-	Name              *string                `json:"name,omitempty"`
-	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ProvisioningState *string                `json:"provisioningState,omitempty"`
-	PublicCertData    *string                `json:"publicCertData,omitempty"`
+	Name           *string                       `json:"name,omitempty"`
+	PropertyBag    genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	PublicCertData *string                       `json:"publicCertData,omitempty"`
+	Reference      *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 // AssignPropertiesFromVpnClientRootCertificate populates our VpnClientRootCertificate from the provided source VpnClientRootCertificate
@@ -2815,20 +2762,19 @@ func (certificate *VpnClientRootCertificate) AssignPropertiesFromVpnClientRootCe
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// Etag
-	certificate.Etag = genruntime.ClonePointerToString(source.Etag)
-
-	// Id
-	certificate.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Name
 	certificate.Name = genruntime.ClonePointerToString(source.Name)
 
-	// ProvisioningState
-	certificate.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
 	// PublicCertData
 	certificate.PublicCertData = genruntime.ClonePointerToString(source.PublicCertData)
+
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		certificate.Reference = &reference
+	} else {
+		certificate.Reference = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2846,20 +2792,19 @@ func (certificate *VpnClientRootCertificate) AssignPropertiesToVpnClientRootCert
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(certificate.PropertyBag)
 
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(certificate.Etag)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(certificate.Id)
-
 	// Name
 	destination.Name = genruntime.ClonePointerToString(certificate.Name)
 
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(certificate.ProvisioningState)
-
 	// PublicCertData
 	destination.PublicCertData = genruntime.ClonePointerToString(certificate.PublicCertData)
+
+	// Reference
+	if certificate.Reference != nil {
+		reference := certificate.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

@@ -179,22 +179,18 @@ func (topic *NamespacesTopic_STATUS) ConvertStatusTo(destination genruntime.Conv
 
 // Storage version of v1beta20210101preview.NamespacesTopic_Spec
 type NamespacesTopic_Spec struct {
-	AccessedAt       *string `json:"accessedAt,omitempty"`
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName                           string               `json:"azureName,omitempty"`
-	CountDetails                        *MessageCountDetails `json:"countDetails,omitempty"`
-	CreatedAt                           *string              `json:"createdAt,omitempty"`
-	DefaultMessageTimeToLive            *string              `json:"defaultMessageTimeToLive,omitempty"`
-	DuplicateDetectionHistoryTimeWindow *string              `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
-	EnableBatchedOperations             *bool                `json:"enableBatchedOperations,omitempty"`
-	EnableExpress                       *bool                `json:"enableExpress,omitempty"`
-	EnablePartitioning                  *bool                `json:"enablePartitioning,omitempty"`
-	Id                                  *string              `json:"id,omitempty"`
-	MaxSizeInMegabytes                  *int                 `json:"maxSizeInMegabytes,omitempty"`
-	OriginalVersion                     string               `json:"originalVersion,omitempty"`
+	AzureName                           string  `json:"azureName,omitempty"`
+	DefaultMessageTimeToLive            *string `json:"defaultMessageTimeToLive,omitempty"`
+	DuplicateDetectionHistoryTimeWindow *string `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
+	EnableBatchedOperations             *bool   `json:"enableBatchedOperations,omitempty"`
+	EnableExpress                       *bool   `json:"enableExpress,omitempty"`
+	EnablePartitioning                  *bool   `json:"enablePartitioning,omitempty"`
+	MaxSizeInMegabytes                  *int    `json:"maxSizeInMegabytes,omitempty"`
+	OriginalVersion                     string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -203,12 +199,7 @@ type NamespacesTopic_Spec struct {
 	Owner                      *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag                genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	RequiresDuplicateDetection *bool                              `json:"requiresDuplicateDetection,omitempty"`
-	SizeInBytes                *int                               `json:"sizeInBytes,omitempty"`
-	SubscriptionCount          *int                               `json:"subscriptionCount,omitempty"`
 	SupportOrdering            *bool                              `json:"supportOrdering,omitempty"`
-	SystemData                 *SystemData                        `json:"systemData,omitempty"`
-	Type                       *string                            `json:"type,omitempty"`
-	UpdatedAt                  *string                            `json:"updatedAt,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &NamespacesTopic_Spec{}

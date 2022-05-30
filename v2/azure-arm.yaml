@@ -681,12 +681,7 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0-alpha.4
   cdn:
     2021-06-01:
-      DeepCreatedOriginProperties:
-        PrivateLinkLocation:
-          $armReference: true
-        PrivateLinkResourceId:
-          $armReference: true
-      EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink:
+      EndpointProperties_WebApplicationFirewallPolicyLink:
         Id:
           $armReference: true
       Profile:
@@ -728,9 +723,6 @@ objectModelConfiguration:
       ApiEntityReference:
         Id:
           $armReference: true
-      DiskEncryptionSetParameters:
-        Id:
-          $armReference: true
       ImageReference:
         Id:
           $armReference: true
@@ -740,23 +732,8 @@ objectModelConfiguration:
       VirtualMachineScaleSet:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
-      VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations:
-        # This is an Id that I believe refers to itself.
-        # It's never supplied in a PUT I don't think, and is only returned in a GET because the
-        # IPConfiguration is actually an ARM resource that can only be created by issuing a PUT VMSS.
-        Id:
-          $armReference: false
-      VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations:
-        # This is an Id that I believe refers to itself.
-        # It's never supplied in a PUT I don't think, and is only returned in a GET because the
-        # IPConfiguration is actually an ARM resource that can only be created by issuing a PUT VMSS.
-        Id:
-          $armReference: false
       SubResource:
         # When SubResource is used directly in a property, it's meant as a reference. When it's inherited from, the Id is for self
-        Id:
-          $armReference: true
-      VirtualMachines_Spec_Properties_NetworkProfile_NetworkInterfaces:
         Id:
           $armReference: true
       ManagedDiskParameters:
@@ -769,9 +746,6 @@ objectModelConfiguration:
         AdminPassword:
           $isSecret: true
     2021-07-01:
-      DiskEncryptionSetParameters:
-        Id: 
-          $armReference: true
       Image:
         $export: true
         $supportedFrom: v2.0.0-alpha.6
@@ -786,14 +760,8 @@ objectModelConfiguration:
       IdentityProperties:
         PrincipalId:
           $armReference: false
-      PrivateEndpointConnection:
-        Id:
-          $armReference: true
   containerservice:
     2021-05-01:
-      Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties:
-        ResourceId: # TODO: Is this right?
-          $armReference: true
       ManagedCluster:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
@@ -850,6 +818,11 @@ objectModelConfiguration:
       #   $exportAs: ServerPropertiesForRestore
   dbformysql:
     2021-05-01:
+      DataEncryption:
+        GeoBackupUserAssignedIdentityId:
+          $armReference: true
+        PrimaryUserAssignedIdentityId:
+          $armReference: true
       FlexibleServer: 
         $export: true
         $supportedFrom: v2.0.0-alpha.2
@@ -972,30 +945,30 @@ objectModelConfiguration:
       Topic:
         $export: true
         $supportedFrom: v2.0.0-alpha.3
-      AzureFunctionEventSubscriptionDestinationProperties:
-        ResourceId:
-          $armReference: true
-      EventHubEventSubscriptionDestinationProperties:
-        ResourceId:
-          $armReference: true
-      HybridConnectionEventSubscriptionDestinationProperties:
-        ResourceId:
-          $armReference: true
-      ServiceBusQueueEventSubscriptionDestinationProperties:
-        ResourceId:
-          $armReference: true
-      ServiceBusTopicEventSubscriptionDestinationProperties:
-        ResourceId:
-          $armReference: true
-      StorageQueueEventSubscriptionDestinationProperties:
-        ResourceId:
-          $armReference: true
-      StorageBlobDeadLetterDestinationProperties:
-        ResourceId:
-          $armReference: true
+      # AzureFunctionEventSubscriptionDestinationProperties:
+      #   ResourceId:
+      #     $armReference: true
+      # EventHubEventSubscriptionDestinationProperties:
+      #   ResourceId:
+      #     $armReference: true
+      # HybridConnectionEventSubscriptionDestinationProperties:
+      #   ResourceId:
+      #     $armReference: true
+      # ServiceBusQueueEventSubscriptionDestinationProperties:
+      #   ResourceId:
+      #     $armReference: true
+      # ServiceBusTopicEventSubscriptionDestinationProperties:
+      #   ResourceId:
+      #     $armReference: true
+      # StorageQueueEventSubscriptionDestinationProperties:
+      #   ResourceId:
+      #     $armReference: true
+      # StorageBlobDeadLetterDestinationProperties:
+      #   ResourceId:
+      #     $armReference: true
   eventhub:
     2021-11-01:
-      DestinationProperties:
+      Destination_Properties:
         StorageAccountResourceId:
           $armReference: true
       Namespace:
@@ -1013,7 +986,7 @@ objectModelConfiguration:
       NamespacesEventhubsConsumergroup:
         $exportAs: NamespacesEventhubsConsumerGroup
         $supportedFrom: v2.0.0-alpha.1
-      Namespaces_Spec_Properties:
+      Namespace_Spec_Properties:
         ClusterArmId:
           $armReference: true
       PrivateEndpoint:
@@ -1052,12 +1025,18 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0-alpha.1
   network:
     2020-11-01:
+      FrontendIPConfiguration_NetworkInterface_SubResourceEmbedded:
+        Id:
+          $armReference: true
       LoadBalancer:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
       NetworkInterface:
         $export: true
         $supportedFrom: v2.0.0-alpha.3
+      NetworkInterfaceIPConfiguration_NetworkInterface_SubResourceEmbedded:
+        Id:
+          $armReference: true
       NetworkSecurityGroup:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
@@ -1067,6 +1046,12 @@ objectModelConfiguration:
       PublicIPAddress:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
+      PublicIPAddressSpec_SubResourceEmbedded:
+        Id:
+          $armReference: true
+      Route_RouteTable_SubResourceEmbedded:
+        Id:
+          $armReference: true
       RouteTable:
         $export: true
         $supportedFrom: v2.0.0-beta.1
@@ -1077,7 +1062,19 @@ objectModelConfiguration:
       RouteTablesRoute:
         $export: true
         $supportedFrom: v2.0.0-beta.1
+      SecurityRule_NetworkInterface_SubResourceEmbedded:
+        Id:
+          $armReference: true
+      SecurityRule_VirtualNetworksSubnet_SubResourceEmbedded:
+        Id:
+          $armReference: true
+      ServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourceEmbedded:
+        Id:
+          $armReference: true
       SubResource:
+        Id:
+          $armReference: true
+      Subnet_VirtualNetwork_SubResourceEmbedded:
         Id:
           $armReference: true
       VirtualNetwork:
@@ -1100,7 +1097,7 @@ objectModelConfiguration:
       VirtualNetworksVirtualNetworkPeering:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
-      VirtualNetworkGateways_Spec_Properties:
+      VirtualNetworkGatewayPropertiesFormat:
         VNetExtendedLocationResourceId:
           $armReference: true
   operationalinsights:
@@ -1122,6 +1119,9 @@ objectModelConfiguration:
       NamespacesTopic:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
+      PrivateEndpoint:
+        Id:
+          $armReference: false # TODO: should be removed
       UserAssignedIdentityProperties:
         UserAssignedIdentity:
           $armReference: true

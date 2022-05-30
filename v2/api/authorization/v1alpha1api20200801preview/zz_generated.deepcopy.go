@@ -88,16 +88,6 @@ func (in *RoleAssignmentPropertiesARM) DeepCopyInto(out *RoleAssignmentPropertie
 		*out = new(string)
 		**out = **in
 	}
-	if in.CreatedBy != nil {
-		in, out := &in.CreatedBy, &out.CreatedBy
-		*out = new(string)
-		**out = **in
-	}
-	if in.CreatedOn != nil {
-		in, out := &in.CreatedOn, &out.CreatedOn
-		*out = new(string)
-		**out = **in
-	}
 	if in.DelegatedManagedIdentityResourceId != nil {
 		in, out := &in.DelegatedManagedIdentityResourceId, &out.DelegatedManagedIdentityResourceId
 		*out = new(string)
@@ -120,21 +110,6 @@ func (in *RoleAssignmentPropertiesARM) DeepCopyInto(out *RoleAssignmentPropertie
 	}
 	if in.RoleDefinitionId != nil {
 		in, out := &in.RoleDefinitionId, &out.RoleDefinitionId
-		*out = new(string)
-		**out = **in
-	}
-	if in.Scope != nil {
-		in, out := &in.Scope, &out.Scope
-		*out = new(string)
-		**out = **in
-	}
-	if in.UpdatedBy != nil {
-		in, out := &in.UpdatedBy, &out.UpdatedBy
-		*out = new(string)
-		**out = **in
-	}
-	if in.UpdatedOn != nil {
-		in, out := &in.UpdatedOn, &out.UpdatedOn
 		*out = new(string)
 		**out = **in
 	}
@@ -370,16 +345,6 @@ func (in *RoleAssignment_Spec) DeepCopyInto(out *RoleAssignment_Spec) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.CreatedBy != nil {
-		in, out := &in.CreatedBy, &out.CreatedBy
-		*out = new(string)
-		**out = **in
-	}
-	if in.CreatedOn != nil {
-		in, out := &in.CreatedOn, &out.CreatedOn
-		*out = new(string)
-		**out = **in
-	}
 	if in.DelegatedManagedIdentityResourceId != nil {
 		in, out := &in.DelegatedManagedIdentityResourceId, &out.DelegatedManagedIdentityResourceId
 		*out = new(string)
@@ -408,21 +373,6 @@ func (in *RoleAssignment_Spec) DeepCopyInto(out *RoleAssignment_Spec) {
 	if in.RoleDefinitionReference != nil {
 		in, out := &in.RoleDefinitionReference, &out.RoleDefinitionReference
 		*out = new(genruntime.ResourceReference)
-		**out = **in
-	}
-	if in.Scope != nil {
-		in, out := &in.Scope, &out.Scope
-		*out = new(string)
-		**out = **in
-	}
-	if in.UpdatedBy != nil {
-		in, out := &in.UpdatedBy, &out.UpdatedBy
-		*out = new(string)
-		**out = **in
-	}
-	if in.UpdatedOn != nil {
-		in, out := &in.UpdatedOn, &out.UpdatedOn
-		*out = new(string)
 		**out = **in
 	}
 }

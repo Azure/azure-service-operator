@@ -8,13 +8,10 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 // Deprecated version of Topic_Spec. Use v1beta20200601.Topic_Spec instead
 type Topic_SpecARM struct {
 	AzureName  string              `json:"azureName,omitempty"`
-	Id         *string             `json:"id,omitempty"`
 	Location   *string             `json:"location,omitempty"`
 	Name       string              `json:"name,omitempty"`
 	Properties *TopicPropertiesARM `json:"properties,omitempty"`
-	SystemData *SystemDataARM      `json:"systemData,omitempty"`
 	Tags       map[string]string   `json:"tags,omitempty"`
-	Type       *string             `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Topic_SpecARM{}
@@ -36,17 +33,8 @@ func (topic *Topic_SpecARM) GetType() string {
 
 // Deprecated version of TopicProperties. Use v1beta20200601.TopicProperties instead
 type TopicPropertiesARM struct {
-	Endpoint                   *string                                                  `json:"endpoint,omitempty"`
-	InboundIpRules             []InboundIpRuleARM                                       `json:"inboundIpRules,omitempty"`
-	InputSchema                *TopicProperties_InputSchema                             `json:"inputSchema,omitempty"`
-	InputSchemaMapping         *InputSchemaMappingARM                                   `json:"inputSchemaMapping,omitempty"`
-	MetricResourceId           *string                                                  `json:"metricResourceId,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnection_Topic_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState          *TopicProperties_ProvisioningState                       `json:"provisioningState,omitempty"`
-	PublicNetworkAccess        *TopicProperties_PublicNetworkAccess                     `json:"publicNetworkAccess,omitempty"`
-}
-
-// Deprecated version of PrivateEndpointConnection_Topic_SubResourceEmbedded. Use v1beta20200601.PrivateEndpointConnection_Topic_SubResourceEmbedded instead
-type PrivateEndpointConnection_Topic_SubResourceEmbeddedARM struct {
-	Id *string `json:"id,omitempty"`
+	InboundIpRules      []InboundIpRuleARM                   `json:"inboundIpRules,omitempty"`
+	InputSchema         *TopicProperties_InputSchema         `json:"inputSchema,omitempty"`
+	InputSchemaMapping  *InputSchemaMappingARM               `json:"inputSchemaMapping,omitempty"`
+	PublicNetworkAccess *TopicProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 }

@@ -8,10 +8,8 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 // Deprecated version of ManagedClustersAgentPool_Spec. Use v1beta20210501.ManagedClustersAgentPool_Spec instead
 type ManagedClustersAgentPool_SpecARM struct {
 	AzureName  string                                       `json:"azureName,omitempty"`
-	Id         *string                                      `json:"id,omitempty"`
 	Name       string                                       `json:"name,omitempty"`
 	Properties *ManagedClusterAgentPoolProfilePropertiesARM `json:"properties,omitempty"`
-	Type       *string                                      `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &ManagedClustersAgentPool_SpecARM{}
@@ -48,7 +46,6 @@ type ManagedClusterAgentPoolProfilePropertiesARM struct {
 	MaxPods                   *int                         `json:"maxPods,omitempty"`
 	MinCount                  *int                         `json:"minCount,omitempty"`
 	Mode                      *AgentPoolMode               `json:"mode,omitempty"`
-	NodeImageVersion          *string                      `json:"nodeImageVersion,omitempty"`
 	NodeLabels                map[string]string            `json:"nodeLabels,omitempty"`
 	NodePublicIPPrefixID      *string                      `json:"nodePublicIPPrefixID,omitempty"`
 	NodeTaints                []string                     `json:"nodeTaints,omitempty"`
@@ -58,8 +55,6 @@ type ManagedClusterAgentPoolProfilePropertiesARM struct {
 	OsSKU                     *OSSKU                       `json:"osSKU,omitempty"`
 	OsType                    *OSType                      `json:"osType,omitempty"`
 	PodSubnetID               *string                      `json:"podSubnetID,omitempty"`
-	PowerState                *PowerStateARM               `json:"powerState,omitempty"`
-	ProvisioningState         *string                      `json:"provisioningState,omitempty"`
 	ProximityPlacementGroupID *string                      `json:"proximityPlacementGroupID,omitempty"`
 	ScaleSetEvictionPolicy    *ScaleSetEvictionPolicy      `json:"scaleSetEvictionPolicy,omitempty"`
 	ScaleSetPriority          *ScaleSetPriority            `json:"scaleSetPriority,omitempty"`

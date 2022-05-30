@@ -8,7 +8,6 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 // Deprecated version of VirtualNetworksVirtualNetworkPeering_Spec. Use v1beta20201101.VirtualNetworksVirtualNetworkPeering_Spec instead
 type VirtualNetworksVirtualNetworkPeering_SpecARM struct {
 	AzureName  string                                    `json:"azureName,omitempty"`
-	Etag       *string                                   `json:"etag,omitempty"`
 	Id         *string                                   `json:"id,omitempty"`
 	Name       string                                    `json:"name,omitempty"`
 	Properties *VirtualNetworkPeeringPropertiesFormatARM `json:"properties,omitempty"`
@@ -39,10 +38,8 @@ type VirtualNetworkPeeringPropertiesFormatARM struct {
 	AllowVirtualNetworkAccess *bool                                               `json:"allowVirtualNetworkAccess,omitempty"`
 	DoNotVerifyRemoteGateways *bool                                               `json:"doNotVerifyRemoteGateways,omitempty"`
 	PeeringState              *VirtualNetworkPeeringPropertiesFormat_PeeringState `json:"peeringState,omitempty"`
-	ProvisioningState         *ProvisioningState                                  `json:"provisioningState,omitempty"`
 	RemoteAddressSpace        *AddressSpaceARM                                    `json:"remoteAddressSpace,omitempty"`
 	RemoteBgpCommunities      *VirtualNetworkBgpCommunitiesARM                    `json:"remoteBgpCommunities,omitempty"`
 	RemoteVirtualNetwork      *SubResourceARM                                     `json:"remoteVirtualNetwork,omitempty"`
-	ResourceGuid              *string                                             `json:"resourceGuid,omitempty"`
 	UseRemoteGateways         *bool                                               `json:"useRemoteGateways,omitempty"`
 }

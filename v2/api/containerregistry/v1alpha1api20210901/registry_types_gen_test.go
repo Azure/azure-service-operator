@@ -413,23 +413,11 @@ func Registry_SpecGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForRegistry_Spec(gens map[string]gopter.Gen) {
 	gens["AdminUserEnabled"] = gen.PtrOf(gen.Bool())
 	gens["AzureName"] = gen.AlphaString()
-	gens["CreationDate"] = gen.PtrOf(gen.AlphaString())
 	gens["DataEndpointEnabled"] = gen.PtrOf(gen.Bool())
-	gens["DataEndpointHostNames"] = gen.SliceOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["LoginServer"] = gen.PtrOf(gen.AlphaString())
 	gens["NetworkRuleBypassOptions"] = gen.PtrOf(gen.OneConstOf(RegistryProperties_NetworkRuleBypassOptions_AzureServices, RegistryProperties_NetworkRuleBypassOptions_None))
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		RegistryProperties_ProvisioningState_Canceled,
-		RegistryProperties_ProvisioningState_Creating,
-		RegistryProperties_ProvisioningState_Deleting,
-		RegistryProperties_ProvisioningState_Failed,
-		RegistryProperties_ProvisioningState_Succeeded,
-		RegistryProperties_ProvisioningState_Updating))
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(RegistryProperties_PublicNetworkAccess_Disabled, RegistryProperties_PublicNetworkAccess_Enabled))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["ZoneRedundancy"] = gen.PtrOf(gen.OneConstOf(RegistryProperties_ZoneRedundancy_Disabled, RegistryProperties_ZoneRedundancy_Enabled))
 }
 
@@ -439,10 +427,7 @@ func AddRelatedPropertyGeneratorsForRegistry_Spec(gens map[string]gopter.Gen) {
 	gens["Identity"] = gen.PtrOf(IdentityPropertiesGenerator())
 	gens["NetworkRuleSet"] = gen.PtrOf(NetworkRuleSetGenerator())
 	gens["Policies"] = gen.PtrOf(PoliciesGenerator())
-	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnectionGenerator())
 	gens["Sku"] = gen.PtrOf(SkuGenerator())
-	gens["Status"] = gen.PtrOf(StatusGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemDataGenerator())
 }
 
 func Test_EncryptionProperty_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1358,108 +1343,6 @@ func AddRelatedPropertyGeneratorsForPolicies_STATUS(gens map[string]gopter.Gen) 
 	gens["TrustPolicy"] = gen.PtrOf(TrustPolicy_STATUSGenerator())
 }
 
-func Test_PrivateEndpointConnection_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from PrivateEndpointConnection to PrivateEndpointConnection via AssignPropertiesToPrivateEndpointConnection & AssignPropertiesFromPrivateEndpointConnection returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPrivateEndpointConnection, PrivateEndpointConnectionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForPrivateEndpointConnection tests if a specific instance of PrivateEndpointConnection can be assigned to v1alpha1api20210901storage and back losslessly
-func RunPropertyAssignmentTestForPrivateEndpointConnection(subject PrivateEndpointConnection) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20210901s.PrivateEndpointConnection
-	err := copied.AssignPropertiesToPrivateEndpointConnection(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual PrivateEndpointConnection
-	err = actual.AssignPropertiesFromPrivateEndpointConnection(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_PrivateEndpointConnection_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrivateEndpointConnection via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateEndpointConnection, PrivateEndpointConnectionGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForPrivateEndpointConnection runs a test to see if a specific instance of PrivateEndpointConnection round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateEndpointConnection(subject PrivateEndpointConnection) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual PrivateEndpointConnection
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of PrivateEndpointConnection instances for property testing - lazily instantiated by
-// PrivateEndpointConnectionGenerator()
-var privateEndpointConnectionGenerator gopter.Gen
-
-// PrivateEndpointConnectionGenerator returns a generator of PrivateEndpointConnection instances for property testing.
-func PrivateEndpointConnectionGenerator() gopter.Gen {
-	if privateEndpointConnectionGenerator != nil {
-		return privateEndpointConnectionGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddRelatedPropertyGeneratorsForPrivateEndpointConnection(generators)
-	privateEndpointConnectionGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnection{}), generators)
-
-	return privateEndpointConnectionGenerator
-}
-
-// AddRelatedPropertyGeneratorsForPrivateEndpointConnection is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPrivateEndpointConnection(gens map[string]gopter.Gen) {
-	gens["SystemData"] = gen.PtrOf(SystemDataGenerator())
-}
-
 func Test_PrivateEndpointConnection_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1679,11 +1562,6 @@ func AddIndependentPropertyGeneratorsForSku(gens map[string]gopter.Gen) {
 		Sku_Name_Classic,
 		Sku_Name_Premium,
 		Sku_Name_Standard))
-	gens["Tier"] = gen.PtrOf(gen.OneConstOf(
-		Sku_Tier_Basic,
-		Sku_Tier_Classic,
-		Sku_Tier_Premium,
-		Sku_Tier_Standard))
 }
 
 func Test_Sku_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1796,109 +1674,6 @@ func AddIndependentPropertyGeneratorsForSku_STATUS(gens map[string]gopter.Gen) {
 		Sku_Tier_Standard_STATUS))
 }
 
-func Test_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Status to Status via AssignPropertiesToStatus & AssignPropertiesFromStatus returns original",
-		prop.ForAll(RunPropertyAssignmentTestForStatus, StatusGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForStatus tests if a specific instance of Status can be assigned to v1alpha1api20210901storage and back losslessly
-func RunPropertyAssignmentTestForStatus(subject Status) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20210901s.Status
-	err := copied.AssignPropertiesToStatus(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Status
-	err = actual.AssignPropertiesFromStatus(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Status via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForStatus, StatusGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForStatus runs a test to see if a specific instance of Status round trips to JSON and back losslessly
-func RunJSONSerializationTestForStatus(subject Status) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Status
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Status instances for property testing - lazily instantiated by StatusGenerator()
-var statusGenerator gopter.Gen
-
-// StatusGenerator returns a generator of Status instances for property testing.
-func StatusGenerator() gopter.Gen {
-	if statusGenerator != nil {
-		return statusGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForStatus(generators)
-	statusGenerator = gen.Struct(reflect.TypeOf(Status{}), generators)
-
-	return statusGenerator
-}
-
-// AddIndependentPropertyGeneratorsForStatus is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForStatus(gens map[string]gopter.Gen) {
-	gens["DisplayStatus"] = gen.PtrOf(gen.AlphaString())
-	gens["Message"] = gen.PtrOf(gen.AlphaString())
-	gens["Timestamp"] = gen.PtrOf(gen.AlphaString())
-}
-
 func Test_Status_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -2000,120 +1775,6 @@ func AddIndependentPropertyGeneratorsForStatus_STATUS(gens map[string]gopter.Gen
 	gens["DisplayStatus"] = gen.PtrOf(gen.AlphaString())
 	gens["Message"] = gen.PtrOf(gen.AlphaString())
 	gens["Timestamp"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_SystemData_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from SystemData to SystemData via AssignPropertiesToSystemData & AssignPropertiesFromSystemData returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSystemData, SystemDataGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForSystemData tests if a specific instance of SystemData can be assigned to v1alpha1api20210901storage and back losslessly
-func RunPropertyAssignmentTestForSystemData(subject SystemData) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20210901s.SystemData
-	err := copied.AssignPropertiesToSystemData(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SystemData
-	err = actual.AssignPropertiesFromSystemData(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_SystemData_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SystemData via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSystemData, SystemDataGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSystemData runs a test to see if a specific instance of SystemData round trips to JSON and back losslessly
-func RunJSONSerializationTestForSystemData(subject SystemData) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual SystemData
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of SystemData instances for property testing - lazily instantiated by SystemDataGenerator()
-var systemDataGenerator gopter.Gen
-
-// SystemDataGenerator returns a generator of SystemData instances for property testing.
-func SystemDataGenerator() gopter.Gen {
-	if systemDataGenerator != nil {
-		return systemDataGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSystemData(generators)
-	systemDataGenerator = gen.Struct(reflect.TypeOf(SystemData{}), generators)
-
-	return systemDataGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSystemData is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSystemData(gens map[string]gopter.Gen) {
-	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByType_Application,
-		SystemData_CreatedByType_Key,
-		SystemData_CreatedByType_ManagedIdentity,
-		SystemData_CreatedByType_User))
-	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByType_Application,
-		SystemData_LastModifiedByType_Key,
-		SystemData_LastModifiedByType_ManagedIdentity,
-		SystemData_LastModifiedByType_User))
 }
 
 func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2737,9 +2398,6 @@ func KeyVaultPropertiesGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForKeyVaultProperties(gens map[string]gopter.Gen) {
 	gens["Identity"] = gen.PtrOf(gen.AlphaString())
 	gens["KeyIdentifier"] = gen.PtrOf(gen.AlphaString())
-	gens["KeyRotationEnabled"] = gen.PtrOf(gen.Bool())
-	gens["LastKeyRotationTimestamp"] = gen.PtrOf(gen.AlphaString())
-	gens["VersionedKeyIdentifier"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_KeyVaultProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -3150,7 +2808,6 @@ func RetentionPolicyGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForRetentionPolicy is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRetentionPolicy(gens map[string]gopter.Gen) {
 	gens["Days"] = gen.PtrOf(gen.Int())
-	gens["LastUpdatedTime"] = gen.PtrOf(gen.AlphaString())
 	gens["Status"] = gen.PtrOf(gen.OneConstOf(RetentionPolicy_Status_Disabled, RetentionPolicy_Status_Enabled))
 }
 

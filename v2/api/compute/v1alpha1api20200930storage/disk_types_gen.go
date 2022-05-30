@@ -707,16 +707,12 @@ type Disk_Spec struct {
 	DiskIOPSReadWrite            *int                          `json:"diskIOPSReadWrite,omitempty"`
 	DiskMBpsReadOnly             *int                          `json:"diskMBpsReadOnly,omitempty"`
 	DiskMBpsReadWrite            *int                          `json:"diskMBpsReadWrite,omitempty"`
-	DiskSizeBytes                *int                          `json:"diskSizeBytes,omitempty"`
 	DiskSizeGB                   *int                          `json:"diskSizeGB,omitempty"`
 	Encryption                   *Encryption                   `json:"encryption,omitempty"`
 	EncryptionSettingsCollection *EncryptionSettingsCollection `json:"encryptionSettingsCollection,omitempty"`
 	ExtendedLocation             *ExtendedLocation             `json:"extendedLocation,omitempty"`
 	HyperVGeneration             *string                       `json:"hyperVGeneration,omitempty"`
-	Id                           *string                       `json:"id,omitempty"`
 	Location                     *string                       `json:"location,omitempty"`
-	ManagedBy                    *string                       `json:"managedBy,omitempty"`
-	ManagedByExtended            []string                      `json:"managedByExtended,omitempty"`
 	MaxShares                    *int                          `json:"maxShares,omitempty"`
 	NetworkAccessPolicy          *string                       `json:"networkAccessPolicy,omitempty"`
 	OriginalVersion              string                        `json:"originalVersion,omitempty"`
@@ -726,18 +722,13 @@ type Disk_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner             *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag       genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	ProvisioningState *string                            `json:"provisioningState,omitempty"`
-	PurchasePlan      *PurchasePlan                      `json:"purchasePlan,omitempty"`
-	ShareInfo         []ShareInfoElement                 `json:"shareInfo,omitempty"`
-	Sku               *DiskSku                           `json:"sku,omitempty"`
-	Tags              map[string]string                  `json:"tags,omitempty"`
-	Tier              *string                            `json:"tier,omitempty"`
-	TimeCreated       *string                            `json:"timeCreated,omitempty"`
-	Type              *string                            `json:"type,omitempty"`
-	UniqueId          *string                            `json:"uniqueId,omitempty"`
-	Zones             []string                           `json:"zones,omitempty"`
+	Owner        *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag  genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	PurchasePlan *PurchasePlan                      `json:"purchasePlan,omitempty"`
+	Sku          *DiskSku                           `json:"sku,omitempty"`
+	Tags         map[string]string                  `json:"tags,omitempty"`
+	Tier         *string                            `json:"tier,omitempty"`
+	Zones        []string                           `json:"zones,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &Disk_Spec{}
@@ -838,9 +829,6 @@ func (disk *Disk_Spec) AssignPropertiesFromDisk_Spec(source *v20200930s.Disk_Spe
 	// DiskMBpsReadWrite
 	disk.DiskMBpsReadWrite = genruntime.ClonePointerToInt(source.DiskMBpsReadWrite)
 
-	// DiskSizeBytes
-	disk.DiskSizeBytes = genruntime.ClonePointerToInt(source.DiskSizeBytes)
-
 	// DiskSizeGB
 	disk.DiskSizeGB = genruntime.ClonePointerToInt(source.DiskSizeGB)
 
@@ -893,17 +881,8 @@ func (disk *Disk_Spec) AssignPropertiesFromDisk_Spec(source *v20200930s.Disk_Spe
 	// HyperVGeneration
 	disk.HyperVGeneration = genruntime.ClonePointerToString(source.HyperVGeneration)
 
-	// Id
-	disk.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Location
 	disk.Location = genruntime.ClonePointerToString(source.Location)
-
-	// ManagedBy
-	disk.ManagedBy = genruntime.ClonePointerToString(source.ManagedBy)
-
-	// ManagedByExtended
-	disk.ManagedByExtended = genruntime.CloneSliceOfString(source.ManagedByExtended)
 
 	// MaxShares
 	disk.MaxShares = genruntime.ClonePointerToInt(source.MaxShares)
@@ -925,9 +904,6 @@ func (disk *Disk_Spec) AssignPropertiesFromDisk_Spec(source *v20200930s.Disk_Spe
 		disk.Owner = nil
 	}
 
-	// ProvisioningState
-	disk.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
 	// PurchasePlan
 	if source.PurchasePlan != nil {
 		var purchasePlan PurchasePlan
@@ -938,24 +914,6 @@ func (disk *Disk_Spec) AssignPropertiesFromDisk_Spec(source *v20200930s.Disk_Spe
 		disk.PurchasePlan = &purchasePlan
 	} else {
 		disk.PurchasePlan = nil
-	}
-
-	// ShareInfo
-	if source.ShareInfo != nil {
-		shareInfoList := make([]ShareInfoElement, len(source.ShareInfo))
-		for shareInfoIndex, shareInfoItem := range source.ShareInfo {
-			// Shadow the loop variable to avoid aliasing
-			shareInfoItem := shareInfoItem
-			var shareInfo ShareInfoElement
-			err := shareInfo.AssignPropertiesFromShareInfoElement(&shareInfoItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromShareInfoElement() to populate field ShareInfo")
-			}
-			shareInfoList[shareInfoIndex] = shareInfo
-		}
-		disk.ShareInfo = shareInfoList
-	} else {
-		disk.ShareInfo = nil
 	}
 
 	// Sku
@@ -975,15 +933,6 @@ func (disk *Disk_Spec) AssignPropertiesFromDisk_Spec(source *v20200930s.Disk_Spe
 
 	// Tier
 	disk.Tier = genruntime.ClonePointerToString(source.Tier)
-
-	// TimeCreated
-	disk.TimeCreated = genruntime.ClonePointerToString(source.TimeCreated)
-
-	// Type
-	disk.Type = genruntime.ClonePointerToString(source.Type)
-
-	// UniqueId
-	disk.UniqueId = genruntime.ClonePointerToString(source.UniqueId)
 
 	// Zones
 	disk.Zones = genruntime.CloneSliceOfString(source.Zones)
@@ -1047,9 +996,6 @@ func (disk *Disk_Spec) AssignPropertiesToDisk_Spec(destination *v20200930s.Disk_
 	// DiskMBpsReadWrite
 	destination.DiskMBpsReadWrite = genruntime.ClonePointerToInt(disk.DiskMBpsReadWrite)
 
-	// DiskSizeBytes
-	destination.DiskSizeBytes = genruntime.ClonePointerToInt(disk.DiskSizeBytes)
-
 	// DiskSizeGB
 	destination.DiskSizeGB = genruntime.ClonePointerToInt(disk.DiskSizeGB)
 
@@ -1102,17 +1048,8 @@ func (disk *Disk_Spec) AssignPropertiesToDisk_Spec(destination *v20200930s.Disk_
 	// HyperVGeneration
 	destination.HyperVGeneration = genruntime.ClonePointerToString(disk.HyperVGeneration)
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(disk.Id)
-
 	// Location
 	destination.Location = genruntime.ClonePointerToString(disk.Location)
-
-	// ManagedBy
-	destination.ManagedBy = genruntime.ClonePointerToString(disk.ManagedBy)
-
-	// ManagedByExtended
-	destination.ManagedByExtended = genruntime.CloneSliceOfString(disk.ManagedByExtended)
 
 	// MaxShares
 	destination.MaxShares = genruntime.ClonePointerToInt(disk.MaxShares)
@@ -1134,9 +1071,6 @@ func (disk *Disk_Spec) AssignPropertiesToDisk_Spec(destination *v20200930s.Disk_
 		destination.Owner = nil
 	}
 
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(disk.ProvisioningState)
-
 	// PurchasePlan
 	if disk.PurchasePlan != nil {
 		var purchasePlan v20200930s.PurchasePlan
@@ -1147,24 +1081,6 @@ func (disk *Disk_Spec) AssignPropertiesToDisk_Spec(destination *v20200930s.Disk_
 		destination.PurchasePlan = &purchasePlan
 	} else {
 		destination.PurchasePlan = nil
-	}
-
-	// ShareInfo
-	if disk.ShareInfo != nil {
-		shareInfoList := make([]v20200930s.ShareInfoElement, len(disk.ShareInfo))
-		for shareInfoIndex, shareInfoItem := range disk.ShareInfo {
-			// Shadow the loop variable to avoid aliasing
-			shareInfoItem := shareInfoItem
-			var shareInfo v20200930s.ShareInfoElement
-			err := shareInfoItem.AssignPropertiesToShareInfoElement(&shareInfo)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToShareInfoElement() to populate field ShareInfo")
-			}
-			shareInfoList[shareInfoIndex] = shareInfo
-		}
-		destination.ShareInfo = shareInfoList
-	} else {
-		destination.ShareInfo = nil
 	}
 
 	// Sku
@@ -1184,15 +1100,6 @@ func (disk *Disk_Spec) AssignPropertiesToDisk_Spec(destination *v20200930s.Disk_
 
 	// Tier
 	destination.Tier = genruntime.ClonePointerToString(disk.Tier)
-
-	// TimeCreated
-	destination.TimeCreated = genruntime.ClonePointerToString(disk.TimeCreated)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(disk.Type)
-
-	// UniqueId
-	destination.UniqueId = genruntime.ClonePointerToString(disk.UniqueId)
 
 	// Zones
 	destination.Zones = genruntime.CloneSliceOfString(disk.Zones)
@@ -1217,7 +1124,6 @@ type CreationData struct {
 	LogicalSectorSize       *int                          `json:"logicalSectorSize,omitempty"`
 	PropertyBag             genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 	SourceResourceReference *genruntime.ResourceReference `armReference:"SourceResourceId" json:"sourceResourceReference,omitempty"`
-	SourceUniqueId          *string                       `json:"sourceUniqueId,omitempty"`
 	SourceUri               *string                       `json:"sourceUri,omitempty"`
 	StorageAccountId        *string                       `json:"storageAccountId,omitempty"`
 	UploadSizeBytes         *int                          `json:"uploadSizeBytes,omitempty"`
@@ -1265,9 +1171,6 @@ func (data *CreationData) AssignPropertiesFromCreationData(source *v20200930s.Cr
 	} else {
 		data.SourceResourceReference = nil
 	}
-
-	// SourceUniqueId
-	data.SourceUniqueId = genruntime.ClonePointerToString(source.SourceUniqueId)
 
 	// SourceUri
 	data.SourceUri = genruntime.ClonePointerToString(source.SourceUri)
@@ -1331,9 +1234,6 @@ func (data *CreationData) AssignPropertiesToCreationData(destination *v20200930s
 	} else {
 		destination.SourceResourceReference = nil
 	}
-
-	// SourceUniqueId
-	destination.SourceUniqueId = genruntime.ClonePointerToString(data.SourceUniqueId)
 
 	// SourceUri
 	destination.SourceUri = genruntime.ClonePointerToString(data.SourceUri)
@@ -1497,7 +1397,6 @@ func (data *CreationData_STATUS) AssignPropertiesToCreationData_STATUS(destinati
 type DiskSku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Tier        *string                `json:"tier,omitempty"`
 }
 
 // AssignPropertiesFromDiskSku populates our DiskSku from the provided source DiskSku
@@ -1507,9 +1406,6 @@ func (diskSku *DiskSku) AssignPropertiesFromDiskSku(source *v20200930s.DiskSku) 
 
 	// Name
 	diskSku.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Tier
-	diskSku.Tier = genruntime.ClonePointerToString(source.Tier)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1529,9 +1425,6 @@ func (diskSku *DiskSku) AssignPropertiesToDiskSku(destination *v20200930s.DiskSk
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(diskSku.Name)
-
-	// Tier
-	destination.Tier = genruntime.ClonePointerToString(diskSku.Tier)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2132,51 +2025,6 @@ func (plan *PurchasePlan_STATUS) AssignPropertiesToPurchasePlan_STATUS(destinati
 
 	// Publisher
 	destination.Publisher = genruntime.ClonePointerToString(plan.Publisher)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20200930.ShareInfoElement
-// Deprecated version of ShareInfoElement. Use v1beta20200930.ShareInfoElement instead
-type ShareInfoElement struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	VmUri       *string                `json:"vmUri,omitempty"`
-}
-
-// AssignPropertiesFromShareInfoElement populates our ShareInfoElement from the provided source ShareInfoElement
-func (element *ShareInfoElement) AssignPropertiesFromShareInfoElement(source *v20200930s.ShareInfoElement) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// VmUri
-	element.VmUri = genruntime.ClonePointerToString(source.VmUri)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		element.PropertyBag = propertyBag
-	} else {
-		element.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToShareInfoElement populates the provided destination ShareInfoElement from our ShareInfoElement
-func (element *ShareInfoElement) AssignPropertiesToShareInfoElement(destination *v20200930s.ShareInfoElement) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(element.PropertyBag)
-
-	// VmUri
-	destination.VmUri = genruntime.ClonePointerToString(element.VmUri)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

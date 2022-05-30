@@ -11,25 +11,14 @@ type Snapshot_SpecARM struct {
 	// ExtendedLocation: The extended location where the snapshot will be created. Extended location cannot be changed.
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
 
-	// Id: Resource Id
-	Id *string `json:"id,omitempty"`
-
 	// Location: Resource location
-	Location *string `json:"location,omitempty"`
-
-	// ManagedBy: Unused. Always Null.
-	ManagedBy *string `json:"managedBy,omitempty"`
-
-	// Name: Resource name
+	Location   *string                `json:"location,omitempty"`
 	Name       string                 `json:"name,omitempty"`
 	Properties *SnapshotPropertiesARM `json:"properties,omitempty"`
 	Sku        *SnapshotSkuARM        `json:"sku,omitempty"`
 
 	// Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: Resource type
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Snapshot_SpecARM{}
@@ -53,9 +42,6 @@ type SnapshotPropertiesARM struct {
 	// CreationData: Disk source information. CreationData information cannot be changed after the disk has been created.
 	CreationData *CreationDataARM `json:"creationData,omitempty"`
 	DiskAccessId *string          `json:"diskAccessId,omitempty"`
-
-	// DiskSizeBytes: The size of the disk in bytes. This field is read only.
-	DiskSizeBytes *int `json:"diskSizeBytes,omitempty"`
 
 	// DiskSizeGB: If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to
 	// create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only
@@ -83,25 +69,13 @@ type SnapshotPropertiesARM struct {
 	// OsType: The Operating System type.
 	OsType *SnapshotProperties_OsType `json:"osType,omitempty"`
 
-	// ProvisioningState: The disk provisioning state.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
-
 	// PurchasePlan: Purchase plan information for the image from which the source disk for the snapshot was originally created.
 	PurchasePlan *PurchasePlanARM `json:"purchasePlan,omitempty"`
-
-	// TimeCreated: The time when the snapshot was created.
-	TimeCreated *string `json:"timeCreated,omitempty"`
-
-	// UniqueId: Unique Guid identifying the resource.
-	UniqueId *string `json:"uniqueId,omitempty"`
 }
 
 type SnapshotSkuARM struct {
 	// Name: The sku name.
 	Name *SnapshotSku_Name `json:"name,omitempty"`
-
-	// Tier: The sku tier.
-	Tier *string `json:"tier,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"Premium_LRS","Standard_LRS","Standard_ZRS"}

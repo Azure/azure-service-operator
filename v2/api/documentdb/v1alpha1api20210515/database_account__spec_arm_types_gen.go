@@ -8,14 +8,12 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 // Deprecated version of DatabaseAccount_Spec. Use v1beta20210515.DatabaseAccount_Spec instead
 type DatabaseAccount_SpecARM struct {
 	AzureName  string                                    `json:"azureName,omitempty"`
-	Id         *string                                   `json:"id,omitempty"`
 	Identity   *ManagedServiceIdentityARM                `json:"identity,omitempty"`
 	Kind       *DatabaseAccount_Spec_Kind                `json:"kind,omitempty"`
 	Location   *string                                   `json:"location,omitempty"`
 	Name       string                                    `json:"name,omitempty"`
 	Properties *DatabaseAccountCreateUpdatePropertiesARM `json:"properties,omitempty"`
 	Tags       map[string]string                         `json:"tags,omitempty"`
-	Type       *string                                   `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &DatabaseAccount_SpecARM{}
@@ -74,9 +72,7 @@ const (
 
 // Deprecated version of ManagedServiceIdentity. Use v1beta20210515.ManagedServiceIdentity instead
 type ManagedServiceIdentityARM struct {
-	PrincipalId *string                      `json:"principalId,omitempty"`
-	TenantId    *string                      `json:"tenantId,omitempty"`
-	Type        *ManagedServiceIdentity_Type `json:"type,omitempty"`
+	Type *ManagedServiceIdentity_Type `json:"type,omitempty"`
 }
 
 // Deprecated version of AnalyticalStorageConfiguration. Use v1beta20210515.AnalyticalStorageConfiguration instead
@@ -122,9 +118,7 @@ type IpAddressOrRangeARM struct {
 
 // Deprecated version of Location. Use v1beta20210515.Location instead
 type LocationARM struct {
-	DocumentEndpoint *string `json:"documentEndpoint,omitempty"`
 	FailoverPriority *int    `json:"failoverPriority,omitempty"`
-	Id               *string `json:"id,omitempty"`
 	IsZoneRedundant  *bool   `json:"isZoneRedundant,omitempty"`
 	LocationName     *string `json:"locationName,omitempty"`
 }

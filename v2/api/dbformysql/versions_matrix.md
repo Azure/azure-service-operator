@@ -26,7 +26,6 @@
 | HighAvailability_Mode                    | v1alpha1api20210501 | v1beta20210501 |
 | HighAvailability_Mode_STATUS             | v1alpha1api20210501 | v1beta20210501 |
 | HighAvailability_STATUS                  | v1alpha1api20210501 | v1beta20210501 |
-| HighAvailability_State                   | v1alpha1api20210501 | v1beta20210501 |
 | HighAvailability_State_STATUS            | v1alpha1api20210501 | v1beta20210501 |
 | Identity                                 | v1alpha1api20210501 | v1beta20210501 |
 | Identity_STATUS                          | v1alpha1api20210501 | v1beta20210501 |
@@ -42,7 +41,6 @@
 | ServerProperties_CreateMode              | v1alpha1api20210501 | v1beta20210501 |
 | ServerProperties_CreateMode_STATUS       | v1alpha1api20210501 | v1beta20210501 |
 | ServerProperties_STATUS                  | v1alpha1api20210501 | v1beta20210501 |
-| ServerProperties_State                   | v1alpha1api20210501 | v1beta20210501 |
 | ServerProperties_State_STATUS            | v1alpha1api20210501 | v1beta20210501 |
 | ServerVersion                            | v1alpha1api20210501 | v1beta20210501 |
 | ServerVersion_STATUS                     | v1alpha1api20210501 | v1beta20210501 |
@@ -52,9 +50,6 @@
 | Sku_Tier_STATUS                          | v1alpha1api20210501 | v1beta20210501 |
 | Storage                                  | v1alpha1api20210501 | v1beta20210501 |
 | Storage_STATUS                           | v1alpha1api20210501 | v1beta20210501 |
-| SystemData                               | v1alpha1api20210501 | v1beta20210501 |
-| SystemData_CreatedByType                 | v1alpha1api20210501 | v1beta20210501 |
 | SystemData_CreatedByType_STATUS          | v1alpha1api20210501 | v1beta20210501 |
-| SystemData_LastModifiedByType            | v1alpha1api20210501 | v1beta20210501 |
 | SystemData_LastModifiedByType_STATUS     | v1alpha1api20210501 | v1beta20210501 |
 | SystemData_STATUS                        | v1alpha1api20210501 | v1beta20210501 |

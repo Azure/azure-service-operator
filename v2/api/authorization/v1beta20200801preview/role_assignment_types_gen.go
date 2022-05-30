@@ -714,12 +714,6 @@ type RoleAssignment_Spec struct {
 	// ConditionVersion: Version of the condition. Currently accepted value is '2.0'
 	ConditionVersion *string `json:"conditionVersion,omitempty"`
 
-	// CreatedBy: Id of the user who created the assignment
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	// CreatedOn: Time it was created
-	CreatedOn *string `json:"createdOn,omitempty"`
-
 	// DelegatedManagedIdentityResourceId: Id of the delegated managed identity resource
 	DelegatedManagedIdentityResourceId *string `json:"delegatedManagedIdentityResourceId,omitempty"`
 
@@ -742,15 +736,6 @@ type RoleAssignment_Spec struct {
 	// +kubebuilder:validation:Required
 	// RoleDefinitionReference: The role definition ID.
 	RoleDefinitionReference *genruntime.ResourceReference `armReference:"RoleDefinitionId" json:"roleDefinitionReference,omitempty"`
-
-	// Scope: The role assignment scope.
-	Scope *string `json:"scope,omitempty"`
-
-	// UpdatedBy: Id of the user who updated the assignment
-	UpdatedBy *string `json:"updatedBy,omitempty"`
-
-	// UpdatedOn: Time it was updated
-	UpdatedOn *string `json:"updatedOn,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &RoleAssignment_Spec{}
@@ -771,16 +756,11 @@ func (assignment *RoleAssignment_Spec) ConvertToARM(resolved genruntime.ConvertT
 	// Set property ‘Properties’:
 	if assignment.Condition != nil ||
 		assignment.ConditionVersion != nil ||
-		assignment.CreatedBy != nil ||
-		assignment.CreatedOn != nil ||
 		assignment.DelegatedManagedIdentityResourceId != nil ||
 		assignment.Description != nil ||
 		assignment.PrincipalId != nil ||
 		assignment.PrincipalType != nil ||
-		assignment.RoleDefinitionReference != nil ||
-		assignment.Scope != nil ||
-		assignment.UpdatedBy != nil ||
-		assignment.UpdatedOn != nil {
+		assignment.RoleDefinitionReference != nil {
 		result.Properties = &RoleAssignmentPropertiesARM{}
 	}
 	if assignment.Condition != nil {
@@ -790,14 +770,6 @@ func (assignment *RoleAssignment_Spec) ConvertToARM(resolved genruntime.ConvertT
 	if assignment.ConditionVersion != nil {
 		conditionVersion := *assignment.ConditionVersion
 		result.Properties.ConditionVersion = &conditionVersion
-	}
-	if assignment.CreatedBy != nil {
-		createdBy := *assignment.CreatedBy
-		result.Properties.CreatedBy = &createdBy
-	}
-	if assignment.CreatedOn != nil {
-		createdOn := *assignment.CreatedOn
-		result.Properties.CreatedOn = &createdOn
 	}
 	if assignment.DelegatedManagedIdentityResourceId != nil {
 		delegatedManagedIdentityResourceId := *assignment.DelegatedManagedIdentityResourceId
@@ -822,18 +794,6 @@ func (assignment *RoleAssignment_Spec) ConvertToARM(resolved genruntime.ConvertT
 		}
 		roleDefinitionId := roleDefinitionIdARMID
 		result.Properties.RoleDefinitionId = &roleDefinitionId
-	}
-	if assignment.Scope != nil {
-		scope := *assignment.Scope
-		result.Properties.Scope = &scope
-	}
-	if assignment.UpdatedBy != nil {
-		updatedBy := *assignment.UpdatedBy
-		result.Properties.UpdatedBy = &updatedBy
-	}
-	if assignment.UpdatedOn != nil {
-		updatedOn := *assignment.UpdatedOn
-		result.Properties.UpdatedOn = &updatedOn
 	}
 	return result, nil
 }
@@ -868,24 +828,6 @@ func (assignment *RoleAssignment_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		if typedInput.Properties.ConditionVersion != nil {
 			conditionVersion := *typedInput.Properties.ConditionVersion
 			assignment.ConditionVersion = &conditionVersion
-		}
-	}
-
-	// Set property ‘CreatedBy’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.CreatedBy != nil {
-			createdBy := *typedInput.Properties.CreatedBy
-			assignment.CreatedBy = &createdBy
-		}
-	}
-
-	// Set property ‘CreatedOn’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.CreatedOn != nil {
-			createdOn := *typedInput.Properties.CreatedOn
-			assignment.CreatedOn = &createdOn
 		}
 	}
 
@@ -931,33 +873,6 @@ func (assignment *RoleAssignment_Spec) PopulateFromARM(owner genruntime.Arbitrar
 	}
 
 	// no assignment for property ‘RoleDefinitionReference’
-
-	// Set property ‘Scope’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Scope != nil {
-			scope := *typedInput.Properties.Scope
-			assignment.Scope = &scope
-		}
-	}
-
-	// Set property ‘UpdatedBy’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.UpdatedBy != nil {
-			updatedBy := *typedInput.Properties.UpdatedBy
-			assignment.UpdatedBy = &updatedBy
-		}
-	}
-
-	// Set property ‘UpdatedOn’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.UpdatedOn != nil {
-			updatedOn := *typedInput.Properties.UpdatedOn
-			assignment.UpdatedOn = &updatedOn
-		}
-	}
 
 	// No error
 	return nil
@@ -1025,17 +940,6 @@ func (assignment *RoleAssignment_Spec) AssignPropertiesFromRoleAssignment_Spec(s
 	// ConditionVersion
 	assignment.ConditionVersion = genruntime.ClonePointerToString(source.ConditionVersion)
 
-	// CreatedBy
-	assignment.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
-
-	// CreatedOn
-	if source.CreatedOn != nil {
-		createdOn := *source.CreatedOn
-		assignment.CreatedOn = &createdOn
-	} else {
-		assignment.CreatedOn = nil
-	}
-
 	// DelegatedManagedIdentityResourceId
 	assignment.DelegatedManagedIdentityResourceId = genruntime.ClonePointerToString(source.DelegatedManagedIdentityResourceId)
 
@@ -1069,20 +973,6 @@ func (assignment *RoleAssignment_Spec) AssignPropertiesFromRoleAssignment_Spec(s
 		assignment.RoleDefinitionReference = nil
 	}
 
-	// Scope
-	assignment.Scope = genruntime.ClonePointerToString(source.Scope)
-
-	// UpdatedBy
-	assignment.UpdatedBy = genruntime.ClonePointerToString(source.UpdatedBy)
-
-	// UpdatedOn
-	if source.UpdatedOn != nil {
-		updatedOn := *source.UpdatedOn
-		assignment.UpdatedOn = &updatedOn
-	} else {
-		assignment.UpdatedOn = nil
-	}
-
 	// No error
 	return nil
 }
@@ -1100,17 +990,6 @@ func (assignment *RoleAssignment_Spec) AssignPropertiesToRoleAssignment_Spec(des
 
 	// ConditionVersion
 	destination.ConditionVersion = genruntime.ClonePointerToString(assignment.ConditionVersion)
-
-	// CreatedBy
-	destination.CreatedBy = genruntime.ClonePointerToString(assignment.CreatedBy)
-
-	// CreatedOn
-	if assignment.CreatedOn != nil {
-		createdOn := *assignment.CreatedOn
-		destination.CreatedOn = &createdOn
-	} else {
-		destination.CreatedOn = nil
-	}
 
 	// DelegatedManagedIdentityResourceId
 	destination.DelegatedManagedIdentityResourceId = genruntime.ClonePointerToString(assignment.DelegatedManagedIdentityResourceId)
@@ -1146,20 +1025,6 @@ func (assignment *RoleAssignment_Spec) AssignPropertiesToRoleAssignment_Spec(des
 		destination.RoleDefinitionReference = &roleDefinitionReference
 	} else {
 		destination.RoleDefinitionReference = nil
-	}
-
-	// Scope
-	destination.Scope = genruntime.ClonePointerToString(assignment.Scope)
-
-	// UpdatedBy
-	destination.UpdatedBy = genruntime.ClonePointerToString(assignment.UpdatedBy)
-
-	// UpdatedOn
-	if assignment.UpdatedOn != nil {
-		updatedOn := *assignment.UpdatedOn
-		destination.UpdatedOn = &updatedOn
-	} else {
-		destination.UpdatedOn = nil
 	}
 
 	// Update the property bag

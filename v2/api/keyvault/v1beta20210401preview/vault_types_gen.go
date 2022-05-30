@@ -1028,14 +1028,8 @@ type VaultProperties struct {
 	// the key vault.
 	EnabledForTemplateDeployment *bool `json:"enabledForTemplateDeployment,omitempty"`
 
-	// HsmPoolResourceId: The resource id of HSM Pool.
-	HsmPoolResourceId *string `json:"hsmPoolResourceId,omitempty"`
-
 	// NetworkAcls: Rules governing the accessibility of the key vault from specific network locations.
 	NetworkAcls *NetworkRuleSet `json:"networkAcls,omitempty"`
-
-	// PrivateEndpointConnections: List of private endpoint connections associated with the key vault.
-	PrivateEndpointConnections []PrivateEndpointConnectionItem `json:"privateEndpointConnections,omitempty"`
 
 	// ProvisioningState: Provisioning state of the vault.
 	ProvisioningState *VaultProperties_ProvisioningState `json:"provisioningState,omitempty"`
@@ -1116,12 +1110,6 @@ func (properties *VaultProperties) ConvertToARM(resolved genruntime.ConvertToARM
 		result.EnabledForTemplateDeployment = &enabledForTemplateDeployment
 	}
 
-	// Set property ‘HsmPoolResourceId’:
-	if properties.HsmPoolResourceId != nil {
-		hsmPoolResourceId := *properties.HsmPoolResourceId
-		result.HsmPoolResourceId = &hsmPoolResourceId
-	}
-
 	// Set property ‘NetworkAcls’:
 	if properties.NetworkAcls != nil {
 		networkAclsARM, err := (*properties.NetworkAcls).ConvertToARM(resolved)
@@ -1130,15 +1118,6 @@ func (properties *VaultProperties) ConvertToARM(resolved genruntime.ConvertToARM
 		}
 		networkAcls := *networkAclsARM.(*NetworkRuleSetARM)
 		result.NetworkAcls = &networkAcls
-	}
-
-	// Set property ‘PrivateEndpointConnections’:
-	for _, item := range properties.PrivateEndpointConnections {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.PrivateEndpointConnections = append(result.PrivateEndpointConnections, *itemARM.(*PrivateEndpointConnectionItemARM))
 	}
 
 	// Set property ‘ProvisioningState’:
@@ -1241,12 +1220,6 @@ func (properties *VaultProperties) PopulateFromARM(owner genruntime.ArbitraryOwn
 		properties.EnabledForTemplateDeployment = &enabledForTemplateDeployment
 	}
 
-	// Set property ‘HsmPoolResourceId’:
-	if typedInput.HsmPoolResourceId != nil {
-		hsmPoolResourceId := *typedInput.HsmPoolResourceId
-		properties.HsmPoolResourceId = &hsmPoolResourceId
-	}
-
 	// Set property ‘NetworkAcls’:
 	if typedInput.NetworkAcls != nil {
 		var networkAcls1 NetworkRuleSet
@@ -1256,16 +1229,6 @@ func (properties *VaultProperties) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 		networkAcls := networkAcls1
 		properties.NetworkAcls = &networkAcls
-	}
-
-	// Set property ‘PrivateEndpointConnections’:
-	for _, item := range typedInput.PrivateEndpointConnections {
-		var item1 PrivateEndpointConnectionItem
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		properties.PrivateEndpointConnections = append(properties.PrivateEndpointConnections, item1)
 	}
 
 	// Set property ‘ProvisioningState’:
@@ -1384,9 +1347,6 @@ func (properties *VaultProperties) AssignPropertiesFromVaultProperties(source *v
 		properties.EnabledForTemplateDeployment = nil
 	}
 
-	// HsmPoolResourceId
-	properties.HsmPoolResourceId = genruntime.ClonePointerToString(source.HsmPoolResourceId)
-
 	// NetworkAcls
 	if source.NetworkAcls != nil {
 		var networkAcl NetworkRuleSet
@@ -1397,24 +1357,6 @@ func (properties *VaultProperties) AssignPropertiesFromVaultProperties(source *v
 		properties.NetworkAcls = &networkAcl
 	} else {
 		properties.NetworkAcls = nil
-	}
-
-	// PrivateEndpointConnections
-	if source.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]PrivateEndpointConnectionItem, len(source.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection PrivateEndpointConnectionItem
-			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnectionItem(&privateEndpointConnectionItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnectionItem() to populate field PrivateEndpointConnections")
-			}
-			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
-		}
-		properties.PrivateEndpointConnections = privateEndpointConnectionList
-	} else {
-		properties.PrivateEndpointConnections = nil
 	}
 
 	// ProvisioningState
@@ -1534,9 +1476,6 @@ func (properties *VaultProperties) AssignPropertiesToVaultProperties(destination
 		destination.EnabledForTemplateDeployment = nil
 	}
 
-	// HsmPoolResourceId
-	destination.HsmPoolResourceId = genruntime.ClonePointerToString(properties.HsmPoolResourceId)
-
 	// NetworkAcls
 	if properties.NetworkAcls != nil {
 		var networkAcl v20210401ps.NetworkRuleSet
@@ -1547,24 +1486,6 @@ func (properties *VaultProperties) AssignPropertiesToVaultProperties(destination
 		destination.NetworkAcls = &networkAcl
 	} else {
 		destination.NetworkAcls = nil
-	}
-
-	// PrivateEndpointConnections
-	if properties.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]v20210401ps.PrivateEndpointConnectionItem, len(properties.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range properties.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection v20210401ps.PrivateEndpointConnectionItem
-			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnectionItem(&privateEndpointConnection)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnectionItem() to populate field PrivateEndpointConnections")
-			}
-			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
-		}
-		destination.PrivateEndpointConnections = privateEndpointConnectionList
-	} else {
-		destination.PrivateEndpointConnections = nil
 	}
 
 	// ProvisioningState
@@ -2844,237 +2765,6 @@ func (ruleSet *NetworkRuleSet_STATUS) AssignPropertiesToNetworkRuleSet_STATUS(de
 	return nil
 }
 
-type PrivateEndpointConnectionItem struct {
-	// Etag: Modified whenever there is a change in the state of private endpoint connection.
-	Etag *string `json:"etag,omitempty"`
-
-	// Id: Id of private endpoint connection.
-	Id *string `json:"id,omitempty"`
-
-	// PrivateEndpoint: Properties of the private endpoint object.
-	PrivateEndpoint *PrivateEndpoint `json:"privateEndpoint,omitempty"`
-
-	// PrivateLinkServiceConnectionState: Approval state of the private link connection.
-	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState `json:"privateLinkServiceConnectionState,omitempty"`
-
-	// ProvisioningState: Provisioning state of the private endpoint connection.
-	ProvisioningState *PrivateEndpointConnectionProvisioningState `json:"provisioningState,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &PrivateEndpointConnectionItem{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (item *PrivateEndpointConnectionItem) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if item == nil {
-		return nil, nil
-	}
-	result := &PrivateEndpointConnectionItemARM{}
-
-	// Set property ‘Etag’:
-	if item.Etag != nil {
-		etag := *item.Etag
-		result.Etag = &etag
-	}
-
-	// Set property ‘Id’:
-	if item.Id != nil {
-		id := *item.Id
-		result.Id = &id
-	}
-
-	// Set property ‘Properties’:
-	if item.PrivateEndpoint != nil ||
-		item.PrivateLinkServiceConnectionState != nil ||
-		item.ProvisioningState != nil {
-		result.Properties = &PrivateEndpointConnectionPropertiesARM{}
-	}
-	if item.PrivateEndpoint != nil {
-		privateEndpointARM, err := (*item.PrivateEndpoint).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		privateEndpoint := *privateEndpointARM.(*PrivateEndpointARM)
-		result.Properties.PrivateEndpoint = &privateEndpoint
-	}
-	if item.PrivateLinkServiceConnectionState != nil {
-		privateLinkServiceConnectionStateARM, err := (*item.PrivateLinkServiceConnectionState).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		privateLinkServiceConnectionState := *privateLinkServiceConnectionStateARM.(*PrivateLinkServiceConnectionStateARM)
-		result.Properties.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
-	}
-	if item.ProvisioningState != nil {
-		provisioningState := *item.ProvisioningState
-		result.Properties.ProvisioningState = &provisioningState
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (item *PrivateEndpointConnectionItem) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateEndpointConnectionItemARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (item *PrivateEndpointConnectionItem) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateEndpointConnectionItemARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnectionItemARM, got %T", armInput)
-	}
-
-	// Set property ‘Etag’:
-	if typedInput.Etag != nil {
-		etag := *typedInput.Etag
-		item.Etag = &etag
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		item.Id = &id
-	}
-
-	// Set property ‘PrivateEndpoint’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PrivateEndpoint != nil {
-			var privateEndpoint1 PrivateEndpoint
-			err := privateEndpoint1.PopulateFromARM(owner, *typedInput.Properties.PrivateEndpoint)
-			if err != nil {
-				return err
-			}
-			privateEndpoint := privateEndpoint1
-			item.PrivateEndpoint = &privateEndpoint
-		}
-	}
-
-	// Set property ‘PrivateLinkServiceConnectionState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PrivateLinkServiceConnectionState != nil {
-			var privateLinkServiceConnectionState1 PrivateLinkServiceConnectionState
-			err := privateLinkServiceConnectionState1.PopulateFromARM(owner, *typedInput.Properties.PrivateLinkServiceConnectionState)
-			if err != nil {
-				return err
-			}
-			privateLinkServiceConnectionState := privateLinkServiceConnectionState1
-			item.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
-		}
-	}
-
-	// Set property ‘ProvisioningState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
-			item.ProvisioningState = &provisioningState
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromPrivateEndpointConnectionItem populates our PrivateEndpointConnectionItem from the provided source PrivateEndpointConnectionItem
-func (item *PrivateEndpointConnectionItem) AssignPropertiesFromPrivateEndpointConnectionItem(source *v20210401ps.PrivateEndpointConnectionItem) error {
-
-	// Etag
-	item.Etag = genruntime.ClonePointerToString(source.Etag)
-
-	// Id
-	item.Id = genruntime.ClonePointerToString(source.Id)
-
-	// PrivateEndpoint
-	if source.PrivateEndpoint != nil {
-		var privateEndpoint PrivateEndpoint
-		err := privateEndpoint.AssignPropertiesFromPrivateEndpoint(source.PrivateEndpoint)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpoint() to populate field PrivateEndpoint")
-		}
-		item.PrivateEndpoint = &privateEndpoint
-	} else {
-		item.PrivateEndpoint = nil
-	}
-
-	// PrivateLinkServiceConnectionState
-	if source.PrivateLinkServiceConnectionState != nil {
-		var privateLinkServiceConnectionState PrivateLinkServiceConnectionState
-		err := privateLinkServiceConnectionState.AssignPropertiesFromPrivateLinkServiceConnectionState(source.PrivateLinkServiceConnectionState)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromPrivateLinkServiceConnectionState() to populate field PrivateLinkServiceConnectionState")
-		}
-		item.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
-	} else {
-		item.PrivateLinkServiceConnectionState = nil
-	}
-
-	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := PrivateEndpointConnectionProvisioningState(*source.ProvisioningState)
-		item.ProvisioningState = &provisioningState
-	} else {
-		item.ProvisioningState = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToPrivateEndpointConnectionItem populates the provided destination PrivateEndpointConnectionItem from our PrivateEndpointConnectionItem
-func (item *PrivateEndpointConnectionItem) AssignPropertiesToPrivateEndpointConnectionItem(destination *v20210401ps.PrivateEndpointConnectionItem) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(item.Etag)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(item.Id)
-
-	// PrivateEndpoint
-	if item.PrivateEndpoint != nil {
-		var privateEndpoint v20210401ps.PrivateEndpoint
-		err := item.PrivateEndpoint.AssignPropertiesToPrivateEndpoint(&privateEndpoint)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpoint() to populate field PrivateEndpoint")
-		}
-		destination.PrivateEndpoint = &privateEndpoint
-	} else {
-		destination.PrivateEndpoint = nil
-	}
-
-	// PrivateLinkServiceConnectionState
-	if item.PrivateLinkServiceConnectionState != nil {
-		var privateLinkServiceConnectionState v20210401ps.PrivateLinkServiceConnectionState
-		err := item.PrivateLinkServiceConnectionState.AssignPropertiesToPrivateLinkServiceConnectionState(&privateLinkServiceConnectionState)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToPrivateLinkServiceConnectionState() to populate field PrivateLinkServiceConnectionState")
-		}
-		destination.PrivateLinkServiceConnectionState = &privateLinkServiceConnectionState
-	} else {
-		destination.PrivateLinkServiceConnectionState = nil
-	}
-
-	// ProvisioningState
-	if item.ProvisioningState != nil {
-		provisioningState := string(*item.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 type PrivateEndpointConnectionItem_STATUS struct {
 	// Etag: Modified whenever there is a change in the state of private endpoint connection.
 	Etag *string `json:"etag,omitempty"`
@@ -3988,91 +3678,6 @@ func (permissions *Permissions_STATUS) AssignPropertiesToPermissions_STATUS(dest
 	return nil
 }
 
-type PrivateEndpoint struct {
-	// Id: Full identifier of the private endpoint resource.
-	Id *string `json:"id,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &PrivateEndpoint{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (endpoint *PrivateEndpoint) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if endpoint == nil {
-		return nil, nil
-	}
-	result := &PrivateEndpointARM{}
-
-	// Set property ‘Id’:
-	if endpoint.Id != nil {
-		id := *endpoint.Id
-		result.Id = &id
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (endpoint *PrivateEndpoint) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateEndpointARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (endpoint *PrivateEndpoint) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateEndpointARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointARM, got %T", armInput)
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		endpoint.Id = &id
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromPrivateEndpoint populates our PrivateEndpoint from the provided source PrivateEndpoint
-func (endpoint *PrivateEndpoint) AssignPropertiesFromPrivateEndpoint(source *v20210401ps.PrivateEndpoint) error {
-
-	// Id
-	endpoint.Id = genruntime.ClonePointerToString(source.Id)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToPrivateEndpoint populates the provided destination PrivateEndpoint from our PrivateEndpoint
-func (endpoint *PrivateEndpoint) AssignPropertiesToPrivateEndpoint(destination *v20210401ps.PrivateEndpoint) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(endpoint.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// +kubebuilder:validation:Enum={"Creating","Deleting","Disconnected","Failed","Succeeded","Updating"}
-type PrivateEndpointConnectionProvisioningState string
-
-const (
-	PrivateEndpointConnectionProvisioningState_Creating     = PrivateEndpointConnectionProvisioningState("Creating")
-	PrivateEndpointConnectionProvisioningState_Deleting     = PrivateEndpointConnectionProvisioningState("Deleting")
-	PrivateEndpointConnectionProvisioningState_Disconnected = PrivateEndpointConnectionProvisioningState("Disconnected")
-	PrivateEndpointConnectionProvisioningState_Failed       = PrivateEndpointConnectionProvisioningState("Failed")
-	PrivateEndpointConnectionProvisioningState_Succeeded    = PrivateEndpointConnectionProvisioningState("Succeeded")
-	PrivateEndpointConnectionProvisioningState_Updating     = PrivateEndpointConnectionProvisioningState("Updating")
-)
-
 type PrivateEndpointConnectionProvisioningState_STATUS string
 
 const (
@@ -4130,141 +3735,6 @@ func (endpoint *PrivateEndpoint_STATUS) AssignPropertiesToPrivateEndpoint_STATUS
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(endpoint.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type PrivateLinkServiceConnectionState struct {
-	// ActionsRequired: A message indicating if changes on the service provider require any updates on the consumer.
-	ActionsRequired *PrivateLinkServiceConnectionState_ActionsRequired `json:"actionsRequired,omitempty"`
-
-	// Description: The reason for approval or rejection.
-	Description *string `json:"description,omitempty"`
-
-	// Status: Indicates whether the connection has been approved, rejected or removed by the key vault owner.
-	Status *PrivateEndpointServiceConnectionStatus `json:"status,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &PrivateLinkServiceConnectionState{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (state *PrivateLinkServiceConnectionState) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if state == nil {
-		return nil, nil
-	}
-	result := &PrivateLinkServiceConnectionStateARM{}
-
-	// Set property ‘ActionsRequired’:
-	if state.ActionsRequired != nil {
-		actionsRequired := *state.ActionsRequired
-		result.ActionsRequired = &actionsRequired
-	}
-
-	// Set property ‘Description’:
-	if state.Description != nil {
-		description := *state.Description
-		result.Description = &description
-	}
-
-	// Set property ‘Status’:
-	if state.Status != nil {
-		status := *state.Status
-		result.Status = &status
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (state *PrivateLinkServiceConnectionState) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateLinkServiceConnectionStateARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (state *PrivateLinkServiceConnectionState) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateLinkServiceConnectionStateARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkServiceConnectionStateARM, got %T", armInput)
-	}
-
-	// Set property ‘ActionsRequired’:
-	if typedInput.ActionsRequired != nil {
-		actionsRequired := *typedInput.ActionsRequired
-		state.ActionsRequired = &actionsRequired
-	}
-
-	// Set property ‘Description’:
-	if typedInput.Description != nil {
-		description := *typedInput.Description
-		state.Description = &description
-	}
-
-	// Set property ‘Status’:
-	if typedInput.Status != nil {
-		status := *typedInput.Status
-		state.Status = &status
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromPrivateLinkServiceConnectionState populates our PrivateLinkServiceConnectionState from the provided source PrivateLinkServiceConnectionState
-func (state *PrivateLinkServiceConnectionState) AssignPropertiesFromPrivateLinkServiceConnectionState(source *v20210401ps.PrivateLinkServiceConnectionState) error {
-
-	// ActionsRequired
-	if source.ActionsRequired != nil {
-		actionsRequired := PrivateLinkServiceConnectionState_ActionsRequired(*source.ActionsRequired)
-		state.ActionsRequired = &actionsRequired
-	} else {
-		state.ActionsRequired = nil
-	}
-
-	// Description
-	state.Description = genruntime.ClonePointerToString(source.Description)
-
-	// Status
-	if source.Status != nil {
-		status := PrivateEndpointServiceConnectionStatus(*source.Status)
-		state.Status = &status
-	} else {
-		state.Status = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToPrivateLinkServiceConnectionState populates the provided destination PrivateLinkServiceConnectionState from our PrivateLinkServiceConnectionState
-func (state *PrivateLinkServiceConnectionState) AssignPropertiesToPrivateLinkServiceConnectionState(destination *v20210401ps.PrivateLinkServiceConnectionState) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// ActionsRequired
-	if state.ActionsRequired != nil {
-		actionsRequired := string(*state.ActionsRequired)
-		destination.ActionsRequired = &actionsRequired
-	} else {
-		destination.ActionsRequired = nil
-	}
-
-	// Description
-	destination.Description = genruntime.ClonePointerToString(state.Description)
-
-	// Status
-	if state.Status != nil {
-		status := string(*state.Status)
-		destination.Status = &status
-	} else {
-		destination.Status = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4587,16 +4057,6 @@ func (rule *VirtualNetworkRule_STATUS) AssignPropertiesToVirtualNetworkRule_STAT
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"Approved","Disconnected","Pending","Rejected"}
-type PrivateEndpointServiceConnectionStatus string
-
-const (
-	PrivateEndpointServiceConnectionStatus_Approved     = PrivateEndpointServiceConnectionStatus("Approved")
-	PrivateEndpointServiceConnectionStatus_Disconnected = PrivateEndpointServiceConnectionStatus("Disconnected")
-	PrivateEndpointServiceConnectionStatus_Pending      = PrivateEndpointServiceConnectionStatus("Pending")
-	PrivateEndpointServiceConnectionStatus_Rejected     = PrivateEndpointServiceConnectionStatus("Rejected")
-)
-
 type PrivateEndpointServiceConnectionStatus_STATUS string
 
 const (
@@ -4605,11 +4065,6 @@ const (
 	PrivateEndpointServiceConnectionStatus_Pending_STATUS      = PrivateEndpointServiceConnectionStatus_STATUS("Pending")
 	PrivateEndpointServiceConnectionStatus_Rejected_STATUS     = PrivateEndpointServiceConnectionStatus_STATUS("Rejected")
 )
-
-// +kubebuilder:validation:Enum={"None"}
-type PrivateLinkServiceConnectionState_ActionsRequired string
-
-const PrivateLinkServiceConnectionState_ActionsRequired_None = PrivateLinkServiceConnectionState_ActionsRequired("None")
 
 type PrivateLinkServiceConnectionState_ActionsRequired_STATUS string
 

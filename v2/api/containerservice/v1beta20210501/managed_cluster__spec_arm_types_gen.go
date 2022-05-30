@@ -14,17 +14,12 @@ type ManagedCluster_SpecARM struct {
 	// ExtendedLocation: The extended location of the Virtual Machine.
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
 
-	// Id: Resource Id
-	Id *string `json:"id,omitempty"`
-
 	// Identity: The identity of the managed cluster, if configured.
 	Identity *ManagedClusterIdentityARM `json:"identity,omitempty"`
 
 	// Location: Resource location
 	Location *string `json:"location,omitempty"`
-
-	// Name: Resource name
-	Name string `json:"name,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
 	// Properties: Properties of a managed cluster.
 	Properties *ManagedClusterPropertiesARM `json:"properties,omitempty"`
@@ -34,9 +29,6 @@ type ManagedCluster_SpecARM struct {
 
 	// Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: Resource type
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &ManagedCluster_SpecARM{}
@@ -65,19 +57,9 @@ type ExtendedLocationARM struct {
 }
 
 type ManagedClusterIdentityARM struct {
-	// PrincipalId: The principal id of the system assigned identity which is used by master components.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	// TenantId: The tenant id of the system assigned identity which is used by master components.
-	TenantId *string `json:"tenantId,omitempty"`
-
 	// Type: For more information see [use managed identities in
 	// AKS](https://docs.microsoft.com/azure/aks/use-managed-identity).
 	Type *ManagedClusterIdentity_Type `json:"type,omitempty"`
-
-	// UserAssignedIdentities: The keys must be ARM resource IDs in the form:
-	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-	UserAssignedIdentities map[string]ManagedClusterIdentity_UserAssignedIdentitiesARM `json:"userAssignedIdentities,omitempty"`
 }
 
 type ManagedClusterPropertiesARM struct {
@@ -99,11 +81,6 @@ type ManagedClusterPropertiesARM struct {
 	// AutoUpgradeProfile: The auto upgrade configuration.
 	AutoUpgradeProfile *ManagedClusterAutoUpgradeProfileARM `json:"autoUpgradeProfile,omitempty"`
 
-	// AzurePortalFQDN: The Azure Portal requires certain Cross-Origin Resource Sharing (CORS) headers to be sent in some
-	// responses, which Kubernetes APIServer doesn't handle by default. This special FQDN supports CORS, allowing the Azure
-	// Portal to function properly.
-	AzurePortalFQDN *string `json:"azurePortalFQDN,omitempty"`
-
 	// DisableLocalAccounts: If set to true, getting static credentials will be disabled for this cluster. This must only be
 	// used on Managed Clusters that are AAD enabled. For more details see [disable local
 	// accounts](https://docs.microsoft.com/azure/aks/managed-aad#disable-local-accounts-preview).
@@ -119,9 +96,6 @@ type ManagedClusterPropertiesARM struct {
 
 	// EnableRBAC: Whether to enable Kubernetes Role-Based Access Control.
 	EnableRBAC *bool `json:"enableRBAC,omitempty"`
-
-	// Fqdn: The FQDN of the master pool.
-	Fqdn *string `json:"fqdn,omitempty"`
 
 	// FqdnSubdomain: This cannot be updated once the Managed Cluster has been created.
 	FqdnSubdomain *string `json:"fqdnSubdomain,omitempty"`
@@ -141,9 +115,6 @@ type ManagedClusterPropertiesARM struct {
 	// LinuxProfile: The profile for Linux VMs in the Managed Cluster.
 	LinuxProfile *ContainerServiceLinuxProfileARM `json:"linuxProfile,omitempty"`
 
-	// MaxAgentPools: The max number of agent pools for the managed cluster.
-	MaxAgentPools *int `json:"maxAgentPools,omitempty"`
-
 	// NetworkProfile: The network configuration profile.
 	NetworkProfile *ContainerServiceNetworkProfileARM `json:"networkProfile,omitempty"`
 
@@ -154,17 +125,8 @@ type ManagedClusterPropertiesARM struct {
 	// details on AAD pod identity integration.
 	PodIdentityProfile *ManagedClusterPodIdentityProfileARM `json:"podIdentityProfile,omitempty"`
 
-	// PowerState: The Power State of the cluster.
-	PowerState *PowerStateARM `json:"powerState,omitempty"`
-
-	// PrivateFQDN: The FQDN of private cluster.
-	PrivateFQDN *string `json:"privateFQDN,omitempty"`
-
 	// PrivateLinkResources: Private link resources associated with the cluster.
 	PrivateLinkResources []PrivateLinkResourceARM `json:"privateLinkResources,omitempty"`
-
-	// ProvisioningState: The current provisioning state.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// ServicePrincipalProfile: Information about a service principal identity for the cluster to use for manipulating Azure
 	// APIs.
@@ -331,9 +293,6 @@ type ManagedClusterAgentPoolProfileARM struct {
 	// Name: Windows agent pool names must be 6 characters or less.
 	Name *string `json:"name,omitempty"`
 
-	// NodeImageVersion: The version of node image
-	NodeImageVersion *string `json:"nodeImageVersion,omitempty"`
-
 	// NodeLabels: The node labels to be persisted across all nodes in agent pool.
 	NodeLabels           map[string]string `json:"nodeLabels,omitempty"`
 	NodePublicIPPrefixID *string           `json:"nodePublicIPPrefixID,omitempty"`
@@ -352,12 +311,6 @@ type ManagedClusterAgentPoolProfileARM struct {
 	OsSKU               *OSSKU                  `json:"osSKU,omitempty"`
 	OsType              *OSType                 `json:"osType,omitempty"`
 	PodSubnetID         *string                 `json:"podSubnetID,omitempty"`
-
-	// PowerState: Describes whether the Agent Pool is Running or Stopped
-	PowerState *PowerStateARM `json:"powerState,omitempty"`
-
-	// ProvisioningState: The current deployment or provisioning state.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// ProximityPlacementGroupID: The ID for Proximity Placement Group.
 	ProximityPlacementGroupID *string `json:"proximityPlacementGroupID,omitempty"`
@@ -416,14 +369,6 @@ const (
 	ManagedClusterIdentity_Type_SystemAssigned = ManagedClusterIdentity_Type("SystemAssigned")
 	ManagedClusterIdentity_Type_UserAssigned   = ManagedClusterIdentity_Type("UserAssigned")
 )
-
-type ManagedClusterIdentity_UserAssignedIdentitiesARM struct {
-	// ClientId: The client id of user assigned identity.
-	ClientId *string `json:"clientId,omitempty"`
-
-	// PrincipalId: The principal id of user assigned identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-}
 
 type ManagedClusterPodIdentityProfileARM struct {
 	// AllowNetworkPluginKubenet: Running in Kubenet is disabled by default due to the security related nature of AAD Pod
@@ -557,11 +502,6 @@ type ManagedClusterWindowsProfileARM struct {
 	LicenseType *ManagedClusterWindowsProfile_LicenseType `json:"licenseType,omitempty"`
 }
 
-type PowerStateARM struct {
-	// Code: Tells whether the cluster is Running or Stopped
-	Code *PowerState_Code `json:"code,omitempty"`
-}
-
 type PrivateLinkResourceARM struct {
 	// GroupId: The group ID of the resource.
 	GroupId *string `json:"groupId,omitempty"`
@@ -569,9 +509,6 @@ type PrivateLinkResourceARM struct {
 
 	// Name: The name of the private link resource.
 	Name *string `json:"name,omitempty"`
-
-	// PrivateLinkServiceID: The private link service ID of the resource, this field is exposed only to NRP internally.
-	PrivateLinkServiceID *string `json:"privateLinkServiceID,omitempty"`
 
 	// RequiredMembers: The RequiredMembers of the resource
 	RequiredMembers []string `json:"requiredMembers,omitempty"`
@@ -618,11 +555,7 @@ type ManagedClusterPodIdentityARM struct {
 	Name *string `json:"name,omitempty"`
 
 	// Namespace: The namespace of the pod identity.
-	Namespace        *string                                        `json:"namespace,omitempty"`
-	ProvisioningInfo *ManagedClusterPodIdentity_ProvisioningInfoARM `json:"provisioningInfo,omitempty"`
-
-	// ProvisioningState: The current provisioning state of the pod identity.
-	ProvisioningState *ManagedClusterPodIdentity_ProvisioningState `json:"provisioningState,omitempty"`
+	Namespace *string `json:"namespace,omitempty"`
 }
 
 type ManagedClusterPodIdentityExceptionARM struct {
@@ -658,11 +591,6 @@ type ManagedClusterLoadBalancerProfile_OutboundIPsARM struct {
 	PublicIPs []ResourceReferenceARM `json:"publicIPs,omitempty"`
 }
 
-type ManagedClusterPodIdentity_ProvisioningInfoARM struct {
-	// Error: Pod identity assignment error (if any).
-	Error *ManagedClusterPodIdentityProvisioningErrorARM `json:"error,omitempty"`
-}
-
 type ResourceReferenceARM struct {
 	Id *string `json:"id,omitempty"`
 }
@@ -674,34 +602,4 @@ type UserAssignedIdentityARM struct {
 	// ObjectId: The object ID of the user assigned identity.
 	ObjectId   *string `json:"objectId,omitempty"`
 	ResourceId *string `json:"resourceId,omitempty"`
-}
-
-type ManagedClusterPodIdentityProvisioningErrorARM struct {
-	// Error: Details about the error.
-	Error *ManagedClusterPodIdentityProvisioningErrorBodyARM `json:"error,omitempty"`
-}
-
-type ManagedClusterPodIdentityProvisioningErrorBodyARM struct {
-	// Code: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
-	Code *string `json:"code,omitempty"`
-
-	// Details: A list of additional details about the error.
-	Details []ManagedClusterPodIdentityProvisioningErrorBody_UnrolledARM `json:"details,omitempty"`
-
-	// Message: A message describing the error, intended to be suitable for display in a user interface.
-	Message *string `json:"message,omitempty"`
-
-	// Target: The target of the particular error. For example, the name of the property in error.
-	Target *string `json:"target,omitempty"`
-}
-
-type ManagedClusterPodIdentityProvisioningErrorBody_UnrolledARM struct {
-	// Code: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
-	Code *string `json:"code,omitempty"`
-
-	// Message: A message describing the error, intended to be suitable for display in a user interface.
-	Message *string `json:"message,omitempty"`
-
-	// Target: The target of the particular error. For example, the name of the property in error.
-	Target *string `json:"target,omitempty"`
 }

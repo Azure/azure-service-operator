@@ -896,23 +896,21 @@ type VirtualMachine_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName            string                      `json:"azureName,omitempty"`
-	BillingProfile       *BillingProfile             `json:"billingProfile,omitempty"`
-	DiagnosticsProfile   *DiagnosticsProfile         `json:"diagnosticsProfile,omitempty"`
-	EvictionPolicy       *string                     `json:"evictionPolicy,omitempty"`
-	ExtendedLocation     *ExtendedLocation           `json:"extendedLocation,omitempty"`
-	ExtensionsTimeBudget *string                     `json:"extensionsTimeBudget,omitempty"`
-	HardwareProfile      *HardwareProfile            `json:"hardwareProfile,omitempty"`
-	Host                 *SubResource                `json:"host,omitempty"`
-	HostGroup            *SubResource                `json:"hostGroup,omitempty"`
-	Id                   *string                     `json:"id,omitempty"`
-	Identity             *VirtualMachineIdentity     `json:"identity,omitempty"`
-	InstanceView         *VirtualMachineInstanceView `json:"instanceView,omitempty"`
-	LicenseType          *string                     `json:"licenseType,omitempty"`
-	Location             *string                     `json:"location,omitempty"`
-	NetworkProfile       *NetworkProfile             `json:"networkProfile,omitempty"`
-	OriginalVersion      string                      `json:"originalVersion,omitempty"`
-	OsProfile            *OSProfile                  `json:"osProfile,omitempty"`
+	AzureName            string                  `json:"azureName,omitempty"`
+	BillingProfile       *BillingProfile         `json:"billingProfile,omitempty"`
+	DiagnosticsProfile   *DiagnosticsProfile     `json:"diagnosticsProfile,omitempty"`
+	EvictionPolicy       *string                 `json:"evictionPolicy,omitempty"`
+	ExtendedLocation     *ExtendedLocation       `json:"extendedLocation,omitempty"`
+	ExtensionsTimeBudget *string                 `json:"extensionsTimeBudget,omitempty"`
+	HardwareProfile      *HardwareProfile        `json:"hardwareProfile,omitempty"`
+	Host                 *SubResource            `json:"host,omitempty"`
+	HostGroup            *SubResource            `json:"hostGroup,omitempty"`
+	Identity             *VirtualMachineIdentity `json:"identity,omitempty"`
+	LicenseType          *string                 `json:"licenseType,omitempty"`
+	Location             *string                 `json:"location,omitempty"`
+	NetworkProfile       *NetworkProfile         `json:"networkProfile,omitempty"`
+	OriginalVersion      string                  `json:"originalVersion,omitempty"`
+	OsProfile            *OSProfile              `json:"osProfile,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -923,14 +921,11 @@ type VirtualMachine_Spec struct {
 	PlatformFaultDomain     *int                               `json:"platformFaultDomain,omitempty"`
 	Priority                *string                            `json:"priority,omitempty"`
 	PropertyBag             genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	ProvisioningState       *string                            `json:"provisioningState,omitempty"`
 	ProximityPlacementGroup *SubResource                       `json:"proximityPlacementGroup,omitempty"`
 	SecurityProfile         *SecurityProfile                   `json:"securityProfile,omitempty"`
 	StorageProfile          *StorageProfile                    `json:"storageProfile,omitempty"`
 	Tags                    map[string]string                  `json:"tags,omitempty"`
-	Type                    *string                            `json:"type,omitempty"`
 	VirtualMachineScaleSet  *SubResource                       `json:"virtualMachineScaleSet,omitempty"`
-	VmId                    *string                            `json:"vmId,omitempty"`
 	Zones                   []string                           `json:"zones,omitempty"`
 }
 
@@ -1119,9 +1114,6 @@ func (machine *VirtualMachine_Spec) AssignPropertiesFromVirtualMachine_Spec(sour
 		machine.HostGroup = nil
 	}
 
-	// Id
-	machine.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Identity
 	if source.Identity != nil {
 		var identity VirtualMachineIdentity
@@ -1132,18 +1124,6 @@ func (machine *VirtualMachine_Spec) AssignPropertiesFromVirtualMachine_Spec(sour
 		machine.Identity = &identity
 	} else {
 		machine.Identity = nil
-	}
-
-	// InstanceView
-	if source.InstanceView != nil {
-		var instanceView VirtualMachineInstanceView
-		err := instanceView.AssignPropertiesFromVirtualMachineInstanceView(source.InstanceView)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineInstanceView() to populate field InstanceView")
-		}
-		machine.InstanceView = &instanceView
-	} else {
-		machine.InstanceView = nil
 	}
 
 	// LicenseType
@@ -1205,9 +1185,6 @@ func (machine *VirtualMachine_Spec) AssignPropertiesFromVirtualMachine_Spec(sour
 	// Priority
 	machine.Priority = genruntime.ClonePointerToString(source.Priority)
 
-	// ProvisioningState
-	machine.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
 	// ProximityPlacementGroup
 	if source.ProximityPlacementGroup != nil {
 		var subResourceStash alpha20210701s.SubResource
@@ -1252,9 +1229,6 @@ func (machine *VirtualMachine_Spec) AssignPropertiesFromVirtualMachine_Spec(sour
 	// Tags
 	machine.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
-	// Type
-	machine.Type = genruntime.ClonePointerToString(source.Type)
-
 	// VirtualMachineScaleSet
 	if source.VirtualMachineScaleSet != nil {
 		var subResourceStash alpha20210701s.SubResource
@@ -1271,9 +1245,6 @@ func (machine *VirtualMachine_Spec) AssignPropertiesFromVirtualMachine_Spec(sour
 	} else {
 		machine.VirtualMachineScaleSet = nil
 	}
-
-	// VmId
-	machine.VmId = genruntime.ClonePointerToString(source.VmId)
 
 	// Zones
 	machine.Zones = genruntime.CloneSliceOfString(source.Zones)
@@ -1424,9 +1395,6 @@ func (machine *VirtualMachine_Spec) AssignPropertiesToVirtualMachine_Spec(destin
 		destination.HostGroup = nil
 	}
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(machine.Id)
-
 	// Identity
 	if machine.Identity != nil {
 		var identity v20201201s.VirtualMachineIdentity
@@ -1437,18 +1405,6 @@ func (machine *VirtualMachine_Spec) AssignPropertiesToVirtualMachine_Spec(destin
 		destination.Identity = &identity
 	} else {
 		destination.Identity = nil
-	}
-
-	// InstanceView
-	if machine.InstanceView != nil {
-		var instanceView v20201201s.VirtualMachineInstanceView
-		err := machine.InstanceView.AssignPropertiesToVirtualMachineInstanceView(&instanceView)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineInstanceView() to populate field InstanceView")
-		}
-		destination.InstanceView = &instanceView
-	} else {
-		destination.InstanceView = nil
 	}
 
 	// LicenseType
@@ -1510,9 +1466,6 @@ func (machine *VirtualMachine_Spec) AssignPropertiesToVirtualMachine_Spec(destin
 	// Priority
 	destination.Priority = genruntime.ClonePointerToString(machine.Priority)
 
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(machine.ProvisioningState)
-
 	// ProximityPlacementGroup
 	if machine.ProximityPlacementGroup != nil {
 		var subResourceStash alpha20210701s.SubResource
@@ -1557,9 +1510,6 @@ func (machine *VirtualMachine_Spec) AssignPropertiesToVirtualMachine_Spec(destin
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(machine.Tags)
 
-	// Type
-	destination.Type = genruntime.ClonePointerToString(machine.Type)
-
 	// VirtualMachineScaleSet
 	if machine.VirtualMachineScaleSet != nil {
 		var subResourceStash alpha20210701s.SubResource
@@ -1576,9 +1526,6 @@ func (machine *VirtualMachine_Spec) AssignPropertiesToVirtualMachine_Spec(destin
 	} else {
 		destination.VirtualMachineScaleSet = nil
 	}
-
-	// VmId
-	destination.VmId = genruntime.ClonePointerToString(machine.VmId)
 
 	// Zones
 	destination.Zones = genruntime.CloneSliceOfString(machine.Zones)
@@ -3320,11 +3267,8 @@ func (resource *SubResource_STATUS) AssignPropertiesToSubResource_STATUS(destina
 // Storage version of v1alpha1api20201201.VirtualMachineIdentity
 // Deprecated version of VirtualMachineIdentity. Use v1beta20201201.VirtualMachineIdentity instead
 type VirtualMachineIdentity struct {
-	PrincipalId            *string                                                  `json:"principalId,omitempty"`
-	PropertyBag            genruntime.PropertyBag                                   `json:"$propertyBag,omitempty"`
-	TenantId               *string                                                  `json:"tenantId,omitempty"`
-	Type                   *string                                                  `json:"type,omitempty"`
-	UserAssignedIdentities map[string]VirtualMachineIdentity_UserAssignedIdentities `json:"userAssignedIdentities,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Type        *string                `json:"type,omitempty"`
 }
 
 // AssignPropertiesFromVirtualMachineIdentity populates our VirtualMachineIdentity from the provided source VirtualMachineIdentity
@@ -3332,32 +3276,8 @@ func (identity *VirtualMachineIdentity) AssignPropertiesFromVirtualMachineIdenti
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// PrincipalId
-	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// TenantId
-	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
-
 	// Type
 	identity.Type = genruntime.ClonePointerToString(source.Type)
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]VirtualMachineIdentity_UserAssignedIdentities, len(source.UserAssignedIdentities))
-		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity VirtualMachineIdentity_UserAssignedIdentities
-			err := userAssignedIdentity.AssignPropertiesFromVirtualMachineIdentity_UserAssignedIdentities(&userAssignedIdentityValue)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineIdentity_UserAssignedIdentities() to populate field UserAssignedIdentities")
-			}
-			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
-		}
-		identity.UserAssignedIdentities = userAssignedIdentityMap
-	} else {
-		identity.UserAssignedIdentities = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3375,32 +3295,8 @@ func (identity *VirtualMachineIdentity) AssignPropertiesToVirtualMachineIdentity
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
 
-	// PrincipalId
-	destination.PrincipalId = genruntime.ClonePointerToString(identity.PrincipalId)
-
-	// TenantId
-	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
-
 	// Type
 	destination.Type = genruntime.ClonePointerToString(identity.Type)
-
-	// UserAssignedIdentities
-	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v20201201s.VirtualMachineIdentity_UserAssignedIdentities, len(identity.UserAssignedIdentities))
-		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity v20201201s.VirtualMachineIdentity_UserAssignedIdentities
-			err := userAssignedIdentityValue.AssignPropertiesToVirtualMachineIdentity_UserAssignedIdentities(&userAssignedIdentity)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineIdentity_UserAssignedIdentities() to populate field UserAssignedIdentities")
-			}
-			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
-		}
-		destination.UserAssignedIdentities = userAssignedIdentityMap
-	} else {
-		destination.UserAssignedIdentities = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3496,336 +3392,6 @@ func (identity *VirtualMachineIdentity_STATUS) AssignPropertiesToVirtualMachineI
 		destination.UserAssignedIdentities = userAssignedIdentityMap
 	} else {
 		destination.UserAssignedIdentities = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20201201.VirtualMachineInstanceView
-// Deprecated version of VirtualMachineInstanceView. Use v1beta20201201.VirtualMachineInstanceView instead
-type VirtualMachineInstanceView struct {
-	AssignedHost              *string                               `json:"assignedHost,omitempty"`
-	BootDiagnostics           *BootDiagnosticsInstanceView          `json:"bootDiagnostics,omitempty"`
-	ComputerName              *string                               `json:"computerName,omitempty"`
-	Disks                     []DiskInstanceView                    `json:"disks,omitempty"`
-	Extensions                []VirtualMachineExtensionInstanceView `json:"extensions,omitempty"`
-	HyperVGeneration          *string                               `json:"hyperVGeneration,omitempty"`
-	MaintenanceRedeployStatus *MaintenanceRedeployStatus            `json:"maintenanceRedeployStatus,omitempty"`
-	OsName                    *string                               `json:"osName,omitempty"`
-	OsVersion                 *string                               `json:"osVersion,omitempty"`
-	PatchStatus               *VirtualMachinePatchStatus            `json:"patchStatus,omitempty"`
-	PlatformFaultDomain       *int                                  `json:"platformFaultDomain,omitempty"`
-	PlatformUpdateDomain      *int                                  `json:"platformUpdateDomain,omitempty"`
-	PropertyBag               genruntime.PropertyBag                `json:"$propertyBag,omitempty"`
-	RdpThumbPrint             *string                               `json:"rdpThumbPrint,omitempty"`
-	Statuses                  []InstanceViewStatus                  `json:"statuses,omitempty"`
-	VmAgent                   *VirtualMachineAgentInstanceView      `json:"vmAgent,omitempty"`
-	VmHealth                  *VirtualMachineHealthStatus           `json:"vmHealth,omitempty"`
-}
-
-// AssignPropertiesFromVirtualMachineInstanceView populates our VirtualMachineInstanceView from the provided source VirtualMachineInstanceView
-func (view *VirtualMachineInstanceView) AssignPropertiesFromVirtualMachineInstanceView(source *v20201201s.VirtualMachineInstanceView) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// AssignedHost
-	view.AssignedHost = genruntime.ClonePointerToString(source.AssignedHost)
-
-	// BootDiagnostics
-	if source.BootDiagnostics != nil {
-		var bootDiagnostic BootDiagnosticsInstanceView
-		err := bootDiagnostic.AssignPropertiesFromBootDiagnosticsInstanceView(source.BootDiagnostics)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromBootDiagnosticsInstanceView() to populate field BootDiagnostics")
-		}
-		view.BootDiagnostics = &bootDiagnostic
-	} else {
-		view.BootDiagnostics = nil
-	}
-
-	// ComputerName
-	view.ComputerName = genruntime.ClonePointerToString(source.ComputerName)
-
-	// Disks
-	if source.Disks != nil {
-		diskList := make([]DiskInstanceView, len(source.Disks))
-		for diskIndex, diskItem := range source.Disks {
-			// Shadow the loop variable to avoid aliasing
-			diskItem := diskItem
-			var disk DiskInstanceView
-			err := disk.AssignPropertiesFromDiskInstanceView(&diskItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromDiskInstanceView() to populate field Disks")
-			}
-			diskList[diskIndex] = disk
-		}
-		view.Disks = diskList
-	} else {
-		view.Disks = nil
-	}
-
-	// Extensions
-	if source.Extensions != nil {
-		extensionList := make([]VirtualMachineExtensionInstanceView, len(source.Extensions))
-		for extensionIndex, extensionItem := range source.Extensions {
-			// Shadow the loop variable to avoid aliasing
-			extensionItem := extensionItem
-			var extension VirtualMachineExtensionInstanceView
-			err := extension.AssignPropertiesFromVirtualMachineExtensionInstanceView(&extensionItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineExtensionInstanceView() to populate field Extensions")
-			}
-			extensionList[extensionIndex] = extension
-		}
-		view.Extensions = extensionList
-	} else {
-		view.Extensions = nil
-	}
-
-	// HyperVGeneration
-	view.HyperVGeneration = genruntime.ClonePointerToString(source.HyperVGeneration)
-
-	// MaintenanceRedeployStatus
-	if source.MaintenanceRedeployStatus != nil {
-		var maintenanceRedeployStatus MaintenanceRedeployStatus
-		err := maintenanceRedeployStatus.AssignPropertiesFromMaintenanceRedeployStatus(source.MaintenanceRedeployStatus)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromMaintenanceRedeployStatus() to populate field MaintenanceRedeployStatus")
-		}
-		view.MaintenanceRedeployStatus = &maintenanceRedeployStatus
-	} else {
-		view.MaintenanceRedeployStatus = nil
-	}
-
-	// OsName
-	view.OsName = genruntime.ClonePointerToString(source.OsName)
-
-	// OsVersion
-	view.OsVersion = genruntime.ClonePointerToString(source.OsVersion)
-
-	// PatchStatus
-	if source.PatchStatus != nil {
-		var patchStatus VirtualMachinePatchStatus
-		err := patchStatus.AssignPropertiesFromVirtualMachinePatchStatus(source.PatchStatus)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachinePatchStatus() to populate field PatchStatus")
-		}
-		view.PatchStatus = &patchStatus
-	} else {
-		view.PatchStatus = nil
-	}
-
-	// PlatformFaultDomain
-	view.PlatformFaultDomain = genruntime.ClonePointerToInt(source.PlatformFaultDomain)
-
-	// PlatformUpdateDomain
-	view.PlatformUpdateDomain = genruntime.ClonePointerToInt(source.PlatformUpdateDomain)
-
-	// RdpThumbPrint
-	view.RdpThumbPrint = genruntime.ClonePointerToString(source.RdpThumbPrint)
-
-	// Statuses
-	if source.Statuses != nil {
-		statusList := make([]InstanceViewStatus, len(source.Statuses))
-		for statusIndex, statusItem := range source.Statuses {
-			// Shadow the loop variable to avoid aliasing
-			statusItem := statusItem
-			var status InstanceViewStatus
-			err := status.AssignPropertiesFromInstanceViewStatus(&statusItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatus() to populate field Statuses")
-			}
-			statusList[statusIndex] = status
-		}
-		view.Statuses = statusList
-	} else {
-		view.Statuses = nil
-	}
-
-	// VmAgent
-	if source.VmAgent != nil {
-		var vmAgent VirtualMachineAgentInstanceView
-		err := vmAgent.AssignPropertiesFromVirtualMachineAgentInstanceView(source.VmAgent)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineAgentInstanceView() to populate field VmAgent")
-		}
-		view.VmAgent = &vmAgent
-	} else {
-		view.VmAgent = nil
-	}
-
-	// VmHealth
-	if source.VmHealth != nil {
-		var vmHealth VirtualMachineHealthStatus
-		err := vmHealth.AssignPropertiesFromVirtualMachineHealthStatus(source.VmHealth)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineHealthStatus() to populate field VmHealth")
-		}
-		view.VmHealth = &vmHealth
-	} else {
-		view.VmHealth = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		view.PropertyBag = propertyBag
-	} else {
-		view.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToVirtualMachineInstanceView populates the provided destination VirtualMachineInstanceView from our VirtualMachineInstanceView
-func (view *VirtualMachineInstanceView) AssignPropertiesToVirtualMachineInstanceView(destination *v20201201s.VirtualMachineInstanceView) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(view.PropertyBag)
-
-	// AssignedHost
-	destination.AssignedHost = genruntime.ClonePointerToString(view.AssignedHost)
-
-	// BootDiagnostics
-	if view.BootDiagnostics != nil {
-		var bootDiagnostic v20201201s.BootDiagnosticsInstanceView
-		err := view.BootDiagnostics.AssignPropertiesToBootDiagnosticsInstanceView(&bootDiagnostic)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToBootDiagnosticsInstanceView() to populate field BootDiagnostics")
-		}
-		destination.BootDiagnostics = &bootDiagnostic
-	} else {
-		destination.BootDiagnostics = nil
-	}
-
-	// ComputerName
-	destination.ComputerName = genruntime.ClonePointerToString(view.ComputerName)
-
-	// Disks
-	if view.Disks != nil {
-		diskList := make([]v20201201s.DiskInstanceView, len(view.Disks))
-		for diskIndex, diskItem := range view.Disks {
-			// Shadow the loop variable to avoid aliasing
-			diskItem := diskItem
-			var disk v20201201s.DiskInstanceView
-			err := diskItem.AssignPropertiesToDiskInstanceView(&disk)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToDiskInstanceView() to populate field Disks")
-			}
-			diskList[diskIndex] = disk
-		}
-		destination.Disks = diskList
-	} else {
-		destination.Disks = nil
-	}
-
-	// Extensions
-	if view.Extensions != nil {
-		extensionList := make([]v20201201s.VirtualMachineExtensionInstanceView, len(view.Extensions))
-		for extensionIndex, extensionItem := range view.Extensions {
-			// Shadow the loop variable to avoid aliasing
-			extensionItem := extensionItem
-			var extension v20201201s.VirtualMachineExtensionInstanceView
-			err := extensionItem.AssignPropertiesToVirtualMachineExtensionInstanceView(&extension)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineExtensionInstanceView() to populate field Extensions")
-			}
-			extensionList[extensionIndex] = extension
-		}
-		destination.Extensions = extensionList
-	} else {
-		destination.Extensions = nil
-	}
-
-	// HyperVGeneration
-	destination.HyperVGeneration = genruntime.ClonePointerToString(view.HyperVGeneration)
-
-	// MaintenanceRedeployStatus
-	if view.MaintenanceRedeployStatus != nil {
-		var maintenanceRedeployStatus v20201201s.MaintenanceRedeployStatus
-		err := view.MaintenanceRedeployStatus.AssignPropertiesToMaintenanceRedeployStatus(&maintenanceRedeployStatus)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToMaintenanceRedeployStatus() to populate field MaintenanceRedeployStatus")
-		}
-		destination.MaintenanceRedeployStatus = &maintenanceRedeployStatus
-	} else {
-		destination.MaintenanceRedeployStatus = nil
-	}
-
-	// OsName
-	destination.OsName = genruntime.ClonePointerToString(view.OsName)
-
-	// OsVersion
-	destination.OsVersion = genruntime.ClonePointerToString(view.OsVersion)
-
-	// PatchStatus
-	if view.PatchStatus != nil {
-		var patchStatus v20201201s.VirtualMachinePatchStatus
-		err := view.PatchStatus.AssignPropertiesToVirtualMachinePatchStatus(&patchStatus)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachinePatchStatus() to populate field PatchStatus")
-		}
-		destination.PatchStatus = &patchStatus
-	} else {
-		destination.PatchStatus = nil
-	}
-
-	// PlatformFaultDomain
-	destination.PlatformFaultDomain = genruntime.ClonePointerToInt(view.PlatformFaultDomain)
-
-	// PlatformUpdateDomain
-	destination.PlatformUpdateDomain = genruntime.ClonePointerToInt(view.PlatformUpdateDomain)
-
-	// RdpThumbPrint
-	destination.RdpThumbPrint = genruntime.ClonePointerToString(view.RdpThumbPrint)
-
-	// Statuses
-	if view.Statuses != nil {
-		statusList := make([]v20201201s.InstanceViewStatus, len(view.Statuses))
-		for statusIndex, statusItem := range view.Statuses {
-			// Shadow the loop variable to avoid aliasing
-			statusItem := statusItem
-			var status v20201201s.InstanceViewStatus
-			err := statusItem.AssignPropertiesToInstanceViewStatus(&status)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatus() to populate field Statuses")
-			}
-			statusList[statusIndex] = status
-		}
-		destination.Statuses = statusList
-	} else {
-		destination.Statuses = nil
-	}
-
-	// VmAgent
-	if view.VmAgent != nil {
-		var vmAgent v20201201s.VirtualMachineAgentInstanceView
-		err := view.VmAgent.AssignPropertiesToVirtualMachineAgentInstanceView(&vmAgent)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineAgentInstanceView() to populate field VmAgent")
-		}
-		destination.VmAgent = &vmAgent
-	} else {
-		destination.VmAgent = nil
-	}
-
-	// VmHealth
-	if view.VmHealth != nil {
-		var vmHealth v20201201s.VirtualMachineHealthStatus
-		err := view.VmHealth.AssignPropertiesToVirtualMachineHealthStatus(&vmHealth)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineHealthStatus() to populate field VmHealth")
-		}
-		destination.VmHealth = &vmHealth
-	} else {
-		destination.VmHealth = nil
 	}
 
 	// Update the property bag
@@ -4231,83 +3797,6 @@ func (diagnostics *BootDiagnostics) AssignPropertiesToBootDiagnostics(destinatio
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.BootDiagnosticsInstanceView
-// Deprecated version of BootDiagnosticsInstanceView. Use v1beta20201201.BootDiagnosticsInstanceView instead
-type BootDiagnosticsInstanceView struct {
-	ConsoleScreenshotBlobUri *string                `json:"consoleScreenshotBlobUri,omitempty"`
-	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SerialConsoleLogBlobUri  *string                `json:"serialConsoleLogBlobUri,omitempty"`
-	Status                   *InstanceViewStatus    `json:"status,omitempty"`
-}
-
-// AssignPropertiesFromBootDiagnosticsInstanceView populates our BootDiagnosticsInstanceView from the provided source BootDiagnosticsInstanceView
-func (view *BootDiagnosticsInstanceView) AssignPropertiesFromBootDiagnosticsInstanceView(source *v20201201s.BootDiagnosticsInstanceView) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// ConsoleScreenshotBlobUri
-	view.ConsoleScreenshotBlobUri = genruntime.ClonePointerToString(source.ConsoleScreenshotBlobUri)
-
-	// SerialConsoleLogBlobUri
-	view.SerialConsoleLogBlobUri = genruntime.ClonePointerToString(source.SerialConsoleLogBlobUri)
-
-	// Status
-	if source.Status != nil {
-		var status InstanceViewStatus
-		err := status.AssignPropertiesFromInstanceViewStatus(source.Status)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatus() to populate field Status")
-		}
-		view.Status = &status
-	} else {
-		view.Status = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		view.PropertyBag = propertyBag
-	} else {
-		view.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToBootDiagnosticsInstanceView populates the provided destination BootDiagnosticsInstanceView from our BootDiagnosticsInstanceView
-func (view *BootDiagnosticsInstanceView) AssignPropertiesToBootDiagnosticsInstanceView(destination *v20201201s.BootDiagnosticsInstanceView) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(view.PropertyBag)
-
-	// ConsoleScreenshotBlobUri
-	destination.ConsoleScreenshotBlobUri = genruntime.ClonePointerToString(view.ConsoleScreenshotBlobUri)
-
-	// SerialConsoleLogBlobUri
-	destination.SerialConsoleLogBlobUri = genruntime.ClonePointerToString(view.SerialConsoleLogBlobUri)
-
-	// Status
-	if view.Status != nil {
-		var status v20201201s.InstanceViewStatus
-		err := view.Status.AssignPropertiesToInstanceViewStatus(&status)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatus() to populate field Status")
-		}
-		destination.Status = &status
-	} else {
-		destination.Status = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Storage version of v1alpha1api20201201.BootDiagnosticsInstanceView_STATUS
 // Deprecated version of BootDiagnosticsInstanceView_STATUS. Use v1beta20201201.BootDiagnosticsInstanceView_STATUS instead
 type BootDiagnosticsInstanceView_STATUS struct {
@@ -4453,8 +3942,6 @@ type DataDisk struct {
 	Caching                 *string                `json:"caching,omitempty"`
 	CreateOption            *string                `json:"createOption,omitempty"`
 	DetachOption            *string                `json:"detachOption,omitempty"`
-	DiskIOPSReadWrite       *int                   `json:"diskIOPSReadWrite,omitempty"`
-	DiskMBpsReadWrite       *int                   `json:"diskMBpsReadWrite,omitempty"`
 	DiskSizeGB              *int                   `json:"diskSizeGB,omitempty"`
 	Image                   *VirtualHardDisk       `json:"image,omitempty"`
 	Lun                     *int                   `json:"lun,omitempty"`
@@ -4479,12 +3966,6 @@ func (disk *DataDisk) AssignPropertiesFromDataDisk(source *v20201201s.DataDisk) 
 
 	// DetachOption
 	disk.DetachOption = genruntime.ClonePointerToString(source.DetachOption)
-
-	// DiskIOPSReadWrite
-	disk.DiskIOPSReadWrite = genruntime.ClonePointerToInt(source.DiskIOPSReadWrite)
-
-	// DiskMBpsReadWrite
-	disk.DiskMBpsReadWrite = genruntime.ClonePointerToInt(source.DiskMBpsReadWrite)
 
 	// DiskSizeGB
 	disk.DiskSizeGB = genruntime.ClonePointerToInt(source.DiskSizeGB)
@@ -4571,12 +4052,6 @@ func (disk *DataDisk) AssignPropertiesToDataDisk(destination *v20201201s.DataDis
 
 	// DetachOption
 	destination.DetachOption = genruntime.ClonePointerToString(disk.DetachOption)
-
-	// DiskIOPSReadWrite
-	destination.DiskIOPSReadWrite = genruntime.ClonePointerToInt(disk.DiskIOPSReadWrite)
-
-	// DiskMBpsReadWrite
-	destination.DiskMBpsReadWrite = genruntime.ClonePointerToInt(disk.DiskMBpsReadWrite)
 
 	// DiskSizeGB
 	destination.DiskSizeGB = genruntime.ClonePointerToInt(disk.DiskSizeGB)
@@ -4853,125 +4328,6 @@ func (disk *DataDisk_STATUS) AssignPropertiesToDataDisk_STATUS(destination *v202
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.DiskInstanceView
-// Deprecated version of DiskInstanceView. Use v1beta20201201.DiskInstanceView instead
-type DiskInstanceView struct {
-	EncryptionSettings []DiskEncryptionSettings `json:"encryptionSettings,omitempty"`
-	Name               *string                  `json:"name,omitempty"`
-	PropertyBag        genruntime.PropertyBag   `json:"$propertyBag,omitempty"`
-	Statuses           []InstanceViewStatus     `json:"statuses,omitempty"`
-}
-
-// AssignPropertiesFromDiskInstanceView populates our DiskInstanceView from the provided source DiskInstanceView
-func (view *DiskInstanceView) AssignPropertiesFromDiskInstanceView(source *v20201201s.DiskInstanceView) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// EncryptionSettings
-	if source.EncryptionSettings != nil {
-		encryptionSettingList := make([]DiskEncryptionSettings, len(source.EncryptionSettings))
-		for encryptionSettingIndex, encryptionSettingItem := range source.EncryptionSettings {
-			// Shadow the loop variable to avoid aliasing
-			encryptionSettingItem := encryptionSettingItem
-			var encryptionSetting DiskEncryptionSettings
-			err := encryptionSetting.AssignPropertiesFromDiskEncryptionSettings(&encryptionSettingItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromDiskEncryptionSettings() to populate field EncryptionSettings")
-			}
-			encryptionSettingList[encryptionSettingIndex] = encryptionSetting
-		}
-		view.EncryptionSettings = encryptionSettingList
-	} else {
-		view.EncryptionSettings = nil
-	}
-
-	// Name
-	view.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Statuses
-	if source.Statuses != nil {
-		statusList := make([]InstanceViewStatus, len(source.Statuses))
-		for statusIndex, statusItem := range source.Statuses {
-			// Shadow the loop variable to avoid aliasing
-			statusItem := statusItem
-			var status InstanceViewStatus
-			err := status.AssignPropertiesFromInstanceViewStatus(&statusItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatus() to populate field Statuses")
-			}
-			statusList[statusIndex] = status
-		}
-		view.Statuses = statusList
-	} else {
-		view.Statuses = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		view.PropertyBag = propertyBag
-	} else {
-		view.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToDiskInstanceView populates the provided destination DiskInstanceView from our DiskInstanceView
-func (view *DiskInstanceView) AssignPropertiesToDiskInstanceView(destination *v20201201s.DiskInstanceView) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(view.PropertyBag)
-
-	// EncryptionSettings
-	if view.EncryptionSettings != nil {
-		encryptionSettingList := make([]v20201201s.DiskEncryptionSettings, len(view.EncryptionSettings))
-		for encryptionSettingIndex, encryptionSettingItem := range view.EncryptionSettings {
-			// Shadow the loop variable to avoid aliasing
-			encryptionSettingItem := encryptionSettingItem
-			var encryptionSetting v20201201s.DiskEncryptionSettings
-			err := encryptionSettingItem.AssignPropertiesToDiskEncryptionSettings(&encryptionSetting)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToDiskEncryptionSettings() to populate field EncryptionSettings")
-			}
-			encryptionSettingList[encryptionSettingIndex] = encryptionSetting
-		}
-		destination.EncryptionSettings = encryptionSettingList
-	} else {
-		destination.EncryptionSettings = nil
-	}
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(view.Name)
-
-	// Statuses
-	if view.Statuses != nil {
-		statusList := make([]v20201201s.InstanceViewStatus, len(view.Statuses))
-		for statusIndex, statusItem := range view.Statuses {
-			// Shadow the loop variable to avoid aliasing
-			statusItem := statusItem
-			var status v20201201s.InstanceViewStatus
-			err := statusItem.AssignPropertiesToInstanceViewStatus(&status)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatus() to populate field Statuses")
-			}
-			statusList[statusIndex] = status
-		}
-		destination.Statuses = statusList
-	} else {
-		destination.Statuses = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Storage version of v1alpha1api20201201.DiskInstanceView_STATUS
 // Deprecated version of DiskInstanceView_STATUS. Use v1beta20201201.DiskInstanceView_STATUS instead
 type DiskInstanceView_STATUS struct {
@@ -5094,22 +4450,18 @@ func (view *DiskInstanceView_STATUS) AssignPropertiesToDiskInstanceView_STATUS(d
 // Storage version of v1alpha1api20201201.ImageReference
 // Deprecated version of ImageReference. Use v1beta20201201.ImageReference instead
 type ImageReference struct {
-	ExactVersion *string                       `json:"exactVersion,omitempty"`
-	Offer        *string                       `json:"offer,omitempty"`
-	PropertyBag  genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	Publisher    *string                       `json:"publisher,omitempty"`
-	Reference    *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	Sku          *string                       `json:"sku,omitempty"`
-	Version      *string                       `json:"version,omitempty"`
+	Offer       *string                       `json:"offer,omitempty"`
+	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Publisher   *string                       `json:"publisher,omitempty"`
+	Reference   *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	Sku         *string                       `json:"sku,omitempty"`
+	Version     *string                       `json:"version,omitempty"`
 }
 
 // AssignPropertiesFromImageReference populates our ImageReference from the provided source ImageReference
 func (reference *ImageReference) AssignPropertiesFromImageReference(source *v20201201s.ImageReference) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// ExactVersion
-	reference.ExactVersion = genruntime.ClonePointerToString(source.ExactVersion)
 
 	// Offer
 	reference.Offer = genruntime.ClonePointerToString(source.Offer)
@@ -5146,9 +4498,6 @@ func (reference *ImageReference) AssignPropertiesFromImageReference(source *v202
 func (reference *ImageReference) AssignPropertiesToImageReference(destination *v20201201s.ImageReference) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(reference.PropertyBag)
-
-	// ExactVersion
-	destination.ExactVersion = genruntime.ClonePointerToString(reference.ExactVersion)
 
 	// Offer
 	destination.Offer = genruntime.ClonePointerToString(reference.Offer)
@@ -5249,79 +4598,6 @@ func (reference *ImageReference_STATUS) AssignPropertiesToImageReference_STATUS(
 
 	// Version
 	destination.Version = genruntime.ClonePointerToString(reference.Version)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20201201.InstanceViewStatus
-// Deprecated version of InstanceViewStatus. Use v1beta20201201.InstanceViewStatus instead
-type InstanceViewStatus struct {
-	Code          *string                `json:"code,omitempty"`
-	DisplayStatus *string                `json:"displayStatus,omitempty"`
-	Level         *string                `json:"level,omitempty"`
-	Message       *string                `json:"message,omitempty"`
-	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Time          *string                `json:"time,omitempty"`
-}
-
-// AssignPropertiesFromInstanceViewStatus populates our InstanceViewStatus from the provided source InstanceViewStatus
-func (status *InstanceViewStatus) AssignPropertiesFromInstanceViewStatus(source *v20201201s.InstanceViewStatus) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Code
-	status.Code = genruntime.ClonePointerToString(source.Code)
-
-	// DisplayStatus
-	status.DisplayStatus = genruntime.ClonePointerToString(source.DisplayStatus)
-
-	// Level
-	status.Level = genruntime.ClonePointerToString(source.Level)
-
-	// Message
-	status.Message = genruntime.ClonePointerToString(source.Message)
-
-	// Time
-	status.Time = genruntime.ClonePointerToString(source.Time)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		status.PropertyBag = propertyBag
-	} else {
-		status.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToInstanceViewStatus populates the provided destination InstanceViewStatus from our InstanceViewStatus
-func (status *InstanceViewStatus) AssignPropertiesToInstanceViewStatus(destination *v20201201s.InstanceViewStatus) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(status.PropertyBag)
-
-	// Code
-	destination.Code = genruntime.ClonePointerToString(status.Code)
-
-	// DisplayStatus
-	destination.DisplayStatus = genruntime.ClonePointerToString(status.DisplayStatus)
-
-	// Level
-	destination.Level = genruntime.ClonePointerToString(status.Level)
-
-	// Message
-	destination.Message = genruntime.ClonePointerToString(status.Message)
-
-	// Time
-	destination.Time = genruntime.ClonePointerToString(status.Time)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -5651,103 +4927,6 @@ func (configuration *LinuxConfiguration_STATUS) AssignPropertiesToLinuxConfigura
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.MaintenanceRedeployStatus
-// Deprecated version of MaintenanceRedeployStatus. Use v1beta20201201.MaintenanceRedeployStatus instead
-type MaintenanceRedeployStatus struct {
-	IsCustomerInitiatedMaintenanceAllowed *bool                  `json:"isCustomerInitiatedMaintenanceAllowed,omitempty"`
-	LastOperationMessage                  *string                `json:"lastOperationMessage,omitempty"`
-	LastOperationResultCode               *string                `json:"lastOperationResultCode,omitempty"`
-	MaintenanceWindowEndTime              *string                `json:"maintenanceWindowEndTime,omitempty"`
-	MaintenanceWindowStartTime            *string                `json:"maintenanceWindowStartTime,omitempty"`
-	PreMaintenanceWindowEndTime           *string                `json:"preMaintenanceWindowEndTime,omitempty"`
-	PreMaintenanceWindowStartTime         *string                `json:"preMaintenanceWindowStartTime,omitempty"`
-	PropertyBag                           genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// AssignPropertiesFromMaintenanceRedeployStatus populates our MaintenanceRedeployStatus from the provided source MaintenanceRedeployStatus
-func (status *MaintenanceRedeployStatus) AssignPropertiesFromMaintenanceRedeployStatus(source *v20201201s.MaintenanceRedeployStatus) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// IsCustomerInitiatedMaintenanceAllowed
-	if source.IsCustomerInitiatedMaintenanceAllowed != nil {
-		isCustomerInitiatedMaintenanceAllowed := *source.IsCustomerInitiatedMaintenanceAllowed
-		status.IsCustomerInitiatedMaintenanceAllowed = &isCustomerInitiatedMaintenanceAllowed
-	} else {
-		status.IsCustomerInitiatedMaintenanceAllowed = nil
-	}
-
-	// LastOperationMessage
-	status.LastOperationMessage = genruntime.ClonePointerToString(source.LastOperationMessage)
-
-	// LastOperationResultCode
-	status.LastOperationResultCode = genruntime.ClonePointerToString(source.LastOperationResultCode)
-
-	// MaintenanceWindowEndTime
-	status.MaintenanceWindowEndTime = genruntime.ClonePointerToString(source.MaintenanceWindowEndTime)
-
-	// MaintenanceWindowStartTime
-	status.MaintenanceWindowStartTime = genruntime.ClonePointerToString(source.MaintenanceWindowStartTime)
-
-	// PreMaintenanceWindowEndTime
-	status.PreMaintenanceWindowEndTime = genruntime.ClonePointerToString(source.PreMaintenanceWindowEndTime)
-
-	// PreMaintenanceWindowStartTime
-	status.PreMaintenanceWindowStartTime = genruntime.ClonePointerToString(source.PreMaintenanceWindowStartTime)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		status.PropertyBag = propertyBag
-	} else {
-		status.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToMaintenanceRedeployStatus populates the provided destination MaintenanceRedeployStatus from our MaintenanceRedeployStatus
-func (status *MaintenanceRedeployStatus) AssignPropertiesToMaintenanceRedeployStatus(destination *v20201201s.MaintenanceRedeployStatus) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(status.PropertyBag)
-
-	// IsCustomerInitiatedMaintenanceAllowed
-	if status.IsCustomerInitiatedMaintenanceAllowed != nil {
-		isCustomerInitiatedMaintenanceAllowed := *status.IsCustomerInitiatedMaintenanceAllowed
-		destination.IsCustomerInitiatedMaintenanceAllowed = &isCustomerInitiatedMaintenanceAllowed
-	} else {
-		destination.IsCustomerInitiatedMaintenanceAllowed = nil
-	}
-
-	// LastOperationMessage
-	destination.LastOperationMessage = genruntime.ClonePointerToString(status.LastOperationMessage)
-
-	// LastOperationResultCode
-	destination.LastOperationResultCode = genruntime.ClonePointerToString(status.LastOperationResultCode)
-
-	// MaintenanceWindowEndTime
-	destination.MaintenanceWindowEndTime = genruntime.ClonePointerToString(status.MaintenanceWindowEndTime)
-
-	// MaintenanceWindowStartTime
-	destination.MaintenanceWindowStartTime = genruntime.ClonePointerToString(status.MaintenanceWindowStartTime)
-
-	// PreMaintenanceWindowEndTime
-	destination.PreMaintenanceWindowEndTime = genruntime.ClonePointerToString(status.PreMaintenanceWindowEndTime)
-
-	// PreMaintenanceWindowStartTime
-	destination.PreMaintenanceWindowStartTime = genruntime.ClonePointerToString(status.PreMaintenanceWindowStartTime)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Storage version of v1alpha1api20201201.MaintenanceRedeployStatus_STATUS
 // Deprecated version of MaintenanceRedeployStatus_STATUS. Use v1beta20201201.MaintenanceRedeployStatus_STATUS instead
 type MaintenanceRedeployStatus_STATUS struct {
@@ -5848,9 +5027,9 @@ func (status *MaintenanceRedeployStatus_STATUS) AssignPropertiesToMaintenanceRed
 // Storage version of v1alpha1api20201201.NetworkInterfaceReference
 // Deprecated version of NetworkInterfaceReference. Use v1beta20201201.NetworkInterfaceReference instead
 type NetworkInterfaceReference struct {
-	Id          *string                `json:"id,omitempty"`
-	Primary     *bool                  `json:"primary,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Primary     *bool                         `json:"primary,omitempty"`
+	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Reference   *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 // AssignPropertiesFromNetworkInterfaceReference populates our NetworkInterfaceReference from the provided source NetworkInterfaceReference
@@ -5858,15 +5037,20 @@ func (reference *NetworkInterfaceReference) AssignPropertiesFromNetworkInterface
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// Id
-	reference.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Primary
 	if source.Primary != nil {
 		primary := *source.Primary
 		reference.Primary = &primary
 	} else {
 		reference.Primary = nil
+	}
+
+	// Reference
+	if source.Reference != nil {
+		referenceTemp := source.Reference.Copy()
+		reference.Reference = &referenceTemp
+	} else {
+		reference.Reference = nil
 	}
 
 	// Update the property bag
@@ -5885,15 +5069,20 @@ func (reference *NetworkInterfaceReference) AssignPropertiesToNetworkInterfaceRe
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(reference.PropertyBag)
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(reference.Id)
-
 	// Primary
 	if reference.Primary != nil {
 		primary := *reference.Primary
 		destination.Primary = &primary
 	} else {
 		destination.Primary = nil
+	}
+
+	// Reference
+	if reference.Reference != nil {
+		referenceTemp := reference.Reference.Copy()
+		destination.Reference = &referenceTemp
+	} else {
+		destination.Reference = nil
 	}
 
 	// Update the property bag
@@ -6763,125 +5952,6 @@ func (group *VaultSecretGroup_STATUS) AssignPropertiesToVaultSecretGroup_STATUS(
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.VirtualMachineAgentInstanceView
-// Deprecated version of VirtualMachineAgentInstanceView. Use v1beta20201201.VirtualMachineAgentInstanceView instead
-type VirtualMachineAgentInstanceView struct {
-	ExtensionHandlers []VirtualMachineExtensionHandlerInstanceView `json:"extensionHandlers,omitempty"`
-	PropertyBag       genruntime.PropertyBag                       `json:"$propertyBag,omitempty"`
-	Statuses          []InstanceViewStatus                         `json:"statuses,omitempty"`
-	VmAgentVersion    *string                                      `json:"vmAgentVersion,omitempty"`
-}
-
-// AssignPropertiesFromVirtualMachineAgentInstanceView populates our VirtualMachineAgentInstanceView from the provided source VirtualMachineAgentInstanceView
-func (view *VirtualMachineAgentInstanceView) AssignPropertiesFromVirtualMachineAgentInstanceView(source *v20201201s.VirtualMachineAgentInstanceView) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// ExtensionHandlers
-	if source.ExtensionHandlers != nil {
-		extensionHandlerList := make([]VirtualMachineExtensionHandlerInstanceView, len(source.ExtensionHandlers))
-		for extensionHandlerIndex, extensionHandlerItem := range source.ExtensionHandlers {
-			// Shadow the loop variable to avoid aliasing
-			extensionHandlerItem := extensionHandlerItem
-			var extensionHandler VirtualMachineExtensionHandlerInstanceView
-			err := extensionHandler.AssignPropertiesFromVirtualMachineExtensionHandlerInstanceView(&extensionHandlerItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineExtensionHandlerInstanceView() to populate field ExtensionHandlers")
-			}
-			extensionHandlerList[extensionHandlerIndex] = extensionHandler
-		}
-		view.ExtensionHandlers = extensionHandlerList
-	} else {
-		view.ExtensionHandlers = nil
-	}
-
-	// Statuses
-	if source.Statuses != nil {
-		statusList := make([]InstanceViewStatus, len(source.Statuses))
-		for statusIndex, statusItem := range source.Statuses {
-			// Shadow the loop variable to avoid aliasing
-			statusItem := statusItem
-			var status InstanceViewStatus
-			err := status.AssignPropertiesFromInstanceViewStatus(&statusItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatus() to populate field Statuses")
-			}
-			statusList[statusIndex] = status
-		}
-		view.Statuses = statusList
-	} else {
-		view.Statuses = nil
-	}
-
-	// VmAgentVersion
-	view.VmAgentVersion = genruntime.ClonePointerToString(source.VmAgentVersion)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		view.PropertyBag = propertyBag
-	} else {
-		view.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToVirtualMachineAgentInstanceView populates the provided destination VirtualMachineAgentInstanceView from our VirtualMachineAgentInstanceView
-func (view *VirtualMachineAgentInstanceView) AssignPropertiesToVirtualMachineAgentInstanceView(destination *v20201201s.VirtualMachineAgentInstanceView) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(view.PropertyBag)
-
-	// ExtensionHandlers
-	if view.ExtensionHandlers != nil {
-		extensionHandlerList := make([]v20201201s.VirtualMachineExtensionHandlerInstanceView, len(view.ExtensionHandlers))
-		for extensionHandlerIndex, extensionHandlerItem := range view.ExtensionHandlers {
-			// Shadow the loop variable to avoid aliasing
-			extensionHandlerItem := extensionHandlerItem
-			var extensionHandler v20201201s.VirtualMachineExtensionHandlerInstanceView
-			err := extensionHandlerItem.AssignPropertiesToVirtualMachineExtensionHandlerInstanceView(&extensionHandler)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineExtensionHandlerInstanceView() to populate field ExtensionHandlers")
-			}
-			extensionHandlerList[extensionHandlerIndex] = extensionHandler
-		}
-		destination.ExtensionHandlers = extensionHandlerList
-	} else {
-		destination.ExtensionHandlers = nil
-	}
-
-	// Statuses
-	if view.Statuses != nil {
-		statusList := make([]v20201201s.InstanceViewStatus, len(view.Statuses))
-		for statusIndex, statusItem := range view.Statuses {
-			// Shadow the loop variable to avoid aliasing
-			statusItem := statusItem
-			var status v20201201s.InstanceViewStatus
-			err := statusItem.AssignPropertiesToInstanceViewStatus(&status)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatus() to populate field Statuses")
-			}
-			statusList[statusIndex] = status
-		}
-		destination.Statuses = statusList
-	} else {
-		destination.Statuses = nil
-	}
-
-	// VmAgentVersion
-	destination.VmAgentVersion = genruntime.ClonePointerToString(view.VmAgentVersion)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Storage version of v1alpha1api20201201.VirtualMachineAgentInstanceView_STATUS
 // Deprecated version of VirtualMachineAgentInstanceView_STATUS. Use v1beta20201201.VirtualMachineAgentInstanceView_STATUS instead
 type VirtualMachineAgentInstanceView_STATUS struct {
@@ -6989,139 +6059,6 @@ func (view *VirtualMachineAgentInstanceView_STATUS) AssignPropertiesToVirtualMac
 
 	// VmAgentVersion
 	destination.VmAgentVersion = genruntime.ClonePointerToString(view.VmAgentVersion)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20201201.VirtualMachineExtensionInstanceView
-// Deprecated version of VirtualMachineExtensionInstanceView. Use v1beta20201201.VirtualMachineExtensionInstanceView instead
-type VirtualMachineExtensionInstanceView struct {
-	Name               *string                `json:"name,omitempty"`
-	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Statuses           []InstanceViewStatus   `json:"statuses,omitempty"`
-	Substatuses        []InstanceViewStatus   `json:"substatuses,omitempty"`
-	Type               *string                `json:"type,omitempty"`
-	TypeHandlerVersion *string                `json:"typeHandlerVersion,omitempty"`
-}
-
-// AssignPropertiesFromVirtualMachineExtensionInstanceView populates our VirtualMachineExtensionInstanceView from the provided source VirtualMachineExtensionInstanceView
-func (view *VirtualMachineExtensionInstanceView) AssignPropertiesFromVirtualMachineExtensionInstanceView(source *v20201201s.VirtualMachineExtensionInstanceView) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Name
-	view.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Statuses
-	if source.Statuses != nil {
-		statusList := make([]InstanceViewStatus, len(source.Statuses))
-		for statusIndex, statusItem := range source.Statuses {
-			// Shadow the loop variable to avoid aliasing
-			statusItem := statusItem
-			var status InstanceViewStatus
-			err := status.AssignPropertiesFromInstanceViewStatus(&statusItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatus() to populate field Statuses")
-			}
-			statusList[statusIndex] = status
-		}
-		view.Statuses = statusList
-	} else {
-		view.Statuses = nil
-	}
-
-	// Substatuses
-	if source.Substatuses != nil {
-		substatusList := make([]InstanceViewStatus, len(source.Substatuses))
-		for substatusIndex, substatusItem := range source.Substatuses {
-			// Shadow the loop variable to avoid aliasing
-			substatusItem := substatusItem
-			var substatus InstanceViewStatus
-			err := substatus.AssignPropertiesFromInstanceViewStatus(&substatusItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatus() to populate field Substatuses")
-			}
-			substatusList[substatusIndex] = substatus
-		}
-		view.Substatuses = substatusList
-	} else {
-		view.Substatuses = nil
-	}
-
-	// Type
-	view.Type = genruntime.ClonePointerToString(source.Type)
-
-	// TypeHandlerVersion
-	view.TypeHandlerVersion = genruntime.ClonePointerToString(source.TypeHandlerVersion)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		view.PropertyBag = propertyBag
-	} else {
-		view.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToVirtualMachineExtensionInstanceView populates the provided destination VirtualMachineExtensionInstanceView from our VirtualMachineExtensionInstanceView
-func (view *VirtualMachineExtensionInstanceView) AssignPropertiesToVirtualMachineExtensionInstanceView(destination *v20201201s.VirtualMachineExtensionInstanceView) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(view.PropertyBag)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(view.Name)
-
-	// Statuses
-	if view.Statuses != nil {
-		statusList := make([]v20201201s.InstanceViewStatus, len(view.Statuses))
-		for statusIndex, statusItem := range view.Statuses {
-			// Shadow the loop variable to avoid aliasing
-			statusItem := statusItem
-			var status v20201201s.InstanceViewStatus
-			err := statusItem.AssignPropertiesToInstanceViewStatus(&status)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatus() to populate field Statuses")
-			}
-			statusList[statusIndex] = status
-		}
-		destination.Statuses = statusList
-	} else {
-		destination.Statuses = nil
-	}
-
-	// Substatuses
-	if view.Substatuses != nil {
-		substatusList := make([]v20201201s.InstanceViewStatus, len(view.Substatuses))
-		for substatusIndex, substatusItem := range view.Substatuses {
-			// Shadow the loop variable to avoid aliasing
-			substatusItem := substatusItem
-			var substatus v20201201s.InstanceViewStatus
-			err := substatusItem.AssignPropertiesToInstanceViewStatus(&substatus)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatus() to populate field Substatuses")
-			}
-			substatusList[substatusIndex] = substatus
-		}
-		destination.Substatuses = substatusList
-	} else {
-		destination.Substatuses = nil
-	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(view.Type)
-
-	// TypeHandlerVersion
-	destination.TypeHandlerVersion = genruntime.ClonePointerToString(view.TypeHandlerVersion)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -7267,69 +6204,6 @@ func (view *VirtualMachineExtensionInstanceView_STATUS) AssignPropertiesToVirtua
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.VirtualMachineHealthStatus
-// Deprecated version of VirtualMachineHealthStatus. Use v1beta20201201.VirtualMachineHealthStatus instead
-type VirtualMachineHealthStatus struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Status      *InstanceViewStatus    `json:"status,omitempty"`
-}
-
-// AssignPropertiesFromVirtualMachineHealthStatus populates our VirtualMachineHealthStatus from the provided source VirtualMachineHealthStatus
-func (status *VirtualMachineHealthStatus) AssignPropertiesFromVirtualMachineHealthStatus(source *v20201201s.VirtualMachineHealthStatus) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Status
-	if source.Status != nil {
-		var statusLocal InstanceViewStatus
-		err := statusLocal.AssignPropertiesFromInstanceViewStatus(source.Status)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatus() to populate field Status")
-		}
-		status.Status = &statusLocal
-	} else {
-		status.Status = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		status.PropertyBag = propertyBag
-	} else {
-		status.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToVirtualMachineHealthStatus populates the provided destination VirtualMachineHealthStatus from our VirtualMachineHealthStatus
-func (status *VirtualMachineHealthStatus) AssignPropertiesToVirtualMachineHealthStatus(destination *v20201201s.VirtualMachineHealthStatus) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(status.PropertyBag)
-
-	// Status
-	if status.Status != nil {
-		var statusLocal v20201201s.InstanceViewStatus
-		err := status.Status.AssignPropertiesToInstanceViewStatus(&statusLocal)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatus() to populate field Status")
-		}
-		destination.Status = &statusLocal
-	} else {
-		destination.Status = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Storage version of v1alpha1api20201201.VirtualMachineHealthStatus_STATUS
 // Deprecated version of VirtualMachineHealthStatus_STATUS. Use v1beta20201201.VirtualMachineHealthStatus_STATUS instead
 type VirtualMachineHealthStatus_STATUS struct {
@@ -7393,58 +6267,6 @@ func (status *VirtualMachineHealthStatus_STATUS) AssignPropertiesToVirtualMachin
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.VirtualMachineIdentity_UserAssignedIdentities
-// Deprecated version of VirtualMachineIdentity_UserAssignedIdentities. Use v1beta20201201.VirtualMachineIdentity_UserAssignedIdentities instead
-type VirtualMachineIdentity_UserAssignedIdentities struct {
-	ClientId    *string                `json:"clientId,omitempty"`
-	PrincipalId *string                `json:"principalId,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// AssignPropertiesFromVirtualMachineIdentity_UserAssignedIdentities populates our VirtualMachineIdentity_UserAssignedIdentities from the provided source VirtualMachineIdentity_UserAssignedIdentities
-func (identities *VirtualMachineIdentity_UserAssignedIdentities) AssignPropertiesFromVirtualMachineIdentity_UserAssignedIdentities(source *v20201201s.VirtualMachineIdentity_UserAssignedIdentities) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// ClientId
-	identities.ClientId = genruntime.ClonePointerToString(source.ClientId)
-
-	// PrincipalId
-	identities.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		identities.PropertyBag = propertyBag
-	} else {
-		identities.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToVirtualMachineIdentity_UserAssignedIdentities populates the provided destination VirtualMachineIdentity_UserAssignedIdentities from our VirtualMachineIdentity_UserAssignedIdentities
-func (identities *VirtualMachineIdentity_UserAssignedIdentities) AssignPropertiesToVirtualMachineIdentity_UserAssignedIdentities(destination *v20201201s.VirtualMachineIdentity_UserAssignedIdentities) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(identities.PropertyBag)
-
-	// ClientId
-	destination.ClientId = genruntime.ClonePointerToString(identities.ClientId)
-
-	// PrincipalId
-	destination.PrincipalId = genruntime.ClonePointerToString(identities.PrincipalId)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Storage version of v1alpha1api20201201.VirtualMachineIdentity_UserAssignedIdentities_STATUS
 // Deprecated version of VirtualMachineIdentity_UserAssignedIdentities_STATUS. Use v1beta20201201.VirtualMachineIdentity_UserAssignedIdentities_STATUS instead
 type VirtualMachineIdentity_UserAssignedIdentities_STATUS struct {
@@ -7485,131 +6307,6 @@ func (identities *VirtualMachineIdentity_UserAssignedIdentities_STATUS) AssignPr
 
 	// PrincipalId
 	destination.PrincipalId = genruntime.ClonePointerToString(identities.PrincipalId)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20201201.VirtualMachinePatchStatus
-// Deprecated version of VirtualMachinePatchStatus. Use v1beta20201201.VirtualMachinePatchStatus instead
-type VirtualMachinePatchStatus struct {
-	AvailablePatchSummary        *AvailablePatchSummary        `json:"availablePatchSummary,omitempty"`
-	ConfigurationStatuses        []InstanceViewStatus          `json:"configurationStatuses,omitempty"`
-	LastPatchInstallationSummary *LastPatchInstallationSummary `json:"lastPatchInstallationSummary,omitempty"`
-	PropertyBag                  genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-}
-
-// AssignPropertiesFromVirtualMachinePatchStatus populates our VirtualMachinePatchStatus from the provided source VirtualMachinePatchStatus
-func (status *VirtualMachinePatchStatus) AssignPropertiesFromVirtualMachinePatchStatus(source *v20201201s.VirtualMachinePatchStatus) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// AvailablePatchSummary
-	if source.AvailablePatchSummary != nil {
-		var availablePatchSummary AvailablePatchSummary
-		err := availablePatchSummary.AssignPropertiesFromAvailablePatchSummary(source.AvailablePatchSummary)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAvailablePatchSummary() to populate field AvailablePatchSummary")
-		}
-		status.AvailablePatchSummary = &availablePatchSummary
-	} else {
-		status.AvailablePatchSummary = nil
-	}
-
-	// ConfigurationStatuses
-	if source.ConfigurationStatuses != nil {
-		configurationStatusList := make([]InstanceViewStatus, len(source.ConfigurationStatuses))
-		for configurationStatusIndex, configurationStatusItem := range source.ConfigurationStatuses {
-			// Shadow the loop variable to avoid aliasing
-			configurationStatusItem := configurationStatusItem
-			var configurationStatus InstanceViewStatus
-			err := configurationStatus.AssignPropertiesFromInstanceViewStatus(&configurationStatusItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatus() to populate field ConfigurationStatuses")
-			}
-			configurationStatusList[configurationStatusIndex] = configurationStatus
-		}
-		status.ConfigurationStatuses = configurationStatusList
-	} else {
-		status.ConfigurationStatuses = nil
-	}
-
-	// LastPatchInstallationSummary
-	if source.LastPatchInstallationSummary != nil {
-		var lastPatchInstallationSummary LastPatchInstallationSummary
-		err := lastPatchInstallationSummary.AssignPropertiesFromLastPatchInstallationSummary(source.LastPatchInstallationSummary)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromLastPatchInstallationSummary() to populate field LastPatchInstallationSummary")
-		}
-		status.LastPatchInstallationSummary = &lastPatchInstallationSummary
-	} else {
-		status.LastPatchInstallationSummary = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		status.PropertyBag = propertyBag
-	} else {
-		status.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToVirtualMachinePatchStatus populates the provided destination VirtualMachinePatchStatus from our VirtualMachinePatchStatus
-func (status *VirtualMachinePatchStatus) AssignPropertiesToVirtualMachinePatchStatus(destination *v20201201s.VirtualMachinePatchStatus) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(status.PropertyBag)
-
-	// AvailablePatchSummary
-	if status.AvailablePatchSummary != nil {
-		var availablePatchSummary v20201201s.AvailablePatchSummary
-		err := status.AvailablePatchSummary.AssignPropertiesToAvailablePatchSummary(&availablePatchSummary)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAvailablePatchSummary() to populate field AvailablePatchSummary")
-		}
-		destination.AvailablePatchSummary = &availablePatchSummary
-	} else {
-		destination.AvailablePatchSummary = nil
-	}
-
-	// ConfigurationStatuses
-	if status.ConfigurationStatuses != nil {
-		configurationStatusList := make([]v20201201s.InstanceViewStatus, len(status.ConfigurationStatuses))
-		for configurationStatusIndex, configurationStatusItem := range status.ConfigurationStatuses {
-			// Shadow the loop variable to avoid aliasing
-			configurationStatusItem := configurationStatusItem
-			var configurationStatus v20201201s.InstanceViewStatus
-			err := configurationStatusItem.AssignPropertiesToInstanceViewStatus(&configurationStatus)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatus() to populate field ConfigurationStatuses")
-			}
-			configurationStatusList[configurationStatusIndex] = configurationStatus
-		}
-		destination.ConfigurationStatuses = configurationStatusList
-	} else {
-		destination.ConfigurationStatuses = nil
-	}
-
-	// LastPatchInstallationSummary
-	if status.LastPatchInstallationSummary != nil {
-		var lastPatchInstallationSummary v20201201s.LastPatchInstallationSummary
-		err := status.LastPatchInstallationSummary.AssignPropertiesToLastPatchInstallationSummary(&lastPatchInstallationSummary)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToLastPatchInstallationSummary() to populate field LastPatchInstallationSummary")
-		}
-		destination.LastPatchInstallationSummary = &lastPatchInstallationSummary
-	} else {
-		destination.LastPatchInstallationSummary = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -8211,128 +6908,6 @@ func (content *AdditionalUnattendContent_STATUS) AssignPropertiesToAdditionalUna
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.AvailablePatchSummary
-// Deprecated version of AvailablePatchSummary. Use v1beta20201201.AvailablePatchSummary instead
-type AvailablePatchSummary struct {
-	AssessmentActivityId          *string                `json:"assessmentActivityId,omitempty"`
-	CriticalAndSecurityPatchCount *int                   `json:"criticalAndSecurityPatchCount,omitempty"`
-	Error                         *ApiError              `json:"error,omitempty"`
-	LastModifiedTime              *string                `json:"lastModifiedTime,omitempty"`
-	OtherPatchCount               *int                   `json:"otherPatchCount,omitempty"`
-	PropertyBag                   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	RebootPending                 *bool                  `json:"rebootPending,omitempty"`
-	StartTime                     *string                `json:"startTime,omitempty"`
-	Status                        *string                `json:"status,omitempty"`
-}
-
-// AssignPropertiesFromAvailablePatchSummary populates our AvailablePatchSummary from the provided source AvailablePatchSummary
-func (summary *AvailablePatchSummary) AssignPropertiesFromAvailablePatchSummary(source *v20201201s.AvailablePatchSummary) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// AssessmentActivityId
-	summary.AssessmentActivityId = genruntime.ClonePointerToString(source.AssessmentActivityId)
-
-	// CriticalAndSecurityPatchCount
-	summary.CriticalAndSecurityPatchCount = genruntime.ClonePointerToInt(source.CriticalAndSecurityPatchCount)
-
-	// Error
-	if source.Error != nil {
-		var error ApiError
-		err := error.AssignPropertiesFromApiError(source.Error)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromApiError() to populate field Error")
-		}
-		summary.Error = &error
-	} else {
-		summary.Error = nil
-	}
-
-	// LastModifiedTime
-	summary.LastModifiedTime = genruntime.ClonePointerToString(source.LastModifiedTime)
-
-	// OtherPatchCount
-	summary.OtherPatchCount = genruntime.ClonePointerToInt(source.OtherPatchCount)
-
-	// RebootPending
-	if source.RebootPending != nil {
-		rebootPending := *source.RebootPending
-		summary.RebootPending = &rebootPending
-	} else {
-		summary.RebootPending = nil
-	}
-
-	// StartTime
-	summary.StartTime = genruntime.ClonePointerToString(source.StartTime)
-
-	// Status
-	summary.Status = genruntime.ClonePointerToString(source.Status)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		summary.PropertyBag = propertyBag
-	} else {
-		summary.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToAvailablePatchSummary populates the provided destination AvailablePatchSummary from our AvailablePatchSummary
-func (summary *AvailablePatchSummary) AssignPropertiesToAvailablePatchSummary(destination *v20201201s.AvailablePatchSummary) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(summary.PropertyBag)
-
-	// AssessmentActivityId
-	destination.AssessmentActivityId = genruntime.ClonePointerToString(summary.AssessmentActivityId)
-
-	// CriticalAndSecurityPatchCount
-	destination.CriticalAndSecurityPatchCount = genruntime.ClonePointerToInt(summary.CriticalAndSecurityPatchCount)
-
-	// Error
-	if summary.Error != nil {
-		var error v20201201s.ApiError
-		err := summary.Error.AssignPropertiesToApiError(&error)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToApiError() to populate field Error")
-		}
-		destination.Error = &error
-	} else {
-		destination.Error = nil
-	}
-
-	// LastModifiedTime
-	destination.LastModifiedTime = genruntime.ClonePointerToString(summary.LastModifiedTime)
-
-	// OtherPatchCount
-	destination.OtherPatchCount = genruntime.ClonePointerToInt(summary.OtherPatchCount)
-
-	// RebootPending
-	if summary.RebootPending != nil {
-		rebootPending := *summary.RebootPending
-		destination.RebootPending = &rebootPending
-	} else {
-		destination.RebootPending = nil
-	}
-
-	// StartTime
-	destination.StartTime = genruntime.ClonePointerToString(summary.StartTime)
-
-	// Status
-	destination.Status = genruntime.ClonePointerToString(summary.Status)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Storage version of v1alpha1api20201201.AvailablePatchSummary_STATUS
 // Deprecated version of AvailablePatchSummary_STATUS. Use v1beta20201201.AvailablePatchSummary_STATUS instead
 type AvailablePatchSummary_STATUS struct {
@@ -8757,149 +7332,6 @@ func (settings *DiskEncryptionSettings_STATUS) AssignPropertiesToDiskEncryptionS
 	} else {
 		destination.KeyEncryptionKey = nil
 	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20201201.LastPatchInstallationSummary
-// Deprecated version of LastPatchInstallationSummary. Use v1beta20201201.LastPatchInstallationSummary instead
-type LastPatchInstallationSummary struct {
-	Error                     *ApiError              `json:"error,omitempty"`
-	ExcludedPatchCount        *int                   `json:"excludedPatchCount,omitempty"`
-	FailedPatchCount          *int                   `json:"failedPatchCount,omitempty"`
-	InstallationActivityId    *string                `json:"installationActivityId,omitempty"`
-	InstalledPatchCount       *int                   `json:"installedPatchCount,omitempty"`
-	LastModifiedTime          *string                `json:"lastModifiedTime,omitempty"`
-	MaintenanceWindowExceeded *bool                  `json:"maintenanceWindowExceeded,omitempty"`
-	NotSelectedPatchCount     *int                   `json:"notSelectedPatchCount,omitempty"`
-	PendingPatchCount         *int                   `json:"pendingPatchCount,omitempty"`
-	PropertyBag               genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	StartTime                 *string                `json:"startTime,omitempty"`
-	Status                    *string                `json:"status,omitempty"`
-}
-
-// AssignPropertiesFromLastPatchInstallationSummary populates our LastPatchInstallationSummary from the provided source LastPatchInstallationSummary
-func (summary *LastPatchInstallationSummary) AssignPropertiesFromLastPatchInstallationSummary(source *v20201201s.LastPatchInstallationSummary) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Error
-	if source.Error != nil {
-		var error ApiError
-		err := error.AssignPropertiesFromApiError(source.Error)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromApiError() to populate field Error")
-		}
-		summary.Error = &error
-	} else {
-		summary.Error = nil
-	}
-
-	// ExcludedPatchCount
-	summary.ExcludedPatchCount = genruntime.ClonePointerToInt(source.ExcludedPatchCount)
-
-	// FailedPatchCount
-	summary.FailedPatchCount = genruntime.ClonePointerToInt(source.FailedPatchCount)
-
-	// InstallationActivityId
-	summary.InstallationActivityId = genruntime.ClonePointerToString(source.InstallationActivityId)
-
-	// InstalledPatchCount
-	summary.InstalledPatchCount = genruntime.ClonePointerToInt(source.InstalledPatchCount)
-
-	// LastModifiedTime
-	summary.LastModifiedTime = genruntime.ClonePointerToString(source.LastModifiedTime)
-
-	// MaintenanceWindowExceeded
-	if source.MaintenanceWindowExceeded != nil {
-		maintenanceWindowExceeded := *source.MaintenanceWindowExceeded
-		summary.MaintenanceWindowExceeded = &maintenanceWindowExceeded
-	} else {
-		summary.MaintenanceWindowExceeded = nil
-	}
-
-	// NotSelectedPatchCount
-	summary.NotSelectedPatchCount = genruntime.ClonePointerToInt(source.NotSelectedPatchCount)
-
-	// PendingPatchCount
-	summary.PendingPatchCount = genruntime.ClonePointerToInt(source.PendingPatchCount)
-
-	// StartTime
-	summary.StartTime = genruntime.ClonePointerToString(source.StartTime)
-
-	// Status
-	summary.Status = genruntime.ClonePointerToString(source.Status)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		summary.PropertyBag = propertyBag
-	} else {
-		summary.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToLastPatchInstallationSummary populates the provided destination LastPatchInstallationSummary from our LastPatchInstallationSummary
-func (summary *LastPatchInstallationSummary) AssignPropertiesToLastPatchInstallationSummary(destination *v20201201s.LastPatchInstallationSummary) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(summary.PropertyBag)
-
-	// Error
-	if summary.Error != nil {
-		var error v20201201s.ApiError
-		err := summary.Error.AssignPropertiesToApiError(&error)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToApiError() to populate field Error")
-		}
-		destination.Error = &error
-	} else {
-		destination.Error = nil
-	}
-
-	// ExcludedPatchCount
-	destination.ExcludedPatchCount = genruntime.ClonePointerToInt(summary.ExcludedPatchCount)
-
-	// FailedPatchCount
-	destination.FailedPatchCount = genruntime.ClonePointerToInt(summary.FailedPatchCount)
-
-	// InstallationActivityId
-	destination.InstallationActivityId = genruntime.ClonePointerToString(summary.InstallationActivityId)
-
-	// InstalledPatchCount
-	destination.InstalledPatchCount = genruntime.ClonePointerToInt(summary.InstalledPatchCount)
-
-	// LastModifiedTime
-	destination.LastModifiedTime = genruntime.ClonePointerToString(summary.LastModifiedTime)
-
-	// MaintenanceWindowExceeded
-	if summary.MaintenanceWindowExceeded != nil {
-		maintenanceWindowExceeded := *summary.MaintenanceWindowExceeded
-		destination.MaintenanceWindowExceeded = &maintenanceWindowExceeded
-	} else {
-		destination.MaintenanceWindowExceeded = nil
-	}
-
-	// NotSelectedPatchCount
-	destination.NotSelectedPatchCount = genruntime.ClonePointerToInt(summary.NotSelectedPatchCount)
-
-	// PendingPatchCount
-	destination.PendingPatchCount = genruntime.ClonePointerToInt(summary.PendingPatchCount)
-
-	// StartTime
-	destination.StartTime = genruntime.ClonePointerToString(summary.StartTime)
-
-	// Status
-	destination.Status = genruntime.ClonePointerToString(summary.Status)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -9797,83 +8229,6 @@ func (disk *VirtualHardDisk_STATUS) AssignPropertiesToVirtualHardDisk_STATUS(des
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.VirtualMachineExtensionHandlerInstanceView
-// Deprecated version of VirtualMachineExtensionHandlerInstanceView. Use v1beta20201201.VirtualMachineExtensionHandlerInstanceView instead
-type VirtualMachineExtensionHandlerInstanceView struct {
-	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Status             *InstanceViewStatus    `json:"status,omitempty"`
-	Type               *string                `json:"type,omitempty"`
-	TypeHandlerVersion *string                `json:"typeHandlerVersion,omitempty"`
-}
-
-// AssignPropertiesFromVirtualMachineExtensionHandlerInstanceView populates our VirtualMachineExtensionHandlerInstanceView from the provided source VirtualMachineExtensionHandlerInstanceView
-func (view *VirtualMachineExtensionHandlerInstanceView) AssignPropertiesFromVirtualMachineExtensionHandlerInstanceView(source *v20201201s.VirtualMachineExtensionHandlerInstanceView) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Status
-	if source.Status != nil {
-		var status InstanceViewStatus
-		err := status.AssignPropertiesFromInstanceViewStatus(source.Status)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatus() to populate field Status")
-		}
-		view.Status = &status
-	} else {
-		view.Status = nil
-	}
-
-	// Type
-	view.Type = genruntime.ClonePointerToString(source.Type)
-
-	// TypeHandlerVersion
-	view.TypeHandlerVersion = genruntime.ClonePointerToString(source.TypeHandlerVersion)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		view.PropertyBag = propertyBag
-	} else {
-		view.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToVirtualMachineExtensionHandlerInstanceView populates the provided destination VirtualMachineExtensionHandlerInstanceView from our VirtualMachineExtensionHandlerInstanceView
-func (view *VirtualMachineExtensionHandlerInstanceView) AssignPropertiesToVirtualMachineExtensionHandlerInstanceView(destination *v20201201s.VirtualMachineExtensionHandlerInstanceView) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(view.PropertyBag)
-
-	// Status
-	if view.Status != nil {
-		var status v20201201s.InstanceViewStatus
-		err := view.Status.AssignPropertiesToInstanceViewStatus(&status)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatus() to populate field Status")
-		}
-		destination.Status = &status
-	} else {
-		destination.Status = nil
-	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(view.Type)
-
-	// TypeHandlerVersion
-	destination.TypeHandlerVersion = genruntime.ClonePointerToString(view.TypeHandlerVersion)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Storage version of v1alpha1api20201201.VirtualMachineExtensionHandlerInstanceView_STATUS
 // Deprecated version of VirtualMachineExtensionHandlerInstanceView_STATUS. Use v1beta20201201.VirtualMachineExtensionHandlerInstanceView_STATUS instead
 type VirtualMachineExtensionHandlerInstanceView_STATUS struct {
@@ -10089,127 +8444,6 @@ func (configuration *WinRMConfiguration_STATUS) AssignPropertiesToWinRMConfigura
 	} else {
 		destination.Listeners = nil
 	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20201201.ApiError
-// Deprecated version of ApiError. Use v1beta20201201.ApiError instead
-type ApiError struct {
-	Code        *string                `json:"code,omitempty"`
-	Details     []ApiErrorBase         `json:"details,omitempty"`
-	Innererror  *InnerError            `json:"innererror,omitempty"`
-	Message     *string                `json:"message,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Target      *string                `json:"target,omitempty"`
-}
-
-// AssignPropertiesFromApiError populates our ApiError from the provided source ApiError
-func (error *ApiError) AssignPropertiesFromApiError(source *v20201201s.ApiError) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Code
-	error.Code = genruntime.ClonePointerToString(source.Code)
-
-	// Details
-	if source.Details != nil {
-		detailList := make([]ApiErrorBase, len(source.Details))
-		for detailIndex, detailItem := range source.Details {
-			// Shadow the loop variable to avoid aliasing
-			detailItem := detailItem
-			var detail ApiErrorBase
-			err := detail.AssignPropertiesFromApiErrorBase(&detailItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromApiErrorBase() to populate field Details")
-			}
-			detailList[detailIndex] = detail
-		}
-		error.Details = detailList
-	} else {
-		error.Details = nil
-	}
-
-	// Innererror
-	if source.Innererror != nil {
-		var innererror InnerError
-		err := innererror.AssignPropertiesFromInnerError(source.Innererror)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromInnerError() to populate field Innererror")
-		}
-		error.Innererror = &innererror
-	} else {
-		error.Innererror = nil
-	}
-
-	// Message
-	error.Message = genruntime.ClonePointerToString(source.Message)
-
-	// Target
-	error.Target = genruntime.ClonePointerToString(source.Target)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		error.PropertyBag = propertyBag
-	} else {
-		error.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToApiError populates the provided destination ApiError from our ApiError
-func (error *ApiError) AssignPropertiesToApiError(destination *v20201201s.ApiError) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(error.PropertyBag)
-
-	// Code
-	destination.Code = genruntime.ClonePointerToString(error.Code)
-
-	// Details
-	if error.Details != nil {
-		detailList := make([]v20201201s.ApiErrorBase, len(error.Details))
-		for detailIndex, detailItem := range error.Details {
-			// Shadow the loop variable to avoid aliasing
-			detailItem := detailItem
-			var detail v20201201s.ApiErrorBase
-			err := detailItem.AssignPropertiesToApiErrorBase(&detail)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToApiErrorBase() to populate field Details")
-			}
-			detailList[detailIndex] = detail
-		}
-		destination.Details = detailList
-	} else {
-		destination.Details = nil
-	}
-
-	// Innererror
-	if error.Innererror != nil {
-		var innererror v20201201s.InnerError
-		err := error.Innererror.AssignPropertiesToInnerError(&innererror)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToInnerError() to populate field Innererror")
-		}
-		destination.Innererror = &innererror
-	} else {
-		destination.Innererror = nil
-	}
-
-	// Message
-	destination.Message = genruntime.ClonePointerToString(error.Message)
-
-	// Target
-	destination.Target = genruntime.ClonePointerToString(error.Target)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -10871,65 +9105,6 @@ func (listener *WinRMListener_STATUS) AssignPropertiesToWinRMListener_STATUS(des
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.ApiErrorBase
-// Deprecated version of ApiErrorBase. Use v1beta20201201.ApiErrorBase instead
-type ApiErrorBase struct {
-	Code        *string                `json:"code,omitempty"`
-	Message     *string                `json:"message,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Target      *string                `json:"target,omitempty"`
-}
-
-// AssignPropertiesFromApiErrorBase populates our ApiErrorBase from the provided source ApiErrorBase
-func (base *ApiErrorBase) AssignPropertiesFromApiErrorBase(source *v20201201s.ApiErrorBase) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Code
-	base.Code = genruntime.ClonePointerToString(source.Code)
-
-	// Message
-	base.Message = genruntime.ClonePointerToString(source.Message)
-
-	// Target
-	base.Target = genruntime.ClonePointerToString(source.Target)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		base.PropertyBag = propertyBag
-	} else {
-		base.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToApiErrorBase populates the provided destination ApiErrorBase from our ApiErrorBase
-func (base *ApiErrorBase) AssignPropertiesToApiErrorBase(destination *v20201201s.ApiErrorBase) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(base.PropertyBag)
-
-	// Code
-	destination.Code = genruntime.ClonePointerToString(base.Code)
-
-	// Message
-	destination.Message = genruntime.ClonePointerToString(base.Message)
-
-	// Target
-	destination.Target = genruntime.ClonePointerToString(base.Target)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Storage version of v1alpha1api20201201.ApiErrorBase_STATUS
 // Deprecated version of ApiErrorBase_STATUS. Use v1beta20201201.ApiErrorBase_STATUS instead
 type ApiErrorBase_STATUS struct {
@@ -10977,58 +9152,6 @@ func (base *ApiErrorBase_STATUS) AssignPropertiesToApiErrorBase_STATUS(destinati
 
 	// Target
 	destination.Target = genruntime.ClonePointerToString(base.Target)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20201201.InnerError
-// Deprecated version of InnerError. Use v1beta20201201.InnerError instead
-type InnerError struct {
-	Errordetail   *string                `json:"errordetail,omitempty"`
-	Exceptiontype *string                `json:"exceptiontype,omitempty"`
-	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// AssignPropertiesFromInnerError populates our InnerError from the provided source InnerError
-func (error *InnerError) AssignPropertiesFromInnerError(source *v20201201s.InnerError) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Errordetail
-	error.Errordetail = genruntime.ClonePointerToString(source.Errordetail)
-
-	// Exceptiontype
-	error.Exceptiontype = genruntime.ClonePointerToString(source.Exceptiontype)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		error.PropertyBag = propertyBag
-	} else {
-		error.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToInnerError populates the provided destination InnerError from our InnerError
-func (error *InnerError) AssignPropertiesToInnerError(destination *v20201201s.InnerError) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(error.PropertyBag)
-
-	// Errordetail
-	destination.Errordetail = genruntime.ClonePointerToString(error.Errordetail)
-
-	// Exceptiontype
-	destination.Exceptiontype = genruntime.ClonePointerToString(error.Exceptiontype)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

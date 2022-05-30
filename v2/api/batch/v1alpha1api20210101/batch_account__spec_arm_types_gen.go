@@ -43,9 +43,7 @@ type BatchAccountCreatePropertiesARM struct {
 
 // Deprecated version of BatchAccountIdentity. Use v1beta20210101.BatchAccountIdentity instead
 type BatchAccountIdentityARM struct {
-	PrincipalId *string                    `json:"principalId,omitempty"`
-	TenantId    *string                    `json:"tenantId,omitempty"`
-	Type        *BatchAccountIdentity_Type `json:"type,omitempty"`
+	Type *BatchAccountIdentity_Type `json:"type,omitempty"`
 }
 
 // Deprecated version of AutoStorageBaseProperties. Use v1beta20210101.AutoStorageBaseProperties instead

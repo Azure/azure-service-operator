@@ -245,9 +245,7 @@ type AutoStorageProperties_STATUS struct {
 
 // Storage version of v1beta20210101.BatchAccountIdentity
 type BatchAccountIdentity struct {
-	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	TenantId    *string                `json:"tenantId,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 

@@ -942,27 +942,22 @@ func (queue *NamespacesQueue_STATUS) AssignPropertiesToNamespacesQueue_STATUS(de
 }
 
 type NamespacesQueue_Spec struct {
-	AccessedAt       *string `json:"accessedAt,omitempty"`
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName                           string               `json:"azureName,omitempty"`
-	CountDetails                        *MessageCountDetails `json:"countDetails,omitempty"`
-	CreatedAt                           *string              `json:"createdAt,omitempty"`
-	DeadLetteringOnMessageExpiration    *bool                `json:"deadLetteringOnMessageExpiration,omitempty"`
-	DefaultMessageTimeToLive            *string              `json:"defaultMessageTimeToLive,omitempty"`
-	DuplicateDetectionHistoryTimeWindow *string              `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
-	EnableBatchedOperations             *bool                `json:"enableBatchedOperations,omitempty"`
-	EnableExpress                       *bool                `json:"enableExpress,omitempty"`
-	EnablePartitioning                  *bool                `json:"enablePartitioning,omitempty"`
-	ForwardDeadLetteredMessagesTo       *string              `json:"forwardDeadLetteredMessagesTo,omitempty"`
-	ForwardTo                           *string              `json:"forwardTo,omitempty"`
-	Id                                  *string              `json:"id,omitempty"`
-	LockDuration                        *string              `json:"lockDuration,omitempty"`
-	MaxDeliveryCount                    *int                 `json:"maxDeliveryCount,omitempty"`
-	MaxSizeInMegabytes                  *int                 `json:"maxSizeInMegabytes,omitempty"`
-	MessageCount                        *int                 `json:"messageCount,omitempty"`
+	AzureName                           string  `json:"azureName,omitempty"`
+	DeadLetteringOnMessageExpiration    *bool   `json:"deadLetteringOnMessageExpiration,omitempty"`
+	DefaultMessageTimeToLive            *string `json:"defaultMessageTimeToLive,omitempty"`
+	DuplicateDetectionHistoryTimeWindow *string `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
+	EnableBatchedOperations             *bool   `json:"enableBatchedOperations,omitempty"`
+	EnableExpress                       *bool   `json:"enableExpress,omitempty"`
+	EnablePartitioning                  *bool   `json:"enablePartitioning,omitempty"`
+	ForwardDeadLetteredMessagesTo       *string `json:"forwardDeadLetteredMessagesTo,omitempty"`
+	ForwardTo                           *string `json:"forwardTo,omitempty"`
+	LockDuration                        *string `json:"lockDuration,omitempty"`
+	MaxDeliveryCount                    *int    `json:"maxDeliveryCount,omitempty"`
+	MaxSizeInMegabytes                  *int    `json:"maxSizeInMegabytes,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -971,10 +966,6 @@ type NamespacesQueue_Spec struct {
 	Owner                      *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	RequiresDuplicateDetection *bool                              `json:"requiresDuplicateDetection,omitempty"`
 	RequiresSession            *bool                              `json:"requiresSession,omitempty"`
-	SizeInBytes                *int                               `json:"sizeInBytes,omitempty"`
-	SystemData                 *SystemData                        `json:"systemData,omitempty"`
-	Type                       *string                            `json:"type,omitempty"`
-	UpdatedAt                  *string                            `json:"updatedAt,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &NamespacesQueue_Spec{}
@@ -989,20 +980,11 @@ func (queue *NamespacesQueue_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	// Set property ‘AzureName’:
 	result.AzureName = queue.AzureName
 
-	// Set property ‘Id’:
-	if queue.Id != nil {
-		id := *queue.Id
-		result.Id = &id
-	}
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if queue.AccessedAt != nil ||
-		queue.AutoDeleteOnIdle != nil ||
-		queue.CountDetails != nil ||
-		queue.CreatedAt != nil ||
+	if queue.AutoDeleteOnIdle != nil ||
 		queue.DeadLetteringOnMessageExpiration != nil ||
 		queue.DefaultMessageTimeToLive != nil ||
 		queue.DuplicateDetectionHistoryTimeWindow != nil ||
@@ -1014,32 +996,13 @@ func (queue *NamespacesQueue_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		queue.LockDuration != nil ||
 		queue.MaxDeliveryCount != nil ||
 		queue.MaxSizeInMegabytes != nil ||
-		queue.MessageCount != nil ||
 		queue.RequiresDuplicateDetection != nil ||
-		queue.RequiresSession != nil ||
-		queue.SizeInBytes != nil ||
-		queue.UpdatedAt != nil {
+		queue.RequiresSession != nil {
 		result.Properties = &SBQueuePropertiesARM{}
-	}
-	if queue.AccessedAt != nil {
-		accessedAt := *queue.AccessedAt
-		result.Properties.AccessedAt = &accessedAt
 	}
 	if queue.AutoDeleteOnIdle != nil {
 		autoDeleteOnIdle := *queue.AutoDeleteOnIdle
 		result.Properties.AutoDeleteOnIdle = &autoDeleteOnIdle
-	}
-	if queue.CountDetails != nil {
-		countDetailsARM, err := (*queue.CountDetails).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		countDetails := *countDetailsARM.(*MessageCountDetailsARM)
-		result.Properties.CountDetails = &countDetails
-	}
-	if queue.CreatedAt != nil {
-		createdAt := *queue.CreatedAt
-		result.Properties.CreatedAt = &createdAt
 	}
 	if queue.DeadLetteringOnMessageExpiration != nil {
 		deadLetteringOnMessageExpiration := *queue.DeadLetteringOnMessageExpiration
@@ -1085,10 +1048,6 @@ func (queue *NamespacesQueue_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		maxSizeInMegabytes := *queue.MaxSizeInMegabytes
 		result.Properties.MaxSizeInMegabytes = &maxSizeInMegabytes
 	}
-	if queue.MessageCount != nil {
-		messageCount := *queue.MessageCount
-		result.Properties.MessageCount = &messageCount
-	}
 	if queue.RequiresDuplicateDetection != nil {
 		requiresDuplicateDetection := *queue.RequiresDuplicateDetection
 		result.Properties.RequiresDuplicateDetection = &requiresDuplicateDetection
@@ -1096,30 +1055,6 @@ func (queue *NamespacesQueue_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	if queue.RequiresSession != nil {
 		requiresSession := *queue.RequiresSession
 		result.Properties.RequiresSession = &requiresSession
-	}
-	if queue.SizeInBytes != nil {
-		sizeInBytes := *queue.SizeInBytes
-		result.Properties.SizeInBytes = &sizeInBytes
-	}
-	if queue.UpdatedAt != nil {
-		updatedAt := *queue.UpdatedAt
-		result.Properties.UpdatedAt = &updatedAt
-	}
-
-	// Set property ‘SystemData’:
-	if queue.SystemData != nil {
-		systemDataARM, err := (*queue.SystemData).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		systemData := *systemDataARM.(*SystemDataARM)
-		result.SystemData = &systemData
-	}
-
-	// Set property ‘Type’:
-	if queue.Type != nil {
-		typeVar := *queue.Type
-		result.Type = &typeVar
 	}
 	return result, nil
 }
@@ -1136,15 +1071,6 @@ func (queue *NamespacesQueue_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NamespacesQueue_SpecARM, got %T", armInput)
 	}
 
-	// Set property ‘AccessedAt’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.AccessedAt != nil {
-			accessedAt := *typedInput.Properties.AccessedAt
-			queue.AccessedAt = &accessedAt
-		}
-	}
-
 	// Set property ‘AutoDeleteOnIdle’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -1156,29 +1082,6 @@ func (queue *NamespacesQueue_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property ‘AzureName’:
 	queue.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘CountDetails’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.CountDetails != nil {
-			var countDetails1 MessageCountDetails
-			err := countDetails1.PopulateFromARM(owner, *typedInput.Properties.CountDetails)
-			if err != nil {
-				return err
-			}
-			countDetails := countDetails1
-			queue.CountDetails = &countDetails
-		}
-	}
-
-	// Set property ‘CreatedAt’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.CreatedAt != nil {
-			createdAt := *typedInput.Properties.CreatedAt
-			queue.CreatedAt = &createdAt
-		}
-	}
 
 	// Set property ‘DeadLetteringOnMessageExpiration’:
 	// copying flattened property:
@@ -1252,12 +1155,6 @@ func (queue *NamespacesQueue_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		queue.Id = &id
-	}
-
 	// Set property ‘LockDuration’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -1285,15 +1182,6 @@ func (queue *NamespacesQueue_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘MessageCount’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.MessageCount != nil {
-			messageCount := *typedInput.Properties.MessageCount
-			queue.MessageCount = &messageCount
-		}
-	}
-
 	// Set property ‘Owner’:
 	queue.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
@@ -1314,41 +1202,6 @@ func (queue *NamespacesQueue_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		if typedInput.Properties.RequiresSession != nil {
 			requiresSession := *typedInput.Properties.RequiresSession
 			queue.RequiresSession = &requiresSession
-		}
-	}
-
-	// Set property ‘SizeInBytes’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.SizeInBytes != nil {
-			sizeInBytes := *typedInput.Properties.SizeInBytes
-			queue.SizeInBytes = &sizeInBytes
-		}
-	}
-
-	// Set property ‘SystemData’:
-	if typedInput.SystemData != nil {
-		var systemData1 SystemData
-		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
-		if err != nil {
-			return err
-		}
-		systemData := systemData1
-		queue.SystemData = &systemData
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		queue.Type = &typeVar
-	}
-
-	// Set property ‘UpdatedAt’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.UpdatedAt != nil {
-			updatedAt := *typedInput.Properties.UpdatedAt
-			queue.UpdatedAt = &updatedAt
 		}
 	}
 
@@ -1409,14 +1262,6 @@ func (queue *NamespacesQueue_Spec) ConvertSpecTo(destination genruntime.Converti
 // AssignPropertiesFromNamespacesQueue_Spec populates our NamespacesQueue_Spec from the provided source NamespacesQueue_Spec
 func (queue *NamespacesQueue_Spec) AssignPropertiesFromNamespacesQueue_Spec(source *alpha20210101ps.NamespacesQueue_Spec) error {
 
-	// AccessedAt
-	if source.AccessedAt != nil {
-		accessedAt := *source.AccessedAt
-		queue.AccessedAt = &accessedAt
-	} else {
-		queue.AccessedAt = nil
-	}
-
 	// AutoDeleteOnIdle
 	if source.AutoDeleteOnIdle != nil {
 		autoDeleteOnIdle := *source.AutoDeleteOnIdle
@@ -1427,26 +1272,6 @@ func (queue *NamespacesQueue_Spec) AssignPropertiesFromNamespacesQueue_Spec(sour
 
 	// AzureName
 	queue.AzureName = source.AzureName
-
-	// CountDetails
-	if source.CountDetails != nil {
-		var countDetail MessageCountDetails
-		err := countDetail.AssignPropertiesFromMessageCountDetails(source.CountDetails)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromMessageCountDetails() to populate field CountDetails")
-		}
-		queue.CountDetails = &countDetail
-	} else {
-		queue.CountDetails = nil
-	}
-
-	// CreatedAt
-	if source.CreatedAt != nil {
-		createdAt := *source.CreatedAt
-		queue.CreatedAt = &createdAt
-	} else {
-		queue.CreatedAt = nil
-	}
 
 	// DeadLetteringOnMessageExpiration
 	if source.DeadLetteringOnMessageExpiration != nil {
@@ -1502,9 +1327,6 @@ func (queue *NamespacesQueue_Spec) AssignPropertiesFromNamespacesQueue_Spec(sour
 	// ForwardTo
 	queue.ForwardTo = genruntime.ClonePointerToString(source.ForwardTo)
 
-	// Id
-	queue.Id = genruntime.ClonePointerToString(source.Id)
-
 	// LockDuration
 	if source.LockDuration != nil {
 		lockDuration := *source.LockDuration
@@ -1518,9 +1340,6 @@ func (queue *NamespacesQueue_Spec) AssignPropertiesFromNamespacesQueue_Spec(sour
 
 	// MaxSizeInMegabytes
 	queue.MaxSizeInMegabytes = genruntime.ClonePointerToInt(source.MaxSizeInMegabytes)
-
-	// MessageCount
-	queue.MessageCount = genruntime.ClonePointerToInt(source.MessageCount)
 
 	// Owner
 	if source.Owner != nil {
@@ -1546,32 +1365,6 @@ func (queue *NamespacesQueue_Spec) AssignPropertiesFromNamespacesQueue_Spec(sour
 		queue.RequiresSession = nil
 	}
 
-	// SizeInBytes
-	queue.SizeInBytes = genruntime.ClonePointerToInt(source.SizeInBytes)
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
-		}
-		queue.SystemData = &systemDatum
-	} else {
-		queue.SystemData = nil
-	}
-
-	// Type
-	queue.Type = genruntime.ClonePointerToString(source.Type)
-
-	// UpdatedAt
-	if source.UpdatedAt != nil {
-		updatedAt := *source.UpdatedAt
-		queue.UpdatedAt = &updatedAt
-	} else {
-		queue.UpdatedAt = nil
-	}
-
 	// No error
 	return nil
 }
@@ -1580,14 +1373,6 @@ func (queue *NamespacesQueue_Spec) AssignPropertiesFromNamespacesQueue_Spec(sour
 func (queue *NamespacesQueue_Spec) AssignPropertiesToNamespacesQueue_Spec(destination *alpha20210101ps.NamespacesQueue_Spec) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
-
-	// AccessedAt
-	if queue.AccessedAt != nil {
-		accessedAt := *queue.AccessedAt
-		destination.AccessedAt = &accessedAt
-	} else {
-		destination.AccessedAt = nil
-	}
 
 	// AutoDeleteOnIdle
 	if queue.AutoDeleteOnIdle != nil {
@@ -1599,26 +1384,6 @@ func (queue *NamespacesQueue_Spec) AssignPropertiesToNamespacesQueue_Spec(destin
 
 	// AzureName
 	destination.AzureName = queue.AzureName
-
-	// CountDetails
-	if queue.CountDetails != nil {
-		var countDetail alpha20210101ps.MessageCountDetails
-		err := queue.CountDetails.AssignPropertiesToMessageCountDetails(&countDetail)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToMessageCountDetails() to populate field CountDetails")
-		}
-		destination.CountDetails = &countDetail
-	} else {
-		destination.CountDetails = nil
-	}
-
-	// CreatedAt
-	if queue.CreatedAt != nil {
-		createdAt := *queue.CreatedAt
-		destination.CreatedAt = &createdAt
-	} else {
-		destination.CreatedAt = nil
-	}
 
 	// DeadLetteringOnMessageExpiration
 	if queue.DeadLetteringOnMessageExpiration != nil {
@@ -1674,9 +1439,6 @@ func (queue *NamespacesQueue_Spec) AssignPropertiesToNamespacesQueue_Spec(destin
 	// ForwardTo
 	destination.ForwardTo = genruntime.ClonePointerToString(queue.ForwardTo)
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(queue.Id)
-
 	// LockDuration
 	if queue.LockDuration != nil {
 		lockDuration := *queue.LockDuration
@@ -1690,9 +1452,6 @@ func (queue *NamespacesQueue_Spec) AssignPropertiesToNamespacesQueue_Spec(destin
 
 	// MaxSizeInMegabytes
 	destination.MaxSizeInMegabytes = genruntime.ClonePointerToInt(queue.MaxSizeInMegabytes)
-
-	// MessageCount
-	destination.MessageCount = genruntime.ClonePointerToInt(queue.MessageCount)
 
 	// OriginalVersion
 	destination.OriginalVersion = queue.OriginalVersion()
@@ -1719,32 +1478,6 @@ func (queue *NamespacesQueue_Spec) AssignPropertiesToNamespacesQueue_Spec(destin
 		destination.RequiresSession = &requiresSession
 	} else {
 		destination.RequiresSession = nil
-	}
-
-	// SizeInBytes
-	destination.SizeInBytes = genruntime.ClonePointerToInt(queue.SizeInBytes)
-
-	// SystemData
-	if queue.SystemData != nil {
-		var systemDatum alpha20210101ps.SystemData
-		err := queue.SystemData.AssignPropertiesToSystemData(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(queue.Type)
-
-	// UpdatedAt
-	if queue.UpdatedAt != nil {
-		updatedAt := *queue.UpdatedAt
-		destination.UpdatedAt = &updatedAt
-	} else {
-		destination.UpdatedAt = nil
 	}
 
 	// Update the property bag
@@ -1780,155 +1513,6 @@ const (
 	EntityStatus_SendDisabled_STATUS    = EntityStatus_STATUS("SendDisabled")
 	EntityStatus_Unknown_STATUS         = EntityStatus_STATUS("Unknown")
 )
-
-// Deprecated version of MessageCountDetails. Use v1beta20210101preview.MessageCountDetails instead
-type MessageCountDetails struct {
-	ActiveMessageCount             *int `json:"activeMessageCount,omitempty"`
-	DeadLetterMessageCount         *int `json:"deadLetterMessageCount,omitempty"`
-	ScheduledMessageCount          *int `json:"scheduledMessageCount,omitempty"`
-	TransferDeadLetterMessageCount *int `json:"transferDeadLetterMessageCount,omitempty"`
-	TransferMessageCount           *int `json:"transferMessageCount,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &MessageCountDetails{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (details *MessageCountDetails) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if details == nil {
-		return nil, nil
-	}
-	result := &MessageCountDetailsARM{}
-
-	// Set property ‘ActiveMessageCount’:
-	if details.ActiveMessageCount != nil {
-		activeMessageCount := *details.ActiveMessageCount
-		result.ActiveMessageCount = &activeMessageCount
-	}
-
-	// Set property ‘DeadLetterMessageCount’:
-	if details.DeadLetterMessageCount != nil {
-		deadLetterMessageCount := *details.DeadLetterMessageCount
-		result.DeadLetterMessageCount = &deadLetterMessageCount
-	}
-
-	// Set property ‘ScheduledMessageCount’:
-	if details.ScheduledMessageCount != nil {
-		scheduledMessageCount := *details.ScheduledMessageCount
-		result.ScheduledMessageCount = &scheduledMessageCount
-	}
-
-	// Set property ‘TransferDeadLetterMessageCount’:
-	if details.TransferDeadLetterMessageCount != nil {
-		transferDeadLetterMessageCount := *details.TransferDeadLetterMessageCount
-		result.TransferDeadLetterMessageCount = &transferDeadLetterMessageCount
-	}
-
-	// Set property ‘TransferMessageCount’:
-	if details.TransferMessageCount != nil {
-		transferMessageCount := *details.TransferMessageCount
-		result.TransferMessageCount = &transferMessageCount
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (details *MessageCountDetails) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MessageCountDetailsARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (details *MessageCountDetails) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MessageCountDetailsARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MessageCountDetailsARM, got %T", armInput)
-	}
-
-	// Set property ‘ActiveMessageCount’:
-	if typedInput.ActiveMessageCount != nil {
-		activeMessageCount := *typedInput.ActiveMessageCount
-		details.ActiveMessageCount = &activeMessageCount
-	}
-
-	// Set property ‘DeadLetterMessageCount’:
-	if typedInput.DeadLetterMessageCount != nil {
-		deadLetterMessageCount := *typedInput.DeadLetterMessageCount
-		details.DeadLetterMessageCount = &deadLetterMessageCount
-	}
-
-	// Set property ‘ScheduledMessageCount’:
-	if typedInput.ScheduledMessageCount != nil {
-		scheduledMessageCount := *typedInput.ScheduledMessageCount
-		details.ScheduledMessageCount = &scheduledMessageCount
-	}
-
-	// Set property ‘TransferDeadLetterMessageCount’:
-	if typedInput.TransferDeadLetterMessageCount != nil {
-		transferDeadLetterMessageCount := *typedInput.TransferDeadLetterMessageCount
-		details.TransferDeadLetterMessageCount = &transferDeadLetterMessageCount
-	}
-
-	// Set property ‘TransferMessageCount’:
-	if typedInput.TransferMessageCount != nil {
-		transferMessageCount := *typedInput.TransferMessageCount
-		details.TransferMessageCount = &transferMessageCount
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromMessageCountDetails populates our MessageCountDetails from the provided source MessageCountDetails
-func (details *MessageCountDetails) AssignPropertiesFromMessageCountDetails(source *alpha20210101ps.MessageCountDetails) error {
-
-	// ActiveMessageCount
-	details.ActiveMessageCount = genruntime.ClonePointerToInt(source.ActiveMessageCount)
-
-	// DeadLetterMessageCount
-	details.DeadLetterMessageCount = genruntime.ClonePointerToInt(source.DeadLetterMessageCount)
-
-	// ScheduledMessageCount
-	details.ScheduledMessageCount = genruntime.ClonePointerToInt(source.ScheduledMessageCount)
-
-	// TransferDeadLetterMessageCount
-	details.TransferDeadLetterMessageCount = genruntime.ClonePointerToInt(source.TransferDeadLetterMessageCount)
-
-	// TransferMessageCount
-	details.TransferMessageCount = genruntime.ClonePointerToInt(source.TransferMessageCount)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToMessageCountDetails populates the provided destination MessageCountDetails from our MessageCountDetails
-func (details *MessageCountDetails) AssignPropertiesToMessageCountDetails(destination *alpha20210101ps.MessageCountDetails) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// ActiveMessageCount
-	destination.ActiveMessageCount = genruntime.ClonePointerToInt(details.ActiveMessageCount)
-
-	// DeadLetterMessageCount
-	destination.DeadLetterMessageCount = genruntime.ClonePointerToInt(details.DeadLetterMessageCount)
-
-	// ScheduledMessageCount
-	destination.ScheduledMessageCount = genruntime.ClonePointerToInt(details.ScheduledMessageCount)
-
-	// TransferDeadLetterMessageCount
-	destination.TransferDeadLetterMessageCount = genruntime.ClonePointerToInt(details.TransferDeadLetterMessageCount)
-
-	// TransferMessageCount
-	destination.TransferMessageCount = genruntime.ClonePointerToInt(details.TransferMessageCount)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
 
 // Deprecated version of MessageCountDetails_STATUS. Use v1beta20210101preview.MessageCountDetails_STATUS instead
 type MessageCountDetails_STATUS struct {

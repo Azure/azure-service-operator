@@ -83,32 +83,30 @@ func RouteTable_SpecARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForRouteTable_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRouteTable_SpecARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForRouteTable_SpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRouteTable_SpecARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(RouteTablePropertiesFormatARMGenerator())
+	gens["Properties"] = gen.PtrOf(RouteTablePropertiesFormat_RouteTable_SubResourceEmbeddedARMGenerator())
 }
 
-func Test_RouteTablePropertiesFormatARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_RouteTablePropertiesFormat_RouteTable_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of RouteTablePropertiesFormatARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRouteTablePropertiesFormatARM, RouteTablePropertiesFormatARMGenerator()))
+		"Round trip of RouteTablePropertiesFormat_RouteTable_SubResourceEmbeddedARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRouteTablePropertiesFormat_RouteTable_SubResourceEmbeddedARM, RouteTablePropertiesFormat_RouteTable_SubResourceEmbeddedARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRouteTablePropertiesFormatARM runs a test to see if a specific instance of RouteTablePropertiesFormatARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForRouteTablePropertiesFormatARM(subject RouteTablePropertiesFormatARM) string {
+// RunJSONSerializationTestForRouteTablePropertiesFormat_RouteTable_SubResourceEmbeddedARM runs a test to see if a specific instance of RouteTablePropertiesFormat_RouteTable_SubResourceEmbeddedARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForRouteTablePropertiesFormat_RouteTable_SubResourceEmbeddedARM(subject RouteTablePropertiesFormat_RouteTable_SubResourceEmbeddedARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -116,7 +114,7 @@ func RunJSONSerializationTestForRouteTablePropertiesFormatARM(subject RouteTable
 	}
 
 	// Deserialize back into memory
-	var actual RouteTablePropertiesFormatARM
+	var actual RouteTablePropertiesFormat_RouteTable_SubResourceEmbeddedARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -134,62 +132,55 @@ func RunJSONSerializationTestForRouteTablePropertiesFormatARM(subject RouteTable
 	return ""
 }
 
-// Generator of RouteTablePropertiesFormatARM instances for property testing - lazily instantiated by
-// RouteTablePropertiesFormatARMGenerator()
-var routeTablePropertiesFormatARMGenerator gopter.Gen
+// Generator of RouteTablePropertiesFormat_RouteTable_SubResourceEmbeddedARM instances for property testing - lazily
+// instantiated by RouteTablePropertiesFormat_RouteTable_SubResourceEmbeddedARMGenerator()
+var routeTablePropertiesFormat_RouteTable_SubResourceEmbeddedARMGenerator gopter.Gen
 
-// RouteTablePropertiesFormatARMGenerator returns a generator of RouteTablePropertiesFormatARM instances for property testing.
-// We first initialize routeTablePropertiesFormatARMGenerator with a simplified generator based on the
+// RouteTablePropertiesFormat_RouteTable_SubResourceEmbeddedARMGenerator returns a generator of RouteTablePropertiesFormat_RouteTable_SubResourceEmbeddedARM instances for property testing.
+// We first initialize routeTablePropertiesFormat_RouteTable_SubResourceEmbeddedARMGenerator with a simplified generator based on the
 // fields with primitive types then replacing it with a more complex one that also handles complex fields
 // to ensure any cycles in the object graph properly terminate.
-func RouteTablePropertiesFormatARMGenerator() gopter.Gen {
-	if routeTablePropertiesFormatARMGenerator != nil {
-		return routeTablePropertiesFormatARMGenerator
+func RouteTablePropertiesFormat_RouteTable_SubResourceEmbeddedARMGenerator() gopter.Gen {
+	if routeTablePropertiesFormat_RouteTable_SubResourceEmbeddedARMGenerator != nil {
+		return routeTablePropertiesFormat_RouteTable_SubResourceEmbeddedARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRouteTablePropertiesFormatARM(generators)
-	routeTablePropertiesFormatARMGenerator = gen.Struct(reflect.TypeOf(RouteTablePropertiesFormatARM{}), generators)
+	AddIndependentPropertyGeneratorsForRouteTablePropertiesFormat_RouteTable_SubResourceEmbeddedARM(generators)
+	routeTablePropertiesFormat_RouteTable_SubResourceEmbeddedARMGenerator = gen.Struct(reflect.TypeOf(RouteTablePropertiesFormat_RouteTable_SubResourceEmbeddedARM{}), generators)
 
 	// The above call to gen.Struct() captures the map, so create a new one
 	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRouteTablePropertiesFormatARM(generators)
-	AddRelatedPropertyGeneratorsForRouteTablePropertiesFormatARM(generators)
-	routeTablePropertiesFormatARMGenerator = gen.Struct(reflect.TypeOf(RouteTablePropertiesFormatARM{}), generators)
+	AddIndependentPropertyGeneratorsForRouteTablePropertiesFormat_RouteTable_SubResourceEmbeddedARM(generators)
+	AddRelatedPropertyGeneratorsForRouteTablePropertiesFormat_RouteTable_SubResourceEmbeddedARM(generators)
+	routeTablePropertiesFormat_RouteTable_SubResourceEmbeddedARMGenerator = gen.Struct(reflect.TypeOf(RouteTablePropertiesFormat_RouteTable_SubResourceEmbeddedARM{}), generators)
 
-	return routeTablePropertiesFormatARMGenerator
+	return routeTablePropertiesFormat_RouteTable_SubResourceEmbeddedARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRouteTablePropertiesFormatARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRouteTablePropertiesFormatARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRouteTablePropertiesFormat_RouteTable_SubResourceEmbeddedARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRouteTablePropertiesFormat_RouteTable_SubResourceEmbeddedARM(gens map[string]gopter.Gen) {
 	gens["DisableBgpRoutePropagation"] = gen.PtrOf(gen.Bool())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_Deleting,
-		ProvisioningState_Failed,
-		ProvisioningState_Succeeded,
-		ProvisioningState_Updating))
-	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
 }
 
-// AddRelatedPropertyGeneratorsForRouteTablePropertiesFormatARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForRouteTablePropertiesFormatARM(gens map[string]gopter.Gen) {
-	gens["Routes"] = gen.SliceOf(RouteARMGenerator())
-	gens["Subnets"] = gen.SliceOf(Subnet_RouteTable_SubResourceEmbeddedARMGenerator())
+// AddRelatedPropertyGeneratorsForRouteTablePropertiesFormat_RouteTable_SubResourceEmbeddedARM is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForRouteTablePropertiesFormat_RouteTable_SubResourceEmbeddedARM(gens map[string]gopter.Gen) {
+	gens["Routes"] = gen.SliceOf(Route_RouteTable_SubResourceEmbeddedARMGenerator())
 }
 
-func Test_RouteARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Route_RouteTable_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of RouteARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRouteARM, RouteARMGenerator()))
+		"Round trip of Route_RouteTable_SubResourceEmbeddedARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRoute_RouteTable_SubResourceEmbeddedARM, Route_RouteTable_SubResourceEmbeddedARMGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRouteARM runs a test to see if a specific instance of RouteARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForRouteARM(subject RouteARM) string {
+// RunJSONSerializationTestForRoute_RouteTable_SubResourceEmbeddedARM runs a test to see if a specific instance of Route_RouteTable_SubResourceEmbeddedARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForRoute_RouteTable_SubResourceEmbeddedARM(subject Route_RouteTable_SubResourceEmbeddedARM) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -197,7 +188,7 @@ func RunJSONSerializationTestForRouteARM(subject RouteARM) string {
 	}
 
 	// Deserialize back into memory
-	var actual RouteARM
+	var actual Route_RouteTable_SubResourceEmbeddedARM
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -215,83 +206,24 @@ func RunJSONSerializationTestForRouteARM(subject RouteARM) string {
 	return ""
 }
 
-// Generator of RouteARM instances for property testing - lazily instantiated by RouteARMGenerator()
-var routeARMGenerator gopter.Gen
+// Generator of Route_RouteTable_SubResourceEmbeddedARM instances for property testing - lazily instantiated by
+// Route_RouteTable_SubResourceEmbeddedARMGenerator()
+var route_RouteTable_SubResourceEmbeddedARMGenerator gopter.Gen
 
-// RouteARMGenerator returns a generator of RouteARM instances for property testing.
-func RouteARMGenerator() gopter.Gen {
-	if routeARMGenerator != nil {
-		return routeARMGenerator
+// Route_RouteTable_SubResourceEmbeddedARMGenerator returns a generator of Route_RouteTable_SubResourceEmbeddedARM instances for property testing.
+func Route_RouteTable_SubResourceEmbeddedARMGenerator() gopter.Gen {
+	if route_RouteTable_SubResourceEmbeddedARMGenerator != nil {
+		return route_RouteTable_SubResourceEmbeddedARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRouteARM(generators)
-	routeARMGenerator = gen.Struct(reflect.TypeOf(RouteARM{}), generators)
+	AddIndependentPropertyGeneratorsForRoute_RouteTable_SubResourceEmbeddedARM(generators)
+	route_RouteTable_SubResourceEmbeddedARMGenerator = gen.Struct(reflect.TypeOf(Route_RouteTable_SubResourceEmbeddedARM{}), generators)
 
-	return routeARMGenerator
+	return route_RouteTable_SubResourceEmbeddedARMGenerator
 }
 
-// AddIndependentPropertyGeneratorsForRouteARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRouteARM(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_Subnet_RouteTable_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Subnet_RouteTable_SubResourceEmbeddedARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSubnet_RouteTable_SubResourceEmbeddedARM, Subnet_RouteTable_SubResourceEmbeddedARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSubnet_RouteTable_SubResourceEmbeddedARM runs a test to see if a specific instance of Subnet_RouteTable_SubResourceEmbeddedARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSubnet_RouteTable_SubResourceEmbeddedARM(subject Subnet_RouteTable_SubResourceEmbeddedARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Subnet_RouteTable_SubResourceEmbeddedARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Subnet_RouteTable_SubResourceEmbeddedARM instances for property testing - lazily instantiated by
-// Subnet_RouteTable_SubResourceEmbeddedARMGenerator()
-var subnet_RouteTable_SubResourceEmbeddedARMGenerator gopter.Gen
-
-// Subnet_RouteTable_SubResourceEmbeddedARMGenerator returns a generator of Subnet_RouteTable_SubResourceEmbeddedARM instances for property testing.
-func Subnet_RouteTable_SubResourceEmbeddedARMGenerator() gopter.Gen {
-	if subnet_RouteTable_SubResourceEmbeddedARMGenerator != nil {
-		return subnet_RouteTable_SubResourceEmbeddedARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSubnet_RouteTable_SubResourceEmbeddedARM(generators)
-	subnet_RouteTable_SubResourceEmbeddedARMGenerator = gen.Struct(reflect.TypeOf(Subnet_RouteTable_SubResourceEmbeddedARM{}), generators)
-
-	return subnet_RouteTable_SubResourceEmbeddedARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSubnet_RouteTable_SubResourceEmbeddedARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSubnet_RouteTable_SubResourceEmbeddedARM(gens map[string]gopter.Gen) {
+// AddIndependentPropertyGeneratorsForRoute_RouteTable_SubResourceEmbeddedARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForRoute_RouteTable_SubResourceEmbeddedARM(gens map[string]gopter.Gen) {
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }

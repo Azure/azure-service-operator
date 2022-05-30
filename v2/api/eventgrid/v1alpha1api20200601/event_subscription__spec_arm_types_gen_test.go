@@ -84,15 +84,12 @@ func EventSubscription_SpecARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForEventSubscription_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEventSubscription_SpecARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForEventSubscription_SpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForEventSubscription_SpecARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(EventSubscriptionPropertiesARMGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemDataARMGenerator())
 }
 
 func Test_EventSubscriptionPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -164,15 +161,6 @@ func AddIndependentPropertyGeneratorsForEventSubscriptionPropertiesARM(gens map[
 	gens["EventDeliverySchema"] = gen.PtrOf(gen.OneConstOf(EventSubscriptionProperties_EventDeliverySchema_CloudEventSchemaV1_0, EventSubscriptionProperties_EventDeliverySchema_CustomInputSchema, EventSubscriptionProperties_EventDeliverySchema_EventGridSchema))
 	gens["ExpirationTimeUtc"] = gen.PtrOf(gen.AlphaString())
 	gens["Labels"] = gen.SliceOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		EventSubscriptionProperties_ProvisioningState_AwaitingManualAction,
-		EventSubscriptionProperties_ProvisioningState_Canceled,
-		EventSubscriptionProperties_ProvisioningState_Creating,
-		EventSubscriptionProperties_ProvisioningState_Deleting,
-		EventSubscriptionProperties_ProvisioningState_Failed,
-		EventSubscriptionProperties_ProvisioningState_Succeeded,
-		EventSubscriptionProperties_ProvisioningState_Updating))
-	gens["Topic"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForEventSubscriptionPropertiesARM is a factory method for creating gopter generators

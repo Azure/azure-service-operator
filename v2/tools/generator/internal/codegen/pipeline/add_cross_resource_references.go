@@ -35,8 +35,31 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 			var crossResourceReferenceErrs []error
 
 			isCrossResourceReference := func(typeName astmodel.TypeName, prop *astmodel.PropertyDefinition) bool {
+				isResource := false
+				{
+					// if it is explicitly marked as a resource, assume ok
+					refType, err := definitions.FullyResolve(typeName)
+					if err != nil {
+						crossResourceReferenceErrs = append(crossResourceReferenceErrs, err)
+					}
+
+					if ot, ok := astmodel.AsObjectType(refType); ok {
+						isResource = ot.IsResource()
+					}
+				}
+
 				isReference, err := configuration.ARMReference(typeName, prop.PropertyName())
-				if DoesPropertyLookLikeARMReference(prop) && err != nil {
+				looksLikeArmReference := DoesPropertyLookLikeARMReference(prop)
+				if isResource && looksLikeArmReference {
+					if !isReference {
+						klog.Infof("%s is marked as resource in Swagger specs", typeName)
+					} else {
+						klog.Warningf("redundant $armReference:true for %s, is marked as resource in Swagger specs", typeName)
+					}
+					return true
+				}
+
+				if looksLikeArmReference && err != nil {
 					if config.IsNotConfiguredError(err) {
 						// This is an error for now to ensure that we don't accidentally miss adding references.
 						// If/when we move to using an upstream marker for cross resource refs, we can remove this and just
@@ -83,27 +106,25 @@ func AddCrossResourceReferences(configuration *config.Configuration, idFactory a
 			}
 
 			// TODO(donotmerge) - need to fixup config file
-			/*
-				if len(crossResourceReferenceErrs) > 0 {
-					// format them nicely, it’s common to have a lot after a change
-					var builder strings.Builder
-					for _, e := range crossResourceReferenceErrs {
-						builder.WriteString("\n - ")
-						builder.WriteString(e.Error())
-					}
-
-					return nil, errors.New(builder.String())
+			if len(crossResourceReferenceErrs) > 0 {
+				// format them nicely, it’s common to have a lot after a change
+				var builder strings.Builder
+				for _, e := range crossResourceReferenceErrs {
+					builder.WriteString("\n - ")
+					builder.WriteString(e.Error())
 				}
 
-				err := configuration.VerifyARMReferencesConsumed()
-				if err != nil {
-					klog.Error(err)
+				return nil, errors.New(builder.String())
+			}
 
-					return nil, errors.Wrap(
-						err,
-						"Found unused $armReference configurations; these need to be fixed or removed.")
-				}
-			*/
+			err := configuration.VerifyARMReferencesConsumed()
+			if err != nil {
+				klog.Error(err)
+
+				return nil, errors.Wrap(
+					err,
+					"Found unused $armReference configurations; these need to be fixed or removed.")
+			}
 
 			return result, nil
 		})

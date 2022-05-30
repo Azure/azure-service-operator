@@ -84,9 +84,7 @@ func RedisEnterpriseDatabase_SpecARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForRedisEnterpriseDatabase_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRedisEnterpriseDatabase_SpecARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForRedisEnterpriseDatabase_SpecARM is a factory method for creating gopter generators
@@ -172,26 +170,6 @@ func AddIndependentPropertyGeneratorsForDatabasePropertiesARM(gens map[string]go
 		DatabaseProperties_EvictionPolicy_VolatileRandom,
 		DatabaseProperties_EvictionPolicy_VolatileTTL))
 	gens["Port"] = gen.PtrOf(gen.Int())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_Canceled,
-		ProvisioningState_Creating,
-		ProvisioningState_Deleting,
-		ProvisioningState_Failed,
-		ProvisioningState_Succeeded,
-		ProvisioningState_Updating))
-	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(
-		ResourceState_CreateFailed,
-		ResourceState_Creating,
-		ResourceState_DeleteFailed,
-		ResourceState_Deleting,
-		ResourceState_DisableFailed,
-		ResourceState_Disabled,
-		ResourceState_Disabling,
-		ResourceState_EnableFailed,
-		ResourceState_Enabling,
-		ResourceState_Running,
-		ResourceState_UpdateFailed,
-		ResourceState_Updating))
 }
 
 // AddRelatedPropertyGeneratorsForDatabasePropertiesARM is a factory method for creating gopter generators
@@ -258,7 +236,6 @@ func ModuleARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForModuleARM(gens map[string]gopter.Gen) {
 	gens["Args"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Version"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_PersistenceARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

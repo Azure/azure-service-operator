@@ -1160,18 +1160,14 @@ type Disk_Spec struct {
 	DiskIOPSReadWrite            *int                             `json:"diskIOPSReadWrite,omitempty"`
 	DiskMBpsReadOnly             *int                             `json:"diskMBpsReadOnly,omitempty"`
 	DiskMBpsReadWrite            *int                             `json:"diskMBpsReadWrite,omitempty"`
-	DiskSizeBytes                *int                             `json:"diskSizeBytes,omitempty"`
 	DiskSizeGB                   *int                             `json:"diskSizeGB,omitempty"`
 	Encryption                   *Encryption                      `json:"encryption,omitempty"`
 	EncryptionSettingsCollection *EncryptionSettingsCollection    `json:"encryptionSettingsCollection,omitempty"`
 	ExtendedLocation             *ExtendedLocation                `json:"extendedLocation,omitempty"`
 	HyperVGeneration             *DiskProperties_HyperVGeneration `json:"hyperVGeneration,omitempty"`
-	Id                           *string                          `json:"id,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Location            *string                `json:"location,omitempty"`
-	ManagedBy           *string                `json:"managedBy,omitempty"`
-	ManagedByExtended   []string               `json:"managedByExtended,omitempty"`
 	MaxShares           *int                   `json:"maxShares,omitempty"`
 	NetworkAccessPolicy *NetworkAccessPolicy   `json:"networkAccessPolicy,omitempty"`
 	OsType              *DiskProperties_OsType `json:"osType,omitempty"`
@@ -1180,17 +1176,12 @@ type Disk_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner             *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	ProvisioningState *string                            `json:"provisioningState,omitempty"`
-	PurchasePlan      *PurchasePlan                      `json:"purchasePlan,omitempty"`
-	ShareInfo         []ShareInfoElement                 `json:"shareInfo,omitempty"`
-	Sku               *DiskSku                           `json:"sku,omitempty"`
-	Tags              map[string]string                  `json:"tags,omitempty"`
-	Tier              *string                            `json:"tier,omitempty"`
-	TimeCreated       *string                            `json:"timeCreated,omitempty"`
-	Type              *string                            `json:"type,omitempty"`
-	UniqueId          *string                            `json:"uniqueId,omitempty"`
-	Zones             []string                           `json:"zones,omitempty"`
+	Owner        *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PurchasePlan *PurchasePlan                      `json:"purchasePlan,omitempty"`
+	Sku          *DiskSku                           `json:"sku,omitempty"`
+	Tags         map[string]string                  `json:"tags,omitempty"`
+	Tier         *string                            `json:"tier,omitempty"`
+	Zones        []string                           `json:"zones,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Disk_Spec{}
@@ -1215,27 +1206,10 @@ func (disk *Disk_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 		result.ExtendedLocation = &extendedLocation
 	}
 
-	// Set property ‘Id’:
-	if disk.Id != nil {
-		id := *disk.Id
-		result.Id = &id
-	}
-
 	// Set property ‘Location’:
 	if disk.Location != nil {
 		location := *disk.Location
 		result.Location = &location
-	}
-
-	// Set property ‘ManagedBy’:
-	if disk.ManagedBy != nil {
-		managedBy := *disk.ManagedBy
-		result.ManagedBy = &managedBy
-	}
-
-	// Set property ‘ManagedByExtended’:
-	for _, item := range disk.ManagedByExtended {
-		result.ManagedByExtended = append(result.ManagedByExtended, item)
 	}
 
 	// Set property ‘Name’:
@@ -1249,7 +1223,6 @@ func (disk *Disk_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 		disk.DiskIOPSReadWrite != nil ||
 		disk.DiskMBpsReadOnly != nil ||
 		disk.DiskMBpsReadWrite != nil ||
-		disk.DiskSizeBytes != nil ||
 		disk.DiskSizeGB != nil ||
 		disk.Encryption != nil ||
 		disk.EncryptionSettingsCollection != nil ||
@@ -1257,12 +1230,8 @@ func (disk *Disk_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 		disk.MaxShares != nil ||
 		disk.NetworkAccessPolicy != nil ||
 		disk.OsType != nil ||
-		disk.ProvisioningState != nil ||
 		disk.PurchasePlan != nil ||
-		disk.ShareInfo != nil ||
-		disk.Tier != nil ||
-		disk.TimeCreated != nil ||
-		disk.UniqueId != nil {
+		disk.Tier != nil {
 		result.Properties = &DiskPropertiesARM{}
 	}
 	if disk.BurstingEnabled != nil {
@@ -1301,10 +1270,6 @@ func (disk *Disk_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 		diskMBpsReadWrite := *disk.DiskMBpsReadWrite
 		result.Properties.DiskMBpsReadWrite = &diskMBpsReadWrite
 	}
-	if disk.DiskSizeBytes != nil {
-		diskSizeBytes := *disk.DiskSizeBytes
-		result.Properties.DiskSizeBytes = &diskSizeBytes
-	}
 	if disk.DiskSizeGB != nil {
 		diskSizeGB := *disk.DiskSizeGB
 		result.Properties.DiskSizeGB = &diskSizeGB
@@ -1341,10 +1306,6 @@ func (disk *Disk_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 		osType := *disk.OsType
 		result.Properties.OsType = &osType
 	}
-	if disk.ProvisioningState != nil {
-		provisioningState := *disk.ProvisioningState
-		result.Properties.ProvisioningState = &provisioningState
-	}
 	if disk.PurchasePlan != nil {
 		purchasePlanARM, err := (*disk.PurchasePlan).ConvertToARM(resolved)
 		if err != nil {
@@ -1353,24 +1314,9 @@ func (disk *Disk_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 		purchasePlan := *purchasePlanARM.(*PurchasePlanARM)
 		result.Properties.PurchasePlan = &purchasePlan
 	}
-	for _, item := range disk.ShareInfo {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Properties.ShareInfo = append(result.Properties.ShareInfo, *itemARM.(*ShareInfoElementARM))
-	}
 	if disk.Tier != nil {
 		tier := *disk.Tier
 		result.Properties.Tier = &tier
-	}
-	if disk.TimeCreated != nil {
-		timeCreated := *disk.TimeCreated
-		result.Properties.TimeCreated = &timeCreated
-	}
-	if disk.UniqueId != nil {
-		uniqueId := *disk.UniqueId
-		result.Properties.UniqueId = &uniqueId
 	}
 
 	// Set property ‘Sku’:
@@ -1389,12 +1335,6 @@ func (disk *Disk_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 		for key, value := range disk.Tags {
 			result.Tags[key] = value
 		}
-	}
-
-	// Set property ‘Type’:
-	if disk.Type != nil {
-		typeVar := *disk.Type
-		result.Type = &typeVar
 	}
 
 	// Set property ‘Zones’:
@@ -1480,15 +1420,6 @@ func (disk *Disk_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		}
 	}
 
-	// Set property ‘DiskSizeBytes’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.DiskSizeBytes != nil {
-			diskSizeBytes := *typedInput.Properties.DiskSizeBytes
-			disk.DiskSizeBytes = &diskSizeBytes
-		}
-	}
-
 	// Set property ‘DiskSizeGB’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -1546,27 +1477,10 @@ func (disk *Disk_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		}
 	}
 
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		disk.Id = &id
-	}
-
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		disk.Location = &location
-	}
-
-	// Set property ‘ManagedBy’:
-	if typedInput.ManagedBy != nil {
-		managedBy := *typedInput.ManagedBy
-		disk.ManagedBy = &managedBy
-	}
-
-	// Set property ‘ManagedByExtended’:
-	for _, item := range typedInput.ManagedByExtended {
-		disk.ManagedByExtended = append(disk.ManagedByExtended, item)
 	}
 
 	// Set property ‘MaxShares’:
@@ -1601,15 +1515,6 @@ func (disk *Disk_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		Name: owner.Name,
 	}
 
-	// Set property ‘ProvisioningState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
-			disk.ProvisioningState = &provisioningState
-		}
-	}
-
 	// Set property ‘PurchasePlan’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -1621,19 +1526,6 @@ func (disk *Disk_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 			}
 			purchasePlan := purchasePlan1
 			disk.PurchasePlan = &purchasePlan
-		}
-	}
-
-	// Set property ‘ShareInfo’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.ShareInfo {
-			var item1 ShareInfoElement
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			disk.ShareInfo = append(disk.ShareInfo, item1)
 		}
 	}
 
@@ -1662,30 +1554,6 @@ func (disk *Disk_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 		if typedInput.Properties.Tier != nil {
 			tier := *typedInput.Properties.Tier
 			disk.Tier = &tier
-		}
-	}
-
-	// Set property ‘TimeCreated’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.TimeCreated != nil {
-			timeCreated := *typedInput.Properties.TimeCreated
-			disk.TimeCreated = &timeCreated
-		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		disk.Type = &typeVar
-	}
-
-	// Set property ‘UniqueId’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.UniqueId != nil {
-			uniqueId := *typedInput.Properties.UniqueId
-			disk.UniqueId = &uniqueId
 		}
 	}
 
@@ -1794,9 +1662,6 @@ func (disk *Disk_Spec) AssignPropertiesFromDisk_Spec(source *alpha20200930s.Disk
 	// DiskMBpsReadWrite
 	disk.DiskMBpsReadWrite = genruntime.ClonePointerToInt(source.DiskMBpsReadWrite)
 
-	// DiskSizeBytes
-	disk.DiskSizeBytes = genruntime.ClonePointerToInt(source.DiskSizeBytes)
-
 	// DiskSizeGB
 	disk.DiskSizeGB = genruntime.ClonePointerToInt(source.DiskSizeGB)
 
@@ -1844,17 +1709,8 @@ func (disk *Disk_Spec) AssignPropertiesFromDisk_Spec(source *alpha20200930s.Disk
 		disk.HyperVGeneration = nil
 	}
 
-	// Id
-	disk.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Location
 	disk.Location = genruntime.ClonePointerToString(source.Location)
-
-	// ManagedBy
-	disk.ManagedBy = genruntime.ClonePointerToString(source.ManagedBy)
-
-	// ManagedByExtended
-	disk.ManagedByExtended = genruntime.CloneSliceOfString(source.ManagedByExtended)
 
 	// MaxShares
 	disk.MaxShares = genruntime.ClonePointerToInt(source.MaxShares)
@@ -1883,9 +1739,6 @@ func (disk *Disk_Spec) AssignPropertiesFromDisk_Spec(source *alpha20200930s.Disk
 		disk.Owner = nil
 	}
 
-	// ProvisioningState
-	disk.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
 	// PurchasePlan
 	if source.PurchasePlan != nil {
 		var purchasePlan PurchasePlan
@@ -1896,24 +1749,6 @@ func (disk *Disk_Spec) AssignPropertiesFromDisk_Spec(source *alpha20200930s.Disk
 		disk.PurchasePlan = &purchasePlan
 	} else {
 		disk.PurchasePlan = nil
-	}
-
-	// ShareInfo
-	if source.ShareInfo != nil {
-		shareInfoList := make([]ShareInfoElement, len(source.ShareInfo))
-		for shareInfoIndex, shareInfoItem := range source.ShareInfo {
-			// Shadow the loop variable to avoid aliasing
-			shareInfoItem := shareInfoItem
-			var shareInfo ShareInfoElement
-			err := shareInfo.AssignPropertiesFromShareInfoElement(&shareInfoItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromShareInfoElement() to populate field ShareInfo")
-			}
-			shareInfoList[shareInfoIndex] = shareInfo
-		}
-		disk.ShareInfo = shareInfoList
-	} else {
-		disk.ShareInfo = nil
 	}
 
 	// Sku
@@ -1933,20 +1768,6 @@ func (disk *Disk_Spec) AssignPropertiesFromDisk_Spec(source *alpha20200930s.Disk
 
 	// Tier
 	disk.Tier = genruntime.ClonePointerToString(source.Tier)
-
-	// TimeCreated
-	if source.TimeCreated != nil {
-		timeCreated := *source.TimeCreated
-		disk.TimeCreated = &timeCreated
-	} else {
-		disk.TimeCreated = nil
-	}
-
-	// Type
-	disk.Type = genruntime.ClonePointerToString(source.Type)
-
-	// UniqueId
-	disk.UniqueId = genruntime.ClonePointerToString(source.UniqueId)
 
 	// Zones
 	disk.Zones = genruntime.CloneSliceOfString(source.Zones)
@@ -2003,9 +1824,6 @@ func (disk *Disk_Spec) AssignPropertiesToDisk_Spec(destination *alpha20200930s.D
 	// DiskMBpsReadWrite
 	destination.DiskMBpsReadWrite = genruntime.ClonePointerToInt(disk.DiskMBpsReadWrite)
 
-	// DiskSizeBytes
-	destination.DiskSizeBytes = genruntime.ClonePointerToInt(disk.DiskSizeBytes)
-
 	// DiskSizeGB
 	destination.DiskSizeGB = genruntime.ClonePointerToInt(disk.DiskSizeGB)
 
@@ -2053,17 +1871,8 @@ func (disk *Disk_Spec) AssignPropertiesToDisk_Spec(destination *alpha20200930s.D
 		destination.HyperVGeneration = nil
 	}
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(disk.Id)
-
 	// Location
 	destination.Location = genruntime.ClonePointerToString(disk.Location)
-
-	// ManagedBy
-	destination.ManagedBy = genruntime.ClonePointerToString(disk.ManagedBy)
-
-	// ManagedByExtended
-	destination.ManagedByExtended = genruntime.CloneSliceOfString(disk.ManagedByExtended)
 
 	// MaxShares
 	destination.MaxShares = genruntime.ClonePointerToInt(disk.MaxShares)
@@ -2095,9 +1904,6 @@ func (disk *Disk_Spec) AssignPropertiesToDisk_Spec(destination *alpha20200930s.D
 		destination.Owner = nil
 	}
 
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(disk.ProvisioningState)
-
 	// PurchasePlan
 	if disk.PurchasePlan != nil {
 		var purchasePlan alpha20200930s.PurchasePlan
@@ -2108,24 +1914,6 @@ func (disk *Disk_Spec) AssignPropertiesToDisk_Spec(destination *alpha20200930s.D
 		destination.PurchasePlan = &purchasePlan
 	} else {
 		destination.PurchasePlan = nil
-	}
-
-	// ShareInfo
-	if disk.ShareInfo != nil {
-		shareInfoList := make([]alpha20200930s.ShareInfoElement, len(disk.ShareInfo))
-		for shareInfoIndex, shareInfoItem := range disk.ShareInfo {
-			// Shadow the loop variable to avoid aliasing
-			shareInfoItem := shareInfoItem
-			var shareInfo alpha20200930s.ShareInfoElement
-			err := shareInfoItem.AssignPropertiesToShareInfoElement(&shareInfo)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToShareInfoElement() to populate field ShareInfo")
-			}
-			shareInfoList[shareInfoIndex] = shareInfo
-		}
-		destination.ShareInfo = shareInfoList
-	} else {
-		destination.ShareInfo = nil
 	}
 
 	// Sku
@@ -2145,20 +1933,6 @@ func (disk *Disk_Spec) AssignPropertiesToDisk_Spec(destination *alpha20200930s.D
 
 	// Tier
 	destination.Tier = genruntime.ClonePointerToString(disk.Tier)
-
-	// TimeCreated
-	if disk.TimeCreated != nil {
-		timeCreated := *disk.TimeCreated
-		destination.TimeCreated = &timeCreated
-	} else {
-		destination.TimeCreated = nil
-	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(disk.Type)
-
-	// UniqueId
-	destination.UniqueId = genruntime.ClonePointerToString(disk.UniqueId)
 
 	// Zones
 	destination.Zones = genruntime.CloneSliceOfString(disk.Zones)
@@ -2190,7 +1964,6 @@ type CreationData struct {
 	ImageReference          *ImageDiskReference           `json:"imageReference,omitempty"`
 	LogicalSectorSize       *int                          `json:"logicalSectorSize,omitempty"`
 	SourceResourceReference *genruntime.ResourceReference `armReference:"SourceResourceId" json:"sourceResourceReference,omitempty"`
-	SourceUniqueId          *string                       `json:"sourceUniqueId,omitempty"`
 	SourceUri               *string                       `json:"sourceUri,omitempty"`
 	StorageAccountId        *string                       `json:"storageAccountId,omitempty"`
 	UploadSizeBytes         *int                          `json:"uploadSizeBytes,omitempty"`
@@ -2245,12 +2018,6 @@ func (data *CreationData) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 		}
 		sourceResourceReference := sourceResourceReferenceARMID
 		result.SourceResourceId = &sourceResourceReference
-	}
-
-	// Set property ‘SourceUniqueId’:
-	if data.SourceUniqueId != nil {
-		sourceUniqueId := *data.SourceUniqueId
-		result.SourceUniqueId = &sourceUniqueId
 	}
 
 	// Set property ‘SourceUri’:
@@ -2321,12 +2088,6 @@ func (data *CreationData) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 
 	// no assignment for property ‘SourceResourceReference’
 
-	// Set property ‘SourceUniqueId’:
-	if typedInput.SourceUniqueId != nil {
-		sourceUniqueId := *typedInput.SourceUniqueId
-		data.SourceUniqueId = &sourceUniqueId
-	}
-
 	// Set property ‘SourceUri’:
 	if typedInput.SourceUri != nil {
 		sourceUri := *typedInput.SourceUri
@@ -2395,9 +2156,6 @@ func (data *CreationData) AssignPropertiesFromCreationData(source *alpha20200930
 		data.SourceResourceReference = nil
 	}
 
-	// SourceUniqueId
-	data.SourceUniqueId = genruntime.ClonePointerToString(source.SourceUniqueId)
-
 	// SourceUri
 	data.SourceUri = genruntime.ClonePointerToString(source.SourceUri)
 
@@ -2458,9 +2216,6 @@ func (data *CreationData) AssignPropertiesToCreationData(destination *alpha20200
 	} else {
 		destination.SourceResourceReference = nil
 	}
-
-	// SourceUniqueId
-	destination.SourceUniqueId = genruntime.ClonePointerToString(data.SourceUniqueId)
 
 	// SourceUri
 	destination.SourceUri = genruntime.ClonePointerToString(data.SourceUri)
@@ -2738,7 +2493,6 @@ const (
 // Deprecated version of DiskSku. Use v1beta20200930.DiskSku instead
 type DiskSku struct {
 	Name *DiskSku_Name `json:"name,omitempty"`
-	Tier *string       `json:"tier,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DiskSku{}
@@ -2754,12 +2508,6 @@ func (diskSku *DiskSku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	if diskSku.Name != nil {
 		name := *diskSku.Name
 		result.Name = &name
-	}
-
-	// Set property ‘Tier’:
-	if diskSku.Tier != nil {
-		tier := *diskSku.Tier
-		result.Tier = &tier
 	}
 	return result, nil
 }
@@ -2782,12 +2530,6 @@ func (diskSku *DiskSku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 		diskSku.Name = &name
 	}
 
-	// Set property ‘Tier’:
-	if typedInput.Tier != nil {
-		tier := *typedInput.Tier
-		diskSku.Tier = &tier
-	}
-
 	// No error
 	return nil
 }
@@ -2802,9 +2544,6 @@ func (diskSku *DiskSku) AssignPropertiesFromDiskSku(source *alpha20200930s.DiskS
 	} else {
 		diskSku.Name = nil
 	}
-
-	// Tier
-	diskSku.Tier = genruntime.ClonePointerToString(source.Tier)
 
 	// No error
 	return nil
@@ -2822,9 +2561,6 @@ func (diskSku *DiskSku) AssignPropertiesToDiskSku(destination *alpha20200930s.Di
 	} else {
 		destination.Name = nil
 	}
-
-	// Tier
-	destination.Tier = genruntime.ClonePointerToString(diskSku.Tier)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3832,79 +3568,6 @@ func (plan *PurchasePlan_STATUS) AssignPropertiesToPurchasePlan_STATUS(destinati
 
 	// Publisher
 	destination.Publisher = genruntime.ClonePointerToString(plan.Publisher)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Deprecated version of ShareInfoElement. Use v1beta20200930.ShareInfoElement instead
-type ShareInfoElement struct {
-	VmUri *string `json:"vmUri,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &ShareInfoElement{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (element *ShareInfoElement) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if element == nil {
-		return nil, nil
-	}
-	result := &ShareInfoElementARM{}
-
-	// Set property ‘VmUri’:
-	if element.VmUri != nil {
-		vmUri := *element.VmUri
-		result.VmUri = &vmUri
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (element *ShareInfoElement) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ShareInfoElementARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (element *ShareInfoElement) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ShareInfoElementARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ShareInfoElementARM, got %T", armInput)
-	}
-
-	// Set property ‘VmUri’:
-	if typedInput.VmUri != nil {
-		vmUri := *typedInput.VmUri
-		element.VmUri = &vmUri
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromShareInfoElement populates our ShareInfoElement from the provided source ShareInfoElement
-func (element *ShareInfoElement) AssignPropertiesFromShareInfoElement(source *alpha20200930s.ShareInfoElement) error {
-
-	// VmUri
-	element.VmUri = genruntime.ClonePointerToString(source.VmUri)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToShareInfoElement populates the provided destination ShareInfoElement from our ShareInfoElement
-func (element *ShareInfoElement) AssignPropertiesToShareInfoElement(destination *alpha20200930s.ShareInfoElement) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// VmUri
-	destination.VmUri = genruntime.ClonePointerToString(element.VmUri)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

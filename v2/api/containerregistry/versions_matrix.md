@@ -25,7 +25,6 @@
 | NetworkRuleSet_STATUS                              | v1alpha1api20210901 | v1beta20210901 |
 | Policies                                           | v1alpha1api20210901 | v1beta20210901 |
 | Policies_STATUS                                    | v1alpha1api20210901 | v1beta20210901 |
-| PrivateEndpointConnection                          | v1alpha1api20210901 | v1beta20210901 |
 | PrivateEndpointConnection_STATUS                   | v1alpha1api20210901 | v1beta20210901 |
 | QuarantinePolicy                                   | v1alpha1api20210901 | v1beta20210901 |
 | QuarantinePolicy_STATUS                            | v1alpha1api20210901 | v1beta20210901 |
@@ -35,7 +34,6 @@
 | RegistryProperties                                 | v1alpha1api20210901 | v1beta20210901 |
 | RegistryProperties_NetworkRuleBypassOptions        | v1alpha1api20210901 | v1beta20210901 |
 | RegistryProperties_NetworkRuleBypassOptions_STATUS | v1alpha1api20210901 | v1beta20210901 |
-| RegistryProperties_ProvisioningState               | v1alpha1api20210901 | v1beta20210901 |
 | RegistryProperties_ProvisioningState_STATUS        | v1alpha1api20210901 | v1beta20210901 |
 | RegistryProperties_PublicNetworkAccess             | v1alpha1api20210901 | v1beta20210901 |
 | RegistryProperties_PublicNetworkAccess_STATUS      | v1alpha1api20210901 | v1beta20210901 |
@@ -52,14 +50,9 @@
 | Sku_Name                                           | v1alpha1api20210901 | v1beta20210901 |
 | Sku_Name_STATUS                                    | v1alpha1api20210901 | v1beta20210901 |
 | Sku_STATUS                                         | v1alpha1api20210901 | v1beta20210901 |
-| Sku_Tier                                           | v1alpha1api20210901 | v1beta20210901 |
 | Sku_Tier_STATUS                                    | v1alpha1api20210901 | v1beta20210901 |
-| Status                                             | v1alpha1api20210901 | v1beta20210901 |
 | Status_STATUS                                      | v1alpha1api20210901 | v1beta20210901 |
-| SystemData                                         | v1alpha1api20210901 | v1beta20210901 |
-| SystemData_CreatedByType                           | v1alpha1api20210901 | v1beta20210901 |
 | SystemData_CreatedByType_STATUS                    | v1alpha1api20210901 | v1beta20210901 |
-| SystemData_LastModifiedByType                      | v1alpha1api20210901 | v1beta20210901 |
 | SystemData_LastModifiedByType_STATUS               | v1alpha1api20210901 | v1beta20210901 |
 | SystemData_STATUS                                  | v1alpha1api20210901 | v1beta20210901 |
 | TrustPolicy                                        | v1alpha1api20210901 | v1beta20210901 |

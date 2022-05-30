@@ -509,17 +509,9 @@ func (queue *StorageAccountsQueueServicesQueue_STATUS) AssignPropertiesToStorage
 }
 
 type StorageAccountsQueueServicesQueue_Spec struct {
-	// ApproximateMessageCount: Integer indicating an approximate number of messages in the queue. This number is not lower
-	// than the actual number of messages in the queue, but could be higher.
-	ApproximateMessageCount *int `json:"approximateMessageCount,omitempty"`
-
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
-
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
 
 	// Metadata: A name-value pair that represents queue metadata.
 	Metadata map[string]string `json:"metadata,omitempty"`
@@ -529,9 +521,6 @@ type StorageAccountsQueueServicesQueue_Spec struct {
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &StorageAccountsQueueServicesQueue_Spec{}
@@ -546,34 +535,18 @@ func (queue *StorageAccountsQueueServicesQueue_Spec) ConvertToARM(resolved genru
 	// Set property ‘AzureName’:
 	result.AzureName = queue.AzureName
 
-	// Set property ‘Id’:
-	if queue.Id != nil {
-		id := *queue.Id
-		result.Id = &id
-	}
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if queue.ApproximateMessageCount != nil || queue.Metadata != nil {
+	if queue.Metadata != nil {
 		result.Properties = &QueuePropertiesARM{}
-	}
-	if queue.ApproximateMessageCount != nil {
-		approximateMessageCount := *queue.ApproximateMessageCount
-		result.Properties.ApproximateMessageCount = &approximateMessageCount
 	}
 	if queue.Metadata != nil {
 		result.Properties.Metadata = make(map[string]string)
 		for key, value := range queue.Metadata {
 			result.Properties.Metadata[key] = value
 		}
-	}
-
-	// Set property ‘Type’:
-	if queue.Type != nil {
-		typeVar := *queue.Type
-		result.Type = &typeVar
 	}
 	return result, nil
 }
@@ -590,23 +563,8 @@ func (queue *StorageAccountsQueueServicesQueue_Spec) PopulateFromARM(owner genru
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StorageAccountsQueueServicesQueue_SpecARM, got %T", armInput)
 	}
 
-	// Set property ‘ApproximateMessageCount’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ApproximateMessageCount != nil {
-			approximateMessageCount := *typedInput.Properties.ApproximateMessageCount
-			queue.ApproximateMessageCount = &approximateMessageCount
-		}
-	}
-
 	// Set property ‘AzureName’:
 	queue.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		queue.Id = &id
-	}
 
 	// Set property ‘Metadata’:
 	// copying flattened property:
@@ -622,12 +580,6 @@ func (queue *StorageAccountsQueueServicesQueue_Spec) PopulateFromARM(owner genru
 	// Set property ‘Owner’:
 	queue.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		queue.Type = &typeVar
 	}
 
 	// No error
@@ -687,14 +639,8 @@ func (queue *StorageAccountsQueueServicesQueue_Spec) ConvertSpecTo(destination g
 // AssignPropertiesFromStorageAccountsQueueServicesQueue_Spec populates our StorageAccountsQueueServicesQueue_Spec from the provided source StorageAccountsQueueServicesQueue_Spec
 func (queue *StorageAccountsQueueServicesQueue_Spec) AssignPropertiesFromStorageAccountsQueueServicesQueue_Spec(source *v20210401s.StorageAccountsQueueServicesQueue_Spec) error {
 
-	// ApproximateMessageCount
-	queue.ApproximateMessageCount = genruntime.ClonePointerToInt(source.ApproximateMessageCount)
-
 	// AzureName
 	queue.AzureName = source.AzureName
-
-	// Id
-	queue.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Metadata
 	queue.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
@@ -707,9 +653,6 @@ func (queue *StorageAccountsQueueServicesQueue_Spec) AssignPropertiesFromStorage
 		queue.Owner = nil
 	}
 
-	// Type
-	queue.Type = genruntime.ClonePointerToString(source.Type)
-
 	// No error
 	return nil
 }
@@ -719,14 +662,8 @@ func (queue *StorageAccountsQueueServicesQueue_Spec) AssignPropertiesToStorageAc
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// ApproximateMessageCount
-	destination.ApproximateMessageCount = genruntime.ClonePointerToInt(queue.ApproximateMessageCount)
-
 	// AzureName
 	destination.AzureName = queue.AzureName
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(queue.Id)
 
 	// Metadata
 	destination.Metadata = genruntime.CloneMapOfStringToString(queue.Metadata)
@@ -741,9 +678,6 @@ func (queue *StorageAccountsQueueServicesQueue_Spec) AssignPropertiesToStorageAc
 	} else {
 		destination.Owner = nil
 	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(queue.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

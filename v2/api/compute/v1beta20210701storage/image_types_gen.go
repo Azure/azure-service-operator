@@ -180,7 +180,6 @@ type Image_Spec struct {
 	AzureName        string            `json:"azureName,omitempty"`
 	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
 	HyperVGeneration *string           `json:"hyperVGeneration,omitempty"`
-	Id               *string           `json:"id,omitempty"`
 	Location         *string           `json:"location,omitempty"`
 	OriginalVersion  string            `json:"originalVersion,omitempty"`
 
@@ -190,11 +189,9 @@ type Image_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner                *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag          genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	ProvisioningState    *string                            `json:"provisioningState,omitempty"`
 	SourceVirtualMachine *SubResource                       `json:"sourceVirtualMachine,omitempty"`
 	StorageProfile       *ImageStorageProfile               `json:"storageProfile,omitempty"`
 	Tags                 map[string]string                  `json:"tags,omitempty"`
-	Type                 *string                            `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &Image_Spec{}

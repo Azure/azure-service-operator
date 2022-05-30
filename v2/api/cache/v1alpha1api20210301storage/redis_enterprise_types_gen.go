@@ -466,8 +466,6 @@ type RedisEnterprise_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName         string  `json:"azureName,omitempty"`
-	HostName          *string `json:"hostName,omitempty"`
-	Id                *string `json:"id,omitempty"`
 	Location          *string `json:"location,omitempty"`
 	MinimumTlsVersion *string `json:"minimumTlsVersion,omitempty"`
 	OriginalVersion   string  `json:"originalVersion,omitempty"`
@@ -476,16 +474,11 @@ type RedisEnterprise_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner                      *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PrivateEndpointConnections []PrivateEndpointConnection        `json:"privateEndpointConnections,omitempty"`
-	PropertyBag                genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	ProvisioningState          *string                            `json:"provisioningState,omitempty"`
-	RedisVersion               *string                            `json:"redisVersion,omitempty"`
-	ResourceState              *string                            `json:"resourceState,omitempty"`
-	Sku                        *Sku                               `json:"sku,omitempty"`
-	Tags                       map[string]string                  `json:"tags,omitempty"`
-	Type                       *string                            `json:"type,omitempty"`
-	Zones                      []string                           `json:"zones,omitempty"`
+	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Sku         *Sku                               `json:"sku,omitempty"`
+	Tags        map[string]string                  `json:"tags,omitempty"`
+	Zones       []string                           `json:"zones,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &RedisEnterprise_Spec{}
@@ -546,12 +539,6 @@ func (enterprise *RedisEnterprise_Spec) AssignPropertiesFromRedisEnterprise_Spec
 	// AzureName
 	enterprise.AzureName = source.AzureName
 
-	// HostName
-	enterprise.HostName = genruntime.ClonePointerToString(source.HostName)
-
-	// Id
-	enterprise.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Location
 	enterprise.Location = genruntime.ClonePointerToString(source.Location)
 
@@ -568,33 +555,6 @@ func (enterprise *RedisEnterprise_Spec) AssignPropertiesFromRedisEnterprise_Spec
 	} else {
 		enterprise.Owner = nil
 	}
-
-	// PrivateEndpointConnections
-	if source.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]PrivateEndpointConnection, len(source.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection PrivateEndpointConnection
-			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnection(&privateEndpointConnectionItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnection() to populate field PrivateEndpointConnections")
-			}
-			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
-		}
-		enterprise.PrivateEndpointConnections = privateEndpointConnectionList
-	} else {
-		enterprise.PrivateEndpointConnections = nil
-	}
-
-	// ProvisioningState
-	enterprise.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
-	// RedisVersion
-	enterprise.RedisVersion = genruntime.ClonePointerToString(source.RedisVersion)
-
-	// ResourceState
-	enterprise.ResourceState = genruntime.ClonePointerToString(source.ResourceState)
 
 	// Sku
 	if source.Sku != nil {
@@ -615,9 +575,6 @@ func (enterprise *RedisEnterprise_Spec) AssignPropertiesFromRedisEnterprise_Spec
 
 	// Tags
 	enterprise.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	enterprise.Type = genruntime.ClonePointerToString(source.Type)
 
 	// Zones
 	enterprise.Zones = genruntime.CloneSliceOfString(source.Zones)
@@ -641,12 +598,6 @@ func (enterprise *RedisEnterprise_Spec) AssignPropertiesToRedisEnterprise_Spec(d
 	// AzureName
 	destination.AzureName = enterprise.AzureName
 
-	// HostName
-	destination.HostName = genruntime.ClonePointerToString(enterprise.HostName)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(enterprise.Id)
-
 	// Location
 	destination.Location = genruntime.ClonePointerToString(enterprise.Location)
 
@@ -663,33 +614,6 @@ func (enterprise *RedisEnterprise_Spec) AssignPropertiesToRedisEnterprise_Spec(d
 	} else {
 		destination.Owner = nil
 	}
-
-	// PrivateEndpointConnections
-	if enterprise.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]v20210301s.PrivateEndpointConnection, len(enterprise.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range enterprise.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection v20210301s.PrivateEndpointConnection
-			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnection(&privateEndpointConnection)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnection() to populate field PrivateEndpointConnections")
-			}
-			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
-		}
-		destination.PrivateEndpointConnections = privateEndpointConnectionList
-	} else {
-		destination.PrivateEndpointConnections = nil
-	}
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(enterprise.ProvisioningState)
-
-	// RedisVersion
-	destination.RedisVersion = genruntime.ClonePointerToString(enterprise.RedisVersion)
-
-	// ResourceState
-	destination.ResourceState = genruntime.ClonePointerToString(enterprise.ResourceState)
 
 	// Sku
 	if enterprise.Sku != nil {
@@ -711,56 +635,8 @@ func (enterprise *RedisEnterprise_Spec) AssignPropertiesToRedisEnterprise_Spec(d
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(enterprise.Tags)
 
-	// Type
-	destination.Type = genruntime.ClonePointerToString(enterprise.Type)
-
 	// Zones
 	destination.Zones = genruntime.CloneSliceOfString(enterprise.Zones)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20210301.PrivateEndpointConnection
-// Deprecated version of PrivateEndpointConnection. Use v1beta20210301.PrivateEndpointConnection instead
-type PrivateEndpointConnection struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// AssignPropertiesFromPrivateEndpointConnection populates our PrivateEndpointConnection from the provided source PrivateEndpointConnection
-func (connection *PrivateEndpointConnection) AssignPropertiesFromPrivateEndpointConnection(source *v20210301s.PrivateEndpointConnection) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Id
-	connection.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		connection.PropertyBag = propertyBag
-	} else {
-		connection.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToPrivateEndpointConnection populates the provided destination PrivateEndpointConnection from our PrivateEndpointConnection
-func (connection *PrivateEndpointConnection) AssignPropertiesToPrivateEndpointConnection(destination *v20210301s.PrivateEndpointConnection) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(connection.PropertyBag)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(connection.Id)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

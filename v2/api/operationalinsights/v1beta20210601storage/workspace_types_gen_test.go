@@ -232,89 +232,22 @@ func Workspace_SpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForWorkspace_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWorkspace_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["CreatedDate"] = gen.PtrOf(gen.AlphaString())
-	gens["CustomerId"] = gen.PtrOf(gen.AlphaString())
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["ForceCmkForQuery"] = gen.PtrOf(gen.Bool())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["ModifiedDate"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.AlphaString())
 	gens["RetentionInDays"] = gen.PtrOf(gen.Int())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForWorkspace_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForWorkspace_Spec(gens map[string]gopter.Gen) {
 	gens["Features"] = gen.PtrOf(WorkspaceFeaturesGenerator())
-	gens["PrivateLinkScopedResources"] = gen.SliceOf(PrivateLinkScopedResourceGenerator())
 	gens["Sku"] = gen.PtrOf(WorkspaceSkuGenerator())
 	gens["WorkspaceCapping"] = gen.PtrOf(WorkspaceCappingGenerator())
-}
-
-func Test_PrivateLinkScopedResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrivateLinkScopedResource via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateLinkScopedResource, PrivateLinkScopedResourceGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForPrivateLinkScopedResource runs a test to see if a specific instance of PrivateLinkScopedResource round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateLinkScopedResource(subject PrivateLinkScopedResource) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual PrivateLinkScopedResource
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of PrivateLinkScopedResource instances for property testing - lazily instantiated by
-// PrivateLinkScopedResourceGenerator()
-var privateLinkScopedResourceGenerator gopter.Gen
-
-// PrivateLinkScopedResourceGenerator returns a generator of PrivateLinkScopedResource instances for property testing.
-func PrivateLinkScopedResourceGenerator() gopter.Gen {
-	if privateLinkScopedResourceGenerator != nil {
-		return privateLinkScopedResourceGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateLinkScopedResource(generators)
-	privateLinkScopedResourceGenerator = gen.Struct(reflect.TypeOf(PrivateLinkScopedResource{}), generators)
-
-	return privateLinkScopedResourceGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPrivateLinkScopedResource is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateLinkScopedResource(gens map[string]gopter.Gen) {
-	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["ScopeId"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_PrivateLinkScopedResource_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -435,8 +368,6 @@ func WorkspaceCappingGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForWorkspaceCapping is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWorkspaceCapping(gens map[string]gopter.Gen) {
 	gens["DailyQuotaGb"] = gen.PtrOf(gen.Float64())
-	gens["DataIngestionStatus"] = gen.PtrOf(gen.AlphaString())
-	gens["QuotaNextResetTime"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_WorkspaceCapping_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -684,7 +615,6 @@ func WorkspaceSkuGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForWorkspaceSku is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWorkspaceSku(gens map[string]gopter.Gen) {
 	gens["CapacityReservationLevel"] = gen.PtrOf(gen.Int())
-	gens["LastSkuUpdate"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 

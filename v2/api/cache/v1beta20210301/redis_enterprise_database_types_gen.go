@@ -736,10 +736,6 @@ type RedisEnterpriseDatabase_Spec struct {
 	// EvictionPolicy: Redis eviction policy - default is VolatileLRU
 	EvictionPolicy *DatabaseProperties_EvictionPolicy `json:"evictionPolicy,omitempty"`
 
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
 	// Modules: Optional set of redis modules to enable in this database - modules can only be added at creation time.
 	Modules []Module `json:"modules,omitempty"`
 
@@ -754,15 +750,6 @@ type RedisEnterpriseDatabase_Spec struct {
 
 	// Port: TCP port of the database endpoint. Specified at create time. Defaults to an available port.
 	Port *int `json:"port,omitempty"`
-
-	// ProvisioningState: Current provisioning status of the database
-	ProvisioningState *ProvisioningState `json:"provisioningState,omitempty"`
-
-	// ResourceState: Current resource status of the database
-	ResourceState *ResourceState `json:"resourceState,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &RedisEnterpriseDatabase_Spec{}
@@ -777,12 +764,6 @@ func (database *RedisEnterpriseDatabase_Spec) ConvertToARM(resolved genruntime.C
 	// Set property ‘AzureName’:
 	result.AzureName = database.AzureName
 
-	// Set property ‘Id’:
-	if database.Id != nil {
-		id := *database.Id
-		result.Id = &id
-	}
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
@@ -792,9 +773,7 @@ func (database *RedisEnterpriseDatabase_Spec) ConvertToARM(resolved genruntime.C
 		database.EvictionPolicy != nil ||
 		database.Modules != nil ||
 		database.Persistence != nil ||
-		database.Port != nil ||
-		database.ProvisioningState != nil ||
-		database.ResourceState != nil {
+		database.Port != nil {
 		result.Properties = &DatabasePropertiesARM{}
 	}
 	if database.ClientProtocol != nil {
@@ -827,20 +806,6 @@ func (database *RedisEnterpriseDatabase_Spec) ConvertToARM(resolved genruntime.C
 	if database.Port != nil {
 		port := *database.Port
 		result.Properties.Port = &port
-	}
-	if database.ProvisioningState != nil {
-		provisioningState := *database.ProvisioningState
-		result.Properties.ProvisioningState = &provisioningState
-	}
-	if database.ResourceState != nil {
-		resourceState := *database.ResourceState
-		result.Properties.ResourceState = &resourceState
-	}
-
-	// Set property ‘Type’:
-	if database.Type != nil {
-		typeVar := *database.Type
-		result.Type = &typeVar
 	}
 	return result, nil
 }
@@ -887,12 +852,6 @@ func (database *RedisEnterpriseDatabase_Spec) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		database.Id = &id
-	}
-
 	// Set property ‘Modules’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -932,30 +891,6 @@ func (database *RedisEnterpriseDatabase_Spec) PopulateFromARM(owner genruntime.A
 			port := *typedInput.Properties.Port
 			database.Port = &port
 		}
-	}
-
-	// Set property ‘ProvisioningState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
-			database.ProvisioningState = &provisioningState
-		}
-	}
-
-	// Set property ‘ResourceState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ResourceState != nil {
-			resourceState := *typedInput.Properties.ResourceState
-			database.ResourceState = &resourceState
-		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		database.Type = &typeVar
 	}
 
 	// No error
@@ -1042,9 +977,6 @@ func (database *RedisEnterpriseDatabase_Spec) AssignPropertiesFromRedisEnterpris
 		database.EvictionPolicy = nil
 	}
 
-	// Id
-	database.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Modules
 	if source.Modules != nil {
 		moduleList := make([]Module, len(source.Modules))
@@ -1086,25 +1018,6 @@ func (database *RedisEnterpriseDatabase_Spec) AssignPropertiesFromRedisEnterpris
 	// Port
 	database.Port = genruntime.ClonePointerToInt(source.Port)
 
-	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState(*source.ProvisioningState)
-		database.ProvisioningState = &provisioningState
-	} else {
-		database.ProvisioningState = nil
-	}
-
-	// ResourceState
-	if source.ResourceState != nil {
-		resourceState := ResourceState(*source.ResourceState)
-		database.ResourceState = &resourceState
-	} else {
-		database.ResourceState = nil
-	}
-
-	// Type
-	database.Type = genruntime.ClonePointerToString(source.Type)
-
 	// No error
 	return nil
 }
@@ -1140,9 +1053,6 @@ func (database *RedisEnterpriseDatabase_Spec) AssignPropertiesToRedisEnterpriseD
 	} else {
 		destination.EvictionPolicy = nil
 	}
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(database.Id)
 
 	// Modules
 	if database.Modules != nil {
@@ -1187,25 +1097,6 @@ func (database *RedisEnterpriseDatabase_Spec) AssignPropertiesToRedisEnterpriseD
 
 	// Port
 	destination.Port = genruntime.ClonePointerToInt(database.Port)
-
-	// ProvisioningState
-	if database.ProvisioningState != nil {
-		provisioningState := string(*database.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
-
-	// ResourceState
-	if database.ResourceState != nil {
-		resourceState := string(*database.ResourceState)
-		destination.ResourceState = &resourceState
-	} else {
-		destination.ResourceState = nil
-	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(database.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1292,9 +1183,6 @@ type Module struct {
 	// +kubebuilder:validation:Required
 	// Name: The name of the module, e.g. 'RedisBloom', 'RediSearch', 'RedisTimeSeries'
 	Name *string `json:"name,omitempty"`
-
-	// Version: The version of the module, e.g. '1.0'.
-	Version *string `json:"version,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Module{}
@@ -1316,12 +1204,6 @@ func (module *Module) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 	if module.Name != nil {
 		name := *module.Name
 		result.Name = &name
-	}
-
-	// Set property ‘Version’:
-	if module.Version != nil {
-		version := *module.Version
-		result.Version = &version
 	}
 	return result, nil
 }
@@ -1350,12 +1232,6 @@ func (module *Module) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, 
 		module.Name = &name
 	}
 
-	// Set property ‘Version’:
-	if typedInput.Version != nil {
-		version := *typedInput.Version
-		module.Version = &version
-	}
-
 	// No error
 	return nil
 }
@@ -1368,9 +1244,6 @@ func (module *Module) AssignPropertiesFromModule(source *v20210301s.Module) erro
 
 	// Name
 	module.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Version
-	module.Version = genruntime.ClonePointerToString(source.Version)
 
 	// No error
 	return nil
@@ -1386,9 +1259,6 @@ func (module *Module) AssignPropertiesToModule(destination *v20210301s.Module) e
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(module.Name)
-
-	// Version
-	destination.Version = genruntime.ClonePointerToString(module.Version)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

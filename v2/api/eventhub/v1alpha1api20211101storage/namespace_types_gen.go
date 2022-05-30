@@ -610,19 +610,16 @@ type Namespace_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName              string      `json:"azureName,omitempty"`
-	ClusterArmId           *string     `json:"clusterArmId,omitempty"`
-	CreatedAt              *string     `json:"createdAt,omitempty"`
-	DisableLocalAuth       *bool       `json:"disableLocalAuth,omitempty"`
-	Encryption             *Encryption `json:"encryption,omitempty"`
-	Id                     *string     `json:"id,omitempty"`
-	Identity               *Identity   `json:"identity,omitempty"`
-	IsAutoInflateEnabled   *bool       `json:"isAutoInflateEnabled,omitempty"`
-	KafkaEnabled           *bool       `json:"kafkaEnabled,omitempty"`
-	Location               *string     `json:"location,omitempty"`
-	MaximumThroughputUnits *int        `json:"maximumThroughputUnits,omitempty"`
-	MetricId               *string     `json:"metricId,omitempty"`
-	OriginalVersion        string      `json:"originalVersion,omitempty"`
+	AzureName              string                        `json:"azureName,omitempty"`
+	ClusterArmReference    *genruntime.ResourceReference `armReference:"ClusterArmId" json:"clusterArmReference,omitempty"`
+	DisableLocalAuth       *bool                         `json:"disableLocalAuth,omitempty"`
+	Encryption             *Encryption                   `json:"encryption,omitempty"`
+	Identity               *Identity                     `json:"identity,omitempty"`
+	IsAutoInflateEnabled   *bool                         `json:"isAutoInflateEnabled,omitempty"`
+	KafkaEnabled           *bool                         `json:"kafkaEnabled,omitempty"`
+	Location               *string                       `json:"location,omitempty"`
+	MaximumThroughputUnits *int                          `json:"maximumThroughputUnits,omitempty"`
+	OriginalVersion        string                        `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -631,14 +628,8 @@ type Namespace_Spec struct {
 	Owner                      *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PrivateEndpointConnections []PrivateEndpointConnection        `json:"privateEndpointConnections,omitempty"`
 	PropertyBag                genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	ProvisioningState          *string                            `json:"provisioningState,omitempty"`
-	ServiceBusEndpoint         *string                            `json:"serviceBusEndpoint,omitempty"`
 	Sku                        *Sku                               `json:"sku,omitempty"`
-	Status                     *string                            `json:"status,omitempty"`
-	SystemData                 *SystemData                        `json:"systemData,omitempty"`
 	Tags                       map[string]string                  `json:"tags,omitempty"`
-	Type                       *string                            `json:"type,omitempty"`
-	UpdatedAt                  *string                            `json:"updatedAt,omitempty"`
 	ZoneRedundant              *bool                              `json:"zoneRedundant,omitempty"`
 }
 
@@ -703,11 +694,13 @@ func (namespace *Namespace_Spec) AssignPropertiesFromNamespace_Spec(source *v202
 	// AzureName
 	namespace.AzureName = source.AzureName
 
-	// ClusterArmId
-	namespace.ClusterArmId = genruntime.ClonePointerToString(source.ClusterArmId)
-
-	// CreatedAt
-	namespace.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
+	// ClusterArmReference
+	if source.ClusterArmReference != nil {
+		clusterArmReference := source.ClusterArmReference.Copy()
+		namespace.ClusterArmReference = &clusterArmReference
+	} else {
+		namespace.ClusterArmReference = nil
+	}
 
 	// DisableLocalAuth
 	if source.DisableLocalAuth != nil {
@@ -728,9 +721,6 @@ func (namespace *Namespace_Spec) AssignPropertiesFromNamespace_Spec(source *v202
 	} else {
 		namespace.Encryption = nil
 	}
-
-	// Id
-	namespace.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Identity
 	if source.Identity != nil {
@@ -766,9 +756,6 @@ func (namespace *Namespace_Spec) AssignPropertiesFromNamespace_Spec(source *v202
 	// MaximumThroughputUnits
 	namespace.MaximumThroughputUnits = genruntime.ClonePointerToInt(source.MaximumThroughputUnits)
 
-	// MetricId
-	namespace.MetricId = genruntime.ClonePointerToString(source.MetricId)
-
 	// OriginalVersion
 	namespace.OriginalVersion = source.OriginalVersion
 
@@ -798,12 +785,6 @@ func (namespace *Namespace_Spec) AssignPropertiesFromNamespace_Spec(source *v202
 		namespace.PrivateEndpointConnections = nil
 	}
 
-	// ProvisioningState
-	namespace.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
-	// ServiceBusEndpoint
-	namespace.ServiceBusEndpoint = genruntime.ClonePointerToString(source.ServiceBusEndpoint)
-
 	// Sku
 	if source.Sku != nil {
 		var sku Sku
@@ -816,29 +797,8 @@ func (namespace *Namespace_Spec) AssignPropertiesFromNamespace_Spec(source *v202
 		namespace.Sku = nil
 	}
 
-	// Status
-	namespace.Status = genruntime.ClonePointerToString(source.Status)
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
-		}
-		namespace.SystemData = &systemDatum
-	} else {
-		namespace.SystemData = nil
-	}
-
 	// Tags
 	namespace.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	namespace.Type = genruntime.ClonePointerToString(source.Type)
-
-	// UpdatedAt
-	namespace.UpdatedAt = genruntime.ClonePointerToString(source.UpdatedAt)
 
 	// ZoneRedundant
 	if source.ZoneRedundant != nil {
@@ -870,11 +830,13 @@ func (namespace *Namespace_Spec) AssignPropertiesToNamespace_Spec(destination *v
 	// AzureName
 	destination.AzureName = namespace.AzureName
 
-	// ClusterArmId
-	destination.ClusterArmId = genruntime.ClonePointerToString(namespace.ClusterArmId)
-
-	// CreatedAt
-	destination.CreatedAt = genruntime.ClonePointerToString(namespace.CreatedAt)
+	// ClusterArmReference
+	if namespace.ClusterArmReference != nil {
+		clusterArmReference := namespace.ClusterArmReference.Copy()
+		destination.ClusterArmReference = &clusterArmReference
+	} else {
+		destination.ClusterArmReference = nil
+	}
 
 	// DisableLocalAuth
 	if namespace.DisableLocalAuth != nil {
@@ -895,9 +857,6 @@ func (namespace *Namespace_Spec) AssignPropertiesToNamespace_Spec(destination *v
 	} else {
 		destination.Encryption = nil
 	}
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(namespace.Id)
 
 	// Identity
 	if namespace.Identity != nil {
@@ -933,9 +892,6 @@ func (namespace *Namespace_Spec) AssignPropertiesToNamespace_Spec(destination *v
 	// MaximumThroughputUnits
 	destination.MaximumThroughputUnits = genruntime.ClonePointerToInt(namespace.MaximumThroughputUnits)
 
-	// MetricId
-	destination.MetricId = genruntime.ClonePointerToString(namespace.MetricId)
-
 	// OriginalVersion
 	destination.OriginalVersion = namespace.OriginalVersion
 
@@ -965,12 +921,6 @@ func (namespace *Namespace_Spec) AssignPropertiesToNamespace_Spec(destination *v
 		destination.PrivateEndpointConnections = nil
 	}
 
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(namespace.ProvisioningState)
-
-	// ServiceBusEndpoint
-	destination.ServiceBusEndpoint = genruntime.ClonePointerToString(namespace.ServiceBusEndpoint)
-
 	// Sku
 	if namespace.Sku != nil {
 		var sku v20211101s.Sku
@@ -983,29 +933,8 @@ func (namespace *Namespace_Spec) AssignPropertiesToNamespace_Spec(destination *v
 		destination.Sku = nil
 	}
 
-	// Status
-	destination.Status = genruntime.ClonePointerToString(namespace.Status)
-
-	// SystemData
-	if namespace.SystemData != nil {
-		var systemDatum v20211101s.SystemData
-		err := namespace.SystemData.AssignPropertiesToSystemData(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(namespace.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(namespace.Type)
-
-	// UpdatedAt
-	destination.UpdatedAt = genruntime.ClonePointerToString(namespace.UpdatedAt)
 
 	// ZoneRedundant
 	if namespace.ZoneRedundant != nil {
@@ -1227,9 +1156,7 @@ func (encryption *Encryption_STATUS) AssignPropertiesToEncryption_STATUS(destina
 // Storage version of v1alpha1api20211101.Identity
 // Deprecated version of Identity. Use v1beta20211101.Identity instead
 type Identity struct {
-	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	TenantId    *string                `json:"tenantId,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
@@ -1237,12 +1164,6 @@ type Identity struct {
 func (identity *Identity) AssignPropertiesFromIdentity(source *v20211101s.Identity) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// PrincipalId
-	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// TenantId
-	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// Type
 	identity.Type = genruntime.ClonePointerToString(source.Type)
@@ -1262,12 +1183,6 @@ func (identity *Identity) AssignPropertiesFromIdentity(source *v20211101s.Identi
 func (identity *Identity) AssignPropertiesToIdentity(destination *v20211101s.Identity) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
-
-	// PrincipalId
-	destination.PrincipalId = genruntime.ClonePointerToString(identity.PrincipalId)
-
-	// TenantId
-	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(identity.Type)
@@ -1382,9 +1297,8 @@ func (identity *Identity_STATUS) AssignPropertiesToIdentity_STATUS(destination *
 // Storage version of v1alpha1api20211101.PrivateEndpointConnection
 // Deprecated version of PrivateEndpointConnection. Use v1beta20211101.PrivateEndpointConnection instead
 type PrivateEndpointConnection struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SystemData  *SystemData            `json:"systemData,omitempty"`
+	PrivateEndpoint *PrivateEndpoint       `json:"privateEndpoint,omitempty"`
+	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // AssignPropertiesFromPrivateEndpointConnection populates our PrivateEndpointConnection from the provided source PrivateEndpointConnection
@@ -1392,19 +1306,16 @@ func (connection *PrivateEndpointConnection) AssignPropertiesFromPrivateEndpoint
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// Id
-	connection.Id = genruntime.ClonePointerToString(source.Id)
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
+	// PrivateEndpoint
+	if source.PrivateEndpoint != nil {
+		var privateEndpoint PrivateEndpoint
+		err := privateEndpoint.AssignPropertiesFromPrivateEndpoint(source.PrivateEndpoint)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpoint() to populate field PrivateEndpoint")
 		}
-		connection.SystemData = &systemDatum
+		connection.PrivateEndpoint = &privateEndpoint
 	} else {
-		connection.SystemData = nil
+		connection.PrivateEndpoint = nil
 	}
 
 	// Update the property bag
@@ -1423,19 +1334,16 @@ func (connection *PrivateEndpointConnection) AssignPropertiesToPrivateEndpointCo
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(connection.PropertyBag)
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(connection.Id)
-
-	// SystemData
-	if connection.SystemData != nil {
-		var systemDatum v20211101s.SystemData
-		err := connection.SystemData.AssignPropertiesToSystemData(&systemDatum)
+	// PrivateEndpoint
+	if connection.PrivateEndpoint != nil {
+		var privateEndpoint v20211101s.PrivateEndpoint
+		err := connection.PrivateEndpoint.AssignPropertiesToPrivateEndpoint(&privateEndpoint)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
+			return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpoint() to populate field PrivateEndpoint")
 		}
-		destination.SystemData = &systemDatum
+		destination.PrivateEndpoint = &privateEndpoint
 	} else {
-		destination.SystemData = nil
+		destination.PrivateEndpoint = nil
 	}
 
 	// Update the property bag
@@ -1625,86 +1533,6 @@ func (sku *Sku_STATUS) AssignPropertiesToSku_STATUS(destination *v20211101s.Sku_
 
 	// Tier
 	destination.Tier = genruntime.ClonePointerToString(sku.Tier)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20211101.SystemData
-// Deprecated version of SystemData. Use v1beta20211101.SystemData instead
-type SystemData struct {
-	CreatedAt          *string                `json:"createdAt,omitempty"`
-	CreatedBy          *string                `json:"createdBy,omitempty"`
-	CreatedByType      *string                `json:"createdByType,omitempty"`
-	LastModifiedAt     *string                `json:"lastModifiedAt,omitempty"`
-	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
-	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// AssignPropertiesFromSystemData populates our SystemData from the provided source SystemData
-func (data *SystemData) AssignPropertiesFromSystemData(source *v20211101s.SystemData) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// CreatedAt
-	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
-
-	// CreatedBy
-	data.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
-
-	// CreatedByType
-	data.CreatedByType = genruntime.ClonePointerToString(source.CreatedByType)
-
-	// LastModifiedAt
-	data.LastModifiedAt = genruntime.ClonePointerToString(source.LastModifiedAt)
-
-	// LastModifiedBy
-	data.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
-
-	// LastModifiedByType
-	data.LastModifiedByType = genruntime.ClonePointerToString(source.LastModifiedByType)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		data.PropertyBag = propertyBag
-	} else {
-		data.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToSystemData populates the provided destination SystemData from our SystemData
-func (data *SystemData) AssignPropertiesToSystemData(destination *v20211101s.SystemData) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(data.PropertyBag)
-
-	// CreatedAt
-	destination.CreatedAt = genruntime.ClonePointerToString(data.CreatedAt)
-
-	// CreatedBy
-	destination.CreatedBy = genruntime.ClonePointerToString(data.CreatedBy)
-
-	// CreatedByType
-	destination.CreatedByType = genruntime.ClonePointerToString(data.CreatedByType)
-
-	// LastModifiedAt
-	destination.LastModifiedAt = genruntime.ClonePointerToString(data.LastModifiedAt)
-
-	// LastModifiedBy
-	destination.LastModifiedBy = genruntime.ClonePointerToString(data.LastModifiedBy)
-
-	// LastModifiedByType
-	destination.LastModifiedByType = genruntime.ClonePointerToString(data.LastModifiedByType)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1953,6 +1781,61 @@ func (properties *KeyVaultProperties_STATUS) AssignPropertiesToKeyVaultPropertie
 
 	// KeyVersion
 	destination.KeyVersion = genruntime.ClonePointerToString(properties.KeyVersion)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20211101.PrivateEndpoint
+// Deprecated version of PrivateEndpoint. Use v1beta20211101.PrivateEndpoint instead
+type PrivateEndpoint struct {
+	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Reference   *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+}
+
+// AssignPropertiesFromPrivateEndpoint populates our PrivateEndpoint from the provided source PrivateEndpoint
+func (endpoint *PrivateEndpoint) AssignPropertiesFromPrivateEndpoint(source *v20211101s.PrivateEndpoint) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		endpoint.Reference = &reference
+	} else {
+		endpoint.Reference = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		endpoint.PropertyBag = propertyBag
+	} else {
+		endpoint.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToPrivateEndpoint populates the provided destination PrivateEndpoint from our PrivateEndpoint
+func (endpoint *PrivateEndpoint) AssignPropertiesToPrivateEndpoint(destination *v20211101s.PrivateEndpoint) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(endpoint.PropertyBag)
+
+	// Reference
+	if endpoint.Reference != nil {
+		reference := endpoint.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

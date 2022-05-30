@@ -220,8 +220,6 @@ func IdentityARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForIdentityARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIdentityARM(gens map[string]gopter.Gen) {
-	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
-	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
 		Identity_Type_None,
 		Identity_Type_SystemAssigned,
@@ -1167,11 +1165,9 @@ func KeyVaultPropertiesARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForKeyVaultPropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForKeyVaultPropertiesARM(gens map[string]gopter.Gen) {
-	gens["CurrentVersionedKeyIdentifier"] = gen.PtrOf(gen.AlphaString())
 	gens["Keyname"] = gen.PtrOf(gen.AlphaString())
 	gens["Keyvaulturi"] = gen.PtrOf(gen.AlphaString())
 	gens["Keyversion"] = gen.PtrOf(gen.AlphaString())
-	gens["LastKeyRotationTimestamp"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ResourceAccessRuleARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1361,5 +1357,4 @@ func EncryptionServiceARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForEncryptionServiceARM(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["KeyType"] = gen.PtrOf(gen.OneConstOf(EncryptionService_KeyType_Account, EncryptionService_KeyType_Service))
-	gens["LastEnabledTime"] = gen.PtrOf(gen.AlphaString())
 }

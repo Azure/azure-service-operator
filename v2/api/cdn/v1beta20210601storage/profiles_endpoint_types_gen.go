@@ -189,12 +189,9 @@ type ProfilesEndpoint_Spec struct {
 	// doesn't have to be.
 	AzureName              string                             `json:"azureName,omitempty"`
 	ContentTypesToCompress []string                           `json:"contentTypesToCompress,omitempty"`
-	CustomDomains          []CustomDomain                     `json:"customDomains,omitempty"`
 	DefaultOriginGroup     *ResourceReference                 `json:"defaultOriginGroup,omitempty"`
 	DeliveryPolicy         *EndpointProperties_DeliveryPolicy `json:"deliveryPolicy,omitempty"`
 	GeoFilters             []GeoFilter                        `json:"geoFilters,omitempty"`
-	HostName               *string                            `json:"hostName,omitempty"`
-	Id                     *string                            `json:"id,omitempty"`
 	IsCompressionEnabled   *bool                              `json:"isCompressionEnabled,omitempty"`
 	IsHttpAllowed          *bool                              `json:"isHttpAllowed,omitempty"`
 	IsHttpsAllowed         *bool                              `json:"isHttpsAllowed,omitempty"`
@@ -213,12 +210,8 @@ type ProfilesEndpoint_Spec struct {
 	Owner                            *genruntime.KnownResourceReference                   `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	ProbePath                        *string                                              `json:"probePath,omitempty"`
 	PropertyBag                      genruntime.PropertyBag                               `json:"$propertyBag,omitempty"`
-	ProvisioningState                *string                                              `json:"provisioningState,omitempty"`
 	QueryStringCachingBehavior       *string                                              `json:"queryStringCachingBehavior,omitempty"`
-	ResourceState                    *string                                              `json:"resourceState,omitempty"`
-	SystemData                       *SystemData                                          `json:"systemData,omitempty"`
 	Tags                             map[string]string                                    `json:"tags,omitempty"`
-	Type                             *string                                              `json:"type,omitempty"`
 	UrlSigningKeys                   []UrlSigningKey                                      `json:"urlSigningKeys,omitempty"`
 	WebApplicationFirewallPolicyLink *EndpointProperties_WebApplicationFirewallPolicyLink `json:"webApplicationFirewallPolicyLink,omitempty"`
 }
@@ -243,22 +236,6 @@ func (endpoint *ProfilesEndpoint_Spec) ConvertSpecTo(destination genruntime.Conv
 	return destination.ConvertSpecFrom(endpoint)
 }
 
-// Storage version of v1beta20210601.CustomDomain
-type CustomDomain struct {
-	CustomHttpsParameters           *CustomDomainHttpsParameters `json:"customHttpsParameters,omitempty"`
-	CustomHttpsProvisioningState    *string                      `json:"customHttpsProvisioningState,omitempty"`
-	CustomHttpsProvisioningSubstate *string                      `json:"customHttpsProvisioningSubstate,omitempty"`
-	HostName                        *string                      `json:"hostName,omitempty"`
-	Id                              *string                      `json:"id,omitempty"`
-	Name                            *string                      `json:"name,omitempty"`
-	PropertyBag                     genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
-	ProvisioningState               *string                      `json:"provisioningState,omitempty"`
-	ResourceState                   *string                      `json:"resourceState,omitempty"`
-	SystemData                      *SystemData                  `json:"systemData,omitempty"`
-	Type                            *string                      `json:"type,omitempty"`
-	ValidationData                  *string                      `json:"validationData,omitempty"`
-}
-
 // Storage version of v1beta20210601.CustomDomain_STATUS
 type CustomDomain_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
@@ -275,7 +252,6 @@ type DeepCreatedOrigin struct {
 	Name                       *string `json:"name,omitempty"`
 	OriginHostHeader           *string `json:"originHostHeader,omitempty"`
 	Priority                   *int    `json:"priority,omitempty"`
-	PrivateEndpointStatus      *string `json:"privateEndpointStatus,omitempty"`
 	PrivateLinkAlias           *string `json:"privateLinkAlias,omitempty"`
 	PrivateLinkApprovalMessage *string `json:"privateLinkApprovalMessage,omitempty"`
 
@@ -344,8 +320,10 @@ type EndpointProperties_DeliveryPolicy_STATUS struct {
 
 // Storage version of v1beta20210601.EndpointProperties_WebApplicationFirewallPolicyLink
 type EndpointProperties_WebApplicationFirewallPolicyLink struct {
-	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+
+	// Reference: Resource ID.
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 // Storage version of v1beta20210601.EndpointProperties_WebApplicationFirewallPolicyLink_STATUS
@@ -396,14 +374,6 @@ type UrlSigningKey_STATUS struct {
 	KeyId               *string                              `json:"keyId,omitempty"`
 	KeySourceParameters *KeyVaultSigningKeyParameters_STATUS `json:"keySourceParameters,omitempty"`
 	PropertyBag         genruntime.PropertyBag               `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1beta20210601.CustomDomainHttpsParameters
-type CustomDomainHttpsParameters struct {
-	CertificateSource *string                `json:"certificateSource,omitempty"`
-	MinimumTlsVersion *string                `json:"minimumTlsVersion,omitempty"`
-	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ProtocolType      *string                `json:"protocolType,omitempty"`
 }
 
 // Storage version of v1beta20210601.DeliveryRule

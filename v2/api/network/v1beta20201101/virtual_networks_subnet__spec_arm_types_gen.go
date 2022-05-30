@@ -6,13 +6,8 @@ package v1beta20201101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type VirtualNetworksSubnet_SpecARM struct {
-	AzureName string `json:"azureName,omitempty"`
-
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
+	AzureName string  `json:"azureName,omitempty"`
+	Id        *string `json:"id,omitempty"`
 
 	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name string `json:"name,omitempty"`
@@ -57,12 +52,6 @@ type SubnetPropertiesFormatARM struct {
 	// IpAllocations: Array of IpAllocation which reference this subnet.
 	IpAllocations []SubResourceARM `json:"ipAllocations,omitempty"`
 
-	// IpConfigurationProfiles: Array of IP configuration profiles which reference this subnet.
-	IpConfigurationProfiles []IPConfigurationProfile_VirtualNetworksSubnet_SubResourceEmbeddedARM `json:"ipConfigurationProfiles,omitempty"`
-
-	// IpConfigurations: An array of references to the network interface IP configurations using subnet.
-	IpConfigurations []IPConfiguration_VirtualNetworksSubnet_SubResourceEmbeddedARM `json:"ipConfigurations,omitempty"`
-
 	// NatGateway: Nat gateway associated with this subnet.
 	NatGateway *SubResourceARM `json:"natGateway,omitempty"`
 
@@ -72,27 +61,11 @@ type SubnetPropertiesFormatARM struct {
 	// PrivateEndpointNetworkPolicies: Enable or Disable apply network policies on private end point in the subnet.
 	PrivateEndpointNetworkPolicies *SubnetPropertiesFormat_PrivateEndpointNetworkPolicies `json:"privateEndpointNetworkPolicies,omitempty"`
 
-	// PrivateEndpoints: An array of references to private endpoints.
-	PrivateEndpoints []PrivateEndpointSpec_VirtualNetworksSubnet_SubResourceEmbeddedARM `json:"privateEndpoints,omitempty"`
-
 	// PrivateLinkServiceNetworkPolicies: Enable or Disable apply network policies on private link service in the subnet.
 	PrivateLinkServiceNetworkPolicies *SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies `json:"privateLinkServiceNetworkPolicies,omitempty"`
 
-	// ProvisioningState: The provisioning state of the subnet resource.
-	ProvisioningState *ProvisioningState `json:"provisioningState,omitempty"`
-
-	// Purpose: A read-only string identifying the intention of use for this subnet based on delegations and other user-defined
-	// properties.
-	Purpose *string `json:"purpose,omitempty"`
-
-	// ResourceNavigationLinks: An array of references to the external resources using subnet.
-	ResourceNavigationLinks []ResourceNavigationLinkARM `json:"resourceNavigationLinks,omitempty"`
-
 	// RouteTable: The reference to the RouteTable resource.
 	RouteTable *RouteTableSpecARM `json:"routeTable,omitempty"`
-
-	// ServiceAssociationLinks: An array of references to services injecting into this subnet.
-	ServiceAssociationLinks []ServiceAssociationLinkARM `json:"serviceAssociationLinks,omitempty"`
 
 	// ServiceEndpointPolicies: An array of service endpoint policies.
 	ServiceEndpointPolicies []ServiceEndpointPolicySpecARM `json:"serviceEndpointPolicies,omitempty"`
@@ -102,10 +75,6 @@ type SubnetPropertiesFormatARM struct {
 }
 
 type ApplicationGatewayIPConfigurationARM struct {
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
 	// Name: Name of the IP configuration that is unique within an Application Gateway.
@@ -113,16 +82,9 @@ type ApplicationGatewayIPConfigurationARM struct {
 
 	// Properties: Properties of the application gateway IP configuration.
 	Properties *ApplicationGatewayIPConfigurationPropertiesFormatARM `json:"properties,omitempty"`
-
-	// Type: Type of the resource.
-	Type *string `json:"type,omitempty"`
 }
 
 type DelegationARM struct {
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
 	// Name: The name of the resource that is unique within a subnet. This name can be used to access the resource.
@@ -135,195 +97,89 @@ type DelegationARM struct {
 	Type *string `json:"type,omitempty"`
 }
 
-type IPConfigurationProfile_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	// Name: The name of the resource. This name can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Properties of the IP configuration profile.
-	Properties *IPConfigurationProfilePropertiesFormat_VirtualNetworksSubnet_SubResourceEmbeddedARM `json:"properties,omitempty"`
-
-	// Type: Sub Resource type.
-	Type *string `json:"type,omitempty"`
-}
-
-type IPConfiguration_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Properties of the IP configuration.
-	Properties *IPConfigurationPropertiesFormat_VirtualNetworksSubnet_SubResourceEmbeddedARM `json:"properties,omitempty"`
-}
-
 type NetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-}
-
-type PrivateEndpointSpec_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
-	// ExtendedLocation: The extended location of the load balancer.
-	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-}
-
-type ResourceNavigationLinkARM struct {
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	// Id: Resource navigation link identifier.
 	Id *string `json:"id,omitempty"`
 
-	// Name: Name of the resource that is unique within a resource group. This name can be used to access the resource.
-	Name *string `json:"name,omitempty"`
+	// Location: Resource location.
+	Location *string `json:"location,omitempty"`
 
-	// Properties: Resource navigation link properties format.
-	Properties *ResourceNavigationLinkFormatARM `json:"properties,omitempty"`
+	// Properties: Properties of the network security group.
+	Properties *NetworkSecurityGroupPropertiesFormat_VirtualNetworksSubnet_SubResourceEmbeddedARM `json:"properties,omitempty"`
 
-	// Type: Resource type.
-	Type *string `json:"type,omitempty"`
+	// Tags: Resource tags.
+	Tags map[string]string `json:"tags,omitempty"`
 }
 
 type RouteTableSpecARM struct {
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-}
-
-type ServiceAssociationLinkARM struct {
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
-	// Name: Name of the resource that is unique within a resource group. This name can be used to access the resource.
-	Name *string `json:"name,omitempty"`
+	// Location: Resource location.
+	Location *string `json:"location,omitempty"`
 
-	// Properties: Resource navigation link properties format.
-	Properties *ServiceAssociationLinkPropertiesFormatARM `json:"properties,omitempty"`
+	// Properties: Properties of the route table.
+	Properties *RouteTablePropertiesFormat_VirtualNetworksSubnet_SubResourceEmbeddedARM `json:"properties,omitempty"`
 
-	// Type: Resource type.
-	Type *string `json:"type,omitempty"`
+	// Tags: Resource tags.
+	Tags map[string]string `json:"tags,omitempty"`
 }
 
 type ServiceEndpointPolicySpecARM struct {
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 
-	// Kind: Kind of service endpoint policy. This is metadata used for the Azure portal experience.
-	Kind *string `json:"kind,omitempty"`
+	// Location: Resource location.
+	Location *string `json:"location,omitempty"`
+
+	// Properties: Properties of the service end point policy.
+	Properties *ServiceEndpointPolicyPropertiesFormat_VirtualNetworksSubnet_SubResourceEmbeddedARM `json:"properties,omitempty"`
+
+	// Tags: Resource tags.
+	Tags map[string]string `json:"tags,omitempty"`
 }
 
 type ServiceEndpointPropertiesFormatARM struct {
 	// Locations: A list of locations.
 	Locations []string `json:"locations,omitempty"`
 
-	// ProvisioningState: The provisioning state of the service endpoint resource.
-	ProvisioningState *ProvisioningState `json:"provisioningState,omitempty"`
-
 	// Service: The type of the endpoint service.
 	Service *string `json:"service,omitempty"`
 }
 
 type ApplicationGatewayIPConfigurationPropertiesFormatARM struct {
-	// ProvisioningState: The provisioning state of the application gateway IP configuration resource.
-	ProvisioningState *ProvisioningState `json:"provisioningState,omitempty"`
-
 	// Subnet: Reference to the subnet resource. A subnet from where application gateway gets its private address.
 	Subnet *SubResourceARM `json:"subnet,omitempty"`
 }
 
-type IPConfigurationProfilePropertiesFormat_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
-	// ProvisioningState: The provisioning state of the IP configuration profile resource.
-	ProvisioningState *ProvisioningState `json:"provisioningState,omitempty"`
-
-	// Subnet: The reference to the subnet resource to create a container network interface ip configuration.
-	Subnet *Subnet_VirtualNetworksSubnet_SubResourceEmbeddedARM `json:"subnet,omitempty"`
+type NetworkSecurityGroupPropertiesFormat_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
+	// SecurityRules: A collection of security rules of the network security group.
+	SecurityRules []SecurityRule_VirtualNetworksSubnet_SubResourceEmbeddedARM `json:"securityRules,omitempty"`
 }
 
-type IPConfigurationPropertiesFormat_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
-	// PrivateIPAddress: The private IP address of the IP configuration.
-	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
+type RouteTablePropertiesFormat_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
+	// DisableBgpRoutePropagation: Whether to disable the routes learned by BGP on that route table. True means disable.
+	DisableBgpRoutePropagation *bool `json:"disableBgpRoutePropagation,omitempty"`
 
-	// PrivateIPAllocationMethod: The private IP address allocation method.
-	PrivateIPAllocationMethod *IPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
-
-	// ProvisioningState: The provisioning state of the IP configuration resource.
-	ProvisioningState *ProvisioningState `json:"provisioningState,omitempty"`
-
-	// PublicIPAddress: The reference to the public IP resource.
-	PublicIPAddress *PublicIPAddressSpec_VirtualNetworksSubnet_SubResourceEmbeddedARM `json:"publicIPAddress,omitempty"`
-
-	// Subnet: The reference to the subnet resource.
-	Subnet *Subnet_VirtualNetworksSubnet_SubResourceEmbeddedARM `json:"subnet,omitempty"`
-}
-
-type ResourceNavigationLinkFormatARM struct {
-	// Link: Link to the external resource.
-	Link *string `json:"link,omitempty"`
-
-	// LinkedResourceType: Resource type of the linked resource.
-	LinkedResourceType *string `json:"linkedResourceType,omitempty"`
-
-	// ProvisioningState: The provisioning state of the resource navigation link resource.
-	ProvisioningState *ProvisioningState `json:"provisioningState,omitempty"`
-}
-
-type ServiceAssociationLinkPropertiesFormatARM struct {
-	// AllowDelete: If true, the resource can be deleted.
-	AllowDelete *bool `json:"allowDelete,omitempty"`
-
-	// Link: Link to the external resource.
-	Link *string `json:"link,omitempty"`
-
-	// LinkedResourceType: Resource type of the linked resource.
-	LinkedResourceType *string `json:"linkedResourceType,omitempty"`
-
-	// Locations: A list of locations.
-	Locations []string `json:"locations,omitempty"`
-
-	// ProvisioningState: The provisioning state of the service association link resource.
-	ProvisioningState *ProvisioningState `json:"provisioningState,omitempty"`
+	// Routes: Collection of routes contained within a route table.
+	Routes []Route_VirtualNetworksSubnet_SubResourceEmbeddedARM `json:"routes,omitempty"`
 }
 
 type ServiceDelegationPropertiesFormatARM struct {
-	// Actions: The actions permitted to the service upon delegation.
-	Actions []string `json:"actions,omitempty"`
-
-	// ProvisioningState: The provisioning state of the service delegation resource.
-	ProvisioningState *ProvisioningState `json:"provisioningState,omitempty"`
-
 	// ServiceName: The name of the service to whom the subnet should be delegated (e.g. Microsoft.Sql/servers).
 	ServiceName *string `json:"serviceName,omitempty"`
 }
 
-type PublicIPAddressSpec_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
-	// ExtendedLocation: The extended location of the public ip address.
-	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	// Sku: The public IP address SKU.
-	Sku *PublicIPAddressSkuARM `json:"sku,omitempty"`
-
-	// Zones: A list of availability zones denoting the IP allocated for the resource needs to come from.
-	Zones []string `json:"zones,omitempty"`
+type ServiceEndpointPolicyPropertiesFormat_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
+	// ServiceEndpointPolicyDefinitions: A collection of service endpoint policy definitions of the service endpoint policy.
+	ServiceEndpointPolicyDefinitions []ServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourceEmbeddedARM `json:"serviceEndpointPolicyDefinitions,omitempty"`
 }
 
-type Subnet_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
-	// Id: Resource ID.
+type Route_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
+	Id *string `json:"id,omitempty"`
+}
+
+type SecurityRule_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
+	Id *string `json:"id,omitempty"`
+}
+
+type ServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
 	Id *string `json:"id,omitempty"`
 }

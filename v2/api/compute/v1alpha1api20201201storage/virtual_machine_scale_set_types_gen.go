@@ -760,7 +760,6 @@ type VirtualMachineScaleSet_Spec struct {
 	DoNotRunExtensionsOnOverprovisionedVMs *bool                           `json:"doNotRunExtensionsOnOverprovisionedVMs,omitempty"`
 	ExtendedLocation                       *ExtendedLocation               `json:"extendedLocation,omitempty"`
 	HostGroup                              *SubResource                    `json:"hostGroup,omitempty"`
-	Id                                     *string                         `json:"id,omitempty"`
 	Identity                               *VirtualMachineScaleSetIdentity `json:"identity,omitempty"`
 	Location                               *string                         `json:"location,omitempty"`
 	OrchestrationMode                      *string                         `json:"orchestrationMode,omitempty"`
@@ -775,14 +774,11 @@ type VirtualMachineScaleSet_Spec struct {
 	Plan                     *Plan                              `json:"plan,omitempty"`
 	PlatformFaultDomainCount *int                               `json:"platformFaultDomainCount,omitempty"`
 	PropertyBag              genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	ProvisioningState        *string                            `json:"provisioningState,omitempty"`
 	ProximityPlacementGroup  *SubResource                       `json:"proximityPlacementGroup,omitempty"`
 	ScaleInPolicy            *ScaleInPolicy                     `json:"scaleInPolicy,omitempty"`
 	SinglePlacementGroup     *bool                              `json:"singlePlacementGroup,omitempty"`
 	Sku                      *Sku                               `json:"sku,omitempty"`
 	Tags                     map[string]string                  `json:"tags,omitempty"`
-	Type                     *string                            `json:"type,omitempty"`
-	UniqueId                 *string                            `json:"uniqueId,omitempty"`
 	UpgradePolicy            *UpgradePolicy                     `json:"upgradePolicy,omitempty"`
 	VirtualMachineProfile    *VirtualMachineScaleSetVMProfile   `json:"virtualMachineProfile,omitempty"`
 	ZoneBalance              *bool                              `json:"zoneBalance,omitempty"`
@@ -918,9 +914,6 @@ func (scaleSet *VirtualMachineScaleSet_Spec) AssignPropertiesFromVirtualMachineS
 		scaleSet.HostGroup = nil
 	}
 
-	// Id
-	scaleSet.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Identity
 	if source.Identity != nil {
 		var identity VirtualMachineScaleSetIdentity
@@ -973,9 +966,6 @@ func (scaleSet *VirtualMachineScaleSet_Spec) AssignPropertiesFromVirtualMachineS
 	// PlatformFaultDomainCount
 	scaleSet.PlatformFaultDomainCount = genruntime.ClonePointerToInt(source.PlatformFaultDomainCount)
 
-	// ProvisioningState
-	scaleSet.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
 	// ProximityPlacementGroup
 	if source.ProximityPlacementGroup != nil {
 		var subResourceStash alpha20210701s.SubResource
@@ -1027,12 +1017,6 @@ func (scaleSet *VirtualMachineScaleSet_Spec) AssignPropertiesFromVirtualMachineS
 
 	// Tags
 	scaleSet.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	scaleSet.Type = genruntime.ClonePointerToString(source.Type)
-
-	// UniqueId
-	scaleSet.UniqueId = genruntime.ClonePointerToString(source.UniqueId)
 
 	// UpgradePolicy
 	if source.UpgradePolicy != nil {
@@ -1159,9 +1143,6 @@ func (scaleSet *VirtualMachineScaleSet_Spec) AssignPropertiesToVirtualMachineSca
 		destination.HostGroup = nil
 	}
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(scaleSet.Id)
-
 	// Identity
 	if scaleSet.Identity != nil {
 		var identity v20201201s.VirtualMachineScaleSetIdentity
@@ -1214,9 +1195,6 @@ func (scaleSet *VirtualMachineScaleSet_Spec) AssignPropertiesToVirtualMachineSca
 	// PlatformFaultDomainCount
 	destination.PlatformFaultDomainCount = genruntime.ClonePointerToInt(scaleSet.PlatformFaultDomainCount)
 
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(scaleSet.ProvisioningState)
-
 	// ProximityPlacementGroup
 	if scaleSet.ProximityPlacementGroup != nil {
 		var subResourceStash alpha20210701s.SubResource
@@ -1268,12 +1246,6 @@ func (scaleSet *VirtualMachineScaleSet_Spec) AssignPropertiesToVirtualMachineSca
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(scaleSet.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(scaleSet.Type)
-
-	// UniqueId
-	destination.UniqueId = genruntime.ClonePointerToString(scaleSet.UniqueId)
 
 	// UpgradePolicy
 	if scaleSet.UpgradePolicy != nil {
@@ -1846,9 +1818,7 @@ func (policy *UpgradePolicy_STATUS) AssignPropertiesToUpgradePolicy_STATUS(desti
 // Storage version of v1alpha1api20201201.VirtualMachineScaleSetIdentity
 // Deprecated version of VirtualMachineScaleSetIdentity. Use v1beta20201201.VirtualMachineScaleSetIdentity instead
 type VirtualMachineScaleSetIdentity struct {
-	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	TenantId    *string                `json:"tenantId,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
@@ -1856,12 +1826,6 @@ type VirtualMachineScaleSetIdentity struct {
 func (identity *VirtualMachineScaleSetIdentity) AssignPropertiesFromVirtualMachineScaleSetIdentity(source *v20201201s.VirtualMachineScaleSetIdentity) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// PrincipalId
-	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// TenantId
-	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// Type
 	identity.Type = genruntime.ClonePointerToString(source.Type)
@@ -1881,12 +1845,6 @@ func (identity *VirtualMachineScaleSetIdentity) AssignPropertiesFromVirtualMachi
 func (identity *VirtualMachineScaleSetIdentity) AssignPropertiesToVirtualMachineScaleSetIdentity(destination *v20201201s.VirtualMachineScaleSetIdentity) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
-
-	// PrincipalId
-	destination.PrincipalId = genruntime.ClonePointerToString(identity.PrincipalId)
-
-	// TenantId
-	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(identity.Type)
@@ -2989,33 +2947,14 @@ func (profile *ScheduledEventsProfile_STATUS) AssignPropertiesToScheduledEventsP
 // Storage version of v1alpha1api20201201.VirtualMachineScaleSetExtensionProfile
 // Deprecated version of VirtualMachineScaleSetExtensionProfile. Use v1beta20201201.VirtualMachineScaleSetExtensionProfile instead
 type VirtualMachineScaleSetExtensionProfile struct {
-	Extensions           []VirtualMachineScaleSetExtension `json:"extensions,omitempty"`
-	ExtensionsTimeBudget *string                           `json:"extensionsTimeBudget,omitempty"`
-	PropertyBag          genruntime.PropertyBag            `json:"$propertyBag,omitempty"`
+	ExtensionsTimeBudget *string                `json:"extensionsTimeBudget,omitempty"`
+	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // AssignPropertiesFromVirtualMachineScaleSetExtensionProfile populates our VirtualMachineScaleSetExtensionProfile from the provided source VirtualMachineScaleSetExtensionProfile
 func (profile *VirtualMachineScaleSetExtensionProfile) AssignPropertiesFromVirtualMachineScaleSetExtensionProfile(source *v20201201s.VirtualMachineScaleSetExtensionProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Extensions
-	if source.Extensions != nil {
-		extensionList := make([]VirtualMachineScaleSetExtension, len(source.Extensions))
-		for extensionIndex, extensionItem := range source.Extensions {
-			// Shadow the loop variable to avoid aliasing
-			extensionItem := extensionItem
-			var extension VirtualMachineScaleSetExtension
-			err := extension.AssignPropertiesFromVirtualMachineScaleSetExtension(&extensionItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetExtension() to populate field Extensions")
-			}
-			extensionList[extensionIndex] = extension
-		}
-		profile.Extensions = extensionList
-	} else {
-		profile.Extensions = nil
-	}
 
 	// ExtensionsTimeBudget
 	profile.ExtensionsTimeBudget = genruntime.ClonePointerToString(source.ExtensionsTimeBudget)
@@ -3035,24 +2974,6 @@ func (profile *VirtualMachineScaleSetExtensionProfile) AssignPropertiesFromVirtu
 func (profile *VirtualMachineScaleSetExtensionProfile) AssignPropertiesToVirtualMachineScaleSetExtensionProfile(destination *v20201201s.VirtualMachineScaleSetExtensionProfile) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(profile.PropertyBag)
-
-	// Extensions
-	if profile.Extensions != nil {
-		extensionList := make([]v20201201s.VirtualMachineScaleSetExtension, len(profile.Extensions))
-		for extensionIndex, extensionItem := range profile.Extensions {
-			// Shadow the loop variable to avoid aliasing
-			extensionItem := extensionItem
-			var extension v20201201s.VirtualMachineScaleSetExtension
-			err := extensionItem.AssignPropertiesToVirtualMachineScaleSetExtension(&extension)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetExtension() to populate field Extensions")
-			}
-			extensionList[extensionIndex] = extension
-		}
-		destination.Extensions = extensionList
-	} else {
-		destination.Extensions = nil
-	}
 
 	// ExtensionsTimeBudget
 	destination.ExtensionsTimeBudget = genruntime.ClonePointerToString(profile.ExtensionsTimeBudget)
@@ -4443,51 +4364,6 @@ func (disk *VirtualMachineScaleSetDataDisk_STATUS) AssignPropertiesToVirtualMach
 	return nil
 }
 
-// Storage version of v1alpha1api20201201.VirtualMachineScaleSetExtension
-// Deprecated version of VirtualMachineScaleSetExtension. Use v1beta20201201.VirtualMachineScaleSetExtension instead
-type VirtualMachineScaleSetExtension struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// AssignPropertiesFromVirtualMachineScaleSetExtension populates our VirtualMachineScaleSetExtension from the provided source VirtualMachineScaleSetExtension
-func (extension *VirtualMachineScaleSetExtension) AssignPropertiesFromVirtualMachineScaleSetExtension(source *v20201201s.VirtualMachineScaleSetExtension) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Id
-	extension.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		extension.PropertyBag = propertyBag
-	} else {
-		extension.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToVirtualMachineScaleSetExtension populates the provided destination VirtualMachineScaleSetExtension from our VirtualMachineScaleSetExtension
-func (extension *VirtualMachineScaleSetExtension) AssignPropertiesToVirtualMachineScaleSetExtension(destination *v20201201s.VirtualMachineScaleSetExtension) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(extension.PropertyBag)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(extension.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Storage version of v1alpha1api20201201.VirtualMachineScaleSetExtension_STATUS
 // Deprecated version of VirtualMachineScaleSetExtension_STATUS. Use v1beta20201201.VirtualMachineScaleSetExtension_STATUS instead
 type VirtualMachineScaleSetExtension_STATUS struct {
@@ -4540,12 +4416,12 @@ type VirtualMachineScaleSetNetworkConfiguration struct {
 	EnableAcceleratedNetworking *bool                                                  `json:"enableAcceleratedNetworking,omitempty"`
 	EnableFpga                  *bool                                                  `json:"enableFpga,omitempty"`
 	EnableIPForwarding          *bool                                                  `json:"enableIPForwarding,omitempty"`
-	Id                          *string                                                `json:"id,omitempty"`
 	IpConfigurations            []VirtualMachineScaleSetIPConfiguration                `json:"ipConfigurations,omitempty"`
 	Name                        *string                                                `json:"name,omitempty"`
 	NetworkSecurityGroup        *SubResource                                           `json:"networkSecurityGroup,omitempty"`
 	Primary                     *bool                                                  `json:"primary,omitempty"`
 	PropertyBag                 genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
+	Reference                   *genruntime.ResourceReference                          `armReference:"Id" json:"reference,omitempty"`
 }
 
 // AssignPropertiesFromVirtualMachineScaleSetNetworkConfiguration populates our VirtualMachineScaleSetNetworkConfiguration from the provided source VirtualMachineScaleSetNetworkConfiguration
@@ -4588,9 +4464,6 @@ func (configuration *VirtualMachineScaleSetNetworkConfiguration) AssignPropertie
 	} else {
 		configuration.EnableIPForwarding = nil
 	}
-
-	// Id
-	configuration.Id = genruntime.ClonePointerToString(source.Id)
 
 	// IpConfigurations
 	if source.IpConfigurations != nil {
@@ -4636,6 +4509,14 @@ func (configuration *VirtualMachineScaleSetNetworkConfiguration) AssignPropertie
 		configuration.Primary = &primary
 	} else {
 		configuration.Primary = nil
+	}
+
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		configuration.Reference = &reference
+	} else {
+		configuration.Reference = nil
 	}
 
 	// Update the property bag
@@ -4690,9 +4571,6 @@ func (configuration *VirtualMachineScaleSetNetworkConfiguration) AssignPropertie
 		destination.EnableIPForwarding = nil
 	}
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(configuration.Id)
-
 	// IpConfigurations
 	if configuration.IpConfigurations != nil {
 		ipConfigurationList := make([]v20201201s.VirtualMachineScaleSetIPConfiguration, len(configuration.IpConfigurations))
@@ -4737,6 +4615,14 @@ func (configuration *VirtualMachineScaleSetNetworkConfiguration) AssignPropertie
 		destination.Primary = &primary
 	} else {
 		destination.Primary = nil
+	}
+
+	// Reference
+	if configuration.Reference != nil {
+		reference := configuration.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
 	}
 
 	// Update the property bag
@@ -5316,7 +5202,6 @@ func (disk *VirtualMachineScaleSetOSDisk_STATUS) AssignPropertiesToVirtualMachin
 type VirtualMachineScaleSetIPConfiguration struct {
 	ApplicationGatewayBackendAddressPools []SubResource                                       `json:"applicationGatewayBackendAddressPools,omitempty"`
 	ApplicationSecurityGroups             []SubResource                                       `json:"applicationSecurityGroups,omitempty"`
-	Id                                    *string                                             `json:"id,omitempty"`
 	LoadBalancerBackendAddressPools       []SubResource                                       `json:"loadBalancerBackendAddressPools,omitempty"`
 	LoadBalancerInboundNatPools           []SubResource                                       `json:"loadBalancerInboundNatPools,omitempty"`
 	Name                                  *string                                             `json:"name,omitempty"`
@@ -5324,6 +5209,7 @@ type VirtualMachineScaleSetIPConfiguration struct {
 	PrivateIPAddressVersion               *string                                             `json:"privateIPAddressVersion,omitempty"`
 	PropertyBag                           genruntime.PropertyBag                              `json:"$propertyBag,omitempty"`
 	PublicIPAddressConfiguration          *VirtualMachineScaleSetPublicIPAddressConfiguration `json:"publicIPAddressConfiguration,omitempty"`
+	Reference                             *genruntime.ResourceReference                       `armReference:"Id" json:"reference,omitempty"`
 	Subnet                                *ApiEntityReference                                 `json:"subnet,omitempty"`
 }
 
@@ -5377,9 +5263,6 @@ func (configuration *VirtualMachineScaleSetIPConfiguration) AssignPropertiesFrom
 	} else {
 		configuration.ApplicationSecurityGroups = nil
 	}
-
-	// Id
-	configuration.Id = genruntime.ClonePointerToString(source.Id)
 
 	// LoadBalancerBackendAddressPools
 	if source.LoadBalancerBackendAddressPools != nil {
@@ -5451,6 +5334,14 @@ func (configuration *VirtualMachineScaleSetIPConfiguration) AssignPropertiesFrom
 		configuration.PublicIPAddressConfiguration = &publicIPAddressConfiguration
 	} else {
 		configuration.PublicIPAddressConfiguration = nil
+	}
+
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		configuration.Reference = &reference
+	} else {
+		configuration.Reference = nil
 	}
 
 	// Subnet
@@ -5527,9 +5418,6 @@ func (configuration *VirtualMachineScaleSetIPConfiguration) AssignPropertiesToVi
 		destination.ApplicationSecurityGroups = nil
 	}
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(configuration.Id)
-
 	// LoadBalancerBackendAddressPools
 	if configuration.LoadBalancerBackendAddressPools != nil {
 		loadBalancerBackendAddressPoolList := make([]v20201201s.SubResource, len(configuration.LoadBalancerBackendAddressPools))
@@ -5600,6 +5488,14 @@ func (configuration *VirtualMachineScaleSetIPConfiguration) AssignPropertiesToVi
 		destination.PublicIPAddressConfiguration = &publicIPAddressConfiguration
 	} else {
 		destination.PublicIPAddressConfiguration = nil
+	}
+
+	// Reference
+	if configuration.Reference != nil {
+		reference := configuration.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
 	}
 
 	// Subnet

@@ -1,13 +1,11 @@
 | Type Definitions in package "operationalinsights" | v1alpha1api20210601 | v1beta20210601 |
 |---------------------------------------------------|---------------------|----------------|
 | APIVersion                                        | v1alpha1api20210601 | v1beta20210601 |
-| PrivateLinkScopedResource                         | v1alpha1api20210601 | v1beta20210601 |
 | PrivateLinkScopedResource_STATUS                  | v1alpha1api20210601 | v1beta20210601 |
 | PublicNetworkAccessType                           | v1alpha1api20210601 | v1beta20210601 |
 | PublicNetworkAccessType_STATUS                    | v1alpha1api20210601 | v1beta20210601 |
 | Workspace                                         | v1alpha1api20210601 | v1beta20210601 |
 | WorkspaceCapping                                  | v1alpha1api20210601 | v1beta20210601 |
-| WorkspaceCapping_DataIngestionStatus              | v1alpha1api20210601 | v1beta20210601 |
 | WorkspaceCapping_DataIngestionStatus_STATUS       | v1alpha1api20210601 | v1beta20210601 |
 | WorkspaceCapping_STATUS                           | v1alpha1api20210601 | v1beta20210601 |
 | WorkspaceFeatures                                 | v1alpha1api20210601 | v1beta20210601 |

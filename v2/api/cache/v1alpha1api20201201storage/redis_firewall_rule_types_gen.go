@@ -335,7 +335,6 @@ type RedisFirewallRule_Spec struct {
 	// doesn't have to be.
 	AzureName       string  `json:"azureName,omitempty"`
 	EndIP           *string `json:"endIP,omitempty"`
-	Id              *string `json:"id,omitempty"`
 	OriginalVersion string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -345,7 +344,6 @@ type RedisFirewallRule_Spec struct {
 	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	StartIP     *string                            `json:"startIP,omitempty"`
-	Type        *string                            `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &RedisFirewallRule_Spec{}
@@ -409,9 +407,6 @@ func (rule *RedisFirewallRule_Spec) AssignPropertiesFromRedisFirewallRule_Spec(s
 	// EndIP
 	rule.EndIP = genruntime.ClonePointerToString(source.EndIP)
 
-	// Id
-	rule.Id = genruntime.ClonePointerToString(source.Id)
-
 	// OriginalVersion
 	rule.OriginalVersion = source.OriginalVersion
 
@@ -425,9 +420,6 @@ func (rule *RedisFirewallRule_Spec) AssignPropertiesFromRedisFirewallRule_Spec(s
 
 	// StartIP
 	rule.StartIP = genruntime.ClonePointerToString(source.StartIP)
-
-	// Type
-	rule.Type = genruntime.ClonePointerToString(source.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -451,9 +443,6 @@ func (rule *RedisFirewallRule_Spec) AssignPropertiesToRedisFirewallRule_Spec(des
 	// EndIP
 	destination.EndIP = genruntime.ClonePointerToString(rule.EndIP)
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(rule.Id)
-
 	// OriginalVersion
 	destination.OriginalVersion = rule.OriginalVersion
 
@@ -467,9 +456,6 @@ func (rule *RedisFirewallRule_Spec) AssignPropertiesToRedisFirewallRule_Spec(des
 
 	// StartIP
 	destination.StartIP = genruntime.ClonePointerToString(rule.StartIP)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(rule.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

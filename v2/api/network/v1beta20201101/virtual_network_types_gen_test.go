@@ -407,17 +407,8 @@ func AddIndependentPropertyGeneratorsForVirtualNetwork_Spec(gens map[string]gopt
 	gens["AzureName"] = gen.AlphaString()
 	gens["EnableDdosProtection"] = gen.PtrOf(gen.Bool())
 	gens["EnableVmProtection"] = gen.PtrOf(gen.Bool())
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_Deleting,
-		ProvisioningState_Failed,
-		ProvisioningState_Succeeded,
-		ProvisioningState_Updating))
-	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForVirtualNetwork_Spec is a factory method for creating gopter generators
@@ -928,15 +919,9 @@ func Subnet_VirtualNetwork_SubResourceEmbeddedGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSubnet_VirtualNetwork_SubResourceEmbedded(generators)
 	subnet_VirtualNetwork_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(Subnet_VirtualNetwork_SubResourceEmbedded{}), generators)
 
 	return subnet_VirtualNetwork_SubResourceEmbeddedGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSubnet_VirtualNetwork_SubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSubnet_VirtualNetwork_SubResourceEmbedded(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_VirtualNetworkBgpCommunities_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1038,7 +1023,6 @@ func VirtualNetworkBgpCommunitiesGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunities is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunities(gens map[string]gopter.Gen) {
-	gens["RegionalCommunity"] = gen.PtrOf(gen.AlphaString())
 	gens["VirtualNetworkCommunity"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -1236,13 +1220,7 @@ func VirtualNetworkPeeringGenerator() gopter.Gen {
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualNetworkPeering(generators)
 	virtualNetworkPeeringGenerator = gen.Struct(reflect.TypeOf(VirtualNetworkPeering{}), generators)
 
 	return virtualNetworkPeeringGenerator
-}
-
-// AddIndependentPropertyGeneratorsForVirtualNetworkPeering is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualNetworkPeering(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }

@@ -6,28 +6,18 @@ package v1beta20201101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type RouteTable_SpecARM struct {
-	AzureName string `json:"azureName,omitempty"`
-
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
+	AzureName string  `json:"azureName,omitempty"`
+	Id        *string `json:"id,omitempty"`
 
 	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
-
-	// Name: Resource name.
-	Name string `json:"name,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
 	// Properties: Properties of the route table.
-	Properties *RouteTablePropertiesFormatARM `json:"properties,omitempty"`
+	Properties *RouteTablePropertiesFormat_RouteTable_SubResourceEmbeddedARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: Resource type.
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &RouteTable_SpecARM{}
@@ -47,29 +37,14 @@ func (table *RouteTable_SpecARM) GetType() string {
 	return ""
 }
 
-type RouteTablePropertiesFormatARM struct {
+type RouteTablePropertiesFormat_RouteTable_SubResourceEmbeddedARM struct {
 	// DisableBgpRoutePropagation: Whether to disable the routes learned by BGP on that route table. True means disable.
 	DisableBgpRoutePropagation *bool `json:"disableBgpRoutePropagation,omitempty"`
 
-	// ProvisioningState: The provisioning state of the route table resource.
-	ProvisioningState *ProvisioningState `json:"provisioningState,omitempty"`
-
-	// ResourceGuid: The resource GUID property of the route table.
-	ResourceGuid *string `json:"resourceGuid,omitempty"`
-
 	// Routes: Collection of routes contained within a route table.
-	Routes []RouteARM `json:"routes,omitempty"`
-
-	// Subnets: A collection of references to subnets.
-	Subnets []Subnet_RouteTable_SubResourceEmbeddedARM `json:"subnets,omitempty"`
+	Routes []Route_RouteTable_SubResourceEmbeddedARM `json:"routes,omitempty"`
 }
 
-type RouteARM struct {
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-}
-
-type Subnet_RouteTable_SubResourceEmbeddedARM struct {
-	// Id: Resource ID.
+type Route_RouteTable_SubResourceEmbeddedARM struct {
 	Id *string `json:"id,omitempty"`
 }

@@ -8,32 +8,22 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 type PublicIPAddress_SpecARM struct {
 	AzureName string `json:"azureName,omitempty"`
 
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
 	// ExtendedLocation: The extended location of the public ip address.
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
+	Id               *string              `json:"id,omitempty"`
 
 	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
-
-	// Name: Resource name.
-	Name string `json:"name,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
 	// Properties: Public IP address properties.
-	Properties *PublicIPAddressPropertiesFormatARM `json:"properties,omitempty"`
+	Properties *PublicIPAddressPropertiesFormat_SubResourceEmbeddedARM `json:"properties,omitempty"`
 
 	// Sku: The public IP address SKU.
 	Sku *PublicIPAddressSkuARM `json:"sku,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: Resource type.
-	Type *string `json:"type,omitempty"`
 
 	// Zones: A list of availability zones denoting the IP allocated for the resource needs to come from.
 	Zones []string `json:"zones,omitempty"`
@@ -56,7 +46,7 @@ func (address *PublicIPAddress_SpecARM) GetType() string {
 	return ""
 }
 
-type PublicIPAddressPropertiesFormatARM struct {
+type PublicIPAddressPropertiesFormat_SubResourceEmbeddedARM struct {
 	// DdosSettings: The DDoS protection custom policy associated with the public IP address.
 	DdosSettings *DdosSettingsARM `json:"ddosSettings,omitempty"`
 
@@ -69,23 +59,17 @@ type PublicIPAddressPropertiesFormatARM struct {
 	// IpAddress: The IP address associated with the public IP address resource.
 	IpAddress *string `json:"ipAddress,omitempty"`
 
-	// IpConfiguration: The IP configuration associated with the public IP address.
-	IpConfiguration *IPConfiguration_PublicIPAddress_SubResourceEmbeddedARM `json:"ipConfiguration,omitempty"`
-
 	// IpTags: The list of tags associated with the public IP address.
 	IpTags []IpTagARM `json:"ipTags,omitempty"`
 
 	// LinkedPublicIPAddress: The linked public IP address of the public IP address resource.
-	LinkedPublicIPAddress *PublicIPAddressSpec_PublicIPAddress_SubResourceEmbeddedARM `json:"linkedPublicIPAddress,omitempty"`
+	LinkedPublicIPAddress *PublicIPAddressSpec_SubResourceEmbeddedARM `json:"linkedPublicIPAddress,omitempty"`
 
 	// MigrationPhase: Migration phase of Public IP Address.
 	MigrationPhase *PublicIPAddressPropertiesFormat_MigrationPhase `json:"migrationPhase,omitempty"`
 
 	// NatGateway: The NatGateway for the Public IP address.
-	NatGateway *NatGatewaySpec_PublicIPAddress_SubResourceEmbeddedARM `json:"natGateway,omitempty"`
-
-	// ProvisioningState: The provisioning state of the public IP address resource.
-	ProvisioningState *ProvisioningState `json:"provisioningState,omitempty"`
+	NatGateway *NatGatewaySpecARM `json:"natGateway,omitempty"`
 
 	// PublicIPAddressVersion: The public IP address version.
 	PublicIPAddressVersion *IPVersion `json:"publicIPAddressVersion,omitempty"`
@@ -96,11 +80,8 @@ type PublicIPAddressPropertiesFormatARM struct {
 	// PublicIPPrefix: The Public IP Prefix this Public IP Address should be allocated from.
 	PublicIPPrefix *SubResourceARM `json:"publicIPPrefix,omitempty"`
 
-	// ResourceGuid: The resource GUID property of the public IP address resource.
-	ResourceGuid *string `json:"resourceGuid,omitempty"`
-
 	// ServicePublicIPAddress: The service public IP address of the public IP address resource.
-	ServicePublicIPAddress *PublicIPAddressSpec_PublicIPAddress_SubResourceEmbeddedARM `json:"servicePublicIPAddress,omitempty"`
+	ServicePublicIPAddress *PublicIPAddressSpec_SubResourceEmbeddedARM `json:"servicePublicIPAddress,omitempty"`
 }
 
 type PublicIPAddressSkuARM struct {
@@ -123,20 +104,6 @@ type DdosSettingsARM struct {
 	ProtectionCoverage *DdosSettings_ProtectionCoverage `json:"protectionCoverage,omitempty"`
 }
 
-type IPConfiguration_PublicIPAddress_SubResourceEmbeddedARM struct {
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
-	Name *string `json:"name,omitempty"`
-
-	// Properties: Properties of the IP configuration.
-	Properties *IPConfigurationPropertiesFormat_PublicIPAddress_SubResourceEmbeddedARM `json:"properties,omitempty"`
-}
-
 type IpTagARM struct {
 	// IpTagType: The IP tag type. Example: FirstPartyUsage.
 	IpTagType *string `json:"ipTagType,omitempty"`
@@ -145,12 +112,20 @@ type IpTagARM struct {
 	Tag *string `json:"tag,omitempty"`
 }
 
-type NatGatewaySpec_PublicIPAddress_SubResourceEmbeddedARM struct {
-	// Id: Resource ID.
+type NatGatewaySpecARM struct {
 	Id *string `json:"id,omitempty"`
+
+	// Location: Resource location.
+	Location *string `json:"location,omitempty"`
+
+	// Properties: Nat Gateway properties.
+	Properties *NatGatewayPropertiesFormatARM `json:"properties,omitempty"`
 
 	// Sku: The nat gateway SKU.
 	Sku *NatGatewaySkuARM `json:"sku,omitempty"`
+
+	// Tags: Resource tags.
+	Tags map[string]string `json:"tags,omitempty"`
 
 	// Zones: A list of availability zones denoting the zone in which Nat Gateway should be deployed.
 	Zones []string `json:"zones,omitempty"`
@@ -188,43 +163,40 @@ const (
 	PublicIPAddressSku_Tier_Regional = PublicIPAddressSku_Tier("Regional")
 )
 
-type PublicIPAddressSpec_PublicIPAddress_SubResourceEmbeddedARM struct {
+type PublicIPAddressSpec_SubResourceEmbeddedARM struct {
 	// ExtendedLocation: The extended location of the public ip address.
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
+	Id               *string              `json:"id,omitempty"`
 
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
+	// Location: Resource location.
+	Location *string `json:"location,omitempty"`
 
 	// Sku: The public IP address SKU.
 	Sku *PublicIPAddressSkuARM `json:"sku,omitempty"`
+
+	// Tags: Resource tags.
+	Tags map[string]string `json:"tags,omitempty"`
 
 	// Zones: A list of availability zones denoting the IP allocated for the resource needs to come from.
 	Zones []string `json:"zones,omitempty"`
 }
 
-type IPConfigurationPropertiesFormat_PublicIPAddress_SubResourceEmbeddedARM struct {
-	// PrivateIPAddress: The private IP address of the IP configuration.
-	PrivateIPAddress *string `json:"privateIPAddress,omitempty"`
+type SubResourceARM struct {
+	Id *string `json:"id,omitempty"`
+}
 
-	// PrivateIPAllocationMethod: The private IP address allocation method.
-	PrivateIPAllocationMethod *IPAllocationMethod `json:"privateIPAllocationMethod,omitempty"`
+type NatGatewayPropertiesFormatARM struct {
+	// IdleTimeoutInMinutes: The idle timeout of the nat gateway.
+	IdleTimeoutInMinutes *int `json:"idleTimeoutInMinutes,omitempty"`
 
-	// ProvisioningState: The provisioning state of the IP configuration resource.
-	ProvisioningState *ProvisioningState `json:"provisioningState,omitempty"`
+	// PublicIpAddresses: An array of public ip addresses associated with the nat gateway resource.
+	PublicIpAddresses []SubResourceARM `json:"publicIpAddresses,omitempty"`
 
-	// PublicIPAddress: The reference to the public IP resource.
-	PublicIPAddress *PublicIPAddressSpec_PublicIPAddress_SubResourceEmbeddedARM `json:"publicIPAddress,omitempty"`
-
-	// Subnet: The reference to the subnet resource.
-	Subnet *Subnet_PublicIPAddress_SubResourceEmbeddedARM `json:"subnet,omitempty"`
+	// PublicIpPrefixes: An array of public ip prefixes associated with the nat gateway resource.
+	PublicIpPrefixes []SubResourceARM `json:"publicIpPrefixes,omitempty"`
 }
 
 type NatGatewaySkuARM struct {
 	// Name: Name of Nat Gateway SKU.
 	Name *NatGatewaySku_Name `json:"name,omitempty"`
-}
-
-type Subnet_PublicIPAddress_SubResourceEmbeddedARM struct {
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
 }

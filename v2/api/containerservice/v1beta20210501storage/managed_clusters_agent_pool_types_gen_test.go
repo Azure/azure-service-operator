@@ -264,13 +264,11 @@ func AddIndependentPropertyGeneratorsForManagedClustersAgentPool_Spec(gens map[s
 	gens["EnableNodePublicIP"] = gen.PtrOf(gen.Bool())
 	gens["EnableUltraSSD"] = gen.PtrOf(gen.Bool())
 	gens["GpuInstanceProfile"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["KubeletDiskType"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxCount"] = gen.PtrOf(gen.Int())
 	gens["MaxPods"] = gen.PtrOf(gen.Int())
 	gens["MinCount"] = gen.PtrOf(gen.Int())
 	gens["Mode"] = gen.PtrOf(gen.AlphaString())
-	gens["NodeImageVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["NodeLabels"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["NodeTaints"] = gen.SliceOf(gen.AlphaString())
 	gens["OrchestratorVersion"] = gen.PtrOf(gen.AlphaString())
@@ -279,8 +277,6 @@ func AddIndependentPropertyGeneratorsForManagedClustersAgentPool_Spec(gens map[s
 	gens["OsDiskType"] = gen.PtrOf(gen.AlphaString())
 	gens["OsSKU"] = gen.PtrOf(gen.AlphaString())
 	gens["OsType"] = gen.PtrOf(gen.AlphaString())
-	gens["PropertiesType"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["ProximityPlacementGroupID"] = gen.PtrOf(gen.AlphaString())
 	gens["ScaleSetEvictionPolicy"] = gen.PtrOf(gen.AlphaString())
 	gens["ScaleSetPriority"] = gen.PtrOf(gen.AlphaString())
@@ -294,7 +290,6 @@ func AddIndependentPropertyGeneratorsForManagedClustersAgentPool_Spec(gens map[s
 func AddRelatedPropertyGeneratorsForManagedClustersAgentPool_Spec(gens map[string]gopter.Gen) {
 	gens["KubeletConfig"] = gen.PtrOf(KubeletConfigGenerator())
 	gens["LinuxOSConfig"] = gen.PtrOf(LinuxOSConfigGenerator())
-	gens["PowerState"] = gen.PtrOf(PowerStateGenerator())
 	gens["UpgradeSettings"] = gen.PtrOf(AgentPoolUpgradeSettingsGenerator())
 }
 

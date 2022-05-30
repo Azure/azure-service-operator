@@ -581,9 +581,6 @@ type DatabaseAccountsMongodbDatabasesCollection_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	// Id: The unique resource identifier of the ARM resource.
-	Id *string `json:"id,omitempty"`
-
 	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
@@ -601,9 +598,6 @@ type DatabaseAccountsMongodbDatabasesCollection_Spec struct {
 	// Resource: The standard JSON format of a MongoDB collection
 	Resource *MongoDBCollectionResource `json:"resource,omitempty"`
 	Tags     map[string]string          `json:"tags,omitempty"`
-
-	// Type: The type of Azure resource.
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DatabaseAccountsMongodbDatabasesCollection_Spec{}
@@ -617,12 +611,6 @@ func (collection *DatabaseAccountsMongodbDatabasesCollection_Spec) ConvertToARM(
 
 	// Set property ‘AzureName’:
 	result.AzureName = collection.AzureName
-
-	// Set property ‘Id’:
-	if collection.Id != nil {
-		id := *collection.Id
-		result.Id = &id
-	}
 
 	// Set property ‘Location’:
 	if collection.Location != nil {
@@ -661,12 +649,6 @@ func (collection *DatabaseAccountsMongodbDatabasesCollection_Spec) ConvertToARM(
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	if collection.Type != nil {
-		typeVar := *collection.Type
-		result.Type = &typeVar
-	}
 	return result, nil
 }
 
@@ -684,12 +666,6 @@ func (collection *DatabaseAccountsMongodbDatabasesCollection_Spec) PopulateFromA
 
 	// Set property ‘AzureName’:
 	collection.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		collection.Id = &id
-	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
@@ -736,12 +712,6 @@ func (collection *DatabaseAccountsMongodbDatabasesCollection_Spec) PopulateFromA
 		for key, value := range typedInput.Tags {
 			collection.Tags[key] = value
 		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		collection.Type = &typeVar
 	}
 
 	// No error
@@ -804,9 +774,6 @@ func (collection *DatabaseAccountsMongodbDatabasesCollection_Spec) AssignPropert
 	// AzureName
 	collection.AzureName = source.AzureName
 
-	// Id
-	collection.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Location
 	collection.Location = genruntime.ClonePointerToString(source.Location)
 
@@ -845,9 +812,6 @@ func (collection *DatabaseAccountsMongodbDatabasesCollection_Spec) AssignPropert
 	// Tags
 	collection.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
-	// Type
-	collection.Type = genruntime.ClonePointerToString(source.Type)
-
 	// No error
 	return nil
 }
@@ -859,9 +823,6 @@ func (collection *DatabaseAccountsMongodbDatabasesCollection_Spec) AssignPropert
 
 	// AzureName
 	destination.AzureName = collection.AzureName
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(collection.Id)
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(collection.Location)
@@ -903,9 +864,6 @@ func (collection *DatabaseAccountsMongodbDatabasesCollection_Spec) AssignPropert
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(collection.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(collection.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

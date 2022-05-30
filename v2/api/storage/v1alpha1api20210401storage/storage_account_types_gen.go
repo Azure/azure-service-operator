@@ -2431,9 +2431,7 @@ func (stats *GeoReplicationStats_STATUS) AssignPropertiesToGeoReplicationStats_S
 // Storage version of v1alpha1api20210401.Identity
 // Deprecated version of Identity. Use v1beta20210401.Identity instead
 type Identity struct {
-	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	TenantId    *string                `json:"tenantId,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
@@ -2441,12 +2439,6 @@ type Identity struct {
 func (identity *Identity) AssignPropertiesFromIdentity(source *v20210401s.Identity) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// PrincipalId
-	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// TenantId
-	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// Type
 	identity.Type = genruntime.ClonePointerToString(source.Type)
@@ -2466,12 +2458,6 @@ func (identity *Identity) AssignPropertiesFromIdentity(source *v20210401s.Identi
 func (identity *Identity) AssignPropertiesToIdentity(destination *v20210401s.Identity) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
-
-	// PrincipalId
-	destination.PrincipalId = genruntime.ClonePointerToString(identity.PrincipalId)
-
-	// TenantId
-	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(identity.Type)
@@ -4250,21 +4236,16 @@ func (rule *IPRule_STATUS) AssignPropertiesToIPRule_STATUS(destination *v2021040
 // Storage version of v1alpha1api20210401.KeyVaultProperties
 // Deprecated version of KeyVaultProperties. Use v1beta20210401.KeyVaultProperties instead
 type KeyVaultProperties struct {
-	CurrentVersionedKeyIdentifier *string                `json:"currentVersionedKeyIdentifier,omitempty"`
-	Keyname                       *string                `json:"keyname,omitempty"`
-	Keyvaulturi                   *string                `json:"keyvaulturi,omitempty"`
-	Keyversion                    *string                `json:"keyversion,omitempty"`
-	LastKeyRotationTimestamp      *string                `json:"lastKeyRotationTimestamp,omitempty"`
-	PropertyBag                   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Keyname     *string                `json:"keyname,omitempty"`
+	Keyvaulturi *string                `json:"keyvaulturi,omitempty"`
+	Keyversion  *string                `json:"keyversion,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // AssignPropertiesFromKeyVaultProperties populates our KeyVaultProperties from the provided source KeyVaultProperties
 func (properties *KeyVaultProperties) AssignPropertiesFromKeyVaultProperties(source *v20210401s.KeyVaultProperties) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// CurrentVersionedKeyIdentifier
-	properties.CurrentVersionedKeyIdentifier = genruntime.ClonePointerToString(source.CurrentVersionedKeyIdentifier)
 
 	// Keyname
 	properties.Keyname = genruntime.ClonePointerToString(source.Keyname)
@@ -4274,9 +4255,6 @@ func (properties *KeyVaultProperties) AssignPropertiesFromKeyVaultProperties(sou
 
 	// Keyversion
 	properties.Keyversion = genruntime.ClonePointerToString(source.Keyversion)
-
-	// LastKeyRotationTimestamp
-	properties.LastKeyRotationTimestamp = genruntime.ClonePointerToString(source.LastKeyRotationTimestamp)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4294,9 +4272,6 @@ func (properties *KeyVaultProperties) AssignPropertiesToKeyVaultProperties(desti
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(properties.PropertyBag)
 
-	// CurrentVersionedKeyIdentifier
-	destination.CurrentVersionedKeyIdentifier = genruntime.ClonePointerToString(properties.CurrentVersionedKeyIdentifier)
-
 	// Keyname
 	destination.Keyname = genruntime.ClonePointerToString(properties.Keyname)
 
@@ -4305,9 +4280,6 @@ func (properties *KeyVaultProperties) AssignPropertiesToKeyVaultProperties(desti
 
 	// Keyversion
 	destination.Keyversion = genruntime.ClonePointerToString(properties.Keyversion)
-
-	// LastKeyRotationTimestamp
-	destination.LastKeyRotationTimestamp = genruntime.ClonePointerToString(properties.LastKeyRotationTimestamp)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -5063,10 +5035,9 @@ func (restoreRange *BlobRestoreRange_STATUS) AssignPropertiesToBlobRestoreRange_
 // Storage version of v1alpha1api20210401.EncryptionService
 // Deprecated version of EncryptionService. Use v1beta20210401.EncryptionService instead
 type EncryptionService struct {
-	Enabled         *bool                  `json:"enabled,omitempty"`
-	KeyType         *string                `json:"keyType,omitempty"`
-	LastEnabledTime *string                `json:"lastEnabledTime,omitempty"`
-	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Enabled     *bool                  `json:"enabled,omitempty"`
+	KeyType     *string                `json:"keyType,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // AssignPropertiesFromEncryptionService populates our EncryptionService from the provided source EncryptionService
@@ -5084,9 +5055,6 @@ func (service *EncryptionService) AssignPropertiesFromEncryptionService(source *
 
 	// KeyType
 	service.KeyType = genruntime.ClonePointerToString(source.KeyType)
-
-	// LastEnabledTime
-	service.LastEnabledTime = genruntime.ClonePointerToString(source.LastEnabledTime)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -5114,9 +5082,6 @@ func (service *EncryptionService) AssignPropertiesToEncryptionService(destinatio
 
 	// KeyType
 	destination.KeyType = genruntime.ClonePointerToString(service.KeyType)
-
-	// LastEnabledTime
-	destination.LastEnabledTime = genruntime.ClonePointerToString(service.LastEnabledTime)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

@@ -1130,15 +1130,8 @@ type FlexibleServer_Spec struct {
 	// DataEncryption: The Data Encryption for CMK.
 	DataEncryption *DataEncryption `json:"dataEncryption,omitempty"`
 
-	// FullyQualifiedDomainName: The fully qualified domain name of a server.
-	FullyQualifiedDomainName *string `json:"fullyQualifiedDomainName,omitempty"`
-
 	// HighAvailability: High availability related properties of a server.
 	HighAvailability *HighAvailability `json:"highAvailability,omitempty"`
-
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
 
 	// Identity: The cmk identity for the server.
 	Identity *Identity `json:"identity,omitempty"`
@@ -1163,10 +1156,6 @@ type FlexibleServer_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
-	// +kubebuilder:validation:Minimum=0
-	// ReplicaCapacity: The maximum number of replicas that a primary server can have.
-	ReplicaCapacity *int `json:"replicaCapacity,omitempty"`
-
 	// ReplicationRole: The replication role.
 	ReplicationRole *ReplicationRole `json:"replicationRole,omitempty"`
 
@@ -1179,20 +1168,11 @@ type FlexibleServer_Spec struct {
 	// SourceServerResourceId: The source MySQL server id.
 	SourceServerResourceId *string `json:"sourceServerResourceId,omitempty"`
 
-	// State: The state of a server.
-	State *ServerProperties_State `json:"state,omitempty"`
-
 	// Storage: Storage related properties of a server.
 	Storage *Storage `json:"storage,omitempty"`
 
-	// SystemData: The system metadata relating to this resource.
-	SystemData *SystemData `json:"systemData,omitempty"`
-
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
 
 	// Version: Server version.
 	Version *ServerVersion `json:"version,omitempty"`
@@ -1209,12 +1189,6 @@ func (server *FlexibleServer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property ‘AzureName’:
 	result.AzureName = server.AzureName
-
-	// Set property ‘Id’:
-	if server.Id != nil {
-		id := *server.Id
-		result.Id = &id
-	}
 
 	// Set property ‘Identity’:
 	if server.Identity != nil {
@@ -1242,15 +1216,12 @@ func (server *FlexibleServer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		server.Backup != nil ||
 		server.CreateMode != nil ||
 		server.DataEncryption != nil ||
-		server.FullyQualifiedDomainName != nil ||
 		server.HighAvailability != nil ||
 		server.MaintenanceWindow != nil ||
 		server.Network != nil ||
-		server.ReplicaCapacity != nil ||
 		server.ReplicationRole != nil ||
 		server.RestorePointInTime != nil ||
 		server.SourceServerResourceId != nil ||
-		server.State != nil ||
 		server.Storage != nil ||
 		server.Version != nil {
 		result.Properties = &ServerPropertiesARM{}
@@ -1291,10 +1262,6 @@ func (server *FlexibleServer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		dataEncryption := *dataEncryptionARM.(*DataEncryptionARM)
 		result.Properties.DataEncryption = &dataEncryption
 	}
-	if server.FullyQualifiedDomainName != nil {
-		fullyQualifiedDomainName := *server.FullyQualifiedDomainName
-		result.Properties.FullyQualifiedDomainName = &fullyQualifiedDomainName
-	}
 	if server.HighAvailability != nil {
 		highAvailabilityARM, err := (*server.HighAvailability).ConvertToARM(resolved)
 		if err != nil {
@@ -1319,10 +1286,6 @@ func (server *FlexibleServer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		network := *networkARM.(*NetworkARM)
 		result.Properties.Network = &network
 	}
-	if server.ReplicaCapacity != nil {
-		replicaCapacity := *server.ReplicaCapacity
-		result.Properties.ReplicaCapacity = &replicaCapacity
-	}
 	if server.ReplicationRole != nil {
 		replicationRole := *server.ReplicationRole
 		result.Properties.ReplicationRole = &replicationRole
@@ -1334,10 +1297,6 @@ func (server *FlexibleServer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	if server.SourceServerResourceId != nil {
 		sourceServerResourceId := *server.SourceServerResourceId
 		result.Properties.SourceServerResourceId = &sourceServerResourceId
-	}
-	if server.State != nil {
-		state := *server.State
-		result.Properties.State = &state
 	}
 	if server.Storage != nil {
 		storageARM, err := (*server.Storage).ConvertToARM(resolved)
@@ -1362,28 +1321,12 @@ func (server *FlexibleServer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		result.Sku = &sku
 	}
 
-	// Set property ‘SystemData’:
-	if server.SystemData != nil {
-		systemDataARM, err := (*server.SystemData).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		systemData := *systemDataARM.(*SystemDataARM)
-		result.SystemData = &systemData
-	}
-
 	// Set property ‘Tags’:
 	if server.Tags != nil {
 		result.Tags = make(map[string]string)
 		for key, value := range server.Tags {
 			result.Tags[key] = value
 		}
-	}
-
-	// Set property ‘Type’:
-	if server.Type != nil {
-		typeVar := *server.Type
-		result.Type = &typeVar
 	}
 	return result, nil
 }
@@ -1460,15 +1403,6 @@ func (server *FlexibleServer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘FullyQualifiedDomainName’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.FullyQualifiedDomainName != nil {
-			fullyQualifiedDomainName := *typedInput.Properties.FullyQualifiedDomainName
-			server.FullyQualifiedDomainName = &fullyQualifiedDomainName
-		}
-	}
-
 	// Set property ‘HighAvailability’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -1481,12 +1415,6 @@ func (server *FlexibleServer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 			highAvailability := highAvailability1
 			server.HighAvailability = &highAvailability
 		}
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		server.Id = &id
 	}
 
 	// Set property ‘Identity’:
@@ -1541,15 +1469,6 @@ func (server *FlexibleServer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		Name: owner.Name,
 	}
 
-	// Set property ‘ReplicaCapacity’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ReplicaCapacity != nil {
-			replicaCapacity := *typedInput.Properties.ReplicaCapacity
-			server.ReplicaCapacity = &replicaCapacity
-		}
-	}
-
 	// Set property ‘ReplicationRole’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -1588,15 +1507,6 @@ func (server *FlexibleServer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘State’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.State != nil {
-			state := *typedInput.Properties.State
-			server.State = &state
-		}
-	}
-
 	// Set property ‘Storage’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -1611,29 +1521,12 @@ func (server *FlexibleServer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘SystemData’:
-	if typedInput.SystemData != nil {
-		var systemData1 SystemData
-		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
-		if err != nil {
-			return err
-		}
-		systemData := systemData1
-		server.SystemData = &systemData
-	}
-
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
 		server.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
 			server.Tags[key] = value
 		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		server.Type = &typeVar
 	}
 
 	// Set property ‘Version’:
@@ -1751,9 +1644,6 @@ func (server *FlexibleServer_Spec) AssignPropertiesFromFlexibleServer_Spec(sourc
 		server.DataEncryption = nil
 	}
 
-	// FullyQualifiedDomainName
-	server.FullyQualifiedDomainName = genruntime.ClonePointerToString(source.FullyQualifiedDomainName)
-
 	// HighAvailability
 	if source.HighAvailability != nil {
 		var highAvailability HighAvailability
@@ -1765,9 +1655,6 @@ func (server *FlexibleServer_Spec) AssignPropertiesFromFlexibleServer_Spec(sourc
 	} else {
 		server.HighAvailability = nil
 	}
-
-	// Id
-	server.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Identity
 	if source.Identity != nil {
@@ -1828,14 +1715,6 @@ func (server *FlexibleServer_Spec) AssignPropertiesFromFlexibleServer_Spec(sourc
 		server.Owner = nil
 	}
 
-	// ReplicaCapacity
-	if source.ReplicaCapacity != nil {
-		replicaCapacity := *source.ReplicaCapacity
-		server.ReplicaCapacity = &replicaCapacity
-	} else {
-		server.ReplicaCapacity = nil
-	}
-
 	// ReplicationRole
 	if source.ReplicationRole != nil {
 		replicationRole := ReplicationRole(*source.ReplicationRole)
@@ -1867,14 +1746,6 @@ func (server *FlexibleServer_Spec) AssignPropertiesFromFlexibleServer_Spec(sourc
 	// SourceServerResourceId
 	server.SourceServerResourceId = genruntime.ClonePointerToString(source.SourceServerResourceId)
 
-	// State
-	if source.State != nil {
-		state := ServerProperties_State(*source.State)
-		server.State = &state
-	} else {
-		server.State = nil
-	}
-
 	// Storage
 	if source.Storage != nil {
 		var storage Storage
@@ -1887,23 +1758,8 @@ func (server *FlexibleServer_Spec) AssignPropertiesFromFlexibleServer_Spec(sourc
 		server.Storage = nil
 	}
 
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
-		}
-		server.SystemData = &systemDatum
-	} else {
-		server.SystemData = nil
-	}
-
 	// Tags
 	server.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	server.Type = genruntime.ClonePointerToString(source.Type)
 
 	// Version
 	if source.Version != nil {
@@ -1971,9 +1827,6 @@ func (server *FlexibleServer_Spec) AssignPropertiesToFlexibleServer_Spec(destina
 		destination.DataEncryption = nil
 	}
 
-	// FullyQualifiedDomainName
-	destination.FullyQualifiedDomainName = genruntime.ClonePointerToString(server.FullyQualifiedDomainName)
-
 	// HighAvailability
 	if server.HighAvailability != nil {
 		var highAvailability v20210501s.HighAvailability
@@ -1985,9 +1838,6 @@ func (server *FlexibleServer_Spec) AssignPropertiesToFlexibleServer_Spec(destina
 	} else {
 		destination.HighAvailability = nil
 	}
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(server.Id)
 
 	// Identity
 	if server.Identity != nil {
@@ -2051,14 +1901,6 @@ func (server *FlexibleServer_Spec) AssignPropertiesToFlexibleServer_Spec(destina
 		destination.Owner = nil
 	}
 
-	// ReplicaCapacity
-	if server.ReplicaCapacity != nil {
-		replicaCapacity := *server.ReplicaCapacity
-		destination.ReplicaCapacity = &replicaCapacity
-	} else {
-		destination.ReplicaCapacity = nil
-	}
-
 	// ReplicationRole
 	if server.ReplicationRole != nil {
 		replicationRole := string(*server.ReplicationRole)
@@ -2090,14 +1932,6 @@ func (server *FlexibleServer_Spec) AssignPropertiesToFlexibleServer_Spec(destina
 	// SourceServerResourceId
 	destination.SourceServerResourceId = genruntime.ClonePointerToString(server.SourceServerResourceId)
 
-	// State
-	if server.State != nil {
-		state := string(*server.State)
-		destination.State = &state
-	} else {
-		destination.State = nil
-	}
-
 	// Storage
 	if server.Storage != nil {
 		var storage v20210501s.Storage
@@ -2110,23 +1944,8 @@ func (server *FlexibleServer_Spec) AssignPropertiesToFlexibleServer_Spec(destina
 		destination.Storage = nil
 	}
 
-	// SystemData
-	if server.SystemData != nil {
-		var systemDatum v20210501s.SystemData
-		err := server.SystemData.AssignPropertiesToSystemData(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(server.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(server.Type)
 
 	// Version
 	if server.Version != nil {
@@ -2159,9 +1978,6 @@ type Backup struct {
 	// BackupRetentionDays: Backup retention days for the server.
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
 
-	// EarliestRestoreDate: Earliest restore point creation time (ISO8601 format)
-	EarliestRestoreDate *string `json:"earliestRestoreDate,omitempty"`
-
 	// GeoRedundantBackup: Whether or not geo redundant backup is enabled.
 	GeoRedundantBackup *EnableStatusEnum `json:"geoRedundantBackup,omitempty"`
 }
@@ -2179,12 +1995,6 @@ func (backup *Backup) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 	if backup.BackupRetentionDays != nil {
 		backupRetentionDays := *backup.BackupRetentionDays
 		result.BackupRetentionDays = &backupRetentionDays
-	}
-
-	// Set property ‘EarliestRestoreDate’:
-	if backup.EarliestRestoreDate != nil {
-		earliestRestoreDate := *backup.EarliestRestoreDate
-		result.EarliestRestoreDate = &earliestRestoreDate
 	}
 
 	// Set property ‘GeoRedundantBackup’:
@@ -2213,12 +2023,6 @@ func (backup *Backup) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, 
 		backup.BackupRetentionDays = &backupRetentionDays
 	}
 
-	// Set property ‘EarliestRestoreDate’:
-	if typedInput.EarliestRestoreDate != nil {
-		earliestRestoreDate := *typedInput.EarliestRestoreDate
-		backup.EarliestRestoreDate = &earliestRestoreDate
-	}
-
 	// Set property ‘GeoRedundantBackup’:
 	if typedInput.GeoRedundantBackup != nil {
 		geoRedundantBackup := *typedInput.GeoRedundantBackup
@@ -2234,14 +2038,6 @@ func (backup *Backup) AssignPropertiesFromBackup(source *v20210501s.Backup) erro
 
 	// BackupRetentionDays
 	backup.BackupRetentionDays = genruntime.ClonePointerToInt(source.BackupRetentionDays)
-
-	// EarliestRestoreDate
-	if source.EarliestRestoreDate != nil {
-		earliestRestoreDate := *source.EarliestRestoreDate
-		backup.EarliestRestoreDate = &earliestRestoreDate
-	} else {
-		backup.EarliestRestoreDate = nil
-	}
 
 	// GeoRedundantBackup
 	if source.GeoRedundantBackup != nil {
@@ -2262,14 +2058,6 @@ func (backup *Backup) AssignPropertiesToBackup(destination *v20210501s.Backup) e
 
 	// BackupRetentionDays
 	destination.BackupRetentionDays = genruntime.ClonePointerToInt(backup.BackupRetentionDays)
-
-	// EarliestRestoreDate
-	if backup.EarliestRestoreDate != nil {
-		earliestRestoreDate := *backup.EarliestRestoreDate
-		destination.EarliestRestoreDate = &earliestRestoreDate
-	} else {
-		destination.EarliestRestoreDate = nil
-	}
 
 	// GeoRedundantBackup
 	if backup.GeoRedundantBackup != nil {
@@ -2392,15 +2180,15 @@ type DataEncryption struct {
 	// GeoBackupKeyUri: Geo backup key uri as key vault can't cross region, need cmk in same region as geo backup
 	GeoBackupKeyUri *string `json:"geoBackupKeyUri,omitempty"`
 
-	// GeoBackupUserAssignedIdentityId: Geo backup user identity resource id as identity can't cross region, need identity in
-	// same region as geo backup
-	GeoBackupUserAssignedIdentityId *string `json:"geoBackupUserAssignedIdentityId,omitempty"`
+	// GeoBackupUserAssignedIdentityReference: Geo backup user identity resource id as identity can't cross region, need
+	// identity in same region as geo backup
+	GeoBackupUserAssignedIdentityReference *genruntime.ResourceReference `armReference:"GeoBackupUserAssignedIdentityId" json:"geoBackupUserAssignedIdentityReference,omitempty"`
 
 	// PrimaryKeyUri: Primary key uri
 	PrimaryKeyUri *string `json:"primaryKeyUri,omitempty"`
 
-	// PrimaryUserAssignedIdentityId: Primary user identity resource id
-	PrimaryUserAssignedIdentityId *string `json:"primaryUserAssignedIdentityId,omitempty"`
+	// PrimaryUserAssignedIdentityReference: Primary user identity resource id
+	PrimaryUserAssignedIdentityReference *genruntime.ResourceReference `armReference:"PrimaryUserAssignedIdentityId" json:"primaryUserAssignedIdentityReference,omitempty"`
 
 	// Type: The key type, AzureKeyVault for enable cmk, SystemManaged for disable cmk.
 	Type *DataEncryption_Type `json:"type,omitempty"`
@@ -2422,9 +2210,13 @@ func (encryption *DataEncryption) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 
 	// Set property ‘GeoBackupUserAssignedIdentityId’:
-	if encryption.GeoBackupUserAssignedIdentityId != nil {
-		geoBackupUserAssignedIdentityId := *encryption.GeoBackupUserAssignedIdentityId
-		result.GeoBackupUserAssignedIdentityId = &geoBackupUserAssignedIdentityId
+	if encryption.GeoBackupUserAssignedIdentityReference != nil {
+		geoBackupUserAssignedIdentityReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*encryption.GeoBackupUserAssignedIdentityReference)
+		if err != nil {
+			return nil, err
+		}
+		geoBackupUserAssignedIdentityReference := geoBackupUserAssignedIdentityReferenceARMID
+		result.GeoBackupUserAssignedIdentityId = &geoBackupUserAssignedIdentityReference
 	}
 
 	// Set property ‘PrimaryKeyUri’:
@@ -2434,9 +2226,13 @@ func (encryption *DataEncryption) ConvertToARM(resolved genruntime.ConvertToARMR
 	}
 
 	// Set property ‘PrimaryUserAssignedIdentityId’:
-	if encryption.PrimaryUserAssignedIdentityId != nil {
-		primaryUserAssignedIdentityId := *encryption.PrimaryUserAssignedIdentityId
-		result.PrimaryUserAssignedIdentityId = &primaryUserAssignedIdentityId
+	if encryption.PrimaryUserAssignedIdentityReference != nil {
+		primaryUserAssignedIdentityReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*encryption.PrimaryUserAssignedIdentityReference)
+		if err != nil {
+			return nil, err
+		}
+		primaryUserAssignedIdentityReference := primaryUserAssignedIdentityReferenceARMID
+		result.PrimaryUserAssignedIdentityId = &primaryUserAssignedIdentityReference
 	}
 
 	// Set property ‘Type’:
@@ -2465,11 +2261,7 @@ func (encryption *DataEncryption) PopulateFromARM(owner genruntime.ArbitraryOwne
 		encryption.GeoBackupKeyUri = &geoBackupKeyUri
 	}
 
-	// Set property ‘GeoBackupUserAssignedIdentityId’:
-	if typedInput.GeoBackupUserAssignedIdentityId != nil {
-		geoBackupUserAssignedIdentityId := *typedInput.GeoBackupUserAssignedIdentityId
-		encryption.GeoBackupUserAssignedIdentityId = &geoBackupUserAssignedIdentityId
-	}
+	// no assignment for property ‘GeoBackupUserAssignedIdentityReference’
 
 	// Set property ‘PrimaryKeyUri’:
 	if typedInput.PrimaryKeyUri != nil {
@@ -2477,11 +2269,7 @@ func (encryption *DataEncryption) PopulateFromARM(owner genruntime.ArbitraryOwne
 		encryption.PrimaryKeyUri = &primaryKeyUri
 	}
 
-	// Set property ‘PrimaryUserAssignedIdentityId’:
-	if typedInput.PrimaryUserAssignedIdentityId != nil {
-		primaryUserAssignedIdentityId := *typedInput.PrimaryUserAssignedIdentityId
-		encryption.PrimaryUserAssignedIdentityId = &primaryUserAssignedIdentityId
-	}
+	// no assignment for property ‘PrimaryUserAssignedIdentityReference’
 
 	// Set property ‘Type’:
 	if typedInput.Type != nil {
@@ -2499,14 +2287,24 @@ func (encryption *DataEncryption) AssignPropertiesFromDataEncryption(source *v20
 	// GeoBackupKeyUri
 	encryption.GeoBackupKeyUri = genruntime.ClonePointerToString(source.GeoBackupKeyUri)
 
-	// GeoBackupUserAssignedIdentityId
-	encryption.GeoBackupUserAssignedIdentityId = genruntime.ClonePointerToString(source.GeoBackupUserAssignedIdentityId)
+	// GeoBackupUserAssignedIdentityReference
+	if source.GeoBackupUserAssignedIdentityReference != nil {
+		geoBackupUserAssignedIdentityReference := source.GeoBackupUserAssignedIdentityReference.Copy()
+		encryption.GeoBackupUserAssignedIdentityReference = &geoBackupUserAssignedIdentityReference
+	} else {
+		encryption.GeoBackupUserAssignedIdentityReference = nil
+	}
 
 	// PrimaryKeyUri
 	encryption.PrimaryKeyUri = genruntime.ClonePointerToString(source.PrimaryKeyUri)
 
-	// PrimaryUserAssignedIdentityId
-	encryption.PrimaryUserAssignedIdentityId = genruntime.ClonePointerToString(source.PrimaryUserAssignedIdentityId)
+	// PrimaryUserAssignedIdentityReference
+	if source.PrimaryUserAssignedIdentityReference != nil {
+		primaryUserAssignedIdentityReference := source.PrimaryUserAssignedIdentityReference.Copy()
+		encryption.PrimaryUserAssignedIdentityReference = &primaryUserAssignedIdentityReference
+	} else {
+		encryption.PrimaryUserAssignedIdentityReference = nil
+	}
 
 	// Type
 	if source.Type != nil {
@@ -2528,14 +2326,24 @@ func (encryption *DataEncryption) AssignPropertiesToDataEncryption(destination *
 	// GeoBackupKeyUri
 	destination.GeoBackupKeyUri = genruntime.ClonePointerToString(encryption.GeoBackupKeyUri)
 
-	// GeoBackupUserAssignedIdentityId
-	destination.GeoBackupUserAssignedIdentityId = genruntime.ClonePointerToString(encryption.GeoBackupUserAssignedIdentityId)
+	// GeoBackupUserAssignedIdentityReference
+	if encryption.GeoBackupUserAssignedIdentityReference != nil {
+		geoBackupUserAssignedIdentityReference := encryption.GeoBackupUserAssignedIdentityReference.Copy()
+		destination.GeoBackupUserAssignedIdentityReference = &geoBackupUserAssignedIdentityReference
+	} else {
+		destination.GeoBackupUserAssignedIdentityReference = nil
+	}
 
 	// PrimaryKeyUri
 	destination.PrimaryKeyUri = genruntime.ClonePointerToString(encryption.PrimaryKeyUri)
 
-	// PrimaryUserAssignedIdentityId
-	destination.PrimaryUserAssignedIdentityId = genruntime.ClonePointerToString(encryption.PrimaryUserAssignedIdentityId)
+	// PrimaryUserAssignedIdentityReference
+	if encryption.PrimaryUserAssignedIdentityReference != nil {
+		primaryUserAssignedIdentityReference := encryption.PrimaryUserAssignedIdentityReference.Copy()
+		destination.PrimaryUserAssignedIdentityReference = &primaryUserAssignedIdentityReference
+	} else {
+		destination.PrimaryUserAssignedIdentityReference = nil
+	}
 
 	// Type
 	if encryption.Type != nil {
@@ -2744,9 +2552,6 @@ type HighAvailability struct {
 
 	// StandbyAvailabilityZone: Availability zone of the standby server.
 	StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
-
-	// State: The state of server high availability.
-	State *HighAvailability_State `json:"state,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &HighAvailability{}
@@ -2768,12 +2573,6 @@ func (availability *HighAvailability) ConvertToARM(resolved genruntime.ConvertTo
 	if availability.StandbyAvailabilityZone != nil {
 		standbyAvailabilityZone := *availability.StandbyAvailabilityZone
 		result.StandbyAvailabilityZone = &standbyAvailabilityZone
-	}
-
-	// Set property ‘State’:
-	if availability.State != nil {
-		state := *availability.State
-		result.State = &state
 	}
 	return result, nil
 }
@@ -2802,12 +2601,6 @@ func (availability *HighAvailability) PopulateFromARM(owner genruntime.Arbitrary
 		availability.StandbyAvailabilityZone = &standbyAvailabilityZone
 	}
 
-	// Set property ‘State’:
-	if typedInput.State != nil {
-		state := *typedInput.State
-		availability.State = &state
-	}
-
 	// No error
 	return nil
 }
@@ -2825,14 +2618,6 @@ func (availability *HighAvailability) AssignPropertiesFromHighAvailability(sourc
 
 	// StandbyAvailabilityZone
 	availability.StandbyAvailabilityZone = genruntime.ClonePointerToString(source.StandbyAvailabilityZone)
-
-	// State
-	if source.State != nil {
-		state := HighAvailability_State(*source.State)
-		availability.State = &state
-	} else {
-		availability.State = nil
-	}
 
 	// No error
 	return nil
@@ -2853,14 +2638,6 @@ func (availability *HighAvailability) AssignPropertiesToHighAvailability(destina
 
 	// StandbyAvailabilityZone
 	destination.StandbyAvailabilityZone = genruntime.ClonePointerToString(availability.StandbyAvailabilityZone)
-
-	// State
-	if availability.State != nil {
-		state := string(*availability.State)
-		destination.State = &state
-	} else {
-		destination.State = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2982,12 +2759,6 @@ func (availability *HighAvailability_STATUS) AssignPropertiesToHighAvailability_
 }
 
 type Identity struct {
-	// PrincipalId: ObjectId from the KeyVault
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	// TenantId: TenantId from the KeyVault
-	TenantId *string `json:"tenantId,omitempty"`
-
 	// Type: Type of managed service identity.
 	Type *Identity_Type `json:"type,omitempty"`
 
@@ -3003,18 +2774,6 @@ func (identity *Identity) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 		return nil, nil
 	}
 	result := &IdentityARM{}
-
-	// Set property ‘PrincipalId’:
-	if identity.PrincipalId != nil {
-		principalId := *identity.PrincipalId
-		result.PrincipalId = &principalId
-	}
-
-	// Set property ‘TenantId’:
-	if identity.TenantId != nil {
-		tenantId := *identity.TenantId
-		result.TenantId = &tenantId
-	}
 
 	// Set property ‘Type’:
 	if identity.Type != nil {
@@ -3044,18 +2803,6 @@ func (identity *Identity) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IdentityARM, got %T", armInput)
 	}
 
-	// Set property ‘PrincipalId’:
-	if typedInput.PrincipalId != nil {
-		principalId := *typedInput.PrincipalId
-		identity.PrincipalId = &principalId
-	}
-
-	// Set property ‘TenantId’:
-	if typedInput.TenantId != nil {
-		tenantId := *typedInput.TenantId
-		identity.TenantId = &tenantId
-	}
-
 	// Set property ‘Type’:
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
@@ -3076,12 +2823,6 @@ func (identity *Identity) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 
 // AssignPropertiesFromIdentity populates our Identity from the provided source Identity
 func (identity *Identity) AssignPropertiesFromIdentity(source *v20210501s.Identity) error {
-
-	// PrincipalId
-	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// TenantId
-	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// Type
 	if source.Type != nil {
@@ -3112,12 +2853,6 @@ func (identity *Identity) AssignPropertiesFromIdentity(source *v20210501s.Identi
 func (identity *Identity) AssignPropertiesToIdentity(destination *v20210501s.Identity) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
-
-	// PrincipalId
-	destination.PrincipalId = genruntime.ClonePointerToString(identity.PrincipalId)
-
-	// TenantId
-	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
 
 	// Type
 	if identity.Type != nil {
@@ -3531,10 +3266,6 @@ type Network struct {
 
 	// PrivateDnsZoneResourceReference: Private DNS zone resource id.
 	PrivateDnsZoneResourceReference *genruntime.ResourceReference `armReference:"PrivateDnsZoneResourceId" json:"privateDnsZoneResourceReference,omitempty"`
-
-	// PublicNetworkAccess: Whether or not public network access is allowed for this server. Value is 'Disabled' when server
-	// has VNet integration.
-	PublicNetworkAccess *EnableStatusEnum `json:"publicNetworkAccess,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Network{}
@@ -3565,12 +3296,6 @@ func (network *Network) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 		privateDnsZoneResourceReference := privateDnsZoneResourceReferenceARMID
 		result.PrivateDnsZoneResourceId = &privateDnsZoneResourceReference
 	}
-
-	// Set property ‘PublicNetworkAccess’:
-	if network.PublicNetworkAccess != nil {
-		publicNetworkAccess := *network.PublicNetworkAccess
-		result.PublicNetworkAccess = &publicNetworkAccess
-	}
 	return result, nil
 }
 
@@ -3581,7 +3306,7 @@ func (network *Network) NewEmptyARMValue() genruntime.ARMResourceStatus {
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (network *Network) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(NetworkARM)
+	_, ok := armInput.(NetworkARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkARM, got %T", armInput)
 	}
@@ -3589,12 +3314,6 @@ func (network *Network) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 	// no assignment for property ‘DelegatedSubnetResourceReference’
 
 	// no assignment for property ‘PrivateDnsZoneResourceReference’
-
-	// Set property ‘PublicNetworkAccess’:
-	if typedInput.PublicNetworkAccess != nil {
-		publicNetworkAccess := *typedInput.PublicNetworkAccess
-		network.PublicNetworkAccess = &publicNetworkAccess
-	}
 
 	// No error
 	return nil
@@ -3617,14 +3336,6 @@ func (network *Network) AssignPropertiesFromNetwork(source *v20210501s.Network) 
 		network.PrivateDnsZoneResourceReference = &privateDnsZoneResourceReference
 	} else {
 		network.PrivateDnsZoneResourceReference = nil
-	}
-
-	// PublicNetworkAccess
-	if source.PublicNetworkAccess != nil {
-		publicNetworkAccess := EnableStatusEnum(*source.PublicNetworkAccess)
-		network.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		network.PublicNetworkAccess = nil
 	}
 
 	// No error
@@ -3650,14 +3361,6 @@ func (network *Network) AssignPropertiesToNetwork(destination *v20210501s.Networ
 		destination.PrivateDnsZoneResourceReference = &privateDnsZoneResourceReference
 	} else {
 		destination.PrivateDnsZoneResourceReference = nil
-	}
-
-	// PublicNetworkAccess
-	if network.PublicNetworkAccess != nil {
-		publicNetworkAccess := string(*network.PublicNetworkAccess)
-		destination.PublicNetworkAccess = &publicNetworkAccess
-	} else {
-		destination.PublicNetworkAccess = nil
 	}
 
 	// Update the property bag
@@ -3804,19 +3507,6 @@ const (
 	ServerProperties_CreateMode_GeoRestore_STATUS         = ServerProperties_CreateMode_STATUS("GeoRestore")
 	ServerProperties_CreateMode_PointInTimeRestore_STATUS = ServerProperties_CreateMode_STATUS("PointInTimeRestore")
 	ServerProperties_CreateMode_Replica_STATUS            = ServerProperties_CreateMode_STATUS("Replica")
-)
-
-// +kubebuilder:validation:Enum={"Disabled","Dropping","Ready","Starting","Stopped","Stopping","Updating"}
-type ServerProperties_State string
-
-const (
-	ServerProperties_State_Disabled = ServerProperties_State("Disabled")
-	ServerProperties_State_Dropping = ServerProperties_State("Dropping")
-	ServerProperties_State_Ready    = ServerProperties_State("Ready")
-	ServerProperties_State_Starting = ServerProperties_State("Starting")
-	ServerProperties_State_Stopped  = ServerProperties_State("Stopped")
-	ServerProperties_State_Stopping = ServerProperties_State("Stopping")
-	ServerProperties_State_Updating = ServerProperties_State("Updating")
 )
 
 type ServerProperties_State_STATUS string
@@ -4044,9 +3734,6 @@ type Storage struct {
 
 	// StorageSizeGB: Max storage size allowed for a server.
 	StorageSizeGB *int `json:"storageSizeGB,omitempty"`
-
-	// StorageSku: The sku name of the server storage.
-	StorageSku *string `json:"storageSku,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Storage{}
@@ -4074,12 +3761,6 @@ func (storage *Storage) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	if storage.StorageSizeGB != nil {
 		storageSizeGB := *storage.StorageSizeGB
 		result.StorageSizeGB = &storageSizeGB
-	}
-
-	// Set property ‘StorageSku’:
-	if storage.StorageSku != nil {
-		storageSku := *storage.StorageSku
-		result.StorageSku = &storageSku
 	}
 	return result, nil
 }
@@ -4114,12 +3795,6 @@ func (storage *Storage) PopulateFromARM(owner genruntime.ArbitraryOwnerReference
 		storage.StorageSizeGB = &storageSizeGB
 	}
 
-	// Set property ‘StorageSku’:
-	if typedInput.StorageSku != nil {
-		storageSku := *typedInput.StorageSku
-		storage.StorageSku = &storageSku
-	}
-
 	// No error
 	return nil
 }
@@ -4140,9 +3815,6 @@ func (storage *Storage) AssignPropertiesFromStorage(source *v20210501s.Storage) 
 
 	// StorageSizeGB
 	storage.StorageSizeGB = genruntime.ClonePointerToInt(source.StorageSizeGB)
-
-	// StorageSku
-	storage.StorageSku = genruntime.ClonePointerToString(source.StorageSku)
 
 	// No error
 	return nil
@@ -4166,9 +3838,6 @@ func (storage *Storage) AssignPropertiesToStorage(destination *v20210501s.Storag
 
 	// StorageSizeGB
 	destination.StorageSizeGB = genruntime.ClonePointerToInt(storage.StorageSizeGB)
-
-	// StorageSku
-	destination.StorageSku = genruntime.ClonePointerToString(storage.StorageSku)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4282,224 +3951,6 @@ func (storage *Storage_STATUS) AssignPropertiesToStorage_STATUS(destination *v20
 
 	// StorageSku
 	destination.StorageSku = genruntime.ClonePointerToString(storage.StorageSku)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type SystemData struct {
-	// CreatedAt: The timestamp of resource creation (UTC).
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	// CreatedBy: The identity that created the resource.
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType `json:"createdByType,omitempty"`
-
-	// LastModifiedAt: The timestamp of resource last modification (UTC)
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	// LastModifiedBy: The identity that last modified the resource.
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType `json:"lastModifiedByType,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &SystemData{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (data *SystemData) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if data == nil {
-		return nil, nil
-	}
-	result := &SystemDataARM{}
-
-	// Set property ‘CreatedAt’:
-	if data.CreatedAt != nil {
-		createdAt := *data.CreatedAt
-		result.CreatedAt = &createdAt
-	}
-
-	// Set property ‘CreatedBy’:
-	if data.CreatedBy != nil {
-		createdBy := *data.CreatedBy
-		result.CreatedBy = &createdBy
-	}
-
-	// Set property ‘CreatedByType’:
-	if data.CreatedByType != nil {
-		createdByType := *data.CreatedByType
-		result.CreatedByType = &createdByType
-	}
-
-	// Set property ‘LastModifiedAt’:
-	if data.LastModifiedAt != nil {
-		lastModifiedAt := *data.LastModifiedAt
-		result.LastModifiedAt = &lastModifiedAt
-	}
-
-	// Set property ‘LastModifiedBy’:
-	if data.LastModifiedBy != nil {
-		lastModifiedBy := *data.LastModifiedBy
-		result.LastModifiedBy = &lastModifiedBy
-	}
-
-	// Set property ‘LastModifiedByType’:
-	if data.LastModifiedByType != nil {
-		lastModifiedByType := *data.LastModifiedByType
-		result.LastModifiedByType = &lastModifiedByType
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (data *SystemData) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SystemDataARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (data *SystemData) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SystemDataARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemDataARM, got %T", armInput)
-	}
-
-	// Set property ‘CreatedAt’:
-	if typedInput.CreatedAt != nil {
-		createdAt := *typedInput.CreatedAt
-		data.CreatedAt = &createdAt
-	}
-
-	// Set property ‘CreatedBy’:
-	if typedInput.CreatedBy != nil {
-		createdBy := *typedInput.CreatedBy
-		data.CreatedBy = &createdBy
-	}
-
-	// Set property ‘CreatedByType’:
-	if typedInput.CreatedByType != nil {
-		createdByType := *typedInput.CreatedByType
-		data.CreatedByType = &createdByType
-	}
-
-	// Set property ‘LastModifiedAt’:
-	if typedInput.LastModifiedAt != nil {
-		lastModifiedAt := *typedInput.LastModifiedAt
-		data.LastModifiedAt = &lastModifiedAt
-	}
-
-	// Set property ‘LastModifiedBy’:
-	if typedInput.LastModifiedBy != nil {
-		lastModifiedBy := *typedInput.LastModifiedBy
-		data.LastModifiedBy = &lastModifiedBy
-	}
-
-	// Set property ‘LastModifiedByType’:
-	if typedInput.LastModifiedByType != nil {
-		lastModifiedByType := *typedInput.LastModifiedByType
-		data.LastModifiedByType = &lastModifiedByType
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromSystemData populates our SystemData from the provided source SystemData
-func (data *SystemData) AssignPropertiesFromSystemData(source *v20210501s.SystemData) error {
-
-	// CreatedAt
-	if source.CreatedAt != nil {
-		createdAt := *source.CreatedAt
-		data.CreatedAt = &createdAt
-	} else {
-		data.CreatedAt = nil
-	}
-
-	// CreatedBy
-	data.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
-
-	// CreatedByType
-	if source.CreatedByType != nil {
-		createdByType := SystemData_CreatedByType(*source.CreatedByType)
-		data.CreatedByType = &createdByType
-	} else {
-		data.CreatedByType = nil
-	}
-
-	// LastModifiedAt
-	if source.LastModifiedAt != nil {
-		lastModifiedAt := *source.LastModifiedAt
-		data.LastModifiedAt = &lastModifiedAt
-	} else {
-		data.LastModifiedAt = nil
-	}
-
-	// LastModifiedBy
-	data.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
-
-	// LastModifiedByType
-	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemData_LastModifiedByType(*source.LastModifiedByType)
-		data.LastModifiedByType = &lastModifiedByType
-	} else {
-		data.LastModifiedByType = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToSystemData populates the provided destination SystemData from our SystemData
-func (data *SystemData) AssignPropertiesToSystemData(destination *v20210501s.SystemData) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// CreatedAt
-	if data.CreatedAt != nil {
-		createdAt := *data.CreatedAt
-		destination.CreatedAt = &createdAt
-	} else {
-		destination.CreatedAt = nil
-	}
-
-	// CreatedBy
-	destination.CreatedBy = genruntime.ClonePointerToString(data.CreatedBy)
-
-	// CreatedByType
-	if data.CreatedByType != nil {
-		createdByType := string(*data.CreatedByType)
-		destination.CreatedByType = &createdByType
-	} else {
-		destination.CreatedByType = nil
-	}
-
-	// LastModifiedAt
-	if data.LastModifiedAt != nil {
-		lastModifiedAt := *data.LastModifiedAt
-		destination.LastModifiedAt = &lastModifiedAt
-	} else {
-		destination.LastModifiedAt = nil
-	}
-
-	// LastModifiedBy
-	destination.LastModifiedBy = genruntime.ClonePointerToString(data.LastModifiedBy)
-
-	// LastModifiedByType
-	if data.LastModifiedByType != nil {
-		lastModifiedByType := string(*data.LastModifiedByType)
-		destination.LastModifiedByType = &lastModifiedByType
-	} else {
-		destination.LastModifiedByType = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4755,17 +4206,6 @@ const (
 	HighAvailability_Mode_Disabled_STATUS      = HighAvailability_Mode_STATUS("Disabled")
 	HighAvailability_Mode_SameZone_STATUS      = HighAvailability_Mode_STATUS("SameZone")
 	HighAvailability_Mode_ZoneRedundant_STATUS = HighAvailability_Mode_STATUS("ZoneRedundant")
-)
-
-// +kubebuilder:validation:Enum={"CreatingStandby","FailingOver","Healthy","NotEnabled","RemovingStandby"}
-type HighAvailability_State string
-
-const (
-	HighAvailability_State_CreatingStandby = HighAvailability_State("CreatingStandby")
-	HighAvailability_State_FailingOver     = HighAvailability_State("FailingOver")
-	HighAvailability_State_Healthy         = HighAvailability_State("Healthy")
-	HighAvailability_State_NotEnabled      = HighAvailability_State("NotEnabled")
-	HighAvailability_State_RemovingStandby = HighAvailability_State("RemovingStandby")
 )
 
 type HighAvailability_State_STATUS string

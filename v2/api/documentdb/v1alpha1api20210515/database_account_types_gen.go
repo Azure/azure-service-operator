@@ -1584,7 +1584,6 @@ type DatabaseAccount_Spec struct {
 	EnableCassandraConnector           *bool                      `json:"enableCassandraConnector,omitempty"`
 	EnableFreeTier                     *bool                      `json:"enableFreeTier,omitempty"`
 	EnableMultipleWriteLocations       *bool                      `json:"enableMultipleWriteLocations,omitempty"`
-	Id                                 *string                    `json:"id,omitempty"`
 	Identity                           *ManagedServiceIdentity    `json:"identity,omitempty"`
 	IpRules                            []IpAddressOrRange         `json:"ipRules,omitempty"`
 	IsVirtualNetworkFilterEnabled      *bool                      `json:"isVirtualNetworkFilterEnabled,omitempty"`
@@ -1608,7 +1607,6 @@ type DatabaseAccount_Spec struct {
 	Owner               *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PublicNetworkAccess *PublicNetworkAccess               `json:"publicNetworkAccess,omitempty"`
 	Tags                map[string]string                  `json:"tags,omitempty"`
-	Type                *string                            `json:"type,omitempty"`
 	VirtualNetworkRules []VirtualNetworkRule               `json:"virtualNetworkRules,omitempty"`
 }
 
@@ -1623,12 +1621,6 @@ func (account *DatabaseAccount_Spec) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property ‘AzureName’:
 	result.AzureName = account.AzureName
-
-	// Set property ‘Id’:
-	if account.Id != nil {
-		id := *account.Id
-		result.Id = &id
-	}
 
 	// Set property ‘Identity’:
 	if account.Identity != nil {
@@ -1811,12 +1803,6 @@ func (account *DatabaseAccount_Spec) ConvertToARM(resolved genruntime.ConvertToA
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	if account.Type != nil {
-		typeVar := *account.Type
-		result.Type = &typeVar
-	}
 	return result, nil
 }
 
@@ -1998,12 +1984,6 @@ func (account *DatabaseAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		account.Id = &id
-	}
-
 	// Set property ‘Identity’:
 	if typedInput.Identity != nil {
 		var identity1 ManagedServiceIdentity
@@ -2110,12 +2090,6 @@ func (account *DatabaseAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 		for key, value := range typedInput.Tags {
 			account.Tags[key] = value
 		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		account.Type = &typeVar
 	}
 
 	// Set property ‘VirtualNetworkRules’:
@@ -2342,9 +2316,6 @@ func (account *DatabaseAccount_Spec) AssignPropertiesFromDatabaseAccount_Spec(so
 		account.EnableMultipleWriteLocations = nil
 	}
 
-	// Id
-	account.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Identity
 	if source.Identity != nil {
 		var identity ManagedServiceIdentity
@@ -2456,9 +2427,6 @@ func (account *DatabaseAccount_Spec) AssignPropertiesFromDatabaseAccount_Spec(so
 
 	// Tags
 	account.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	account.Type = genruntime.ClonePointerToString(source.Type)
 
 	// VirtualNetworkRules
 	if source.VirtualNetworkRules != nil {
@@ -2641,9 +2609,6 @@ func (account *DatabaseAccount_Spec) AssignPropertiesToDatabaseAccount_Spec(dest
 		destination.EnableMultipleWriteLocations = nil
 	}
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(account.Id)
-
 	// Identity
 	if account.Identity != nil {
 		var identity alpha20210515s.ManagedServiceIdentity
@@ -2758,9 +2723,6 @@ func (account *DatabaseAccount_Spec) AssignPropertiesToDatabaseAccount_Spec(dest
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(account.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(account.Type)
 
 	// VirtualNetworkRules
 	if account.VirtualNetworkRules != nil {
@@ -4192,11 +4154,8 @@ func (orRange *IpAddressOrRange_STATUS) AssignPropertiesToIpAddressOrRange_STATU
 
 // Deprecated version of Location. Use v1beta20210515.Location instead
 type Location struct {
-	DocumentEndpoint *string `json:"documentEndpoint,omitempty"`
-
 	// +kubebuilder:validation:Minimum=0
 	FailoverPriority *int    `json:"failoverPriority,omitempty"`
-	Id               *string `json:"id,omitempty"`
 	IsZoneRedundant  *bool   `json:"isZoneRedundant,omitempty"`
 	LocationName     *string `json:"locationName,omitempty"`
 }
@@ -4210,22 +4169,10 @@ func (location *Location) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	}
 	result := &LocationARM{}
 
-	// Set property ‘DocumentEndpoint’:
-	if location.DocumentEndpoint != nil {
-		documentEndpoint := *location.DocumentEndpoint
-		result.DocumentEndpoint = &documentEndpoint
-	}
-
 	// Set property ‘FailoverPriority’:
 	if location.FailoverPriority != nil {
 		failoverPriority := *location.FailoverPriority
 		result.FailoverPriority = &failoverPriority
-	}
-
-	// Set property ‘Id’:
-	if location.Id != nil {
-		id := *location.Id
-		result.Id = &id
 	}
 
 	// Set property ‘IsZoneRedundant’:
@@ -4254,22 +4201,10 @@ func (location *Location) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LocationARM, got %T", armInput)
 	}
 
-	// Set property ‘DocumentEndpoint’:
-	if typedInput.DocumentEndpoint != nil {
-		documentEndpoint := *typedInput.DocumentEndpoint
-		location.DocumentEndpoint = &documentEndpoint
-	}
-
 	// Set property ‘FailoverPriority’:
 	if typedInput.FailoverPriority != nil {
 		failoverPriority := *typedInput.FailoverPriority
 		location.FailoverPriority = &failoverPriority
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		location.Id = &id
 	}
 
 	// Set property ‘IsZoneRedundant’:
@@ -4291,9 +4226,6 @@ func (location *Location) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 // AssignPropertiesFromLocation populates our Location from the provided source Location
 func (location *Location) AssignPropertiesFromLocation(source *alpha20210515s.Location) error {
 
-	// DocumentEndpoint
-	location.DocumentEndpoint = genruntime.ClonePointerToString(source.DocumentEndpoint)
-
 	// FailoverPriority
 	if source.FailoverPriority != nil {
 		failoverPriority := *source.FailoverPriority
@@ -4301,9 +4233,6 @@ func (location *Location) AssignPropertiesFromLocation(source *alpha20210515s.Lo
 	} else {
 		location.FailoverPriority = nil
 	}
-
-	// Id
-	location.Id = genruntime.ClonePointerToString(source.Id)
 
 	// IsZoneRedundant
 	if source.IsZoneRedundant != nil {
@@ -4325,9 +4254,6 @@ func (location *Location) AssignPropertiesToLocation(destination *alpha20210515s
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// DocumentEndpoint
-	destination.DocumentEndpoint = genruntime.ClonePointerToString(location.DocumentEndpoint)
-
 	// FailoverPriority
 	if location.FailoverPriority != nil {
 		failoverPriority := *location.FailoverPriority
@@ -4335,9 +4261,6 @@ func (location *Location) AssignPropertiesToLocation(destination *alpha20210515s
 	} else {
 		destination.FailoverPriority = nil
 	}
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(location.Id)
 
 	// IsZoneRedundant
 	if location.IsZoneRedundant != nil {
@@ -4496,9 +4419,7 @@ func (location *Location_STATUS) AssignPropertiesToLocation_STATUS(destination *
 
 // Deprecated version of ManagedServiceIdentity. Use v1beta20210515.ManagedServiceIdentity instead
 type ManagedServiceIdentity struct {
-	PrincipalId *string                      `json:"principalId,omitempty"`
-	TenantId    *string                      `json:"tenantId,omitempty"`
-	Type        *ManagedServiceIdentity_Type `json:"type,omitempty"`
+	Type *ManagedServiceIdentity_Type `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ManagedServiceIdentity{}
@@ -4509,18 +4430,6 @@ func (identity *ManagedServiceIdentity) ConvertToARM(resolved genruntime.Convert
 		return nil, nil
 	}
 	result := &ManagedServiceIdentityARM{}
-
-	// Set property ‘PrincipalId’:
-	if identity.PrincipalId != nil {
-		principalId := *identity.PrincipalId
-		result.PrincipalId = &principalId
-	}
-
-	// Set property ‘TenantId’:
-	if identity.TenantId != nil {
-		tenantId := *identity.TenantId
-		result.TenantId = &tenantId
-	}
 
 	// Set property ‘Type’:
 	if identity.Type != nil {
@@ -4542,18 +4451,6 @@ func (identity *ManagedServiceIdentity) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedServiceIdentityARM, got %T", armInput)
 	}
 
-	// Set property ‘PrincipalId’:
-	if typedInput.PrincipalId != nil {
-		principalId := *typedInput.PrincipalId
-		identity.PrincipalId = &principalId
-	}
-
-	// Set property ‘TenantId’:
-	if typedInput.TenantId != nil {
-		tenantId := *typedInput.TenantId
-		identity.TenantId = &tenantId
-	}
-
 	// Set property ‘Type’:
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
@@ -4566,12 +4463,6 @@ func (identity *ManagedServiceIdentity) PopulateFromARM(owner genruntime.Arbitra
 
 // AssignPropertiesFromManagedServiceIdentity populates our ManagedServiceIdentity from the provided source ManagedServiceIdentity
 func (identity *ManagedServiceIdentity) AssignPropertiesFromManagedServiceIdentity(source *alpha20210515s.ManagedServiceIdentity) error {
-
-	// PrincipalId
-	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// TenantId
-	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// Type
 	if source.Type != nil {
@@ -4589,12 +4480,6 @@ func (identity *ManagedServiceIdentity) AssignPropertiesFromManagedServiceIdenti
 func (identity *ManagedServiceIdentity) AssignPropertiesToManagedServiceIdentity(destination *alpha20210515s.ManagedServiceIdentity) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
-
-	// PrincipalId
-	destination.PrincipalId = genruntime.ClonePointerToString(identity.PrincipalId)
-
-	// TenantId
-	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
 
 	// Type
 	if identity.Type != nil {

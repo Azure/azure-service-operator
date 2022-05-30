@@ -8,7 +8,6 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 // Deprecated version of VirtualNetworksSubnet_Spec. Use v1beta20201101.VirtualNetworksSubnet_Spec instead
 type VirtualNetworksSubnet_SpecARM struct {
 	AzureName  string                     `json:"azureName,omitempty"`
-	Etag       *string                    `json:"etag,omitempty"`
 	Id         *string                    `json:"id,omitempty"`
 	Name       string                     `json:"name,omitempty"`
 	Properties *SubnetPropertiesFormatARM `json:"properties,omitempty"`
@@ -39,157 +38,97 @@ type SubnetPropertiesFormatARM struct {
 	ApplicationGatewayIpConfigurations []ApplicationGatewayIPConfigurationARM                                 `json:"applicationGatewayIpConfigurations,omitempty"`
 	Delegations                        []DelegationARM                                                        `json:"delegations,omitempty"`
 	IpAllocations                      []SubResourceARM                                                       `json:"ipAllocations,omitempty"`
-	IpConfigurationProfiles            []IPConfigurationProfile_VirtualNetworksSubnet_SubResourceEmbeddedARM  `json:"ipConfigurationProfiles,omitempty"`
-	IpConfigurations                   []IPConfiguration_VirtualNetworksSubnet_SubResourceEmbeddedARM         `json:"ipConfigurations,omitempty"`
 	NatGateway                         *SubResourceARM                                                        `json:"natGateway,omitempty"`
 	NetworkSecurityGroup               *NetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbeddedARM `json:"networkSecurityGroup,omitempty"`
 	PrivateEndpointNetworkPolicies     *SubnetPropertiesFormat_PrivateEndpointNetworkPolicies                 `json:"privateEndpointNetworkPolicies,omitempty"`
-	PrivateEndpoints                   []PrivateEndpointSpec_VirtualNetworksSubnet_SubResourceEmbeddedARM     `json:"privateEndpoints,omitempty"`
 	PrivateLinkServiceNetworkPolicies  *SubnetPropertiesFormat_PrivateLinkServiceNetworkPolicies              `json:"privateLinkServiceNetworkPolicies,omitempty"`
-	ProvisioningState                  *ProvisioningState                                                     `json:"provisioningState,omitempty"`
-	Purpose                            *string                                                                `json:"purpose,omitempty"`
-	ResourceNavigationLinks            []ResourceNavigationLinkARM                                            `json:"resourceNavigationLinks,omitempty"`
 	RouteTable                         *RouteTableSpecARM                                                     `json:"routeTable,omitempty"`
-	ServiceAssociationLinks            []ServiceAssociationLinkARM                                            `json:"serviceAssociationLinks,omitempty"`
 	ServiceEndpointPolicies            []ServiceEndpointPolicySpecARM                                         `json:"serviceEndpointPolicies,omitempty"`
 	ServiceEndpoints                   []ServiceEndpointPropertiesFormatARM                                   `json:"serviceEndpoints,omitempty"`
 }
 
 // Deprecated version of ApplicationGatewayIPConfiguration. Use v1beta20201101.ApplicationGatewayIPConfiguration instead
 type ApplicationGatewayIPConfigurationARM struct {
-	Etag       *string                                               `json:"etag,omitempty"`
 	Id         *string                                               `json:"id,omitempty"`
 	Name       *string                                               `json:"name,omitempty"`
 	Properties *ApplicationGatewayIPConfigurationPropertiesFormatARM `json:"properties,omitempty"`
-	Type       *string                                               `json:"type,omitempty"`
 }
 
 // Deprecated version of Delegation. Use v1beta20201101.Delegation instead
 type DelegationARM struct {
-	Etag       *string                               `json:"etag,omitempty"`
 	Id         *string                               `json:"id,omitempty"`
 	Name       *string                               `json:"name,omitempty"`
 	Properties *ServiceDelegationPropertiesFormatARM `json:"properties,omitempty"`
 	Type       *string                               `json:"type,omitempty"`
 }
 
-// Deprecated version of IPConfigurationProfile_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.IPConfigurationProfile_VirtualNetworksSubnet_SubResourceEmbedded instead
-type IPConfigurationProfile_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
-	Etag       *string                                                                              `json:"etag,omitempty"`
-	Id         *string                                                                              `json:"id,omitempty"`
-	Name       *string                                                                              `json:"name,omitempty"`
-	Properties *IPConfigurationProfilePropertiesFormat_VirtualNetworksSubnet_SubResourceEmbeddedARM `json:"properties,omitempty"`
-	Type       *string                                                                              `json:"type,omitempty"`
-}
-
-// Deprecated version of IPConfiguration_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.IPConfiguration_VirtualNetworksSubnet_SubResourceEmbedded instead
-type IPConfiguration_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
-	Etag       *string                                                                       `json:"etag,omitempty"`
-	Id         *string                                                                       `json:"id,omitempty"`
-	Name       *string                                                                       `json:"name,omitempty"`
-	Properties *IPConfigurationPropertiesFormat_VirtualNetworksSubnet_SubResourceEmbeddedARM `json:"properties,omitempty"`
-}
-
 // Deprecated version of NetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.NetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedded instead
 type NetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
-	Id *string `json:"id,omitempty"`
-}
-
-// Deprecated version of PrivateEndpointSpec_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.PrivateEndpointSpec_VirtualNetworksSubnet_SubResourceEmbedded instead
-type PrivateEndpointSpec_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
-	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
-	Id               *string              `json:"id,omitempty"`
-}
-
-// Deprecated version of ResourceNavigationLink. Use v1beta20201101.ResourceNavigationLink instead
-type ResourceNavigationLinkARM struct {
-	Etag       *string                          `json:"etag,omitempty"`
-	Id         *string                          `json:"id,omitempty"`
-	Name       *string                          `json:"name,omitempty"`
-	Properties *ResourceNavigationLinkFormatARM `json:"properties,omitempty"`
-	Type       *string                          `json:"type,omitempty"`
+	Id         *string                                                                            `json:"id,omitempty"`
+	Location   *string                                                                            `json:"location,omitempty"`
+	Properties *NetworkSecurityGroupPropertiesFormat_VirtualNetworksSubnet_SubResourceEmbeddedARM `json:"properties,omitempty"`
+	Tags       map[string]string                                                                  `json:"tags,omitempty"`
 }
 
 // Deprecated version of RouteTableSpec. Use v1beta20201101.RouteTableSpec instead
 type RouteTableSpecARM struct {
-	Id *string `json:"id,omitempty"`
-}
-
-// Deprecated version of ServiceAssociationLink. Use v1beta20201101.ServiceAssociationLink instead
-type ServiceAssociationLinkARM struct {
-	Etag       *string                                    `json:"etag,omitempty"`
-	Id         *string                                    `json:"id,omitempty"`
-	Name       *string                                    `json:"name,omitempty"`
-	Properties *ServiceAssociationLinkPropertiesFormatARM `json:"properties,omitempty"`
-	Type       *string                                    `json:"type,omitempty"`
+	Id         *string                                                                  `json:"id,omitempty"`
+	Location   *string                                                                  `json:"location,omitempty"`
+	Properties *RouteTablePropertiesFormat_VirtualNetworksSubnet_SubResourceEmbeddedARM `json:"properties,omitempty"`
+	Tags       map[string]string                                                        `json:"tags,omitempty"`
 }
 
 // Deprecated version of ServiceEndpointPolicySpec. Use v1beta20201101.ServiceEndpointPolicySpec instead
 type ServiceEndpointPolicySpecARM struct {
-	Id   *string `json:"id,omitempty"`
-	Kind *string `json:"kind,omitempty"`
+	Id         *string                                                                             `json:"id,omitempty"`
+	Location   *string                                                                             `json:"location,omitempty"`
+	Properties *ServiceEndpointPolicyPropertiesFormat_VirtualNetworksSubnet_SubResourceEmbeddedARM `json:"properties,omitempty"`
+	Tags       map[string]string                                                                   `json:"tags,omitempty"`
 }
 
 // Deprecated version of ServiceEndpointPropertiesFormat. Use v1beta20201101.ServiceEndpointPropertiesFormat instead
 type ServiceEndpointPropertiesFormatARM struct {
-	Locations         []string           `json:"locations,omitempty"`
-	ProvisioningState *ProvisioningState `json:"provisioningState,omitempty"`
-	Service           *string            `json:"service,omitempty"`
+	Locations []string `json:"locations,omitempty"`
+	Service   *string  `json:"service,omitempty"`
 }
 
 // Deprecated version of ApplicationGatewayIPConfigurationPropertiesFormat. Use v1beta20201101.ApplicationGatewayIPConfigurationPropertiesFormat instead
 type ApplicationGatewayIPConfigurationPropertiesFormatARM struct {
-	ProvisioningState *ProvisioningState `json:"provisioningState,omitempty"`
-	Subnet            *SubResourceARM    `json:"subnet,omitempty"`
+	Subnet *SubResourceARM `json:"subnet,omitempty"`
 }
 
-// Deprecated version of IPConfigurationProfilePropertiesFormat_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.IPConfigurationProfilePropertiesFormat_VirtualNetworksSubnet_SubResourceEmbedded instead
-type IPConfigurationProfilePropertiesFormat_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
-	ProvisioningState *ProvisioningState                                   `json:"provisioningState,omitempty"`
-	Subnet            *Subnet_VirtualNetworksSubnet_SubResourceEmbeddedARM `json:"subnet,omitempty"`
+// Deprecated version of NetworkSecurityGroupPropertiesFormat_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.NetworkSecurityGroupPropertiesFormat_VirtualNetworksSubnet_SubResourceEmbedded instead
+type NetworkSecurityGroupPropertiesFormat_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
+	SecurityRules []SecurityRule_VirtualNetworksSubnet_SubResourceEmbeddedARM `json:"securityRules,omitempty"`
 }
 
-// Deprecated version of IPConfigurationPropertiesFormat_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.IPConfigurationPropertiesFormat_VirtualNetworksSubnet_SubResourceEmbedded instead
-type IPConfigurationPropertiesFormat_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
-	PrivateIPAddress          *string                                                           `json:"privateIPAddress,omitempty"`
-	PrivateIPAllocationMethod *IPAllocationMethod                                               `json:"privateIPAllocationMethod,omitempty"`
-	ProvisioningState         *ProvisioningState                                                `json:"provisioningState,omitempty"`
-	PublicIPAddress           *PublicIPAddressSpec_VirtualNetworksSubnet_SubResourceEmbeddedARM `json:"publicIPAddress,omitempty"`
-	Subnet                    *Subnet_VirtualNetworksSubnet_SubResourceEmbeddedARM              `json:"subnet,omitempty"`
-}
-
-// Deprecated version of ResourceNavigationLinkFormat. Use v1beta20201101.ResourceNavigationLinkFormat instead
-type ResourceNavigationLinkFormatARM struct {
-	Link               *string            `json:"link,omitempty"`
-	LinkedResourceType *string            `json:"linkedResourceType,omitempty"`
-	ProvisioningState  *ProvisioningState `json:"provisioningState,omitempty"`
-}
-
-// Deprecated version of ServiceAssociationLinkPropertiesFormat. Use v1beta20201101.ServiceAssociationLinkPropertiesFormat instead
-type ServiceAssociationLinkPropertiesFormatARM struct {
-	AllowDelete        *bool              `json:"allowDelete,omitempty"`
-	Link               *string            `json:"link,omitempty"`
-	LinkedResourceType *string            `json:"linkedResourceType,omitempty"`
-	Locations          []string           `json:"locations,omitempty"`
-	ProvisioningState  *ProvisioningState `json:"provisioningState,omitempty"`
+// Deprecated version of RouteTablePropertiesFormat_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.RouteTablePropertiesFormat_VirtualNetworksSubnet_SubResourceEmbedded instead
+type RouteTablePropertiesFormat_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
+	DisableBgpRoutePropagation *bool                                                `json:"disableBgpRoutePropagation,omitempty"`
+	Routes                     []Route_VirtualNetworksSubnet_SubResourceEmbeddedARM `json:"routes,omitempty"`
 }
 
 // Deprecated version of ServiceDelegationPropertiesFormat. Use v1beta20201101.ServiceDelegationPropertiesFormat instead
 type ServiceDelegationPropertiesFormatARM struct {
-	Actions           []string           `json:"actions,omitempty"`
-	ProvisioningState *ProvisioningState `json:"provisioningState,omitempty"`
-	ServiceName       *string            `json:"serviceName,omitempty"`
+	ServiceName *string `json:"serviceName,omitempty"`
 }
 
-// Deprecated version of PublicIPAddressSpec_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.PublicIPAddressSpec_VirtualNetworksSubnet_SubResourceEmbedded instead
-type PublicIPAddressSpec_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
-	ExtendedLocation *ExtendedLocationARM   `json:"extendedLocation,omitempty"`
-	Id               *string                `json:"id,omitempty"`
-	Sku              *PublicIPAddressSkuARM `json:"sku,omitempty"`
-	Zones            []string               `json:"zones,omitempty"`
+// Deprecated version of ServiceEndpointPolicyPropertiesFormat_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.ServiceEndpointPolicyPropertiesFormat_VirtualNetworksSubnet_SubResourceEmbedded instead
+type ServiceEndpointPolicyPropertiesFormat_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
+	ServiceEndpointPolicyDefinitions []ServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourceEmbeddedARM `json:"serviceEndpointPolicyDefinitions,omitempty"`
 }
 
-// Deprecated version of Subnet_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.Subnet_VirtualNetworksSubnet_SubResourceEmbedded instead
-type Subnet_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
+// Deprecated version of Route_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.Route_VirtualNetworksSubnet_SubResourceEmbedded instead
+type Route_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
+	Id *string `json:"id,omitempty"`
+}
+
+// Deprecated version of SecurityRule_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.SecurityRule_VirtualNetworksSubnet_SubResourceEmbedded instead
+type SecurityRule_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
+	Id *string `json:"id,omitempty"`
+}
+
+// Deprecated version of ServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourceEmbedded. Use v1beta20201101.ServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourceEmbedded instead
+type ServiceEndpointPolicyDefinition_VirtualNetworksSubnet_SubResourceEmbeddedARM struct {
 	Id *string `json:"id,omitempty"`
 }

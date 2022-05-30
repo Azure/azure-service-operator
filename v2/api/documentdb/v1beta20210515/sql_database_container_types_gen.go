@@ -581,9 +581,6 @@ type DatabaseAccountsSqlDatabasesContainer_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	// Id: The unique resource identifier of the ARM resource.
-	Id *string `json:"id,omitempty"`
-
 	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
@@ -601,9 +598,6 @@ type DatabaseAccountsSqlDatabasesContainer_Spec struct {
 	// Resource: The standard JSON format of a container
 	Resource *SqlContainerResource `json:"resource,omitempty"`
 	Tags     map[string]string     `json:"tags,omitempty"`
-
-	// Type: The type of Azure resource.
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DatabaseAccountsSqlDatabasesContainer_Spec{}
@@ -617,12 +611,6 @@ func (container *DatabaseAccountsSqlDatabasesContainer_Spec) ConvertToARM(resolv
 
 	// Set property ‘AzureName’:
 	result.AzureName = container.AzureName
-
-	// Set property ‘Id’:
-	if container.Id != nil {
-		id := *container.Id
-		result.Id = &id
-	}
 
 	// Set property ‘Location’:
 	if container.Location != nil {
@@ -661,12 +649,6 @@ func (container *DatabaseAccountsSqlDatabasesContainer_Spec) ConvertToARM(resolv
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	if container.Type != nil {
-		typeVar := *container.Type
-		result.Type = &typeVar
-	}
 	return result, nil
 }
 
@@ -684,12 +666,6 @@ func (container *DatabaseAccountsSqlDatabasesContainer_Spec) PopulateFromARM(own
 
 	// Set property ‘AzureName’:
 	container.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		container.Id = &id
-	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
@@ -736,12 +712,6 @@ func (container *DatabaseAccountsSqlDatabasesContainer_Spec) PopulateFromARM(own
 		for key, value := range typedInput.Tags {
 			container.Tags[key] = value
 		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		container.Type = &typeVar
 	}
 
 	// No error
@@ -804,9 +774,6 @@ func (container *DatabaseAccountsSqlDatabasesContainer_Spec) AssignPropertiesFro
 	// AzureName
 	container.AzureName = source.AzureName
 
-	// Id
-	container.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Location
 	container.Location = genruntime.ClonePointerToString(source.Location)
 
@@ -845,9 +812,6 @@ func (container *DatabaseAccountsSqlDatabasesContainer_Spec) AssignPropertiesFro
 	// Tags
 	container.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
-	// Type
-	container.Type = genruntime.ClonePointerToString(source.Type)
-
 	// No error
 	return nil
 }
@@ -859,9 +823,6 @@ func (container *DatabaseAccountsSqlDatabasesContainer_Spec) AssignPropertiesToD
 
 	// AzureName
 	destination.AzureName = container.AzureName
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(container.Id)
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(container.Location)
@@ -903,9 +864,6 @@ func (container *DatabaseAccountsSqlDatabasesContainer_Spec) AssignPropertiesToD
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(container.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(container.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1766,9 +1724,6 @@ type ContainerPartitionKey struct {
 	// Paths: List of paths using which data within the container can be partitioned
 	Paths []string `json:"paths,omitempty"`
 
-	// SystemKey: Indicates if the container is using a system generated partition key
-	SystemKey *bool `json:"systemKey,omitempty"`
-
 	// +kubebuilder:validation:Maximum=2
 	// +kubebuilder:validation:Minimum=1
 	// Version: Indicates the version of the partition key definition
@@ -1793,12 +1748,6 @@ func (partitionKey *ContainerPartitionKey) ConvertToARM(resolved genruntime.Conv
 	// Set property ‘Paths’:
 	for _, item := range partitionKey.Paths {
 		result.Paths = append(result.Paths, item)
-	}
-
-	// Set property ‘SystemKey’:
-	if partitionKey.SystemKey != nil {
-		systemKey := *partitionKey.SystemKey
-		result.SystemKey = &systemKey
 	}
 
 	// Set property ‘Version’:
@@ -1832,12 +1781,6 @@ func (partitionKey *ContainerPartitionKey) PopulateFromARM(owner genruntime.Arbi
 		partitionKey.Paths = append(partitionKey.Paths, item)
 	}
 
-	// Set property ‘SystemKey’:
-	if typedInput.SystemKey != nil {
-		systemKey := *typedInput.SystemKey
-		partitionKey.SystemKey = &systemKey
-	}
-
 	// Set property ‘Version’:
 	if typedInput.Version != nil {
 		version := *typedInput.Version
@@ -1861,14 +1804,6 @@ func (partitionKey *ContainerPartitionKey) AssignPropertiesFromContainerPartitio
 
 	// Paths
 	partitionKey.Paths = genruntime.CloneSliceOfString(source.Paths)
-
-	// SystemKey
-	if source.SystemKey != nil {
-		systemKey := *source.SystemKey
-		partitionKey.SystemKey = &systemKey
-	} else {
-		partitionKey.SystemKey = nil
-	}
 
 	// Version
 	if source.Version != nil {
@@ -1897,14 +1832,6 @@ func (partitionKey *ContainerPartitionKey) AssignPropertiesToContainerPartitionK
 
 	// Paths
 	destination.Paths = genruntime.CloneSliceOfString(partitionKey.Paths)
-
-	// SystemKey
-	if partitionKey.SystemKey != nil {
-		systemKey := *partitionKey.SystemKey
-		destination.SystemKey = &systemKey
-	} else {
-		destination.SystemKey = nil
-	}
 
 	// Version
 	if partitionKey.Version != nil {

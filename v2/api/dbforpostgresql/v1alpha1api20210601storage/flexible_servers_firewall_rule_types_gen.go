@@ -360,7 +360,6 @@ type FlexibleServersFirewallRule_Spec struct {
 	// doesn't have to be.
 	AzureName       string  `json:"azureName,omitempty"`
 	EndIpAddress    *string `json:"endIpAddress,omitempty"`
-	Id              *string `json:"id,omitempty"`
 	OriginalVersion string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -370,8 +369,6 @@ type FlexibleServersFirewallRule_Spec struct {
 	Owner          *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag    genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	StartIpAddress *string                            `json:"startIpAddress,omitempty"`
-	SystemData     *SystemData                        `json:"systemData,omitempty"`
-	Type           *string                            `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &FlexibleServersFirewallRule_Spec{}
@@ -435,9 +432,6 @@ func (rule *FlexibleServersFirewallRule_Spec) AssignPropertiesFromFlexibleServer
 	// EndIpAddress
 	rule.EndIpAddress = genruntime.ClonePointerToString(source.EndIpAddress)
 
-	// Id
-	rule.Id = genruntime.ClonePointerToString(source.Id)
-
 	// OriginalVersion
 	rule.OriginalVersion = source.OriginalVersion
 
@@ -451,21 +445,6 @@ func (rule *FlexibleServersFirewallRule_Spec) AssignPropertiesFromFlexibleServer
 
 	// StartIpAddress
 	rule.StartIpAddress = genruntime.ClonePointerToString(source.StartIpAddress)
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
-		}
-		rule.SystemData = &systemDatum
-	} else {
-		rule.SystemData = nil
-	}
-
-	// Type
-	rule.Type = genruntime.ClonePointerToString(source.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -489,9 +468,6 @@ func (rule *FlexibleServersFirewallRule_Spec) AssignPropertiesToFlexibleServersF
 	// EndIpAddress
 	destination.EndIpAddress = genruntime.ClonePointerToString(rule.EndIpAddress)
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(rule.Id)
-
 	// OriginalVersion
 	destination.OriginalVersion = rule.OriginalVersion
 
@@ -505,21 +481,6 @@ func (rule *FlexibleServersFirewallRule_Spec) AssignPropertiesToFlexibleServersF
 
 	// StartIpAddress
 	destination.StartIpAddress = genruntime.ClonePointerToString(rule.StartIpAddress)
-
-	// SystemData
-	if rule.SystemData != nil {
-		var systemDatum v20210601s.SystemData
-		err := rule.SystemData.AssignPropertiesToSystemData(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(rule.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

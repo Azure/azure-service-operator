@@ -752,11 +752,7 @@ type SignalR_Spec struct {
 	Cors             *SignalRCorsSettings `json:"cors,omitempty"`
 	DisableAadAuth   *bool                `json:"disableAadAuth,omitempty"`
 	DisableLocalAuth *bool                `json:"disableLocalAuth,omitempty"`
-	ExternalIP       *string              `json:"externalIP,omitempty"`
 	Features         []SignalRFeature     `json:"features,omitempty"`
-	HostName         *string              `json:"hostName,omitempty"`
-	HostNamePrefix   *string              `json:"hostNamePrefix,omitempty"`
-	Id               *string              `json:"id,omitempty"`
 	Identity         *ManagedIdentity     `json:"identity,omitempty"`
 	Kind             *string              `json:"kind,omitempty"`
 	Location         *string              `json:"location,omitempty"`
@@ -767,22 +763,14 @@ type SignalR_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner                      *genruntime.KnownResourceReference                      `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PrivateEndpointConnections []PrivateEndpointConnection_SignalR_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
-	PropertyBag                genruntime.PropertyBag                                  `json:"$propertyBag,omitempty"`
-	ProvisioningState          *string                                                 `json:"provisioningState,omitempty"`
-	PublicNetworkAccess        *string                                                 `json:"publicNetworkAccess,omitempty"`
-	PublicPort                 *int                                                    `json:"publicPort,omitempty"`
-	ResourceLogConfiguration   *ResourceLogConfiguration                               `json:"resourceLogConfiguration,omitempty"`
-	ServerPort                 *int                                                    `json:"serverPort,omitempty"`
-	SharedPrivateLinkResources []SharedPrivateLinkResource_SignalR_SubResourceEmbedded `json:"sharedPrivateLinkResources,omitempty"`
-	Sku                        *ResourceSku                                            `json:"sku,omitempty"`
-	SystemData                 *SystemData                                             `json:"systemData,omitempty"`
-	Tags                       map[string]string                                       `json:"tags,omitempty"`
-	Tls                        *SignalRTlsSettings                                     `json:"tls,omitempty"`
-	Type                       *string                                                 `json:"type,omitempty"`
-	Upstream                   *ServerlessUpstreamSettings                             `json:"upstream,omitempty"`
-	Version                    *string                                                 `json:"version,omitempty"`
+	Owner                    *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag              genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	PublicNetworkAccess      *string                            `json:"publicNetworkAccess,omitempty"`
+	ResourceLogConfiguration *ResourceLogConfiguration          `json:"resourceLogConfiguration,omitempty"`
+	Sku                      *ResourceSku                       `json:"sku,omitempty"`
+	Tags                     map[string]string                  `json:"tags,omitempty"`
+	Tls                      *SignalRTlsSettings                `json:"tls,omitempty"`
+	Upstream                 *ServerlessUpstreamSettings        `json:"upstream,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &SignalR_Spec{}
@@ -871,9 +859,6 @@ func (signalR *SignalR_Spec) AssignPropertiesFromSignalR_Spec(source *v20211001s
 		signalR.DisableLocalAuth = nil
 	}
 
-	// ExternalIP
-	signalR.ExternalIP = genruntime.ClonePointerToString(source.ExternalIP)
-
 	// Features
 	if source.Features != nil {
 		featureList := make([]SignalRFeature, len(source.Features))
@@ -891,15 +876,6 @@ func (signalR *SignalR_Spec) AssignPropertiesFromSignalR_Spec(source *v20211001s
 	} else {
 		signalR.Features = nil
 	}
-
-	// HostName
-	signalR.HostName = genruntime.ClonePointerToString(source.HostName)
-
-	// HostNamePrefix
-	signalR.HostNamePrefix = genruntime.ClonePointerToString(source.HostNamePrefix)
-
-	// Id
-	signalR.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Identity
 	if source.Identity != nil {
@@ -942,32 +918,8 @@ func (signalR *SignalR_Spec) AssignPropertiesFromSignalR_Spec(source *v20211001s
 		signalR.Owner = nil
 	}
 
-	// PrivateEndpointConnections
-	if source.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]PrivateEndpointConnection_SignalR_SubResourceEmbedded, len(source.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection PrivateEndpointConnection_SignalR_SubResourceEmbedded
-			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnection_SignalR_SubResourceEmbedded(&privateEndpointConnectionItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnection_SignalR_SubResourceEmbedded() to populate field PrivateEndpointConnections")
-			}
-			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
-		}
-		signalR.PrivateEndpointConnections = privateEndpointConnectionList
-	} else {
-		signalR.PrivateEndpointConnections = nil
-	}
-
-	// ProvisioningState
-	signalR.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
 	// PublicNetworkAccess
 	signalR.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
-
-	// PublicPort
-	signalR.PublicPort = genruntime.ClonePointerToInt(source.PublicPort)
 
 	// ResourceLogConfiguration
 	if source.ResourceLogConfiguration != nil {
@@ -981,27 +933,6 @@ func (signalR *SignalR_Spec) AssignPropertiesFromSignalR_Spec(source *v20211001s
 		signalR.ResourceLogConfiguration = nil
 	}
 
-	// ServerPort
-	signalR.ServerPort = genruntime.ClonePointerToInt(source.ServerPort)
-
-	// SharedPrivateLinkResources
-	if source.SharedPrivateLinkResources != nil {
-		sharedPrivateLinkResourceList := make([]SharedPrivateLinkResource_SignalR_SubResourceEmbedded, len(source.SharedPrivateLinkResources))
-		for sharedPrivateLinkResourceIndex, sharedPrivateLinkResourceItem := range source.SharedPrivateLinkResources {
-			// Shadow the loop variable to avoid aliasing
-			sharedPrivateLinkResourceItem := sharedPrivateLinkResourceItem
-			var sharedPrivateLinkResource SharedPrivateLinkResource_SignalR_SubResourceEmbedded
-			err := sharedPrivateLinkResource.AssignPropertiesFromSharedPrivateLinkResource_SignalR_SubResourceEmbedded(&sharedPrivateLinkResourceItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromSharedPrivateLinkResource_SignalR_SubResourceEmbedded() to populate field SharedPrivateLinkResources")
-			}
-			sharedPrivateLinkResourceList[sharedPrivateLinkResourceIndex] = sharedPrivateLinkResource
-		}
-		signalR.SharedPrivateLinkResources = sharedPrivateLinkResourceList
-	} else {
-		signalR.SharedPrivateLinkResources = nil
-	}
-
 	// Sku
 	if source.Sku != nil {
 		var sku ResourceSku
@@ -1012,18 +943,6 @@ func (signalR *SignalR_Spec) AssignPropertiesFromSignalR_Spec(source *v20211001s
 		signalR.Sku = &sku
 	} else {
 		signalR.Sku = nil
-	}
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
-		}
-		signalR.SystemData = &systemDatum
-	} else {
-		signalR.SystemData = nil
 	}
 
 	// Tags
@@ -1041,9 +960,6 @@ func (signalR *SignalR_Spec) AssignPropertiesFromSignalR_Spec(source *v20211001s
 		signalR.Tls = nil
 	}
 
-	// Type
-	signalR.Type = genruntime.ClonePointerToString(source.Type)
-
 	// Upstream
 	if source.Upstream != nil {
 		var upstream ServerlessUpstreamSettings
@@ -1055,9 +971,6 @@ func (signalR *SignalR_Spec) AssignPropertiesFromSignalR_Spec(source *v20211001s
 	} else {
 		signalR.Upstream = nil
 	}
-
-	// Version
-	signalR.Version = genruntime.ClonePointerToString(source.Version)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1106,9 +1019,6 @@ func (signalR *SignalR_Spec) AssignPropertiesToSignalR_Spec(destination *v202110
 		destination.DisableLocalAuth = nil
 	}
 
-	// ExternalIP
-	destination.ExternalIP = genruntime.ClonePointerToString(signalR.ExternalIP)
-
 	// Features
 	if signalR.Features != nil {
 		featureList := make([]v20211001s.SignalRFeature, len(signalR.Features))
@@ -1126,15 +1036,6 @@ func (signalR *SignalR_Spec) AssignPropertiesToSignalR_Spec(destination *v202110
 	} else {
 		destination.Features = nil
 	}
-
-	// HostName
-	destination.HostName = genruntime.ClonePointerToString(signalR.HostName)
-
-	// HostNamePrefix
-	destination.HostNamePrefix = genruntime.ClonePointerToString(signalR.HostNamePrefix)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(signalR.Id)
 
 	// Identity
 	if signalR.Identity != nil {
@@ -1177,32 +1078,8 @@ func (signalR *SignalR_Spec) AssignPropertiesToSignalR_Spec(destination *v202110
 		destination.Owner = nil
 	}
 
-	// PrivateEndpointConnections
-	if signalR.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]v20211001s.PrivateEndpointConnection_SignalR_SubResourceEmbedded, len(signalR.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range signalR.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection v20211001s.PrivateEndpointConnection_SignalR_SubResourceEmbedded
-			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnection_SignalR_SubResourceEmbedded(&privateEndpointConnection)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnection_SignalR_SubResourceEmbedded() to populate field PrivateEndpointConnections")
-			}
-			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
-		}
-		destination.PrivateEndpointConnections = privateEndpointConnectionList
-	} else {
-		destination.PrivateEndpointConnections = nil
-	}
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(signalR.ProvisioningState)
-
 	// PublicNetworkAccess
 	destination.PublicNetworkAccess = genruntime.ClonePointerToString(signalR.PublicNetworkAccess)
-
-	// PublicPort
-	destination.PublicPort = genruntime.ClonePointerToInt(signalR.PublicPort)
 
 	// ResourceLogConfiguration
 	if signalR.ResourceLogConfiguration != nil {
@@ -1216,27 +1093,6 @@ func (signalR *SignalR_Spec) AssignPropertiesToSignalR_Spec(destination *v202110
 		destination.ResourceLogConfiguration = nil
 	}
 
-	// ServerPort
-	destination.ServerPort = genruntime.ClonePointerToInt(signalR.ServerPort)
-
-	// SharedPrivateLinkResources
-	if signalR.SharedPrivateLinkResources != nil {
-		sharedPrivateLinkResourceList := make([]v20211001s.SharedPrivateLinkResource_SignalR_SubResourceEmbedded, len(signalR.SharedPrivateLinkResources))
-		for sharedPrivateLinkResourceIndex, sharedPrivateLinkResourceItem := range signalR.SharedPrivateLinkResources {
-			// Shadow the loop variable to avoid aliasing
-			sharedPrivateLinkResourceItem := sharedPrivateLinkResourceItem
-			var sharedPrivateLinkResource v20211001s.SharedPrivateLinkResource_SignalR_SubResourceEmbedded
-			err := sharedPrivateLinkResourceItem.AssignPropertiesToSharedPrivateLinkResource_SignalR_SubResourceEmbedded(&sharedPrivateLinkResource)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToSharedPrivateLinkResource_SignalR_SubResourceEmbedded() to populate field SharedPrivateLinkResources")
-			}
-			sharedPrivateLinkResourceList[sharedPrivateLinkResourceIndex] = sharedPrivateLinkResource
-		}
-		destination.SharedPrivateLinkResources = sharedPrivateLinkResourceList
-	} else {
-		destination.SharedPrivateLinkResources = nil
-	}
-
 	// Sku
 	if signalR.Sku != nil {
 		var sku v20211001s.ResourceSku
@@ -1247,18 +1103,6 @@ func (signalR *SignalR_Spec) AssignPropertiesToSignalR_Spec(destination *v202110
 		destination.Sku = &sku
 	} else {
 		destination.Sku = nil
-	}
-
-	// SystemData
-	if signalR.SystemData != nil {
-		var systemDatum v20211001s.SystemData
-		err := signalR.SystemData.AssignPropertiesToSystemData(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
 	}
 
 	// Tags
@@ -1276,9 +1120,6 @@ func (signalR *SignalR_Spec) AssignPropertiesToSignalR_Spec(destination *v202110
 		destination.Tls = nil
 	}
 
-	// Type
-	destination.Type = genruntime.ClonePointerToString(signalR.Type)
-
 	// Upstream
 	if signalR.Upstream != nil {
 		var upstream v20211001s.ServerlessUpstreamSettings
@@ -1290,9 +1131,6 @@ func (signalR *SignalR_Spec) AssignPropertiesToSignalR_Spec(destination *v202110
 	} else {
 		destination.Upstream = nil
 	}
-
-	// Version
-	destination.Version = genruntime.ClonePointerToString(signalR.Version)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1308,11 +1146,8 @@ func (signalR *SignalR_Spec) AssignPropertiesToSignalR_Spec(destination *v202110
 // Storage version of v1alpha1api20211001.ManagedIdentity
 // Deprecated version of ManagedIdentity. Use v1beta20211001.ManagedIdentity instead
 type ManagedIdentity struct {
-	PrincipalId            *string                                 `json:"principalId,omitempty"`
-	PropertyBag            genruntime.PropertyBag                  `json:"$propertyBag,omitempty"`
-	TenantId               *string                                 `json:"tenantId,omitempty"`
-	Type                   *string                                 `json:"type,omitempty"`
-	UserAssignedIdentities map[string]UserAssignedIdentityProperty `json:"userAssignedIdentities,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Type        *string                `json:"type,omitempty"`
 }
 
 // AssignPropertiesFromManagedIdentity populates our ManagedIdentity from the provided source ManagedIdentity
@@ -1320,32 +1155,8 @@ func (identity *ManagedIdentity) AssignPropertiesFromManagedIdentity(source *v20
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// PrincipalId
-	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// TenantId
-	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
-
 	// Type
 	identity.Type = genruntime.ClonePointerToString(source.Type)
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]UserAssignedIdentityProperty, len(source.UserAssignedIdentities))
-		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity UserAssignedIdentityProperty
-			err := userAssignedIdentity.AssignPropertiesFromUserAssignedIdentityProperty(&userAssignedIdentityValue)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromUserAssignedIdentityProperty() to populate field UserAssignedIdentities")
-			}
-			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
-		}
-		identity.UserAssignedIdentities = userAssignedIdentityMap
-	} else {
-		identity.UserAssignedIdentities = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1363,32 +1174,8 @@ func (identity *ManagedIdentity) AssignPropertiesToManagedIdentity(destination *
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
 
-	// PrincipalId
-	destination.PrincipalId = genruntime.ClonePointerToString(identity.PrincipalId)
-
-	// TenantId
-	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
-
 	// Type
 	destination.Type = genruntime.ClonePointerToString(identity.Type)
-
-	// UserAssignedIdentities
-	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v20211001s.UserAssignedIdentityProperty, len(identity.UserAssignedIdentities))
-		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity v20211001s.UserAssignedIdentityProperty
-			err := userAssignedIdentityValue.AssignPropertiesToUserAssignedIdentityProperty(&userAssignedIdentity)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToUserAssignedIdentityProperty() to populate field UserAssignedIdentities")
-			}
-			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
-		}
-		destination.UserAssignedIdentities = userAssignedIdentityMap
-	} else {
-		destination.UserAssignedIdentities = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1567,76 +1354,6 @@ func (embedded *PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded) As
 	return nil
 }
 
-// Storage version of v1alpha1api20211001.PrivateEndpointConnection_SignalR_SubResourceEmbedded
-// Deprecated version of PrivateEndpointConnection_SignalR_SubResourceEmbedded. Use v1beta20211001.PrivateEndpointConnection_SignalR_SubResourceEmbedded instead
-type PrivateEndpointConnection_SignalR_SubResourceEmbedded struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SystemData  *SystemData            `json:"systemData,omitempty"`
-}
-
-// AssignPropertiesFromPrivateEndpointConnection_SignalR_SubResourceEmbedded populates our PrivateEndpointConnection_SignalR_SubResourceEmbedded from the provided source PrivateEndpointConnection_SignalR_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_SignalR_SubResourceEmbedded) AssignPropertiesFromPrivateEndpointConnection_SignalR_SubResourceEmbedded(source *v20211001s.PrivateEndpointConnection_SignalR_SubResourceEmbedded) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Id
-	embedded.Id = genruntime.ClonePointerToString(source.Id)
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
-		}
-		embedded.SystemData = &systemDatum
-	} else {
-		embedded.SystemData = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		embedded.PropertyBag = propertyBag
-	} else {
-		embedded.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToPrivateEndpointConnection_SignalR_SubResourceEmbedded populates the provided destination PrivateEndpointConnection_SignalR_SubResourceEmbedded from our PrivateEndpointConnection_SignalR_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_SignalR_SubResourceEmbedded) AssignPropertiesToPrivateEndpointConnection_SignalR_SubResourceEmbedded(destination *v20211001s.PrivateEndpointConnection_SignalR_SubResourceEmbedded) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(embedded.Id)
-
-	// SystemData
-	if embedded.SystemData != nil {
-		var systemDatum v20211001s.SystemData
-		err := embedded.SystemData.AssignPropertiesToSystemData(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Storage version of v1alpha1api20211001.ResourceLogConfiguration
 // Deprecated version of ResourceLogConfiguration. Use v1beta20211001.ResourceLogConfiguration instead
 type ResourceLogConfiguration struct {
@@ -1791,10 +1508,8 @@ func (configuration *ResourceLogConfiguration_STATUS) AssignPropertiesToResource
 // Deprecated version of ResourceSku. Use v1beta20211001.ResourceSku instead
 type ResourceSku struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
-	Family      *string                `json:"family,omitempty"`
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Size        *string                `json:"size,omitempty"`
 	Tier        *string                `json:"tier,omitempty"`
 }
 
@@ -1806,14 +1521,8 @@ func (resourceSku *ResourceSku) AssignPropertiesFromResourceSku(source *v2021100
 	// Capacity
 	resourceSku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
 
-	// Family
-	resourceSku.Family = genruntime.ClonePointerToString(source.Family)
-
 	// Name
 	resourceSku.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Size
-	resourceSku.Size = genruntime.ClonePointerToString(source.Size)
 
 	// Tier
 	resourceSku.Tier = genruntime.ClonePointerToString(source.Tier)
@@ -1837,14 +1546,8 @@ func (resourceSku *ResourceSku) AssignPropertiesToResourceSku(destination *v2021
 	// Capacity
 	destination.Capacity = genruntime.ClonePointerToInt(resourceSku.Capacity)
 
-	// Family
-	destination.Family = genruntime.ClonePointerToString(resourceSku.Family)
-
 	// Name
 	destination.Name = genruntime.ClonePointerToString(resourceSku.Name)
-
-	// Size
-	destination.Size = genruntime.ClonePointerToString(resourceSku.Size)
 
 	// Tier
 	destination.Tier = genruntime.ClonePointerToString(resourceSku.Tier)
@@ -2136,76 +1839,6 @@ func (embedded *SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded) As
 		err := embedded.SystemData.AssignPropertiesToSystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSystemData_STATUS() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20211001.SharedPrivateLinkResource_SignalR_SubResourceEmbedded
-// Deprecated version of SharedPrivateLinkResource_SignalR_SubResourceEmbedded. Use v1beta20211001.SharedPrivateLinkResource_SignalR_SubResourceEmbedded instead
-type SharedPrivateLinkResource_SignalR_SubResourceEmbedded struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SystemData  *SystemData            `json:"systemData,omitempty"`
-}
-
-// AssignPropertiesFromSharedPrivateLinkResource_SignalR_SubResourceEmbedded populates our SharedPrivateLinkResource_SignalR_SubResourceEmbedded from the provided source SharedPrivateLinkResource_SignalR_SubResourceEmbedded
-func (embedded *SharedPrivateLinkResource_SignalR_SubResourceEmbedded) AssignPropertiesFromSharedPrivateLinkResource_SignalR_SubResourceEmbedded(source *v20211001s.SharedPrivateLinkResource_SignalR_SubResourceEmbedded) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Id
-	embedded.Id = genruntime.ClonePointerToString(source.Id)
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
-		}
-		embedded.SystemData = &systemDatum
-	} else {
-		embedded.SystemData = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		embedded.PropertyBag = propertyBag
-	} else {
-		embedded.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToSharedPrivateLinkResource_SignalR_SubResourceEmbedded populates the provided destination SharedPrivateLinkResource_SignalR_SubResourceEmbedded from our SharedPrivateLinkResource_SignalR_SubResourceEmbedded
-func (embedded *SharedPrivateLinkResource_SignalR_SubResourceEmbedded) AssignPropertiesToSharedPrivateLinkResource_SignalR_SubResourceEmbedded(destination *v20211001s.SharedPrivateLinkResource_SignalR_SubResourceEmbedded) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(embedded.Id)
-
-	// SystemData
-	if embedded.SystemData != nil {
-		var systemDatum v20211001s.SystemData
-		err := embedded.SystemData.AssignPropertiesToSystemData(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -2743,86 +2376,6 @@ func (settings *SignalRTlsSettings_STATUS) AssignPropertiesToSignalRTlsSettings_
 	} else {
 		destination.ClientCertEnabled = nil
 	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20211001.SystemData
-// Deprecated version of SystemData. Use v1beta20211001.SystemData instead
-type SystemData struct {
-	CreatedAt          *string                `json:"createdAt,omitempty"`
-	CreatedBy          *string                `json:"createdBy,omitempty"`
-	CreatedByType      *string                `json:"createdByType,omitempty"`
-	LastModifiedAt     *string                `json:"lastModifiedAt,omitempty"`
-	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
-	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// AssignPropertiesFromSystemData populates our SystemData from the provided source SystemData
-func (data *SystemData) AssignPropertiesFromSystemData(source *v20211001s.SystemData) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// CreatedAt
-	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
-
-	// CreatedBy
-	data.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
-
-	// CreatedByType
-	data.CreatedByType = genruntime.ClonePointerToString(source.CreatedByType)
-
-	// LastModifiedAt
-	data.LastModifiedAt = genruntime.ClonePointerToString(source.LastModifiedAt)
-
-	// LastModifiedBy
-	data.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
-
-	// LastModifiedByType
-	data.LastModifiedByType = genruntime.ClonePointerToString(source.LastModifiedByType)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		data.PropertyBag = propertyBag
-	} else {
-		data.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToSystemData populates the provided destination SystemData from our SystemData
-func (data *SystemData) AssignPropertiesToSystemData(destination *v20211001s.SystemData) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(data.PropertyBag)
-
-	// CreatedAt
-	destination.CreatedAt = genruntime.ClonePointerToString(data.CreatedAt)
-
-	// CreatedBy
-	destination.CreatedBy = genruntime.ClonePointerToString(data.CreatedBy)
-
-	// CreatedByType
-	destination.CreatedByType = genruntime.ClonePointerToString(data.CreatedByType)
-
-	// LastModifiedAt
-	destination.LastModifiedAt = genruntime.ClonePointerToString(data.LastModifiedAt)
-
-	// LastModifiedBy
-	destination.LastModifiedBy = genruntime.ClonePointerToString(data.LastModifiedBy)
-
-	// LastModifiedByType
-	destination.LastModifiedByType = genruntime.ClonePointerToString(data.LastModifiedByType)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3411,58 +2964,6 @@ func (template *UpstreamTemplate_STATUS) AssignPropertiesToUpstreamTemplate_STAT
 
 	// UrlTemplate
 	destination.UrlTemplate = genruntime.ClonePointerToString(template.UrlTemplate)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20211001.UserAssignedIdentityProperty
-// Deprecated version of UserAssignedIdentityProperty. Use v1beta20211001.UserAssignedIdentityProperty instead
-type UserAssignedIdentityProperty struct {
-	ClientId    *string                `json:"clientId,omitempty"`
-	PrincipalId *string                `json:"principalId,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// AssignPropertiesFromUserAssignedIdentityProperty populates our UserAssignedIdentityProperty from the provided source UserAssignedIdentityProperty
-func (property *UserAssignedIdentityProperty) AssignPropertiesFromUserAssignedIdentityProperty(source *v20211001s.UserAssignedIdentityProperty) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// ClientId
-	property.ClientId = genruntime.ClonePointerToString(source.ClientId)
-
-	// PrincipalId
-	property.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		property.PropertyBag = propertyBag
-	} else {
-		property.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToUserAssignedIdentityProperty populates the provided destination UserAssignedIdentityProperty from our UserAssignedIdentityProperty
-func (property *UserAssignedIdentityProperty) AssignPropertiesToUserAssignedIdentityProperty(destination *v20211001s.UserAssignedIdentityProperty) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(property.PropertyBag)
-
-	// ClientId
-	destination.ClientId = genruntime.ClonePointerToString(property.ClientId)
-
-	// PrincipalId
-	destination.PrincipalId = genruntime.ClonePointerToString(property.PrincipalId)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

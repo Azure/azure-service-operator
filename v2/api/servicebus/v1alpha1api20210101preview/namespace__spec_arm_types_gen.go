@@ -8,15 +8,12 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 // Deprecated version of Namespace_Spec. Use v1beta20210101preview.Namespace_Spec instead
 type Namespace_SpecARM struct {
 	AzureName  string                    `json:"azureName,omitempty"`
-	Id         *string                   `json:"id,omitempty"`
 	Identity   *IdentityARM              `json:"identity,omitempty"`
 	Location   *string                   `json:"location,omitempty"`
 	Name       string                    `json:"name,omitempty"`
 	Properties *SBNamespacePropertiesARM `json:"properties,omitempty"`
 	Sku        *SBSkuARM                 `json:"sku,omitempty"`
-	SystemData *SystemDataARM            `json:"systemData,omitempty"`
 	Tags       map[string]string         `json:"tags,omitempty"`
-	Type       *string                   `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Namespace_SpecARM{}
@@ -38,21 +35,13 @@ func (namespace *Namespace_SpecARM) GetType() string {
 
 // Deprecated version of Identity. Use v1beta20210101preview.Identity instead
 type IdentityARM struct {
-	PrincipalId *string        `json:"principalId,omitempty"`
-	TenantId    *string        `json:"tenantId,omitempty"`
-	Type        *Identity_Type `json:"type,omitempty"`
+	Type *Identity_Type `json:"type,omitempty"`
 }
 
 // Deprecated version of SBNamespaceProperties. Use v1beta20210101preview.SBNamespaceProperties instead
 type SBNamespacePropertiesARM struct {
-	CreatedAt                  *string                        `json:"createdAt,omitempty"`
 	Encryption                 *EncryptionARM                 `json:"encryption,omitempty"`
-	MetricId                   *string                        `json:"metricId,omitempty"`
 	PrivateEndpointConnections []PrivateEndpointConnectionARM `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState          *string                        `json:"provisioningState,omitempty"`
-	ServiceBusEndpoint         *string                        `json:"serviceBusEndpoint,omitempty"`
-	Status                     *string                        `json:"status,omitempty"`
-	UpdatedAt                  *string                        `json:"updatedAt,omitempty"`
 	ZoneRedundant              *bool                          `json:"zoneRedundant,omitempty"`
 }
 
@@ -61,16 +50,6 @@ type SBSkuARM struct {
 	Capacity *int        `json:"capacity,omitempty"`
 	Name     *SBSku_Name `json:"name,omitempty"`
 	Tier     *SBSku_Tier `json:"tier,omitempty"`
-}
-
-// Deprecated version of SystemData. Use v1beta20210101preview.SystemData instead
-type SystemDataARM struct {
-	CreatedAt          *string                        `json:"createdAt,omitempty"`
-	CreatedBy          *string                        `json:"createdBy,omitempty"`
-	CreatedByType      *SystemData_CreatedByType      `json:"createdByType,omitempty"`
-	LastModifiedAt     *string                        `json:"lastModifiedAt,omitempty"`
-	LastModifiedBy     *string                        `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *SystemData_LastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
 // Deprecated version of Encryption. Use v1beta20210101preview.Encryption instead
@@ -93,8 +72,7 @@ const (
 
 // Deprecated version of PrivateEndpointConnection. Use v1beta20210101preview.PrivateEndpointConnection instead
 type PrivateEndpointConnectionARM struct {
-	Id         *string        `json:"id,omitempty"`
-	SystemData *SystemDataARM `json:"systemData,omitempty"`
+	Properties *PrivateEndpointConnectionPropertiesARM `json:"properties,omitempty"`
 }
 
 // Deprecated version of SBSku_Name. Use v1beta20210101preview.SBSku_Name instead
@@ -117,34 +95,30 @@ const (
 	SBSku_Tier_Standard = SBSku_Tier("Standard")
 )
 
-// Deprecated version of SystemData_CreatedByType. Use v1beta20210101preview.SystemData_CreatedByType instead
-// +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
-type SystemData_CreatedByType string
-
-const (
-	SystemData_CreatedByType_Application     = SystemData_CreatedByType("Application")
-	SystemData_CreatedByType_Key             = SystemData_CreatedByType("Key")
-	SystemData_CreatedByType_ManagedIdentity = SystemData_CreatedByType("ManagedIdentity")
-	SystemData_CreatedByType_User            = SystemData_CreatedByType("User")
-)
-
-// Deprecated version of SystemData_LastModifiedByType. Use v1beta20210101preview.SystemData_LastModifiedByType instead
-// +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
-type SystemData_LastModifiedByType string
-
-const (
-	SystemData_LastModifiedByType_Application     = SystemData_LastModifiedByType("Application")
-	SystemData_LastModifiedByType_Key             = SystemData_LastModifiedByType("Key")
-	SystemData_LastModifiedByType_ManagedIdentity = SystemData_LastModifiedByType("ManagedIdentity")
-	SystemData_LastModifiedByType_User            = SystemData_LastModifiedByType("User")
-)
-
 // Deprecated version of KeyVaultProperties. Use v1beta20210101preview.KeyVaultProperties instead
 type KeyVaultPropertiesARM struct {
 	Identity    *UserAssignedIdentityPropertiesARM `json:"identity,omitempty"`
 	KeyName     *string                            `json:"keyName,omitempty"`
 	KeyVaultUri *string                            `json:"keyVaultUri,omitempty"`
 	KeyVersion  *string                            `json:"keyVersion,omitempty"`
+}
+
+// Deprecated version of PrivateEndpointConnectionProperties. Use v1beta20210101preview.PrivateEndpointConnectionProperties instead
+type PrivateEndpointConnectionPropertiesARM struct {
+	PrivateEndpoint                   *PrivateEndpointARM                                    `json:"privateEndpoint,omitempty"`
+	PrivateLinkServiceConnectionState *ConnectionStateARM                                    `json:"privateLinkServiceConnectionState,omitempty"`
+	ProvisioningState                 *PrivateEndpointConnectionProperties_ProvisioningState `json:"provisioningState,omitempty"`
+}
+
+// Deprecated version of ConnectionState. Use v1beta20210101preview.ConnectionState instead
+type ConnectionStateARM struct {
+	Description *string                 `json:"description,omitempty"`
+	Status      *ConnectionState_Status `json:"status,omitempty"`
+}
+
+// Deprecated version of PrivateEndpoint. Use v1beta20210101preview.PrivateEndpoint instead
+type PrivateEndpointARM struct {
+	Id *string `json:"id,omitempty"`
 }
 
 // Deprecated version of UserAssignedIdentityProperties. Use v1beta20210101preview.UserAssignedIdentityProperties instead

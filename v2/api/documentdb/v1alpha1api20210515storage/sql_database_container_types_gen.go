@@ -384,7 +384,6 @@ type DatabaseAccountsSqlDatabasesContainer_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string               `json:"azureName,omitempty"`
-	Id              *string              `json:"id,omitempty"`
 	Location        *string              `json:"location,omitempty"`
 	Options         *CreateUpdateOptions `json:"options,omitempty"`
 	OriginalVersion string               `json:"originalVersion,omitempty"`
@@ -397,7 +396,6 @@ type DatabaseAccountsSqlDatabasesContainer_Spec struct {
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Resource    *SqlContainerResource              `json:"resource,omitempty"`
 	Tags        map[string]string                  `json:"tags,omitempty"`
-	Type        *string                            `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabasesContainer_Spec{}
@@ -458,9 +456,6 @@ func (container *DatabaseAccountsSqlDatabasesContainer_Spec) AssignPropertiesFro
 	// AzureName
 	container.AzureName = source.AzureName
 
-	// Id
-	container.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Location
 	container.Location = genruntime.ClonePointerToString(source.Location)
 
@@ -502,9 +497,6 @@ func (container *DatabaseAccountsSqlDatabasesContainer_Spec) AssignPropertiesFro
 	// Tags
 	container.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
-	// Type
-	container.Type = genruntime.ClonePointerToString(source.Type)
-
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		container.PropertyBag = propertyBag
@@ -523,9 +515,6 @@ func (container *DatabaseAccountsSqlDatabasesContainer_Spec) AssignPropertiesToD
 
 	// AzureName
 	destination.AzureName = container.AzureName
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(container.Id)
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(container.Location)
@@ -567,9 +556,6 @@ func (container *DatabaseAccountsSqlDatabasesContainer_Spec) AssignPropertiesToD
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(container.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(container.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1055,7 +1041,6 @@ type ContainerPartitionKey struct {
 	Kind        *string                `json:"kind,omitempty"`
 	Paths       []string               `json:"paths,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SystemKey   *bool                  `json:"systemKey,omitempty"`
 	Version     *int                   `json:"version,omitempty"`
 }
 
@@ -1069,14 +1054,6 @@ func (partitionKey *ContainerPartitionKey) AssignPropertiesFromContainerPartitio
 
 	// Paths
 	partitionKey.Paths = genruntime.CloneSliceOfString(source.Paths)
-
-	// SystemKey
-	if source.SystemKey != nil {
-		systemKey := *source.SystemKey
-		partitionKey.SystemKey = &systemKey
-	} else {
-		partitionKey.SystemKey = nil
-	}
 
 	// Version
 	partitionKey.Version = genruntime.ClonePointerToInt(source.Version)
@@ -1102,14 +1079,6 @@ func (partitionKey *ContainerPartitionKey) AssignPropertiesToContainerPartitionK
 
 	// Paths
 	destination.Paths = genruntime.CloneSliceOfString(partitionKey.Paths)
-
-	// SystemKey
-	if partitionKey.SystemKey != nil {
-		systemKey := *partitionKey.SystemKey
-		destination.SystemKey = &systemKey
-	} else {
-		destination.SystemKey = nil
-	}
 
 	// Version
 	destination.Version = genruntime.ClonePointerToInt(partitionKey.Version)

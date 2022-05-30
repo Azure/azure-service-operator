@@ -252,23 +252,15 @@ func AddIndependentPropertyGeneratorsForDisk_Spec(gens map[string]gopter.Gen) {
 	gens["DiskIOPSReadWrite"] = gen.PtrOf(gen.Int())
 	gens["DiskMBpsReadOnly"] = gen.PtrOf(gen.Int())
 	gens["DiskMBpsReadWrite"] = gen.PtrOf(gen.Int())
-	gens["DiskSizeBytes"] = gen.PtrOf(gen.Int())
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
 	gens["HyperVGeneration"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["ManagedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["ManagedByExtended"] = gen.SliceOf(gen.AlphaString())
 	gens["MaxShares"] = gen.PtrOf(gen.Int())
 	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["OsType"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["Tier"] = gen.PtrOf(gen.AlphaString())
-	gens["TimeCreated"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["UniqueId"] = gen.PtrOf(gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
 
@@ -279,7 +271,6 @@ func AddRelatedPropertyGeneratorsForDisk_Spec(gens map[string]gopter.Gen) {
 	gens["EncryptionSettingsCollection"] = gen.PtrOf(EncryptionSettingsCollectionGenerator())
 	gens["ExtendedLocation"] = gen.PtrOf(ExtendedLocationGenerator())
 	gens["PurchasePlan"] = gen.PtrOf(PurchasePlanGenerator())
-	gens["ShareInfo"] = gen.SliceOf(ShareInfoElementGenerator())
 	gens["Sku"] = gen.PtrOf(DiskSkuGenerator())
 }
 
@@ -350,7 +341,6 @@ func CreationDataGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForCreationData(gens map[string]gopter.Gen) {
 	gens["CreateOption"] = gen.PtrOf(gen.AlphaString())
 	gens["LogicalSectorSize"] = gen.PtrOf(gen.Int())
-	gens["SourceUniqueId"] = gen.PtrOf(gen.AlphaString())
 	gens["SourceUri"] = gen.PtrOf(gen.AlphaString())
 	gens["StorageAccountId"] = gen.PtrOf(gen.AlphaString())
 	gens["UploadSizeBytes"] = gen.PtrOf(gen.Int())
@@ -500,7 +490,6 @@ func DiskSkuGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDiskSku is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDiskSku(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Tier"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_DiskSku_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1160,65 +1149,6 @@ func AddIndependentPropertyGeneratorsForPurchasePlan_STATUS(gens map[string]gopt
 	gens["Product"] = gen.PtrOf(gen.AlphaString())
 	gens["PromotionCode"] = gen.PtrOf(gen.AlphaString())
 	gens["Publisher"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_ShareInfoElement_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ShareInfoElement via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForShareInfoElement, ShareInfoElementGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForShareInfoElement runs a test to see if a specific instance of ShareInfoElement round trips to JSON and back losslessly
-func RunJSONSerializationTestForShareInfoElement(subject ShareInfoElement) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ShareInfoElement
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ShareInfoElement instances for property testing - lazily instantiated by ShareInfoElementGenerator()
-var shareInfoElementGenerator gopter.Gen
-
-// ShareInfoElementGenerator returns a generator of ShareInfoElement instances for property testing.
-func ShareInfoElementGenerator() gopter.Gen {
-	if shareInfoElementGenerator != nil {
-		return shareInfoElementGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForShareInfoElement(generators)
-	shareInfoElementGenerator = gen.Struct(reflect.TypeOf(ShareInfoElement{}), generators)
-
-	return shareInfoElementGenerator
-}
-
-// AddIndependentPropertyGeneratorsForShareInfoElement is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForShareInfoElement(gens map[string]gopter.Gen) {
-	gens["VmUri"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ShareInfoElement_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

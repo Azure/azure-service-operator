@@ -221,23 +221,21 @@ type SystemData_STATUS struct {
 
 // Storage version of v1beta20210401preview.VaultProperties
 type VaultProperties struct {
-	AccessPolicies               []AccessPolicyEntry             `json:"accessPolicies,omitempty"`
-	CreateMode                   *string                         `json:"createMode,omitempty"`
-	EnablePurgeProtection        *bool                           `json:"enablePurgeProtection,omitempty"`
-	EnableRbacAuthorization      *bool                           `json:"enableRbacAuthorization,omitempty"`
-	EnableSoftDelete             *bool                           `json:"enableSoftDelete,omitempty"`
-	EnabledForDeployment         *bool                           `json:"enabledForDeployment,omitempty"`
-	EnabledForDiskEncryption     *bool                           `json:"enabledForDiskEncryption,omitempty"`
-	EnabledForTemplateDeployment *bool                           `json:"enabledForTemplateDeployment,omitempty"`
-	HsmPoolResourceId            *string                         `json:"hsmPoolResourceId,omitempty"`
-	NetworkAcls                  *NetworkRuleSet                 `json:"networkAcls,omitempty"`
-	PrivateEndpointConnections   []PrivateEndpointConnectionItem `json:"privateEndpointConnections,omitempty"`
-	PropertyBag                  genruntime.PropertyBag          `json:"$propertyBag,omitempty"`
-	ProvisioningState            *string                         `json:"provisioningState,omitempty"`
-	Sku                          *Sku                            `json:"sku,omitempty"`
-	SoftDeleteRetentionInDays    *int                            `json:"softDeleteRetentionInDays,omitempty"`
-	TenantId                     *string                         `json:"tenantId,omitempty"`
-	VaultUri                     *string                         `json:"vaultUri,omitempty"`
+	AccessPolicies               []AccessPolicyEntry    `json:"accessPolicies,omitempty"`
+	CreateMode                   *string                `json:"createMode,omitempty"`
+	EnablePurgeProtection        *bool                  `json:"enablePurgeProtection,omitempty"`
+	EnableRbacAuthorization      *bool                  `json:"enableRbacAuthorization,omitempty"`
+	EnableSoftDelete             *bool                  `json:"enableSoftDelete,omitempty"`
+	EnabledForDeployment         *bool                  `json:"enabledForDeployment,omitempty"`
+	EnabledForDiskEncryption     *bool                  `json:"enabledForDiskEncryption,omitempty"`
+	EnabledForTemplateDeployment *bool                  `json:"enabledForTemplateDeployment,omitempty"`
+	NetworkAcls                  *NetworkRuleSet        `json:"networkAcls,omitempty"`
+	PropertyBag                  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ProvisioningState            *string                `json:"provisioningState,omitempty"`
+	Sku                          *Sku                   `json:"sku,omitempty"`
+	SoftDeleteRetentionInDays    *int                   `json:"softDeleteRetentionInDays,omitempty"`
+	TenantId                     *string                `json:"tenantId,omitempty"`
+	VaultUri                     *string                `json:"vaultUri,omitempty"`
 }
 
 // Storage version of v1beta20210401preview.VaultProperties_STATUS
@@ -297,16 +295,6 @@ type NetworkRuleSet_STATUS struct {
 	VirtualNetworkRules []VirtualNetworkRule_STATUS `json:"virtualNetworkRules,omitempty"`
 }
 
-// Storage version of v1beta20210401preview.PrivateEndpointConnectionItem
-type PrivateEndpointConnectionItem struct {
-	Etag                              *string                            `json:"etag,omitempty"`
-	Id                                *string                            `json:"id,omitempty"`
-	PrivateEndpoint                   *PrivateEndpoint                   `json:"privateEndpoint,omitempty"`
-	PrivateLinkServiceConnectionState *PrivateLinkServiceConnectionState `json:"privateLinkServiceConnectionState,omitempty"`
-	PropertyBag                       genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	ProvisioningState                 *string                            `json:"provisioningState,omitempty"`
-}
-
 // Storage version of v1beta20210401preview.PrivateEndpointConnectionItem_STATUS
 type PrivateEndpointConnectionItem_STATUS struct {
 	Etag                              *string                                   `json:"etag,omitempty"`
@@ -361,24 +349,10 @@ type Permissions_STATUS struct {
 	Storage      []string               `json:"storage,omitempty"`
 }
 
-// Storage version of v1beta20210401preview.PrivateEndpoint
-type PrivateEndpoint struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
 // Storage version of v1beta20210401preview.PrivateEndpoint_STATUS
 type PrivateEndpoint_STATUS struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1beta20210401preview.PrivateLinkServiceConnectionState
-type PrivateLinkServiceConnectionState struct {
-	ActionsRequired *string                `json:"actionsRequired,omitempty"`
-	Description     *string                `json:"description,omitempty"`
-	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Status          *string                `json:"status,omitempty"`
 }
 
 // Storage version of v1beta20210401preview.PrivateLinkServiceConnectionState_STATUS

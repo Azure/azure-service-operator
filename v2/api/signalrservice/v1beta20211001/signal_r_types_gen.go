@@ -1221,24 +1221,12 @@ type SignalR_Spec struct {
 	// When set as true, connection with AccessKey=xxx won't work.
 	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
 
-	// ExternalIP: The publicly accessible IP of the resource.
-	ExternalIP *string `json:"externalIP,omitempty"`
-
 	// Features: List of the featureFlags.
 	// FeatureFlags that are not included in the parameters for the update operation will not be modified.
 	// And the response will only include featureFlags that are explicitly set.
 	// When a featureFlag is not explicitly set, its globally default value will be used
 	// But keep in mind, the default value doesn't mean "false". It varies in terms of different FeatureFlags.
 	Features []SignalRFeature `json:"features,omitempty"`
-
-	// HostName: FQDN of the service instance.
-	HostName *string `json:"hostName,omitempty"`
-
-	// HostNamePrefix: Deprecated.
-	HostNamePrefix *string `json:"hostNamePrefix,omitempty"`
-
-	// Id: Fully qualified resource Id for the resource.
-	Id       *string          `json:"id,omitempty"`
 	Identity *ManagedIdentity `json:"identity,omitempty"`
 	Kind     *ServiceKind     `json:"kind,omitempty"`
 
@@ -1252,37 +1240,17 @@ type SignalR_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
-	// PrivateEndpointConnections: Private endpoint connections to the resource.
-	PrivateEndpointConnections []PrivateEndpointConnection_SignalR_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState          *ProvisioningState                                      `json:"provisioningState,omitempty"`
-
 	// PublicNetworkAccess: Enable or disable public network access. Default to "Enabled".
 	// When it's Enabled, network ACLs still apply.
 	// When it's Disabled, public network access is always disabled no matter what you set in network ACLs.
-	PublicNetworkAccess *string `json:"publicNetworkAccess,omitempty"`
-
-	// PublicPort: The publicly accessible port of the resource which is designed for browser/client side usage.
-	PublicPort               *int                      `json:"publicPort,omitempty"`
+	PublicNetworkAccess      *string                   `json:"publicNetworkAccess,omitempty"`
 	ResourceLogConfiguration *ResourceLogConfiguration `json:"resourceLogConfiguration,omitempty"`
-
-	// ServerPort: The publicly accessible port of the resource which is designed for customer server side usage.
-	ServerPort *int `json:"serverPort,omitempty"`
-
-	// SharedPrivateLinkResources: The list of shared private link resources.
-	SharedPrivateLinkResources []SharedPrivateLinkResource_SignalR_SubResourceEmbedded `json:"sharedPrivateLinkResources,omitempty"`
-	Sku                        *ResourceSku                                            `json:"sku,omitempty"`
-	SystemData                 *SystemData                                             `json:"systemData,omitempty"`
+	Sku                      *ResourceSku              `json:"sku,omitempty"`
 
 	// Tags: Tags of the service which is a list of key value pairs that describe the resource.
-	Tags map[string]string   `json:"tags,omitempty"`
-	Tls  *SignalRTlsSettings `json:"tls,omitempty"`
-
-	// Type: The type of the resource - e.g. "Microsoft.SignalRService/SignalR"
-	Type     *string                     `json:"type,omitempty"`
+	Tags     map[string]string           `json:"tags,omitempty"`
+	Tls      *SignalRTlsSettings         `json:"tls,omitempty"`
 	Upstream *ServerlessUpstreamSettings `json:"upstream,omitempty"`
-
-	// Version: Version of the resource. Probably you need the same or higher version of client SDKs.
-	Version *string `json:"version,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &SignalR_Spec{}
@@ -1296,12 +1264,6 @@ func (signalR *SignalR_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property ‘AzureName’:
 	result.AzureName = signalR.AzureName
-
-	// Set property ‘Id’:
-	if signalR.Id != nil {
-		id := *signalR.Id
-		result.Id = &id
-	}
 
 	// Set property ‘Identity’:
 	if signalR.Identity != nil {
@@ -1332,21 +1294,12 @@ func (signalR *SignalR_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if signalR.Cors != nil ||
 		signalR.DisableAadAuth != nil ||
 		signalR.DisableLocalAuth != nil ||
-		signalR.ExternalIP != nil ||
 		signalR.Features != nil ||
-		signalR.HostName != nil ||
-		signalR.HostNamePrefix != nil ||
 		signalR.NetworkACLs != nil ||
-		signalR.PrivateEndpointConnections != nil ||
-		signalR.ProvisioningState != nil ||
 		signalR.PublicNetworkAccess != nil ||
-		signalR.PublicPort != nil ||
 		signalR.ResourceLogConfiguration != nil ||
-		signalR.ServerPort != nil ||
-		signalR.SharedPrivateLinkResources != nil ||
 		signalR.Tls != nil ||
-		signalR.Upstream != nil ||
-		signalR.Version != nil {
+		signalR.Upstream != nil {
 		result.Properties = &SignalRPropertiesARM{}
 	}
 	if signalR.Cors != nil {
@@ -1365,24 +1318,12 @@ func (signalR *SignalR_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		disableLocalAuth := *signalR.DisableLocalAuth
 		result.Properties.DisableLocalAuth = &disableLocalAuth
 	}
-	if signalR.ExternalIP != nil {
-		externalIP := *signalR.ExternalIP
-		result.Properties.ExternalIP = &externalIP
-	}
 	for _, item := range signalR.Features {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
 		result.Properties.Features = append(result.Properties.Features, *itemARM.(*SignalRFeatureARM))
-	}
-	if signalR.HostName != nil {
-		hostName := *signalR.HostName
-		result.Properties.HostName = &hostName
-	}
-	if signalR.HostNamePrefix != nil {
-		hostNamePrefix := *signalR.HostNamePrefix
-		result.Properties.HostNamePrefix = &hostNamePrefix
 	}
 	if signalR.NetworkACLs != nil {
 		networkACLsARM, err := (*signalR.NetworkACLs).ConvertToARM(resolved)
@@ -1392,24 +1333,9 @@ func (signalR *SignalR_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		networkACLs := *networkACLsARM.(*SignalRNetworkACLsARM)
 		result.Properties.NetworkACLs = &networkACLs
 	}
-	for _, item := range signalR.PrivateEndpointConnections {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Properties.PrivateEndpointConnections = append(result.Properties.PrivateEndpointConnections, *itemARM.(*PrivateEndpointConnection_SignalR_SubResourceEmbeddedARM))
-	}
-	if signalR.ProvisioningState != nil {
-		provisioningState := *signalR.ProvisioningState
-		result.Properties.ProvisioningState = &provisioningState
-	}
 	if signalR.PublicNetworkAccess != nil {
 		publicNetworkAccess := *signalR.PublicNetworkAccess
 		result.Properties.PublicNetworkAccess = &publicNetworkAccess
-	}
-	if signalR.PublicPort != nil {
-		publicPort := *signalR.PublicPort
-		result.Properties.PublicPort = &publicPort
 	}
 	if signalR.ResourceLogConfiguration != nil {
 		resourceLogConfigurationARM, err := (*signalR.ResourceLogConfiguration).ConvertToARM(resolved)
@@ -1418,17 +1344,6 @@ func (signalR *SignalR_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		}
 		resourceLogConfiguration := *resourceLogConfigurationARM.(*ResourceLogConfigurationARM)
 		result.Properties.ResourceLogConfiguration = &resourceLogConfiguration
-	}
-	if signalR.ServerPort != nil {
-		serverPort := *signalR.ServerPort
-		result.Properties.ServerPort = &serverPort
-	}
-	for _, item := range signalR.SharedPrivateLinkResources {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Properties.SharedPrivateLinkResources = append(result.Properties.SharedPrivateLinkResources, *itemARM.(*SharedPrivateLinkResource_SignalR_SubResourceEmbeddedARM))
 	}
 	if signalR.Tls != nil {
 		tlsARM, err := (*signalR.Tls).ConvertToARM(resolved)
@@ -1446,10 +1361,6 @@ func (signalR *SignalR_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		upstream := *upstreamARM.(*ServerlessUpstreamSettingsARM)
 		result.Properties.Upstream = &upstream
 	}
-	if signalR.Version != nil {
-		version := *signalR.Version
-		result.Properties.Version = &version
-	}
 
 	// Set property ‘Sku’:
 	if signalR.Sku != nil {
@@ -1461,28 +1372,12 @@ func (signalR *SignalR_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		result.Sku = &sku
 	}
 
-	// Set property ‘SystemData’:
-	if signalR.SystemData != nil {
-		systemDataARM, err := (*signalR.SystemData).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		systemData := *systemDataARM.(*SystemDataARM)
-		result.SystemData = &systemData
-	}
-
 	// Set property ‘Tags’:
 	if signalR.Tags != nil {
 		result.Tags = make(map[string]string)
 		for key, value := range signalR.Tags {
 			result.Tags[key] = value
 		}
-	}
-
-	// Set property ‘Type’:
-	if signalR.Type != nil {
-		typeVar := *signalR.Type
-		result.Type = &typeVar
 	}
 	return result, nil
 }
@@ -1534,15 +1429,6 @@ func (signalR *SignalR_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘ExternalIP’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ExternalIP != nil {
-			externalIP := *typedInput.Properties.ExternalIP
-			signalR.ExternalIP = &externalIP
-		}
-	}
-
 	// Set property ‘Features’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -1554,30 +1440,6 @@ func (signalR *SignalR_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 			}
 			signalR.Features = append(signalR.Features, item1)
 		}
-	}
-
-	// Set property ‘HostName’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.HostName != nil {
-			hostName := *typedInput.Properties.HostName
-			signalR.HostName = &hostName
-		}
-	}
-
-	// Set property ‘HostNamePrefix’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.HostNamePrefix != nil {
-			hostNamePrefix := *typedInput.Properties.HostNamePrefix
-			signalR.HostNamePrefix = &hostNamePrefix
-		}
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		signalR.Id = &id
 	}
 
 	// Set property ‘Identity’:
@@ -1622,43 +1484,12 @@ func (signalR *SignalR_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		Name: owner.Name,
 	}
 
-	// Set property ‘PrivateEndpointConnections’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.PrivateEndpointConnections {
-			var item1 PrivateEndpointConnection_SignalR_SubResourceEmbedded
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			signalR.PrivateEndpointConnections = append(signalR.PrivateEndpointConnections, item1)
-		}
-	}
-
-	// Set property ‘ProvisioningState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
-			signalR.ProvisioningState = &provisioningState
-		}
-	}
-
 	// Set property ‘PublicNetworkAccess’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.PublicNetworkAccess != nil {
 			publicNetworkAccess := *typedInput.Properties.PublicNetworkAccess
 			signalR.PublicNetworkAccess = &publicNetworkAccess
-		}
-	}
-
-	// Set property ‘PublicPort’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PublicPort != nil {
-			publicPort := *typedInput.Properties.PublicPort
-			signalR.PublicPort = &publicPort
 		}
 	}
 
@@ -1676,28 +1507,6 @@ func (signalR *SignalR_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘ServerPort’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ServerPort != nil {
-			serverPort := *typedInput.Properties.ServerPort
-			signalR.ServerPort = &serverPort
-		}
-	}
-
-	// Set property ‘SharedPrivateLinkResources’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.SharedPrivateLinkResources {
-			var item1 SharedPrivateLinkResource_SignalR_SubResourceEmbedded
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			signalR.SharedPrivateLinkResources = append(signalR.SharedPrivateLinkResources, item1)
-		}
-	}
-
 	// Set property ‘Sku’:
 	if typedInput.Sku != nil {
 		var sku1 ResourceSku
@@ -1707,17 +1516,6 @@ func (signalR *SignalR_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 		sku := sku1
 		signalR.Sku = &sku
-	}
-
-	// Set property ‘SystemData’:
-	if typedInput.SystemData != nil {
-		var systemData1 SystemData
-		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
-		if err != nil {
-			return err
-		}
-		systemData := systemData1
-		signalR.SystemData = &systemData
 	}
 
 	// Set property ‘Tags’:
@@ -1742,12 +1540,6 @@ func (signalR *SignalR_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		signalR.Type = &typeVar
-	}
-
 	// Set property ‘Upstream’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -1759,15 +1551,6 @@ func (signalR *SignalR_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 			}
 			upstream := upstream1
 			signalR.Upstream = &upstream
-		}
-	}
-
-	// Set property ‘Version’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Version != nil {
-			version := *typedInput.Properties.Version
-			signalR.Version = &version
 		}
 	}
 
@@ -1859,9 +1642,6 @@ func (signalR *SignalR_Spec) AssignPropertiesFromSignalR_Spec(source *v20211001s
 		signalR.DisableLocalAuth = nil
 	}
 
-	// ExternalIP
-	signalR.ExternalIP = genruntime.ClonePointerToString(source.ExternalIP)
-
 	// Features
 	if source.Features != nil {
 		featureList := make([]SignalRFeature, len(source.Features))
@@ -1879,15 +1659,6 @@ func (signalR *SignalR_Spec) AssignPropertiesFromSignalR_Spec(source *v20211001s
 	} else {
 		signalR.Features = nil
 	}
-
-	// HostName
-	signalR.HostName = genruntime.ClonePointerToString(source.HostName)
-
-	// HostNamePrefix
-	signalR.HostNamePrefix = genruntime.ClonePointerToString(source.HostNamePrefix)
-
-	// Id
-	signalR.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Identity
 	if source.Identity != nil {
@@ -1932,37 +1703,8 @@ func (signalR *SignalR_Spec) AssignPropertiesFromSignalR_Spec(source *v20211001s
 		signalR.Owner = nil
 	}
 
-	// PrivateEndpointConnections
-	if source.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]PrivateEndpointConnection_SignalR_SubResourceEmbedded, len(source.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection PrivateEndpointConnection_SignalR_SubResourceEmbedded
-			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnection_SignalR_SubResourceEmbedded(&privateEndpointConnectionItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnection_SignalR_SubResourceEmbedded() to populate field PrivateEndpointConnections")
-			}
-			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
-		}
-		signalR.PrivateEndpointConnections = privateEndpointConnectionList
-	} else {
-		signalR.PrivateEndpointConnections = nil
-	}
-
-	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState(*source.ProvisioningState)
-		signalR.ProvisioningState = &provisioningState
-	} else {
-		signalR.ProvisioningState = nil
-	}
-
 	// PublicNetworkAccess
 	signalR.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
-
-	// PublicPort
-	signalR.PublicPort = genruntime.ClonePointerToInt(source.PublicPort)
 
 	// ResourceLogConfiguration
 	if source.ResourceLogConfiguration != nil {
@@ -1976,27 +1718,6 @@ func (signalR *SignalR_Spec) AssignPropertiesFromSignalR_Spec(source *v20211001s
 		signalR.ResourceLogConfiguration = nil
 	}
 
-	// ServerPort
-	signalR.ServerPort = genruntime.ClonePointerToInt(source.ServerPort)
-
-	// SharedPrivateLinkResources
-	if source.SharedPrivateLinkResources != nil {
-		sharedPrivateLinkResourceList := make([]SharedPrivateLinkResource_SignalR_SubResourceEmbedded, len(source.SharedPrivateLinkResources))
-		for sharedPrivateLinkResourceIndex, sharedPrivateLinkResourceItem := range source.SharedPrivateLinkResources {
-			// Shadow the loop variable to avoid aliasing
-			sharedPrivateLinkResourceItem := sharedPrivateLinkResourceItem
-			var sharedPrivateLinkResource SharedPrivateLinkResource_SignalR_SubResourceEmbedded
-			err := sharedPrivateLinkResource.AssignPropertiesFromSharedPrivateLinkResource_SignalR_SubResourceEmbedded(&sharedPrivateLinkResourceItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromSharedPrivateLinkResource_SignalR_SubResourceEmbedded() to populate field SharedPrivateLinkResources")
-			}
-			sharedPrivateLinkResourceList[sharedPrivateLinkResourceIndex] = sharedPrivateLinkResource
-		}
-		signalR.SharedPrivateLinkResources = sharedPrivateLinkResourceList
-	} else {
-		signalR.SharedPrivateLinkResources = nil
-	}
-
 	// Sku
 	if source.Sku != nil {
 		var sku ResourceSku
@@ -2007,18 +1728,6 @@ func (signalR *SignalR_Spec) AssignPropertiesFromSignalR_Spec(source *v20211001s
 		signalR.Sku = &sku
 	} else {
 		signalR.Sku = nil
-	}
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
-		}
-		signalR.SystemData = &systemDatum
-	} else {
-		signalR.SystemData = nil
 	}
 
 	// Tags
@@ -2036,9 +1745,6 @@ func (signalR *SignalR_Spec) AssignPropertiesFromSignalR_Spec(source *v20211001s
 		signalR.Tls = nil
 	}
 
-	// Type
-	signalR.Type = genruntime.ClonePointerToString(source.Type)
-
 	// Upstream
 	if source.Upstream != nil {
 		var upstream ServerlessUpstreamSettings
@@ -2050,9 +1756,6 @@ func (signalR *SignalR_Spec) AssignPropertiesFromSignalR_Spec(source *v20211001s
 	} else {
 		signalR.Upstream = nil
 	}
-
-	// Version
-	signalR.Version = genruntime.ClonePointerToString(source.Version)
 
 	// No error
 	return nil
@@ -2094,9 +1797,6 @@ func (signalR *SignalR_Spec) AssignPropertiesToSignalR_Spec(destination *v202110
 		destination.DisableLocalAuth = nil
 	}
 
-	// ExternalIP
-	destination.ExternalIP = genruntime.ClonePointerToString(signalR.ExternalIP)
-
 	// Features
 	if signalR.Features != nil {
 		featureList := make([]v20211001s.SignalRFeature, len(signalR.Features))
@@ -2114,15 +1814,6 @@ func (signalR *SignalR_Spec) AssignPropertiesToSignalR_Spec(destination *v202110
 	} else {
 		destination.Features = nil
 	}
-
-	// HostName
-	destination.HostName = genruntime.ClonePointerToString(signalR.HostName)
-
-	// HostNamePrefix
-	destination.HostNamePrefix = genruntime.ClonePointerToString(signalR.HostNamePrefix)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(signalR.Id)
 
 	// Identity
 	if signalR.Identity != nil {
@@ -2170,37 +1861,8 @@ func (signalR *SignalR_Spec) AssignPropertiesToSignalR_Spec(destination *v202110
 		destination.Owner = nil
 	}
 
-	// PrivateEndpointConnections
-	if signalR.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]v20211001s.PrivateEndpointConnection_SignalR_SubResourceEmbedded, len(signalR.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range signalR.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection v20211001s.PrivateEndpointConnection_SignalR_SubResourceEmbedded
-			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnection_SignalR_SubResourceEmbedded(&privateEndpointConnection)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnection_SignalR_SubResourceEmbedded() to populate field PrivateEndpointConnections")
-			}
-			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
-		}
-		destination.PrivateEndpointConnections = privateEndpointConnectionList
-	} else {
-		destination.PrivateEndpointConnections = nil
-	}
-
-	// ProvisioningState
-	if signalR.ProvisioningState != nil {
-		provisioningState := string(*signalR.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
-
 	// PublicNetworkAccess
 	destination.PublicNetworkAccess = genruntime.ClonePointerToString(signalR.PublicNetworkAccess)
-
-	// PublicPort
-	destination.PublicPort = genruntime.ClonePointerToInt(signalR.PublicPort)
 
 	// ResourceLogConfiguration
 	if signalR.ResourceLogConfiguration != nil {
@@ -2214,27 +1876,6 @@ func (signalR *SignalR_Spec) AssignPropertiesToSignalR_Spec(destination *v202110
 		destination.ResourceLogConfiguration = nil
 	}
 
-	// ServerPort
-	destination.ServerPort = genruntime.ClonePointerToInt(signalR.ServerPort)
-
-	// SharedPrivateLinkResources
-	if signalR.SharedPrivateLinkResources != nil {
-		sharedPrivateLinkResourceList := make([]v20211001s.SharedPrivateLinkResource_SignalR_SubResourceEmbedded, len(signalR.SharedPrivateLinkResources))
-		for sharedPrivateLinkResourceIndex, sharedPrivateLinkResourceItem := range signalR.SharedPrivateLinkResources {
-			// Shadow the loop variable to avoid aliasing
-			sharedPrivateLinkResourceItem := sharedPrivateLinkResourceItem
-			var sharedPrivateLinkResource v20211001s.SharedPrivateLinkResource_SignalR_SubResourceEmbedded
-			err := sharedPrivateLinkResourceItem.AssignPropertiesToSharedPrivateLinkResource_SignalR_SubResourceEmbedded(&sharedPrivateLinkResource)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToSharedPrivateLinkResource_SignalR_SubResourceEmbedded() to populate field SharedPrivateLinkResources")
-			}
-			sharedPrivateLinkResourceList[sharedPrivateLinkResourceIndex] = sharedPrivateLinkResource
-		}
-		destination.SharedPrivateLinkResources = sharedPrivateLinkResourceList
-	} else {
-		destination.SharedPrivateLinkResources = nil
-	}
-
 	// Sku
 	if signalR.Sku != nil {
 		var sku v20211001s.ResourceSku
@@ -2245,18 +1886,6 @@ func (signalR *SignalR_Spec) AssignPropertiesToSignalR_Spec(destination *v202110
 		destination.Sku = &sku
 	} else {
 		destination.Sku = nil
-	}
-
-	// SystemData
-	if signalR.SystemData != nil {
-		var systemDatum v20211001s.SystemData
-		err := signalR.SystemData.AssignPropertiesToSystemData(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
 	}
 
 	// Tags
@@ -2274,9 +1903,6 @@ func (signalR *SignalR_Spec) AssignPropertiesToSignalR_Spec(destination *v202110
 		destination.Tls = nil
 	}
 
-	// Type
-	destination.Type = genruntime.ClonePointerToString(signalR.Type)
-
 	// Upstream
 	if signalR.Upstream != nil {
 		var upstream v20211001s.ServerlessUpstreamSettings
@@ -2288,9 +1914,6 @@ func (signalR *SignalR_Spec) AssignPropertiesToSignalR_Spec(destination *v202110
 	} else {
 		destination.Upstream = nil
 	}
-
-	// Version
-	destination.Version = genruntime.ClonePointerToString(signalR.Version)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2312,17 +1935,7 @@ func (signalR *SignalR_Spec) OriginalVersion() string {
 func (signalR *SignalR_Spec) SetAzureName(azureName string) { signalR.AzureName = azureName }
 
 type ManagedIdentity struct {
-	// PrincipalId: Get the principal id for the system assigned identity.
-	// Only be used in response.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	// TenantId: Get the tenant id for the system assigned identity.
-	// Only be used in response
-	TenantId *string              `json:"tenantId,omitempty"`
-	Type     *ManagedIdentityType `json:"type,omitempty"`
-
-	// UserAssignedIdentities: Get or set the user assigned identities
-	UserAssignedIdentities map[string]UserAssignedIdentityProperty `json:"userAssignedIdentities,omitempty"`
+	Type *ManagedIdentityType `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ManagedIdentity{}
@@ -2334,34 +1947,10 @@ func (identity *ManagedIdentity) ConvertToARM(resolved genruntime.ConvertToARMRe
 	}
 	result := &ManagedIdentityARM{}
 
-	// Set property ‘PrincipalId’:
-	if identity.PrincipalId != nil {
-		principalId := *identity.PrincipalId
-		result.PrincipalId = &principalId
-	}
-
-	// Set property ‘TenantId’:
-	if identity.TenantId != nil {
-		tenantId := *identity.TenantId
-		result.TenantId = &tenantId
-	}
-
 	// Set property ‘Type’:
 	if identity.Type != nil {
 		typeVar := *identity.Type
 		result.Type = &typeVar
-	}
-
-	// Set property ‘UserAssignedIdentities’:
-	if identity.UserAssignedIdentities != nil {
-		result.UserAssignedIdentities = make(map[string]UserAssignedIdentityPropertyARM)
-		for key, value := range identity.UserAssignedIdentities {
-			valueARM, err := value.ConvertToARM(resolved)
-			if err != nil {
-				return nil, err
-			}
-			result.UserAssignedIdentities[key] = *valueARM.(*UserAssignedIdentityPropertyARM)
-		}
 	}
 	return result, nil
 }
@@ -2378,35 +1967,10 @@ func (identity *ManagedIdentity) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedIdentityARM, got %T", armInput)
 	}
 
-	// Set property ‘PrincipalId’:
-	if typedInput.PrincipalId != nil {
-		principalId := *typedInput.PrincipalId
-		identity.PrincipalId = &principalId
-	}
-
-	// Set property ‘TenantId’:
-	if typedInput.TenantId != nil {
-		tenantId := *typedInput.TenantId
-		identity.TenantId = &tenantId
-	}
-
 	// Set property ‘Type’:
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		identity.Type = &typeVar
-	}
-
-	// Set property ‘UserAssignedIdentities’:
-	if typedInput.UserAssignedIdentities != nil {
-		identity.UserAssignedIdentities = make(map[string]UserAssignedIdentityProperty)
-		for key, value := range typedInput.UserAssignedIdentities {
-			var value1 UserAssignedIdentityProperty
-			err := value1.PopulateFromARM(owner, value)
-			if err != nil {
-				return err
-			}
-			identity.UserAssignedIdentities[key] = value1
-		}
 	}
 
 	// No error
@@ -2416,36 +1980,12 @@ func (identity *ManagedIdentity) PopulateFromARM(owner genruntime.ArbitraryOwner
 // AssignPropertiesFromManagedIdentity populates our ManagedIdentity from the provided source ManagedIdentity
 func (identity *ManagedIdentity) AssignPropertiesFromManagedIdentity(source *v20211001s.ManagedIdentity) error {
 
-	// PrincipalId
-	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// TenantId
-	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
-
 	// Type
 	if source.Type != nil {
 		typeVar := ManagedIdentityType(*source.Type)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]UserAssignedIdentityProperty, len(source.UserAssignedIdentities))
-		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity UserAssignedIdentityProperty
-			err := userAssignedIdentity.AssignPropertiesFromUserAssignedIdentityProperty(&userAssignedIdentityValue)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromUserAssignedIdentityProperty() to populate field UserAssignedIdentities")
-			}
-			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
-		}
-		identity.UserAssignedIdentities = userAssignedIdentityMap
-	} else {
-		identity.UserAssignedIdentities = nil
 	}
 
 	// No error
@@ -2457,36 +1997,12 @@ func (identity *ManagedIdentity) AssignPropertiesToManagedIdentity(destination *
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// PrincipalId
-	destination.PrincipalId = genruntime.ClonePointerToString(identity.PrincipalId)
-
-	// TenantId
-	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
-
 	// Type
 	if identity.Type != nil {
 		typeVar := string(*identity.Type)
 		destination.Type = &typeVar
 	} else {
 		destination.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v20211001s.UserAssignedIdentityProperty, len(identity.UserAssignedIdentities))
-		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity v20211001s.UserAssignedIdentityProperty
-			err := userAssignedIdentityValue.AssignPropertiesToUserAssignedIdentityProperty(&userAssignedIdentity)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToUserAssignedIdentityProperty() to populate field UserAssignedIdentities")
-			}
-			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
-		}
-		destination.UserAssignedIdentities = userAssignedIdentityMap
-	} else {
-		destination.UserAssignedIdentities = nil
 	}
 
 	// Update the property bag
@@ -2744,140 +2260,6 @@ func (embedded *PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded) As
 	return nil
 }
 
-type PrivateEndpointConnection_SignalR_SubResourceEmbedded struct {
-	// Id: Fully qualified resource Id for the resource.
-	Id         *string     `json:"id,omitempty"`
-	SystemData *SystemData `json:"systemData,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &PrivateEndpointConnection_SignalR_SubResourceEmbedded{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (embedded *PrivateEndpointConnection_SignalR_SubResourceEmbedded) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if embedded == nil {
-		return nil, nil
-	}
-	result := &PrivateEndpointConnection_SignalR_SubResourceEmbeddedARM{}
-
-	// Set property ‘Id’:
-	if embedded.Id != nil {
-		id := *embedded.Id
-		result.Id = &id
-	}
-
-	// Set property ‘SystemData’:
-	if embedded.SystemData != nil {
-		systemDataARM, err := (*embedded.SystemData).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		systemData := *systemDataARM.(*SystemDataARM)
-		result.SystemData = &systemData
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (embedded *PrivateEndpointConnection_SignalR_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateEndpointConnection_SignalR_SubResourceEmbeddedARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (embedded *PrivateEndpointConnection_SignalR_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateEndpointConnection_SignalR_SubResourceEmbeddedARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_SignalR_SubResourceEmbeddedARM, got %T", armInput)
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		embedded.Id = &id
-	}
-
-	// Set property ‘SystemData’:
-	if typedInput.SystemData != nil {
-		var systemData1 SystemData
-		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
-		if err != nil {
-			return err
-		}
-		systemData := systemData1
-		embedded.SystemData = &systemData
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromPrivateEndpointConnection_SignalR_SubResourceEmbedded populates our PrivateEndpointConnection_SignalR_SubResourceEmbedded from the provided source PrivateEndpointConnection_SignalR_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_SignalR_SubResourceEmbedded) AssignPropertiesFromPrivateEndpointConnection_SignalR_SubResourceEmbedded(source *v20211001s.PrivateEndpointConnection_SignalR_SubResourceEmbedded) error {
-
-	// Id
-	embedded.Id = genruntime.ClonePointerToString(source.Id)
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
-		}
-		embedded.SystemData = &systemDatum
-	} else {
-		embedded.SystemData = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToPrivateEndpointConnection_SignalR_SubResourceEmbedded populates the provided destination PrivateEndpointConnection_SignalR_SubResourceEmbedded from our PrivateEndpointConnection_SignalR_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_SignalR_SubResourceEmbedded) AssignPropertiesToPrivateEndpointConnection_SignalR_SubResourceEmbedded(destination *v20211001s.PrivateEndpointConnection_SignalR_SubResourceEmbedded) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(embedded.Id)
-
-	// SystemData
-	if embedded.SystemData != nil {
-		var systemDatum v20211001s.SystemData
-		err := embedded.SystemData.AssignPropertiesToSystemData(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// +kubebuilder:validation:Enum={"Canceled","Creating","Deleting","Failed","Moving","Running","Succeeded","Unknown","Updating"}
-type ProvisioningState string
-
-const (
-	ProvisioningState_Canceled  = ProvisioningState("Canceled")
-	ProvisioningState_Creating  = ProvisioningState("Creating")
-	ProvisioningState_Deleting  = ProvisioningState("Deleting")
-	ProvisioningState_Failed    = ProvisioningState("Failed")
-	ProvisioningState_Moving    = ProvisioningState("Moving")
-	ProvisioningState_Running   = ProvisioningState("Running")
-	ProvisioningState_Succeeded = ProvisioningState("Succeeded")
-	ProvisioningState_Unknown   = ProvisioningState("Unknown")
-	ProvisioningState_Updating  = ProvisioningState("Updating")
-)
-
 type ProvisioningState_STATUS string
 
 const (
@@ -3101,16 +2483,10 @@ type ResourceSku struct {
 	// Standard: 1,2,5,10,20,50,100
 	Capacity *int `json:"capacity,omitempty"`
 
-	// Family: Not used. Retained for future use.
-	Family *string `json:"family,omitempty"`
-
 	// +kubebuilder:validation:Required
 	// Name: The name of the SKU. Required.
 	// Allowed values: Standard_S1, Free_F1
-	Name *string `json:"name,omitempty"`
-
-	// Size: Not used. Retained for future use.
-	Size *string         `json:"size,omitempty"`
+	Name *string         `json:"name,omitempty"`
 	Tier *SignalRSkuTier `json:"tier,omitempty"`
 }
 
@@ -3129,22 +2505,10 @@ func (resourceSku *ResourceSku) ConvertToARM(resolved genruntime.ConvertToARMRes
 		result.Capacity = &capacity
 	}
 
-	// Set property ‘Family’:
-	if resourceSku.Family != nil {
-		family := *resourceSku.Family
-		result.Family = &family
-	}
-
 	// Set property ‘Name’:
 	if resourceSku.Name != nil {
 		name := *resourceSku.Name
 		result.Name = &name
-	}
-
-	// Set property ‘Size’:
-	if resourceSku.Size != nil {
-		size := *resourceSku.Size
-		result.Size = &size
 	}
 
 	// Set property ‘Tier’:
@@ -3173,22 +2537,10 @@ func (resourceSku *ResourceSku) PopulateFromARM(owner genruntime.ArbitraryOwnerR
 		resourceSku.Capacity = &capacity
 	}
 
-	// Set property ‘Family’:
-	if typedInput.Family != nil {
-		family := *typedInput.Family
-		resourceSku.Family = &family
-	}
-
 	// Set property ‘Name’:
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		resourceSku.Name = &name
-	}
-
-	// Set property ‘Size’:
-	if typedInput.Size != nil {
-		size := *typedInput.Size
-		resourceSku.Size = &size
 	}
 
 	// Set property ‘Tier’:
@@ -3207,14 +2559,8 @@ func (resourceSku *ResourceSku) AssignPropertiesFromResourceSku(source *v2021100
 	// Capacity
 	resourceSku.Capacity = genruntime.ClonePointerToInt(source.Capacity)
 
-	// Family
-	resourceSku.Family = genruntime.ClonePointerToString(source.Family)
-
 	// Name
 	resourceSku.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Size
-	resourceSku.Size = genruntime.ClonePointerToString(source.Size)
 
 	// Tier
 	if source.Tier != nil {
@@ -3236,14 +2582,8 @@ func (resourceSku *ResourceSku) AssignPropertiesToResourceSku(destination *v2021
 	// Capacity
 	destination.Capacity = genruntime.ClonePointerToInt(resourceSku.Capacity)
 
-	// Family
-	destination.Family = genruntime.ClonePointerToString(resourceSku.Family)
-
 	// Name
 	destination.Name = genruntime.ClonePointerToString(resourceSku.Name)
-
-	// Size
-	destination.Size = genruntime.ClonePointerToString(resourceSku.Size)
 
 	// Tier
 	if resourceSku.Tier != nil {
@@ -3673,125 +3013,6 @@ func (embedded *SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded) As
 		err := embedded.SystemData.AssignPropertiesToSystemData_STATUS(&systemDatum)
 		if err != nil {
 			return errors.Wrap(err, "calling AssignPropertiesToSystemData_STATUS() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type SharedPrivateLinkResource_SignalR_SubResourceEmbedded struct {
-	// Id: Fully qualified resource Id for the resource.
-	Id         *string     `json:"id,omitempty"`
-	SystemData *SystemData `json:"systemData,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &SharedPrivateLinkResource_SignalR_SubResourceEmbedded{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (embedded *SharedPrivateLinkResource_SignalR_SubResourceEmbedded) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if embedded == nil {
-		return nil, nil
-	}
-	result := &SharedPrivateLinkResource_SignalR_SubResourceEmbeddedARM{}
-
-	// Set property ‘Id’:
-	if embedded.Id != nil {
-		id := *embedded.Id
-		result.Id = &id
-	}
-
-	// Set property ‘SystemData’:
-	if embedded.SystemData != nil {
-		systemDataARM, err := (*embedded.SystemData).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		systemData := *systemDataARM.(*SystemDataARM)
-		result.SystemData = &systemData
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (embedded *SharedPrivateLinkResource_SignalR_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SharedPrivateLinkResource_SignalR_SubResourceEmbeddedARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (embedded *SharedPrivateLinkResource_SignalR_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SharedPrivateLinkResource_SignalR_SubResourceEmbeddedARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SharedPrivateLinkResource_SignalR_SubResourceEmbeddedARM, got %T", armInput)
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		embedded.Id = &id
-	}
-
-	// Set property ‘SystemData’:
-	if typedInput.SystemData != nil {
-		var systemData1 SystemData
-		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
-		if err != nil {
-			return err
-		}
-		systemData := systemData1
-		embedded.SystemData = &systemData
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromSharedPrivateLinkResource_SignalR_SubResourceEmbedded populates our SharedPrivateLinkResource_SignalR_SubResourceEmbedded from the provided source SharedPrivateLinkResource_SignalR_SubResourceEmbedded
-func (embedded *SharedPrivateLinkResource_SignalR_SubResourceEmbedded) AssignPropertiesFromSharedPrivateLinkResource_SignalR_SubResourceEmbedded(source *v20211001s.SharedPrivateLinkResource_SignalR_SubResourceEmbedded) error {
-
-	// Id
-	embedded.Id = genruntime.ClonePointerToString(source.Id)
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
-		}
-		embedded.SystemData = &systemDatum
-	} else {
-		embedded.SystemData = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToSharedPrivateLinkResource_SignalR_SubResourceEmbedded populates the provided destination SharedPrivateLinkResource_SignalR_SubResourceEmbedded from our SharedPrivateLinkResource_SignalR_SubResourceEmbedded
-func (embedded *SharedPrivateLinkResource_SignalR_SubResourceEmbedded) AssignPropertiesToSharedPrivateLinkResource_SignalR_SubResourceEmbedded(destination *v20211001s.SharedPrivateLinkResource_SignalR_SubResourceEmbedded) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(embedded.Id)
-
-	// SystemData
-	if embedded.SystemData != nil {
-		var systemDatum v20211001s.SystemData
-		err := embedded.SystemData.AssignPropertiesToSystemData(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
 		}
 		destination.SystemData = &systemDatum
 	} else {
@@ -4658,224 +3879,6 @@ func (settings *SignalRTlsSettings_STATUS) AssignPropertiesToSignalRTlsSettings_
 		destination.ClientCertEnabled = &clientCertEnabled
 	} else {
 		destination.ClientCertEnabled = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type SystemData struct {
-	// CreatedAt: The timestamp of resource creation (UTC).
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	// CreatedBy: The identity that created the resource.
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType `json:"createdByType,omitempty"`
-
-	// LastModifiedAt: The timestamp of resource last modification (UTC)
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	// LastModifiedBy: The identity that last modified the resource.
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType `json:"lastModifiedByType,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &SystemData{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (data *SystemData) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if data == nil {
-		return nil, nil
-	}
-	result := &SystemDataARM{}
-
-	// Set property ‘CreatedAt’:
-	if data.CreatedAt != nil {
-		createdAt := *data.CreatedAt
-		result.CreatedAt = &createdAt
-	}
-
-	// Set property ‘CreatedBy’:
-	if data.CreatedBy != nil {
-		createdBy := *data.CreatedBy
-		result.CreatedBy = &createdBy
-	}
-
-	// Set property ‘CreatedByType’:
-	if data.CreatedByType != nil {
-		createdByType := *data.CreatedByType
-		result.CreatedByType = &createdByType
-	}
-
-	// Set property ‘LastModifiedAt’:
-	if data.LastModifiedAt != nil {
-		lastModifiedAt := *data.LastModifiedAt
-		result.LastModifiedAt = &lastModifiedAt
-	}
-
-	// Set property ‘LastModifiedBy’:
-	if data.LastModifiedBy != nil {
-		lastModifiedBy := *data.LastModifiedBy
-		result.LastModifiedBy = &lastModifiedBy
-	}
-
-	// Set property ‘LastModifiedByType’:
-	if data.LastModifiedByType != nil {
-		lastModifiedByType := *data.LastModifiedByType
-		result.LastModifiedByType = &lastModifiedByType
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (data *SystemData) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SystemDataARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (data *SystemData) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SystemDataARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemDataARM, got %T", armInput)
-	}
-
-	// Set property ‘CreatedAt’:
-	if typedInput.CreatedAt != nil {
-		createdAt := *typedInput.CreatedAt
-		data.CreatedAt = &createdAt
-	}
-
-	// Set property ‘CreatedBy’:
-	if typedInput.CreatedBy != nil {
-		createdBy := *typedInput.CreatedBy
-		data.CreatedBy = &createdBy
-	}
-
-	// Set property ‘CreatedByType’:
-	if typedInput.CreatedByType != nil {
-		createdByType := *typedInput.CreatedByType
-		data.CreatedByType = &createdByType
-	}
-
-	// Set property ‘LastModifiedAt’:
-	if typedInput.LastModifiedAt != nil {
-		lastModifiedAt := *typedInput.LastModifiedAt
-		data.LastModifiedAt = &lastModifiedAt
-	}
-
-	// Set property ‘LastModifiedBy’:
-	if typedInput.LastModifiedBy != nil {
-		lastModifiedBy := *typedInput.LastModifiedBy
-		data.LastModifiedBy = &lastModifiedBy
-	}
-
-	// Set property ‘LastModifiedByType’:
-	if typedInput.LastModifiedByType != nil {
-		lastModifiedByType := *typedInput.LastModifiedByType
-		data.LastModifiedByType = &lastModifiedByType
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromSystemData populates our SystemData from the provided source SystemData
-func (data *SystemData) AssignPropertiesFromSystemData(source *v20211001s.SystemData) error {
-
-	// CreatedAt
-	if source.CreatedAt != nil {
-		createdAt := *source.CreatedAt
-		data.CreatedAt = &createdAt
-	} else {
-		data.CreatedAt = nil
-	}
-
-	// CreatedBy
-	data.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
-
-	// CreatedByType
-	if source.CreatedByType != nil {
-		createdByType := SystemData_CreatedByType(*source.CreatedByType)
-		data.CreatedByType = &createdByType
-	} else {
-		data.CreatedByType = nil
-	}
-
-	// LastModifiedAt
-	if source.LastModifiedAt != nil {
-		lastModifiedAt := *source.LastModifiedAt
-		data.LastModifiedAt = &lastModifiedAt
-	} else {
-		data.LastModifiedAt = nil
-	}
-
-	// LastModifiedBy
-	data.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
-
-	// LastModifiedByType
-	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemData_LastModifiedByType(*source.LastModifiedByType)
-		data.LastModifiedByType = &lastModifiedByType
-	} else {
-		data.LastModifiedByType = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToSystemData populates the provided destination SystemData from our SystemData
-func (data *SystemData) AssignPropertiesToSystemData(destination *v20211001s.SystemData) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// CreatedAt
-	if data.CreatedAt != nil {
-		createdAt := *data.CreatedAt
-		destination.CreatedAt = &createdAt
-	} else {
-		destination.CreatedAt = nil
-	}
-
-	// CreatedBy
-	destination.CreatedBy = genruntime.ClonePointerToString(data.CreatedBy)
-
-	// CreatedByType
-	if data.CreatedByType != nil {
-		createdByType := string(*data.CreatedByType)
-		destination.CreatedByType = &createdByType
-	} else {
-		destination.CreatedByType = nil
-	}
-
-	// LastModifiedAt
-	if data.LastModifiedAt != nil {
-		lastModifiedAt := *data.LastModifiedAt
-		destination.LastModifiedAt = &lastModifiedAt
-	} else {
-		destination.LastModifiedAt = nil
-	}
-
-	// LastModifiedBy
-	destination.LastModifiedBy = genruntime.ClonePointerToString(data.LastModifiedBy)
-
-	// LastModifiedByType
-	if data.LastModifiedByType != nil {
-		lastModifiedByType := string(*data.LastModifiedByType)
-		destination.LastModifiedByType = &lastModifiedByType
-	} else {
-		destination.LastModifiedByType = nil
 	}
 
 	// Update the property bag
@@ -6114,100 +5117,6 @@ func (template *UpstreamTemplate_STATUS) AssignPropertiesToUpstreamTemplate_STAT
 
 	// UrlTemplate
 	destination.UrlTemplate = genruntime.ClonePointerToString(template.UrlTemplate)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type UserAssignedIdentityProperty struct {
-	// ClientId: Get the client id for the user assigned identity
-	ClientId *string `json:"clientId,omitempty"`
-
-	// PrincipalId: Get the principal id for the user assigned identity
-	PrincipalId *string `json:"principalId,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &UserAssignedIdentityProperty{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (property *UserAssignedIdentityProperty) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if property == nil {
-		return nil, nil
-	}
-	result := &UserAssignedIdentityPropertyARM{}
-
-	// Set property ‘ClientId’:
-	if property.ClientId != nil {
-		clientId := *property.ClientId
-		result.ClientId = &clientId
-	}
-
-	// Set property ‘PrincipalId’:
-	if property.PrincipalId != nil {
-		principalId := *property.PrincipalId
-		result.PrincipalId = &principalId
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (property *UserAssignedIdentityProperty) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &UserAssignedIdentityPropertyARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (property *UserAssignedIdentityProperty) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(UserAssignedIdentityPropertyARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected UserAssignedIdentityPropertyARM, got %T", armInput)
-	}
-
-	// Set property ‘ClientId’:
-	if typedInput.ClientId != nil {
-		clientId := *typedInput.ClientId
-		property.ClientId = &clientId
-	}
-
-	// Set property ‘PrincipalId’:
-	if typedInput.PrincipalId != nil {
-		principalId := *typedInput.PrincipalId
-		property.PrincipalId = &principalId
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromUserAssignedIdentityProperty populates our UserAssignedIdentityProperty from the provided source UserAssignedIdentityProperty
-func (property *UserAssignedIdentityProperty) AssignPropertiesFromUserAssignedIdentityProperty(source *v20211001s.UserAssignedIdentityProperty) error {
-
-	// ClientId
-	property.ClientId = genruntime.ClonePointerToString(source.ClientId)
-
-	// PrincipalId
-	property.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToUserAssignedIdentityProperty populates the provided destination UserAssignedIdentityProperty from our UserAssignedIdentityProperty
-func (property *UserAssignedIdentityProperty) AssignPropertiesToUserAssignedIdentityProperty(destination *v20211001s.UserAssignedIdentityProperty) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// ClientId
-	destination.ClientId = genruntime.ClonePointerToString(property.ClientId)
-
-	// PrincipalId
-	destination.PrincipalId = genruntime.ClonePointerToString(property.PrincipalId)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

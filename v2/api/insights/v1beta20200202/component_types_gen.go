@@ -1149,12 +1149,6 @@ func (component *Component_STATUS) AssignPropertiesToComponent_STATUS(destinatio
 }
 
 type Component_Spec struct {
-	// AppId: Application Insights Unique ID for your Application.
-	AppId *string `json:"AppId,omitempty"`
-
-	// ApplicationId: The unique ID of your application. This field mirrors the 'Name' field and cannot be changed.
-	ApplicationId *string `json:"ApplicationId,omitempty"`
-
 	// +kubebuilder:validation:Required
 	// Application_Type: Type of application being monitored.
 	Application_Type *ApplicationInsightsComponentProperties_Application_Type `json:"Application_Type,omitempty"`
@@ -1162,12 +1156,6 @@ type Component_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
-
-	// ConnectionString: Application Insights component connection string.
-	ConnectionString *string `json:"ConnectionString,omitempty"`
-
-	// CreationDate: Creation Date for the Application Insights component, in ISO 8601 format.
-	CreationDate *string `json:"CreationDate,omitempty"`
 
 	// DisableIpMasking: Disable IP masking.
 	DisableIpMasking *bool `json:"DisableIpMasking,omitempty"`
@@ -1189,51 +1177,26 @@ type Component_Spec struct {
 	// with HockeyApp.
 	HockeyAppId *string `json:"HockeyAppId,omitempty"`
 
-	// HockeyAppToken: Token used to authenticate communications with between Application Insights and HockeyApp.
-	HockeyAppToken *string `json:"HockeyAppToken,omitempty"`
-
-	// Id: Azure resource Id
-	Id *string `json:"id,omitempty"`
-
 	// ImmediatePurgeDataOn30Days: Purge data immediately after 30 days.
 	ImmediatePurgeDataOn30Days *bool `json:"ImmediatePurgeDataOn30Days,omitempty"`
 
 	// IngestionMode: Indicates the flow of the ingestion.
 	IngestionMode *ApplicationInsightsComponentProperties_IngestionMode `json:"IngestionMode,omitempty"`
 
-	// InstrumentationKey: Application Insights Instrumentation key. A read-only value that applications can use to identify
-	// the destination for all telemetry sent to Azure Application Insights. This value will be supplied upon construction of
-	// each new Application Insights component.
-	InstrumentationKey *string `json:"InstrumentationKey,omitempty"`
-
 	// +kubebuilder:validation:Required
 	// Kind: The kind of application that this component refers to, used to customize UI. This value is a freeform string,
 	// values should typically be one of the following: web, ios, other, store, java, phone.
 	Kind *string `json:"kind,omitempty"`
 
-	// LaMigrationDate: The date which the component got migrated to LA, in ISO 8601 format.
-	LaMigrationDate *string `json:"LaMigrationDate,omitempty"`
-
 	// +kubebuilder:validation:Required
 	// Location: Resource location
 	Location *string `json:"location,omitempty"`
-
-	// Name: Application name.
-	Name *string `json:"Name,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	// PrivateLinkScopedResources: List of linked private link scope resources.
-	PrivateLinkScopedResources []PrivateLinkScopedResource `json:"PrivateLinkScopedResources,omitempty"`
-
-	// ProvisioningState: Current state of this component: whether or not is has been provisioned within the resource group it
-	// is defined. Users cannot change this value but are able to read from it. Values will include Succeeded, Deploying,
-	// Canceled, and Failed.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// PublicNetworkAccessForIngestion: The network access type for accessing Application Insights ingestion.
 	PublicNetworkAccessForIngestion *PublicNetworkAccessType `json:"publicNetworkAccessForIngestion,omitempty"`
@@ -1254,12 +1217,6 @@ type Component_Spec struct {
 
 	// Tags: Resource tags
 	Tags *v1.JSON `json:"tags,omitempty"`
-
-	// TenantId: Azure Tenant Id.
-	TenantId *string `json:"TenantId,omitempty"`
-
-	// Type: Azure resource type
-	Type *string `json:"type,omitempty"`
 
 	// WorkspaceResourceReference: Resource Id of the log analytics workspace which the data will be ingested to. This property
 	// is required to create an application with this API version. Applications from older versions will not have this property.
@@ -1284,12 +1241,6 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		result.Etag = &etag
 	}
 
-	// Set property ‘Id’:
-	if component.Id != nil {
-		id := *component.Id
-		result.Id = &id
-	}
-
 	// Set property ‘Kind’:
 	if component.Kind != nil {
 		kind := *component.Kind
@@ -1306,52 +1257,25 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if component.AppId != nil ||
-		component.ApplicationId != nil ||
-		component.Application_Type != nil ||
-		component.ConnectionString != nil ||
-		component.CreationDate != nil ||
+	if component.Application_Type != nil ||
 		component.DisableIpMasking != nil ||
 		component.DisableLocalAuth != nil ||
 		component.Flow_Type != nil ||
 		component.ForceCustomerStorageForProfiler != nil ||
 		component.HockeyAppId != nil ||
-		component.HockeyAppToken != nil ||
 		component.ImmediatePurgeDataOn30Days != nil ||
 		component.IngestionMode != nil ||
-		component.InstrumentationKey != nil ||
-		component.LaMigrationDate != nil ||
-		component.Name != nil ||
-		component.PrivateLinkScopedResources != nil ||
-		component.ProvisioningState != nil ||
 		component.PublicNetworkAccessForIngestion != nil ||
 		component.PublicNetworkAccessForQuery != nil ||
 		component.Request_Source != nil ||
 		component.RetentionInDays != nil ||
 		component.SamplingPercentage != nil ||
-		component.TenantId != nil ||
 		component.WorkspaceResourceReference != nil {
 		result.Properties = &ApplicationInsightsComponentPropertiesARM{}
-	}
-	if component.AppId != nil {
-		appId := *component.AppId
-		result.Properties.AppId = &appId
-	}
-	if component.ApplicationId != nil {
-		applicationId := *component.ApplicationId
-		result.Properties.ApplicationId = &applicationId
 	}
 	if component.Application_Type != nil {
 		application_Type := *component.Application_Type
 		result.Properties.Application_Type = &application_Type
-	}
-	if component.ConnectionString != nil {
-		connectionString := *component.ConnectionString
-		result.Properties.ConnectionString = &connectionString
-	}
-	if component.CreationDate != nil {
-		creationDate := *component.CreationDate
-		result.Properties.CreationDate = &creationDate
 	}
 	if component.DisableIpMasking != nil {
 		disableIpMasking := *component.DisableIpMasking
@@ -1373,10 +1297,6 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		hockeyAppId := *component.HockeyAppId
 		result.Properties.HockeyAppId = &hockeyAppId
 	}
-	if component.HockeyAppToken != nil {
-		hockeyAppToken := *component.HockeyAppToken
-		result.Properties.HockeyAppToken = &hockeyAppToken
-	}
 	if component.ImmediatePurgeDataOn30Days != nil {
 		immediatePurgeDataOn30Days := *component.ImmediatePurgeDataOn30Days
 		result.Properties.ImmediatePurgeDataOn30Days = &immediatePurgeDataOn30Days
@@ -1384,29 +1304,6 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if component.IngestionMode != nil {
 		ingestionMode := *component.IngestionMode
 		result.Properties.IngestionMode = &ingestionMode
-	}
-	if component.InstrumentationKey != nil {
-		instrumentationKey := *component.InstrumentationKey
-		result.Properties.InstrumentationKey = &instrumentationKey
-	}
-	if component.LaMigrationDate != nil {
-		laMigrationDate := *component.LaMigrationDate
-		result.Properties.LaMigrationDate = &laMigrationDate
-	}
-	if component.Name != nil {
-		name := *component.Name
-		result.Properties.Name = &name
-	}
-	for _, item := range component.PrivateLinkScopedResources {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Properties.PrivateLinkScopedResources = append(result.Properties.PrivateLinkScopedResources, *itemARM.(*PrivateLinkScopedResourceARM))
-	}
-	if component.ProvisioningState != nil {
-		provisioningState := *component.ProvisioningState
-		result.Properties.ProvisioningState = &provisioningState
 	}
 	if component.PublicNetworkAccessForIngestion != nil {
 		publicNetworkAccessForIngestion := *component.PublicNetworkAccessForIngestion
@@ -1428,10 +1325,6 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 		samplingPercentage := *component.SamplingPercentage
 		result.Properties.SamplingPercentage = &samplingPercentage
 	}
-	if component.TenantId != nil {
-		tenantId := *component.TenantId
-		result.Properties.TenantId = &tenantId
-	}
 	if component.WorkspaceResourceReference != nil {
 		workspaceResourceIdARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*component.WorkspaceResourceReference)
 		if err != nil {
@@ -1445,12 +1338,6 @@ func (component *Component_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if component.Tags != nil {
 		tags := *(*component.Tags).DeepCopy()
 		result.Tags = &tags
-	}
-
-	// Set property ‘Type’:
-	if component.Type != nil {
-		typeVar := *component.Type
-		result.Type = &typeVar
 	}
 	return result, nil
 }
@@ -1467,24 +1354,6 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Component_SpecARM, got %T", armInput)
 	}
 
-	// Set property ‘AppId’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.AppId != nil {
-			appId := *typedInput.Properties.AppId
-			component.AppId = &appId
-		}
-	}
-
-	// Set property ‘ApplicationId’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ApplicationId != nil {
-			applicationId := *typedInput.Properties.ApplicationId
-			component.ApplicationId = &applicationId
-		}
-	}
-
 	// Set property ‘Application_Type’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -1496,24 +1365,6 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property ‘AzureName’:
 	component.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘ConnectionString’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ConnectionString != nil {
-			connectionString := *typedInput.Properties.ConnectionString
-			component.ConnectionString = &connectionString
-		}
-	}
-
-	// Set property ‘CreationDate’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.CreationDate != nil {
-			creationDate := *typedInput.Properties.CreationDate
-			component.CreationDate = &creationDate
-		}
-	}
 
 	// Set property ‘DisableIpMasking’:
 	// copying flattened property:
@@ -1566,21 +1417,6 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘HockeyAppToken’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.HockeyAppToken != nil {
-			hockeyAppToken := *typedInput.Properties.HockeyAppToken
-			component.HockeyAppToken = &hockeyAppToken
-		}
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		component.Id = &id
-	}
-
 	// Set property ‘ImmediatePurgeDataOn30Days’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -1599,28 +1435,10 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘InstrumentationKey’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.InstrumentationKey != nil {
-			instrumentationKey := *typedInput.Properties.InstrumentationKey
-			component.InstrumentationKey = &instrumentationKey
-		}
-	}
-
 	// Set property ‘Kind’:
 	if typedInput.Kind != nil {
 		kind := *typedInput.Kind
 		component.Kind = &kind
-	}
-
-	// Set property ‘LaMigrationDate’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.LaMigrationDate != nil {
-			laMigrationDate := *typedInput.Properties.LaMigrationDate
-			component.LaMigrationDate = &laMigrationDate
-		}
 	}
 
 	// Set property ‘Location’:
@@ -1629,40 +1447,9 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 		component.Location = &location
 	}
 
-	// Set property ‘Name’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Name != nil {
-			name := *typedInput.Properties.Name
-			component.Name = &name
-		}
-	}
-
 	// Set property ‘Owner’:
 	component.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
-	}
-
-	// Set property ‘PrivateLinkScopedResources’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.PrivateLinkScopedResources {
-			var item1 PrivateLinkScopedResource
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			component.PrivateLinkScopedResources = append(component.PrivateLinkScopedResources, item1)
-		}
-	}
-
-	// Set property ‘ProvisioningState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
-			component.ProvisioningState = &provisioningState
-		}
 	}
 
 	// Set property ‘PublicNetworkAccessForIngestion’:
@@ -1714,21 +1501,6 @@ func (component *Component_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 	if typedInput.Tags != nil {
 		tags := *(*typedInput.Tags).DeepCopy()
 		component.Tags = &tags
-	}
-
-	// Set property ‘TenantId’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.TenantId != nil {
-			tenantId := *typedInput.Properties.TenantId
-			component.TenantId = &tenantId
-		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		component.Type = &typeVar
 	}
 
 	// no assignment for property ‘WorkspaceResourceReference’
@@ -1790,12 +1562,6 @@ func (component *Component_Spec) ConvertSpecTo(destination genruntime.Convertibl
 // AssignPropertiesFromComponent_Spec populates our Component_Spec from the provided source Component_Spec
 func (component *Component_Spec) AssignPropertiesFromComponent_Spec(source *v20200202s.Component_Spec) error {
 
-	// AppId
-	component.AppId = genruntime.ClonePointerToString(source.AppId)
-
-	// ApplicationId
-	component.ApplicationId = genruntime.ClonePointerToString(source.ApplicationId)
-
 	// Application_Type
 	if source.Application_Type != nil {
 		application_Type := ApplicationInsightsComponentProperties_Application_Type(*source.Application_Type)
@@ -1806,17 +1572,6 @@ func (component *Component_Spec) AssignPropertiesFromComponent_Spec(source *v202
 
 	// AzureName
 	component.AzureName = source.AzureName
-
-	// ConnectionString
-	component.ConnectionString = genruntime.ClonePointerToString(source.ConnectionString)
-
-	// CreationDate
-	if source.CreationDate != nil {
-		creationDate := *source.CreationDate
-		component.CreationDate = &creationDate
-	} else {
-		component.CreationDate = nil
-	}
 
 	// DisableIpMasking
 	if source.DisableIpMasking != nil {
@@ -1856,12 +1611,6 @@ func (component *Component_Spec) AssignPropertiesFromComponent_Spec(source *v202
 	// HockeyAppId
 	component.HockeyAppId = genruntime.ClonePointerToString(source.HockeyAppId)
 
-	// HockeyAppToken
-	component.HockeyAppToken = genruntime.ClonePointerToString(source.HockeyAppToken)
-
-	// Id
-	component.Id = genruntime.ClonePointerToString(source.Id)
-
 	// ImmediatePurgeDataOn30Days
 	if source.ImmediatePurgeDataOn30Days != nil {
 		immediatePurgeDataOn30Day := *source.ImmediatePurgeDataOn30Days
@@ -1878,25 +1627,11 @@ func (component *Component_Spec) AssignPropertiesFromComponent_Spec(source *v202
 		component.IngestionMode = nil
 	}
 
-	// InstrumentationKey
-	component.InstrumentationKey = genruntime.ClonePointerToString(source.InstrumentationKey)
-
 	// Kind
 	component.Kind = genruntime.ClonePointerToString(source.Kind)
 
-	// LaMigrationDate
-	if source.LaMigrationDate != nil {
-		laMigrationDate := *source.LaMigrationDate
-		component.LaMigrationDate = &laMigrationDate
-	} else {
-		component.LaMigrationDate = nil
-	}
-
 	// Location
 	component.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Name
-	component.Name = genruntime.ClonePointerToString(source.Name)
 
 	// Owner
 	if source.Owner != nil {
@@ -1905,27 +1640,6 @@ func (component *Component_Spec) AssignPropertiesFromComponent_Spec(source *v202
 	} else {
 		component.Owner = nil
 	}
-
-	// PrivateLinkScopedResources
-	if source.PrivateLinkScopedResources != nil {
-		privateLinkScopedResourceList := make([]PrivateLinkScopedResource, len(source.PrivateLinkScopedResources))
-		for privateLinkScopedResourceIndex, privateLinkScopedResourceItem := range source.PrivateLinkScopedResources {
-			// Shadow the loop variable to avoid aliasing
-			privateLinkScopedResourceItem := privateLinkScopedResourceItem
-			var privateLinkScopedResource PrivateLinkScopedResource
-			err := privateLinkScopedResource.AssignPropertiesFromPrivateLinkScopedResource(&privateLinkScopedResourceItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromPrivateLinkScopedResource() to populate field PrivateLinkScopedResources")
-			}
-			privateLinkScopedResourceList[privateLinkScopedResourceIndex] = privateLinkScopedResource
-		}
-		component.PrivateLinkScopedResources = privateLinkScopedResourceList
-	} else {
-		component.PrivateLinkScopedResources = nil
-	}
-
-	// ProvisioningState
-	component.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// PublicNetworkAccessForIngestion
 	if source.PublicNetworkAccessForIngestion != nil {
@@ -1970,12 +1684,6 @@ func (component *Component_Spec) AssignPropertiesFromComponent_Spec(source *v202
 		component.Tags = nil
 	}
 
-	// TenantId
-	component.TenantId = genruntime.ClonePointerToString(source.TenantId)
-
-	// Type
-	component.Type = genruntime.ClonePointerToString(source.Type)
-
 	// WorkspaceResourceReference
 	if source.WorkspaceResourceReference != nil {
 		workspaceResourceReference := source.WorkspaceResourceReference.Copy()
@@ -1993,12 +1701,6 @@ func (component *Component_Spec) AssignPropertiesToComponent_Spec(destination *v
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// AppId
-	destination.AppId = genruntime.ClonePointerToString(component.AppId)
-
-	// ApplicationId
-	destination.ApplicationId = genruntime.ClonePointerToString(component.ApplicationId)
-
 	// Application_Type
 	if component.Application_Type != nil {
 		application_Type := string(*component.Application_Type)
@@ -2009,17 +1711,6 @@ func (component *Component_Spec) AssignPropertiesToComponent_Spec(destination *v
 
 	// AzureName
 	destination.AzureName = component.AzureName
-
-	// ConnectionString
-	destination.ConnectionString = genruntime.ClonePointerToString(component.ConnectionString)
-
-	// CreationDate
-	if component.CreationDate != nil {
-		creationDate := *component.CreationDate
-		destination.CreationDate = &creationDate
-	} else {
-		destination.CreationDate = nil
-	}
 
 	// DisableIpMasking
 	if component.DisableIpMasking != nil {
@@ -2059,12 +1750,6 @@ func (component *Component_Spec) AssignPropertiesToComponent_Spec(destination *v
 	// HockeyAppId
 	destination.HockeyAppId = genruntime.ClonePointerToString(component.HockeyAppId)
 
-	// HockeyAppToken
-	destination.HockeyAppToken = genruntime.ClonePointerToString(component.HockeyAppToken)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(component.Id)
-
 	// ImmediatePurgeDataOn30Days
 	if component.ImmediatePurgeDataOn30Days != nil {
 		immediatePurgeDataOn30Day := *component.ImmediatePurgeDataOn30Days
@@ -2081,25 +1766,11 @@ func (component *Component_Spec) AssignPropertiesToComponent_Spec(destination *v
 		destination.IngestionMode = nil
 	}
 
-	// InstrumentationKey
-	destination.InstrumentationKey = genruntime.ClonePointerToString(component.InstrumentationKey)
-
 	// Kind
 	destination.Kind = genruntime.ClonePointerToString(component.Kind)
 
-	// LaMigrationDate
-	if component.LaMigrationDate != nil {
-		laMigrationDate := *component.LaMigrationDate
-		destination.LaMigrationDate = &laMigrationDate
-	} else {
-		destination.LaMigrationDate = nil
-	}
-
 	// Location
 	destination.Location = genruntime.ClonePointerToString(component.Location)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(component.Name)
 
 	// OriginalVersion
 	destination.OriginalVersion = component.OriginalVersion()
@@ -2111,27 +1782,6 @@ func (component *Component_Spec) AssignPropertiesToComponent_Spec(destination *v
 	} else {
 		destination.Owner = nil
 	}
-
-	// PrivateLinkScopedResources
-	if component.PrivateLinkScopedResources != nil {
-		privateLinkScopedResourceList := make([]v20200202s.PrivateLinkScopedResource, len(component.PrivateLinkScopedResources))
-		for privateLinkScopedResourceIndex, privateLinkScopedResourceItem := range component.PrivateLinkScopedResources {
-			// Shadow the loop variable to avoid aliasing
-			privateLinkScopedResourceItem := privateLinkScopedResourceItem
-			var privateLinkScopedResource v20200202s.PrivateLinkScopedResource
-			err := privateLinkScopedResourceItem.AssignPropertiesToPrivateLinkScopedResource(&privateLinkScopedResource)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToPrivateLinkScopedResource() to populate field PrivateLinkScopedResources")
-			}
-			privateLinkScopedResourceList[privateLinkScopedResourceIndex] = privateLinkScopedResource
-		}
-		destination.PrivateLinkScopedResources = privateLinkScopedResourceList
-	} else {
-		destination.PrivateLinkScopedResources = nil
-	}
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(component.ProvisioningState)
 
 	// PublicNetworkAccessForIngestion
 	if component.PublicNetworkAccessForIngestion != nil {
@@ -2175,12 +1825,6 @@ func (component *Component_Spec) AssignPropertiesToComponent_Spec(destination *v
 	} else {
 		destination.Tags = nil
 	}
-
-	// TenantId
-	destination.TenantId = genruntime.ClonePointerToString(component.TenantId)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(component.Type)
 
 	// WorkspaceResourceReference
 	if component.WorkspaceResourceReference != nil {
@@ -2258,100 +1902,6 @@ const ApplicationInsightsComponentProperties_Request_Source_Rest = ApplicationIn
 type ApplicationInsightsComponentProperties_Request_Source_STATUS string
 
 const ApplicationInsightsComponentProperties_Request_Source_Rest_STATUS = ApplicationInsightsComponentProperties_Request_Source_STATUS("rest")
-
-type PrivateLinkScopedResource struct {
-	// ResourceId: The full resource Id of the private link scope resource.
-	ResourceId *string `json:"ResourceId,omitempty"`
-
-	// ScopeId: The private link scope unique Identifier.
-	ScopeId *string `json:"ScopeId,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &PrivateLinkScopedResource{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (resource *PrivateLinkScopedResource) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if resource == nil {
-		return nil, nil
-	}
-	result := &PrivateLinkScopedResourceARM{}
-
-	// Set property ‘ResourceId’:
-	if resource.ResourceId != nil {
-		resourceId := *resource.ResourceId
-		result.ResourceId = &resourceId
-	}
-
-	// Set property ‘ScopeId’:
-	if resource.ScopeId != nil {
-		scopeId := *resource.ScopeId
-		result.ScopeId = &scopeId
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (resource *PrivateLinkScopedResource) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateLinkScopedResourceARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (resource *PrivateLinkScopedResource) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateLinkScopedResourceARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateLinkScopedResourceARM, got %T", armInput)
-	}
-
-	// Set property ‘ResourceId’:
-	if typedInput.ResourceId != nil {
-		resourceId := *typedInput.ResourceId
-		resource.ResourceId = &resourceId
-	}
-
-	// Set property ‘ScopeId’:
-	if typedInput.ScopeId != nil {
-		scopeId := *typedInput.ScopeId
-		resource.ScopeId = &scopeId
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromPrivateLinkScopedResource populates our PrivateLinkScopedResource from the provided source PrivateLinkScopedResource
-func (resource *PrivateLinkScopedResource) AssignPropertiesFromPrivateLinkScopedResource(source *v20200202s.PrivateLinkScopedResource) error {
-
-	// ResourceId
-	resource.ResourceId = genruntime.ClonePointerToString(source.ResourceId)
-
-	// ScopeId
-	resource.ScopeId = genruntime.ClonePointerToString(source.ScopeId)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToPrivateLinkScopedResource populates the provided destination PrivateLinkScopedResource from our PrivateLinkScopedResource
-func (resource *PrivateLinkScopedResource) AssignPropertiesToPrivateLinkScopedResource(destination *v20200202s.PrivateLinkScopedResource) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// ResourceId
-	destination.ResourceId = genruntime.ClonePointerToString(resource.ResourceId)
-
-	// ScopeId
-	destination.ScopeId = genruntime.ClonePointerToString(resource.ScopeId)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
 
 type PrivateLinkScopedResource_STATUS struct {
 	// ResourceId: The full resource Id of the private link scope resource.

@@ -84,16 +84,12 @@ func NamespacesEventhubsConsumergroup_SpecARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroup_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroup_SpecARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForNamespacesEventhubsConsumergroup_SpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespacesEventhubsConsumergroup_SpecARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(NamespacesEventhubsConsumergroup_Spec_PropertiesARMGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemDataARMGenerator())
 }
 
 func Test_NamespacesEventhubsConsumergroup_Spec_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -153,7 +149,5 @@ func NamespacesEventhubsConsumergroup_Spec_PropertiesARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroup_Spec_PropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroup_Spec_PropertiesARM(gens map[string]gopter.Gen) {
-	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["UpdatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["UserMetadata"] = gen.PtrOf(gen.AlphaString())
 }

@@ -57,7 +57,6 @@
 | ManagedClusterIdentity_STATUS                                  | v1alpha1api20210501 | v1beta20210501 |
 | ManagedClusterIdentity_Type                                    | v1alpha1api20210501 | v1beta20210501 |
 | ManagedClusterIdentity_Type_STATUS                             | v1alpha1api20210501 | v1beta20210501 |
-| ManagedClusterIdentity_UserAssignedIdentities                  | v1alpha1api20210501 | v1beta20210501 |
 | ManagedClusterIdentity_UserAssignedIdentities_STATUS           | v1alpha1api20210501 | v1beta20210501 |
 | ManagedClusterLoadBalancerProfile                              | v1alpha1api20210501 | v1beta20210501 |
 | ManagedClusterLoadBalancerProfile_ManagedOutboundIPs           | v1alpha1api20210501 | v1beta20210501 |
@@ -72,15 +71,10 @@
 | ManagedClusterPodIdentityException_STATUS                      | v1alpha1api20210501 | v1beta20210501 |
 | ManagedClusterPodIdentityProfile                               | v1alpha1api20210501 | v1beta20210501 |
 | ManagedClusterPodIdentityProfile_STATUS                        | v1alpha1api20210501 | v1beta20210501 |
-| ManagedClusterPodIdentityProvisioningError                     | v1alpha1api20210501 | v1beta20210501 |
-| ManagedClusterPodIdentityProvisioningErrorBody                 | v1alpha1api20210501 | v1beta20210501 |
 | ManagedClusterPodIdentityProvisioningErrorBody_STATUS          | v1alpha1api20210501 | v1beta20210501 |
 | ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled | v1alpha1api20210501 | v1beta20210501 |
-| ManagedClusterPodIdentityProvisioningErrorBody_Unrolled        | v1alpha1api20210501 | v1beta20210501 |
 | ManagedClusterPodIdentityProvisioningError_STATUS              | v1alpha1api20210501 | v1beta20210501 |
-| ManagedClusterPodIdentity_ProvisioningInfo                     | v1alpha1api20210501 | v1beta20210501 |
 | ManagedClusterPodIdentity_ProvisioningInfo_STATUS              | v1alpha1api20210501 | v1beta20210501 |
-| ManagedClusterPodIdentity_ProvisioningState                    | v1alpha1api20210501 | v1beta20210501 |
 | ManagedClusterPodIdentity_ProvisioningState_STATUS             | v1alpha1api20210501 | v1beta20210501 |
 | ManagedClusterPodIdentity_STATUS                               | v1alpha1api20210501 | v1beta20210501 |
 | ManagedClusterProperties                                       | v1alpha1api20210501 | v1beta20210501 |
@@ -112,8 +106,6 @@
 | OSSKU_STATUS                                                   | v1alpha1api20210501 | v1beta20210501 |
 | OSType                                                         | v1alpha1api20210501 | v1beta20210501 |
 | OSType_STATUS                                                  | v1alpha1api20210501 | v1beta20210501 |
-| PowerState                                                     | v1alpha1api20210501 | v1beta20210501 |
-| PowerState_Code                                                | v1alpha1api20210501 | v1beta20210501 |
 | PowerState_Code_STATUS                                         | v1alpha1api20210501 | v1beta20210501 |
 | PowerState_STATUS                                              | v1alpha1api20210501 | v1beta20210501 |
 | PrivateLinkResource                                            | v1alpha1api20210501 | v1beta20210501 |

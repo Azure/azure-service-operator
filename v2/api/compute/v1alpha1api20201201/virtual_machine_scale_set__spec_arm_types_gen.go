@@ -9,7 +9,6 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 type VirtualMachineScaleSet_SpecARM struct {
 	AzureName        string                               `json:"azureName,omitempty"`
 	ExtendedLocation *ExtendedLocationARM                 `json:"extendedLocation,omitempty"`
-	Id               *string                              `json:"id,omitempty"`
 	Identity         *VirtualMachineScaleSetIdentityARM   `json:"identity,omitempty"`
 	Location         *string                              `json:"location,omitempty"`
 	Name             string                               `json:"name,omitempty"`
@@ -17,7 +16,6 @@ type VirtualMachineScaleSet_SpecARM struct {
 	Properties       *VirtualMachineScaleSetPropertiesARM `json:"properties,omitempty"`
 	Sku              *SkuARM                              `json:"sku,omitempty"`
 	Tags             map[string]string                    `json:"tags,omitempty"`
-	Type             *string                              `json:"type,omitempty"`
 	Zones            []string                             `json:"zones,omitempty"`
 }
 
@@ -61,9 +59,7 @@ type SkuARM struct {
 
 // Deprecated version of VirtualMachineScaleSetIdentity. Use v1beta20201201.VirtualMachineScaleSetIdentity instead
 type VirtualMachineScaleSetIdentityARM struct {
-	PrincipalId *string                              `json:"principalId,omitempty"`
-	TenantId    *string                              `json:"tenantId,omitempty"`
-	Type        *VirtualMachineScaleSetIdentity_Type `json:"type,omitempty"`
+	Type *VirtualMachineScaleSetIdentity_Type `json:"type,omitempty"`
 }
 
 // Deprecated version of VirtualMachineScaleSetProperties. Use v1beta20201201.VirtualMachineScaleSetProperties instead
@@ -75,11 +71,9 @@ type VirtualMachineScaleSetPropertiesARM struct {
 	OrchestrationMode                      *OrchestrationMode                  `json:"orchestrationMode,omitempty"`
 	Overprovision                          *bool                               `json:"overprovision,omitempty"`
 	PlatformFaultDomainCount               *int                                `json:"platformFaultDomainCount,omitempty"`
-	ProvisioningState                      *string                             `json:"provisioningState,omitempty"`
 	ProximityPlacementGroup                *SubResourceARM                     `json:"proximityPlacementGroup,omitempty"`
 	ScaleInPolicy                          *ScaleInPolicyARM                   `json:"scaleInPolicy,omitempty"`
 	SinglePlacementGroup                   *bool                               `json:"singlePlacementGroup,omitempty"`
-	UniqueId                               *string                             `json:"uniqueId,omitempty"`
 	UpgradePolicy                          *UpgradePolicyARM                   `json:"upgradePolicy,omitempty"`
 	VirtualMachineProfile                  *VirtualMachineScaleSetVMProfileARM `json:"virtualMachineProfile,omitempty"`
 	ZoneBalance                            *bool                               `json:"zoneBalance,omitempty"`
@@ -168,8 +162,7 @@ type ScheduledEventsProfileARM struct {
 
 // Deprecated version of VirtualMachineScaleSetExtensionProfile. Use v1beta20201201.VirtualMachineScaleSetExtensionProfile instead
 type VirtualMachineScaleSetExtensionProfileARM struct {
-	Extensions           []VirtualMachineScaleSetExtensionARM `json:"extensions,omitempty"`
-	ExtensionsTimeBudget *string                              `json:"extensionsTimeBudget,omitempty"`
+	ExtensionsTimeBudget *string `json:"extensionsTimeBudget,omitempty"`
 }
 
 // Deprecated version of VirtualMachineScaleSetNetworkProfile. Use v1beta20201201.VirtualMachineScaleSetNetworkProfile instead
@@ -218,11 +211,6 @@ type VirtualMachineScaleSetDataDiskARM struct {
 	ManagedDisk             *VirtualMachineScaleSetManagedDiskParametersARM `json:"managedDisk,omitempty"`
 	Name                    *string                                         `json:"name,omitempty"`
 	WriteAcceleratorEnabled *bool                                           `json:"writeAcceleratorEnabled,omitempty"`
-}
-
-// Deprecated version of VirtualMachineScaleSetExtension. Use v1beta20201201.VirtualMachineScaleSetExtension instead
-type VirtualMachineScaleSetExtensionARM struct {
-	Id *string `json:"id,omitempty"`
 }
 
 // Deprecated version of VirtualMachineScaleSetNetworkConfiguration. Use v1beta20201201.VirtualMachineScaleSetNetworkConfiguration instead

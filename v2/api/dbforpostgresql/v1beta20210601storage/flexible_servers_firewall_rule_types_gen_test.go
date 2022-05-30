@@ -199,9 +199,6 @@ func RunJSONSerializationTestForFlexibleServersFirewallRule_Spec(subject Flexibl
 var flexibleServersFirewallRule_SpecGenerator gopter.Gen
 
 // FlexibleServersFirewallRule_SpecGenerator returns a generator of FlexibleServersFirewallRule_Spec instances for property testing.
-// We first initialize flexibleServersFirewallRule_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func FlexibleServersFirewallRule_SpecGenerator() gopter.Gen {
 	if flexibleServersFirewallRule_SpecGenerator != nil {
 		return flexibleServersFirewallRule_SpecGenerator
@@ -211,12 +208,6 @@ func FlexibleServersFirewallRule_SpecGenerator() gopter.Gen {
 	AddIndependentPropertyGeneratorsForFlexibleServersFirewallRule_Spec(generators)
 	flexibleServersFirewallRule_SpecGenerator = gen.Struct(reflect.TypeOf(FlexibleServersFirewallRule_Spec{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFlexibleServersFirewallRule_Spec(generators)
-	AddRelatedPropertyGeneratorsForFlexibleServersFirewallRule_Spec(generators)
-	flexibleServersFirewallRule_SpecGenerator = gen.Struct(reflect.TypeOf(FlexibleServersFirewallRule_Spec{}), generators)
-
 	return flexibleServersFirewallRule_SpecGenerator
 }
 
@@ -224,13 +215,6 @@ func FlexibleServersFirewallRule_SpecGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForFlexibleServersFirewallRule_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["EndIpAddress"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["StartIpAddress"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForFlexibleServersFirewallRule_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFlexibleServersFirewallRule_Spec(gens map[string]gopter.Gen) {
-	gens["SystemData"] = gen.PtrOf(SystemDataGenerator())
 }

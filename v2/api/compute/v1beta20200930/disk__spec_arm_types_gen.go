@@ -11,29 +11,14 @@ type Disk_SpecARM struct {
 	// ExtendedLocation: The extended location where the disk will be created. Extended location cannot be changed.
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
 
-	// Id: Resource Id
-	Id *string `json:"id,omitempty"`
-
 	// Location: Resource location
-	Location *string `json:"location,omitempty"`
-
-	// ManagedBy: A relative URI containing the ID of the VM that has the disk attached.
-	ManagedBy *string `json:"managedBy,omitempty"`
-
-	// ManagedByExtended: List of relative URIs containing the IDs of the VMs that have the disk attached. maxShares should be
-	// set to a value greater than one for disks to allow attaching them to multiple VMs.
-	ManagedByExtended []string `json:"managedByExtended,omitempty"`
-
-	// Name: Resource name
+	Location   *string            `json:"location,omitempty"`
 	Name       string             `json:"name,omitempty"`
 	Properties *DiskPropertiesARM `json:"properties,omitempty"`
 	Sku        *DiskSkuARM        `json:"sku,omitempty"`
 
 	// Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: Resource type
-	Type *string `json:"type,omitempty"`
 
 	// Zones: The Logical zone list for Disk.
 	Zones []string `json:"zones,omitempty"`
@@ -81,9 +66,6 @@ type DiskPropertiesARM struct {
 	// per second - MB here uses the ISO notation, of powers of 10.
 	DiskMBpsReadWrite *int `json:"diskMBpsReadWrite,omitempty"`
 
-	// DiskSizeBytes: The size of the disk in bytes. This field is read only.
-	DiskSizeBytes *int `json:"diskSizeBytes,omitempty"`
-
 	// DiskSizeGB: If creationData.createOption is Empty, this field is mandatory and it indicates the size of the disk to
 	// create. If this field is present for updates or creation with other options, it indicates a resize. Resizes are only
 	// allowed if the disk is not attached to a running VM, and can only increase the disk's size.
@@ -107,34 +89,18 @@ type DiskPropertiesARM struct {
 	// OsType: The Operating System type.
 	OsType *DiskProperties_OsType `json:"osType,omitempty"`
 
-	// ProvisioningState: The disk provisioning state.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
-
 	// PurchasePlan: Purchase plan information for the the image from which the OS disk was created. E.g. - {name:
 	// 2019-Datacenter, publisher: MicrosoftWindowsServer, product: WindowsServer}
 	PurchasePlan *PurchasePlanARM `json:"purchasePlan,omitempty"`
 
-	// ShareInfo: Details of the list of all VMs that have the disk attached. maxShares should be set to a value greater than
-	// one for disks to allow attaching them to multiple VMs.
-	ShareInfo []ShareInfoElementARM `json:"shareInfo,omitempty"`
-
 	// Tier: Performance tier of the disk (e.g, P4, S10) as described here:
 	// https://azure.microsoft.com/en-us/pricing/details/managed-disks/. Does not apply to Ultra disks.
 	Tier *string `json:"tier,omitempty"`
-
-	// TimeCreated: The time when the disk was created.
-	TimeCreated *string `json:"timeCreated,omitempty"`
-
-	// UniqueId: Unique Guid identifying the resource.
-	UniqueId *string `json:"uniqueId,omitempty"`
 }
 
 type DiskSkuARM struct {
 	// Name: The sku name.
 	Name *DiskSku_Name `json:"name,omitempty"`
-
-	// Tier: The sku tier.
-	Tier *string `json:"tier,omitempty"`
 }
 
 type ExtendedLocationARM struct {
@@ -159,9 +125,6 @@ type CreationDataARM struct {
 	// LogicalSectorSize: Logical sector size in bytes for Ultra disks. Supported values are 512 ad 4096. 4096 is the default.
 	LogicalSectorSize *int    `json:"logicalSectorSize,omitempty"`
 	SourceResourceId  *string `json:"sourceResourceId,omitempty"`
-
-	// SourceUniqueId: If this field is set, this is the unique id identifying the source of this resource.
-	SourceUniqueId *string `json:"sourceUniqueId,omitempty"`
 
 	// SourceUri: If createOption is Import, this is the URI of a blob to be imported into a managed disk.
 	SourceUri *string `json:"sourceUri,omitempty"`
@@ -223,11 +186,6 @@ type PurchasePlanARM struct {
 
 	// Publisher: The publisher ID.
 	Publisher *string `json:"publisher,omitempty"`
-}
-
-type ShareInfoElementARM struct {
-	// VmUri: A relative URI containing the ID of the VM that has the disk attached.
-	VmUri *string `json:"vmUri,omitempty"`
 }
 
 type EncryptionSettingsElementARM struct {

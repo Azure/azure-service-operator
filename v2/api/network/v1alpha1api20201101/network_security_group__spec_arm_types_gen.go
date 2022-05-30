@@ -7,14 +7,12 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of NetworkSecurityGroup_Spec. Use v1beta20201101.NetworkSecurityGroup_Spec instead
 type NetworkSecurityGroup_SpecARM struct {
-	AzureName  string                                   `json:"azureName,omitempty"`
-	Etag       *string                                  `json:"etag,omitempty"`
-	Id         *string                                  `json:"id,omitempty"`
-	Location   *string                                  `json:"location,omitempty"`
-	Name       string                                   `json:"name,omitempty"`
-	Properties *NetworkSecurityGroupPropertiesFormatARM `json:"properties,omitempty"`
-	Tags       map[string]string                        `json:"tags,omitempty"`
-	Type       *string                                  `json:"type,omitempty"`
+	AzureName  string                                                                            `json:"azureName,omitempty"`
+	Id         *string                                                                           `json:"id,omitempty"`
+	Location   *string                                                                           `json:"location,omitempty"`
+	Name       string                                                                            `json:"name,omitempty"`
+	Properties *NetworkSecurityGroupPropertiesFormat_NetworkSecurityGroup_SubResourceEmbeddedARM `json:"properties,omitempty"`
+	Tags       map[string]string                                                                 `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &NetworkSecurityGroup_SpecARM{}
@@ -34,34 +32,12 @@ func (group *NetworkSecurityGroup_SpecARM) GetType() string {
 	return ""
 }
 
-// Deprecated version of NetworkSecurityGroupPropertiesFormat. Use v1beta20201101.NetworkSecurityGroupPropertiesFormat instead
-type NetworkSecurityGroupPropertiesFormatARM struct {
-	DefaultSecurityRules []SecurityRuleARM                                                  `json:"defaultSecurityRules,omitempty"`
-	FlowLogs             []FlowLogARM                                                       `json:"flowLogs,omitempty"`
-	NetworkInterfaces    []NetworkInterfaceSpec_NetworkSecurityGroup_SubResourceEmbeddedARM `json:"networkInterfaces,omitempty"`
-	ProvisioningState    *ProvisioningState                                                 `json:"provisioningState,omitempty"`
-	ResourceGuid         *string                                                            `json:"resourceGuid,omitempty"`
-	SecurityRules        []SecurityRuleARM                                                  `json:"securityRules,omitempty"`
-	Subnets              []Subnet_NetworkSecurityGroup_SubResourceEmbeddedARM               `json:"subnets,omitempty"`
+// Deprecated version of NetworkSecurityGroupPropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.NetworkSecurityGroupPropertiesFormat_NetworkSecurityGroup_SubResourceEmbedded instead
+type NetworkSecurityGroupPropertiesFormat_NetworkSecurityGroup_SubResourceEmbeddedARM struct {
+	SecurityRules []SecurityRule_NetworkSecurityGroup_SubResourceEmbeddedARM `json:"securityRules,omitempty"`
 }
 
-// Deprecated version of FlowLog. Use v1beta20201101.FlowLog instead
-type FlowLogARM struct {
-	Id *string `json:"id,omitempty"`
-}
-
-// Deprecated version of NetworkInterfaceSpec_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.NetworkInterfaceSpec_NetworkSecurityGroup_SubResourceEmbedded instead
-type NetworkInterfaceSpec_NetworkSecurityGroup_SubResourceEmbeddedARM struct {
-	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
-	Id               *string              `json:"id,omitempty"`
-}
-
-// Deprecated version of SecurityRule. Use v1beta20201101.SecurityRule instead
-type SecurityRuleARM struct {
-	Id *string `json:"id,omitempty"`
-}
-
-// Deprecated version of Subnet_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.Subnet_NetworkSecurityGroup_SubResourceEmbedded instead
-type Subnet_NetworkSecurityGroup_SubResourceEmbeddedARM struct {
+// Deprecated version of SecurityRule_NetworkSecurityGroup_SubResourceEmbedded. Use v1beta20201101.SecurityRule_NetworkSecurityGroup_SubResourceEmbedded instead
+type SecurityRule_NetworkSecurityGroup_SubResourceEmbeddedARM struct {
 	Id *string `json:"id,omitempty"`
 }

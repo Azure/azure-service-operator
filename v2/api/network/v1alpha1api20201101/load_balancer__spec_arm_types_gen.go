@@ -8,7 +8,6 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 // Deprecated version of LoadBalancer_Spec. Use v1beta20201101.LoadBalancer_Spec instead
 type LoadBalancer_SpecARM struct {
 	AzureName        string                           `json:"azureName,omitempty"`
-	Etag             *string                          `json:"etag,omitempty"`
 	ExtendedLocation *ExtendedLocationARM             `json:"extendedLocation,omitempty"`
 	Id               *string                          `json:"id,omitempty"`
 	Location         *string                          `json:"location,omitempty"`
@@ -16,7 +15,6 @@ type LoadBalancer_SpecARM struct {
 	Properties       *LoadBalancerPropertiesFormatARM `json:"properties,omitempty"`
 	Sku              *LoadBalancerSkuARM              `json:"sku,omitempty"`
 	Tags             map[string]string                `json:"tags,omitempty"`
-	Type             *string                          `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &LoadBalancer_SpecARM{}
@@ -51,8 +49,6 @@ type LoadBalancerPropertiesFormatARM struct {
 	LoadBalancingRules       []LoadBalancingRuleARM                                        `json:"loadBalancingRules,omitempty"`
 	OutboundRules            []OutboundRuleARM                                             `json:"outboundRules,omitempty"`
 	Probes                   []ProbeARM                                                    `json:"probes,omitempty"`
-	ProvisioningState        *ProvisioningState                                            `json:"provisioningState,omitempty"`
-	ResourceGuid             *string                                                       `json:"resourceGuid,omitempty"`
 }
 
 // Deprecated version of LoadBalancerSku. Use v1beta20201101.LoadBalancerSku instead
@@ -74,21 +70,17 @@ const ExtendedLocationType_EdgeZone = ExtendedLocationType("EdgeZone")
 
 // Deprecated version of FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded instead
 type FrontendIPConfiguration_LoadBalancer_SubResourceEmbeddedARM struct {
-	Etag       *string                                                                      `json:"etag,omitempty"`
 	Id         *string                                                                      `json:"id,omitempty"`
 	Name       *string                                                                      `json:"name,omitempty"`
 	Properties *FrontendIPConfigurationPropertiesFormat_LoadBalancer_SubResourceEmbeddedARM `json:"properties,omitempty"`
-	Type       *string                                                                      `json:"type,omitempty"`
 	Zones      []string                                                                     `json:"zones,omitempty"`
 }
 
 // Deprecated version of InboundNatPool. Use v1beta20201101.InboundNatPool instead
 type InboundNatPoolARM struct {
-	Etag       *string                            `json:"etag,omitempty"`
 	Id         *string                            `json:"id,omitempty"`
 	Name       *string                            `json:"name,omitempty"`
 	Properties *InboundNatPoolPropertiesFormatARM `json:"properties,omitempty"`
-	Type       *string                            `json:"type,omitempty"`
 }
 
 // Deprecated version of InboundNatRule_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.InboundNatRule_LoadBalancer_SubResourceEmbedded instead
@@ -116,44 +108,33 @@ const (
 
 // Deprecated version of LoadBalancingRule. Use v1beta20201101.LoadBalancingRule instead
 type LoadBalancingRuleARM struct {
-	Etag       *string                               `json:"etag,omitempty"`
 	Id         *string                               `json:"id,omitempty"`
 	Name       *string                               `json:"name,omitempty"`
 	Properties *LoadBalancingRulePropertiesFormatARM `json:"properties,omitempty"`
-	Type       *string                               `json:"type,omitempty"`
 }
 
 // Deprecated version of OutboundRule. Use v1beta20201101.OutboundRule instead
 type OutboundRuleARM struct {
-	Etag       *string                          `json:"etag,omitempty"`
 	Id         *string                          `json:"id,omitempty"`
 	Name       *string                          `json:"name,omitempty"`
 	Properties *OutboundRulePropertiesFormatARM `json:"properties,omitempty"`
-	Type       *string                          `json:"type,omitempty"`
 }
 
 // Deprecated version of Probe. Use v1beta20201101.Probe instead
 type ProbeARM struct {
-	Etag       *string                   `json:"etag,omitempty"`
 	Id         *string                   `json:"id,omitempty"`
 	Name       *string                   `json:"name,omitempty"`
 	Properties *ProbePropertiesFormatARM `json:"properties,omitempty"`
-	Type       *string                   `json:"type,omitempty"`
 }
 
 // Deprecated version of FrontendIPConfigurationPropertiesFormat_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.FrontendIPConfigurationPropertiesFormat_LoadBalancer_SubResourceEmbedded instead
 type FrontendIPConfigurationPropertiesFormat_LoadBalancer_SubResourceEmbeddedARM struct {
-	InboundNatPools           []SubResourceARM                                         `json:"inboundNatPools,omitempty"`
-	InboundNatRules           []SubResourceARM                                         `json:"inboundNatRules,omitempty"`
-	LoadBalancingRules        []SubResourceARM                                         `json:"loadBalancingRules,omitempty"`
-	OutboundRules             []SubResourceARM                                         `json:"outboundRules,omitempty"`
-	PrivateIPAddress          *string                                                  `json:"privateIPAddress,omitempty"`
-	PrivateIPAddressVersion   *IPVersion                                               `json:"privateIPAddressVersion,omitempty"`
-	PrivateIPAllocationMethod *IPAllocationMethod                                      `json:"privateIPAllocationMethod,omitempty"`
-	ProvisioningState         *ProvisioningState                                       `json:"provisioningState,omitempty"`
-	PublicIPAddress           *PublicIPAddressSpec_LoadBalancer_SubResourceEmbeddedARM `json:"publicIPAddress,omitempty"`
-	PublicIPPrefix            *SubResourceARM                                          `json:"publicIPPrefix,omitempty"`
-	Subnet                    *Subnet_LoadBalancer_SubResourceEmbeddedARM              `json:"subnet,omitempty"`
+	PrivateIPAddress          *string                                     `json:"privateIPAddress,omitempty"`
+	PrivateIPAddressVersion   *IPVersion                                  `json:"privateIPAddressVersion,omitempty"`
+	PrivateIPAllocationMethod *IPAllocationMethod                         `json:"privateIPAllocationMethod,omitempty"`
+	PublicIPAddress           *PublicIPAddressSpecARM                     `json:"publicIPAddress,omitempty"`
+	PublicIPPrefix            *SubResourceARM                             `json:"publicIPPrefix,omitempty"`
+	Subnet                    *Subnet_LoadBalancer_SubResourceEmbeddedARM `json:"subnet,omitempty"`
 }
 
 // Deprecated version of InboundNatPoolPropertiesFormat. Use v1beta20201101.InboundNatPoolPropertiesFormat instead
@@ -166,7 +147,6 @@ type InboundNatPoolPropertiesFormatARM struct {
 	FrontendPortRangeStart  *int               `json:"frontendPortRangeStart,omitempty"`
 	IdleTimeoutInMinutes    *int               `json:"idleTimeoutInMinutes,omitempty"`
 	Protocol                *TransportProtocol `json:"protocol,omitempty"`
-	ProvisioningState       *ProvisioningState `json:"provisioningState,omitempty"`
 }
 
 // Deprecated version of LoadBalancingRulePropertiesFormat. Use v1beta20201101.LoadBalancingRulePropertiesFormat instead
@@ -182,7 +162,6 @@ type LoadBalancingRulePropertiesFormatARM struct {
 	LoadDistribution        *LoadBalancingRulePropertiesFormat_LoadDistribution `json:"loadDistribution,omitempty"`
 	Probe                   *SubResourceARM                                     `json:"probe,omitempty"`
 	Protocol                *TransportProtocol                                  `json:"protocol,omitempty"`
-	ProvisioningState       *ProvisioningState                                  `json:"provisioningState,omitempty"`
 }
 
 // Deprecated version of OutboundRulePropertiesFormat. Use v1beta20201101.OutboundRulePropertiesFormat instead
@@ -193,29 +172,45 @@ type OutboundRulePropertiesFormatARM struct {
 	FrontendIPConfigurations []SubResourceARM                       `json:"frontendIPConfigurations,omitempty"`
 	IdleTimeoutInMinutes     *int                                   `json:"idleTimeoutInMinutes,omitempty"`
 	Protocol                 *OutboundRulePropertiesFormat_Protocol `json:"protocol,omitempty"`
-	ProvisioningState        *ProvisioningState                     `json:"provisioningState,omitempty"`
 }
 
 // Deprecated version of ProbePropertiesFormat. Use v1beta20201101.ProbePropertiesFormat instead
 type ProbePropertiesFormatARM struct {
-	IntervalInSeconds  *int                            `json:"intervalInSeconds,omitempty"`
-	LoadBalancingRules []SubResourceARM                `json:"loadBalancingRules,omitempty"`
-	NumberOfProbes     *int                            `json:"numberOfProbes,omitempty"`
-	Port               *int                            `json:"port,omitempty"`
-	Protocol           *ProbePropertiesFormat_Protocol `json:"protocol,omitempty"`
-	ProvisioningState  *ProvisioningState              `json:"provisioningState,omitempty"`
-	RequestPath        *string                         `json:"requestPath,omitempty"`
+	IntervalInSeconds *int                            `json:"intervalInSeconds,omitempty"`
+	NumberOfProbes    *int                            `json:"numberOfProbes,omitempty"`
+	Port              *int                            `json:"port,omitempty"`
+	Protocol          *ProbePropertiesFormat_Protocol `json:"protocol,omitempty"`
+	RequestPath       *string                         `json:"requestPath,omitempty"`
 }
 
-// Deprecated version of PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded instead
-type PublicIPAddressSpec_LoadBalancer_SubResourceEmbeddedARM struct {
-	ExtendedLocation *ExtendedLocationARM   `json:"extendedLocation,omitempty"`
-	Id               *string                `json:"id,omitempty"`
-	Sku              *PublicIPAddressSkuARM `json:"sku,omitempty"`
-	Zones            []string               `json:"zones,omitempty"`
+// Deprecated version of PublicIPAddressSpec. Use v1beta20201101.PublicIPAddressSpec instead
+type PublicIPAddressSpecARM struct {
+	ExtendedLocation *ExtendedLocationARM                `json:"extendedLocation,omitempty"`
+	Id               *string                             `json:"id,omitempty"`
+	Location         *string                             `json:"location,omitempty"`
+	Properties       *PublicIPAddressPropertiesFormatARM `json:"properties,omitempty"`
+	Sku              *PublicIPAddressSkuARM              `json:"sku,omitempty"`
+	Tags             map[string]string                   `json:"tags,omitempty"`
+	Zones            []string                            `json:"zones,omitempty"`
 }
 
 // Deprecated version of Subnet_LoadBalancer_SubResourceEmbedded. Use v1beta20201101.Subnet_LoadBalancer_SubResourceEmbedded instead
 type Subnet_LoadBalancer_SubResourceEmbeddedARM struct {
 	Id *string `json:"id,omitempty"`
+}
+
+// Deprecated version of PublicIPAddressPropertiesFormat. Use v1beta20201101.PublicIPAddressPropertiesFormat instead
+type PublicIPAddressPropertiesFormatARM struct {
+	DdosSettings             *DdosSettingsARM                                `json:"ddosSettings,omitempty"`
+	DnsSettings              *PublicIPAddressDnsSettingsARM                  `json:"dnsSettings,omitempty"`
+	IdleTimeoutInMinutes     *int                                            `json:"idleTimeoutInMinutes,omitempty"`
+	IpAddress                *string                                         `json:"ipAddress,omitempty"`
+	IpTags                   []IpTagARM                                      `json:"ipTags,omitempty"`
+	LinkedPublicIPAddress    *PublicIPAddressSpecARM                         `json:"linkedPublicIPAddress,omitempty"`
+	MigrationPhase           *PublicIPAddressPropertiesFormat_MigrationPhase `json:"migrationPhase,omitempty"`
+	NatGateway               *NatGatewaySpecARM                              `json:"natGateway,omitempty"`
+	PublicIPAddressVersion   *IPVersion                                      `json:"publicIPAddressVersion,omitempty"`
+	PublicIPAllocationMethod *IPAllocationMethod                             `json:"publicIPAllocationMethod,omitempty"`
+	PublicIPPrefix           *SubResourceARM                                 `json:"publicIPPrefix,omitempty"`
+	ServicePublicIPAddress   *PublicIPAddressSpecARM                         `json:"servicePublicIPAddress,omitempty"`
 }

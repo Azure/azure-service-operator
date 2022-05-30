@@ -546,7 +546,6 @@ type DatabaseAccountsSqlDatabasesThroughputSetting_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string  `json:"azureName,omitempty"`
-	Id        *string `json:"id,omitempty"`
 	Location  *string `json:"location,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -558,7 +557,6 @@ type DatabaseAccountsSqlDatabasesThroughputSetting_Spec struct {
 	// +kubebuilder:validation:Required
 	Resource *ThroughputSettingsResource `json:"resource,omitempty"`
 	Tags     map[string]string           `json:"tags,omitempty"`
-	Type     *string                     `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DatabaseAccountsSqlDatabasesThroughputSetting_Spec{}
@@ -572,12 +570,6 @@ func (setting *DatabaseAccountsSqlDatabasesThroughputSetting_Spec) ConvertToARM(
 
 	// Set property ‘AzureName’:
 	result.AzureName = setting.AzureName
-
-	// Set property ‘Id’:
-	if setting.Id != nil {
-		id := *setting.Id
-		result.Id = &id
-	}
 
 	// Set property ‘Location’:
 	if setting.Location != nil {
@@ -608,12 +600,6 @@ func (setting *DatabaseAccountsSqlDatabasesThroughputSetting_Spec) ConvertToARM(
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	if setting.Type != nil {
-		typeVar := *setting.Type
-		result.Type = &typeVar
-	}
 	return result, nil
 }
 
@@ -631,12 +617,6 @@ func (setting *DatabaseAccountsSqlDatabasesThroughputSetting_Spec) PopulateFromA
 
 	// Set property ‘AzureName’:
 	setting.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		setting.Id = &id
-	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
@@ -669,12 +649,6 @@ func (setting *DatabaseAccountsSqlDatabasesThroughputSetting_Spec) PopulateFromA
 		for key, value := range typedInput.Tags {
 			setting.Tags[key] = value
 		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		setting.Type = &typeVar
 	}
 
 	// No error
@@ -737,9 +711,6 @@ func (setting *DatabaseAccountsSqlDatabasesThroughputSetting_Spec) AssignPropert
 	// AzureName
 	setting.AzureName = source.AzureName
 
-	// Id
-	setting.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Location
 	setting.Location = genruntime.ClonePointerToString(source.Location)
 
@@ -766,9 +737,6 @@ func (setting *DatabaseAccountsSqlDatabasesThroughputSetting_Spec) AssignPropert
 	// Tags
 	setting.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
-	// Type
-	setting.Type = genruntime.ClonePointerToString(source.Type)
-
 	// No error
 	return nil
 }
@@ -780,9 +748,6 @@ func (setting *DatabaseAccountsSqlDatabasesThroughputSetting_Spec) AssignPropert
 
 	// AzureName
 	destination.AzureName = setting.AzureName
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(setting.Id)
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(setting.Location)
@@ -812,9 +777,6 @@ func (setting *DatabaseAccountsSqlDatabasesThroughputSetting_Spec) AssignPropert
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(setting.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(setting.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

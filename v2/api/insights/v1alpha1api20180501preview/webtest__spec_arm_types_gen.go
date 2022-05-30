@@ -11,13 +11,11 @@ import (
 // Deprecated version of Webtest_Spec. Use v1beta20180501preview.Webtest_Spec instead
 type Webtest_SpecARM struct {
 	AzureName  string                `json:"azureName,omitempty"`
-	Id         *string               `json:"id,omitempty"`
 	Kind       *Webtest_Spec_Kind    `json:"kind,omitempty"`
 	Location   *string               `json:"location,omitempty"`
 	Name       string                `json:"name,omitempty"`
 	Properties *WebTestPropertiesARM `json:"properties,omitempty"`
 	Tags       *v1.JSON              `json:"tags,omitempty"`
-	Type       *string               `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Webtest_SpecARM{}
@@ -46,7 +44,6 @@ type WebTestPropertiesARM struct {
 	Kind               *WebTestProperties_Kind               `json:"Kind,omitempty"`
 	Locations          []WebTestGeolocationARM               `json:"Locations,omitempty"`
 	Name               *string                               `json:"Name,omitempty"`
-	ProvisioningState  *string                               `json:"provisioningState,omitempty"`
 	Request            *WebTestProperties_RequestARM         `json:"Request,omitempty"`
 	RetryEnabled       *bool                                 `json:"RetryEnabled,omitempty"`
 	SyntheticMonitorId *string                               `json:"SyntheticMonitorId,omitempty"`

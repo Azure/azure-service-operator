@@ -7,19 +7,10 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type StorageAccountsQueueService_SpecARM struct {
 	AzureName string `json:"azureName,omitempty"`
-
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// Name: The name of the resource
-	Name string `json:"name,omitempty"`
+	Name      string `json:"name,omitempty"`
 
 	// Properties: The properties of a storage account’s Queue service.
 	Properties *StorageAccountsQueueService_Spec_PropertiesARM `json:"properties,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &StorageAccountsQueueService_SpecARM{}

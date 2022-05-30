@@ -563,10 +563,6 @@ type UserAssignedIdentity_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	// +kubebuilder:validation:Pattern="^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
-	ClientId *string `json:"clientId,omitempty"`
-	Id       *string `json:"id,omitempty"`
-
 	// +kubebuilder:validation:Required
 	Location *string `json:"location,omitempty"`
 
@@ -575,14 +571,7 @@ type UserAssignedIdentity_Spec struct {
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	// +kubebuilder:validation:Pattern="^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
-	PrincipalId *string           `json:"principalId,omitempty"`
-	Tags        map[string]string `json:"tags,omitempty"`
-
-	// +kubebuilder:validation:Pattern="^[0-9a-fA-F]{8}(-[0-9a-fA-F]{4}){3}-[0-9a-fA-F]{12}$"
-	TenantId *string `json:"tenantId,omitempty"`
-	Type     *string `json:"type,omitempty"`
+	Tags  map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &UserAssignedIdentity_Spec{}
@@ -597,12 +586,6 @@ func (identity *UserAssignedIdentity_Spec) ConvertToARM(resolved genruntime.Conv
 	// Set property ‘AzureName’:
 	result.AzureName = identity.AzureName
 
-	// Set property ‘Id’:
-	if identity.Id != nil {
-		id := *identity.Id
-		result.Id = &id
-	}
-
 	// Set property ‘Location’:
 	if identity.Location != nil {
 		location := *identity.Location
@@ -612,37 +595,12 @@ func (identity *UserAssignedIdentity_Spec) ConvertToARM(resolved genruntime.Conv
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
-	// Set property ‘Properties’:
-	if identity.ClientId != nil ||
-		identity.PrincipalId != nil ||
-		identity.TenantId != nil {
-		result.Properties = &UserAssignedIdentityPropertiesARM{}
-	}
-	if identity.ClientId != nil {
-		clientId := *identity.ClientId
-		result.Properties.ClientId = &clientId
-	}
-	if identity.PrincipalId != nil {
-		principalId := *identity.PrincipalId
-		result.Properties.PrincipalId = &principalId
-	}
-	if identity.TenantId != nil {
-		tenantId := *identity.TenantId
-		result.Properties.TenantId = &tenantId
-	}
-
 	// Set property ‘Tags’:
 	if identity.Tags != nil {
 		result.Tags = make(map[string]string)
 		for key, value := range identity.Tags {
 			result.Tags[key] = value
 		}
-	}
-
-	// Set property ‘Type’:
-	if identity.Type != nil {
-		typeVar := *identity.Type
-		result.Type = &typeVar
 	}
 	return result, nil
 }
@@ -662,21 +620,6 @@ func (identity *UserAssignedIdentity_Spec) PopulateFromARM(owner genruntime.Arbi
 	// Set property ‘AzureName’:
 	identity.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘ClientId’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ClientId != nil {
-			clientId := *typedInput.Properties.ClientId
-			identity.ClientId = &clientId
-		}
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		identity.Id = &id
-	}
-
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
@@ -688,36 +631,12 @@ func (identity *UserAssignedIdentity_Spec) PopulateFromARM(owner genruntime.Arbi
 		Name: owner.Name,
 	}
 
-	// Set property ‘PrincipalId’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PrincipalId != nil {
-			principalId := *typedInput.Properties.PrincipalId
-			identity.PrincipalId = &principalId
-		}
-	}
-
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
 		identity.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
 			identity.Tags[key] = value
 		}
-	}
-
-	// Set property ‘TenantId’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.TenantId != nil {
-			tenantId := *typedInput.Properties.TenantId
-			identity.TenantId = &tenantId
-		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		identity.Type = &typeVar
 	}
 
 	// No error
@@ -780,17 +699,6 @@ func (identity *UserAssignedIdentity_Spec) AssignPropertiesFromUserAssignedIdent
 	// AzureName
 	identity.AzureName = source.AzureName
 
-	// ClientId
-	if source.ClientId != nil {
-		clientId := *source.ClientId
-		identity.ClientId = &clientId
-	} else {
-		identity.ClientId = nil
-	}
-
-	// Id
-	identity.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Location
 	identity.Location = genruntime.ClonePointerToString(source.Location)
 
@@ -802,27 +710,8 @@ func (identity *UserAssignedIdentity_Spec) AssignPropertiesFromUserAssignedIdent
 		identity.Owner = nil
 	}
 
-	// PrincipalId
-	if source.PrincipalId != nil {
-		principalId := *source.PrincipalId
-		identity.PrincipalId = &principalId
-	} else {
-		identity.PrincipalId = nil
-	}
-
 	// Tags
 	identity.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// TenantId
-	if source.TenantId != nil {
-		tenantId := *source.TenantId
-		identity.TenantId = &tenantId
-	} else {
-		identity.TenantId = nil
-	}
-
-	// Type
-	identity.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -835,17 +724,6 @@ func (identity *UserAssignedIdentity_Spec) AssignPropertiesToUserAssignedIdentit
 
 	// AzureName
 	destination.AzureName = identity.AzureName
-
-	// ClientId
-	if identity.ClientId != nil {
-		clientId := *identity.ClientId
-		destination.ClientId = &clientId
-	} else {
-		destination.ClientId = nil
-	}
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(identity.Id)
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(identity.Location)
@@ -861,27 +739,8 @@ func (identity *UserAssignedIdentity_Spec) AssignPropertiesToUserAssignedIdentit
 		destination.Owner = nil
 	}
 
-	// PrincipalId
-	if identity.PrincipalId != nil {
-		principalId := *identity.PrincipalId
-		destination.PrincipalId = &principalId
-	} else {
-		destination.PrincipalId = nil
-	}
-
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(identity.Tags)
-
-	// TenantId
-	if identity.TenantId != nil {
-		tenantId := *identity.TenantId
-		destination.TenantId = &tenantId
-	} else {
-		destination.TenantId = nil
-	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(identity.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

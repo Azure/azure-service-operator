@@ -421,28 +421,10 @@ func AddIndependentPropertyGeneratorsForSignalR_Spec(gens map[string]gopter.Gen)
 	gens["AzureName"] = gen.AlphaString()
 	gens["DisableAadAuth"] = gen.PtrOf(gen.Bool())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
-	gens["ExternalIP"] = gen.PtrOf(gen.AlphaString())
-	gens["HostName"] = gen.PtrOf(gen.AlphaString())
-	gens["HostNamePrefix"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Kind"] = gen.PtrOf(gen.OneConstOf(ServiceKind_RawWebSockets, ServiceKind_SignalR))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_Canceled,
-		ProvisioningState_Creating,
-		ProvisioningState_Deleting,
-		ProvisioningState_Failed,
-		ProvisioningState_Moving,
-		ProvisioningState_Running,
-		ProvisioningState_Succeeded,
-		ProvisioningState_Unknown,
-		ProvisioningState_Updating))
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.AlphaString())
-	gens["PublicPort"] = gen.PtrOf(gen.Int())
-	gens["ServerPort"] = gen.PtrOf(gen.Int())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["Version"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForSignalR_Spec is a factory method for creating gopter generators
@@ -451,11 +433,8 @@ func AddRelatedPropertyGeneratorsForSignalR_Spec(gens map[string]gopter.Gen) {
 	gens["Features"] = gen.SliceOf(SignalRFeatureGenerator())
 	gens["Identity"] = gen.PtrOf(ManagedIdentityGenerator())
 	gens["NetworkACLs"] = gen.PtrOf(SignalRNetworkACLsGenerator())
-	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnection_SignalR_SubResourceEmbeddedGenerator())
 	gens["ResourceLogConfiguration"] = gen.PtrOf(ResourceLogConfigurationGenerator())
-	gens["SharedPrivateLinkResources"] = gen.SliceOf(SharedPrivateLinkResource_SignalR_SubResourceEmbeddedGenerator())
 	gens["Sku"] = gen.PtrOf(ResourceSkuGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemDataGenerator())
 	gens["Tls"] = gen.PtrOf(SignalRTlsSettingsGenerator())
 	gens["Upstream"] = gen.PtrOf(ServerlessUpstreamSettingsGenerator())
 }
@@ -544,9 +523,6 @@ func RunJSONSerializationTestForManagedIdentity(subject ManagedIdentity) string 
 var managedIdentityGenerator gopter.Gen
 
 // ManagedIdentityGenerator returns a generator of ManagedIdentity instances for property testing.
-// We first initialize managedIdentityGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func ManagedIdentityGenerator() gopter.Gen {
 	if managedIdentityGenerator != nil {
 		return managedIdentityGenerator
@@ -556,25 +532,12 @@ func ManagedIdentityGenerator() gopter.Gen {
 	AddIndependentPropertyGeneratorsForManagedIdentity(generators)
 	managedIdentityGenerator = gen.Struct(reflect.TypeOf(ManagedIdentity{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedIdentity(generators)
-	AddRelatedPropertyGeneratorsForManagedIdentity(generators)
-	managedIdentityGenerator = gen.Struct(reflect.TypeOf(ManagedIdentity{}), generators)
-
 	return managedIdentityGenerator
 }
 
 // AddIndependentPropertyGeneratorsForManagedIdentity is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedIdentity(gens map[string]gopter.Gen) {
-	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
-	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(ManagedIdentityType_None, ManagedIdentityType_SystemAssigned, ManagedIdentityType_UserAssigned))
-}
-
-// AddRelatedPropertyGeneratorsForManagedIdentity is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForManagedIdentity(gens map[string]gopter.Gen) {
-	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), UserAssignedIdentityPropertyGenerator())
 }
 
 func Test_ManagedIdentity_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -809,122 +772,6 @@ func AddIndependentPropertyGeneratorsForPrivateEndpointConnection_STATUS_SignalR
 // AddRelatedPropertyGeneratorsForPrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForPrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
-}
-
-func Test_PrivateEndpointConnection_SignalR_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from PrivateEndpointConnection_SignalR_SubResourceEmbedded to PrivateEndpointConnection_SignalR_SubResourceEmbedded via AssignPropertiesToPrivateEndpointConnection_SignalR_SubResourceEmbedded & AssignPropertiesFromPrivateEndpointConnection_SignalR_SubResourceEmbedded returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPrivateEndpointConnection_SignalR_SubResourceEmbedded, PrivateEndpointConnection_SignalR_SubResourceEmbeddedGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForPrivateEndpointConnection_SignalR_SubResourceEmbedded tests if a specific instance of PrivateEndpointConnection_SignalR_SubResourceEmbedded can be assigned to v1beta20211001storage and back losslessly
-func RunPropertyAssignmentTestForPrivateEndpointConnection_SignalR_SubResourceEmbedded(subject PrivateEndpointConnection_SignalR_SubResourceEmbedded) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20211001s.PrivateEndpointConnection_SignalR_SubResourceEmbedded
-	err := copied.AssignPropertiesToPrivateEndpointConnection_SignalR_SubResourceEmbedded(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual PrivateEndpointConnection_SignalR_SubResourceEmbedded
-	err = actual.AssignPropertiesFromPrivateEndpointConnection_SignalR_SubResourceEmbedded(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_PrivateEndpointConnection_SignalR_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrivateEndpointConnection_SignalR_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateEndpointConnection_SignalR_SubResourceEmbedded, PrivateEndpointConnection_SignalR_SubResourceEmbeddedGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForPrivateEndpointConnection_SignalR_SubResourceEmbedded runs a test to see if a specific instance of PrivateEndpointConnection_SignalR_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateEndpointConnection_SignalR_SubResourceEmbedded(subject PrivateEndpointConnection_SignalR_SubResourceEmbedded) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual PrivateEndpointConnection_SignalR_SubResourceEmbedded
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of PrivateEndpointConnection_SignalR_SubResourceEmbedded instances for property testing - lazily
-// instantiated by PrivateEndpointConnection_SignalR_SubResourceEmbeddedGenerator()
-var privateEndpointConnection_SignalR_SubResourceEmbeddedGenerator gopter.Gen
-
-// PrivateEndpointConnection_SignalR_SubResourceEmbeddedGenerator returns a generator of PrivateEndpointConnection_SignalR_SubResourceEmbedded instances for property testing.
-// We first initialize privateEndpointConnection_SignalR_SubResourceEmbeddedGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func PrivateEndpointConnection_SignalR_SubResourceEmbeddedGenerator() gopter.Gen {
-	if privateEndpointConnection_SignalR_SubResourceEmbeddedGenerator != nil {
-		return privateEndpointConnection_SignalR_SubResourceEmbeddedGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateEndpointConnection_SignalR_SubResourceEmbedded(generators)
-	privateEndpointConnection_SignalR_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnection_SignalR_SubResourceEmbedded{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateEndpointConnection_SignalR_SubResourceEmbedded(generators)
-	AddRelatedPropertyGeneratorsForPrivateEndpointConnection_SignalR_SubResourceEmbedded(generators)
-	privateEndpointConnection_SignalR_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnection_SignalR_SubResourceEmbedded{}), generators)
-
-	return privateEndpointConnection_SignalR_SubResourceEmbeddedGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPrivateEndpointConnection_SignalR_SubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateEndpointConnection_SignalR_SubResourceEmbedded(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForPrivateEndpointConnection_SignalR_SubResourceEmbedded is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForPrivateEndpointConnection_SignalR_SubResourceEmbedded(gens map[string]gopter.Gen) {
-	gens["SystemData"] = gen.PtrOf(SystemDataGenerator())
 }
 
 func Test_ResourceLogConfiguration_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1230,9 +1077,7 @@ func ResourceSkuGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForResourceSku is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForResourceSku(gens map[string]gopter.Gen) {
 	gens["Capacity"] = gen.PtrOf(gen.Int())
-	gens["Family"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Size"] = gen.PtrOf(gen.AlphaString())
 	gens["Tier"] = gen.PtrOf(gen.OneConstOf(
 		SignalRSkuTier_Basic,
 		SignalRSkuTier_Free,
@@ -1667,122 +1512,6 @@ func AddIndependentPropertyGeneratorsForSharedPrivateLinkResource_STATUS_SignalR
 // AddRelatedPropertyGeneratorsForSharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForSharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded(gens map[string]gopter.Gen) {
 	gens["SystemData"] = gen.PtrOf(SystemData_STATUSGenerator())
-}
-
-func Test_SharedPrivateLinkResource_SignalR_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from SharedPrivateLinkResource_SignalR_SubResourceEmbedded to SharedPrivateLinkResource_SignalR_SubResourceEmbedded via AssignPropertiesToSharedPrivateLinkResource_SignalR_SubResourceEmbedded & AssignPropertiesFromSharedPrivateLinkResource_SignalR_SubResourceEmbedded returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSharedPrivateLinkResource_SignalR_SubResourceEmbedded, SharedPrivateLinkResource_SignalR_SubResourceEmbeddedGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForSharedPrivateLinkResource_SignalR_SubResourceEmbedded tests if a specific instance of SharedPrivateLinkResource_SignalR_SubResourceEmbedded can be assigned to v1beta20211001storage and back losslessly
-func RunPropertyAssignmentTestForSharedPrivateLinkResource_SignalR_SubResourceEmbedded(subject SharedPrivateLinkResource_SignalR_SubResourceEmbedded) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20211001s.SharedPrivateLinkResource_SignalR_SubResourceEmbedded
-	err := copied.AssignPropertiesToSharedPrivateLinkResource_SignalR_SubResourceEmbedded(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SharedPrivateLinkResource_SignalR_SubResourceEmbedded
-	err = actual.AssignPropertiesFromSharedPrivateLinkResource_SignalR_SubResourceEmbedded(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_SharedPrivateLinkResource_SignalR_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SharedPrivateLinkResource_SignalR_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSharedPrivateLinkResource_SignalR_SubResourceEmbedded, SharedPrivateLinkResource_SignalR_SubResourceEmbeddedGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSharedPrivateLinkResource_SignalR_SubResourceEmbedded runs a test to see if a specific instance of SharedPrivateLinkResource_SignalR_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForSharedPrivateLinkResource_SignalR_SubResourceEmbedded(subject SharedPrivateLinkResource_SignalR_SubResourceEmbedded) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual SharedPrivateLinkResource_SignalR_SubResourceEmbedded
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of SharedPrivateLinkResource_SignalR_SubResourceEmbedded instances for property testing - lazily
-// instantiated by SharedPrivateLinkResource_SignalR_SubResourceEmbeddedGenerator()
-var sharedPrivateLinkResource_SignalR_SubResourceEmbeddedGenerator gopter.Gen
-
-// SharedPrivateLinkResource_SignalR_SubResourceEmbeddedGenerator returns a generator of SharedPrivateLinkResource_SignalR_SubResourceEmbedded instances for property testing.
-// We first initialize sharedPrivateLinkResource_SignalR_SubResourceEmbeddedGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func SharedPrivateLinkResource_SignalR_SubResourceEmbeddedGenerator() gopter.Gen {
-	if sharedPrivateLinkResource_SignalR_SubResourceEmbeddedGenerator != nil {
-		return sharedPrivateLinkResource_SignalR_SubResourceEmbeddedGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSharedPrivateLinkResource_SignalR_SubResourceEmbedded(generators)
-	sharedPrivateLinkResource_SignalR_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(SharedPrivateLinkResource_SignalR_SubResourceEmbedded{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSharedPrivateLinkResource_SignalR_SubResourceEmbedded(generators)
-	AddRelatedPropertyGeneratorsForSharedPrivateLinkResource_SignalR_SubResourceEmbedded(generators)
-	sharedPrivateLinkResource_SignalR_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(SharedPrivateLinkResource_SignalR_SubResourceEmbedded{}), generators)
-
-	return sharedPrivateLinkResource_SignalR_SubResourceEmbeddedGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSharedPrivateLinkResource_SignalR_SubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSharedPrivateLinkResource_SignalR_SubResourceEmbedded(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForSharedPrivateLinkResource_SignalR_SubResourceEmbedded is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSharedPrivateLinkResource_SignalR_SubResourceEmbedded(gens map[string]gopter.Gen) {
-	gens["SystemData"] = gen.PtrOf(SystemDataGenerator())
 }
 
 func Test_SignalRCorsSettings_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -2638,120 +2367,6 @@ func SignalRTlsSettings_STATUSGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSignalRTlsSettings_STATUS is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSignalRTlsSettings_STATUS(gens map[string]gopter.Gen) {
 	gens["ClientCertEnabled"] = gen.PtrOf(gen.Bool())
-}
-
-func Test_SystemData_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from SystemData to SystemData via AssignPropertiesToSystemData & AssignPropertiesFromSystemData returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSystemData, SystemDataGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForSystemData tests if a specific instance of SystemData can be assigned to v1beta20211001storage and back losslessly
-func RunPropertyAssignmentTestForSystemData(subject SystemData) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20211001s.SystemData
-	err := copied.AssignPropertiesToSystemData(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual SystemData
-	err = actual.AssignPropertiesFromSystemData(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_SystemData_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SystemData via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSystemData, SystemDataGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSystemData runs a test to see if a specific instance of SystemData round trips to JSON and back losslessly
-func RunJSONSerializationTestForSystemData(subject SystemData) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual SystemData
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of SystemData instances for property testing - lazily instantiated by SystemDataGenerator()
-var systemDataGenerator gopter.Gen
-
-// SystemDataGenerator returns a generator of SystemData instances for property testing.
-func SystemDataGenerator() gopter.Gen {
-	if systemDataGenerator != nil {
-		return systemDataGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSystemData(generators)
-	systemDataGenerator = gen.Struct(reflect.TypeOf(SystemData{}), generators)
-
-	return systemDataGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSystemData is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSystemData(gens map[string]gopter.Gen) {
-	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByType_Application,
-		SystemData_CreatedByType_Key,
-		SystemData_CreatedByType_ManagedIdentity,
-		SystemData_CreatedByType_User))
-	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByType_Application,
-		SystemData_LastModifiedByType_Key,
-		SystemData_LastModifiedByType_ManagedIdentity,
-		SystemData_LastModifiedByType_User))
 }
 
 func Test_SystemData_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -3752,109 +3367,6 @@ func AddIndependentPropertyGeneratorsForUpstreamTemplate_STATUS(gens map[string]
 // AddRelatedPropertyGeneratorsForUpstreamTemplate_STATUS is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForUpstreamTemplate_STATUS(gens map[string]gopter.Gen) {
 	gens["Auth"] = gen.PtrOf(UpstreamAuthSettings_STATUSGenerator())
-}
-
-func Test_UserAssignedIdentityProperty_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from UserAssignedIdentityProperty to UserAssignedIdentityProperty via AssignPropertiesToUserAssignedIdentityProperty & AssignPropertiesFromUserAssignedIdentityProperty returns original",
-		prop.ForAll(RunPropertyAssignmentTestForUserAssignedIdentityProperty, UserAssignedIdentityPropertyGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForUserAssignedIdentityProperty tests if a specific instance of UserAssignedIdentityProperty can be assigned to v1beta20211001storage and back losslessly
-func RunPropertyAssignmentTestForUserAssignedIdentityProperty(subject UserAssignedIdentityProperty) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20211001s.UserAssignedIdentityProperty
-	err := copied.AssignPropertiesToUserAssignedIdentityProperty(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual UserAssignedIdentityProperty
-	err = actual.AssignPropertiesFromUserAssignedIdentityProperty(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_UserAssignedIdentityProperty_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UserAssignedIdentityProperty via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUserAssignedIdentityProperty, UserAssignedIdentityPropertyGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForUserAssignedIdentityProperty runs a test to see if a specific instance of UserAssignedIdentityProperty round trips to JSON and back losslessly
-func RunJSONSerializationTestForUserAssignedIdentityProperty(subject UserAssignedIdentityProperty) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual UserAssignedIdentityProperty
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of UserAssignedIdentityProperty instances for property testing - lazily instantiated by
-// UserAssignedIdentityPropertyGenerator()
-var userAssignedIdentityPropertyGenerator gopter.Gen
-
-// UserAssignedIdentityPropertyGenerator returns a generator of UserAssignedIdentityProperty instances for property testing.
-func UserAssignedIdentityPropertyGenerator() gopter.Gen {
-	if userAssignedIdentityPropertyGenerator != nil {
-		return userAssignedIdentityPropertyGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUserAssignedIdentityProperty(generators)
-	userAssignedIdentityPropertyGenerator = gen.Struct(reflect.TypeOf(UserAssignedIdentityProperty{}), generators)
-
-	return userAssignedIdentityPropertyGenerator
-}
-
-// AddIndependentPropertyGeneratorsForUserAssignedIdentityProperty is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUserAssignedIdentityProperty(gens map[string]gopter.Gen) {
-	gens["ClientId"] = gen.PtrOf(gen.AlphaString())
-	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_UserAssignedIdentityProperty_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

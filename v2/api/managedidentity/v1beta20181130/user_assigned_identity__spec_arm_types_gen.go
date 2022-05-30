@@ -8,24 +8,12 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 type UserAssignedIdentity_SpecARM struct {
 	AzureName string `json:"azureName,omitempty"`
 
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the resource
-	Name string `json:"name,omitempty"`
-
-	// Properties: The properties associated with the identity.
-	Properties *UserAssignedIdentityPropertiesARM `json:"properties,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &UserAssignedIdentity_SpecARM{}
@@ -43,15 +31,4 @@ func (identity *UserAssignedIdentity_SpecARM) GetName() string {
 // GetType returns the ARM Type of the resource. This is always ""
 func (identity *UserAssignedIdentity_SpecARM) GetType() string {
 	return ""
-}
-
-type UserAssignedIdentityPropertiesARM struct {
-	// ClientId: The id of the app associated with the identity. This is a random generated UUID by MSI.
-	ClientId *string `json:"clientId,omitempty"`
-
-	// PrincipalId: The id of the service principal object associated with the created identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	// TenantId: The id of the tenant which the identity belongs to.
-	TenantId *string `json:"tenantId,omitempty"`
 }

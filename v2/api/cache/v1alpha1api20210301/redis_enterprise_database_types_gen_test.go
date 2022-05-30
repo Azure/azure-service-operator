@@ -435,29 +435,7 @@ func AddIndependentPropertyGeneratorsForRedisEnterpriseDatabase_Spec(gens map[st
 		DatabaseProperties_EvictionPolicy_VolatileLRU,
 		DatabaseProperties_EvictionPolicy_VolatileRandom,
 		DatabaseProperties_EvictionPolicy_VolatileTTL))
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Port"] = gen.PtrOf(gen.Int())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_Canceled,
-		ProvisioningState_Creating,
-		ProvisioningState_Deleting,
-		ProvisioningState_Failed,
-		ProvisioningState_Succeeded,
-		ProvisioningState_Updating))
-	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(
-		ResourceState_CreateFailed,
-		ResourceState_Creating,
-		ResourceState_DeleteFailed,
-		ResourceState_Deleting,
-		ResourceState_DisableFailed,
-		ResourceState_Disabled,
-		ResourceState_Disabling,
-		ResourceState_EnableFailed,
-		ResourceState_Enabling,
-		ResourceState_Running,
-		ResourceState_UpdateFailed,
-		ResourceState_Updating))
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForRedisEnterpriseDatabase_Spec is a factory method for creating gopter generators
@@ -566,7 +544,6 @@ func ModuleGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForModule(gens map[string]gopter.Gen) {
 	gens["Args"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Version"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_Module_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

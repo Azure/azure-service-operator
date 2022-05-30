@@ -8,12 +8,10 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 // Deprecated version of DatabaseAccountsSqlDatabasesContainer_Spec. Use v1beta20210515.DatabaseAccountsSqlDatabasesContainer_Spec instead
 type DatabaseAccountsSqlDatabasesContainer_SpecARM struct {
 	AzureName  string                                 `json:"azureName,omitempty"`
-	Id         *string                                `json:"id,omitempty"`
 	Location   *string                                `json:"location,omitempty"`
 	Name       string                                 `json:"name,omitempty"`
 	Properties *SqlContainerCreateUpdatePropertiesARM `json:"properties,omitempty"`
 	Tags       map[string]string                      `json:"tags,omitempty"`
-	Type       *string                                `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &DatabaseAccountsSqlDatabasesContainer_SpecARM{}
@@ -59,10 +57,9 @@ type ConflictResolutionPolicyARM struct {
 
 // Deprecated version of ContainerPartitionKey. Use v1beta20210515.ContainerPartitionKey instead
 type ContainerPartitionKeyARM struct {
-	Kind      *ContainerPartitionKey_Kind `json:"kind,omitempty"`
-	Paths     []string                    `json:"paths,omitempty"`
-	SystemKey *bool                       `json:"systemKey,omitempty"`
-	Version   *int                        `json:"version,omitempty"`
+	Kind    *ContainerPartitionKey_Kind `json:"kind,omitempty"`
+	Paths   []string                    `json:"paths,omitempty"`
+	Version *int                        `json:"version,omitempty"`
 }
 
 // Deprecated version of IndexingPolicy. Use v1beta20210515.IndexingPolicy instead

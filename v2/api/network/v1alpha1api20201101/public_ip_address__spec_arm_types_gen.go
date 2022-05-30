@@ -7,17 +7,15 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of PublicIPAddress_Spec. Use v1beta20201101.PublicIPAddress_Spec instead
 type PublicIPAddress_SpecARM struct {
-	AzureName        string                              `json:"azureName,omitempty"`
-	Etag             *string                             `json:"etag,omitempty"`
-	ExtendedLocation *ExtendedLocationARM                `json:"extendedLocation,omitempty"`
-	Id               *string                             `json:"id,omitempty"`
-	Location         *string                             `json:"location,omitempty"`
-	Name             string                              `json:"name,omitempty"`
-	Properties       *PublicIPAddressPropertiesFormatARM `json:"properties,omitempty"`
-	Sku              *PublicIPAddressSkuARM              `json:"sku,omitempty"`
-	Tags             map[string]string                   `json:"tags,omitempty"`
-	Type             *string                             `json:"type,omitempty"`
-	Zones            []string                            `json:"zones,omitempty"`
+	AzureName        string                                                  `json:"azureName,omitempty"`
+	ExtendedLocation *ExtendedLocationARM                                    `json:"extendedLocation,omitempty"`
+	Id               *string                                                 `json:"id,omitempty"`
+	Location         *string                                                 `json:"location,omitempty"`
+	Name             string                                                  `json:"name,omitempty"`
+	Properties       *PublicIPAddressPropertiesFormat_SubResourceEmbeddedARM `json:"properties,omitempty"`
+	Sku              *PublicIPAddressSkuARM                                  `json:"sku,omitempty"`
+	Tags             map[string]string                                       `json:"tags,omitempty"`
+	Zones            []string                                                `json:"zones,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &PublicIPAddress_SpecARM{}
@@ -37,23 +35,20 @@ func (address *PublicIPAddress_SpecARM) GetType() string {
 	return ""
 }
 
-// Deprecated version of PublicIPAddressPropertiesFormat. Use v1beta20201101.PublicIPAddressPropertiesFormat instead
-type PublicIPAddressPropertiesFormatARM struct {
-	DdosSettings             *DdosSettingsARM                                            `json:"ddosSettings,omitempty"`
-	DnsSettings              *PublicIPAddressDnsSettingsARM                              `json:"dnsSettings,omitempty"`
-	IdleTimeoutInMinutes     *int                                                        `json:"idleTimeoutInMinutes,omitempty"`
-	IpAddress                *string                                                     `json:"ipAddress,omitempty"`
-	IpConfiguration          *IPConfiguration_PublicIPAddress_SubResourceEmbeddedARM     `json:"ipConfiguration,omitempty"`
-	IpTags                   []IpTagARM                                                  `json:"ipTags,omitempty"`
-	LinkedPublicIPAddress    *PublicIPAddressSpec_PublicIPAddress_SubResourceEmbeddedARM `json:"linkedPublicIPAddress,omitempty"`
-	MigrationPhase           *PublicIPAddressPropertiesFormat_MigrationPhase             `json:"migrationPhase,omitempty"`
-	NatGateway               *NatGatewaySpec_PublicIPAddress_SubResourceEmbeddedARM      `json:"natGateway,omitempty"`
-	ProvisioningState        *ProvisioningState                                          `json:"provisioningState,omitempty"`
-	PublicIPAddressVersion   *IPVersion                                                  `json:"publicIPAddressVersion,omitempty"`
-	PublicIPAllocationMethod *IPAllocationMethod                                         `json:"publicIPAllocationMethod,omitempty"`
-	PublicIPPrefix           *SubResourceARM                                             `json:"publicIPPrefix,omitempty"`
-	ResourceGuid             *string                                                     `json:"resourceGuid,omitempty"`
-	ServicePublicIPAddress   *PublicIPAddressSpec_PublicIPAddress_SubResourceEmbeddedARM `json:"servicePublicIPAddress,omitempty"`
+// Deprecated version of PublicIPAddressPropertiesFormat_SubResourceEmbedded. Use v1beta20201101.PublicIPAddressPropertiesFormat_SubResourceEmbedded instead
+type PublicIPAddressPropertiesFormat_SubResourceEmbeddedARM struct {
+	DdosSettings             *DdosSettingsARM                                `json:"ddosSettings,omitempty"`
+	DnsSettings              *PublicIPAddressDnsSettingsARM                  `json:"dnsSettings,omitempty"`
+	IdleTimeoutInMinutes     *int                                            `json:"idleTimeoutInMinutes,omitempty"`
+	IpAddress                *string                                         `json:"ipAddress,omitempty"`
+	IpTags                   []IpTagARM                                      `json:"ipTags,omitempty"`
+	LinkedPublicIPAddress    *PublicIPAddressSpec_SubResourceEmbeddedARM     `json:"linkedPublicIPAddress,omitempty"`
+	MigrationPhase           *PublicIPAddressPropertiesFormat_MigrationPhase `json:"migrationPhase,omitempty"`
+	NatGateway               *NatGatewaySpecARM                              `json:"natGateway,omitempty"`
+	PublicIPAddressVersion   *IPVersion                                      `json:"publicIPAddressVersion,omitempty"`
+	PublicIPAllocationMethod *IPAllocationMethod                             `json:"publicIPAllocationMethod,omitempty"`
+	PublicIPPrefix           *SubResourceARM                                 `json:"publicIPPrefix,omitempty"`
+	ServicePublicIPAddress   *PublicIPAddressSpec_SubResourceEmbeddedARM     `json:"servicePublicIPAddress,omitempty"`
 }
 
 // Deprecated version of PublicIPAddressSku. Use v1beta20201101.PublicIPAddressSku instead
@@ -69,25 +64,20 @@ type DdosSettingsARM struct {
 	ProtectionCoverage *DdosSettings_ProtectionCoverage `json:"protectionCoverage,omitempty"`
 }
 
-// Deprecated version of IPConfiguration_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.IPConfiguration_PublicIPAddress_SubResourceEmbedded instead
-type IPConfiguration_PublicIPAddress_SubResourceEmbeddedARM struct {
-	Etag       *string                                                                 `json:"etag,omitempty"`
-	Id         *string                                                                 `json:"id,omitempty"`
-	Name       *string                                                                 `json:"name,omitempty"`
-	Properties *IPConfigurationPropertiesFormat_PublicIPAddress_SubResourceEmbeddedARM `json:"properties,omitempty"`
-}
-
 // Deprecated version of IpTag. Use v1beta20201101.IpTag instead
 type IpTagARM struct {
 	IpTagType *string `json:"ipTagType,omitempty"`
 	Tag       *string `json:"tag,omitempty"`
 }
 
-// Deprecated version of NatGatewaySpec_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.NatGatewaySpec_PublicIPAddress_SubResourceEmbedded instead
-type NatGatewaySpec_PublicIPAddress_SubResourceEmbeddedARM struct {
-	Id    *string           `json:"id,omitempty"`
-	Sku   *NatGatewaySkuARM `json:"sku,omitempty"`
-	Zones []string          `json:"zones,omitempty"`
+// Deprecated version of NatGatewaySpec. Use v1beta20201101.NatGatewaySpec instead
+type NatGatewaySpecARM struct {
+	Id         *string                        `json:"id,omitempty"`
+	Location   *string                        `json:"location,omitempty"`
+	Properties *NatGatewayPropertiesFormatARM `json:"properties,omitempty"`
+	Sku        *NatGatewaySkuARM              `json:"sku,omitempty"`
+	Tags       map[string]string              `json:"tags,omitempty"`
+	Zones      []string                       `json:"zones,omitempty"`
 }
 
 // Deprecated version of PublicIPAddressDnsSettings. Use v1beta20201101.PublicIPAddressDnsSettings instead
@@ -115,29 +105,29 @@ const (
 	PublicIPAddressSku_Tier_Regional = PublicIPAddressSku_Tier("Regional")
 )
 
-// Deprecated version of PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.PublicIPAddressSpec_PublicIPAddress_SubResourceEmbedded instead
-type PublicIPAddressSpec_PublicIPAddress_SubResourceEmbeddedARM struct {
+// Deprecated version of PublicIPAddressSpec_SubResourceEmbedded. Use v1beta20201101.PublicIPAddressSpec_SubResourceEmbedded instead
+type PublicIPAddressSpec_SubResourceEmbeddedARM struct {
 	ExtendedLocation *ExtendedLocationARM   `json:"extendedLocation,omitempty"`
 	Id               *string                `json:"id,omitempty"`
+	Location         *string                `json:"location,omitempty"`
 	Sku              *PublicIPAddressSkuARM `json:"sku,omitempty"`
+	Tags             map[string]string      `json:"tags,omitempty"`
 	Zones            []string               `json:"zones,omitempty"`
 }
 
-// Deprecated version of IPConfigurationPropertiesFormat_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.IPConfigurationPropertiesFormat_PublicIPAddress_SubResourceEmbedded instead
-type IPConfigurationPropertiesFormat_PublicIPAddress_SubResourceEmbeddedARM struct {
-	PrivateIPAddress          *string                                                     `json:"privateIPAddress,omitempty"`
-	PrivateIPAllocationMethod *IPAllocationMethod                                         `json:"privateIPAllocationMethod,omitempty"`
-	ProvisioningState         *ProvisioningState                                          `json:"provisioningState,omitempty"`
-	PublicIPAddress           *PublicIPAddressSpec_PublicIPAddress_SubResourceEmbeddedARM `json:"publicIPAddress,omitempty"`
-	Subnet                    *Subnet_PublicIPAddress_SubResourceEmbeddedARM              `json:"subnet,omitempty"`
+// Deprecated version of SubResource. Use v1beta20201101.SubResource instead
+type SubResourceARM struct {
+	Id *string `json:"id,omitempty"`
+}
+
+// Deprecated version of NatGatewayPropertiesFormat. Use v1beta20201101.NatGatewayPropertiesFormat instead
+type NatGatewayPropertiesFormatARM struct {
+	IdleTimeoutInMinutes *int             `json:"idleTimeoutInMinutes,omitempty"`
+	PublicIpAddresses    []SubResourceARM `json:"publicIpAddresses,omitempty"`
+	PublicIpPrefixes     []SubResourceARM `json:"publicIpPrefixes,omitempty"`
 }
 
 // Deprecated version of NatGatewaySku. Use v1beta20201101.NatGatewaySku instead
 type NatGatewaySkuARM struct {
 	Name *NatGatewaySku_Name `json:"name,omitempty"`
-}
-
-// Deprecated version of Subnet_PublicIPAddress_SubResourceEmbedded. Use v1beta20201101.Subnet_PublicIPAddress_SubResourceEmbedded instead
-type Subnet_PublicIPAddress_SubResourceEmbeddedARM struct {
-	Id *string `json:"id,omitempty"`
 }

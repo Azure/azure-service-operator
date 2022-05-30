@@ -8,15 +8,9 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 type FlexibleServer_SpecARM struct {
 	AzureName string `json:"azureName,omitempty"`
 
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the resource
-	Name string `json:"name,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
 	// Properties: Properties of the server.
 	Properties *ServerPropertiesARM `json:"properties,omitempty"`
@@ -24,14 +18,8 @@ type FlexibleServer_SpecARM struct {
 	// Sku: The SKU (pricing tier) of the server.
 	Sku *SkuARM `json:"sku,omitempty"`
 
-	// SystemData: The system metadata relating to this resource.
-	SystemData *SystemDataARM `json:"systemData,omitempty"`
-
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &FlexibleServer_SpecARM{}
@@ -68,17 +56,11 @@ type ServerPropertiesARM struct {
 	// CreateMode: The mode to create a new PostgreSQL server.
 	CreateMode *ServerProperties_CreateMode `json:"createMode,omitempty"`
 
-	// FullyQualifiedDomainName: The fully qualified domain name of a server.
-	FullyQualifiedDomainName *string `json:"fullyQualifiedDomainName,omitempty"`
-
 	// HighAvailability: High availability properties of a server.
 	HighAvailability *HighAvailabilityARM `json:"highAvailability,omitempty"`
 
 	// MaintenanceWindow: Maintenance window properties of a server.
 	MaintenanceWindow *MaintenanceWindowARM `json:"maintenanceWindow,omitempty"`
-
-	// MinorVersion: The minor version of the server.
-	MinorVersion *string `json:"minorVersion,omitempty"`
 
 	// Network: Network properties of a server.
 	Network *NetworkARM `json:"network,omitempty"`
@@ -87,9 +69,6 @@ type ServerPropertiesARM struct {
 	// 'createMode' is 'PointInTimeRestore'.
 	PointInTimeUTC         *string `json:"pointInTimeUTC,omitempty"`
 	SourceServerResourceId *string `json:"sourceServerResourceId,omitempty"`
-
-	// State: A state of a server that is visible to user.
-	State *ServerProperties_State `json:"state,omitempty"`
 
 	// Storage: Storage properties of a server.
 	Storage *StorageARM `json:"storage,omitempty"`
@@ -106,32 +85,9 @@ type SkuARM struct {
 	Tier *Sku_Tier `json:"tier,omitempty"`
 }
 
-type SystemDataARM struct {
-	// CreatedAt: The timestamp of resource creation (UTC).
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	// CreatedBy: The identity that created the resource.
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType `json:"createdByType,omitempty"`
-
-	// LastModifiedAt: The timestamp of resource last modification (UTC)
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	// LastModifiedBy: The identity that last modified the resource.
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType `json:"lastModifiedByType,omitempty"`
-}
-
 type BackupARM struct {
 	// BackupRetentionDays: Backup retention days for the server.
 	BackupRetentionDays *int `json:"backupRetentionDays,omitempty"`
-
-	// EarliestRestoreDate: The earliest restore point time (ISO8601 format) for server.
-	EarliestRestoreDate *string `json:"earliestRestoreDate,omitempty"`
 
 	// GeoRedundantBackup: A value indicating whether Geo-Redundant backup is enabled on the server.
 	GeoRedundantBackup *Backup_GeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
@@ -143,9 +99,6 @@ type HighAvailabilityARM struct {
 
 	// StandbyAvailabilityZone: availability zone information of the standby.
 	StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
-
-	// State: A state of a HA server that is visible to user.
-	State *HighAvailability_State `json:"state,omitempty"`
 }
 
 type MaintenanceWindowARM struct {
@@ -165,9 +118,6 @@ type MaintenanceWindowARM struct {
 type NetworkARM struct {
 	DelegatedSubnetResourceId   *string `json:"delegatedSubnetResourceId,omitempty"`
 	PrivateDnsZoneArmResourceId *string `json:"privateDnsZoneArmResourceId,omitempty"`
-
-	// PublicNetworkAccess: public network access is enabled or not
-	PublicNetworkAccess *Network_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"Burstable","GeneralPurpose","MemoryOptimized"}
@@ -183,23 +133,3 @@ type StorageARM struct {
 	// StorageSizeGB: Max storage allowed for a server.
 	StorageSizeGB *int `json:"storageSizeGB,omitempty"`
 }
-
-// +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
-type SystemData_CreatedByType string
-
-const (
-	SystemData_CreatedByType_Application     = SystemData_CreatedByType("Application")
-	SystemData_CreatedByType_Key             = SystemData_CreatedByType("Key")
-	SystemData_CreatedByType_ManagedIdentity = SystemData_CreatedByType("ManagedIdentity")
-	SystemData_CreatedByType_User            = SystemData_CreatedByType("User")
-)
-
-// +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
-type SystemData_LastModifiedByType string
-
-const (
-	SystemData_LastModifiedByType_Application     = SystemData_LastModifiedByType("Application")
-	SystemData_LastModifiedByType_Key             = SystemData_LastModifiedByType("Key")
-	SystemData_LastModifiedByType_ManagedIdentity = SystemData_LastModifiedByType("ManagedIdentity")
-	SystemData_LastModifiedByType_User            = SystemData_LastModifiedByType("User")
-)

@@ -172,8 +172,6 @@ type RouteTable_Spec struct {
 	// doesn't have to be.
 	AzureName                  string  `json:"azureName,omitempty"`
 	DisableBgpRoutePropagation *bool   `json:"disableBgpRoutePropagation,omitempty"`
-	Etag                       *string `json:"etag,omitempty"`
-	Id                         *string `json:"id,omitempty"`
 	Location                   *string `json:"location,omitempty"`
 	OriginalVersion            string  `json:"originalVersion,omitempty"`
 
@@ -181,14 +179,13 @@ type RouteTable_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner             *genruntime.KnownResourceReference      `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag       genruntime.PropertyBag                  `json:"$propertyBag,omitempty"`
-	ProvisioningState *string                                 `json:"provisioningState,omitempty"`
-	ResourceGuid      *string                                 `json:"resourceGuid,omitempty"`
-	Routes            []Route                                 `json:"routes,omitempty"`
-	Subnets           []Subnet_RouteTable_SubResourceEmbedded `json:"subnets,omitempty"`
-	Tags              map[string]string                       `json:"tags,omitempty"`
-	Type              *string                                 `json:"type,omitempty"`
+	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+
+	// Reference: Resource ID.
+	Reference *genruntime.ResourceReference          `armReference:"Id" json:"reference,omitempty"`
+	Routes    []Route_RouteTable_SubResourceEmbedded `json:"routes,omitempty"`
+	Tags      map[string]string                      `json:"tags,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &RouteTable_Spec{}
@@ -211,16 +208,12 @@ func (table *RouteTable_Spec) ConvertSpecTo(destination genruntime.ConvertibleSp
 	return destination.ConvertSpecFrom(table)
 }
 
-// Storage version of v1beta20201101.Route
-type Route struct {
-	Id          *string                `json:"id,omitempty"`
+// Storage version of v1beta20201101.Route_RouteTable_SubResourceEmbedded
+type Route_RouteTable_SubResourceEmbedded struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
 
-// Storage version of v1beta20201101.Subnet_RouteTable_SubResourceEmbedded
-type Subnet_RouteTable_SubResourceEmbedded struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	// Reference: Resource ID.
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 func init() {

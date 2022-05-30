@@ -16,8 +16,6 @@
 | PrivateEndpointACL                                           | v1alpha1api20211001 | v1beta20211001 |
 | PrivateEndpointACL_STATUS                                    | v1alpha1api20211001 | v1beta20211001 |
 | PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded | v1alpha1api20211001 | v1beta20211001 |
-| PrivateEndpointConnection_SignalR_SubResourceEmbedded        | v1alpha1api20211001 | v1beta20211001 |
-| ProvisioningState                                            | v1alpha1api20211001 | v1beta20211001 |
 | ProvisioningState_STATUS                                     | v1alpha1api20211001 | v1beta20211001 |
 | ResourceLogCategory                                          | v1alpha1api20211001 | v1beta20211001 |
 | ResourceLogCategory_STATUS                                   | v1alpha1api20211001 | v1beta20211001 |
@@ -30,7 +28,6 @@
 | ServiceKind                                                  | v1alpha1api20211001 | v1beta20211001 |
 | ServiceKind_STATUS                                           | v1alpha1api20211001 | v1beta20211001 |
 | SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded | v1alpha1api20211001 | v1beta20211001 |
-| SharedPrivateLinkResource_SignalR_SubResourceEmbedded        | v1alpha1api20211001 | v1beta20211001 |
 | SignalR                                                      | v1alpha1api20211001 | v1beta20211001 |
 | SignalRCorsSettings                                          | v1alpha1api20211001 | v1beta20211001 |
 | SignalRCorsSettings_STATUS                                   | v1alpha1api20211001 | v1beta20211001 |
@@ -48,10 +45,7 @@
 | SignalRTlsSettings_STATUS                                    | v1alpha1api20211001 | v1beta20211001 |
 | SignalR_STATUS                                               | v1alpha1api20211001 | v1beta20211001 |
 | SignalR_Spec                                                 | v1alpha1api20211001 | v1beta20211001 |
-| SystemData                                                   | v1alpha1api20211001 | v1beta20211001 |
-| SystemData_CreatedByType                                     | v1alpha1api20211001 | v1beta20211001 |
 | SystemData_CreatedByType_STATUS                              | v1alpha1api20211001 | v1beta20211001 |
-| SystemData_LastModifiedByType                                | v1alpha1api20211001 | v1beta20211001 |
 | SystemData_LastModifiedByType_STATUS                         | v1alpha1api20211001 | v1beta20211001 |
 | SystemData_STATUS                                            | v1alpha1api20211001 | v1beta20211001 |
 | UpstreamAuthSettings                                         | v1alpha1api20211001 | v1beta20211001 |
@@ -60,5 +54,4 @@
 | UpstreamAuthType_STATUS                                      | v1alpha1api20211001 | v1beta20211001 |
 | UpstreamTemplate                                             | v1alpha1api20211001 | v1beta20211001 |
 | UpstreamTemplate_STATUS                                      | v1alpha1api20211001 | v1beta20211001 |
-| UserAssignedIdentityProperty                                 | v1alpha1api20211001 | v1beta20211001 |
 | UserAssignedIdentityProperty_STATUS                          | v1alpha1api20211001 | v1beta20211001 |

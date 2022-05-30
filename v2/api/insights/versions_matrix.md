@@ -16,7 +16,6 @@
 | Component_Spec                                                 |                            | v1alpha1api20200202 |                       | v1beta20200202 |
 | HeaderField                                                    | v1alpha1api20180501preview |                     | v1beta20180501preview |                |
 | HeaderField_STATUS                                             | v1alpha1api20180501preview |                     | v1beta20180501preview |                |
-| PrivateLinkScopedResource                                      |                            | v1alpha1api20200202 |                       | v1beta20200202 |
 | PrivateLinkScopedResource_STATUS                               |                            | v1alpha1api20200202 |                       | v1beta20200202 |
 | PublicNetworkAccessType                                        |                            | v1alpha1api20200202 |                       | v1beta20200202 |
 | PublicNetworkAccessType_STATUS                                 |                            | v1alpha1api20200202 |                       | v1beta20200202 |

@@ -8,11 +8,8 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 // Deprecated version of StorageAccountsBlobService_Spec. Use v1beta20210401.StorageAccountsBlobService_Spec instead
 type StorageAccountsBlobService_SpecARM struct {
 	AzureName  string                                         `json:"azureName,omitempty"`
-	Id         *string                                        `json:"id,omitempty"`
 	Name       string                                         `json:"name,omitempty"`
 	Properties *StorageAccountsBlobService_Spec_PropertiesARM `json:"properties,omitempty"`
-	Sku        *SkuARM                                        `json:"sku,omitempty"`
-	Type       *string                                        `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &StorageAccountsBlobService_SpecARM{}
@@ -72,10 +69,8 @@ type LastAccessTimeTrackingPolicyARM struct {
 
 // Deprecated version of RestorePolicyProperties. Use v1beta20210401.RestorePolicyProperties instead
 type RestorePolicyPropertiesARM struct {
-	Days            *int    `json:"days,omitempty"`
-	Enabled         *bool   `json:"enabled,omitempty"`
-	LastEnabledTime *string `json:"lastEnabledTime,omitempty"`
-	MinRestoreTime  *string `json:"minRestoreTime,omitempty"`
+	Days    *int  `json:"days,omitempty"`
+	Enabled *bool `json:"enabled,omitempty"`
 }
 
 // Deprecated version of CorsRule. Use v1beta20210401.CorsRule instead

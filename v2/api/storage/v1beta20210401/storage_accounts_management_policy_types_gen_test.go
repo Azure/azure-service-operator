@@ -391,9 +391,6 @@ func StorageAccountsManagementPolicy_SpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForStorageAccountsManagementPolicy_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorageAccountsManagementPolicy_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedTime"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForStorageAccountsManagementPolicy_Spec is a factory method for creating gopter generators

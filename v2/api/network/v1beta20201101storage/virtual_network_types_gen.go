@@ -185,9 +185,7 @@ type VirtualNetwork_Spec struct {
 	DhcpOptions          *DhcpOptions                  `json:"dhcpOptions,omitempty"`
 	EnableDdosProtection *bool                         `json:"enableDdosProtection,omitempty"`
 	EnableVmProtection   *bool                         `json:"enableVmProtection,omitempty"`
-	Etag                 *string                       `json:"etag,omitempty"`
 	ExtendedLocation     *ExtendedLocation             `json:"extendedLocation,omitempty"`
-	Id                   *string                       `json:"id,omitempty"`
 	IpAllocations        []SubResource                 `json:"ipAllocations,omitempty"`
 	Location             *string                       `json:"location,omitempty"`
 	OriginalVersion      string                        `json:"originalVersion,omitempty"`
@@ -196,13 +194,13 @@ type VirtualNetwork_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner                  *genruntime.KnownResourceReference          `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag            genruntime.PropertyBag                      `json:"$propertyBag,omitempty"`
-	ProvisioningState      *string                                     `json:"provisioningState,omitempty"`
-	ResourceGuid           *string                                     `json:"resourceGuid,omitempty"`
+	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+
+	// Reference: Resource ID.
+	Reference              *genruntime.ResourceReference               `armReference:"Id" json:"reference,omitempty"`
 	Subnets                []Subnet_VirtualNetwork_SubResourceEmbedded `json:"subnets,omitempty"`
 	Tags                   map[string]string                           `json:"tags,omitempty"`
-	Type                   *string                                     `json:"type,omitempty"`
 	VirtualNetworkPeerings []VirtualNetworkPeering                     `json:"virtualNetworkPeerings,omitempty"`
 }
 
@@ -252,14 +250,15 @@ type DhcpOptions_STATUS struct {
 
 // Storage version of v1beta20201101.Subnet_VirtualNetwork_SubResourceEmbedded
 type Subnet_VirtualNetwork_SubResourceEmbedded struct {
-	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+
+	// Reference: Resource ID.
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 // Storage version of v1beta20201101.VirtualNetworkBgpCommunities
 type VirtualNetworkBgpCommunities struct {
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	RegionalCommunity       *string                `json:"regionalCommunity,omitempty"`
 	VirtualNetworkCommunity *string                `json:"virtualNetworkCommunity,omitempty"`
 }
 
@@ -272,8 +271,10 @@ type VirtualNetworkBgpCommunities_STATUS struct {
 
 // Storage version of v1beta20201101.VirtualNetworkPeering
 type VirtualNetworkPeering struct {
-	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+
+	// Reference: Resource ID.
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 func init() {

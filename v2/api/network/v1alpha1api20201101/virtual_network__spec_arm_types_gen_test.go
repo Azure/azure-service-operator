@@ -84,12 +84,10 @@ func VirtualNetwork_SpecARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForVirtualNetwork_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualNetwork_SpecARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForVirtualNetwork_SpecARM is a factory method for creating gopter generators
@@ -166,12 +164,6 @@ func VirtualNetworkPropertiesFormatARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForVirtualNetworkPropertiesFormatARM(gens map[string]gopter.Gen) {
 	gens["EnableDdosProtection"] = gen.PtrOf(gen.Bool())
 	gens["EnableVmProtection"] = gen.PtrOf(gen.Bool())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_Deleting,
-		ProvisioningState_Failed,
-		ProvisioningState_Succeeded,
-		ProvisioningState_Updating))
-	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForVirtualNetworkPropertiesFormatARM is a factory method for creating gopter generators
@@ -361,7 +353,6 @@ func VirtualNetworkBgpCommunitiesARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunitiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualNetworkBgpCommunitiesARM(gens map[string]gopter.Gen) {
-	gens["RegionalCommunity"] = gen.PtrOf(gen.AlphaString())
 	gens["VirtualNetworkCommunity"] = gen.PtrOf(gen.AlphaString())
 }
 

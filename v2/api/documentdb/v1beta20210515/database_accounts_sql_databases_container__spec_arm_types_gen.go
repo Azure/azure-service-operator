@@ -8,21 +8,13 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 type DatabaseAccountsSqlDatabasesContainer_SpecARM struct {
 	AzureName string `json:"azureName,omitempty"`
 
-	// Id: The unique resource identifier of the ARM resource.
-	Id *string `json:"id,omitempty"`
-
 	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the ARM resource.
-	Name string `json:"name,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
 	// Properties: Properties to create and update Azure Cosmos DB container.
 	Properties *SqlContainerCreateUpdatePropertiesARM `json:"properties,omitempty"`
 	Tags       map[string]string                      `json:"tags,omitempty"`
-
-	// Type: The type of Azure resource.
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &DatabaseAccountsSqlDatabasesContainer_SpecARM{}
@@ -94,9 +86,6 @@ type ContainerPartitionKeyARM struct {
 
 	// Paths: List of paths using which data within the container can be partitioned
 	Paths []string `json:"paths,omitempty"`
-
-	// SystemKey: Indicates if the container is using a system generated partition key
-	SystemKey *bool `json:"systemKey,omitempty"`
 
 	// Version: Indicates the version of the partition key definition
 	Version *int `json:"version,omitempty"`

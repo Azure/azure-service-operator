@@ -643,11 +643,6 @@ func (in *ImagePropertiesARM) DeepCopyInto(out *ImagePropertiesARM) {
 		*out = new(HyperVGenerationType)
 		**out = **in
 	}
-	if in.ProvisioningState != nil {
-		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(string)
-		**out = **in
-	}
 	if in.SourceVirtualMachine != nil {
 		in, out := &in.SourceVirtualMachine, &out.SourceVirtualMachine
 		*out = new(SubResourceARM)
@@ -972,11 +967,6 @@ func (in *Image_Spec) DeepCopyInto(out *Image_Spec) {
 		*out = new(HyperVGenerationType)
 		**out = **in
 	}
-	if in.Id != nil {
-		in, out := &in.Id, &out.Id
-		*out = new(string)
-		**out = **in
-	}
 	if in.Location != nil {
 		in, out := &in.Location, &out.Location
 		*out = new(string)
@@ -985,11 +975,6 @@ func (in *Image_Spec) DeepCopyInto(out *Image_Spec) {
 	if in.Owner != nil {
 		in, out := &in.Owner, &out.Owner
 		*out = new(genruntime.KnownResourceReference)
-		**out = **in
-	}
-	if in.ProvisioningState != nil {
-		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(string)
 		**out = **in
 	}
 	if in.SourceVirtualMachine != nil {
@@ -1008,11 +993,6 @@ func (in *Image_Spec) DeepCopyInto(out *Image_Spec) {
 		for key, val := range *in {
 			(*out)[key] = val
 		}
-	}
-	if in.Type != nil {
-		in, out := &in.Type, &out.Type
-		*out = new(string)
-		**out = **in
 	}
 }
 
@@ -1034,11 +1014,6 @@ func (in *Image_SpecARM) DeepCopyInto(out *Image_SpecARM) {
 		*out = new(ExtendedLocationARM)
 		(*in).DeepCopyInto(*out)
 	}
-	if in.Id != nil {
-		in, out := &in.Id, &out.Id
-		*out = new(string)
-		**out = **in
-	}
 	if in.Location != nil {
 		in, out := &in.Location, &out.Location
 		*out = new(string)
@@ -1055,11 +1030,6 @@ func (in *Image_SpecARM) DeepCopyInto(out *Image_SpecARM) {
 		for key, val := range *in {
 			(*out)[key] = val
 		}
-	}
-	if in.Type != nil {
-		in, out := &in.Type, &out.Type
-		*out = new(string)
-		**out = **in
 	}
 }
 

@@ -361,7 +361,6 @@ type FlexibleServersDatabase_Spec struct {
 	AzureName       string  `json:"azureName,omitempty"`
 	Charset         *string `json:"charset,omitempty"`
 	Collation       *string `json:"collation,omitempty"`
-	Id              *string `json:"id,omitempty"`
 	OriginalVersion string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -370,8 +369,6 @@ type FlexibleServersDatabase_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	SystemData  *SystemData                        `json:"systemData,omitempty"`
-	Type        *string                            `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &FlexibleServersDatabase_Spec{}
@@ -438,9 +435,6 @@ func (database *FlexibleServersDatabase_Spec) AssignPropertiesFromFlexibleServer
 	// Collation
 	database.Collation = genruntime.ClonePointerToString(source.Collation)
 
-	// Id
-	database.Id = genruntime.ClonePointerToString(source.Id)
-
 	// OriginalVersion
 	database.OriginalVersion = source.OriginalVersion
 
@@ -451,21 +445,6 @@ func (database *FlexibleServersDatabase_Spec) AssignPropertiesFromFlexibleServer
 	} else {
 		database.Owner = nil
 	}
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
-		}
-		database.SystemData = &systemDatum
-	} else {
-		database.SystemData = nil
-	}
-
-	// Type
-	database.Type = genruntime.ClonePointerToString(source.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -492,9 +471,6 @@ func (database *FlexibleServersDatabase_Spec) AssignPropertiesToFlexibleServersD
 	// Collation
 	destination.Collation = genruntime.ClonePointerToString(database.Collation)
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(database.Id)
-
 	// OriginalVersion
 	destination.OriginalVersion = database.OriginalVersion
 
@@ -505,21 +481,6 @@ func (database *FlexibleServersDatabase_Spec) AssignPropertiesToFlexibleServersD
 	} else {
 		destination.Owner = nil
 	}
-
-	// SystemData
-	if database.SystemData != nil {
-		var systemDatum v20210501s.SystemData
-		err := database.SystemData.AssignPropertiesToSystemData(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(database.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

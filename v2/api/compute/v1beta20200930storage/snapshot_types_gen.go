@@ -189,17 +189,14 @@ type Snapshot_Spec struct {
 
 	// DiskAccessReference: ARM id of the DiskAccess resource for using private endpoints on disks.
 	DiskAccessReference          *genruntime.ResourceReference `armReference:"DiskAccessId" json:"diskAccessReference,omitempty"`
-	DiskSizeBytes                *int                          `json:"diskSizeBytes,omitempty"`
 	DiskSizeGB                   *int                          `json:"diskSizeGB,omitempty"`
 	DiskState                    *string                       `json:"diskState,omitempty"`
 	Encryption                   *Encryption                   `json:"encryption,omitempty"`
 	EncryptionSettingsCollection *EncryptionSettingsCollection `json:"encryptionSettingsCollection,omitempty"`
 	ExtendedLocation             *ExtendedLocation             `json:"extendedLocation,omitempty"`
 	HyperVGeneration             *string                       `json:"hyperVGeneration,omitempty"`
-	Id                           *string                       `json:"id,omitempty"`
 	Incremental                  *bool                         `json:"incremental,omitempty"`
 	Location                     *string                       `json:"location,omitempty"`
-	ManagedBy                    *string                       `json:"managedBy,omitempty"`
 	NetworkAccessPolicy          *string                       `json:"networkAccessPolicy,omitempty"`
 	OriginalVersion              string                        `json:"originalVersion,omitempty"`
 	OsType                       *string                       `json:"osType,omitempty"`
@@ -208,15 +205,11 @@ type Snapshot_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner             *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag       genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	ProvisioningState *string                            `json:"provisioningState,omitempty"`
-	PurchasePlan      *PurchasePlan                      `json:"purchasePlan,omitempty"`
-	Sku               *SnapshotSku                       `json:"sku,omitempty"`
-	Tags              map[string]string                  `json:"tags,omitempty"`
-	TimeCreated       *string                            `json:"timeCreated,omitempty"`
-	Type              *string                            `json:"type,omitempty"`
-	UniqueId          *string                            `json:"uniqueId,omitempty"`
+	Owner        *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag  genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	PurchasePlan *PurchasePlan                      `json:"purchasePlan,omitempty"`
+	Sku          *SnapshotSku                       `json:"sku,omitempty"`
+	Tags         map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &Snapshot_Spec{}
@@ -243,7 +236,6 @@ func (snapshot *Snapshot_Spec) ConvertSpecTo(destination genruntime.ConvertibleS
 type SnapshotSku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Tier        *string                `json:"tier,omitempty"`
 }
 
 // Storage version of v1beta20200930.SnapshotSku_STATUS

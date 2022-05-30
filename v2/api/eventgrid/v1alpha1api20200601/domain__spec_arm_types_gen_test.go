@@ -83,17 +83,14 @@ func Domain_SpecARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDomain_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDomain_SpecARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForDomain_SpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForDomain_SpecARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(DomainPropertiesARMGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemDataARMGenerator())
 }
 
 func Test_DomainPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -162,16 +159,7 @@ func DomainPropertiesARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForDomainPropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDomainPropertiesARM(gens map[string]gopter.Gen) {
-	gens["Endpoint"] = gen.PtrOf(gen.AlphaString())
 	gens["InputSchema"] = gen.PtrOf(gen.OneConstOf(DomainProperties_InputSchema_CloudEventSchemaV1_0, DomainProperties_InputSchema_CustomEventSchema, DomainProperties_InputSchema_EventGridSchema))
-	gens["MetricResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		DomainProperties_ProvisioningState_Canceled,
-		DomainProperties_ProvisioningState_Creating,
-		DomainProperties_ProvisioningState_Deleting,
-		DomainProperties_ProvisioningState_Failed,
-		DomainProperties_ProvisioningState_Succeeded,
-		DomainProperties_ProvisioningState_Updating))
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(DomainProperties_PublicNetworkAccess_Disabled, DomainProperties_PublicNetworkAccess_Enabled))
 }
 
@@ -179,79 +167,6 @@ func AddIndependentPropertyGeneratorsForDomainPropertiesARM(gens map[string]gopt
 func AddRelatedPropertyGeneratorsForDomainPropertiesARM(gens map[string]gopter.Gen) {
 	gens["InboundIpRules"] = gen.SliceOf(InboundIpRuleARMGenerator())
 	gens["InputSchemaMapping"] = gen.PtrOf(InputSchemaMappingARMGenerator())
-	gens["PrivateEndpointConnections"] = gen.SliceOf(PrivateEndpointConnection_Domain_SubResourceEmbeddedARMGenerator())
-}
-
-func Test_SystemDataARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SystemDataARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSystemDataARM, SystemDataARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSystemDataARM runs a test to see if a specific instance of SystemDataARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSystemDataARM(subject SystemDataARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual SystemDataARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of SystemDataARM instances for property testing - lazily instantiated by SystemDataARMGenerator()
-var systemDataARMGenerator gopter.Gen
-
-// SystemDataARMGenerator returns a generator of SystemDataARM instances for property testing.
-func SystemDataARMGenerator() gopter.Gen {
-	if systemDataARMGenerator != nil {
-		return systemDataARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSystemDataARM(generators)
-	systemDataARMGenerator = gen.Struct(reflect.TypeOf(SystemDataARM{}), generators)
-
-	return systemDataARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSystemDataARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSystemDataARM(gens map[string]gopter.Gen) {
-	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_CreatedByType_Application,
-		SystemData_CreatedByType_Key,
-		SystemData_CreatedByType_ManagedIdentity,
-		SystemData_CreatedByType_User))
-	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		SystemData_LastModifiedByType_Application,
-		SystemData_LastModifiedByType_Key,
-		SystemData_LastModifiedByType_ManagedIdentity,
-		SystemData_LastModifiedByType_User))
 }
 
 func Test_InboundIpRuleARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -372,64 +287,4 @@ func InputSchemaMappingARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForInputSchemaMappingARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForInputSchemaMappingARM(gens map[string]gopter.Gen) {
 	gens["InputSchemaMappingType"] = gen.PtrOf(gen.OneConstOf(InputSchemaMapping_InputSchemaMappingType_Json))
-}
-
-func Test_PrivateEndpointConnection_Domain_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrivateEndpointConnection_Domain_SubResourceEmbeddedARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateEndpointConnection_Domain_SubResourceEmbeddedARM, PrivateEndpointConnection_Domain_SubResourceEmbeddedARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForPrivateEndpointConnection_Domain_SubResourceEmbeddedARM runs a test to see if a specific instance of PrivateEndpointConnection_Domain_SubResourceEmbeddedARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateEndpointConnection_Domain_SubResourceEmbeddedARM(subject PrivateEndpointConnection_Domain_SubResourceEmbeddedARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual PrivateEndpointConnection_Domain_SubResourceEmbeddedARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of PrivateEndpointConnection_Domain_SubResourceEmbeddedARM instances for property testing - lazily
-// instantiated by PrivateEndpointConnection_Domain_SubResourceEmbeddedARMGenerator()
-var privateEndpointConnection_Domain_SubResourceEmbeddedARMGenerator gopter.Gen
-
-// PrivateEndpointConnection_Domain_SubResourceEmbeddedARMGenerator returns a generator of PrivateEndpointConnection_Domain_SubResourceEmbeddedARM instances for property testing.
-func PrivateEndpointConnection_Domain_SubResourceEmbeddedARMGenerator() gopter.Gen {
-	if privateEndpointConnection_Domain_SubResourceEmbeddedARMGenerator != nil {
-		return privateEndpointConnection_Domain_SubResourceEmbeddedARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateEndpointConnection_Domain_SubResourceEmbeddedARM(generators)
-	privateEndpointConnection_Domain_SubResourceEmbeddedARMGenerator = gen.Struct(reflect.TypeOf(PrivateEndpointConnection_Domain_SubResourceEmbeddedARM{}), generators)
-
-	return privateEndpointConnection_Domain_SubResourceEmbeddedARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPrivateEndpointConnection_Domain_SubResourceEmbeddedARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateEndpointConnection_Domain_SubResourceEmbeddedARM(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }

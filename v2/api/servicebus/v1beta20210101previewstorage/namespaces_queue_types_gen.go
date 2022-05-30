@@ -184,28 +184,23 @@ func (queue *NamespacesQueue_STATUS) ConvertStatusTo(destination genruntime.Conv
 
 // Storage version of v1beta20210101preview.NamespacesQueue_Spec
 type NamespacesQueue_Spec struct {
-	AccessedAt       *string `json:"accessedAt,omitempty"`
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName                           string               `json:"azureName,omitempty"`
-	CountDetails                        *MessageCountDetails `json:"countDetails,omitempty"`
-	CreatedAt                           *string              `json:"createdAt,omitempty"`
-	DeadLetteringOnMessageExpiration    *bool                `json:"deadLetteringOnMessageExpiration,omitempty"`
-	DefaultMessageTimeToLive            *string              `json:"defaultMessageTimeToLive,omitempty"`
-	DuplicateDetectionHistoryTimeWindow *string              `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
-	EnableBatchedOperations             *bool                `json:"enableBatchedOperations,omitempty"`
-	EnableExpress                       *bool                `json:"enableExpress,omitempty"`
-	EnablePartitioning                  *bool                `json:"enablePartitioning,omitempty"`
-	ForwardDeadLetteredMessagesTo       *string              `json:"forwardDeadLetteredMessagesTo,omitempty"`
-	ForwardTo                           *string              `json:"forwardTo,omitempty"`
-	Id                                  *string              `json:"id,omitempty"`
-	LockDuration                        *string              `json:"lockDuration,omitempty"`
-	MaxDeliveryCount                    *int                 `json:"maxDeliveryCount,omitempty"`
-	MaxSizeInMegabytes                  *int                 `json:"maxSizeInMegabytes,omitempty"`
-	MessageCount                        *int                 `json:"messageCount,omitempty"`
-	OriginalVersion                     string               `json:"originalVersion,omitempty"`
+	AzureName                           string  `json:"azureName,omitempty"`
+	DeadLetteringOnMessageExpiration    *bool   `json:"deadLetteringOnMessageExpiration,omitempty"`
+	DefaultMessageTimeToLive            *string `json:"defaultMessageTimeToLive,omitempty"`
+	DuplicateDetectionHistoryTimeWindow *string `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
+	EnableBatchedOperations             *bool   `json:"enableBatchedOperations,omitempty"`
+	EnableExpress                       *bool   `json:"enableExpress,omitempty"`
+	EnablePartitioning                  *bool   `json:"enablePartitioning,omitempty"`
+	ForwardDeadLetteredMessagesTo       *string `json:"forwardDeadLetteredMessagesTo,omitempty"`
+	ForwardTo                           *string `json:"forwardTo,omitempty"`
+	LockDuration                        *string `json:"lockDuration,omitempty"`
+	MaxDeliveryCount                    *int    `json:"maxDeliveryCount,omitempty"`
+	MaxSizeInMegabytes                  *int    `json:"maxSizeInMegabytes,omitempty"`
+	OriginalVersion                     string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -215,10 +210,6 @@ type NamespacesQueue_Spec struct {
 	PropertyBag                genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	RequiresDuplicateDetection *bool                              `json:"requiresDuplicateDetection,omitempty"`
 	RequiresSession            *bool                              `json:"requiresSession,omitempty"`
-	SizeInBytes                *int                               `json:"sizeInBytes,omitempty"`
-	SystemData                 *SystemData                        `json:"systemData,omitempty"`
-	Type                       *string                            `json:"type,omitempty"`
-	UpdatedAt                  *string                            `json:"updatedAt,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &NamespacesQueue_Spec{}
@@ -239,16 +230,6 @@ func (queue *NamespacesQueue_Spec) ConvertSpecTo(destination genruntime.Converti
 	}
 
 	return destination.ConvertSpecFrom(queue)
-}
-
-// Storage version of v1beta20210101preview.MessageCountDetails
-type MessageCountDetails struct {
-	ActiveMessageCount             *int                   `json:"activeMessageCount,omitempty"`
-	DeadLetterMessageCount         *int                   `json:"deadLetterMessageCount,omitempty"`
-	PropertyBag                    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ScheduledMessageCount          *int                   `json:"scheduledMessageCount,omitempty"`
-	TransferDeadLetterMessageCount *int                   `json:"transferDeadLetterMessageCount,omitempty"`
-	TransferMessageCount           *int                   `json:"transferMessageCount,omitempty"`
 }
 
 // Storage version of v1beta20210101preview.MessageCountDetails_STATUS

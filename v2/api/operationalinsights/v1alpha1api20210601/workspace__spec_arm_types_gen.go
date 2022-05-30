@@ -9,12 +9,10 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 type Workspace_SpecARM struct {
 	AzureName  string                  `json:"azureName,omitempty"`
 	Etag       *string                 `json:"etag,omitempty"`
-	Id         *string                 `json:"id,omitempty"`
 	Location   *string                 `json:"location,omitempty"`
 	Name       string                  `json:"name,omitempty"`
 	Properties *WorkspacePropertiesARM `json:"properties,omitempty"`
 	Tags       map[string]string       `json:"tags,omitempty"`
-	Type       *string                 `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Workspace_SpecARM{}
@@ -36,12 +34,8 @@ func (workspace *Workspace_SpecARM) GetType() string {
 
 // Deprecated version of WorkspaceProperties. Use v1beta20210601.WorkspaceProperties instead
 type WorkspacePropertiesARM struct {
-	CreatedDate                     *string                                `json:"createdDate,omitempty"`
-	CustomerId                      *string                                `json:"customerId,omitempty"`
 	Features                        *WorkspaceFeaturesARM                  `json:"features,omitempty"`
 	ForceCmkForQuery                *bool                                  `json:"forceCmkForQuery,omitempty"`
-	ModifiedDate                    *string                                `json:"modifiedDate,omitempty"`
-	PrivateLinkScopedResources      []PrivateLinkScopedResourceARM         `json:"privateLinkScopedResources,omitempty"`
 	ProvisioningState               *WorkspaceProperties_ProvisioningState `json:"provisioningState,omitempty"`
 	PublicNetworkAccessForIngestion *PublicNetworkAccessType               `json:"publicNetworkAccessForIngestion,omitempty"`
 	PublicNetworkAccessForQuery     *PublicNetworkAccessType               `json:"publicNetworkAccessForQuery,omitempty"`
@@ -50,17 +44,9 @@ type WorkspacePropertiesARM struct {
 	WorkspaceCapping                *WorkspaceCappingARM                   `json:"workspaceCapping,omitempty"`
 }
 
-// Deprecated version of PrivateLinkScopedResource. Use v1beta20210601.PrivateLinkScopedResource instead
-type PrivateLinkScopedResourceARM struct {
-	ResourceId *string `json:"resourceId,omitempty"`
-	ScopeId    *string `json:"scopeId,omitempty"`
-}
-
 // Deprecated version of WorkspaceCapping. Use v1beta20210601.WorkspaceCapping instead
 type WorkspaceCappingARM struct {
-	DailyQuotaGb        *float64                              `json:"dailyQuotaGb,omitempty"`
-	DataIngestionStatus *WorkspaceCapping_DataIngestionStatus `json:"dataIngestionStatus,omitempty"`
-	QuotaNextResetTime  *string                               `json:"quotaNextResetTime,omitempty"`
+	DailyQuotaGb *float64 `json:"dailyQuotaGb,omitempty"`
 }
 
 // Deprecated version of WorkspaceFeatures. Use v1beta20210601.WorkspaceFeatures instead
@@ -75,6 +61,5 @@ type WorkspaceFeaturesARM struct {
 // Deprecated version of WorkspaceSku. Use v1beta20210601.WorkspaceSku instead
 type WorkspaceSkuARM struct {
 	CapacityReservationLevel *WorkspaceSku_CapacityReservationLevel `json:"capacityReservationLevel,omitempty"`
-	LastSkuUpdate            *string                                `json:"lastSkuUpdate,omitempty"`
 	Name                     *WorkspaceSku_Name                     `json:"name,omitempty"`
 }

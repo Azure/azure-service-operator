@@ -180,9 +180,6 @@ type Profile_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName                    string  `json:"azureName,omitempty"`
-	FrontDoorId                  *string `json:"frontDoorId,omitempty"`
-	Id                           *string `json:"id,omitempty"`
-	Kind                         *string `json:"kind,omitempty"`
 	Location                     *string `json:"location,omitempty"`
 	OriginResponseTimeoutSeconds *int    `json:"originResponseTimeoutSeconds,omitempty"`
 	OriginalVersion              string  `json:"originalVersion,omitempty"`
@@ -191,14 +188,10 @@ type Profile_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner             *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag       genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	ProvisioningState *string                            `json:"provisioningState,omitempty"`
-	ResourceState     *string                            `json:"resourceState,omitempty"`
-	Sku               *Sku                               `json:"sku,omitempty"`
-	SystemData        *SystemData                        `json:"systemData,omitempty"`
-	Tags              map[string]string                  `json:"tags,omitempty"`
-	Type              *string                            `json:"type,omitempty"`
+	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Sku         *Sku                               `json:"sku,omitempty"`
+	Tags        map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &Profile_Spec{}
@@ -231,17 +224,6 @@ type Sku struct {
 type Sku_STATUS struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1beta20210601.SystemData
-type SystemData struct {
-	CreatedAt          *string                `json:"createdAt,omitempty"`
-	CreatedBy          *string                `json:"createdBy,omitempty"`
-	CreatedByType      *string                `json:"createdByType,omitempty"`
-	LastModifiedAt     *string                `json:"lastModifiedAt,omitempty"`
-	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
-	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210601.SystemData_STATUS

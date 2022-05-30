@@ -1775,8 +1775,6 @@ func IdentityGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForIdentity is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForIdentity(gens map[string]gopter.Gen) {
-	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
-	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -4296,11 +4294,9 @@ func KeyVaultPropertiesGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForKeyVaultProperties is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForKeyVaultProperties(gens map[string]gopter.Gen) {
-	gens["CurrentVersionedKeyIdentifier"] = gen.PtrOf(gen.AlphaString())
 	gens["Keyname"] = gen.PtrOf(gen.AlphaString())
 	gens["Keyvaulturi"] = gen.PtrOf(gen.AlphaString())
 	gens["Keyversion"] = gen.PtrOf(gen.AlphaString())
-	gens["LastKeyRotationTimestamp"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_KeyVaultProperties_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -5433,7 +5429,6 @@ func EncryptionServiceGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForEncryptionService(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["KeyType"] = gen.PtrOf(gen.AlphaString())
-	gens["LastEnabledTime"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_EncryptionService_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

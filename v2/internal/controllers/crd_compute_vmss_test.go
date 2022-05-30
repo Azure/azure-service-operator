@@ -90,7 +90,7 @@ func newLoadBalancerForVMSS(tc *testcommon.KubePerTestContext, rg *resources.Res
 			FrontendIPConfigurations: []network.FrontendIPConfiguration_LoadBalancer_SubResourceEmbedded{
 				{
 					Name: &lbFrontendName,
-					PublicIPAddress: &network.PublicIPAddressSpec_LoadBalancer_SubResourceEmbedded{
+					PublicIPAddress: &network.PublicIPAddressSpec{
 						Reference: tc.MakeReferenceFromResource(publicIPAddress),
 					},
 				},

@@ -370,9 +370,6 @@ func RunJSONSerializationTestForNamespacesEventhubsConsumergroup_Spec(subject Na
 var namespacesEventhubsConsumergroup_SpecGenerator gopter.Gen
 
 // NamespacesEventhubsConsumergroup_SpecGenerator returns a generator of NamespacesEventhubsConsumergroup_Spec instances for property testing.
-// We first initialize namespacesEventhubsConsumergroup_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func NamespacesEventhubsConsumergroup_SpecGenerator() gopter.Gen {
 	if namespacesEventhubsConsumergroup_SpecGenerator != nil {
 		return namespacesEventhubsConsumergroup_SpecGenerator
@@ -382,27 +379,11 @@ func NamespacesEventhubsConsumergroup_SpecGenerator() gopter.Gen {
 	AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroup_Spec(generators)
 	namespacesEventhubsConsumergroup_SpecGenerator = gen.Struct(reflect.TypeOf(NamespacesEventhubsConsumergroup_Spec{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroup_Spec(generators)
-	AddRelatedPropertyGeneratorsForNamespacesEventhubsConsumergroup_Spec(generators)
-	namespacesEventhubsConsumergroup_SpecGenerator = gen.Struct(reflect.TypeOf(NamespacesEventhubsConsumergroup_Spec{}), generators)
-
 	return namespacesEventhubsConsumergroup_SpecGenerator
 }
 
 // AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroup_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNamespacesEventhubsConsumergroup_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["UpdatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["UserMetadata"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForNamespacesEventhubsConsumergroup_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNamespacesEventhubsConsumergroup_Spec(gens map[string]gopter.Gen) {
-	gens["SystemData"] = gen.PtrOf(SystemDataGenerator())
 }

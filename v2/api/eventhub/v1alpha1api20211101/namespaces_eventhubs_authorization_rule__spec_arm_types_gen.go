@@ -8,12 +8,8 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 // Deprecated version of NamespacesEventhubsAuthorizationRule_Spec. Use v1beta20211101.NamespacesEventhubsAuthorizationRule_Spec instead
 type NamespacesEventhubsAuthorizationRule_SpecARM struct {
 	AzureName  string                                                   `json:"azureName,omitempty"`
-	Id         *string                                                  `json:"id,omitempty"`
-	Location   *string                                                  `json:"location,omitempty"`
 	Name       string                                                   `json:"name,omitempty"`
 	Properties *NamespacesEventhubsAuthorizationRule_Spec_PropertiesARM `json:"properties,omitempty"`
-	SystemData *SystemDataARM                                           `json:"systemData,omitempty"`
-	Type       *string                                                  `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &NamespacesEventhubsAuthorizationRule_SpecARM{}

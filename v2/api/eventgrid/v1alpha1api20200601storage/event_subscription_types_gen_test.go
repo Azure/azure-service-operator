@@ -400,12 +400,8 @@ func AddIndependentPropertyGeneratorsForEventSubscription_Spec(gens map[string]g
 	gens["AzureName"] = gen.AlphaString()
 	gens["EventDeliverySchema"] = gen.PtrOf(gen.AlphaString())
 	gens["ExpirationTimeUtc"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Labels"] = gen.SliceOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["Topic"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForEventSubscription_Spec is a factory method for creating gopter generators
@@ -414,7 +410,6 @@ func AddRelatedPropertyGeneratorsForEventSubscription_Spec(gens map[string]gopte
 	gens["Destination"] = gen.PtrOf(EventSubscriptionDestinationGenerator())
 	gens["Filter"] = gen.PtrOf(EventSubscriptionFilterGenerator())
 	gens["RetryPolicy"] = gen.PtrOf(RetryPolicyGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemDataGenerator())
 }
 
 func Test_DeadLetterDestination_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

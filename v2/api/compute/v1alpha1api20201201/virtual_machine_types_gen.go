@@ -1314,19 +1314,17 @@ type VirtualMachine_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName            string                      `json:"azureName,omitempty"`
-	BillingProfile       *BillingProfile             `json:"billingProfile,omitempty"`
-	DiagnosticsProfile   *DiagnosticsProfile         `json:"diagnosticsProfile,omitempty"`
-	EvictionPolicy       *EvictionPolicy             `json:"evictionPolicy,omitempty"`
-	ExtendedLocation     *ExtendedLocation           `json:"extendedLocation,omitempty"`
-	ExtensionsTimeBudget *string                     `json:"extensionsTimeBudget,omitempty"`
-	HardwareProfile      *HardwareProfile            `json:"hardwareProfile,omitempty"`
-	Host                 *SubResource                `json:"host,omitempty"`
-	HostGroup            *SubResource                `json:"hostGroup,omitempty"`
-	Id                   *string                     `json:"id,omitempty"`
-	Identity             *VirtualMachineIdentity     `json:"identity,omitempty"`
-	InstanceView         *VirtualMachineInstanceView `json:"instanceView,omitempty"`
-	LicenseType          *string                     `json:"licenseType,omitempty"`
+	AzureName            string                  `json:"azureName,omitempty"`
+	BillingProfile       *BillingProfile         `json:"billingProfile,omitempty"`
+	DiagnosticsProfile   *DiagnosticsProfile     `json:"diagnosticsProfile,omitempty"`
+	EvictionPolicy       *EvictionPolicy         `json:"evictionPolicy,omitempty"`
+	ExtendedLocation     *ExtendedLocation       `json:"extendedLocation,omitempty"`
+	ExtensionsTimeBudget *string                 `json:"extensionsTimeBudget,omitempty"`
+	HardwareProfile      *HardwareProfile        `json:"hardwareProfile,omitempty"`
+	Host                 *SubResource            `json:"host,omitempty"`
+	HostGroup            *SubResource            `json:"hostGroup,omitempty"`
+	Identity             *VirtualMachineIdentity `json:"identity,omitempty"`
+	LicenseType          *string                 `json:"licenseType,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Location       *string         `json:"location,omitempty"`
@@ -1341,14 +1339,11 @@ type VirtualMachine_Spec struct {
 	Plan                    *Plan                              `json:"plan,omitempty"`
 	PlatformFaultDomain     *int                               `json:"platformFaultDomain,omitempty"`
 	Priority                *Priority                          `json:"priority,omitempty"`
-	ProvisioningState       *string                            `json:"provisioningState,omitempty"`
 	ProximityPlacementGroup *SubResource                       `json:"proximityPlacementGroup,omitempty"`
 	SecurityProfile         *SecurityProfile                   `json:"securityProfile,omitempty"`
 	StorageProfile          *StorageProfile                    `json:"storageProfile,omitempty"`
 	Tags                    map[string]string                  `json:"tags,omitempty"`
-	Type                    *string                            `json:"type,omitempty"`
 	VirtualMachineScaleSet  *SubResource                       `json:"virtualMachineScaleSet,omitempty"`
-	VmId                    *string                            `json:"vmId,omitempty"`
 	Zones                   []string                           `json:"zones,omitempty"`
 }
 
@@ -1372,12 +1367,6 @@ func (machine *VirtualMachine_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		}
 		extendedLocation := *extendedLocationARM.(*ExtendedLocationARM)
 		result.ExtendedLocation = &extendedLocation
-	}
-
-	// Set property ‘Id’:
-	if machine.Id != nil {
-		id := *machine.Id
-		result.Id = &id
 	}
 
 	// Set property ‘Identity’:
@@ -1419,18 +1408,15 @@ func (machine *VirtualMachine_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		machine.HardwareProfile != nil ||
 		machine.Host != nil ||
 		machine.HostGroup != nil ||
-		machine.InstanceView != nil ||
 		machine.LicenseType != nil ||
 		machine.NetworkProfile != nil ||
 		machine.OsProfile != nil ||
 		machine.PlatformFaultDomain != nil ||
 		machine.Priority != nil ||
-		machine.ProvisioningState != nil ||
 		machine.ProximityPlacementGroup != nil ||
 		machine.SecurityProfile != nil ||
 		machine.StorageProfile != nil ||
-		machine.VirtualMachineScaleSet != nil ||
-		machine.VmId != nil {
+		machine.VirtualMachineScaleSet != nil {
 		result.Properties = &VirtualMachinePropertiesARM{}
 	}
 	if machine.AdditionalCapabilities != nil {
@@ -1497,14 +1483,6 @@ func (machine *VirtualMachine_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		hostGroup := *hostGroupARM.(*SubResourceARM)
 		result.Properties.HostGroup = &hostGroup
 	}
-	if machine.InstanceView != nil {
-		instanceViewARM, err := (*machine.InstanceView).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		instanceView := *instanceViewARM.(*VirtualMachineInstanceViewARM)
-		result.Properties.InstanceView = &instanceView
-	}
 	if machine.LicenseType != nil {
 		licenseType := *machine.LicenseType
 		result.Properties.LicenseType = &licenseType
@@ -1532,10 +1510,6 @@ func (machine *VirtualMachine_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	if machine.Priority != nil {
 		priority := *machine.Priority
 		result.Properties.Priority = &priority
-	}
-	if machine.ProvisioningState != nil {
-		provisioningState := *machine.ProvisioningState
-		result.Properties.ProvisioningState = &provisioningState
 	}
 	if machine.ProximityPlacementGroup != nil {
 		proximityPlacementGroupARM, err := (*machine.ProximityPlacementGroup).ConvertToARM(resolved)
@@ -1569,10 +1543,6 @@ func (machine *VirtualMachine_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		virtualMachineScaleSet := *virtualMachineScaleSetARM.(*SubResourceARM)
 		result.Properties.VirtualMachineScaleSet = &virtualMachineScaleSet
 	}
-	if machine.VmId != nil {
-		vmId := *machine.VmId
-		result.Properties.VmId = &vmId
-	}
 
 	// Set property ‘Tags’:
 	if machine.Tags != nil {
@@ -1580,12 +1550,6 @@ func (machine *VirtualMachine_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		for key, value := range machine.Tags {
 			result.Tags[key] = value
 		}
-	}
-
-	// Set property ‘Type’:
-	if machine.Type != nil {
-		typeVar := *machine.Type
-		result.Type = &typeVar
 	}
 
 	// Set property ‘Zones’:
@@ -1737,12 +1701,6 @@ func (machine *VirtualMachine_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		machine.Id = &id
-	}
-
 	// Set property ‘Identity’:
 	if typedInput.Identity != nil {
 		var identity1 VirtualMachineIdentity
@@ -1752,20 +1710,6 @@ func (machine *VirtualMachine_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 		identity := identity1
 		machine.Identity = &identity
-	}
-
-	// Set property ‘InstanceView’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.InstanceView != nil {
-			var instanceView1 VirtualMachineInstanceView
-			err := instanceView1.PopulateFromARM(owner, *typedInput.Properties.InstanceView)
-			if err != nil {
-				return err
-			}
-			instanceView := instanceView1
-			machine.InstanceView = &instanceView
-		}
 	}
 
 	// Set property ‘LicenseType’:
@@ -1845,15 +1789,6 @@ func (machine *VirtualMachine_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
-			machine.ProvisioningState = &provisioningState
-		}
-	}
-
 	// Set property ‘ProximityPlacementGroup’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -1904,12 +1839,6 @@ func (machine *VirtualMachine_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		machine.Type = &typeVar
-	}
-
 	// Set property ‘VirtualMachineScaleSet’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -1921,15 +1850,6 @@ func (machine *VirtualMachine_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 			}
 			virtualMachineScaleSet := virtualMachineScaleSet1
 			machine.VirtualMachineScaleSet = &virtualMachineScaleSet
-		}
-	}
-
-	// Set property ‘VmId’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.VmId != nil {
-			vmId := *typedInput.Properties.VmId
-			machine.VmId = &vmId
 		}
 	}
 
@@ -2105,9 +2025,6 @@ func (machine *VirtualMachine_Spec) AssignPropertiesFromVirtualMachine_Spec(sour
 		machine.HostGroup = nil
 	}
 
-	// Id
-	machine.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Identity
 	if source.Identity != nil {
 		var identity VirtualMachineIdentity
@@ -2118,18 +2035,6 @@ func (machine *VirtualMachine_Spec) AssignPropertiesFromVirtualMachine_Spec(sour
 		machine.Identity = &identity
 	} else {
 		machine.Identity = nil
-	}
-
-	// InstanceView
-	if source.InstanceView != nil {
-		var instanceView VirtualMachineInstanceView
-		err := instanceView.AssignPropertiesFromVirtualMachineInstanceView(source.InstanceView)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineInstanceView() to populate field InstanceView")
-		}
-		machine.InstanceView = &instanceView
-	} else {
-		machine.InstanceView = nil
 	}
 
 	// LicenseType
@@ -2193,9 +2098,6 @@ func (machine *VirtualMachine_Spec) AssignPropertiesFromVirtualMachine_Spec(sour
 		machine.Priority = nil
 	}
 
-	// ProvisioningState
-	machine.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
 	// ProximityPlacementGroup
 	if source.ProximityPlacementGroup != nil {
 		var proximityPlacementGroup SubResource
@@ -2235,9 +2137,6 @@ func (machine *VirtualMachine_Spec) AssignPropertiesFromVirtualMachine_Spec(sour
 	// Tags
 	machine.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
-	// Type
-	machine.Type = genruntime.ClonePointerToString(source.Type)
-
 	// VirtualMachineScaleSet
 	if source.VirtualMachineScaleSet != nil {
 		var virtualMachineScaleSet SubResource
@@ -2249,9 +2148,6 @@ func (machine *VirtualMachine_Spec) AssignPropertiesFromVirtualMachine_Spec(sour
 	} else {
 		machine.VirtualMachineScaleSet = nil
 	}
-
-	// VmId
-	machine.VmId = genruntime.ClonePointerToString(source.VmId)
 
 	// Zones
 	machine.Zones = genruntime.CloneSliceOfString(source.Zones)
@@ -2375,9 +2271,6 @@ func (machine *VirtualMachine_Spec) AssignPropertiesToVirtualMachine_Spec(destin
 		destination.HostGroup = nil
 	}
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(machine.Id)
-
 	// Identity
 	if machine.Identity != nil {
 		var identity alpha20201201s.VirtualMachineIdentity
@@ -2388,18 +2281,6 @@ func (machine *VirtualMachine_Spec) AssignPropertiesToVirtualMachine_Spec(destin
 		destination.Identity = &identity
 	} else {
 		destination.Identity = nil
-	}
-
-	// InstanceView
-	if machine.InstanceView != nil {
-		var instanceView alpha20201201s.VirtualMachineInstanceView
-		err := machine.InstanceView.AssignPropertiesToVirtualMachineInstanceView(&instanceView)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineInstanceView() to populate field InstanceView")
-		}
-		destination.InstanceView = &instanceView
-	} else {
-		destination.InstanceView = nil
 	}
 
 	// LicenseType
@@ -2466,9 +2347,6 @@ func (machine *VirtualMachine_Spec) AssignPropertiesToVirtualMachine_Spec(destin
 		destination.Priority = nil
 	}
 
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(machine.ProvisioningState)
-
 	// ProximityPlacementGroup
 	if machine.ProximityPlacementGroup != nil {
 		var proximityPlacementGroup alpha20201201s.SubResource
@@ -2508,9 +2386,6 @@ func (machine *VirtualMachine_Spec) AssignPropertiesToVirtualMachine_Spec(destin
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(machine.Tags)
 
-	// Type
-	destination.Type = genruntime.ClonePointerToString(machine.Type)
-
 	// VirtualMachineScaleSet
 	if machine.VirtualMachineScaleSet != nil {
 		var virtualMachineScaleSet alpha20201201s.SubResource
@@ -2522,9 +2397,6 @@ func (machine *VirtualMachine_Spec) AssignPropertiesToVirtualMachine_Spec(destin
 	} else {
 		destination.VirtualMachineScaleSet = nil
 	}
-
-	// VmId
-	destination.VmId = genruntime.ClonePointerToString(machine.VmId)
 
 	// Zones
 	destination.Zones = genruntime.CloneSliceOfString(machine.Zones)
@@ -5219,10 +5091,7 @@ func (resource *SubResource_STATUS) AssignPropertiesToSubResource_STATUS(destina
 
 // Deprecated version of VirtualMachineIdentity. Use v1beta20201201.VirtualMachineIdentity instead
 type VirtualMachineIdentity struct {
-	PrincipalId            *string                                                  `json:"principalId,omitempty"`
-	TenantId               *string                                                  `json:"tenantId,omitempty"`
-	Type                   *VirtualMachineIdentity_Type                             `json:"type,omitempty"`
-	UserAssignedIdentities map[string]VirtualMachineIdentity_UserAssignedIdentities `json:"userAssignedIdentities,omitempty"`
+	Type *VirtualMachineIdentity_Type `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualMachineIdentity{}
@@ -5234,34 +5103,10 @@ func (identity *VirtualMachineIdentity) ConvertToARM(resolved genruntime.Convert
 	}
 	result := &VirtualMachineIdentityARM{}
 
-	// Set property ‘PrincipalId’:
-	if identity.PrincipalId != nil {
-		principalId := *identity.PrincipalId
-		result.PrincipalId = &principalId
-	}
-
-	// Set property ‘TenantId’:
-	if identity.TenantId != nil {
-		tenantId := *identity.TenantId
-		result.TenantId = &tenantId
-	}
-
 	// Set property ‘Type’:
 	if identity.Type != nil {
 		typeVar := *identity.Type
 		result.Type = &typeVar
-	}
-
-	// Set property ‘UserAssignedIdentities’:
-	if identity.UserAssignedIdentities != nil {
-		result.UserAssignedIdentities = make(map[string]VirtualMachineIdentity_UserAssignedIdentitiesARM)
-		for key, value := range identity.UserAssignedIdentities {
-			valueARM, err := value.ConvertToARM(resolved)
-			if err != nil {
-				return nil, err
-			}
-			result.UserAssignedIdentities[key] = *valueARM.(*VirtualMachineIdentity_UserAssignedIdentitiesARM)
-		}
 	}
 	return result, nil
 }
@@ -5278,35 +5123,10 @@ func (identity *VirtualMachineIdentity) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineIdentityARM, got %T", armInput)
 	}
 
-	// Set property ‘PrincipalId’:
-	if typedInput.PrincipalId != nil {
-		principalId := *typedInput.PrincipalId
-		identity.PrincipalId = &principalId
-	}
-
-	// Set property ‘TenantId’:
-	if typedInput.TenantId != nil {
-		tenantId := *typedInput.TenantId
-		identity.TenantId = &tenantId
-	}
-
 	// Set property ‘Type’:
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
 		identity.Type = &typeVar
-	}
-
-	// Set property ‘UserAssignedIdentities’:
-	if typedInput.UserAssignedIdentities != nil {
-		identity.UserAssignedIdentities = make(map[string]VirtualMachineIdentity_UserAssignedIdentities)
-		for key, value := range typedInput.UserAssignedIdentities {
-			var value1 VirtualMachineIdentity_UserAssignedIdentities
-			err := value1.PopulateFromARM(owner, value)
-			if err != nil {
-				return err
-			}
-			identity.UserAssignedIdentities[key] = value1
-		}
 	}
 
 	// No error
@@ -5316,36 +5136,12 @@ func (identity *VirtualMachineIdentity) PopulateFromARM(owner genruntime.Arbitra
 // AssignPropertiesFromVirtualMachineIdentity populates our VirtualMachineIdentity from the provided source VirtualMachineIdentity
 func (identity *VirtualMachineIdentity) AssignPropertiesFromVirtualMachineIdentity(source *alpha20201201s.VirtualMachineIdentity) error {
 
-	// PrincipalId
-	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// TenantId
-	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
-
 	// Type
 	if source.Type != nil {
 		typeVar := VirtualMachineIdentity_Type(*source.Type)
 		identity.Type = &typeVar
 	} else {
 		identity.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]VirtualMachineIdentity_UserAssignedIdentities, len(source.UserAssignedIdentities))
-		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity VirtualMachineIdentity_UserAssignedIdentities
-			err := userAssignedIdentity.AssignPropertiesFromVirtualMachineIdentity_UserAssignedIdentities(&userAssignedIdentityValue)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineIdentity_UserAssignedIdentities() to populate field UserAssignedIdentities")
-			}
-			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
-		}
-		identity.UserAssignedIdentities = userAssignedIdentityMap
-	} else {
-		identity.UserAssignedIdentities = nil
 	}
 
 	// No error
@@ -5357,36 +5153,12 @@ func (identity *VirtualMachineIdentity) AssignPropertiesToVirtualMachineIdentity
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// PrincipalId
-	destination.PrincipalId = genruntime.ClonePointerToString(identity.PrincipalId)
-
-	// TenantId
-	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
-
 	// Type
 	if identity.Type != nil {
 		typeVar := string(*identity.Type)
 		destination.Type = &typeVar
 	} else {
 		destination.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]alpha20201201s.VirtualMachineIdentity_UserAssignedIdentities, len(identity.UserAssignedIdentities))
-		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity alpha20201201s.VirtualMachineIdentity_UserAssignedIdentities
-			err := userAssignedIdentityValue.AssignPropertiesToVirtualMachineIdentity_UserAssignedIdentities(&userAssignedIdentity)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineIdentity_UserAssignedIdentities() to populate field UserAssignedIdentities")
-			}
-			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
-		}
-		destination.UserAssignedIdentities = userAssignedIdentityMap
-	} else {
-		destination.UserAssignedIdentities = nil
 	}
 
 	// Update the property bag
@@ -5531,620 +5303,6 @@ func (identity *VirtualMachineIdentity_STATUS) AssignPropertiesToVirtualMachineI
 		destination.UserAssignedIdentities = userAssignedIdentityMap
 	} else {
 		destination.UserAssignedIdentities = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Deprecated version of VirtualMachineInstanceView. Use v1beta20201201.VirtualMachineInstanceView instead
-type VirtualMachineInstanceView struct {
-	AssignedHost              *string                                      `json:"assignedHost,omitempty"`
-	BootDiagnostics           *BootDiagnosticsInstanceView                 `json:"bootDiagnostics,omitempty"`
-	ComputerName              *string                                      `json:"computerName,omitempty"`
-	Disks                     []DiskInstanceView                           `json:"disks,omitempty"`
-	Extensions                []VirtualMachineExtensionInstanceView        `json:"extensions,omitempty"`
-	HyperVGeneration          *VirtualMachineInstanceView_HyperVGeneration `json:"hyperVGeneration,omitempty"`
-	MaintenanceRedeployStatus *MaintenanceRedeployStatus                   `json:"maintenanceRedeployStatus,omitempty"`
-	OsName                    *string                                      `json:"osName,omitempty"`
-	OsVersion                 *string                                      `json:"osVersion,omitempty"`
-	PatchStatus               *VirtualMachinePatchStatus                   `json:"patchStatus,omitempty"`
-	PlatformFaultDomain       *int                                         `json:"platformFaultDomain,omitempty"`
-	PlatformUpdateDomain      *int                                         `json:"platformUpdateDomain,omitempty"`
-	RdpThumbPrint             *string                                      `json:"rdpThumbPrint,omitempty"`
-	Statuses                  []InstanceViewStatus                         `json:"statuses,omitempty"`
-	VmAgent                   *VirtualMachineAgentInstanceView             `json:"vmAgent,omitempty"`
-	VmHealth                  *VirtualMachineHealthStatus                  `json:"vmHealth,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &VirtualMachineInstanceView{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (view *VirtualMachineInstanceView) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if view == nil {
-		return nil, nil
-	}
-	result := &VirtualMachineInstanceViewARM{}
-
-	// Set property ‘AssignedHost’:
-	if view.AssignedHost != nil {
-		assignedHost := *view.AssignedHost
-		result.AssignedHost = &assignedHost
-	}
-
-	// Set property ‘BootDiagnostics’:
-	if view.BootDiagnostics != nil {
-		bootDiagnosticsARM, err := (*view.BootDiagnostics).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		bootDiagnostics := *bootDiagnosticsARM.(*BootDiagnosticsInstanceViewARM)
-		result.BootDiagnostics = &bootDiagnostics
-	}
-
-	// Set property ‘ComputerName’:
-	if view.ComputerName != nil {
-		computerName := *view.ComputerName
-		result.ComputerName = &computerName
-	}
-
-	// Set property ‘Disks’:
-	for _, item := range view.Disks {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Disks = append(result.Disks, *itemARM.(*DiskInstanceViewARM))
-	}
-
-	// Set property ‘Extensions’:
-	for _, item := range view.Extensions {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Extensions = append(result.Extensions, *itemARM.(*VirtualMachineExtensionInstanceViewARM))
-	}
-
-	// Set property ‘HyperVGeneration’:
-	if view.HyperVGeneration != nil {
-		hyperVGeneration := *view.HyperVGeneration
-		result.HyperVGeneration = &hyperVGeneration
-	}
-
-	// Set property ‘MaintenanceRedeployStatus’:
-	if view.MaintenanceRedeployStatus != nil {
-		maintenanceRedeployStatusARM, err := (*view.MaintenanceRedeployStatus).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		maintenanceRedeployStatus := *maintenanceRedeployStatusARM.(*MaintenanceRedeployStatusARM)
-		result.MaintenanceRedeployStatus = &maintenanceRedeployStatus
-	}
-
-	// Set property ‘OsName’:
-	if view.OsName != nil {
-		osName := *view.OsName
-		result.OsName = &osName
-	}
-
-	// Set property ‘OsVersion’:
-	if view.OsVersion != nil {
-		osVersion := *view.OsVersion
-		result.OsVersion = &osVersion
-	}
-
-	// Set property ‘PatchStatus’:
-	if view.PatchStatus != nil {
-		patchStatusARM, err := (*view.PatchStatus).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		patchStatus := *patchStatusARM.(*VirtualMachinePatchStatusARM)
-		result.PatchStatus = &patchStatus
-	}
-
-	// Set property ‘PlatformFaultDomain’:
-	if view.PlatformFaultDomain != nil {
-		platformFaultDomain := *view.PlatformFaultDomain
-		result.PlatformFaultDomain = &platformFaultDomain
-	}
-
-	// Set property ‘PlatformUpdateDomain’:
-	if view.PlatformUpdateDomain != nil {
-		platformUpdateDomain := *view.PlatformUpdateDomain
-		result.PlatformUpdateDomain = &platformUpdateDomain
-	}
-
-	// Set property ‘RdpThumbPrint’:
-	if view.RdpThumbPrint != nil {
-		rdpThumbPrint := *view.RdpThumbPrint
-		result.RdpThumbPrint = &rdpThumbPrint
-	}
-
-	// Set property ‘Statuses’:
-	for _, item := range view.Statuses {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Statuses = append(result.Statuses, *itemARM.(*InstanceViewStatusARM))
-	}
-
-	// Set property ‘VmAgent’:
-	if view.VmAgent != nil {
-		vmAgentARM, err := (*view.VmAgent).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		vmAgent := *vmAgentARM.(*VirtualMachineAgentInstanceViewARM)
-		result.VmAgent = &vmAgent
-	}
-
-	// Set property ‘VmHealth’:
-	if view.VmHealth != nil {
-		vmHealthARM, err := (*view.VmHealth).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		vmHealth := *vmHealthARM.(*VirtualMachineHealthStatusARM)
-		result.VmHealth = &vmHealth
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (view *VirtualMachineInstanceView) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachineInstanceViewARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (view *VirtualMachineInstanceView) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachineInstanceViewARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineInstanceViewARM, got %T", armInput)
-	}
-
-	// Set property ‘AssignedHost’:
-	if typedInput.AssignedHost != nil {
-		assignedHost := *typedInput.AssignedHost
-		view.AssignedHost = &assignedHost
-	}
-
-	// Set property ‘BootDiagnostics’:
-	if typedInput.BootDiagnostics != nil {
-		var bootDiagnostics1 BootDiagnosticsInstanceView
-		err := bootDiagnostics1.PopulateFromARM(owner, *typedInput.BootDiagnostics)
-		if err != nil {
-			return err
-		}
-		bootDiagnostics := bootDiagnostics1
-		view.BootDiagnostics = &bootDiagnostics
-	}
-
-	// Set property ‘ComputerName’:
-	if typedInput.ComputerName != nil {
-		computerName := *typedInput.ComputerName
-		view.ComputerName = &computerName
-	}
-
-	// Set property ‘Disks’:
-	for _, item := range typedInput.Disks {
-		var item1 DiskInstanceView
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		view.Disks = append(view.Disks, item1)
-	}
-
-	// Set property ‘Extensions’:
-	for _, item := range typedInput.Extensions {
-		var item1 VirtualMachineExtensionInstanceView
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		view.Extensions = append(view.Extensions, item1)
-	}
-
-	// Set property ‘HyperVGeneration’:
-	if typedInput.HyperVGeneration != nil {
-		hyperVGeneration := *typedInput.HyperVGeneration
-		view.HyperVGeneration = &hyperVGeneration
-	}
-
-	// Set property ‘MaintenanceRedeployStatus’:
-	if typedInput.MaintenanceRedeployStatus != nil {
-		var maintenanceRedeployStatus1 MaintenanceRedeployStatus
-		err := maintenanceRedeployStatus1.PopulateFromARM(owner, *typedInput.MaintenanceRedeployStatus)
-		if err != nil {
-			return err
-		}
-		maintenanceRedeployStatus := maintenanceRedeployStatus1
-		view.MaintenanceRedeployStatus = &maintenanceRedeployStatus
-	}
-
-	// Set property ‘OsName’:
-	if typedInput.OsName != nil {
-		osName := *typedInput.OsName
-		view.OsName = &osName
-	}
-
-	// Set property ‘OsVersion’:
-	if typedInput.OsVersion != nil {
-		osVersion := *typedInput.OsVersion
-		view.OsVersion = &osVersion
-	}
-
-	// Set property ‘PatchStatus’:
-	if typedInput.PatchStatus != nil {
-		var patchStatus1 VirtualMachinePatchStatus
-		err := patchStatus1.PopulateFromARM(owner, *typedInput.PatchStatus)
-		if err != nil {
-			return err
-		}
-		patchStatus := patchStatus1
-		view.PatchStatus = &patchStatus
-	}
-
-	// Set property ‘PlatformFaultDomain’:
-	if typedInput.PlatformFaultDomain != nil {
-		platformFaultDomain := *typedInput.PlatformFaultDomain
-		view.PlatformFaultDomain = &platformFaultDomain
-	}
-
-	// Set property ‘PlatformUpdateDomain’:
-	if typedInput.PlatformUpdateDomain != nil {
-		platformUpdateDomain := *typedInput.PlatformUpdateDomain
-		view.PlatformUpdateDomain = &platformUpdateDomain
-	}
-
-	// Set property ‘RdpThumbPrint’:
-	if typedInput.RdpThumbPrint != nil {
-		rdpThumbPrint := *typedInput.RdpThumbPrint
-		view.RdpThumbPrint = &rdpThumbPrint
-	}
-
-	// Set property ‘Statuses’:
-	for _, item := range typedInput.Statuses {
-		var item1 InstanceViewStatus
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		view.Statuses = append(view.Statuses, item1)
-	}
-
-	// Set property ‘VmAgent’:
-	if typedInput.VmAgent != nil {
-		var vmAgent1 VirtualMachineAgentInstanceView
-		err := vmAgent1.PopulateFromARM(owner, *typedInput.VmAgent)
-		if err != nil {
-			return err
-		}
-		vmAgent := vmAgent1
-		view.VmAgent = &vmAgent
-	}
-
-	// Set property ‘VmHealth’:
-	if typedInput.VmHealth != nil {
-		var vmHealth1 VirtualMachineHealthStatus
-		err := vmHealth1.PopulateFromARM(owner, *typedInput.VmHealth)
-		if err != nil {
-			return err
-		}
-		vmHealth := vmHealth1
-		view.VmHealth = &vmHealth
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromVirtualMachineInstanceView populates our VirtualMachineInstanceView from the provided source VirtualMachineInstanceView
-func (view *VirtualMachineInstanceView) AssignPropertiesFromVirtualMachineInstanceView(source *alpha20201201s.VirtualMachineInstanceView) error {
-
-	// AssignedHost
-	view.AssignedHost = genruntime.ClonePointerToString(source.AssignedHost)
-
-	// BootDiagnostics
-	if source.BootDiagnostics != nil {
-		var bootDiagnostic BootDiagnosticsInstanceView
-		err := bootDiagnostic.AssignPropertiesFromBootDiagnosticsInstanceView(source.BootDiagnostics)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromBootDiagnosticsInstanceView() to populate field BootDiagnostics")
-		}
-		view.BootDiagnostics = &bootDiagnostic
-	} else {
-		view.BootDiagnostics = nil
-	}
-
-	// ComputerName
-	view.ComputerName = genruntime.ClonePointerToString(source.ComputerName)
-
-	// Disks
-	if source.Disks != nil {
-		diskList := make([]DiskInstanceView, len(source.Disks))
-		for diskIndex, diskItem := range source.Disks {
-			// Shadow the loop variable to avoid aliasing
-			diskItem := diskItem
-			var disk DiskInstanceView
-			err := disk.AssignPropertiesFromDiskInstanceView(&diskItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromDiskInstanceView() to populate field Disks")
-			}
-			diskList[diskIndex] = disk
-		}
-		view.Disks = diskList
-	} else {
-		view.Disks = nil
-	}
-
-	// Extensions
-	if source.Extensions != nil {
-		extensionList := make([]VirtualMachineExtensionInstanceView, len(source.Extensions))
-		for extensionIndex, extensionItem := range source.Extensions {
-			// Shadow the loop variable to avoid aliasing
-			extensionItem := extensionItem
-			var extension VirtualMachineExtensionInstanceView
-			err := extension.AssignPropertiesFromVirtualMachineExtensionInstanceView(&extensionItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineExtensionInstanceView() to populate field Extensions")
-			}
-			extensionList[extensionIndex] = extension
-		}
-		view.Extensions = extensionList
-	} else {
-		view.Extensions = nil
-	}
-
-	// HyperVGeneration
-	if source.HyperVGeneration != nil {
-		hyperVGeneration := VirtualMachineInstanceView_HyperVGeneration(*source.HyperVGeneration)
-		view.HyperVGeneration = &hyperVGeneration
-	} else {
-		view.HyperVGeneration = nil
-	}
-
-	// MaintenanceRedeployStatus
-	if source.MaintenanceRedeployStatus != nil {
-		var maintenanceRedeployStatus MaintenanceRedeployStatus
-		err := maintenanceRedeployStatus.AssignPropertiesFromMaintenanceRedeployStatus(source.MaintenanceRedeployStatus)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromMaintenanceRedeployStatus() to populate field MaintenanceRedeployStatus")
-		}
-		view.MaintenanceRedeployStatus = &maintenanceRedeployStatus
-	} else {
-		view.MaintenanceRedeployStatus = nil
-	}
-
-	// OsName
-	view.OsName = genruntime.ClonePointerToString(source.OsName)
-
-	// OsVersion
-	view.OsVersion = genruntime.ClonePointerToString(source.OsVersion)
-
-	// PatchStatus
-	if source.PatchStatus != nil {
-		var patchStatus VirtualMachinePatchStatus
-		err := patchStatus.AssignPropertiesFromVirtualMachinePatchStatus(source.PatchStatus)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachinePatchStatus() to populate field PatchStatus")
-		}
-		view.PatchStatus = &patchStatus
-	} else {
-		view.PatchStatus = nil
-	}
-
-	// PlatformFaultDomain
-	view.PlatformFaultDomain = genruntime.ClonePointerToInt(source.PlatformFaultDomain)
-
-	// PlatformUpdateDomain
-	view.PlatformUpdateDomain = genruntime.ClonePointerToInt(source.PlatformUpdateDomain)
-
-	// RdpThumbPrint
-	view.RdpThumbPrint = genruntime.ClonePointerToString(source.RdpThumbPrint)
-
-	// Statuses
-	if source.Statuses != nil {
-		statusList := make([]InstanceViewStatus, len(source.Statuses))
-		for statusIndex, statusItem := range source.Statuses {
-			// Shadow the loop variable to avoid aliasing
-			statusItem := statusItem
-			var status InstanceViewStatus
-			err := status.AssignPropertiesFromInstanceViewStatus(&statusItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatus() to populate field Statuses")
-			}
-			statusList[statusIndex] = status
-		}
-		view.Statuses = statusList
-	} else {
-		view.Statuses = nil
-	}
-
-	// VmAgent
-	if source.VmAgent != nil {
-		var vmAgent VirtualMachineAgentInstanceView
-		err := vmAgent.AssignPropertiesFromVirtualMachineAgentInstanceView(source.VmAgent)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineAgentInstanceView() to populate field VmAgent")
-		}
-		view.VmAgent = &vmAgent
-	} else {
-		view.VmAgent = nil
-	}
-
-	// VmHealth
-	if source.VmHealth != nil {
-		var vmHealth VirtualMachineHealthStatus
-		err := vmHealth.AssignPropertiesFromVirtualMachineHealthStatus(source.VmHealth)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineHealthStatus() to populate field VmHealth")
-		}
-		view.VmHealth = &vmHealth
-	} else {
-		view.VmHealth = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToVirtualMachineInstanceView populates the provided destination VirtualMachineInstanceView from our VirtualMachineInstanceView
-func (view *VirtualMachineInstanceView) AssignPropertiesToVirtualMachineInstanceView(destination *alpha20201201s.VirtualMachineInstanceView) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AssignedHost
-	destination.AssignedHost = genruntime.ClonePointerToString(view.AssignedHost)
-
-	// BootDiagnostics
-	if view.BootDiagnostics != nil {
-		var bootDiagnostic alpha20201201s.BootDiagnosticsInstanceView
-		err := view.BootDiagnostics.AssignPropertiesToBootDiagnosticsInstanceView(&bootDiagnostic)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToBootDiagnosticsInstanceView() to populate field BootDiagnostics")
-		}
-		destination.BootDiagnostics = &bootDiagnostic
-	} else {
-		destination.BootDiagnostics = nil
-	}
-
-	// ComputerName
-	destination.ComputerName = genruntime.ClonePointerToString(view.ComputerName)
-
-	// Disks
-	if view.Disks != nil {
-		diskList := make([]alpha20201201s.DiskInstanceView, len(view.Disks))
-		for diskIndex, diskItem := range view.Disks {
-			// Shadow the loop variable to avoid aliasing
-			diskItem := diskItem
-			var disk alpha20201201s.DiskInstanceView
-			err := diskItem.AssignPropertiesToDiskInstanceView(&disk)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToDiskInstanceView() to populate field Disks")
-			}
-			diskList[diskIndex] = disk
-		}
-		destination.Disks = diskList
-	} else {
-		destination.Disks = nil
-	}
-
-	// Extensions
-	if view.Extensions != nil {
-		extensionList := make([]alpha20201201s.VirtualMachineExtensionInstanceView, len(view.Extensions))
-		for extensionIndex, extensionItem := range view.Extensions {
-			// Shadow the loop variable to avoid aliasing
-			extensionItem := extensionItem
-			var extension alpha20201201s.VirtualMachineExtensionInstanceView
-			err := extensionItem.AssignPropertiesToVirtualMachineExtensionInstanceView(&extension)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineExtensionInstanceView() to populate field Extensions")
-			}
-			extensionList[extensionIndex] = extension
-		}
-		destination.Extensions = extensionList
-	} else {
-		destination.Extensions = nil
-	}
-
-	// HyperVGeneration
-	if view.HyperVGeneration != nil {
-		hyperVGeneration := string(*view.HyperVGeneration)
-		destination.HyperVGeneration = &hyperVGeneration
-	} else {
-		destination.HyperVGeneration = nil
-	}
-
-	// MaintenanceRedeployStatus
-	if view.MaintenanceRedeployStatus != nil {
-		var maintenanceRedeployStatus alpha20201201s.MaintenanceRedeployStatus
-		err := view.MaintenanceRedeployStatus.AssignPropertiesToMaintenanceRedeployStatus(&maintenanceRedeployStatus)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToMaintenanceRedeployStatus() to populate field MaintenanceRedeployStatus")
-		}
-		destination.MaintenanceRedeployStatus = &maintenanceRedeployStatus
-	} else {
-		destination.MaintenanceRedeployStatus = nil
-	}
-
-	// OsName
-	destination.OsName = genruntime.ClonePointerToString(view.OsName)
-
-	// OsVersion
-	destination.OsVersion = genruntime.ClonePointerToString(view.OsVersion)
-
-	// PatchStatus
-	if view.PatchStatus != nil {
-		var patchStatus alpha20201201s.VirtualMachinePatchStatus
-		err := view.PatchStatus.AssignPropertiesToVirtualMachinePatchStatus(&patchStatus)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachinePatchStatus() to populate field PatchStatus")
-		}
-		destination.PatchStatus = &patchStatus
-	} else {
-		destination.PatchStatus = nil
-	}
-
-	// PlatformFaultDomain
-	destination.PlatformFaultDomain = genruntime.ClonePointerToInt(view.PlatformFaultDomain)
-
-	// PlatformUpdateDomain
-	destination.PlatformUpdateDomain = genruntime.ClonePointerToInt(view.PlatformUpdateDomain)
-
-	// RdpThumbPrint
-	destination.RdpThumbPrint = genruntime.ClonePointerToString(view.RdpThumbPrint)
-
-	// Statuses
-	if view.Statuses != nil {
-		statusList := make([]alpha20201201s.InstanceViewStatus, len(view.Statuses))
-		for statusIndex, statusItem := range view.Statuses {
-			// Shadow the loop variable to avoid aliasing
-			statusItem := statusItem
-			var status alpha20201201s.InstanceViewStatus
-			err := statusItem.AssignPropertiesToInstanceViewStatus(&status)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatus() to populate field Statuses")
-			}
-			statusList[statusIndex] = status
-		}
-		destination.Statuses = statusList
-	} else {
-		destination.Statuses = nil
-	}
-
-	// VmAgent
-	if view.VmAgent != nil {
-		var vmAgent alpha20201201s.VirtualMachineAgentInstanceView
-		err := view.VmAgent.AssignPropertiesToVirtualMachineAgentInstanceView(&vmAgent)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineAgentInstanceView() to populate field VmAgent")
-		}
-		destination.VmAgent = &vmAgent
-	} else {
-		destination.VmAgent = nil
-	}
-
-	// VmHealth
-	if view.VmHealth != nil {
-		var vmHealth alpha20201201s.VirtualMachineHealthStatus
-		err := view.VmHealth.AssignPropertiesToVirtualMachineHealthStatus(&vmHealth)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineHealthStatus() to populate field VmHealth")
-		}
-		destination.VmHealth = &vmHealth
-	} else {
-		destination.VmHealth = nil
 	}
 
 	// Update the property bag
@@ -6740,144 +5898,6 @@ func (diagnostics *BootDiagnostics) AssignPropertiesToBootDiagnostics(destinatio
 	return nil
 }
 
-// Deprecated version of BootDiagnosticsInstanceView. Use v1beta20201201.BootDiagnosticsInstanceView instead
-type BootDiagnosticsInstanceView struct {
-	ConsoleScreenshotBlobUri *string             `json:"consoleScreenshotBlobUri,omitempty"`
-	SerialConsoleLogBlobUri  *string             `json:"serialConsoleLogBlobUri,omitempty"`
-	Status                   *InstanceViewStatus `json:"status,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &BootDiagnosticsInstanceView{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (view *BootDiagnosticsInstanceView) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if view == nil {
-		return nil, nil
-	}
-	result := &BootDiagnosticsInstanceViewARM{}
-
-	// Set property ‘ConsoleScreenshotBlobUri’:
-	if view.ConsoleScreenshotBlobUri != nil {
-		consoleScreenshotBlobUri := *view.ConsoleScreenshotBlobUri
-		result.ConsoleScreenshotBlobUri = &consoleScreenshotBlobUri
-	}
-
-	// Set property ‘SerialConsoleLogBlobUri’:
-	if view.SerialConsoleLogBlobUri != nil {
-		serialConsoleLogBlobUri := *view.SerialConsoleLogBlobUri
-		result.SerialConsoleLogBlobUri = &serialConsoleLogBlobUri
-	}
-
-	// Set property ‘Status’:
-	if view.Status != nil {
-		statusARM, err := (*view.Status).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		status := *statusARM.(*InstanceViewStatusARM)
-		result.Status = &status
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (view *BootDiagnosticsInstanceView) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &BootDiagnosticsInstanceViewARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (view *BootDiagnosticsInstanceView) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(BootDiagnosticsInstanceViewARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BootDiagnosticsInstanceViewARM, got %T", armInput)
-	}
-
-	// Set property ‘ConsoleScreenshotBlobUri’:
-	if typedInput.ConsoleScreenshotBlobUri != nil {
-		consoleScreenshotBlobUri := *typedInput.ConsoleScreenshotBlobUri
-		view.ConsoleScreenshotBlobUri = &consoleScreenshotBlobUri
-	}
-
-	// Set property ‘SerialConsoleLogBlobUri’:
-	if typedInput.SerialConsoleLogBlobUri != nil {
-		serialConsoleLogBlobUri := *typedInput.SerialConsoleLogBlobUri
-		view.SerialConsoleLogBlobUri = &serialConsoleLogBlobUri
-	}
-
-	// Set property ‘Status’:
-	if typedInput.Status != nil {
-		var status1 InstanceViewStatus
-		err := status1.PopulateFromARM(owner, *typedInput.Status)
-		if err != nil {
-			return err
-		}
-		status := status1
-		view.Status = &status
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromBootDiagnosticsInstanceView populates our BootDiagnosticsInstanceView from the provided source BootDiagnosticsInstanceView
-func (view *BootDiagnosticsInstanceView) AssignPropertiesFromBootDiagnosticsInstanceView(source *alpha20201201s.BootDiagnosticsInstanceView) error {
-
-	// ConsoleScreenshotBlobUri
-	view.ConsoleScreenshotBlobUri = genruntime.ClonePointerToString(source.ConsoleScreenshotBlobUri)
-
-	// SerialConsoleLogBlobUri
-	view.SerialConsoleLogBlobUri = genruntime.ClonePointerToString(source.SerialConsoleLogBlobUri)
-
-	// Status
-	if source.Status != nil {
-		var status InstanceViewStatus
-		err := status.AssignPropertiesFromInstanceViewStatus(source.Status)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatus() to populate field Status")
-		}
-		view.Status = &status
-	} else {
-		view.Status = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToBootDiagnosticsInstanceView populates the provided destination BootDiagnosticsInstanceView from our BootDiagnosticsInstanceView
-func (view *BootDiagnosticsInstanceView) AssignPropertiesToBootDiagnosticsInstanceView(destination *alpha20201201s.BootDiagnosticsInstanceView) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// ConsoleScreenshotBlobUri
-	destination.ConsoleScreenshotBlobUri = genruntime.ClonePointerToString(view.ConsoleScreenshotBlobUri)
-
-	// SerialConsoleLogBlobUri
-	destination.SerialConsoleLogBlobUri = genruntime.ClonePointerToString(view.SerialConsoleLogBlobUri)
-
-	// Status
-	if view.Status != nil {
-		var status alpha20201201s.InstanceViewStatus
-		err := view.Status.AssignPropertiesToInstanceViewStatus(&status)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatus() to populate field Status")
-		}
-		destination.Status = &status
-	} else {
-		destination.Status = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of BootDiagnosticsInstanceView_STATUS. Use v1beta20201201.BootDiagnosticsInstanceView_STATUS instead
 type BootDiagnosticsInstanceView_STATUS struct {
 	ConsoleScreenshotBlobUri *string                    `json:"consoleScreenshotBlobUri,omitempty"`
@@ -7071,12 +6091,10 @@ type DataDisk struct {
 	Caching *Caching `json:"caching,omitempty"`
 
 	// +kubebuilder:validation:Required
-	CreateOption      *CreateOption    `json:"createOption,omitempty"`
-	DetachOption      *DetachOption    `json:"detachOption,omitempty"`
-	DiskIOPSReadWrite *int             `json:"diskIOPSReadWrite,omitempty"`
-	DiskMBpsReadWrite *int             `json:"diskMBpsReadWrite,omitempty"`
-	DiskSizeGB        *int             `json:"diskSizeGB,omitempty"`
-	Image             *VirtualHardDisk `json:"image,omitempty"`
+	CreateOption *CreateOption    `json:"createOption,omitempty"`
+	DetachOption *DetachOption    `json:"detachOption,omitempty"`
+	DiskSizeGB   *int             `json:"diskSizeGB,omitempty"`
+	Image        *VirtualHardDisk `json:"image,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Lun                     *int                   `json:"lun,omitempty"`
@@ -7112,18 +6130,6 @@ func (disk *DataDisk) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 	if disk.DetachOption != nil {
 		detachOption := *disk.DetachOption
 		result.DetachOption = &detachOption
-	}
-
-	// Set property ‘DiskIOPSReadWrite’:
-	if disk.DiskIOPSReadWrite != nil {
-		diskIOPSReadWrite := *disk.DiskIOPSReadWrite
-		result.DiskIOPSReadWrite = &diskIOPSReadWrite
-	}
-
-	// Set property ‘DiskMBpsReadWrite’:
-	if disk.DiskMBpsReadWrite != nil {
-		diskMBpsReadWrite := *disk.DiskMBpsReadWrite
-		result.DiskMBpsReadWrite = &diskMBpsReadWrite
 	}
 
 	// Set property ‘DiskSizeGB’:
@@ -7216,18 +6222,6 @@ func (disk *DataDisk) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, 
 	if typedInput.DetachOption != nil {
 		detachOption := *typedInput.DetachOption
 		disk.DetachOption = &detachOption
-	}
-
-	// Set property ‘DiskIOPSReadWrite’:
-	if typedInput.DiskIOPSReadWrite != nil {
-		diskIOPSReadWrite := *typedInput.DiskIOPSReadWrite
-		disk.DiskIOPSReadWrite = &diskIOPSReadWrite
-	}
-
-	// Set property ‘DiskMBpsReadWrite’:
-	if typedInput.DiskMBpsReadWrite != nil {
-		diskMBpsReadWrite := *typedInput.DiskMBpsReadWrite
-		disk.DiskMBpsReadWrite = &diskMBpsReadWrite
 	}
 
 	// Set property ‘DiskSizeGB’:
@@ -7324,12 +6318,6 @@ func (disk *DataDisk) AssignPropertiesFromDataDisk(source *alpha20201201s.DataDi
 		disk.DetachOption = nil
 	}
 
-	// DiskIOPSReadWrite
-	disk.DiskIOPSReadWrite = genruntime.ClonePointerToInt(source.DiskIOPSReadWrite)
-
-	// DiskMBpsReadWrite
-	disk.DiskMBpsReadWrite = genruntime.ClonePointerToInt(source.DiskMBpsReadWrite)
-
 	// DiskSizeGB
 	disk.DiskSizeGB = genruntime.ClonePointerToInt(source.DiskSizeGB)
 
@@ -7423,12 +6411,6 @@ func (disk *DataDisk) AssignPropertiesToDataDisk(destination *alpha20201201s.Dat
 	} else {
 		destination.DetachOption = nil
 	}
-
-	// DiskIOPSReadWrite
-	destination.DiskIOPSReadWrite = genruntime.ClonePointerToInt(disk.DiskIOPSReadWrite)
-
-	// DiskMBpsReadWrite
-	destination.DiskMBpsReadWrite = genruntime.ClonePointerToInt(disk.DiskMBpsReadWrite)
 
 	// DiskSizeGB
 	destination.DiskSizeGB = genruntime.ClonePointerToInt(disk.DiskSizeGB)
@@ -7822,191 +6804,6 @@ func (disk *DataDisk_STATUS) AssignPropertiesToDataDisk_STATUS(destination *alph
 		destination.WriteAcceleratorEnabled = &writeAcceleratorEnabled
 	} else {
 		destination.WriteAcceleratorEnabled = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Deprecated version of DiskInstanceView. Use v1beta20201201.DiskInstanceView instead
-type DiskInstanceView struct {
-	EncryptionSettings []DiskEncryptionSettings `json:"encryptionSettings,omitempty"`
-	Name               *string                  `json:"name,omitempty"`
-	Statuses           []InstanceViewStatus     `json:"statuses,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &DiskInstanceView{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (view *DiskInstanceView) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if view == nil {
-		return nil, nil
-	}
-	result := &DiskInstanceViewARM{}
-
-	// Set property ‘EncryptionSettings’:
-	for _, item := range view.EncryptionSettings {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.EncryptionSettings = append(result.EncryptionSettings, *itemARM.(*DiskEncryptionSettingsARM))
-	}
-
-	// Set property ‘Name’:
-	if view.Name != nil {
-		name := *view.Name
-		result.Name = &name
-	}
-
-	// Set property ‘Statuses’:
-	for _, item := range view.Statuses {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Statuses = append(result.Statuses, *itemARM.(*InstanceViewStatusARM))
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (view *DiskInstanceView) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &DiskInstanceViewARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (view *DiskInstanceView) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(DiskInstanceViewARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DiskInstanceViewARM, got %T", armInput)
-	}
-
-	// Set property ‘EncryptionSettings’:
-	for _, item := range typedInput.EncryptionSettings {
-		var item1 DiskEncryptionSettings
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		view.EncryptionSettings = append(view.EncryptionSettings, item1)
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		view.Name = &name
-	}
-
-	// Set property ‘Statuses’:
-	for _, item := range typedInput.Statuses {
-		var item1 InstanceViewStatus
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		view.Statuses = append(view.Statuses, item1)
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromDiskInstanceView populates our DiskInstanceView from the provided source DiskInstanceView
-func (view *DiskInstanceView) AssignPropertiesFromDiskInstanceView(source *alpha20201201s.DiskInstanceView) error {
-
-	// EncryptionSettings
-	if source.EncryptionSettings != nil {
-		encryptionSettingList := make([]DiskEncryptionSettings, len(source.EncryptionSettings))
-		for encryptionSettingIndex, encryptionSettingItem := range source.EncryptionSettings {
-			// Shadow the loop variable to avoid aliasing
-			encryptionSettingItem := encryptionSettingItem
-			var encryptionSetting DiskEncryptionSettings
-			err := encryptionSetting.AssignPropertiesFromDiskEncryptionSettings(&encryptionSettingItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromDiskEncryptionSettings() to populate field EncryptionSettings")
-			}
-			encryptionSettingList[encryptionSettingIndex] = encryptionSetting
-		}
-		view.EncryptionSettings = encryptionSettingList
-	} else {
-		view.EncryptionSettings = nil
-	}
-
-	// Name
-	view.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Statuses
-	if source.Statuses != nil {
-		statusList := make([]InstanceViewStatus, len(source.Statuses))
-		for statusIndex, statusItem := range source.Statuses {
-			// Shadow the loop variable to avoid aliasing
-			statusItem := statusItem
-			var status InstanceViewStatus
-			err := status.AssignPropertiesFromInstanceViewStatus(&statusItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatus() to populate field Statuses")
-			}
-			statusList[statusIndex] = status
-		}
-		view.Statuses = statusList
-	} else {
-		view.Statuses = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToDiskInstanceView populates the provided destination DiskInstanceView from our DiskInstanceView
-func (view *DiskInstanceView) AssignPropertiesToDiskInstanceView(destination *alpha20201201s.DiskInstanceView) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// EncryptionSettings
-	if view.EncryptionSettings != nil {
-		encryptionSettingList := make([]alpha20201201s.DiskEncryptionSettings, len(view.EncryptionSettings))
-		for encryptionSettingIndex, encryptionSettingItem := range view.EncryptionSettings {
-			// Shadow the loop variable to avoid aliasing
-			encryptionSettingItem := encryptionSettingItem
-			var encryptionSetting alpha20201201s.DiskEncryptionSettings
-			err := encryptionSettingItem.AssignPropertiesToDiskEncryptionSettings(&encryptionSetting)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToDiskEncryptionSettings() to populate field EncryptionSettings")
-			}
-			encryptionSettingList[encryptionSettingIndex] = encryptionSetting
-		}
-		destination.EncryptionSettings = encryptionSettingList
-	} else {
-		destination.EncryptionSettings = nil
-	}
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(view.Name)
-
-	// Statuses
-	if view.Statuses != nil {
-		statusList := make([]alpha20201201s.InstanceViewStatus, len(view.Statuses))
-		for statusIndex, statusItem := range view.Statuses {
-			// Shadow the loop variable to avoid aliasing
-			statusItem := statusItem
-			var status alpha20201201s.InstanceViewStatus
-			err := statusItem.AssignPropertiesToInstanceViewStatus(&status)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatus() to populate field Statuses")
-			}
-			statusList[statusIndex] = status
-		}
-		destination.Statuses = statusList
-	} else {
-		destination.Statuses = nil
 	}
 
 	// Update the property bag
@@ -8519,12 +7316,11 @@ const (
 
 // Deprecated version of ImageReference. Use v1beta20201201.ImageReference instead
 type ImageReference struct {
-	ExactVersion *string                       `json:"exactVersion,omitempty"`
-	Offer        *string                       `json:"offer,omitempty"`
-	Publisher    *string                       `json:"publisher,omitempty"`
-	Reference    *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	Sku          *string                       `json:"sku,omitempty"`
-	Version      *string                       `json:"version,omitempty"`
+	Offer     *string                       `json:"offer,omitempty"`
+	Publisher *string                       `json:"publisher,omitempty"`
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	Sku       *string                       `json:"sku,omitempty"`
+	Version   *string                       `json:"version,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ImageReference{}
@@ -8535,12 +7331,6 @@ func (reference *ImageReference) ConvertToARM(resolved genruntime.ConvertToARMRe
 		return nil, nil
 	}
 	result := &ImageReferenceARM{}
-
-	// Set property ‘ExactVersion’:
-	if reference.ExactVersion != nil {
-		exactVersion := *reference.ExactVersion
-		result.ExactVersion = &exactVersion
-	}
 
 	// Set property ‘Id’:
 	if reference.Reference != nil {
@@ -8590,12 +7380,6 @@ func (reference *ImageReference) PopulateFromARM(owner genruntime.ArbitraryOwner
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImageReferenceARM, got %T", armInput)
 	}
 
-	// Set property ‘ExactVersion’:
-	if typedInput.ExactVersion != nil {
-		exactVersion := *typedInput.ExactVersion
-		reference.ExactVersion = &exactVersion
-	}
-
 	// Set property ‘Offer’:
 	if typedInput.Offer != nil {
 		offer := *typedInput.Offer
@@ -8629,9 +7413,6 @@ func (reference *ImageReference) PopulateFromARM(owner genruntime.ArbitraryOwner
 // AssignPropertiesFromImageReference populates our ImageReference from the provided source ImageReference
 func (reference *ImageReference) AssignPropertiesFromImageReference(source *alpha20201201s.ImageReference) error {
 
-	// ExactVersion
-	reference.ExactVersion = genruntime.ClonePointerToString(source.ExactVersion)
-
 	// Offer
 	reference.Offer = genruntime.ClonePointerToString(source.Offer)
 
@@ -8660,9 +7441,6 @@ func (reference *ImageReference) AssignPropertiesFromImageReference(source *alph
 func (reference *ImageReference) AssignPropertiesToImageReference(destination *alpha20201201s.ImageReference) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
-
-	// ExactVersion
-	destination.ExactVersion = genruntime.ClonePointerToString(reference.ExactVersion)
 
 	// Offer
 	destination.Offer = genruntime.ClonePointerToString(reference.Offer)
@@ -8806,175 +7584,6 @@ func (reference *ImageReference_STATUS) AssignPropertiesToImageReference_STATUS(
 
 	// Version
 	destination.Version = genruntime.ClonePointerToString(reference.Version)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Deprecated version of InstanceViewStatus. Use v1beta20201201.InstanceViewStatus instead
-type InstanceViewStatus struct {
-	Code          *string                   `json:"code,omitempty"`
-	DisplayStatus *string                   `json:"displayStatus,omitempty"`
-	Level         *InstanceViewStatus_Level `json:"level,omitempty"`
-	Message       *string                   `json:"message,omitempty"`
-	Time          *string                   `json:"time,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &InstanceViewStatus{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (status *InstanceViewStatus) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if status == nil {
-		return nil, nil
-	}
-	result := &InstanceViewStatusARM{}
-
-	// Set property ‘Code’:
-	if status.Code != nil {
-		code := *status.Code
-		result.Code = &code
-	}
-
-	// Set property ‘DisplayStatus’:
-	if status.DisplayStatus != nil {
-		displayStatus := *status.DisplayStatus
-		result.DisplayStatus = &displayStatus
-	}
-
-	// Set property ‘Level’:
-	if status.Level != nil {
-		level := *status.Level
-		result.Level = &level
-	}
-
-	// Set property ‘Message’:
-	if status.Message != nil {
-		message := *status.Message
-		result.Message = &message
-	}
-
-	// Set property ‘Time’:
-	if status.Time != nil {
-		time := *status.Time
-		result.Time = &time
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (status *InstanceViewStatus) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &InstanceViewStatusARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (status *InstanceViewStatus) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(InstanceViewStatusARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InstanceViewStatusARM, got %T", armInput)
-	}
-
-	// Set property ‘Code’:
-	if typedInput.Code != nil {
-		code := *typedInput.Code
-		status.Code = &code
-	}
-
-	// Set property ‘DisplayStatus’:
-	if typedInput.DisplayStatus != nil {
-		displayStatus := *typedInput.DisplayStatus
-		status.DisplayStatus = &displayStatus
-	}
-
-	// Set property ‘Level’:
-	if typedInput.Level != nil {
-		level := *typedInput.Level
-		status.Level = &level
-	}
-
-	// Set property ‘Message’:
-	if typedInput.Message != nil {
-		message := *typedInput.Message
-		status.Message = &message
-	}
-
-	// Set property ‘Time’:
-	if typedInput.Time != nil {
-		time := *typedInput.Time
-		status.Time = &time
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromInstanceViewStatus populates our InstanceViewStatus from the provided source InstanceViewStatus
-func (status *InstanceViewStatus) AssignPropertiesFromInstanceViewStatus(source *alpha20201201s.InstanceViewStatus) error {
-
-	// Code
-	status.Code = genruntime.ClonePointerToString(source.Code)
-
-	// DisplayStatus
-	status.DisplayStatus = genruntime.ClonePointerToString(source.DisplayStatus)
-
-	// Level
-	if source.Level != nil {
-		level := InstanceViewStatus_Level(*source.Level)
-		status.Level = &level
-	} else {
-		status.Level = nil
-	}
-
-	// Message
-	status.Message = genruntime.ClonePointerToString(source.Message)
-
-	// Time
-	if source.Time != nil {
-		time := *source.Time
-		status.Time = &time
-	} else {
-		status.Time = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToInstanceViewStatus populates the provided destination InstanceViewStatus from our InstanceViewStatus
-func (status *InstanceViewStatus) AssignPropertiesToInstanceViewStatus(destination *alpha20201201s.InstanceViewStatus) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Code
-	destination.Code = genruntime.ClonePointerToString(status.Code)
-
-	// DisplayStatus
-	destination.DisplayStatus = genruntime.ClonePointerToString(status.DisplayStatus)
-
-	// Level
-	if status.Level != nil {
-		level := string(*status.Level)
-		destination.Level = &level
-	} else {
-		destination.Level = nil
-	}
-
-	// Message
-	destination.Message = genruntime.ClonePointerToString(status.Message)
-
-	// Time
-	if status.Time != nil {
-		time := *status.Time
-		destination.Time = &time
-	} else {
-		destination.Time = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -9474,253 +8083,6 @@ func (configuration *LinuxConfiguration_STATUS) AssignPropertiesToLinuxConfigura
 	return nil
 }
 
-// Deprecated version of MaintenanceRedeployStatus. Use v1beta20201201.MaintenanceRedeployStatus instead
-type MaintenanceRedeployStatus struct {
-	IsCustomerInitiatedMaintenanceAllowed *bool                                              `json:"isCustomerInitiatedMaintenanceAllowed,omitempty"`
-	LastOperationMessage                  *string                                            `json:"lastOperationMessage,omitempty"`
-	LastOperationResultCode               *MaintenanceRedeployStatus_LastOperationResultCode `json:"lastOperationResultCode,omitempty"`
-	MaintenanceWindowEndTime              *string                                            `json:"maintenanceWindowEndTime,omitempty"`
-	MaintenanceWindowStartTime            *string                                            `json:"maintenanceWindowStartTime,omitempty"`
-	PreMaintenanceWindowEndTime           *string                                            `json:"preMaintenanceWindowEndTime,omitempty"`
-	PreMaintenanceWindowStartTime         *string                                            `json:"preMaintenanceWindowStartTime,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &MaintenanceRedeployStatus{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (status *MaintenanceRedeployStatus) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if status == nil {
-		return nil, nil
-	}
-	result := &MaintenanceRedeployStatusARM{}
-
-	// Set property ‘IsCustomerInitiatedMaintenanceAllowed’:
-	if status.IsCustomerInitiatedMaintenanceAllowed != nil {
-		isCustomerInitiatedMaintenanceAllowed := *status.IsCustomerInitiatedMaintenanceAllowed
-		result.IsCustomerInitiatedMaintenanceAllowed = &isCustomerInitiatedMaintenanceAllowed
-	}
-
-	// Set property ‘LastOperationMessage’:
-	if status.LastOperationMessage != nil {
-		lastOperationMessage := *status.LastOperationMessage
-		result.LastOperationMessage = &lastOperationMessage
-	}
-
-	// Set property ‘LastOperationResultCode’:
-	if status.LastOperationResultCode != nil {
-		lastOperationResultCode := *status.LastOperationResultCode
-		result.LastOperationResultCode = &lastOperationResultCode
-	}
-
-	// Set property ‘MaintenanceWindowEndTime’:
-	if status.MaintenanceWindowEndTime != nil {
-		maintenanceWindowEndTime := *status.MaintenanceWindowEndTime
-		result.MaintenanceWindowEndTime = &maintenanceWindowEndTime
-	}
-
-	// Set property ‘MaintenanceWindowStartTime’:
-	if status.MaintenanceWindowStartTime != nil {
-		maintenanceWindowStartTime := *status.MaintenanceWindowStartTime
-		result.MaintenanceWindowStartTime = &maintenanceWindowStartTime
-	}
-
-	// Set property ‘PreMaintenanceWindowEndTime’:
-	if status.PreMaintenanceWindowEndTime != nil {
-		preMaintenanceWindowEndTime := *status.PreMaintenanceWindowEndTime
-		result.PreMaintenanceWindowEndTime = &preMaintenanceWindowEndTime
-	}
-
-	// Set property ‘PreMaintenanceWindowStartTime’:
-	if status.PreMaintenanceWindowStartTime != nil {
-		preMaintenanceWindowStartTime := *status.PreMaintenanceWindowStartTime
-		result.PreMaintenanceWindowStartTime = &preMaintenanceWindowStartTime
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (status *MaintenanceRedeployStatus) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &MaintenanceRedeployStatusARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (status *MaintenanceRedeployStatus) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(MaintenanceRedeployStatusARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected MaintenanceRedeployStatusARM, got %T", armInput)
-	}
-
-	// Set property ‘IsCustomerInitiatedMaintenanceAllowed’:
-	if typedInput.IsCustomerInitiatedMaintenanceAllowed != nil {
-		isCustomerInitiatedMaintenanceAllowed := *typedInput.IsCustomerInitiatedMaintenanceAllowed
-		status.IsCustomerInitiatedMaintenanceAllowed = &isCustomerInitiatedMaintenanceAllowed
-	}
-
-	// Set property ‘LastOperationMessage’:
-	if typedInput.LastOperationMessage != nil {
-		lastOperationMessage := *typedInput.LastOperationMessage
-		status.LastOperationMessage = &lastOperationMessage
-	}
-
-	// Set property ‘LastOperationResultCode’:
-	if typedInput.LastOperationResultCode != nil {
-		lastOperationResultCode := *typedInput.LastOperationResultCode
-		status.LastOperationResultCode = &lastOperationResultCode
-	}
-
-	// Set property ‘MaintenanceWindowEndTime’:
-	if typedInput.MaintenanceWindowEndTime != nil {
-		maintenanceWindowEndTime := *typedInput.MaintenanceWindowEndTime
-		status.MaintenanceWindowEndTime = &maintenanceWindowEndTime
-	}
-
-	// Set property ‘MaintenanceWindowStartTime’:
-	if typedInput.MaintenanceWindowStartTime != nil {
-		maintenanceWindowStartTime := *typedInput.MaintenanceWindowStartTime
-		status.MaintenanceWindowStartTime = &maintenanceWindowStartTime
-	}
-
-	// Set property ‘PreMaintenanceWindowEndTime’:
-	if typedInput.PreMaintenanceWindowEndTime != nil {
-		preMaintenanceWindowEndTime := *typedInput.PreMaintenanceWindowEndTime
-		status.PreMaintenanceWindowEndTime = &preMaintenanceWindowEndTime
-	}
-
-	// Set property ‘PreMaintenanceWindowStartTime’:
-	if typedInput.PreMaintenanceWindowStartTime != nil {
-		preMaintenanceWindowStartTime := *typedInput.PreMaintenanceWindowStartTime
-		status.PreMaintenanceWindowStartTime = &preMaintenanceWindowStartTime
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromMaintenanceRedeployStatus populates our MaintenanceRedeployStatus from the provided source MaintenanceRedeployStatus
-func (status *MaintenanceRedeployStatus) AssignPropertiesFromMaintenanceRedeployStatus(source *alpha20201201s.MaintenanceRedeployStatus) error {
-
-	// IsCustomerInitiatedMaintenanceAllowed
-	if source.IsCustomerInitiatedMaintenanceAllowed != nil {
-		isCustomerInitiatedMaintenanceAllowed := *source.IsCustomerInitiatedMaintenanceAllowed
-		status.IsCustomerInitiatedMaintenanceAllowed = &isCustomerInitiatedMaintenanceAllowed
-	} else {
-		status.IsCustomerInitiatedMaintenanceAllowed = nil
-	}
-
-	// LastOperationMessage
-	status.LastOperationMessage = genruntime.ClonePointerToString(source.LastOperationMessage)
-
-	// LastOperationResultCode
-	if source.LastOperationResultCode != nil {
-		lastOperationResultCode := MaintenanceRedeployStatus_LastOperationResultCode(*source.LastOperationResultCode)
-		status.LastOperationResultCode = &lastOperationResultCode
-	} else {
-		status.LastOperationResultCode = nil
-	}
-
-	// MaintenanceWindowEndTime
-	if source.MaintenanceWindowEndTime != nil {
-		maintenanceWindowEndTime := *source.MaintenanceWindowEndTime
-		status.MaintenanceWindowEndTime = &maintenanceWindowEndTime
-	} else {
-		status.MaintenanceWindowEndTime = nil
-	}
-
-	// MaintenanceWindowStartTime
-	if source.MaintenanceWindowStartTime != nil {
-		maintenanceWindowStartTime := *source.MaintenanceWindowStartTime
-		status.MaintenanceWindowStartTime = &maintenanceWindowStartTime
-	} else {
-		status.MaintenanceWindowStartTime = nil
-	}
-
-	// PreMaintenanceWindowEndTime
-	if source.PreMaintenanceWindowEndTime != nil {
-		preMaintenanceWindowEndTime := *source.PreMaintenanceWindowEndTime
-		status.PreMaintenanceWindowEndTime = &preMaintenanceWindowEndTime
-	} else {
-		status.PreMaintenanceWindowEndTime = nil
-	}
-
-	// PreMaintenanceWindowStartTime
-	if source.PreMaintenanceWindowStartTime != nil {
-		preMaintenanceWindowStartTime := *source.PreMaintenanceWindowStartTime
-		status.PreMaintenanceWindowStartTime = &preMaintenanceWindowStartTime
-	} else {
-		status.PreMaintenanceWindowStartTime = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToMaintenanceRedeployStatus populates the provided destination MaintenanceRedeployStatus from our MaintenanceRedeployStatus
-func (status *MaintenanceRedeployStatus) AssignPropertiesToMaintenanceRedeployStatus(destination *alpha20201201s.MaintenanceRedeployStatus) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// IsCustomerInitiatedMaintenanceAllowed
-	if status.IsCustomerInitiatedMaintenanceAllowed != nil {
-		isCustomerInitiatedMaintenanceAllowed := *status.IsCustomerInitiatedMaintenanceAllowed
-		destination.IsCustomerInitiatedMaintenanceAllowed = &isCustomerInitiatedMaintenanceAllowed
-	} else {
-		destination.IsCustomerInitiatedMaintenanceAllowed = nil
-	}
-
-	// LastOperationMessage
-	destination.LastOperationMessage = genruntime.ClonePointerToString(status.LastOperationMessage)
-
-	// LastOperationResultCode
-	if status.LastOperationResultCode != nil {
-		lastOperationResultCode := string(*status.LastOperationResultCode)
-		destination.LastOperationResultCode = &lastOperationResultCode
-	} else {
-		destination.LastOperationResultCode = nil
-	}
-
-	// MaintenanceWindowEndTime
-	if status.MaintenanceWindowEndTime != nil {
-		maintenanceWindowEndTime := *status.MaintenanceWindowEndTime
-		destination.MaintenanceWindowEndTime = &maintenanceWindowEndTime
-	} else {
-		destination.MaintenanceWindowEndTime = nil
-	}
-
-	// MaintenanceWindowStartTime
-	if status.MaintenanceWindowStartTime != nil {
-		maintenanceWindowStartTime := *status.MaintenanceWindowStartTime
-		destination.MaintenanceWindowStartTime = &maintenanceWindowStartTime
-	} else {
-		destination.MaintenanceWindowStartTime = nil
-	}
-
-	// PreMaintenanceWindowEndTime
-	if status.PreMaintenanceWindowEndTime != nil {
-		preMaintenanceWindowEndTime := *status.PreMaintenanceWindowEndTime
-		destination.PreMaintenanceWindowEndTime = &preMaintenanceWindowEndTime
-	} else {
-		destination.PreMaintenanceWindowEndTime = nil
-	}
-
-	// PreMaintenanceWindowStartTime
-	if status.PreMaintenanceWindowStartTime != nil {
-		preMaintenanceWindowStartTime := *status.PreMaintenanceWindowStartTime
-		destination.PreMaintenanceWindowStartTime = &preMaintenanceWindowStartTime
-	} else {
-		destination.PreMaintenanceWindowStartTime = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of MaintenanceRedeployStatus_STATUS. Use v1beta20201201.MaintenanceRedeployStatus_STATUS instead
 type MaintenanceRedeployStatus_STATUS struct {
 	IsCustomerInitiatedMaintenanceAllowed *bool                                                     `json:"isCustomerInitiatedMaintenanceAllowed,omitempty"`
@@ -9879,8 +8241,8 @@ func (status *MaintenanceRedeployStatus_STATUS) AssignPropertiesToMaintenanceRed
 
 // Deprecated version of NetworkInterfaceReference. Use v1beta20201201.NetworkInterfaceReference instead
 type NetworkInterfaceReference struct {
-	Id      *string `json:"id,omitempty"`
-	Primary *bool   `json:"primary,omitempty"`
+	Primary   *bool                         `json:"primary,omitempty"`
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &NetworkInterfaceReference{}
@@ -9893,9 +8255,13 @@ func (reference *NetworkInterfaceReference) ConvertToARM(resolved genruntime.Con
 	result := &NetworkInterfaceReferenceARM{}
 
 	// Set property ‘Id’:
-	if reference.Id != nil {
-		id := *reference.Id
-		result.Id = &id
+	if reference.Reference != nil {
+		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*reference.Reference)
+		if err != nil {
+			return nil, err
+		}
+		reference1 := referenceARMID
+		result.Id = &reference1
 	}
 
 	// Set property ‘Properties’:
@@ -9921,12 +8287,6 @@ func (reference *NetworkInterfaceReference) PopulateFromARM(owner genruntime.Arb
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NetworkInterfaceReferenceARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		reference.Id = &id
-	}
-
 	// Set property ‘Primary’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -9936,6 +8296,8 @@ func (reference *NetworkInterfaceReference) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
+	// no assignment for property ‘Reference’
+
 	// No error
 	return nil
 }
@@ -9943,15 +8305,20 @@ func (reference *NetworkInterfaceReference) PopulateFromARM(owner genruntime.Arb
 // AssignPropertiesFromNetworkInterfaceReference populates our NetworkInterfaceReference from the provided source NetworkInterfaceReference
 func (reference *NetworkInterfaceReference) AssignPropertiesFromNetworkInterfaceReference(source *alpha20201201s.NetworkInterfaceReference) error {
 
-	// Id
-	reference.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Primary
 	if source.Primary != nil {
 		primary := *source.Primary
 		reference.Primary = &primary
 	} else {
 		reference.Primary = nil
+	}
+
+	// Reference
+	if source.Reference != nil {
+		referenceTemp := source.Reference.Copy()
+		reference.Reference = &referenceTemp
+	} else {
+		reference.Reference = nil
 	}
 
 	// No error
@@ -9963,15 +8330,20 @@ func (reference *NetworkInterfaceReference) AssignPropertiesToNetworkInterfaceRe
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(reference.Id)
-
 	// Primary
 	if reference.Primary != nil {
 		primary := *reference.Primary
 		destination.Primary = &primary
 	} else {
 		destination.Primary = nil
+	}
+
+	// Reference
+	if reference.Reference != nil {
+		referenceTemp := reference.Reference.Copy()
+		destination.Reference = &referenceTemp
+	} else {
+		destination.Reference = nil
 	}
 
 	// Update the property bag
@@ -11350,191 +9722,6 @@ func (group *VaultSecretGroup_STATUS) AssignPropertiesToVaultSecretGroup_STATUS(
 	return nil
 }
 
-// Deprecated version of VirtualMachineAgentInstanceView. Use v1beta20201201.VirtualMachineAgentInstanceView instead
-type VirtualMachineAgentInstanceView struct {
-	ExtensionHandlers []VirtualMachineExtensionHandlerInstanceView `json:"extensionHandlers,omitempty"`
-	Statuses          []InstanceViewStatus                         `json:"statuses,omitempty"`
-	VmAgentVersion    *string                                      `json:"vmAgentVersion,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &VirtualMachineAgentInstanceView{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (view *VirtualMachineAgentInstanceView) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if view == nil {
-		return nil, nil
-	}
-	result := &VirtualMachineAgentInstanceViewARM{}
-
-	// Set property ‘ExtensionHandlers’:
-	for _, item := range view.ExtensionHandlers {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.ExtensionHandlers = append(result.ExtensionHandlers, *itemARM.(*VirtualMachineExtensionHandlerInstanceViewARM))
-	}
-
-	// Set property ‘Statuses’:
-	for _, item := range view.Statuses {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Statuses = append(result.Statuses, *itemARM.(*InstanceViewStatusARM))
-	}
-
-	// Set property ‘VmAgentVersion’:
-	if view.VmAgentVersion != nil {
-		vmAgentVersion := *view.VmAgentVersion
-		result.VmAgentVersion = &vmAgentVersion
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (view *VirtualMachineAgentInstanceView) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachineAgentInstanceViewARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (view *VirtualMachineAgentInstanceView) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachineAgentInstanceViewARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineAgentInstanceViewARM, got %T", armInput)
-	}
-
-	// Set property ‘ExtensionHandlers’:
-	for _, item := range typedInput.ExtensionHandlers {
-		var item1 VirtualMachineExtensionHandlerInstanceView
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		view.ExtensionHandlers = append(view.ExtensionHandlers, item1)
-	}
-
-	// Set property ‘Statuses’:
-	for _, item := range typedInput.Statuses {
-		var item1 InstanceViewStatus
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		view.Statuses = append(view.Statuses, item1)
-	}
-
-	// Set property ‘VmAgentVersion’:
-	if typedInput.VmAgentVersion != nil {
-		vmAgentVersion := *typedInput.VmAgentVersion
-		view.VmAgentVersion = &vmAgentVersion
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromVirtualMachineAgentInstanceView populates our VirtualMachineAgentInstanceView from the provided source VirtualMachineAgentInstanceView
-func (view *VirtualMachineAgentInstanceView) AssignPropertiesFromVirtualMachineAgentInstanceView(source *alpha20201201s.VirtualMachineAgentInstanceView) error {
-
-	// ExtensionHandlers
-	if source.ExtensionHandlers != nil {
-		extensionHandlerList := make([]VirtualMachineExtensionHandlerInstanceView, len(source.ExtensionHandlers))
-		for extensionHandlerIndex, extensionHandlerItem := range source.ExtensionHandlers {
-			// Shadow the loop variable to avoid aliasing
-			extensionHandlerItem := extensionHandlerItem
-			var extensionHandler VirtualMachineExtensionHandlerInstanceView
-			err := extensionHandler.AssignPropertiesFromVirtualMachineExtensionHandlerInstanceView(&extensionHandlerItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineExtensionHandlerInstanceView() to populate field ExtensionHandlers")
-			}
-			extensionHandlerList[extensionHandlerIndex] = extensionHandler
-		}
-		view.ExtensionHandlers = extensionHandlerList
-	} else {
-		view.ExtensionHandlers = nil
-	}
-
-	// Statuses
-	if source.Statuses != nil {
-		statusList := make([]InstanceViewStatus, len(source.Statuses))
-		for statusIndex, statusItem := range source.Statuses {
-			// Shadow the loop variable to avoid aliasing
-			statusItem := statusItem
-			var status InstanceViewStatus
-			err := status.AssignPropertiesFromInstanceViewStatus(&statusItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatus() to populate field Statuses")
-			}
-			statusList[statusIndex] = status
-		}
-		view.Statuses = statusList
-	} else {
-		view.Statuses = nil
-	}
-
-	// VmAgentVersion
-	view.VmAgentVersion = genruntime.ClonePointerToString(source.VmAgentVersion)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToVirtualMachineAgentInstanceView populates the provided destination VirtualMachineAgentInstanceView from our VirtualMachineAgentInstanceView
-func (view *VirtualMachineAgentInstanceView) AssignPropertiesToVirtualMachineAgentInstanceView(destination *alpha20201201s.VirtualMachineAgentInstanceView) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// ExtensionHandlers
-	if view.ExtensionHandlers != nil {
-		extensionHandlerList := make([]alpha20201201s.VirtualMachineExtensionHandlerInstanceView, len(view.ExtensionHandlers))
-		for extensionHandlerIndex, extensionHandlerItem := range view.ExtensionHandlers {
-			// Shadow the loop variable to avoid aliasing
-			extensionHandlerItem := extensionHandlerItem
-			var extensionHandler alpha20201201s.VirtualMachineExtensionHandlerInstanceView
-			err := extensionHandlerItem.AssignPropertiesToVirtualMachineExtensionHandlerInstanceView(&extensionHandler)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineExtensionHandlerInstanceView() to populate field ExtensionHandlers")
-			}
-			extensionHandlerList[extensionHandlerIndex] = extensionHandler
-		}
-		destination.ExtensionHandlers = extensionHandlerList
-	} else {
-		destination.ExtensionHandlers = nil
-	}
-
-	// Statuses
-	if view.Statuses != nil {
-		statusList := make([]alpha20201201s.InstanceViewStatus, len(view.Statuses))
-		for statusIndex, statusItem := range view.Statuses {
-			// Shadow the loop variable to avoid aliasing
-			statusItem := statusItem
-			var status alpha20201201s.InstanceViewStatus
-			err := statusItem.AssignPropertiesToInstanceViewStatus(&status)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatus() to populate field Statuses")
-			}
-			statusList[statusIndex] = status
-		}
-		destination.Statuses = statusList
-	} else {
-		destination.Statuses = nil
-	}
-
-	// VmAgentVersion
-	destination.VmAgentVersion = genruntime.ClonePointerToString(view.VmAgentVersion)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of VirtualMachineAgentInstanceView_STATUS. Use v1beta20201201.VirtualMachineAgentInstanceView_STATUS instead
 type VirtualMachineAgentInstanceView_STATUS struct {
 	ExtensionHandlers []VirtualMachineExtensionHandlerInstanceView_STATUS `json:"extensionHandlers,omitempty"`
@@ -11675,229 +9862,6 @@ func (view *VirtualMachineAgentInstanceView_STATUS) AssignPropertiesToVirtualMac
 
 	// VmAgentVersion
 	destination.VmAgentVersion = genruntime.ClonePointerToString(view.VmAgentVersion)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Deprecated version of VirtualMachineExtensionInstanceView. Use v1beta20201201.VirtualMachineExtensionInstanceView instead
-type VirtualMachineExtensionInstanceView struct {
-	Name               *string              `json:"name,omitempty"`
-	Statuses           []InstanceViewStatus `json:"statuses,omitempty"`
-	Substatuses        []InstanceViewStatus `json:"substatuses,omitempty"`
-	Type               *string              `json:"type,omitempty"`
-	TypeHandlerVersion *string              `json:"typeHandlerVersion,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &VirtualMachineExtensionInstanceView{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (view *VirtualMachineExtensionInstanceView) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if view == nil {
-		return nil, nil
-	}
-	result := &VirtualMachineExtensionInstanceViewARM{}
-
-	// Set property ‘Name’:
-	if view.Name != nil {
-		name := *view.Name
-		result.Name = &name
-	}
-
-	// Set property ‘Statuses’:
-	for _, item := range view.Statuses {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Statuses = append(result.Statuses, *itemARM.(*InstanceViewStatusARM))
-	}
-
-	// Set property ‘Substatuses’:
-	for _, item := range view.Substatuses {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Substatuses = append(result.Substatuses, *itemARM.(*InstanceViewStatusARM))
-	}
-
-	// Set property ‘Type’:
-	if view.Type != nil {
-		typeVar := *view.Type
-		result.Type = &typeVar
-	}
-
-	// Set property ‘TypeHandlerVersion’:
-	if view.TypeHandlerVersion != nil {
-		typeHandlerVersion := *view.TypeHandlerVersion
-		result.TypeHandlerVersion = &typeHandlerVersion
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (view *VirtualMachineExtensionInstanceView) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachineExtensionInstanceViewARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (view *VirtualMachineExtensionInstanceView) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachineExtensionInstanceViewARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineExtensionInstanceViewARM, got %T", armInput)
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		view.Name = &name
-	}
-
-	// Set property ‘Statuses’:
-	for _, item := range typedInput.Statuses {
-		var item1 InstanceViewStatus
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		view.Statuses = append(view.Statuses, item1)
-	}
-
-	// Set property ‘Substatuses’:
-	for _, item := range typedInput.Substatuses {
-		var item1 InstanceViewStatus
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		view.Substatuses = append(view.Substatuses, item1)
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		view.Type = &typeVar
-	}
-
-	// Set property ‘TypeHandlerVersion’:
-	if typedInput.TypeHandlerVersion != nil {
-		typeHandlerVersion := *typedInput.TypeHandlerVersion
-		view.TypeHandlerVersion = &typeHandlerVersion
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromVirtualMachineExtensionInstanceView populates our VirtualMachineExtensionInstanceView from the provided source VirtualMachineExtensionInstanceView
-func (view *VirtualMachineExtensionInstanceView) AssignPropertiesFromVirtualMachineExtensionInstanceView(source *alpha20201201s.VirtualMachineExtensionInstanceView) error {
-
-	// Name
-	view.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Statuses
-	if source.Statuses != nil {
-		statusList := make([]InstanceViewStatus, len(source.Statuses))
-		for statusIndex, statusItem := range source.Statuses {
-			// Shadow the loop variable to avoid aliasing
-			statusItem := statusItem
-			var status InstanceViewStatus
-			err := status.AssignPropertiesFromInstanceViewStatus(&statusItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatus() to populate field Statuses")
-			}
-			statusList[statusIndex] = status
-		}
-		view.Statuses = statusList
-	} else {
-		view.Statuses = nil
-	}
-
-	// Substatuses
-	if source.Substatuses != nil {
-		substatusList := make([]InstanceViewStatus, len(source.Substatuses))
-		for substatusIndex, substatusItem := range source.Substatuses {
-			// Shadow the loop variable to avoid aliasing
-			substatusItem := substatusItem
-			var substatus InstanceViewStatus
-			err := substatus.AssignPropertiesFromInstanceViewStatus(&substatusItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatus() to populate field Substatuses")
-			}
-			substatusList[substatusIndex] = substatus
-		}
-		view.Substatuses = substatusList
-	} else {
-		view.Substatuses = nil
-	}
-
-	// Type
-	view.Type = genruntime.ClonePointerToString(source.Type)
-
-	// TypeHandlerVersion
-	view.TypeHandlerVersion = genruntime.ClonePointerToString(source.TypeHandlerVersion)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToVirtualMachineExtensionInstanceView populates the provided destination VirtualMachineExtensionInstanceView from our VirtualMachineExtensionInstanceView
-func (view *VirtualMachineExtensionInstanceView) AssignPropertiesToVirtualMachineExtensionInstanceView(destination *alpha20201201s.VirtualMachineExtensionInstanceView) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(view.Name)
-
-	// Statuses
-	if view.Statuses != nil {
-		statusList := make([]alpha20201201s.InstanceViewStatus, len(view.Statuses))
-		for statusIndex, statusItem := range view.Statuses {
-			// Shadow the loop variable to avoid aliasing
-			statusItem := statusItem
-			var status alpha20201201s.InstanceViewStatus
-			err := statusItem.AssignPropertiesToInstanceViewStatus(&status)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatus() to populate field Statuses")
-			}
-			statusList[statusIndex] = status
-		}
-		destination.Statuses = statusList
-	} else {
-		destination.Statuses = nil
-	}
-
-	// Substatuses
-	if view.Substatuses != nil {
-		substatusList := make([]alpha20201201s.InstanceViewStatus, len(view.Substatuses))
-		for substatusIndex, substatusItem := range view.Substatuses {
-			// Shadow the loop variable to avoid aliasing
-			substatusItem := substatusItem
-			var substatus alpha20201201s.InstanceViewStatus
-			err := substatusItem.AssignPropertiesToInstanceViewStatus(&substatus)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatus() to populate field Substatuses")
-			}
-			substatusList[substatusIndex] = substatus
-		}
-		destination.Substatuses = substatusList
-	} else {
-		destination.Substatuses = nil
-	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(view.Type)
-
-	// TypeHandlerVersion
-	destination.TypeHandlerVersion = genruntime.ClonePointerToString(view.TypeHandlerVersion)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -12088,106 +10052,6 @@ func (view *VirtualMachineExtensionInstanceView_STATUS) AssignPropertiesToVirtua
 	return nil
 }
 
-// Deprecated version of VirtualMachineHealthStatus. Use v1beta20201201.VirtualMachineHealthStatus instead
-type VirtualMachineHealthStatus struct {
-	Status *InstanceViewStatus `json:"status,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &VirtualMachineHealthStatus{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (status *VirtualMachineHealthStatus) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if status == nil {
-		return nil, nil
-	}
-	result := &VirtualMachineHealthStatusARM{}
-
-	// Set property ‘Status’:
-	if status.Status != nil {
-		statusARM, err := (*status.Status).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		status1 := *statusARM.(*InstanceViewStatusARM)
-		result.Status = &status1
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (status *VirtualMachineHealthStatus) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachineHealthStatusARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (status *VirtualMachineHealthStatus) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachineHealthStatusARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineHealthStatusARM, got %T", armInput)
-	}
-
-	// Set property ‘Status’:
-	if typedInput.Status != nil {
-		var status2 InstanceViewStatus
-		err := status2.PopulateFromARM(owner, *typedInput.Status)
-		if err != nil {
-			return err
-		}
-		status1 := status2
-		status.Status = &status1
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromVirtualMachineHealthStatus populates our VirtualMachineHealthStatus from the provided source VirtualMachineHealthStatus
-func (status *VirtualMachineHealthStatus) AssignPropertiesFromVirtualMachineHealthStatus(source *alpha20201201s.VirtualMachineHealthStatus) error {
-
-	// Status
-	if source.Status != nil {
-		var statusLocal InstanceViewStatus
-		err := statusLocal.AssignPropertiesFromInstanceViewStatus(source.Status)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatus() to populate field Status")
-		}
-		status.Status = &statusLocal
-	} else {
-		status.Status = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToVirtualMachineHealthStatus populates the provided destination VirtualMachineHealthStatus from our VirtualMachineHealthStatus
-func (status *VirtualMachineHealthStatus) AssignPropertiesToVirtualMachineHealthStatus(destination *alpha20201201s.VirtualMachineHealthStatus) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Status
-	if status.Status != nil {
-		var statusLocal alpha20201201s.InstanceViewStatus
-		err := status.Status.AssignPropertiesToInstanceViewStatus(&statusLocal)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatus() to populate field Status")
-		}
-		destination.Status = &statusLocal
-	} else {
-		destination.Status = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of VirtualMachineHealthStatus_STATUS. Use v1beta20201201.VirtualMachineHealthStatus_STATUS instead
 type VirtualMachineHealthStatus_STATUS struct {
 	Status *InstanceViewStatus_STATUS `json:"status,omitempty"`
@@ -12257,98 +10121,6 @@ func (status *VirtualMachineHealthStatus_STATUS) AssignPropertiesToVirtualMachin
 	} else {
 		destination.Status = nil
 	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Deprecated version of VirtualMachineIdentity_UserAssignedIdentities. Use v1beta20201201.VirtualMachineIdentity_UserAssignedIdentities instead
-type VirtualMachineIdentity_UserAssignedIdentities struct {
-	ClientId    *string `json:"clientId,omitempty"`
-	PrincipalId *string `json:"principalId,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &VirtualMachineIdentity_UserAssignedIdentities{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (identities *VirtualMachineIdentity_UserAssignedIdentities) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if identities == nil {
-		return nil, nil
-	}
-	result := &VirtualMachineIdentity_UserAssignedIdentitiesARM{}
-
-	// Set property ‘ClientId’:
-	if identities.ClientId != nil {
-		clientId := *identities.ClientId
-		result.ClientId = &clientId
-	}
-
-	// Set property ‘PrincipalId’:
-	if identities.PrincipalId != nil {
-		principalId := *identities.PrincipalId
-		result.PrincipalId = &principalId
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (identities *VirtualMachineIdentity_UserAssignedIdentities) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachineIdentity_UserAssignedIdentitiesARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (identities *VirtualMachineIdentity_UserAssignedIdentities) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachineIdentity_UserAssignedIdentitiesARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineIdentity_UserAssignedIdentitiesARM, got %T", armInput)
-	}
-
-	// Set property ‘ClientId’:
-	if typedInput.ClientId != nil {
-		clientId := *typedInput.ClientId
-		identities.ClientId = &clientId
-	}
-
-	// Set property ‘PrincipalId’:
-	if typedInput.PrincipalId != nil {
-		principalId := *typedInput.PrincipalId
-		identities.PrincipalId = &principalId
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromVirtualMachineIdentity_UserAssignedIdentities populates our VirtualMachineIdentity_UserAssignedIdentities from the provided source VirtualMachineIdentity_UserAssignedIdentities
-func (identities *VirtualMachineIdentity_UserAssignedIdentities) AssignPropertiesFromVirtualMachineIdentity_UserAssignedIdentities(source *alpha20201201s.VirtualMachineIdentity_UserAssignedIdentities) error {
-
-	// ClientId
-	identities.ClientId = genruntime.ClonePointerToString(source.ClientId)
-
-	// PrincipalId
-	identities.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToVirtualMachineIdentity_UserAssignedIdentities populates the provided destination VirtualMachineIdentity_UserAssignedIdentities from our VirtualMachineIdentity_UserAssignedIdentities
-func (identities *VirtualMachineIdentity_UserAssignedIdentities) AssignPropertiesToVirtualMachineIdentity_UserAssignedIdentities(destination *alpha20201201s.VirtualMachineIdentity_UserAssignedIdentities) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// ClientId
-	destination.ClientId = genruntime.ClonePointerToString(identities.ClientId)
-
-	// PrincipalId
-	destination.PrincipalId = genruntime.ClonePointerToString(identities.PrincipalId)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -12432,16 +10204,6 @@ func (identities *VirtualMachineIdentity_UserAssignedIdentities_STATUS) AssignPr
 	return nil
 }
 
-// Deprecated version of VirtualMachineInstanceView_HyperVGeneration. Use
-// v1beta20201201.VirtualMachineInstanceView_HyperVGeneration instead
-// +kubebuilder:validation:Enum={"V1","V2"}
-type VirtualMachineInstanceView_HyperVGeneration string
-
-const (
-	VirtualMachineInstanceView_HyperVGeneration_V1 = VirtualMachineInstanceView_HyperVGeneration("V1")
-	VirtualMachineInstanceView_HyperVGeneration_V2 = VirtualMachineInstanceView_HyperVGeneration("V2")
-)
-
 // Deprecated version of VirtualMachineInstanceView_HyperVGeneration_STATUS. Use
 // v1beta20201201.VirtualMachineInstanceView_HyperVGeneration_STATUS instead
 type VirtualMachineInstanceView_HyperVGeneration_STATUS string
@@ -12450,208 +10212,6 @@ const (
 	VirtualMachineInstanceView_HyperVGeneration_V1_STATUS = VirtualMachineInstanceView_HyperVGeneration_STATUS("V1")
 	VirtualMachineInstanceView_HyperVGeneration_V2_STATUS = VirtualMachineInstanceView_HyperVGeneration_STATUS("V2")
 )
-
-// Deprecated version of VirtualMachinePatchStatus. Use v1beta20201201.VirtualMachinePatchStatus instead
-type VirtualMachinePatchStatus struct {
-	AvailablePatchSummary        *AvailablePatchSummary        `json:"availablePatchSummary,omitempty"`
-	ConfigurationStatuses        []InstanceViewStatus          `json:"configurationStatuses,omitempty"`
-	LastPatchInstallationSummary *LastPatchInstallationSummary `json:"lastPatchInstallationSummary,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &VirtualMachinePatchStatus{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (status *VirtualMachinePatchStatus) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if status == nil {
-		return nil, nil
-	}
-	result := &VirtualMachinePatchStatusARM{}
-
-	// Set property ‘AvailablePatchSummary’:
-	if status.AvailablePatchSummary != nil {
-		availablePatchSummaryARM, err := (*status.AvailablePatchSummary).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		availablePatchSummary := *availablePatchSummaryARM.(*AvailablePatchSummaryARM)
-		result.AvailablePatchSummary = &availablePatchSummary
-	}
-
-	// Set property ‘ConfigurationStatuses’:
-	for _, item := range status.ConfigurationStatuses {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.ConfigurationStatuses = append(result.ConfigurationStatuses, *itemARM.(*InstanceViewStatusARM))
-	}
-
-	// Set property ‘LastPatchInstallationSummary’:
-	if status.LastPatchInstallationSummary != nil {
-		lastPatchInstallationSummaryARM, err := (*status.LastPatchInstallationSummary).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		lastPatchInstallationSummary := *lastPatchInstallationSummaryARM.(*LastPatchInstallationSummaryARM)
-		result.LastPatchInstallationSummary = &lastPatchInstallationSummary
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (status *VirtualMachinePatchStatus) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachinePatchStatusARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (status *VirtualMachinePatchStatus) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachinePatchStatusARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachinePatchStatusARM, got %T", armInput)
-	}
-
-	// Set property ‘AvailablePatchSummary’:
-	if typedInput.AvailablePatchSummary != nil {
-		var availablePatchSummary1 AvailablePatchSummary
-		err := availablePatchSummary1.PopulateFromARM(owner, *typedInput.AvailablePatchSummary)
-		if err != nil {
-			return err
-		}
-		availablePatchSummary := availablePatchSummary1
-		status.AvailablePatchSummary = &availablePatchSummary
-	}
-
-	// Set property ‘ConfigurationStatuses’:
-	for _, item := range typedInput.ConfigurationStatuses {
-		var item1 InstanceViewStatus
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		status.ConfigurationStatuses = append(status.ConfigurationStatuses, item1)
-	}
-
-	// Set property ‘LastPatchInstallationSummary’:
-	if typedInput.LastPatchInstallationSummary != nil {
-		var lastPatchInstallationSummary1 LastPatchInstallationSummary
-		err := lastPatchInstallationSummary1.PopulateFromARM(owner, *typedInput.LastPatchInstallationSummary)
-		if err != nil {
-			return err
-		}
-		lastPatchInstallationSummary := lastPatchInstallationSummary1
-		status.LastPatchInstallationSummary = &lastPatchInstallationSummary
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromVirtualMachinePatchStatus populates our VirtualMachinePatchStatus from the provided source VirtualMachinePatchStatus
-func (status *VirtualMachinePatchStatus) AssignPropertiesFromVirtualMachinePatchStatus(source *alpha20201201s.VirtualMachinePatchStatus) error {
-
-	// AvailablePatchSummary
-	if source.AvailablePatchSummary != nil {
-		var availablePatchSummary AvailablePatchSummary
-		err := availablePatchSummary.AssignPropertiesFromAvailablePatchSummary(source.AvailablePatchSummary)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromAvailablePatchSummary() to populate field AvailablePatchSummary")
-		}
-		status.AvailablePatchSummary = &availablePatchSummary
-	} else {
-		status.AvailablePatchSummary = nil
-	}
-
-	// ConfigurationStatuses
-	if source.ConfigurationStatuses != nil {
-		configurationStatusList := make([]InstanceViewStatus, len(source.ConfigurationStatuses))
-		for configurationStatusIndex, configurationStatusItem := range source.ConfigurationStatuses {
-			// Shadow the loop variable to avoid aliasing
-			configurationStatusItem := configurationStatusItem
-			var configurationStatus InstanceViewStatus
-			err := configurationStatus.AssignPropertiesFromInstanceViewStatus(&configurationStatusItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatus() to populate field ConfigurationStatuses")
-			}
-			configurationStatusList[configurationStatusIndex] = configurationStatus
-		}
-		status.ConfigurationStatuses = configurationStatusList
-	} else {
-		status.ConfigurationStatuses = nil
-	}
-
-	// LastPatchInstallationSummary
-	if source.LastPatchInstallationSummary != nil {
-		var lastPatchInstallationSummary LastPatchInstallationSummary
-		err := lastPatchInstallationSummary.AssignPropertiesFromLastPatchInstallationSummary(source.LastPatchInstallationSummary)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromLastPatchInstallationSummary() to populate field LastPatchInstallationSummary")
-		}
-		status.LastPatchInstallationSummary = &lastPatchInstallationSummary
-	} else {
-		status.LastPatchInstallationSummary = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToVirtualMachinePatchStatus populates the provided destination VirtualMachinePatchStatus from our VirtualMachinePatchStatus
-func (status *VirtualMachinePatchStatus) AssignPropertiesToVirtualMachinePatchStatus(destination *alpha20201201s.VirtualMachinePatchStatus) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AvailablePatchSummary
-	if status.AvailablePatchSummary != nil {
-		var availablePatchSummary alpha20201201s.AvailablePatchSummary
-		err := status.AvailablePatchSummary.AssignPropertiesToAvailablePatchSummary(&availablePatchSummary)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToAvailablePatchSummary() to populate field AvailablePatchSummary")
-		}
-		destination.AvailablePatchSummary = &availablePatchSummary
-	} else {
-		destination.AvailablePatchSummary = nil
-	}
-
-	// ConfigurationStatuses
-	if status.ConfigurationStatuses != nil {
-		configurationStatusList := make([]alpha20201201s.InstanceViewStatus, len(status.ConfigurationStatuses))
-		for configurationStatusIndex, configurationStatusItem := range status.ConfigurationStatuses {
-			// Shadow the loop variable to avoid aliasing
-			configurationStatusItem := configurationStatusItem
-			var configurationStatus alpha20201201s.InstanceViewStatus
-			err := configurationStatusItem.AssignPropertiesToInstanceViewStatus(&configurationStatus)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatus() to populate field ConfigurationStatuses")
-			}
-			configurationStatusList[configurationStatusIndex] = configurationStatus
-		}
-		destination.ConfigurationStatuses = configurationStatusList
-	} else {
-		destination.ConfigurationStatuses = nil
-	}
-
-	// LastPatchInstallationSummary
-	if status.LastPatchInstallationSummary != nil {
-		var lastPatchInstallationSummary alpha20201201s.LastPatchInstallationSummary
-		err := status.LastPatchInstallationSummary.AssignPropertiesToLastPatchInstallationSummary(&lastPatchInstallationSummary)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToLastPatchInstallationSummary() to populate field LastPatchInstallationSummary")
-		}
-		destination.LastPatchInstallationSummary = &lastPatchInstallationSummary
-	} else {
-		destination.LastPatchInstallationSummary = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
 
 // Deprecated version of VirtualMachinePatchStatus_STATUS. Use v1beta20201201.VirtualMachinePatchStatus_STATUS instead
 type VirtualMachinePatchStatus_STATUS struct {
@@ -13606,279 +11166,6 @@ func (content *AdditionalUnattendContent_STATUS) AssignPropertiesToAdditionalUna
 	return nil
 }
 
-// Deprecated version of AvailablePatchSummary. Use v1beta20201201.AvailablePatchSummary instead
-type AvailablePatchSummary struct {
-	AssessmentActivityId          *string                       `json:"assessmentActivityId,omitempty"`
-	CriticalAndSecurityPatchCount *int                          `json:"criticalAndSecurityPatchCount,omitempty"`
-	Error                         *ApiError                     `json:"error,omitempty"`
-	LastModifiedTime              *string                       `json:"lastModifiedTime,omitempty"`
-	OtherPatchCount               *int                          `json:"otherPatchCount,omitempty"`
-	RebootPending                 *bool                         `json:"rebootPending,omitempty"`
-	StartTime                     *string                       `json:"startTime,omitempty"`
-	Status                        *AvailablePatchSummary_Status `json:"status,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &AvailablePatchSummary{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (summary *AvailablePatchSummary) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if summary == nil {
-		return nil, nil
-	}
-	result := &AvailablePatchSummaryARM{}
-
-	// Set property ‘AssessmentActivityId’:
-	if summary.AssessmentActivityId != nil {
-		assessmentActivityId := *summary.AssessmentActivityId
-		result.AssessmentActivityId = &assessmentActivityId
-	}
-
-	// Set property ‘CriticalAndSecurityPatchCount’:
-	if summary.CriticalAndSecurityPatchCount != nil {
-		criticalAndSecurityPatchCount := *summary.CriticalAndSecurityPatchCount
-		result.CriticalAndSecurityPatchCount = &criticalAndSecurityPatchCount
-	}
-
-	// Set property ‘Error’:
-	if summary.Error != nil {
-		errorARM, err := (*summary.Error).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		error := *errorARM.(*ApiErrorARM)
-		result.Error = &error
-	}
-
-	// Set property ‘LastModifiedTime’:
-	if summary.LastModifiedTime != nil {
-		lastModifiedTime := *summary.LastModifiedTime
-		result.LastModifiedTime = &lastModifiedTime
-	}
-
-	// Set property ‘OtherPatchCount’:
-	if summary.OtherPatchCount != nil {
-		otherPatchCount := *summary.OtherPatchCount
-		result.OtherPatchCount = &otherPatchCount
-	}
-
-	// Set property ‘RebootPending’:
-	if summary.RebootPending != nil {
-		rebootPending := *summary.RebootPending
-		result.RebootPending = &rebootPending
-	}
-
-	// Set property ‘StartTime’:
-	if summary.StartTime != nil {
-		startTime := *summary.StartTime
-		result.StartTime = &startTime
-	}
-
-	// Set property ‘Status’:
-	if summary.Status != nil {
-		status := *summary.Status
-		result.Status = &status
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (summary *AvailablePatchSummary) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &AvailablePatchSummaryARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (summary *AvailablePatchSummary) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(AvailablePatchSummaryARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected AvailablePatchSummaryARM, got %T", armInput)
-	}
-
-	// Set property ‘AssessmentActivityId’:
-	if typedInput.AssessmentActivityId != nil {
-		assessmentActivityId := *typedInput.AssessmentActivityId
-		summary.AssessmentActivityId = &assessmentActivityId
-	}
-
-	// Set property ‘CriticalAndSecurityPatchCount’:
-	if typedInput.CriticalAndSecurityPatchCount != nil {
-		criticalAndSecurityPatchCount := *typedInput.CriticalAndSecurityPatchCount
-		summary.CriticalAndSecurityPatchCount = &criticalAndSecurityPatchCount
-	}
-
-	// Set property ‘Error’:
-	if typedInput.Error != nil {
-		var error1 ApiError
-		err := error1.PopulateFromARM(owner, *typedInput.Error)
-		if err != nil {
-			return err
-		}
-		error := error1
-		summary.Error = &error
-	}
-
-	// Set property ‘LastModifiedTime’:
-	if typedInput.LastModifiedTime != nil {
-		lastModifiedTime := *typedInput.LastModifiedTime
-		summary.LastModifiedTime = &lastModifiedTime
-	}
-
-	// Set property ‘OtherPatchCount’:
-	if typedInput.OtherPatchCount != nil {
-		otherPatchCount := *typedInput.OtherPatchCount
-		summary.OtherPatchCount = &otherPatchCount
-	}
-
-	// Set property ‘RebootPending’:
-	if typedInput.RebootPending != nil {
-		rebootPending := *typedInput.RebootPending
-		summary.RebootPending = &rebootPending
-	}
-
-	// Set property ‘StartTime’:
-	if typedInput.StartTime != nil {
-		startTime := *typedInput.StartTime
-		summary.StartTime = &startTime
-	}
-
-	// Set property ‘Status’:
-	if typedInput.Status != nil {
-		status := *typedInput.Status
-		summary.Status = &status
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromAvailablePatchSummary populates our AvailablePatchSummary from the provided source AvailablePatchSummary
-func (summary *AvailablePatchSummary) AssignPropertiesFromAvailablePatchSummary(source *alpha20201201s.AvailablePatchSummary) error {
-
-	// AssessmentActivityId
-	summary.AssessmentActivityId = genruntime.ClonePointerToString(source.AssessmentActivityId)
-
-	// CriticalAndSecurityPatchCount
-	summary.CriticalAndSecurityPatchCount = genruntime.ClonePointerToInt(source.CriticalAndSecurityPatchCount)
-
-	// Error
-	if source.Error != nil {
-		var error ApiError
-		err := error.AssignPropertiesFromApiError(source.Error)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromApiError() to populate field Error")
-		}
-		summary.Error = &error
-	} else {
-		summary.Error = nil
-	}
-
-	// LastModifiedTime
-	if source.LastModifiedTime != nil {
-		lastModifiedTime := *source.LastModifiedTime
-		summary.LastModifiedTime = &lastModifiedTime
-	} else {
-		summary.LastModifiedTime = nil
-	}
-
-	// OtherPatchCount
-	summary.OtherPatchCount = genruntime.ClonePointerToInt(source.OtherPatchCount)
-
-	// RebootPending
-	if source.RebootPending != nil {
-		rebootPending := *source.RebootPending
-		summary.RebootPending = &rebootPending
-	} else {
-		summary.RebootPending = nil
-	}
-
-	// StartTime
-	if source.StartTime != nil {
-		startTime := *source.StartTime
-		summary.StartTime = &startTime
-	} else {
-		summary.StartTime = nil
-	}
-
-	// Status
-	if source.Status != nil {
-		status := AvailablePatchSummary_Status(*source.Status)
-		summary.Status = &status
-	} else {
-		summary.Status = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToAvailablePatchSummary populates the provided destination AvailablePatchSummary from our AvailablePatchSummary
-func (summary *AvailablePatchSummary) AssignPropertiesToAvailablePatchSummary(destination *alpha20201201s.AvailablePatchSummary) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AssessmentActivityId
-	destination.AssessmentActivityId = genruntime.ClonePointerToString(summary.AssessmentActivityId)
-
-	// CriticalAndSecurityPatchCount
-	destination.CriticalAndSecurityPatchCount = genruntime.ClonePointerToInt(summary.CriticalAndSecurityPatchCount)
-
-	// Error
-	if summary.Error != nil {
-		var error alpha20201201s.ApiError
-		err := summary.Error.AssignPropertiesToApiError(&error)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToApiError() to populate field Error")
-		}
-		destination.Error = &error
-	} else {
-		destination.Error = nil
-	}
-
-	// LastModifiedTime
-	if summary.LastModifiedTime != nil {
-		lastModifiedTime := *summary.LastModifiedTime
-		destination.LastModifiedTime = &lastModifiedTime
-	} else {
-		destination.LastModifiedTime = nil
-	}
-
-	// OtherPatchCount
-	destination.OtherPatchCount = genruntime.ClonePointerToInt(summary.OtherPatchCount)
-
-	// RebootPending
-	if summary.RebootPending != nil {
-		rebootPending := *summary.RebootPending
-		destination.RebootPending = &rebootPending
-	} else {
-		destination.RebootPending = nil
-	}
-
-	// StartTime
-	if summary.StartTime != nil {
-		startTime := *summary.StartTime
-		destination.StartTime = &startTime
-	} else {
-		destination.StartTime = nil
-	}
-
-	// Status
-	if summary.Status != nil {
-		status := string(*summary.Status)
-		destination.Status = &status
-	} else {
-		destination.Status = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of AvailablePatchSummary_STATUS. Use v1beta20201201.AvailablePatchSummary_STATUS instead
 type AvailablePatchSummary_STATUS struct {
 	AssessmentActivityId          *string                              `json:"assessmentActivityId,omitempty"`
@@ -14638,16 +11925,6 @@ func (settings *DiskEncryptionSettings_STATUS) AssignPropertiesToDiskEncryptionS
 	return nil
 }
 
-// Deprecated version of InstanceViewStatus_Level. Use v1beta20201201.InstanceViewStatus_Level instead
-// +kubebuilder:validation:Enum={"Error","Info","Warning"}
-type InstanceViewStatus_Level string
-
-const (
-	InstanceViewStatus_Level_Error   = InstanceViewStatus_Level("Error")
-	InstanceViewStatus_Level_Info    = InstanceViewStatus_Level("Info")
-	InstanceViewStatus_Level_Warning = InstanceViewStatus_Level("Warning")
-)
-
 // Deprecated version of InstanceViewStatus_Level_STATUS. Use v1beta20201201.InstanceViewStatus_Level_STATUS instead
 type InstanceViewStatus_Level_STATUS string
 
@@ -14656,336 +11933,6 @@ const (
 	InstanceViewStatus_Level_Info_STATUS    = InstanceViewStatus_Level_STATUS("Info")
 	InstanceViewStatus_Level_Warning_STATUS = InstanceViewStatus_Level_STATUS("Warning")
 )
-
-// Deprecated version of LastPatchInstallationSummary. Use v1beta20201201.LastPatchInstallationSummary instead
-type LastPatchInstallationSummary struct {
-	Error                     *ApiError                            `json:"error,omitempty"`
-	ExcludedPatchCount        *int                                 `json:"excludedPatchCount,omitempty"`
-	FailedPatchCount          *int                                 `json:"failedPatchCount,omitempty"`
-	InstallationActivityId    *string                              `json:"installationActivityId,omitempty"`
-	InstalledPatchCount       *int                                 `json:"installedPatchCount,omitempty"`
-	LastModifiedTime          *string                              `json:"lastModifiedTime,omitempty"`
-	MaintenanceWindowExceeded *bool                                `json:"maintenanceWindowExceeded,omitempty"`
-	NotSelectedPatchCount     *int                                 `json:"notSelectedPatchCount,omitempty"`
-	PendingPatchCount         *int                                 `json:"pendingPatchCount,omitempty"`
-	StartTime                 *string                              `json:"startTime,omitempty"`
-	Status                    *LastPatchInstallationSummary_Status `json:"status,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &LastPatchInstallationSummary{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (summary *LastPatchInstallationSummary) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if summary == nil {
-		return nil, nil
-	}
-	result := &LastPatchInstallationSummaryARM{}
-
-	// Set property ‘Error’:
-	if summary.Error != nil {
-		errorARM, err := (*summary.Error).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		error := *errorARM.(*ApiErrorARM)
-		result.Error = &error
-	}
-
-	// Set property ‘ExcludedPatchCount’:
-	if summary.ExcludedPatchCount != nil {
-		excludedPatchCount := *summary.ExcludedPatchCount
-		result.ExcludedPatchCount = &excludedPatchCount
-	}
-
-	// Set property ‘FailedPatchCount’:
-	if summary.FailedPatchCount != nil {
-		failedPatchCount := *summary.FailedPatchCount
-		result.FailedPatchCount = &failedPatchCount
-	}
-
-	// Set property ‘InstallationActivityId’:
-	if summary.InstallationActivityId != nil {
-		installationActivityId := *summary.InstallationActivityId
-		result.InstallationActivityId = &installationActivityId
-	}
-
-	// Set property ‘InstalledPatchCount’:
-	if summary.InstalledPatchCount != nil {
-		installedPatchCount := *summary.InstalledPatchCount
-		result.InstalledPatchCount = &installedPatchCount
-	}
-
-	// Set property ‘LastModifiedTime’:
-	if summary.LastModifiedTime != nil {
-		lastModifiedTime := *summary.LastModifiedTime
-		result.LastModifiedTime = &lastModifiedTime
-	}
-
-	// Set property ‘MaintenanceWindowExceeded’:
-	if summary.MaintenanceWindowExceeded != nil {
-		maintenanceWindowExceeded := *summary.MaintenanceWindowExceeded
-		result.MaintenanceWindowExceeded = &maintenanceWindowExceeded
-	}
-
-	// Set property ‘NotSelectedPatchCount’:
-	if summary.NotSelectedPatchCount != nil {
-		notSelectedPatchCount := *summary.NotSelectedPatchCount
-		result.NotSelectedPatchCount = &notSelectedPatchCount
-	}
-
-	// Set property ‘PendingPatchCount’:
-	if summary.PendingPatchCount != nil {
-		pendingPatchCount := *summary.PendingPatchCount
-		result.PendingPatchCount = &pendingPatchCount
-	}
-
-	// Set property ‘StartTime’:
-	if summary.StartTime != nil {
-		startTime := *summary.StartTime
-		result.StartTime = &startTime
-	}
-
-	// Set property ‘Status’:
-	if summary.Status != nil {
-		status := *summary.Status
-		result.Status = &status
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (summary *LastPatchInstallationSummary) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &LastPatchInstallationSummaryARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (summary *LastPatchInstallationSummary) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(LastPatchInstallationSummaryARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected LastPatchInstallationSummaryARM, got %T", armInput)
-	}
-
-	// Set property ‘Error’:
-	if typedInput.Error != nil {
-		var error1 ApiError
-		err := error1.PopulateFromARM(owner, *typedInput.Error)
-		if err != nil {
-			return err
-		}
-		error := error1
-		summary.Error = &error
-	}
-
-	// Set property ‘ExcludedPatchCount’:
-	if typedInput.ExcludedPatchCount != nil {
-		excludedPatchCount := *typedInput.ExcludedPatchCount
-		summary.ExcludedPatchCount = &excludedPatchCount
-	}
-
-	// Set property ‘FailedPatchCount’:
-	if typedInput.FailedPatchCount != nil {
-		failedPatchCount := *typedInput.FailedPatchCount
-		summary.FailedPatchCount = &failedPatchCount
-	}
-
-	// Set property ‘InstallationActivityId’:
-	if typedInput.InstallationActivityId != nil {
-		installationActivityId := *typedInput.InstallationActivityId
-		summary.InstallationActivityId = &installationActivityId
-	}
-
-	// Set property ‘InstalledPatchCount’:
-	if typedInput.InstalledPatchCount != nil {
-		installedPatchCount := *typedInput.InstalledPatchCount
-		summary.InstalledPatchCount = &installedPatchCount
-	}
-
-	// Set property ‘LastModifiedTime’:
-	if typedInput.LastModifiedTime != nil {
-		lastModifiedTime := *typedInput.LastModifiedTime
-		summary.LastModifiedTime = &lastModifiedTime
-	}
-
-	// Set property ‘MaintenanceWindowExceeded’:
-	if typedInput.MaintenanceWindowExceeded != nil {
-		maintenanceWindowExceeded := *typedInput.MaintenanceWindowExceeded
-		summary.MaintenanceWindowExceeded = &maintenanceWindowExceeded
-	}
-
-	// Set property ‘NotSelectedPatchCount’:
-	if typedInput.NotSelectedPatchCount != nil {
-		notSelectedPatchCount := *typedInput.NotSelectedPatchCount
-		summary.NotSelectedPatchCount = &notSelectedPatchCount
-	}
-
-	// Set property ‘PendingPatchCount’:
-	if typedInput.PendingPatchCount != nil {
-		pendingPatchCount := *typedInput.PendingPatchCount
-		summary.PendingPatchCount = &pendingPatchCount
-	}
-
-	// Set property ‘StartTime’:
-	if typedInput.StartTime != nil {
-		startTime := *typedInput.StartTime
-		summary.StartTime = &startTime
-	}
-
-	// Set property ‘Status’:
-	if typedInput.Status != nil {
-		status := *typedInput.Status
-		summary.Status = &status
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromLastPatchInstallationSummary populates our LastPatchInstallationSummary from the provided source LastPatchInstallationSummary
-func (summary *LastPatchInstallationSummary) AssignPropertiesFromLastPatchInstallationSummary(source *alpha20201201s.LastPatchInstallationSummary) error {
-
-	// Error
-	if source.Error != nil {
-		var error ApiError
-		err := error.AssignPropertiesFromApiError(source.Error)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromApiError() to populate field Error")
-		}
-		summary.Error = &error
-	} else {
-		summary.Error = nil
-	}
-
-	// ExcludedPatchCount
-	summary.ExcludedPatchCount = genruntime.ClonePointerToInt(source.ExcludedPatchCount)
-
-	// FailedPatchCount
-	summary.FailedPatchCount = genruntime.ClonePointerToInt(source.FailedPatchCount)
-
-	// InstallationActivityId
-	summary.InstallationActivityId = genruntime.ClonePointerToString(source.InstallationActivityId)
-
-	// InstalledPatchCount
-	summary.InstalledPatchCount = genruntime.ClonePointerToInt(source.InstalledPatchCount)
-
-	// LastModifiedTime
-	if source.LastModifiedTime != nil {
-		lastModifiedTime := *source.LastModifiedTime
-		summary.LastModifiedTime = &lastModifiedTime
-	} else {
-		summary.LastModifiedTime = nil
-	}
-
-	// MaintenanceWindowExceeded
-	if source.MaintenanceWindowExceeded != nil {
-		maintenanceWindowExceeded := *source.MaintenanceWindowExceeded
-		summary.MaintenanceWindowExceeded = &maintenanceWindowExceeded
-	} else {
-		summary.MaintenanceWindowExceeded = nil
-	}
-
-	// NotSelectedPatchCount
-	summary.NotSelectedPatchCount = genruntime.ClonePointerToInt(source.NotSelectedPatchCount)
-
-	// PendingPatchCount
-	summary.PendingPatchCount = genruntime.ClonePointerToInt(source.PendingPatchCount)
-
-	// StartTime
-	if source.StartTime != nil {
-		startTime := *source.StartTime
-		summary.StartTime = &startTime
-	} else {
-		summary.StartTime = nil
-	}
-
-	// Status
-	if source.Status != nil {
-		status := LastPatchInstallationSummary_Status(*source.Status)
-		summary.Status = &status
-	} else {
-		summary.Status = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToLastPatchInstallationSummary populates the provided destination LastPatchInstallationSummary from our LastPatchInstallationSummary
-func (summary *LastPatchInstallationSummary) AssignPropertiesToLastPatchInstallationSummary(destination *alpha20201201s.LastPatchInstallationSummary) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Error
-	if summary.Error != nil {
-		var error alpha20201201s.ApiError
-		err := summary.Error.AssignPropertiesToApiError(&error)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToApiError() to populate field Error")
-		}
-		destination.Error = &error
-	} else {
-		destination.Error = nil
-	}
-
-	// ExcludedPatchCount
-	destination.ExcludedPatchCount = genruntime.ClonePointerToInt(summary.ExcludedPatchCount)
-
-	// FailedPatchCount
-	destination.FailedPatchCount = genruntime.ClonePointerToInt(summary.FailedPatchCount)
-
-	// InstallationActivityId
-	destination.InstallationActivityId = genruntime.ClonePointerToString(summary.InstallationActivityId)
-
-	// InstalledPatchCount
-	destination.InstalledPatchCount = genruntime.ClonePointerToInt(summary.InstalledPatchCount)
-
-	// LastModifiedTime
-	if summary.LastModifiedTime != nil {
-		lastModifiedTime := *summary.LastModifiedTime
-		destination.LastModifiedTime = &lastModifiedTime
-	} else {
-		destination.LastModifiedTime = nil
-	}
-
-	// MaintenanceWindowExceeded
-	if summary.MaintenanceWindowExceeded != nil {
-		maintenanceWindowExceeded := *summary.MaintenanceWindowExceeded
-		destination.MaintenanceWindowExceeded = &maintenanceWindowExceeded
-	} else {
-		destination.MaintenanceWindowExceeded = nil
-	}
-
-	// NotSelectedPatchCount
-	destination.NotSelectedPatchCount = genruntime.ClonePointerToInt(summary.NotSelectedPatchCount)
-
-	// PendingPatchCount
-	destination.PendingPatchCount = genruntime.ClonePointerToInt(summary.PendingPatchCount)
-
-	// StartTime
-	if summary.StartTime != nil {
-		startTime := *summary.StartTime
-		destination.StartTime = &startTime
-	} else {
-		destination.StartTime = nil
-	}
-
-	// Status
-	if summary.Status != nil {
-		status := string(*summary.Status)
-		destination.Status = &status
-	} else {
-		destination.Status = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
 
 // Deprecated version of LastPatchInstallationSummary_STATUS. Use v1beta20201201.LastPatchInstallationSummary_STATUS instead
 type LastPatchInstallationSummary_STATUS struct {
@@ -15368,18 +12315,6 @@ func (settings *LinuxPatchSettings_STATUS) AssignPropertiesToLinuxPatchSettings_
 	// No error
 	return nil
 }
-
-// Deprecated version of MaintenanceRedeployStatus_LastOperationResultCode. Use
-// v1beta20201201.MaintenanceRedeployStatus_LastOperationResultCode instead
-// +kubebuilder:validation:Enum={"MaintenanceAborted","MaintenanceCompleted","None","RetryLater"}
-type MaintenanceRedeployStatus_LastOperationResultCode string
-
-const (
-	MaintenanceRedeployStatus_LastOperationResultCode_MaintenanceAborted   = MaintenanceRedeployStatus_LastOperationResultCode("MaintenanceAborted")
-	MaintenanceRedeployStatus_LastOperationResultCode_MaintenanceCompleted = MaintenanceRedeployStatus_LastOperationResultCode("MaintenanceCompleted")
-	MaintenanceRedeployStatus_LastOperationResultCode_None                 = MaintenanceRedeployStatus_LastOperationResultCode("None")
-	MaintenanceRedeployStatus_LastOperationResultCode_RetryLater           = MaintenanceRedeployStatus_LastOperationResultCode("RetryLater")
-)
 
 // Deprecated version of MaintenanceRedeployStatus_LastOperationResultCode_STATUS. Use
 // v1beta20201201.MaintenanceRedeployStatus_LastOperationResultCode_STATUS instead
@@ -16383,144 +13318,6 @@ func (disk *VirtualHardDisk_STATUS) AssignPropertiesToVirtualHardDisk_STATUS(des
 	return nil
 }
 
-// Deprecated version of VirtualMachineExtensionHandlerInstanceView. Use v1beta20201201.VirtualMachineExtensionHandlerInstanceView instead
-type VirtualMachineExtensionHandlerInstanceView struct {
-	Status             *InstanceViewStatus `json:"status,omitempty"`
-	Type               *string             `json:"type,omitempty"`
-	TypeHandlerVersion *string             `json:"typeHandlerVersion,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &VirtualMachineExtensionHandlerInstanceView{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (view *VirtualMachineExtensionHandlerInstanceView) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if view == nil {
-		return nil, nil
-	}
-	result := &VirtualMachineExtensionHandlerInstanceViewARM{}
-
-	// Set property ‘Status’:
-	if view.Status != nil {
-		statusARM, err := (*view.Status).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		status := *statusARM.(*InstanceViewStatusARM)
-		result.Status = &status
-	}
-
-	// Set property ‘Type’:
-	if view.Type != nil {
-		typeVar := *view.Type
-		result.Type = &typeVar
-	}
-
-	// Set property ‘TypeHandlerVersion’:
-	if view.TypeHandlerVersion != nil {
-		typeHandlerVersion := *view.TypeHandlerVersion
-		result.TypeHandlerVersion = &typeHandlerVersion
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (view *VirtualMachineExtensionHandlerInstanceView) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachineExtensionHandlerInstanceViewARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (view *VirtualMachineExtensionHandlerInstanceView) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachineExtensionHandlerInstanceViewARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineExtensionHandlerInstanceViewARM, got %T", armInput)
-	}
-
-	// Set property ‘Status’:
-	if typedInput.Status != nil {
-		var status1 InstanceViewStatus
-		err := status1.PopulateFromARM(owner, *typedInput.Status)
-		if err != nil {
-			return err
-		}
-		status := status1
-		view.Status = &status
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		view.Type = &typeVar
-	}
-
-	// Set property ‘TypeHandlerVersion’:
-	if typedInput.TypeHandlerVersion != nil {
-		typeHandlerVersion := *typedInput.TypeHandlerVersion
-		view.TypeHandlerVersion = &typeHandlerVersion
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromVirtualMachineExtensionHandlerInstanceView populates our VirtualMachineExtensionHandlerInstanceView from the provided source VirtualMachineExtensionHandlerInstanceView
-func (view *VirtualMachineExtensionHandlerInstanceView) AssignPropertiesFromVirtualMachineExtensionHandlerInstanceView(source *alpha20201201s.VirtualMachineExtensionHandlerInstanceView) error {
-
-	// Status
-	if source.Status != nil {
-		var status InstanceViewStatus
-		err := status.AssignPropertiesFromInstanceViewStatus(source.Status)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromInstanceViewStatus() to populate field Status")
-		}
-		view.Status = &status
-	} else {
-		view.Status = nil
-	}
-
-	// Type
-	view.Type = genruntime.ClonePointerToString(source.Type)
-
-	// TypeHandlerVersion
-	view.TypeHandlerVersion = genruntime.ClonePointerToString(source.TypeHandlerVersion)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToVirtualMachineExtensionHandlerInstanceView populates the provided destination VirtualMachineExtensionHandlerInstanceView from our VirtualMachineExtensionHandlerInstanceView
-func (view *VirtualMachineExtensionHandlerInstanceView) AssignPropertiesToVirtualMachineExtensionHandlerInstanceView(destination *alpha20201201s.VirtualMachineExtensionHandlerInstanceView) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Status
-	if view.Status != nil {
-		var status alpha20201201s.InstanceViewStatus
-		err := view.Status.AssignPropertiesToInstanceViewStatus(&status)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToInstanceViewStatus() to populate field Status")
-		}
-		destination.Status = &status
-	} else {
-		destination.Status = nil
-	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(view.Type)
-
-	// TypeHandlerVersion
-	destination.TypeHandlerVersion = genruntime.ClonePointerToString(view.TypeHandlerVersion)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of VirtualMachineExtensionHandlerInstanceView_STATUS. Use v1beta20201201.VirtualMachineExtensionHandlerInstanceView_STATUS instead
 type VirtualMachineExtensionHandlerInstanceView_STATUS struct {
 	Status             *InstanceViewStatus_STATUS `json:"status,omitempty"`
@@ -16874,219 +13671,6 @@ const (
 	AdditionalUnattendContent_SettingName_FirstLogonCommands_STATUS = AdditionalUnattendContent_SettingName_STATUS("FirstLogonCommands")
 )
 
-// Deprecated version of ApiError. Use v1beta20201201.ApiError instead
-type ApiError struct {
-	Code       *string        `json:"code,omitempty"`
-	Details    []ApiErrorBase `json:"details,omitempty"`
-	Innererror *InnerError    `json:"innererror,omitempty"`
-	Message    *string        `json:"message,omitempty"`
-	Target     *string        `json:"target,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &ApiError{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (error *ApiError) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if error == nil {
-		return nil, nil
-	}
-	result := &ApiErrorARM{}
-
-	// Set property ‘Code’:
-	if error.Code != nil {
-		code := *error.Code
-		result.Code = &code
-	}
-
-	// Set property ‘Details’:
-	for _, item := range error.Details {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Details = append(result.Details, *itemARM.(*ApiErrorBaseARM))
-	}
-
-	// Set property ‘Innererror’:
-	if error.Innererror != nil {
-		innererrorARM, err := (*error.Innererror).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		innererror := *innererrorARM.(*InnerErrorARM)
-		result.Innererror = &innererror
-	}
-
-	// Set property ‘Message’:
-	if error.Message != nil {
-		message := *error.Message
-		result.Message = &message
-	}
-
-	// Set property ‘Target’:
-	if error.Target != nil {
-		target := *error.Target
-		result.Target = &target
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (error *ApiError) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApiErrorARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (error *ApiError) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApiErrorARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApiErrorARM, got %T", armInput)
-	}
-
-	// Set property ‘Code’:
-	if typedInput.Code != nil {
-		code := *typedInput.Code
-		error.Code = &code
-	}
-
-	// Set property ‘Details’:
-	for _, item := range typedInput.Details {
-		var item1 ApiErrorBase
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		error.Details = append(error.Details, item1)
-	}
-
-	// Set property ‘Innererror’:
-	if typedInput.Innererror != nil {
-		var innererror1 InnerError
-		err := innererror1.PopulateFromARM(owner, *typedInput.Innererror)
-		if err != nil {
-			return err
-		}
-		innererror := innererror1
-		error.Innererror = &innererror
-	}
-
-	// Set property ‘Message’:
-	if typedInput.Message != nil {
-		message := *typedInput.Message
-		error.Message = &message
-	}
-
-	// Set property ‘Target’:
-	if typedInput.Target != nil {
-		target := *typedInput.Target
-		error.Target = &target
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromApiError populates our ApiError from the provided source ApiError
-func (error *ApiError) AssignPropertiesFromApiError(source *alpha20201201s.ApiError) error {
-
-	// Code
-	error.Code = genruntime.ClonePointerToString(source.Code)
-
-	// Details
-	if source.Details != nil {
-		detailList := make([]ApiErrorBase, len(source.Details))
-		for detailIndex, detailItem := range source.Details {
-			// Shadow the loop variable to avoid aliasing
-			detailItem := detailItem
-			var detail ApiErrorBase
-			err := detail.AssignPropertiesFromApiErrorBase(&detailItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromApiErrorBase() to populate field Details")
-			}
-			detailList[detailIndex] = detail
-		}
-		error.Details = detailList
-	} else {
-		error.Details = nil
-	}
-
-	// Innererror
-	if source.Innererror != nil {
-		var innererror InnerError
-		err := innererror.AssignPropertiesFromInnerError(source.Innererror)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromInnerError() to populate field Innererror")
-		}
-		error.Innererror = &innererror
-	} else {
-		error.Innererror = nil
-	}
-
-	// Message
-	error.Message = genruntime.ClonePointerToString(source.Message)
-
-	// Target
-	error.Target = genruntime.ClonePointerToString(source.Target)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToApiError populates the provided destination ApiError from our ApiError
-func (error *ApiError) AssignPropertiesToApiError(destination *alpha20201201s.ApiError) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Code
-	destination.Code = genruntime.ClonePointerToString(error.Code)
-
-	// Details
-	if error.Details != nil {
-		detailList := make([]alpha20201201s.ApiErrorBase, len(error.Details))
-		for detailIndex, detailItem := range error.Details {
-			// Shadow the loop variable to avoid aliasing
-			detailItem := detailItem
-			var detail alpha20201201s.ApiErrorBase
-			err := detailItem.AssignPropertiesToApiErrorBase(&detail)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToApiErrorBase() to populate field Details")
-			}
-			detailList[detailIndex] = detail
-		}
-		destination.Details = detailList
-	} else {
-		destination.Details = nil
-	}
-
-	// Innererror
-	if error.Innererror != nil {
-		var innererror alpha20201201s.InnerError
-		err := error.Innererror.AssignPropertiesToInnerError(&innererror)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToInnerError() to populate field Innererror")
-		}
-		destination.Innererror = &innererror
-	} else {
-		destination.Innererror = nil
-	}
-
-	// Message
-	destination.Message = genruntime.ClonePointerToString(error.Message)
-
-	// Target
-	destination.Target = genruntime.ClonePointerToString(error.Target)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of ApiError_STATUS. Use v1beta20201201.ApiError_STATUS instead
 type ApiError_STATUS struct {
 	Code       *string               `json:"code,omitempty"`
@@ -17253,18 +13837,6 @@ func (error *ApiError_STATUS) AssignPropertiesToApiError_STATUS(destination *alp
 	// No error
 	return nil
 }
-
-// Deprecated version of AvailablePatchSummary_Status. Use v1beta20201201.AvailablePatchSummary_Status instead
-// +kubebuilder:validation:Enum={"CompletedWithWarnings","Failed","InProgress","Succeeded","Unknown"}
-type AvailablePatchSummary_Status string
-
-const (
-	AvailablePatchSummary_Status_CompletedWithWarnings = AvailablePatchSummary_Status("CompletedWithWarnings")
-	AvailablePatchSummary_Status_Failed                = AvailablePatchSummary_Status("Failed")
-	AvailablePatchSummary_Status_InProgress            = AvailablePatchSummary_Status("InProgress")
-	AvailablePatchSummary_Status_Succeeded             = AvailablePatchSummary_Status("Succeeded")
-	AvailablePatchSummary_Status_Unknown               = AvailablePatchSummary_Status("Unknown")
-)
 
 // Deprecated version of AvailablePatchSummary_Status_STATUS. Use v1beta20201201.AvailablePatchSummary_Status_STATUS instead
 type AvailablePatchSummary_Status_STATUS string
@@ -17737,18 +14309,6 @@ func (reference *KeyVaultSecretReference_STATUS) AssignPropertiesToKeyVaultSecre
 	return nil
 }
 
-// Deprecated version of LastPatchInstallationSummary_Status. Use v1beta20201201.LastPatchInstallationSummary_Status instead
-// +kubebuilder:validation:Enum={"CompletedWithWarnings","Failed","InProgress","Succeeded","Unknown"}
-type LastPatchInstallationSummary_Status string
-
-const (
-	LastPatchInstallationSummary_Status_CompletedWithWarnings = LastPatchInstallationSummary_Status("CompletedWithWarnings")
-	LastPatchInstallationSummary_Status_Failed                = LastPatchInstallationSummary_Status("Failed")
-	LastPatchInstallationSummary_Status_InProgress            = LastPatchInstallationSummary_Status("InProgress")
-	LastPatchInstallationSummary_Status_Succeeded             = LastPatchInstallationSummary_Status("Succeeded")
-	LastPatchInstallationSummary_Status_Unknown               = LastPatchInstallationSummary_Status("Unknown")
-)
-
 // Deprecated version of LastPatchInstallationSummary_Status_STATUS. Use
 // v1beta20201201.LastPatchInstallationSummary_Status_STATUS instead
 type LastPatchInstallationSummary_Status_STATUS string
@@ -18168,117 +14728,6 @@ func (listener *WinRMListener_STATUS) AssignPropertiesToWinRMListener_STATUS(des
 	return nil
 }
 
-// Deprecated version of ApiErrorBase. Use v1beta20201201.ApiErrorBase instead
-type ApiErrorBase struct {
-	Code    *string `json:"code,omitempty"`
-	Message *string `json:"message,omitempty"`
-	Target  *string `json:"target,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &ApiErrorBase{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (base *ApiErrorBase) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if base == nil {
-		return nil, nil
-	}
-	result := &ApiErrorBaseARM{}
-
-	// Set property ‘Code’:
-	if base.Code != nil {
-		code := *base.Code
-		result.Code = &code
-	}
-
-	// Set property ‘Message’:
-	if base.Message != nil {
-		message := *base.Message
-		result.Message = &message
-	}
-
-	// Set property ‘Target’:
-	if base.Target != nil {
-		target := *base.Target
-		result.Target = &target
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (base *ApiErrorBase) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ApiErrorBaseARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (base *ApiErrorBase) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ApiErrorBaseARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ApiErrorBaseARM, got %T", armInput)
-	}
-
-	// Set property ‘Code’:
-	if typedInput.Code != nil {
-		code := *typedInput.Code
-		base.Code = &code
-	}
-
-	// Set property ‘Message’:
-	if typedInput.Message != nil {
-		message := *typedInput.Message
-		base.Message = &message
-	}
-
-	// Set property ‘Target’:
-	if typedInput.Target != nil {
-		target := *typedInput.Target
-		base.Target = &target
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromApiErrorBase populates our ApiErrorBase from the provided source ApiErrorBase
-func (base *ApiErrorBase) AssignPropertiesFromApiErrorBase(source *alpha20201201s.ApiErrorBase) error {
-
-	// Code
-	base.Code = genruntime.ClonePointerToString(source.Code)
-
-	// Message
-	base.Message = genruntime.ClonePointerToString(source.Message)
-
-	// Target
-	base.Target = genruntime.ClonePointerToString(source.Target)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToApiErrorBase populates the provided destination ApiErrorBase from our ApiErrorBase
-func (base *ApiErrorBase) AssignPropertiesToApiErrorBase(destination *alpha20201201s.ApiErrorBase) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Code
-	destination.Code = genruntime.ClonePointerToString(base.Code)
-
-	// Message
-	destination.Message = genruntime.ClonePointerToString(base.Message)
-
-	// Target
-	destination.Target = genruntime.ClonePointerToString(base.Target)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of ApiErrorBase_STATUS. Use v1beta20201201.ApiErrorBase_STATUS instead
 type ApiErrorBase_STATUS struct {
 	Code    *string `json:"code,omitempty"`
@@ -18351,98 +14800,6 @@ func (base *ApiErrorBase_STATUS) AssignPropertiesToApiErrorBase_STATUS(destinati
 
 	// Target
 	destination.Target = genruntime.ClonePointerToString(base.Target)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Deprecated version of InnerError. Use v1beta20201201.InnerError instead
-type InnerError struct {
-	Errordetail   *string `json:"errordetail,omitempty"`
-	Exceptiontype *string `json:"exceptiontype,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &InnerError{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (error *InnerError) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if error == nil {
-		return nil, nil
-	}
-	result := &InnerErrorARM{}
-
-	// Set property ‘Errordetail’:
-	if error.Errordetail != nil {
-		errordetail := *error.Errordetail
-		result.Errordetail = &errordetail
-	}
-
-	// Set property ‘Exceptiontype’:
-	if error.Exceptiontype != nil {
-		exceptiontype := *error.Exceptiontype
-		result.Exceptiontype = &exceptiontype
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (error *InnerError) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &InnerErrorARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (error *InnerError) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(InnerErrorARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected InnerErrorARM, got %T", armInput)
-	}
-
-	// Set property ‘Errordetail’:
-	if typedInput.Errordetail != nil {
-		errordetail := *typedInput.Errordetail
-		error.Errordetail = &errordetail
-	}
-
-	// Set property ‘Exceptiontype’:
-	if typedInput.Exceptiontype != nil {
-		exceptiontype := *typedInput.Exceptiontype
-		error.Exceptiontype = &exceptiontype
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromInnerError populates our InnerError from the provided source InnerError
-func (error *InnerError) AssignPropertiesFromInnerError(source *alpha20201201s.InnerError) error {
-
-	// Errordetail
-	error.Errordetail = genruntime.ClonePointerToString(source.Errordetail)
-
-	// Exceptiontype
-	error.Exceptiontype = genruntime.ClonePointerToString(source.Exceptiontype)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToInnerError populates the provided destination InnerError from our InnerError
-func (error *InnerError) AssignPropertiesToInnerError(destination *alpha20201201s.InnerError) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Errordetail
-	destination.Errordetail = genruntime.ClonePointerToString(error.Errordetail)
-
-	// Exceptiontype
-	destination.Exceptiontype = genruntime.ClonePointerToString(error.Exceptiontype)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

@@ -564,13 +564,6 @@ type NamespacesEventhubsAuthorizationRule_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// Location: The geo-location where the resource lives
-	Location *string `json:"location,omitempty"`
-
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -580,12 +573,6 @@ type NamespacesEventhubsAuthorizationRule_Spec struct {
 	// +kubebuilder:validation:Required
 	// Rights: The rights associated with the rule.
 	Rights []NamespacesEventhubsAuthorizationRule_Spec_Properties_Rights `json:"rights,omitempty"`
-
-	// SystemData: The system meta data relating to this resource.
-	SystemData *SystemData `json:"systemData,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or "Microsoft.EventHub/Namespaces/EventHubs"
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &NamespacesEventhubsAuthorizationRule_Spec{}
@@ -600,18 +587,6 @@ func (rule *NamespacesEventhubsAuthorizationRule_Spec) ConvertToARM(resolved gen
 	// Set property ‘AzureName’:
 	result.AzureName = rule.AzureName
 
-	// Set property ‘Id’:
-	if rule.Id != nil {
-		id := *rule.Id
-		result.Id = &id
-	}
-
-	// Set property ‘Location’:
-	if rule.Location != nil {
-		location := *rule.Location
-		result.Location = &location
-	}
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
@@ -621,22 +596,6 @@ func (rule *NamespacesEventhubsAuthorizationRule_Spec) ConvertToARM(resolved gen
 	}
 	for _, item := range rule.Rights {
 		result.Properties.Rights = append(result.Properties.Rights, item)
-	}
-
-	// Set property ‘SystemData’:
-	if rule.SystemData != nil {
-		systemDataARM, err := (*rule.SystemData).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		systemData := *systemDataARM.(*SystemDataARM)
-		result.SystemData = &systemData
-	}
-
-	// Set property ‘Type’:
-	if rule.Type != nil {
-		typeVar := *rule.Type
-		result.Type = &typeVar
 	}
 	return result, nil
 }
@@ -656,18 +615,6 @@ func (rule *NamespacesEventhubsAuthorizationRule_Spec) PopulateFromARM(owner gen
 	// Set property ‘AzureName’:
 	rule.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		rule.Id = &id
-	}
-
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		rule.Location = &location
-	}
-
 	// Set property ‘Owner’:
 	rule.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
@@ -679,23 +626,6 @@ func (rule *NamespacesEventhubsAuthorizationRule_Spec) PopulateFromARM(owner gen
 		for _, item := range typedInput.Properties.Rights {
 			rule.Rights = append(rule.Rights, item)
 		}
-	}
-
-	// Set property ‘SystemData’:
-	if typedInput.SystemData != nil {
-		var systemData1 SystemData
-		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
-		if err != nil {
-			return err
-		}
-		systemData := systemData1
-		rule.SystemData = &systemData
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		rule.Type = &typeVar
 	}
 
 	// No error
@@ -758,12 +688,6 @@ func (rule *NamespacesEventhubsAuthorizationRule_Spec) AssignPropertiesFromNames
 	// AzureName
 	rule.AzureName = source.AzureName
 
-	// Id
-	rule.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Location
-	rule.Location = genruntime.ClonePointerToString(source.Location)
-
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -785,21 +709,6 @@ func (rule *NamespacesEventhubsAuthorizationRule_Spec) AssignPropertiesFromNames
 		rule.Rights = nil
 	}
 
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
-		}
-		rule.SystemData = &systemDatum
-	} else {
-		rule.SystemData = nil
-	}
-
-	// Type
-	rule.Type = genruntime.ClonePointerToString(source.Type)
-
 	// No error
 	return nil
 }
@@ -811,12 +720,6 @@ func (rule *NamespacesEventhubsAuthorizationRule_Spec) AssignPropertiesToNamespa
 
 	// AzureName
 	destination.AzureName = rule.AzureName
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(rule.Id)
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(rule.Location)
 
 	// OriginalVersion
 	destination.OriginalVersion = rule.OriginalVersion()
@@ -841,21 +744,6 @@ func (rule *NamespacesEventhubsAuthorizationRule_Spec) AssignPropertiesToNamespa
 	} else {
 		destination.Rights = nil
 	}
-
-	// SystemData
-	if rule.SystemData != nil {
-		var systemDatum v20211101s.SystemData
-		err := rule.SystemData.AssignPropertiesToSystemData(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(rule.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

@@ -358,10 +358,8 @@ func (rule *NamespacesEventhubsAuthorizationRule_STATUS) AssignPropertiesToNames
 type NamespacesEventhubsAuthorizationRule_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string  `json:"azureName,omitempty"`
-	Id              *string `json:"id,omitempty"`
-	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
+	AzureName       string `json:"azureName,omitempty"`
+	OriginalVersion string `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -370,8 +368,6 @@ type NamespacesEventhubsAuthorizationRule_Spec struct {
 	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Rights      []string                           `json:"rights,omitempty"`
-	SystemData  *SystemData                        `json:"systemData,omitempty"`
-	Type        *string                            `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &NamespacesEventhubsAuthorizationRule_Spec{}
@@ -432,12 +428,6 @@ func (rule *NamespacesEventhubsAuthorizationRule_Spec) AssignPropertiesFromNames
 	// AzureName
 	rule.AzureName = source.AzureName
 
-	// Id
-	rule.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Location
-	rule.Location = genruntime.ClonePointerToString(source.Location)
-
 	// OriginalVersion
 	rule.OriginalVersion = source.OriginalVersion
 
@@ -451,21 +441,6 @@ func (rule *NamespacesEventhubsAuthorizationRule_Spec) AssignPropertiesFromNames
 
 	// Rights
 	rule.Rights = genruntime.CloneSliceOfString(source.Rights)
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
-		}
-		rule.SystemData = &systemDatum
-	} else {
-		rule.SystemData = nil
-	}
-
-	// Type
-	rule.Type = genruntime.ClonePointerToString(source.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -486,12 +461,6 @@ func (rule *NamespacesEventhubsAuthorizationRule_Spec) AssignPropertiesToNamespa
 	// AzureName
 	destination.AzureName = rule.AzureName
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(rule.Id)
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(rule.Location)
-
 	// OriginalVersion
 	destination.OriginalVersion = rule.OriginalVersion
 
@@ -505,21 +474,6 @@ func (rule *NamespacesEventhubsAuthorizationRule_Spec) AssignPropertiesToNamespa
 
 	// Rights
 	destination.Rights = genruntime.CloneSliceOfString(rule.Rights)
-
-	// SystemData
-	if rule.SystemData != nil {
-		var systemDatum v20211101s.SystemData
-		err := rule.SystemData.AssignPropertiesToSystemData(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(rule.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

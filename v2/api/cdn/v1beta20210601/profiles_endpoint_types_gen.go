@@ -1226,9 +1226,6 @@ type ProfilesEndpoint_Spec struct {
 	// ContentTypesToCompress: List of content types on which compression applies. The value should be a valid MIME type.
 	ContentTypesToCompress []string `json:"contentTypesToCompress,omitempty"`
 
-	// CustomDomains: The custom domains under the endpoint.
-	CustomDomains []CustomDomain `json:"customDomains,omitempty"`
-
 	// DefaultOriginGroup: A reference to the origin group.
 	DefaultOriginGroup *ResourceReference `json:"defaultOriginGroup,omitempty"`
 
@@ -1238,12 +1235,6 @@ type ProfilesEndpoint_Spec struct {
 	// GeoFilters: List of rules defining the user's geo access within a CDN endpoint. Each geo filter defines an access rule
 	// to a specified path or content, e.g. block APAC for path /pictures/
 	GeoFilters []GeoFilter `json:"geoFilters,omitempty"`
-
-	// HostName: The host name of the endpoint structured as {endpointName}.{DNSZone}, e.g. contoso.azureedge.net
-	HostName *string `json:"hostName,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
 
 	// IsCompressionEnabled: Indicates whether content compression is enabled on CDN. Default value is false. If compression is
 	// enabled, content will be served as compressed if user requests for a compressed version. Content won't be compressed on
@@ -1294,23 +1285,13 @@ type ProfilesEndpoint_Spec struct {
 	// origin.
 	ProbePath *string `json:"probePath,omitempty"`
 
-	// ProvisioningState: Provisioning status of the endpoint.
-	ProvisioningState *EndpointProperties_ProvisioningState `json:"provisioningState,omitempty"`
-
 	// QueryStringCachingBehavior: Defines how CDN caches requests that include query strings. You can ignore any query strings
 	// when caching, bypass caching to prevent requests that contain query strings from being cached, or cache every request
 	// with a unique URL.
 	QueryStringCachingBehavior *QueryStringCachingBehavior `json:"queryStringCachingBehavior,omitempty"`
 
-	// ResourceState: Resource status of the endpoint.
-	ResourceState *EndpointProperties_ResourceState `json:"resourceState,omitempty"`
-	SystemData    *SystemData                       `json:"systemData,omitempty"`
-
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: Resource type.
-	Type *string `json:"type,omitempty"`
 
 	// UrlSigningKeys: List of keys used to validate the signed URL hashes.
 	UrlSigningKeys []UrlSigningKey `json:"urlSigningKeys,omitempty"`
@@ -1331,12 +1312,6 @@ func (endpoint *ProfilesEndpoint_Spec) ConvertToARM(resolved genruntime.ConvertT
 	// Set property ‘AzureName’:
 	result.AzureName = endpoint.AzureName
 
-	// Set property ‘Id’:
-	if endpoint.Id != nil {
-		id := *endpoint.Id
-		result.Id = &id
-	}
-
 	// Set property ‘Location’:
 	if endpoint.Location != nil {
 		location := *endpoint.Location
@@ -1348,11 +1323,9 @@ func (endpoint *ProfilesEndpoint_Spec) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property ‘Properties’:
 	if endpoint.ContentTypesToCompress != nil ||
-		endpoint.CustomDomains != nil ||
 		endpoint.DefaultOriginGroup != nil ||
 		endpoint.DeliveryPolicy != nil ||
 		endpoint.GeoFilters != nil ||
-		endpoint.HostName != nil ||
 		endpoint.IsCompressionEnabled != nil ||
 		endpoint.IsHttpAllowed != nil ||
 		endpoint.IsHttpsAllowed != nil ||
@@ -1362,22 +1335,13 @@ func (endpoint *ProfilesEndpoint_Spec) ConvertToARM(resolved genruntime.ConvertT
 		endpoint.OriginPath != nil ||
 		endpoint.Origins != nil ||
 		endpoint.ProbePath != nil ||
-		endpoint.ProvisioningState != nil ||
 		endpoint.QueryStringCachingBehavior != nil ||
-		endpoint.ResourceState != nil ||
 		endpoint.UrlSigningKeys != nil ||
 		endpoint.WebApplicationFirewallPolicyLink != nil {
 		result.Properties = &EndpointPropertiesARM{}
 	}
 	for _, item := range endpoint.ContentTypesToCompress {
 		result.Properties.ContentTypesToCompress = append(result.Properties.ContentTypesToCompress, item)
-	}
-	for _, item := range endpoint.CustomDomains {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Properties.CustomDomains = append(result.Properties.CustomDomains, *itemARM.(*CustomDomainARM))
 	}
 	if endpoint.DefaultOriginGroup != nil {
 		defaultOriginGroupARM, err := (*endpoint.DefaultOriginGroup).ConvertToARM(resolved)
@@ -1401,10 +1365,6 @@ func (endpoint *ProfilesEndpoint_Spec) ConvertToARM(resolved genruntime.ConvertT
 			return nil, err
 		}
 		result.Properties.GeoFilters = append(result.Properties.GeoFilters, *itemARM.(*GeoFilterARM))
-	}
-	if endpoint.HostName != nil {
-		hostName := *endpoint.HostName
-		result.Properties.HostName = &hostName
 	}
 	if endpoint.IsCompressionEnabled != nil {
 		isCompressionEnabled := *endpoint.IsCompressionEnabled
@@ -1448,17 +1408,9 @@ func (endpoint *ProfilesEndpoint_Spec) ConvertToARM(resolved genruntime.ConvertT
 		probePath := *endpoint.ProbePath
 		result.Properties.ProbePath = &probePath
 	}
-	if endpoint.ProvisioningState != nil {
-		provisioningState := *endpoint.ProvisioningState
-		result.Properties.ProvisioningState = &provisioningState
-	}
 	if endpoint.QueryStringCachingBehavior != nil {
 		queryStringCachingBehavior := *endpoint.QueryStringCachingBehavior
 		result.Properties.QueryStringCachingBehavior = &queryStringCachingBehavior
-	}
-	if endpoint.ResourceState != nil {
-		resourceState := *endpoint.ResourceState
-		result.Properties.ResourceState = &resourceState
 	}
 	for _, item := range endpoint.UrlSigningKeys {
 		itemARM, err := item.ConvertToARM(resolved)
@@ -1476,28 +1428,12 @@ func (endpoint *ProfilesEndpoint_Spec) ConvertToARM(resolved genruntime.ConvertT
 		result.Properties.WebApplicationFirewallPolicyLink = &webApplicationFirewallPolicyLink
 	}
 
-	// Set property ‘SystemData’:
-	if endpoint.SystemData != nil {
-		systemDataARM, err := (*endpoint.SystemData).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		systemData := *systemDataARM.(*SystemDataARM)
-		result.SystemData = &systemData
-	}
-
 	// Set property ‘Tags’:
 	if endpoint.Tags != nil {
 		result.Tags = make(map[string]string)
 		for key, value := range endpoint.Tags {
 			result.Tags[key] = value
 		}
-	}
-
-	// Set property ‘Type’:
-	if endpoint.Type != nil {
-		typeVar := *endpoint.Type
-		result.Type = &typeVar
 	}
 	return result, nil
 }
@@ -1522,19 +1458,6 @@ func (endpoint *ProfilesEndpoint_Spec) PopulateFromARM(owner genruntime.Arbitrar
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.ContentTypesToCompress {
 			endpoint.ContentTypesToCompress = append(endpoint.ContentTypesToCompress, item)
-		}
-	}
-
-	// Set property ‘CustomDomains’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.CustomDomains {
-			var item1 CustomDomain
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			endpoint.CustomDomains = append(endpoint.CustomDomains, item1)
 		}
 	}
 
@@ -1577,21 +1500,6 @@ func (endpoint *ProfilesEndpoint_Spec) PopulateFromARM(owner genruntime.Arbitrar
 			}
 			endpoint.GeoFilters = append(endpoint.GeoFilters, item1)
 		}
-	}
-
-	// Set property ‘HostName’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.HostName != nil {
-			hostName := *typedInput.Properties.HostName
-			endpoint.HostName = &hostName
-		}
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		endpoint.Id = &id
 	}
 
 	// Set property ‘IsCompressionEnabled’:
@@ -1694,15 +1602,6 @@ func (endpoint *ProfilesEndpoint_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
-			endpoint.ProvisioningState = &provisioningState
-		}
-	}
-
 	// Set property ‘QueryStringCachingBehavior’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -1712,38 +1611,12 @@ func (endpoint *ProfilesEndpoint_Spec) PopulateFromARM(owner genruntime.Arbitrar
 		}
 	}
 
-	// Set property ‘ResourceState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ResourceState != nil {
-			resourceState := *typedInput.Properties.ResourceState
-			endpoint.ResourceState = &resourceState
-		}
-	}
-
-	// Set property ‘SystemData’:
-	if typedInput.SystemData != nil {
-		var systemData1 SystemData
-		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
-		if err != nil {
-			return err
-		}
-		systemData := systemData1
-		endpoint.SystemData = &systemData
-	}
-
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
 		endpoint.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
 			endpoint.Tags[key] = value
 		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		endpoint.Type = &typeVar
 	}
 
 	// Set property ‘UrlSigningKeys’:
@@ -1836,24 +1709,6 @@ func (endpoint *ProfilesEndpoint_Spec) AssignPropertiesFromProfilesEndpoint_Spec
 	// ContentTypesToCompress
 	endpoint.ContentTypesToCompress = genruntime.CloneSliceOfString(source.ContentTypesToCompress)
 
-	// CustomDomains
-	if source.CustomDomains != nil {
-		customDomainList := make([]CustomDomain, len(source.CustomDomains))
-		for customDomainIndex, customDomainItem := range source.CustomDomains {
-			// Shadow the loop variable to avoid aliasing
-			customDomainItem := customDomainItem
-			var customDomain CustomDomain
-			err := customDomain.AssignPropertiesFromCustomDomain(&customDomainItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromCustomDomain() to populate field CustomDomains")
-			}
-			customDomainList[customDomainIndex] = customDomain
-		}
-		endpoint.CustomDomains = customDomainList
-	} else {
-		endpoint.CustomDomains = nil
-	}
-
 	// DefaultOriginGroup
 	if source.DefaultOriginGroup != nil {
 		var defaultOriginGroup ResourceReference
@@ -1895,12 +1750,6 @@ func (endpoint *ProfilesEndpoint_Spec) AssignPropertiesFromProfilesEndpoint_Spec
 	} else {
 		endpoint.GeoFilters = nil
 	}
-
-	// HostName
-	endpoint.HostName = genruntime.ClonePointerToString(source.HostName)
-
-	// Id
-	endpoint.Id = genruntime.ClonePointerToString(source.Id)
 
 	// IsCompressionEnabled
 	if source.IsCompressionEnabled != nil {
@@ -1990,14 +1839,6 @@ func (endpoint *ProfilesEndpoint_Spec) AssignPropertiesFromProfilesEndpoint_Spec
 	// ProbePath
 	endpoint.ProbePath = genruntime.ClonePointerToString(source.ProbePath)
 
-	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := EndpointProperties_ProvisioningState(*source.ProvisioningState)
-		endpoint.ProvisioningState = &provisioningState
-	} else {
-		endpoint.ProvisioningState = nil
-	}
-
 	// QueryStringCachingBehavior
 	if source.QueryStringCachingBehavior != nil {
 		queryStringCachingBehavior := QueryStringCachingBehavior(*source.QueryStringCachingBehavior)
@@ -2006,31 +1847,8 @@ func (endpoint *ProfilesEndpoint_Spec) AssignPropertiesFromProfilesEndpoint_Spec
 		endpoint.QueryStringCachingBehavior = nil
 	}
 
-	// ResourceState
-	if source.ResourceState != nil {
-		resourceState := EndpointProperties_ResourceState(*source.ResourceState)
-		endpoint.ResourceState = &resourceState
-	} else {
-		endpoint.ResourceState = nil
-	}
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
-		}
-		endpoint.SystemData = &systemDatum
-	} else {
-		endpoint.SystemData = nil
-	}
-
 	// Tags
 	endpoint.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	endpoint.Type = genruntime.ClonePointerToString(source.Type)
 
 	// UrlSigningKeys
 	if source.UrlSigningKeys != nil {
@@ -2077,24 +1895,6 @@ func (endpoint *ProfilesEndpoint_Spec) AssignPropertiesToProfilesEndpoint_Spec(d
 	// ContentTypesToCompress
 	destination.ContentTypesToCompress = genruntime.CloneSliceOfString(endpoint.ContentTypesToCompress)
 
-	// CustomDomains
-	if endpoint.CustomDomains != nil {
-		customDomainList := make([]v20210601s.CustomDomain, len(endpoint.CustomDomains))
-		for customDomainIndex, customDomainItem := range endpoint.CustomDomains {
-			// Shadow the loop variable to avoid aliasing
-			customDomainItem := customDomainItem
-			var customDomain v20210601s.CustomDomain
-			err := customDomainItem.AssignPropertiesToCustomDomain(&customDomain)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToCustomDomain() to populate field CustomDomains")
-			}
-			customDomainList[customDomainIndex] = customDomain
-		}
-		destination.CustomDomains = customDomainList
-	} else {
-		destination.CustomDomains = nil
-	}
-
 	// DefaultOriginGroup
 	if endpoint.DefaultOriginGroup != nil {
 		var defaultOriginGroup v20210601s.ResourceReference
@@ -2136,12 +1936,6 @@ func (endpoint *ProfilesEndpoint_Spec) AssignPropertiesToProfilesEndpoint_Spec(d
 	} else {
 		destination.GeoFilters = nil
 	}
-
-	// HostName
-	destination.HostName = genruntime.ClonePointerToString(endpoint.HostName)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(endpoint.Id)
 
 	// IsCompressionEnabled
 	if endpoint.IsCompressionEnabled != nil {
@@ -2234,14 +2028,6 @@ func (endpoint *ProfilesEndpoint_Spec) AssignPropertiesToProfilesEndpoint_Spec(d
 	// ProbePath
 	destination.ProbePath = genruntime.ClonePointerToString(endpoint.ProbePath)
 
-	// ProvisioningState
-	if endpoint.ProvisioningState != nil {
-		provisioningState := string(*endpoint.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
-
 	// QueryStringCachingBehavior
 	if endpoint.QueryStringCachingBehavior != nil {
 		queryStringCachingBehavior := string(*endpoint.QueryStringCachingBehavior)
@@ -2250,31 +2036,8 @@ func (endpoint *ProfilesEndpoint_Spec) AssignPropertiesToProfilesEndpoint_Spec(d
 		destination.QueryStringCachingBehavior = nil
 	}
 
-	// ResourceState
-	if endpoint.ResourceState != nil {
-		resourceState := string(*endpoint.ResourceState)
-		destination.ResourceState = &resourceState
-	} else {
-		destination.ResourceState = nil
-	}
-
-	// SystemData
-	if endpoint.SystemData != nil {
-		var systemDatum v20210601s.SystemData
-		err := endpoint.SystemData.AssignPropertiesToSystemData(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(endpoint.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(endpoint.Type)
 
 	// UrlSigningKeys
 	if endpoint.UrlSigningKeys != nil {
@@ -2324,402 +2087,6 @@ func (endpoint *ProfilesEndpoint_Spec) OriginalVersion() string {
 
 // SetAzureName sets the Azure name of the resource
 func (endpoint *ProfilesEndpoint_Spec) SetAzureName(azureName string) { endpoint.AzureName = azureName }
-
-type CustomDomain struct {
-	// CustomHttpsParameters: Certificate parameters for securing custom HTTPS
-	CustomHttpsParameters *CustomDomainHttpsParameters `json:"customHttpsParameters,omitempty"`
-
-	// CustomHttpsProvisioningState: Provisioning status of the custom domain.
-	CustomHttpsProvisioningState *CustomDomainProperties_CustomHttpsProvisioningState `json:"customHttpsProvisioningState,omitempty"`
-
-	// CustomHttpsProvisioningSubstate: Provisioning substate shows the progress of custom HTTPS enabling/disabling process
-	// step by step.
-	CustomHttpsProvisioningSubstate *CustomDomainProperties_CustomHttpsProvisioningSubstate `json:"customHttpsProvisioningSubstate,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// HostName: The host name of the custom domain. Must be a domain name.
-	HostName *string `json:"hostName,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	// Name: Resource name.
-	Name *string `json:"name,omitempty"`
-
-	// ProvisioningState: Provisioning status of Custom Https of the custom domain.
-	ProvisioningState *CustomDomainProperties_ProvisioningState `json:"provisioningState,omitempty"`
-
-	// ResourceState: Resource status of the custom domain.
-	ResourceState *CustomDomainProperties_ResourceState `json:"resourceState,omitempty"`
-	SystemData    *SystemData                           `json:"systemData,omitempty"`
-
-	// Type: Resource type.
-	Type *string `json:"type,omitempty"`
-
-	// ValidationData: Special validation or data may be required when delivering CDN to some regions due to local compliance
-	// reasons. E.g. ICP license number of a custom domain is required to deliver content in China.
-	ValidationData *string `json:"validationData,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &CustomDomain{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (domain *CustomDomain) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if domain == nil {
-		return nil, nil
-	}
-	result := &CustomDomainARM{}
-
-	// Set property ‘Id’:
-	if domain.Id != nil {
-		id := *domain.Id
-		result.Id = &id
-	}
-
-	// Set property ‘Name’:
-	if domain.Name != nil {
-		name := *domain.Name
-		result.Name = &name
-	}
-
-	// Set property ‘Properties’:
-	if domain.CustomHttpsParameters != nil ||
-		domain.CustomHttpsProvisioningState != nil ||
-		domain.CustomHttpsProvisioningSubstate != nil ||
-		domain.HostName != nil ||
-		domain.ProvisioningState != nil ||
-		domain.ResourceState != nil ||
-		domain.ValidationData != nil {
-		result.Properties = &CustomDomainPropertiesARM{}
-	}
-	if domain.CustomHttpsParameters != nil {
-		customHttpsParametersARM, err := (*domain.CustomHttpsParameters).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		customHttpsParameters := *customHttpsParametersARM.(*CustomDomainHttpsParametersARM)
-		result.Properties.CustomHttpsParameters = &customHttpsParameters
-	}
-	if domain.CustomHttpsProvisioningState != nil {
-		customHttpsProvisioningState := *domain.CustomHttpsProvisioningState
-		result.Properties.CustomHttpsProvisioningState = &customHttpsProvisioningState
-	}
-	if domain.CustomHttpsProvisioningSubstate != nil {
-		customHttpsProvisioningSubstate := *domain.CustomHttpsProvisioningSubstate
-		result.Properties.CustomHttpsProvisioningSubstate = &customHttpsProvisioningSubstate
-	}
-	if domain.HostName != nil {
-		hostName := *domain.HostName
-		result.Properties.HostName = &hostName
-	}
-	if domain.ProvisioningState != nil {
-		provisioningState := *domain.ProvisioningState
-		result.Properties.ProvisioningState = &provisioningState
-	}
-	if domain.ResourceState != nil {
-		resourceState := *domain.ResourceState
-		result.Properties.ResourceState = &resourceState
-	}
-	if domain.ValidationData != nil {
-		validationData := *domain.ValidationData
-		result.Properties.ValidationData = &validationData
-	}
-
-	// Set property ‘SystemData’:
-	if domain.SystemData != nil {
-		systemDataARM, err := (*domain.SystemData).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		systemData := *systemDataARM.(*SystemDataARM)
-		result.SystemData = &systemData
-	}
-
-	// Set property ‘Type’:
-	if domain.Type != nil {
-		typeVar := *domain.Type
-		result.Type = &typeVar
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (domain *CustomDomain) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CustomDomainARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (domain *CustomDomain) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CustomDomainARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CustomDomainARM, got %T", armInput)
-	}
-
-	// Set property ‘CustomHttpsParameters’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.CustomHttpsParameters != nil {
-			var customHttpsParameters1 CustomDomainHttpsParameters
-			err := customHttpsParameters1.PopulateFromARM(owner, *typedInput.Properties.CustomHttpsParameters)
-			if err != nil {
-				return err
-			}
-			customHttpsParameters := customHttpsParameters1
-			domain.CustomHttpsParameters = &customHttpsParameters
-		}
-	}
-
-	// Set property ‘CustomHttpsProvisioningState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.CustomHttpsProvisioningState != nil {
-			customHttpsProvisioningState := *typedInput.Properties.CustomHttpsProvisioningState
-			domain.CustomHttpsProvisioningState = &customHttpsProvisioningState
-		}
-	}
-
-	// Set property ‘CustomHttpsProvisioningSubstate’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.CustomHttpsProvisioningSubstate != nil {
-			customHttpsProvisioningSubstate := *typedInput.Properties.CustomHttpsProvisioningSubstate
-			domain.CustomHttpsProvisioningSubstate = &customHttpsProvisioningSubstate
-		}
-	}
-
-	// Set property ‘HostName’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.HostName != nil {
-			hostName := *typedInput.Properties.HostName
-			domain.HostName = &hostName
-		}
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		domain.Id = &id
-	}
-
-	// Set property ‘Name’:
-	if typedInput.Name != nil {
-		name := *typedInput.Name
-		domain.Name = &name
-	}
-
-	// Set property ‘ProvisioningState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
-			domain.ProvisioningState = &provisioningState
-		}
-	}
-
-	// Set property ‘ResourceState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ResourceState != nil {
-			resourceState := *typedInput.Properties.ResourceState
-			domain.ResourceState = &resourceState
-		}
-	}
-
-	// Set property ‘SystemData’:
-	if typedInput.SystemData != nil {
-		var systemData1 SystemData
-		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
-		if err != nil {
-			return err
-		}
-		systemData := systemData1
-		domain.SystemData = &systemData
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		domain.Type = &typeVar
-	}
-
-	// Set property ‘ValidationData’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ValidationData != nil {
-			validationData := *typedInput.Properties.ValidationData
-			domain.ValidationData = &validationData
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromCustomDomain populates our CustomDomain from the provided source CustomDomain
-func (domain *CustomDomain) AssignPropertiesFromCustomDomain(source *v20210601s.CustomDomain) error {
-
-	// CustomHttpsParameters
-	if source.CustomHttpsParameters != nil {
-		var customHttpsParameter CustomDomainHttpsParameters
-		err := customHttpsParameter.AssignPropertiesFromCustomDomainHttpsParameters(source.CustomHttpsParameters)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromCustomDomainHttpsParameters() to populate field CustomHttpsParameters")
-		}
-		domain.CustomHttpsParameters = &customHttpsParameter
-	} else {
-		domain.CustomHttpsParameters = nil
-	}
-
-	// CustomHttpsProvisioningState
-	if source.CustomHttpsProvisioningState != nil {
-		customHttpsProvisioningState := CustomDomainProperties_CustomHttpsProvisioningState(*source.CustomHttpsProvisioningState)
-		domain.CustomHttpsProvisioningState = &customHttpsProvisioningState
-	} else {
-		domain.CustomHttpsProvisioningState = nil
-	}
-
-	// CustomHttpsProvisioningSubstate
-	if source.CustomHttpsProvisioningSubstate != nil {
-		customHttpsProvisioningSubstate := CustomDomainProperties_CustomHttpsProvisioningSubstate(*source.CustomHttpsProvisioningSubstate)
-		domain.CustomHttpsProvisioningSubstate = &customHttpsProvisioningSubstate
-	} else {
-		domain.CustomHttpsProvisioningSubstate = nil
-	}
-
-	// HostName
-	domain.HostName = genruntime.ClonePointerToString(source.HostName)
-
-	// Id
-	domain.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Name
-	domain.Name = genruntime.ClonePointerToString(source.Name)
-
-	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := CustomDomainProperties_ProvisioningState(*source.ProvisioningState)
-		domain.ProvisioningState = &provisioningState
-	} else {
-		domain.ProvisioningState = nil
-	}
-
-	// ResourceState
-	if source.ResourceState != nil {
-		resourceState := CustomDomainProperties_ResourceState(*source.ResourceState)
-		domain.ResourceState = &resourceState
-	} else {
-		domain.ResourceState = nil
-	}
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
-		}
-		domain.SystemData = &systemDatum
-	} else {
-		domain.SystemData = nil
-	}
-
-	// Type
-	domain.Type = genruntime.ClonePointerToString(source.Type)
-
-	// ValidationData
-	domain.ValidationData = genruntime.ClonePointerToString(source.ValidationData)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToCustomDomain populates the provided destination CustomDomain from our CustomDomain
-func (domain *CustomDomain) AssignPropertiesToCustomDomain(destination *v20210601s.CustomDomain) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// CustomHttpsParameters
-	if domain.CustomHttpsParameters != nil {
-		var customHttpsParameter v20210601s.CustomDomainHttpsParameters
-		err := domain.CustomHttpsParameters.AssignPropertiesToCustomDomainHttpsParameters(&customHttpsParameter)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToCustomDomainHttpsParameters() to populate field CustomHttpsParameters")
-		}
-		destination.CustomHttpsParameters = &customHttpsParameter
-	} else {
-		destination.CustomHttpsParameters = nil
-	}
-
-	// CustomHttpsProvisioningState
-	if domain.CustomHttpsProvisioningState != nil {
-		customHttpsProvisioningState := string(*domain.CustomHttpsProvisioningState)
-		destination.CustomHttpsProvisioningState = &customHttpsProvisioningState
-	} else {
-		destination.CustomHttpsProvisioningState = nil
-	}
-
-	// CustomHttpsProvisioningSubstate
-	if domain.CustomHttpsProvisioningSubstate != nil {
-		customHttpsProvisioningSubstate := string(*domain.CustomHttpsProvisioningSubstate)
-		destination.CustomHttpsProvisioningSubstate = &customHttpsProvisioningSubstate
-	} else {
-		destination.CustomHttpsProvisioningSubstate = nil
-	}
-
-	// HostName
-	destination.HostName = genruntime.ClonePointerToString(domain.HostName)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(domain.Id)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(domain.Name)
-
-	// ProvisioningState
-	if domain.ProvisioningState != nil {
-		provisioningState := string(*domain.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
-
-	// ResourceState
-	if domain.ResourceState != nil {
-		resourceState := string(*domain.ResourceState)
-		destination.ResourceState = &resourceState
-	} else {
-		destination.ResourceState = nil
-	}
-
-	// SystemData
-	if domain.SystemData != nil {
-		var systemDatum v20210601s.SystemData
-		err := domain.SystemData.AssignPropertiesToSystemData(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(domain.Type)
-
-	// ValidationData
-	destination.ValidationData = genruntime.ClonePointerToString(domain.ValidationData)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
 
 type CustomDomain_STATUS struct {
 	// Id: Resource ID.
@@ -2849,9 +2216,6 @@ type DeepCreatedOrigin struct {
 	// balancing if any lower priority origin is healthy.Must be between 1 and 5.
 	Priority *int `json:"priority,omitempty"`
 
-	// PrivateEndpointStatus: The approval status for the connection to the Private Link
-	PrivateEndpointStatus *PrivateEndpointStatus `json:"privateEndpointStatus,omitempty"`
-
 	// PrivateLinkAlias: The Alias of the Private Link resource. Populating this optional field indicates that this origin is
 	// 'Private'
 	PrivateLinkAlias *string `json:"privateLinkAlias,omitempty"`
@@ -2895,7 +2259,6 @@ func (origin *DeepCreatedOrigin) ConvertToARM(resolved genruntime.ConvertToARMRe
 		origin.HttpsPort != nil ||
 		origin.OriginHostHeader != nil ||
 		origin.Priority != nil ||
-		origin.PrivateEndpointStatus != nil ||
 		origin.PrivateLinkAlias != nil ||
 		origin.PrivateLinkApprovalMessage != nil ||
 		origin.PrivateLinkLocationReference != nil ||
@@ -2926,10 +2289,6 @@ func (origin *DeepCreatedOrigin) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if origin.Priority != nil {
 		priority := *origin.Priority
 		result.Properties.Priority = &priority
-	}
-	if origin.PrivateEndpointStatus != nil {
-		privateEndpointStatus := *origin.PrivateEndpointStatus
-		result.Properties.PrivateEndpointStatus = &privateEndpointStatus
 	}
 	if origin.PrivateLinkAlias != nil {
 		privateLinkAlias := *origin.PrivateLinkAlias
@@ -3034,15 +2393,6 @@ func (origin *DeepCreatedOrigin) PopulateFromARM(owner genruntime.ArbitraryOwner
 		}
 	}
 
-	// Set property ‘PrivateEndpointStatus’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PrivateEndpointStatus != nil {
-			privateEndpointStatus := *typedInput.Properties.PrivateEndpointStatus
-			origin.PrivateEndpointStatus = &privateEndpointStatus
-		}
-	}
-
 	// Set property ‘PrivateLinkAlias’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -3120,14 +2470,6 @@ func (origin *DeepCreatedOrigin) AssignPropertiesFromDeepCreatedOrigin(source *v
 		origin.Priority = &priority
 	} else {
 		origin.Priority = nil
-	}
-
-	// PrivateEndpointStatus
-	if source.PrivateEndpointStatus != nil {
-		privateEndpointStatus := PrivateEndpointStatus(*source.PrivateEndpointStatus)
-		origin.PrivateEndpointStatus = &privateEndpointStatus
-	} else {
-		origin.PrivateEndpointStatus = nil
 	}
 
 	// PrivateLinkAlias
@@ -3208,14 +2550,6 @@ func (origin *DeepCreatedOrigin) AssignPropertiesToDeepCreatedOrigin(destination
 		destination.Priority = &priority
 	} else {
 		destination.Priority = nil
-	}
-
-	// PrivateEndpointStatus
-	if origin.PrivateEndpointStatus != nil {
-		privateEndpointStatus := string(*origin.PrivateEndpointStatus)
-		destination.PrivateEndpointStatus = &privateEndpointStatus
-	} else {
-		destination.PrivateEndpointStatus = nil
 	}
 
 	// PrivateLinkAlias
@@ -4288,17 +3622,6 @@ func (policy *EndpointProperties_DeliveryPolicy_STATUS) AssignPropertiesToEndpoi
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"Creating","Deleting","Failed","Succeeded","Updating"}
-type EndpointProperties_ProvisioningState string
-
-const (
-	EndpointProperties_ProvisioningState_Creating  = EndpointProperties_ProvisioningState("Creating")
-	EndpointProperties_ProvisioningState_Deleting  = EndpointProperties_ProvisioningState("Deleting")
-	EndpointProperties_ProvisioningState_Failed    = EndpointProperties_ProvisioningState("Failed")
-	EndpointProperties_ProvisioningState_Succeeded = EndpointProperties_ProvisioningState("Succeeded")
-	EndpointProperties_ProvisioningState_Updating  = EndpointProperties_ProvisioningState("Updating")
-)
-
 type EndpointProperties_ProvisioningState_STATUS string
 
 const (
@@ -4307,18 +3630,6 @@ const (
 	EndpointProperties_ProvisioningState_Failed_STATUS    = EndpointProperties_ProvisioningState_STATUS("Failed")
 	EndpointProperties_ProvisioningState_Succeeded_STATUS = EndpointProperties_ProvisioningState_STATUS("Succeeded")
 	EndpointProperties_ProvisioningState_Updating_STATUS  = EndpointProperties_ProvisioningState_STATUS("Updating")
-)
-
-// +kubebuilder:validation:Enum={"Creating","Deleting","Running","Starting","Stopped","Stopping"}
-type EndpointProperties_ResourceState string
-
-const (
-	EndpointProperties_ResourceState_Creating = EndpointProperties_ResourceState("Creating")
-	EndpointProperties_ResourceState_Deleting = EndpointProperties_ResourceState("Deleting")
-	EndpointProperties_ResourceState_Running  = EndpointProperties_ResourceState("Running")
-	EndpointProperties_ResourceState_Starting = EndpointProperties_ResourceState("Starting")
-	EndpointProperties_ResourceState_Stopped  = EndpointProperties_ResourceState("Stopped")
-	EndpointProperties_ResourceState_Stopping = EndpointProperties_ResourceState("Stopping")
 )
 
 type EndpointProperties_ResourceState_STATUS string
@@ -4333,8 +3644,8 @@ const (
 )
 
 type EndpointProperties_WebApplicationFirewallPolicyLink struct {
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
+	// Reference: Resource ID.
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &EndpointProperties_WebApplicationFirewallPolicyLink{}
@@ -4347,9 +3658,13 @@ func (link *EndpointProperties_WebApplicationFirewallPolicyLink) ConvertToARM(re
 	result := &EndpointProperties_WebApplicationFirewallPolicyLinkARM{}
 
 	// Set property ‘Id’:
-	if link.Id != nil {
-		id := *link.Id
-		result.Id = &id
+	if link.Reference != nil {
+		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*link.Reference)
+		if err != nil {
+			return nil, err
+		}
+		reference := referenceARMID
+		result.Id = &reference
 	}
 	return result, nil
 }
@@ -4361,16 +3676,12 @@ func (link *EndpointProperties_WebApplicationFirewallPolicyLink) NewEmptyARMValu
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (link *EndpointProperties_WebApplicationFirewallPolicyLink) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(EndpointProperties_WebApplicationFirewallPolicyLinkARM)
+	_, ok := armInput.(EndpointProperties_WebApplicationFirewallPolicyLinkARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected EndpointProperties_WebApplicationFirewallPolicyLinkARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		link.Id = &id
-	}
+	// no assignment for property ‘Reference’
 
 	// No error
 	return nil
@@ -4379,8 +3690,13 @@ func (link *EndpointProperties_WebApplicationFirewallPolicyLink) PopulateFromARM
 // AssignPropertiesFromEndpointProperties_WebApplicationFirewallPolicyLink populates our EndpointProperties_WebApplicationFirewallPolicyLink from the provided source EndpointProperties_WebApplicationFirewallPolicyLink
 func (link *EndpointProperties_WebApplicationFirewallPolicyLink) AssignPropertiesFromEndpointProperties_WebApplicationFirewallPolicyLink(source *v20210601s.EndpointProperties_WebApplicationFirewallPolicyLink) error {
 
-	// Id
-	link.Id = genruntime.ClonePointerToString(source.Id)
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		link.Reference = &reference
+	} else {
+		link.Reference = nil
+	}
 
 	// No error
 	return nil
@@ -4391,8 +3707,13 @@ func (link *EndpointProperties_WebApplicationFirewallPolicyLink) AssignPropertie
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(link.Id)
+	// Reference
+	if link.Reference != nil {
+		reference := link.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -5087,200 +4408,6 @@ func (signingKey *UrlSigningKey_STATUS) AssignPropertiesToUrlSigningKey_STATUS(d
 	// No error
 	return nil
 }
-
-type CustomDomainHttpsParameters struct {
-	// +kubebuilder:validation:Required
-	// CertificateSource: Defines the source of the SSL certificate.
-	CertificateSource *CustomDomainHttpsParameters_CertificateSource `json:"certificateSource,omitempty"`
-
-	// MinimumTlsVersion: TLS protocol version that will be used for Https
-	MinimumTlsVersion *CustomDomainHttpsParameters_MinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// ProtocolType: Defines the TLS extension protocol that is used for secure delivery.
-	ProtocolType *CustomDomainHttpsParameters_ProtocolType `json:"protocolType,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &CustomDomainHttpsParameters{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (parameters *CustomDomainHttpsParameters) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if parameters == nil {
-		return nil, nil
-	}
-	result := &CustomDomainHttpsParametersARM{}
-
-	// Set property ‘CertificateSource’:
-	if parameters.CertificateSource != nil {
-		certificateSource := *parameters.CertificateSource
-		result.CertificateSource = &certificateSource
-	}
-
-	// Set property ‘MinimumTlsVersion’:
-	if parameters.MinimumTlsVersion != nil {
-		minimumTlsVersion := *parameters.MinimumTlsVersion
-		result.MinimumTlsVersion = &minimumTlsVersion
-	}
-
-	// Set property ‘ProtocolType’:
-	if parameters.ProtocolType != nil {
-		protocolType := *parameters.ProtocolType
-		result.ProtocolType = &protocolType
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (parameters *CustomDomainHttpsParameters) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &CustomDomainHttpsParametersARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (parameters *CustomDomainHttpsParameters) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(CustomDomainHttpsParametersARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected CustomDomainHttpsParametersARM, got %T", armInput)
-	}
-
-	// Set property ‘CertificateSource’:
-	if typedInput.CertificateSource != nil {
-		certificateSource := *typedInput.CertificateSource
-		parameters.CertificateSource = &certificateSource
-	}
-
-	// Set property ‘MinimumTlsVersion’:
-	if typedInput.MinimumTlsVersion != nil {
-		minimumTlsVersion := *typedInput.MinimumTlsVersion
-		parameters.MinimumTlsVersion = &minimumTlsVersion
-	}
-
-	// Set property ‘ProtocolType’:
-	if typedInput.ProtocolType != nil {
-		protocolType := *typedInput.ProtocolType
-		parameters.ProtocolType = &protocolType
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromCustomDomainHttpsParameters populates our CustomDomainHttpsParameters from the provided source CustomDomainHttpsParameters
-func (parameters *CustomDomainHttpsParameters) AssignPropertiesFromCustomDomainHttpsParameters(source *v20210601s.CustomDomainHttpsParameters) error {
-
-	// CertificateSource
-	if source.CertificateSource != nil {
-		certificateSource := CustomDomainHttpsParameters_CertificateSource(*source.CertificateSource)
-		parameters.CertificateSource = &certificateSource
-	} else {
-		parameters.CertificateSource = nil
-	}
-
-	// MinimumTlsVersion
-	if source.MinimumTlsVersion != nil {
-		minimumTlsVersion := CustomDomainHttpsParameters_MinimumTlsVersion(*source.MinimumTlsVersion)
-		parameters.MinimumTlsVersion = &minimumTlsVersion
-	} else {
-		parameters.MinimumTlsVersion = nil
-	}
-
-	// ProtocolType
-	if source.ProtocolType != nil {
-		protocolType := CustomDomainHttpsParameters_ProtocolType(*source.ProtocolType)
-		parameters.ProtocolType = &protocolType
-	} else {
-		parameters.ProtocolType = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToCustomDomainHttpsParameters populates the provided destination CustomDomainHttpsParameters from our CustomDomainHttpsParameters
-func (parameters *CustomDomainHttpsParameters) AssignPropertiesToCustomDomainHttpsParameters(destination *v20210601s.CustomDomainHttpsParameters) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// CertificateSource
-	if parameters.CertificateSource != nil {
-		certificateSource := string(*parameters.CertificateSource)
-		destination.CertificateSource = &certificateSource
-	} else {
-		destination.CertificateSource = nil
-	}
-
-	// MinimumTlsVersion
-	if parameters.MinimumTlsVersion != nil {
-		minimumTlsVersion := string(*parameters.MinimumTlsVersion)
-		destination.MinimumTlsVersion = &minimumTlsVersion
-	} else {
-		destination.MinimumTlsVersion = nil
-	}
-
-	// ProtocolType
-	if parameters.ProtocolType != nil {
-		protocolType := string(*parameters.ProtocolType)
-		destination.ProtocolType = &protocolType
-	} else {
-		destination.ProtocolType = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// +kubebuilder:validation:Enum={"Disabled","Disabling","Enabled","Enabling","Failed"}
-type CustomDomainProperties_CustomHttpsProvisioningState string
-
-const (
-	CustomDomainProperties_CustomHttpsProvisioningState_Disabled  = CustomDomainProperties_CustomHttpsProvisioningState("Disabled")
-	CustomDomainProperties_CustomHttpsProvisioningState_Disabling = CustomDomainProperties_CustomHttpsProvisioningState("Disabling")
-	CustomDomainProperties_CustomHttpsProvisioningState_Enabled   = CustomDomainProperties_CustomHttpsProvisioningState("Enabled")
-	CustomDomainProperties_CustomHttpsProvisioningState_Enabling  = CustomDomainProperties_CustomHttpsProvisioningState("Enabling")
-	CustomDomainProperties_CustomHttpsProvisioningState_Failed    = CustomDomainProperties_CustomHttpsProvisioningState("Failed")
-)
-
-// +kubebuilder:validation:Enum={"CertificateDeleted","CertificateDeployed","DeletingCertificate","DeployingCertificate","DomainControlValidationRequestApproved","DomainControlValidationRequestRejected","DomainControlValidationRequestTimedOut","IssuingCertificate","PendingDomainControlValidationREquestApproval","SubmittingDomainControlValidationRequest"}
-type CustomDomainProperties_CustomHttpsProvisioningSubstate string
-
-const (
-	CustomDomainProperties_CustomHttpsProvisioningSubstate_CertificateDeleted                            = CustomDomainProperties_CustomHttpsProvisioningSubstate("CertificateDeleted")
-	CustomDomainProperties_CustomHttpsProvisioningSubstate_CertificateDeployed                           = CustomDomainProperties_CustomHttpsProvisioningSubstate("CertificateDeployed")
-	CustomDomainProperties_CustomHttpsProvisioningSubstate_DeletingCertificate                           = CustomDomainProperties_CustomHttpsProvisioningSubstate("DeletingCertificate")
-	CustomDomainProperties_CustomHttpsProvisioningSubstate_DeployingCertificate                          = CustomDomainProperties_CustomHttpsProvisioningSubstate("DeployingCertificate")
-	CustomDomainProperties_CustomHttpsProvisioningSubstate_DomainControlValidationRequestApproved        = CustomDomainProperties_CustomHttpsProvisioningSubstate("DomainControlValidationRequestApproved")
-	CustomDomainProperties_CustomHttpsProvisioningSubstate_DomainControlValidationRequestRejected        = CustomDomainProperties_CustomHttpsProvisioningSubstate("DomainControlValidationRequestRejected")
-	CustomDomainProperties_CustomHttpsProvisioningSubstate_DomainControlValidationRequestTimedOut        = CustomDomainProperties_CustomHttpsProvisioningSubstate("DomainControlValidationRequestTimedOut")
-	CustomDomainProperties_CustomHttpsProvisioningSubstate_IssuingCertificate                            = CustomDomainProperties_CustomHttpsProvisioningSubstate("IssuingCertificate")
-	CustomDomainProperties_CustomHttpsProvisioningSubstate_PendingDomainControlValidationREquestApproval = CustomDomainProperties_CustomHttpsProvisioningSubstate("PendingDomainControlValidationREquestApproval")
-	CustomDomainProperties_CustomHttpsProvisioningSubstate_SubmittingDomainControlValidationRequest      = CustomDomainProperties_CustomHttpsProvisioningSubstate("SubmittingDomainControlValidationRequest")
-)
-
-// +kubebuilder:validation:Enum={"Disabled","Disabling","Enabled","Enabling","Failed"}
-type CustomDomainProperties_ProvisioningState string
-
-const (
-	CustomDomainProperties_ProvisioningState_Disabled  = CustomDomainProperties_ProvisioningState("Disabled")
-	CustomDomainProperties_ProvisioningState_Disabling = CustomDomainProperties_ProvisioningState("Disabling")
-	CustomDomainProperties_ProvisioningState_Enabled   = CustomDomainProperties_ProvisioningState("Enabled")
-	CustomDomainProperties_ProvisioningState_Enabling  = CustomDomainProperties_ProvisioningState("Enabling")
-	CustomDomainProperties_ProvisioningState_Failed    = CustomDomainProperties_ProvisioningState("Failed")
-)
-
-// +kubebuilder:validation:Enum={"Active","Creating","Deleting"}
-type CustomDomainProperties_ResourceState string
-
-const (
-	CustomDomainProperties_ResourceState_Active   = CustomDomainProperties_ResourceState("Active")
-	CustomDomainProperties_ResourceState_Creating = CustomDomainProperties_ResourceState("Creating")
-	CustomDomainProperties_ResourceState_Deleting = CustomDomainProperties_ResourceState("Deleting")
-)
 
 type DeliveryRule struct {
 	// +kubebuilder:validation:Required
@@ -6301,17 +5428,6 @@ func (parameters *KeyVaultSigningKeyParameters_STATUS) AssignPropertiesToKeyVaul
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"Approved","Disconnected","Pending","Rejected","Timeout"}
-type PrivateEndpointStatus string
-
-const (
-	PrivateEndpointStatus_Approved     = PrivateEndpointStatus("Approved")
-	PrivateEndpointStatus_Disconnected = PrivateEndpointStatus("Disconnected")
-	PrivateEndpointStatus_Pending      = PrivateEndpointStatus("Pending")
-	PrivateEndpointStatus_Rejected     = PrivateEndpointStatus("Rejected")
-	PrivateEndpointStatus_Timeout      = PrivateEndpointStatus("Timeout")
-)
-
 type PrivateEndpointStatus_STATUS string
 
 const (
@@ -6629,31 +5745,6 @@ func (parameters *ResponseBasedOriginErrorDetectionParameters_STATUS) AssignProp
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"AzureKeyVault","Cdn"}
-type CustomDomainHttpsParameters_CertificateSource string
-
-const (
-	CustomDomainHttpsParameters_CertificateSource_AzureKeyVault = CustomDomainHttpsParameters_CertificateSource("AzureKeyVault")
-	CustomDomainHttpsParameters_CertificateSource_Cdn           = CustomDomainHttpsParameters_CertificateSource("Cdn")
-)
-
-// +kubebuilder:validation:Enum={"None","TLS10","TLS12"}
-type CustomDomainHttpsParameters_MinimumTlsVersion string
-
-const (
-	CustomDomainHttpsParameters_MinimumTlsVersion_None  = CustomDomainHttpsParameters_MinimumTlsVersion("None")
-	CustomDomainHttpsParameters_MinimumTlsVersion_TLS10 = CustomDomainHttpsParameters_MinimumTlsVersion("TLS10")
-	CustomDomainHttpsParameters_MinimumTlsVersion_TLS12 = CustomDomainHttpsParameters_MinimumTlsVersion("TLS12")
-)
-
-// +kubebuilder:validation:Enum={"IPBased","ServerNameIndication"}
-type CustomDomainHttpsParameters_ProtocolType string
-
-const (
-	CustomDomainHttpsParameters_ProtocolType_IPBased              = CustomDomainHttpsParameters_ProtocolType("IPBased")
-	CustomDomainHttpsParameters_ProtocolType_ServerNameIndication = CustomDomainHttpsParameters_ProtocolType("ServerNameIndication")
-)
 
 type DeliveryRuleAction struct {
 	// +kubebuilder:validation:Required

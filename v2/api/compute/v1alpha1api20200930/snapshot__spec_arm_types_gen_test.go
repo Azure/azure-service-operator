@@ -83,12 +83,9 @@ func Snapshot_SpecARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSnapshot_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSnapshot_SpecARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["ManagedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForSnapshot_SpecARM is a factory method for creating gopter generators
@@ -165,7 +162,6 @@ func SnapshotPropertiesARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSnapshotPropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSnapshotPropertiesARM(gens map[string]gopter.Gen) {
 	gens["DiskAccessId"] = gen.PtrOf(gen.AlphaString())
-	gens["DiskSizeBytes"] = gen.PtrOf(gen.Int())
 	gens["DiskSizeGB"] = gen.PtrOf(gen.Int())
 	gens["DiskState"] = gen.PtrOf(gen.OneConstOf(
 		DiskState_ActiveSAS,
@@ -178,9 +174,6 @@ func AddIndependentPropertyGeneratorsForSnapshotPropertiesARM(gens map[string]go
 	gens["Incremental"] = gen.PtrOf(gen.Bool())
 	gens["NetworkAccessPolicy"] = gen.PtrOf(gen.OneConstOf(NetworkAccessPolicy_AllowAll, NetworkAccessPolicy_AllowPrivate, NetworkAccessPolicy_DenyAll))
 	gens["OsType"] = gen.PtrOf(gen.OneConstOf(SnapshotProperties_OsType_Linux, SnapshotProperties_OsType_Windows))
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
-	gens["TimeCreated"] = gen.PtrOf(gen.AlphaString())
-	gens["UniqueId"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForSnapshotPropertiesARM is a factory method for creating gopter generators
@@ -248,5 +241,4 @@ func SnapshotSkuARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForSnapshotSkuARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSnapshotSkuARM(gens map[string]gopter.Gen) {
 	gens["Name"] = gen.PtrOf(gen.OneConstOf(SnapshotSku_Name_Premium_LRS, SnapshotSku_Name_Standard_LRS, SnapshotSku_Name_Standard_ZRS))
-	gens["Tier"] = gen.PtrOf(gen.AlphaString())
 }

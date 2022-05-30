@@ -484,7 +484,9 @@ func objectHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (
 		return properties[0].PropertyType(), nil
 	}
 
-	objectType := astmodel.NewObjectType().WithProperties(properties...)
+	isResource := schema.extensions("x-ms-azure-resource") == true
+	objectType := astmodel.NewObjectType().WithProperties(properties...).WithIsResource(isResource)
+
 	return objectType, nil
 }
 
@@ -520,7 +522,7 @@ func generatePropertyDefinition(ctx context.Context, scanner *SchemaScanner, raw
 		return nil, nil
 	}
 
-	property := astmodel.NewPropertyDefinition(propertyName, rawPropName, propType)
+	property := astmodel.NewPropertyDefinition(propertyName, rawPropName, propType).WithReadOnly(prop.readOnly())
 	return property, nil
 }
 

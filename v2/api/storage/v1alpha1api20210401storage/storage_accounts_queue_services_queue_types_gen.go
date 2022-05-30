@@ -331,12 +331,9 @@ func (queue *StorageAccountsQueueServicesQueue_STATUS) AssignPropertiesToStorage
 
 // Storage version of v1alpha1api20210401.StorageAccountsQueueServicesQueue_Spec
 type StorageAccountsQueueServicesQueue_Spec struct {
-	ApproximateMessageCount *int `json:"approximateMessageCount,omitempty"`
-
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string            `json:"azureName,omitempty"`
-	Id              *string           `json:"id,omitempty"`
 	Metadata        map[string]string `json:"metadata,omitempty"`
 	OriginalVersion string            `json:"originalVersion,omitempty"`
 
@@ -346,7 +343,6 @@ type StorageAccountsQueueServicesQueue_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Type        *string                            `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &StorageAccountsQueueServicesQueue_Spec{}
@@ -404,14 +400,8 @@ func (queue *StorageAccountsQueueServicesQueue_Spec) AssignPropertiesFromStorage
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// ApproximateMessageCount
-	queue.ApproximateMessageCount = genruntime.ClonePointerToInt(source.ApproximateMessageCount)
-
 	// AzureName
 	queue.AzureName = source.AzureName
-
-	// Id
-	queue.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Metadata
 	queue.Metadata = genruntime.CloneMapOfStringToString(source.Metadata)
@@ -426,9 +416,6 @@ func (queue *StorageAccountsQueueServicesQueue_Spec) AssignPropertiesFromStorage
 	} else {
 		queue.Owner = nil
 	}
-
-	// Type
-	queue.Type = genruntime.ClonePointerToString(source.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -446,14 +433,8 @@ func (queue *StorageAccountsQueueServicesQueue_Spec) AssignPropertiesToStorageAc
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(queue.PropertyBag)
 
-	// ApproximateMessageCount
-	destination.ApproximateMessageCount = genruntime.ClonePointerToInt(queue.ApproximateMessageCount)
-
 	// AzureName
 	destination.AzureName = queue.AzureName
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(queue.Id)
 
 	// Metadata
 	destination.Metadata = genruntime.CloneMapOfStringToString(queue.Metadata)
@@ -468,9 +449,6 @@ func (queue *StorageAccountsQueueServicesQueue_Spec) AssignPropertiesToStorageAc
 	} else {
 		destination.Owner = nil
 	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(queue.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

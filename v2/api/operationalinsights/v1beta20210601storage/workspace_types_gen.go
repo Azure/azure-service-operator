@@ -186,14 +186,10 @@ type Workspace_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName        string             `json:"azureName,omitempty"`
-	CreatedDate      *string            `json:"createdDate,omitempty"`
-	CustomerId       *string            `json:"customerId,omitempty"`
 	Etag             *string            `json:"etag,omitempty"`
 	Features         *WorkspaceFeatures `json:"features,omitempty"`
 	ForceCmkForQuery *bool              `json:"forceCmkForQuery,omitempty"`
-	Id               *string            `json:"id,omitempty"`
 	Location         *string            `json:"location,omitempty"`
-	ModifiedDate     *string            `json:"modifiedDate,omitempty"`
 	OriginalVersion  string             `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -201,7 +197,6 @@ type Workspace_Spec struct {
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner                           *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PrivateLinkScopedResources      []PrivateLinkScopedResource        `json:"privateLinkScopedResources,omitempty"`
 	PropertyBag                     genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	ProvisioningState               *string                            `json:"provisioningState,omitempty"`
 	PublicNetworkAccessForIngestion *string                            `json:"publicNetworkAccessForIngestion,omitempty"`
@@ -209,7 +204,6 @@ type Workspace_Spec struct {
 	RetentionInDays                 *int                               `json:"retentionInDays,omitempty"`
 	Sku                             *WorkspaceSku                      `json:"sku,omitempty"`
 	Tags                            map[string]string                  `json:"tags,omitempty"`
-	Type                            *string                            `json:"type,omitempty"`
 	WorkspaceCapping                *WorkspaceCapping                  `json:"workspaceCapping,omitempty"`
 }
 
@@ -233,13 +227,6 @@ func (workspace *Workspace_Spec) ConvertSpecTo(destination genruntime.Convertibl
 	return destination.ConvertSpecFrom(workspace)
 }
 
-// Storage version of v1beta20210601.PrivateLinkScopedResource
-type PrivateLinkScopedResource struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ResourceId  *string                `json:"resourceId,omitempty"`
-	ScopeId     *string                `json:"scopeId,omitempty"`
-}
-
 // Storage version of v1beta20210601.PrivateLinkScopedResource_STATUS
 type PrivateLinkScopedResource_STATUS struct {
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -249,10 +236,8 @@ type PrivateLinkScopedResource_STATUS struct {
 
 // Storage version of v1beta20210601.WorkspaceCapping
 type WorkspaceCapping struct {
-	DailyQuotaGb        *float64               `json:"dailyQuotaGb,omitempty"`
-	DataIngestionStatus *string                `json:"dataIngestionStatus,omitempty"`
-	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	QuotaNextResetTime  *string                `json:"quotaNextResetTime,omitempty"`
+	DailyQuotaGb *float64               `json:"dailyQuotaGb,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210601.WorkspaceCapping_STATUS
@@ -287,7 +272,6 @@ type WorkspaceFeatures_STATUS struct {
 // Storage version of v1beta20210601.WorkspaceSku
 type WorkspaceSku struct {
 	CapacityReservationLevel *int                   `json:"capacityReservationLevel,omitempty"`
-	LastSkuUpdate            *string                `json:"lastSkuUpdate,omitempty"`
 	Name                     *string                `json:"name,omitempty"`
 	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }

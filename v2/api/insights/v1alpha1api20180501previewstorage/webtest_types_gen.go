@@ -558,7 +558,6 @@ type Webtest_Spec struct {
 	Description     *string                          `json:"Description,omitempty"`
 	Enabled         *bool                            `json:"Enabled,omitempty"`
 	Frequency       *int                             `json:"Frequency,omitempty"`
-	Id              *string                          `json:"id,omitempty"`
 	Kind            *string                          `json:"kind,omitempty"`
 	Location        *string                          `json:"location,omitempty"`
 	Locations       []WebTestGeolocation             `json:"Locations,omitempty"`
@@ -572,13 +571,11 @@ type Webtest_Spec struct {
 	Owner              *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertiesKind     *string                            `json:"properties_kind,omitempty"`
 	PropertyBag        genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	ProvisioningState  *string                            `json:"provisioningState,omitempty"`
 	Request            *WebTestProperties_Request         `json:"Request,omitempty"`
 	RetryEnabled       *bool                              `json:"RetryEnabled,omitempty"`
 	SyntheticMonitorId *string                            `json:"SyntheticMonitorId,omitempty"`
 	Tags               *v1.JSON                           `json:"tags,omitempty"`
 	Timeout            *int                               `json:"Timeout,omitempty"`
-	Type               *string                            `json:"type,omitempty"`
 	ValidationRules    *WebTestProperties_ValidationRules `json:"ValidationRules,omitempty"`
 }
 
@@ -666,9 +663,6 @@ func (webtest *Webtest_Spec) AssignPropertiesFromWebtest_Spec(source *v20180501p
 	// Frequency
 	webtest.Frequency = genruntime.ClonePointerToInt(source.Frequency)
 
-	// Id
-	webtest.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Kind
 	webtest.Kind = genruntime.ClonePointerToString(source.Kind)
 
@@ -710,9 +704,6 @@ func (webtest *Webtest_Spec) AssignPropertiesFromWebtest_Spec(source *v20180501p
 	// PropertiesKind
 	webtest.PropertiesKind = genruntime.ClonePointerToString(source.PropertiesKind)
 
-	// ProvisioningState
-	webtest.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
 	// Request
 	if source.Request != nil {
 		var request WebTestProperties_Request
@@ -746,9 +737,6 @@ func (webtest *Webtest_Spec) AssignPropertiesFromWebtest_Spec(source *v20180501p
 
 	// Timeout
 	webtest.Timeout = genruntime.ClonePointerToInt(source.Timeout)
-
-	// Type
-	webtest.Type = genruntime.ClonePointerToString(source.Type)
 
 	// ValidationRules
 	if source.ValidationRules != nil {
@@ -807,9 +795,6 @@ func (webtest *Webtest_Spec) AssignPropertiesToWebtest_Spec(destination *v201805
 	// Frequency
 	destination.Frequency = genruntime.ClonePointerToInt(webtest.Frequency)
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(webtest.Id)
-
 	// Kind
 	destination.Kind = genruntime.ClonePointerToString(webtest.Kind)
 
@@ -851,9 +836,6 @@ func (webtest *Webtest_Spec) AssignPropertiesToWebtest_Spec(destination *v201805
 	// PropertiesKind
 	destination.PropertiesKind = genruntime.ClonePointerToString(webtest.PropertiesKind)
 
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(webtest.ProvisioningState)
-
 	// Request
 	if webtest.Request != nil {
 		var request v20180501ps.WebTestProperties_Request
@@ -887,9 +869,6 @@ func (webtest *Webtest_Spec) AssignPropertiesToWebtest_Spec(destination *v201805
 
 	// Timeout
 	destination.Timeout = genruntime.ClonePointerToInt(webtest.Timeout)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(webtest.Type)
 
 	// ValidationRules
 	if webtest.ValidationRules != nil {

@@ -526,14 +526,10 @@ type Workspace_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName        string             `json:"azureName,omitempty"`
-	CreatedDate      *string            `json:"createdDate,omitempty"`
-	CustomerId       *string            `json:"customerId,omitempty"`
 	Etag             *string            `json:"etag,omitempty"`
 	Features         *WorkspaceFeatures `json:"features,omitempty"`
 	ForceCmkForQuery *bool              `json:"forceCmkForQuery,omitempty"`
-	Id               *string            `json:"id,omitempty"`
 	Location         *string            `json:"location,omitempty"`
-	ModifiedDate     *string            `json:"modifiedDate,omitempty"`
 	OriginalVersion  string             `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -541,7 +537,6 @@ type Workspace_Spec struct {
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner                           *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PrivateLinkScopedResources      []PrivateLinkScopedResource        `json:"privateLinkScopedResources,omitempty"`
 	PropertyBag                     genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	ProvisioningState               *string                            `json:"provisioningState,omitempty"`
 	PublicNetworkAccessForIngestion *string                            `json:"publicNetworkAccessForIngestion,omitempty"`
@@ -549,7 +544,6 @@ type Workspace_Spec struct {
 	RetentionInDays                 *int                               `json:"retentionInDays,omitempty"`
 	Sku                             *WorkspaceSku                      `json:"sku,omitempty"`
 	Tags                            map[string]string                  `json:"tags,omitempty"`
-	Type                            *string                            `json:"type,omitempty"`
 	WorkspaceCapping                *WorkspaceCapping                  `json:"workspaceCapping,omitempty"`
 }
 
@@ -611,12 +605,6 @@ func (workspace *Workspace_Spec) AssignPropertiesFromWorkspace_Spec(source *v202
 	// AzureName
 	workspace.AzureName = source.AzureName
 
-	// CreatedDate
-	workspace.CreatedDate = genruntime.ClonePointerToString(source.CreatedDate)
-
-	// CustomerId
-	workspace.CustomerId = genruntime.ClonePointerToString(source.CustomerId)
-
 	// Etag
 	workspace.Etag = genruntime.ClonePointerToString(source.Etag)
 
@@ -640,14 +628,8 @@ func (workspace *Workspace_Spec) AssignPropertiesFromWorkspace_Spec(source *v202
 		workspace.ForceCmkForQuery = nil
 	}
 
-	// Id
-	workspace.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Location
 	workspace.Location = genruntime.ClonePointerToString(source.Location)
-
-	// ModifiedDate
-	workspace.ModifiedDate = genruntime.ClonePointerToString(source.ModifiedDate)
 
 	// OriginalVersion
 	workspace.OriginalVersion = source.OriginalVersion
@@ -658,24 +640,6 @@ func (workspace *Workspace_Spec) AssignPropertiesFromWorkspace_Spec(source *v202
 		workspace.Owner = &owner
 	} else {
 		workspace.Owner = nil
-	}
-
-	// PrivateLinkScopedResources
-	if source.PrivateLinkScopedResources != nil {
-		privateLinkScopedResourceList := make([]PrivateLinkScopedResource, len(source.PrivateLinkScopedResources))
-		for privateLinkScopedResourceIndex, privateLinkScopedResourceItem := range source.PrivateLinkScopedResources {
-			// Shadow the loop variable to avoid aliasing
-			privateLinkScopedResourceItem := privateLinkScopedResourceItem
-			var privateLinkScopedResource PrivateLinkScopedResource
-			err := privateLinkScopedResource.AssignPropertiesFromPrivateLinkScopedResource(&privateLinkScopedResourceItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromPrivateLinkScopedResource() to populate field PrivateLinkScopedResources")
-			}
-			privateLinkScopedResourceList[privateLinkScopedResourceIndex] = privateLinkScopedResource
-		}
-		workspace.PrivateLinkScopedResources = privateLinkScopedResourceList
-	} else {
-		workspace.PrivateLinkScopedResources = nil
 	}
 
 	// ProvisioningState
@@ -704,9 +668,6 @@ func (workspace *Workspace_Spec) AssignPropertiesFromWorkspace_Spec(source *v202
 
 	// Tags
 	workspace.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	workspace.Type = genruntime.ClonePointerToString(source.Type)
 
 	// WorkspaceCapping
 	if source.WorkspaceCapping != nil {
@@ -739,12 +700,6 @@ func (workspace *Workspace_Spec) AssignPropertiesToWorkspace_Spec(destination *v
 	// AzureName
 	destination.AzureName = workspace.AzureName
 
-	// CreatedDate
-	destination.CreatedDate = genruntime.ClonePointerToString(workspace.CreatedDate)
-
-	// CustomerId
-	destination.CustomerId = genruntime.ClonePointerToString(workspace.CustomerId)
-
 	// Etag
 	destination.Etag = genruntime.ClonePointerToString(workspace.Etag)
 
@@ -768,14 +723,8 @@ func (workspace *Workspace_Spec) AssignPropertiesToWorkspace_Spec(destination *v
 		destination.ForceCmkForQuery = nil
 	}
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(workspace.Id)
-
 	// Location
 	destination.Location = genruntime.ClonePointerToString(workspace.Location)
-
-	// ModifiedDate
-	destination.ModifiedDate = genruntime.ClonePointerToString(workspace.ModifiedDate)
 
 	// OriginalVersion
 	destination.OriginalVersion = workspace.OriginalVersion
@@ -786,24 +735,6 @@ func (workspace *Workspace_Spec) AssignPropertiesToWorkspace_Spec(destination *v
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
-	}
-
-	// PrivateLinkScopedResources
-	if workspace.PrivateLinkScopedResources != nil {
-		privateLinkScopedResourceList := make([]v20210601s.PrivateLinkScopedResource, len(workspace.PrivateLinkScopedResources))
-		for privateLinkScopedResourceIndex, privateLinkScopedResourceItem := range workspace.PrivateLinkScopedResources {
-			// Shadow the loop variable to avoid aliasing
-			privateLinkScopedResourceItem := privateLinkScopedResourceItem
-			var privateLinkScopedResource v20210601s.PrivateLinkScopedResource
-			err := privateLinkScopedResourceItem.AssignPropertiesToPrivateLinkScopedResource(&privateLinkScopedResource)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToPrivateLinkScopedResource() to populate field PrivateLinkScopedResources")
-			}
-			privateLinkScopedResourceList[privateLinkScopedResourceIndex] = privateLinkScopedResource
-		}
-		destination.PrivateLinkScopedResources = privateLinkScopedResourceList
-	} else {
-		destination.PrivateLinkScopedResources = nil
 	}
 
 	// ProvisioningState
@@ -833,9 +764,6 @@ func (workspace *Workspace_Spec) AssignPropertiesToWorkspace_Spec(destination *v
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(workspace.Tags)
 
-	// Type
-	destination.Type = genruntime.ClonePointerToString(workspace.Type)
-
 	// WorkspaceCapping
 	if workspace.WorkspaceCapping != nil {
 		var workspaceCapping v20210601s.WorkspaceCapping
@@ -847,58 +775,6 @@ func (workspace *Workspace_Spec) AssignPropertiesToWorkspace_Spec(destination *v
 	} else {
 		destination.WorkspaceCapping = nil
 	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20210601.PrivateLinkScopedResource
-// Deprecated version of PrivateLinkScopedResource. Use v1beta20210601.PrivateLinkScopedResource instead
-type PrivateLinkScopedResource struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ResourceId  *string                `json:"resourceId,omitempty"`
-	ScopeId     *string                `json:"scopeId,omitempty"`
-}
-
-// AssignPropertiesFromPrivateLinkScopedResource populates our PrivateLinkScopedResource from the provided source PrivateLinkScopedResource
-func (resource *PrivateLinkScopedResource) AssignPropertiesFromPrivateLinkScopedResource(source *v20210601s.PrivateLinkScopedResource) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// ResourceId
-	resource.ResourceId = genruntime.ClonePointerToString(source.ResourceId)
-
-	// ScopeId
-	resource.ScopeId = genruntime.ClonePointerToString(source.ScopeId)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		resource.PropertyBag = propertyBag
-	} else {
-		resource.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToPrivateLinkScopedResource populates the provided destination PrivateLinkScopedResource from our PrivateLinkScopedResource
-func (resource *PrivateLinkScopedResource) AssignPropertiesToPrivateLinkScopedResource(destination *v20210601s.PrivateLinkScopedResource) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
-
-	// ResourceId
-	destination.ResourceId = genruntime.ClonePointerToString(resource.ResourceId)
-
-	// ScopeId
-	destination.ScopeId = genruntime.ClonePointerToString(resource.ScopeId)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -966,10 +842,8 @@ func (resource *PrivateLinkScopedResource_STATUS) AssignPropertiesToPrivateLinkS
 // Storage version of v1alpha1api20210601.WorkspaceCapping
 // Deprecated version of WorkspaceCapping. Use v1beta20210601.WorkspaceCapping instead
 type WorkspaceCapping struct {
-	DailyQuotaGb        *float64               `json:"dailyQuotaGb,omitempty"`
-	DataIngestionStatus *string                `json:"dataIngestionStatus,omitempty"`
-	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	QuotaNextResetTime  *string                `json:"quotaNextResetTime,omitempty"`
+	DailyQuotaGb *float64               `json:"dailyQuotaGb,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // AssignPropertiesFromWorkspaceCapping populates our WorkspaceCapping from the provided source WorkspaceCapping
@@ -984,12 +858,6 @@ func (capping *WorkspaceCapping) AssignPropertiesFromWorkspaceCapping(source *v2
 	} else {
 		capping.DailyQuotaGb = nil
 	}
-
-	// DataIngestionStatus
-	capping.DataIngestionStatus = genruntime.ClonePointerToString(source.DataIngestionStatus)
-
-	// QuotaNextResetTime
-	capping.QuotaNextResetTime = genruntime.ClonePointerToString(source.QuotaNextResetTime)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1014,12 +882,6 @@ func (capping *WorkspaceCapping) AssignPropertiesToWorkspaceCapping(destination 
 	} else {
 		destination.DailyQuotaGb = nil
 	}
-
-	// DataIngestionStatus
-	destination.DataIngestionStatus = genruntime.ClonePointerToString(capping.DataIngestionStatus)
-
-	// QuotaNextResetTime
-	destination.QuotaNextResetTime = genruntime.ClonePointerToString(capping.QuotaNextResetTime)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1341,7 +1203,6 @@ func (features *WorkspaceFeatures_STATUS) AssignPropertiesToWorkspaceFeatures_ST
 // Deprecated version of WorkspaceSku. Use v1beta20210601.WorkspaceSku instead
 type WorkspaceSku struct {
 	CapacityReservationLevel *int                   `json:"capacityReservationLevel,omitempty"`
-	LastSkuUpdate            *string                `json:"lastSkuUpdate,omitempty"`
 	Name                     *string                `json:"name,omitempty"`
 	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
@@ -1353,9 +1214,6 @@ func (workspaceSku *WorkspaceSku) AssignPropertiesFromWorkspaceSku(source *v2021
 
 	// CapacityReservationLevel
 	workspaceSku.CapacityReservationLevel = genruntime.ClonePointerToInt(source.CapacityReservationLevel)
-
-	// LastSkuUpdate
-	workspaceSku.LastSkuUpdate = genruntime.ClonePointerToString(source.LastSkuUpdate)
 
 	// Name
 	workspaceSku.Name = genruntime.ClonePointerToString(source.Name)
@@ -1378,9 +1236,6 @@ func (workspaceSku *WorkspaceSku) AssignPropertiesToWorkspaceSku(destination *v2
 
 	// CapacityReservationLevel
 	destination.CapacityReservationLevel = genruntime.ClonePointerToInt(workspaceSku.CapacityReservationLevel)
-
-	// LastSkuUpdate
-	destination.LastSkuUpdate = genruntime.ClonePointerToString(workspaceSku.LastSkuUpdate)
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(workspaceSku.Name)

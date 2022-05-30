@@ -75,6 +75,8 @@ func Test_EventGrid_Domain(t *testing.T) {
 
 	armId := *domain.Status.Id
 
+	// TODO: disabled pending (evildiscriminator)
+	/*
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "CreateDomainTopicAndSubscription",
@@ -135,6 +137,7 @@ func Test_EventGrid_Domain(t *testing.T) {
 			},
 		},
 	)
+	*/
 
 	tc.DeleteResourceAndWait(domain)
 

@@ -534,13 +534,6 @@ type StorageAccountsManagementPolicy_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// LastModifiedTime: Returns the date and time the ManagementPolicies was last modified.
-	LastModifiedTime *string `json:"lastModifiedTime,omitempty"`
-
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -551,9 +544,6 @@ type StorageAccountsManagementPolicy_Spec struct {
 	// Policy: The Storage Account ManagementPolicy, in JSON format. See more details in:
 	// https://docs.microsoft.com/en-us/azure/storage/common/storage-lifecycle-managment-concepts.
 	Policy *ManagementPolicySchema `json:"policy,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &StorageAccountsManagementPolicy_Spec{}
@@ -568,22 +558,12 @@ func (policy *StorageAccountsManagementPolicy_Spec) ConvertToARM(resolved genrun
 	// Set property ‘AzureName’:
 	result.AzureName = policy.AzureName
 
-	// Set property ‘Id’:
-	if policy.Id != nil {
-		id := *policy.Id
-		result.Id = &id
-	}
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if policy.LastModifiedTime != nil || policy.Policy != nil {
+	if policy.Policy != nil {
 		result.Properties = &ManagementPolicyPropertiesARM{}
-	}
-	if policy.LastModifiedTime != nil {
-		lastModifiedTime := *policy.LastModifiedTime
-		result.Properties.LastModifiedTime = &lastModifiedTime
 	}
 	if policy.Policy != nil {
 		policyARM, err := (*policy.Policy).ConvertToARM(resolved)
@@ -592,12 +572,6 @@ func (policy *StorageAccountsManagementPolicy_Spec) ConvertToARM(resolved genrun
 		}
 		policy1 := *policyARM.(*ManagementPolicySchemaARM)
 		result.Properties.Policy = &policy1
-	}
-
-	// Set property ‘Type’:
-	if policy.Type != nil {
-		typeVar := *policy.Type
-		result.Type = &typeVar
 	}
 	return result, nil
 }
@@ -617,21 +591,6 @@ func (policy *StorageAccountsManagementPolicy_Spec) PopulateFromARM(owner genrun
 	// Set property ‘AzureName’:
 	policy.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		policy.Id = &id
-	}
-
-	// Set property ‘LastModifiedTime’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.LastModifiedTime != nil {
-			lastModifiedTime := *typedInput.Properties.LastModifiedTime
-			policy.LastModifiedTime = &lastModifiedTime
-		}
-	}
-
 	// Set property ‘Owner’:
 	policy.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
@@ -649,12 +608,6 @@ func (policy *StorageAccountsManagementPolicy_Spec) PopulateFromARM(owner genrun
 			policy1 := policy2
 			policy.Policy = &policy1
 		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		policy.Type = &typeVar
 	}
 
 	// No error
@@ -717,17 +670,6 @@ func (policy *StorageAccountsManagementPolicy_Spec) AssignPropertiesFromStorageA
 	// AzureName
 	policy.AzureName = source.AzureName
 
-	// Id
-	policy.Id = genruntime.ClonePointerToString(source.Id)
-
-	// LastModifiedTime
-	if source.LastModifiedTime != nil {
-		lastModifiedTime := *source.LastModifiedTime
-		policy.LastModifiedTime = &lastModifiedTime
-	} else {
-		policy.LastModifiedTime = nil
-	}
-
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -748,9 +690,6 @@ func (policy *StorageAccountsManagementPolicy_Spec) AssignPropertiesFromStorageA
 		policy.Policy = nil
 	}
 
-	// Type
-	policy.Type = genruntime.ClonePointerToString(source.Type)
-
 	// No error
 	return nil
 }
@@ -762,17 +701,6 @@ func (policy *StorageAccountsManagementPolicy_Spec) AssignPropertiesToStorageAcc
 
 	// AzureName
 	destination.AzureName = policy.AzureName
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(policy.Id)
-
-	// LastModifiedTime
-	if policy.LastModifiedTime != nil {
-		lastModifiedTime := *policy.LastModifiedTime
-		destination.LastModifiedTime = &lastModifiedTime
-	} else {
-		destination.LastModifiedTime = nil
-	}
 
 	// OriginalVersion
 	destination.OriginalVersion = policy.OriginalVersion()
@@ -796,9 +724,6 @@ func (policy *StorageAccountsManagementPolicy_Spec) AssignPropertiesToStorageAcc
 	} else {
 		destination.Policy = nil
 	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(policy.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

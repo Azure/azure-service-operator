@@ -168,7 +168,6 @@ type DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string  `json:"azureName,omitempty"`
-	Id              *string `json:"id,omitempty"`
 	Location        *string `json:"location,omitempty"`
 	OriginalVersion string  `json:"originalVersion,omitempty"`
 
@@ -180,7 +179,6 @@ type DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec struct {
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Resource    *ThroughputSettingsResource        `json:"resource,omitempty"`
 	Tags        map[string]string                  `json:"tags,omitempty"`
-	Type        *string                            `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec{}
@@ -217,19 +215,16 @@ type ThroughputSettingsGetProperties_Resource_STATUS struct {
 
 // Storage version of v1beta20210515.ThroughputSettingsResource
 type ThroughputSettingsResource struct {
-	AutoscaleSettings   *AutoscaleSettingsResource `json:"autoscaleSettings,omitempty"`
-	MinimumThroughput   *string                    `json:"minimumThroughput,omitempty"`
-	OfferReplacePending *string                    `json:"offerReplacePending,omitempty"`
-	PropertyBag         genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
-	Throughput          *int                       `json:"throughput,omitempty"`
+	AutoscaleSettings *AutoscaleSettingsResource `json:"autoscaleSettings,omitempty"`
+	PropertyBag       genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
+	Throughput        *int                       `json:"throughput,omitempty"`
 }
 
 // Storage version of v1beta20210515.AutoscaleSettingsResource
 type AutoscaleSettingsResource struct {
-	AutoUpgradePolicy   *AutoUpgradePolicyResource `json:"autoUpgradePolicy,omitempty"`
-	MaxThroughput       *int                       `json:"maxThroughput,omitempty"`
-	PropertyBag         genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
-	TargetMaxThroughput *int                       `json:"targetMaxThroughput,omitempty"`
+	AutoUpgradePolicy *AutoUpgradePolicyResource `json:"autoUpgradePolicy,omitempty"`
+	MaxThroughput     *int                       `json:"maxThroughput,omitempty"`
+	PropertyBag       genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210515.AutoscaleSettingsResource_STATUS

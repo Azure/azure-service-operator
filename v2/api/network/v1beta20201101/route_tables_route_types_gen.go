@@ -612,14 +612,8 @@ type RouteTablesRoute_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
 	// HasBgpOverride: A value indicating whether this route overrides overlapping BGP routes regardless of LPM.
 	HasBgpOverride *bool `json:"hasBgpOverride,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
 
 	// NextHopIpAddress: The IP address packets should be forwarded to. Next hop values are only allowed in routes where the
 	// next hop type is VirtualAppliance.
@@ -635,8 +629,8 @@ type RouteTablesRoute_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
-	// ProvisioningState: The provisioning state of the route resource.
-	ProvisioningState *ProvisioningState `json:"provisioningState,omitempty"`
+	// Reference: Resource ID.
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 
 	// Type: The type of the resource.
 	Type *string `json:"type,omitempty"`
@@ -654,16 +648,14 @@ func (route *RouteTablesRoute_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	// Set property ‘AzureName’:
 	result.AzureName = route.AzureName
 
-	// Set property ‘Etag’:
-	if route.Etag != nil {
-		etag := *route.Etag
-		result.Etag = &etag
-	}
-
 	// Set property ‘Id’:
-	if route.Id != nil {
-		id := *route.Id
-		result.Id = &id
+	if route.Reference != nil {
+		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*route.Reference)
+		if err != nil {
+			return nil, err
+		}
+		reference := referenceARMID
+		result.Id = &reference
 	}
 
 	// Set property ‘Name’:
@@ -673,8 +665,7 @@ func (route *RouteTablesRoute_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	if route.AddressPrefix != nil ||
 		route.HasBgpOverride != nil ||
 		route.NextHopIpAddress != nil ||
-		route.NextHopType != nil ||
-		route.ProvisioningState != nil {
+		route.NextHopType != nil {
 		result.Properties = &RoutePropertiesFormatARM{}
 	}
 	if route.AddressPrefix != nil {
@@ -692,10 +683,6 @@ func (route *RouteTablesRoute_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	if route.NextHopType != nil {
 		nextHopType := *route.NextHopType
 		result.Properties.NextHopType = &nextHopType
-	}
-	if route.ProvisioningState != nil {
-		provisioningState := *route.ProvisioningState
-		result.Properties.ProvisioningState = &provisioningState
 	}
 
 	// Set property ‘Type’:
@@ -730,12 +717,6 @@ func (route *RouteTablesRoute_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	// Set property ‘AzureName’:
 	route.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Etag’:
-	if typedInput.Etag != nil {
-		etag := *typedInput.Etag
-		route.Etag = &etag
-	}
-
 	// Set property ‘HasBgpOverride’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -743,12 +724,6 @@ func (route *RouteTablesRoute_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 			hasBgpOverride := *typedInput.Properties.HasBgpOverride
 			route.HasBgpOverride = &hasBgpOverride
 		}
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		route.Id = &id
 	}
 
 	// Set property ‘NextHopIpAddress’:
@@ -774,14 +749,7 @@ func (route *RouteTablesRoute_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		Name: owner.Name,
 	}
 
-	// Set property ‘ProvisioningState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
-			route.ProvisioningState = &provisioningState
-		}
-	}
+	// no assignment for property ‘Reference’
 
 	// Set property ‘Type’:
 	if typedInput.Type != nil {
@@ -852,9 +820,6 @@ func (route *RouteTablesRoute_Spec) AssignPropertiesFromRouteTablesRoute_Spec(so
 	// AzureName
 	route.AzureName = source.AzureName
 
-	// Etag
-	route.Etag = genruntime.ClonePointerToString(source.Etag)
-
 	// HasBgpOverride
 	if source.HasBgpOverride != nil {
 		hasBgpOverride := *source.HasBgpOverride
@@ -862,9 +827,6 @@ func (route *RouteTablesRoute_Spec) AssignPropertiesFromRouteTablesRoute_Spec(so
 	} else {
 		route.HasBgpOverride = nil
 	}
-
-	// Id
-	route.Id = genruntime.ClonePointerToString(source.Id)
 
 	// NextHopIpAddress
 	route.NextHopIpAddress = genruntime.ClonePointerToString(source.NextHopIpAddress)
@@ -885,12 +847,12 @@ func (route *RouteTablesRoute_Spec) AssignPropertiesFromRouteTablesRoute_Spec(so
 		route.Owner = nil
 	}
 
-	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState(*source.ProvisioningState)
-		route.ProvisioningState = &provisioningState
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		route.Reference = &reference
 	} else {
-		route.ProvisioningState = nil
+		route.Reference = nil
 	}
 
 	// Type
@@ -911,9 +873,6 @@ func (route *RouteTablesRoute_Spec) AssignPropertiesToRouteTablesRoute_Spec(dest
 	// AzureName
 	destination.AzureName = route.AzureName
 
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(route.Etag)
-
 	// HasBgpOverride
 	if route.HasBgpOverride != nil {
 		hasBgpOverride := *route.HasBgpOverride
@@ -921,9 +880,6 @@ func (route *RouteTablesRoute_Spec) AssignPropertiesToRouteTablesRoute_Spec(dest
 	} else {
 		destination.HasBgpOverride = nil
 	}
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(route.Id)
 
 	// NextHopIpAddress
 	destination.NextHopIpAddress = genruntime.ClonePointerToString(route.NextHopIpAddress)
@@ -947,12 +903,12 @@ func (route *RouteTablesRoute_Spec) AssignPropertiesToRouteTablesRoute_Spec(dest
 		destination.Owner = nil
 	}
 
-	// ProvisioningState
-	if route.ProvisioningState != nil {
-		provisioningState := string(*route.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
+	// Reference
+	if route.Reference != nil {
+		reference := route.Reference.Copy()
+		destination.Reference = &reference
 	} else {
-		destination.ProvisioningState = nil
+		destination.Reference = nil
 	}
 
 	// Type

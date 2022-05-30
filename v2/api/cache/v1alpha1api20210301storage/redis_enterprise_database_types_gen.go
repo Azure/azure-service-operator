@@ -427,7 +427,6 @@ type RedisEnterpriseDatabase_Spec struct {
 	ClientProtocol   *string  `json:"clientProtocol,omitempty"`
 	ClusteringPolicy *string  `json:"clusteringPolicy,omitempty"`
 	EvictionPolicy   *string  `json:"evictionPolicy,omitempty"`
-	Id               *string  `json:"id,omitempty"`
 	Modules          []Module `json:"modules,omitempty"`
 	OriginalVersion  string   `json:"originalVersion,omitempty"`
 
@@ -435,13 +434,10 @@ type RedisEnterpriseDatabase_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner             *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	Persistence       *Persistence                       `json:"persistence,omitempty"`
-	Port              *int                               `json:"port,omitempty"`
-	PropertyBag       genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	ProvisioningState *string                            `json:"provisioningState,omitempty"`
-	ResourceState     *string                            `json:"resourceState,omitempty"`
-	Type              *string                            `json:"type,omitempty"`
+	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	Persistence *Persistence                       `json:"persistence,omitempty"`
+	Port        *int                               `json:"port,omitempty"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &RedisEnterpriseDatabase_Spec{}
@@ -511,9 +507,6 @@ func (database *RedisEnterpriseDatabase_Spec) AssignPropertiesFromRedisEnterpris
 	// EvictionPolicy
 	database.EvictionPolicy = genruntime.ClonePointerToString(source.EvictionPolicy)
 
-	// Id
-	database.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Modules
 	if source.Modules != nil {
 		moduleList := make([]Module, len(source.Modules))
@@ -558,15 +551,6 @@ func (database *RedisEnterpriseDatabase_Spec) AssignPropertiesFromRedisEnterpris
 	// Port
 	database.Port = genruntime.ClonePointerToInt(source.Port)
 
-	// ProvisioningState
-	database.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
-	// ResourceState
-	database.ResourceState = genruntime.ClonePointerToString(source.ResourceState)
-
-	// Type
-	database.Type = genruntime.ClonePointerToString(source.Type)
-
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		database.PropertyBag = propertyBag
@@ -594,9 +578,6 @@ func (database *RedisEnterpriseDatabase_Spec) AssignPropertiesToRedisEnterpriseD
 
 	// EvictionPolicy
 	destination.EvictionPolicy = genruntime.ClonePointerToString(database.EvictionPolicy)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(database.Id)
 
 	// Modules
 	if database.Modules != nil {
@@ -642,15 +623,6 @@ func (database *RedisEnterpriseDatabase_Spec) AssignPropertiesToRedisEnterpriseD
 	// Port
 	destination.Port = genruntime.ClonePointerToInt(database.Port)
 
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(database.ProvisioningState)
-
-	// ResourceState
-	destination.ResourceState = genruntime.ClonePointerToString(database.ResourceState)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(database.Type)
-
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		destination.PropertyBag = propertyBag
@@ -668,7 +640,6 @@ type Module struct {
 	Args        *string                `json:"args,omitempty"`
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Version     *string                `json:"version,omitempty"`
 }
 
 // AssignPropertiesFromModule populates our Module from the provided source Module
@@ -681,9 +652,6 @@ func (module *Module) AssignPropertiesFromModule(source *v20210301s.Module) erro
 
 	// Name
 	module.Name = genruntime.ClonePointerToString(source.Name)
-
-	// Version
-	module.Version = genruntime.ClonePointerToString(source.Version)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -706,9 +674,6 @@ func (module *Module) AssignPropertiesToModule(destination *v20210301s.Module) e
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(module.Name)
-
-	// Version
-	destination.Version = genruntime.ClonePointerToString(module.Version)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

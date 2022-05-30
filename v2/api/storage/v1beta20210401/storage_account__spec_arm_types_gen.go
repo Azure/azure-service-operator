@@ -62,12 +62,6 @@ type ExtendedLocationARM struct {
 }
 
 type IdentityARM struct {
-	// PrincipalId: The principal ID of resource identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	// TenantId: The tenant ID of resource.
-	TenantId *string `json:"tenantId,omitempty"`
-
 	// Type: The identity type.
 	Type *Identity_Type `json:"type,omitempty"`
 }
@@ -311,9 +305,6 @@ type IPRuleARM struct {
 }
 
 type KeyVaultPropertiesARM struct {
-	// CurrentVersionedKeyIdentifier: The object identifier of the current versioned Key Vault Key in use.
-	CurrentVersionedKeyIdentifier *string `json:"currentVersionedKeyIdentifier,omitempty"`
-
 	// Keyname: The name of KeyVault key.
 	Keyname *string `json:"keyname,omitempty"`
 
@@ -322,9 +313,6 @@ type KeyVaultPropertiesARM struct {
 
 	// Keyversion: The version of KeyVault key.
 	Keyversion *string `json:"keyversion,omitempty"`
-
-	// LastKeyRotationTimestamp: Timestamp of last rotation of the Key Vault Key.
-	LastKeyRotationTimestamp *string `json:"lastKeyRotationTimestamp,omitempty"`
 }
 
 type ResourceAccessRuleARM struct {
@@ -350,9 +338,4 @@ type EncryptionServiceARM struct {
 	// KeyType: Encryption key type to be used for the encryption service. 'Account' key type implies that an account-scoped
 	// encryption key will be used. 'Service' key type implies that a default service key is used.
 	KeyType *EncryptionService_KeyType `json:"keyType,omitempty"`
-
-	// LastEnabledTime: Gets a rough estimate of the date/time when the encryption was last enabled by the user. Only returned
-	// when encryption is enabled. There might be some unencrypted blobs which were written after this time, as it is just a
-	// rough estimate.
-	LastEnabledTime *string `json:"lastEnabledTime,omitempty"`
 }

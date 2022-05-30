@@ -84,15 +84,12 @@ func NamespacesTopic_SpecARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForNamespacesTopic_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNamespacesTopic_SpecARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForNamespacesTopic_SpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespacesTopic_SpecARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(SBTopicPropertiesARMGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemDataARMGenerator())
 }
 
 func Test_SBTopicPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -138,9 +135,6 @@ func RunJSONSerializationTestForSBTopicPropertiesARM(subject SBTopicPropertiesAR
 var sbTopicPropertiesARMGenerator gopter.Gen
 
 // SBTopicPropertiesARMGenerator returns a generator of SBTopicPropertiesARM instances for property testing.
-// We first initialize sbTopicPropertiesARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func SBTopicPropertiesARMGenerator() gopter.Gen {
 	if sbTopicPropertiesARMGenerator != nil {
 		return sbTopicPropertiesARMGenerator
@@ -150,20 +144,12 @@ func SBTopicPropertiesARMGenerator() gopter.Gen {
 	AddIndependentPropertyGeneratorsForSBTopicPropertiesARM(generators)
 	sbTopicPropertiesARMGenerator = gen.Struct(reflect.TypeOf(SBTopicPropertiesARM{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSBTopicPropertiesARM(generators)
-	AddRelatedPropertyGeneratorsForSBTopicPropertiesARM(generators)
-	sbTopicPropertiesARMGenerator = gen.Struct(reflect.TypeOf(SBTopicPropertiesARM{}), generators)
-
 	return sbTopicPropertiesARMGenerator
 }
 
 // AddIndependentPropertyGeneratorsForSBTopicPropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSBTopicPropertiesARM(gens map[string]gopter.Gen) {
-	gens["AccessedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["AutoDeleteOnIdle"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["DefaultMessageTimeToLive"] = gen.PtrOf(gen.AlphaString())
 	gens["DuplicateDetectionHistoryTimeWindow"] = gen.PtrOf(gen.AlphaString())
 	gens["EnableBatchedOperations"] = gen.PtrOf(gen.Bool())
@@ -171,13 +157,5 @@ func AddIndependentPropertyGeneratorsForSBTopicPropertiesARM(gens map[string]gop
 	gens["EnablePartitioning"] = gen.PtrOf(gen.Bool())
 	gens["MaxSizeInMegabytes"] = gen.PtrOf(gen.Int())
 	gens["RequiresDuplicateDetection"] = gen.PtrOf(gen.Bool())
-	gens["SizeInBytes"] = gen.PtrOf(gen.Int())
-	gens["SubscriptionCount"] = gen.PtrOf(gen.Int())
 	gens["SupportOrdering"] = gen.PtrOf(gen.Bool())
-	gens["UpdatedAt"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForSBTopicPropertiesARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSBTopicPropertiesARM(gens map[string]gopter.Gen) {
-	gens["CountDetails"] = gen.PtrOf(MessageCountDetailsARMGenerator())
 }

@@ -542,9 +542,6 @@ type DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	// Id: The unique resource identifier of the ARM resource.
-	Id *string `json:"id,omitempty"`
-
 	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
@@ -562,9 +559,6 @@ type DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec struct {
 	// Resource: The standard JSON format of a storedProcedure
 	Resource *SqlStoredProcedureResource `json:"resource,omitempty"`
 	Tags     map[string]string           `json:"tags,omitempty"`
-
-	// Type: The type of Azure resource.
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec{}
@@ -578,12 +572,6 @@ func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec) Con
 
 	// Set property ‘AzureName’:
 	result.AzureName = procedure.AzureName
-
-	// Set property ‘Id’:
-	if procedure.Id != nil {
-		id := *procedure.Id
-		result.Id = &id
-	}
 
 	// Set property ‘Location’:
 	if procedure.Location != nil {
@@ -622,12 +610,6 @@ func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec) Con
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	if procedure.Type != nil {
-		typeVar := *procedure.Type
-		result.Type = &typeVar
-	}
 	return result, nil
 }
 
@@ -645,12 +627,6 @@ func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec) Pop
 
 	// Set property ‘AzureName’:
 	procedure.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		procedure.Id = &id
-	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
@@ -697,12 +673,6 @@ func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec) Pop
 		for key, value := range typedInput.Tags {
 			procedure.Tags[key] = value
 		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		procedure.Type = &typeVar
 	}
 
 	// No error
@@ -765,9 +735,6 @@ func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec) Ass
 	// AzureName
 	procedure.AzureName = source.AzureName
 
-	// Id
-	procedure.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Location
 	procedure.Location = genruntime.ClonePointerToString(source.Location)
 
@@ -806,9 +773,6 @@ func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec) Ass
 	// Tags
 	procedure.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
-	// Type
-	procedure.Type = genruntime.ClonePointerToString(source.Type)
-
 	// No error
 	return nil
 }
@@ -820,9 +784,6 @@ func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec) Ass
 
 	// AzureName
 	destination.AzureName = procedure.AzureName
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(procedure.Id)
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(procedure.Location)
@@ -864,9 +825,6 @@ func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec) Ass
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(procedure.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(procedure.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

@@ -6,25 +6,17 @@ package v1beta20210515
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type DatabaseAccount_SpecARM struct {
-	AzureName string `json:"azureName,omitempty"`
-
-	// Id: The unique resource identifier of the ARM resource.
-	Id       *string                    `json:"id,omitempty"`
-	Identity *ManagedServiceIdentityARM `json:"identity,omitempty"`
+	AzureName string                     `json:"azureName,omitempty"`
+	Identity  *ManagedServiceIdentityARM `json:"identity,omitempty"`
 
 	// Kind: Indicates the type of database account. This can only be set at database account creation.
 	Kind *DatabaseAccount_Spec_Kind `json:"kind,omitempty"`
 
 	// Location: The location of the resource group to which the resource belongs.
-	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the ARM resource.
+	Location   *string                                   `json:"location,omitempty"`
 	Name       string                                    `json:"name,omitempty"`
 	Properties *DatabaseAccountCreateUpdatePropertiesARM `json:"properties,omitempty"`
 	Tags       map[string]string                         `json:"tags,omitempty"`
-
-	// Type: The type of Azure resource.
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &DatabaseAccount_SpecARM{}
@@ -129,14 +121,6 @@ const (
 )
 
 type ManagedServiceIdentityARM struct {
-	// PrincipalId: The principal id of the system assigned identity. This property will only be provided for a system assigned
-	// identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	// TenantId: The tenant id of the system assigned identity. This property will only be provided for a system assigned
-	// identity.
-	TenantId *string `json:"tenantId,omitempty"`
-
 	// Type: The type of identity used for the resource. The type 'SystemAssigned,UserAssigned' includes both an implicitly
 	// created identity and a set of user assigned identities. The type 'None' will remove any identities from the service.
 	Type *ManagedServiceIdentity_Type `json:"type,omitempty"`
@@ -203,17 +187,10 @@ type IpAddressOrRangeARM struct {
 }
 
 type LocationARM struct {
-	// DocumentEndpoint: The connection endpoint for the specific region. Example:
-	// https://&lt;accountName&gt;-&lt;locationName&gt;.documents.azure.com:443/
-	DocumentEndpoint *string `json:"documentEndpoint,omitempty"`
-
 	// FailoverPriority: The failover priority of the region. A failover priority of 0 indicates a write region. The maximum
 	// value for a failover priority = (total number of regions - 1). Failover priority values must be unique for each of the
 	// regions in which the database account exists.
 	FailoverPriority *int `json:"failoverPriority,omitempty"`
-
-	// Id: The unique identifier of the region within the database account. Example: &lt;accountName&gt;-&lt;locationName&gt;.
-	Id *string `json:"id,omitempty"`
 
 	// IsZoneRedundant: Flag to indicate whether or not this region is an AvailabilityZone region
 	IsZoneRedundant *bool `json:"isZoneRedundant,omitempty"`

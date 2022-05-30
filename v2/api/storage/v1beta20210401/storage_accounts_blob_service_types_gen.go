@@ -856,10 +856,6 @@ type StorageAccountsBlobService_Spec struct {
 	// DeleteRetentionPolicy: The blob service properties for blob soft delete.
 	DeleteRetentionPolicy *DeleteRetentionPolicy `json:"deleteRetentionPolicy,omitempty"`
 
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
 	// IsVersioningEnabled: Versioning is enabled if set to true.
 	IsVersioningEnabled *bool `json:"isVersioningEnabled,omitempty"`
 
@@ -874,12 +870,6 @@ type StorageAccountsBlobService_Spec struct {
 
 	// RestorePolicy: The blob service properties for blob restore policy.
 	RestorePolicy *RestorePolicyProperties `json:"restorePolicy,omitempty"`
-
-	// Sku: Sku name and tier.
-	Sku *Sku `json:"sku,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &StorageAccountsBlobService_Spec{}
@@ -893,12 +883,6 @@ func (service *StorageAccountsBlobService_Spec) ConvertToARM(resolved genruntime
 
 	// Set property ‘AzureName’:
 	result.AzureName = service.AzureName
-
-	// Set property ‘Id’:
-	if service.Id != nil {
-		id := *service.Id
-		result.Id = &id
-	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -974,22 +958,6 @@ func (service *StorageAccountsBlobService_Spec) ConvertToARM(resolved genruntime
 		}
 		restorePolicy := *restorePolicyARM.(*RestorePolicyPropertiesARM)
 		result.Properties.RestorePolicy = &restorePolicy
-	}
-
-	// Set property ‘Sku’:
-	if service.Sku != nil {
-		skuARM, err := (*service.Sku).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		sku := *skuARM.(*SkuARM)
-		result.Sku = &sku
-	}
-
-	// Set property ‘Type’:
-	if service.Type != nil {
-		typeVar := *service.Type
-		result.Type = &typeVar
 	}
 	return result, nil
 }
@@ -1083,12 +1051,6 @@ func (service *StorageAccountsBlobService_Spec) PopulateFromARM(owner genruntime
 		}
 	}
 
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		service.Id = &id
-	}
-
 	// Set property ‘IsVersioningEnabled’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -1129,23 +1091,6 @@ func (service *StorageAccountsBlobService_Spec) PopulateFromARM(owner genruntime
 			restorePolicy := restorePolicy1
 			service.RestorePolicy = &restorePolicy
 		}
-	}
-
-	// Set property ‘Sku’:
-	if typedInput.Sku != nil {
-		var sku1 Sku
-		err := sku1.PopulateFromARM(owner, *typedInput.Sku)
-		if err != nil {
-			return err
-		}
-		sku := sku1
-		service.Sku = &sku
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		service.Type = &typeVar
 	}
 
 	// No error
@@ -1267,9 +1212,6 @@ func (service *StorageAccountsBlobService_Spec) AssignPropertiesFromStorageAccou
 		service.DeleteRetentionPolicy = nil
 	}
 
-	// Id
-	service.Id = genruntime.ClonePointerToString(source.Id)
-
 	// IsVersioningEnabled
 	if source.IsVersioningEnabled != nil {
 		isVersioningEnabled := *source.IsVersioningEnabled
@@ -1309,21 +1251,6 @@ func (service *StorageAccountsBlobService_Spec) AssignPropertiesFromStorageAccou
 	} else {
 		service.RestorePolicy = nil
 	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku Sku
-		err := sku.AssignPropertiesFromSku(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSku() to populate field Sku")
-		}
-		service.Sku = &sku
-	} else {
-		service.Sku = nil
-	}
-
-	// Type
-	service.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -1396,9 +1323,6 @@ func (service *StorageAccountsBlobService_Spec) AssignPropertiesToStorageAccount
 		destination.DeleteRetentionPolicy = nil
 	}
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(service.Id)
-
 	// IsVersioningEnabled
 	if service.IsVersioningEnabled != nil {
 		isVersioningEnabled := *service.IsVersioningEnabled
@@ -1441,21 +1365,6 @@ func (service *StorageAccountsBlobService_Spec) AssignPropertiesToStorageAccount
 	} else {
 		destination.RestorePolicy = nil
 	}
-
-	// Sku
-	if service.Sku != nil {
-		var sku v20210401s.Sku
-		err := service.Sku.AssignPropertiesToSku(&sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSku() to populate field Sku")
-		}
-		destination.Sku = &sku
-	} else {
-		destination.Sku = nil
-	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(service.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2372,12 +2281,6 @@ type RestorePolicyProperties struct {
 	// +kubebuilder:validation:Required
 	// Enabled: Blob restore is enabled if set to true.
 	Enabled *bool `json:"enabled,omitempty"`
-
-	// LastEnabledTime: Deprecated in favor of minRestoreTime property.
-	LastEnabledTime *string `json:"lastEnabledTime,omitempty"`
-
-	// MinRestoreTime: Returns the minimum date and time that the restore can be started.
-	MinRestoreTime *string `json:"minRestoreTime,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &RestorePolicyProperties{}
@@ -2399,18 +2302,6 @@ func (properties *RestorePolicyProperties) ConvertToARM(resolved genruntime.Conv
 	if properties.Enabled != nil {
 		enabled := *properties.Enabled
 		result.Enabled = &enabled
-	}
-
-	// Set property ‘LastEnabledTime’:
-	if properties.LastEnabledTime != nil {
-		lastEnabledTime := *properties.LastEnabledTime
-		result.LastEnabledTime = &lastEnabledTime
-	}
-
-	// Set property ‘MinRestoreTime’:
-	if properties.MinRestoreTime != nil {
-		minRestoreTime := *properties.MinRestoreTime
-		result.MinRestoreTime = &minRestoreTime
 	}
 	return result, nil
 }
@@ -2439,18 +2330,6 @@ func (properties *RestorePolicyProperties) PopulateFromARM(owner genruntime.Arbi
 		properties.Enabled = &enabled
 	}
 
-	// Set property ‘LastEnabledTime’:
-	if typedInput.LastEnabledTime != nil {
-		lastEnabledTime := *typedInput.LastEnabledTime
-		properties.LastEnabledTime = &lastEnabledTime
-	}
-
-	// Set property ‘MinRestoreTime’:
-	if typedInput.MinRestoreTime != nil {
-		minRestoreTime := *typedInput.MinRestoreTime
-		properties.MinRestoreTime = &minRestoreTime
-	}
-
 	// No error
 	return nil
 }
@@ -2472,22 +2351,6 @@ func (properties *RestorePolicyProperties) AssignPropertiesFromRestorePolicyProp
 		properties.Enabled = &enabled
 	} else {
 		properties.Enabled = nil
-	}
-
-	// LastEnabledTime
-	if source.LastEnabledTime != nil {
-		lastEnabledTime := *source.LastEnabledTime
-		properties.LastEnabledTime = &lastEnabledTime
-	} else {
-		properties.LastEnabledTime = nil
-	}
-
-	// MinRestoreTime
-	if source.MinRestoreTime != nil {
-		minRestoreTime := *source.MinRestoreTime
-		properties.MinRestoreTime = &minRestoreTime
-	} else {
-		properties.MinRestoreTime = nil
 	}
 
 	// No error
@@ -2513,22 +2376,6 @@ func (properties *RestorePolicyProperties) AssignPropertiesToRestorePolicyProper
 		destination.Enabled = &enabled
 	} else {
 		destination.Enabled = nil
-	}
-
-	// LastEnabledTime
-	if properties.LastEnabledTime != nil {
-		lastEnabledTime := *properties.LastEnabledTime
-		destination.LastEnabledTime = &lastEnabledTime
-	} else {
-		destination.LastEnabledTime = nil
-	}
-
-	// MinRestoreTime
-	if properties.MinRestoreTime != nil {
-		minRestoreTime := *properties.MinRestoreTime
-		destination.MinRestoreTime = &minRestoreTime
-	} else {
-		destination.MinRestoreTime = nil
 	}
 
 	// Update the property bag

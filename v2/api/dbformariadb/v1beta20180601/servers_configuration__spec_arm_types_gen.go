@@ -7,19 +7,10 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type ServersConfiguration_SpecARM struct {
 	AzureName string `json:"azureName,omitempty"`
-
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// Name: The name of the resource
-	Name string `json:"name,omitempty"`
+	Name      string `json:"name,omitempty"`
 
 	// Properties: The properties of a configuration.
 	Properties *ConfigurationPropertiesARM `json:"properties,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &ServersConfiguration_SpecARM{}
@@ -40,18 +31,6 @@ func (configuration *ServersConfiguration_SpecARM) GetType() string {
 }
 
 type ConfigurationPropertiesARM struct {
-	// AllowedValues: Allowed values of the configuration.
-	AllowedValues *string `json:"allowedValues,omitempty"`
-
-	// DataType: Data type of the configuration.
-	DataType *string `json:"dataType,omitempty"`
-
-	// DefaultValue: Default value of the configuration.
-	DefaultValue *string `json:"defaultValue,omitempty"`
-
-	// Description: Description of the configuration.
-	Description *string `json:"description,omitempty"`
-
 	// Source: Source of the configuration.
 	Source *string `json:"source,omitempty"`
 

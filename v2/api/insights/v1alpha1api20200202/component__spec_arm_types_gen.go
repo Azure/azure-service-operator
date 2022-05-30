@@ -12,13 +12,11 @@ import (
 type Component_SpecARM struct {
 	AzureName  string                                     `json:"azureName,omitempty"`
 	Etag       *string                                    `json:"etag,omitempty"`
-	Id         *string                                    `json:"id,omitempty"`
 	Kind       *string                                    `json:"kind,omitempty"`
 	Location   *string                                    `json:"location,omitempty"`
 	Name       string                                     `json:"name,omitempty"`
 	Properties *ApplicationInsightsComponentPropertiesARM `json:"properties,omitempty"`
 	Tags       *v1.JSON                                   `json:"tags,omitempty"`
-	Type       *string                                    `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Component_SpecARM{}
@@ -40,35 +38,18 @@ func (component *Component_SpecARM) GetType() string {
 
 // Deprecated version of ApplicationInsightsComponentProperties. Use v1beta20200202.ApplicationInsightsComponentProperties instead
 type ApplicationInsightsComponentPropertiesARM struct {
-	AppId                           *string                                                  `json:"AppId,omitempty"`
-	ApplicationId                   *string                                                  `json:"ApplicationId,omitempty"`
 	Application_Type                *ApplicationInsightsComponentProperties_Application_Type `json:"Application_Type,omitempty"`
-	ConnectionString                *string                                                  `json:"ConnectionString,omitempty"`
-	CreationDate                    *string                                                  `json:"CreationDate,omitempty"`
 	DisableIpMasking                *bool                                                    `json:"DisableIpMasking,omitempty"`
 	DisableLocalAuth                *bool                                                    `json:"DisableLocalAuth,omitempty"`
 	Flow_Type                       *ApplicationInsightsComponentProperties_Flow_Type        `json:"Flow_Type,omitempty"`
 	ForceCustomerStorageForProfiler *bool                                                    `json:"ForceCustomerStorageForProfiler,omitempty"`
 	HockeyAppId                     *string                                                  `json:"HockeyAppId,omitempty"`
-	HockeyAppToken                  *string                                                  `json:"HockeyAppToken,omitempty"`
 	ImmediatePurgeDataOn30Days      *bool                                                    `json:"ImmediatePurgeDataOn30Days,omitempty"`
 	IngestionMode                   *ApplicationInsightsComponentProperties_IngestionMode    `json:"IngestionMode,omitempty"`
-	InstrumentationKey              *string                                                  `json:"InstrumentationKey,omitempty"`
-	LaMigrationDate                 *string                                                  `json:"LaMigrationDate,omitempty"`
-	Name                            *string                                                  `json:"Name,omitempty"`
-	PrivateLinkScopedResources      []PrivateLinkScopedResourceARM                           `json:"PrivateLinkScopedResources,omitempty"`
-	ProvisioningState               *string                                                  `json:"provisioningState,omitempty"`
 	PublicNetworkAccessForIngestion *PublicNetworkAccessType                                 `json:"publicNetworkAccessForIngestion,omitempty"`
 	PublicNetworkAccessForQuery     *PublicNetworkAccessType                                 `json:"publicNetworkAccessForQuery,omitempty"`
 	Request_Source                  *ApplicationInsightsComponentProperties_Request_Source   `json:"Request_Source,omitempty"`
 	RetentionInDays                 *int                                                     `json:"RetentionInDays,omitempty"`
 	SamplingPercentage              *float64                                                 `json:"SamplingPercentage,omitempty"`
-	TenantId                        *string                                                  `json:"TenantId,omitempty"`
 	WorkspaceResourceId             *string                                                  `json:"workspaceResourceId,omitempty"`
-}
-
-// Deprecated version of PrivateLinkScopedResource. Use v1beta20200202.PrivateLinkScopedResource instead
-type PrivateLinkScopedResourceARM struct {
-	ResourceId *string `json:"ResourceId,omitempty"`
-	ScopeId    *string `json:"ScopeId,omitempty"`
 }

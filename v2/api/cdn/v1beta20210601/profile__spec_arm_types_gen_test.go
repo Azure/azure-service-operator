@@ -83,19 +83,15 @@ func Profile_SpecARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForProfile_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForProfile_SpecARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Kind"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForProfile_SpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForProfile_SpecARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(ProfilePropertiesARMGenerator())
 	gens["Sku"] = gen.PtrOf(SkuARMGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemDataARMGenerator())
 }
 
 func Test_ProfilePropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -155,19 +151,7 @@ func ProfilePropertiesARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForProfilePropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForProfilePropertiesARM(gens map[string]gopter.Gen) {
-	gens["FrontDoorId"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginResponseTimeoutSeconds"] = gen.PtrOf(gen.Int())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProfileProperties_ProvisioningState_Creating,
-		ProfileProperties_ProvisioningState_Deleting,
-		ProfileProperties_ProvisioningState_Failed,
-		ProfileProperties_ProvisioningState_Succeeded,
-		ProfileProperties_ProvisioningState_Updating))
-	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(
-		ProfileProperties_ResourceState_Active,
-		ProfileProperties_ResourceState_Creating,
-		ProfileProperties_ResourceState_Deleting,
-		ProfileProperties_ResourceState_Disabled))
 }
 
 func Test_SkuARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -240,76 +224,4 @@ func AddIndependentPropertyGeneratorsForSkuARM(gens map[string]gopter.Gen) {
 		Sku_Name_Standard_ChinaCdn,
 		Sku_Name_Standard_Microsoft,
 		Sku_Name_Standard_Verizon))
-}
-
-func Test_SystemDataARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of SystemDataARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSystemDataARM, SystemDataARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSystemDataARM runs a test to see if a specific instance of SystemDataARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForSystemDataARM(subject SystemDataARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual SystemDataARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of SystemDataARM instances for property testing - lazily instantiated by SystemDataARMGenerator()
-var systemDataARMGenerator gopter.Gen
-
-// SystemDataARMGenerator returns a generator of SystemDataARM instances for property testing.
-func SystemDataARMGenerator() gopter.Gen {
-	if systemDataARMGenerator != nil {
-		return systemDataARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSystemDataARM(generators)
-	systemDataARMGenerator = gen.Struct(reflect.TypeOf(SystemDataARM{}), generators)
-
-	return systemDataARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSystemDataARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSystemDataARM(gens map[string]gopter.Gen) {
-	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedByType"] = gen.PtrOf(gen.OneConstOf(
-		IdentityType_Application,
-		IdentityType_Key,
-		IdentityType_ManagedIdentity,
-		IdentityType_User))
-	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedByType"] = gen.PtrOf(gen.OneConstOf(
-		IdentityType_Application,
-		IdentityType_Key,
-		IdentityType_ManagedIdentity,
-		IdentityType_User))
 }

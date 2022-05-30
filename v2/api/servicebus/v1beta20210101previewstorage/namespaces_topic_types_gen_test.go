@@ -212,9 +212,6 @@ func RunJSONSerializationTestForNamespacesTopic_Spec(subject NamespacesTopic_Spe
 var namespacesTopic_SpecGenerator gopter.Gen
 
 // NamespacesTopic_SpecGenerator returns a generator of NamespacesTopic_Spec instances for property testing.
-// We first initialize namespacesTopic_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func NamespacesTopic_SpecGenerator() gopter.Gen {
 	if namespacesTopic_SpecGenerator != nil {
 		return namespacesTopic_SpecGenerator
@@ -224,39 +221,20 @@ func NamespacesTopic_SpecGenerator() gopter.Gen {
 	AddIndependentPropertyGeneratorsForNamespacesTopic_Spec(generators)
 	namespacesTopic_SpecGenerator = gen.Struct(reflect.TypeOf(NamespacesTopic_Spec{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespacesTopic_Spec(generators)
-	AddRelatedPropertyGeneratorsForNamespacesTopic_Spec(generators)
-	namespacesTopic_SpecGenerator = gen.Struct(reflect.TypeOf(NamespacesTopic_Spec{}), generators)
-
 	return namespacesTopic_SpecGenerator
 }
 
 // AddIndependentPropertyGeneratorsForNamespacesTopic_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNamespacesTopic_Spec(gens map[string]gopter.Gen) {
-	gens["AccessedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["AutoDeleteOnIdle"] = gen.PtrOf(gen.AlphaString())
 	gens["AzureName"] = gen.AlphaString()
-	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["DefaultMessageTimeToLive"] = gen.PtrOf(gen.AlphaString())
 	gens["DuplicateDetectionHistoryTimeWindow"] = gen.PtrOf(gen.AlphaString())
 	gens["EnableBatchedOperations"] = gen.PtrOf(gen.Bool())
 	gens["EnableExpress"] = gen.PtrOf(gen.Bool())
 	gens["EnablePartitioning"] = gen.PtrOf(gen.Bool())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxSizeInMegabytes"] = gen.PtrOf(gen.Int())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["RequiresDuplicateDetection"] = gen.PtrOf(gen.Bool())
-	gens["SizeInBytes"] = gen.PtrOf(gen.Int())
-	gens["SubscriptionCount"] = gen.PtrOf(gen.Int())
 	gens["SupportOrdering"] = gen.PtrOf(gen.Bool())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["UpdatedAt"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForNamespacesTopic_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNamespacesTopic_Spec(gens map[string]gopter.Gen) {
-	gens["CountDetails"] = gen.PtrOf(MessageCountDetailsGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemDataGenerator())
 }

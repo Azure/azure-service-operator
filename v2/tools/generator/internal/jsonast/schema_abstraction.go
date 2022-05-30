@@ -45,6 +45,7 @@ type Schema interface {
 	// complex things
 	hasOneOf() bool
 	oneOf() []Schema
+	discriminator() string
 
 	hasAnyOf() bool
 	anyOf() []Schema

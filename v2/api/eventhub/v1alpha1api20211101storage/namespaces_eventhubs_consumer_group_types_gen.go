@@ -372,11 +372,8 @@ func (consumergroup *NamespacesEventhubsConsumergroup_STATUS) AssignPropertiesTo
 type NamespacesEventhubsConsumergroup_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string  `json:"azureName,omitempty"`
-	CreatedAt       *string `json:"createdAt,omitempty"`
-	Id              *string `json:"id,omitempty"`
-	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
+	AzureName       string `json:"azureName,omitempty"`
+	OriginalVersion string `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -384,9 +381,6 @@ type NamespacesEventhubsConsumergroup_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner        *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag  genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	SystemData   *SystemData                        `json:"systemData,omitempty"`
-	Type         *string                            `json:"type,omitempty"`
-	UpdatedAt    *string                            `json:"updatedAt,omitempty"`
 	UserMetadata *string                            `json:"userMetadata,omitempty"`
 }
 
@@ -448,15 +442,6 @@ func (consumergroup *NamespacesEventhubsConsumergroup_Spec) AssignPropertiesFrom
 	// AzureName
 	consumergroup.AzureName = source.AzureName
 
-	// CreatedAt
-	consumergroup.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
-
-	// Id
-	consumergroup.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Location
-	consumergroup.Location = genruntime.ClonePointerToString(source.Location)
-
 	// OriginalVersion
 	consumergroup.OriginalVersion = source.OriginalVersion
 
@@ -467,24 +452,6 @@ func (consumergroup *NamespacesEventhubsConsumergroup_Spec) AssignPropertiesFrom
 	} else {
 		consumergroup.Owner = nil
 	}
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
-		}
-		consumergroup.SystemData = &systemDatum
-	} else {
-		consumergroup.SystemData = nil
-	}
-
-	// Type
-	consumergroup.Type = genruntime.ClonePointerToString(source.Type)
-
-	// UpdatedAt
-	consumergroup.UpdatedAt = genruntime.ClonePointerToString(source.UpdatedAt)
 
 	// UserMetadata
 	consumergroup.UserMetadata = genruntime.ClonePointerToString(source.UserMetadata)
@@ -508,15 +475,6 @@ func (consumergroup *NamespacesEventhubsConsumergroup_Spec) AssignPropertiesToNa
 	// AzureName
 	destination.AzureName = consumergroup.AzureName
 
-	// CreatedAt
-	destination.CreatedAt = genruntime.ClonePointerToString(consumergroup.CreatedAt)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(consumergroup.Id)
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(consumergroup.Location)
-
 	// OriginalVersion
 	destination.OriginalVersion = consumergroup.OriginalVersion
 
@@ -527,24 +485,6 @@ func (consumergroup *NamespacesEventhubsConsumergroup_Spec) AssignPropertiesToNa
 	} else {
 		destination.Owner = nil
 	}
-
-	// SystemData
-	if consumergroup.SystemData != nil {
-		var systemDatum v20211101s.SystemData
-		err := consumergroup.SystemData.AssignPropertiesToSystemData(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(consumergroup.Type)
-
-	// UpdatedAt
-	destination.UpdatedAt = genruntime.ClonePointerToString(consumergroup.UpdatedAt)
 
 	// UserMetadata
 	destination.UserMetadata = genruntime.ClonePointerToString(consumergroup.UserMetadata)

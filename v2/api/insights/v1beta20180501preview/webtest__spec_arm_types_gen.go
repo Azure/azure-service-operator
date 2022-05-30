@@ -11,26 +11,18 @@ import (
 type Webtest_SpecARM struct {
 	AzureName string `json:"azureName,omitempty"`
 
-	// Id: Azure resource Id
-	Id *string `json:"id,omitempty"`
-
 	// Kind: The kind of WebTest that this web test watches. Choices are ping and multistep.
 	Kind *Webtest_Spec_Kind `json:"kind,omitempty"`
 
 	// Location: Resource location
 	Location *string `json:"location,omitempty"`
-
-	// Name: Azure resource name
-	Name string `json:"name,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
 	// Properties: Metadata describing a web test for an Azure resource.
 	Properties *WebTestPropertiesARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags
 	Tags *v1.JSON `json:"tags,omitempty"`
-
-	// Type: Azure resource type
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Webtest_SpecARM{}
@@ -72,11 +64,6 @@ type WebTestPropertiesARM struct {
 
 	// Name: User defined name if this WebTest.
 	Name *string `json:"Name,omitempty"`
-
-	// ProvisioningState: Current state of this component, whether or not is has been provisioned within the resource group it
-	// is defined. Users cannot change this value but are able to read from it. Values will include Succeeded, Deploying,
-	// Canceled, and Failed.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// Request: The collection of request properties
 	Request *WebTestProperties_RequestARM `json:"Request,omitempty"`

@@ -60,13 +60,6 @@ type BatchAccountCreatePropertiesARM struct {
 }
 
 type BatchAccountIdentityARM struct {
-	// PrincipalId: The principal id of the Batch account. This property will only be provided for a system assigned identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	// TenantId: The tenant id associated with the Batch account. This property will only be provided for a system assigned
-	// identity.
-	TenantId *string `json:"tenantId,omitempty"`
-
 	// Type: The type of identity used for the Batch account.
 	Type *BatchAccountIdentity_Type `json:"type,omitempty"`
 }

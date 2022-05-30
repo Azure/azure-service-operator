@@ -516,18 +516,11 @@ type ServersDatabase_Spec struct {
 	// Collation: The collation of the database.
 	Collation *string `json:"collation,omitempty"`
 
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ServersDatabase_Spec{}
@@ -541,12 +534,6 @@ func (database *ServersDatabase_Spec) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property ‘AzureName’:
 	result.AzureName = database.AzureName
-
-	// Set property ‘Id’:
-	if database.Id != nil {
-		id := *database.Id
-		result.Id = &id
-	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -562,12 +549,6 @@ func (database *ServersDatabase_Spec) ConvertToARM(resolved genruntime.ConvertTo
 	if database.Collation != nil {
 		collation := *database.Collation
 		result.Properties.Collation = &collation
-	}
-
-	// Set property ‘Type’:
-	if database.Type != nil {
-		typeVar := *database.Type
-		result.Type = &typeVar
 	}
 	return result, nil
 }
@@ -605,21 +586,9 @@ func (database *ServersDatabase_Spec) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		database.Id = &id
-	}
-
 	// Set property ‘Owner’:
 	database.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		database.Type = &typeVar
 	}
 
 	// No error
@@ -688,9 +657,6 @@ func (database *ServersDatabase_Spec) AssignPropertiesFromServersDatabase_Spec(s
 	// Collation
 	database.Collation = genruntime.ClonePointerToString(source.Collation)
 
-	// Id
-	database.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -698,9 +664,6 @@ func (database *ServersDatabase_Spec) AssignPropertiesFromServersDatabase_Spec(s
 	} else {
 		database.Owner = nil
 	}
-
-	// Type
-	database.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -720,9 +683,6 @@ func (database *ServersDatabase_Spec) AssignPropertiesToServersDatabase_Spec(des
 	// Collation
 	destination.Collation = genruntime.ClonePointerToString(database.Collation)
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(database.Id)
-
 	// OriginalVersion
 	destination.OriginalVersion = database.OriginalVersion()
 
@@ -733,9 +693,6 @@ func (database *ServersDatabase_Spec) AssignPropertiesToServersDatabase_Spec(des
 	} else {
 		destination.Owner = nil
 	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(database.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

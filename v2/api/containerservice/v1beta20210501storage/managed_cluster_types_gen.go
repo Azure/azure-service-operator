@@ -211,9 +211,8 @@ type ManagedCluster_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName            string  `json:"azureName,omitempty"`
-	AzurePortalFQDN      *string `json:"azurePortalFQDN,omitempty"`
-	DisableLocalAccounts *bool   `json:"disableLocalAccounts,omitempty"`
+	AzureName            string `json:"azureName,omitempty"`
+	DisableLocalAccounts *bool  `json:"disableLocalAccounts,omitempty"`
 
 	// DiskEncryptionSetIDReference: This is of the form:
 	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{encryptionSetName}'
@@ -222,16 +221,13 @@ type ManagedCluster_Spec struct {
 	EnablePodSecurityPolicy      *bool                           `json:"enablePodSecurityPolicy,omitempty"`
 	EnableRBAC                   *bool                           `json:"enableRBAC,omitempty"`
 	ExtendedLocation             *ExtendedLocation               `json:"extendedLocation,omitempty"`
-	Fqdn                         *string                         `json:"fqdn,omitempty"`
 	FqdnSubdomain                *string                         `json:"fqdnSubdomain,omitempty"`
 	HttpProxyConfig              *ManagedClusterHTTPProxyConfig  `json:"httpProxyConfig,omitempty"`
-	Id                           *string                         `json:"id,omitempty"`
 	Identity                     *ManagedClusterIdentity         `json:"identity,omitempty"`
 	IdentityProfile              *v1.JSON                        `json:"identityProfile,omitempty"`
 	KubernetesVersion            *string                         `json:"kubernetesVersion,omitempty"`
 	LinuxProfile                 *ContainerServiceLinuxProfile   `json:"linuxProfile,omitempty"`
 	Location                     *string                         `json:"location,omitempty"`
-	MaxAgentPools                *int                            `json:"maxAgentPools,omitempty"`
 	NetworkProfile               *ContainerServiceNetworkProfile `json:"networkProfile,omitempty"`
 	NodeResourceGroup            *string                         `json:"nodeResourceGroup,omitempty"`
 	OriginalVersion              string                          `json:"originalVersion,omitempty"`
@@ -242,15 +238,11 @@ type ManagedCluster_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner                   *genruntime.KnownResourceReference     `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PodIdentityProfile      *ManagedClusterPodIdentityProfile      `json:"podIdentityProfile,omitempty"`
-	PowerState              *PowerState                            `json:"powerState,omitempty"`
-	PrivateFQDN             *string                                `json:"privateFQDN,omitempty"`
 	PrivateLinkResources    []PrivateLinkResource                  `json:"privateLinkResources,omitempty"`
 	PropertyBag             genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
-	ProvisioningState       *string                                `json:"provisioningState,omitempty"`
 	ServicePrincipalProfile *ManagedClusterServicePrincipalProfile `json:"servicePrincipalProfile,omitempty"`
 	Sku                     *ManagedClusterSKU                     `json:"sku,omitempty"`
 	Tags                    map[string]string                      `json:"tags,omitempty"`
-	Type                    *string                                `json:"type,omitempty"`
 	WindowsProfile          *ManagedClusterWindowsProfile          `json:"windowsProfile,omitempty"`
 }
 
@@ -392,7 +384,6 @@ type ManagedClusterAgentPoolProfile struct {
 	MinCount               *int              `json:"minCount,omitempty"`
 	Mode                   *string           `json:"mode,omitempty"`
 	Name                   *string           `json:"name,omitempty"`
-	NodeImageVersion       *string           `json:"nodeImageVersion,omitempty"`
 	NodeLabels             map[string]string `json:"nodeLabels,omitempty"`
 
 	// NodePublicIPPrefixIDReference: This is of the form:
@@ -409,9 +400,7 @@ type ManagedClusterAgentPoolProfile struct {
 	// details). This is of the form:
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
 	PodSubnetIDReference      *genruntime.ResourceReference `armReference:"PodSubnetID" json:"podSubnetIDReference,omitempty"`
-	PowerState                *PowerState                   `json:"powerState,omitempty"`
 	PropertyBag               genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	ProvisioningState         *string                       `json:"provisioningState,omitempty"`
 	ProximityPlacementGroupID *string                       `json:"proximityPlacementGroupID,omitempty"`
 	ScaleSetEvictionPolicy    *string                       `json:"scaleSetEvictionPolicy,omitempty"`
 	ScaleSetPriority          *string                       `json:"scaleSetPriority,omitempty"`
@@ -501,11 +490,8 @@ type ManagedClusterHTTPProxyConfig_STATUS struct {
 
 // Storage version of v1beta20210501.ManagedClusterIdentity
 type ManagedClusterIdentity struct {
-	PrincipalId            *string                                                  `json:"principalId,omitempty"`
-	PropertyBag            genruntime.PropertyBag                                   `json:"$propertyBag,omitempty"`
-	TenantId               *string                                                  `json:"tenantId,omitempty"`
-	Type                   *string                                                  `json:"type,omitempty"`
-	UserAssignedIdentities map[string]ManagedClusterIdentity_UserAssignedIdentities `json:"userAssignedIdentities,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Type        *string                `json:"type,omitempty"`
 }
 
 // Storage version of v1beta20210501.ManagedClusterIdentity_STATUS
@@ -625,12 +611,6 @@ type ManagedClusterWindowsProfile_STATUS struct {
 	PropertyBag    genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
-// Storage version of v1beta20210501.PowerState
-type PowerState struct {
-	Code        *string                `json:"code,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
 // Storage version of v1beta20210501.PowerState_STATUS
 type PowerState_STATUS struct {
 	Code        *string                `json:"code,omitempty"`
@@ -639,10 +619,9 @@ type PowerState_STATUS struct {
 
 // Storage version of v1beta20210501.PrivateLinkResource
 type PrivateLinkResource struct {
-	GroupId              *string                `json:"groupId,omitempty"`
-	Name                 *string                `json:"name,omitempty"`
-	PrivateLinkServiceID *string                `json:"privateLinkServiceID,omitempty"`
-	PropertyBag          genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	GroupId     *string                `json:"groupId,omitempty"`
+	Name        *string                `json:"name,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 
 	// Reference: The ID of the private link resource.
 	Reference       *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
@@ -671,13 +650,6 @@ type ContainerServiceSshConfiguration struct {
 type ContainerServiceSshConfiguration_STATUS struct {
 	PropertyBag genruntime.PropertyBag                `json:"$propertyBag,omitempty"`
 	PublicKeys  []ContainerServiceSshPublicKey_STATUS `json:"publicKeys,omitempty"`
-}
-
-// Storage version of v1beta20210501.ManagedClusterIdentity_UserAssignedIdentities
-type ManagedClusterIdentity_UserAssignedIdentities struct {
-	ClientId    *string                `json:"clientId,omitempty"`
-	PrincipalId *string                `json:"principalId,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210501.ManagedClusterIdentity_UserAssignedIdentities_STATUS
@@ -711,13 +683,11 @@ type ManagedClusterLoadBalancerProfile_STATUS struct {
 
 // Storage version of v1beta20210501.ManagedClusterPodIdentity
 type ManagedClusterPodIdentity struct {
-	BindingSelector   *string                                     `json:"bindingSelector,omitempty"`
-	Identity          *UserAssignedIdentity                       `json:"identity,omitempty"`
-	Name              *string                                     `json:"name,omitempty"`
-	Namespace         *string                                     `json:"namespace,omitempty"`
-	PropertyBag       genruntime.PropertyBag                      `json:"$propertyBag,omitempty"`
-	ProvisioningInfo  *ManagedClusterPodIdentity_ProvisioningInfo `json:"provisioningInfo,omitempty"`
-	ProvisioningState *string                                     `json:"provisioningState,omitempty"`
+	BindingSelector *string                `json:"bindingSelector,omitempty"`
+	Identity        *UserAssignedIdentity  `json:"identity,omitempty"`
+	Name            *string                `json:"name,omitempty"`
+	Namespace       *string                `json:"namespace,omitempty"`
+	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210501.ManagedClusterPodIdentityException
@@ -795,12 +765,6 @@ type ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS struct {
 	PublicIPs   []ResourceReference_STATUS `json:"publicIPs,omitempty"`
 }
 
-// Storage version of v1beta20210501.ManagedClusterPodIdentity_ProvisioningInfo
-type ManagedClusterPodIdentity_ProvisioningInfo struct {
-	Error       *ManagedClusterPodIdentityProvisioningError `json:"error,omitempty"`
-	PropertyBag genruntime.PropertyBag                      `json:"$propertyBag,omitempty"`
-}
-
 // Storage version of v1beta20210501.ManagedClusterPodIdentity_ProvisioningInfo_STATUS
 type ManagedClusterPodIdentity_ProvisioningInfo_STATUS struct {
 	Error       *ManagedClusterPodIdentityProvisioningError_STATUS `json:"error,omitempty"`
@@ -839,25 +803,10 @@ type UserAssignedIdentity_STATUS struct {
 	ResourceId  *string                `json:"resourceId,omitempty"`
 }
 
-// Storage version of v1beta20210501.ManagedClusterPodIdentityProvisioningError
-type ManagedClusterPodIdentityProvisioningError struct {
-	Error       *ManagedClusterPodIdentityProvisioningErrorBody `json:"error,omitempty"`
-	PropertyBag genruntime.PropertyBag                          `json:"$propertyBag,omitempty"`
-}
-
 // Storage version of v1beta20210501.ManagedClusterPodIdentityProvisioningError_STATUS
 type ManagedClusterPodIdentityProvisioningError_STATUS struct {
 	Error       *ManagedClusterPodIdentityProvisioningErrorBody_STATUS `json:"error,omitempty"`
 	PropertyBag genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1beta20210501.ManagedClusterPodIdentityProvisioningErrorBody
-type ManagedClusterPodIdentityProvisioningErrorBody struct {
-	Code        *string                                                   `json:"code,omitempty"`
-	Details     []ManagedClusterPodIdentityProvisioningErrorBody_Unrolled `json:"details,omitempty"`
-	Message     *string                                                   `json:"message,omitempty"`
-	PropertyBag genruntime.PropertyBag                                    `json:"$propertyBag,omitempty"`
-	Target      *string                                                   `json:"target,omitempty"`
 }
 
 // Storage version of v1beta20210501.ManagedClusterPodIdentityProvisioningErrorBody_STATUS
@@ -871,14 +820,6 @@ type ManagedClusterPodIdentityProvisioningErrorBody_STATUS struct {
 
 // Storage version of v1beta20210501.ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled
 type ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled struct {
-	Code        *string                `json:"code,omitempty"`
-	Message     *string                `json:"message,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Target      *string                `json:"target,omitempty"`
-}
-
-// Storage version of v1beta20210501.ManagedClusterPodIdentityProvisioningErrorBody_Unrolled
-type ManagedClusterPodIdentityProvisioningErrorBody_Unrolled struct {
 	Code        *string                `json:"code,omitempty"`
 	Message     *string                `json:"message,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`

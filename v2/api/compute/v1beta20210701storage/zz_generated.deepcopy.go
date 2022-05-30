@@ -569,11 +569,6 @@ func (in *Image_Spec) DeepCopyInto(out *Image_Spec) {
 		*out = new(string)
 		**out = **in
 	}
-	if in.Id != nil {
-		in, out := &in.Id, &out.Id
-		*out = new(string)
-		**out = **in
-	}
 	if in.Location != nil {
 		in, out := &in.Location, &out.Location
 		*out = new(string)
@@ -591,11 +586,6 @@ func (in *Image_Spec) DeepCopyInto(out *Image_Spec) {
 			(*out)[key] = val
 		}
 	}
-	if in.ProvisioningState != nil {
-		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(string)
-		**out = **in
-	}
 	if in.SourceVirtualMachine != nil {
 		in, out := &in.SourceVirtualMachine, &out.SourceVirtualMachine
 		*out = new(SubResource)
@@ -612,11 +602,6 @@ func (in *Image_Spec) DeepCopyInto(out *Image_Spec) {
 		for key, val := range *in {
 			(*out)[key] = val
 		}
-	}
-	if in.Type != nil {
-		in, out := &in.Type, &out.Type
-		*out = new(string)
-		**out = **in
 	}
 }
 

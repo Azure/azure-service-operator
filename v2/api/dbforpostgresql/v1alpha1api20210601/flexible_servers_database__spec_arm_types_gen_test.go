@@ -84,15 +84,12 @@ func FlexibleServersDatabase_SpecARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForFlexibleServersDatabase_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForFlexibleServersDatabase_SpecARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForFlexibleServersDatabase_SpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForFlexibleServersDatabase_SpecARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(DatabasePropertiesARMGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemDataARMGenerator())
 }
 
 func Test_DatabasePropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -192,7 +192,6 @@ type Webtest_Spec struct {
 	Description     *string                          `json:"Description,omitempty"`
 	Enabled         *bool                            `json:"Enabled,omitempty"`
 	Frequency       *int                             `json:"Frequency,omitempty"`
-	Id              *string                          `json:"id,omitempty"`
 	Kind            *string                          `json:"kind,omitempty"`
 	Location        *string                          `json:"location,omitempty"`
 	Locations       []WebTestGeolocation             `json:"Locations,omitempty"`
@@ -206,13 +205,11 @@ type Webtest_Spec struct {
 	Owner              *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertiesKind     *string                            `json:"properties_kind,omitempty"`
 	PropertyBag        genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	ProvisioningState  *string                            `json:"provisioningState,omitempty"`
 	Request            *WebTestProperties_Request         `json:"Request,omitempty"`
 	RetryEnabled       *bool                              `json:"RetryEnabled,omitempty"`
 	SyntheticMonitorId *string                            `json:"SyntheticMonitorId,omitempty"`
 	Tags               *v1.JSON                           `json:"tags,omitempty"`
 	Timeout            *int                               `json:"Timeout,omitempty"`
-	Type               *string                            `json:"type,omitempty"`
 	ValidationRules    *WebTestProperties_ValidationRules `json:"ValidationRules,omitempty"`
 }
 

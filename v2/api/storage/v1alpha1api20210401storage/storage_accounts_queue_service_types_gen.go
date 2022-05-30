@@ -346,7 +346,6 @@ type StorageAccountsQueueService_Spec struct {
 	// doesn't have to be.
 	AzureName       string     `json:"azureName,omitempty"`
 	Cors            *CorsRules `json:"cors,omitempty"`
-	Id              *string    `json:"id,omitempty"`
 	OriginalVersion string     `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -355,7 +354,6 @@ type StorageAccountsQueueService_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Type        *string                            `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &StorageAccountsQueueService_Spec{}
@@ -428,9 +426,6 @@ func (service *StorageAccountsQueueService_Spec) AssignPropertiesFromStorageAcco
 		service.Cors = nil
 	}
 
-	// Id
-	service.Id = genruntime.ClonePointerToString(source.Id)
-
 	// OriginalVersion
 	service.OriginalVersion = source.OriginalVersion
 
@@ -441,9 +436,6 @@ func (service *StorageAccountsQueueService_Spec) AssignPropertiesFromStorageAcco
 	} else {
 		service.Owner = nil
 	}
-
-	// Type
-	service.Type = genruntime.ClonePointerToString(source.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -476,9 +468,6 @@ func (service *StorageAccountsQueueService_Spec) AssignPropertiesToStorageAccoun
 		destination.Cors = nil
 	}
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(service.Id)
-
 	// OriginalVersion
 	destination.OriginalVersion = service.OriginalVersion
 
@@ -489,9 +478,6 @@ func (service *StorageAccountsQueueService_Spec) AssignPropertiesToStorageAccoun
 	} else {
 		destination.Owner = nil
 	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(service.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

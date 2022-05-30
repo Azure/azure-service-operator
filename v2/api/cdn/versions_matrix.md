@@ -1,16 +1,6 @@
 | Type Definitions in package "cdn"                                                  | v1beta20210601 |
 |------------------------------------------------------------------------------------|----------------|
 | APIVersion                                                                         | v1beta20210601 |
-| CustomDomain                                                                       | v1beta20210601 |
-| CustomDomainHttpsParameters                                                        | v1beta20210601 |
-| CustomDomainHttpsParameters_CertificateSource                                      | v1beta20210601 |
-| CustomDomainHttpsParameters_MinimumTlsVersion                                      | v1beta20210601 |
-| CustomDomainHttpsParameters_ProtocolType                                           | v1beta20210601 |
-| CustomDomainProperties                                                             | v1beta20210601 |
-| CustomDomainProperties_CustomHttpsProvisioningState                                | v1beta20210601 |
-| CustomDomainProperties_CustomHttpsProvisioningSubstate                             | v1beta20210601 |
-| CustomDomainProperties_ProvisioningState                                           | v1beta20210601 |
-| CustomDomainProperties_ResourceState                                               | v1beta20210601 |
 | CustomDomain_STATUS                                                                | v1beta20210601 |
 | DeepCreatedOrigin                                                                  | v1beta20210601 |
 | DeepCreatedOriginGroup                                                             | v1beta20210601 |
@@ -33,9 +23,7 @@
 | EndpointProperties                                                                 | v1beta20210601 |
 | EndpointProperties_DeliveryPolicy                                                  | v1beta20210601 |
 | EndpointProperties_DeliveryPolicy_STATUS                                           | v1beta20210601 |
-| EndpointProperties_ProvisioningState                                               | v1beta20210601 |
 | EndpointProperties_ProvisioningState_STATUS                                        | v1beta20210601 |
-| EndpointProperties_ResourceState                                                   | v1beta20210601 |
 | EndpointProperties_ResourceState_STATUS                                            | v1beta20210601 |
 | EndpointProperties_STATUS                                                          | v1beta20210601 |
 | EndpointProperties_WebApplicationFirewallPolicyLink                                | v1beta20210601 |
@@ -52,7 +40,6 @@
 | HealthProbeParameters_STATUS                                                       | v1beta20210601 |
 | HttpErrorRangeParameters                                                           | v1beta20210601 |
 | HttpErrorRangeParameters_STATUS                                                    | v1beta20210601 |
-| IdentityType                                                                       | v1beta20210601 |
 | IdentityType_STATUS                                                                | v1beta20210601 |
 | KeyVaultSigningKeyParameters                                                       | v1beta20210601 |
 | KeyVaultSigningKeyParameters_STATUS                                                | v1beta20210601 |
@@ -60,13 +47,10 @@
 | KeyVaultSigningKeyParameters_TypeName_STATUS                                       | v1beta20210601 |
 | OptimizationType                                                                   | v1beta20210601 |
 | OptimizationType_STATUS                                                            | v1beta20210601 |
-| PrivateEndpointStatus                                                              | v1beta20210601 |
 | PrivateEndpointStatus_STATUS                                                       | v1beta20210601 |
 | Profile                                                                            | v1beta20210601 |
 | ProfileProperties                                                                  | v1beta20210601 |
-| ProfileProperties_ProvisioningState                                                | v1beta20210601 |
 | ProfileProperties_ProvisioningState_STATUS                                         | v1beta20210601 |
-| ProfileProperties_ResourceState                                                    | v1beta20210601 |
 | ProfileProperties_ResourceState_STATUS                                             | v1beta20210601 |
 | ProfileProperties_STATUS                                                           | v1beta20210601 |
 | Profile_STATUS                                                                     | v1beta20210601 |
@@ -86,7 +70,6 @@
 | Sku_Name                                                                           | v1beta20210601 |
 | Sku_Name_STATUS                                                                    | v1beta20210601 |
 | Sku_STATUS                                                                         | v1beta20210601 |
-| SystemData                                                                         | v1beta20210601 |
 | SystemData_STATUS                                                                  | v1beta20210601 |
 | UrlSigningKey                                                                      | v1beta20210601 |
 | UrlSigningKey_STATUS                                                               | v1beta20210601 |

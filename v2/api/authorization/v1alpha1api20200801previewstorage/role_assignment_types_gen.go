@@ -413,8 +413,6 @@ type RoleAssignment_Spec struct {
 	AzureName                          string  `json:"azureName,omitempty"`
 	Condition                          *string `json:"condition,omitempty"`
 	ConditionVersion                   *string `json:"conditionVersion,omitempty"`
-	CreatedBy                          *string `json:"createdBy,omitempty"`
-	CreatedOn                          *string `json:"createdOn,omitempty"`
 	DelegatedManagedIdentityResourceId *string `json:"delegatedManagedIdentityResourceId,omitempty"`
 	Description                        *string `json:"description,omitempty"`
 	OriginalVersion                    string  `json:"originalVersion,omitempty"`
@@ -430,9 +428,6 @@ type RoleAssignment_Spec struct {
 
 	// +kubebuilder:validation:Required
 	RoleDefinitionReference *genruntime.ResourceReference `armReference:"RoleDefinitionId" json:"roleDefinitionReference,omitempty"`
-	Scope                   *string                       `json:"scope,omitempty"`
-	UpdatedBy               *string                       `json:"updatedBy,omitempty"`
-	UpdatedOn               *string                       `json:"updatedOn,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &RoleAssignment_Spec{}
@@ -499,12 +494,6 @@ func (assignment *RoleAssignment_Spec) AssignPropertiesFromRoleAssignment_Spec(s
 	// ConditionVersion
 	assignment.ConditionVersion = genruntime.ClonePointerToString(source.ConditionVersion)
 
-	// CreatedBy
-	assignment.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
-
-	// CreatedOn
-	assignment.CreatedOn = genruntime.ClonePointerToString(source.CreatedOn)
-
 	// DelegatedManagedIdentityResourceId
 	assignment.DelegatedManagedIdentityResourceId = genruntime.ClonePointerToString(source.DelegatedManagedIdentityResourceId)
 
@@ -536,15 +525,6 @@ func (assignment *RoleAssignment_Spec) AssignPropertiesFromRoleAssignment_Spec(s
 		assignment.RoleDefinitionReference = nil
 	}
 
-	// Scope
-	assignment.Scope = genruntime.ClonePointerToString(source.Scope)
-
-	// UpdatedBy
-	assignment.UpdatedBy = genruntime.ClonePointerToString(source.UpdatedBy)
-
-	// UpdatedOn
-	assignment.UpdatedOn = genruntime.ClonePointerToString(source.UpdatedOn)
-
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		assignment.PropertyBag = propertyBag
@@ -569,12 +549,6 @@ func (assignment *RoleAssignment_Spec) AssignPropertiesToRoleAssignment_Spec(des
 
 	// ConditionVersion
 	destination.ConditionVersion = genruntime.ClonePointerToString(assignment.ConditionVersion)
-
-	// CreatedBy
-	destination.CreatedBy = genruntime.ClonePointerToString(assignment.CreatedBy)
-
-	// CreatedOn
-	destination.CreatedOn = genruntime.ClonePointerToString(assignment.CreatedOn)
 
 	// DelegatedManagedIdentityResourceId
 	destination.DelegatedManagedIdentityResourceId = genruntime.ClonePointerToString(assignment.DelegatedManagedIdentityResourceId)
@@ -606,15 +580,6 @@ func (assignment *RoleAssignment_Spec) AssignPropertiesToRoleAssignment_Spec(des
 	} else {
 		destination.RoleDefinitionReference = nil
 	}
-
-	// Scope
-	destination.Scope = genruntime.ClonePointerToString(assignment.Scope)
-
-	// UpdatedBy
-	destination.UpdatedBy = genruntime.ClonePointerToString(assignment.UpdatedBy)
-
-	// UpdatedOn
-	destination.UpdatedOn = genruntime.ClonePointerToString(assignment.UpdatedOn)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

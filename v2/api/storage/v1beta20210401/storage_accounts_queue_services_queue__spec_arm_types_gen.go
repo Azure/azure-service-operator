@@ -7,19 +7,10 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type StorageAccountsQueueServicesQueue_SpecARM struct {
 	AzureName string `json:"azureName,omitempty"`
-
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// Name: The name of the resource
-	Name string `json:"name,omitempty"`
+	Name      string `json:"name,omitempty"`
 
 	// Properties: Queue resource properties.
 	Properties *QueuePropertiesARM `json:"properties,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &StorageAccountsQueueServicesQueue_SpecARM{}
@@ -40,10 +31,6 @@ func (queue *StorageAccountsQueueServicesQueue_SpecARM) GetType() string {
 }
 
 type QueuePropertiesARM struct {
-	// ApproximateMessageCount: Integer indicating an approximate number of messages in the queue. This number is not lower
-	// than the actual number of messages in the queue, but could be higher.
-	ApproximateMessageCount *int `json:"approximateMessageCount,omitempty"`
-
 	// Metadata: A name-value pair that represents queue metadata.
 	Metadata map[string]string `json:"metadata,omitempty"`
 }

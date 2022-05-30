@@ -1121,7 +1121,6 @@ type VirtualMachineScaleSet_Spec struct {
 	DoNotRunExtensionsOnOverprovisionedVMs *bool                           `json:"doNotRunExtensionsOnOverprovisionedVMs,omitempty"`
 	ExtendedLocation                       *ExtendedLocation               `json:"extendedLocation,omitempty"`
 	HostGroup                              *SubResource                    `json:"hostGroup,omitempty"`
-	Id                                     *string                         `json:"id,omitempty"`
 	Identity                               *VirtualMachineScaleSetIdentity `json:"identity,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -1136,14 +1135,11 @@ type VirtualMachineScaleSet_Spec struct {
 	Owner                    *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	Plan                     *Plan                              `json:"plan,omitempty"`
 	PlatformFaultDomainCount *int                               `json:"platformFaultDomainCount,omitempty"`
-	ProvisioningState        *string                            `json:"provisioningState,omitempty"`
 	ProximityPlacementGroup  *SubResource                       `json:"proximityPlacementGroup,omitempty"`
 	ScaleInPolicy            *ScaleInPolicy                     `json:"scaleInPolicy,omitempty"`
 	SinglePlacementGroup     *bool                              `json:"singlePlacementGroup,omitempty"`
 	Sku                      *Sku                               `json:"sku,omitempty"`
 	Tags                     map[string]string                  `json:"tags,omitempty"`
-	Type                     *string                            `json:"type,omitempty"`
-	UniqueId                 *string                            `json:"uniqueId,omitempty"`
 	UpgradePolicy            *UpgradePolicy                     `json:"upgradePolicy,omitempty"`
 	VirtualMachineProfile    *VirtualMachineScaleSetVMProfile   `json:"virtualMachineProfile,omitempty"`
 	ZoneBalance              *bool                              `json:"zoneBalance,omitempty"`
@@ -1170,12 +1166,6 @@ func (scaleSet *VirtualMachineScaleSet_Spec) ConvertToARM(resolved genruntime.Co
 		}
 		extendedLocation := *extendedLocationARM.(*ExtendedLocationARM)
 		result.ExtendedLocation = &extendedLocation
-	}
-
-	// Set property ‘Id’:
-	if scaleSet.Id != nil {
-		id := *scaleSet.Id
-		result.Id = &id
 	}
 
 	// Set property ‘Identity’:
@@ -1215,11 +1205,9 @@ func (scaleSet *VirtualMachineScaleSet_Spec) ConvertToARM(resolved genruntime.Co
 		scaleSet.OrchestrationMode != nil ||
 		scaleSet.Overprovision != nil ||
 		scaleSet.PlatformFaultDomainCount != nil ||
-		scaleSet.ProvisioningState != nil ||
 		scaleSet.ProximityPlacementGroup != nil ||
 		scaleSet.ScaleInPolicy != nil ||
 		scaleSet.SinglePlacementGroup != nil ||
-		scaleSet.UniqueId != nil ||
 		scaleSet.UpgradePolicy != nil ||
 		scaleSet.VirtualMachineProfile != nil ||
 		scaleSet.ZoneBalance != nil {
@@ -1265,10 +1253,6 @@ func (scaleSet *VirtualMachineScaleSet_Spec) ConvertToARM(resolved genruntime.Co
 		platformFaultDomainCount := *scaleSet.PlatformFaultDomainCount
 		result.Properties.PlatformFaultDomainCount = &platformFaultDomainCount
 	}
-	if scaleSet.ProvisioningState != nil {
-		provisioningState := *scaleSet.ProvisioningState
-		result.Properties.ProvisioningState = &provisioningState
-	}
 	if scaleSet.ProximityPlacementGroup != nil {
 		proximityPlacementGroupARM, err := (*scaleSet.ProximityPlacementGroup).ConvertToARM(resolved)
 		if err != nil {
@@ -1288,10 +1272,6 @@ func (scaleSet *VirtualMachineScaleSet_Spec) ConvertToARM(resolved genruntime.Co
 	if scaleSet.SinglePlacementGroup != nil {
 		singlePlacementGroup := *scaleSet.SinglePlacementGroup
 		result.Properties.SinglePlacementGroup = &singlePlacementGroup
-	}
-	if scaleSet.UniqueId != nil {
-		uniqueId := *scaleSet.UniqueId
-		result.Properties.UniqueId = &uniqueId
 	}
 	if scaleSet.UpgradePolicy != nil {
 		upgradePolicyARM, err := (*scaleSet.UpgradePolicy).ConvertToARM(resolved)
@@ -1330,12 +1310,6 @@ func (scaleSet *VirtualMachineScaleSet_Spec) ConvertToARM(resolved genruntime.Co
 		for key, value := range scaleSet.Tags {
 			result.Tags[key] = value
 		}
-	}
-
-	// Set property ‘Type’:
-	if scaleSet.Type != nil {
-		typeVar := *scaleSet.Type
-		result.Type = &typeVar
 	}
 
 	// Set property ‘Zones’:
@@ -1422,12 +1396,6 @@ func (scaleSet *VirtualMachineScaleSet_Spec) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		scaleSet.Id = &id
-	}
-
 	// Set property ‘Identity’:
 	if typedInput.Identity != nil {
 		var identity1 VirtualMachineScaleSetIdentity
@@ -1488,15 +1456,6 @@ func (scaleSet *VirtualMachineScaleSet_Spec) PopulateFromARM(owner genruntime.Ar
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
-			scaleSet.ProvisioningState = &provisioningState
-		}
-	}
-
 	// Set property ‘ProximityPlacementGroup’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -1550,21 +1509,6 @@ func (scaleSet *VirtualMachineScaleSet_Spec) PopulateFromARM(owner genruntime.Ar
 		scaleSet.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
 			scaleSet.Tags[key] = value
-		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		scaleSet.Type = &typeVar
-	}
-
-	// Set property ‘UniqueId’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.UniqueId != nil {
-			uniqueId := *typedInput.Properties.UniqueId
-			scaleSet.UniqueId = &uniqueId
 		}
 	}
 
@@ -1726,9 +1670,6 @@ func (scaleSet *VirtualMachineScaleSet_Spec) AssignPropertiesFromVirtualMachineS
 		scaleSet.HostGroup = nil
 	}
 
-	// Id
-	scaleSet.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Identity
 	if source.Identity != nil {
 		var identity VirtualMachineScaleSetIdentity
@@ -1783,9 +1724,6 @@ func (scaleSet *VirtualMachineScaleSet_Spec) AssignPropertiesFromVirtualMachineS
 	// PlatformFaultDomainCount
 	scaleSet.PlatformFaultDomainCount = genruntime.ClonePointerToInt(source.PlatformFaultDomainCount)
 
-	// ProvisioningState
-	scaleSet.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
 	// ProximityPlacementGroup
 	if source.ProximityPlacementGroup != nil {
 		var proximityPlacementGroup SubResource
@@ -1832,12 +1770,6 @@ func (scaleSet *VirtualMachineScaleSet_Spec) AssignPropertiesFromVirtualMachineS
 
 	// Tags
 	scaleSet.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	scaleSet.Type = genruntime.ClonePointerToString(source.Type)
-
-	// UniqueId
-	scaleSet.UniqueId = genruntime.ClonePointerToString(source.UniqueId)
 
 	// UpgradePolicy
 	if source.UpgradePolicy != nil {
@@ -1942,9 +1874,6 @@ func (scaleSet *VirtualMachineScaleSet_Spec) AssignPropertiesToVirtualMachineSca
 		destination.HostGroup = nil
 	}
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(scaleSet.Id)
-
 	// Identity
 	if scaleSet.Identity != nil {
 		var identity alpha20201201s.VirtualMachineScaleSetIdentity
@@ -2002,9 +1931,6 @@ func (scaleSet *VirtualMachineScaleSet_Spec) AssignPropertiesToVirtualMachineSca
 	// PlatformFaultDomainCount
 	destination.PlatformFaultDomainCount = genruntime.ClonePointerToInt(scaleSet.PlatformFaultDomainCount)
 
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(scaleSet.ProvisioningState)
-
 	// ProximityPlacementGroup
 	if scaleSet.ProximityPlacementGroup != nil {
 		var proximityPlacementGroup alpha20201201s.SubResource
@@ -2051,12 +1977,6 @@ func (scaleSet *VirtualMachineScaleSet_Spec) AssignPropertiesToVirtualMachineSca
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(scaleSet.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(scaleSet.Type)
-
-	// UniqueId
-	destination.UniqueId = genruntime.ClonePointerToString(scaleSet.UniqueId)
 
 	// UpgradePolicy
 	if scaleSet.UpgradePolicy != nil {
@@ -2994,9 +2914,7 @@ func (policy *UpgradePolicy_STATUS) AssignPropertiesToUpgradePolicy_STATUS(desti
 
 // Deprecated version of VirtualMachineScaleSetIdentity. Use v1beta20201201.VirtualMachineScaleSetIdentity instead
 type VirtualMachineScaleSetIdentity struct {
-	PrincipalId *string                              `json:"principalId,omitempty"`
-	TenantId    *string                              `json:"tenantId,omitempty"`
-	Type        *VirtualMachineScaleSetIdentity_Type `json:"type,omitempty"`
+	Type *VirtualMachineScaleSetIdentity_Type `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSetIdentity{}
@@ -3007,18 +2925,6 @@ func (identity *VirtualMachineScaleSetIdentity) ConvertToARM(resolved genruntime
 		return nil, nil
 	}
 	result := &VirtualMachineScaleSetIdentityARM{}
-
-	// Set property ‘PrincipalId’:
-	if identity.PrincipalId != nil {
-		principalId := *identity.PrincipalId
-		result.PrincipalId = &principalId
-	}
-
-	// Set property ‘TenantId’:
-	if identity.TenantId != nil {
-		tenantId := *identity.TenantId
-		result.TenantId = &tenantId
-	}
 
 	// Set property ‘Type’:
 	if identity.Type != nil {
@@ -3040,18 +2946,6 @@ func (identity *VirtualMachineScaleSetIdentity) PopulateFromARM(owner genruntime
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSetIdentityARM, got %T", armInput)
 	}
 
-	// Set property ‘PrincipalId’:
-	if typedInput.PrincipalId != nil {
-		principalId := *typedInput.PrincipalId
-		identity.PrincipalId = &principalId
-	}
-
-	// Set property ‘TenantId’:
-	if typedInput.TenantId != nil {
-		tenantId := *typedInput.TenantId
-		identity.TenantId = &tenantId
-	}
-
 	// Set property ‘Type’:
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
@@ -3064,12 +2958,6 @@ func (identity *VirtualMachineScaleSetIdentity) PopulateFromARM(owner genruntime
 
 // AssignPropertiesFromVirtualMachineScaleSetIdentity populates our VirtualMachineScaleSetIdentity from the provided source VirtualMachineScaleSetIdentity
 func (identity *VirtualMachineScaleSetIdentity) AssignPropertiesFromVirtualMachineScaleSetIdentity(source *alpha20201201s.VirtualMachineScaleSetIdentity) error {
-
-	// PrincipalId
-	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// TenantId
-	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// Type
 	if source.Type != nil {
@@ -3087,12 +2975,6 @@ func (identity *VirtualMachineScaleSetIdentity) AssignPropertiesFromVirtualMachi
 func (identity *VirtualMachineScaleSetIdentity) AssignPropertiesToVirtualMachineScaleSetIdentity(destination *alpha20201201s.VirtualMachineScaleSetIdentity) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
-
-	// PrincipalId
-	destination.PrincipalId = genruntime.ClonePointerToString(identity.PrincipalId)
-
-	// TenantId
-	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
 
 	// Type
 	if identity.Type != nil {
@@ -4942,8 +4824,7 @@ const (
 
 // Deprecated version of VirtualMachineScaleSetExtensionProfile. Use v1beta20201201.VirtualMachineScaleSetExtensionProfile instead
 type VirtualMachineScaleSetExtensionProfile struct {
-	Extensions           []VirtualMachineScaleSetExtension `json:"extensions,omitempty"`
-	ExtensionsTimeBudget *string                           `json:"extensionsTimeBudget,omitempty"`
+	ExtensionsTimeBudget *string `json:"extensionsTimeBudget,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSetExtensionProfile{}
@@ -4954,15 +4835,6 @@ func (profile *VirtualMachineScaleSetExtensionProfile) ConvertToARM(resolved gen
 		return nil, nil
 	}
 	result := &VirtualMachineScaleSetExtensionProfileARM{}
-
-	// Set property ‘Extensions’:
-	for _, item := range profile.Extensions {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Extensions = append(result.Extensions, *itemARM.(*VirtualMachineScaleSetExtensionARM))
-	}
 
 	// Set property ‘ExtensionsTimeBudget’:
 	if profile.ExtensionsTimeBudget != nil {
@@ -4984,16 +4856,6 @@ func (profile *VirtualMachineScaleSetExtensionProfile) PopulateFromARM(owner gen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSetExtensionProfileARM, got %T", armInput)
 	}
 
-	// Set property ‘Extensions’:
-	for _, item := range typedInput.Extensions {
-		var item1 VirtualMachineScaleSetExtension
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		profile.Extensions = append(profile.Extensions, item1)
-	}
-
 	// Set property ‘ExtensionsTimeBudget’:
 	if typedInput.ExtensionsTimeBudget != nil {
 		extensionsTimeBudget := *typedInput.ExtensionsTimeBudget
@@ -5007,24 +4869,6 @@ func (profile *VirtualMachineScaleSetExtensionProfile) PopulateFromARM(owner gen
 // AssignPropertiesFromVirtualMachineScaleSetExtensionProfile populates our VirtualMachineScaleSetExtensionProfile from the provided source VirtualMachineScaleSetExtensionProfile
 func (profile *VirtualMachineScaleSetExtensionProfile) AssignPropertiesFromVirtualMachineScaleSetExtensionProfile(source *alpha20201201s.VirtualMachineScaleSetExtensionProfile) error {
 
-	// Extensions
-	if source.Extensions != nil {
-		extensionList := make([]VirtualMachineScaleSetExtension, len(source.Extensions))
-		for extensionIndex, extensionItem := range source.Extensions {
-			// Shadow the loop variable to avoid aliasing
-			extensionItem := extensionItem
-			var extension VirtualMachineScaleSetExtension
-			err := extension.AssignPropertiesFromVirtualMachineScaleSetExtension(&extensionItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetExtension() to populate field Extensions")
-			}
-			extensionList[extensionIndex] = extension
-		}
-		profile.Extensions = extensionList
-	} else {
-		profile.Extensions = nil
-	}
-
 	// ExtensionsTimeBudget
 	profile.ExtensionsTimeBudget = genruntime.ClonePointerToString(source.ExtensionsTimeBudget)
 
@@ -5036,24 +4880,6 @@ func (profile *VirtualMachineScaleSetExtensionProfile) AssignPropertiesFromVirtu
 func (profile *VirtualMachineScaleSetExtensionProfile) AssignPropertiesToVirtualMachineScaleSetExtensionProfile(destination *alpha20201201s.VirtualMachineScaleSetExtensionProfile) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
-
-	// Extensions
-	if profile.Extensions != nil {
-		extensionList := make([]alpha20201201s.VirtualMachineScaleSetExtension, len(profile.Extensions))
-		for extensionIndex, extensionItem := range profile.Extensions {
-			// Shadow the loop variable to avoid aliasing
-			extensionItem := extensionItem
-			var extension alpha20201201s.VirtualMachineScaleSetExtension
-			err := extensionItem.AssignPropertiesToVirtualMachineScaleSetExtension(&extension)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetExtension() to populate field Extensions")
-			}
-			extensionList[extensionIndex] = extension
-		}
-		destination.Extensions = extensionList
-	} else {
-		destination.Extensions = nil
-	}
 
 	// ExtensionsTimeBudget
 	destination.ExtensionsTimeBudget = genruntime.ClonePointerToString(profile.ExtensionsTimeBudget)
@@ -7211,79 +7037,6 @@ func (disk *VirtualMachineScaleSetDataDisk_STATUS) AssignPropertiesToVirtualMach
 	return nil
 }
 
-// Deprecated version of VirtualMachineScaleSetExtension. Use v1beta20201201.VirtualMachineScaleSetExtension instead
-type VirtualMachineScaleSetExtension struct {
-	Id *string `json:"id,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &VirtualMachineScaleSetExtension{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (extension *VirtualMachineScaleSetExtension) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if extension == nil {
-		return nil, nil
-	}
-	result := &VirtualMachineScaleSetExtensionARM{}
-
-	// Set property ‘Id’:
-	if extension.Id != nil {
-		id := *extension.Id
-		result.Id = &id
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (extension *VirtualMachineScaleSetExtension) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachineScaleSetExtensionARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (extension *VirtualMachineScaleSetExtension) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachineScaleSetExtensionARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSetExtensionARM, got %T", armInput)
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		extension.Id = &id
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromVirtualMachineScaleSetExtension populates our VirtualMachineScaleSetExtension from the provided source VirtualMachineScaleSetExtension
-func (extension *VirtualMachineScaleSetExtension) AssignPropertiesFromVirtualMachineScaleSetExtension(source *alpha20201201s.VirtualMachineScaleSetExtension) error {
-
-	// Id
-	extension.Id = genruntime.ClonePointerToString(source.Id)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToVirtualMachineScaleSetExtension populates the provided destination VirtualMachineScaleSetExtension from our VirtualMachineScaleSetExtension
-func (extension *VirtualMachineScaleSetExtension) AssignPropertiesToVirtualMachineScaleSetExtension(destination *alpha20201201s.VirtualMachineScaleSetExtension) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(extension.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of VirtualMachineScaleSetExtension_STATUS. Use v1beta20201201.VirtualMachineScaleSetExtension_STATUS instead
 type VirtualMachineScaleSetExtension_STATUS struct {
 	Id *string `json:"id,omitempty"`
@@ -7348,15 +7101,15 @@ type VirtualMachineScaleSetNetworkConfiguration struct {
 	EnableAcceleratedNetworking *bool                                                  `json:"enableAcceleratedNetworking,omitempty"`
 	EnableFpga                  *bool                                                  `json:"enableFpga,omitempty"`
 	EnableIPForwarding          *bool                                                  `json:"enableIPForwarding,omitempty"`
-	Id                          *string                                                `json:"id,omitempty"`
 
 	// +kubebuilder:validation:Required
 	IpConfigurations []VirtualMachineScaleSetIPConfiguration `json:"ipConfigurations,omitempty"`
 
 	// +kubebuilder:validation:Required
-	Name                 *string      `json:"name,omitempty"`
-	NetworkSecurityGroup *SubResource `json:"networkSecurityGroup,omitempty"`
-	Primary              *bool        `json:"primary,omitempty"`
+	Name                 *string                       `json:"name,omitempty"`
+	NetworkSecurityGroup *SubResource                  `json:"networkSecurityGroup,omitempty"`
+	Primary              *bool                         `json:"primary,omitempty"`
+	Reference            *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualMachineScaleSetNetworkConfiguration{}
@@ -7369,9 +7122,13 @@ func (configuration *VirtualMachineScaleSetNetworkConfiguration) ConvertToARM(re
 	result := &VirtualMachineScaleSetNetworkConfigurationARM{}
 
 	// Set property ‘Id’:
-	if configuration.Id != nil {
-		id := *configuration.Id
-		result.Id = &id
+	if configuration.Reference != nil {
+		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*configuration.Reference)
+		if err != nil {
+			return nil, err
+		}
+		reference := referenceARMID
+		result.Id = &reference
 	}
 
 	// Set property ‘Name’:
@@ -7485,12 +7242,6 @@ func (configuration *VirtualMachineScaleSetNetworkConfiguration) PopulateFromARM
 		}
 	}
 
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		configuration.Id = &id
-	}
-
 	// Set property ‘IpConfigurations’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -7532,6 +7283,8 @@ func (configuration *VirtualMachineScaleSetNetworkConfiguration) PopulateFromARM
 			configuration.Primary = &primary
 		}
 	}
+
+	// no assignment for property ‘Reference’
 
 	// No error
 	return nil
@@ -7576,9 +7329,6 @@ func (configuration *VirtualMachineScaleSetNetworkConfiguration) AssignPropertie
 		configuration.EnableIPForwarding = nil
 	}
 
-	// Id
-	configuration.Id = genruntime.ClonePointerToString(source.Id)
-
 	// IpConfigurations
 	if source.IpConfigurations != nil {
 		ipConfigurationList := make([]VirtualMachineScaleSetIPConfiguration, len(source.IpConfigurations))
@@ -7618,6 +7368,14 @@ func (configuration *VirtualMachineScaleSetNetworkConfiguration) AssignPropertie
 		configuration.Primary = &primary
 	} else {
 		configuration.Primary = nil
+	}
+
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		configuration.Reference = &reference
+	} else {
+		configuration.Reference = nil
 	}
 
 	// No error
@@ -7665,9 +7423,6 @@ func (configuration *VirtualMachineScaleSetNetworkConfiguration) AssignPropertie
 		destination.EnableIPForwarding = nil
 	}
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(configuration.Id)
-
 	// IpConfigurations
 	if configuration.IpConfigurations != nil {
 		ipConfigurationList := make([]alpha20201201s.VirtualMachineScaleSetIPConfiguration, len(configuration.IpConfigurations))
@@ -7707,6 +7462,14 @@ func (configuration *VirtualMachineScaleSetNetworkConfiguration) AssignPropertie
 		destination.Primary = &primary
 	} else {
 		destination.Primary = nil
+	}
+
+	// Reference
+	if configuration.Reference != nil {
+		reference := configuration.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
 	}
 
 	// Update the property bag
@@ -8675,7 +8438,6 @@ func (disk *VirtualMachineScaleSetOSDisk_STATUS) AssignPropertiesToVirtualMachin
 type VirtualMachineScaleSetIPConfiguration struct {
 	ApplicationGatewayBackendAddressPools []SubResource `json:"applicationGatewayBackendAddressPools,omitempty"`
 	ApplicationSecurityGroups             []SubResource `json:"applicationSecurityGroups,omitempty"`
-	Id                                    *string       `json:"id,omitempty"`
 	LoadBalancerBackendAddressPools       []SubResource `json:"loadBalancerBackendAddressPools,omitempty"`
 	LoadBalancerInboundNatPools           []SubResource `json:"loadBalancerInboundNatPools,omitempty"`
 
@@ -8684,6 +8446,7 @@ type VirtualMachineScaleSetIPConfiguration struct {
 	Primary                      *bool                                                                    `json:"primary,omitempty"`
 	PrivateIPAddressVersion      *VirtualMachineScaleSetIPConfigurationProperties_PrivateIPAddressVersion `json:"privateIPAddressVersion,omitempty"`
 	PublicIPAddressConfiguration *VirtualMachineScaleSetPublicIPAddressConfiguration                      `json:"publicIPAddressConfiguration,omitempty"`
+	Reference                    *genruntime.ResourceReference                                            `armReference:"Id" json:"reference,omitempty"`
 	Subnet                       *ApiEntityReference                                                      `json:"subnet,omitempty"`
 }
 
@@ -8697,9 +8460,13 @@ func (configuration *VirtualMachineScaleSetIPConfiguration) ConvertToARM(resolve
 	result := &VirtualMachineScaleSetIPConfigurationARM{}
 
 	// Set property ‘Id’:
-	if configuration.Id != nil {
-		id := *configuration.Id
-		result.Id = &id
+	if configuration.Reference != nil {
+		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*configuration.Reference)
+		if err != nil {
+			return nil, err
+		}
+		reference := referenceARMID
+		result.Id = &reference
 	}
 
 	// Set property ‘Name’:
@@ -8812,12 +8579,6 @@ func (configuration *VirtualMachineScaleSetIPConfiguration) PopulateFromARM(owne
 		}
 	}
 
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		configuration.Id = &id
-	}
-
 	// Set property ‘LoadBalancerBackendAddressPools’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -8882,6 +8643,8 @@ func (configuration *VirtualMachineScaleSetIPConfiguration) PopulateFromARM(owne
 		}
 	}
 
+	// no assignment for property ‘Reference’
+
 	// Set property ‘Subnet’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -8938,9 +8701,6 @@ func (configuration *VirtualMachineScaleSetIPConfiguration) AssignPropertiesFrom
 	} else {
 		configuration.ApplicationSecurityGroups = nil
 	}
-
-	// Id
-	configuration.Id = genruntime.ClonePointerToString(source.Id)
 
 	// LoadBalancerBackendAddressPools
 	if source.LoadBalancerBackendAddressPools != nil {
@@ -9009,6 +8769,14 @@ func (configuration *VirtualMachineScaleSetIPConfiguration) AssignPropertiesFrom
 		configuration.PublicIPAddressConfiguration = nil
 	}
 
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		configuration.Reference = &reference
+	} else {
+		configuration.Reference = nil
+	}
+
 	// Subnet
 	if source.Subnet != nil {
 		var subnet ApiEntityReference
@@ -9065,9 +8833,6 @@ func (configuration *VirtualMachineScaleSetIPConfiguration) AssignPropertiesToVi
 	} else {
 		destination.ApplicationSecurityGroups = nil
 	}
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(configuration.Id)
 
 	// LoadBalancerBackendAddressPools
 	if configuration.LoadBalancerBackendAddressPools != nil {
@@ -9134,6 +8899,14 @@ func (configuration *VirtualMachineScaleSetIPConfiguration) AssignPropertiesToVi
 		destination.PublicIPAddressConfiguration = &publicIPAddressConfiguration
 	} else {
 		destination.PublicIPAddressConfiguration = nil
+	}
+
+	// Reference
+	if configuration.Reference != nil {
+		reference := configuration.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
 	}
 
 	// Subnet

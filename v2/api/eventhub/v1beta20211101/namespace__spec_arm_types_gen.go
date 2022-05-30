@@ -8,18 +8,12 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 type Namespace_SpecARM struct {
 	AzureName string `json:"azureName,omitempty"`
 
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
 	// Identity: Properties of BYOK Identity description
 	Identity *IdentityARM `json:"identity,omitempty"`
 
 	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the resource
-	Name string `json:"name,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
 	// Properties: Namespace properties supplied for create namespace operation.
 	Properties *Namespace_Spec_PropertiesARM `json:"properties,omitempty"`
@@ -27,14 +21,8 @@ type Namespace_SpecARM struct {
 	// Sku: Properties of sku resource
 	Sku *SkuARM `json:"sku,omitempty"`
 
-	// SystemData: The system meta data relating to this resource.
-	SystemData *SystemDataARM `json:"systemData,omitempty"`
-
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Namespace_SpecARM{}
@@ -55,12 +43,6 @@ func (namespace *Namespace_SpecARM) GetType() string {
 }
 
 type IdentityARM struct {
-	// PrincipalId: ObjectId from the KeyVault
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	// TenantId: TenantId from the KeyVault
-	TenantId *string `json:"tenantId,omitempty"`
-
 	// Type: Type of managed service identity.
 	Type *Identity_Type `json:"type,omitempty"`
 }
@@ -68,12 +50,7 @@ type IdentityARM struct {
 type Namespace_Spec_PropertiesARM struct {
 	// AlternateName: Alternate name specified when alias and namespace names are same.
 	AlternateName *string `json:"alternateName,omitempty"`
-
-	// ClusterArmId: Cluster ARM ID of the Namespace.
-	ClusterArmId *string `json:"clusterArmId,omitempty"`
-
-	// CreatedAt: The time the Namespace was created.
-	CreatedAt *string `json:"createdAt,omitempty"`
+	ClusterArmId  *string `json:"clusterArmId,omitempty"`
 
 	// DisableLocalAuth: This property disables SAS authentication for the Event Hubs namespace.
 	DisableLocalAuth *bool `json:"disableLocalAuth,omitempty"`
@@ -91,23 +68,8 @@ type Namespace_Spec_PropertiesARM struct {
 	// throughput units. ( '0' if AutoInflateEnabled = true)
 	MaximumThroughputUnits *int `json:"maximumThroughputUnits,omitempty"`
 
-	// MetricId: Identifier for Azure Insights metrics.
-	MetricId *string `json:"metricId,omitempty"`
-
 	// PrivateEndpointConnections: List of private endpoint connections.
 	PrivateEndpointConnections []PrivateEndpointConnectionARM `json:"privateEndpointConnections,omitempty"`
-
-	// ProvisioningState: Provisioning state of the Namespace.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
-
-	// ServiceBusEndpoint: Endpoint you can use to perform Service Bus operations.
-	ServiceBusEndpoint *string `json:"serviceBusEndpoint,omitempty"`
-
-	// Status: Status of the Namespace.
-	Status *string `json:"status,omitempty"`
-
-	// UpdatedAt: The time the Namespace was updated.
-	UpdatedAt *string `json:"updatedAt,omitempty"`
 
 	// ZoneRedundant: Enabling this property creates a Standard Event Hubs Namespace in regions supported availability zones.
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
@@ -123,26 +85,6 @@ type SkuARM struct {
 
 	// Tier: The billing tier of this particular SKU.
 	Tier *Sku_Tier `json:"tier,omitempty"`
-}
-
-type SystemDataARM struct {
-	// CreatedAt: The timestamp of resource creation (UTC).
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	// CreatedBy: The identity that created the resource.
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType `json:"createdByType,omitempty"`
-
-	// LastModifiedAt: The type of identity that last modified the resource.
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	// LastModifiedBy: The identity that last modified the resource.
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
 type EncryptionARM struct {
@@ -167,12 +109,8 @@ const (
 )
 
 type PrivateEndpointConnectionARM struct {
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// SystemData: The system meta data relating to this resource.
-	SystemData *SystemDataARM `json:"systemData,omitempty"`
+	// Properties: Properties of the PrivateEndpointConnection.
+	Properties *PrivateEndpointConnectionPropertiesARM `json:"properties,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
@@ -193,26 +131,6 @@ const (
 	Sku_Tier_Standard = Sku_Tier("Standard")
 )
 
-// +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
-type SystemData_CreatedByType string
-
-const (
-	SystemData_CreatedByType_Application     = SystemData_CreatedByType("Application")
-	SystemData_CreatedByType_Key             = SystemData_CreatedByType("Key")
-	SystemData_CreatedByType_ManagedIdentity = SystemData_CreatedByType("ManagedIdentity")
-	SystemData_CreatedByType_User            = SystemData_CreatedByType("User")
-)
-
-// +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
-type SystemData_LastModifiedByType string
-
-const (
-	SystemData_LastModifiedByType_Application     = SystemData_LastModifiedByType("Application")
-	SystemData_LastModifiedByType_Key             = SystemData_LastModifiedByType("Key")
-	SystemData_LastModifiedByType_ManagedIdentity = SystemData_LastModifiedByType("ManagedIdentity")
-	SystemData_LastModifiedByType_User            = SystemData_LastModifiedByType("User")
-)
-
 type KeyVaultPropertiesARM struct {
 	Identity *UserAssignedIdentityPropertiesARM `json:"identity,omitempty"`
 
@@ -224,6 +142,15 @@ type KeyVaultPropertiesARM struct {
 
 	// KeyVersion: Key Version
 	KeyVersion *string `json:"keyVersion,omitempty"`
+}
+
+type PrivateEndpointConnectionPropertiesARM struct {
+	// PrivateEndpoint: The Private Endpoint resource for this Connection.
+	PrivateEndpoint *PrivateEndpointARM `json:"privateEndpoint,omitempty"`
+}
+
+type PrivateEndpointARM struct {
+	Id *string `json:"id,omitempty"`
 }
 
 type UserAssignedIdentityPropertiesARM struct {

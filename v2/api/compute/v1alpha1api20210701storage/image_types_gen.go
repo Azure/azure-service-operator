@@ -464,7 +464,6 @@ type Image_Spec struct {
 	AzureName        string            `json:"azureName,omitempty"`
 	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
 	HyperVGeneration *string           `json:"hyperVGeneration,omitempty"`
-	Id               *string           `json:"id,omitempty"`
 	Location         *string           `json:"location,omitempty"`
 	OriginalVersion  string            `json:"originalVersion,omitempty"`
 
@@ -474,11 +473,9 @@ type Image_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner                *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag          genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	ProvisioningState    *string                            `json:"provisioningState,omitempty"`
 	SourceVirtualMachine *SubResource                       `json:"sourceVirtualMachine,omitempty"`
 	StorageProfile       *ImageStorageProfile               `json:"storageProfile,omitempty"`
 	Tags                 map[string]string                  `json:"tags,omitempty"`
-	Type                 *string                            `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &Image_Spec{}
@@ -564,9 +561,6 @@ func (image *Image_Spec) AssignPropertiesFromImage_Spec(source *v20210701s.Image
 	// HyperVGeneration
 	image.HyperVGeneration = genruntime.ClonePointerToString(source.HyperVGeneration)
 
-	// Id
-	image.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Location
 	image.Location = genruntime.ClonePointerToString(source.Location)
 
@@ -580,9 +574,6 @@ func (image *Image_Spec) AssignPropertiesFromImage_Spec(source *v20210701s.Image
 	} else {
 		image.Owner = nil
 	}
-
-	// ProvisioningState
-	image.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// SourceVirtualMachine
 	if source.SourceVirtualMachine != nil {
@@ -615,9 +606,6 @@ func (image *Image_Spec) AssignPropertiesFromImage_Spec(source *v20210701s.Image
 
 	// Tags
 	image.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	image.Type = genruntime.ClonePointerToString(source.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -663,9 +651,6 @@ func (image *Image_Spec) AssignPropertiesToImage_Spec(destination *v20210701s.Im
 	// HyperVGeneration
 	destination.HyperVGeneration = genruntime.ClonePointerToString(image.HyperVGeneration)
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(image.Id)
-
 	// Location
 	destination.Location = genruntime.ClonePointerToString(image.Location)
 
@@ -679,9 +664,6 @@ func (image *Image_Spec) AssignPropertiesToImage_Spec(destination *v20210701s.Im
 	} else {
 		destination.Owner = nil
 	}
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(image.ProvisioningState)
 
 	// SourceVirtualMachine
 	if image.SourceVirtualMachine != nil {
@@ -714,9 +696,6 @@ func (image *Image_Spec) AssignPropertiesToImage_Spec(destination *v20210701s.Im
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(image.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(image.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

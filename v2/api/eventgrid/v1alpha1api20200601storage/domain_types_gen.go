@@ -500,27 +500,20 @@ type Domain_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName          string              `json:"azureName,omitempty"`
-	Endpoint           *string             `json:"endpoint,omitempty"`
-	Id                 *string             `json:"id,omitempty"`
 	InboundIpRules     []InboundIpRule     `json:"inboundIpRules,omitempty"`
 	InputSchema        *string             `json:"inputSchema,omitempty"`
 	InputSchemaMapping *InputSchemaMapping `json:"inputSchemaMapping,omitempty"`
 	Location           *string             `json:"location,omitempty"`
-	MetricResourceId   *string             `json:"metricResourceId,omitempty"`
 	OriginalVersion    string              `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner                      *genruntime.KnownResourceReference                     `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PrivateEndpointConnections []PrivateEndpointConnection_Domain_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
-	PropertyBag                genruntime.PropertyBag                                 `json:"$propertyBag,omitempty"`
-	ProvisioningState          *string                                                `json:"provisioningState,omitempty"`
-	PublicNetworkAccess        *string                                                `json:"publicNetworkAccess,omitempty"`
-	SystemData                 *SystemData                                            `json:"systemData,omitempty"`
-	Tags                       map[string]string                                      `json:"tags,omitempty"`
-	Type                       *string                                                `json:"type,omitempty"`
+	Owner               *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag         genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	PublicNetworkAccess *string                            `json:"publicNetworkAccess,omitempty"`
+	Tags                map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &Domain_Spec{}
@@ -581,12 +574,6 @@ func (domain *Domain_Spec) AssignPropertiesFromDomain_Spec(source *v20200601s.Do
 	// AzureName
 	domain.AzureName = source.AzureName
 
-	// Endpoint
-	domain.Endpoint = genruntime.ClonePointerToString(source.Endpoint)
-
-	// Id
-	domain.Id = genruntime.ClonePointerToString(source.Id)
-
 	// InboundIpRules
 	if source.InboundIpRules != nil {
 		inboundIpRuleList := make([]InboundIpRule, len(source.InboundIpRules))
@@ -623,9 +610,6 @@ func (domain *Domain_Spec) AssignPropertiesFromDomain_Spec(source *v20200601s.Do
 	// Location
 	domain.Location = genruntime.ClonePointerToString(source.Location)
 
-	// MetricResourceId
-	domain.MetricResourceId = genruntime.ClonePointerToString(source.MetricResourceId)
-
 	// OriginalVersion
 	domain.OriginalVersion = source.OriginalVersion
 
@@ -637,47 +621,11 @@ func (domain *Domain_Spec) AssignPropertiesFromDomain_Spec(source *v20200601s.Do
 		domain.Owner = nil
 	}
 
-	// PrivateEndpointConnections
-	if source.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]PrivateEndpointConnection_Domain_SubResourceEmbedded, len(source.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection PrivateEndpointConnection_Domain_SubResourceEmbedded
-			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnection_Domain_SubResourceEmbedded(&privateEndpointConnectionItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnection_Domain_SubResourceEmbedded() to populate field PrivateEndpointConnections")
-			}
-			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
-		}
-		domain.PrivateEndpointConnections = privateEndpointConnectionList
-	} else {
-		domain.PrivateEndpointConnections = nil
-	}
-
-	// ProvisioningState
-	domain.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
 	// PublicNetworkAccess
 	domain.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
 
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
-		}
-		domain.SystemData = &systemDatum
-	} else {
-		domain.SystemData = nil
-	}
-
 	// Tags
 	domain.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	domain.Type = genruntime.ClonePointerToString(source.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -697,12 +645,6 @@ func (domain *Domain_Spec) AssignPropertiesToDomain_Spec(destination *v20200601s
 
 	// AzureName
 	destination.AzureName = domain.AzureName
-
-	// Endpoint
-	destination.Endpoint = genruntime.ClonePointerToString(domain.Endpoint)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(domain.Id)
 
 	// InboundIpRules
 	if domain.InboundIpRules != nil {
@@ -740,9 +682,6 @@ func (domain *Domain_Spec) AssignPropertiesToDomain_Spec(destination *v20200601s
 	// Location
 	destination.Location = genruntime.ClonePointerToString(domain.Location)
 
-	// MetricResourceId
-	destination.MetricResourceId = genruntime.ClonePointerToString(domain.MetricResourceId)
-
 	// OriginalVersion
 	destination.OriginalVersion = domain.OriginalVersion
 
@@ -754,47 +693,11 @@ func (domain *Domain_Spec) AssignPropertiesToDomain_Spec(destination *v20200601s
 		destination.Owner = nil
 	}
 
-	// PrivateEndpointConnections
-	if domain.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]v20200601s.PrivateEndpointConnection_Domain_SubResourceEmbedded, len(domain.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range domain.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection v20200601s.PrivateEndpointConnection_Domain_SubResourceEmbedded
-			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnection_Domain_SubResourceEmbedded(&privateEndpointConnection)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnection_Domain_SubResourceEmbedded() to populate field PrivateEndpointConnections")
-			}
-			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
-		}
-		destination.PrivateEndpointConnections = privateEndpointConnectionList
-	} else {
-		destination.PrivateEndpointConnections = nil
-	}
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(domain.ProvisioningState)
-
 	// PublicNetworkAccess
 	destination.PublicNetworkAccess = genruntime.ClonePointerToString(domain.PublicNetworkAccess)
 
-	// SystemData
-	if domain.SystemData != nil {
-		var systemDatum v20200601s.SystemData
-		err := domain.SystemData.AssignPropertiesToSystemData(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(domain.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(domain.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1001,51 +904,6 @@ func (mapping *InputSchemaMapping_STATUS) AssignPropertiesToInputSchemaMapping_S
 	return nil
 }
 
-// Storage version of v1alpha1api20200601.PrivateEndpointConnection_Domain_SubResourceEmbedded
-// Deprecated version of PrivateEndpointConnection_Domain_SubResourceEmbedded. Use v1beta20200601.PrivateEndpointConnection_Domain_SubResourceEmbedded instead
-type PrivateEndpointConnection_Domain_SubResourceEmbedded struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// AssignPropertiesFromPrivateEndpointConnection_Domain_SubResourceEmbedded populates our PrivateEndpointConnection_Domain_SubResourceEmbedded from the provided source PrivateEndpointConnection_Domain_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_Domain_SubResourceEmbedded) AssignPropertiesFromPrivateEndpointConnection_Domain_SubResourceEmbedded(source *v20200601s.PrivateEndpointConnection_Domain_SubResourceEmbedded) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Id
-	embedded.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		embedded.PropertyBag = propertyBag
-	} else {
-		embedded.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToPrivateEndpointConnection_Domain_SubResourceEmbedded populates the provided destination PrivateEndpointConnection_Domain_SubResourceEmbedded from our PrivateEndpointConnection_Domain_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_Domain_SubResourceEmbedded) AssignPropertiesToPrivateEndpointConnection_Domain_SubResourceEmbedded(destination *v20200601s.PrivateEndpointConnection_Domain_SubResourceEmbedded) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(embedded.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Storage version of v1alpha1api20200601.PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded
 // Deprecated version of PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded. Use v1beta20200601.PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded instead
 type PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded struct {
@@ -1079,86 +937,6 @@ func (embedded *PrivateEndpointConnection_STATUS_Domain_SubResourceEmbedded) Ass
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(embedded.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20200601.SystemData
-// Deprecated version of SystemData. Use v1beta20200601.SystemData instead
-type SystemData struct {
-	CreatedAt          *string                `json:"createdAt,omitempty"`
-	CreatedBy          *string                `json:"createdBy,omitempty"`
-	CreatedByType      *string                `json:"createdByType,omitempty"`
-	LastModifiedAt     *string                `json:"lastModifiedAt,omitempty"`
-	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
-	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// AssignPropertiesFromSystemData populates our SystemData from the provided source SystemData
-func (data *SystemData) AssignPropertiesFromSystemData(source *v20200601s.SystemData) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// CreatedAt
-	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
-
-	// CreatedBy
-	data.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
-
-	// CreatedByType
-	data.CreatedByType = genruntime.ClonePointerToString(source.CreatedByType)
-
-	// LastModifiedAt
-	data.LastModifiedAt = genruntime.ClonePointerToString(source.LastModifiedAt)
-
-	// LastModifiedBy
-	data.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
-
-	// LastModifiedByType
-	data.LastModifiedByType = genruntime.ClonePointerToString(source.LastModifiedByType)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		data.PropertyBag = propertyBag
-	} else {
-		data.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToSystemData populates the provided destination SystemData from our SystemData
-func (data *SystemData) AssignPropertiesToSystemData(destination *v20200601s.SystemData) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(data.PropertyBag)
-
-	// CreatedAt
-	destination.CreatedAt = genruntime.ClonePointerToString(data.CreatedAt)
-
-	// CreatedBy
-	destination.CreatedBy = genruntime.ClonePointerToString(data.CreatedBy)
-
-	// CreatedByType
-	destination.CreatedByType = genruntime.ClonePointerToString(data.CreatedByType)
-
-	// LastModifiedAt
-	destination.LastModifiedAt = genruntime.ClonePointerToString(data.LastModifiedAt)
-
-	// LastModifiedBy
-	destination.LastModifiedBy = genruntime.ClonePointerToString(data.LastModifiedBy)
-
-	// LastModifiedByType
-	destination.LastModifiedByType = genruntime.ClonePointerToString(data.LastModifiedByType)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

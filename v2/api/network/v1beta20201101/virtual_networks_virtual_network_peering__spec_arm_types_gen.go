@@ -6,13 +6,8 @@ package v1beta20201101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type VirtualNetworksVirtualNetworkPeering_SpecARM struct {
-	AzureName string `json:"azureName,omitempty"`
-
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
+	AzureName string  `json:"azureName,omitempty"`
+	Id        *string `json:"id,omitempty"`
 
 	// Name: The name of the resource that is unique within a resource group. This name can be used to access the resource.
 	Name string `json:"name,omitempty"`
@@ -59,9 +54,6 @@ type VirtualNetworkPeeringPropertiesFormatARM struct {
 	// PeeringState: The status of the virtual network peering.
 	PeeringState *VirtualNetworkPeeringPropertiesFormat_PeeringState `json:"peeringState,omitempty"`
 
-	// ProvisioningState: The provisioning state of the virtual network peering resource.
-	ProvisioningState *ProvisioningState `json:"provisioningState,omitempty"`
-
 	// RemoteAddressSpace: The reference to the remote virtual network address space.
 	RemoteAddressSpace *AddressSpaceARM `json:"remoteAddressSpace,omitempty"`
 
@@ -72,9 +64,6 @@ type VirtualNetworkPeeringPropertiesFormatARM struct {
 	// different region (preview). See here to register for the preview and learn more
 	// (https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering).
 	RemoteVirtualNetwork *SubResourceARM `json:"remoteVirtualNetwork,omitempty"`
-
-	// ResourceGuid: The resourceGuid property of the Virtual Network peering resource.
-	ResourceGuid *string `json:"resourceGuid,omitempty"`
 
 	// UseRemoteGateways: If remote gateways can be used on this virtual network. If the flag is set to true, and
 	// allowGatewayTransit on remote peering is also true, virtual network will use gateways of remote virtual network for

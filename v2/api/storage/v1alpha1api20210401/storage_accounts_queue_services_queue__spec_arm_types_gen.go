@@ -8,10 +8,8 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 // Deprecated version of StorageAccountsQueueServicesQueue_Spec. Use v1beta20210401.StorageAccountsQueueServicesQueue_Spec instead
 type StorageAccountsQueueServicesQueue_SpecARM struct {
 	AzureName  string              `json:"azureName,omitempty"`
-	Id         *string             `json:"id,omitempty"`
 	Name       string              `json:"name,omitempty"`
 	Properties *QueuePropertiesARM `json:"properties,omitempty"`
-	Type       *string             `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &StorageAccountsQueueServicesQueue_SpecARM{}
@@ -33,6 +31,5 @@ func (queue *StorageAccountsQueueServicesQueue_SpecARM) GetType() string {
 
 // Deprecated version of QueueProperties. Use v1beta20210401.QueueProperties instead
 type QueuePropertiesARM struct {
-	ApproximateMessageCount *int              `json:"approximateMessageCount,omitempty"`
-	Metadata                map[string]string `json:"metadata,omitempty"`
+	Metadata map[string]string `json:"metadata,omitempty"`
 }

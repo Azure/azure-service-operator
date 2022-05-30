@@ -175,9 +175,6 @@ type NamespacesEventhub_Spec struct {
 	// doesn't have to be.
 	AzureName              string              `json:"azureName,omitempty"`
 	CaptureDescription     *CaptureDescription `json:"captureDescription,omitempty"`
-	CreatedAt              *string             `json:"createdAt,omitempty"`
-	Id                     *string             `json:"id,omitempty"`
-	Location               *string             `json:"location,omitempty"`
 	MessageRetentionInDays *int                `json:"messageRetentionInDays,omitempty"`
 	OriginalVersion        string              `json:"originalVersion,omitempty"`
 
@@ -187,12 +184,8 @@ type NamespacesEventhub_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner          *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PartitionCount *int                               `json:"partitionCount,omitempty"`
-	PartitionIds   []string                           `json:"partitionIds,omitempty"`
 	PropertyBag    genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Status         *string                            `json:"status,omitempty"`
-	SystemData     *SystemData                        `json:"systemData,omitempty"`
-	Type           *string                            `json:"type,omitempty"`
-	UpdatedAt      *string                            `json:"updatedAt,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &NamespacesEventhub_Spec{}
@@ -239,14 +232,16 @@ type CaptureDescription_STATUS struct {
 
 // Storage version of v1beta20211101.Destination
 type Destination struct {
-	ArchiveNameFormat        *string                `json:"archiveNameFormat,omitempty"`
-	BlobContainer            *string                `json:"blobContainer,omitempty"`
-	DataLakeAccountName      *string                `json:"dataLakeAccountName,omitempty"`
-	DataLakeFolderPath       *string                `json:"dataLakeFolderPath,omitempty"`
-	DataLakeSubscriptionId   *string                `json:"dataLakeSubscriptionId,omitempty"`
-	Name                     *string                `json:"name,omitempty"`
-	PropertyBag              genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	StorageAccountResourceId *string                `json:"storageAccountResourceId,omitempty"`
+	ArchiveNameFormat      *string                `json:"archiveNameFormat,omitempty"`
+	BlobContainer          *string                `json:"blobContainer,omitempty"`
+	DataLakeAccountName    *string                `json:"dataLakeAccountName,omitempty"`
+	DataLakeFolderPath     *string                `json:"dataLakeFolderPath,omitempty"`
+	DataLakeSubscriptionId *string                `json:"dataLakeSubscriptionId,omitempty"`
+	Name                   *string                `json:"name,omitempty"`
+	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+
+	// StorageAccountResourceReference: Resource id of the storage account to be used to create the blobs
+	StorageAccountResourceReference *genruntime.ResourceReference `armReference:"StorageAccountResourceId" json:"storageAccountResourceReference,omitempty"`
 }
 
 // Storage version of v1beta20211101.Destination_STATUS

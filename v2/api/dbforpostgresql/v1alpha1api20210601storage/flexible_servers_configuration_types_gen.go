@@ -449,20 +449,10 @@ func (configuration *FlexibleServersConfiguration_STATUS) AssignPropertiesToFlex
 
 // Storage version of v1alpha1api20210601.FlexibleServersConfiguration_Spec
 type FlexibleServersConfiguration_Spec struct {
-	AllowedValues *string `json:"allowedValues,omitempty"`
-
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName              string  `json:"azureName,omitempty"`
-	DataType               *string `json:"dataType,omitempty"`
-	DefaultValue           *string `json:"defaultValue,omitempty"`
-	Description            *string `json:"description,omitempty"`
-	DocumentationLink      *string `json:"documentationLink,omitempty"`
-	Id                     *string `json:"id,omitempty"`
-	IsConfigPendingRestart *bool   `json:"isConfigPendingRestart,omitempty"`
-	IsDynamicConfig        *bool   `json:"isDynamicConfig,omitempty"`
-	IsReadOnly             *bool   `json:"isReadOnly,omitempty"`
-	OriginalVersion        string  `json:"originalVersion,omitempty"`
+	AzureName       string `json:"azureName,omitempty"`
+	OriginalVersion string `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -471,9 +461,6 @@ type FlexibleServersConfiguration_Spec struct {
 	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Source      *string                            `json:"source,omitempty"`
-	SystemData  *SystemData                        `json:"systemData,omitempty"`
-	Type        *string                            `json:"type,omitempty"`
-	Unit        *string                            `json:"unit,omitempty"`
 	Value       *string                            `json:"value,omitempty"`
 }
 
@@ -532,50 +519,8 @@ func (configuration *FlexibleServersConfiguration_Spec) AssignPropertiesFromFlex
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// AllowedValues
-	configuration.AllowedValues = genruntime.ClonePointerToString(source.AllowedValues)
-
 	// AzureName
 	configuration.AzureName = source.AzureName
-
-	// DataType
-	configuration.DataType = genruntime.ClonePointerToString(source.DataType)
-
-	// DefaultValue
-	configuration.DefaultValue = genruntime.ClonePointerToString(source.DefaultValue)
-
-	// Description
-	configuration.Description = genruntime.ClonePointerToString(source.Description)
-
-	// DocumentationLink
-	configuration.DocumentationLink = genruntime.ClonePointerToString(source.DocumentationLink)
-
-	// Id
-	configuration.Id = genruntime.ClonePointerToString(source.Id)
-
-	// IsConfigPendingRestart
-	if source.IsConfigPendingRestart != nil {
-		isConfigPendingRestart := *source.IsConfigPendingRestart
-		configuration.IsConfigPendingRestart = &isConfigPendingRestart
-	} else {
-		configuration.IsConfigPendingRestart = nil
-	}
-
-	// IsDynamicConfig
-	if source.IsDynamicConfig != nil {
-		isDynamicConfig := *source.IsDynamicConfig
-		configuration.IsDynamicConfig = &isDynamicConfig
-	} else {
-		configuration.IsDynamicConfig = nil
-	}
-
-	// IsReadOnly
-	if source.IsReadOnly != nil {
-		isReadOnly := *source.IsReadOnly
-		configuration.IsReadOnly = &isReadOnly
-	} else {
-		configuration.IsReadOnly = nil
-	}
 
 	// OriginalVersion
 	configuration.OriginalVersion = source.OriginalVersion
@@ -590,24 +535,6 @@ func (configuration *FlexibleServersConfiguration_Spec) AssignPropertiesFromFlex
 
 	// Source
 	configuration.Source = genruntime.ClonePointerToString(source.Source)
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
-		}
-		configuration.SystemData = &systemDatum
-	} else {
-		configuration.SystemData = nil
-	}
-
-	// Type
-	configuration.Type = genruntime.ClonePointerToString(source.Type)
-
-	// Unit
-	configuration.Unit = genruntime.ClonePointerToString(source.Unit)
 
 	// Value
 	configuration.Value = genruntime.ClonePointerToString(source.Value)
@@ -628,50 +555,8 @@ func (configuration *FlexibleServersConfiguration_Spec) AssignPropertiesToFlexib
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(configuration.PropertyBag)
 
-	// AllowedValues
-	destination.AllowedValues = genruntime.ClonePointerToString(configuration.AllowedValues)
-
 	// AzureName
 	destination.AzureName = configuration.AzureName
-
-	// DataType
-	destination.DataType = genruntime.ClonePointerToString(configuration.DataType)
-
-	// DefaultValue
-	destination.DefaultValue = genruntime.ClonePointerToString(configuration.DefaultValue)
-
-	// Description
-	destination.Description = genruntime.ClonePointerToString(configuration.Description)
-
-	// DocumentationLink
-	destination.DocumentationLink = genruntime.ClonePointerToString(configuration.DocumentationLink)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(configuration.Id)
-
-	// IsConfigPendingRestart
-	if configuration.IsConfigPendingRestart != nil {
-		isConfigPendingRestart := *configuration.IsConfigPendingRestart
-		destination.IsConfigPendingRestart = &isConfigPendingRestart
-	} else {
-		destination.IsConfigPendingRestart = nil
-	}
-
-	// IsDynamicConfig
-	if configuration.IsDynamicConfig != nil {
-		isDynamicConfig := *configuration.IsDynamicConfig
-		destination.IsDynamicConfig = &isDynamicConfig
-	} else {
-		destination.IsDynamicConfig = nil
-	}
-
-	// IsReadOnly
-	if configuration.IsReadOnly != nil {
-		isReadOnly := *configuration.IsReadOnly
-		destination.IsReadOnly = &isReadOnly
-	} else {
-		destination.IsReadOnly = nil
-	}
 
 	// OriginalVersion
 	destination.OriginalVersion = configuration.OriginalVersion
@@ -686,24 +571,6 @@ func (configuration *FlexibleServersConfiguration_Spec) AssignPropertiesToFlexib
 
 	// Source
 	destination.Source = genruntime.ClonePointerToString(configuration.Source)
-
-	// SystemData
-	if configuration.SystemData != nil {
-		var systemDatum v20210601s.SystemData
-		err := configuration.SystemData.AssignPropertiesToSystemData(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(configuration.Type)
-
-	// Unit
-	destination.Unit = genruntime.ClonePointerToString(configuration.Unit)
 
 	// Value
 	destination.Value = genruntime.ClonePointerToString(configuration.Value)

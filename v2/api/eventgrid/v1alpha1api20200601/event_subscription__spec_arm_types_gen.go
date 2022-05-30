@@ -8,11 +8,8 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 // Deprecated version of EventSubscription_Spec. Use v1beta20200601.EventSubscription_Spec instead
 type EventSubscription_SpecARM struct {
 	AzureName  string                          `json:"azureName,omitempty"`
-	Id         *string                         `json:"id,omitempty"`
 	Name       string                          `json:"name,omitempty"`
 	Properties *EventSubscriptionPropertiesARM `json:"properties,omitempty"`
-	SystemData *SystemDataARM                  `json:"systemData,omitempty"`
-	Type       *string                         `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &EventSubscription_SpecARM{}
@@ -40,9 +37,7 @@ type EventSubscriptionPropertiesARM struct {
 	ExpirationTimeUtc     *string                                          `json:"expirationTimeUtc,omitempty"`
 	Filter                *EventSubscriptionFilterARM                      `json:"filter,omitempty"`
 	Labels                []string                                         `json:"labels,omitempty"`
-	ProvisioningState     *EventSubscriptionProperties_ProvisioningState   `json:"provisioningState,omitempty"`
 	RetryPolicy           *RetryPolicyARM                                  `json:"retryPolicy,omitempty"`
-	Topic                 *string                                          `json:"topic,omitempty"`
 }
 
 // Deprecated version of DeadLetterDestination. Use v1beta20200601.DeadLetterDestination instead

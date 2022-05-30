@@ -169,7 +169,6 @@ type DatabaseAccountsSqlDatabasesContainer_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string               `json:"azureName,omitempty"`
-	Id              *string              `json:"id,omitempty"`
 	Location        *string              `json:"location,omitempty"`
 	Options         *CreateUpdateOptions `json:"options,omitempty"`
 	OriginalVersion string               `json:"originalVersion,omitempty"`
@@ -182,7 +181,6 @@ type DatabaseAccountsSqlDatabasesContainer_Spec struct {
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Resource    *SqlContainerResource              `json:"resource,omitempty"`
 	Tags        map[string]string                  `json:"tags,omitempty"`
-	Type        *string                            `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabasesContainer_Spec{}
@@ -253,7 +251,6 @@ type ContainerPartitionKey struct {
 	Kind        *string                `json:"kind,omitempty"`
 	Paths       []string               `json:"paths,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SystemKey   *bool                  `json:"systemKey,omitempty"`
 	Version     *int                   `json:"version,omitempty"`
 }
 

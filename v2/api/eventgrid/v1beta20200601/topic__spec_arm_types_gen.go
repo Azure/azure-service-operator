@@ -8,26 +8,15 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 type Topic_SpecARM struct {
 	AzureName string `json:"azureName,omitempty"`
 
-	// Id: Fully qualified identifier of the resource.
-	Id *string `json:"id,omitempty"`
-
 	// Location: Location of the resource.
 	Location *string `json:"location,omitempty"`
-
-	// Name: Name of the resource.
-	Name string `json:"name,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
 	// Properties: Properties of the topic.
 	Properties *TopicPropertiesARM `json:"properties,omitempty"`
 
-	// SystemData: The system metadata relating to Topic resource.
-	SystemData *SystemDataARM `json:"systemData,omitempty"`
-
 	// Tags: Tags of the resource.
 	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: Type of the resource.
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Topic_SpecARM{}
@@ -48,9 +37,6 @@ func (topic *Topic_SpecARM) GetType() string {
 }
 
 type TopicPropertiesARM struct {
-	// Endpoint: Endpoint for the topic.
-	Endpoint *string `json:"endpoint,omitempty"`
-
 	// InboundIpRules: This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered
 	// only if PublicNetworkAccess is enabled.
 	InboundIpRules []InboundIpRuleARM `json:"inboundIpRules,omitempty"`
@@ -62,20 +48,8 @@ type TopicPropertiesARM struct {
 	// various properties of a source schema to various required properties of the EventGridEvent schema.
 	InputSchemaMapping *InputSchemaMappingARM `json:"inputSchemaMapping,omitempty"`
 
-	// MetricResourceId: Metric resource id for the topic.
-	MetricResourceId           *string                                                  `json:"metricResourceId,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnection_Topic_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
-
-	// ProvisioningState: Provisioning state of the topic.
-	ProvisioningState *TopicProperties_ProvisioningState `json:"provisioningState,omitempty"`
-
 	// PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
 	// You can further restrict to specific IPs by configuring <seealso
 	// cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProperties.InboundIpRules" />
 	PublicNetworkAccess *TopicProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
-}
-
-type PrivateEndpointConnection_Topic_SubResourceEmbeddedARM struct {
-	// Id: Fully qualified identifier of the resource.
-	Id *string `json:"id,omitempty"`
 }

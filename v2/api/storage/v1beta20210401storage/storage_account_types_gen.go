@@ -357,9 +357,7 @@ type GeoReplicationStats_STATUS struct {
 
 // Storage version of v1beta20210401.Identity
 type Identity struct {
-	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	TenantId    *string                `json:"tenantId,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
@@ -546,12 +544,10 @@ type IPRule_STATUS struct {
 
 // Storage version of v1beta20210401.KeyVaultProperties
 type KeyVaultProperties struct {
-	CurrentVersionedKeyIdentifier *string                `json:"currentVersionedKeyIdentifier,omitempty"`
-	Keyname                       *string                `json:"keyname,omitempty"`
-	Keyvaulturi                   *string                `json:"keyvaulturi,omitempty"`
-	Keyversion                    *string                `json:"keyversion,omitempty"`
-	LastKeyRotationTimestamp      *string                `json:"lastKeyRotationTimestamp,omitempty"`
-	PropertyBag                   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Keyname     *string                `json:"keyname,omitempty"`
+	Keyvaulturi *string                `json:"keyvaulturi,omitempty"`
+	Keyversion  *string                `json:"keyversion,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210401.KeyVaultProperties_STATUS
@@ -649,10 +645,9 @@ type BlobRestoreRange_STATUS struct {
 
 // Storage version of v1beta20210401.EncryptionService
 type EncryptionService struct {
-	Enabled         *bool                  `json:"enabled,omitempty"`
-	KeyType         *string                `json:"keyType,omitempty"`
-	LastEnabledTime *string                `json:"lastEnabledTime,omitempty"`
-	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Enabled     *bool                  `json:"enabled,omitempty"`
+	KeyType     *string                `json:"keyType,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210401.EncryptionService_STATUS

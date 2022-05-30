@@ -8,12 +8,10 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 // Deprecated version of DatabaseAccountsSqlDatabasesContainersTrigger_Spec. Use v1beta20210515.DatabaseAccountsSqlDatabasesContainersTrigger_Spec instead
 type DatabaseAccountsSqlDatabasesContainersTrigger_SpecARM struct {
 	AzureName  string                               `json:"azureName,omitempty"`
-	Id         *string                              `json:"id,omitempty"`
 	Location   *string                              `json:"location,omitempty"`
 	Name       string                               `json:"name,omitempty"`
 	Properties *SqlTriggerCreateUpdatePropertiesARM `json:"properties,omitempty"`
 	Tags       map[string]string                    `json:"tags,omitempty"`
-	Type       *string                              `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &DatabaseAccountsSqlDatabasesContainersTrigger_SpecARM{}

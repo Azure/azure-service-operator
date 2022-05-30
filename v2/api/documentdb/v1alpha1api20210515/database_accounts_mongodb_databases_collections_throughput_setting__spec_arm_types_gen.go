@@ -8,12 +8,10 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 // Deprecated version of DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec. Use v1beta20210515.DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec instead
 type DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_SpecARM struct {
 	AzureName  string                                 `json:"azureName,omitempty"`
-	Id         *string                                `json:"id,omitempty"`
 	Location   *string                                `json:"location,omitempty"`
 	Name       string                                 `json:"name,omitempty"`
 	Properties *ThroughputSettingsUpdatePropertiesARM `json:"properties,omitempty"`
 	Tags       map[string]string                      `json:"tags,omitempty"`
-	Type       *string                                `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_SpecARM{}
@@ -40,17 +38,14 @@ type ThroughputSettingsUpdatePropertiesARM struct {
 
 // Deprecated version of ThroughputSettingsResource. Use v1beta20210515.ThroughputSettingsResource instead
 type ThroughputSettingsResourceARM struct {
-	AutoscaleSettings   *AutoscaleSettingsResourceARM `json:"autoscaleSettings,omitempty"`
-	MinimumThroughput   *string                       `json:"minimumThroughput,omitempty"`
-	OfferReplacePending *string                       `json:"offerReplacePending,omitempty"`
-	Throughput          *int                          `json:"throughput,omitempty"`
+	AutoscaleSettings *AutoscaleSettingsResourceARM `json:"autoscaleSettings,omitempty"`
+	Throughput        *int                          `json:"throughput,omitempty"`
 }
 
 // Deprecated version of AutoscaleSettingsResource. Use v1beta20210515.AutoscaleSettingsResource instead
 type AutoscaleSettingsResourceARM struct {
-	AutoUpgradePolicy   *AutoUpgradePolicyResourceARM `json:"autoUpgradePolicy,omitempty"`
-	MaxThroughput       *int                          `json:"maxThroughput,omitempty"`
-	TargetMaxThroughput *int                          `json:"targetMaxThroughput,omitempty"`
+	AutoUpgradePolicy *AutoUpgradePolicyResourceARM `json:"autoUpgradePolicy,omitempty"`
+	MaxThroughput     *int                          `json:"maxThroughput,omitempty"`
 }
 
 // Deprecated version of AutoUpgradePolicyResource. Use v1beta20210515.AutoUpgradePolicyResource instead

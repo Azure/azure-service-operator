@@ -384,51 +384,41 @@ func RouteTable_SpecGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForRouteTable_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["DisableBgpRoutePropagation"] = gen.PtrOf(gen.Bool())
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_Deleting,
-		ProvisioningState_Failed,
-		ProvisioningState_Succeeded,
-		ProvisioningState_Updating))
-	gens["ResourceGuid"] = gen.PtrOf(gen.AlphaString())
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForRouteTable_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForRouteTable_Spec(gens map[string]gopter.Gen) {
-	gens["Routes"] = gen.SliceOf(RouteGenerator())
-	gens["Subnets"] = gen.SliceOf(Subnet_RouteTable_SubResourceEmbeddedGenerator())
+	gens["Routes"] = gen.SliceOf(Route_RouteTable_SubResourceEmbeddedGenerator())
 }
 
-func Test_Route_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+func Test_Route_RouteTable_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip from Route to Route via AssignPropertiesToRoute & AssignPropertiesFromRoute returns original",
-		prop.ForAll(RunPropertyAssignmentTestForRoute, RouteGenerator()))
+		"Round trip from Route_RouteTable_SubResourceEmbedded to Route_RouteTable_SubResourceEmbedded via AssignPropertiesToRoute_RouteTable_SubResourceEmbedded & AssignPropertiesFromRoute_RouteTable_SubResourceEmbedded returns original",
+		prop.ForAll(RunPropertyAssignmentTestForRoute_RouteTable_SubResourceEmbedded, Route_RouteTable_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
 }
 
-// RunPropertyAssignmentTestForRoute tests if a specific instance of Route can be assigned to v1beta20201101storage and back losslessly
-func RunPropertyAssignmentTestForRoute(subject Route) string {
+// RunPropertyAssignmentTestForRoute_RouteTable_SubResourceEmbedded tests if a specific instance of Route_RouteTable_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
+func RunPropertyAssignmentTestForRoute_RouteTable_SubResourceEmbedded(subject Route_RouteTable_SubResourceEmbedded) string {
 	// Copy subject to make sure assignment doesn't modify it
 	copied := subject.DeepCopy()
 
 	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.Route
-	err := copied.AssignPropertiesToRoute(&other)
+	var other v20201101s.Route_RouteTable_SubResourceEmbedded
+	err := copied.AssignPropertiesToRoute_RouteTable_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
 
 	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Route
-	err = actual.AssignPropertiesFromRoute(&other)
+	var actual Route_RouteTable_SubResourceEmbedded
+	err = actual.AssignPropertiesFromRoute_RouteTable_SubResourceEmbedded(&other)
 	if err != nil {
 		return err.Error()
 	}
@@ -445,19 +435,19 @@ func RunPropertyAssignmentTestForRoute(subject Route) string {
 	return ""
 }
 
-func Test_Route_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+func Test_Route_RouteTable_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
 	parameters.MaxSize = 10
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
-		"Round trip of Route via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForRoute, RouteGenerator()))
+		"Round trip of Route_RouteTable_SubResourceEmbedded via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForRoute_RouteTable_SubResourceEmbedded, Route_RouteTable_SubResourceEmbeddedGenerator()))
 	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
 }
 
-// RunJSONSerializationTestForRoute runs a test to see if a specific instance of Route round trips to JSON and back losslessly
-func RunJSONSerializationTestForRoute(subject Route) string {
+// RunJSONSerializationTestForRoute_RouteTable_SubResourceEmbedded runs a test to see if a specific instance of Route_RouteTable_SubResourceEmbedded round trips to JSON and back losslessly
+func RunJSONSerializationTestForRoute_RouteTable_SubResourceEmbedded(subject Route_RouteTable_SubResourceEmbedded) string {
 	// Serialize to JSON
 	bin, err := json.Marshal(subject)
 	if err != nil {
@@ -465,7 +455,7 @@ func RunJSONSerializationTestForRoute(subject Route) string {
 	}
 
 	// Deserialize back into memory
-	var actual Route
+	var actual Route_RouteTable_SubResourceEmbedded
 	err = json.Unmarshal(bin, &actual)
 	if err != nil {
 		return err.Error()
@@ -483,125 +473,18 @@ func RunJSONSerializationTestForRoute(subject Route) string {
 	return ""
 }
 
-// Generator of Route instances for property testing - lazily instantiated by RouteGenerator()
-var routeGenerator gopter.Gen
+// Generator of Route_RouteTable_SubResourceEmbedded instances for property testing - lazily instantiated by
+// Route_RouteTable_SubResourceEmbeddedGenerator()
+var route_RouteTable_SubResourceEmbeddedGenerator gopter.Gen
 
-// RouteGenerator returns a generator of Route instances for property testing.
-func RouteGenerator() gopter.Gen {
-	if routeGenerator != nil {
-		return routeGenerator
+// Route_RouteTable_SubResourceEmbeddedGenerator returns a generator of Route_RouteTable_SubResourceEmbedded instances for property testing.
+func Route_RouteTable_SubResourceEmbeddedGenerator() gopter.Gen {
+	if route_RouteTable_SubResourceEmbeddedGenerator != nil {
+		return route_RouteTable_SubResourceEmbeddedGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForRoute(generators)
-	routeGenerator = gen.Struct(reflect.TypeOf(Route{}), generators)
+	route_RouteTable_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(Route_RouteTable_SubResourceEmbedded{}), generators)
 
-	return routeGenerator
-}
-
-// AddIndependentPropertyGeneratorsForRoute is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForRoute(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_Subnet_RouteTable_SubResourceEmbedded_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from Subnet_RouteTable_SubResourceEmbedded to Subnet_RouteTable_SubResourceEmbedded via AssignPropertiesToSubnet_RouteTable_SubResourceEmbedded & AssignPropertiesFromSubnet_RouteTable_SubResourceEmbedded returns original",
-		prop.ForAll(RunPropertyAssignmentTestForSubnet_RouteTable_SubResourceEmbedded, Subnet_RouteTable_SubResourceEmbeddedGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForSubnet_RouteTable_SubResourceEmbedded tests if a specific instance of Subnet_RouteTable_SubResourceEmbedded can be assigned to v1beta20201101storage and back losslessly
-func RunPropertyAssignmentTestForSubnet_RouteTable_SubResourceEmbedded(subject Subnet_RouteTable_SubResourceEmbedded) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20201101s.Subnet_RouteTable_SubResourceEmbedded
-	err := copied.AssignPropertiesToSubnet_RouteTable_SubResourceEmbedded(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual Subnet_RouteTable_SubResourceEmbedded
-	err = actual.AssignPropertiesFromSubnet_RouteTable_SubResourceEmbedded(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_Subnet_RouteTable_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of Subnet_RouteTable_SubResourceEmbedded via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForSubnet_RouteTable_SubResourceEmbedded, Subnet_RouteTable_SubResourceEmbeddedGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForSubnet_RouteTable_SubResourceEmbedded runs a test to see if a specific instance of Subnet_RouteTable_SubResourceEmbedded round trips to JSON and back losslessly
-func RunJSONSerializationTestForSubnet_RouteTable_SubResourceEmbedded(subject Subnet_RouteTable_SubResourceEmbedded) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual Subnet_RouteTable_SubResourceEmbedded
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of Subnet_RouteTable_SubResourceEmbedded instances for property testing - lazily instantiated by
-// Subnet_RouteTable_SubResourceEmbeddedGenerator()
-var subnet_RouteTable_SubResourceEmbeddedGenerator gopter.Gen
-
-// Subnet_RouteTable_SubResourceEmbeddedGenerator returns a generator of Subnet_RouteTable_SubResourceEmbedded instances for property testing.
-func Subnet_RouteTable_SubResourceEmbeddedGenerator() gopter.Gen {
-	if subnet_RouteTable_SubResourceEmbeddedGenerator != nil {
-		return subnet_RouteTable_SubResourceEmbeddedGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSubnet_RouteTable_SubResourceEmbedded(generators)
-	subnet_RouteTable_SubResourceEmbeddedGenerator = gen.Struct(reflect.TypeOf(Subnet_RouteTable_SubResourceEmbedded{}), generators)
-
-	return subnet_RouteTable_SubResourceEmbeddedGenerator
-}
-
-// AddIndependentPropertyGeneratorsForSubnet_RouteTable_SubResourceEmbedded is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForSubnet_RouteTable_SubResourceEmbedded(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
+	return route_RouteTable_SubResourceEmbeddedGenerator
 }

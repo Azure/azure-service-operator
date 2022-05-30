@@ -8,15 +8,12 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 // Deprecated version of Registry_Spec. Use v1beta20210901.Registry_Spec instead
 type Registry_SpecARM struct {
 	AzureName  string                 `json:"azureName,omitempty"`
-	Id         *string                `json:"id,omitempty"`
 	Identity   *IdentityPropertiesARM `json:"identity,omitempty"`
 	Location   *string                `json:"location,omitempty"`
 	Name       string                 `json:"name,omitempty"`
 	Properties *RegistryPropertiesARM `json:"properties,omitempty"`
 	Sku        *SkuARM                `json:"sku,omitempty"`
-	SystemData *SystemDataARM         `json:"systemData,omitempty"`
 	Tags       map[string]string      `json:"tags,omitempty"`
-	Type       *string                `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Registry_SpecARM{}
@@ -46,36 +43,19 @@ type IdentityPropertiesARM struct {
 
 // Deprecated version of RegistryProperties. Use v1beta20210901.RegistryProperties instead
 type RegistryPropertiesARM struct {
-	AdminUserEnabled           *bool                                        `json:"adminUserEnabled,omitempty"`
-	CreationDate               *string                                      `json:"creationDate,omitempty"`
-	DataEndpointEnabled        *bool                                        `json:"dataEndpointEnabled,omitempty"`
-	DataEndpointHostNames      []string                                     `json:"dataEndpointHostNames,omitempty"`
-	Encryption                 *EncryptionPropertyARM                       `json:"encryption,omitempty"`
-	LoginServer                *string                                      `json:"loginServer,omitempty"`
-	NetworkRuleBypassOptions   *RegistryProperties_NetworkRuleBypassOptions `json:"networkRuleBypassOptions,omitempty"`
-	NetworkRuleSet             *NetworkRuleSetARM                           `json:"networkRuleSet,omitempty"`
-	Policies                   *PoliciesARM                                 `json:"policies,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnectionARM               `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState          *RegistryProperties_ProvisioningState        `json:"provisioningState,omitempty"`
-	PublicNetworkAccess        *RegistryProperties_PublicNetworkAccess      `json:"publicNetworkAccess,omitempty"`
-	Status                     *StatusARM                                   `json:"status,omitempty"`
-	ZoneRedundancy             *RegistryProperties_ZoneRedundancy           `json:"zoneRedundancy,omitempty"`
+	AdminUserEnabled         *bool                                        `json:"adminUserEnabled,omitempty"`
+	DataEndpointEnabled      *bool                                        `json:"dataEndpointEnabled,omitempty"`
+	Encryption               *EncryptionPropertyARM                       `json:"encryption,omitempty"`
+	NetworkRuleBypassOptions *RegistryProperties_NetworkRuleBypassOptions `json:"networkRuleBypassOptions,omitempty"`
+	NetworkRuleSet           *NetworkRuleSetARM                           `json:"networkRuleSet,omitempty"`
+	Policies                 *PoliciesARM                                 `json:"policies,omitempty"`
+	PublicNetworkAccess      *RegistryProperties_PublicNetworkAccess      `json:"publicNetworkAccess,omitempty"`
+	ZoneRedundancy           *RegistryProperties_ZoneRedundancy           `json:"zoneRedundancy,omitempty"`
 }
 
 // Deprecated version of Sku. Use v1beta20210901.Sku instead
 type SkuARM struct {
 	Name *Sku_Name `json:"name,omitempty"`
-	Tier *Sku_Tier `json:"tier,omitempty"`
-}
-
-// Deprecated version of SystemData. Use v1beta20210901.SystemData instead
-type SystemDataARM struct {
-	CreatedAt          *string                        `json:"createdAt,omitempty"`
-	CreatedBy          *string                        `json:"createdBy,omitempty"`
-	CreatedByType      *SystemData_CreatedByType      `json:"createdByType,omitempty"`
-	LastModifiedAt     *string                        `json:"lastModifiedAt,omitempty"`
-	LastModifiedBy     *string                        `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *SystemData_LastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
 // Deprecated version of EncryptionProperty. Use v1beta20210901.EncryptionProperty instead
@@ -109,12 +89,6 @@ type PoliciesARM struct {
 	TrustPolicy      *TrustPolicyARM      `json:"trustPolicy,omitempty"`
 }
 
-// Deprecated version of PrivateEndpointConnection. Use v1beta20210901.PrivateEndpointConnection instead
-type PrivateEndpointConnectionARM struct {
-	Id         *string        `json:"id,omitempty"`
-	SystemData *SystemDataARM `json:"systemData,omitempty"`
-}
-
 // Deprecated version of Sku_Name. Use v1beta20210901.Sku_Name instead
 // +kubebuilder:validation:Enum={"Basic","Classic","Premium","Standard"}
 type Sku_Name string
@@ -124,46 +98,6 @@ const (
 	Sku_Name_Classic  = Sku_Name("Classic")
 	Sku_Name_Premium  = Sku_Name("Premium")
 	Sku_Name_Standard = Sku_Name("Standard")
-)
-
-// Deprecated version of Sku_Tier. Use v1beta20210901.Sku_Tier instead
-// +kubebuilder:validation:Enum={"Basic","Classic","Premium","Standard"}
-type Sku_Tier string
-
-const (
-	Sku_Tier_Basic    = Sku_Tier("Basic")
-	Sku_Tier_Classic  = Sku_Tier("Classic")
-	Sku_Tier_Premium  = Sku_Tier("Premium")
-	Sku_Tier_Standard = Sku_Tier("Standard")
-)
-
-// Deprecated version of Status. Use v1beta20210901.Status instead
-type StatusARM struct {
-	DisplayStatus *string `json:"displayStatus,omitempty"`
-	Message       *string `json:"message,omitempty"`
-	Timestamp     *string `json:"timestamp,omitempty"`
-}
-
-// Deprecated version of SystemData_CreatedByType. Use v1beta20210901.SystemData_CreatedByType instead
-// +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
-type SystemData_CreatedByType string
-
-const (
-	SystemData_CreatedByType_Application     = SystemData_CreatedByType("Application")
-	SystemData_CreatedByType_Key             = SystemData_CreatedByType("Key")
-	SystemData_CreatedByType_ManagedIdentity = SystemData_CreatedByType("ManagedIdentity")
-	SystemData_CreatedByType_User            = SystemData_CreatedByType("User")
-)
-
-// Deprecated version of SystemData_LastModifiedByType. Use v1beta20210901.SystemData_LastModifiedByType instead
-// +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
-type SystemData_LastModifiedByType string
-
-const (
-	SystemData_LastModifiedByType_Application     = SystemData_LastModifiedByType("Application")
-	SystemData_LastModifiedByType_Key             = SystemData_LastModifiedByType("Key")
-	SystemData_LastModifiedByType_ManagedIdentity = SystemData_LastModifiedByType("ManagedIdentity")
-	SystemData_LastModifiedByType_User            = SystemData_LastModifiedByType("User")
 )
 
 // Deprecated version of UserIdentityProperties. Use v1beta20210901.UserIdentityProperties instead
@@ -185,11 +119,8 @@ type IPRuleARM struct {
 
 // Deprecated version of KeyVaultProperties. Use v1beta20210901.KeyVaultProperties instead
 type KeyVaultPropertiesARM struct {
-	Identity                 *string `json:"identity,omitempty"`
-	KeyIdentifier            *string `json:"keyIdentifier,omitempty"`
-	KeyRotationEnabled       *bool   `json:"keyRotationEnabled,omitempty"`
-	LastKeyRotationTimestamp *string `json:"lastKeyRotationTimestamp,omitempty"`
-	VersionedKeyIdentifier   *string `json:"versionedKeyIdentifier,omitempty"`
+	Identity      *string `json:"identity,omitempty"`
+	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
 }
 
 // Deprecated version of QuarantinePolicy. Use v1beta20210901.QuarantinePolicy instead
@@ -199,9 +130,8 @@ type QuarantinePolicyARM struct {
 
 // Deprecated version of RetentionPolicy. Use v1beta20210901.RetentionPolicy instead
 type RetentionPolicyARM struct {
-	Days            *int                    `json:"days,omitempty"`
-	LastUpdatedTime *string                 `json:"lastUpdatedTime,omitempty"`
-	Status          *RetentionPolicy_Status `json:"status,omitempty"`
+	Days   *int                    `json:"days,omitempty"`
+	Status *RetentionPolicy_Status `json:"status,omitempty"`
 }
 
 // Deprecated version of TrustPolicy. Use v1beta20210901.TrustPolicy instead

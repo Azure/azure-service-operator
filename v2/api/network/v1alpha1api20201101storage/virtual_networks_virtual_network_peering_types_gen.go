@@ -511,11 +511,9 @@ type VirtualNetworksVirtualNetworkPeering_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName                 string  `json:"azureName,omitempty"`
-	DoNotVerifyRemoteGateways *bool   `json:"doNotVerifyRemoteGateways,omitempty"`
-	Etag                      *string `json:"etag,omitempty"`
-	Id                        *string `json:"id,omitempty"`
-	OriginalVersion           string  `json:"originalVersion,omitempty"`
+	AzureName                 string `json:"azureName,omitempty"`
+	DoNotVerifyRemoteGateways *bool  `json:"doNotVerifyRemoteGateways,omitempty"`
+	OriginalVersion           string `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -524,11 +522,10 @@ type VirtualNetworksVirtualNetworkPeering_Spec struct {
 	Owner                *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PeeringState         *string                            `json:"peeringState,omitempty"`
 	PropertyBag          genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	ProvisioningState    *string                            `json:"provisioningState,omitempty"`
+	Reference            *genruntime.ResourceReference      `armReference:"Id" json:"reference,omitempty"`
 	RemoteAddressSpace   *AddressSpace                      `json:"remoteAddressSpace,omitempty"`
 	RemoteBgpCommunities *VirtualNetworkBgpCommunities      `json:"remoteBgpCommunities,omitempty"`
 	RemoteVirtualNetwork *SubResource                       `json:"remoteVirtualNetwork,omitempty"`
-	ResourceGuid         *string                            `json:"resourceGuid,omitempty"`
 	Type                 *string                            `json:"type,omitempty"`
 	UseRemoteGateways    *bool                              `json:"useRemoteGateways,omitempty"`
 }
@@ -623,12 +620,6 @@ func (peering *VirtualNetworksVirtualNetworkPeering_Spec) AssignPropertiesFromVi
 		peering.DoNotVerifyRemoteGateways = nil
 	}
 
-	// Etag
-	peering.Etag = genruntime.ClonePointerToString(source.Etag)
-
-	// Id
-	peering.Id = genruntime.ClonePointerToString(source.Id)
-
 	// OriginalVersion
 	peering.OriginalVersion = source.OriginalVersion
 
@@ -643,8 +634,13 @@ func (peering *VirtualNetworksVirtualNetworkPeering_Spec) AssignPropertiesFromVi
 	// PeeringState
 	peering.PeeringState = genruntime.ClonePointerToString(source.PeeringState)
 
-	// ProvisioningState
-	peering.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		peering.Reference = &reference
+	} else {
+		peering.Reference = nil
+	}
 
 	// RemoteAddressSpace
 	if source.RemoteAddressSpace != nil {
@@ -681,9 +677,6 @@ func (peering *VirtualNetworksVirtualNetworkPeering_Spec) AssignPropertiesFromVi
 	} else {
 		peering.RemoteVirtualNetwork = nil
 	}
-
-	// ResourceGuid
-	peering.ResourceGuid = genruntime.ClonePointerToString(source.ResourceGuid)
 
 	// Type
 	peering.Type = genruntime.ClonePointerToString(source.Type)
@@ -747,12 +740,6 @@ func (peering *VirtualNetworksVirtualNetworkPeering_Spec) AssignPropertiesToVirt
 		destination.DoNotVerifyRemoteGateways = nil
 	}
 
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(peering.Etag)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(peering.Id)
-
 	// OriginalVersion
 	destination.OriginalVersion = peering.OriginalVersion
 
@@ -767,8 +754,13 @@ func (peering *VirtualNetworksVirtualNetworkPeering_Spec) AssignPropertiesToVirt
 	// PeeringState
 	destination.PeeringState = genruntime.ClonePointerToString(peering.PeeringState)
 
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(peering.ProvisioningState)
+	// Reference
+	if peering.Reference != nil {
+		reference := peering.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
+	}
 
 	// RemoteAddressSpace
 	if peering.RemoteAddressSpace != nil {
@@ -805,9 +797,6 @@ func (peering *VirtualNetworksVirtualNetworkPeering_Spec) AssignPropertiesToVirt
 	} else {
 		destination.RemoteVirtualNetwork = nil
 	}
-
-	// ResourceGuid
-	destination.ResourceGuid = genruntime.ClonePointerToString(peering.ResourceGuid)
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(peering.Type)

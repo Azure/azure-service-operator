@@ -640,19 +640,17 @@ type FlexibleServer_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName                string                      `json:"azureName,omitempty"`
-	Backup                   *Backup                     `json:"backup,omitempty"`
-	CreateMode               *string                     `json:"createMode,omitempty"`
-	DataEncryption           *DataEncryption             `json:"dataEncryption,omitempty"`
-	FullyQualifiedDomainName *string                     `json:"fullyQualifiedDomainName,omitempty"`
-	HighAvailability         *HighAvailability           `json:"highAvailability,omitempty"`
-	Id                       *string                     `json:"id,omitempty"`
-	Identity                 *Identity                   `json:"identity,omitempty"`
-	Location                 *string                     `json:"location,omitempty"`
-	MaintenanceWindow        *MaintenanceWindow          `json:"maintenanceWindow,omitempty"`
-	Network                  *Network                    `json:"network,omitempty"`
-	OperatorSpec             *FlexibleServerOperatorSpec `json:"operatorSpec,omitempty"`
-	OriginalVersion          string                      `json:"originalVersion,omitempty"`
+	AzureName         string                      `json:"azureName,omitempty"`
+	Backup            *Backup                     `json:"backup,omitempty"`
+	CreateMode        *string                     `json:"createMode,omitempty"`
+	DataEncryption    *DataEncryption             `json:"dataEncryption,omitempty"`
+	HighAvailability  *HighAvailability           `json:"highAvailability,omitempty"`
+	Identity          *Identity                   `json:"identity,omitempty"`
+	Location          *string                     `json:"location,omitempty"`
+	MaintenanceWindow *MaintenanceWindow          `json:"maintenanceWindow,omitempty"`
+	Network           *Network                    `json:"network,omitempty"`
+	OperatorSpec      *FlexibleServerOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion   string                      `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -660,16 +658,12 @@ type FlexibleServer_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner                  *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag            genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	ReplicaCapacity        *int                               `json:"replicaCapacity,omitempty"`
 	ReplicationRole        *string                            `json:"replicationRole,omitempty"`
 	RestorePointInTime     *string                            `json:"restorePointInTime,omitempty"`
 	Sku                    *Sku                               `json:"sku,omitempty"`
 	SourceServerResourceId *string                            `json:"sourceServerResourceId,omitempty"`
-	State                  *string                            `json:"state,omitempty"`
 	Storage                *Storage                           `json:"storage,omitempty"`
-	SystemData             *SystemData                        `json:"systemData,omitempty"`
 	Tags                   map[string]string                  `json:"tags,omitempty"`
-	Type                   *string                            `json:"type,omitempty"`
 	Version                *string                            `json:"version,omitempty"`
 }
 
@@ -772,9 +766,6 @@ func (server *FlexibleServer_Spec) AssignPropertiesFromFlexibleServer_Spec(sourc
 		server.DataEncryption = nil
 	}
 
-	// FullyQualifiedDomainName
-	server.FullyQualifiedDomainName = genruntime.ClonePointerToString(source.FullyQualifiedDomainName)
-
 	// HighAvailability
 	if source.HighAvailability != nil {
 		var highAvailability HighAvailability
@@ -786,9 +777,6 @@ func (server *FlexibleServer_Spec) AssignPropertiesFromFlexibleServer_Spec(sourc
 	} else {
 		server.HighAvailability = nil
 	}
-
-	// Id
-	server.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Identity
 	if source.Identity != nil {
@@ -852,9 +840,6 @@ func (server *FlexibleServer_Spec) AssignPropertiesFromFlexibleServer_Spec(sourc
 		server.Owner = nil
 	}
 
-	// ReplicaCapacity
-	server.ReplicaCapacity = genruntime.ClonePointerToInt(source.ReplicaCapacity)
-
 	// ReplicationRole
 	server.ReplicationRole = genruntime.ClonePointerToString(source.ReplicationRole)
 
@@ -876,9 +861,6 @@ func (server *FlexibleServer_Spec) AssignPropertiesFromFlexibleServer_Spec(sourc
 	// SourceServerResourceId
 	server.SourceServerResourceId = genruntime.ClonePointerToString(source.SourceServerResourceId)
 
-	// State
-	server.State = genruntime.ClonePointerToString(source.State)
-
 	// Storage
 	if source.Storage != nil {
 		var storage Storage
@@ -891,23 +873,8 @@ func (server *FlexibleServer_Spec) AssignPropertiesFromFlexibleServer_Spec(sourc
 		server.Storage = nil
 	}
 
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
-		}
-		server.SystemData = &systemDatum
-	} else {
-		server.SystemData = nil
-	}
-
 	// Tags
 	server.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	server.Type = genruntime.ClonePointerToString(source.Type)
 
 	// Version
 	server.Version = genruntime.ClonePointerToString(source.Version)
@@ -972,9 +939,6 @@ func (server *FlexibleServer_Spec) AssignPropertiesToFlexibleServer_Spec(destina
 		destination.DataEncryption = nil
 	}
 
-	// FullyQualifiedDomainName
-	destination.FullyQualifiedDomainName = genruntime.ClonePointerToString(server.FullyQualifiedDomainName)
-
 	// HighAvailability
 	if server.HighAvailability != nil {
 		var highAvailability v20210501s.HighAvailability
@@ -986,9 +950,6 @@ func (server *FlexibleServer_Spec) AssignPropertiesToFlexibleServer_Spec(destina
 	} else {
 		destination.HighAvailability = nil
 	}
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(server.Id)
 
 	// Identity
 	if server.Identity != nil {
@@ -1052,9 +1013,6 @@ func (server *FlexibleServer_Spec) AssignPropertiesToFlexibleServer_Spec(destina
 		destination.Owner = nil
 	}
 
-	// ReplicaCapacity
-	destination.ReplicaCapacity = genruntime.ClonePointerToInt(server.ReplicaCapacity)
-
 	// ReplicationRole
 	destination.ReplicationRole = genruntime.ClonePointerToString(server.ReplicationRole)
 
@@ -1076,9 +1034,6 @@ func (server *FlexibleServer_Spec) AssignPropertiesToFlexibleServer_Spec(destina
 	// SourceServerResourceId
 	destination.SourceServerResourceId = genruntime.ClonePointerToString(server.SourceServerResourceId)
 
-	// State
-	destination.State = genruntime.ClonePointerToString(server.State)
-
 	// Storage
 	if server.Storage != nil {
 		var storage v20210501s.Storage
@@ -1091,23 +1046,8 @@ func (server *FlexibleServer_Spec) AssignPropertiesToFlexibleServer_Spec(destina
 		destination.Storage = nil
 	}
 
-	// SystemData
-	if server.SystemData != nil {
-		var systemDatum v20210501s.SystemData
-		err := server.SystemData.AssignPropertiesToSystemData(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(server.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(server.Type)
 
 	// Version
 	destination.Version = genruntime.ClonePointerToString(server.Version)
@@ -1127,7 +1067,6 @@ func (server *FlexibleServer_Spec) AssignPropertiesToFlexibleServer_Spec(destina
 // Deprecated version of Backup. Use v1beta20210501.Backup instead
 type Backup struct {
 	BackupRetentionDays *int                   `json:"backupRetentionDays,omitempty"`
-	EarliestRestoreDate *string                `json:"earliestRestoreDate,omitempty"`
 	GeoRedundantBackup  *string                `json:"geoRedundantBackup,omitempty"`
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
@@ -1139,9 +1078,6 @@ func (backup *Backup) AssignPropertiesFromBackup(source *v20210501s.Backup) erro
 
 	// BackupRetentionDays
 	backup.BackupRetentionDays = genruntime.ClonePointerToInt(source.BackupRetentionDays)
-
-	// EarliestRestoreDate
-	backup.EarliestRestoreDate = genruntime.ClonePointerToString(source.EarliestRestoreDate)
 
 	// GeoRedundantBackup
 	backup.GeoRedundantBackup = genruntime.ClonePointerToString(source.GeoRedundantBackup)
@@ -1164,9 +1100,6 @@ func (backup *Backup) AssignPropertiesToBackup(destination *v20210501s.Backup) e
 
 	// BackupRetentionDays
 	destination.BackupRetentionDays = genruntime.ClonePointerToInt(backup.BackupRetentionDays)
-
-	// EarliestRestoreDate
-	destination.EarliestRestoreDate = genruntime.ClonePointerToString(backup.EarliestRestoreDate)
 
 	// GeoRedundantBackup
 	destination.GeoRedundantBackup = genruntime.ClonePointerToString(backup.GeoRedundantBackup)
@@ -1244,12 +1177,12 @@ func (backup *Backup_STATUS) AssignPropertiesToBackup_STATUS(destination *v20210
 // Storage version of v1alpha1api20210501.DataEncryption
 // Deprecated version of DataEncryption. Use v1beta20210501.DataEncryption instead
 type DataEncryption struct {
-	GeoBackupKeyUri                 *string                `json:"geoBackupKeyUri,omitempty"`
-	GeoBackupUserAssignedIdentityId *string                `json:"geoBackupUserAssignedIdentityId,omitempty"`
-	PrimaryKeyUri                   *string                `json:"primaryKeyUri,omitempty"`
-	PrimaryUserAssignedIdentityId   *string                `json:"primaryUserAssignedIdentityId,omitempty"`
-	PropertyBag                     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Type                            *string                `json:"type,omitempty"`
+	GeoBackupKeyUri                        *string                       `json:"geoBackupKeyUri,omitempty"`
+	GeoBackupUserAssignedIdentityReference *genruntime.ResourceReference `armReference:"GeoBackupUserAssignedIdentityId" json:"geoBackupUserAssignedIdentityReference,omitempty"`
+	PrimaryKeyUri                          *string                       `json:"primaryKeyUri,omitempty"`
+	PrimaryUserAssignedIdentityReference   *genruntime.ResourceReference `armReference:"PrimaryUserAssignedIdentityId" json:"primaryUserAssignedIdentityReference,omitempty"`
+	PropertyBag                            genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Type                                   *string                       `json:"type,omitempty"`
 }
 
 // AssignPropertiesFromDataEncryption populates our DataEncryption from the provided source DataEncryption
@@ -1260,14 +1193,24 @@ func (encryption *DataEncryption) AssignPropertiesFromDataEncryption(source *v20
 	// GeoBackupKeyUri
 	encryption.GeoBackupKeyUri = genruntime.ClonePointerToString(source.GeoBackupKeyUri)
 
-	// GeoBackupUserAssignedIdentityId
-	encryption.GeoBackupUserAssignedIdentityId = genruntime.ClonePointerToString(source.GeoBackupUserAssignedIdentityId)
+	// GeoBackupUserAssignedIdentityReference
+	if source.GeoBackupUserAssignedIdentityReference != nil {
+		geoBackupUserAssignedIdentityReference := source.GeoBackupUserAssignedIdentityReference.Copy()
+		encryption.GeoBackupUserAssignedIdentityReference = &geoBackupUserAssignedIdentityReference
+	} else {
+		encryption.GeoBackupUserAssignedIdentityReference = nil
+	}
 
 	// PrimaryKeyUri
 	encryption.PrimaryKeyUri = genruntime.ClonePointerToString(source.PrimaryKeyUri)
 
-	// PrimaryUserAssignedIdentityId
-	encryption.PrimaryUserAssignedIdentityId = genruntime.ClonePointerToString(source.PrimaryUserAssignedIdentityId)
+	// PrimaryUserAssignedIdentityReference
+	if source.PrimaryUserAssignedIdentityReference != nil {
+		primaryUserAssignedIdentityReference := source.PrimaryUserAssignedIdentityReference.Copy()
+		encryption.PrimaryUserAssignedIdentityReference = &primaryUserAssignedIdentityReference
+	} else {
+		encryption.PrimaryUserAssignedIdentityReference = nil
+	}
 
 	// Type
 	encryption.Type = genruntime.ClonePointerToString(source.Type)
@@ -1291,14 +1234,24 @@ func (encryption *DataEncryption) AssignPropertiesToDataEncryption(destination *
 	// GeoBackupKeyUri
 	destination.GeoBackupKeyUri = genruntime.ClonePointerToString(encryption.GeoBackupKeyUri)
 
-	// GeoBackupUserAssignedIdentityId
-	destination.GeoBackupUserAssignedIdentityId = genruntime.ClonePointerToString(encryption.GeoBackupUserAssignedIdentityId)
+	// GeoBackupUserAssignedIdentityReference
+	if encryption.GeoBackupUserAssignedIdentityReference != nil {
+		geoBackupUserAssignedIdentityReference := encryption.GeoBackupUserAssignedIdentityReference.Copy()
+		destination.GeoBackupUserAssignedIdentityReference = &geoBackupUserAssignedIdentityReference
+	} else {
+		destination.GeoBackupUserAssignedIdentityReference = nil
+	}
 
 	// PrimaryKeyUri
 	destination.PrimaryKeyUri = genruntime.ClonePointerToString(encryption.PrimaryKeyUri)
 
-	// PrimaryUserAssignedIdentityId
-	destination.PrimaryUserAssignedIdentityId = genruntime.ClonePointerToString(encryption.PrimaryUserAssignedIdentityId)
+	// PrimaryUserAssignedIdentityReference
+	if encryption.PrimaryUserAssignedIdentityReference != nil {
+		primaryUserAssignedIdentityReference := encryption.PrimaryUserAssignedIdentityReference.Copy()
+		destination.PrimaryUserAssignedIdentityReference = &primaryUserAssignedIdentityReference
+	} else {
+		destination.PrimaryUserAssignedIdentityReference = nil
+	}
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(encryption.Type)
@@ -1456,7 +1409,6 @@ type HighAvailability struct {
 	Mode                    *string                `json:"mode,omitempty"`
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	StandbyAvailabilityZone *string                `json:"standbyAvailabilityZone,omitempty"`
-	State                   *string                `json:"state,omitempty"`
 }
 
 // AssignPropertiesFromHighAvailability populates our HighAvailability from the provided source HighAvailability
@@ -1469,9 +1421,6 @@ func (availability *HighAvailability) AssignPropertiesFromHighAvailability(sourc
 
 	// StandbyAvailabilityZone
 	availability.StandbyAvailabilityZone = genruntime.ClonePointerToString(source.StandbyAvailabilityZone)
-
-	// State
-	availability.State = genruntime.ClonePointerToString(source.State)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1494,9 +1443,6 @@ func (availability *HighAvailability) AssignPropertiesToHighAvailability(destina
 
 	// StandbyAvailabilityZone
 	destination.StandbyAvailabilityZone = genruntime.ClonePointerToString(availability.StandbyAvailabilityZone)
-
-	// State
-	destination.State = genruntime.ClonePointerToString(availability.State)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1571,9 +1517,7 @@ func (availability *HighAvailability_STATUS) AssignPropertiesToHighAvailability_
 // Storage version of v1alpha1api20210501.Identity
 // Deprecated version of Identity. Use v1beta20210501.Identity instead
 type Identity struct {
-	PrincipalId            *string                `json:"principalId,omitempty"`
 	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	TenantId               *string                `json:"tenantId,omitempty"`
 	Type                   *string                `json:"type,omitempty"`
 	UserAssignedIdentities map[string]v1.JSON     `json:"userAssignedIdentities,omitempty"`
 }
@@ -1582,12 +1526,6 @@ type Identity struct {
 func (identity *Identity) AssignPropertiesFromIdentity(source *v20210501s.Identity) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// PrincipalId
-	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// TenantId
-	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// Type
 	identity.Type = genruntime.ClonePointerToString(source.Type)
@@ -1620,12 +1558,6 @@ func (identity *Identity) AssignPropertiesFromIdentity(source *v20210501s.Identi
 func (identity *Identity) AssignPropertiesToIdentity(destination *v20210501s.Identity) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
-
-	// PrincipalId
-	destination.PrincipalId = genruntime.ClonePointerToString(identity.PrincipalId)
-
-	// TenantId
-	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(identity.Type)
@@ -1878,7 +1810,6 @@ type Network struct {
 	DelegatedSubnetResourceReference *genruntime.ResourceReference `armReference:"DelegatedSubnetResourceId" json:"delegatedSubnetResourceReference,omitempty"`
 	PrivateDnsZoneResourceReference  *genruntime.ResourceReference `armReference:"PrivateDnsZoneResourceId" json:"privateDnsZoneResourceReference,omitempty"`
 	PropertyBag                      genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	PublicNetworkAccess              *string                       `json:"publicNetworkAccess,omitempty"`
 }
 
 // AssignPropertiesFromNetwork populates our Network from the provided source Network
@@ -1901,9 +1832,6 @@ func (network *Network) AssignPropertiesFromNetwork(source *v20210501s.Network) 
 	} else {
 		network.PrivateDnsZoneResourceReference = nil
 	}
-
-	// PublicNetworkAccess
-	network.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1936,9 +1864,6 @@ func (network *Network) AssignPropertiesToNetwork(destination *v20210501s.Networ
 	} else {
 		destination.PrivateDnsZoneResourceReference = nil
 	}
-
-	// PublicNetworkAccess
-	destination.PublicNetworkAccess = genruntime.ClonePointerToString(network.PublicNetworkAccess)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2121,7 +2046,6 @@ type Storage struct {
 	Iops          *int                   `json:"iops,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	StorageSizeGB *int                   `json:"storageSizeGB,omitempty"`
-	StorageSku    *string                `json:"storageSku,omitempty"`
 }
 
 // AssignPropertiesFromStorage populates our Storage from the provided source Storage
@@ -2137,9 +2061,6 @@ func (storage *Storage) AssignPropertiesFromStorage(source *v20210501s.Storage) 
 
 	// StorageSizeGB
 	storage.StorageSizeGB = genruntime.ClonePointerToInt(source.StorageSizeGB)
-
-	// StorageSku
-	storage.StorageSku = genruntime.ClonePointerToString(source.StorageSku)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2165,9 +2086,6 @@ func (storage *Storage) AssignPropertiesToStorage(destination *v20210501s.Storag
 
 	// StorageSizeGB
 	destination.StorageSizeGB = genruntime.ClonePointerToInt(storage.StorageSizeGB)
-
-	// StorageSku
-	destination.StorageSku = genruntime.ClonePointerToString(storage.StorageSku)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2234,86 +2152,6 @@ func (storage *Storage_STATUS) AssignPropertiesToStorage_STATUS(destination *v20
 
 	// StorageSku
 	destination.StorageSku = genruntime.ClonePointerToString(storage.StorageSku)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20210501.SystemData
-// Deprecated version of SystemData. Use v1beta20210501.SystemData instead
-type SystemData struct {
-	CreatedAt          *string                `json:"createdAt,omitempty"`
-	CreatedBy          *string                `json:"createdBy,omitempty"`
-	CreatedByType      *string                `json:"createdByType,omitempty"`
-	LastModifiedAt     *string                `json:"lastModifiedAt,omitempty"`
-	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
-	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// AssignPropertiesFromSystemData populates our SystemData from the provided source SystemData
-func (data *SystemData) AssignPropertiesFromSystemData(source *v20210501s.SystemData) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// CreatedAt
-	data.CreatedAt = genruntime.ClonePointerToString(source.CreatedAt)
-
-	// CreatedBy
-	data.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
-
-	// CreatedByType
-	data.CreatedByType = genruntime.ClonePointerToString(source.CreatedByType)
-
-	// LastModifiedAt
-	data.LastModifiedAt = genruntime.ClonePointerToString(source.LastModifiedAt)
-
-	// LastModifiedBy
-	data.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
-
-	// LastModifiedByType
-	data.LastModifiedByType = genruntime.ClonePointerToString(source.LastModifiedByType)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		data.PropertyBag = propertyBag
-	} else {
-		data.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToSystemData populates the provided destination SystemData from our SystemData
-func (data *SystemData) AssignPropertiesToSystemData(destination *v20210501s.SystemData) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(data.PropertyBag)
-
-	// CreatedAt
-	destination.CreatedAt = genruntime.ClonePointerToString(data.CreatedAt)
-
-	// CreatedBy
-	destination.CreatedBy = genruntime.ClonePointerToString(data.CreatedBy)
-
-	// CreatedByType
-	destination.CreatedByType = genruntime.ClonePointerToString(data.CreatedByType)
-
-	// LastModifiedAt
-	destination.LastModifiedAt = genruntime.ClonePointerToString(data.LastModifiedAt)
-
-	// LastModifiedBy
-	destination.LastModifiedBy = genruntime.ClonePointerToString(data.LastModifiedBy)
-
-	// LastModifiedByType
-	destination.LastModifiedByType = genruntime.ClonePointerToString(data.LastModifiedByType)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

@@ -541,9 +541,7 @@ func (schedule *RedisPatchSchedule_STATUS) AssignPropertiesToRedisPatchSchedule_
 type RedisPatchSchedule_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string  `json:"azureName,omitempty"`
-	Id        *string `json:"id,omitempty"`
-	Location  *string `json:"location,omitempty"`
+	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -553,7 +551,6 @@ type RedisPatchSchedule_Spec struct {
 
 	// +kubebuilder:validation:Required
 	ScheduleEntries []ScheduleEntry `json:"scheduleEntries,omitempty"`
-	Type            *string         `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &RedisPatchSchedule_Spec{}
@@ -568,18 +565,6 @@ func (schedule *RedisPatchSchedule_Spec) ConvertToARM(resolved genruntime.Conver
 	// Set property ‘AzureName’:
 	result.AzureName = schedule.AzureName
 
-	// Set property ‘Id’:
-	if schedule.Id != nil {
-		id := *schedule.Id
-		result.Id = &id
-	}
-
-	// Set property ‘Location’:
-	if schedule.Location != nil {
-		location := *schedule.Location
-		result.Location = &location
-	}
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
@@ -593,12 +578,6 @@ func (schedule *RedisPatchSchedule_Spec) ConvertToARM(resolved genruntime.Conver
 			return nil, err
 		}
 		result.Properties.ScheduleEntries = append(result.Properties.ScheduleEntries, *itemARM.(*ScheduleEntryARM))
-	}
-
-	// Set property ‘Type’:
-	if schedule.Type != nil {
-		typeVar := *schedule.Type
-		result.Type = &typeVar
 	}
 	return result, nil
 }
@@ -618,18 +597,6 @@ func (schedule *RedisPatchSchedule_Spec) PopulateFromARM(owner genruntime.Arbitr
 	// Set property ‘AzureName’:
 	schedule.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		schedule.Id = &id
-	}
-
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		schedule.Location = &location
-	}
-
 	// Set property ‘Owner’:
 	schedule.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
@@ -646,12 +613,6 @@ func (schedule *RedisPatchSchedule_Spec) PopulateFromARM(owner genruntime.Arbitr
 			}
 			schedule.ScheduleEntries = append(schedule.ScheduleEntries, item1)
 		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		schedule.Type = &typeVar
 	}
 
 	// No error
@@ -714,12 +675,6 @@ func (schedule *RedisPatchSchedule_Spec) AssignPropertiesFromRedisPatchSchedule_
 	// AzureName
 	schedule.AzureName = source.AzureName
 
-	// Id
-	schedule.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Location
-	schedule.Location = genruntime.ClonePointerToString(source.Location)
-
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -746,9 +701,6 @@ func (schedule *RedisPatchSchedule_Spec) AssignPropertiesFromRedisPatchSchedule_
 		schedule.ScheduleEntries = nil
 	}
 
-	// Type
-	schedule.Type = genruntime.ClonePointerToString(source.Type)
-
 	// No error
 	return nil
 }
@@ -760,12 +712,6 @@ func (schedule *RedisPatchSchedule_Spec) AssignPropertiesToRedisPatchSchedule_Sp
 
 	// AzureName
 	destination.AzureName = schedule.AzureName
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(schedule.Id)
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(schedule.Location)
 
 	// OriginalVersion
 	destination.OriginalVersion = schedule.OriginalVersion()
@@ -795,9 +741,6 @@ func (schedule *RedisPatchSchedule_Spec) AssignPropertiesToRedisPatchSchedule_Sp
 	} else {
 		destination.ScheduleEntries = nil
 	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(schedule.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

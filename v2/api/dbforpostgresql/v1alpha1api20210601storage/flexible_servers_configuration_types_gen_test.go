@@ -377,9 +377,6 @@ func RunJSONSerializationTestForFlexibleServersConfiguration_Spec(subject Flexib
 var flexibleServersConfiguration_SpecGenerator gopter.Gen
 
 // FlexibleServersConfiguration_SpecGenerator returns a generator of FlexibleServersConfiguration_Spec instances for property testing.
-// We first initialize flexibleServersConfiguration_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func FlexibleServersConfiguration_SpecGenerator() gopter.Gen {
 	if flexibleServersConfiguration_SpecGenerator != nil {
 		return flexibleServersConfiguration_SpecGenerator
@@ -389,35 +386,13 @@ func FlexibleServersConfiguration_SpecGenerator() gopter.Gen {
 	AddIndependentPropertyGeneratorsForFlexibleServersConfiguration_Spec(generators)
 	flexibleServersConfiguration_SpecGenerator = gen.Struct(reflect.TypeOf(FlexibleServersConfiguration_Spec{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFlexibleServersConfiguration_Spec(generators)
-	AddRelatedPropertyGeneratorsForFlexibleServersConfiguration_Spec(generators)
-	flexibleServersConfiguration_SpecGenerator = gen.Struct(reflect.TypeOf(FlexibleServersConfiguration_Spec{}), generators)
-
 	return flexibleServersConfiguration_SpecGenerator
 }
 
 // AddIndependentPropertyGeneratorsForFlexibleServersConfiguration_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForFlexibleServersConfiguration_Spec(gens map[string]gopter.Gen) {
-	gens["AllowedValues"] = gen.PtrOf(gen.AlphaString())
 	gens["AzureName"] = gen.AlphaString()
-	gens["DataType"] = gen.PtrOf(gen.AlphaString())
-	gens["DefaultValue"] = gen.PtrOf(gen.AlphaString())
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["DocumentationLink"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["IsConfigPendingRestart"] = gen.PtrOf(gen.Bool())
-	gens["IsDynamicConfig"] = gen.PtrOf(gen.Bool())
-	gens["IsReadOnly"] = gen.PtrOf(gen.Bool())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["Source"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["Unit"] = gen.PtrOf(gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForFlexibleServersConfiguration_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFlexibleServersConfiguration_Spec(gens map[string]gopter.Gen) {
-	gens["SystemData"] = gen.PtrOf(SystemDataGenerator())
 }

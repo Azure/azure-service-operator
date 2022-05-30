@@ -210,7 +210,6 @@ type ManagedClustersAgentPool_Spec struct {
 	EnableNodePublicIP     *bool             `json:"enableNodePublicIP,omitempty"`
 	EnableUltraSSD         *bool             `json:"enableUltraSSD,omitempty"`
 	GpuInstanceProfile     *string           `json:"gpuInstanceProfile,omitempty"`
-	Id                     *string           `json:"id,omitempty"`
 	KubeletConfig          *KubeletConfig    `json:"kubeletConfig,omitempty"`
 	KubeletDiskType        *string           `json:"kubeletDiskType,omitempty"`
 	LinuxOSConfig          *LinuxOSConfig    `json:"linuxOSConfig,omitempty"`
@@ -218,7 +217,6 @@ type ManagedClustersAgentPool_Spec struct {
 	MaxPods                *int              `json:"maxPods,omitempty"`
 	MinCount               *int              `json:"minCount,omitempty"`
 	Mode                   *string           `json:"mode,omitempty"`
-	NodeImageVersion       *string           `json:"nodeImageVersion,omitempty"`
 	NodeLabels             map[string]string `json:"nodeLabels,omitempty"`
 
 	// NodePublicIPPrefixIDReference: This is of the form:
@@ -242,10 +240,7 @@ type ManagedClustersAgentPool_Spec struct {
 	// details). This is of the form:
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}
 	PodSubnetIDReference      *genruntime.ResourceReference `armReference:"PodSubnetID" json:"podSubnetIDReference,omitempty"`
-	PowerState                *PowerState                   `json:"powerState,omitempty"`
-	PropertiesType            *string                       `json:"properties_type,omitempty"`
 	PropertyBag               genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	ProvisioningState         *string                       `json:"provisioningState,omitempty"`
 	ProximityPlacementGroupID *string                       `json:"proximityPlacementGroupID,omitempty"`
 	ScaleSetEvictionPolicy    *string                       `json:"scaleSetEvictionPolicy,omitempty"`
 	ScaleSetPriority          *string                       `json:"scaleSetPriority,omitempty"`

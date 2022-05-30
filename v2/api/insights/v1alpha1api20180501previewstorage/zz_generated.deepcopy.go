@@ -673,11 +673,6 @@ func (in *Webtest_Spec) DeepCopyInto(out *Webtest_Spec) {
 		*out = new(int)
 		**out = **in
 	}
-	if in.Id != nil {
-		in, out := &in.Id, &out.Id
-		*out = new(string)
-		**out = **in
-	}
 	if in.Kind != nil {
 		in, out := &in.Kind, &out.Kind
 		*out = new(string)
@@ -717,11 +712,6 @@ func (in *Webtest_Spec) DeepCopyInto(out *Webtest_Spec) {
 			(*out)[key] = val
 		}
 	}
-	if in.ProvisioningState != nil {
-		in, out := &in.ProvisioningState, &out.ProvisioningState
-		*out = new(string)
-		**out = **in
-	}
 	if in.Request != nil {
 		in, out := &in.Request, &out.Request
 		*out = new(WebTestProperties_Request)
@@ -745,11 +735,6 @@ func (in *Webtest_Spec) DeepCopyInto(out *Webtest_Spec) {
 	if in.Timeout != nil {
 		in, out := &in.Timeout, &out.Timeout
 		*out = new(int)
-		**out = **in
-	}
-	if in.Type != nil {
-		in, out := &in.Type, &out.Type
-		*out = new(string)
 		**out = **in
 	}
 	if in.ValidationRules != nil {

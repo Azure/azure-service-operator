@@ -84,12 +84,10 @@ func DatabaseAccount_SpecARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDatabaseAccount_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabaseAccount_SpecARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Kind"] = gen.PtrOf(gen.OneConstOf(DatabaseAccount_Spec_Kind_GlobalDocumentDB, DatabaseAccount_Spec_Kind_MongoDB, DatabaseAccount_Spec_Kind_Parse))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForDatabaseAccount_SpecARM is a factory method for creating gopter generators
@@ -250,8 +248,6 @@ func ManagedServiceIdentityARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForManagedServiceIdentityARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedServiceIdentityARM(gens map[string]gopter.Gen) {
-	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
-	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
 		ManagedServiceIdentity_Type_None,
 		ManagedServiceIdentity_Type_SystemAssigned,
@@ -742,9 +738,7 @@ func LocationARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForLocationARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLocationARM(gens map[string]gopter.Gen) {
-	gens["DocumentEndpoint"] = gen.PtrOf(gen.AlphaString())
 	gens["FailoverPriority"] = gen.PtrOf(gen.Int())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["IsZoneRedundant"] = gen.PtrOf(gen.Bool())
 	gens["LocationName"] = gen.PtrOf(gen.AlphaString())
 }

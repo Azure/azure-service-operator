@@ -192,18 +192,15 @@ type FlexibleServer_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName                string                      `json:"azureName,omitempty"`
-	Backup                   *Backup                     `json:"backup,omitempty"`
-	CreateMode               *string                     `json:"createMode,omitempty"`
-	FullyQualifiedDomainName *string                     `json:"fullyQualifiedDomainName,omitempty"`
-	HighAvailability         *HighAvailability           `json:"highAvailability,omitempty"`
-	Id                       *string                     `json:"id,omitempty"`
-	Location                 *string                     `json:"location,omitempty"`
-	MaintenanceWindow        *MaintenanceWindow          `json:"maintenanceWindow,omitempty"`
-	MinorVersion             *string                     `json:"minorVersion,omitempty"`
-	Network                  *Network                    `json:"network,omitempty"`
-	OperatorSpec             *FlexibleServerOperatorSpec `json:"operatorSpec,omitempty"`
-	OriginalVersion          string                      `json:"originalVersion,omitempty"`
+	AzureName         string                      `json:"azureName,omitempty"`
+	Backup            *Backup                     `json:"backup,omitempty"`
+	CreateMode        *string                     `json:"createMode,omitempty"`
+	HighAvailability  *HighAvailability           `json:"highAvailability,omitempty"`
+	Location          *string                     `json:"location,omitempty"`
+	MaintenanceWindow *MaintenanceWindow          `json:"maintenanceWindow,omitempty"`
+	Network           *Network                    `json:"network,omitempty"`
+	OperatorSpec      *FlexibleServerOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion   string                      `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -217,11 +214,8 @@ type FlexibleServer_Spec struct {
 	// SourceServerResourceReference: The source server resource ID to restore from. It's required when 'createMode' is
 	// 'PointInTimeRestore'.
 	SourceServerResourceReference *genruntime.ResourceReference `armReference:"SourceServerResourceId" json:"sourceServerResourceReference,omitempty"`
-	State                         *string                       `json:"state,omitempty"`
 	Storage                       *Storage                      `json:"storage,omitempty"`
-	SystemData                    *SystemData                   `json:"systemData,omitempty"`
 	Tags                          map[string]string             `json:"tags,omitempty"`
-	Type                          *string                       `json:"type,omitempty"`
 	Version                       *string                       `json:"version,omitempty"`
 }
 
@@ -248,7 +242,6 @@ func (server *FlexibleServer_Spec) ConvertSpecTo(destination genruntime.Converti
 // Storage version of v1beta20210601.Backup
 type Backup struct {
 	BackupRetentionDays *int                   `json:"backupRetentionDays,omitempty"`
-	EarliestRestoreDate *string                `json:"earliestRestoreDate,omitempty"`
 	GeoRedundantBackup  *string                `json:"geoRedundantBackup,omitempty"`
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
@@ -273,7 +266,6 @@ type HighAvailability struct {
 	Mode                    *string                `json:"mode,omitempty"`
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	StandbyAvailabilityZone *string                `json:"standbyAvailabilityZone,omitempty"`
-	State                   *string                `json:"state,omitempty"`
 }
 
 // Storage version of v1beta20210601.HighAvailability_STATUS
@@ -310,7 +302,6 @@ type Network struct {
 	// PrivateDnsZoneArmResourceReference: private dns zone arm resource id.
 	PrivateDnsZoneArmResourceReference *genruntime.ResourceReference `armReference:"PrivateDnsZoneArmResourceId" json:"privateDnsZoneArmResourceReference,omitempty"`
 	PropertyBag                        genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	PublicNetworkAccess                *string                       `json:"publicNetworkAccess,omitempty"`
 }
 
 // Storage version of v1beta20210601.Network_STATUS
@@ -345,17 +336,6 @@ type Storage struct {
 type Storage_STATUS struct {
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	StorageSizeGB *int                   `json:"storageSizeGB,omitempty"`
-}
-
-// Storage version of v1beta20210601.SystemData
-type SystemData struct {
-	CreatedAt          *string                `json:"createdAt,omitempty"`
-	CreatedBy          *string                `json:"createdBy,omitempty"`
-	CreatedByType      *string                `json:"createdByType,omitempty"`
-	LastModifiedAt     *string                `json:"lastModifiedAt,omitempty"`
-	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
-	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210601.SystemData_STATUS

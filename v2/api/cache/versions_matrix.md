@@ -21,9 +21,7 @@
 | Persistence_RdbFrequency                      |                     | v1alpha1api20210301 |                | v1beta20210301 |
 | Persistence_RdbFrequency_STATUS               |                     | v1alpha1api20210301 |                | v1beta20210301 |
 | Persistence_STATUS                            |                     | v1alpha1api20210301 |                | v1beta20210301 |
-| PrivateEndpointConnection                     |                     | v1alpha1api20210301 |                | v1beta20210301 |
 | PrivateEndpointConnection_STATUS              | v1alpha1api20201201 | v1alpha1api20210301 | v1beta20201201 | v1beta20210301 |
-| ProvisioningState                             |                     | v1alpha1api20210301 |                | v1beta20210301 |
 | ProvisioningState_STATUS                      |                     | v1alpha1api20210301 |                | v1beta20210301 |
 | Redis                                         | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | RedisAccessKeys_STATUS                        | v1alpha1api20201201 |                     | v1beta20201201 |                |
@@ -59,7 +57,6 @@
 | RedisProperties_STATUS                        | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | Redis_STATUS                                  | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | Redis_Spec                                    | v1alpha1api20201201 |                     | v1beta20201201 |                |
-| ResourceState                                 |                     | v1alpha1api20210301 |                | v1beta20210301 |
 | ResourceState_STATUS                          |                     | v1alpha1api20210301 |                | v1beta20210301 |
 | ScheduleEntries                               | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | ScheduleEntries_STATUS                        | v1alpha1api20201201 |                     | v1beta20201201 |                |

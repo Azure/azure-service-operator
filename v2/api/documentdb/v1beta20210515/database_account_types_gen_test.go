@@ -430,7 +430,6 @@ func AddIndependentPropertyGeneratorsForDatabaseAccount_Spec(gens map[string]gop
 	gens["EnableCassandraConnector"] = gen.PtrOf(gen.Bool())
 	gens["EnableFreeTier"] = gen.PtrOf(gen.Bool())
 	gens["EnableMultipleWriteLocations"] = gen.PtrOf(gen.Bool())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["IsVirtualNetworkFilterEnabled"] = gen.PtrOf(gen.Bool())
 	gens["KeyVaultKeyUri"] = gen.PtrOf(gen.AlphaString())
 	gens["Kind"] = gen.PtrOf(gen.OneConstOf(DatabaseAccount_Spec_Kind_GlobalDocumentDB, DatabaseAccount_Spec_Kind_MongoDB, DatabaseAccount_Spec_Kind_Parse))
@@ -439,7 +438,6 @@ func AddIndependentPropertyGeneratorsForDatabaseAccount_Spec(gens map[string]gop
 	gens["NetworkAclBypassResourceIds"] = gen.SliceOf(gen.AlphaString())
 	gens["PublicNetworkAccess"] = gen.PtrOf(gen.OneConstOf(PublicNetworkAccess_Disabled, PublicNetworkAccess_Enabled))
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForDatabaseAccount_Spec is a factory method for creating gopter generators
@@ -2203,9 +2201,7 @@ func LocationGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForLocation is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForLocation(gens map[string]gopter.Gen) {
-	gens["DocumentEndpoint"] = gen.PtrOf(gen.AlphaString())
 	gens["FailoverPriority"] = gen.PtrOf(gen.Int())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["IsZoneRedundant"] = gen.PtrOf(gen.Bool())
 	gens["LocationName"] = gen.PtrOf(gen.AlphaString())
 }
@@ -2415,8 +2411,6 @@ func ManagedServiceIdentityGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForManagedServiceIdentity is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForManagedServiceIdentity(gens map[string]gopter.Gen) {
-	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
-	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
 		ManagedServiceIdentity_Type_None,
 		ManagedServiceIdentity_Type_SystemAssigned,

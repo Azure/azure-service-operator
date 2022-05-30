@@ -8,17 +8,12 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 type Namespace_SpecARM struct {
 	AzureName string `json:"azureName,omitempty"`
 
-	// Id: Resource Id
-	Id *string `json:"id,omitempty"`
-
 	// Identity: Properties of BYOK Identity description
 	Identity *IdentityARM `json:"identity,omitempty"`
 
 	// Location: The Geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
-
-	// Name: Resource name
-	Name string `json:"name,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
 	// Properties: Properties of the namespace.
 	Properties *SBNamespacePropertiesARM `json:"properties,omitempty"`
@@ -26,14 +21,8 @@ type Namespace_SpecARM struct {
 	// Sku: Properties of SKU
 	Sku *SBSkuARM `json:"sku,omitempty"`
 
-	// SystemData: The system meta data relating to this resource.
-	SystemData *SystemDataARM `json:"systemData,omitempty"`
-
 	// Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: Resource type
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Namespace_SpecARM{}
@@ -54,40 +43,16 @@ func (namespace *Namespace_SpecARM) GetType() string {
 }
 
 type IdentityARM struct {
-	// PrincipalId: ObjectId from the KeyVault
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	// TenantId: TenantId from the KeyVault
-	TenantId *string `json:"tenantId,omitempty"`
-
 	// Type: Type of managed service identity.
 	Type *Identity_Type `json:"type,omitempty"`
 }
 
 type SBNamespacePropertiesARM struct {
-	// CreatedAt: The time the namespace was created
-	CreatedAt *string `json:"createdAt,omitempty"`
-
 	// Encryption: Properties of BYOK Encryption description
 	Encryption *EncryptionARM `json:"encryption,omitempty"`
 
-	// MetricId: Identifier for Azure Insights metrics
-	MetricId *string `json:"metricId,omitempty"`
-
 	// PrivateEndpointConnections: List of private endpoint connections.
 	PrivateEndpointConnections []PrivateEndpointConnectionARM `json:"privateEndpointConnections,omitempty"`
-
-	// ProvisioningState: Provisioning state of the namespace.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
-
-	// ServiceBusEndpoint: Endpoint you can use to perform Service Bus operations.
-	ServiceBusEndpoint *string `json:"serviceBusEndpoint,omitempty"`
-
-	// Status: Status of the namespace.
-	Status *string `json:"status,omitempty"`
-
-	// UpdatedAt: The time the namespace was updated.
-	UpdatedAt *string `json:"updatedAt,omitempty"`
 
 	// ZoneRedundant: Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones.
 	ZoneRedundant *bool `json:"zoneRedundant,omitempty"`
@@ -102,26 +67,6 @@ type SBSkuARM struct {
 
 	// Tier: The billing tier of this particular SKU.
 	Tier *SBSku_Tier `json:"tier,omitempty"`
-}
-
-type SystemDataARM struct {
-	// CreatedAt: The timestamp of resource creation (UTC).
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	// CreatedBy: The identity that created the resource.
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType `json:"createdByType,omitempty"`
-
-	// LastModifiedAt: The type of identity that last modified the resource.
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	// LastModifiedBy: The identity that last modified the resource.
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
 type EncryptionARM struct {
@@ -146,11 +91,8 @@ const (
 )
 
 type PrivateEndpointConnectionARM struct {
-	// Id: Resource Id
-	Id *string `json:"id,omitempty"`
-
-	// SystemData: The system meta data relating to this resource.
-	SystemData *SystemDataARM `json:"systemData,omitempty"`
+	// Properties: Properties of the PrivateEndpointConnection.
+	Properties *PrivateEndpointConnectionPropertiesARM `json:"properties,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"Basic","Premium","Standard"}
@@ -171,26 +113,6 @@ const (
 	SBSku_Tier_Standard = SBSku_Tier("Standard")
 )
 
-// +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
-type SystemData_CreatedByType string
-
-const (
-	SystemData_CreatedByType_Application     = SystemData_CreatedByType("Application")
-	SystemData_CreatedByType_Key             = SystemData_CreatedByType("Key")
-	SystemData_CreatedByType_ManagedIdentity = SystemData_CreatedByType("ManagedIdentity")
-	SystemData_CreatedByType_User            = SystemData_CreatedByType("User")
-)
-
-// +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
-type SystemData_LastModifiedByType string
-
-const (
-	SystemData_LastModifiedByType_Application     = SystemData_LastModifiedByType("Application")
-	SystemData_LastModifiedByType_Key             = SystemData_LastModifiedByType("Key")
-	SystemData_LastModifiedByType_ManagedIdentity = SystemData_LastModifiedByType("ManagedIdentity")
-	SystemData_LastModifiedByType_User            = SystemData_LastModifiedByType("User")
-)
-
 type KeyVaultPropertiesARM struct {
 	Identity *UserAssignedIdentityPropertiesARM `json:"identity,omitempty"`
 
@@ -202,6 +124,30 @@ type KeyVaultPropertiesARM struct {
 
 	// KeyVersion: Version of KeyVault
 	KeyVersion *string `json:"keyVersion,omitempty"`
+}
+
+type PrivateEndpointConnectionPropertiesARM struct {
+	// PrivateEndpoint: The Private Endpoint resource for this Connection.
+	PrivateEndpoint *PrivateEndpointARM `json:"privateEndpoint,omitempty"`
+
+	// PrivateLinkServiceConnectionState: Details about the state of the connection.
+	PrivateLinkServiceConnectionState *ConnectionStateARM `json:"privateLinkServiceConnectionState,omitempty"`
+
+	// ProvisioningState: Provisioning state of the Private Endpoint Connection.
+	ProvisioningState *PrivateEndpointConnectionProperties_ProvisioningState `json:"provisioningState,omitempty"`
+}
+
+type ConnectionStateARM struct {
+	// Description: Description of the connection state.
+	Description *string `json:"description,omitempty"`
+
+	// Status: Status of the connection.
+	Status *ConnectionState_Status `json:"status,omitempty"`
+}
+
+type PrivateEndpointARM struct {
+	// Id: The ARM identifier for Private Endpoint.
+	Id *string `json:"id,omitempty"`
 }
 
 type UserAssignedIdentityPropertiesARM struct {

@@ -551,7 +551,6 @@ type FlexibleServersFirewallRule_Spec struct {
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:Pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
 	EndIpAddress *string `json:"endIpAddress,omitempty"`
-	Id           *string `json:"id,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -561,9 +560,7 @@ type FlexibleServersFirewallRule_Spec struct {
 
 	// +kubebuilder:validation:Required
 	// +kubebuilder:validation:Pattern="^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
-	StartIpAddress *string     `json:"startIpAddress,omitempty"`
-	SystemData     *SystemData `json:"systemData,omitempty"`
-	Type           *string     `json:"type,omitempty"`
+	StartIpAddress *string `json:"startIpAddress,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &FlexibleServersFirewallRule_Spec{}
@@ -577,12 +574,6 @@ func (rule *FlexibleServersFirewallRule_Spec) ConvertToARM(resolved genruntime.C
 
 	// Set property ‘AzureName’:
 	result.AzureName = rule.AzureName
-
-	// Set property ‘Id’:
-	if rule.Id != nil {
-		id := *rule.Id
-		result.Id = &id
-	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -598,22 +589,6 @@ func (rule *FlexibleServersFirewallRule_Spec) ConvertToARM(resolved genruntime.C
 	if rule.StartIpAddress != nil {
 		startIpAddress := *rule.StartIpAddress
 		result.Properties.StartIpAddress = &startIpAddress
-	}
-
-	// Set property ‘SystemData’:
-	if rule.SystemData != nil {
-		systemDataARM, err := (*rule.SystemData).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		systemData := *systemDataARM.(*SystemDataARM)
-		result.SystemData = &systemData
-	}
-
-	// Set property ‘Type’:
-	if rule.Type != nil {
-		typeVar := *rule.Type
-		result.Type = &typeVar
 	}
 	return result, nil
 }
@@ -642,12 +617,6 @@ func (rule *FlexibleServersFirewallRule_Spec) PopulateFromARM(owner genruntime.A
 		}
 	}
 
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		rule.Id = &id
-	}
-
 	// Set property ‘Owner’:
 	rule.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
@@ -660,23 +629,6 @@ func (rule *FlexibleServersFirewallRule_Spec) PopulateFromARM(owner genruntime.A
 			startIpAddress := *typedInput.Properties.StartIpAddress
 			rule.StartIpAddress = &startIpAddress
 		}
-	}
-
-	// Set property ‘SystemData’:
-	if typedInput.SystemData != nil {
-		var systemData1 SystemData
-		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
-		if err != nil {
-			return err
-		}
-		systemData := systemData1
-		rule.SystemData = &systemData
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		rule.Type = &typeVar
 	}
 
 	// No error
@@ -747,9 +699,6 @@ func (rule *FlexibleServersFirewallRule_Spec) AssignPropertiesFromFlexibleServer
 		rule.EndIpAddress = nil
 	}
 
-	// Id
-	rule.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -765,21 +714,6 @@ func (rule *FlexibleServersFirewallRule_Spec) AssignPropertiesFromFlexibleServer
 	} else {
 		rule.StartIpAddress = nil
 	}
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
-		}
-		rule.SystemData = &systemDatum
-	} else {
-		rule.SystemData = nil
-	}
-
-	// Type
-	rule.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -801,9 +735,6 @@ func (rule *FlexibleServersFirewallRule_Spec) AssignPropertiesToFlexibleServersF
 		destination.EndIpAddress = nil
 	}
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(rule.Id)
-
 	// OriginalVersion
 	destination.OriginalVersion = rule.OriginalVersion()
 
@@ -822,21 +753,6 @@ func (rule *FlexibleServersFirewallRule_Spec) AssignPropertiesToFlexibleServersF
 	} else {
 		destination.StartIpAddress = nil
 	}
-
-	// SystemData
-	if rule.SystemData != nil {
-		var systemDatum alpha20210601s.SystemData
-		err := rule.SystemData.AssignPropertiesToSystemData(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(rule.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

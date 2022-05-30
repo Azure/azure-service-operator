@@ -713,7 +713,6 @@ type ManagedClustersAgentPool_Spec struct {
 	EnableNodePublicIP            *bool                         `json:"enableNodePublicIP,omitempty"`
 	EnableUltraSSD                *bool                         `json:"enableUltraSSD,omitempty"`
 	GpuInstanceProfile            *string                       `json:"gpuInstanceProfile,omitempty"`
-	Id                            *string                       `json:"id,omitempty"`
 	KubeletConfig                 *KubeletConfig                `json:"kubeletConfig,omitempty"`
 	KubeletDiskType               *string                       `json:"kubeletDiskType,omitempty"`
 	LinuxOSConfig                 *LinuxOSConfig                `json:"linuxOSConfig,omitempty"`
@@ -721,7 +720,6 @@ type ManagedClustersAgentPool_Spec struct {
 	MaxPods                       *int                          `json:"maxPods,omitempty"`
 	MinCount                      *int                          `json:"minCount,omitempty"`
 	Mode                          *string                       `json:"mode,omitempty"`
-	NodeImageVersion              *string                       `json:"nodeImageVersion,omitempty"`
 	NodeLabels                    map[string]string             `json:"nodeLabels,omitempty"`
 	NodePublicIPPrefixIDReference *genruntime.ResourceReference `armReference:"NodePublicIPPrefixID" json:"nodePublicIPPrefixIDReference,omitempty"`
 	NodeTaints                    []string                      `json:"nodeTaints,omitempty"`
@@ -738,10 +736,7 @@ type ManagedClustersAgentPool_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner                     *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PodSubnetIDReference      *genruntime.ResourceReference      `armReference:"PodSubnetID" json:"podSubnetIDReference,omitempty"`
-	PowerState                *PowerState                        `json:"powerState,omitempty"`
-	PropertiesType            *string                            `json:"properties_type,omitempty"`
 	PropertyBag               genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	ProvisioningState         *string                            `json:"provisioningState,omitempty"`
 	ProximityPlacementGroupID *string                            `json:"proximityPlacementGroupID,omitempty"`
 	ScaleSetEvictionPolicy    *string                            `json:"scaleSetEvictionPolicy,omitempty"`
 	ScaleSetPriority          *string                            `json:"scaleSetPriority,omitempty"`
@@ -860,9 +855,6 @@ func (pool *ManagedClustersAgentPool_Spec) AssignPropertiesFromManagedClustersAg
 	// GpuInstanceProfile
 	pool.GpuInstanceProfile = genruntime.ClonePointerToString(source.GpuInstanceProfile)
 
-	// Id
-	pool.Id = genruntime.ClonePointerToString(source.Id)
-
 	// KubeletConfig
 	if source.KubeletConfig != nil {
 		var kubeletConfig KubeletConfig
@@ -901,9 +893,6 @@ func (pool *ManagedClustersAgentPool_Spec) AssignPropertiesFromManagedClustersAg
 
 	// Mode
 	pool.Mode = genruntime.ClonePointerToString(source.Mode)
-
-	// NodeImageVersion
-	pool.NodeImageVersion = genruntime.ClonePointerToString(source.NodeImageVersion)
 
 	// NodeLabels
 	pool.NodeLabels = genruntime.CloneMapOfStringToString(source.NodeLabels)
@@ -952,24 +941,6 @@ func (pool *ManagedClustersAgentPool_Spec) AssignPropertiesFromManagedClustersAg
 	} else {
 		pool.PodSubnetIDReference = nil
 	}
-
-	// PowerState
-	if source.PowerState != nil {
-		var powerState PowerState
-		err := powerState.AssignPropertiesFromPowerState(source.PowerState)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromPowerState() to populate field PowerState")
-		}
-		pool.PowerState = &powerState
-	} else {
-		pool.PowerState = nil
-	}
-
-	// PropertiesType
-	pool.PropertiesType = genruntime.ClonePointerToString(source.PropertiesType)
-
-	// ProvisioningState
-	pool.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// ProximityPlacementGroupID
 	pool.ProximityPlacementGroupID = genruntime.ClonePointerToString(source.ProximityPlacementGroupID)
@@ -1085,9 +1056,6 @@ func (pool *ManagedClustersAgentPool_Spec) AssignPropertiesToManagedClustersAgen
 	// GpuInstanceProfile
 	destination.GpuInstanceProfile = genruntime.ClonePointerToString(pool.GpuInstanceProfile)
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(pool.Id)
-
 	// KubeletConfig
 	if pool.KubeletConfig != nil {
 		var kubeletConfig v20210501s.KubeletConfig
@@ -1126,9 +1094,6 @@ func (pool *ManagedClustersAgentPool_Spec) AssignPropertiesToManagedClustersAgen
 
 	// Mode
 	destination.Mode = genruntime.ClonePointerToString(pool.Mode)
-
-	// NodeImageVersion
-	destination.NodeImageVersion = genruntime.ClonePointerToString(pool.NodeImageVersion)
 
 	// NodeLabels
 	destination.NodeLabels = genruntime.CloneMapOfStringToString(pool.NodeLabels)
@@ -1177,24 +1142,6 @@ func (pool *ManagedClustersAgentPool_Spec) AssignPropertiesToManagedClustersAgen
 	} else {
 		destination.PodSubnetIDReference = nil
 	}
-
-	// PowerState
-	if pool.PowerState != nil {
-		var powerState v20210501s.PowerState
-		err := pool.PowerState.AssignPropertiesToPowerState(&powerState)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToPowerState() to populate field PowerState")
-		}
-		destination.PowerState = &powerState
-	} else {
-		destination.PowerState = nil
-	}
-
-	// PropertiesType
-	destination.PropertiesType = genruntime.ClonePointerToString(pool.PropertiesType)
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(pool.ProvisioningState)
 
 	// ProximityPlacementGroupID
 	destination.ProximityPlacementGroupID = genruntime.ClonePointerToString(pool.ProximityPlacementGroupID)

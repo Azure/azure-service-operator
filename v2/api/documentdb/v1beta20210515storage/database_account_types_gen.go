@@ -220,7 +220,6 @@ type DatabaseAccount_Spec struct {
 	EnableCassandraConnector           *bool                        `json:"enableCassandraConnector,omitempty"`
 	EnableFreeTier                     *bool                        `json:"enableFreeTier,omitempty"`
 	EnableMultipleWriteLocations       *bool                        `json:"enableMultipleWriteLocations,omitempty"`
-	Id                                 *string                      `json:"id,omitempty"`
 	Identity                           *ManagedServiceIdentity      `json:"identity,omitempty"`
 	IpRules                            []IpAddressOrRange           `json:"ipRules,omitempty"`
 	IsVirtualNetworkFilterEnabled      *bool                        `json:"isVirtualNetworkFilterEnabled,omitempty"`
@@ -241,7 +240,6 @@ type DatabaseAccount_Spec struct {
 	PropertyBag         genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	PublicNetworkAccess *string                            `json:"publicNetworkAccess,omitempty"`
 	Tags                map[string]string                  `json:"tags,omitempty"`
-	Type                *string                            `json:"type,omitempty"`
 	VirtualNetworkRules []VirtualNetworkRule               `json:"virtualNetworkRules,omitempty"`
 }
 
@@ -378,9 +376,7 @@ type IpAddressOrRange_STATUS struct {
 
 // Storage version of v1beta20210515.Location
 type Location struct {
-	DocumentEndpoint *string                `json:"documentEndpoint,omitempty"`
 	FailoverPriority *int                   `json:"failoverPriority,omitempty"`
-	Id               *string                `json:"id,omitempty"`
 	IsZoneRedundant  *bool                  `json:"isZoneRedundant,omitempty"`
 	LocationName     *string                `json:"locationName,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -399,9 +395,7 @@ type Location_STATUS struct {
 
 // Storage version of v1beta20210515.ManagedServiceIdentity
 type ManagedServiceIdentity struct {
-	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	TenantId    *string                `json:"tenantId,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 

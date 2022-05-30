@@ -359,7 +359,6 @@ type DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string               `json:"azureName,omitempty"`
-	Id              *string              `json:"id,omitempty"`
 	Location        *string              `json:"location,omitempty"`
 	Options         *CreateUpdateOptions `json:"options,omitempty"`
 	OriginalVersion string               `json:"originalVersion,omitempty"`
@@ -372,7 +371,6 @@ type DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec struct {
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Resource    *SqlStoredProcedureResource        `json:"resource,omitempty"`
 	Tags        map[string]string                  `json:"tags,omitempty"`
-	Type        *string                            `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec{}
@@ -433,9 +431,6 @@ func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec) Ass
 	// AzureName
 	procedure.AzureName = source.AzureName
 
-	// Id
-	procedure.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Location
 	procedure.Location = genruntime.ClonePointerToString(source.Location)
 
@@ -477,9 +472,6 @@ func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec) Ass
 	// Tags
 	procedure.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
-	// Type
-	procedure.Type = genruntime.ClonePointerToString(source.Type)
-
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		procedure.PropertyBag = propertyBag
@@ -498,9 +490,6 @@ func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec) Ass
 
 	// AzureName
 	destination.AzureName = procedure.AzureName
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(procedure.Id)
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(procedure.Location)
@@ -542,9 +531,6 @@ func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec) Ass
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(procedure.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(procedure.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

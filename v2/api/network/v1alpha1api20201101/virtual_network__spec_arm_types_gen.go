@@ -8,14 +8,12 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 // Deprecated version of VirtualNetwork_Spec. Use v1beta20201101.VirtualNetwork_Spec instead
 type VirtualNetwork_SpecARM struct {
 	AzureName        string                             `json:"azureName,omitempty"`
-	Etag             *string                            `json:"etag,omitempty"`
 	ExtendedLocation *ExtendedLocationARM               `json:"extendedLocation,omitempty"`
 	Id               *string                            `json:"id,omitempty"`
 	Location         *string                            `json:"location,omitempty"`
 	Name             string                             `json:"name,omitempty"`
 	Properties       *VirtualNetworkPropertiesFormatARM `json:"properties,omitempty"`
 	Tags             map[string]string                  `json:"tags,omitempty"`
-	Type             *string                            `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &VirtualNetwork_SpecARM{}
@@ -44,8 +42,6 @@ type VirtualNetworkPropertiesFormatARM struct {
 	EnableDdosProtection   *bool                                          `json:"enableDdosProtection,omitempty"`
 	EnableVmProtection     *bool                                          `json:"enableVmProtection,omitempty"`
 	IpAllocations          []SubResourceARM                               `json:"ipAllocations,omitempty"`
-	ProvisioningState      *ProvisioningState                             `json:"provisioningState,omitempty"`
-	ResourceGuid           *string                                        `json:"resourceGuid,omitempty"`
 	Subnets                []Subnet_VirtualNetwork_SubResourceEmbeddedARM `json:"subnets,omitempty"`
 	VirtualNetworkPeerings []VirtualNetworkPeeringARM                     `json:"virtualNetworkPeerings,omitempty"`
 }
@@ -62,7 +58,6 @@ type Subnet_VirtualNetwork_SubResourceEmbeddedARM struct {
 
 // Deprecated version of VirtualNetworkBgpCommunities. Use v1beta20201101.VirtualNetworkBgpCommunities instead
 type VirtualNetworkBgpCommunitiesARM struct {
-	RegionalCommunity       *string `json:"regionalCommunity,omitempty"`
 	VirtualNetworkCommunity *string `json:"virtualNetworkCommunity,omitempty"`
 }
 

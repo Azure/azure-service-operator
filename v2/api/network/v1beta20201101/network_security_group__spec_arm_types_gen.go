@@ -6,28 +6,18 @@ package v1beta20201101
 import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type NetworkSecurityGroup_SpecARM struct {
-	AzureName string `json:"azureName,omitempty"`
-
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
+	AzureName string  `json:"azureName,omitempty"`
+	Id        *string `json:"id,omitempty"`
 
 	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
-
-	// Name: Resource name.
-	Name string `json:"name,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
 	// Properties: Properties of the network security group.
-	Properties *NetworkSecurityGroupPropertiesFormatARM `json:"properties,omitempty"`
+	Properties *NetworkSecurityGroupPropertiesFormat_NetworkSecurityGroup_SubResourceEmbeddedARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: Resource type.
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &NetworkSecurityGroup_SpecARM{}
@@ -47,48 +37,11 @@ func (group *NetworkSecurityGroup_SpecARM) GetType() string {
 	return ""
 }
 
-type NetworkSecurityGroupPropertiesFormatARM struct {
-	// DefaultSecurityRules: The default security rules of network security group.
-	DefaultSecurityRules []SecurityRuleARM `json:"defaultSecurityRules,omitempty"`
-
-	// FlowLogs: A collection of references to flow log resources.
-	FlowLogs []FlowLogARM `json:"flowLogs,omitempty"`
-
-	// NetworkInterfaces: A collection of references to network interfaces.
-	NetworkInterfaces []NetworkInterfaceSpec_NetworkSecurityGroup_SubResourceEmbeddedARM `json:"networkInterfaces,omitempty"`
-
-	// ProvisioningState: The provisioning state of the network security group resource.
-	ProvisioningState *ProvisioningState `json:"provisioningState,omitempty"`
-
-	// ResourceGuid: The resource GUID property of the network security group resource.
-	ResourceGuid *string `json:"resourceGuid,omitempty"`
-
+type NetworkSecurityGroupPropertiesFormat_NetworkSecurityGroup_SubResourceEmbeddedARM struct {
 	// SecurityRules: A collection of security rules of the network security group.
-	SecurityRules []SecurityRuleARM `json:"securityRules,omitempty"`
-
-	// Subnets: A collection of references to subnets.
-	Subnets []Subnet_NetworkSecurityGroup_SubResourceEmbeddedARM `json:"subnets,omitempty"`
+	SecurityRules []SecurityRule_NetworkSecurityGroup_SubResourceEmbeddedARM `json:"securityRules,omitempty"`
 }
 
-type FlowLogARM struct {
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-}
-
-type NetworkInterfaceSpec_NetworkSecurityGroup_SubResourceEmbeddedARM struct {
-	// ExtendedLocation: The extended location of the network interface.
-	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-}
-
-type SecurityRuleARM struct {
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-}
-
-type Subnet_NetworkSecurityGroup_SubResourceEmbeddedARM struct {
-	// Id: Resource ID.
+type SecurityRule_NetworkSecurityGroup_SubResourceEmbeddedARM struct {
 	Id *string `json:"id,omitempty"`
 }

@@ -542,9 +542,6 @@ type DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	// Id: The unique resource identifier of the ARM resource.
-	Id *string `json:"id,omitempty"`
-
 	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
@@ -558,9 +555,6 @@ type DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec struct {
 	// Resource: The standard JSON format of a resource throughput
 	Resource *ThroughputSettingsResource `json:"resource,omitempty"`
 	Tags     map[string]string           `json:"tags,omitempty"`
-
-	// Type: The type of Azure resource.
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec{}
@@ -574,12 +568,6 @@ func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec
 
 	// Set property ‘AzureName’:
 	result.AzureName = setting.AzureName
-
-	// Set property ‘Id’:
-	if setting.Id != nil {
-		id := *setting.Id
-		result.Id = &id
-	}
 
 	// Set property ‘Location’:
 	if setting.Location != nil {
@@ -610,12 +598,6 @@ func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	if setting.Type != nil {
-		typeVar := *setting.Type
-		result.Type = &typeVar
-	}
 	return result, nil
 }
 
@@ -633,12 +615,6 @@ func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec
 
 	// Set property ‘AzureName’:
 	setting.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		setting.Id = &id
-	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
@@ -671,12 +647,6 @@ func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec
 		for key, value := range typedInput.Tags {
 			setting.Tags[key] = value
 		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		setting.Type = &typeVar
 	}
 
 	// No error
@@ -739,9 +709,6 @@ func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec
 	// AzureName
 	setting.AzureName = source.AzureName
 
-	// Id
-	setting.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Location
 	setting.Location = genruntime.ClonePointerToString(source.Location)
 
@@ -768,9 +735,6 @@ func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec
 	// Tags
 	setting.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
-	// Type
-	setting.Type = genruntime.ClonePointerToString(source.Type)
-
 	// No error
 	return nil
 }
@@ -782,9 +746,6 @@ func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec
 
 	// AzureName
 	destination.AzureName = setting.AzureName
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(setting.Id)
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(setting.Location)
@@ -814,9 +775,6 @@ func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(setting.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(setting.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1027,12 +985,6 @@ type ThroughputSettingsResource struct {
 	// required, but not both.
 	AutoscaleSettings *AutoscaleSettingsResource `json:"autoscaleSettings,omitempty"`
 
-	// MinimumThroughput: The minimum throughput of the resource
-	MinimumThroughput *string `json:"minimumThroughput,omitempty"`
-
-	// OfferReplacePending: The throughput replace is pending
-	OfferReplacePending *string `json:"offerReplacePending,omitempty"`
-
 	// Throughput: Value of the Cosmos DB resource throughput. Either throughput is required or autoscaleSettings is required,
 	// but not both.
 	Throughput *int `json:"throughput,omitempty"`
@@ -1055,18 +1007,6 @@ func (resource *ThroughputSettingsResource) ConvertToARM(resolved genruntime.Con
 		}
 		autoscaleSettings := *autoscaleSettingsARM.(*AutoscaleSettingsResourceARM)
 		result.AutoscaleSettings = &autoscaleSettings
-	}
-
-	// Set property ‘MinimumThroughput’:
-	if resource.MinimumThroughput != nil {
-		minimumThroughput := *resource.MinimumThroughput
-		result.MinimumThroughput = &minimumThroughput
-	}
-
-	// Set property ‘OfferReplacePending’:
-	if resource.OfferReplacePending != nil {
-		offerReplacePending := *resource.OfferReplacePending
-		result.OfferReplacePending = &offerReplacePending
 	}
 
 	// Set property ‘Throughput’:
@@ -1100,18 +1040,6 @@ func (resource *ThroughputSettingsResource) PopulateFromARM(owner genruntime.Arb
 		resource.AutoscaleSettings = &autoscaleSettings
 	}
 
-	// Set property ‘MinimumThroughput’:
-	if typedInput.MinimumThroughput != nil {
-		minimumThroughput := *typedInput.MinimumThroughput
-		resource.MinimumThroughput = &minimumThroughput
-	}
-
-	// Set property ‘OfferReplacePending’:
-	if typedInput.OfferReplacePending != nil {
-		offerReplacePending := *typedInput.OfferReplacePending
-		resource.OfferReplacePending = &offerReplacePending
-	}
-
 	// Set property ‘Throughput’:
 	if typedInput.Throughput != nil {
 		throughput := *typedInput.Throughput
@@ -1137,12 +1065,6 @@ func (resource *ThroughputSettingsResource) AssignPropertiesFromThroughputSettin
 		resource.AutoscaleSettings = nil
 	}
 
-	// MinimumThroughput
-	resource.MinimumThroughput = genruntime.ClonePointerToString(source.MinimumThroughput)
-
-	// OfferReplacePending
-	resource.OfferReplacePending = genruntime.ClonePointerToString(source.OfferReplacePending)
-
 	// Throughput
 	resource.Throughput = genruntime.ClonePointerToInt(source.Throughput)
 
@@ -1167,12 +1089,6 @@ func (resource *ThroughputSettingsResource) AssignPropertiesToThroughputSettings
 		destination.AutoscaleSettings = nil
 	}
 
-	// MinimumThroughput
-	destination.MinimumThroughput = genruntime.ClonePointerToString(resource.MinimumThroughput)
-
-	// OfferReplacePending
-	destination.OfferReplacePending = genruntime.ClonePointerToString(resource.OfferReplacePending)
-
 	// Throughput
 	destination.Throughput = genruntime.ClonePointerToInt(resource.Throughput)
 
@@ -1194,10 +1110,6 @@ type AutoscaleSettingsResource struct {
 	// +kubebuilder:validation:Required
 	// MaxThroughput: Represents maximum throughput container can scale up to.
 	MaxThroughput *int `json:"maxThroughput,omitempty"`
-
-	// TargetMaxThroughput: Represents target maximum throughput container can scale up to once offer is no longer in pending
-	// state.
-	TargetMaxThroughput *int `json:"targetMaxThroughput,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &AutoscaleSettingsResource{}
@@ -1223,12 +1135,6 @@ func (resource *AutoscaleSettingsResource) ConvertToARM(resolved genruntime.Conv
 	if resource.MaxThroughput != nil {
 		maxThroughput := *resource.MaxThroughput
 		result.MaxThroughput = &maxThroughput
-	}
-
-	// Set property ‘TargetMaxThroughput’:
-	if resource.TargetMaxThroughput != nil {
-		targetMaxThroughput := *resource.TargetMaxThroughput
-		result.TargetMaxThroughput = &targetMaxThroughput
 	}
 	return result, nil
 }
@@ -1262,12 +1168,6 @@ func (resource *AutoscaleSettingsResource) PopulateFromARM(owner genruntime.Arbi
 		resource.MaxThroughput = &maxThroughput
 	}
 
-	// Set property ‘TargetMaxThroughput’:
-	if typedInput.TargetMaxThroughput != nil {
-		targetMaxThroughput := *typedInput.TargetMaxThroughput
-		resource.TargetMaxThroughput = &targetMaxThroughput
-	}
-
 	// No error
 	return nil
 }
@@ -1289,9 +1189,6 @@ func (resource *AutoscaleSettingsResource) AssignPropertiesFromAutoscaleSettings
 
 	// MaxThroughput
 	resource.MaxThroughput = genruntime.ClonePointerToInt(source.MaxThroughput)
-
-	// TargetMaxThroughput
-	resource.TargetMaxThroughput = genruntime.ClonePointerToInt(source.TargetMaxThroughput)
 
 	// No error
 	return nil
@@ -1316,9 +1213,6 @@ func (resource *AutoscaleSettingsResource) AssignPropertiesToAutoscaleSettingsRe
 
 	// MaxThroughput
 	destination.MaxThroughput = genruntime.ClonePointerToInt(resource.MaxThroughput)
-
-	// TargetMaxThroughput
-	destination.TargetMaxThroughput = genruntime.ClonePointerToInt(resource.TargetMaxThroughput)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

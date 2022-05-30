@@ -43,9 +43,7 @@ type ExtendedLocationARM struct {
 
 // Deprecated version of Identity. Use v1beta20210401.Identity instead
 type IdentityARM struct {
-	PrincipalId *string        `json:"principalId,omitempty"`
-	TenantId    *string        `json:"tenantId,omitempty"`
-	Type        *Identity_Type `json:"type,omitempty"`
+	Type *Identity_Type `json:"type,omitempty"`
 }
 
 // Deprecated version of Sku. Use v1beta20210401.Sku instead
@@ -207,11 +205,9 @@ type IPRuleARM struct {
 
 // Deprecated version of KeyVaultProperties. Use v1beta20210401.KeyVaultProperties instead
 type KeyVaultPropertiesARM struct {
-	CurrentVersionedKeyIdentifier *string `json:"currentVersionedKeyIdentifier,omitempty"`
-	Keyname                       *string `json:"keyname,omitempty"`
-	Keyvaulturi                   *string `json:"keyvaulturi,omitempty"`
-	Keyversion                    *string `json:"keyversion,omitempty"`
-	LastKeyRotationTimestamp      *string `json:"lastKeyRotationTimestamp,omitempty"`
+	Keyname     *string `json:"keyname,omitempty"`
+	Keyvaulturi *string `json:"keyvaulturi,omitempty"`
+	Keyversion  *string `json:"keyversion,omitempty"`
 }
 
 // Deprecated version of ResourceAccessRule. Use v1beta20210401.ResourceAccessRule instead
@@ -229,7 +225,6 @@ type VirtualNetworkRuleARM struct {
 
 // Deprecated version of EncryptionService. Use v1beta20210401.EncryptionService instead
 type EncryptionServiceARM struct {
-	Enabled         *bool                      `json:"enabled,omitempty"`
-	KeyType         *EncryptionService_KeyType `json:"keyType,omitempty"`
-	LastEnabledTime *string                    `json:"lastEnabledTime,omitempty"`
+	Enabled *bool                      `json:"enabled,omitempty"`
+	KeyType *EncryptionService_KeyType `json:"keyType,omitempty"`
 }

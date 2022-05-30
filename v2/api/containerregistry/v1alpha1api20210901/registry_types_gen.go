@@ -1032,17 +1032,13 @@ type Registry_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName             string              `json:"azureName,omitempty"`
-	CreationDate          *string             `json:"creationDate,omitempty"`
-	DataEndpointEnabled   *bool               `json:"dataEndpointEnabled,omitempty"`
-	DataEndpointHostNames []string            `json:"dataEndpointHostNames,omitempty"`
-	Encryption            *EncryptionProperty `json:"encryption,omitempty"`
-	Id                    *string             `json:"id,omitempty"`
-	Identity              *IdentityProperties `json:"identity,omitempty"`
+	AzureName           string              `json:"azureName,omitempty"`
+	DataEndpointEnabled *bool               `json:"dataEndpointEnabled,omitempty"`
+	Encryption          *EncryptionProperty `json:"encryption,omitempty"`
+	Identity            *IdentityProperties `json:"identity,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Location                 *string                                      `json:"location,omitempty"`
-	LoginServer              *string                                      `json:"loginServer,omitempty"`
 	NetworkRuleBypassOptions *RegistryProperties_NetworkRuleBypassOptions `json:"networkRuleBypassOptions,omitempty"`
 	NetworkRuleSet           *NetworkRuleSet                              `json:"networkRuleSet,omitempty"`
 
@@ -1050,18 +1046,13 @@ type Registry_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner                      *genruntime.KnownResourceReference      `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	Policies                   *Policies                               `json:"policies,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnection             `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState          *RegistryProperties_ProvisioningState   `json:"provisioningState,omitempty"`
-	PublicNetworkAccess        *RegistryProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
+	Owner               *genruntime.KnownResourceReference      `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	Policies            *Policies                               `json:"policies,omitempty"`
+	PublicNetworkAccess *RegistryProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Sku            *Sku                               `json:"sku,omitempty"`
-	Status         *Status                            `json:"status,omitempty"`
-	SystemData     *SystemData                        `json:"systemData,omitempty"`
 	Tags           map[string]string                  `json:"tags,omitempty"`
-	Type           *string                            `json:"type,omitempty"`
 	ZoneRedundancy *RegistryProperties_ZoneRedundancy `json:"zoneRedundancy,omitempty"`
 }
 
@@ -1076,12 +1067,6 @@ func (registry *Registry_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property ‘AzureName’:
 	result.AzureName = registry.AzureName
-
-	// Set property ‘Id’:
-	if registry.Id != nil {
-		id := *registry.Id
-		result.Id = &id
-	}
 
 	// Set property ‘Identity’:
 	if registry.Identity != nil {
@@ -1104,18 +1089,12 @@ func (registry *Registry_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property ‘Properties’:
 	if registry.AdminUserEnabled != nil ||
-		registry.CreationDate != nil ||
 		registry.DataEndpointEnabled != nil ||
-		registry.DataEndpointHostNames != nil ||
 		registry.Encryption != nil ||
-		registry.LoginServer != nil ||
 		registry.NetworkRuleBypassOptions != nil ||
 		registry.NetworkRuleSet != nil ||
 		registry.Policies != nil ||
-		registry.PrivateEndpointConnections != nil ||
-		registry.ProvisioningState != nil ||
 		registry.PublicNetworkAccess != nil ||
-		registry.Status != nil ||
 		registry.ZoneRedundancy != nil {
 		result.Properties = &RegistryPropertiesARM{}
 	}
@@ -1123,16 +1102,9 @@ func (registry *Registry_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		adminUserEnabled := *registry.AdminUserEnabled
 		result.Properties.AdminUserEnabled = &adminUserEnabled
 	}
-	if registry.CreationDate != nil {
-		creationDate := *registry.CreationDate
-		result.Properties.CreationDate = &creationDate
-	}
 	if registry.DataEndpointEnabled != nil {
 		dataEndpointEnabled := *registry.DataEndpointEnabled
 		result.Properties.DataEndpointEnabled = &dataEndpointEnabled
-	}
-	for _, item := range registry.DataEndpointHostNames {
-		result.Properties.DataEndpointHostNames = append(result.Properties.DataEndpointHostNames, item)
 	}
 	if registry.Encryption != nil {
 		encryptionARM, err := (*registry.Encryption).ConvertToARM(resolved)
@@ -1141,10 +1113,6 @@ func (registry *Registry_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		}
 		encryption := *encryptionARM.(*EncryptionPropertyARM)
 		result.Properties.Encryption = &encryption
-	}
-	if registry.LoginServer != nil {
-		loginServer := *registry.LoginServer
-		result.Properties.LoginServer = &loginServer
 	}
 	if registry.NetworkRuleBypassOptions != nil {
 		networkRuleBypassOptions := *registry.NetworkRuleBypassOptions
@@ -1166,28 +1134,9 @@ func (registry *Registry_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		policies := *policiesARM.(*PoliciesARM)
 		result.Properties.Policies = &policies
 	}
-	for _, item := range registry.PrivateEndpointConnections {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Properties.PrivateEndpointConnections = append(result.Properties.PrivateEndpointConnections, *itemARM.(*PrivateEndpointConnectionARM))
-	}
-	if registry.ProvisioningState != nil {
-		provisioningState := *registry.ProvisioningState
-		result.Properties.ProvisioningState = &provisioningState
-	}
 	if registry.PublicNetworkAccess != nil {
 		publicNetworkAccess := *registry.PublicNetworkAccess
 		result.Properties.PublicNetworkAccess = &publicNetworkAccess
-	}
-	if registry.Status != nil {
-		statusARM, err := (*registry.Status).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		status := *statusARM.(*StatusARM)
-		result.Properties.Status = &status
 	}
 	if registry.ZoneRedundancy != nil {
 		zoneRedundancy := *registry.ZoneRedundancy
@@ -1204,28 +1153,12 @@ func (registry *Registry_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		result.Sku = &sku
 	}
 
-	// Set property ‘SystemData’:
-	if registry.SystemData != nil {
-		systemDataARM, err := (*registry.SystemData).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		systemData := *systemDataARM.(*SystemDataARM)
-		result.SystemData = &systemData
-	}
-
 	// Set property ‘Tags’:
 	if registry.Tags != nil {
 		result.Tags = make(map[string]string)
 		for key, value := range registry.Tags {
 			result.Tags[key] = value
 		}
-	}
-
-	// Set property ‘Type’:
-	if registry.Type != nil {
-		typeVar := *registry.Type
-		result.Type = &typeVar
 	}
 	return result, nil
 }
@@ -1254,29 +1187,12 @@ func (registry *Registry_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	// Set property ‘AzureName’:
 	registry.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘CreationDate’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.CreationDate != nil {
-			creationDate := *typedInput.Properties.CreationDate
-			registry.CreationDate = &creationDate
-		}
-	}
-
 	// Set property ‘DataEndpointEnabled’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.DataEndpointEnabled != nil {
 			dataEndpointEnabled := *typedInput.Properties.DataEndpointEnabled
 			registry.DataEndpointEnabled = &dataEndpointEnabled
-		}
-	}
-
-	// Set property ‘DataEndpointHostNames’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.DataEndpointHostNames {
-			registry.DataEndpointHostNames = append(registry.DataEndpointHostNames, item)
 		}
 	}
 
@@ -1294,12 +1210,6 @@ func (registry *Registry_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		registry.Id = &id
-	}
-
 	// Set property ‘Identity’:
 	if typedInput.Identity != nil {
 		var identity1 IdentityProperties
@@ -1315,15 +1225,6 @@ func (registry *Registry_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 	if typedInput.Location != nil {
 		location := *typedInput.Location
 		registry.Location = &location
-	}
-
-	// Set property ‘LoginServer’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.LoginServer != nil {
-			loginServer := *typedInput.Properties.LoginServer
-			registry.LoginServer = &loginServer
-		}
 	}
 
 	// Set property ‘NetworkRuleBypassOptions’:
@@ -1368,28 +1269,6 @@ func (registry *Registry_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		}
 	}
 
-	// Set property ‘PrivateEndpointConnections’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.PrivateEndpointConnections {
-			var item1 PrivateEndpointConnection
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			registry.PrivateEndpointConnections = append(registry.PrivateEndpointConnections, item1)
-		}
-	}
-
-	// Set property ‘ProvisioningState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
-			registry.ProvisioningState = &provisioningState
-		}
-	}
-
 	// Set property ‘PublicNetworkAccess’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -1410,43 +1289,12 @@ func (registry *Registry_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		registry.Sku = &sku
 	}
 
-	// Set property ‘Status’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Status != nil {
-			var status1 Status
-			err := status1.PopulateFromARM(owner, *typedInput.Properties.Status)
-			if err != nil {
-				return err
-			}
-			status := status1
-			registry.Status = &status
-		}
-	}
-
-	// Set property ‘SystemData’:
-	if typedInput.SystemData != nil {
-		var systemData1 SystemData
-		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
-		if err != nil {
-			return err
-		}
-		systemData := systemData1
-		registry.SystemData = &systemData
-	}
-
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
 		registry.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
 			registry.Tags[key] = value
 		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		registry.Type = &typeVar
 	}
 
 	// Set property ‘ZoneRedundancy’:
@@ -1526,14 +1374,6 @@ func (registry *Registry_Spec) AssignPropertiesFromRegistry_Spec(source *alpha20
 	// AzureName
 	registry.AzureName = source.AzureName
 
-	// CreationDate
-	if source.CreationDate != nil {
-		creationDate := *source.CreationDate
-		registry.CreationDate = &creationDate
-	} else {
-		registry.CreationDate = nil
-	}
-
 	// DataEndpointEnabled
 	if source.DataEndpointEnabled != nil {
 		dataEndpointEnabled := *source.DataEndpointEnabled
@@ -1541,9 +1381,6 @@ func (registry *Registry_Spec) AssignPropertiesFromRegistry_Spec(source *alpha20
 	} else {
 		registry.DataEndpointEnabled = nil
 	}
-
-	// DataEndpointHostNames
-	registry.DataEndpointHostNames = genruntime.CloneSliceOfString(source.DataEndpointHostNames)
 
 	// Encryption
 	if source.Encryption != nil {
@@ -1556,9 +1393,6 @@ func (registry *Registry_Spec) AssignPropertiesFromRegistry_Spec(source *alpha20
 	} else {
 		registry.Encryption = nil
 	}
-
-	// Id
-	registry.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Identity
 	if source.Identity != nil {
@@ -1574,9 +1408,6 @@ func (registry *Registry_Spec) AssignPropertiesFromRegistry_Spec(source *alpha20
 
 	// Location
 	registry.Location = genruntime.ClonePointerToString(source.Location)
-
-	// LoginServer
-	registry.LoginServer = genruntime.ClonePointerToString(source.LoginServer)
 
 	// NetworkRuleBypassOptions
 	if source.NetworkRuleBypassOptions != nil {
@@ -1618,32 +1449,6 @@ func (registry *Registry_Spec) AssignPropertiesFromRegistry_Spec(source *alpha20
 		registry.Policies = nil
 	}
 
-	// PrivateEndpointConnections
-	if source.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]PrivateEndpointConnection, len(source.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection PrivateEndpointConnection
-			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnection(&privateEndpointConnectionItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnection() to populate field PrivateEndpointConnections")
-			}
-			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
-		}
-		registry.PrivateEndpointConnections = privateEndpointConnectionList
-	} else {
-		registry.PrivateEndpointConnections = nil
-	}
-
-	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := RegistryProperties_ProvisioningState(*source.ProvisioningState)
-		registry.ProvisioningState = &provisioningState
-	} else {
-		registry.ProvisioningState = nil
-	}
-
 	// PublicNetworkAccess
 	if source.PublicNetworkAccess != nil {
 		publicNetworkAccess := RegistryProperties_PublicNetworkAccess(*source.PublicNetworkAccess)
@@ -1664,35 +1469,8 @@ func (registry *Registry_Spec) AssignPropertiesFromRegistry_Spec(source *alpha20
 		registry.Sku = nil
 	}
 
-	// Status
-	if source.Status != nil {
-		var status Status
-		err := status.AssignPropertiesFromStatus(source.Status)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromStatus() to populate field Status")
-		}
-		registry.Status = &status
-	} else {
-		registry.Status = nil
-	}
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
-		}
-		registry.SystemData = &systemDatum
-	} else {
-		registry.SystemData = nil
-	}
-
 	// Tags
 	registry.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	registry.Type = genruntime.ClonePointerToString(source.Type)
 
 	// ZoneRedundancy
 	if source.ZoneRedundancy != nil {
@@ -1722,14 +1500,6 @@ func (registry *Registry_Spec) AssignPropertiesToRegistry_Spec(destination *alph
 	// AzureName
 	destination.AzureName = registry.AzureName
 
-	// CreationDate
-	if registry.CreationDate != nil {
-		creationDate := *registry.CreationDate
-		destination.CreationDate = &creationDate
-	} else {
-		destination.CreationDate = nil
-	}
-
 	// DataEndpointEnabled
 	if registry.DataEndpointEnabled != nil {
 		dataEndpointEnabled := *registry.DataEndpointEnabled
@@ -1737,9 +1507,6 @@ func (registry *Registry_Spec) AssignPropertiesToRegistry_Spec(destination *alph
 	} else {
 		destination.DataEndpointEnabled = nil
 	}
-
-	// DataEndpointHostNames
-	destination.DataEndpointHostNames = genruntime.CloneSliceOfString(registry.DataEndpointHostNames)
 
 	// Encryption
 	if registry.Encryption != nil {
@@ -1752,9 +1519,6 @@ func (registry *Registry_Spec) AssignPropertiesToRegistry_Spec(destination *alph
 	} else {
 		destination.Encryption = nil
 	}
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(registry.Id)
 
 	// Identity
 	if registry.Identity != nil {
@@ -1770,9 +1534,6 @@ func (registry *Registry_Spec) AssignPropertiesToRegistry_Spec(destination *alph
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(registry.Location)
-
-	// LoginServer
-	destination.LoginServer = genruntime.ClonePointerToString(registry.LoginServer)
 
 	// NetworkRuleBypassOptions
 	if registry.NetworkRuleBypassOptions != nil {
@@ -1817,32 +1578,6 @@ func (registry *Registry_Spec) AssignPropertiesToRegistry_Spec(destination *alph
 		destination.Policies = nil
 	}
 
-	// PrivateEndpointConnections
-	if registry.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]alpha20210901s.PrivateEndpointConnection, len(registry.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range registry.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection alpha20210901s.PrivateEndpointConnection
-			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnection(&privateEndpointConnection)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnection() to populate field PrivateEndpointConnections")
-			}
-			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
-		}
-		destination.PrivateEndpointConnections = privateEndpointConnectionList
-	} else {
-		destination.PrivateEndpointConnections = nil
-	}
-
-	// ProvisioningState
-	if registry.ProvisioningState != nil {
-		provisioningState := string(*registry.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
-
 	// PublicNetworkAccess
 	if registry.PublicNetworkAccess != nil {
 		publicNetworkAccess := string(*registry.PublicNetworkAccess)
@@ -1863,35 +1598,8 @@ func (registry *Registry_Spec) AssignPropertiesToRegistry_Spec(destination *alph
 		destination.Sku = nil
 	}
 
-	// Status
-	if registry.Status != nil {
-		var status alpha20210901s.Status
-		err := registry.Status.AssignPropertiesToStatus(&status)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToStatus() to populate field Status")
-		}
-		destination.Status = &status
-	} else {
-		destination.Status = nil
-	}
-
-	// SystemData
-	if registry.SystemData != nil {
-		var systemDatum alpha20210901s.SystemData
-		err := registry.SystemData.AssignPropertiesToSystemData(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(registry.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(registry.Type)
 
 	// ZoneRedundancy
 	if registry.ZoneRedundancy != nil {
@@ -3162,135 +2870,6 @@ func (policies *Policies_STATUS) AssignPropertiesToPolicies_STATUS(destination *
 	return nil
 }
 
-// Deprecated version of PrivateEndpointConnection. Use v1beta20210901.PrivateEndpointConnection instead
-type PrivateEndpointConnection struct {
-	Reference  *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	SystemData *SystemData                   `json:"systemData,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &PrivateEndpointConnection{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (connection *PrivateEndpointConnection) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if connection == nil {
-		return nil, nil
-	}
-	result := &PrivateEndpointConnectionARM{}
-
-	// Set property ‘Id’:
-	if connection.Reference != nil {
-		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*connection.Reference)
-		if err != nil {
-			return nil, err
-		}
-		reference := referenceARMID
-		result.Id = &reference
-	}
-
-	// Set property ‘SystemData’:
-	if connection.SystemData != nil {
-		systemDataARM, err := (*connection.SystemData).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		systemData := *systemDataARM.(*SystemDataARM)
-		result.SystemData = &systemData
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (connection *PrivateEndpointConnection) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateEndpointConnectionARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (connection *PrivateEndpointConnection) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateEndpointConnectionARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnectionARM, got %T", armInput)
-	}
-
-	// no assignment for property ‘Reference’
-
-	// Set property ‘SystemData’:
-	if typedInput.SystemData != nil {
-		var systemData1 SystemData
-		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
-		if err != nil {
-			return err
-		}
-		systemData := systemData1
-		connection.SystemData = &systemData
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromPrivateEndpointConnection populates our PrivateEndpointConnection from the provided source PrivateEndpointConnection
-func (connection *PrivateEndpointConnection) AssignPropertiesFromPrivateEndpointConnection(source *alpha20210901s.PrivateEndpointConnection) error {
-
-	// Reference
-	if source.Reference != nil {
-		reference := source.Reference.Copy()
-		connection.Reference = &reference
-	} else {
-		connection.Reference = nil
-	}
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
-		}
-		connection.SystemData = &systemDatum
-	} else {
-		connection.SystemData = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToPrivateEndpointConnection populates the provided destination PrivateEndpointConnection from our PrivateEndpointConnection
-func (connection *PrivateEndpointConnection) AssignPropertiesToPrivateEndpointConnection(destination *alpha20210901s.PrivateEndpointConnection) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Reference
-	if connection.Reference != nil {
-		reference := connection.Reference.Copy()
-		destination.Reference = &reference
-	} else {
-		destination.Reference = nil
-	}
-
-	// SystemData
-	if connection.SystemData != nil {
-		var systemDatum alpha20210901s.SystemData
-		err := connection.SystemData.AssignPropertiesToSystemData(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of PrivateEndpointConnection_STATUS. Use v1beta20210901.PrivateEndpointConnection_STATUS instead
 type PrivateEndpointConnection_STATUS struct {
 	Id         *string            `json:"id,omitempty"`
@@ -3404,20 +2983,6 @@ const (
 	RegistryProperties_NetworkRuleBypassOptions_None_STATUS          = RegistryProperties_NetworkRuleBypassOptions_STATUS("None")
 )
 
-// Deprecated version of RegistryProperties_ProvisioningState. Use v1beta20210901.RegistryProperties_ProvisioningState
-// instead
-// +kubebuilder:validation:Enum={"Canceled","Creating","Deleting","Failed","Succeeded","Updating"}
-type RegistryProperties_ProvisioningState string
-
-const (
-	RegistryProperties_ProvisioningState_Canceled  = RegistryProperties_ProvisioningState("Canceled")
-	RegistryProperties_ProvisioningState_Creating  = RegistryProperties_ProvisioningState("Creating")
-	RegistryProperties_ProvisioningState_Deleting  = RegistryProperties_ProvisioningState("Deleting")
-	RegistryProperties_ProvisioningState_Failed    = RegistryProperties_ProvisioningState("Failed")
-	RegistryProperties_ProvisioningState_Succeeded = RegistryProperties_ProvisioningState("Succeeded")
-	RegistryProperties_ProvisioningState_Updating  = RegistryProperties_ProvisioningState("Updating")
-)
-
 // Deprecated version of RegistryProperties_ProvisioningState_STATUS. Use
 // v1beta20210901.RegistryProperties_ProvisioningState_STATUS instead
 type RegistryProperties_ProvisioningState_STATUS string
@@ -3472,7 +3037,6 @@ const (
 type Sku struct {
 	// +kubebuilder:validation:Required
 	Name *Sku_Name `json:"name,omitempty"`
-	Tier *Sku_Tier `json:"tier,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Sku{}
@@ -3488,12 +3052,6 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if sku.Name != nil {
 		name := *sku.Name
 		result.Name = &name
-	}
-
-	// Set property ‘Tier’:
-	if sku.Tier != nil {
-		tier := *sku.Tier
-		result.Tier = &tier
 	}
 	return result, nil
 }
@@ -3516,12 +3074,6 @@ func (sku *Sku) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInp
 		sku.Name = &name
 	}
 
-	// Set property ‘Tier’:
-	if typedInput.Tier != nil {
-		tier := *typedInput.Tier
-		sku.Tier = &tier
-	}
-
 	// No error
 	return nil
 }
@@ -3535,14 +3087,6 @@ func (sku *Sku) AssignPropertiesFromSku(source *alpha20210901s.Sku) error {
 		sku.Name = &name
 	} else {
 		sku.Name = nil
-	}
-
-	// Tier
-	if source.Tier != nil {
-		tier := Sku_Tier(*source.Tier)
-		sku.Tier = &tier
-	} else {
-		sku.Tier = nil
 	}
 
 	// No error
@@ -3560,14 +3104,6 @@ func (sku *Sku) AssignPropertiesToSku(destination *alpha20210901s.Sku) error {
 		destination.Name = &name
 	} else {
 		destination.Name = nil
-	}
-
-	// Tier
-	if sku.Tier != nil {
-		tier := string(*sku.Tier)
-		destination.Tier = &tier
-	} else {
-		destination.Tier = nil
 	}
 
 	// Update the property bag
@@ -3672,127 +3208,6 @@ func (sku *Sku_STATUS) AssignPropertiesToSku_STATUS(destination *alpha20210901s.
 	return nil
 }
 
-// Deprecated version of Status. Use v1beta20210901.Status instead
-type Status struct {
-	DisplayStatus *string `json:"displayStatus,omitempty"`
-	Message       *string `json:"message,omitempty"`
-	Timestamp     *string `json:"timestamp,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &Status{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (status *Status) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if status == nil {
-		return nil, nil
-	}
-	result := &StatusARM{}
-
-	// Set property ‘DisplayStatus’:
-	if status.DisplayStatus != nil {
-		displayStatus := *status.DisplayStatus
-		result.DisplayStatus = &displayStatus
-	}
-
-	// Set property ‘Message’:
-	if status.Message != nil {
-		message := *status.Message
-		result.Message = &message
-	}
-
-	// Set property ‘Timestamp’:
-	if status.Timestamp != nil {
-		timestamp := *status.Timestamp
-		result.Timestamp = &timestamp
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (status *Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &StatusARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (status *Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(StatusARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected StatusARM, got %T", armInput)
-	}
-
-	// Set property ‘DisplayStatus’:
-	if typedInput.DisplayStatus != nil {
-		displayStatus := *typedInput.DisplayStatus
-		status.DisplayStatus = &displayStatus
-	}
-
-	// Set property ‘Message’:
-	if typedInput.Message != nil {
-		message := *typedInput.Message
-		status.Message = &message
-	}
-
-	// Set property ‘Timestamp’:
-	if typedInput.Timestamp != nil {
-		timestamp := *typedInput.Timestamp
-		status.Timestamp = &timestamp
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromStatus populates our Status from the provided source Status
-func (status *Status) AssignPropertiesFromStatus(source *alpha20210901s.Status) error {
-
-	// DisplayStatus
-	status.DisplayStatus = genruntime.ClonePointerToString(source.DisplayStatus)
-
-	// Message
-	status.Message = genruntime.ClonePointerToString(source.Message)
-
-	// Timestamp
-	if source.Timestamp != nil {
-		timestamp := *source.Timestamp
-		status.Timestamp = &timestamp
-	} else {
-		status.Timestamp = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToStatus populates the provided destination Status from our Status
-func (status *Status) AssignPropertiesToStatus(destination *alpha20210901s.Status) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// DisplayStatus
-	destination.DisplayStatus = genruntime.ClonePointerToString(status.DisplayStatus)
-
-	// Message
-	destination.Message = genruntime.ClonePointerToString(status.Message)
-
-	// Timestamp
-	if status.Timestamp != nil {
-		timestamp := *status.Timestamp
-		destination.Timestamp = &timestamp
-	} else {
-		destination.Timestamp = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Deprecated version of Status_STATUS. Use v1beta20210901.Status_STATUS instead
 type Status_STATUS struct {
 	DisplayStatus *string `json:"displayStatus,omitempty"`
@@ -3865,214 +3280,6 @@ func (status *Status_STATUS) AssignPropertiesToStatus_STATUS(destination *alpha2
 
 	// Timestamp
 	destination.Timestamp = genruntime.ClonePointerToString(status.Timestamp)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Deprecated version of SystemData. Use v1beta20210901.SystemData instead
-type SystemData struct {
-	CreatedAt          *string                        `json:"createdAt,omitempty"`
-	CreatedBy          *string                        `json:"createdBy,omitempty"`
-	CreatedByType      *SystemData_CreatedByType      `json:"createdByType,omitempty"`
-	LastModifiedAt     *string                        `json:"lastModifiedAt,omitempty"`
-	LastModifiedBy     *string                        `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *SystemData_LastModifiedByType `json:"lastModifiedByType,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &SystemData{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (data *SystemData) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if data == nil {
-		return nil, nil
-	}
-	result := &SystemDataARM{}
-
-	// Set property ‘CreatedAt’:
-	if data.CreatedAt != nil {
-		createdAt := *data.CreatedAt
-		result.CreatedAt = &createdAt
-	}
-
-	// Set property ‘CreatedBy’:
-	if data.CreatedBy != nil {
-		createdBy := *data.CreatedBy
-		result.CreatedBy = &createdBy
-	}
-
-	// Set property ‘CreatedByType’:
-	if data.CreatedByType != nil {
-		createdByType := *data.CreatedByType
-		result.CreatedByType = &createdByType
-	}
-
-	// Set property ‘LastModifiedAt’:
-	if data.LastModifiedAt != nil {
-		lastModifiedAt := *data.LastModifiedAt
-		result.LastModifiedAt = &lastModifiedAt
-	}
-
-	// Set property ‘LastModifiedBy’:
-	if data.LastModifiedBy != nil {
-		lastModifiedBy := *data.LastModifiedBy
-		result.LastModifiedBy = &lastModifiedBy
-	}
-
-	// Set property ‘LastModifiedByType’:
-	if data.LastModifiedByType != nil {
-		lastModifiedByType := *data.LastModifiedByType
-		result.LastModifiedByType = &lastModifiedByType
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (data *SystemData) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &SystemDataARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (data *SystemData) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(SystemDataARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected SystemDataARM, got %T", armInput)
-	}
-
-	// Set property ‘CreatedAt’:
-	if typedInput.CreatedAt != nil {
-		createdAt := *typedInput.CreatedAt
-		data.CreatedAt = &createdAt
-	}
-
-	// Set property ‘CreatedBy’:
-	if typedInput.CreatedBy != nil {
-		createdBy := *typedInput.CreatedBy
-		data.CreatedBy = &createdBy
-	}
-
-	// Set property ‘CreatedByType’:
-	if typedInput.CreatedByType != nil {
-		createdByType := *typedInput.CreatedByType
-		data.CreatedByType = &createdByType
-	}
-
-	// Set property ‘LastModifiedAt’:
-	if typedInput.LastModifiedAt != nil {
-		lastModifiedAt := *typedInput.LastModifiedAt
-		data.LastModifiedAt = &lastModifiedAt
-	}
-
-	// Set property ‘LastModifiedBy’:
-	if typedInput.LastModifiedBy != nil {
-		lastModifiedBy := *typedInput.LastModifiedBy
-		data.LastModifiedBy = &lastModifiedBy
-	}
-
-	// Set property ‘LastModifiedByType’:
-	if typedInput.LastModifiedByType != nil {
-		lastModifiedByType := *typedInput.LastModifiedByType
-		data.LastModifiedByType = &lastModifiedByType
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromSystemData populates our SystemData from the provided source SystemData
-func (data *SystemData) AssignPropertiesFromSystemData(source *alpha20210901s.SystemData) error {
-
-	// CreatedAt
-	if source.CreatedAt != nil {
-		createdAt := *source.CreatedAt
-		data.CreatedAt = &createdAt
-	} else {
-		data.CreatedAt = nil
-	}
-
-	// CreatedBy
-	data.CreatedBy = genruntime.ClonePointerToString(source.CreatedBy)
-
-	// CreatedByType
-	if source.CreatedByType != nil {
-		createdByType := SystemData_CreatedByType(*source.CreatedByType)
-		data.CreatedByType = &createdByType
-	} else {
-		data.CreatedByType = nil
-	}
-
-	// LastModifiedAt
-	if source.LastModifiedAt != nil {
-		lastModifiedAt := *source.LastModifiedAt
-		data.LastModifiedAt = &lastModifiedAt
-	} else {
-		data.LastModifiedAt = nil
-	}
-
-	// LastModifiedBy
-	data.LastModifiedBy = genruntime.ClonePointerToString(source.LastModifiedBy)
-
-	// LastModifiedByType
-	if source.LastModifiedByType != nil {
-		lastModifiedByType := SystemData_LastModifiedByType(*source.LastModifiedByType)
-		data.LastModifiedByType = &lastModifiedByType
-	} else {
-		data.LastModifiedByType = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToSystemData populates the provided destination SystemData from our SystemData
-func (data *SystemData) AssignPropertiesToSystemData(destination *alpha20210901s.SystemData) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// CreatedAt
-	if data.CreatedAt != nil {
-		createdAt := *data.CreatedAt
-		destination.CreatedAt = &createdAt
-	} else {
-		destination.CreatedAt = nil
-	}
-
-	// CreatedBy
-	destination.CreatedBy = genruntime.ClonePointerToString(data.CreatedBy)
-
-	// CreatedByType
-	if data.CreatedByType != nil {
-		createdByType := string(*data.CreatedByType)
-		destination.CreatedByType = &createdByType
-	} else {
-		destination.CreatedByType = nil
-	}
-
-	// LastModifiedAt
-	if data.LastModifiedAt != nil {
-		lastModifiedAt := *data.LastModifiedAt
-		destination.LastModifiedAt = &lastModifiedAt
-	} else {
-		destination.LastModifiedAt = nil
-	}
-
-	// LastModifiedBy
-	destination.LastModifiedBy = genruntime.ClonePointerToString(data.LastModifiedBy)
-
-	// LastModifiedByType
-	if data.LastModifiedByType != nil {
-		lastModifiedByType := string(*data.LastModifiedByType)
-		destination.LastModifiedByType = &lastModifiedByType
-	} else {
-		destination.LastModifiedByType = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4583,11 +3790,8 @@ func (rule *IPRule_STATUS) AssignPropertiesToIPRule_STATUS(destination *alpha202
 
 // Deprecated version of KeyVaultProperties. Use v1beta20210901.KeyVaultProperties instead
 type KeyVaultProperties struct {
-	Identity                 *string `json:"identity,omitempty"`
-	KeyIdentifier            *string `json:"keyIdentifier,omitempty"`
-	KeyRotationEnabled       *bool   `json:"keyRotationEnabled,omitempty"`
-	LastKeyRotationTimestamp *string `json:"lastKeyRotationTimestamp,omitempty"`
-	VersionedKeyIdentifier   *string `json:"versionedKeyIdentifier,omitempty"`
+	Identity      *string `json:"identity,omitempty"`
+	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &KeyVaultProperties{}
@@ -4609,24 +3813,6 @@ func (properties *KeyVaultProperties) ConvertToARM(resolved genruntime.ConvertTo
 	if properties.KeyIdentifier != nil {
 		keyIdentifier := *properties.KeyIdentifier
 		result.KeyIdentifier = &keyIdentifier
-	}
-
-	// Set property ‘KeyRotationEnabled’:
-	if properties.KeyRotationEnabled != nil {
-		keyRotationEnabled := *properties.KeyRotationEnabled
-		result.KeyRotationEnabled = &keyRotationEnabled
-	}
-
-	// Set property ‘LastKeyRotationTimestamp’:
-	if properties.LastKeyRotationTimestamp != nil {
-		lastKeyRotationTimestamp := *properties.LastKeyRotationTimestamp
-		result.LastKeyRotationTimestamp = &lastKeyRotationTimestamp
-	}
-
-	// Set property ‘VersionedKeyIdentifier’:
-	if properties.VersionedKeyIdentifier != nil {
-		versionedKeyIdentifier := *properties.VersionedKeyIdentifier
-		result.VersionedKeyIdentifier = &versionedKeyIdentifier
 	}
 	return result, nil
 }
@@ -4655,24 +3841,6 @@ func (properties *KeyVaultProperties) PopulateFromARM(owner genruntime.Arbitrary
 		properties.KeyIdentifier = &keyIdentifier
 	}
 
-	// Set property ‘KeyRotationEnabled’:
-	if typedInput.KeyRotationEnabled != nil {
-		keyRotationEnabled := *typedInput.KeyRotationEnabled
-		properties.KeyRotationEnabled = &keyRotationEnabled
-	}
-
-	// Set property ‘LastKeyRotationTimestamp’:
-	if typedInput.LastKeyRotationTimestamp != nil {
-		lastKeyRotationTimestamp := *typedInput.LastKeyRotationTimestamp
-		properties.LastKeyRotationTimestamp = &lastKeyRotationTimestamp
-	}
-
-	// Set property ‘VersionedKeyIdentifier’:
-	if typedInput.VersionedKeyIdentifier != nil {
-		versionedKeyIdentifier := *typedInput.VersionedKeyIdentifier
-		properties.VersionedKeyIdentifier = &versionedKeyIdentifier
-	}
-
 	// No error
 	return nil
 }
@@ -4685,25 +3853,6 @@ func (properties *KeyVaultProperties) AssignPropertiesFromKeyVaultProperties(sou
 
 	// KeyIdentifier
 	properties.KeyIdentifier = genruntime.ClonePointerToString(source.KeyIdentifier)
-
-	// KeyRotationEnabled
-	if source.KeyRotationEnabled != nil {
-		keyRotationEnabled := *source.KeyRotationEnabled
-		properties.KeyRotationEnabled = &keyRotationEnabled
-	} else {
-		properties.KeyRotationEnabled = nil
-	}
-
-	// LastKeyRotationTimestamp
-	if source.LastKeyRotationTimestamp != nil {
-		lastKeyRotationTimestamp := *source.LastKeyRotationTimestamp
-		properties.LastKeyRotationTimestamp = &lastKeyRotationTimestamp
-	} else {
-		properties.LastKeyRotationTimestamp = nil
-	}
-
-	// VersionedKeyIdentifier
-	properties.VersionedKeyIdentifier = genruntime.ClonePointerToString(source.VersionedKeyIdentifier)
 
 	// No error
 	return nil
@@ -4719,25 +3868,6 @@ func (properties *KeyVaultProperties) AssignPropertiesToKeyVaultProperties(desti
 
 	// KeyIdentifier
 	destination.KeyIdentifier = genruntime.ClonePointerToString(properties.KeyIdentifier)
-
-	// KeyRotationEnabled
-	if properties.KeyRotationEnabled != nil {
-		keyRotationEnabled := *properties.KeyRotationEnabled
-		destination.KeyRotationEnabled = &keyRotationEnabled
-	} else {
-		destination.KeyRotationEnabled = nil
-	}
-
-	// LastKeyRotationTimestamp
-	if properties.LastKeyRotationTimestamp != nil {
-		lastKeyRotationTimestamp := *properties.LastKeyRotationTimestamp
-		destination.LastKeyRotationTimestamp = &lastKeyRotationTimestamp
-	} else {
-		destination.LastKeyRotationTimestamp = nil
-	}
-
-	// VersionedKeyIdentifier
-	destination.VersionedKeyIdentifier = genruntime.ClonePointerToString(properties.VersionedKeyIdentifier)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -5040,9 +4170,8 @@ func (policy *QuarantinePolicy_STATUS) AssignPropertiesToQuarantinePolicy_STATUS
 
 // Deprecated version of RetentionPolicy. Use v1beta20210901.RetentionPolicy instead
 type RetentionPolicy struct {
-	Days            *int                    `json:"days,omitempty"`
-	LastUpdatedTime *string                 `json:"lastUpdatedTime,omitempty"`
-	Status          *RetentionPolicy_Status `json:"status,omitempty"`
+	Days   *int                    `json:"days,omitempty"`
+	Status *RetentionPolicy_Status `json:"status,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &RetentionPolicy{}
@@ -5058,12 +4187,6 @@ func (policy *RetentionPolicy) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if policy.Days != nil {
 		days := *policy.Days
 		result.Days = &days
-	}
-
-	// Set property ‘LastUpdatedTime’:
-	if policy.LastUpdatedTime != nil {
-		lastUpdatedTime := *policy.LastUpdatedTime
-		result.LastUpdatedTime = &lastUpdatedTime
 	}
 
 	// Set property ‘Status’:
@@ -5092,12 +4215,6 @@ func (policy *RetentionPolicy) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		policy.Days = &days
 	}
 
-	// Set property ‘LastUpdatedTime’:
-	if typedInput.LastUpdatedTime != nil {
-		lastUpdatedTime := *typedInput.LastUpdatedTime
-		policy.LastUpdatedTime = &lastUpdatedTime
-	}
-
 	// Set property ‘Status’:
 	if typedInput.Status != nil {
 		status := *typedInput.Status
@@ -5113,14 +4230,6 @@ func (policy *RetentionPolicy) AssignPropertiesFromRetentionPolicy(source *alpha
 
 	// Days
 	policy.Days = genruntime.ClonePointerToInt(source.Days)
-
-	// LastUpdatedTime
-	if source.LastUpdatedTime != nil {
-		lastUpdatedTime := *source.LastUpdatedTime
-		policy.LastUpdatedTime = &lastUpdatedTime
-	} else {
-		policy.LastUpdatedTime = nil
-	}
 
 	// Status
 	if source.Status != nil {
@@ -5141,14 +4250,6 @@ func (policy *RetentionPolicy) AssignPropertiesToRetentionPolicy(destination *al
 
 	// Days
 	destination.Days = genruntime.ClonePointerToInt(policy.Days)
-
-	// LastUpdatedTime
-	if policy.LastUpdatedTime != nil {
-		lastUpdatedTime := *policy.LastUpdatedTime
-		destination.LastUpdatedTime = &lastUpdatedTime
-	} else {
-		destination.LastUpdatedTime = nil
-	}
 
 	// Status
 	if policy.Status != nil {

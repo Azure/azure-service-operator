@@ -182,7 +182,6 @@ type StorageAccountsBlobService_Spec struct {
 	Cors                           *CorsRules                    `json:"cors,omitempty"`
 	DefaultServiceVersion          *string                       `json:"defaultServiceVersion,omitempty"`
 	DeleteRetentionPolicy          *DeleteRetentionPolicy        `json:"deleteRetentionPolicy,omitempty"`
-	Id                             *string                       `json:"id,omitempty"`
 	IsVersioningEnabled            *bool                         `json:"isVersioningEnabled,omitempty"`
 	LastAccessTimeTrackingPolicy   *LastAccessTimeTrackingPolicy `json:"lastAccessTimeTrackingPolicy,omitempty"`
 	OriginalVersion                string                        `json:"originalVersion,omitempty"`
@@ -194,8 +193,6 @@ type StorageAccountsBlobService_Spec struct {
 	Owner         *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag   genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	RestorePolicy *RestorePolicyProperties           `json:"restorePolicy,omitempty"`
-	Sku           *Sku                               `json:"sku,omitempty"`
-	Type          *string                            `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &StorageAccountsBlobService_Spec{}
@@ -278,11 +275,9 @@ type LastAccessTimeTrackingPolicy_STATUS struct {
 
 // Storage version of v1beta20210401.RestorePolicyProperties
 type RestorePolicyProperties struct {
-	Days            *int                   `json:"days,omitempty"`
-	Enabled         *bool                  `json:"enabled,omitempty"`
-	LastEnabledTime *string                `json:"lastEnabledTime,omitempty"`
-	MinRestoreTime  *string                `json:"minRestoreTime,omitempty"`
-	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Days        *int                   `json:"days,omitempty"`
+	Enabled     *bool                  `json:"enabled,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210401.RestorePolicyProperties_STATUS

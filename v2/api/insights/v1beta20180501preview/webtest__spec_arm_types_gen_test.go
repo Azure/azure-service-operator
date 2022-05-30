@@ -83,11 +83,9 @@ func Webtest_SpecARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForWebtest_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWebtest_SpecARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Kind"] = gen.PtrOf(gen.OneConstOf(Webtest_Spec_Kind_Multistep, Webtest_Spec_Kind_Ping))
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForWebtest_SpecARM is a factory method for creating gopter generators
@@ -170,7 +168,6 @@ func AddIndependentPropertyGeneratorsForWebTestPropertiesARM(gens map[string]gop
 		WebTestProperties_Kind_Ping,
 		WebTestProperties_Kind_Standard))
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["RetryEnabled"] = gen.PtrOf(gen.Bool())
 	gens["SyntheticMonitorId"] = gen.PtrOf(gen.AlphaString())
 	gens["Timeout"] = gen.PtrOf(gen.Int())

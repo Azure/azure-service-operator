@@ -671,7 +671,6 @@ type Image_Spec struct {
 	AzureName        string                `json:"azureName,omitempty"`
 	ExtendedLocation *ExtendedLocation     `json:"extendedLocation,omitempty"`
 	HyperVGeneration *HyperVGenerationType `json:"hyperVGeneration,omitempty"`
-	Id               *string               `json:"id,omitempty"`
 
 	// +kubebuilder:validation:Required
 	Location *string `json:"location,omitempty"`
@@ -681,11 +680,9 @@ type Image_Spec struct {
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner                *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	ProvisioningState    *string                            `json:"provisioningState,omitempty"`
 	SourceVirtualMachine *SubResource                       `json:"sourceVirtualMachine,omitempty"`
 	StorageProfile       *ImageStorageProfile               `json:"storageProfile,omitempty"`
 	Tags                 map[string]string                  `json:"tags,omitempty"`
-	Type                 *string                            `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Image_Spec{}
@@ -710,12 +707,6 @@ func (image *Image_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		result.ExtendedLocation = &extendedLocation
 	}
 
-	// Set property ‘Id’:
-	if image.Id != nil {
-		id := *image.Id
-		result.Id = &id
-	}
-
 	// Set property ‘Location’:
 	if image.Location != nil {
 		location := *image.Location
@@ -727,7 +718,6 @@ func (image *Image_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 	// Set property ‘Properties’:
 	if image.HyperVGeneration != nil ||
-		image.ProvisioningState != nil ||
 		image.SourceVirtualMachine != nil ||
 		image.StorageProfile != nil {
 		result.Properties = &ImagePropertiesARM{}
@@ -735,10 +725,6 @@ func (image *Image_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	if image.HyperVGeneration != nil {
 		hyperVGeneration := *image.HyperVGeneration
 		result.Properties.HyperVGeneration = &hyperVGeneration
-	}
-	if image.ProvisioningState != nil {
-		provisioningState := *image.ProvisioningState
-		result.Properties.ProvisioningState = &provisioningState
 	}
 	if image.SourceVirtualMachine != nil {
 		sourceVirtualMachineARM, err := (*image.SourceVirtualMachine).ConvertToARM(resolved)
@@ -763,12 +749,6 @@ func (image *Image_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		for key, value := range image.Tags {
 			result.Tags[key] = value
 		}
-	}
-
-	// Set property ‘Type’:
-	if image.Type != nil {
-		typeVar := *image.Type
-		result.Type = &typeVar
 	}
 	return result, nil
 }
@@ -808,12 +788,6 @@ func (image *Image_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		image.Id = &id
-	}
-
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
@@ -823,15 +797,6 @@ func (image *Image_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	// Set property ‘Owner’:
 	image.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
-	}
-
-	// Set property ‘ProvisioningState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
-			image.ProvisioningState = &provisioningState
-		}
 	}
 
 	// Set property ‘SourceVirtualMachine’:
@@ -868,12 +833,6 @@ func (image *Image_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		for key, value := range typedInput.Tags {
 			image.Tags[key] = value
 		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		image.Type = &typeVar
 	}
 
 	// No error
@@ -956,9 +915,6 @@ func (image *Image_Spec) AssignPropertiesFromImage_Spec(source *alpha20210701s.I
 		image.HyperVGeneration = nil
 	}
 
-	// Id
-	image.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Location
 	image.Location = genruntime.ClonePointerToString(source.Location)
 
@@ -969,9 +925,6 @@ func (image *Image_Spec) AssignPropertiesFromImage_Spec(source *alpha20210701s.I
 	} else {
 		image.Owner = nil
 	}
-
-	// ProvisioningState
-	image.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// SourceVirtualMachine
 	if source.SourceVirtualMachine != nil {
@@ -999,9 +952,6 @@ func (image *Image_Spec) AssignPropertiesFromImage_Spec(source *alpha20210701s.I
 
 	// Tags
 	image.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	image.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -1035,9 +985,6 @@ func (image *Image_Spec) AssignPropertiesToImage_Spec(destination *alpha20210701
 		destination.HyperVGeneration = nil
 	}
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(image.Id)
-
 	// Location
 	destination.Location = genruntime.ClonePointerToString(image.Location)
 
@@ -1051,9 +998,6 @@ func (image *Image_Spec) AssignPropertiesToImage_Spec(destination *alpha20210701
 	} else {
 		destination.Owner = nil
 	}
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(image.ProvisioningState)
 
 	// SourceVirtualMachine
 	if image.SourceVirtualMachine != nil {
@@ -1081,9 +1025,6 @@ func (image *Image_Spec) AssignPropertiesToImage_Spec(destination *alpha20210701
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(image.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(image.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

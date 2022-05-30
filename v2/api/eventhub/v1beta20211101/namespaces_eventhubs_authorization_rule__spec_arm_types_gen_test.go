@@ -84,16 +84,12 @@ func NamespacesEventhubsAuthorizationRule_SpecARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForNamespacesEventhubsAuthorizationRule_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNamespacesEventhubsAuthorizationRule_SpecARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForNamespacesEventhubsAuthorizationRule_SpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespacesEventhubsAuthorizationRule_SpecARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(NamespacesEventhubsAuthorizationRule_Spec_PropertiesARMGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemDataARMGenerator())
 }
 
 func Test_NamespacesEventhubsAuthorizationRule_Spec_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

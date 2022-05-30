@@ -84,15 +84,12 @@ func FlexibleServersConfiguration_SpecARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForFlexibleServersConfiguration_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForFlexibleServersConfiguration_SpecARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForFlexibleServersConfiguration_SpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForFlexibleServersConfiguration_SpecARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(ConfigurationPropertiesARMGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemDataARMGenerator())
 }
 
 func Test_ConfigurationPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -152,19 +149,6 @@ func ConfigurationPropertiesARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForConfigurationPropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForConfigurationPropertiesARM(gens map[string]gopter.Gen) {
-	gens["AllowedValues"] = gen.PtrOf(gen.AlphaString())
-	gens["DataType"] = gen.PtrOf(gen.OneConstOf(
-		ConfigurationProperties_DataType_Boolean,
-		ConfigurationProperties_DataType_Enumeration,
-		ConfigurationProperties_DataType_Integer,
-		ConfigurationProperties_DataType_Numeric))
-	gens["DefaultValue"] = gen.PtrOf(gen.AlphaString())
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["DocumentationLink"] = gen.PtrOf(gen.AlphaString())
-	gens["IsConfigPendingRestart"] = gen.PtrOf(gen.Bool())
-	gens["IsDynamicConfig"] = gen.PtrOf(gen.Bool())
-	gens["IsReadOnly"] = gen.PtrOf(gen.Bool())
 	gens["Source"] = gen.PtrOf(gen.AlphaString())
-	gens["Unit"] = gen.PtrOf(gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }

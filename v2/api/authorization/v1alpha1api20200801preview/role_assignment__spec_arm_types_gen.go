@@ -33,14 +33,9 @@ func (assignment *RoleAssignment_SpecARM) GetType() string {
 type RoleAssignmentPropertiesARM struct {
 	Condition                          *string                                 `json:"condition,omitempty"`
 	ConditionVersion                   *string                                 `json:"conditionVersion,omitempty"`
-	CreatedBy                          *string                                 `json:"createdBy,omitempty"`
-	CreatedOn                          *string                                 `json:"createdOn,omitempty"`
 	DelegatedManagedIdentityResourceId *string                                 `json:"delegatedManagedIdentityResourceId,omitempty"`
 	Description                        *string                                 `json:"description,omitempty"`
 	PrincipalId                        *string                                 `json:"principalId,omitempty"`
 	PrincipalType                      *RoleAssignmentProperties_PrincipalType `json:"principalType,omitempty"`
 	RoleDefinitionId                   *string                                 `json:"roleDefinitionId,omitempty"`
-	Scope                              *string                                 `json:"scope,omitempty"`
-	UpdatedBy                          *string                                 `json:"updatedBy,omitempty"`
-	UpdatedOn                          *string                                 `json:"updatedOn,omitempty"`
 }

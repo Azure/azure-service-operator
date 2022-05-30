@@ -542,9 +542,6 @@ type DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	// Id: The unique resource identifier of the ARM resource.
-	Id *string `json:"id,omitempty"`
-
 	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
@@ -562,9 +559,6 @@ type DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec struct {
 	// Resource: The standard JSON format of a userDefinedFunction
 	Resource *SqlUserDefinedFunctionResource `json:"resource,omitempty"`
 	Tags     map[string]string               `json:"tags,omitempty"`
-
-	// Type: The type of Azure resource.
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec{}
@@ -578,12 +572,6 @@ func (function *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec) 
 
 	// Set property ‘AzureName’:
 	result.AzureName = function.AzureName
-
-	// Set property ‘Id’:
-	if function.Id != nil {
-		id := *function.Id
-		result.Id = &id
-	}
 
 	// Set property ‘Location’:
 	if function.Location != nil {
@@ -622,12 +610,6 @@ func (function *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec) 
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	if function.Type != nil {
-		typeVar := *function.Type
-		result.Type = &typeVar
-	}
 	return result, nil
 }
 
@@ -645,12 +627,6 @@ func (function *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec) 
 
 	// Set property ‘AzureName’:
 	function.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		function.Id = &id
-	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
@@ -697,12 +673,6 @@ func (function *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec) 
 		for key, value := range typedInput.Tags {
 			function.Tags[key] = value
 		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		function.Type = &typeVar
 	}
 
 	// No error
@@ -765,9 +735,6 @@ func (function *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec) 
 	// AzureName
 	function.AzureName = source.AzureName
 
-	// Id
-	function.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Location
 	function.Location = genruntime.ClonePointerToString(source.Location)
 
@@ -806,9 +773,6 @@ func (function *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec) 
 	// Tags
 	function.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
-	// Type
-	function.Type = genruntime.ClonePointerToString(source.Type)
-
 	// No error
 	return nil
 }
@@ -820,9 +784,6 @@ func (function *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec) 
 
 	// AzureName
 	destination.AzureName = function.AzureName
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(function.Id)
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(function.Location)
@@ -864,9 +825,6 @@ func (function *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec) 
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(function.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(function.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

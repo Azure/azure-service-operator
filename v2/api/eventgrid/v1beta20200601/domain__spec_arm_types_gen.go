@@ -8,26 +8,15 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 type Domain_SpecARM struct {
 	AzureName string `json:"azureName,omitempty"`
 
-	// Id: Fully qualified identifier of the resource.
-	Id *string `json:"id,omitempty"`
-
 	// Location: Location of the resource.
 	Location *string `json:"location,omitempty"`
-
-	// Name: Name of the resource.
-	Name string `json:"name,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
 	// Properties: Properties of the domain.
 	Properties *DomainPropertiesARM `json:"properties,omitempty"`
 
-	// SystemData: The system metadata relating to Domain resource.
-	SystemData *SystemDataARM `json:"systemData,omitempty"`
-
 	// Tags: Tags of the resource.
 	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: Type of the resource.
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Domain_SpecARM{}
@@ -48,9 +37,6 @@ func (domain *Domain_SpecARM) GetType() string {
 }
 
 type DomainPropertiesARM struct {
-	// Endpoint: Endpoint for the domain.
-	Endpoint *string `json:"endpoint,omitempty"`
-
 	// InboundIpRules: This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered
 	// only if PublicNetworkAccess is enabled.
 	InboundIpRules []InboundIpRuleARM `json:"inboundIpRules,omitempty"`
@@ -61,39 +47,10 @@ type DomainPropertiesARM struct {
 	// InputSchemaMapping: Information about the InputSchemaMapping which specified the info about mapping event payload.
 	InputSchemaMapping *InputSchemaMappingARM `json:"inputSchemaMapping,omitempty"`
 
-	// MetricResourceId: Metric resource id for the domain.
-	MetricResourceId *string `json:"metricResourceId,omitempty"`
-
-	// PrivateEndpointConnections: List of private endpoint connections.
-	PrivateEndpointConnections []PrivateEndpointConnection_Domain_SubResourceEmbeddedARM `json:"privateEndpointConnections,omitempty"`
-
-	// ProvisioningState: Provisioning state of the domain.
-	ProvisioningState *DomainProperties_ProvisioningState `json:"provisioningState,omitempty"`
-
 	// PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
 	// You can further restrict to specific IPs by configuring <seealso
 	// cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules" />
 	PublicNetworkAccess *DomainProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
-}
-
-type SystemDataARM struct {
-	// CreatedAt: The timestamp of resource creation (UTC).
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	// CreatedBy: The identity that created the resource.
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType `json:"createdByType,omitempty"`
-
-	// LastModifiedAt: The timestamp of resource last modification (UTC)
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	// LastModifiedBy: The identity that last modified the resource.
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
 type InboundIpRuleARM struct {
@@ -108,28 +65,3 @@ type InputSchemaMappingARM struct {
 	// InputSchemaMappingType: Type of the custom mapping
 	InputSchemaMappingType *InputSchemaMapping_InputSchemaMappingType `json:"inputSchemaMappingType,omitempty"`
 }
-
-type PrivateEndpointConnection_Domain_SubResourceEmbeddedARM struct {
-	// Id: Fully qualified identifier of the resource.
-	Id *string `json:"id,omitempty"`
-}
-
-// +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
-type SystemData_CreatedByType string
-
-const (
-	SystemData_CreatedByType_Application     = SystemData_CreatedByType("Application")
-	SystemData_CreatedByType_Key             = SystemData_CreatedByType("Key")
-	SystemData_CreatedByType_ManagedIdentity = SystemData_CreatedByType("ManagedIdentity")
-	SystemData_CreatedByType_User            = SystemData_CreatedByType("User")
-)
-
-// +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
-type SystemData_LastModifiedByType string
-
-const (
-	SystemData_LastModifiedByType_Application     = SystemData_LastModifiedByType("Application")
-	SystemData_LastModifiedByType_Key             = SystemData_LastModifiedByType("Key")
-	SystemData_LastModifiedByType_ManagedIdentity = SystemData_LastModifiedByType("ManagedIdentity")
-	SystemData_LastModifiedByType_User            = SystemData_LastModifiedByType("User")
-)

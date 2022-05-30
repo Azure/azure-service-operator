@@ -8,12 +8,8 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 // Deprecated version of NamespacesAuthorizationRule_Spec. Use v1beta20211101.NamespacesAuthorizationRule_Spec instead
 type NamespacesAuthorizationRule_SpecARM struct {
 	AzureName  string                                          `json:"azureName,omitempty"`
-	Id         *string                                         `json:"id,omitempty"`
-	Location   *string                                         `json:"location,omitempty"`
 	Name       string                                          `json:"name,omitempty"`
 	Properties *NamespacesAuthorizationRule_Spec_PropertiesARM `json:"properties,omitempty"`
-	SystemData *SystemDataARM                                  `json:"systemData,omitempty"`
-	Type       *string                                         `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &NamespacesAuthorizationRule_SpecARM{}

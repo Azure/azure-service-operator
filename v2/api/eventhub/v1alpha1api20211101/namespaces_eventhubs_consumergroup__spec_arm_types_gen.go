@@ -8,12 +8,8 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 // Deprecated version of NamespacesEventhubsConsumergroup_Spec. Use v1beta20211101.NamespacesEventhubsConsumergroup_Spec instead
 type NamespacesEventhubsConsumergroup_SpecARM struct {
 	AzureName  string                                               `json:"azureName,omitempty"`
-	Id         *string                                              `json:"id,omitempty"`
-	Location   *string                                              `json:"location,omitempty"`
 	Name       string                                               `json:"name,omitempty"`
 	Properties *NamespacesEventhubsConsumergroup_Spec_PropertiesARM `json:"properties,omitempty"`
-	SystemData *SystemDataARM                                       `json:"systemData,omitempty"`
-	Type       *string                                              `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &NamespacesEventhubsConsumergroup_SpecARM{}
@@ -35,7 +31,5 @@ func (consumergroup *NamespacesEventhubsConsumergroup_SpecARM) GetType() string 
 
 // Deprecated version of NamespacesEventhubsConsumergroup_Spec_Properties. Use v1beta20211101.NamespacesEventhubsConsumergroup_Spec_Properties instead
 type NamespacesEventhubsConsumergroup_Spec_PropertiesARM struct {
-	CreatedAt    *string `json:"createdAt,omitempty"`
-	UpdatedAt    *string `json:"updatedAt,omitempty"`
 	UserMetadata *string `json:"userMetadata,omitempty"`
 }

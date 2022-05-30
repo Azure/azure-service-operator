@@ -4146,9 +4146,6 @@ func (stats *GeoReplicationStats_STATUS) AssignPropertiesToGeoReplicationStats_S
 
 // Deprecated version of Identity. Use v1beta20210401.Identity instead
 type Identity struct {
-	PrincipalId *string `json:"principalId,omitempty"`
-	TenantId    *string `json:"tenantId,omitempty"`
-
 	// +kubebuilder:validation:Required
 	Type *Identity_Type `json:"type,omitempty"`
 }
@@ -4161,18 +4158,6 @@ func (identity *Identity) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 		return nil, nil
 	}
 	result := &IdentityARM{}
-
-	// Set property ‘PrincipalId’:
-	if identity.PrincipalId != nil {
-		principalId := *identity.PrincipalId
-		result.PrincipalId = &principalId
-	}
-
-	// Set property ‘TenantId’:
-	if identity.TenantId != nil {
-		tenantId := *identity.TenantId
-		result.TenantId = &tenantId
-	}
 
 	// Set property ‘Type’:
 	if identity.Type != nil {
@@ -4194,18 +4179,6 @@ func (identity *Identity) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected IdentityARM, got %T", armInput)
 	}
 
-	// Set property ‘PrincipalId’:
-	if typedInput.PrincipalId != nil {
-		principalId := *typedInput.PrincipalId
-		identity.PrincipalId = &principalId
-	}
-
-	// Set property ‘TenantId’:
-	if typedInput.TenantId != nil {
-		tenantId := *typedInput.TenantId
-		identity.TenantId = &tenantId
-	}
-
 	// Set property ‘Type’:
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
@@ -4218,12 +4191,6 @@ func (identity *Identity) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 
 // AssignPropertiesFromIdentity populates our Identity from the provided source Identity
 func (identity *Identity) AssignPropertiesFromIdentity(source *alpha20210401s.Identity) error {
-
-	// PrincipalId
-	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// TenantId
-	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// Type
 	if source.Type != nil {
@@ -4241,12 +4208,6 @@ func (identity *Identity) AssignPropertiesFromIdentity(source *alpha20210401s.Id
 func (identity *Identity) AssignPropertiesToIdentity(destination *alpha20210401s.Identity) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
-
-	// PrincipalId
-	destination.PrincipalId = genruntime.ClonePointerToString(identity.PrincipalId)
-
-	// TenantId
-	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
 
 	// Type
 	if identity.Type != nil {
@@ -7214,11 +7175,9 @@ func (rule *IPRule_STATUS) AssignPropertiesToIPRule_STATUS(destination *alpha202
 
 // Deprecated version of KeyVaultProperties. Use v1beta20210401.KeyVaultProperties instead
 type KeyVaultProperties struct {
-	CurrentVersionedKeyIdentifier *string `json:"currentVersionedKeyIdentifier,omitempty"`
-	Keyname                       *string `json:"keyname,omitempty"`
-	Keyvaulturi                   *string `json:"keyvaulturi,omitempty"`
-	Keyversion                    *string `json:"keyversion,omitempty"`
-	LastKeyRotationTimestamp      *string `json:"lastKeyRotationTimestamp,omitempty"`
+	Keyname     *string `json:"keyname,omitempty"`
+	Keyvaulturi *string `json:"keyvaulturi,omitempty"`
+	Keyversion  *string `json:"keyversion,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &KeyVaultProperties{}
@@ -7229,12 +7188,6 @@ func (properties *KeyVaultProperties) ConvertToARM(resolved genruntime.ConvertTo
 		return nil, nil
 	}
 	result := &KeyVaultPropertiesARM{}
-
-	// Set property ‘CurrentVersionedKeyIdentifier’:
-	if properties.CurrentVersionedKeyIdentifier != nil {
-		currentVersionedKeyIdentifier := *properties.CurrentVersionedKeyIdentifier
-		result.CurrentVersionedKeyIdentifier = &currentVersionedKeyIdentifier
-	}
 
 	// Set property ‘Keyname’:
 	if properties.Keyname != nil {
@@ -7253,12 +7206,6 @@ func (properties *KeyVaultProperties) ConvertToARM(resolved genruntime.ConvertTo
 		keyversion := *properties.Keyversion
 		result.Keyversion = &keyversion
 	}
-
-	// Set property ‘LastKeyRotationTimestamp’:
-	if properties.LastKeyRotationTimestamp != nil {
-		lastKeyRotationTimestamp := *properties.LastKeyRotationTimestamp
-		result.LastKeyRotationTimestamp = &lastKeyRotationTimestamp
-	}
 	return result, nil
 }
 
@@ -7272,12 +7219,6 @@ func (properties *KeyVaultProperties) PopulateFromARM(owner genruntime.Arbitrary
 	typedInput, ok := armInput.(KeyVaultPropertiesARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected KeyVaultPropertiesARM, got %T", armInput)
-	}
-
-	// Set property ‘CurrentVersionedKeyIdentifier’:
-	if typedInput.CurrentVersionedKeyIdentifier != nil {
-		currentVersionedKeyIdentifier := *typedInput.CurrentVersionedKeyIdentifier
-		properties.CurrentVersionedKeyIdentifier = &currentVersionedKeyIdentifier
 	}
 
 	// Set property ‘Keyname’:
@@ -7298,21 +7239,12 @@ func (properties *KeyVaultProperties) PopulateFromARM(owner genruntime.Arbitrary
 		properties.Keyversion = &keyversion
 	}
 
-	// Set property ‘LastKeyRotationTimestamp’:
-	if typedInput.LastKeyRotationTimestamp != nil {
-		lastKeyRotationTimestamp := *typedInput.LastKeyRotationTimestamp
-		properties.LastKeyRotationTimestamp = &lastKeyRotationTimestamp
-	}
-
 	// No error
 	return nil
 }
 
 // AssignPropertiesFromKeyVaultProperties populates our KeyVaultProperties from the provided source KeyVaultProperties
 func (properties *KeyVaultProperties) AssignPropertiesFromKeyVaultProperties(source *alpha20210401s.KeyVaultProperties) error {
-
-	// CurrentVersionedKeyIdentifier
-	properties.CurrentVersionedKeyIdentifier = genruntime.ClonePointerToString(source.CurrentVersionedKeyIdentifier)
 
 	// Keyname
 	properties.Keyname = genruntime.ClonePointerToString(source.Keyname)
@@ -7323,14 +7255,6 @@ func (properties *KeyVaultProperties) AssignPropertiesFromKeyVaultProperties(sou
 	// Keyversion
 	properties.Keyversion = genruntime.ClonePointerToString(source.Keyversion)
 
-	// LastKeyRotationTimestamp
-	if source.LastKeyRotationTimestamp != nil {
-		lastKeyRotationTimestamp := *source.LastKeyRotationTimestamp
-		properties.LastKeyRotationTimestamp = &lastKeyRotationTimestamp
-	} else {
-		properties.LastKeyRotationTimestamp = nil
-	}
-
 	// No error
 	return nil
 }
@@ -7340,9 +7264,6 @@ func (properties *KeyVaultProperties) AssignPropertiesToKeyVaultProperties(desti
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// CurrentVersionedKeyIdentifier
-	destination.CurrentVersionedKeyIdentifier = genruntime.ClonePointerToString(properties.CurrentVersionedKeyIdentifier)
-
 	// Keyname
 	destination.Keyname = genruntime.ClonePointerToString(properties.Keyname)
 
@@ -7351,14 +7272,6 @@ func (properties *KeyVaultProperties) AssignPropertiesToKeyVaultProperties(desti
 
 	// Keyversion
 	destination.Keyversion = genruntime.ClonePointerToString(properties.Keyversion)
-
-	// LastKeyRotationTimestamp
-	if properties.LastKeyRotationTimestamp != nil {
-		lastKeyRotationTimestamp := *properties.LastKeyRotationTimestamp
-		destination.LastKeyRotationTimestamp = &lastKeyRotationTimestamp
-	} else {
-		destination.LastKeyRotationTimestamp = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -8515,9 +8428,8 @@ func (restoreRange *BlobRestoreRange_STATUS) AssignPropertiesToBlobRestoreRange_
 
 // Deprecated version of EncryptionService. Use v1beta20210401.EncryptionService instead
 type EncryptionService struct {
-	Enabled         *bool                      `json:"enabled,omitempty"`
-	KeyType         *EncryptionService_KeyType `json:"keyType,omitempty"`
-	LastEnabledTime *string                    `json:"lastEnabledTime,omitempty"`
+	Enabled *bool                      `json:"enabled,omitempty"`
+	KeyType *EncryptionService_KeyType `json:"keyType,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &EncryptionService{}
@@ -8539,12 +8451,6 @@ func (service *EncryptionService) ConvertToARM(resolved genruntime.ConvertToARMR
 	if service.KeyType != nil {
 		keyType := *service.KeyType
 		result.KeyType = &keyType
-	}
-
-	// Set property ‘LastEnabledTime’:
-	if service.LastEnabledTime != nil {
-		lastEnabledTime := *service.LastEnabledTime
-		result.LastEnabledTime = &lastEnabledTime
 	}
 	return result, nil
 }
@@ -8573,12 +8479,6 @@ func (service *EncryptionService) PopulateFromARM(owner genruntime.ArbitraryOwne
 		service.KeyType = &keyType
 	}
 
-	// Set property ‘LastEnabledTime’:
-	if typedInput.LastEnabledTime != nil {
-		lastEnabledTime := *typedInput.LastEnabledTime
-		service.LastEnabledTime = &lastEnabledTime
-	}
-
 	// No error
 	return nil
 }
@@ -8600,14 +8500,6 @@ func (service *EncryptionService) AssignPropertiesFromEncryptionService(source *
 		service.KeyType = &keyType
 	} else {
 		service.KeyType = nil
-	}
-
-	// LastEnabledTime
-	if source.LastEnabledTime != nil {
-		lastEnabledTime := *source.LastEnabledTime
-		service.LastEnabledTime = &lastEnabledTime
-	} else {
-		service.LastEnabledTime = nil
 	}
 
 	// No error
@@ -8633,14 +8525,6 @@ func (service *EncryptionService) AssignPropertiesToEncryptionService(destinatio
 		destination.KeyType = &keyType
 	} else {
 		destination.KeyType = nil
-	}
-
-	// LastEnabledTime
-	if service.LastEnabledTime != nil {
-		lastEnabledTime := *service.LastEnabledTime
-		destination.LastEnabledTime = &lastEnabledTime
-	} else {
-		destination.LastEnabledTime = nil
 	}
 
 	// Update the property bag

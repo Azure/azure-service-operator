@@ -84,11 +84,9 @@ func VirtualMachineScaleSet_SpecARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForVirtualMachineScaleSet_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineScaleSet_SpecARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["Zones"] = gen.SliceOf(gen.AlphaString())
 }
 
@@ -342,8 +340,6 @@ func VirtualMachineScaleSetIdentityARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentityARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentityARM(gens map[string]gopter.Gen) {
-	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
-	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(
 		VirtualMachineScaleSetIdentity_Type_None,
 		VirtualMachineScaleSetIdentity_Type_SystemAssigned,
@@ -421,9 +417,7 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPropertiesARM(gens
 	gens["OrchestrationMode"] = gen.PtrOf(gen.OneConstOf(OrchestrationMode_Flexible, OrchestrationMode_Uniform))
 	gens["Overprovision"] = gen.PtrOf(gen.Bool())
 	gens["PlatformFaultDomainCount"] = gen.PtrOf(gen.Int())
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["SinglePlacementGroup"] = gen.PtrOf(gen.Bool())
-	gens["UniqueId"] = gen.PtrOf(gen.AlphaString())
 	gens["ZoneBalance"] = gen.PtrOf(gen.Bool())
 }
 
@@ -1063,9 +1057,6 @@ func RunJSONSerializationTestForVirtualMachineScaleSetExtensionProfileARM(subjec
 var virtualMachineScaleSetExtensionProfileARMGenerator gopter.Gen
 
 // VirtualMachineScaleSetExtensionProfileARMGenerator returns a generator of VirtualMachineScaleSetExtensionProfileARM instances for property testing.
-// We first initialize virtualMachineScaleSetExtensionProfileARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func VirtualMachineScaleSetExtensionProfileARMGenerator() gopter.Gen {
 	if virtualMachineScaleSetExtensionProfileARMGenerator != nil {
 		return virtualMachineScaleSetExtensionProfileARMGenerator
@@ -1075,23 +1066,12 @@ func VirtualMachineScaleSetExtensionProfileARMGenerator() gopter.Gen {
 	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtensionProfileARM(generators)
 	virtualMachineScaleSetExtensionProfileARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetExtensionProfileARM{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtensionProfileARM(generators)
-	AddRelatedPropertyGeneratorsForVirtualMachineScaleSetExtensionProfileARM(generators)
-	virtualMachineScaleSetExtensionProfileARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetExtensionProfileARM{}), generators)
-
 	return virtualMachineScaleSetExtensionProfileARMGenerator
 }
 
 // AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtensionProfileARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtensionProfileARM(gens map[string]gopter.Gen) {
 	gens["ExtensionsTimeBudget"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForVirtualMachineScaleSetExtensionProfileARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetExtensionProfileARM(gens map[string]gopter.Gen) {
-	gens["Extensions"] = gen.SliceOf(VirtualMachineScaleSetExtensionARMGenerator())
 }
 
 func Test_VirtualMachineScaleSetNetworkProfileARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1496,66 +1476,6 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetDataDiskARM(gens m
 // AddRelatedPropertyGeneratorsForVirtualMachineScaleSetDataDiskARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetDataDiskARM(gens map[string]gopter.Gen) {
 	gens["ManagedDisk"] = gen.PtrOf(VirtualMachineScaleSetManagedDiskParametersARMGenerator())
-}
-
-func Test_VirtualMachineScaleSetExtensionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of VirtualMachineScaleSetExtensionARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForVirtualMachineScaleSetExtensionARM, VirtualMachineScaleSetExtensionARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForVirtualMachineScaleSetExtensionARM runs a test to see if a specific instance of VirtualMachineScaleSetExtensionARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForVirtualMachineScaleSetExtensionARM(subject VirtualMachineScaleSetExtensionARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual VirtualMachineScaleSetExtensionARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of VirtualMachineScaleSetExtensionARM instances for property testing - lazily instantiated by
-// VirtualMachineScaleSetExtensionARMGenerator()
-var virtualMachineScaleSetExtensionARMGenerator gopter.Gen
-
-// VirtualMachineScaleSetExtensionARMGenerator returns a generator of VirtualMachineScaleSetExtensionARM instances for property testing.
-func VirtualMachineScaleSetExtensionARMGenerator() gopter.Gen {
-	if virtualMachineScaleSetExtensionARMGenerator != nil {
-		return virtualMachineScaleSetExtensionARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtensionARM(generators)
-	virtualMachineScaleSetExtensionARMGenerator = gen.Struct(reflect.TypeOf(VirtualMachineScaleSetExtensionARM{}), generators)
-
-	return virtualMachineScaleSetExtensionARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtensionARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtensionARM(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_VirtualMachineScaleSetNetworkConfigurationARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

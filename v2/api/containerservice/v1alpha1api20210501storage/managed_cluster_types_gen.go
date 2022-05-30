@@ -928,23 +928,19 @@ type ManagedCluster_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName                    string                          `json:"azureName,omitempty"`
-	AzurePortalFQDN              *string                         `json:"azurePortalFQDN,omitempty"`
 	DisableLocalAccounts         *bool                           `json:"disableLocalAccounts,omitempty"`
 	DiskEncryptionSetIDReference *genruntime.ResourceReference   `armReference:"DiskEncryptionSetID" json:"diskEncryptionSetIDReference,omitempty"`
 	DnsPrefix                    *string                         `json:"dnsPrefix,omitempty"`
 	EnablePodSecurityPolicy      *bool                           `json:"enablePodSecurityPolicy,omitempty"`
 	EnableRBAC                   *bool                           `json:"enableRBAC,omitempty"`
 	ExtendedLocation             *ExtendedLocation               `json:"extendedLocation,omitempty"`
-	Fqdn                         *string                         `json:"fqdn,omitempty"`
 	FqdnSubdomain                *string                         `json:"fqdnSubdomain,omitempty"`
 	HttpProxyConfig              *ManagedClusterHTTPProxyConfig  `json:"httpProxyConfig,omitempty"`
-	Id                           *string                         `json:"id,omitempty"`
 	Identity                     *ManagedClusterIdentity         `json:"identity,omitempty"`
 	IdentityProfile              *v1.JSON                        `json:"identityProfile,omitempty"`
 	KubernetesVersion            *string                         `json:"kubernetesVersion,omitempty"`
 	LinuxProfile                 *ContainerServiceLinuxProfile   `json:"linuxProfile,omitempty"`
 	Location                     *string                         `json:"location,omitempty"`
-	MaxAgentPools                *int                            `json:"maxAgentPools,omitempty"`
 	NetworkProfile               *ContainerServiceNetworkProfile `json:"networkProfile,omitempty"`
 	NodeResourceGroup            *string                         `json:"nodeResourceGroup,omitempty"`
 	OriginalVersion              string                          `json:"originalVersion,omitempty"`
@@ -955,15 +951,11 @@ type ManagedCluster_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner                   *genruntime.KnownResourceReference     `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PodIdentityProfile      *ManagedClusterPodIdentityProfile      `json:"podIdentityProfile,omitempty"`
-	PowerState              *PowerState                            `json:"powerState,omitempty"`
-	PrivateFQDN             *string                                `json:"privateFQDN,omitempty"`
 	PrivateLinkResources    []PrivateLinkResource                  `json:"privateLinkResources,omitempty"`
 	PropertyBag             genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
-	ProvisioningState       *string                                `json:"provisioningState,omitempty"`
 	ServicePrincipalProfile *ManagedClusterServicePrincipalProfile `json:"servicePrincipalProfile,omitempty"`
 	Sku                     *ManagedClusterSKU                     `json:"sku,omitempty"`
 	Tags                    map[string]string                      `json:"tags,omitempty"`
-	Type                    *string                                `json:"type,omitempty"`
 	WindowsProfile          *ManagedClusterWindowsProfile          `json:"windowsProfile,omitempty"`
 }
 
@@ -1099,9 +1091,6 @@ func (cluster *ManagedCluster_Spec) AssignPropertiesFromManagedCluster_Spec(sour
 	// AzureName
 	cluster.AzureName = source.AzureName
 
-	// AzurePortalFQDN
-	cluster.AzurePortalFQDN = genruntime.ClonePointerToString(source.AzurePortalFQDN)
-
 	// DisableLocalAccounts
 	if source.DisableLocalAccounts != nil {
 		disableLocalAccount := *source.DisableLocalAccounts
@@ -1149,9 +1138,6 @@ func (cluster *ManagedCluster_Spec) AssignPropertiesFromManagedCluster_Spec(sour
 		cluster.ExtendedLocation = nil
 	}
 
-	// Fqdn
-	cluster.Fqdn = genruntime.ClonePointerToString(source.Fqdn)
-
 	// FqdnSubdomain
 	cluster.FqdnSubdomain = genruntime.ClonePointerToString(source.FqdnSubdomain)
 
@@ -1166,9 +1152,6 @@ func (cluster *ManagedCluster_Spec) AssignPropertiesFromManagedCluster_Spec(sour
 	} else {
 		cluster.HttpProxyConfig = nil
 	}
-
-	// Id
-	cluster.Id = genruntime.ClonePointerToString(source.Id)
 
 	// Identity
 	if source.Identity != nil {
@@ -1208,9 +1191,6 @@ func (cluster *ManagedCluster_Spec) AssignPropertiesFromManagedCluster_Spec(sour
 	// Location
 	cluster.Location = genruntime.ClonePointerToString(source.Location)
 
-	// MaxAgentPools
-	cluster.MaxAgentPools = genruntime.ClonePointerToInt(source.MaxAgentPools)
-
 	// NetworkProfile
 	if source.NetworkProfile != nil {
 		var networkProfile ContainerServiceNetworkProfile
@@ -1249,21 +1229,6 @@ func (cluster *ManagedCluster_Spec) AssignPropertiesFromManagedCluster_Spec(sour
 		cluster.PodIdentityProfile = nil
 	}
 
-	// PowerState
-	if source.PowerState != nil {
-		var powerState PowerState
-		err := powerState.AssignPropertiesFromPowerState(source.PowerState)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromPowerState() to populate field PowerState")
-		}
-		cluster.PowerState = &powerState
-	} else {
-		cluster.PowerState = nil
-	}
-
-	// PrivateFQDN
-	cluster.PrivateFQDN = genruntime.ClonePointerToString(source.PrivateFQDN)
-
 	// PrivateLinkResources
 	if source.PrivateLinkResources != nil {
 		privateLinkResourceList := make([]PrivateLinkResource, len(source.PrivateLinkResources))
@@ -1281,9 +1246,6 @@ func (cluster *ManagedCluster_Spec) AssignPropertiesFromManagedCluster_Spec(sour
 	} else {
 		cluster.PrivateLinkResources = nil
 	}
-
-	// ProvisioningState
-	cluster.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// ServicePrincipalProfile
 	if source.ServicePrincipalProfile != nil {
@@ -1311,9 +1273,6 @@ func (cluster *ManagedCluster_Spec) AssignPropertiesFromManagedCluster_Spec(sour
 
 	// Tags
 	cluster.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	cluster.Type = genruntime.ClonePointerToString(source.Type)
 
 	// WindowsProfile
 	if source.WindowsProfile != nil {
@@ -1420,9 +1379,6 @@ func (cluster *ManagedCluster_Spec) AssignPropertiesToManagedCluster_Spec(destin
 	// AzureName
 	destination.AzureName = cluster.AzureName
 
-	// AzurePortalFQDN
-	destination.AzurePortalFQDN = genruntime.ClonePointerToString(cluster.AzurePortalFQDN)
-
 	// DisableLocalAccounts
 	if cluster.DisableLocalAccounts != nil {
 		disableLocalAccount := *cluster.DisableLocalAccounts
@@ -1470,9 +1426,6 @@ func (cluster *ManagedCluster_Spec) AssignPropertiesToManagedCluster_Spec(destin
 		destination.ExtendedLocation = nil
 	}
 
-	// Fqdn
-	destination.Fqdn = genruntime.ClonePointerToString(cluster.Fqdn)
-
 	// FqdnSubdomain
 	destination.FqdnSubdomain = genruntime.ClonePointerToString(cluster.FqdnSubdomain)
 
@@ -1487,9 +1440,6 @@ func (cluster *ManagedCluster_Spec) AssignPropertiesToManagedCluster_Spec(destin
 	} else {
 		destination.HttpProxyConfig = nil
 	}
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(cluster.Id)
 
 	// Identity
 	if cluster.Identity != nil {
@@ -1529,9 +1479,6 @@ func (cluster *ManagedCluster_Spec) AssignPropertiesToManagedCluster_Spec(destin
 	// Location
 	destination.Location = genruntime.ClonePointerToString(cluster.Location)
 
-	// MaxAgentPools
-	destination.MaxAgentPools = genruntime.ClonePointerToInt(cluster.MaxAgentPools)
-
 	// NetworkProfile
 	if cluster.NetworkProfile != nil {
 		var networkProfile v20210501s.ContainerServiceNetworkProfile
@@ -1570,21 +1517,6 @@ func (cluster *ManagedCluster_Spec) AssignPropertiesToManagedCluster_Spec(destin
 		destination.PodIdentityProfile = nil
 	}
 
-	// PowerState
-	if cluster.PowerState != nil {
-		var powerState v20210501s.PowerState
-		err := cluster.PowerState.AssignPropertiesToPowerState(&powerState)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToPowerState() to populate field PowerState")
-		}
-		destination.PowerState = &powerState
-	} else {
-		destination.PowerState = nil
-	}
-
-	// PrivateFQDN
-	destination.PrivateFQDN = genruntime.ClonePointerToString(cluster.PrivateFQDN)
-
 	// PrivateLinkResources
 	if cluster.PrivateLinkResources != nil {
 		privateLinkResourceList := make([]v20210501s.PrivateLinkResource, len(cluster.PrivateLinkResources))
@@ -1602,9 +1534,6 @@ func (cluster *ManagedCluster_Spec) AssignPropertiesToManagedCluster_Spec(destin
 	} else {
 		destination.PrivateLinkResources = nil
 	}
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(cluster.ProvisioningState)
 
 	// ServicePrincipalProfile
 	if cluster.ServicePrincipalProfile != nil {
@@ -1632,9 +1561,6 @@ func (cluster *ManagedCluster_Spec) AssignPropertiesToManagedCluster_Spec(destin
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(cluster.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(cluster.Type)
 
 	// WindowsProfile
 	if cluster.WindowsProfile != nil {
@@ -2560,7 +2486,6 @@ type ManagedClusterAgentPoolProfile struct {
 	MinCount                      *int                          `json:"minCount,omitempty"`
 	Mode                          *string                       `json:"mode,omitempty"`
 	Name                          *string                       `json:"name,omitempty"`
-	NodeImageVersion              *string                       `json:"nodeImageVersion,omitempty"`
 	NodeLabels                    map[string]string             `json:"nodeLabels,omitempty"`
 	NodePublicIPPrefixIDReference *genruntime.ResourceReference `armReference:"NodePublicIPPrefixID" json:"nodePublicIPPrefixIDReference,omitempty"`
 	NodeTaints                    []string                      `json:"nodeTaints,omitempty"`
@@ -2570,9 +2495,7 @@ type ManagedClusterAgentPoolProfile struct {
 	OsSKU                         *string                       `json:"osSKU,omitempty"`
 	OsType                        *string                       `json:"osType,omitempty"`
 	PodSubnetIDReference          *genruntime.ResourceReference `armReference:"PodSubnetID" json:"podSubnetIDReference,omitempty"`
-	PowerState                    *PowerState                   `json:"powerState,omitempty"`
 	PropertyBag                   genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	ProvisioningState             *string                       `json:"provisioningState,omitempty"`
 	ProximityPlacementGroupID     *string                       `json:"proximityPlacementGroupID,omitempty"`
 	ScaleSetEvictionPolicy        *string                       `json:"scaleSetEvictionPolicy,omitempty"`
 	ScaleSetPriority              *string                       `json:"scaleSetPriority,omitempty"`
@@ -2680,9 +2603,6 @@ func (profile *ManagedClusterAgentPoolProfile) AssignPropertiesFromManagedCluste
 	// Name
 	profile.Name = genruntime.ClonePointerToString(source.Name)
 
-	// NodeImageVersion
-	profile.NodeImageVersion = genruntime.ClonePointerToString(source.NodeImageVersion)
-
 	// NodeLabels
 	profile.NodeLabels = genruntime.CloneMapOfStringToString(source.NodeLabels)
 
@@ -2719,21 +2639,6 @@ func (profile *ManagedClusterAgentPoolProfile) AssignPropertiesFromManagedCluste
 	} else {
 		profile.PodSubnetIDReference = nil
 	}
-
-	// PowerState
-	if source.PowerState != nil {
-		var powerState PowerState
-		err := powerState.AssignPropertiesFromPowerState(source.PowerState)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromPowerState() to populate field PowerState")
-		}
-		profile.PowerState = &powerState
-	} else {
-		profile.PowerState = nil
-	}
-
-	// ProvisioningState
-	profile.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// ProximityPlacementGroupID
 	profile.ProximityPlacementGroupID = genruntime.ClonePointerToString(source.ProximityPlacementGroupID)
@@ -2888,9 +2793,6 @@ func (profile *ManagedClusterAgentPoolProfile) AssignPropertiesToManagedClusterA
 	// Name
 	destination.Name = genruntime.ClonePointerToString(profile.Name)
 
-	// NodeImageVersion
-	destination.NodeImageVersion = genruntime.ClonePointerToString(profile.NodeImageVersion)
-
 	// NodeLabels
 	destination.NodeLabels = genruntime.CloneMapOfStringToString(profile.NodeLabels)
 
@@ -2927,21 +2829,6 @@ func (profile *ManagedClusterAgentPoolProfile) AssignPropertiesToManagedClusterA
 	} else {
 		destination.PodSubnetIDReference = nil
 	}
-
-	// PowerState
-	if profile.PowerState != nil {
-		var powerState v20210501s.PowerState
-		err := profile.PowerState.AssignPropertiesToPowerState(&powerState)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToPowerState() to populate field PowerState")
-		}
-		destination.PowerState = &powerState
-	} else {
-		destination.PowerState = nil
-	}
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(profile.ProvisioningState)
 
 	// ProximityPlacementGroupID
 	destination.ProximityPlacementGroupID = genruntime.ClonePointerToString(profile.ProximityPlacementGroupID)
@@ -3654,11 +3541,8 @@ func (config *ManagedClusterHTTPProxyConfig_STATUS) AssignPropertiesToManagedClu
 // Storage version of v1alpha1api20210501.ManagedClusterIdentity
 // Deprecated version of ManagedClusterIdentity. Use v1beta20210501.ManagedClusterIdentity instead
 type ManagedClusterIdentity struct {
-	PrincipalId            *string                                                  `json:"principalId,omitempty"`
-	PropertyBag            genruntime.PropertyBag                                   `json:"$propertyBag,omitempty"`
-	TenantId               *string                                                  `json:"tenantId,omitempty"`
-	Type                   *string                                                  `json:"type,omitempty"`
-	UserAssignedIdentities map[string]ManagedClusterIdentity_UserAssignedIdentities `json:"userAssignedIdentities,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Type        *string                `json:"type,omitempty"`
 }
 
 // AssignPropertiesFromManagedClusterIdentity populates our ManagedClusterIdentity from the provided source ManagedClusterIdentity
@@ -3666,32 +3550,8 @@ func (identity *ManagedClusterIdentity) AssignPropertiesFromManagedClusterIdenti
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// PrincipalId
-	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// TenantId
-	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
-
 	// Type
 	identity.Type = genruntime.ClonePointerToString(source.Type)
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]ManagedClusterIdentity_UserAssignedIdentities, len(source.UserAssignedIdentities))
-		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity ManagedClusterIdentity_UserAssignedIdentities
-			err := userAssignedIdentity.AssignPropertiesFromManagedClusterIdentity_UserAssignedIdentities(&userAssignedIdentityValue)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromManagedClusterIdentity_UserAssignedIdentities() to populate field UserAssignedIdentities")
-			}
-			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
-		}
-		identity.UserAssignedIdentities = userAssignedIdentityMap
-	} else {
-		identity.UserAssignedIdentities = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -3709,32 +3569,8 @@ func (identity *ManagedClusterIdentity) AssignPropertiesToManagedClusterIdentity
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
 
-	// PrincipalId
-	destination.PrincipalId = genruntime.ClonePointerToString(identity.PrincipalId)
-
-	// TenantId
-	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
-
 	// Type
 	destination.Type = genruntime.ClonePointerToString(identity.Type)
-
-	// UserAssignedIdentities
-	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v20210501s.ManagedClusterIdentity_UserAssignedIdentities, len(identity.UserAssignedIdentities))
-		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
-			var userAssignedIdentity v20210501s.ManagedClusterIdentity_UserAssignedIdentities
-			err := userAssignedIdentityValue.AssignPropertiesToManagedClusterIdentity_UserAssignedIdentities(&userAssignedIdentity)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToManagedClusterIdentity_UserAssignedIdentities() to populate field UserAssignedIdentities")
-			}
-			userAssignedIdentityMap[userAssignedIdentityKey] = userAssignedIdentity
-		}
-		destination.UserAssignedIdentities = userAssignedIdentityMap
-	} else {
-		destination.UserAssignedIdentities = nil
-	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -4809,51 +4645,6 @@ func (profile *ManagedClusterWindowsProfile_STATUS) AssignPropertiesToManagedClu
 	return nil
 }
 
-// Storage version of v1alpha1api20210501.PowerState
-// Deprecated version of PowerState. Use v1beta20210501.PowerState instead
-type PowerState struct {
-	Code        *string                `json:"code,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// AssignPropertiesFromPowerState populates our PowerState from the provided source PowerState
-func (state *PowerState) AssignPropertiesFromPowerState(source *v20210501s.PowerState) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Code
-	state.Code = genruntime.ClonePointerToString(source.Code)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		state.PropertyBag = propertyBag
-	} else {
-		state.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToPowerState populates the provided destination PowerState from our PowerState
-func (state *PowerState) AssignPropertiesToPowerState(destination *v20210501s.PowerState) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(state.PropertyBag)
-
-	// Code
-	destination.Code = genruntime.ClonePointerToString(state.Code)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Storage version of v1alpha1api20210501.PowerState_STATUS
 // Deprecated version of PowerState_STATUS. Use v1beta20210501.PowerState_STATUS instead
 type PowerState_STATUS struct {
@@ -4902,13 +4693,12 @@ func (state *PowerState_STATUS) AssignPropertiesToPowerState_STATUS(destination 
 // Storage version of v1alpha1api20210501.PrivateLinkResource
 // Deprecated version of PrivateLinkResource. Use v1beta20210501.PrivateLinkResource instead
 type PrivateLinkResource struct {
-	GroupId              *string                       `json:"groupId,omitempty"`
-	Name                 *string                       `json:"name,omitempty"`
-	PrivateLinkServiceID *string                       `json:"privateLinkServiceID,omitempty"`
-	PropertyBag          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
-	Reference            *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
-	RequiredMembers      []string                      `json:"requiredMembers,omitempty"`
-	Type                 *string                       `json:"type,omitempty"`
+	GroupId         *string                       `json:"groupId,omitempty"`
+	Name            *string                       `json:"name,omitempty"`
+	PropertyBag     genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Reference       *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	RequiredMembers []string                      `json:"requiredMembers,omitempty"`
+	Type            *string                       `json:"type,omitempty"`
 }
 
 // AssignPropertiesFromPrivateLinkResource populates our PrivateLinkResource from the provided source PrivateLinkResource
@@ -4921,9 +4711,6 @@ func (resource *PrivateLinkResource) AssignPropertiesFromPrivateLinkResource(sou
 
 	// Name
 	resource.Name = genruntime.ClonePointerToString(source.Name)
-
-	// PrivateLinkServiceID
-	resource.PrivateLinkServiceID = genruntime.ClonePointerToString(source.PrivateLinkServiceID)
 
 	// Reference
 	if source.Reference != nil {
@@ -4960,9 +4747,6 @@ func (resource *PrivateLinkResource) AssignPropertiesToPrivateLinkResource(desti
 
 	// Name
 	destination.Name = genruntime.ClonePointerToString(resource.Name)
-
-	// PrivateLinkServiceID
-	destination.PrivateLinkServiceID = genruntime.ClonePointerToString(resource.PrivateLinkServiceID)
 
 	// Reference
 	if resource.Reference != nil {
@@ -5207,58 +4991,6 @@ func (configuration *ContainerServiceSshConfiguration_STATUS) AssignPropertiesTo
 	} else {
 		destination.PublicKeys = nil
 	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20210501.ManagedClusterIdentity_UserAssignedIdentities
-// Deprecated version of ManagedClusterIdentity_UserAssignedIdentities. Use v1beta20210501.ManagedClusterIdentity_UserAssignedIdentities instead
-type ManagedClusterIdentity_UserAssignedIdentities struct {
-	ClientId    *string                `json:"clientId,omitempty"`
-	PrincipalId *string                `json:"principalId,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// AssignPropertiesFromManagedClusterIdentity_UserAssignedIdentities populates our ManagedClusterIdentity_UserAssignedIdentities from the provided source ManagedClusterIdentity_UserAssignedIdentities
-func (identities *ManagedClusterIdentity_UserAssignedIdentities) AssignPropertiesFromManagedClusterIdentity_UserAssignedIdentities(source *v20210501s.ManagedClusterIdentity_UserAssignedIdentities) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// ClientId
-	identities.ClientId = genruntime.ClonePointerToString(source.ClientId)
-
-	// PrincipalId
-	identities.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		identities.PropertyBag = propertyBag
-	} else {
-		identities.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToManagedClusterIdentity_UserAssignedIdentities populates the provided destination ManagedClusterIdentity_UserAssignedIdentities from our ManagedClusterIdentity_UserAssignedIdentities
-func (identities *ManagedClusterIdentity_UserAssignedIdentities) AssignPropertiesToManagedClusterIdentity_UserAssignedIdentities(destination *v20210501s.ManagedClusterIdentity_UserAssignedIdentities) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(identities.PropertyBag)
-
-	// ClientId
-	destination.ClientId = genruntime.ClonePointerToString(identities.ClientId)
-
-	// PrincipalId
-	destination.PrincipalId = genruntime.ClonePointerToString(identities.PrincipalId)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -5654,13 +5386,11 @@ func (profile *ManagedClusterLoadBalancerProfile_STATUS) AssignPropertiesToManag
 // Storage version of v1alpha1api20210501.ManagedClusterPodIdentity
 // Deprecated version of ManagedClusterPodIdentity. Use v1beta20210501.ManagedClusterPodIdentity instead
 type ManagedClusterPodIdentity struct {
-	BindingSelector   *string                                     `json:"bindingSelector,omitempty"`
-	Identity          *UserAssignedIdentity                       `json:"identity,omitempty"`
-	Name              *string                                     `json:"name,omitempty"`
-	Namespace         *string                                     `json:"namespace,omitempty"`
-	PropertyBag       genruntime.PropertyBag                      `json:"$propertyBag,omitempty"`
-	ProvisioningInfo  *ManagedClusterPodIdentity_ProvisioningInfo `json:"provisioningInfo,omitempty"`
-	ProvisioningState *string                                     `json:"provisioningState,omitempty"`
+	BindingSelector *string                `json:"bindingSelector,omitempty"`
+	Identity        *UserAssignedIdentity  `json:"identity,omitempty"`
+	Name            *string                `json:"name,omitempty"`
+	Namespace       *string                `json:"namespace,omitempty"`
+	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // AssignPropertiesFromManagedClusterPodIdentity populates our ManagedClusterPodIdentity from the provided source ManagedClusterPodIdentity
@@ -5688,21 +5418,6 @@ func (identity *ManagedClusterPodIdentity) AssignPropertiesFromManagedClusterPod
 
 	// Namespace
 	identity.Namespace = genruntime.ClonePointerToString(source.Namespace)
-
-	// ProvisioningInfo
-	if source.ProvisioningInfo != nil {
-		var provisioningInfo ManagedClusterPodIdentity_ProvisioningInfo
-		err := provisioningInfo.AssignPropertiesFromManagedClusterPodIdentity_ProvisioningInfo(source.ProvisioningInfo)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromManagedClusterPodIdentity_ProvisioningInfo() to populate field ProvisioningInfo")
-		}
-		identity.ProvisioningInfo = &provisioningInfo
-	} else {
-		identity.ProvisioningInfo = nil
-	}
-
-	// ProvisioningState
-	identity.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -5740,21 +5455,6 @@ func (identity *ManagedClusterPodIdentity) AssignPropertiesToManagedClusterPodId
 
 	// Namespace
 	destination.Namespace = genruntime.ClonePointerToString(identity.Namespace)
-
-	// ProvisioningInfo
-	if identity.ProvisioningInfo != nil {
-		var provisioningInfo v20210501s.ManagedClusterPodIdentity_ProvisioningInfo
-		err := identity.ProvisioningInfo.AssignPropertiesToManagedClusterPodIdentity_ProvisioningInfo(&provisioningInfo)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToManagedClusterPodIdentity_ProvisioningInfo() to populate field ProvisioningInfo")
-		}
-		destination.ProvisioningInfo = &provisioningInfo
-	} else {
-		destination.ProvisioningInfo = nil
-	}
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(identity.ProvisioningState)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -6481,69 +6181,6 @@ func (iPs *ManagedClusterLoadBalancerProfile_OutboundIPs_STATUS) AssignPropertie
 	return nil
 }
 
-// Storage version of v1alpha1api20210501.ManagedClusterPodIdentity_ProvisioningInfo
-// Deprecated version of ManagedClusterPodIdentity_ProvisioningInfo. Use v1beta20210501.ManagedClusterPodIdentity_ProvisioningInfo instead
-type ManagedClusterPodIdentity_ProvisioningInfo struct {
-	Error       *ManagedClusterPodIdentityProvisioningError `json:"error,omitempty"`
-	PropertyBag genruntime.PropertyBag                      `json:"$propertyBag,omitempty"`
-}
-
-// AssignPropertiesFromManagedClusterPodIdentity_ProvisioningInfo populates our ManagedClusterPodIdentity_ProvisioningInfo from the provided source ManagedClusterPodIdentity_ProvisioningInfo
-func (info *ManagedClusterPodIdentity_ProvisioningInfo) AssignPropertiesFromManagedClusterPodIdentity_ProvisioningInfo(source *v20210501s.ManagedClusterPodIdentity_ProvisioningInfo) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Error
-	if source.Error != nil {
-		var error ManagedClusterPodIdentityProvisioningError
-		err := error.AssignPropertiesFromManagedClusterPodIdentityProvisioningError(source.Error)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromManagedClusterPodIdentityProvisioningError() to populate field Error")
-		}
-		info.Error = &error
-	} else {
-		info.Error = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		info.PropertyBag = propertyBag
-	} else {
-		info.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToManagedClusterPodIdentity_ProvisioningInfo populates the provided destination ManagedClusterPodIdentity_ProvisioningInfo from our ManagedClusterPodIdentity_ProvisioningInfo
-func (info *ManagedClusterPodIdentity_ProvisioningInfo) AssignPropertiesToManagedClusterPodIdentity_ProvisioningInfo(destination *v20210501s.ManagedClusterPodIdentity_ProvisioningInfo) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(info.PropertyBag)
-
-	// Error
-	if info.Error != nil {
-		var error v20210501s.ManagedClusterPodIdentityProvisioningError
-		err := info.Error.AssignPropertiesToManagedClusterPodIdentityProvisioningError(&error)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToManagedClusterPodIdentityProvisioningError() to populate field Error")
-		}
-		destination.Error = &error
-	} else {
-		destination.Error = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Storage version of v1alpha1api20210501.ManagedClusterPodIdentity_ProvisioningInfo_STATUS
 // Deprecated version of ManagedClusterPodIdentity_ProvisioningInfo_STATUS. Use v1beta20210501.ManagedClusterPodIdentity_ProvisioningInfo_STATUS instead
 type ManagedClusterPodIdentity_ProvisioningInfo_STATUS struct {
@@ -6835,69 +6472,6 @@ func (identity *UserAssignedIdentity_STATUS) AssignPropertiesToUserAssignedIdent
 	return nil
 }
 
-// Storage version of v1alpha1api20210501.ManagedClusterPodIdentityProvisioningError
-// Deprecated version of ManagedClusterPodIdentityProvisioningError. Use v1beta20210501.ManagedClusterPodIdentityProvisioningError instead
-type ManagedClusterPodIdentityProvisioningError struct {
-	Error       *ManagedClusterPodIdentityProvisioningErrorBody `json:"error,omitempty"`
-	PropertyBag genruntime.PropertyBag                          `json:"$propertyBag,omitempty"`
-}
-
-// AssignPropertiesFromManagedClusterPodIdentityProvisioningError populates our ManagedClusterPodIdentityProvisioningError from the provided source ManagedClusterPodIdentityProvisioningError
-func (error *ManagedClusterPodIdentityProvisioningError) AssignPropertiesFromManagedClusterPodIdentityProvisioningError(source *v20210501s.ManagedClusterPodIdentityProvisioningError) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Error
-	if source.Error != nil {
-		var errorLocal ManagedClusterPodIdentityProvisioningErrorBody
-		err := errorLocal.AssignPropertiesFromManagedClusterPodIdentityProvisioningErrorBody(source.Error)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromManagedClusterPodIdentityProvisioningErrorBody() to populate field Error")
-		}
-		error.Error = &errorLocal
-	} else {
-		error.Error = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		error.PropertyBag = propertyBag
-	} else {
-		error.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToManagedClusterPodIdentityProvisioningError populates the provided destination ManagedClusterPodIdentityProvisioningError from our ManagedClusterPodIdentityProvisioningError
-func (error *ManagedClusterPodIdentityProvisioningError) AssignPropertiesToManagedClusterPodIdentityProvisioningError(destination *v20210501s.ManagedClusterPodIdentityProvisioningError) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(error.PropertyBag)
-
-	// Error
-	if error.Error != nil {
-		var errorLocal v20210501s.ManagedClusterPodIdentityProvisioningErrorBody
-		err := error.Error.AssignPropertiesToManagedClusterPodIdentityProvisioningErrorBody(&errorLocal)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToManagedClusterPodIdentityProvisioningErrorBody() to populate field Error")
-		}
-		destination.Error = &errorLocal
-	} else {
-		destination.Error = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // Storage version of v1alpha1api20210501.ManagedClusterPodIdentityProvisioningError_STATUS
 // Deprecated version of ManagedClusterPodIdentityProvisioningError_STATUS. Use v1beta20210501.ManagedClusterPodIdentityProvisioningError_STATUS instead
 type ManagedClusterPodIdentityProvisioningError_STATUS struct {
@@ -6949,102 +6523,6 @@ func (error *ManagedClusterPodIdentityProvisioningError_STATUS) AssignProperties
 	} else {
 		destination.Error = nil
 	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20210501.ManagedClusterPodIdentityProvisioningErrorBody
-// Deprecated version of ManagedClusterPodIdentityProvisioningErrorBody. Use v1beta20210501.ManagedClusterPodIdentityProvisioningErrorBody instead
-type ManagedClusterPodIdentityProvisioningErrorBody struct {
-	Code        *string                                                   `json:"code,omitempty"`
-	Details     []ManagedClusterPodIdentityProvisioningErrorBody_Unrolled `json:"details,omitempty"`
-	Message     *string                                                   `json:"message,omitempty"`
-	PropertyBag genruntime.PropertyBag                                    `json:"$propertyBag,omitempty"`
-	Target      *string                                                   `json:"target,omitempty"`
-}
-
-// AssignPropertiesFromManagedClusterPodIdentityProvisioningErrorBody populates our ManagedClusterPodIdentityProvisioningErrorBody from the provided source ManagedClusterPodIdentityProvisioningErrorBody
-func (body *ManagedClusterPodIdentityProvisioningErrorBody) AssignPropertiesFromManagedClusterPodIdentityProvisioningErrorBody(source *v20210501s.ManagedClusterPodIdentityProvisioningErrorBody) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Code
-	body.Code = genruntime.ClonePointerToString(source.Code)
-
-	// Details
-	if source.Details != nil {
-		detailList := make([]ManagedClusterPodIdentityProvisioningErrorBody_Unrolled, len(source.Details))
-		for detailIndex, detailItem := range source.Details {
-			// Shadow the loop variable to avoid aliasing
-			detailItem := detailItem
-			var detail ManagedClusterPodIdentityProvisioningErrorBody_Unrolled
-			err := detail.AssignPropertiesFromManagedClusterPodIdentityProvisioningErrorBody_Unrolled(&detailItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromManagedClusterPodIdentityProvisioningErrorBody_Unrolled() to populate field Details")
-			}
-			detailList[detailIndex] = detail
-		}
-		body.Details = detailList
-	} else {
-		body.Details = nil
-	}
-
-	// Message
-	body.Message = genruntime.ClonePointerToString(source.Message)
-
-	// Target
-	body.Target = genruntime.ClonePointerToString(source.Target)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		body.PropertyBag = propertyBag
-	} else {
-		body.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToManagedClusterPodIdentityProvisioningErrorBody populates the provided destination ManagedClusterPodIdentityProvisioningErrorBody from our ManagedClusterPodIdentityProvisioningErrorBody
-func (body *ManagedClusterPodIdentityProvisioningErrorBody) AssignPropertiesToManagedClusterPodIdentityProvisioningErrorBody(destination *v20210501s.ManagedClusterPodIdentityProvisioningErrorBody) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(body.PropertyBag)
-
-	// Code
-	destination.Code = genruntime.ClonePointerToString(body.Code)
-
-	// Details
-	if body.Details != nil {
-		detailList := make([]v20210501s.ManagedClusterPodIdentityProvisioningErrorBody_Unrolled, len(body.Details))
-		for detailIndex, detailItem := range body.Details {
-			// Shadow the loop variable to avoid aliasing
-			detailItem := detailItem
-			var detail v20210501s.ManagedClusterPodIdentityProvisioningErrorBody_Unrolled
-			err := detailItem.AssignPropertiesToManagedClusterPodIdentityProvisioningErrorBody_Unrolled(&detail)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToManagedClusterPodIdentityProvisioningErrorBody_Unrolled() to populate field Details")
-			}
-			detailList[detailIndex] = detail
-		}
-		destination.Details = detailList
-	} else {
-		destination.Details = nil
-	}
-
-	// Message
-	destination.Message = genruntime.ClonePointerToString(body.Message)
-
-	// Target
-	destination.Target = genruntime.ClonePointerToString(body.Target)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -7189,65 +6667,6 @@ func (unrolled *ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled) 
 
 // AssignPropertiesToManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled populates the provided destination ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled from our ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled
 func (unrolled *ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled) AssignPropertiesToManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled(destination *v20210501s.ManagedClusterPodIdentityProvisioningErrorBody_STATUS_Unrolled) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(unrolled.PropertyBag)
-
-	// Code
-	destination.Code = genruntime.ClonePointerToString(unrolled.Code)
-
-	// Message
-	destination.Message = genruntime.ClonePointerToString(unrolled.Message)
-
-	// Target
-	destination.Target = genruntime.ClonePointerToString(unrolled.Target)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20210501.ManagedClusterPodIdentityProvisioningErrorBody_Unrolled
-// Deprecated version of ManagedClusterPodIdentityProvisioningErrorBody_Unrolled. Use v1beta20210501.ManagedClusterPodIdentityProvisioningErrorBody_Unrolled instead
-type ManagedClusterPodIdentityProvisioningErrorBody_Unrolled struct {
-	Code        *string                `json:"code,omitempty"`
-	Message     *string                `json:"message,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Target      *string                `json:"target,omitempty"`
-}
-
-// AssignPropertiesFromManagedClusterPodIdentityProvisioningErrorBody_Unrolled populates our ManagedClusterPodIdentityProvisioningErrorBody_Unrolled from the provided source ManagedClusterPodIdentityProvisioningErrorBody_Unrolled
-func (unrolled *ManagedClusterPodIdentityProvisioningErrorBody_Unrolled) AssignPropertiesFromManagedClusterPodIdentityProvisioningErrorBody_Unrolled(source *v20210501s.ManagedClusterPodIdentityProvisioningErrorBody_Unrolled) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Code
-	unrolled.Code = genruntime.ClonePointerToString(source.Code)
-
-	// Message
-	unrolled.Message = genruntime.ClonePointerToString(source.Message)
-
-	// Target
-	unrolled.Target = genruntime.ClonePointerToString(source.Target)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		unrolled.PropertyBag = propertyBag
-	} else {
-		unrolled.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToManagedClusterPodIdentityProvisioningErrorBody_Unrolled populates the provided destination ManagedClusterPodIdentityProvisioningErrorBody_Unrolled from our ManagedClusterPodIdentityProvisioningErrorBody_Unrolled
-func (unrolled *ManagedClusterPodIdentityProvisioningErrorBody_Unrolled) AssignPropertiesToManagedClusterPodIdentityProvisioningErrorBody_Unrolled(destination *v20210501s.ManagedClusterPodIdentityProvisioningErrorBody_Unrolled) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(unrolled.PropertyBag)
 

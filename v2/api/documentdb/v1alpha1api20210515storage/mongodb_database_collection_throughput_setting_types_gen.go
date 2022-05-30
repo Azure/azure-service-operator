@@ -359,7 +359,6 @@ type DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string  `json:"azureName,omitempty"`
-	Id              *string `json:"id,omitempty"`
 	Location        *string `json:"location,omitempty"`
 	OriginalVersion string  `json:"originalVersion,omitempty"`
 
@@ -371,7 +370,6 @@ type DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec struct {
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Resource    *ThroughputSettingsResource        `json:"resource,omitempty"`
 	Tags        map[string]string                  `json:"tags,omitempty"`
-	Type        *string                            `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec{}
@@ -432,9 +430,6 @@ func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec
 	// AzureName
 	setting.AzureName = source.AzureName
 
-	// Id
-	setting.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Location
 	setting.Location = genruntime.ClonePointerToString(source.Location)
 
@@ -464,9 +459,6 @@ func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec
 	// Tags
 	setting.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
-	// Type
-	setting.Type = genruntime.ClonePointerToString(source.Type)
-
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		setting.PropertyBag = propertyBag
@@ -485,9 +477,6 @@ func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec
 
 	// AzureName
 	destination.AzureName = setting.AzureName
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(setting.Id)
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(setting.Location)
@@ -517,9 +506,6 @@ func (setting *DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_Spec
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(setting.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(setting.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -650,11 +636,9 @@ func (resource *ThroughputSettingsGetProperties_Resource_STATUS) AssignPropertie
 // Storage version of v1alpha1api20210515.ThroughputSettingsResource
 // Deprecated version of ThroughputSettingsResource. Use v1beta20210515.ThroughputSettingsResource instead
 type ThroughputSettingsResource struct {
-	AutoscaleSettings   *AutoscaleSettingsResource `json:"autoscaleSettings,omitempty"`
-	MinimumThroughput   *string                    `json:"minimumThroughput,omitempty"`
-	OfferReplacePending *string                    `json:"offerReplacePending,omitempty"`
-	PropertyBag         genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
-	Throughput          *int                       `json:"throughput,omitempty"`
+	AutoscaleSettings *AutoscaleSettingsResource `json:"autoscaleSettings,omitempty"`
+	PropertyBag       genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
+	Throughput        *int                       `json:"throughput,omitempty"`
 }
 
 // AssignPropertiesFromThroughputSettingsResource populates our ThroughputSettingsResource from the provided source ThroughputSettingsResource
@@ -673,12 +657,6 @@ func (resource *ThroughputSettingsResource) AssignPropertiesFromThroughputSettin
 	} else {
 		resource.AutoscaleSettings = nil
 	}
-
-	// MinimumThroughput
-	resource.MinimumThroughput = genruntime.ClonePointerToString(source.MinimumThroughput)
-
-	// OfferReplacePending
-	resource.OfferReplacePending = genruntime.ClonePointerToString(source.OfferReplacePending)
 
 	// Throughput
 	resource.Throughput = genruntime.ClonePointerToInt(source.Throughput)
@@ -711,12 +689,6 @@ func (resource *ThroughputSettingsResource) AssignPropertiesToThroughputSettings
 		destination.AutoscaleSettings = nil
 	}
 
-	// MinimumThroughput
-	destination.MinimumThroughput = genruntime.ClonePointerToString(resource.MinimumThroughput)
-
-	// OfferReplacePending
-	destination.OfferReplacePending = genruntime.ClonePointerToString(resource.OfferReplacePending)
-
 	// Throughput
 	destination.Throughput = genruntime.ClonePointerToInt(resource.Throughput)
 
@@ -734,10 +706,9 @@ func (resource *ThroughputSettingsResource) AssignPropertiesToThroughputSettings
 // Storage version of v1alpha1api20210515.AutoscaleSettingsResource
 // Deprecated version of AutoscaleSettingsResource. Use v1beta20210515.AutoscaleSettingsResource instead
 type AutoscaleSettingsResource struct {
-	AutoUpgradePolicy   *AutoUpgradePolicyResource `json:"autoUpgradePolicy,omitempty"`
-	MaxThroughput       *int                       `json:"maxThroughput,omitempty"`
-	PropertyBag         genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
-	TargetMaxThroughput *int                       `json:"targetMaxThroughput,omitempty"`
+	AutoUpgradePolicy *AutoUpgradePolicyResource `json:"autoUpgradePolicy,omitempty"`
+	MaxThroughput     *int                       `json:"maxThroughput,omitempty"`
+	PropertyBag       genruntime.PropertyBag     `json:"$propertyBag,omitempty"`
 }
 
 // AssignPropertiesFromAutoscaleSettingsResource populates our AutoscaleSettingsResource from the provided source AutoscaleSettingsResource
@@ -759,9 +730,6 @@ func (resource *AutoscaleSettingsResource) AssignPropertiesFromAutoscaleSettings
 
 	// MaxThroughput
 	resource.MaxThroughput = genruntime.ClonePointerToInt(source.MaxThroughput)
-
-	// TargetMaxThroughput
-	resource.TargetMaxThroughput = genruntime.ClonePointerToInt(source.TargetMaxThroughput)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -793,9 +761,6 @@ func (resource *AutoscaleSettingsResource) AssignPropertiesToAutoscaleSettingsRe
 
 	// MaxThroughput
 	destination.MaxThroughput = genruntime.ClonePointerToInt(resource.MaxThroughput)
-
-	// TargetMaxThroughput
-	destination.TargetMaxThroughput = genruntime.ClonePointerToInt(resource.TargetMaxThroughput)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

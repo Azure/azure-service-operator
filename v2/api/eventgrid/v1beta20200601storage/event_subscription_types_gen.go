@@ -180,7 +180,6 @@ type EventSubscription_Spec struct {
 	EventDeliverySchema   *string                       `json:"eventDeliverySchema,omitempty"`
 	ExpirationTimeUtc     *string                       `json:"expirationTimeUtc,omitempty"`
 	Filter                *EventSubscriptionFilter      `json:"filter,omitempty"`
-	Id                    *string                       `json:"id,omitempty"`
 	Labels                []string                      `json:"labels,omitempty"`
 	OriginalVersion       string                        `json:"originalVersion,omitempty"`
 
@@ -188,13 +187,9 @@ type EventSubscription_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner             *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag       genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	ProvisioningState *string                            `json:"provisioningState,omitempty"`
-	RetryPolicy       *RetryPolicy                       `json:"retryPolicy,omitempty"`
-	SystemData        *SystemData                        `json:"systemData,omitempty"`
-	Topic             *string                            `json:"topic,omitempty"`
-	Type              *string                            `json:"type,omitempty"`
+	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	RetryPolicy *RetryPolicy                       `json:"retryPolicy,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &EventSubscription_Spec{}

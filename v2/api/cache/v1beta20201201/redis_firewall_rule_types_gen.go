@@ -514,10 +514,6 @@ type RedisFirewallRule_Spec struct {
 	// EndIP: highest IP address included in the range
 	EndIP *string `json:"endIP,omitempty"`
 
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -527,9 +523,6 @@ type RedisFirewallRule_Spec struct {
 	// +kubebuilder:validation:Required
 	// StartIP: lowest IP address included in the range
 	StartIP *string `json:"startIP,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &RedisFirewallRule_Spec{}
@@ -543,12 +536,6 @@ func (rule *RedisFirewallRule_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property ‘AzureName’:
 	result.AzureName = rule.AzureName
-
-	// Set property ‘Id’:
-	if rule.Id != nil {
-		id := *rule.Id
-		result.Id = &id
-	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -564,12 +551,6 @@ func (rule *RedisFirewallRule_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	if rule.StartIP != nil {
 		startIP := *rule.StartIP
 		result.Properties.StartIP = &startIP
-	}
-
-	// Set property ‘Type’:
-	if rule.Type != nil {
-		typeVar := *rule.Type
-		result.Type = &typeVar
 	}
 	return result, nil
 }
@@ -598,12 +579,6 @@ func (rule *RedisFirewallRule_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		rule.Id = &id
-	}
-
 	// Set property ‘Owner’:
 	rule.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
@@ -616,12 +591,6 @@ func (rule *RedisFirewallRule_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 			startIP := *typedInput.Properties.StartIP
 			rule.StartIP = &startIP
 		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		rule.Type = &typeVar
 	}
 
 	// No error
@@ -687,9 +656,6 @@ func (rule *RedisFirewallRule_Spec) AssignPropertiesFromRedisFirewallRule_Spec(s
 	// EndIP
 	rule.EndIP = genruntime.ClonePointerToString(source.EndIP)
 
-	// Id
-	rule.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -700,9 +666,6 @@ func (rule *RedisFirewallRule_Spec) AssignPropertiesFromRedisFirewallRule_Spec(s
 
 	// StartIP
 	rule.StartIP = genruntime.ClonePointerToString(source.StartIP)
-
-	// Type
-	rule.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -719,9 +682,6 @@ func (rule *RedisFirewallRule_Spec) AssignPropertiesToRedisFirewallRule_Spec(des
 	// EndIP
 	destination.EndIP = genruntime.ClonePointerToString(rule.EndIP)
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(rule.Id)
-
 	// OriginalVersion
 	destination.OriginalVersion = rule.OriginalVersion()
 
@@ -735,9 +695,6 @@ func (rule *RedisFirewallRule_Spec) AssignPropertiesToRedisFirewallRule_Spec(des
 
 	// StartIP
 	destination.StartIP = genruntime.ClonePointerToString(rule.StartIP)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(rule.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

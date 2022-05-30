@@ -39,9 +39,8 @@ func Test_MariaDB_Server_CRUD(t *testing.T) {
 			Location:  &location, // Can't do it in WestUS2
 			Owner:     testcommon.AsOwner(rg),
 			Properties: &mariadb.ServerPropertiesForCreate{
-				//TODO(donotmerge)
-				// AdministratorLogin:         to.StringPtr(adminUser),
-				// AdministratorLoginPassword: adminPasswordRef,
+				AdministratorLogin:         to.StringPtr(adminUser),
+				AdministratorLoginPassword: adminPasswordRef,
 				CreateMode:          &createMode,
 				PublicNetworkAccess: &networkAccess,
 				StorageProfile: &mariadb.StorageProfile{

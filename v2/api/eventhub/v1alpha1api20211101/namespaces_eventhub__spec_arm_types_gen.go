@@ -8,12 +8,8 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 // Deprecated version of NamespacesEventhub_Spec. Use v1beta20211101.NamespacesEventhub_Spec instead
 type NamespacesEventhub_SpecARM struct {
 	AzureName  string                                 `json:"azureName,omitempty"`
-	Id         *string                                `json:"id,omitempty"`
-	Location   *string                                `json:"location,omitempty"`
 	Name       string                                 `json:"name,omitempty"`
 	Properties *NamespacesEventhub_Spec_PropertiesARM `json:"properties,omitempty"`
-	SystemData *SystemDataARM                         `json:"systemData,omitempty"`
-	Type       *string                                `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &NamespacesEventhub_SpecARM{}
@@ -36,12 +32,9 @@ func (eventhub *NamespacesEventhub_SpecARM) GetType() string {
 // Deprecated version of NamespacesEventhub_Spec_Properties. Use v1beta20211101.NamespacesEventhub_Spec_Properties instead
 type NamespacesEventhub_Spec_PropertiesARM struct {
 	CaptureDescription     *CaptureDescriptionARM                     `json:"captureDescription,omitempty"`
-	CreatedAt              *string                                    `json:"createdAt,omitempty"`
 	MessageRetentionInDays *int                                       `json:"messageRetentionInDays,omitempty"`
 	PartitionCount         *int                                       `json:"partitionCount,omitempty"`
-	PartitionIds           []string                                   `json:"partitionIds,omitempty"`
 	Status                 *NamespacesEventhub_Spec_Properties_Status `json:"status,omitempty"`
-	UpdatedAt              *string                                    `json:"updatedAt,omitempty"`
 }
 
 // Deprecated version of CaptureDescription. Use v1beta20211101.CaptureDescription instead

@@ -169,7 +169,6 @@ type FlexibleServersFirewallRule_Spec struct {
 	// doesn't have to be.
 	AzureName       string  `json:"azureName,omitempty"`
 	EndIpAddress    *string `json:"endIpAddress,omitempty"`
-	Id              *string `json:"id,omitempty"`
 	OriginalVersion string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -179,8 +178,6 @@ type FlexibleServersFirewallRule_Spec struct {
 	Owner          *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag    genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	StartIpAddress *string                            `json:"startIpAddress,omitempty"`
-	SystemData     *SystemData                        `json:"systemData,omitempty"`
-	Type           *string                            `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &FlexibleServersFirewallRule_Spec{}

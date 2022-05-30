@@ -800,9 +800,6 @@ type EventSubscription_Spec struct {
 	// Filter: Information about the filter for the event subscription.
 	Filter *EventSubscriptionFilter `json:"filter,omitempty"`
 
-	// Id: Fully qualified identifier of the resource.
-	Id *string `json:"id,omitempty"`
-
 	// Labels: List of user defined labels.
 	Labels []string `json:"labels,omitempty"`
 
@@ -812,21 +809,9 @@ type EventSubscription_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
-	// ProvisioningState: Provisioning state of the event subscription.
-	ProvisioningState *EventSubscriptionProperties_ProvisioningState `json:"provisioningState,omitempty"`
-
 	// RetryPolicy: The retry policy for events. This can be used to configure maximum number of delivery attempts and time to
 	// live for events.
 	RetryPolicy *RetryPolicy `json:"retryPolicy,omitempty"`
-
-	// SystemData: The system metadata relating to Event Subscription resource.
-	SystemData *SystemData `json:"systemData,omitempty"`
-
-	// Topic: Name of the topic of the event subscription.
-	Topic *string `json:"topic,omitempty"`
-
-	// Type: Type of the resource.
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &EventSubscription_Spec{}
@@ -841,12 +826,6 @@ func (subscription *EventSubscription_Spec) ConvertToARM(resolved genruntime.Con
 	// Set property ‘AzureName’:
 	result.AzureName = subscription.AzureName
 
-	// Set property ‘Id’:
-	if subscription.Id != nil {
-		id := *subscription.Id
-		result.Id = &id
-	}
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
@@ -857,9 +836,7 @@ func (subscription *EventSubscription_Spec) ConvertToARM(resolved genruntime.Con
 		subscription.ExpirationTimeUtc != nil ||
 		subscription.Filter != nil ||
 		subscription.Labels != nil ||
-		subscription.ProvisioningState != nil ||
-		subscription.RetryPolicy != nil ||
-		subscription.Topic != nil {
+		subscription.RetryPolicy != nil {
 		result.Properties = &EventSubscriptionPropertiesARM{}
 	}
 	if subscription.DeadLetterDestination != nil {
@@ -897,10 +874,6 @@ func (subscription *EventSubscription_Spec) ConvertToARM(resolved genruntime.Con
 	for _, item := range subscription.Labels {
 		result.Properties.Labels = append(result.Properties.Labels, item)
 	}
-	if subscription.ProvisioningState != nil {
-		provisioningState := *subscription.ProvisioningState
-		result.Properties.ProvisioningState = &provisioningState
-	}
 	if subscription.RetryPolicy != nil {
 		retryPolicyARM, err := (*subscription.RetryPolicy).ConvertToARM(resolved)
 		if err != nil {
@@ -908,26 +881,6 @@ func (subscription *EventSubscription_Spec) ConvertToARM(resolved genruntime.Con
 		}
 		retryPolicy := *retryPolicyARM.(*RetryPolicyARM)
 		result.Properties.RetryPolicy = &retryPolicy
-	}
-	if subscription.Topic != nil {
-		topic := *subscription.Topic
-		result.Properties.Topic = &topic
-	}
-
-	// Set property ‘SystemData’:
-	if subscription.SystemData != nil {
-		systemDataARM, err := (*subscription.SystemData).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		systemData := *systemDataARM.(*SystemDataARM)
-		result.SystemData = &systemData
-	}
-
-	// Set property ‘Type’:
-	if subscription.Type != nil {
-		typeVar := *subscription.Type
-		result.Type = &typeVar
 	}
 	return result, nil
 }
@@ -1007,12 +960,6 @@ func (subscription *EventSubscription_Spec) PopulateFromARM(owner genruntime.Arb
 		}
 	}
 
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		subscription.Id = &id
-	}
-
 	// Set property ‘Labels’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -1024,15 +971,6 @@ func (subscription *EventSubscription_Spec) PopulateFromARM(owner genruntime.Arb
 	// Set property ‘Owner’:
 	subscription.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
-	}
-
-	// Set property ‘ProvisioningState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
-			subscription.ProvisioningState = &provisioningState
-		}
 	}
 
 	// Set property ‘RetryPolicy’:
@@ -1047,32 +985,6 @@ func (subscription *EventSubscription_Spec) PopulateFromARM(owner genruntime.Arb
 			retryPolicy := retryPolicy1
 			subscription.RetryPolicy = &retryPolicy
 		}
-	}
-
-	// Set property ‘SystemData’:
-	if typedInput.SystemData != nil {
-		var systemData1 SystemData
-		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
-		if err != nil {
-			return err
-		}
-		systemData := systemData1
-		subscription.SystemData = &systemData
-	}
-
-	// Set property ‘Topic’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Topic != nil {
-			topic := *typedInput.Properties.Topic
-			subscription.Topic = &topic
-		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		subscription.Type = &typeVar
 	}
 
 	// No error
@@ -1187,9 +1099,6 @@ func (subscription *EventSubscription_Spec) AssignPropertiesFromEventSubscriptio
 		subscription.Filter = nil
 	}
 
-	// Id
-	subscription.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Labels
 	subscription.Labels = genruntime.CloneSliceOfString(source.Labels)
 
@@ -1199,14 +1108,6 @@ func (subscription *EventSubscription_Spec) AssignPropertiesFromEventSubscriptio
 		subscription.Owner = &owner
 	} else {
 		subscription.Owner = nil
-	}
-
-	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := EventSubscriptionProperties_ProvisioningState(*source.ProvisioningState)
-		subscription.ProvisioningState = &provisioningState
-	} else {
-		subscription.ProvisioningState = nil
 	}
 
 	// RetryPolicy
@@ -1220,24 +1121,6 @@ func (subscription *EventSubscription_Spec) AssignPropertiesFromEventSubscriptio
 	} else {
 		subscription.RetryPolicy = nil
 	}
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
-		}
-		subscription.SystemData = &systemDatum
-	} else {
-		subscription.SystemData = nil
-	}
-
-	// Topic
-	subscription.Topic = genruntime.ClonePointerToString(source.Topic)
-
-	// Type
-	subscription.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -1303,9 +1186,6 @@ func (subscription *EventSubscription_Spec) AssignPropertiesToEventSubscription_
 		destination.Filter = nil
 	}
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(subscription.Id)
-
 	// Labels
 	destination.Labels = genruntime.CloneSliceOfString(subscription.Labels)
 
@@ -1320,14 +1200,6 @@ func (subscription *EventSubscription_Spec) AssignPropertiesToEventSubscription_
 		destination.Owner = nil
 	}
 
-	// ProvisioningState
-	if subscription.ProvisioningState != nil {
-		provisioningState := string(*subscription.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
-
 	// RetryPolicy
 	if subscription.RetryPolicy != nil {
 		var retryPolicy v20200601s.RetryPolicy
@@ -1339,24 +1211,6 @@ func (subscription *EventSubscription_Spec) AssignPropertiesToEventSubscription_
 	} else {
 		destination.RetryPolicy = nil
 	}
-
-	// SystemData
-	if subscription.SystemData != nil {
-		var systemDatum v20200601s.SystemData
-		err := subscription.SystemData.AssignPropertiesToSystemData(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
-	// Topic
-	destination.Topic = genruntime.ClonePointerToString(subscription.Topic)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(subscription.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2071,19 +1925,6 @@ const (
 	EventSubscriptionProperties_EventDeliverySchema_CloudEventSchemaV1_0_STATUS = EventSubscriptionProperties_EventDeliverySchema_STATUS("CloudEventSchemaV1_0")
 	EventSubscriptionProperties_EventDeliverySchema_CustomInputSchema_STATUS    = EventSubscriptionProperties_EventDeliverySchema_STATUS("CustomInputSchema")
 	EventSubscriptionProperties_EventDeliverySchema_EventGridSchema_STATUS      = EventSubscriptionProperties_EventDeliverySchema_STATUS("EventGridSchema")
-)
-
-// +kubebuilder:validation:Enum={"AwaitingManualAction","Canceled","Creating","Deleting","Failed","Succeeded","Updating"}
-type EventSubscriptionProperties_ProvisioningState string
-
-const (
-	EventSubscriptionProperties_ProvisioningState_AwaitingManualAction = EventSubscriptionProperties_ProvisioningState("AwaitingManualAction")
-	EventSubscriptionProperties_ProvisioningState_Canceled             = EventSubscriptionProperties_ProvisioningState("Canceled")
-	EventSubscriptionProperties_ProvisioningState_Creating             = EventSubscriptionProperties_ProvisioningState("Creating")
-	EventSubscriptionProperties_ProvisioningState_Deleting             = EventSubscriptionProperties_ProvisioningState("Deleting")
-	EventSubscriptionProperties_ProvisioningState_Failed               = EventSubscriptionProperties_ProvisioningState("Failed")
-	EventSubscriptionProperties_ProvisioningState_Succeeded            = EventSubscriptionProperties_ProvisioningState("Succeeded")
-	EventSubscriptionProperties_ProvisioningState_Updating             = EventSubscriptionProperties_ProvisioningState("Updating")
 )
 
 type EventSubscriptionProperties_ProvisioningState_STATUS string

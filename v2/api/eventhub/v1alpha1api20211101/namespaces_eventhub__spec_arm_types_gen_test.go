@@ -84,16 +84,12 @@ func NamespacesEventhub_SpecARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForNamespacesEventhub_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNamespacesEventhub_SpecARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForNamespacesEventhub_SpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespacesEventhub_SpecARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(NamespacesEventhub_Spec_PropertiesARMGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemDataARMGenerator())
 }
 
 func Test_NamespacesEventhub_Spec_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -162,10 +158,8 @@ func NamespacesEventhub_Spec_PropertiesARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForNamespacesEventhub_Spec_PropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNamespacesEventhub_Spec_PropertiesARM(gens map[string]gopter.Gen) {
-	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["MessageRetentionInDays"] = gen.PtrOf(gen.Int())
 	gens["PartitionCount"] = gen.PtrOf(gen.Int())
-	gens["PartitionIds"] = gen.SliceOf(gen.AlphaString())
 	gens["Status"] = gen.PtrOf(gen.OneConstOf(
 		NamespacesEventhub_Spec_Properties_Status_Active,
 		NamespacesEventhub_Spec_Properties_Status_Creating,
@@ -176,7 +170,6 @@ func AddIndependentPropertyGeneratorsForNamespacesEventhub_Spec_PropertiesARM(ge
 		NamespacesEventhub_Spec_Properties_Status_Restoring,
 		NamespacesEventhub_Spec_Properties_Status_SendDisabled,
 		NamespacesEventhub_Spec_Properties_Status_Unknown))
-	gens["UpdatedAt"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForNamespacesEventhub_Spec_PropertiesARM is a factory method for creating gopter generators

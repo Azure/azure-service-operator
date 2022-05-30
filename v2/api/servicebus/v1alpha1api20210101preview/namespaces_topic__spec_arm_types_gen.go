@@ -8,11 +8,8 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 // Deprecated version of NamespacesTopic_Spec. Use v1beta20210101preview.NamespacesTopic_Spec instead
 type NamespacesTopic_SpecARM struct {
 	AzureName  string                `json:"azureName,omitempty"`
-	Id         *string               `json:"id,omitempty"`
 	Name       string                `json:"name,omitempty"`
 	Properties *SBTopicPropertiesARM `json:"properties,omitempty"`
-	SystemData *SystemDataARM        `json:"systemData,omitempty"`
-	Type       *string               `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &NamespacesTopic_SpecARM{}
@@ -34,19 +31,13 @@ func (topic *NamespacesTopic_SpecARM) GetType() string {
 
 // Deprecated version of SBTopicProperties. Use v1beta20210101preview.SBTopicProperties instead
 type SBTopicPropertiesARM struct {
-	AccessedAt                          *string                 `json:"accessedAt,omitempty"`
-	AutoDeleteOnIdle                    *string                 `json:"autoDeleteOnIdle,omitempty"`
-	CountDetails                        *MessageCountDetailsARM `json:"countDetails,omitempty"`
-	CreatedAt                           *string                 `json:"createdAt,omitempty"`
-	DefaultMessageTimeToLive            *string                 `json:"defaultMessageTimeToLive,omitempty"`
-	DuplicateDetectionHistoryTimeWindow *string                 `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
-	EnableBatchedOperations             *bool                   `json:"enableBatchedOperations,omitempty"`
-	EnableExpress                       *bool                   `json:"enableExpress,omitempty"`
-	EnablePartitioning                  *bool                   `json:"enablePartitioning,omitempty"`
-	MaxSizeInMegabytes                  *int                    `json:"maxSizeInMegabytes,omitempty"`
-	RequiresDuplicateDetection          *bool                   `json:"requiresDuplicateDetection,omitempty"`
-	SizeInBytes                         *int                    `json:"sizeInBytes,omitempty"`
-	SubscriptionCount                   *int                    `json:"subscriptionCount,omitempty"`
-	SupportOrdering                     *bool                   `json:"supportOrdering,omitempty"`
-	UpdatedAt                           *string                 `json:"updatedAt,omitempty"`
+	AutoDeleteOnIdle                    *string `json:"autoDeleteOnIdle,omitempty"`
+	DefaultMessageTimeToLive            *string `json:"defaultMessageTimeToLive,omitempty"`
+	DuplicateDetectionHistoryTimeWindow *string `json:"duplicateDetectionHistoryTimeWindow,omitempty"`
+	EnableBatchedOperations             *bool   `json:"enableBatchedOperations,omitempty"`
+	EnableExpress                       *bool   `json:"enableExpress,omitempty"`
+	EnablePartitioning                  *bool   `json:"enablePartitioning,omitempty"`
+	MaxSizeInMegabytes                  *int    `json:"maxSizeInMegabytes,omitempty"`
+	RequiresDuplicateDetection          *bool   `json:"requiresDuplicateDetection,omitempty"`
+	SupportOrdering                     *bool   `json:"supportOrdering,omitempty"`
 }

@@ -926,9 +926,6 @@ type Webtest_Spec struct {
 	// Frequency: Interval in seconds between test runs for this WebTest. Default value is 300.
 	Frequency *int `json:"Frequency,omitempty"`
 
-	// Id: Azure resource Id
-	Id *string `json:"id,omitempty"`
-
 	// Kind: The kind of WebTest that this web test watches. Choices are ping and multistep.
 	Kind *Webtest_Spec_Kind `json:"kind,omitempty"`
 
@@ -955,11 +952,6 @@ type Webtest_Spec struct {
 	// PropertiesKind: The kind of web test this is, valid choices are ping, multistep, basic, and standard.
 	PropertiesKind *WebTestProperties_Kind `json:"properties_kind,omitempty"`
 
-	// ProvisioningState: Current state of this component, whether or not is has been provisioned within the resource group it
-	// is defined. Users cannot change this value but are able to read from it. Values will include Succeeded, Deploying,
-	// Canceled, and Failed.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
-
 	// Request: The collection of request properties
 	Request *WebTestProperties_Request `json:"Request,omitempty"`
 
@@ -976,9 +968,6 @@ type Webtest_Spec struct {
 	// Timeout: Seconds until this WebTest will timeout and fail. Default value is 30.
 	Timeout *int `json:"Timeout,omitempty"`
 
-	// Type: Azure resource type
-	Type *string `json:"type,omitempty"`
-
 	// ValidationRules: The collection of validation rule properties
 	ValidationRules *WebTestProperties_ValidationRules `json:"ValidationRules,omitempty"`
 }
@@ -994,12 +983,6 @@ func (webtest *Webtest_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property ‘AzureName’:
 	result.AzureName = webtest.AzureName
-
-	// Set property ‘Id’:
-	if webtest.Id != nil {
-		id := *webtest.Id
-		result.Id = &id
-	}
 
 	// Set property ‘Kind’:
 	if webtest.Kind != nil {
@@ -1024,7 +1007,6 @@ func (webtest *Webtest_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		webtest.Locations != nil ||
 		webtest.Name != nil ||
 		webtest.PropertiesKind != nil ||
-		webtest.ProvisioningState != nil ||
 		webtest.Request != nil ||
 		webtest.RetryEnabled != nil ||
 		webtest.SyntheticMonitorId != nil ||
@@ -1067,10 +1049,6 @@ func (webtest *Webtest_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		kind1 := *webtest.PropertiesKind
 		result.Properties.Kind = &kind1
 	}
-	if webtest.ProvisioningState != nil {
-		provisioningState := *webtest.ProvisioningState
-		result.Properties.ProvisioningState = &provisioningState
-	}
 	if webtest.Request != nil {
 		requestARM, err := (*webtest.Request).ConvertToARM(resolved)
 		if err != nil {
@@ -1104,12 +1082,6 @@ func (webtest *Webtest_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if webtest.Tags != nil {
 		tags := *(*webtest.Tags).DeepCopy()
 		result.Tags = &tags
-	}
-
-	// Set property ‘Type’:
-	if webtest.Type != nil {
-		typeVar := *webtest.Type
-		result.Type = &typeVar
 	}
 	return result, nil
 }
@@ -1170,12 +1142,6 @@ func (webtest *Webtest_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		webtest.Id = &id
-	}
-
 	// Set property ‘Kind’:
 	if typedInput.Kind != nil {
 		kind := *typedInput.Kind
@@ -1224,15 +1190,6 @@ func (webtest *Webtest_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
-			webtest.ProvisioningState = &provisioningState
-		}
-	}
-
 	// Set property ‘Request’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -1278,12 +1235,6 @@ func (webtest *Webtest_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 			timeout := *typedInput.Properties.Timeout
 			webtest.Timeout = &timeout
 		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		webtest.Type = &typeVar
 	}
 
 	// Set property ‘ValidationRules’:
@@ -1386,9 +1337,6 @@ func (webtest *Webtest_Spec) AssignPropertiesFromWebtest_Spec(source *v20180501p
 	// Frequency
 	webtest.Frequency = genruntime.ClonePointerToInt(source.Frequency)
 
-	// Id
-	webtest.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Kind
 	if source.Kind != nil {
 		kind := Webtest_Spec_Kind(*source.Kind)
@@ -1437,9 +1385,6 @@ func (webtest *Webtest_Spec) AssignPropertiesFromWebtest_Spec(source *v20180501p
 		webtest.PropertiesKind = nil
 	}
 
-	// ProvisioningState
-	webtest.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
 	// Request
 	if source.Request != nil {
 		var request WebTestProperties_Request
@@ -1473,9 +1418,6 @@ func (webtest *Webtest_Spec) AssignPropertiesFromWebtest_Spec(source *v20180501p
 
 	// Timeout
 	webtest.Timeout = genruntime.ClonePointerToInt(source.Timeout)
-
-	// Type
-	webtest.Type = genruntime.ClonePointerToString(source.Type)
 
 	// ValidationRules
 	if source.ValidationRules != nil {
@@ -1526,9 +1468,6 @@ func (webtest *Webtest_Spec) AssignPropertiesToWebtest_Spec(destination *v201805
 
 	// Frequency
 	destination.Frequency = genruntime.ClonePointerToInt(webtest.Frequency)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(webtest.Id)
 
 	// Kind
 	if webtest.Kind != nil {
@@ -1581,9 +1520,6 @@ func (webtest *Webtest_Spec) AssignPropertiesToWebtest_Spec(destination *v201805
 		destination.PropertiesKind = nil
 	}
 
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(webtest.ProvisioningState)
-
 	// Request
 	if webtest.Request != nil {
 		var request v20180501ps.WebTestProperties_Request
@@ -1617,9 +1553,6 @@ func (webtest *Webtest_Spec) AssignPropertiesToWebtest_Spec(destination *v201805
 
 	// Timeout
 	destination.Timeout = genruntime.ClonePointerToInt(webtest.Timeout)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(webtest.Type)
 
 	// ValidationRules
 	if webtest.ValidationRules != nil {

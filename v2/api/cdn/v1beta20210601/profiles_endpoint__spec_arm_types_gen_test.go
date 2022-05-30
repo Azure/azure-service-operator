@@ -84,17 +84,14 @@ func ProfilesEndpoint_SpecARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForProfilesEndpoint_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForProfilesEndpoint_SpecARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForProfilesEndpoint_SpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForProfilesEndpoint_SpecARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(EndpointPropertiesARMGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemDataARMGenerator())
 }
 
 func Test_EndpointPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -164,7 +161,6 @@ func EndpointPropertiesARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForEndpointPropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForEndpointPropertiesARM(gens map[string]gopter.Gen) {
 	gens["ContentTypesToCompress"] = gen.SliceOf(gen.AlphaString())
-	gens["HostName"] = gen.PtrOf(gen.AlphaString())
 	gens["IsCompressionEnabled"] = gen.PtrOf(gen.Bool())
 	gens["IsHttpAllowed"] = gen.PtrOf(gen.Bool())
 	gens["IsHttpsAllowed"] = gen.PtrOf(gen.Bool())
@@ -177,29 +173,15 @@ func AddIndependentPropertyGeneratorsForEndpointPropertiesARM(gens map[string]go
 	gens["OriginHostHeader"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginPath"] = gen.PtrOf(gen.AlphaString())
 	gens["ProbePath"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		EndpointProperties_ProvisioningState_Creating,
-		EndpointProperties_ProvisioningState_Deleting,
-		EndpointProperties_ProvisioningState_Failed,
-		EndpointProperties_ProvisioningState_Succeeded,
-		EndpointProperties_ProvisioningState_Updating))
 	gens["QueryStringCachingBehavior"] = gen.PtrOf(gen.OneConstOf(
 		QueryStringCachingBehavior_BypassCaching,
 		QueryStringCachingBehavior_IgnoreQueryString,
 		QueryStringCachingBehavior_NotSet,
 		QueryStringCachingBehavior_UseQueryString))
-	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(
-		EndpointProperties_ResourceState_Creating,
-		EndpointProperties_ResourceState_Deleting,
-		EndpointProperties_ResourceState_Running,
-		EndpointProperties_ResourceState_Starting,
-		EndpointProperties_ResourceState_Stopped,
-		EndpointProperties_ResourceState_Stopping))
 }
 
 // AddRelatedPropertyGeneratorsForEndpointPropertiesARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForEndpointPropertiesARM(gens map[string]gopter.Gen) {
-	gens["CustomDomains"] = gen.SliceOf(CustomDomainARMGenerator())
 	gens["DefaultOriginGroup"] = gen.PtrOf(ResourceReferenceARMGenerator())
 	gens["DeliveryPolicy"] = gen.PtrOf(EndpointProperties_DeliveryPolicyARMGenerator())
 	gens["GeoFilters"] = gen.SliceOf(GeoFilterARMGenerator())
@@ -207,82 +189,6 @@ func AddRelatedPropertyGeneratorsForEndpointPropertiesARM(gens map[string]gopter
 	gens["Origins"] = gen.SliceOf(DeepCreatedOriginARMGenerator())
 	gens["UrlSigningKeys"] = gen.SliceOf(UrlSigningKeyARMGenerator())
 	gens["WebApplicationFirewallPolicyLink"] = gen.PtrOf(EndpointProperties_WebApplicationFirewallPolicyLinkARMGenerator())
-}
-
-func Test_CustomDomainARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CustomDomainARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCustomDomainARM, CustomDomainARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForCustomDomainARM runs a test to see if a specific instance of CustomDomainARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForCustomDomainARM(subject CustomDomainARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual CustomDomainARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of CustomDomainARM instances for property testing - lazily instantiated by CustomDomainARMGenerator()
-var customDomainARMGenerator gopter.Gen
-
-// CustomDomainARMGenerator returns a generator of CustomDomainARM instances for property testing.
-// We first initialize customDomainARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func CustomDomainARMGenerator() gopter.Gen {
-	if customDomainARMGenerator != nil {
-		return customDomainARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCustomDomainARM(generators)
-	customDomainARMGenerator = gen.Struct(reflect.TypeOf(CustomDomainARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCustomDomainARM(generators)
-	AddRelatedPropertyGeneratorsForCustomDomainARM(generators)
-	customDomainARMGenerator = gen.Struct(reflect.TypeOf(CustomDomainARM{}), generators)
-
-	return customDomainARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForCustomDomainARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCustomDomainARM(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForCustomDomainARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForCustomDomainARM(gens map[string]gopter.Gen) {
-	gens["Properties"] = gen.PtrOf(CustomDomainPropertiesARMGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemDataARMGenerator())
 }
 
 func Test_DeepCreatedOriginARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -761,105 +667,6 @@ func AddRelatedPropertyGeneratorsForUrlSigningKeyARM(gens map[string]gopter.Gen)
 	gens["KeySourceParameters"] = gen.PtrOf(KeyVaultSigningKeyParametersARMGenerator())
 }
 
-func Test_CustomDomainPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CustomDomainPropertiesARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCustomDomainPropertiesARM, CustomDomainPropertiesARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForCustomDomainPropertiesARM runs a test to see if a specific instance of CustomDomainPropertiesARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForCustomDomainPropertiesARM(subject CustomDomainPropertiesARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual CustomDomainPropertiesARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of CustomDomainPropertiesARM instances for property testing - lazily instantiated by
-// CustomDomainPropertiesARMGenerator()
-var customDomainPropertiesARMGenerator gopter.Gen
-
-// CustomDomainPropertiesARMGenerator returns a generator of CustomDomainPropertiesARM instances for property testing.
-// We first initialize customDomainPropertiesARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func CustomDomainPropertiesARMGenerator() gopter.Gen {
-	if customDomainPropertiesARMGenerator != nil {
-		return customDomainPropertiesARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCustomDomainPropertiesARM(generators)
-	customDomainPropertiesARMGenerator = gen.Struct(reflect.TypeOf(CustomDomainPropertiesARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCustomDomainPropertiesARM(generators)
-	AddRelatedPropertyGeneratorsForCustomDomainPropertiesARM(generators)
-	customDomainPropertiesARMGenerator = gen.Struct(reflect.TypeOf(CustomDomainPropertiesARM{}), generators)
-
-	return customDomainPropertiesARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForCustomDomainPropertiesARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCustomDomainPropertiesARM(gens map[string]gopter.Gen) {
-	gens["CustomHttpsProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		CustomDomainProperties_CustomHttpsProvisioningState_Disabled,
-		CustomDomainProperties_CustomHttpsProvisioningState_Disabling,
-		CustomDomainProperties_CustomHttpsProvisioningState_Enabled,
-		CustomDomainProperties_CustomHttpsProvisioningState_Enabling,
-		CustomDomainProperties_CustomHttpsProvisioningState_Failed))
-	gens["CustomHttpsProvisioningSubstate"] = gen.PtrOf(gen.OneConstOf(
-		CustomDomainProperties_CustomHttpsProvisioningSubstate_CertificateDeleted,
-		CustomDomainProperties_CustomHttpsProvisioningSubstate_CertificateDeployed,
-		CustomDomainProperties_CustomHttpsProvisioningSubstate_DeletingCertificate,
-		CustomDomainProperties_CustomHttpsProvisioningSubstate_DeployingCertificate,
-		CustomDomainProperties_CustomHttpsProvisioningSubstate_DomainControlValidationRequestApproved,
-		CustomDomainProperties_CustomHttpsProvisioningSubstate_DomainControlValidationRequestRejected,
-		CustomDomainProperties_CustomHttpsProvisioningSubstate_DomainControlValidationRequestTimedOut,
-		CustomDomainProperties_CustomHttpsProvisioningSubstate_IssuingCertificate,
-		CustomDomainProperties_CustomHttpsProvisioningSubstate_PendingDomainControlValidationREquestApproval,
-		CustomDomainProperties_CustomHttpsProvisioningSubstate_SubmittingDomainControlValidationRequest))
-	gens["HostName"] = gen.PtrOf(gen.AlphaString())
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		CustomDomainProperties_ProvisioningState_Disabled,
-		CustomDomainProperties_ProvisioningState_Disabling,
-		CustomDomainProperties_ProvisioningState_Enabled,
-		CustomDomainProperties_ProvisioningState_Enabling,
-		CustomDomainProperties_ProvisioningState_Failed))
-	gens["ResourceState"] = gen.PtrOf(gen.OneConstOf(CustomDomainProperties_ResourceState_Active, CustomDomainProperties_ResourceState_Creating, CustomDomainProperties_ResourceState_Deleting))
-	gens["ValidationData"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForCustomDomainPropertiesARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForCustomDomainPropertiesARM(gens map[string]gopter.Gen) {
-	gens["CustomHttpsParameters"] = gen.PtrOf(CustomDomainHttpsParametersARMGenerator())
-}
-
 func Test_DeepCreatedOriginGroupPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -999,12 +806,6 @@ func AddIndependentPropertyGeneratorsForDeepCreatedOriginPropertiesARM(gens map[
 	gens["HttpsPort"] = gen.PtrOf(gen.Int())
 	gens["OriginHostHeader"] = gen.PtrOf(gen.AlphaString())
 	gens["Priority"] = gen.PtrOf(gen.Int())
-	gens["PrivateEndpointStatus"] = gen.PtrOf(gen.OneConstOf(
-		PrivateEndpointStatus_Approved,
-		PrivateEndpointStatus_Disconnected,
-		PrivateEndpointStatus_Pending,
-		PrivateEndpointStatus_Rejected,
-		PrivateEndpointStatus_Timeout))
 	gens["PrivateLinkAlias"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateLinkApprovalMessage"] = gen.PtrOf(gen.AlphaString())
 	gens["PrivateLinkLocation"] = gen.PtrOf(gen.AlphaString())
@@ -1150,68 +951,6 @@ func AddIndependentPropertyGeneratorsForKeyVaultSigningKeyParametersARM(gens map
 	gens["SubscriptionId"] = gen.PtrOf(gen.AlphaString())
 	gens["TypeName"] = gen.PtrOf(gen.OneConstOf(KeyVaultSigningKeyParameters_TypeName_KeyVaultSigningKeyParameters))
 	gens["VaultName"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_CustomDomainHttpsParametersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of CustomDomainHttpsParametersARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForCustomDomainHttpsParametersARM, CustomDomainHttpsParametersARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForCustomDomainHttpsParametersARM runs a test to see if a specific instance of CustomDomainHttpsParametersARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForCustomDomainHttpsParametersARM(subject CustomDomainHttpsParametersARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual CustomDomainHttpsParametersARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of CustomDomainHttpsParametersARM instances for property testing - lazily instantiated by
-// CustomDomainHttpsParametersARMGenerator()
-var customDomainHttpsParametersARMGenerator gopter.Gen
-
-// CustomDomainHttpsParametersARMGenerator returns a generator of CustomDomainHttpsParametersARM instances for property testing.
-func CustomDomainHttpsParametersARMGenerator() gopter.Gen {
-	if customDomainHttpsParametersARMGenerator != nil {
-		return customDomainHttpsParametersARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForCustomDomainHttpsParametersARM(generators)
-	customDomainHttpsParametersARMGenerator = gen.Struct(reflect.TypeOf(CustomDomainHttpsParametersARM{}), generators)
-
-	return customDomainHttpsParametersARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForCustomDomainHttpsParametersARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForCustomDomainHttpsParametersARM(gens map[string]gopter.Gen) {
-	gens["CertificateSource"] = gen.PtrOf(gen.OneConstOf(CustomDomainHttpsParameters_CertificateSource_AzureKeyVault, CustomDomainHttpsParameters_CertificateSource_Cdn))
-	gens["MinimumTlsVersion"] = gen.PtrOf(gen.OneConstOf(CustomDomainHttpsParameters_MinimumTlsVersion_None, CustomDomainHttpsParameters_MinimumTlsVersion_TLS10, CustomDomainHttpsParameters_MinimumTlsVersion_TLS12))
-	gens["ProtocolType"] = gen.PtrOf(gen.OneConstOf(CustomDomainHttpsParameters_ProtocolType_IPBased, CustomDomainHttpsParameters_ProtocolType_ServerNameIndication))
 }
 
 func Test_DeliveryRuleActionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

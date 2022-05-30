@@ -9,12 +9,10 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 type Image_SpecARM struct {
 	AzureName        string               `json:"azureName,omitempty"`
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
-	Id               *string              `json:"id,omitempty"`
 	Location         *string              `json:"location,omitempty"`
 	Name             string               `json:"name,omitempty"`
 	Properties       *ImagePropertiesARM  `json:"properties,omitempty"`
 	Tags             map[string]string    `json:"tags,omitempty"`
-	Type             *string              `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Image_SpecARM{}
@@ -43,7 +41,6 @@ type ExtendedLocationARM struct {
 // Deprecated version of ImageProperties. Use v1beta20210701.ImageProperties instead
 type ImagePropertiesARM struct {
 	HyperVGeneration     *HyperVGenerationType   `json:"hyperVGeneration,omitempty"`
-	ProvisioningState    *string                 `json:"provisioningState,omitempty"`
 	SourceVirtualMachine *SubResourceARM         `json:"sourceVirtualMachine,omitempty"`
 	StorageProfile       *ImageStorageProfileARM `json:"storageProfile,omitempty"`
 }

@@ -543,7 +543,6 @@ type StorageAccountsBlobService_Spec struct {
 	Cors                           *CorsRules                    `json:"cors,omitempty"`
 	DefaultServiceVersion          *string                       `json:"defaultServiceVersion,omitempty"`
 	DeleteRetentionPolicy          *DeleteRetentionPolicy        `json:"deleteRetentionPolicy,omitempty"`
-	Id                             *string                       `json:"id,omitempty"`
 	IsVersioningEnabled            *bool                         `json:"isVersioningEnabled,omitempty"`
 	LastAccessTimeTrackingPolicy   *LastAccessTimeTrackingPolicy `json:"lastAccessTimeTrackingPolicy,omitempty"`
 	OriginalVersion                string                        `json:"originalVersion,omitempty"`
@@ -555,8 +554,6 @@ type StorageAccountsBlobService_Spec struct {
 	Owner         *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag   genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	RestorePolicy *RestorePolicyProperties           `json:"restorePolicy,omitempty"`
-	Sku           *Sku                               `json:"sku,omitempty"`
-	Type          *string                            `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &StorageAccountsBlobService_Spec{}
@@ -676,9 +673,6 @@ func (service *StorageAccountsBlobService_Spec) AssignPropertiesFromStorageAccou
 		service.DeleteRetentionPolicy = nil
 	}
 
-	// Id
-	service.Id = genruntime.ClonePointerToString(source.Id)
-
 	// IsVersioningEnabled
 	if source.IsVersioningEnabled != nil {
 		isVersioningEnabled := *source.IsVersioningEnabled
@@ -721,21 +715,6 @@ func (service *StorageAccountsBlobService_Spec) AssignPropertiesFromStorageAccou
 	} else {
 		service.RestorePolicy = nil
 	}
-
-	// Sku
-	if source.Sku != nil {
-		var sku Sku
-		err := sku.AssignPropertiesFromSku(source.Sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSku() to populate field Sku")
-		}
-		service.Sku = &sku
-	} else {
-		service.Sku = nil
-	}
-
-	// Type
-	service.Type = genruntime.ClonePointerToString(source.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -815,9 +794,6 @@ func (service *StorageAccountsBlobService_Spec) AssignPropertiesToStorageAccount
 		destination.DeleteRetentionPolicy = nil
 	}
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(service.Id)
-
 	// IsVersioningEnabled
 	if service.IsVersioningEnabled != nil {
 		isVersioningEnabled := *service.IsVersioningEnabled
@@ -860,21 +836,6 @@ func (service *StorageAccountsBlobService_Spec) AssignPropertiesToStorageAccount
 	} else {
 		destination.RestorePolicy = nil
 	}
-
-	// Sku
-	if service.Sku != nil {
-		var sku v20210401s.Sku
-		err := service.Sku.AssignPropertiesToSku(&sku)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSku() to populate field Sku")
-		}
-		destination.Sku = &sku
-	} else {
-		destination.Sku = nil
-	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(service.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1440,11 +1401,9 @@ func (policy *LastAccessTimeTrackingPolicy_STATUS) AssignPropertiesToLastAccessT
 // Storage version of v1alpha1api20210401.RestorePolicyProperties
 // Deprecated version of RestorePolicyProperties. Use v1beta20210401.RestorePolicyProperties instead
 type RestorePolicyProperties struct {
-	Days            *int                   `json:"days,omitempty"`
-	Enabled         *bool                  `json:"enabled,omitempty"`
-	LastEnabledTime *string                `json:"lastEnabledTime,omitempty"`
-	MinRestoreTime  *string                `json:"minRestoreTime,omitempty"`
-	PropertyBag     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Days        *int                   `json:"days,omitempty"`
+	Enabled     *bool                  `json:"enabled,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // AssignPropertiesFromRestorePolicyProperties populates our RestorePolicyProperties from the provided source RestorePolicyProperties
@@ -1462,12 +1421,6 @@ func (properties *RestorePolicyProperties) AssignPropertiesFromRestorePolicyProp
 	} else {
 		properties.Enabled = nil
 	}
-
-	// LastEnabledTime
-	properties.LastEnabledTime = genruntime.ClonePointerToString(source.LastEnabledTime)
-
-	// MinRestoreTime
-	properties.MinRestoreTime = genruntime.ClonePointerToString(source.MinRestoreTime)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1495,12 +1448,6 @@ func (properties *RestorePolicyProperties) AssignPropertiesToRestorePolicyProper
 	} else {
 		destination.Enabled = nil
 	}
-
-	// LastEnabledTime
-	destination.LastEnabledTime = genruntime.ClonePointerToString(properties.LastEnabledTime)
-
-	// MinRestoreTime
-	destination.MinRestoreTime = genruntime.ClonePointerToString(properties.MinRestoreTime)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

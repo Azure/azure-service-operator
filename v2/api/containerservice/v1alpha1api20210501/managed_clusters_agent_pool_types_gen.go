@@ -1309,7 +1309,6 @@ type ManagedClustersAgentPool_Spec struct {
 	EnableNodePublicIP            *bool                         `json:"enableNodePublicIP,omitempty"`
 	EnableUltraSSD                *bool                         `json:"enableUltraSSD,omitempty"`
 	GpuInstanceProfile            *GPUInstanceProfile           `json:"gpuInstanceProfile,omitempty"`
-	Id                            *string                       `json:"id,omitempty"`
 	KubeletConfig                 *KubeletConfig                `json:"kubeletConfig,omitempty"`
 	KubeletDiskType               *KubeletDiskType              `json:"kubeletDiskType,omitempty"`
 	LinuxOSConfig                 *LinuxOSConfig                `json:"linuxOSConfig,omitempty"`
@@ -1317,7 +1316,6 @@ type ManagedClustersAgentPool_Spec struct {
 	MaxPods                       *int                          `json:"maxPods,omitempty"`
 	MinCount                      *int                          `json:"minCount,omitempty"`
 	Mode                          *AgentPoolMode                `json:"mode,omitempty"`
-	NodeImageVersion              *string                       `json:"nodeImageVersion,omitempty"`
 	NodeLabels                    map[string]string             `json:"nodeLabels,omitempty"`
 	NodePublicIPPrefixIDReference *genruntime.ResourceReference `armReference:"NodePublicIPPrefixID" json:"nodePublicIPPrefixIDReference,omitempty"`
 	NodeTaints                    []string                      `json:"nodeTaints,omitempty"`
@@ -1333,15 +1331,12 @@ type ManagedClustersAgentPool_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner                     *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PodSubnetIDReference      *genruntime.ResourceReference      `armReference:"PodSubnetID" json:"podSubnetIDReference,omitempty"`
-	PowerState                *PowerState                        `json:"powerState,omitempty"`
-	PropertiesType            *AgentPoolType                     `json:"properties_type,omitempty"`
-	ProvisioningState         *string                            `json:"provisioningState,omitempty"`
 	ProximityPlacementGroupID *string                            `json:"proximityPlacementGroupID,omitempty"`
 	ScaleSetEvictionPolicy    *ScaleSetEvictionPolicy            `json:"scaleSetEvictionPolicy,omitempty"`
 	ScaleSetPriority          *ScaleSetPriority                  `json:"scaleSetPriority,omitempty"`
 	SpotMaxPrice              *float64                           `json:"spotMaxPrice,omitempty"`
 	Tags                      map[string]string                  `json:"tags,omitempty"`
-	Type                      *string                            `json:"type,omitempty"`
+	Type                      *AgentPoolType                     `json:"type,omitempty"`
 	UpgradeSettings           *AgentPoolUpgradeSettings          `json:"upgradeSettings,omitempty"`
 	VmSize                    *string                            `json:"vmSize,omitempty"`
 	VnetSubnetIDReference     *genruntime.ResourceReference      `armReference:"VnetSubnetID" json:"vnetSubnetIDReference,omitempty"`
@@ -1358,12 +1353,6 @@ func (pool *ManagedClustersAgentPool_Spec) ConvertToARM(resolved genruntime.Conv
 
 	// Set property ‘AzureName’:
 	result.AzureName = pool.AzureName
-
-	// Set property ‘Id’:
-	if pool.Id != nil {
-		id := *pool.Id
-		result.Id = &id
-	}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -1384,7 +1373,6 @@ func (pool *ManagedClustersAgentPool_Spec) ConvertToARM(resolved genruntime.Conv
 		pool.MaxPods != nil ||
 		pool.MinCount != nil ||
 		pool.Mode != nil ||
-		pool.NodeImageVersion != nil ||
 		pool.NodeLabels != nil ||
 		pool.NodePublicIPPrefixIDReference != nil ||
 		pool.NodeTaints != nil ||
@@ -1394,14 +1382,12 @@ func (pool *ManagedClustersAgentPool_Spec) ConvertToARM(resolved genruntime.Conv
 		pool.OsSKU != nil ||
 		pool.OsType != nil ||
 		pool.PodSubnetIDReference != nil ||
-		pool.PowerState != nil ||
-		pool.PropertiesType != nil ||
-		pool.ProvisioningState != nil ||
 		pool.ProximityPlacementGroupID != nil ||
 		pool.ScaleSetEvictionPolicy != nil ||
 		pool.ScaleSetPriority != nil ||
 		pool.SpotMaxPrice != nil ||
 		pool.Tags != nil ||
+		pool.Type != nil ||
 		pool.UpgradeSettings != nil ||
 		pool.VmSize != nil ||
 		pool.VnetSubnetIDReference != nil {
@@ -1474,10 +1460,6 @@ func (pool *ManagedClustersAgentPool_Spec) ConvertToARM(resolved genruntime.Conv
 		mode := *pool.Mode
 		result.Properties.Mode = &mode
 	}
-	if pool.NodeImageVersion != nil {
-		nodeImageVersion := *pool.NodeImageVersion
-		result.Properties.NodeImageVersion = &nodeImageVersion
-	}
 	if pool.NodeLabels != nil {
 		result.Properties.NodeLabels = make(map[string]string)
 		for key, value := range pool.NodeLabels {
@@ -1523,22 +1505,6 @@ func (pool *ManagedClustersAgentPool_Spec) ConvertToARM(resolved genruntime.Conv
 		podSubnetID := podSubnetIDARMID
 		result.Properties.PodSubnetID = &podSubnetID
 	}
-	if pool.PowerState != nil {
-		powerStateARM, err := (*pool.PowerState).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		powerState := *powerStateARM.(*PowerStateARM)
-		result.Properties.PowerState = &powerState
-	}
-	if pool.PropertiesType != nil {
-		typeVar := *pool.PropertiesType
-		result.Properties.Type = &typeVar
-	}
-	if pool.ProvisioningState != nil {
-		provisioningState := *pool.ProvisioningState
-		result.Properties.ProvisioningState = &provisioningState
-	}
 	if pool.ProximityPlacementGroupID != nil {
 		proximityPlacementGroupID := *pool.ProximityPlacementGroupID
 		result.Properties.ProximityPlacementGroupID = &proximityPlacementGroupID
@@ -1561,6 +1527,10 @@ func (pool *ManagedClustersAgentPool_Spec) ConvertToARM(resolved genruntime.Conv
 			result.Properties.Tags[key] = value
 		}
 	}
+	if pool.Type != nil {
+		typeVar := *pool.Type
+		result.Properties.Type = &typeVar
+	}
 	if pool.UpgradeSettings != nil {
 		upgradeSettingsARM, err := (*pool.UpgradeSettings).ConvertToARM(resolved)
 		if err != nil {
@@ -1580,12 +1550,6 @@ func (pool *ManagedClustersAgentPool_Spec) ConvertToARM(resolved genruntime.Conv
 		}
 		vnetSubnetID := vnetSubnetIDARMID
 		result.Properties.VnetSubnetID = &vnetSubnetID
-	}
-
-	// Set property ‘Type’:
-	if pool.Type != nil {
-		type1 := *pool.Type
-		result.Type = &type1
 	}
 	return result, nil
 }
@@ -1676,12 +1640,6 @@ func (pool *ManagedClustersAgentPool_Spec) PopulateFromARM(owner genruntime.Arbi
 		}
 	}
 
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		pool.Id = &id
-	}
-
 	// Set property ‘KubeletConfig’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -1752,15 +1710,6 @@ func (pool *ManagedClustersAgentPool_Spec) PopulateFromARM(owner genruntime.Arbi
 		if typedInput.Properties.Mode != nil {
 			mode := *typedInput.Properties.Mode
 			pool.Mode = &mode
-		}
-	}
-
-	// Set property ‘NodeImageVersion’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.NodeImageVersion != nil {
-			nodeImageVersion := *typedInput.Properties.NodeImageVersion
-			pool.NodeImageVersion = &nodeImageVersion
 		}
 	}
 
@@ -1837,38 +1786,6 @@ func (pool *ManagedClustersAgentPool_Spec) PopulateFromARM(owner genruntime.Arbi
 
 	// no assignment for property ‘PodSubnetIDReference’
 
-	// Set property ‘PowerState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.PowerState != nil {
-			var powerState1 PowerState
-			err := powerState1.PopulateFromARM(owner, *typedInput.Properties.PowerState)
-			if err != nil {
-				return err
-			}
-			powerState := powerState1
-			pool.PowerState = &powerState
-		}
-	}
-
-	// Set property ‘PropertiesType’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Type != nil {
-			propertiesType := *typedInput.Properties.Type
-			pool.PropertiesType = &propertiesType
-		}
-	}
-
-	// Set property ‘ProvisioningState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
-			pool.ProvisioningState = &provisioningState
-		}
-	}
-
 	// Set property ‘ProximityPlacementGroupID’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -1917,9 +1834,12 @@ func (pool *ManagedClustersAgentPool_Spec) PopulateFromARM(owner genruntime.Arbi
 	}
 
 	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		pool.Type = &typeVar
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.Type != nil {
+			typeVar := *typedInput.Properties.Type
+			pool.Type = &typeVar
+		}
 	}
 
 	// Set property ‘UpgradeSettings’:
@@ -2061,9 +1981,6 @@ func (pool *ManagedClustersAgentPool_Spec) AssignPropertiesFromManagedClustersAg
 		pool.GpuInstanceProfile = nil
 	}
 
-	// Id
-	pool.Id = genruntime.ClonePointerToString(source.Id)
-
 	// KubeletConfig
 	if source.KubeletConfig != nil {
 		var kubeletConfig KubeletConfig
@@ -2112,9 +2029,6 @@ func (pool *ManagedClustersAgentPool_Spec) AssignPropertiesFromManagedClustersAg
 	} else {
 		pool.Mode = nil
 	}
-
-	// NodeImageVersion
-	pool.NodeImageVersion = genruntime.ClonePointerToString(source.NodeImageVersion)
 
 	// NodeLabels
 	pool.NodeLabels = genruntime.CloneMapOfStringToString(source.NodeLabels)
@@ -2181,29 +2095,6 @@ func (pool *ManagedClustersAgentPool_Spec) AssignPropertiesFromManagedClustersAg
 		pool.PodSubnetIDReference = nil
 	}
 
-	// PowerState
-	if source.PowerState != nil {
-		var powerState PowerState
-		err := powerState.AssignPropertiesFromPowerState(source.PowerState)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromPowerState() to populate field PowerState")
-		}
-		pool.PowerState = &powerState
-	} else {
-		pool.PowerState = nil
-	}
-
-	// PropertiesType
-	if source.PropertiesType != nil {
-		propertiesType := AgentPoolType(*source.PropertiesType)
-		pool.PropertiesType = &propertiesType
-	} else {
-		pool.PropertiesType = nil
-	}
-
-	// ProvisioningState
-	pool.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
 	// ProximityPlacementGroupID
 	pool.ProximityPlacementGroupID = genruntime.ClonePointerToString(source.ProximityPlacementGroupID)
 
@@ -2235,7 +2126,12 @@ func (pool *ManagedClustersAgentPool_Spec) AssignPropertiesFromManagedClustersAg
 	pool.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
 	// Type
-	pool.Type = genruntime.ClonePointerToString(source.Type)
+	if source.Type != nil {
+		typeVar := AgentPoolType(*source.Type)
+		pool.Type = &typeVar
+	} else {
+		pool.Type = nil
+	}
 
 	// UpgradeSettings
 	if source.UpgradeSettings != nil {
@@ -2326,9 +2222,6 @@ func (pool *ManagedClustersAgentPool_Spec) AssignPropertiesToManagedClustersAgen
 		destination.GpuInstanceProfile = nil
 	}
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(pool.Id)
-
 	// KubeletConfig
 	if pool.KubeletConfig != nil {
 		var kubeletConfig alpha20210501s.KubeletConfig
@@ -2377,9 +2270,6 @@ func (pool *ManagedClustersAgentPool_Spec) AssignPropertiesToManagedClustersAgen
 	} else {
 		destination.Mode = nil
 	}
-
-	// NodeImageVersion
-	destination.NodeImageVersion = genruntime.ClonePointerToString(pool.NodeImageVersion)
 
 	// NodeLabels
 	destination.NodeLabels = genruntime.CloneMapOfStringToString(pool.NodeLabels)
@@ -2449,29 +2339,6 @@ func (pool *ManagedClustersAgentPool_Spec) AssignPropertiesToManagedClustersAgen
 		destination.PodSubnetIDReference = nil
 	}
 
-	// PowerState
-	if pool.PowerState != nil {
-		var powerState alpha20210501s.PowerState
-		err := pool.PowerState.AssignPropertiesToPowerState(&powerState)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToPowerState() to populate field PowerState")
-		}
-		destination.PowerState = &powerState
-	} else {
-		destination.PowerState = nil
-	}
-
-	// PropertiesType
-	if pool.PropertiesType != nil {
-		propertiesType := string(*pool.PropertiesType)
-		destination.PropertiesType = &propertiesType
-	} else {
-		destination.PropertiesType = nil
-	}
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(pool.ProvisioningState)
-
 	// ProximityPlacementGroupID
 	destination.ProximityPlacementGroupID = genruntime.ClonePointerToString(pool.ProximityPlacementGroupID)
 
@@ -2503,7 +2370,12 @@ func (pool *ManagedClustersAgentPool_Spec) AssignPropertiesToManagedClustersAgen
 	destination.Tags = genruntime.CloneMapOfStringToString(pool.Tags)
 
 	// Type
-	destination.Type = genruntime.ClonePointerToString(pool.Type)
+	if pool.Type != nil {
+		typeVar := string(*pool.Type)
+		destination.Type = &typeVar
+	} else {
+		destination.Type = nil
+	}
 
 	// UpgradeSettings
 	if pool.UpgradeSettings != nil {

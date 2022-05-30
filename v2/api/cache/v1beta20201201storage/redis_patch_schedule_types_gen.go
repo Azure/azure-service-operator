@@ -166,10 +166,8 @@ func (schedule *RedisPatchSchedule_STATUS) ConvertStatusTo(destination genruntim
 type RedisPatchSchedule_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string  `json:"azureName,omitempty"`
-	Id              *string `json:"id,omitempty"`
-	Location        *string `json:"location,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
+	AzureName       string `json:"azureName,omitempty"`
+	OriginalVersion string `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -178,7 +176,6 @@ type RedisPatchSchedule_Spec struct {
 	Owner           *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag     genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	ScheduleEntries []ScheduleEntry                    `json:"scheduleEntries,omitempty"`
-	Type            *string                            `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &RedisPatchSchedule_Spec{}

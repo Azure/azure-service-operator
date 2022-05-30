@@ -546,7 +546,6 @@ type DatabaseAccountsSqlDatabasesContainersTrigger_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string               `json:"azureName,omitempty"`
-	Id        *string              `json:"id,omitempty"`
 	Location  *string              `json:"location,omitempty"`
 	Options   *CreateUpdateOptions `json:"options,omitempty"`
 
@@ -559,7 +558,6 @@ type DatabaseAccountsSqlDatabasesContainersTrigger_Spec struct {
 	// +kubebuilder:validation:Required
 	Resource *SqlTriggerResource `json:"resource,omitempty"`
 	Tags     map[string]string   `json:"tags,omitempty"`
-	Type     *string             `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DatabaseAccountsSqlDatabasesContainersTrigger_Spec{}
@@ -573,12 +571,6 @@ func (trigger *DatabaseAccountsSqlDatabasesContainersTrigger_Spec) ConvertToARM(
 
 	// Set property ‘AzureName’:
 	result.AzureName = trigger.AzureName
-
-	// Set property ‘Id’:
-	if trigger.Id != nil {
-		id := *trigger.Id
-		result.Id = &id
-	}
 
 	// Set property ‘Location’:
 	if trigger.Location != nil {
@@ -617,12 +609,6 @@ func (trigger *DatabaseAccountsSqlDatabasesContainersTrigger_Spec) ConvertToARM(
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	if trigger.Type != nil {
-		typeVar := *trigger.Type
-		result.Type = &typeVar
-	}
 	return result, nil
 }
 
@@ -640,12 +626,6 @@ func (trigger *DatabaseAccountsSqlDatabasesContainersTrigger_Spec) PopulateFromA
 
 	// Set property ‘AzureName’:
 	trigger.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		trigger.Id = &id
-	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
@@ -692,12 +672,6 @@ func (trigger *DatabaseAccountsSqlDatabasesContainersTrigger_Spec) PopulateFromA
 		for key, value := range typedInput.Tags {
 			trigger.Tags[key] = value
 		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		trigger.Type = &typeVar
 	}
 
 	// No error
@@ -760,9 +734,6 @@ func (trigger *DatabaseAccountsSqlDatabasesContainersTrigger_Spec) AssignPropert
 	// AzureName
 	trigger.AzureName = source.AzureName
 
-	// Id
-	trigger.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Location
 	trigger.Location = genruntime.ClonePointerToString(source.Location)
 
@@ -801,9 +772,6 @@ func (trigger *DatabaseAccountsSqlDatabasesContainersTrigger_Spec) AssignPropert
 	// Tags
 	trigger.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
-	// Type
-	trigger.Type = genruntime.ClonePointerToString(source.Type)
-
 	// No error
 	return nil
 }
@@ -815,9 +783,6 @@ func (trigger *DatabaseAccountsSqlDatabasesContainersTrigger_Spec) AssignPropert
 
 	// AzureName
 	destination.AzureName = trigger.AzureName
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(trigger.Id)
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(trigger.Location)
@@ -859,9 +824,6 @@ func (trigger *DatabaseAccountsSqlDatabasesContainersTrigger_Spec) AssignPropert
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(trigger.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(trigger.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

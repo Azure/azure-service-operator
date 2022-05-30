@@ -202,14 +202,8 @@ func ServersConfiguration_SpecGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForServersConfiguration_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForServersConfiguration_Spec(gens map[string]gopter.Gen) {
-	gens["AllowedValues"] = gen.PtrOf(gen.AlphaString())
 	gens["AzureName"] = gen.AlphaString()
-	gens["DataType"] = gen.PtrOf(gen.AlphaString())
-	gens["DefaultValue"] = gen.PtrOf(gen.AlphaString())
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["Source"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }

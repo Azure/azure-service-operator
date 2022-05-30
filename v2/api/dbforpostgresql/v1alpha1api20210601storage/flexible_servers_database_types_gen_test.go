@@ -368,9 +368,6 @@ func RunJSONSerializationTestForFlexibleServersDatabase_Spec(subject FlexibleSer
 var flexibleServersDatabase_SpecGenerator gopter.Gen
 
 // FlexibleServersDatabase_SpecGenerator returns a generator of FlexibleServersDatabase_Spec instances for property testing.
-// We first initialize flexibleServersDatabase_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func FlexibleServersDatabase_SpecGenerator() gopter.Gen {
 	if flexibleServersDatabase_SpecGenerator != nil {
 		return flexibleServersDatabase_SpecGenerator
@@ -378,12 +375,6 @@ func FlexibleServersDatabase_SpecGenerator() gopter.Gen {
 
 	generators := make(map[string]gopter.Gen)
 	AddIndependentPropertyGeneratorsForFlexibleServersDatabase_Spec(generators)
-	flexibleServersDatabase_SpecGenerator = gen.Struct(reflect.TypeOf(FlexibleServersDatabase_Spec{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForFlexibleServersDatabase_Spec(generators)
-	AddRelatedPropertyGeneratorsForFlexibleServersDatabase_Spec(generators)
 	flexibleServersDatabase_SpecGenerator = gen.Struct(reflect.TypeOf(FlexibleServersDatabase_Spec{}), generators)
 
 	return flexibleServersDatabase_SpecGenerator
@@ -394,12 +385,5 @@ func AddIndependentPropertyGeneratorsForFlexibleServersDatabase_Spec(gens map[st
 	gens["AzureName"] = gen.AlphaString()
 	gens["Charset"] = gen.PtrOf(gen.AlphaString())
 	gens["Collation"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForFlexibleServersDatabase_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForFlexibleServersDatabase_Spec(gens map[string]gopter.Gen) {
-	gens["SystemData"] = gen.PtrOf(SystemDataGenerator())
 }

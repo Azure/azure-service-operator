@@ -384,7 +384,6 @@ type DatabaseAccountsSqlDatabase_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string               `json:"azureName,omitempty"`
-	Id              *string              `json:"id,omitempty"`
 	Location        *string              `json:"location,omitempty"`
 	Options         *CreateUpdateOptions `json:"options,omitempty"`
 	OriginalVersion string               `json:"originalVersion,omitempty"`
@@ -397,7 +396,6 @@ type DatabaseAccountsSqlDatabase_Spec struct {
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Resource    *SqlDatabaseResource               `json:"resource,omitempty"`
 	Tags        map[string]string                  `json:"tags,omitempty"`
-	Type        *string                            `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabase_Spec{}
@@ -458,9 +456,6 @@ func (database *DatabaseAccountsSqlDatabase_Spec) AssignPropertiesFromDatabaseAc
 	// AzureName
 	database.AzureName = source.AzureName
 
-	// Id
-	database.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Location
 	database.Location = genruntime.ClonePointerToString(source.Location)
 
@@ -502,9 +497,6 @@ func (database *DatabaseAccountsSqlDatabase_Spec) AssignPropertiesFromDatabaseAc
 	// Tags
 	database.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
-	// Type
-	database.Type = genruntime.ClonePointerToString(source.Type)
-
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		database.PropertyBag = propertyBag
@@ -523,9 +515,6 @@ func (database *DatabaseAccountsSqlDatabase_Spec) AssignPropertiesToDatabaseAcco
 
 	// AzureName
 	destination.AzureName = database.AzureName
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(database.Id)
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(database.Location)
@@ -567,9 +556,6 @@ func (database *DatabaseAccountsSqlDatabase_Spec) AssignPropertiesToDatabaseAcco
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(database.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(database.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

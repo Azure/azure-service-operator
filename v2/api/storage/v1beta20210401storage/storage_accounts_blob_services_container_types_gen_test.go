@@ -239,107 +239,15 @@ func StorageAccountsBlobServicesContainer_SpecGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForStorageAccountsBlobServicesContainer_Spec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
 	gens["DefaultEncryptionScope"] = gen.PtrOf(gen.AlphaString())
-	gens["Deleted"] = gen.PtrOf(gen.Bool())
-	gens["DeletedTime"] = gen.PtrOf(gen.AlphaString())
 	gens["DenyEncryptionScopeOverride"] = gen.PtrOf(gen.Bool())
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["HasImmutabilityPolicy"] = gen.PtrOf(gen.Bool())
-	gens["HasLegalHold"] = gen.PtrOf(gen.Bool())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
-	gens["LastModifiedTime"] = gen.PtrOf(gen.AlphaString())
-	gens["LeaseDuration"] = gen.PtrOf(gen.AlphaString())
-	gens["LeaseState"] = gen.PtrOf(gen.AlphaString())
-	gens["LeaseStatus"] = gen.PtrOf(gen.AlphaString())
 	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
 	gens["PublicAccess"] = gen.PtrOf(gen.AlphaString())
-	gens["RemainingRetentionDays"] = gen.PtrOf(gen.Int())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["Version"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForStorageAccountsBlobServicesContainer_Spec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForStorageAccountsBlobServicesContainer_Spec(gens map[string]gopter.Gen) {
-	gens["ImmutabilityPolicy"] = gen.PtrOf(ImmutabilityPolicyPropertiesGenerator())
 	gens["ImmutableStorageWithVersioning"] = gen.PtrOf(ImmutableStorageWithVersioningGenerator())
-	gens["LegalHold"] = gen.PtrOf(LegalHoldPropertiesGenerator())
-}
-
-func Test_ImmutabilityPolicyProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ImmutabilityPolicyProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForImmutabilityPolicyProperties, ImmutabilityPolicyPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForImmutabilityPolicyProperties runs a test to see if a specific instance of ImmutabilityPolicyProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForImmutabilityPolicyProperties(subject ImmutabilityPolicyProperties) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ImmutabilityPolicyProperties
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ImmutabilityPolicyProperties instances for property testing - lazily instantiated by
-// ImmutabilityPolicyPropertiesGenerator()
-var immutabilityPolicyPropertiesGenerator gopter.Gen
-
-// ImmutabilityPolicyPropertiesGenerator returns a generator of ImmutabilityPolicyProperties instances for property testing.
-// We first initialize immutabilityPolicyPropertiesGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func ImmutabilityPolicyPropertiesGenerator() gopter.Gen {
-	if immutabilityPolicyPropertiesGenerator != nil {
-		return immutabilityPolicyPropertiesGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForImmutabilityPolicyProperties(generators)
-	immutabilityPolicyPropertiesGenerator = gen.Struct(reflect.TypeOf(ImmutabilityPolicyProperties{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForImmutabilityPolicyProperties(generators)
-	AddRelatedPropertyGeneratorsForImmutabilityPolicyProperties(generators)
-	immutabilityPolicyPropertiesGenerator = gen.Struct(reflect.TypeOf(ImmutabilityPolicyProperties{}), generators)
-
-	return immutabilityPolicyPropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForImmutabilityPolicyProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForImmutabilityPolicyProperties(gens map[string]gopter.Gen) {
-	gens["AllowProtectedAppendWrites"] = gen.PtrOf(gen.Bool())
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
-	gens["ImmutabilityPeriodSinceCreationInDays"] = gen.PtrOf(gen.Int())
-	gens["State"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForImmutabilityPolicyProperties is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForImmutabilityPolicyProperties(gens map[string]gopter.Gen) {
-	gens["UpdateHistory"] = gen.SliceOf(UpdateHistoryPropertyGenerator())
 }
 
 func Test_ImmutabilityPolicyProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -477,8 +385,6 @@ func ImmutableStorageWithVersioningGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForImmutableStorageWithVersioning is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForImmutableStorageWithVersioning(gens map[string]gopter.Gen) {
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["MigrationState"] = gen.PtrOf(gen.AlphaString())
-	gens["TimeStamp"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ImmutableStorageWithVersioning_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -541,80 +447,6 @@ func AddIndependentPropertyGeneratorsForImmutableStorageWithVersioning_STATUS(ge
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
 	gens["MigrationState"] = gen.PtrOf(gen.AlphaString())
 	gens["TimeStamp"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_LegalHoldProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of LegalHoldProperties via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForLegalHoldProperties, LegalHoldPropertiesGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForLegalHoldProperties runs a test to see if a specific instance of LegalHoldProperties round trips to JSON and back losslessly
-func RunJSONSerializationTestForLegalHoldProperties(subject LegalHoldProperties) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual LegalHoldProperties
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of LegalHoldProperties instances for property testing - lazily instantiated by
-// LegalHoldPropertiesGenerator()
-var legalHoldPropertiesGenerator gopter.Gen
-
-// LegalHoldPropertiesGenerator returns a generator of LegalHoldProperties instances for property testing.
-// We first initialize legalHoldPropertiesGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
-func LegalHoldPropertiesGenerator() gopter.Gen {
-	if legalHoldPropertiesGenerator != nil {
-		return legalHoldPropertiesGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLegalHoldProperties(generators)
-	legalHoldPropertiesGenerator = gen.Struct(reflect.TypeOf(LegalHoldProperties{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForLegalHoldProperties(generators)
-	AddRelatedPropertyGeneratorsForLegalHoldProperties(generators)
-	legalHoldPropertiesGenerator = gen.Struct(reflect.TypeOf(LegalHoldProperties{}), generators)
-
-	return legalHoldPropertiesGenerator
-}
-
-// AddIndependentPropertyGeneratorsForLegalHoldProperties is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForLegalHoldProperties(gens map[string]gopter.Gen) {
-	gens["HasLegalHold"] = gen.PtrOf(gen.Bool())
-}
-
-// AddRelatedPropertyGeneratorsForLegalHoldProperties is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForLegalHoldProperties(gens map[string]gopter.Gen) {
-	gens["Tags"] = gen.SliceOf(TagPropertyGenerator())
 }
 
 func Test_LegalHoldProperties_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -691,69 +523,6 @@ func AddRelatedPropertyGeneratorsForLegalHoldProperties_STATUS(gens map[string]g
 	gens["Tags"] = gen.SliceOf(TagProperty_STATUSGenerator())
 }
 
-func Test_TagProperty_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of TagProperty via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForTagProperty, TagPropertyGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForTagProperty runs a test to see if a specific instance of TagProperty round trips to JSON and back losslessly
-func RunJSONSerializationTestForTagProperty(subject TagProperty) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual TagProperty
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of TagProperty instances for property testing - lazily instantiated by TagPropertyGenerator()
-var tagPropertyGenerator gopter.Gen
-
-// TagPropertyGenerator returns a generator of TagProperty instances for property testing.
-func TagPropertyGenerator() gopter.Gen {
-	if tagPropertyGenerator != nil {
-		return tagPropertyGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForTagProperty(generators)
-	tagPropertyGenerator = gen.Struct(reflect.TypeOf(TagProperty{}), generators)
-
-	return tagPropertyGenerator
-}
-
-// AddIndependentPropertyGeneratorsForTagProperty is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForTagProperty(gens map[string]gopter.Gen) {
-	gens["ObjectIdentifier"] = gen.PtrOf(gen.AlphaString())
-	gens["Tag"] = gen.PtrOf(gen.AlphaString())
-	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Timestamp"] = gen.PtrOf(gen.AlphaString())
-	gens["Upn"] = gen.PtrOf(gen.AlphaString())
-}
-
 func Test_TagProperty_STATUS_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -814,71 +583,6 @@ func AddIndependentPropertyGeneratorsForTagProperty_STATUS(gens map[string]gopte
 	gens["Tag"] = gen.PtrOf(gen.AlphaString())
 	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Timestamp"] = gen.PtrOf(gen.AlphaString())
-	gens["Upn"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_UpdateHistoryProperty_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of UpdateHistoryProperty via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForUpdateHistoryProperty, UpdateHistoryPropertyGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForUpdateHistoryProperty runs a test to see if a specific instance of UpdateHistoryProperty round trips to JSON and back losslessly
-func RunJSONSerializationTestForUpdateHistoryProperty(subject UpdateHistoryProperty) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual UpdateHistoryProperty
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of UpdateHistoryProperty instances for property testing - lazily instantiated by
-// UpdateHistoryPropertyGenerator()
-var updateHistoryPropertyGenerator gopter.Gen
-
-// UpdateHistoryPropertyGenerator returns a generator of UpdateHistoryProperty instances for property testing.
-func UpdateHistoryPropertyGenerator() gopter.Gen {
-	if updateHistoryPropertyGenerator != nil {
-		return updateHistoryPropertyGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForUpdateHistoryProperty(generators)
-	updateHistoryPropertyGenerator = gen.Struct(reflect.TypeOf(UpdateHistoryProperty{}), generators)
-
-	return updateHistoryPropertyGenerator
-}
-
-// AddIndependentPropertyGeneratorsForUpdateHistoryProperty is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForUpdateHistoryProperty(gens map[string]gopter.Gen) {
-	gens["ImmutabilityPeriodSinceCreationInDays"] = gen.PtrOf(gen.Int())
-	gens["ObjectIdentifier"] = gen.PtrOf(gen.AlphaString())
-	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Timestamp"] = gen.PtrOf(gen.AlphaString())
-	gens["Update"] = gen.PtrOf(gen.AlphaString())
 	gens["Upn"] = gen.PtrOf(gen.AlphaString())
 }
 

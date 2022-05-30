@@ -180,26 +180,25 @@ type VirtualNetworksVirtualNetworkPeering_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName                 string  `json:"azureName,omitempty"`
-	DoNotVerifyRemoteGateways *bool   `json:"doNotVerifyRemoteGateways,omitempty"`
-	Etag                      *string `json:"etag,omitempty"`
-	Id                        *string `json:"id,omitempty"`
-	OriginalVersion           string  `json:"originalVersion,omitempty"`
+	AzureName                 string `json:"azureName,omitempty"`
+	DoNotVerifyRemoteGateways *bool  `json:"doNotVerifyRemoteGateways,omitempty"`
+	OriginalVersion           string `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner                *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PeeringState         *string                            `json:"peeringState,omitempty"`
-	PropertyBag          genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	ProvisioningState    *string                            `json:"provisioningState,omitempty"`
-	RemoteAddressSpace   *AddressSpace                      `json:"remoteAddressSpace,omitempty"`
-	RemoteBgpCommunities *VirtualNetworkBgpCommunities      `json:"remoteBgpCommunities,omitempty"`
-	RemoteVirtualNetwork *SubResource                       `json:"remoteVirtualNetwork,omitempty"`
-	ResourceGuid         *string                            `json:"resourceGuid,omitempty"`
-	Type                 *string                            `json:"type,omitempty"`
-	UseRemoteGateways    *bool                              `json:"useRemoteGateways,omitempty"`
+	Owner        *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PeeringState *string                            `json:"peeringState,omitempty"`
+	PropertyBag  genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+
+	// Reference: Resource ID.
+	Reference            *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	RemoteAddressSpace   *AddressSpace                 `json:"remoteAddressSpace,omitempty"`
+	RemoteBgpCommunities *VirtualNetworkBgpCommunities `json:"remoteBgpCommunities,omitempty"`
+	RemoteVirtualNetwork *SubResource                  `json:"remoteVirtualNetwork,omitempty"`
+	Type                 *string                       `json:"type,omitempty"`
+	UseRemoteGateways    *bool                         `json:"useRemoteGateways,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &VirtualNetworksVirtualNetworkPeering_Spec{}

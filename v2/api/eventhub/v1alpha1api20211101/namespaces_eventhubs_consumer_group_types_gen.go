@@ -575,19 +575,13 @@ func (consumergroup *NamespacesEventhubsConsumergroup_STATUS) AssignPropertiesTo
 type NamespacesEventhubsConsumergroup_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName string  `json:"azureName,omitempty"`
-	CreatedAt *string `json:"createdAt,omitempty"`
-	Id        *string `json:"id,omitempty"`
-	Location  *string `json:"location,omitempty"`
+	AzureName string `json:"azureName,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner        *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	SystemData   *SystemData                        `json:"systemData,omitempty"`
-	Type         *string                            `json:"type,omitempty"`
-	UpdatedAt    *string                            `json:"updatedAt,omitempty"`
 	UserMetadata *string                            `json:"userMetadata,omitempty"`
 }
 
@@ -603,54 +597,16 @@ func (consumergroup *NamespacesEventhubsConsumergroup_Spec) ConvertToARM(resolve
 	// Set property ‘AzureName’:
 	result.AzureName = consumergroup.AzureName
 
-	// Set property ‘Id’:
-	if consumergroup.Id != nil {
-		id := *consumergroup.Id
-		result.Id = &id
-	}
-
-	// Set property ‘Location’:
-	if consumergroup.Location != nil {
-		location := *consumergroup.Location
-		result.Location = &location
-	}
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if consumergroup.CreatedAt != nil ||
-		consumergroup.UpdatedAt != nil ||
-		consumergroup.UserMetadata != nil {
+	if consumergroup.UserMetadata != nil {
 		result.Properties = &NamespacesEventhubsConsumergroup_Spec_PropertiesARM{}
-	}
-	if consumergroup.CreatedAt != nil {
-		createdAt := *consumergroup.CreatedAt
-		result.Properties.CreatedAt = &createdAt
-	}
-	if consumergroup.UpdatedAt != nil {
-		updatedAt := *consumergroup.UpdatedAt
-		result.Properties.UpdatedAt = &updatedAt
 	}
 	if consumergroup.UserMetadata != nil {
 		userMetadata := *consumergroup.UserMetadata
 		result.Properties.UserMetadata = &userMetadata
-	}
-
-	// Set property ‘SystemData’:
-	if consumergroup.SystemData != nil {
-		systemDataARM, err := (*consumergroup.SystemData).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		systemData := *systemDataARM.(*SystemDataARM)
-		result.SystemData = &systemData
-	}
-
-	// Set property ‘Type’:
-	if consumergroup.Type != nil {
-		typeVar := *consumergroup.Type
-		result.Type = &typeVar
 	}
 	return result, nil
 }
@@ -670,56 +626,9 @@ func (consumergroup *NamespacesEventhubsConsumergroup_Spec) PopulateFromARM(owne
 	// Set property ‘AzureName’:
 	consumergroup.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘CreatedAt’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.CreatedAt != nil {
-			createdAt := *typedInput.Properties.CreatedAt
-			consumergroup.CreatedAt = &createdAt
-		}
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		consumergroup.Id = &id
-	}
-
-	// Set property ‘Location’:
-	if typedInput.Location != nil {
-		location := *typedInput.Location
-		consumergroup.Location = &location
-	}
-
 	// Set property ‘Owner’:
 	consumergroup.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
-	}
-
-	// Set property ‘SystemData’:
-	if typedInput.SystemData != nil {
-		var systemData1 SystemData
-		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
-		if err != nil {
-			return err
-		}
-		systemData := systemData1
-		consumergroup.SystemData = &systemData
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		consumergroup.Type = &typeVar
-	}
-
-	// Set property ‘UpdatedAt’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.UpdatedAt != nil {
-			updatedAt := *typedInput.Properties.UpdatedAt
-			consumergroup.UpdatedAt = &updatedAt
-		}
 	}
 
 	// Set property ‘UserMetadata’:
@@ -791,49 +700,12 @@ func (consumergroup *NamespacesEventhubsConsumergroup_Spec) AssignPropertiesFrom
 	// AzureName
 	consumergroup.AzureName = source.AzureName
 
-	// CreatedAt
-	if source.CreatedAt != nil {
-		createdAt := *source.CreatedAt
-		consumergroup.CreatedAt = &createdAt
-	} else {
-		consumergroup.CreatedAt = nil
-	}
-
-	// Id
-	consumergroup.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Location
-	consumergroup.Location = genruntime.ClonePointerToString(source.Location)
-
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
 		consumergroup.Owner = &owner
 	} else {
 		consumergroup.Owner = nil
-	}
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
-		}
-		consumergroup.SystemData = &systemDatum
-	} else {
-		consumergroup.SystemData = nil
-	}
-
-	// Type
-	consumergroup.Type = genruntime.ClonePointerToString(source.Type)
-
-	// UpdatedAt
-	if source.UpdatedAt != nil {
-		updatedAt := *source.UpdatedAt
-		consumergroup.UpdatedAt = &updatedAt
-	} else {
-		consumergroup.UpdatedAt = nil
 	}
 
 	// UserMetadata
@@ -851,20 +723,6 @@ func (consumergroup *NamespacesEventhubsConsumergroup_Spec) AssignPropertiesToNa
 	// AzureName
 	destination.AzureName = consumergroup.AzureName
 
-	// CreatedAt
-	if consumergroup.CreatedAt != nil {
-		createdAt := *consumergroup.CreatedAt
-		destination.CreatedAt = &createdAt
-	} else {
-		destination.CreatedAt = nil
-	}
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(consumergroup.Id)
-
-	// Location
-	destination.Location = genruntime.ClonePointerToString(consumergroup.Location)
-
 	// OriginalVersion
 	destination.OriginalVersion = consumergroup.OriginalVersion()
 
@@ -874,29 +732,6 @@ func (consumergroup *NamespacesEventhubsConsumergroup_Spec) AssignPropertiesToNa
 		destination.Owner = &owner
 	} else {
 		destination.Owner = nil
-	}
-
-	// SystemData
-	if consumergroup.SystemData != nil {
-		var systemDatum alpha20211101s.SystemData
-		err := consumergroup.SystemData.AssignPropertiesToSystemData(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(consumergroup.Type)
-
-	// UpdatedAt
-	if consumergroup.UpdatedAt != nil {
-		updatedAt := *consumergroup.UpdatedAt
-		destination.UpdatedAt = &updatedAt
-	} else {
-		destination.UpdatedAt = nil
 	}
 
 	// UserMetadata

@@ -84,15 +84,12 @@ func StorageAccountsBlobService_SpecARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForStorageAccountsBlobService_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorageAccountsBlobService_SpecARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForStorageAccountsBlobService_SpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForStorageAccountsBlobService_SpecARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(StorageAccountsBlobService_Spec_PropertiesARMGenerator())
-	gens["Sku"] = gen.PtrOf(SkuARMGenerator())
 }
 
 func Test_StorageAccountsBlobService_Spec_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -478,8 +475,6 @@ func RestorePolicyPropertiesARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForRestorePolicyPropertiesARM(gens map[string]gopter.Gen) {
 	gens["Days"] = gen.PtrOf(gen.Int())
 	gens["Enabled"] = gen.PtrOf(gen.Bool())
-	gens["LastEnabledTime"] = gen.PtrOf(gen.AlphaString())
-	gens["MinRestoreTime"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_CorsRuleARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

@@ -8,10 +8,8 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 // Deprecated version of RedisEnterpriseDatabase_Spec. Use v1beta20210301.RedisEnterpriseDatabase_Spec instead
 type RedisEnterpriseDatabase_SpecARM struct {
 	AzureName  string                 `json:"azureName,omitempty"`
-	Id         *string                `json:"id,omitempty"`
 	Name       string                 `json:"name,omitempty"`
 	Properties *DatabasePropertiesARM `json:"properties,omitempty"`
-	Type       *string                `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &RedisEnterpriseDatabase_SpecARM{}
@@ -33,21 +31,18 @@ func (database *RedisEnterpriseDatabase_SpecARM) GetType() string {
 
 // Deprecated version of DatabaseProperties. Use v1beta20210301.DatabaseProperties instead
 type DatabasePropertiesARM struct {
-	ClientProtocol    *DatabaseProperties_ClientProtocol   `json:"clientProtocol,omitempty"`
-	ClusteringPolicy  *DatabaseProperties_ClusteringPolicy `json:"clusteringPolicy,omitempty"`
-	EvictionPolicy    *DatabaseProperties_EvictionPolicy   `json:"evictionPolicy,omitempty"`
-	Modules           []ModuleARM                          `json:"modules,omitempty"`
-	Persistence       *PersistenceARM                      `json:"persistence,omitempty"`
-	Port              *int                                 `json:"port,omitempty"`
-	ProvisioningState *ProvisioningState                   `json:"provisioningState,omitempty"`
-	ResourceState     *ResourceState                       `json:"resourceState,omitempty"`
+	ClientProtocol   *DatabaseProperties_ClientProtocol   `json:"clientProtocol,omitempty"`
+	ClusteringPolicy *DatabaseProperties_ClusteringPolicy `json:"clusteringPolicy,omitempty"`
+	EvictionPolicy   *DatabaseProperties_EvictionPolicy   `json:"evictionPolicy,omitempty"`
+	Modules          []ModuleARM                          `json:"modules,omitempty"`
+	Persistence      *PersistenceARM                      `json:"persistence,omitempty"`
+	Port             *int                                 `json:"port,omitempty"`
 }
 
 // Deprecated version of Module. Use v1beta20210301.Module instead
 type ModuleARM struct {
-	Args    *string `json:"args,omitempty"`
-	Name    *string `json:"name,omitempty"`
-	Version *string `json:"version,omitempty"`
+	Args *string `json:"args,omitempty"`
+	Name *string `json:"name,omitempty"`
 }
 
 // Deprecated version of Persistence. Use v1beta20210301.Persistence instead

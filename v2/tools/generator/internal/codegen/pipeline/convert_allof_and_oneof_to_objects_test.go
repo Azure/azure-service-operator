@@ -114,6 +114,24 @@ func TestMergeObjectObject(t *testing.T) {
 	g.Expect(synth.intersectTypes(obj2, obj1)).To(Equal(expected))
 }
 
+// merging two objects preserves isResource
+func TestMergeObjectIsResource(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	propX := astmodel.NewPropertyDefinition("x", "x", astmodel.IntType)
+	obj1 := astmodel.NewObjectType().WithProperties(propX).WithIsResource(true)
+
+	propY := astmodel.NewPropertyDefinition("y", "y", astmodel.FloatType)
+	obj2 := astmodel.NewObjectType().WithProperties(propY)
+
+	expected := astmodel.NewObjectType().WithProperties(propX, propY).WithIsResource(true)
+
+	synth := makeSynth()
+	g.Expect(synth.intersectTypes(obj1, obj2)).To(Equal(expected))
+	g.Expect(synth.intersectTypes(obj2, obj1)).To(Equal(expected))
+}
+
 // merging two enums results in the intersection of their values
 func TestMergeEnumEnum(t *testing.T) {
 	t.Parallel()

@@ -84,9 +84,7 @@ func ServersConfiguration_SpecARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForServersConfiguration_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForServersConfiguration_SpecARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForServersConfiguration_SpecARM is a factory method for creating gopter generators
@@ -151,10 +149,6 @@ func ConfigurationPropertiesARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForConfigurationPropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForConfigurationPropertiesARM(gens map[string]gopter.Gen) {
-	gens["AllowedValues"] = gen.PtrOf(gen.AlphaString())
-	gens["DataType"] = gen.PtrOf(gen.AlphaString())
-	gens["DefaultValue"] = gen.PtrOf(gen.AlphaString())
-	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["Source"] = gen.PtrOf(gen.AlphaString())
 	gens["Value"] = gen.PtrOf(gen.AlphaString())
 }

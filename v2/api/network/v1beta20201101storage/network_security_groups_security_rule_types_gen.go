@@ -183,33 +183,33 @@ type NetworkSecurityGroupsSecurityRule_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName                            string                                                                               `json:"azureName,omitempty"`
-	Description                          *string                                                                              `json:"description,omitempty"`
-	DestinationAddressPrefix             *string                                                                              `json:"destinationAddressPrefix,omitempty"`
-	DestinationAddressPrefixes           []string                                                                             `json:"destinationAddressPrefixes,omitempty"`
-	DestinationApplicationSecurityGroups []ApplicationSecurityGroupSpec_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded `json:"destinationApplicationSecurityGroups,omitempty"`
-	DestinationPortRange                 *string                                                                              `json:"destinationPortRange,omitempty"`
-	DestinationPortRanges                []string                                                                             `json:"destinationPortRanges,omitempty"`
-	Direction                            *string                                                                              `json:"direction,omitempty"`
-	Etag                                 *string                                                                              `json:"etag,omitempty"`
-	Id                                   *string                                                                              `json:"id,omitempty"`
-	OriginalVersion                      string                                                                               `json:"originalVersion,omitempty"`
+	AzureName                            string                         `json:"azureName,omitempty"`
+	Description                          *string                        `json:"description,omitempty"`
+	DestinationAddressPrefix             *string                        `json:"destinationAddressPrefix,omitempty"`
+	DestinationAddressPrefixes           []string                       `json:"destinationAddressPrefixes,omitempty"`
+	DestinationApplicationSecurityGroups []ApplicationSecurityGroupSpec `json:"destinationApplicationSecurityGroups,omitempty"`
+	DestinationPortRange                 *string                        `json:"destinationPortRange,omitempty"`
+	DestinationPortRanges                []string                       `json:"destinationPortRanges,omitempty"`
+	Direction                            *string                        `json:"direction,omitempty"`
+	OriginalVersion                      string                         `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner                           *genruntime.KnownResourceReference                                                   `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	Priority                        *int                                                                                 `json:"priority,omitempty"`
-	PropertyBag                     genruntime.PropertyBag                                                               `json:"$propertyBag,omitempty"`
-	Protocol                        *string                                                                              `json:"protocol,omitempty"`
-	ProvisioningState               *string                                                                              `json:"provisioningState,omitempty"`
-	SourceAddressPrefix             *string                                                                              `json:"sourceAddressPrefix,omitempty"`
-	SourceAddressPrefixes           []string                                                                             `json:"sourceAddressPrefixes,omitempty"`
-	SourceApplicationSecurityGroups []ApplicationSecurityGroupSpec_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded `json:"sourceApplicationSecurityGroups,omitempty"`
-	SourcePortRange                 *string                                                                              `json:"sourcePortRange,omitempty"`
-	SourcePortRanges                []string                                                                             `json:"sourcePortRanges,omitempty"`
-	Type                            *string                                                                              `json:"type,omitempty"`
+	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	Priority    *int                               `json:"priority,omitempty"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	Protocol    *string                            `json:"protocol,omitempty"`
+
+	// Reference: Resource ID.
+	Reference                       *genruntime.ResourceReference  `armReference:"Id" json:"reference,omitempty"`
+	SourceAddressPrefix             *string                        `json:"sourceAddressPrefix,omitempty"`
+	SourceAddressPrefixes           []string                       `json:"sourceAddressPrefixes,omitempty"`
+	SourceApplicationSecurityGroups []ApplicationSecurityGroupSpec `json:"sourceApplicationSecurityGroups,omitempty"`
+	SourcePortRange                 *string                        `json:"sourcePortRange,omitempty"`
+	SourcePortRanges                []string                       `json:"sourcePortRanges,omitempty"`
+	Type                            *string                        `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &NetworkSecurityGroupsSecurityRule_Spec{}
@@ -232,10 +232,14 @@ func (rule *NetworkSecurityGroupsSecurityRule_Spec) ConvertSpecTo(destination ge
 	return destination.ConvertSpecFrom(rule)
 }
 
-// Storage version of v1beta20201101.ApplicationSecurityGroupSpec_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded
-type ApplicationSecurityGroupSpec_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded struct {
-	Id          *string                `json:"id,omitempty"`
+// Storage version of v1beta20201101.ApplicationSecurityGroupSpec
+type ApplicationSecurityGroupSpec struct {
+	Location    *string                `json:"location,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+
+	// Reference: Resource ID.
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
+	Tags      map[string]string             `json:"tags,omitempty"`
 }
 
 // Storage version of v1beta20201101.ApplicationSecurityGroup_STATUS_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded

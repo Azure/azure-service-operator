@@ -168,7 +168,6 @@ type RedisFirewallRule_Spec struct {
 	// doesn't have to be.
 	AzureName       string  `json:"azureName,omitempty"`
 	EndIP           *string `json:"endIP,omitempty"`
-	Id              *string `json:"id,omitempty"`
 	OriginalVersion string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -178,7 +177,6 @@ type RedisFirewallRule_Spec struct {
 	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	StartIP     *string                            `json:"startIP,omitempty"`
-	Type        *string                            `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &RedisFirewallRule_Spec{}

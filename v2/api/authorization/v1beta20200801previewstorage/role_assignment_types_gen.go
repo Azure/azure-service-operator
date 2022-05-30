@@ -185,8 +185,6 @@ type RoleAssignment_Spec struct {
 	AzureName                          string  `json:"azureName,omitempty"`
 	Condition                          *string `json:"condition,omitempty"`
 	ConditionVersion                   *string `json:"conditionVersion,omitempty"`
-	CreatedBy                          *string `json:"createdBy,omitempty"`
-	CreatedOn                          *string `json:"createdOn,omitempty"`
 	DelegatedManagedIdentityResourceId *string `json:"delegatedManagedIdentityResourceId,omitempty"`
 	Description                        *string `json:"description,omitempty"`
 	OriginalVersion                    string  `json:"originalVersion,omitempty"`
@@ -203,9 +201,6 @@ type RoleAssignment_Spec struct {
 	// +kubebuilder:validation:Required
 	// RoleDefinitionReference: The role definition ID.
 	RoleDefinitionReference *genruntime.ResourceReference `armReference:"RoleDefinitionId" json:"roleDefinitionReference,omitempty"`
-	Scope                   *string                       `json:"scope,omitempty"`
-	UpdatedBy               *string                       `json:"updatedBy,omitempty"`
-	UpdatedOn               *string                       `json:"updatedOn,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &RoleAssignment_Spec{}

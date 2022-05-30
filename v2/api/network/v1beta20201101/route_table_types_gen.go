@@ -597,12 +597,6 @@ type RouteTable_Spec struct {
 	// DisableBgpRoutePropagation: Whether to disable the routes learned by BGP on that route table. True means disable.
 	DisableBgpRoutePropagation *bool `json:"disableBgpRoutePropagation,omitempty"`
 
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
 	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
 
@@ -612,23 +606,14 @@ type RouteTable_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
-	// ProvisioningState: The provisioning state of the route table resource.
-	ProvisioningState *ProvisioningState `json:"provisioningState,omitempty"`
-
-	// ResourceGuid: The resource GUID property of the route table.
-	ResourceGuid *string `json:"resourceGuid,omitempty"`
+	// Reference: Resource ID.
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 
 	// Routes: Collection of routes contained within a route table.
-	Routes []Route `json:"routes,omitempty"`
-
-	// Subnets: A collection of references to subnets.
-	Subnets []Subnet_RouteTable_SubResourceEmbedded `json:"subnets,omitempty"`
+	Routes []Route_RouteTable_SubResourceEmbedded `json:"routes,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: Resource type.
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &RouteTable_Spec{}
@@ -643,16 +628,14 @@ func (table *RouteTable_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 	// Set property ‘AzureName’:
 	result.AzureName = table.AzureName
 
-	// Set property ‘Etag’:
-	if table.Etag != nil {
-		etag := *table.Etag
-		result.Etag = &etag
-	}
-
 	// Set property ‘Id’:
-	if table.Id != nil {
-		id := *table.Id
-		result.Id = &id
+	if table.Reference != nil {
+		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*table.Reference)
+		if err != nil {
+			return nil, err
+		}
+		reference := referenceARMID
+		result.Id = &reference
 	}
 
 	// Set property ‘Location’:
@@ -665,38 +648,19 @@ func (table *RouteTable_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if table.DisableBgpRoutePropagation != nil ||
-		table.ProvisioningState != nil ||
-		table.ResourceGuid != nil ||
-		table.Routes != nil ||
-		table.Subnets != nil {
-		result.Properties = &RouteTablePropertiesFormatARM{}
+	if table.DisableBgpRoutePropagation != nil || table.Routes != nil {
+		result.Properties = &RouteTablePropertiesFormat_RouteTable_SubResourceEmbeddedARM{}
 	}
 	if table.DisableBgpRoutePropagation != nil {
 		disableBgpRoutePropagation := *table.DisableBgpRoutePropagation
 		result.Properties.DisableBgpRoutePropagation = &disableBgpRoutePropagation
-	}
-	if table.ProvisioningState != nil {
-		provisioningState := *table.ProvisioningState
-		result.Properties.ProvisioningState = &provisioningState
-	}
-	if table.ResourceGuid != nil {
-		resourceGuid := *table.ResourceGuid
-		result.Properties.ResourceGuid = &resourceGuid
 	}
 	for _, item := range table.Routes {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Routes = append(result.Properties.Routes, *itemARM.(*RouteARM))
-	}
-	for _, item := range table.Subnets {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Properties.Subnets = append(result.Properties.Subnets, *itemARM.(*Subnet_RouteTable_SubResourceEmbeddedARM))
+		result.Properties.Routes = append(result.Properties.Routes, *itemARM.(*Route_RouteTable_SubResourceEmbeddedARM))
 	}
 
 	// Set property ‘Tags’:
@@ -705,12 +669,6 @@ func (table *RouteTable_Spec) ConvertToARM(resolved genruntime.ConvertToARMResol
 		for key, value := range table.Tags {
 			result.Tags[key] = value
 		}
-	}
-
-	// Set property ‘Type’:
-	if table.Type != nil {
-		typeVar := *table.Type
-		result.Type = &typeVar
 	}
 	return result, nil
 }
@@ -739,18 +697,6 @@ func (table *RouteTable_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		}
 	}
 
-	// Set property ‘Etag’:
-	if typedInput.Etag != nil {
-		etag := *typedInput.Etag
-		table.Etag = &etag
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		table.Id = &id
-	}
-
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
@@ -762,47 +708,18 @@ func (table *RouteTable_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		Name: owner.Name,
 	}
 
-	// Set property ‘ProvisioningState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
-			table.ProvisioningState = &provisioningState
-		}
-	}
-
-	// Set property ‘ResourceGuid’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ResourceGuid != nil {
-			resourceGuid := *typedInput.Properties.ResourceGuid
-			table.ResourceGuid = &resourceGuid
-		}
-	}
+	// no assignment for property ‘Reference’
 
 	// Set property ‘Routes’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.Routes {
-			var item1 Route
+			var item1 Route_RouteTable_SubResourceEmbedded
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
 			}
 			table.Routes = append(table.Routes, item1)
-		}
-	}
-
-	// Set property ‘Subnets’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.Subnets {
-			var item1 Subnet_RouteTable_SubResourceEmbedded
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			table.Subnets = append(table.Subnets, item1)
 		}
 	}
 
@@ -812,12 +729,6 @@ func (table *RouteTable_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRef
 		for key, value := range typedInput.Tags {
 			table.Tags[key] = value
 		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		table.Type = &typeVar
 	}
 
 	// No error
@@ -888,12 +799,6 @@ func (table *RouteTable_Spec) AssignPropertiesFromRouteTable_Spec(source *v20201
 		table.DisableBgpRoutePropagation = nil
 	}
 
-	// Etag
-	table.Etag = genruntime.ClonePointerToString(source.Etag)
-
-	// Id
-	table.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Location
 	table.Location = genruntime.ClonePointerToString(source.Location)
 
@@ -905,27 +810,24 @@ func (table *RouteTable_Spec) AssignPropertiesFromRouteTable_Spec(source *v20201
 		table.Owner = nil
 	}
 
-	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState(*source.ProvisioningState)
-		table.ProvisioningState = &provisioningState
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		table.Reference = &reference
 	} else {
-		table.ProvisioningState = nil
+		table.Reference = nil
 	}
-
-	// ResourceGuid
-	table.ResourceGuid = genruntime.ClonePointerToString(source.ResourceGuid)
 
 	// Routes
 	if source.Routes != nil {
-		routeList := make([]Route, len(source.Routes))
+		routeList := make([]Route_RouteTable_SubResourceEmbedded, len(source.Routes))
 		for routeIndex, routeItem := range source.Routes {
 			// Shadow the loop variable to avoid aliasing
 			routeItem := routeItem
-			var route Route
-			err := route.AssignPropertiesFromRoute(&routeItem)
+			var route Route_RouteTable_SubResourceEmbedded
+			err := route.AssignPropertiesFromRoute_RouteTable_SubResourceEmbedded(&routeItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromRoute() to populate field Routes")
+				return errors.Wrap(err, "calling AssignPropertiesFromRoute_RouteTable_SubResourceEmbedded() to populate field Routes")
 			}
 			routeList[routeIndex] = route
 		}
@@ -934,29 +836,8 @@ func (table *RouteTable_Spec) AssignPropertiesFromRouteTable_Spec(source *v20201
 		table.Routes = nil
 	}
 
-	// Subnets
-	if source.Subnets != nil {
-		subnetList := make([]Subnet_RouteTable_SubResourceEmbedded, len(source.Subnets))
-		for subnetIndex, subnetItem := range source.Subnets {
-			// Shadow the loop variable to avoid aliasing
-			subnetItem := subnetItem
-			var subnet Subnet_RouteTable_SubResourceEmbedded
-			err := subnet.AssignPropertiesFromSubnet_RouteTable_SubResourceEmbedded(&subnetItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromSubnet_RouteTable_SubResourceEmbedded() to populate field Subnets")
-			}
-			subnetList[subnetIndex] = subnet
-		}
-		table.Subnets = subnetList
-	} else {
-		table.Subnets = nil
-	}
-
 	// Tags
 	table.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	table.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -978,12 +859,6 @@ func (table *RouteTable_Spec) AssignPropertiesToRouteTable_Spec(destination *v20
 		destination.DisableBgpRoutePropagation = nil
 	}
 
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(table.Etag)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(table.Id)
-
 	// Location
 	destination.Location = genruntime.ClonePointerToString(table.Location)
 
@@ -998,27 +873,24 @@ func (table *RouteTable_Spec) AssignPropertiesToRouteTable_Spec(destination *v20
 		destination.Owner = nil
 	}
 
-	// ProvisioningState
-	if table.ProvisioningState != nil {
-		provisioningState := string(*table.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
+	// Reference
+	if table.Reference != nil {
+		reference := table.Reference.Copy()
+		destination.Reference = &reference
 	} else {
-		destination.ProvisioningState = nil
+		destination.Reference = nil
 	}
-
-	// ResourceGuid
-	destination.ResourceGuid = genruntime.ClonePointerToString(table.ResourceGuid)
 
 	// Routes
 	if table.Routes != nil {
-		routeList := make([]v20201101s.Route, len(table.Routes))
+		routeList := make([]v20201101s.Route_RouteTable_SubResourceEmbedded, len(table.Routes))
 		for routeIndex, routeItem := range table.Routes {
 			// Shadow the loop variable to avoid aliasing
 			routeItem := routeItem
-			var route v20201101s.Route
-			err := routeItem.AssignPropertiesToRoute(&route)
+			var route v20201101s.Route_RouteTable_SubResourceEmbedded
+			err := routeItem.AssignPropertiesToRoute_RouteTable_SubResourceEmbedded(&route)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToRoute() to populate field Routes")
+				return errors.Wrap(err, "calling AssignPropertiesToRoute_RouteTable_SubResourceEmbedded() to populate field Routes")
 			}
 			routeList[routeIndex] = route
 		}
@@ -1027,29 +899,8 @@ func (table *RouteTable_Spec) AssignPropertiesToRouteTable_Spec(destination *v20
 		destination.Routes = nil
 	}
 
-	// Subnets
-	if table.Subnets != nil {
-		subnetList := make([]v20201101s.Subnet_RouteTable_SubResourceEmbedded, len(table.Subnets))
-		for subnetIndex, subnetItem := range table.Subnets {
-			// Shadow the loop variable to avoid aliasing
-			subnetItem := subnetItem
-			var subnet v20201101s.Subnet_RouteTable_SubResourceEmbedded
-			err := subnetItem.AssignPropertiesToSubnet_RouteTable_SubResourceEmbedded(&subnet)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToSubnet_RouteTable_SubResourceEmbedded() to populate field Subnets")
-			}
-			subnetList[subnetIndex] = subnet
-		}
-		destination.Subnets = subnetList
-	} else {
-		destination.Subnets = nil
-	}
-
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(table.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(table.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1070,140 +921,77 @@ func (table *RouteTable_Spec) OriginalVersion() string {
 // SetAzureName sets the Azure name of the resource
 func (table *RouteTable_Spec) SetAzureName(azureName string) { table.AzureName = azureName }
 
-type Route struct {
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
+type Route_RouteTable_SubResourceEmbedded struct {
+	// Reference: Resource ID.
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
-var _ genruntime.ARMTransformer = &Route{}
+var _ genruntime.ARMTransformer = &Route_RouteTable_SubResourceEmbedded{}
 
 // ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (route *Route) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if route == nil {
-		return nil, nil
-	}
-	result := &RouteARM{}
-
-	// Set property ‘Id’:
-	if route.Id != nil {
-		id := *route.Id
-		result.Id = &id
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (route *Route) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &RouteARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (route *Route) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(RouteARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected RouteARM, got %T", armInput)
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		route.Id = &id
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromRoute populates our Route from the provided source Route
-func (route *Route) AssignPropertiesFromRoute(source *v20201101s.Route) error {
-
-	// Id
-	route.Id = genruntime.ClonePointerToString(source.Id)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToRoute populates the provided destination Route from our Route
-func (route *Route) AssignPropertiesToRoute(destination *v20201101s.Route) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(route.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-type Subnet_RouteTable_SubResourceEmbedded struct {
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &Subnet_RouteTable_SubResourceEmbedded{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (embedded *Subnet_RouteTable_SubResourceEmbedded) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+func (embedded *Route_RouteTable_SubResourceEmbedded) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
 	if embedded == nil {
 		return nil, nil
 	}
-	result := &Subnet_RouteTable_SubResourceEmbeddedARM{}
+	result := &Route_RouteTable_SubResourceEmbeddedARM{}
 
 	// Set property ‘Id’:
-	if embedded.Id != nil {
-		id := *embedded.Id
-		result.Id = &id
+	if embedded.Reference != nil {
+		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*embedded.Reference)
+		if err != nil {
+			return nil, err
+		}
+		reference := referenceARMID
+		result.Id = &reference
 	}
 	return result, nil
 }
 
 // NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (embedded *Subnet_RouteTable_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &Subnet_RouteTable_SubResourceEmbeddedARM{}
+func (embedded *Route_RouteTable_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Route_RouteTable_SubResourceEmbeddedARM{}
 }
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (embedded *Subnet_RouteTable_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Subnet_RouteTable_SubResourceEmbeddedARM)
+func (embedded *Route_RouteTable_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	_, ok := armInput.(Route_RouteTable_SubResourceEmbeddedARM)
 	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Subnet_RouteTable_SubResourceEmbeddedARM, got %T", armInput)
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Route_RouteTable_SubResourceEmbeddedARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		embedded.Id = &id
+	// no assignment for property ‘Reference’
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromRoute_RouteTable_SubResourceEmbedded populates our Route_RouteTable_SubResourceEmbedded from the provided source Route_RouteTable_SubResourceEmbedded
+func (embedded *Route_RouteTable_SubResourceEmbedded) AssignPropertiesFromRoute_RouteTable_SubResourceEmbedded(source *v20201101s.Route_RouteTable_SubResourceEmbedded) error {
+
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		embedded.Reference = &reference
+	} else {
+		embedded.Reference = nil
 	}
 
 	// No error
 	return nil
 }
 
-// AssignPropertiesFromSubnet_RouteTable_SubResourceEmbedded populates our Subnet_RouteTable_SubResourceEmbedded from the provided source Subnet_RouteTable_SubResourceEmbedded
-func (embedded *Subnet_RouteTable_SubResourceEmbedded) AssignPropertiesFromSubnet_RouteTable_SubResourceEmbedded(source *v20201101s.Subnet_RouteTable_SubResourceEmbedded) error {
-
-	// Id
-	embedded.Id = genruntime.ClonePointerToString(source.Id)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToSubnet_RouteTable_SubResourceEmbedded populates the provided destination Subnet_RouteTable_SubResourceEmbedded from our Subnet_RouteTable_SubResourceEmbedded
-func (embedded *Subnet_RouteTable_SubResourceEmbedded) AssignPropertiesToSubnet_RouteTable_SubResourceEmbedded(destination *v20201101s.Subnet_RouteTable_SubResourceEmbedded) error {
+// AssignPropertiesToRoute_RouteTable_SubResourceEmbedded populates the provided destination Route_RouteTable_SubResourceEmbedded from our Route_RouteTable_SubResourceEmbedded
+func (embedded *Route_RouteTable_SubResourceEmbedded) AssignPropertiesToRoute_RouteTable_SubResourceEmbedded(destination *v20201101s.Route_RouteTable_SubResourceEmbedded) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(embedded.Id)
+	// Reference
+	if embedded.Reference != nil {
+		reference := embedded.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

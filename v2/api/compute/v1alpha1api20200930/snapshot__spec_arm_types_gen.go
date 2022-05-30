@@ -9,14 +9,11 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 type Snapshot_SpecARM struct {
 	AzureName        string                 `json:"azureName,omitempty"`
 	ExtendedLocation *ExtendedLocationARM   `json:"extendedLocation,omitempty"`
-	Id               *string                `json:"id,omitempty"`
 	Location         *string                `json:"location,omitempty"`
-	ManagedBy        *string                `json:"managedBy,omitempty"`
 	Name             string                 `json:"name,omitempty"`
 	Properties       *SnapshotPropertiesARM `json:"properties,omitempty"`
 	Sku              *SnapshotSkuARM        `json:"sku,omitempty"`
 	Tags             map[string]string      `json:"tags,omitempty"`
-	Type             *string                `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Snapshot_SpecARM{}
@@ -40,7 +37,6 @@ func (snapshot *Snapshot_SpecARM) GetType() string {
 type SnapshotPropertiesARM struct {
 	CreationData                 *CreationDataARM                     `json:"creationData,omitempty"`
 	DiskAccessId                 *string                              `json:"diskAccessId,omitempty"`
-	DiskSizeBytes                *int                                 `json:"diskSizeBytes,omitempty"`
 	DiskSizeGB                   *int                                 `json:"diskSizeGB,omitempty"`
 	DiskState                    *DiskState                           `json:"diskState,omitempty"`
 	Encryption                   *EncryptionARM                       `json:"encryption,omitempty"`
@@ -49,16 +45,12 @@ type SnapshotPropertiesARM struct {
 	Incremental                  *bool                                `json:"incremental,omitempty"`
 	NetworkAccessPolicy          *NetworkAccessPolicy                 `json:"networkAccessPolicy,omitempty"`
 	OsType                       *SnapshotProperties_OsType           `json:"osType,omitempty"`
-	ProvisioningState            *string                              `json:"provisioningState,omitempty"`
 	PurchasePlan                 *PurchasePlanARM                     `json:"purchasePlan,omitempty"`
-	TimeCreated                  *string                              `json:"timeCreated,omitempty"`
-	UniqueId                     *string                              `json:"uniqueId,omitempty"`
 }
 
 // Deprecated version of SnapshotSku. Use v1beta20200930.SnapshotSku instead
 type SnapshotSkuARM struct {
 	Name *SnapshotSku_Name `json:"name,omitempty"`
-	Tier *string           `json:"tier,omitempty"`
 }
 
 // Deprecated version of SnapshotSku_Name. Use v1beta20200930.SnapshotSku_Name instead

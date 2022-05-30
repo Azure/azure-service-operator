@@ -12,14 +12,12 @@ import (
 type ManagedCluster_SpecARM struct {
 	AzureName        string                       `json:"azureName,omitempty"`
 	ExtendedLocation *ExtendedLocationARM         `json:"extendedLocation,omitempty"`
-	Id               *string                      `json:"id,omitempty"`
 	Identity         *ManagedClusterIdentityARM   `json:"identity,omitempty"`
 	Location         *string                      `json:"location,omitempty"`
 	Name             string                       `json:"name,omitempty"`
 	Properties       *ManagedClusterPropertiesARM `json:"properties,omitempty"`
 	Sku              *ManagedClusterSKUARM        `json:"sku,omitempty"`
 	Tags             map[string]string            `json:"tags,omitempty"`
-	Type             *string                      `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &ManagedCluster_SpecARM{}
@@ -47,10 +45,7 @@ type ExtendedLocationARM struct {
 
 // Deprecated version of ManagedClusterIdentity. Use v1beta20210501.ManagedClusterIdentity instead
 type ManagedClusterIdentityARM struct {
-	PrincipalId            *string                                                     `json:"principalId,omitempty"`
-	TenantId               *string                                                     `json:"tenantId,omitempty"`
-	Type                   *ManagedClusterIdentity_Type                                `json:"type,omitempty"`
-	UserAssignedIdentities map[string]ManagedClusterIdentity_UserAssignedIdentitiesARM `json:"userAssignedIdentities,omitempty"`
+	Type *ManagedClusterIdentity_Type `json:"type,omitempty"`
 }
 
 // Deprecated version of ManagedClusterProperties. Use v1beta20210501.ManagedClusterProperties instead
@@ -61,26 +56,20 @@ type ManagedClusterPropertiesARM struct {
 	ApiServerAccessProfile  *ManagedClusterAPIServerAccessProfileARM       `json:"apiServerAccessProfile,omitempty"`
 	AutoScalerProfile       *ManagedClusterProperties_AutoScalerProfileARM `json:"autoScalerProfile,omitempty"`
 	AutoUpgradeProfile      *ManagedClusterAutoUpgradeProfileARM           `json:"autoUpgradeProfile,omitempty"`
-	AzurePortalFQDN         *string                                        `json:"azurePortalFQDN,omitempty"`
 	DisableLocalAccounts    *bool                                          `json:"disableLocalAccounts,omitempty"`
 	DiskEncryptionSetID     *string                                        `json:"diskEncryptionSetID,omitempty"`
 	DnsPrefix               *string                                        `json:"dnsPrefix,omitempty"`
 	EnablePodSecurityPolicy *bool                                          `json:"enablePodSecurityPolicy,omitempty"`
 	EnableRBAC              *bool                                          `json:"enableRBAC,omitempty"`
-	Fqdn                    *string                                        `json:"fqdn,omitempty"`
 	FqdnSubdomain           *string                                        `json:"fqdnSubdomain,omitempty"`
 	HttpProxyConfig         *ManagedClusterHTTPProxyConfigARM              `json:"httpProxyConfig,omitempty"`
 	IdentityProfile         *v1.JSON                                       `json:"identityProfile,omitempty"`
 	KubernetesVersion       *string                                        `json:"kubernetesVersion,omitempty"`
 	LinuxProfile            *ContainerServiceLinuxProfileARM               `json:"linuxProfile,omitempty"`
-	MaxAgentPools           *int                                           `json:"maxAgentPools,omitempty"`
 	NetworkProfile          *ContainerServiceNetworkProfileARM             `json:"networkProfile,omitempty"`
 	NodeResourceGroup       *string                                        `json:"nodeResourceGroup,omitempty"`
 	PodIdentityProfile      *ManagedClusterPodIdentityProfileARM           `json:"podIdentityProfile,omitempty"`
-	PowerState              *PowerStateARM                                 `json:"powerState,omitempty"`
-	PrivateFQDN             *string                                        `json:"privateFQDN,omitempty"`
 	PrivateLinkResources    []PrivateLinkResourceARM                       `json:"privateLinkResources,omitempty"`
-	ProvisioningState       *string                                        `json:"provisioningState,omitempty"`
 	ServicePrincipalProfile *ManagedClusterServicePrincipalProfileARM      `json:"servicePrincipalProfile,omitempty"`
 	WindowsProfile          *ManagedClusterWindowsProfileARM               `json:"windowsProfile,omitempty"`
 }
@@ -154,7 +143,6 @@ type ManagedClusterAgentPoolProfileARM struct {
 	MinCount                  *int                         `json:"minCount,omitempty"`
 	Mode                      *AgentPoolMode               `json:"mode,omitempty"`
 	Name                      *string                      `json:"name,omitempty"`
-	NodeImageVersion          *string                      `json:"nodeImageVersion,omitempty"`
 	NodeLabels                map[string]string            `json:"nodeLabels,omitempty"`
 	NodePublicIPPrefixID      *string                      `json:"nodePublicIPPrefixID,omitempty"`
 	NodeTaints                []string                     `json:"nodeTaints,omitempty"`
@@ -164,8 +152,6 @@ type ManagedClusterAgentPoolProfileARM struct {
 	OsSKU                     *OSSKU                       `json:"osSKU,omitempty"`
 	OsType                    *OSType                      `json:"osType,omitempty"`
 	PodSubnetID               *string                      `json:"podSubnetID,omitempty"`
-	PowerState                *PowerStateARM               `json:"powerState,omitempty"`
-	ProvisioningState         *string                      `json:"provisioningState,omitempty"`
 	ProximityPlacementGroupID *string                      `json:"proximityPlacementGroupID,omitempty"`
 	ScaleSetEvictionPolicy    *ScaleSetEvictionPolicy      `json:"scaleSetEvictionPolicy,omitempty"`
 	ScaleSetPriority          *ScaleSetPriority            `json:"scaleSetPriority,omitempty"`
@@ -199,12 +185,6 @@ const (
 	ManagedClusterIdentity_Type_SystemAssigned = ManagedClusterIdentity_Type("SystemAssigned")
 	ManagedClusterIdentity_Type_UserAssigned   = ManagedClusterIdentity_Type("UserAssigned")
 )
-
-// Deprecated version of ManagedClusterIdentity_UserAssignedIdentities. Use v1beta20210501.ManagedClusterIdentity_UserAssignedIdentities instead
-type ManagedClusterIdentity_UserAssignedIdentitiesARM struct {
-	ClientId    *string `json:"clientId,omitempty"`
-	PrincipalId *string `json:"principalId,omitempty"`
-}
 
 // Deprecated version of ManagedClusterPodIdentityProfile. Use v1beta20210501.ManagedClusterPodIdentityProfile instead
 type ManagedClusterPodIdentityProfileARM struct {
@@ -264,19 +244,13 @@ type ManagedClusterWindowsProfileARM struct {
 	LicenseType    *ManagedClusterWindowsProfile_LicenseType `json:"licenseType,omitempty"`
 }
 
-// Deprecated version of PowerState. Use v1beta20210501.PowerState instead
-type PowerStateARM struct {
-	Code *PowerState_Code `json:"code,omitempty"`
-}
-
 // Deprecated version of PrivateLinkResource. Use v1beta20210501.PrivateLinkResource instead
 type PrivateLinkResourceARM struct {
-	GroupId              *string  `json:"groupId,omitempty"`
-	Id                   *string  `json:"id,omitempty"`
-	Name                 *string  `json:"name,omitempty"`
-	PrivateLinkServiceID *string  `json:"privateLinkServiceID,omitempty"`
-	RequiredMembers      []string `json:"requiredMembers,omitempty"`
-	Type                 *string  `json:"type,omitempty"`
+	GroupId         *string  `json:"groupId,omitempty"`
+	Id              *string  `json:"id,omitempty"`
+	Name            *string  `json:"name,omitempty"`
+	RequiredMembers []string `json:"requiredMembers,omitempty"`
+	Type            *string  `json:"type,omitempty"`
 }
 
 // Deprecated version of ContainerServiceSshConfiguration. Use v1beta20210501.ContainerServiceSshConfiguration instead
@@ -296,12 +270,10 @@ type ManagedClusterLoadBalancerProfileARM struct {
 
 // Deprecated version of ManagedClusterPodIdentity. Use v1beta20210501.ManagedClusterPodIdentity instead
 type ManagedClusterPodIdentityARM struct {
-	BindingSelector   *string                                        `json:"bindingSelector,omitempty"`
-	Identity          *UserAssignedIdentityARM                       `json:"identity,omitempty"`
-	Name              *string                                        `json:"name,omitempty"`
-	Namespace         *string                                        `json:"namespace,omitempty"`
-	ProvisioningInfo  *ManagedClusterPodIdentity_ProvisioningInfoARM `json:"provisioningInfo,omitempty"`
-	ProvisioningState *ManagedClusterPodIdentity_ProvisioningState   `json:"provisioningState,omitempty"`
+	BindingSelector *string                  `json:"bindingSelector,omitempty"`
+	Identity        *UserAssignedIdentityARM `json:"identity,omitempty"`
+	Name            *string                  `json:"name,omitempty"`
+	Namespace       *string                  `json:"namespace,omitempty"`
 }
 
 // Deprecated version of ManagedClusterPodIdentityException. Use v1beta20210501.ManagedClusterPodIdentityException instead
@@ -331,11 +303,6 @@ type ManagedClusterLoadBalancerProfile_OutboundIPsARM struct {
 	PublicIPs []ResourceReferenceARM `json:"publicIPs,omitempty"`
 }
 
-// Deprecated version of ManagedClusterPodIdentity_ProvisioningInfo. Use v1beta20210501.ManagedClusterPodIdentity_ProvisioningInfo instead
-type ManagedClusterPodIdentity_ProvisioningInfoARM struct {
-	Error *ManagedClusterPodIdentityProvisioningErrorARM `json:"error,omitempty"`
-}
-
 // Deprecated version of ResourceReference. Use v1beta20210501.ResourceReference instead
 type ResourceReferenceARM struct {
 	Id *string `json:"id,omitempty"`
@@ -346,24 +313,4 @@ type UserAssignedIdentityARM struct {
 	ClientId   *string `json:"clientId,omitempty"`
 	ObjectId   *string `json:"objectId,omitempty"`
 	ResourceId *string `json:"resourceId,omitempty"`
-}
-
-// Deprecated version of ManagedClusterPodIdentityProvisioningError. Use v1beta20210501.ManagedClusterPodIdentityProvisioningError instead
-type ManagedClusterPodIdentityProvisioningErrorARM struct {
-	Error *ManagedClusterPodIdentityProvisioningErrorBodyARM `json:"error,omitempty"`
-}
-
-// Deprecated version of ManagedClusterPodIdentityProvisioningErrorBody. Use v1beta20210501.ManagedClusterPodIdentityProvisioningErrorBody instead
-type ManagedClusterPodIdentityProvisioningErrorBodyARM struct {
-	Code    *string                                                      `json:"code,omitempty"`
-	Details []ManagedClusterPodIdentityProvisioningErrorBody_UnrolledARM `json:"details,omitempty"`
-	Message *string                                                      `json:"message,omitempty"`
-	Target  *string                                                      `json:"target,omitempty"`
-}
-
-// Deprecated version of ManagedClusterPodIdentityProvisioningErrorBody_Unrolled. Use v1beta20210501.ManagedClusterPodIdentityProvisioningErrorBody_Unrolled instead
-type ManagedClusterPodIdentityProvisioningErrorBody_UnrolledARM struct {
-	Code    *string `json:"code,omitempty"`
-	Message *string `json:"message,omitempty"`
-	Target  *string `json:"target,omitempty"`
 }

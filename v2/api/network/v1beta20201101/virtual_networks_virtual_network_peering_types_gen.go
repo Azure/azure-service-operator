@@ -846,12 +846,6 @@ type VirtualNetworksVirtualNetworkPeering_Spec struct {
 	// DoNotVerifyRemoteGateways: If we need to verify the provisioning state of the remote gateway.
 	DoNotVerifyRemoteGateways *bool `json:"doNotVerifyRemoteGateways,omitempty"`
 
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -861,8 +855,8 @@ type VirtualNetworksVirtualNetworkPeering_Spec struct {
 	// PeeringState: The status of the virtual network peering.
 	PeeringState *VirtualNetworkPeeringPropertiesFormat_PeeringState `json:"peeringState,omitempty"`
 
-	// ProvisioningState: The provisioning state of the virtual network peering resource.
-	ProvisioningState *ProvisioningState `json:"provisioningState,omitempty"`
+	// Reference: Resource ID.
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 
 	// RemoteAddressSpace: The reference to the remote virtual network address space.
 	RemoteAddressSpace *AddressSpace `json:"remoteAddressSpace,omitempty"`
@@ -874,9 +868,6 @@ type VirtualNetworksVirtualNetworkPeering_Spec struct {
 	// different region (preview). See here to register for the preview and learn more
 	// (https://docs.microsoft.com/en-us/azure/virtual-network/virtual-network-create-peering).
 	RemoteVirtualNetwork *SubResource `json:"remoteVirtualNetwork,omitempty"`
-
-	// ResourceGuid: The resourceGuid property of the Virtual Network peering resource.
-	ResourceGuid *string `json:"resourceGuid,omitempty"`
 
 	// Type: Resource type.
 	Type *string `json:"type,omitempty"`
@@ -900,16 +891,14 @@ func (peering *VirtualNetworksVirtualNetworkPeering_Spec) ConvertToARM(resolved 
 	// Set property ‘AzureName’:
 	result.AzureName = peering.AzureName
 
-	// Set property ‘Etag’:
-	if peering.Etag != nil {
-		etag := *peering.Etag
-		result.Etag = &etag
-	}
-
 	// Set property ‘Id’:
-	if peering.Id != nil {
-		id := *peering.Id
-		result.Id = &id
+	if peering.Reference != nil {
+		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*peering.Reference)
+		if err != nil {
+			return nil, err
+		}
+		reference := referenceARMID
+		result.Id = &reference
 	}
 
 	// Set property ‘Name’:
@@ -921,11 +910,9 @@ func (peering *VirtualNetworksVirtualNetworkPeering_Spec) ConvertToARM(resolved 
 		peering.AllowVirtualNetworkAccess != nil ||
 		peering.DoNotVerifyRemoteGateways != nil ||
 		peering.PeeringState != nil ||
-		peering.ProvisioningState != nil ||
 		peering.RemoteAddressSpace != nil ||
 		peering.RemoteBgpCommunities != nil ||
 		peering.RemoteVirtualNetwork != nil ||
-		peering.ResourceGuid != nil ||
 		peering.UseRemoteGateways != nil {
 		result.Properties = &VirtualNetworkPeeringPropertiesFormatARM{}
 	}
@@ -948,10 +935,6 @@ func (peering *VirtualNetworksVirtualNetworkPeering_Spec) ConvertToARM(resolved 
 	if peering.PeeringState != nil {
 		peeringState := *peering.PeeringState
 		result.Properties.PeeringState = &peeringState
-	}
-	if peering.ProvisioningState != nil {
-		provisioningState := *peering.ProvisioningState
-		result.Properties.ProvisioningState = &provisioningState
 	}
 	if peering.RemoteAddressSpace != nil {
 		remoteAddressSpaceARM, err := (*peering.RemoteAddressSpace).ConvertToARM(resolved)
@@ -976,10 +959,6 @@ func (peering *VirtualNetworksVirtualNetworkPeering_Spec) ConvertToARM(resolved 
 		}
 		remoteVirtualNetwork := *remoteVirtualNetworkARM.(*SubResourceARM)
 		result.Properties.RemoteVirtualNetwork = &remoteVirtualNetwork
-	}
-	if peering.ResourceGuid != nil {
-		resourceGuid := *peering.ResourceGuid
-		result.Properties.ResourceGuid = &resourceGuid
 	}
 	if peering.UseRemoteGateways != nil {
 		useRemoteGateways := *peering.UseRemoteGateways
@@ -1045,18 +1024,6 @@ func (peering *VirtualNetworksVirtualNetworkPeering_Spec) PopulateFromARM(owner 
 		}
 	}
 
-	// Set property ‘Etag’:
-	if typedInput.Etag != nil {
-		etag := *typedInput.Etag
-		peering.Etag = &etag
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		peering.Id = &id
-	}
-
 	// Set property ‘Owner’:
 	peering.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
@@ -1071,14 +1038,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering_Spec) PopulateFromARM(owner 
 		}
 	}
 
-	// Set property ‘ProvisioningState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
-			peering.ProvisioningState = &provisioningState
-		}
-	}
+	// no assignment for property ‘Reference’
 
 	// Set property ‘RemoteAddressSpace’:
 	// copying flattened property:
@@ -1119,15 +1079,6 @@ func (peering *VirtualNetworksVirtualNetworkPeering_Spec) PopulateFromARM(owner 
 			}
 			remoteVirtualNetwork := remoteVirtualNetwork1
 			peering.RemoteVirtualNetwork = &remoteVirtualNetwork
-		}
-	}
-
-	// Set property ‘ResourceGuid’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ResourceGuid != nil {
-			resourceGuid := *typedInput.Properties.ResourceGuid
-			peering.ResourceGuid = &resourceGuid
 		}
 	}
 
@@ -1238,12 +1189,6 @@ func (peering *VirtualNetworksVirtualNetworkPeering_Spec) AssignPropertiesFromVi
 		peering.DoNotVerifyRemoteGateways = nil
 	}
 
-	// Etag
-	peering.Etag = genruntime.ClonePointerToString(source.Etag)
-
-	// Id
-	peering.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -1260,12 +1205,12 @@ func (peering *VirtualNetworksVirtualNetworkPeering_Spec) AssignPropertiesFromVi
 		peering.PeeringState = nil
 	}
 
-	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState(*source.ProvisioningState)
-		peering.ProvisioningState = &provisioningState
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		peering.Reference = &reference
 	} else {
-		peering.ProvisioningState = nil
+		peering.Reference = nil
 	}
 
 	// RemoteAddressSpace
@@ -1303,9 +1248,6 @@ func (peering *VirtualNetworksVirtualNetworkPeering_Spec) AssignPropertiesFromVi
 	} else {
 		peering.RemoteVirtualNetwork = nil
 	}
-
-	// ResourceGuid
-	peering.ResourceGuid = genruntime.ClonePointerToString(source.ResourceGuid)
 
 	// Type
 	peering.Type = genruntime.ClonePointerToString(source.Type)
@@ -1362,12 +1304,6 @@ func (peering *VirtualNetworksVirtualNetworkPeering_Spec) AssignPropertiesToVirt
 		destination.DoNotVerifyRemoteGateways = nil
 	}
 
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(peering.Etag)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(peering.Id)
-
 	// OriginalVersion
 	destination.OriginalVersion = peering.OriginalVersion()
 
@@ -1387,12 +1323,12 @@ func (peering *VirtualNetworksVirtualNetworkPeering_Spec) AssignPropertiesToVirt
 		destination.PeeringState = nil
 	}
 
-	// ProvisioningState
-	if peering.ProvisioningState != nil {
-		provisioningState := string(*peering.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
+	// Reference
+	if peering.Reference != nil {
+		reference := peering.Reference.Copy()
+		destination.Reference = &reference
 	} else {
-		destination.ProvisioningState = nil
+		destination.Reference = nil
 	}
 
 	// RemoteAddressSpace
@@ -1430,9 +1366,6 @@ func (peering *VirtualNetworksVirtualNetworkPeering_Spec) AssignPropertiesToVirt
 	} else {
 		destination.RemoteVirtualNetwork = nil
 	}
-
-	// ResourceGuid
-	destination.ResourceGuid = genruntime.ClonePointerToString(peering.ResourceGuid)
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(peering.Type)

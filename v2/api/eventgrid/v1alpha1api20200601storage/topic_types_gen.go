@@ -493,27 +493,20 @@ type Topic_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName          string              `json:"azureName,omitempty"`
-	Endpoint           *string             `json:"endpoint,omitempty"`
-	Id                 *string             `json:"id,omitempty"`
 	InboundIpRules     []InboundIpRule     `json:"inboundIpRules,omitempty"`
 	InputSchema        *string             `json:"inputSchema,omitempty"`
 	InputSchemaMapping *InputSchemaMapping `json:"inputSchemaMapping,omitempty"`
 	Location           *string             `json:"location,omitempty"`
-	MetricResourceId   *string             `json:"metricResourceId,omitempty"`
 	OriginalVersion    string              `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner                      *genruntime.KnownResourceReference                    `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PrivateEndpointConnections []PrivateEndpointConnection_Topic_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
-	PropertyBag                genruntime.PropertyBag                                `json:"$propertyBag,omitempty"`
-	ProvisioningState          *string                                               `json:"provisioningState,omitempty"`
-	PublicNetworkAccess        *string                                               `json:"publicNetworkAccess,omitempty"`
-	SystemData                 *SystemData                                           `json:"systemData,omitempty"`
-	Tags                       map[string]string                                     `json:"tags,omitempty"`
-	Type                       *string                                               `json:"type,omitempty"`
+	Owner               *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag         genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	PublicNetworkAccess *string                            `json:"publicNetworkAccess,omitempty"`
+	Tags                map[string]string                  `json:"tags,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &Topic_Spec{}
@@ -574,12 +567,6 @@ func (topic *Topic_Spec) AssignPropertiesFromTopic_Spec(source *v20200601s.Topic
 	// AzureName
 	topic.AzureName = source.AzureName
 
-	// Endpoint
-	topic.Endpoint = genruntime.ClonePointerToString(source.Endpoint)
-
-	// Id
-	topic.Id = genruntime.ClonePointerToString(source.Id)
-
 	// InboundIpRules
 	if source.InboundIpRules != nil {
 		inboundIpRuleList := make([]InboundIpRule, len(source.InboundIpRules))
@@ -616,9 +603,6 @@ func (topic *Topic_Spec) AssignPropertiesFromTopic_Spec(source *v20200601s.Topic
 	// Location
 	topic.Location = genruntime.ClonePointerToString(source.Location)
 
-	// MetricResourceId
-	topic.MetricResourceId = genruntime.ClonePointerToString(source.MetricResourceId)
-
 	// OriginalVersion
 	topic.OriginalVersion = source.OriginalVersion
 
@@ -630,47 +614,11 @@ func (topic *Topic_Spec) AssignPropertiesFromTopic_Spec(source *v20200601s.Topic
 		topic.Owner = nil
 	}
 
-	// PrivateEndpointConnections
-	if source.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]PrivateEndpointConnection_Topic_SubResourceEmbedded, len(source.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection PrivateEndpointConnection_Topic_SubResourceEmbedded
-			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnection_Topic_SubResourceEmbedded(&privateEndpointConnectionItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnection_Topic_SubResourceEmbedded() to populate field PrivateEndpointConnections")
-			}
-			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
-		}
-		topic.PrivateEndpointConnections = privateEndpointConnectionList
-	} else {
-		topic.PrivateEndpointConnections = nil
-	}
-
-	// ProvisioningState
-	topic.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
 	// PublicNetworkAccess
 	topic.PublicNetworkAccess = genruntime.ClonePointerToString(source.PublicNetworkAccess)
 
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
-		}
-		topic.SystemData = &systemDatum
-	} else {
-		topic.SystemData = nil
-	}
-
 	// Tags
 	topic.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	topic.Type = genruntime.ClonePointerToString(source.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -690,12 +638,6 @@ func (topic *Topic_Spec) AssignPropertiesToTopic_Spec(destination *v20200601s.To
 
 	// AzureName
 	destination.AzureName = topic.AzureName
-
-	// Endpoint
-	destination.Endpoint = genruntime.ClonePointerToString(topic.Endpoint)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(topic.Id)
 
 	// InboundIpRules
 	if topic.InboundIpRules != nil {
@@ -733,9 +675,6 @@ func (topic *Topic_Spec) AssignPropertiesToTopic_Spec(destination *v20200601s.To
 	// Location
 	destination.Location = genruntime.ClonePointerToString(topic.Location)
 
-	// MetricResourceId
-	destination.MetricResourceId = genruntime.ClonePointerToString(topic.MetricResourceId)
-
 	// OriginalVersion
 	destination.OriginalVersion = topic.OriginalVersion
 
@@ -747,47 +686,11 @@ func (topic *Topic_Spec) AssignPropertiesToTopic_Spec(destination *v20200601s.To
 		destination.Owner = nil
 	}
 
-	// PrivateEndpointConnections
-	if topic.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]v20200601s.PrivateEndpointConnection_Topic_SubResourceEmbedded, len(topic.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range topic.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection v20200601s.PrivateEndpointConnection_Topic_SubResourceEmbedded
-			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnection_Topic_SubResourceEmbedded(&privateEndpointConnection)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnection_Topic_SubResourceEmbedded() to populate field PrivateEndpointConnections")
-			}
-			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
-		}
-		destination.PrivateEndpointConnections = privateEndpointConnectionList
-	} else {
-		destination.PrivateEndpointConnections = nil
-	}
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(topic.ProvisioningState)
-
 	// PublicNetworkAccess
 	destination.PublicNetworkAccess = genruntime.ClonePointerToString(topic.PublicNetworkAccess)
 
-	// SystemData
-	if topic.SystemData != nil {
-		var systemDatum v20200601s.SystemData
-		err := topic.SystemData.AssignPropertiesToSystemData(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(topic.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(topic.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -828,51 +731,6 @@ func (embedded *PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) Assi
 
 // AssignPropertiesToPrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded populates the provided destination PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded from our PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded
 func (embedded *PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) AssignPropertiesToPrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded(destination *v20200601s.PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(embedded.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20200601.PrivateEndpointConnection_Topic_SubResourceEmbedded
-// Deprecated version of PrivateEndpointConnection_Topic_SubResourceEmbedded. Use v1beta20200601.PrivateEndpointConnection_Topic_SubResourceEmbedded instead
-type PrivateEndpointConnection_Topic_SubResourceEmbedded struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// AssignPropertiesFromPrivateEndpointConnection_Topic_SubResourceEmbedded populates our PrivateEndpointConnection_Topic_SubResourceEmbedded from the provided source PrivateEndpointConnection_Topic_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_Topic_SubResourceEmbedded) AssignPropertiesFromPrivateEndpointConnection_Topic_SubResourceEmbedded(source *v20200601s.PrivateEndpointConnection_Topic_SubResourceEmbedded) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// Id
-	embedded.Id = genruntime.ClonePointerToString(source.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		embedded.PropertyBag = propertyBag
-	} else {
-		embedded.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToPrivateEndpointConnection_Topic_SubResourceEmbedded populates the provided destination PrivateEndpointConnection_Topic_SubResourceEmbedded from our PrivateEndpointConnection_Topic_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_Topic_SubResourceEmbedded) AssignPropertiesToPrivateEndpointConnection_Topic_SubResourceEmbedded(destination *v20200601s.PrivateEndpointConnection_Topic_SubResourceEmbedded) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
 

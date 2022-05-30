@@ -50,7 +50,9 @@
 | NamespacesEventhubsConsumergroup_STATUS                       | v1alpha1api20211101 | v1beta20211101 |
 | NamespacesEventhubsConsumergroup_Spec                         | v1alpha1api20211101 | v1beta20211101 |
 | NamespacesEventhubsConsumergroup_Spec_Properties              | v1alpha1api20211101 | v1beta20211101 |
+| PrivateEndpoint                                               | v1alpha1api20211101 | v1beta20211101 |
 | PrivateEndpointConnection                                     | v1alpha1api20211101 | v1beta20211101 |
+| PrivateEndpointConnectionProperties                           | v1alpha1api20211101 | v1beta20211101 |
 | PrivateEndpointConnection_STATUS                              | v1alpha1api20211101 | v1beta20211101 |
 | Sku                                                           | v1alpha1api20211101 | v1beta20211101 |
 | Sku_Name                                                      | v1alpha1api20211101 | v1beta20211101 |
@@ -58,10 +60,7 @@
 | Sku_STATUS                                                    | v1alpha1api20211101 | v1beta20211101 |
 | Sku_Tier                                                      | v1alpha1api20211101 | v1beta20211101 |
 | Sku_Tier_STATUS                                               | v1alpha1api20211101 | v1beta20211101 |
-| SystemData                                                    | v1alpha1api20211101 | v1beta20211101 |
-| SystemData_CreatedByType                                      | v1alpha1api20211101 | v1beta20211101 |
 | SystemData_CreatedByType_STATUS                               | v1alpha1api20211101 | v1beta20211101 |
-| SystemData_LastModifiedByType                                 | v1alpha1api20211101 | v1beta20211101 |
 | SystemData_LastModifiedByType_STATUS                          | v1alpha1api20211101 | v1beta20211101 |
 | SystemData_STATUS                                             | v1alpha1api20211101 | v1beta20211101 |
 | UserAssignedIdentityProperties                                | v1alpha1api20211101 | v1beta20211101 |

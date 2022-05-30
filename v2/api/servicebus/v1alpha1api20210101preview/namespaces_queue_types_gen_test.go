@@ -396,9 +396,6 @@ func RunJSONSerializationTestForNamespacesQueue_Spec(subject NamespacesQueue_Spe
 var namespacesQueue_SpecGenerator gopter.Gen
 
 // NamespacesQueue_SpecGenerator returns a generator of NamespacesQueue_Spec instances for property testing.
-// We first initialize namespacesQueue_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func NamespacesQueue_SpecGenerator() gopter.Gen {
 	if namespacesQueue_SpecGenerator != nil {
 		return namespacesQueue_SpecGenerator
@@ -408,21 +405,13 @@ func NamespacesQueue_SpecGenerator() gopter.Gen {
 	AddIndependentPropertyGeneratorsForNamespacesQueue_Spec(generators)
 	namespacesQueue_SpecGenerator = gen.Struct(reflect.TypeOf(NamespacesQueue_Spec{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForNamespacesQueue_Spec(generators)
-	AddRelatedPropertyGeneratorsForNamespacesQueue_Spec(generators)
-	namespacesQueue_SpecGenerator = gen.Struct(reflect.TypeOf(NamespacesQueue_Spec{}), generators)
-
 	return namespacesQueue_SpecGenerator
 }
 
 // AddIndependentPropertyGeneratorsForNamespacesQueue_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNamespacesQueue_Spec(gens map[string]gopter.Gen) {
-	gens["AccessedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["AutoDeleteOnIdle"] = gen.PtrOf(gen.AlphaString())
 	gens["AzureName"] = gen.AlphaString()
-	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["DeadLetteringOnMessageExpiration"] = gen.PtrOf(gen.Bool())
 	gens["DefaultMessageTimeToLive"] = gen.PtrOf(gen.AlphaString())
 	gens["DuplicateDetectionHistoryTimeWindow"] = gen.PtrOf(gen.AlphaString())
@@ -431,128 +420,11 @@ func AddIndependentPropertyGeneratorsForNamespacesQueue_Spec(gens map[string]gop
 	gens["EnablePartitioning"] = gen.PtrOf(gen.Bool())
 	gens["ForwardDeadLetteredMessagesTo"] = gen.PtrOf(gen.AlphaString())
 	gens["ForwardTo"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["LockDuration"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxDeliveryCount"] = gen.PtrOf(gen.Int())
 	gens["MaxSizeInMegabytes"] = gen.PtrOf(gen.Int())
-	gens["MessageCount"] = gen.PtrOf(gen.Int())
 	gens["RequiresDuplicateDetection"] = gen.PtrOf(gen.Bool())
 	gens["RequiresSession"] = gen.PtrOf(gen.Bool())
-	gens["SizeInBytes"] = gen.PtrOf(gen.Int())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-	gens["UpdatedAt"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForNamespacesQueue_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForNamespacesQueue_Spec(gens map[string]gopter.Gen) {
-	gens["CountDetails"] = gen.PtrOf(MessageCountDetailsGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemDataGenerator())
-}
-
-func Test_MessageCountDetails_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from MessageCountDetails to MessageCountDetails via AssignPropertiesToMessageCountDetails & AssignPropertiesFromMessageCountDetails returns original",
-		prop.ForAll(RunPropertyAssignmentTestForMessageCountDetails, MessageCountDetailsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForMessageCountDetails tests if a specific instance of MessageCountDetails can be assigned to v1alpha1api20210101previewstorage and back losslessly
-func RunPropertyAssignmentTestForMessageCountDetails(subject MessageCountDetails) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other alpha20210101ps.MessageCountDetails
-	err := copied.AssignPropertiesToMessageCountDetails(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual MessageCountDetails
-	err = actual.AssignPropertiesFromMessageCountDetails(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_MessageCountDetails_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of MessageCountDetails via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMessageCountDetails, MessageCountDetailsGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForMessageCountDetails runs a test to see if a specific instance of MessageCountDetails round trips to JSON and back losslessly
-func RunJSONSerializationTestForMessageCountDetails(subject MessageCountDetails) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual MessageCountDetails
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of MessageCountDetails instances for property testing - lazily instantiated by
-// MessageCountDetailsGenerator()
-var messageCountDetailsGenerator gopter.Gen
-
-// MessageCountDetailsGenerator returns a generator of MessageCountDetails instances for property testing.
-func MessageCountDetailsGenerator() gopter.Gen {
-	if messageCountDetailsGenerator != nil {
-		return messageCountDetailsGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMessageCountDetails(generators)
-	messageCountDetailsGenerator = gen.Struct(reflect.TypeOf(MessageCountDetails{}), generators)
-
-	return messageCountDetailsGenerator
-}
-
-// AddIndependentPropertyGeneratorsForMessageCountDetails is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMessageCountDetails(gens map[string]gopter.Gen) {
-	gens["ActiveMessageCount"] = gen.PtrOf(gen.Int())
-	gens["DeadLetterMessageCount"] = gen.PtrOf(gen.Int())
-	gens["ScheduledMessageCount"] = gen.PtrOf(gen.Int())
-	gens["TransferDeadLetterMessageCount"] = gen.PtrOf(gen.Int())
-	gens["TransferMessageCount"] = gen.PtrOf(gen.Int())
 }
 
 func Test_MessageCountDetails_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

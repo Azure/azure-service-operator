@@ -1004,7 +1004,6 @@ type DatabaseAccount_Spec struct {
 	EnableCassandraConnector           *bool                        `json:"enableCassandraConnector,omitempty"`
 	EnableFreeTier                     *bool                        `json:"enableFreeTier,omitempty"`
 	EnableMultipleWriteLocations       *bool                        `json:"enableMultipleWriteLocations,omitempty"`
-	Id                                 *string                      `json:"id,omitempty"`
 	Identity                           *ManagedServiceIdentity      `json:"identity,omitempty"`
 	IpRules                            []IpAddressOrRange           `json:"ipRules,omitempty"`
 	IsVirtualNetworkFilterEnabled      *bool                        `json:"isVirtualNetworkFilterEnabled,omitempty"`
@@ -1025,7 +1024,6 @@ type DatabaseAccount_Spec struct {
 	PropertyBag         genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	PublicNetworkAccess *string                            `json:"publicNetworkAccess,omitempty"`
 	Tags                map[string]string                  `json:"tags,omitempty"`
-	Type                *string                            `json:"type,omitempty"`
 	VirtualNetworkRules []VirtualNetworkRule               `json:"virtualNetworkRules,omitempty"`
 }
 
@@ -1228,9 +1226,6 @@ func (account *DatabaseAccount_Spec) AssignPropertiesFromDatabaseAccount_Spec(so
 		account.EnableMultipleWriteLocations = nil
 	}
 
-	// Id
-	account.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Identity
 	if source.Identity != nil {
 		var identity ManagedServiceIdentity
@@ -1330,9 +1325,6 @@ func (account *DatabaseAccount_Spec) AssignPropertiesFromDatabaseAccount_Spec(so
 
 	// Tags
 	account.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	account.Type = genruntime.ClonePointerToString(source.Type)
 
 	// VirtualNetworkRules
 	if source.VirtualNetworkRules != nil {
@@ -1512,9 +1504,6 @@ func (account *DatabaseAccount_Spec) AssignPropertiesToDatabaseAccount_Spec(dest
 		destination.EnableMultipleWriteLocations = nil
 	}
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(account.Id)
-
 	// Identity
 	if account.Identity != nil {
 		var identity v20210515s.ManagedServiceIdentity
@@ -1614,9 +1603,6 @@ func (account *DatabaseAccount_Spec) AssignPropertiesToDatabaseAccount_Spec(dest
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(account.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(account.Type)
 
 	// VirtualNetworkRules
 	if account.VirtualNetworkRules != nil {
@@ -2486,9 +2472,7 @@ func (orRange *IpAddressOrRange_STATUS) AssignPropertiesToIpAddressOrRange_STATU
 // Storage version of v1alpha1api20210515.Location
 // Deprecated version of Location. Use v1beta20210515.Location instead
 type Location struct {
-	DocumentEndpoint *string                `json:"documentEndpoint,omitempty"`
 	FailoverPriority *int                   `json:"failoverPriority,omitempty"`
-	Id               *string                `json:"id,omitempty"`
 	IsZoneRedundant  *bool                  `json:"isZoneRedundant,omitempty"`
 	LocationName     *string                `json:"locationName,omitempty"`
 	PropertyBag      genruntime.PropertyBag `json:"$propertyBag,omitempty"`
@@ -2499,14 +2483,8 @@ func (location *Location) AssignPropertiesFromLocation(source *v20210515s.Locati
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// DocumentEndpoint
-	location.DocumentEndpoint = genruntime.ClonePointerToString(source.DocumentEndpoint)
-
 	// FailoverPriority
 	location.FailoverPriority = genruntime.ClonePointerToInt(source.FailoverPriority)
-
-	// Id
-	location.Id = genruntime.ClonePointerToString(source.Id)
 
 	// IsZoneRedundant
 	if source.IsZoneRedundant != nil {
@@ -2535,14 +2513,8 @@ func (location *Location) AssignPropertiesToLocation(destination *v20210515s.Loc
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(location.PropertyBag)
 
-	// DocumentEndpoint
-	destination.DocumentEndpoint = genruntime.ClonePointerToString(location.DocumentEndpoint)
-
 	// FailoverPriority
 	destination.FailoverPriority = genruntime.ClonePointerToInt(location.FailoverPriority)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(location.Id)
 
 	// IsZoneRedundant
 	if location.IsZoneRedundant != nil {
@@ -2659,9 +2631,7 @@ func (location *Location_STATUS) AssignPropertiesToLocation_STATUS(destination *
 // Storage version of v1alpha1api20210515.ManagedServiceIdentity
 // Deprecated version of ManagedServiceIdentity. Use v1beta20210515.ManagedServiceIdentity instead
 type ManagedServiceIdentity struct {
-	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	TenantId    *string                `json:"tenantId,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
@@ -2669,12 +2639,6 @@ type ManagedServiceIdentity struct {
 func (identity *ManagedServiceIdentity) AssignPropertiesFromManagedServiceIdentity(source *v20210515s.ManagedServiceIdentity) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// PrincipalId
-	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// TenantId
-	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// Type
 	identity.Type = genruntime.ClonePointerToString(source.Type)
@@ -2694,12 +2658,6 @@ func (identity *ManagedServiceIdentity) AssignPropertiesFromManagedServiceIdenti
 func (identity *ManagedServiceIdentity) AssignPropertiesToManagedServiceIdentity(destination *v20210515s.ManagedServiceIdentity) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
-
-	// PrincipalId
-	destination.PrincipalId = genruntime.ClonePointerToString(identity.PrincipalId)
-
-	// TenantId
-	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(identity.Type)

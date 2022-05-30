@@ -210,16 +210,12 @@ type Disk_Spec struct {
 	DiskIOPSReadWrite            *int                          `json:"diskIOPSReadWrite,omitempty"`
 	DiskMBpsReadOnly             *int                          `json:"diskMBpsReadOnly,omitempty"`
 	DiskMBpsReadWrite            *int                          `json:"diskMBpsReadWrite,omitempty"`
-	DiskSizeBytes                *int                          `json:"diskSizeBytes,omitempty"`
 	DiskSizeGB                   *int                          `json:"diskSizeGB,omitempty"`
 	Encryption                   *Encryption                   `json:"encryption,omitempty"`
 	EncryptionSettingsCollection *EncryptionSettingsCollection `json:"encryptionSettingsCollection,omitempty"`
 	ExtendedLocation             *ExtendedLocation             `json:"extendedLocation,omitempty"`
 	HyperVGeneration             *string                       `json:"hyperVGeneration,omitempty"`
-	Id                           *string                       `json:"id,omitempty"`
 	Location                     *string                       `json:"location,omitempty"`
-	ManagedBy                    *string                       `json:"managedBy,omitempty"`
-	ManagedByExtended            []string                      `json:"managedByExtended,omitempty"`
 	MaxShares                    *int                          `json:"maxShares,omitempty"`
 	NetworkAccessPolicy          *string                       `json:"networkAccessPolicy,omitempty"`
 	OriginalVersion              string                        `json:"originalVersion,omitempty"`
@@ -229,18 +225,13 @@ type Disk_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner             *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag       genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	ProvisioningState *string                            `json:"provisioningState,omitempty"`
-	PurchasePlan      *PurchasePlan                      `json:"purchasePlan,omitempty"`
-	ShareInfo         []ShareInfoElement                 `json:"shareInfo,omitempty"`
-	Sku               *DiskSku                           `json:"sku,omitempty"`
-	Tags              map[string]string                  `json:"tags,omitempty"`
-	Tier              *string                            `json:"tier,omitempty"`
-	TimeCreated       *string                            `json:"timeCreated,omitempty"`
-	Type              *string                            `json:"type,omitempty"`
-	UniqueId          *string                            `json:"uniqueId,omitempty"`
-	Zones             []string                           `json:"zones,omitempty"`
+	Owner        *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag  genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	PurchasePlan *PurchasePlan                      `json:"purchasePlan,omitempty"`
+	Sku          *DiskSku                           `json:"sku,omitempty"`
+	Tags         map[string]string                  `json:"tags,omitempty"`
+	Tier         *string                            `json:"tier,omitempty"`
+	Zones        []string                           `json:"zones,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &Disk_Spec{}
@@ -273,7 +264,6 @@ type CreationData struct {
 
 	// SourceResourceReference: If createOption is Copy, this is the ARM id of the source snapshot or disk.
 	SourceResourceReference *genruntime.ResourceReference `armReference:"SourceResourceId" json:"sourceResourceReference,omitempty"`
-	SourceUniqueId          *string                       `json:"sourceUniqueId,omitempty"`
 	SourceUri               *string                       `json:"sourceUri,omitempty"`
 	StorageAccountId        *string                       `json:"storageAccountId,omitempty"`
 	UploadSizeBytes         *int                          `json:"uploadSizeBytes,omitempty"`
@@ -297,7 +287,6 @@ type CreationData_STATUS struct {
 type DiskSku struct {
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Tier        *string                `json:"tier,omitempty"`
 }
 
 // Storage version of v1beta20200930.DiskSku_STATUS
@@ -456,12 +445,6 @@ type PurchasePlan_STATUS struct {
 	PromotionCode *string                `json:"promotionCode,omitempty"`
 	PropertyBag   genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Publisher     *string                `json:"publisher,omitempty"`
-}
-
-// Storage version of v1beta20200930.ShareInfoElement
-type ShareInfoElement struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	VmUri       *string                `json:"vmUri,omitempty"`
 }
 
 // Storage version of v1beta20200930.ShareInfoElement_STATUS

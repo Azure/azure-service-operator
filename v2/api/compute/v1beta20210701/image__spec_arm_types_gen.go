@@ -11,21 +11,13 @@ type Image_SpecARM struct {
 	// ExtendedLocation: The extended location of the Image.
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
 
-	// Id: Resource Id
-	Id *string `json:"id,omitempty"`
-
 	// Location: Resource location
-	Location *string `json:"location,omitempty"`
-
-	// Name: Resource name
+	Location   *string             `json:"location,omitempty"`
 	Name       string              `json:"name,omitempty"`
 	Properties *ImagePropertiesARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: Resource type
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Image_SpecARM{}
@@ -59,9 +51,6 @@ type ImagePropertiesARM struct {
 	// like disk or snapshot, we may require the user to specify the property if we cannot deduce it from the source managed
 	// resource.
 	HyperVGeneration *HyperVGenerationType `json:"hyperVGeneration,omitempty"`
-
-	// ProvisioningState: The provisioning state.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
 
 	// SourceVirtualMachine: The source virtual machine from which Image is created.
 	SourceVirtualMachine *SubResourceARM `json:"sourceVirtualMachine,omitempty"`

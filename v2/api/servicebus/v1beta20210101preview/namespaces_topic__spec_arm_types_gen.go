@@ -7,21 +7,10 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type NamespacesTopic_SpecARM struct {
 	AzureName string `json:"azureName,omitempty"`
-
-	// Id: Resource Id
-	Id *string `json:"id,omitempty"`
-
-	// Name: Resource name
-	Name string `json:"name,omitempty"`
+	Name      string `json:"name,omitempty"`
 
 	// Properties: Properties of topic resource.
 	Properties *SBTopicPropertiesARM `json:"properties,omitempty"`
-
-	// SystemData: The system meta data relating to this resource.
-	SystemData *SystemDataARM `json:"systemData,omitempty"`
-
-	// Type: Resource type
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &NamespacesTopic_SpecARM{}
@@ -42,18 +31,9 @@ func (topic *NamespacesTopic_SpecARM) GetType() string {
 }
 
 type SBTopicPropertiesARM struct {
-	// AccessedAt: Last time the message was sent, or a request was received, for this topic.
-	AccessedAt *string `json:"accessedAt,omitempty"`
-
 	// AutoDeleteOnIdle: ISO 8601 timespan idle interval after which the topic is automatically deleted. The minimum duration
 	// is 5 minutes.
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
-
-	// CountDetails: Message count details
-	CountDetails *MessageCountDetailsARM `json:"countDetails,omitempty"`
-
-	// CreatedAt: Exact time the message was created.
-	CreatedAt *string `json:"createdAt,omitempty"`
 
 	// DefaultMessageTimeToLive: ISO 8601 Default message timespan to live value. This is the duration after which the message
 	// expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not
@@ -81,15 +61,6 @@ type SBTopicPropertiesARM struct {
 	// RequiresDuplicateDetection: Value indicating if this topic requires duplicate detection.
 	RequiresDuplicateDetection *bool `json:"requiresDuplicateDetection,omitempty"`
 
-	// SizeInBytes: Size of the topic, in bytes.
-	SizeInBytes *int `json:"sizeInBytes,omitempty"`
-
-	// SubscriptionCount: Number of subscriptions.
-	SubscriptionCount *int `json:"subscriptionCount,omitempty"`
-
 	// SupportOrdering: Value that indicates whether the topic supports ordering.
 	SupportOrdering *bool `json:"supportOrdering,omitempty"`
-
-	// UpdatedAt: The exact time the message was updated.
-	UpdatedAt *string `json:"updatedAt,omitempty"`
 }

@@ -84,9 +84,7 @@ func StorageAccountsManagementPolicy_SpecARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForStorageAccountsManagementPolicy_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForStorageAccountsManagementPolicy_SpecARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForStorageAccountsManagementPolicy_SpecARM is a factory method for creating gopter generators
@@ -137,30 +135,16 @@ func RunJSONSerializationTestForManagementPolicyPropertiesARM(subject Management
 var managementPolicyPropertiesARMGenerator gopter.Gen
 
 // ManagementPolicyPropertiesARMGenerator returns a generator of ManagementPolicyPropertiesARM instances for property testing.
-// We first initialize managementPolicyPropertiesARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func ManagementPolicyPropertiesARMGenerator() gopter.Gen {
 	if managementPolicyPropertiesARMGenerator != nil {
 		return managementPolicyPropertiesARMGenerator
 	}
 
 	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagementPolicyPropertiesARM(generators)
-	managementPolicyPropertiesARMGenerator = gen.Struct(reflect.TypeOf(ManagementPolicyPropertiesARM{}), generators)
-
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagementPolicyPropertiesARM(generators)
 	AddRelatedPropertyGeneratorsForManagementPolicyPropertiesARM(generators)
 	managementPolicyPropertiesARMGenerator = gen.Struct(reflect.TypeOf(ManagementPolicyPropertiesARM{}), generators)
 
 	return managementPolicyPropertiesARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagementPolicyPropertiesARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagementPolicyPropertiesARM(gens map[string]gopter.Gen) {
-	gens["LastModifiedTime"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForManagementPolicyPropertiesARM is a factory method for creating gopter generators

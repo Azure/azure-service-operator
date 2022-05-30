@@ -198,11 +198,7 @@ type SignalR_Spec struct {
 	Cors             *SignalRCorsSettings `json:"cors,omitempty"`
 	DisableAadAuth   *bool                `json:"disableAadAuth,omitempty"`
 	DisableLocalAuth *bool                `json:"disableLocalAuth,omitempty"`
-	ExternalIP       *string              `json:"externalIP,omitempty"`
 	Features         []SignalRFeature     `json:"features,omitempty"`
-	HostName         *string              `json:"hostName,omitempty"`
-	HostNamePrefix   *string              `json:"hostNamePrefix,omitempty"`
-	Id               *string              `json:"id,omitempty"`
 	Identity         *ManagedIdentity     `json:"identity,omitempty"`
 	Kind             *string              `json:"kind,omitempty"`
 	Location         *string              `json:"location,omitempty"`
@@ -213,22 +209,14 @@ type SignalR_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner                      *genruntime.KnownResourceReference                      `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PrivateEndpointConnections []PrivateEndpointConnection_SignalR_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
-	PropertyBag                genruntime.PropertyBag                                  `json:"$propertyBag,omitempty"`
-	ProvisioningState          *string                                                 `json:"provisioningState,omitempty"`
-	PublicNetworkAccess        *string                                                 `json:"publicNetworkAccess,omitempty"`
-	PublicPort                 *int                                                    `json:"publicPort,omitempty"`
-	ResourceLogConfiguration   *ResourceLogConfiguration                               `json:"resourceLogConfiguration,omitempty"`
-	ServerPort                 *int                                                    `json:"serverPort,omitempty"`
-	SharedPrivateLinkResources []SharedPrivateLinkResource_SignalR_SubResourceEmbedded `json:"sharedPrivateLinkResources,omitempty"`
-	Sku                        *ResourceSku                                            `json:"sku,omitempty"`
-	SystemData                 *SystemData                                             `json:"systemData,omitempty"`
-	Tags                       map[string]string                                       `json:"tags,omitempty"`
-	Tls                        *SignalRTlsSettings                                     `json:"tls,omitempty"`
-	Type                       *string                                                 `json:"type,omitempty"`
-	Upstream                   *ServerlessUpstreamSettings                             `json:"upstream,omitempty"`
-	Version                    *string                                                 `json:"version,omitempty"`
+	Owner                    *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag              genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	PublicNetworkAccess      *string                            `json:"publicNetworkAccess,omitempty"`
+	ResourceLogConfiguration *ResourceLogConfiguration          `json:"resourceLogConfiguration,omitempty"`
+	Sku                      *ResourceSku                       `json:"sku,omitempty"`
+	Tags                     map[string]string                  `json:"tags,omitempty"`
+	Tls                      *SignalRTlsSettings                `json:"tls,omitempty"`
+	Upstream                 *ServerlessUpstreamSettings        `json:"upstream,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &SignalR_Spec{}
@@ -253,11 +241,8 @@ func (signalR *SignalR_Spec) ConvertSpecTo(destination genruntime.ConvertibleSpe
 
 // Storage version of v1beta20211001.ManagedIdentity
 type ManagedIdentity struct {
-	PrincipalId            *string                                 `json:"principalId,omitempty"`
-	PropertyBag            genruntime.PropertyBag                  `json:"$propertyBag,omitempty"`
-	TenantId               *string                                 `json:"tenantId,omitempty"`
-	Type                   *string                                 `json:"type,omitempty"`
-	UserAssignedIdentities map[string]UserAssignedIdentityProperty `json:"userAssignedIdentities,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Type        *string                `json:"type,omitempty"`
 }
 
 // Storage version of v1beta20211001.ManagedIdentity_STATUS
@@ -276,13 +261,6 @@ type PrivateEndpointConnection_STATUS_SignalR_SubResourceEmbedded struct {
 	SystemData  *SystemData_STATUS     `json:"systemData,omitempty"`
 }
 
-// Storage version of v1beta20211001.PrivateEndpointConnection_SignalR_SubResourceEmbedded
-type PrivateEndpointConnection_SignalR_SubResourceEmbedded struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SystemData  *SystemData            `json:"systemData,omitempty"`
-}
-
 // Storage version of v1beta20211001.ResourceLogConfiguration
 type ResourceLogConfiguration struct {
 	Categories  []ResourceLogCategory  `json:"categories,omitempty"`
@@ -298,10 +276,8 @@ type ResourceLogConfiguration_STATUS struct {
 // Storage version of v1beta20211001.ResourceSku
 type ResourceSku struct {
 	Capacity    *int                   `json:"capacity,omitempty"`
-	Family      *string                `json:"family,omitempty"`
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Size        *string                `json:"size,omitempty"`
 	Tier        *string                `json:"tier,omitempty"`
 }
 
@@ -332,13 +308,6 @@ type SharedPrivateLinkResource_STATUS_SignalR_SubResourceEmbedded struct {
 	Id          *string                `json:"id,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	SystemData  *SystemData_STATUS     `json:"systemData,omitempty"`
-}
-
-// Storage version of v1beta20211001.SharedPrivateLinkResource_SignalR_SubResourceEmbedded
-type SharedPrivateLinkResource_SignalR_SubResourceEmbedded struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SystemData  *SystemData            `json:"systemData,omitempty"`
 }
 
 // Storage version of v1beta20211001.SignalRCorsSettings
@@ -395,17 +364,6 @@ type SignalRTlsSettings struct {
 type SignalRTlsSettings_STATUS struct {
 	ClientCertEnabled *bool                  `json:"clientCertEnabled,omitempty"`
 	PropertyBag       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
-// Storage version of v1beta20211001.SystemData
-type SystemData struct {
-	CreatedAt          *string                `json:"createdAt,omitempty"`
-	CreatedBy          *string                `json:"createdBy,omitempty"`
-	CreatedByType      *string                `json:"createdByType,omitempty"`
-	LastModifiedAt     *string                `json:"lastModifiedAt,omitempty"`
-	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
-	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20211001.SystemData_STATUS
@@ -481,13 +439,6 @@ type UpstreamTemplate_STATUS struct {
 	HubPattern      *string                      `json:"hubPattern,omitempty"`
 	PropertyBag     genruntime.PropertyBag       `json:"$propertyBag,omitempty"`
 	UrlTemplate     *string                      `json:"urlTemplate,omitempty"`
-}
-
-// Storage version of v1beta20211001.UserAssignedIdentityProperty
-type UserAssignedIdentityProperty struct {
-	ClientId    *string                `json:"clientId,omitempty"`
-	PrincipalId *string                `json:"principalId,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20211001.UserAssignedIdentityProperty_STATUS

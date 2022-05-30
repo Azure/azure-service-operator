@@ -11,17 +11,12 @@ type VirtualMachineScaleSet_SpecARM struct {
 	// ExtendedLocation: The extended location of the Virtual Machine Scale Set.
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
 
-	// Id: Resource Id
-	Id *string `json:"id,omitempty"`
-
 	// Identity: The identity of the virtual machine scale set, if configured.
 	Identity *VirtualMachineScaleSetIdentityARM `json:"identity,omitempty"`
 
 	// Location: Resource location
 	Location *string `json:"location,omitempty"`
-
-	// Name: Resource name
-	Name string `json:"name,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
 	// Plan: Specifies information about the marketplace image used to create the virtual machine. This element is only used
 	// for marketplace images. Before you can use a marketplace image from an API, you must enable the image for programmatic
@@ -35,9 +30,6 @@ type VirtualMachineScaleSet_SpecARM struct {
 
 	// Tags: Resource tags
 	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: Resource type
-	Type *string `json:"type,omitempty"`
 
 	// Zones: The virtual machine scale set zones. NOTE: Availability zones can only be set when you create the scale set
 	Zones []string `json:"zones,omitempty"`
@@ -98,14 +90,6 @@ type SkuARM struct {
 }
 
 type VirtualMachineScaleSetIdentityARM struct {
-	// PrincipalId: The principal id of virtual machine scale set identity. This property will only be provided for a system
-	// assigned identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	// TenantId: The tenant id associated with the virtual machine scale set. This property will only be provided for a system
-	// assigned identity.
-	TenantId *string `json:"tenantId,omitempty"`
-
 	// Type: The type of identity used for the virtual machine scale set. The type 'SystemAssigned, UserAssigned' includes both
 	// an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from
 	// the virtual machine scale set.
@@ -139,9 +123,6 @@ type VirtualMachineScaleSetPropertiesARM struct {
 	// PlatformFaultDomainCount: Fault Domain count for each placement group.
 	PlatformFaultDomainCount *int `json:"platformFaultDomainCount,omitempty"`
 
-	// ProvisioningState: The provisioning state, which only appears in the response.
-	ProvisioningState *string `json:"provisioningState,omitempty"`
-
 	// ProximityPlacementGroup: Specifies information about the proximity placement group that the virtual machine scale set
 	// should be assigned to.
 	// Minimum api-version: 2018-04-01.
@@ -155,9 +136,6 @@ type VirtualMachineScaleSetPropertiesARM struct {
 	// NOTE: If singlePlacementGroup is true, it may be modified to false. However, if singlePlacementGroup is false, it may
 	// not be modified to true.
 	SinglePlacementGroup *bool `json:"singlePlacementGroup,omitempty"`
-
-	// UniqueId: Specifies the ID which uniquely identifies a Virtual Machine Scale Set.
-	UniqueId *string `json:"uniqueId,omitempty"`
 
 	// UpgradePolicy: The upgrade policy.
 	UpgradePolicy *UpgradePolicyARM `json:"upgradePolicy,omitempty"`
@@ -336,9 +314,6 @@ type ScheduledEventsProfileARM struct {
 }
 
 type VirtualMachineScaleSetExtensionProfileARM struct {
-	// Extensions: The virtual machine scale set child extension resources.
-	Extensions []VirtualMachineScaleSetExtensionARM `json:"extensions,omitempty"`
-
 	// ExtensionsTimeBudget: Specifies the time alloted for all extensions to start. The time duration should be between 15
 	// minutes and 120 minutes (inclusive) and should be specified in ISO 8601 format. The default value is 90 minutes
 	// (PT1H30M).
@@ -484,13 +459,7 @@ type VirtualMachineScaleSetDataDiskARM struct {
 	WriteAcceleratorEnabled *bool `json:"writeAcceleratorEnabled,omitempty"`
 }
 
-type VirtualMachineScaleSetExtensionARM struct {
-	// Id: Resource Id
-	Id *string `json:"id,omitempty"`
-}
-
 type VirtualMachineScaleSetNetworkConfigurationARM struct {
-	// Id: Resource Id
 	Id *string `json:"id,omitempty"`
 
 	// Name: The network configuration name.
@@ -578,7 +547,6 @@ type VirtualMachineScaleSetNetworkConfigurationPropertiesARM struct {
 }
 
 type VirtualMachineScaleSetIPConfigurationARM struct {
-	// Id: Resource Id
 	Id *string `json:"id,omitempty"`
 
 	// Name: The IP configuration name.

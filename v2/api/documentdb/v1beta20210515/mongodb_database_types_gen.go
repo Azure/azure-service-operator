@@ -581,9 +581,6 @@ type DatabaseAccountsMongodbDatabase_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	// Id: The unique resource identifier of the ARM resource.
-	Id *string `json:"id,omitempty"`
-
 	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
 
@@ -601,9 +598,6 @@ type DatabaseAccountsMongodbDatabase_Spec struct {
 	// Resource: The standard JSON format of a MongoDB database
 	Resource *MongoDBDatabaseResource `json:"resource,omitempty"`
 	Tags     map[string]string        `json:"tags,omitempty"`
-
-	// Type: The type of Azure resource.
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &DatabaseAccountsMongodbDatabase_Spec{}
@@ -617,12 +611,6 @@ func (database *DatabaseAccountsMongodbDatabase_Spec) ConvertToARM(resolved genr
 
 	// Set property ‘AzureName’:
 	result.AzureName = database.AzureName
-
-	// Set property ‘Id’:
-	if database.Id != nil {
-		id := *database.Id
-		result.Id = &id
-	}
 
 	// Set property ‘Location’:
 	if database.Location != nil {
@@ -661,12 +649,6 @@ func (database *DatabaseAccountsMongodbDatabase_Spec) ConvertToARM(resolved genr
 			result.Tags[key] = value
 		}
 	}
-
-	// Set property ‘Type’:
-	if database.Type != nil {
-		typeVar := *database.Type
-		result.Type = &typeVar
-	}
 	return result, nil
 }
 
@@ -684,12 +666,6 @@ func (database *DatabaseAccountsMongodbDatabase_Spec) PopulateFromARM(owner genr
 
 	// Set property ‘AzureName’:
 	database.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		database.Id = &id
-	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
@@ -736,12 +712,6 @@ func (database *DatabaseAccountsMongodbDatabase_Spec) PopulateFromARM(owner genr
 		for key, value := range typedInput.Tags {
 			database.Tags[key] = value
 		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		database.Type = &typeVar
 	}
 
 	// No error
@@ -804,9 +774,6 @@ func (database *DatabaseAccountsMongodbDatabase_Spec) AssignPropertiesFromDataba
 	// AzureName
 	database.AzureName = source.AzureName
 
-	// Id
-	database.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Location
 	database.Location = genruntime.ClonePointerToString(source.Location)
 
@@ -845,9 +812,6 @@ func (database *DatabaseAccountsMongodbDatabase_Spec) AssignPropertiesFromDataba
 	// Tags
 	database.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
-	// Type
-	database.Type = genruntime.ClonePointerToString(source.Type)
-
 	// No error
 	return nil
 }
@@ -859,9 +823,6 @@ func (database *DatabaseAccountsMongodbDatabase_Spec) AssignPropertiesToDatabase
 
 	// AzureName
 	destination.AzureName = database.AzureName
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(database.Id)
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(database.Location)
@@ -903,9 +864,6 @@ func (database *DatabaseAccountsMongodbDatabase_Spec) AssignPropertiesToDatabase
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(database.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(database.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

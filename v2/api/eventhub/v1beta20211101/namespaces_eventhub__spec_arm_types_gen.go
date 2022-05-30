@@ -7,25 +7,10 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type NamespacesEventhub_SpecARM struct {
 	AzureName string `json:"azureName,omitempty"`
-
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
-	// Location: The geo-location where the resource lives
-	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the resource
-	Name string `json:"name,omitempty"`
+	Name      string `json:"name,omitempty"`
 
 	// Properties: Properties supplied to the Create Or Update Event Hub operation.
 	Properties *NamespacesEventhub_Spec_PropertiesARM `json:"properties,omitempty"`
-
-	// SystemData: The system meta data relating to this resource.
-	SystemData *SystemDataARM `json:"systemData,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or "Microsoft.EventHub/Namespaces/EventHubs"
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &NamespacesEventhub_SpecARM{}
@@ -49,23 +34,14 @@ type NamespacesEventhub_Spec_PropertiesARM struct {
 	// CaptureDescription: Properties of capture description
 	CaptureDescription *CaptureDescriptionARM `json:"captureDescription,omitempty"`
 
-	// CreatedAt: Exact time the Event Hub was created.
-	CreatedAt *string `json:"createdAt,omitempty"`
-
 	// MessageRetentionInDays: Number of days to retain the events for this Event Hub, value should be 1 to 7 days
 	MessageRetentionInDays *int `json:"messageRetentionInDays,omitempty"`
 
 	// PartitionCount: Number of partitions created for the Event Hub, allowed values are from 1 to 32 partitions.
 	PartitionCount *int `json:"partitionCount,omitempty"`
 
-	// PartitionIds: Current number of shards on the Event Hub.
-	PartitionIds []string `json:"partitionIds,omitempty"`
-
 	// Status: Enumerates the possible values for the status of the Event Hub.
 	Status *NamespacesEventhub_Spec_Properties_Status `json:"status,omitempty"`
-
-	// UpdatedAt: The exact time the message was updated.
-	UpdatedAt *string `json:"updatedAt,omitempty"`
 }
 
 type CaptureDescriptionARM struct {
@@ -115,8 +91,6 @@ type Destination_PropertiesARM struct {
 	DataLakeFolderPath *string `json:"dataLakeFolderPath,omitempty"`
 
 	// DataLakeSubscriptionId: Subscription Id of Azure Data Lake Store
-	DataLakeSubscriptionId *string `json:"dataLakeSubscriptionId,omitempty"`
-
-	// StorageAccountResourceId: Resource id of the storage account to be used to create the blobs
+	DataLakeSubscriptionId   *string `json:"dataLakeSubscriptionId,omitempty"`
 	StorageAccountResourceId *string `json:"storageAccountResourceId,omitempty"`
 }

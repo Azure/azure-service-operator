@@ -382,9 +382,7 @@ func RouteTablesRoute_SpecGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForRouteTablesRoute_Spec(gens map[string]gopter.Gen) {
 	gens["AddressPrefix"] = gen.PtrOf(gen.AlphaString())
 	gens["AzureName"] = gen.AlphaString()
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["HasBgpOverride"] = gen.PtrOf(gen.Bool())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["NextHopIpAddress"] = gen.PtrOf(gen.AlphaString())
 	gens["NextHopType"] = gen.PtrOf(gen.OneConstOf(
 		RouteNextHopType_Internet,
@@ -392,10 +390,5 @@ func AddIndependentPropertyGeneratorsForRouteTablesRoute_Spec(gens map[string]go
 		RouteNextHopType_VirtualAppliance,
 		RouteNextHopType_VirtualNetworkGateway,
 		RouteNextHopType_VnetLocal))
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_Deleting,
-		ProvisioningState_Failed,
-		ProvisioningState_Succeeded,
-		ProvisioningState_Updating))
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }

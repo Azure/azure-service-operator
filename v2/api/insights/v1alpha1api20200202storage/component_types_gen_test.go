@@ -390,9 +390,6 @@ func RunJSONSerializationTestForComponent_Spec(subject Component_Spec) string {
 var component_SpecGenerator gopter.Gen
 
 // Component_SpecGenerator returns a generator of Component_Spec instances for property testing.
-// We first initialize component_SpecGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func Component_SpecGenerator() gopter.Gen {
 	if component_SpecGenerator != nil {
 		return component_SpecGenerator
@@ -402,155 +399,29 @@ func Component_SpecGenerator() gopter.Gen {
 	AddIndependentPropertyGeneratorsForComponent_Spec(generators)
 	component_SpecGenerator = gen.Struct(reflect.TypeOf(Component_Spec{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForComponent_Spec(generators)
-	AddRelatedPropertyGeneratorsForComponent_Spec(generators)
-	component_SpecGenerator = gen.Struct(reflect.TypeOf(Component_Spec{}), generators)
-
 	return component_SpecGenerator
 }
 
 // AddIndependentPropertyGeneratorsForComponent_Spec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForComponent_Spec(gens map[string]gopter.Gen) {
-	gens["AppId"] = gen.PtrOf(gen.AlphaString())
-	gens["ApplicationId"] = gen.PtrOf(gen.AlphaString())
 	gens["Application_Type"] = gen.PtrOf(gen.AlphaString())
 	gens["AzureName"] = gen.AlphaString()
-	gens["ConnectionString"] = gen.PtrOf(gen.AlphaString())
-	gens["CreationDate"] = gen.PtrOf(gen.AlphaString())
 	gens["DisableIpMasking"] = gen.PtrOf(gen.Bool())
 	gens["DisableLocalAuth"] = gen.PtrOf(gen.Bool())
 	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Flow_Type"] = gen.PtrOf(gen.AlphaString())
 	gens["ForceCustomerStorageForProfiler"] = gen.PtrOf(gen.Bool())
 	gens["HockeyAppId"] = gen.PtrOf(gen.AlphaString())
-	gens["HockeyAppToken"] = gen.PtrOf(gen.AlphaString())
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["ImmediatePurgeDataOn30Days"] = gen.PtrOf(gen.Bool())
 	gens["IngestionMode"] = gen.PtrOf(gen.AlphaString())
-	gens["InstrumentationKey"] = gen.PtrOf(gen.AlphaString())
 	gens["Kind"] = gen.PtrOf(gen.AlphaString())
-	gens["LaMigrationDate"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
-	gens["Name"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicNetworkAccessForIngestion"] = gen.PtrOf(gen.AlphaString())
 	gens["PublicNetworkAccessForQuery"] = gen.PtrOf(gen.AlphaString())
 	gens["Request_Source"] = gen.PtrOf(gen.AlphaString())
 	gens["RetentionInDays"] = gen.PtrOf(gen.Int())
 	gens["SamplingPercentage"] = gen.PtrOf(gen.Float64())
-	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForComponent_Spec is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForComponent_Spec(gens map[string]gopter.Gen) {
-	gens["PrivateLinkScopedResources"] = gen.SliceOf(PrivateLinkScopedResourceGenerator())
-}
-
-func Test_PrivateLinkScopedResource_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip from PrivateLinkScopedResource to PrivateLinkScopedResource via AssignPropertiesToPrivateLinkScopedResource & AssignPropertiesFromPrivateLinkScopedResource returns original",
-		prop.ForAll(RunPropertyAssignmentTestForPrivateLinkScopedResource, PrivateLinkScopedResourceGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
-}
-
-// RunPropertyAssignmentTestForPrivateLinkScopedResource tests if a specific instance of PrivateLinkScopedResource can be assigned to v1beta20200202storage and back losslessly
-func RunPropertyAssignmentTestForPrivateLinkScopedResource(subject PrivateLinkScopedResource) string {
-	// Copy subject to make sure assignment doesn't modify it
-	copied := subject.DeepCopy()
-
-	// Use AssignPropertiesTo() for the first stage of conversion
-	var other v20200202s.PrivateLinkScopedResource
-	err := copied.AssignPropertiesToPrivateLinkScopedResource(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Use AssignPropertiesFrom() to convert back to our original type
-	var actual PrivateLinkScopedResource
-	err = actual.AssignPropertiesFromPrivateLinkScopedResource(&other)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for a match
-	match := cmp.Equal(subject, actual)
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-func Test_PrivateLinkScopedResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of PrivateLinkScopedResource via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForPrivateLinkScopedResource, PrivateLinkScopedResourceGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForPrivateLinkScopedResource runs a test to see if a specific instance of PrivateLinkScopedResource round trips to JSON and back losslessly
-func RunJSONSerializationTestForPrivateLinkScopedResource(subject PrivateLinkScopedResource) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual PrivateLinkScopedResource
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of PrivateLinkScopedResource instances for property testing - lazily instantiated by
-// PrivateLinkScopedResourceGenerator()
-var privateLinkScopedResourceGenerator gopter.Gen
-
-// PrivateLinkScopedResourceGenerator returns a generator of PrivateLinkScopedResource instances for property testing.
-func PrivateLinkScopedResourceGenerator() gopter.Gen {
-	if privateLinkScopedResourceGenerator != nil {
-		return privateLinkScopedResourceGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForPrivateLinkScopedResource(generators)
-	privateLinkScopedResourceGenerator = gen.Struct(reflect.TypeOf(PrivateLinkScopedResource{}), generators)
-
-	return privateLinkScopedResourceGenerator
-}
-
-// AddIndependentPropertyGeneratorsForPrivateLinkScopedResource is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForPrivateLinkScopedResource(gens map[string]gopter.Gen) {
-	gens["ResourceId"] = gen.PtrOf(gen.AlphaString())
-	gens["ScopeId"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_PrivateLinkScopedResource_STATUS_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

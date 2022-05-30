@@ -185,12 +185,9 @@ type Namespace_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string      `json:"azureName,omitempty"`
-	CreatedAt       *string     `json:"createdAt,omitempty"`
 	Encryption      *Encryption `json:"encryption,omitempty"`
-	Id              *string     `json:"id,omitempty"`
 	Identity        *Identity   `json:"identity,omitempty"`
 	Location        *string     `json:"location,omitempty"`
-	MetricId        *string     `json:"metricId,omitempty"`
 	OriginalVersion string      `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -200,14 +197,8 @@ type Namespace_Spec struct {
 	Owner                      *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PrivateEndpointConnections []PrivateEndpointConnection        `json:"privateEndpointConnections,omitempty"`
 	PropertyBag                genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	ProvisioningState          *string                            `json:"provisioningState,omitempty"`
-	ServiceBusEndpoint         *string                            `json:"serviceBusEndpoint,omitempty"`
 	Sku                        *SBSku                             `json:"sku,omitempty"`
-	Status                     *string                            `json:"status,omitempty"`
-	SystemData                 *SystemData                        `json:"systemData,omitempty"`
 	Tags                       map[string]string                  `json:"tags,omitempty"`
-	Type                       *string                            `json:"type,omitempty"`
-	UpdatedAt                  *string                            `json:"updatedAt,omitempty"`
 	ZoneRedundant              *bool                              `json:"zoneRedundant,omitempty"`
 }
 
@@ -249,9 +240,7 @@ type Encryption_STATUS struct {
 
 // Storage version of v1beta20210101preview.Identity
 type Identity struct {
-	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	TenantId    *string                `json:"tenantId,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
@@ -266,9 +255,10 @@ type Identity_STATUS struct {
 
 // Storage version of v1beta20210101preview.PrivateEndpointConnection
 type PrivateEndpointConnection struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	SystemData  *SystemData            `json:"systemData,omitempty"`
+	PrivateEndpoint                   *PrivateEndpoint       `json:"privateEndpoint,omitempty"`
+	PrivateLinkServiceConnectionState *ConnectionState       `json:"privateLinkServiceConnectionState,omitempty"`
+	PropertyBag                       genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	ProvisioningState                 *string                `json:"provisioningState,omitempty"`
 }
 
 // Storage version of v1beta20210101preview.PrivateEndpointConnection_STATUS
@@ -294,17 +284,6 @@ type SBSku_STATUS struct {
 	Tier        *string                `json:"tier,omitempty"`
 }
 
-// Storage version of v1beta20210101preview.SystemData
-type SystemData struct {
-	CreatedAt          *string                `json:"createdAt,omitempty"`
-	CreatedBy          *string                `json:"createdBy,omitempty"`
-	CreatedByType      *string                `json:"createdByType,omitempty"`
-	LastModifiedAt     *string                `json:"lastModifiedAt,omitempty"`
-	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
-	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-}
-
 // Storage version of v1beta20210101preview.SystemData_STATUS
 type SystemData_STATUS struct {
 	CreatedAt          *string                `json:"createdAt,omitempty"`
@@ -314,6 +293,13 @@ type SystemData_STATUS struct {
 	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
 	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20210101preview.ConnectionState
+type ConnectionState struct {
+	Description *string                `json:"description,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Status      *string                `json:"status,omitempty"`
 }
 
 // Storage version of v1beta20210101preview.DictionaryValue_STATUS
@@ -339,6 +325,12 @@ type KeyVaultProperties_STATUS struct {
 	KeyVaultUri *string                                `json:"keyVaultUri,omitempty"`
 	KeyVersion  *string                                `json:"keyVersion,omitempty"`
 	PropertyBag genruntime.PropertyBag                 `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20210101preview.PrivateEndpoint
+type PrivateEndpoint struct {
+	Id          *string                `json:"id,omitempty"`
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
 // Storage version of v1beta20210101preview.UserAssignedIdentityProperties

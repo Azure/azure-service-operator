@@ -384,7 +384,6 @@ type DatabaseAccountsMongodbDatabasesCollection_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string               `json:"azureName,omitempty"`
-	Id              *string              `json:"id,omitempty"`
 	Location        *string              `json:"location,omitempty"`
 	Options         *CreateUpdateOptions `json:"options,omitempty"`
 	OriginalVersion string               `json:"originalVersion,omitempty"`
@@ -397,7 +396,6 @@ type DatabaseAccountsMongodbDatabasesCollection_Spec struct {
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Resource    *MongoDBCollectionResource         `json:"resource,omitempty"`
 	Tags        map[string]string                  `json:"tags,omitempty"`
-	Type        *string                            `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &DatabaseAccountsMongodbDatabasesCollection_Spec{}
@@ -458,9 +456,6 @@ func (collection *DatabaseAccountsMongodbDatabasesCollection_Spec) AssignPropert
 	// AzureName
 	collection.AzureName = source.AzureName
 
-	// Id
-	collection.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Location
 	collection.Location = genruntime.ClonePointerToString(source.Location)
 
@@ -502,9 +497,6 @@ func (collection *DatabaseAccountsMongodbDatabasesCollection_Spec) AssignPropert
 	// Tags
 	collection.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
-	// Type
-	collection.Type = genruntime.ClonePointerToString(source.Type)
-
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		collection.PropertyBag = propertyBag
@@ -523,9 +515,6 @@ func (collection *DatabaseAccountsMongodbDatabasesCollection_Spec) AssignPropert
 
 	// AzureName
 	destination.AzureName = collection.AzureName
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(collection.Id)
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(collection.Location)
@@ -567,9 +556,6 @@ func (collection *DatabaseAccountsMongodbDatabasesCollection_Spec) AssignPropert
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(collection.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(collection.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

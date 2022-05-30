@@ -84,7 +84,6 @@ func RouteTablesRoute_SpecARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForRouteTablesRoute_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForRouteTablesRoute_SpecARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Type"] = gen.PtrOf(gen.AlphaString())
@@ -161,9 +160,4 @@ func AddIndependentPropertyGeneratorsForRoutePropertiesFormatARM(gens map[string
 		RouteNextHopType_VirtualAppliance,
 		RouteNextHopType_VirtualNetworkGateway,
 		RouteNextHopType_VnetLocal))
-	gens["ProvisioningState"] = gen.PtrOf(gen.OneConstOf(
-		ProvisioningState_Deleting,
-		ProvisioningState_Failed,
-		ProvisioningState_Succeeded,
-		ProvisioningState_Updating))
 }

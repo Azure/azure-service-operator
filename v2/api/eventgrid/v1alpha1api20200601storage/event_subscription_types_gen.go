@@ -485,7 +485,6 @@ type EventSubscription_Spec struct {
 	EventDeliverySchema   *string                       `json:"eventDeliverySchema,omitempty"`
 	ExpirationTimeUtc     *string                       `json:"expirationTimeUtc,omitempty"`
 	Filter                *EventSubscriptionFilter      `json:"filter,omitempty"`
-	Id                    *string                       `json:"id,omitempty"`
 	Labels                []string                      `json:"labels,omitempty"`
 	OriginalVersion       string                        `json:"originalVersion,omitempty"`
 
@@ -493,13 +492,9 @@ type EventSubscription_Spec struct {
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner             *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PropertyBag       genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	ProvisioningState *string                            `json:"provisioningState,omitempty"`
-	RetryPolicy       *RetryPolicy                       `json:"retryPolicy,omitempty"`
-	SystemData        *SystemData                        `json:"systemData,omitempty"`
-	Topic             *string                            `json:"topic,omitempty"`
-	Type              *string                            `json:"type,omitempty"`
+	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
+	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
+	RetryPolicy *RetryPolicy                       `json:"retryPolicy,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &EventSubscription_Spec{}
@@ -602,9 +597,6 @@ func (subscription *EventSubscription_Spec) AssignPropertiesFromEventSubscriptio
 		subscription.Filter = nil
 	}
 
-	// Id
-	subscription.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Labels
 	subscription.Labels = genruntime.CloneSliceOfString(source.Labels)
 
@@ -619,9 +611,6 @@ func (subscription *EventSubscription_Spec) AssignPropertiesFromEventSubscriptio
 		subscription.Owner = nil
 	}
 
-	// ProvisioningState
-	subscription.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
 	// RetryPolicy
 	if source.RetryPolicy != nil {
 		var retryPolicy RetryPolicy
@@ -633,24 +622,6 @@ func (subscription *EventSubscription_Spec) AssignPropertiesFromEventSubscriptio
 	} else {
 		subscription.RetryPolicy = nil
 	}
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
-		}
-		subscription.SystemData = &systemDatum
-	} else {
-		subscription.SystemData = nil
-	}
-
-	// Topic
-	subscription.Topic = genruntime.ClonePointerToString(source.Topic)
-
-	// Type
-	subscription.Type = genruntime.ClonePointerToString(source.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -713,9 +684,6 @@ func (subscription *EventSubscription_Spec) AssignPropertiesToEventSubscription_
 		destination.Filter = nil
 	}
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(subscription.Id)
-
 	// Labels
 	destination.Labels = genruntime.CloneSliceOfString(subscription.Labels)
 
@@ -730,9 +698,6 @@ func (subscription *EventSubscription_Spec) AssignPropertiesToEventSubscription_
 		destination.Owner = nil
 	}
 
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(subscription.ProvisioningState)
-
 	// RetryPolicy
 	if subscription.RetryPolicy != nil {
 		var retryPolicy v20200601s.RetryPolicy
@@ -744,24 +709,6 @@ func (subscription *EventSubscription_Spec) AssignPropertiesToEventSubscription_
 	} else {
 		destination.RetryPolicy = nil
 	}
-
-	// SystemData
-	if subscription.SystemData != nil {
-		var systemDatum v20200601s.SystemData
-		err := subscription.SystemData.AssignPropertiesToSystemData(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
-	// Topic
-	destination.Topic = genruntime.ClonePointerToString(subscription.Topic)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(subscription.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

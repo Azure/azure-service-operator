@@ -83,11 +83,9 @@ func Image_SpecARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForImage_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForImage_SpecARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForImage_SpecARM is a factory method for creating gopter generators
@@ -223,7 +221,6 @@ func ImagePropertiesARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForImagePropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForImagePropertiesARM(gens map[string]gopter.Gen) {
 	gens["HyperVGeneration"] = gen.PtrOf(gen.OneConstOf(HyperVGenerationType_V1, HyperVGenerationType_V2))
-	gens["ProvisioningState"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForImagePropertiesARM is a factory method for creating gopter generators

@@ -8,21 +8,13 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 type DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_SpecARM struct {
 	AzureName string `json:"azureName,omitempty"`
 
-	// Id: The unique resource identifier of the ARM resource.
-	Id *string `json:"id,omitempty"`
-
 	// Location: The location of the resource group to which the resource belongs.
 	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the ARM resource.
-	Name string `json:"name,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
 	// Properties: Properties to update Azure Cosmos DB resource throughput.
 	Properties *ThroughputSettingsUpdatePropertiesARM `json:"properties,omitempty"`
 	Tags       map[string]string                      `json:"tags,omitempty"`
-
-	// Type: The type of Azure resource.
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &DatabaseAccountsMongodbDatabasesCollectionsThroughputSetting_SpecARM{}
@@ -52,12 +44,6 @@ type ThroughputSettingsResourceARM struct {
 	// required, but not both.
 	AutoscaleSettings *AutoscaleSettingsResourceARM `json:"autoscaleSettings,omitempty"`
 
-	// MinimumThroughput: The minimum throughput of the resource
-	MinimumThroughput *string `json:"minimumThroughput,omitempty"`
-
-	// OfferReplacePending: The throughput replace is pending
-	OfferReplacePending *string `json:"offerReplacePending,omitempty"`
-
 	// Throughput: Value of the Cosmos DB resource throughput. Either throughput is required or autoscaleSettings is required,
 	// but not both.
 	Throughput *int `json:"throughput,omitempty"`
@@ -69,10 +55,6 @@ type AutoscaleSettingsResourceARM struct {
 
 	// MaxThroughput: Represents maximum throughput container can scale up to.
 	MaxThroughput *int `json:"maxThroughput,omitempty"`
-
-	// TargetMaxThroughput: Represents target maximum throughput container can scale up to once offer is no longer in pending
-	// state.
-	TargetMaxThroughput *int `json:"targetMaxThroughput,omitempty"`
 }
 
 type AutoUpgradePolicyResourceARM struct {

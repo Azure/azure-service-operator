@@ -8,13 +8,11 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 // Deprecated version of RedisEnterprise_Spec. Use v1beta20210301.RedisEnterprise_Spec instead
 type RedisEnterprise_SpecARM struct {
 	AzureName  string                `json:"azureName,omitempty"`
-	Id         *string               `json:"id,omitempty"`
 	Location   *string               `json:"location,omitempty"`
 	Name       string                `json:"name,omitempty"`
 	Properties *ClusterPropertiesARM `json:"properties,omitempty"`
 	Sku        *SkuARM               `json:"sku,omitempty"`
 	Tags       map[string]string     `json:"tags,omitempty"`
-	Type       *string               `json:"type,omitempty"`
 	Zones      []string              `json:"zones,omitempty"`
 }
 
@@ -37,23 +35,13 @@ func (enterprise *RedisEnterprise_SpecARM) GetType() string {
 
 // Deprecated version of ClusterProperties. Use v1beta20210301.ClusterProperties instead
 type ClusterPropertiesARM struct {
-	HostName                   *string                              `json:"hostName,omitempty"`
-	MinimumTlsVersion          *ClusterProperties_MinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
-	PrivateEndpointConnections []PrivateEndpointConnectionARM       `json:"privateEndpointConnections,omitempty"`
-	ProvisioningState          *ProvisioningState                   `json:"provisioningState,omitempty"`
-	RedisVersion               *string                              `json:"redisVersion,omitempty"`
-	ResourceState              *ResourceState                       `json:"resourceState,omitempty"`
+	MinimumTlsVersion *ClusterProperties_MinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
 }
 
 // Deprecated version of Sku. Use v1beta20210301.Sku instead
 type SkuARM struct {
 	Capacity *int      `json:"capacity,omitempty"`
 	Name     *Sku_Name `json:"name,omitempty"`
-}
-
-// Deprecated version of PrivateEndpointConnection. Use v1beta20210301.PrivateEndpointConnection instead
-type PrivateEndpointConnectionARM struct {
-	Id *string `json:"id,omitempty"`
 }
 
 // Deprecated version of Sku_Name. Use v1beta20210301.Sku_Name instead

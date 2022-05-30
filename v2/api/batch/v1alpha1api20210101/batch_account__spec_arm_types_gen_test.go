@@ -229,8 +229,6 @@ func BatchAccountIdentityARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForBatchAccountIdentityARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForBatchAccountIdentityARM(gens map[string]gopter.Gen) {
-	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
-	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
 	gens["Type"] = gen.PtrOf(gen.OneConstOf(BatchAccountIdentity_Type_None, BatchAccountIdentity_Type_SystemAssigned, BatchAccountIdentity_Type_UserAssigned))
 }
 

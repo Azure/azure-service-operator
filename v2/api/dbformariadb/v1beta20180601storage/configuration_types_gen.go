@@ -174,16 +174,10 @@ func (configuration *ServersConfiguration_STATUS) ConvertStatusTo(destination ge
 
 // Storage version of v1beta20180601.ServersConfiguration_Spec
 type ServersConfiguration_Spec struct {
-	AllowedValues *string `json:"allowedValues,omitempty"`
-
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName       string  `json:"azureName,omitempty"`
-	DataType        *string `json:"dataType,omitempty"`
-	DefaultValue    *string `json:"defaultValue,omitempty"`
-	Description     *string `json:"description,omitempty"`
-	Id              *string `json:"id,omitempty"`
-	OriginalVersion string  `json:"originalVersion,omitempty"`
+	AzureName       string `json:"azureName,omitempty"`
+	OriginalVersion string `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -192,7 +186,6 @@ type ServersConfiguration_Spec struct {
 	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Source      *string                            `json:"source,omitempty"`
-	Type        *string                            `json:"type,omitempty"`
 	Value       *string                            `json:"value,omitempty"`
 }
 

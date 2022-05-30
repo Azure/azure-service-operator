@@ -174,20 +174,10 @@ func (configuration *FlexibleServersConfiguration_STATUS) ConvertStatusTo(destin
 
 // Storage version of v1beta20210601.FlexibleServersConfiguration_Spec
 type FlexibleServersConfiguration_Spec struct {
-	AllowedValues *string `json:"allowedValues,omitempty"`
-
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName              string  `json:"azureName,omitempty"`
-	DataType               *string `json:"dataType,omitempty"`
-	DefaultValue           *string `json:"defaultValue,omitempty"`
-	Description            *string `json:"description,omitempty"`
-	DocumentationLink      *string `json:"documentationLink,omitempty"`
-	Id                     *string `json:"id,omitempty"`
-	IsConfigPendingRestart *bool   `json:"isConfigPendingRestart,omitempty"`
-	IsDynamicConfig        *bool   `json:"isDynamicConfig,omitempty"`
-	IsReadOnly             *bool   `json:"isReadOnly,omitempty"`
-	OriginalVersion        string  `json:"originalVersion,omitempty"`
+	AzureName       string `json:"azureName,omitempty"`
+	OriginalVersion string `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -196,9 +186,6 @@ type FlexibleServersConfiguration_Spec struct {
 	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Source      *string                            `json:"source,omitempty"`
-	SystemData  *SystemData                        `json:"systemData,omitempty"`
-	Type        *string                            `json:"type,omitempty"`
-	Unit        *string                            `json:"unit,omitempty"`
 	Value       *string                            `json:"value,omitempty"`
 }
 

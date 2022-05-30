@@ -16,11 +16,8 @@
 | ChangeFeed                                                           | v1alpha1api20210401 | v1beta20210401 |
 | ChangeFeed_STATUS                                                    | v1alpha1api20210401 | v1beta20210401 |
 | ContainerProperties                                                  | v1alpha1api20210401 | v1beta20210401 |
-| ContainerProperties_LeaseDuration                                    | v1alpha1api20210401 | v1beta20210401 |
 | ContainerProperties_LeaseDuration_STATUS                             | v1alpha1api20210401 | v1beta20210401 |
-| ContainerProperties_LeaseState                                       | v1alpha1api20210401 | v1beta20210401 |
 | ContainerProperties_LeaseState_STATUS                                | v1alpha1api20210401 | v1beta20210401 |
-| ContainerProperties_LeaseStatus                                      | v1alpha1api20210401 | v1beta20210401 |
 | ContainerProperties_LeaseStatus_STATUS                               | v1alpha1api20210401 | v1beta20210401 |
 | ContainerProperties_PublicAccess                                     | v1alpha1api20210401 | v1beta20210401 |
 | ContainerProperties_PublicAccess_STATUS                              | v1alpha1api20210401 | v1beta20210401 |
@@ -66,14 +63,10 @@
 | Identity_STATUS                                                      | v1alpha1api20210401 | v1beta20210401 |
 | Identity_Type                                                        | v1alpha1api20210401 | v1beta20210401 |
 | Identity_Type_STATUS                                                 | v1alpha1api20210401 | v1beta20210401 |
-| ImmutabilityPolicyProperties                                         | v1alpha1api20210401 | v1beta20210401 |
 | ImmutabilityPolicyProperties_STATUS                                  | v1alpha1api20210401 | v1beta20210401 |
-| ImmutabilityPolicyProperty                                           | v1alpha1api20210401 | v1beta20210401 |
 | ImmutabilityPolicyProperty_STATUS                                    | v1alpha1api20210401 | v1beta20210401 |
-| ImmutabilityPolicyProperty_State                                     | v1alpha1api20210401 | v1beta20210401 |
 | ImmutabilityPolicyProperty_State_STATUS                              | v1alpha1api20210401 | v1beta20210401 |
 | ImmutableStorageWithVersioning                                       | v1alpha1api20210401 | v1beta20210401 |
-| ImmutableStorageWithVersioning_MigrationState                        | v1alpha1api20210401 | v1beta20210401 |
 | ImmutableStorageWithVersioning_MigrationState_STATUS                 | v1alpha1api20210401 | v1beta20210401 |
 | ImmutableStorageWithVersioning_STATUS                                | v1alpha1api20210401 | v1beta20210401 |
 | KeyCreationTime_STATUS                                               | v1alpha1api20210401 | v1beta20210401 |
@@ -85,7 +78,6 @@
 | LastAccessTimeTrackingPolicy_Name                                    | v1alpha1api20210401 | v1beta20210401 |
 | LastAccessTimeTrackingPolicy_Name_STATUS                             | v1alpha1api20210401 | v1beta20210401 |
 | LastAccessTimeTrackingPolicy_STATUS                                  | v1alpha1api20210401 | v1beta20210401 |
-| LegalHoldProperties                                                  | v1alpha1api20210401 | v1beta20210401 |
 | LegalHoldProperties_STATUS                                           | v1alpha1api20210401 | v1beta20210401 |
 | ManagementPolicyAction                                               |                     | v1beta20210401 |
 | ManagementPolicyAction_STATUS                                        |                     | v1beta20210401 |
@@ -171,13 +163,10 @@
 | StorageAccountsQueueServicesQueue_Spec                               | v1alpha1api20210401 | v1beta20210401 |
 | TagFilter                                                            |                     | v1beta20210401 |
 | TagFilter_STATUS                                                     |                     | v1beta20210401 |
-| TagProperty                                                          | v1alpha1api20210401 | v1beta20210401 |
 | TagProperty_STATUS                                                   | v1alpha1api20210401 | v1beta20210401 |
 | Tier                                                                 | v1alpha1api20210401 | v1beta20210401 |
 | Tier_STATUS                                                          | v1alpha1api20210401 | v1beta20210401 |
-| UpdateHistoryProperty                                                | v1alpha1api20210401 | v1beta20210401 |
 | UpdateHistoryProperty_STATUS                                         | v1alpha1api20210401 | v1beta20210401 |
-| UpdateHistoryProperty_Update                                         | v1alpha1api20210401 | v1beta20210401 |
 | UpdateHistoryProperty_Update_STATUS                                  | v1alpha1api20210401 | v1beta20210401 |
 | UserAssignedIdentity_STATUS                                          | v1alpha1api20210401 | v1beta20210401 |
 | VirtualNetworkRule                                                   | v1alpha1api20210401 | v1beta20210401 |

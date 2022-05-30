@@ -151,8 +151,6 @@ func RoleAssignmentPropertiesARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForRoleAssignmentPropertiesARM(gens map[string]gopter.Gen) {
 	gens["Condition"] = gen.PtrOf(gen.AlphaString())
 	gens["ConditionVersion"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedOn"] = gen.PtrOf(gen.AlphaString())
 	gens["DelegatedManagedIdentityResourceId"] = gen.PtrOf(gen.AlphaString())
 	gens["Description"] = gen.PtrOf(gen.AlphaString())
 	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
@@ -162,7 +160,4 @@ func AddIndependentPropertyGeneratorsForRoleAssignmentPropertiesARM(gens map[str
 		RoleAssignmentProperties_PrincipalType_ServicePrincipal,
 		RoleAssignmentProperties_PrincipalType_User))
 	gens["RoleDefinitionId"] = gen.PtrOf(gen.AlphaString())
-	gens["Scope"] = gen.PtrOf(gen.AlphaString())
-	gens["UpdatedBy"] = gen.PtrOf(gen.AlphaString())
-	gens["UpdatedOn"] = gen.PtrOf(gen.AlphaString())
 }

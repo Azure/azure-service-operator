@@ -23,6 +23,7 @@ type ObjectType struct {
 	functions  map[string]Function
 	testcases  map[string]TestCase
 	InterfaceImplementer
+	isResource bool
 }
 
 // for want of a better place for this to live…
@@ -52,6 +53,7 @@ func NewObjectType() *ObjectType {
 		functions:            make(map[string]Function),
 		testcases:            make(map[string]TestCase),
 		InterfaceImplementer: MakeInterfaceImplementer(),
+		isResource:           false,
 	}
 }
 
@@ -140,6 +142,20 @@ func (objectType *ObjectType) EmbeddedProperties() []*PropertyDefinition {
 		return lTypeName.Name() < rTypeName.Name()
 	})
 
+	return result
+}
+
+func (objectType *ObjectType) IsResource() bool {
+	return objectType.isResource
+}
+
+func (objectType *ObjectType) WithIsResource(isResource bool) *ObjectType {
+	if objectType.isResource == isResource {
+		return objectType
+	}
+
+	result := objectType.copy()
+	result.isResource = isResource
 	return result
 }
 
@@ -513,6 +529,7 @@ func (objectType *ObjectType) copy() *ObjectType {
 	}
 
 	result.InterfaceImplementer = objectType.InterfaceImplementer.copy()
+	result.isResource = objectType.isResource
 
 	return result
 }

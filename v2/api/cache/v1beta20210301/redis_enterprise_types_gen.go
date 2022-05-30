@@ -735,13 +735,6 @@ type RedisEnterprise_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	// HostName: DNS name of the cluster endpoint
-	HostName *string `json:"hostName,omitempty"`
-
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
 	// +kubebuilder:validation:Required
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
@@ -755,27 +748,12 @@ type RedisEnterprise_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
-	// PrivateEndpointConnections: List of private endpoint connections associated with the specified RedisEnterprise cluster
-	PrivateEndpointConnections []PrivateEndpointConnection `json:"privateEndpointConnections,omitempty"`
-
-	// ProvisioningState: Current provisioning status of the cluster
-	ProvisioningState *ProvisioningState `json:"provisioningState,omitempty"`
-
-	// RedisVersion: Version of redis the cluster supports, e.g. '6'
-	RedisVersion *string `json:"redisVersion,omitempty"`
-
-	// ResourceState: Current resource status of the cluster
-	ResourceState *ResourceState `json:"resourceState,omitempty"`
-
 	// +kubebuilder:validation:Required
 	// Sku: The SKU to create, which affects price, performance, and features.
 	Sku *Sku `json:"sku,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
 
 	// Zones: The Availability Zones where this cluster will be deployed.
 	Zones []string `json:"zones,omitempty"`
@@ -793,12 +771,6 @@ func (enterprise *RedisEnterprise_Spec) ConvertToARM(resolved genruntime.Convert
 	// Set property ‘AzureName’:
 	result.AzureName = enterprise.AzureName
 
-	// Set property ‘Id’:
-	if enterprise.Id != nil {
-		id := *enterprise.Id
-		result.Id = &id
-	}
-
 	// Set property ‘Location’:
 	if enterprise.Location != nil {
 		location := *enterprise.Location
@@ -809,40 +781,12 @@ func (enterprise *RedisEnterprise_Spec) ConvertToARM(resolved genruntime.Convert
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if enterprise.HostName != nil ||
-		enterprise.MinimumTlsVersion != nil ||
-		enterprise.PrivateEndpointConnections != nil ||
-		enterprise.ProvisioningState != nil ||
-		enterprise.RedisVersion != nil ||
-		enterprise.ResourceState != nil {
+	if enterprise.MinimumTlsVersion != nil {
 		result.Properties = &ClusterPropertiesARM{}
-	}
-	if enterprise.HostName != nil {
-		hostName := *enterprise.HostName
-		result.Properties.HostName = &hostName
 	}
 	if enterprise.MinimumTlsVersion != nil {
 		minimumTlsVersion := *enterprise.MinimumTlsVersion
 		result.Properties.MinimumTlsVersion = &minimumTlsVersion
-	}
-	for _, item := range enterprise.PrivateEndpointConnections {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Properties.PrivateEndpointConnections = append(result.Properties.PrivateEndpointConnections, *itemARM.(*PrivateEndpointConnectionARM))
-	}
-	if enterprise.ProvisioningState != nil {
-		provisioningState := *enterprise.ProvisioningState
-		result.Properties.ProvisioningState = &provisioningState
-	}
-	if enterprise.RedisVersion != nil {
-		redisVersion := *enterprise.RedisVersion
-		result.Properties.RedisVersion = &redisVersion
-	}
-	if enterprise.ResourceState != nil {
-		resourceState := *enterprise.ResourceState
-		result.Properties.ResourceState = &resourceState
 	}
 
 	// Set property ‘Sku’:
@@ -861,12 +805,6 @@ func (enterprise *RedisEnterprise_Spec) ConvertToARM(resolved genruntime.Convert
 		for key, value := range enterprise.Tags {
 			result.Tags[key] = value
 		}
-	}
-
-	// Set property ‘Type’:
-	if enterprise.Type != nil {
-		typeVar := *enterprise.Type
-		result.Type = &typeVar
 	}
 
 	// Set property ‘Zones’:
@@ -891,21 +829,6 @@ func (enterprise *RedisEnterprise_Spec) PopulateFromARM(owner genruntime.Arbitra
 	// Set property ‘AzureName’:
 	enterprise.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘HostName’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.HostName != nil {
-			hostName := *typedInput.Properties.HostName
-			enterprise.HostName = &hostName
-		}
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		enterprise.Id = &id
-	}
-
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
 		location := *typedInput.Location
@@ -926,46 +849,6 @@ func (enterprise *RedisEnterprise_Spec) PopulateFromARM(owner genruntime.Arbitra
 		Name: owner.Name,
 	}
 
-	// Set property ‘PrivateEndpointConnections’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.PrivateEndpointConnections {
-			var item1 PrivateEndpointConnection
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			enterprise.PrivateEndpointConnections = append(enterprise.PrivateEndpointConnections, item1)
-		}
-	}
-
-	// Set property ‘ProvisioningState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
-			enterprise.ProvisioningState = &provisioningState
-		}
-	}
-
-	// Set property ‘RedisVersion’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.RedisVersion != nil {
-			redisVersion := *typedInput.Properties.RedisVersion
-			enterprise.RedisVersion = &redisVersion
-		}
-	}
-
-	// Set property ‘ResourceState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ResourceState != nil {
-			resourceState := *typedInput.Properties.ResourceState
-			enterprise.ResourceState = &resourceState
-		}
-	}
-
 	// Set property ‘Sku’:
 	if typedInput.Sku != nil {
 		var sku1 Sku
@@ -983,12 +866,6 @@ func (enterprise *RedisEnterprise_Spec) PopulateFromARM(owner genruntime.Arbitra
 		for key, value := range typedInput.Tags {
 			enterprise.Tags[key] = value
 		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		enterprise.Type = &typeVar
 	}
 
 	// Set property ‘Zones’:
@@ -1056,12 +933,6 @@ func (enterprise *RedisEnterprise_Spec) AssignPropertiesFromRedisEnterprise_Spec
 	// AzureName
 	enterprise.AzureName = source.AzureName
 
-	// HostName
-	enterprise.HostName = genruntime.ClonePointerToString(source.HostName)
-
-	// Id
-	enterprise.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Location
 	enterprise.Location = genruntime.ClonePointerToString(source.Location)
 
@@ -1081,43 +952,6 @@ func (enterprise *RedisEnterprise_Spec) AssignPropertiesFromRedisEnterprise_Spec
 		enterprise.Owner = nil
 	}
 
-	// PrivateEndpointConnections
-	if source.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]PrivateEndpointConnection, len(source.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection PrivateEndpointConnection
-			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnection(&privateEndpointConnectionItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnection() to populate field PrivateEndpointConnections")
-			}
-			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
-		}
-		enterprise.PrivateEndpointConnections = privateEndpointConnectionList
-	} else {
-		enterprise.PrivateEndpointConnections = nil
-	}
-
-	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState(*source.ProvisioningState)
-		enterprise.ProvisioningState = &provisioningState
-	} else {
-		enterprise.ProvisioningState = nil
-	}
-
-	// RedisVersion
-	enterprise.RedisVersion = genruntime.ClonePointerToString(source.RedisVersion)
-
-	// ResourceState
-	if source.ResourceState != nil {
-		resourceState := ResourceState(*source.ResourceState)
-		enterprise.ResourceState = &resourceState
-	} else {
-		enterprise.ResourceState = nil
-	}
-
 	// Sku
 	if source.Sku != nil {
 		var sku Sku
@@ -1133,9 +967,6 @@ func (enterprise *RedisEnterprise_Spec) AssignPropertiesFromRedisEnterprise_Spec
 	// Tags
 	enterprise.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
-	// Type
-	enterprise.Type = genruntime.ClonePointerToString(source.Type)
-
 	// Zones
 	enterprise.Zones = genruntime.CloneSliceOfString(source.Zones)
 
@@ -1150,12 +981,6 @@ func (enterprise *RedisEnterprise_Spec) AssignPropertiesToRedisEnterprise_Spec(d
 
 	// AzureName
 	destination.AzureName = enterprise.AzureName
-
-	// HostName
-	destination.HostName = genruntime.ClonePointerToString(enterprise.HostName)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(enterprise.Id)
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(enterprise.Location)
@@ -1179,43 +1004,6 @@ func (enterprise *RedisEnterprise_Spec) AssignPropertiesToRedisEnterprise_Spec(d
 		destination.Owner = nil
 	}
 
-	// PrivateEndpointConnections
-	if enterprise.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]v20210301s.PrivateEndpointConnection, len(enterprise.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range enterprise.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection v20210301s.PrivateEndpointConnection
-			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnection(&privateEndpointConnection)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnection() to populate field PrivateEndpointConnections")
-			}
-			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
-		}
-		destination.PrivateEndpointConnections = privateEndpointConnectionList
-	} else {
-		destination.PrivateEndpointConnections = nil
-	}
-
-	// ProvisioningState
-	if enterprise.ProvisioningState != nil {
-		provisioningState := string(*enterprise.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
-
-	// RedisVersion
-	destination.RedisVersion = genruntime.ClonePointerToString(enterprise.RedisVersion)
-
-	// ResourceState
-	if enterprise.ResourceState != nil {
-		resourceState := string(*enterprise.ResourceState)
-		destination.ResourceState = &resourceState
-	} else {
-		destination.ResourceState = nil
-	}
-
 	// Sku
 	if enterprise.Sku != nil {
 		var sku v20210301s.Sku
@@ -1230,9 +1018,6 @@ func (enterprise *RedisEnterprise_Spec) AssignPropertiesToRedisEnterprise_Spec(d
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(enterprise.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(enterprise.Type)
 
 	// Zones
 	destination.Zones = genruntime.CloneSliceOfString(enterprise.Zones)
@@ -1274,80 +1059,6 @@ const (
 	ClusterProperties_MinimumTlsVersion_11_STATUS = ClusterProperties_MinimumTlsVersion_STATUS("1.1")
 	ClusterProperties_MinimumTlsVersion_12_STATUS = ClusterProperties_MinimumTlsVersion_STATUS("1.2")
 )
-
-type PrivateEndpointConnection struct {
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &PrivateEndpointConnection{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (connection *PrivateEndpointConnection) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if connection == nil {
-		return nil, nil
-	}
-	result := &PrivateEndpointConnectionARM{}
-
-	// Set property ‘Id’:
-	if connection.Id != nil {
-		id := *connection.Id
-		result.Id = &id
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (connection *PrivateEndpointConnection) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateEndpointConnectionARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (connection *PrivateEndpointConnection) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateEndpointConnectionARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnectionARM, got %T", armInput)
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		connection.Id = &id
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromPrivateEndpointConnection populates our PrivateEndpointConnection from the provided source PrivateEndpointConnection
-func (connection *PrivateEndpointConnection) AssignPropertiesFromPrivateEndpointConnection(source *v20210301s.PrivateEndpointConnection) error {
-
-	// Id
-	connection.Id = genruntime.ClonePointerToString(source.Id)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToPrivateEndpointConnection populates the provided destination PrivateEndpointConnection from our PrivateEndpointConnection
-func (connection *PrivateEndpointConnection) AssignPropertiesToPrivateEndpointConnection(destination *v20210301s.PrivateEndpointConnection) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(connection.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
 
 type PrivateEndpointConnection_STATUS struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
@@ -1408,18 +1119,6 @@ func (connection *PrivateEndpointConnection_STATUS) AssignPropertiesToPrivateEnd
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"Canceled","Creating","Deleting","Failed","Succeeded","Updating"}
-type ProvisioningState string
-
-const (
-	ProvisioningState_Canceled  = ProvisioningState("Canceled")
-	ProvisioningState_Creating  = ProvisioningState("Creating")
-	ProvisioningState_Deleting  = ProvisioningState("Deleting")
-	ProvisioningState_Failed    = ProvisioningState("Failed")
-	ProvisioningState_Succeeded = ProvisioningState("Succeeded")
-	ProvisioningState_Updating  = ProvisioningState("Updating")
-)
-
 type ProvisioningState_STATUS string
 
 const (
@@ -1429,24 +1128,6 @@ const (
 	ProvisioningState_Failed_STATUS    = ProvisioningState_STATUS("Failed")
 	ProvisioningState_Succeeded_STATUS = ProvisioningState_STATUS("Succeeded")
 	ProvisioningState_Updating_STATUS  = ProvisioningState_STATUS("Updating")
-)
-
-// +kubebuilder:validation:Enum={"CreateFailed","Creating","DeleteFailed","Deleting","DisableFailed","Disabled","Disabling","EnableFailed","Enabling","Running","UpdateFailed","Updating"}
-type ResourceState string
-
-const (
-	ResourceState_CreateFailed  = ResourceState("CreateFailed")
-	ResourceState_Creating      = ResourceState("Creating")
-	ResourceState_DeleteFailed  = ResourceState("DeleteFailed")
-	ResourceState_Deleting      = ResourceState("Deleting")
-	ResourceState_DisableFailed = ResourceState("DisableFailed")
-	ResourceState_Disabled      = ResourceState("Disabled")
-	ResourceState_Disabling     = ResourceState("Disabling")
-	ResourceState_EnableFailed  = ResourceState("EnableFailed")
-	ResourceState_Enabling      = ResourceState("Enabling")
-	ResourceState_Running       = ResourceState("Running")
-	ResourceState_UpdateFailed  = ResourceState("UpdateFailed")
-	ResourceState_Updating      = ResourceState("Updating")
 )
 
 type ResourceState_STATUS string

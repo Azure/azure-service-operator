@@ -7,21 +7,10 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type EventSubscription_SpecARM struct {
 	AzureName string `json:"azureName,omitempty"`
-
-	// Id: Fully qualified identifier of the resource.
-	Id *string `json:"id,omitempty"`
-
-	// Name: Name of the resource.
-	Name string `json:"name,omitempty"`
+	Name      string `json:"name,omitempty"`
 
 	// Properties: Properties of the event subscription.
 	Properties *EventSubscriptionPropertiesARM `json:"properties,omitempty"`
-
-	// SystemData: The system metadata relating to Event Subscription resource.
-	SystemData *SystemDataARM `json:"systemData,omitempty"`
-
-	// Type: Type of the resource.
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &EventSubscription_SpecARM{}
@@ -60,15 +49,9 @@ type EventSubscriptionPropertiesARM struct {
 	// Labels: List of user defined labels.
 	Labels []string `json:"labels,omitempty"`
 
-	// ProvisioningState: Provisioning state of the event subscription.
-	ProvisioningState *EventSubscriptionProperties_ProvisioningState `json:"provisioningState,omitempty"`
-
 	// RetryPolicy: The retry policy for events. This can be used to configure maximum number of delivery attempts and time to
 	// live for events.
 	RetryPolicy *RetryPolicyARM `json:"retryPolicy,omitempty"`
-
-	// Topic: Name of the topic of the event subscription.
-	Topic *string `json:"topic,omitempty"`
 }
 
 type DeadLetterDestinationARM struct {

@@ -8,11 +8,8 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 // Deprecated version of FlexibleServersConfiguration_Spec. Use v1beta20210601.FlexibleServersConfiguration_Spec instead
 type FlexibleServersConfiguration_SpecARM struct {
 	AzureName  string                      `json:"azureName,omitempty"`
-	Id         *string                     `json:"id,omitempty"`
 	Name       string                      `json:"name,omitempty"`
 	Properties *ConfigurationPropertiesARM `json:"properties,omitempty"`
-	SystemData *SystemDataARM              `json:"systemData,omitempty"`
-	Type       *string                     `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &FlexibleServersConfiguration_SpecARM{}
@@ -34,15 +31,6 @@ func (configuration *FlexibleServersConfiguration_SpecARM) GetType() string {
 
 // Deprecated version of ConfigurationProperties. Use v1beta20210601.ConfigurationProperties instead
 type ConfigurationPropertiesARM struct {
-	AllowedValues          *string                           `json:"allowedValues,omitempty"`
-	DataType               *ConfigurationProperties_DataType `json:"dataType,omitempty"`
-	DefaultValue           *string                           `json:"defaultValue,omitempty"`
-	Description            *string                           `json:"description,omitempty"`
-	DocumentationLink      *string                           `json:"documentationLink,omitempty"`
-	IsConfigPendingRestart *bool                             `json:"isConfigPendingRestart,omitempty"`
-	IsDynamicConfig        *bool                             `json:"isDynamicConfig,omitempty"`
-	IsReadOnly             *bool                             `json:"isReadOnly,omitempty"`
-	Source                 *string                           `json:"source,omitempty"`
-	Unit                   *string                           `json:"unit,omitempty"`
-	Value                  *string                           `json:"value,omitempty"`
+	Source *string `json:"source,omitempty"`
+	Value  *string `json:"value,omitempty"`
 }

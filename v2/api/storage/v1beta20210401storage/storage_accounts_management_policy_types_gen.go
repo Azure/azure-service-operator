@@ -166,10 +166,8 @@ func (policy *StorageAccountsManagementPolicy_STATUS) ConvertStatusTo(destinatio
 type StorageAccountsManagementPolicy_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName        string  `json:"azureName,omitempty"`
-	Id               *string `json:"id,omitempty"`
-	LastModifiedTime *string `json:"lastModifiedTime,omitempty"`
-	OriginalVersion  string  `json:"originalVersion,omitempty"`
+	AzureName       string `json:"azureName,omitempty"`
+	OriginalVersion string `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -178,7 +176,6 @@ type StorageAccountsManagementPolicy_Spec struct {
 	Owner       *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	Policy      *ManagementPolicySchema            `json:"policy,omitempty"`
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	Type        *string                            `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &StorageAccountsManagementPolicy_Spec{}

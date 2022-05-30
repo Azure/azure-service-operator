@@ -949,9 +949,7 @@ func (properties *AutoStorageProperties_STATUS) AssignPropertiesToAutoStoragePro
 // Storage version of v1alpha1api20210101.BatchAccountIdentity
 // Deprecated version of BatchAccountIdentity. Use v1beta20210101.BatchAccountIdentity instead
 type BatchAccountIdentity struct {
-	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	TenantId    *string                `json:"tenantId,omitempty"`
 	Type        *string                `json:"type,omitempty"`
 }
 
@@ -959,12 +957,6 @@ type BatchAccountIdentity struct {
 func (identity *BatchAccountIdentity) AssignPropertiesFromBatchAccountIdentity(source *v20210101s.BatchAccountIdentity) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// PrincipalId
-	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// TenantId
-	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// Type
 	identity.Type = genruntime.ClonePointerToString(source.Type)
@@ -984,12 +976,6 @@ func (identity *BatchAccountIdentity) AssignPropertiesFromBatchAccountIdentity(s
 func (identity *BatchAccountIdentity) AssignPropertiesToBatchAccountIdentity(destination *v20210101s.BatchAccountIdentity) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
-
-	// PrincipalId
-	destination.PrincipalId = genruntime.ClonePointerToString(identity.PrincipalId)
-
-	// TenantId
-	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
 
 	// Type
 	destination.Type = genruntime.ClonePointerToString(identity.Type)

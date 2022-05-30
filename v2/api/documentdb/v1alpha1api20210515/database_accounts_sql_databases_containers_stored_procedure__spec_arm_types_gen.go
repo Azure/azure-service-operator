@@ -8,12 +8,10 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 // Deprecated version of DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec. Use v1beta20210515.DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec instead
 type DatabaseAccountsSqlDatabasesContainersStoredProcedure_SpecARM struct {
 	AzureName  string                                       `json:"azureName,omitempty"`
-	Id         *string                                      `json:"id,omitempty"`
 	Location   *string                                      `json:"location,omitempty"`
 	Name       string                                       `json:"name,omitempty"`
 	Properties *SqlStoredProcedureCreateUpdatePropertiesARM `json:"properties,omitempty"`
 	Tags       map[string]string                            `json:"tags,omitempty"`
-	Type       *string                                      `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &DatabaseAccountsSqlDatabasesContainersStoredProcedure_SpecARM{}

@@ -8,17 +8,12 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 type Registry_SpecARM struct {
 	AzureName string `json:"azureName,omitempty"`
 
-	// Id: The resource ID.
-	Id *string `json:"id,omitempty"`
-
 	// Identity: The identity of the container registry.
 	Identity *IdentityPropertiesARM `json:"identity,omitempty"`
 
 	// Location: The location of the resource. This cannot be changed after the resource is created.
 	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the resource.
-	Name string `json:"name,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
 	// Properties: The properties of the container registry.
 	Properties *RegistryPropertiesARM `json:"properties,omitempty"`
@@ -26,14 +21,8 @@ type Registry_SpecARM struct {
 	// Sku: The SKU of the container registry.
 	Sku *SkuARM `json:"sku,omitempty"`
 
-	// SystemData: Metadata pertaining to creation and last modification of the resource.
-	SystemData *SystemDataARM `json:"systemData,omitempty"`
-
 	// Tags: The tags of the resource.
 	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: The type of the resource.
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Registry_SpecARM{}
@@ -74,20 +63,11 @@ type RegistryPropertiesARM struct {
 	// AdminUserEnabled: The value that indicates whether the admin user is enabled.
 	AdminUserEnabled *bool `json:"adminUserEnabled,omitempty"`
 
-	// CreationDate: The creation date of the container registry in ISO8601 format.
-	CreationDate *string `json:"creationDate,omitempty"`
-
 	// DataEndpointEnabled: Enable a single data endpoint per region for serving data.
 	DataEndpointEnabled *bool `json:"dataEndpointEnabled,omitempty"`
 
-	// DataEndpointHostNames: List of host names that will serve data when dataEndpointEnabled is true.
-	DataEndpointHostNames []string `json:"dataEndpointHostNames,omitempty"`
-
 	// Encryption: The encryption settings of container registry.
 	Encryption *EncryptionPropertyARM `json:"encryption,omitempty"`
-
-	// LoginServer: The URL that can be used to log into the container registry.
-	LoginServer *string `json:"loginServer,omitempty"`
 
 	// NetworkRuleBypassOptions: Whether to allow trusted Azure services to access a network restricted registry.
 	NetworkRuleBypassOptions *RegistryProperties_NetworkRuleBypassOptions `json:"networkRuleBypassOptions,omitempty"`
@@ -98,17 +78,8 @@ type RegistryPropertiesARM struct {
 	// Policies: The policies for a container registry.
 	Policies *PoliciesARM `json:"policies,omitempty"`
 
-	// PrivateEndpointConnections: List of private endpoint connections for a container registry.
-	PrivateEndpointConnections []PrivateEndpointConnectionARM `json:"privateEndpointConnections,omitempty"`
-
-	// ProvisioningState: The provisioning state of the container registry at the time the operation was called.
-	ProvisioningState *RegistryProperties_ProvisioningState `json:"provisioningState,omitempty"`
-
 	// PublicNetworkAccess: Whether or not public network access is allowed for the container registry.
 	PublicNetworkAccess *RegistryProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
-
-	// Status: The status of the container registry at the time the operation was called.
-	Status *StatusARM `json:"status,omitempty"`
 
 	// ZoneRedundancy: Whether or not zone redundancy is enabled for this container registry
 	ZoneRedundancy *RegistryProperties_ZoneRedundancy `json:"zoneRedundancy,omitempty"`
@@ -117,29 +88,6 @@ type RegistryPropertiesARM struct {
 type SkuARM struct {
 	// Name: The SKU name of the container registry. Required for registry creation.
 	Name *Sku_Name `json:"name,omitempty"`
-
-	// Tier: The SKU tier based on the SKU name.
-	Tier *Sku_Tier `json:"tier,omitempty"`
-}
-
-type SystemDataARM struct {
-	// CreatedAt: The timestamp of resource creation (UTC).
-	CreatedAt *string `json:"createdAt,omitempty"`
-
-	// CreatedBy: The identity that created the resource.
-	CreatedBy *string `json:"createdBy,omitempty"`
-
-	// CreatedByType: The type of identity that created the resource.
-	CreatedByType *SystemData_CreatedByType `json:"createdByType,omitempty"`
-
-	// LastModifiedAt: The timestamp of resource modification (UTC).
-	LastModifiedAt *string `json:"lastModifiedAt,omitempty"`
-
-	// LastModifiedBy: The identity that last modified the resource.
-	LastModifiedBy *string `json:"lastModifiedBy,omitempty"`
-
-	// LastModifiedByType: The type of identity that last modified the resource.
-	LastModifiedByType *SystemData_LastModifiedByType `json:"lastModifiedByType,omitempty"`
 }
 
 type EncryptionPropertyARM struct {
@@ -182,13 +130,6 @@ type PoliciesARM struct {
 	TrustPolicy *TrustPolicyARM `json:"trustPolicy,omitempty"`
 }
 
-type PrivateEndpointConnectionARM struct {
-	Id *string `json:"id,omitempty"`
-
-	// SystemData: Metadata pertaining to creation and last modification of the resource.
-	SystemData *SystemDataARM `json:"systemData,omitempty"`
-}
-
 // +kubebuilder:validation:Enum={"Basic","Classic","Premium","Standard"}
 type Sku_Name string
 
@@ -197,47 +138,6 @@ const (
 	Sku_Name_Classic  = Sku_Name("Classic")
 	Sku_Name_Premium  = Sku_Name("Premium")
 	Sku_Name_Standard = Sku_Name("Standard")
-)
-
-// +kubebuilder:validation:Enum={"Basic","Classic","Premium","Standard"}
-type Sku_Tier string
-
-const (
-	Sku_Tier_Basic    = Sku_Tier("Basic")
-	Sku_Tier_Classic  = Sku_Tier("Classic")
-	Sku_Tier_Premium  = Sku_Tier("Premium")
-	Sku_Tier_Standard = Sku_Tier("Standard")
-)
-
-type StatusARM struct {
-	// DisplayStatus: The short label for the status.
-	DisplayStatus *string `json:"displayStatus,omitempty"`
-
-	// Message: The detailed message for the status, including alerts and error messages.
-	Message *string `json:"message,omitempty"`
-
-	// Timestamp: The timestamp when the status was changed to the current value.
-	Timestamp *string `json:"timestamp,omitempty"`
-}
-
-// +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
-type SystemData_CreatedByType string
-
-const (
-	SystemData_CreatedByType_Application     = SystemData_CreatedByType("Application")
-	SystemData_CreatedByType_Key             = SystemData_CreatedByType("Key")
-	SystemData_CreatedByType_ManagedIdentity = SystemData_CreatedByType("ManagedIdentity")
-	SystemData_CreatedByType_User            = SystemData_CreatedByType("User")
-)
-
-// +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
-type SystemData_LastModifiedByType string
-
-const (
-	SystemData_LastModifiedByType_Application     = SystemData_LastModifiedByType("Application")
-	SystemData_LastModifiedByType_Key             = SystemData_LastModifiedByType("Key")
-	SystemData_LastModifiedByType_ManagedIdentity = SystemData_LastModifiedByType("ManagedIdentity")
-	SystemData_LastModifiedByType_User            = SystemData_LastModifiedByType("User")
 )
 
 type UserIdentityPropertiesARM struct {
@@ -267,16 +167,6 @@ type KeyVaultPropertiesARM struct {
 
 	// KeyIdentifier: Key vault uri to access the encryption key.
 	KeyIdentifier *string `json:"keyIdentifier,omitempty"`
-
-	// KeyRotationEnabled: Auto key rotation status for a CMK enabled registry.
-	KeyRotationEnabled *bool `json:"keyRotationEnabled,omitempty"`
-
-	// LastKeyRotationTimestamp: Timestamp of the last successful key rotation.
-	LastKeyRotationTimestamp *string `json:"lastKeyRotationTimestamp,omitempty"`
-
-	// VersionedKeyIdentifier: The fully qualified key identifier that includes the version of the key that is actually used
-	// for encryption.
-	VersionedKeyIdentifier *string `json:"versionedKeyIdentifier,omitempty"`
 }
 
 type QuarantinePolicyARM struct {
@@ -287,9 +177,6 @@ type QuarantinePolicyARM struct {
 type RetentionPolicyARM struct {
 	// Days: The number of days to retain an untagged manifest after which it gets purged.
 	Days *int `json:"days,omitempty"`
-
-	// LastUpdatedTime: The timestamp when the policy was last updated.
-	LastUpdatedTime *string `json:"lastUpdatedTime,omitempty"`
 
 	// Status: The value that indicates whether the policy is enabled or not.
 	Status *RetentionPolicy_Status `json:"status,omitempty"`

@@ -8,29 +8,19 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 type VirtualNetwork_SpecARM struct {
 	AzureName string `json:"azureName,omitempty"`
 
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
 	// ExtendedLocation: The extended location of the virtual network.
 	ExtendedLocation *ExtendedLocationARM `json:"extendedLocation,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
+	Id               *string              `json:"id,omitempty"`
 
 	// Location: Resource location.
 	Location *string `json:"location,omitempty"`
-
-	// Name: Resource name.
-	Name string `json:"name,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
 	// Properties: Properties of the virtual network.
 	Properties *VirtualNetworkPropertiesFormatARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: Resource type.
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &VirtualNetwork_SpecARM{}
@@ -73,12 +63,6 @@ type VirtualNetworkPropertiesFormatARM struct {
 	// IpAllocations: Array of IpAllocation which reference this VNET.
 	IpAllocations []SubResourceARM `json:"ipAllocations,omitempty"`
 
-	// ProvisioningState: The provisioning state of the virtual network resource.
-	ProvisioningState *ProvisioningState `json:"provisioningState,omitempty"`
-
-	// ResourceGuid: The resourceGuid property of the Virtual Network resource.
-	ResourceGuid *string `json:"resourceGuid,omitempty"`
-
 	// Subnets: A list of subnets in a Virtual Network.
 	Subnets []Subnet_VirtualNetwork_SubResourceEmbeddedARM `json:"subnets,omitempty"`
 
@@ -92,19 +76,14 @@ type DhcpOptionsARM struct {
 }
 
 type Subnet_VirtualNetwork_SubResourceEmbeddedARM struct {
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
 type VirtualNetworkBgpCommunitiesARM struct {
-	// RegionalCommunity: The BGP community associated with the region of the virtual network.
-	RegionalCommunity *string `json:"regionalCommunity,omitempty"`
-
 	// VirtualNetworkCommunity: The BGP community associated with the virtual network.
 	VirtualNetworkCommunity *string `json:"virtualNetworkCommunity,omitempty"`
 }
 
 type VirtualNetworkPeeringARM struct {
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }

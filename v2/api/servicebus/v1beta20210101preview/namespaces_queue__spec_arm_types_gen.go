@@ -7,21 +7,10 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type NamespacesQueue_SpecARM struct {
 	AzureName string `json:"azureName,omitempty"`
-
-	// Id: Resource Id
-	Id *string `json:"id,omitempty"`
-
-	// Name: Resource name
-	Name string `json:"name,omitempty"`
+	Name      string `json:"name,omitempty"`
 
 	// Properties: Queue Properties
 	Properties *SBQueuePropertiesARM `json:"properties,omitempty"`
-
-	// SystemData: The system meta data relating to this resource.
-	SystemData *SystemDataARM `json:"systemData,omitempty"`
-
-	// Type: Resource type
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &NamespacesQueue_SpecARM{}
@@ -42,18 +31,9 @@ func (queue *NamespacesQueue_SpecARM) GetType() string {
 }
 
 type SBQueuePropertiesARM struct {
-	// AccessedAt: Last time a message was sent, or the last time there was a receive request to this queue.
-	AccessedAt *string `json:"accessedAt,omitempty"`
-
 	// AutoDeleteOnIdle: ISO 8061 timeSpan idle interval after which the queue is automatically deleted. The minimum duration
 	// is 5 minutes.
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
-
-	// CountDetails: Message Count Details.
-	CountDetails *MessageCountDetailsARM `json:"countDetails,omitempty"`
-
-	// CreatedAt: The exact time the message was created.
-	CreatedAt *string `json:"createdAt,omitempty"`
 
 	// DeadLetteringOnMessageExpiration: A value that indicates whether this queue has dead letter support when a message
 	// expires.
@@ -96,35 +76,9 @@ type SBQueuePropertiesARM struct {
 	// Default is 1024.
 	MaxSizeInMegabytes *int `json:"maxSizeInMegabytes,omitempty"`
 
-	// MessageCount: The number of messages in the queue.
-	MessageCount *int `json:"messageCount,omitempty"`
-
 	// RequiresDuplicateDetection: A value indicating if this queue requires duplicate detection.
 	RequiresDuplicateDetection *bool `json:"requiresDuplicateDetection,omitempty"`
 
 	// RequiresSession: A value that indicates whether the queue supports the concept of sessions.
 	RequiresSession *bool `json:"requiresSession,omitempty"`
-
-	// SizeInBytes: The size of the queue, in bytes.
-	SizeInBytes *int `json:"sizeInBytes,omitempty"`
-
-	// UpdatedAt: The exact time the message was updated.
-	UpdatedAt *string `json:"updatedAt,omitempty"`
-}
-
-type MessageCountDetailsARM struct {
-	// ActiveMessageCount: Number of active messages in the queue, topic, or subscription.
-	ActiveMessageCount *int `json:"activeMessageCount,omitempty"`
-
-	// DeadLetterMessageCount: Number of messages that are dead lettered.
-	DeadLetterMessageCount *int `json:"deadLetterMessageCount,omitempty"`
-
-	// ScheduledMessageCount: Number of scheduled messages.
-	ScheduledMessageCount *int `json:"scheduledMessageCount,omitempty"`
-
-	// TransferDeadLetterMessageCount: Number of messages transferred into dead letters.
-	TransferDeadLetterMessageCount *int `json:"transferDeadLetterMessageCount,omitempty"`
-
-	// TransferMessageCount: Number of messages transferred to another queue, topic, or subscription.
-	TransferMessageCount *int `json:"transferMessageCount,omitempty"`
 }

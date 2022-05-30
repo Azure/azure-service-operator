@@ -8,22 +8,13 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 type ProfilesEndpoint_SpecARM struct {
 	AzureName string `json:"azureName,omitempty"`
 
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
 	// Location: Resource location.
-	Location *string `json:"location,omitempty"`
-
-	// Name: Resource name.
+	Location   *string                `json:"location,omitempty"`
 	Name       string                 `json:"name,omitempty"`
 	Properties *EndpointPropertiesARM `json:"properties,omitempty"`
-	SystemData *SystemDataARM         `json:"systemData,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: Resource type.
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &ProfilesEndpoint_SpecARM{}
@@ -47,9 +38,6 @@ type EndpointPropertiesARM struct {
 	// ContentTypesToCompress: List of content types on which compression applies. The value should be a valid MIME type.
 	ContentTypesToCompress []string `json:"contentTypesToCompress,omitempty"`
 
-	// CustomDomains: The custom domains under the endpoint.
-	CustomDomains []CustomDomainARM `json:"customDomains,omitempty"`
-
 	// DefaultOriginGroup: A reference to the origin group.
 	DefaultOriginGroup *ResourceReferenceARM `json:"defaultOriginGroup,omitempty"`
 
@@ -59,9 +47,6 @@ type EndpointPropertiesARM struct {
 	// GeoFilters: List of rules defining the user's geo access within a CDN endpoint. Each geo filter defines an access rule
 	// to a specified path or content, e.g. block APAC for path /pictures/
 	GeoFilters []GeoFilterARM `json:"geoFilters,omitempty"`
-
-	// HostName: The host name of the endpoint structured as {endpointName}.{DNSZone}, e.g. contoso.azureedge.net
-	HostName *string `json:"hostName,omitempty"`
 
 	// IsCompressionEnabled: Indicates whether content compression is enabled on CDN. Default value is false. If compression is
 	// enabled, content will be served as compressed if user requests for a compressed version. Content won't be compressed on
@@ -101,35 +86,16 @@ type EndpointPropertiesARM struct {
 	// origin.
 	ProbePath *string `json:"probePath,omitempty"`
 
-	// ProvisioningState: Provisioning status of the endpoint.
-	ProvisioningState *EndpointProperties_ProvisioningState `json:"provisioningState,omitempty"`
-
 	// QueryStringCachingBehavior: Defines how CDN caches requests that include query strings. You can ignore any query strings
 	// when caching, bypass caching to prevent requests that contain query strings from being cached, or cache every request
 	// with a unique URL.
 	QueryStringCachingBehavior *QueryStringCachingBehavior `json:"queryStringCachingBehavior,omitempty"`
-
-	// ResourceState: Resource status of the endpoint.
-	ResourceState *EndpointProperties_ResourceState `json:"resourceState,omitempty"`
 
 	// UrlSigningKeys: List of keys used to validate the signed URL hashes.
 	UrlSigningKeys []UrlSigningKeyARM `json:"urlSigningKeys,omitempty"`
 
 	// WebApplicationFirewallPolicyLink: Defines the Web Application Firewall policy for the endpoint (if applicable)
 	WebApplicationFirewallPolicyLink *EndpointProperties_WebApplicationFirewallPolicyLinkARM `json:"webApplicationFirewallPolicyLink,omitempty"`
-}
-
-type CustomDomainARM struct {
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
-
-	// Name: Resource name.
-	Name       *string                    `json:"name,omitempty"`
-	Properties *CustomDomainPropertiesARM `json:"properties,omitempty"`
-	SystemData *SystemDataARM             `json:"systemData,omitempty"`
-
-	// Type: Resource type.
-	Type *string `json:"type,omitempty"`
 }
 
 type DeepCreatedOriginARM struct {
@@ -153,7 +119,6 @@ type EndpointProperties_DeliveryPolicyARM struct {
 }
 
 type EndpointProperties_WebApplicationFirewallPolicyLinkARM struct {
-	// Id: Resource ID.
 	Id *string `json:"id,omitempty"`
 }
 
@@ -179,31 +144,6 @@ type UrlSigningKeyARM struct {
 
 	// KeySourceParameters: Defines the parameters for using customer key vault for Url Signing Key.
 	KeySourceParameters *KeyVaultSigningKeyParametersARM `json:"keySourceParameters,omitempty"`
-}
-
-type CustomDomainPropertiesARM struct {
-	// CustomHttpsParameters: Certificate parameters for securing custom HTTPS
-	CustomHttpsParameters *CustomDomainHttpsParametersARM `json:"customHttpsParameters,omitempty"`
-
-	// CustomHttpsProvisioningState: Provisioning status of the custom domain.
-	CustomHttpsProvisioningState *CustomDomainProperties_CustomHttpsProvisioningState `json:"customHttpsProvisioningState,omitempty"`
-
-	// CustomHttpsProvisioningSubstate: Provisioning substate shows the progress of custom HTTPS enabling/disabling process
-	// step by step.
-	CustomHttpsProvisioningSubstate *CustomDomainProperties_CustomHttpsProvisioningSubstate `json:"customHttpsProvisioningSubstate,omitempty"`
-
-	// HostName: The host name of the custom domain. Must be a domain name.
-	HostName *string `json:"hostName,omitempty"`
-
-	// ProvisioningState: Provisioning status of Custom Https of the custom domain.
-	ProvisioningState *CustomDomainProperties_ProvisioningState `json:"provisioningState,omitempty"`
-
-	// ResourceState: Resource status of the custom domain.
-	ResourceState *CustomDomainProperties_ResourceState `json:"resourceState,omitempty"`
-
-	// ValidationData: Special validation or data may be required when delivering CDN to some regions due to local compliance
-	// reasons. E.g. ICP license number of a custom domain is required to deliver content in China.
-	ValidationData *string `json:"validationData,omitempty"`
 }
 
 type DeepCreatedOriginGroupPropertiesARM struct {
@@ -245,9 +185,6 @@ type DeepCreatedOriginPropertiesARM struct {
 	// Priority: Priority of origin in given origin group for load balancing. Higher priorities will not be used for load
 	// balancing if any lower priority origin is healthy.Must be between 1 and 5.
 	Priority *int `json:"priority,omitempty"`
-
-	// PrivateEndpointStatus: The approval status for the connection to the Private Link
-	PrivateEndpointStatus *PrivateEndpointStatus `json:"privateEndpointStatus,omitempty"`
 
 	// PrivateLinkAlias: The Alias of the Private Link resource. Populating this optional field indicates that this origin is
 	// 'Private'
@@ -294,17 +231,6 @@ type KeyVaultSigningKeyParametersARM struct {
 
 	// VaultName: The name of the user's Key Vault containing the secret
 	VaultName *string `json:"vaultName,omitempty"`
-}
-
-type CustomDomainHttpsParametersARM struct {
-	// CertificateSource: Defines the source of the SSL certificate.
-	CertificateSource *CustomDomainHttpsParameters_CertificateSource `json:"certificateSource,omitempty"`
-
-	// MinimumTlsVersion: TLS protocol version that will be used for Https
-	MinimumTlsVersion *CustomDomainHttpsParameters_MinimumTlsVersion `json:"minimumTlsVersion,omitempty"`
-
-	// ProtocolType: Defines the TLS extension protocol that is used for secure delivery.
-	ProtocolType *CustomDomainHttpsParameters_ProtocolType `json:"protocolType,omitempty"`
 }
 
 type DeliveryRuleActionARM struct {

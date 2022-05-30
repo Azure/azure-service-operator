@@ -11,24 +11,15 @@ type Workspace_SpecARM struct {
 	// Etag: The etag of the workspace.
 	Etag *string `json:"etag,omitempty"`
 
-	// Id: Fully qualified resource ID for the resource. Ex -
-	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-	Id *string `json:"id,omitempty"`
-
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
-
-	// Name: The name of the resource
-	Name string `json:"name,omitempty"`
+	Name     string  `json:"name,omitempty"`
 
 	// Properties: Workspace properties.
 	Properties *WorkspacePropertiesARM `json:"properties,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &Workspace_SpecARM{}
@@ -49,23 +40,11 @@ func (workspace *Workspace_SpecARM) GetType() string {
 }
 
 type WorkspacePropertiesARM struct {
-	// CreatedDate: Workspace creation date.
-	CreatedDate *string `json:"createdDate,omitempty"`
-
-	// CustomerId: This is a read-only property. Represents the ID associated with the workspace.
-	CustomerId *string `json:"customerId,omitempty"`
-
 	// Features: Workspace features.
 	Features *WorkspaceFeaturesARM `json:"features,omitempty"`
 
 	// ForceCmkForQuery: Indicates whether customer managed storage is mandatory for query management.
 	ForceCmkForQuery *bool `json:"forceCmkForQuery,omitempty"`
-
-	// ModifiedDate: Workspace modification date.
-	ModifiedDate *string `json:"modifiedDate,omitempty"`
-
-	// PrivateLinkScopedResources: List of linked private link scope resources.
-	PrivateLinkScopedResources []PrivateLinkScopedResourceARM `json:"privateLinkScopedResources,omitempty"`
 
 	// ProvisioningState: The provisioning state of the workspace.
 	ProvisioningState *WorkspaceProperties_ProvisioningState `json:"provisioningState,omitempty"`
@@ -87,23 +66,9 @@ type WorkspacePropertiesARM struct {
 	WorkspaceCapping *WorkspaceCappingARM `json:"workspaceCapping,omitempty"`
 }
 
-type PrivateLinkScopedResourceARM struct {
-	// ResourceId: The full resource Id of the private link scope resource.
-	ResourceId *string `json:"resourceId,omitempty"`
-
-	// ScopeId: The private link scope unique Identifier.
-	ScopeId *string `json:"scopeId,omitempty"`
-}
-
 type WorkspaceCappingARM struct {
 	// DailyQuotaGb: The workspace daily quota for ingestion.
 	DailyQuotaGb *float64 `json:"dailyQuotaGb,omitempty"`
-
-	// DataIngestionStatus: The status of data ingestion for this workspace.
-	DataIngestionStatus *WorkspaceCapping_DataIngestionStatus `json:"dataIngestionStatus,omitempty"`
-
-	// QuotaNextResetTime: The time when the quota will be rest.
-	QuotaNextResetTime *string `json:"quotaNextResetTime,omitempty"`
 }
 
 type WorkspaceFeaturesARM struct {
@@ -126,9 +91,6 @@ type WorkspaceSkuARM struct {
 	// CapacityReservationLevel: The capacity reservation level in GB for this workspace, when CapacityReservation sku is
 	// selected.
 	CapacityReservationLevel *WorkspaceSku_CapacityReservationLevel `json:"capacityReservationLevel,omitempty"`
-
-	// LastSkuUpdate: The last time when the sku was updated.
-	LastSkuUpdate *string `json:"lastSkuUpdate,omitempty"`
 
 	// Name: The name of the SKU.
 	Name *WorkspaceSku_Name `json:"name,omitempty"`

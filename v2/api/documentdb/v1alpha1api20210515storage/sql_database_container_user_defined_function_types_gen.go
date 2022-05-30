@@ -359,7 +359,6 @@ type DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string               `json:"azureName,omitempty"`
-	Id              *string              `json:"id,omitempty"`
 	Location        *string              `json:"location,omitempty"`
 	Options         *CreateUpdateOptions `json:"options,omitempty"`
 	OriginalVersion string               `json:"originalVersion,omitempty"`
@@ -372,7 +371,6 @@ type DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec struct {
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Resource    *SqlUserDefinedFunctionResource    `json:"resource,omitempty"`
 	Tags        map[string]string                  `json:"tags,omitempty"`
-	Type        *string                            `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec{}
@@ -433,9 +431,6 @@ func (function *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec) 
 	// AzureName
 	function.AzureName = source.AzureName
 
-	// Id
-	function.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Location
 	function.Location = genruntime.ClonePointerToString(source.Location)
 
@@ -477,9 +472,6 @@ func (function *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec) 
 	// Tags
 	function.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
-	// Type
-	function.Type = genruntime.ClonePointerToString(source.Type)
-
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		function.PropertyBag = propertyBag
@@ -498,9 +490,6 @@ func (function *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec) 
 
 	// AzureName
 	destination.AzureName = function.AzureName
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(function.Id)
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(function.Location)
@@ -542,9 +531,6 @@ func (function *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec) 
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(function.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(function.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

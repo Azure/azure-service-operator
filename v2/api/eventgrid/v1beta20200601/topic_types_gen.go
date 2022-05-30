@@ -810,12 +810,6 @@ type Topic_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	// Endpoint: Endpoint for the topic.
-	Endpoint *string `json:"endpoint,omitempty"`
-
-	// Id: Fully qualified identifier of the resource.
-	Id *string `json:"id,omitempty"`
-
 	// InboundIpRules: This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered
 	// only if PublicNetworkAccess is enabled.
 	InboundIpRules []InboundIpRule `json:"inboundIpRules,omitempty"`
@@ -831,32 +825,19 @@ type Topic_Spec struct {
 	// Location: Location of the resource.
 	Location *string `json:"location,omitempty"`
 
-	// MetricResourceId: Metric resource id for the topic.
-	MetricResourceId *string `json:"metricResourceId,omitempty"`
-
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
-	Owner                      *genruntime.KnownResourceReference                    `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PrivateEndpointConnections []PrivateEndpointConnection_Topic_SubResourceEmbedded `json:"privateEndpointConnections,omitempty"`
-
-	// ProvisioningState: Provisioning state of the topic.
-	ProvisioningState *TopicProperties_ProvisioningState `json:"provisioningState,omitempty"`
+	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
 	// PublicNetworkAccess: This determines if traffic is allowed over public network. By default it is enabled.
 	// You can further restrict to specific IPs by configuring <seealso
 	// cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProperties.InboundIpRules" />
 	PublicNetworkAccess *TopicProperties_PublicNetworkAccess `json:"publicNetworkAccess,omitempty"`
 
-	// SystemData: The system metadata relating to Topic resource.
-	SystemData *SystemData `json:"systemData,omitempty"`
-
 	// Tags: Tags of the resource.
 	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: Type of the resource.
-	Type *string `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Topic_Spec{}
@@ -871,12 +852,6 @@ func (topic *Topic_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	// Set property ‘AzureName’:
 	result.AzureName = topic.AzureName
 
-	// Set property ‘Id’:
-	if topic.Id != nil {
-		id := *topic.Id
-		result.Id = &id
-	}
-
 	// Set property ‘Location’:
 	if topic.Location != nil {
 		location := *topic.Location
@@ -887,19 +862,11 @@ func (topic *Topic_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if topic.Endpoint != nil ||
-		topic.InboundIpRules != nil ||
+	if topic.InboundIpRules != nil ||
 		topic.InputSchema != nil ||
 		topic.InputSchemaMapping != nil ||
-		topic.MetricResourceId != nil ||
-		topic.PrivateEndpointConnections != nil ||
-		topic.ProvisioningState != nil ||
 		topic.PublicNetworkAccess != nil {
 		result.Properties = &TopicPropertiesARM{}
-	}
-	if topic.Endpoint != nil {
-		endpoint := *topic.Endpoint
-		result.Properties.Endpoint = &endpoint
 	}
 	for _, item := range topic.InboundIpRules {
 		itemARM, err := item.ConvertToARM(resolved)
@@ -920,34 +887,9 @@ func (topic *Topic_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		inputSchemaMapping := *inputSchemaMappingARM.(*InputSchemaMappingARM)
 		result.Properties.InputSchemaMapping = &inputSchemaMapping
 	}
-	if topic.MetricResourceId != nil {
-		metricResourceId := *topic.MetricResourceId
-		result.Properties.MetricResourceId = &metricResourceId
-	}
-	for _, item := range topic.PrivateEndpointConnections {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Properties.PrivateEndpointConnections = append(result.Properties.PrivateEndpointConnections, *itemARM.(*PrivateEndpointConnection_Topic_SubResourceEmbeddedARM))
-	}
-	if topic.ProvisioningState != nil {
-		provisioningState := *topic.ProvisioningState
-		result.Properties.ProvisioningState = &provisioningState
-	}
 	if topic.PublicNetworkAccess != nil {
 		publicNetworkAccess := *topic.PublicNetworkAccess
 		result.Properties.PublicNetworkAccess = &publicNetworkAccess
-	}
-
-	// Set property ‘SystemData’:
-	if topic.SystemData != nil {
-		systemDataARM, err := (*topic.SystemData).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		systemData := *systemDataARM.(*SystemDataARM)
-		result.SystemData = &systemData
 	}
 
 	// Set property ‘Tags’:
@@ -956,12 +898,6 @@ func (topic *Topic_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		for key, value := range topic.Tags {
 			result.Tags[key] = value
 		}
-	}
-
-	// Set property ‘Type’:
-	if topic.Type != nil {
-		typeVar := *topic.Type
-		result.Type = &typeVar
 	}
 	return result, nil
 }
@@ -980,21 +916,6 @@ func (topic *Topic_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 
 	// Set property ‘AzureName’:
 	topic.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘Endpoint’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Endpoint != nil {
-			endpoint := *typedInput.Properties.Endpoint
-			topic.Endpoint = &endpoint
-		}
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		topic.Id = &id
-	}
 
 	// Set property ‘InboundIpRules’:
 	// copying flattened property:
@@ -1038,40 +959,9 @@ func (topic *Topic_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		topic.Location = &location
 	}
 
-	// Set property ‘MetricResourceId’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.MetricResourceId != nil {
-			metricResourceId := *typedInput.Properties.MetricResourceId
-			topic.MetricResourceId = &metricResourceId
-		}
-	}
-
 	// Set property ‘Owner’:
 	topic.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
-	}
-
-	// Set property ‘PrivateEndpointConnections’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		for _, item := range typedInput.Properties.PrivateEndpointConnections {
-			var item1 PrivateEndpointConnection_Topic_SubResourceEmbedded
-			err := item1.PopulateFromARM(owner, item)
-			if err != nil {
-				return err
-			}
-			topic.PrivateEndpointConnections = append(topic.PrivateEndpointConnections, item1)
-		}
-	}
-
-	// Set property ‘ProvisioningState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
-			topic.ProvisioningState = &provisioningState
-		}
 	}
 
 	// Set property ‘PublicNetworkAccess’:
@@ -1083,29 +973,12 @@ func (topic *Topic_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 		}
 	}
 
-	// Set property ‘SystemData’:
-	if typedInput.SystemData != nil {
-		var systemData1 SystemData
-		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
-		if err != nil {
-			return err
-		}
-		systemData := systemData1
-		topic.SystemData = &systemData
-	}
-
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
 		topic.Tags = make(map[string]string)
 		for key, value := range typedInput.Tags {
 			topic.Tags[key] = value
 		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		topic.Type = &typeVar
 	}
 
 	// No error
@@ -1168,12 +1041,6 @@ func (topic *Topic_Spec) AssignPropertiesFromTopic_Spec(source *v20200601s.Topic
 	// AzureName
 	topic.AzureName = source.AzureName
 
-	// Endpoint
-	topic.Endpoint = genruntime.ClonePointerToString(source.Endpoint)
-
-	// Id
-	topic.Id = genruntime.ClonePointerToString(source.Id)
-
 	// InboundIpRules
 	if source.InboundIpRules != nil {
 		inboundIpRuleList := make([]InboundIpRule, len(source.InboundIpRules))
@@ -1215,41 +1082,12 @@ func (topic *Topic_Spec) AssignPropertiesFromTopic_Spec(source *v20200601s.Topic
 	// Location
 	topic.Location = genruntime.ClonePointerToString(source.Location)
 
-	// MetricResourceId
-	topic.MetricResourceId = genruntime.ClonePointerToString(source.MetricResourceId)
-
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
 		topic.Owner = &owner
 	} else {
 		topic.Owner = nil
-	}
-
-	// PrivateEndpointConnections
-	if source.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]PrivateEndpointConnection_Topic_SubResourceEmbedded, len(source.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range source.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection PrivateEndpointConnection_Topic_SubResourceEmbedded
-			err := privateEndpointConnection.AssignPropertiesFromPrivateEndpointConnection_Topic_SubResourceEmbedded(&privateEndpointConnectionItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromPrivateEndpointConnection_Topic_SubResourceEmbedded() to populate field PrivateEndpointConnections")
-			}
-			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
-		}
-		topic.PrivateEndpointConnections = privateEndpointConnectionList
-	} else {
-		topic.PrivateEndpointConnections = nil
-	}
-
-	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := TopicProperties_ProvisioningState(*source.ProvisioningState)
-		topic.ProvisioningState = &provisioningState
-	} else {
-		topic.ProvisioningState = nil
 	}
 
 	// PublicNetworkAccess
@@ -1260,23 +1098,8 @@ func (topic *Topic_Spec) AssignPropertiesFromTopic_Spec(source *v20200601s.Topic
 		topic.PublicNetworkAccess = nil
 	}
 
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
-		}
-		topic.SystemData = &systemDatum
-	} else {
-		topic.SystemData = nil
-	}
-
 	// Tags
 	topic.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	topic.Type = genruntime.ClonePointerToString(source.Type)
 
 	// No error
 	return nil
@@ -1289,12 +1112,6 @@ func (topic *Topic_Spec) AssignPropertiesToTopic_Spec(destination *v20200601s.To
 
 	// AzureName
 	destination.AzureName = topic.AzureName
-
-	// Endpoint
-	destination.Endpoint = genruntime.ClonePointerToString(topic.Endpoint)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(topic.Id)
 
 	// InboundIpRules
 	if topic.InboundIpRules != nil {
@@ -1337,9 +1154,6 @@ func (topic *Topic_Spec) AssignPropertiesToTopic_Spec(destination *v20200601s.To
 	// Location
 	destination.Location = genruntime.ClonePointerToString(topic.Location)
 
-	// MetricResourceId
-	destination.MetricResourceId = genruntime.ClonePointerToString(topic.MetricResourceId)
-
 	// OriginalVersion
 	destination.OriginalVersion = topic.OriginalVersion()
 
@@ -1351,32 +1165,6 @@ func (topic *Topic_Spec) AssignPropertiesToTopic_Spec(destination *v20200601s.To
 		destination.Owner = nil
 	}
 
-	// PrivateEndpointConnections
-	if topic.PrivateEndpointConnections != nil {
-		privateEndpointConnectionList := make([]v20200601s.PrivateEndpointConnection_Topic_SubResourceEmbedded, len(topic.PrivateEndpointConnections))
-		for privateEndpointConnectionIndex, privateEndpointConnectionItem := range topic.PrivateEndpointConnections {
-			// Shadow the loop variable to avoid aliasing
-			privateEndpointConnectionItem := privateEndpointConnectionItem
-			var privateEndpointConnection v20200601s.PrivateEndpointConnection_Topic_SubResourceEmbedded
-			err := privateEndpointConnectionItem.AssignPropertiesToPrivateEndpointConnection_Topic_SubResourceEmbedded(&privateEndpointConnection)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToPrivateEndpointConnection_Topic_SubResourceEmbedded() to populate field PrivateEndpointConnections")
-			}
-			privateEndpointConnectionList[privateEndpointConnectionIndex] = privateEndpointConnection
-		}
-		destination.PrivateEndpointConnections = privateEndpointConnectionList
-	} else {
-		destination.PrivateEndpointConnections = nil
-	}
-
-	// ProvisioningState
-	if topic.ProvisioningState != nil {
-		provisioningState := string(*topic.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
-	} else {
-		destination.ProvisioningState = nil
-	}
-
 	// PublicNetworkAccess
 	if topic.PublicNetworkAccess != nil {
 		publicNetworkAccess := string(*topic.PublicNetworkAccess)
@@ -1385,23 +1173,8 @@ func (topic *Topic_Spec) AssignPropertiesToTopic_Spec(destination *v20200601s.To
 		destination.PublicNetworkAccess = nil
 	}
 
-	// SystemData
-	if topic.SystemData != nil {
-		var systemDatum v20200601s.SystemData
-		err := topic.SystemData.AssignPropertiesToSystemData(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(topic.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(topic.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1480,79 +1253,6 @@ func (embedded *PrivateEndpointConnection_STATUS_Topic_SubResourceEmbedded) Assi
 	return nil
 }
 
-type PrivateEndpointConnection_Topic_SubResourceEmbedded struct {
-	// Id: Fully qualified identifier of the resource.
-	Id *string `json:"id,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &PrivateEndpointConnection_Topic_SubResourceEmbedded{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (embedded *PrivateEndpointConnection_Topic_SubResourceEmbedded) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if embedded == nil {
-		return nil, nil
-	}
-	result := &PrivateEndpointConnection_Topic_SubResourceEmbeddedARM{}
-
-	// Set property ‘Id’:
-	if embedded.Id != nil {
-		id := *embedded.Id
-		result.Id = &id
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (embedded *PrivateEndpointConnection_Topic_SubResourceEmbedded) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &PrivateEndpointConnection_Topic_SubResourceEmbeddedARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (embedded *PrivateEndpointConnection_Topic_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(PrivateEndpointConnection_Topic_SubResourceEmbeddedARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected PrivateEndpointConnection_Topic_SubResourceEmbeddedARM, got %T", armInput)
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		embedded.Id = &id
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromPrivateEndpointConnection_Topic_SubResourceEmbedded populates our PrivateEndpointConnection_Topic_SubResourceEmbedded from the provided source PrivateEndpointConnection_Topic_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_Topic_SubResourceEmbedded) AssignPropertiesFromPrivateEndpointConnection_Topic_SubResourceEmbedded(source *v20200601s.PrivateEndpointConnection_Topic_SubResourceEmbedded) error {
-
-	// Id
-	embedded.Id = genruntime.ClonePointerToString(source.Id)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToPrivateEndpointConnection_Topic_SubResourceEmbedded populates the provided destination PrivateEndpointConnection_Topic_SubResourceEmbedded from our PrivateEndpointConnection_Topic_SubResourceEmbedded
-func (embedded *PrivateEndpointConnection_Topic_SubResourceEmbedded) AssignPropertiesToPrivateEndpointConnection_Topic_SubResourceEmbedded(destination *v20200601s.PrivateEndpointConnection_Topic_SubResourceEmbedded) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(embedded.Id)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 // +kubebuilder:validation:Enum={"CloudEventSchemaV1_0","CustomEventSchema","EventGridSchema"}
 type TopicProperties_InputSchema string
 
@@ -1568,18 +1268,6 @@ const (
 	TopicProperties_InputSchema_CloudEventSchemaV1_0_STATUS = TopicProperties_InputSchema_STATUS("CloudEventSchemaV1_0")
 	TopicProperties_InputSchema_CustomEventSchema_STATUS    = TopicProperties_InputSchema_STATUS("CustomEventSchema")
 	TopicProperties_InputSchema_EventGridSchema_STATUS      = TopicProperties_InputSchema_STATUS("EventGridSchema")
-)
-
-// +kubebuilder:validation:Enum={"Canceled","Creating","Deleting","Failed","Succeeded","Updating"}
-type TopicProperties_ProvisioningState string
-
-const (
-	TopicProperties_ProvisioningState_Canceled  = TopicProperties_ProvisioningState("Canceled")
-	TopicProperties_ProvisioningState_Creating  = TopicProperties_ProvisioningState("Creating")
-	TopicProperties_ProvisioningState_Deleting  = TopicProperties_ProvisioningState("Deleting")
-	TopicProperties_ProvisioningState_Failed    = TopicProperties_ProvisioningState("Failed")
-	TopicProperties_ProvisioningState_Succeeded = TopicProperties_ProvisioningState("Succeeded")
-	TopicProperties_ProvisioningState_Updating  = TopicProperties_ProvisioningState("Updating")
 )
 
 type TopicProperties_ProvisioningState_STATUS string

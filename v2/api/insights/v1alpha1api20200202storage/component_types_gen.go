@@ -618,30 +618,21 @@ func (component *Component_STATUS) AssignPropertiesToComponent_STATUS(destinatio
 
 // Storage version of v1alpha1api20200202.Component_Spec
 type Component_Spec struct {
-	AppId            *string `json:"AppId,omitempty"`
-	ApplicationId    *string `json:"ApplicationId,omitempty"`
 	Application_Type *string `json:"Application_Type,omitempty"`
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName                       string  `json:"azureName,omitempty"`
-	ConnectionString                *string `json:"ConnectionString,omitempty"`
-	CreationDate                    *string `json:"CreationDate,omitempty"`
 	DisableIpMasking                *bool   `json:"DisableIpMasking,omitempty"`
 	DisableLocalAuth                *bool   `json:"DisableLocalAuth,omitempty"`
 	Etag                            *string `json:"etag,omitempty"`
 	Flow_Type                       *string `json:"Flow_Type,omitempty"`
 	ForceCustomerStorageForProfiler *bool   `json:"ForceCustomerStorageForProfiler,omitempty"`
 	HockeyAppId                     *string `json:"HockeyAppId,omitempty"`
-	HockeyAppToken                  *string `json:"HockeyAppToken,omitempty"`
-	Id                              *string `json:"id,omitempty"`
 	ImmediatePurgeDataOn30Days      *bool   `json:"ImmediatePurgeDataOn30Days,omitempty"`
 	IngestionMode                   *string `json:"IngestionMode,omitempty"`
-	InstrumentationKey              *string `json:"InstrumentationKey,omitempty"`
 	Kind                            *string `json:"kind,omitempty"`
-	LaMigrationDate                 *string `json:"LaMigrationDate,omitempty"`
 	Location                        *string `json:"location,omitempty"`
-	Name                            *string `json:"Name,omitempty"`
 	OriginalVersion                 string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -649,17 +640,13 @@ type Component_Spec struct {
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner                           *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
-	PrivateLinkScopedResources      []PrivateLinkScopedResource        `json:"PrivateLinkScopedResources,omitempty"`
 	PropertyBag                     genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
-	ProvisioningState               *string                            `json:"provisioningState,omitempty"`
 	PublicNetworkAccessForIngestion *string                            `json:"publicNetworkAccessForIngestion,omitempty"`
 	PublicNetworkAccessForQuery     *string                            `json:"publicNetworkAccessForQuery,omitempty"`
 	Request_Source                  *string                            `json:"Request_Source,omitempty"`
 	RetentionInDays                 *int                               `json:"RetentionInDays,omitempty"`
 	SamplingPercentage              *float64                           `json:"SamplingPercentage,omitempty"`
 	Tags                            *v1.JSON                           `json:"tags,omitempty"`
-	TenantId                        *string                            `json:"TenantId,omitempty"`
-	Type                            *string                            `json:"type,omitempty"`
 	WorkspaceResourceReference      *genruntime.ResourceReference      `armReference:"WorkspaceResourceId" json:"workspaceResourceReference,omitempty"`
 }
 
@@ -718,23 +705,11 @@ func (component *Component_Spec) AssignPropertiesFromComponent_Spec(source *v202
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// AppId
-	component.AppId = genruntime.ClonePointerToString(source.AppId)
-
-	// ApplicationId
-	component.ApplicationId = genruntime.ClonePointerToString(source.ApplicationId)
-
 	// Application_Type
 	component.Application_Type = genruntime.ClonePointerToString(source.Application_Type)
 
 	// AzureName
 	component.AzureName = source.AzureName
-
-	// ConnectionString
-	component.ConnectionString = genruntime.ClonePointerToString(source.ConnectionString)
-
-	// CreationDate
-	component.CreationDate = genruntime.ClonePointerToString(source.CreationDate)
 
 	// DisableIpMasking
 	if source.DisableIpMasking != nil {
@@ -769,12 +744,6 @@ func (component *Component_Spec) AssignPropertiesFromComponent_Spec(source *v202
 	// HockeyAppId
 	component.HockeyAppId = genruntime.ClonePointerToString(source.HockeyAppId)
 
-	// HockeyAppToken
-	component.HockeyAppToken = genruntime.ClonePointerToString(source.HockeyAppToken)
-
-	// Id
-	component.Id = genruntime.ClonePointerToString(source.Id)
-
 	// ImmediatePurgeDataOn30Days
 	if source.ImmediatePurgeDataOn30Days != nil {
 		immediatePurgeDataOn30Day := *source.ImmediatePurgeDataOn30Days
@@ -786,20 +755,11 @@ func (component *Component_Spec) AssignPropertiesFromComponent_Spec(source *v202
 	// IngestionMode
 	component.IngestionMode = genruntime.ClonePointerToString(source.IngestionMode)
 
-	// InstrumentationKey
-	component.InstrumentationKey = genruntime.ClonePointerToString(source.InstrumentationKey)
-
 	// Kind
 	component.Kind = genruntime.ClonePointerToString(source.Kind)
 
-	// LaMigrationDate
-	component.LaMigrationDate = genruntime.ClonePointerToString(source.LaMigrationDate)
-
 	// Location
 	component.Location = genruntime.ClonePointerToString(source.Location)
-
-	// Name
-	component.Name = genruntime.ClonePointerToString(source.Name)
 
 	// OriginalVersion
 	component.OriginalVersion = source.OriginalVersion
@@ -811,27 +771,6 @@ func (component *Component_Spec) AssignPropertiesFromComponent_Spec(source *v202
 	} else {
 		component.Owner = nil
 	}
-
-	// PrivateLinkScopedResources
-	if source.PrivateLinkScopedResources != nil {
-		privateLinkScopedResourceList := make([]PrivateLinkScopedResource, len(source.PrivateLinkScopedResources))
-		for privateLinkScopedResourceIndex, privateLinkScopedResourceItem := range source.PrivateLinkScopedResources {
-			// Shadow the loop variable to avoid aliasing
-			privateLinkScopedResourceItem := privateLinkScopedResourceItem
-			var privateLinkScopedResource PrivateLinkScopedResource
-			err := privateLinkScopedResource.AssignPropertiesFromPrivateLinkScopedResource(&privateLinkScopedResourceItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromPrivateLinkScopedResource() to populate field PrivateLinkScopedResources")
-			}
-			privateLinkScopedResourceList[privateLinkScopedResourceIndex] = privateLinkScopedResource
-		}
-		component.PrivateLinkScopedResources = privateLinkScopedResourceList
-	} else {
-		component.PrivateLinkScopedResources = nil
-	}
-
-	// ProvisioningState
-	component.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
 
 	// PublicNetworkAccessForIngestion
 	component.PublicNetworkAccessForIngestion = genruntime.ClonePointerToString(source.PublicNetworkAccessForIngestion)
@@ -861,12 +800,6 @@ func (component *Component_Spec) AssignPropertiesFromComponent_Spec(source *v202
 		component.Tags = nil
 	}
 
-	// TenantId
-	component.TenantId = genruntime.ClonePointerToString(source.TenantId)
-
-	// Type
-	component.Type = genruntime.ClonePointerToString(source.Type)
-
 	// WorkspaceResourceReference
 	if source.WorkspaceResourceReference != nil {
 		workspaceResourceReference := source.WorkspaceResourceReference.Copy()
@@ -891,23 +824,11 @@ func (component *Component_Spec) AssignPropertiesToComponent_Spec(destination *v
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(component.PropertyBag)
 
-	// AppId
-	destination.AppId = genruntime.ClonePointerToString(component.AppId)
-
-	// ApplicationId
-	destination.ApplicationId = genruntime.ClonePointerToString(component.ApplicationId)
-
 	// Application_Type
 	destination.Application_Type = genruntime.ClonePointerToString(component.Application_Type)
 
 	// AzureName
 	destination.AzureName = component.AzureName
-
-	// ConnectionString
-	destination.ConnectionString = genruntime.ClonePointerToString(component.ConnectionString)
-
-	// CreationDate
-	destination.CreationDate = genruntime.ClonePointerToString(component.CreationDate)
 
 	// DisableIpMasking
 	if component.DisableIpMasking != nil {
@@ -942,12 +863,6 @@ func (component *Component_Spec) AssignPropertiesToComponent_Spec(destination *v
 	// HockeyAppId
 	destination.HockeyAppId = genruntime.ClonePointerToString(component.HockeyAppId)
 
-	// HockeyAppToken
-	destination.HockeyAppToken = genruntime.ClonePointerToString(component.HockeyAppToken)
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(component.Id)
-
 	// ImmediatePurgeDataOn30Days
 	if component.ImmediatePurgeDataOn30Days != nil {
 		immediatePurgeDataOn30Day := *component.ImmediatePurgeDataOn30Days
@@ -959,20 +874,11 @@ func (component *Component_Spec) AssignPropertiesToComponent_Spec(destination *v
 	// IngestionMode
 	destination.IngestionMode = genruntime.ClonePointerToString(component.IngestionMode)
 
-	// InstrumentationKey
-	destination.InstrumentationKey = genruntime.ClonePointerToString(component.InstrumentationKey)
-
 	// Kind
 	destination.Kind = genruntime.ClonePointerToString(component.Kind)
 
-	// LaMigrationDate
-	destination.LaMigrationDate = genruntime.ClonePointerToString(component.LaMigrationDate)
-
 	// Location
 	destination.Location = genruntime.ClonePointerToString(component.Location)
-
-	// Name
-	destination.Name = genruntime.ClonePointerToString(component.Name)
 
 	// OriginalVersion
 	destination.OriginalVersion = component.OriginalVersion
@@ -984,27 +890,6 @@ func (component *Component_Spec) AssignPropertiesToComponent_Spec(destination *v
 	} else {
 		destination.Owner = nil
 	}
-
-	// PrivateLinkScopedResources
-	if component.PrivateLinkScopedResources != nil {
-		privateLinkScopedResourceList := make([]v20200202s.PrivateLinkScopedResource, len(component.PrivateLinkScopedResources))
-		for privateLinkScopedResourceIndex, privateLinkScopedResourceItem := range component.PrivateLinkScopedResources {
-			// Shadow the loop variable to avoid aliasing
-			privateLinkScopedResourceItem := privateLinkScopedResourceItem
-			var privateLinkScopedResource v20200202s.PrivateLinkScopedResource
-			err := privateLinkScopedResourceItem.AssignPropertiesToPrivateLinkScopedResource(&privateLinkScopedResource)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToPrivateLinkScopedResource() to populate field PrivateLinkScopedResources")
-			}
-			privateLinkScopedResourceList[privateLinkScopedResourceIndex] = privateLinkScopedResource
-		}
-		destination.PrivateLinkScopedResources = privateLinkScopedResourceList
-	} else {
-		destination.PrivateLinkScopedResources = nil
-	}
-
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(component.ProvisioningState)
 
 	// PublicNetworkAccessForIngestion
 	destination.PublicNetworkAccessForIngestion = genruntime.ClonePointerToString(component.PublicNetworkAccessForIngestion)
@@ -1034,12 +919,6 @@ func (component *Component_Spec) AssignPropertiesToComponent_Spec(destination *v
 		destination.Tags = nil
 	}
 
-	// TenantId
-	destination.TenantId = genruntime.ClonePointerToString(component.TenantId)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(component.Type)
-
 	// WorkspaceResourceReference
 	if component.WorkspaceResourceReference != nil {
 		workspaceResourceReference := component.WorkspaceResourceReference.Copy()
@@ -1047,58 +926,6 @@ func (component *Component_Spec) AssignPropertiesToComponent_Spec(destination *v
 	} else {
 		destination.WorkspaceResourceReference = nil
 	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// Storage version of v1alpha1api20200202.PrivateLinkScopedResource
-// Deprecated version of PrivateLinkScopedResource. Use v1beta20200202.PrivateLinkScopedResource instead
-type PrivateLinkScopedResource struct {
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	ResourceId  *string                `json:"ResourceId,omitempty"`
-	ScopeId     *string                `json:"ScopeId,omitempty"`
-}
-
-// AssignPropertiesFromPrivateLinkScopedResource populates our PrivateLinkScopedResource from the provided source PrivateLinkScopedResource
-func (resource *PrivateLinkScopedResource) AssignPropertiesFromPrivateLinkScopedResource(source *v20200202s.PrivateLinkScopedResource) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// ResourceId
-	resource.ResourceId = genruntime.ClonePointerToString(source.ResourceId)
-
-	// ScopeId
-	resource.ScopeId = genruntime.ClonePointerToString(source.ScopeId)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		resource.PropertyBag = propertyBag
-	} else {
-		resource.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToPrivateLinkScopedResource populates the provided destination PrivateLinkScopedResource from our PrivateLinkScopedResource
-func (resource *PrivateLinkScopedResource) AssignPropertiesToPrivateLinkScopedResource(destination *v20200202s.PrivateLinkScopedResource) error {
-	// Clone the existing property bag
-	propertyBag := genruntime.NewPropertyBag(resource.PropertyBag)
-
-	// ResourceId
-	destination.ResourceId = genruntime.ClonePointerToString(resource.ResourceId)
-
-	// ScopeId
-	destination.ScopeId = genruntime.ClonePointerToString(resource.ScopeId)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

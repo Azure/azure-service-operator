@@ -11,15 +11,12 @@ import (
 // Deprecated version of FlexibleServer_Spec. Use v1beta20210501.FlexibleServer_Spec instead
 type FlexibleServer_SpecARM struct {
 	AzureName  string               `json:"azureName,omitempty"`
-	Id         *string              `json:"id,omitempty"`
 	Identity   *IdentityARM         `json:"identity,omitempty"`
 	Location   *string              `json:"location,omitempty"`
 	Name       string               `json:"name,omitempty"`
 	Properties *ServerPropertiesARM `json:"properties,omitempty"`
 	Sku        *SkuARM              `json:"sku,omitempty"`
-	SystemData *SystemDataARM       `json:"systemData,omitempty"`
 	Tags       map[string]string    `json:"tags,omitempty"`
-	Type       *string              `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &FlexibleServer_SpecARM{}
@@ -41,8 +38,6 @@ func (server *FlexibleServer_SpecARM) GetType() string {
 
 // Deprecated version of Identity. Use v1beta20210501.Identity instead
 type IdentityARM struct {
-	PrincipalId            *string            `json:"principalId,omitempty"`
-	TenantId               *string            `json:"tenantId,omitempty"`
 	Type                   *Identity_Type     `json:"type,omitempty"`
 	UserAssignedIdentities map[string]v1.JSON `json:"userAssignedIdentities,omitempty"`
 }
@@ -55,15 +50,12 @@ type ServerPropertiesARM struct {
 	Backup                     *BackupARM                   `json:"backup,omitempty"`
 	CreateMode                 *ServerProperties_CreateMode `json:"createMode,omitempty"`
 	DataEncryption             *DataEncryptionARM           `json:"dataEncryption,omitempty"`
-	FullyQualifiedDomainName   *string                      `json:"fullyQualifiedDomainName,omitempty"`
 	HighAvailability           *HighAvailabilityARM         `json:"highAvailability,omitempty"`
 	MaintenanceWindow          *MaintenanceWindowARM        `json:"maintenanceWindow,omitempty"`
 	Network                    *NetworkARM                  `json:"network,omitempty"`
-	ReplicaCapacity            *int                         `json:"replicaCapacity,omitempty"`
 	ReplicationRole            *ReplicationRole             `json:"replicationRole,omitempty"`
 	RestorePointInTime         *string                      `json:"restorePointInTime,omitempty"`
 	SourceServerResourceId     *string                      `json:"sourceServerResourceId,omitempty"`
-	State                      *ServerProperties_State      `json:"state,omitempty"`
 	Storage                    *StorageARM                  `json:"storage,omitempty"`
 	Version                    *ServerVersion               `json:"version,omitempty"`
 }
@@ -74,20 +66,9 @@ type SkuARM struct {
 	Tier *Sku_Tier `json:"tier,omitempty"`
 }
 
-// Deprecated version of SystemData. Use v1beta20210501.SystemData instead
-type SystemDataARM struct {
-	CreatedAt          *string                        `json:"createdAt,omitempty"`
-	CreatedBy          *string                        `json:"createdBy,omitempty"`
-	CreatedByType      *SystemData_CreatedByType      `json:"createdByType,omitempty"`
-	LastModifiedAt     *string                        `json:"lastModifiedAt,omitempty"`
-	LastModifiedBy     *string                        `json:"lastModifiedBy,omitempty"`
-	LastModifiedByType *SystemData_LastModifiedByType `json:"lastModifiedByType,omitempty"`
-}
-
 // Deprecated version of Backup. Use v1beta20210501.Backup instead
 type BackupARM struct {
 	BackupRetentionDays *int              `json:"backupRetentionDays,omitempty"`
-	EarliestRestoreDate *string           `json:"earliestRestoreDate,omitempty"`
 	GeoRedundantBackup  *EnableStatusEnum `json:"geoRedundantBackup,omitempty"`
 }
 
@@ -102,9 +83,8 @@ type DataEncryptionARM struct {
 
 // Deprecated version of HighAvailability. Use v1beta20210501.HighAvailability instead
 type HighAvailabilityARM struct {
-	Mode                    *HighAvailability_Mode  `json:"mode,omitempty"`
-	StandbyAvailabilityZone *string                 `json:"standbyAvailabilityZone,omitempty"`
-	State                   *HighAvailability_State `json:"state,omitempty"`
+	Mode                    *HighAvailability_Mode `json:"mode,omitempty"`
+	StandbyAvailabilityZone *string                `json:"standbyAvailabilityZone,omitempty"`
 }
 
 // Deprecated version of Identity_Type. Use v1beta20210501.Identity_Type instead
@@ -123,9 +103,8 @@ type MaintenanceWindowARM struct {
 
 // Deprecated version of Network. Use v1beta20210501.Network instead
 type NetworkARM struct {
-	DelegatedSubnetResourceId *string           `json:"delegatedSubnetResourceId,omitempty"`
-	PrivateDnsZoneResourceId  *string           `json:"privateDnsZoneResourceId,omitempty"`
-	PublicNetworkAccess       *EnableStatusEnum `json:"publicNetworkAccess,omitempty"`
+	DelegatedSubnetResourceId *string `json:"delegatedSubnetResourceId,omitempty"`
+	PrivateDnsZoneResourceId  *string `json:"privateDnsZoneResourceId,omitempty"`
 }
 
 // Deprecated version of Sku_Tier. Use v1beta20210501.Sku_Tier instead
@@ -143,27 +122,4 @@ type StorageARM struct {
 	AutoGrow      *EnableStatusEnum `json:"autoGrow,omitempty"`
 	Iops          *int              `json:"iops,omitempty"`
 	StorageSizeGB *int              `json:"storageSizeGB,omitempty"`
-	StorageSku    *string           `json:"storageSku,omitempty"`
 }
-
-// Deprecated version of SystemData_CreatedByType. Use v1beta20210501.SystemData_CreatedByType instead
-// +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
-type SystemData_CreatedByType string
-
-const (
-	SystemData_CreatedByType_Application     = SystemData_CreatedByType("Application")
-	SystemData_CreatedByType_Key             = SystemData_CreatedByType("Key")
-	SystemData_CreatedByType_ManagedIdentity = SystemData_CreatedByType("ManagedIdentity")
-	SystemData_CreatedByType_User            = SystemData_CreatedByType("User")
-)
-
-// Deprecated version of SystemData_LastModifiedByType. Use v1beta20210501.SystemData_LastModifiedByType instead
-// +kubebuilder:validation:Enum={"Application","Key","ManagedIdentity","User"}
-type SystemData_LastModifiedByType string
-
-const (
-	SystemData_LastModifiedByType_Application     = SystemData_LastModifiedByType("Application")
-	SystemData_LastModifiedByType_Key             = SystemData_LastModifiedByType("Key")
-	SystemData_LastModifiedByType_ManagedIdentity = SystemData_LastModifiedByType("ManagedIdentity")
-	SystemData_LastModifiedByType_User            = SystemData_LastModifiedByType("User")
-)

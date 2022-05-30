@@ -8,11 +8,8 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 // Deprecated version of FlexibleServersDatabase_Spec. Use v1beta20210601.FlexibleServersDatabase_Spec instead
 type FlexibleServersDatabase_SpecARM struct {
 	AzureName  string                 `json:"azureName,omitempty"`
-	Id         *string                `json:"id,omitempty"`
 	Name       string                 `json:"name,omitempty"`
 	Properties *DatabasePropertiesARM `json:"properties,omitempty"`
-	SystemData *SystemDataARM         `json:"systemData,omitempty"`
-	Type       *string                `json:"type,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &FlexibleServersDatabase_SpecARM{}

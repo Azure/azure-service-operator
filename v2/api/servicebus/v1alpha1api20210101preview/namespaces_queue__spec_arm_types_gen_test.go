@@ -84,15 +84,12 @@ func NamespacesQueue_SpecARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForNamespacesQueue_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForNamespacesQueue_SpecARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForNamespacesQueue_SpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForNamespacesQueue_SpecARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(SBQueuePropertiesARMGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemDataARMGenerator())
 }
 
 func Test_SBQueuePropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -138,9 +135,6 @@ func RunJSONSerializationTestForSBQueuePropertiesARM(subject SBQueuePropertiesAR
 var sbQueuePropertiesARMGenerator gopter.Gen
 
 // SBQueuePropertiesARMGenerator returns a generator of SBQueuePropertiesARM instances for property testing.
-// We first initialize sbQueuePropertiesARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func SBQueuePropertiesARMGenerator() gopter.Gen {
 	if sbQueuePropertiesARMGenerator != nil {
 		return sbQueuePropertiesARMGenerator
@@ -150,20 +144,12 @@ func SBQueuePropertiesARMGenerator() gopter.Gen {
 	AddIndependentPropertyGeneratorsForSBQueuePropertiesARM(generators)
 	sbQueuePropertiesARMGenerator = gen.Struct(reflect.TypeOf(SBQueuePropertiesARM{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForSBQueuePropertiesARM(generators)
-	AddRelatedPropertyGeneratorsForSBQueuePropertiesARM(generators)
-	sbQueuePropertiesARMGenerator = gen.Struct(reflect.TypeOf(SBQueuePropertiesARM{}), generators)
-
 	return sbQueuePropertiesARMGenerator
 }
 
 // AddIndependentPropertyGeneratorsForSBQueuePropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForSBQueuePropertiesARM(gens map[string]gopter.Gen) {
-	gens["AccessedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["AutoDeleteOnIdle"] = gen.PtrOf(gen.AlphaString())
-	gens["CreatedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["DeadLetteringOnMessageExpiration"] = gen.PtrOf(gen.Bool())
 	gens["DefaultMessageTimeToLive"] = gen.PtrOf(gen.AlphaString())
 	gens["DuplicateDetectionHistoryTimeWindow"] = gen.PtrOf(gen.AlphaString())
@@ -175,78 +161,6 @@ func AddIndependentPropertyGeneratorsForSBQueuePropertiesARM(gens map[string]gop
 	gens["LockDuration"] = gen.PtrOf(gen.AlphaString())
 	gens["MaxDeliveryCount"] = gen.PtrOf(gen.Int())
 	gens["MaxSizeInMegabytes"] = gen.PtrOf(gen.Int())
-	gens["MessageCount"] = gen.PtrOf(gen.Int())
 	gens["RequiresDuplicateDetection"] = gen.PtrOf(gen.Bool())
 	gens["RequiresSession"] = gen.PtrOf(gen.Bool())
-	gens["SizeInBytes"] = gen.PtrOf(gen.Int())
-	gens["UpdatedAt"] = gen.PtrOf(gen.AlphaString())
-}
-
-// AddRelatedPropertyGeneratorsForSBQueuePropertiesARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForSBQueuePropertiesARM(gens map[string]gopter.Gen) {
-	gens["CountDetails"] = gen.PtrOf(MessageCountDetailsARMGenerator())
-}
-
-func Test_MessageCountDetailsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of MessageCountDetailsARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForMessageCountDetailsARM, MessageCountDetailsARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForMessageCountDetailsARM runs a test to see if a specific instance of MessageCountDetailsARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForMessageCountDetailsARM(subject MessageCountDetailsARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual MessageCountDetailsARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of MessageCountDetailsARM instances for property testing - lazily instantiated by
-// MessageCountDetailsARMGenerator()
-var messageCountDetailsARMGenerator gopter.Gen
-
-// MessageCountDetailsARMGenerator returns a generator of MessageCountDetailsARM instances for property testing.
-func MessageCountDetailsARMGenerator() gopter.Gen {
-	if messageCountDetailsARMGenerator != nil {
-		return messageCountDetailsARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForMessageCountDetailsARM(generators)
-	messageCountDetailsARMGenerator = gen.Struct(reflect.TypeOf(MessageCountDetailsARM{}), generators)
-
-	return messageCountDetailsARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForMessageCountDetailsARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForMessageCountDetailsARM(gens map[string]gopter.Gen) {
-	gens["ActiveMessageCount"] = gen.PtrOf(gen.Int())
-	gens["DeadLetterMessageCount"] = gen.PtrOf(gen.Int())
-	gens["ScheduledMessageCount"] = gen.PtrOf(gen.Int())
-	gens["TransferDeadLetterMessageCount"] = gen.PtrOf(gen.Int())
-	gens["TransferMessageCount"] = gen.PtrOf(gen.Int())
 }

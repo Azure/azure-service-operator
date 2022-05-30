@@ -267,6 +267,24 @@ func generateSpecTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.TypeDefiniti
 			newResources.Add(astmodel.MakeTypeDefinition(rName, newType))
 		}
 
+		rewriter := astmodel.TypeVisitorBuilder{
+			VisitObjectType: func(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
+				// strip all readonly props
+				for pName, p := range it.Properties() {
+					if p.ReadOnly() {
+						it = it.WithoutProperty(pName)
+					}
+				}
+
+				return astmodel.IdentityVisitOfObjectType(this, it, ctx)
+			},
+		}.Build()
+
+		otherTypes, err = rewriter.VisitDefinitions(otherTypes, nil)
+		if err != nil {
+			return nil, nil, err
+		}
+
 		resources = newResources
 	}
 

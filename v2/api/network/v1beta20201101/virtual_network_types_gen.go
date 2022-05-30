@@ -896,14 +896,8 @@ type VirtualNetwork_Spec struct {
 	// EnableVmProtection: Indicates if VM protection is enabled for all the subnets in the virtual network.
 	EnableVmProtection *bool `json:"enableVmProtection,omitempty"`
 
-	// Etag: A unique read-only string that changes whenever the resource is updated.
-	Etag *string `json:"etag,omitempty"`
-
 	// ExtendedLocation: The extended location of the virtual network.
 	ExtendedLocation *ExtendedLocation `json:"extendedLocation,omitempty"`
-
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
 
 	// IpAllocations: Array of IpAllocation which reference this VNET.
 	IpAllocations []SubResource `json:"ipAllocations,omitempty"`
@@ -917,20 +911,14 @@ type VirtualNetwork_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner *genruntime.KnownResourceReference `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 
-	// ProvisioningState: The provisioning state of the virtual network resource.
-	ProvisioningState *ProvisioningState `json:"provisioningState,omitempty"`
-
-	// ResourceGuid: The resourceGuid property of the Virtual Network resource.
-	ResourceGuid *string `json:"resourceGuid,omitempty"`
+	// Reference: Resource ID.
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 
 	// Subnets: A list of subnets in a Virtual Network.
 	Subnets []Subnet_VirtualNetwork_SubResourceEmbedded `json:"subnets,omitempty"`
 
 	// Tags: Resource tags.
 	Tags map[string]string `json:"tags,omitempty"`
-
-	// Type: Resource type.
-	Type *string `json:"type,omitempty"`
 
 	// VirtualNetworkPeerings: A list of peerings in a Virtual Network.
 	VirtualNetworkPeerings []VirtualNetworkPeering `json:"virtualNetworkPeerings,omitempty"`
@@ -948,12 +936,6 @@ func (network *VirtualNetwork_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	// Set property ‘AzureName’:
 	result.AzureName = network.AzureName
 
-	// Set property ‘Etag’:
-	if network.Etag != nil {
-		etag := *network.Etag
-		result.Etag = &etag
-	}
-
 	// Set property ‘ExtendedLocation’:
 	if network.ExtendedLocation != nil {
 		extendedLocationARM, err := (*network.ExtendedLocation).ConvertToARM(resolved)
@@ -965,9 +947,13 @@ func (network *VirtualNetwork_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 	}
 
 	// Set property ‘Id’:
-	if network.Id != nil {
-		id := *network.Id
-		result.Id = &id
+	if network.Reference != nil {
+		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*network.Reference)
+		if err != nil {
+			return nil, err
+		}
+		reference := referenceARMID
+		result.Id = &reference
 	}
 
 	// Set property ‘Location’:
@@ -987,8 +973,6 @@ func (network *VirtualNetwork_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		network.EnableDdosProtection != nil ||
 		network.EnableVmProtection != nil ||
 		network.IpAllocations != nil ||
-		network.ProvisioningState != nil ||
-		network.ResourceGuid != nil ||
 		network.Subnets != nil ||
 		network.VirtualNetworkPeerings != nil {
 		result.Properties = &VirtualNetworkPropertiesFormatARM{}
@@ -1040,14 +1024,6 @@ func (network *VirtualNetwork_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		}
 		result.Properties.IpAllocations = append(result.Properties.IpAllocations, *itemARM.(*SubResourceARM))
 	}
-	if network.ProvisioningState != nil {
-		provisioningState := *network.ProvisioningState
-		result.Properties.ProvisioningState = &provisioningState
-	}
-	if network.ResourceGuid != nil {
-		resourceGuid := *network.ResourceGuid
-		result.Properties.ResourceGuid = &resourceGuid
-	}
 	for _, item := range network.Subnets {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
@@ -1069,12 +1045,6 @@ func (network *VirtualNetwork_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		for key, value := range network.Tags {
 			result.Tags[key] = value
 		}
-	}
-
-	// Set property ‘Type’:
-	if network.Type != nil {
-		typeVar := *network.Type
-		result.Type = &typeVar
 	}
 	return result, nil
 }
@@ -1168,12 +1138,6 @@ func (network *VirtualNetwork_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 	}
 
-	// Set property ‘Etag’:
-	if typedInput.Etag != nil {
-		etag := *typedInput.Etag
-		network.Etag = &etag
-	}
-
 	// Set property ‘ExtendedLocation’:
 	if typedInput.ExtendedLocation != nil {
 		var extendedLocation1 ExtendedLocation
@@ -1183,12 +1147,6 @@ func (network *VirtualNetwork_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		}
 		extendedLocation := extendedLocation1
 		network.ExtendedLocation = &extendedLocation
-	}
-
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		network.Id = &id
 	}
 
 	// Set property ‘IpAllocations’:
@@ -1215,23 +1173,7 @@ func (network *VirtualNetwork_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		Name: owner.Name,
 	}
 
-	// Set property ‘ProvisioningState’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ProvisioningState != nil {
-			provisioningState := *typedInput.Properties.ProvisioningState
-			network.ProvisioningState = &provisioningState
-		}
-	}
-
-	// Set property ‘ResourceGuid’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.ResourceGuid != nil {
-			resourceGuid := *typedInput.Properties.ResourceGuid
-			network.ResourceGuid = &resourceGuid
-		}
-	}
+	// no assignment for property ‘Reference’
 
 	// Set property ‘Subnets’:
 	// copying flattened property:
@@ -1252,12 +1194,6 @@ func (network *VirtualNetwork_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 		for key, value := range typedInput.Tags {
 			network.Tags[key] = value
 		}
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		network.Type = &typeVar
 	}
 
 	// Set property ‘VirtualNetworkPeerings’:
@@ -1397,9 +1333,6 @@ func (network *VirtualNetwork_Spec) AssignPropertiesFromVirtualNetwork_Spec(sour
 		network.EnableVmProtection = nil
 	}
 
-	// Etag
-	network.Etag = genruntime.ClonePointerToString(source.Etag)
-
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
 		var extendedLocation ExtendedLocation
@@ -1411,9 +1344,6 @@ func (network *VirtualNetwork_Spec) AssignPropertiesFromVirtualNetwork_Spec(sour
 	} else {
 		network.ExtendedLocation = nil
 	}
-
-	// Id
-	network.Id = genruntime.ClonePointerToString(source.Id)
 
 	// IpAllocations
 	if source.IpAllocations != nil {
@@ -1444,16 +1374,13 @@ func (network *VirtualNetwork_Spec) AssignPropertiesFromVirtualNetwork_Spec(sour
 		network.Owner = nil
 	}
 
-	// ProvisioningState
-	if source.ProvisioningState != nil {
-		provisioningState := ProvisioningState(*source.ProvisioningState)
-		network.ProvisioningState = &provisioningState
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		network.Reference = &reference
 	} else {
-		network.ProvisioningState = nil
+		network.Reference = nil
 	}
-
-	// ResourceGuid
-	network.ResourceGuid = genruntime.ClonePointerToString(source.ResourceGuid)
 
 	// Subnets
 	if source.Subnets != nil {
@@ -1475,9 +1402,6 @@ func (network *VirtualNetwork_Spec) AssignPropertiesFromVirtualNetwork_Spec(sour
 
 	// Tags
 	network.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	network.Type = genruntime.ClonePointerToString(source.Type)
 
 	// VirtualNetworkPeerings
 	if source.VirtualNetworkPeerings != nil {
@@ -1573,9 +1497,6 @@ func (network *VirtualNetwork_Spec) AssignPropertiesToVirtualNetwork_Spec(destin
 		destination.EnableVmProtection = nil
 	}
 
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(network.Etag)
-
 	// ExtendedLocation
 	if network.ExtendedLocation != nil {
 		var extendedLocation v20201101s.ExtendedLocation
@@ -1587,9 +1508,6 @@ func (network *VirtualNetwork_Spec) AssignPropertiesToVirtualNetwork_Spec(destin
 	} else {
 		destination.ExtendedLocation = nil
 	}
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(network.Id)
 
 	// IpAllocations
 	if network.IpAllocations != nil {
@@ -1623,16 +1541,13 @@ func (network *VirtualNetwork_Spec) AssignPropertiesToVirtualNetwork_Spec(destin
 		destination.Owner = nil
 	}
 
-	// ProvisioningState
-	if network.ProvisioningState != nil {
-		provisioningState := string(*network.ProvisioningState)
-		destination.ProvisioningState = &provisioningState
+	// Reference
+	if network.Reference != nil {
+		reference := network.Reference.Copy()
+		destination.Reference = &reference
 	} else {
-		destination.ProvisioningState = nil
+		destination.Reference = nil
 	}
-
-	// ResourceGuid
-	destination.ResourceGuid = genruntime.ClonePointerToString(network.ResourceGuid)
 
 	// Subnets
 	if network.Subnets != nil {
@@ -1654,9 +1569,6 @@ func (network *VirtualNetwork_Spec) AssignPropertiesToVirtualNetwork_Spec(destin
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(network.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(network.Type)
 
 	// VirtualNetworkPeerings
 	if network.VirtualNetworkPeerings != nil {
@@ -1952,8 +1864,8 @@ func (options *DhcpOptions_STATUS) AssignPropertiesToDhcpOptions_STATUS(destinat
 }
 
 type Subnet_VirtualNetwork_SubResourceEmbedded struct {
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
+	// Reference: Resource ID.
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &Subnet_VirtualNetwork_SubResourceEmbedded{}
@@ -1966,9 +1878,13 @@ func (embedded *Subnet_VirtualNetwork_SubResourceEmbedded) ConvertToARM(resolved
 	result := &Subnet_VirtualNetwork_SubResourceEmbeddedARM{}
 
 	// Set property ‘Id’:
-	if embedded.Id != nil {
-		id := *embedded.Id
-		result.Id = &id
+	if embedded.Reference != nil {
+		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*embedded.Reference)
+		if err != nil {
+			return nil, err
+		}
+		reference := referenceARMID
+		result.Id = &reference
 	}
 	return result, nil
 }
@@ -1980,16 +1896,12 @@ func (embedded *Subnet_VirtualNetwork_SubResourceEmbedded) NewEmptyARMValue() ge
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (embedded *Subnet_VirtualNetwork_SubResourceEmbedded) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(Subnet_VirtualNetwork_SubResourceEmbeddedARM)
+	_, ok := armInput.(Subnet_VirtualNetwork_SubResourceEmbeddedARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Subnet_VirtualNetwork_SubResourceEmbeddedARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		embedded.Id = &id
-	}
+	// no assignment for property ‘Reference’
 
 	// No error
 	return nil
@@ -1998,8 +1910,13 @@ func (embedded *Subnet_VirtualNetwork_SubResourceEmbedded) PopulateFromARM(owner
 // AssignPropertiesFromSubnet_VirtualNetwork_SubResourceEmbedded populates our Subnet_VirtualNetwork_SubResourceEmbedded from the provided source Subnet_VirtualNetwork_SubResourceEmbedded
 func (embedded *Subnet_VirtualNetwork_SubResourceEmbedded) AssignPropertiesFromSubnet_VirtualNetwork_SubResourceEmbedded(source *v20201101s.Subnet_VirtualNetwork_SubResourceEmbedded) error {
 
-	// Id
-	embedded.Id = genruntime.ClonePointerToString(source.Id)
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		embedded.Reference = &reference
+	} else {
+		embedded.Reference = nil
+	}
 
 	// No error
 	return nil
@@ -2010,8 +1927,13 @@ func (embedded *Subnet_VirtualNetwork_SubResourceEmbedded) AssignPropertiesToSub
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(embedded.Id)
+	// Reference
+	if embedded.Reference != nil {
+		reference := embedded.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -2025,9 +1947,6 @@ func (embedded *Subnet_VirtualNetwork_SubResourceEmbedded) AssignPropertiesToSub
 }
 
 type VirtualNetworkBgpCommunities struct {
-	// RegionalCommunity: The BGP community associated with the region of the virtual network.
-	RegionalCommunity *string `json:"regionalCommunity,omitempty"`
-
 	// +kubebuilder:validation:Required
 	// VirtualNetworkCommunity: The BGP community associated with the virtual network.
 	VirtualNetworkCommunity *string `json:"virtualNetworkCommunity,omitempty"`
@@ -2041,12 +1960,6 @@ func (communities *VirtualNetworkBgpCommunities) ConvertToARM(resolved genruntim
 		return nil, nil
 	}
 	result := &VirtualNetworkBgpCommunitiesARM{}
-
-	// Set property ‘RegionalCommunity’:
-	if communities.RegionalCommunity != nil {
-		regionalCommunity := *communities.RegionalCommunity
-		result.RegionalCommunity = &regionalCommunity
-	}
 
 	// Set property ‘VirtualNetworkCommunity’:
 	if communities.VirtualNetworkCommunity != nil {
@@ -2068,12 +1981,6 @@ func (communities *VirtualNetworkBgpCommunities) PopulateFromARM(owner genruntim
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkBgpCommunitiesARM, got %T", armInput)
 	}
 
-	// Set property ‘RegionalCommunity’:
-	if typedInput.RegionalCommunity != nil {
-		regionalCommunity := *typedInput.RegionalCommunity
-		communities.RegionalCommunity = &regionalCommunity
-	}
-
 	// Set property ‘VirtualNetworkCommunity’:
 	if typedInput.VirtualNetworkCommunity != nil {
 		virtualNetworkCommunity := *typedInput.VirtualNetworkCommunity
@@ -2087,9 +1994,6 @@ func (communities *VirtualNetworkBgpCommunities) PopulateFromARM(owner genruntim
 // AssignPropertiesFromVirtualNetworkBgpCommunities populates our VirtualNetworkBgpCommunities from the provided source VirtualNetworkBgpCommunities
 func (communities *VirtualNetworkBgpCommunities) AssignPropertiesFromVirtualNetworkBgpCommunities(source *v20201101s.VirtualNetworkBgpCommunities) error {
 
-	// RegionalCommunity
-	communities.RegionalCommunity = genruntime.ClonePointerToString(source.RegionalCommunity)
-
 	// VirtualNetworkCommunity
 	communities.VirtualNetworkCommunity = genruntime.ClonePointerToString(source.VirtualNetworkCommunity)
 
@@ -2101,9 +2005,6 @@ func (communities *VirtualNetworkBgpCommunities) AssignPropertiesFromVirtualNetw
 func (communities *VirtualNetworkBgpCommunities) AssignPropertiesToVirtualNetworkBgpCommunities(destination *v20201101s.VirtualNetworkBgpCommunities) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
-
-	// RegionalCommunity
-	destination.RegionalCommunity = genruntime.ClonePointerToString(communities.RegionalCommunity)
 
 	// VirtualNetworkCommunity
 	destination.VirtualNetworkCommunity = genruntime.ClonePointerToString(communities.VirtualNetworkCommunity)
@@ -2193,8 +2094,8 @@ func (communities *VirtualNetworkBgpCommunities_STATUS) AssignPropertiesToVirtua
 }
 
 type VirtualNetworkPeering struct {
-	// Id: Resource ID.
-	Id *string `json:"id,omitempty"`
+	// Reference: Resource ID.
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &VirtualNetworkPeering{}
@@ -2207,9 +2108,13 @@ func (peering *VirtualNetworkPeering) ConvertToARM(resolved genruntime.ConvertTo
 	result := &VirtualNetworkPeeringARM{}
 
 	// Set property ‘Id’:
-	if peering.Id != nil {
-		id := *peering.Id
-		result.Id = &id
+	if peering.Reference != nil {
+		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*peering.Reference)
+		if err != nil {
+			return nil, err
+		}
+		reference := referenceARMID
+		result.Id = &reference
 	}
 	return result, nil
 }
@@ -2221,16 +2126,12 @@ func (peering *VirtualNetworkPeering) NewEmptyARMValue() genruntime.ARMResourceS
 
 // PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
 func (peering *VirtualNetworkPeering) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualNetworkPeeringARM)
+	_, ok := armInput.(VirtualNetworkPeeringARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualNetworkPeeringARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		peering.Id = &id
-	}
+	// no assignment for property ‘Reference’
 
 	// No error
 	return nil
@@ -2239,8 +2140,13 @@ func (peering *VirtualNetworkPeering) PopulateFromARM(owner genruntime.Arbitrary
 // AssignPropertiesFromVirtualNetworkPeering populates our VirtualNetworkPeering from the provided source VirtualNetworkPeering
 func (peering *VirtualNetworkPeering) AssignPropertiesFromVirtualNetworkPeering(source *v20201101s.VirtualNetworkPeering) error {
 
-	// Id
-	peering.Id = genruntime.ClonePointerToString(source.Id)
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		peering.Reference = &reference
+	} else {
+		peering.Reference = nil
+	}
 
 	// No error
 	return nil
@@ -2251,8 +2157,13 @@ func (peering *VirtualNetworkPeering) AssignPropertiesToVirtualNetworkPeering(de
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(peering.Id)
+	// Reference
+	if peering.Reference != nil {
+		reference := peering.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

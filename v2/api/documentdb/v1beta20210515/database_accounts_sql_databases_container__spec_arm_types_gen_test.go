@@ -84,11 +84,9 @@ func DatabaseAccountsSqlDatabasesContainer_SpecARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainer_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainer_SpecARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainer_SpecARM is a factory method for creating gopter generators
@@ -357,7 +355,6 @@ func ContainerPartitionKeyARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForContainerPartitionKeyARM(gens map[string]gopter.Gen) {
 	gens["Kind"] = gen.PtrOf(gen.OneConstOf(ContainerPartitionKey_Kind_Hash, ContainerPartitionKey_Kind_MultiHash, ContainerPartitionKey_Kind_Range))
 	gens["Paths"] = gen.SliceOf(gen.AlphaString())
-	gens["SystemKey"] = gen.PtrOf(gen.Bool())
 	gens["Version"] = gen.PtrOf(gen.Int())
 }
 

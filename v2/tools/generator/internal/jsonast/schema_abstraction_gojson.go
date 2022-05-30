@@ -93,6 +93,10 @@ func (schema GoJSONSchema) hasOneOf() bool {
 	return len(schema.inner.OneOf) > 0
 }
 
+func (schema GoJSONSchema) discriminator() string {
+	return "" // not supported, GoJSONSchema going away soon
+}
+
 func (schema GoJSONSchema) oneOf() []Schema {
 	return schema.transformGoJSONSlice(schema.inner.OneOf)
 }

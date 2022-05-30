@@ -84,15 +84,12 @@ func FlexibleServersFirewallRule_SpecARMGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForFlexibleServersFirewallRule_SpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForFlexibleServersFirewallRule_SpecARM(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
-	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 // AddRelatedPropertyGeneratorsForFlexibleServersFirewallRule_SpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForFlexibleServersFirewallRule_SpecARM(gens map[string]gopter.Gen) {
 	gens["Properties"] = gen.PtrOf(FirewallRulePropertiesARMGenerator())
-	gens["SystemData"] = gen.PtrOf(SystemDataARMGenerator())
 }
 
 func Test_FirewallRulePropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

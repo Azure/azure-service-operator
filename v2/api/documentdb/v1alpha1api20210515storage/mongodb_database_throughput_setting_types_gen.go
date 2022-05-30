@@ -359,7 +359,6 @@ type DatabaseAccountsMongodbDatabasesThroughputSetting_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName       string  `json:"azureName,omitempty"`
-	Id              *string `json:"id,omitempty"`
 	Location        *string `json:"location,omitempty"`
 	OriginalVersion string  `json:"originalVersion,omitempty"`
 
@@ -371,7 +370,6 @@ type DatabaseAccountsMongodbDatabasesThroughputSetting_Spec struct {
 	PropertyBag genruntime.PropertyBag             `json:"$propertyBag,omitempty"`
 	Resource    *ThroughputSettingsResource        `json:"resource,omitempty"`
 	Tags        map[string]string                  `json:"tags,omitempty"`
-	Type        *string                            `json:"type,omitempty"`
 }
 
 var _ genruntime.ConvertibleSpec = &DatabaseAccountsMongodbDatabasesThroughputSetting_Spec{}
@@ -432,9 +430,6 @@ func (setting *DatabaseAccountsMongodbDatabasesThroughputSetting_Spec) AssignPro
 	// AzureName
 	setting.AzureName = source.AzureName
 
-	// Id
-	setting.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Location
 	setting.Location = genruntime.ClonePointerToString(source.Location)
 
@@ -464,9 +459,6 @@ func (setting *DatabaseAccountsMongodbDatabasesThroughputSetting_Spec) AssignPro
 	// Tags
 	setting.Tags = genruntime.CloneMapOfStringToString(source.Tags)
 
-	// Type
-	setting.Type = genruntime.ClonePointerToString(source.Type)
-
 	// Update the property bag
 	if len(propertyBag) > 0 {
 		setting.PropertyBag = propertyBag
@@ -485,9 +477,6 @@ func (setting *DatabaseAccountsMongodbDatabasesThroughputSetting_Spec) AssignPro
 
 	// AzureName
 	destination.AzureName = setting.AzureName
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(setting.Id)
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(setting.Location)
@@ -517,9 +506,6 @@ func (setting *DatabaseAccountsMongodbDatabasesThroughputSetting_Spec) AssignPro
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(setting.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(setting.Type)
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

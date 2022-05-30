@@ -525,7 +525,8 @@ func (s synthesizer) handleObjectObject(leftObj *astmodel.ObjectType, rightObj *
 	}
 
 	// TODO: need to handle merging other bits of objects
-	return leftObj.WithProperties(properties...), nil
+	isResource := leftObj.IsResource() || rightObj.IsResource()
+	return leftObj.WithProperties(properties...).WithIsResource(isResource), nil
 }
 
 func (s synthesizer) handleEnumEnum(leftEnum *astmodel.EnumType, rightEnum *astmodel.EnumType) (astmodel.Type, error) {

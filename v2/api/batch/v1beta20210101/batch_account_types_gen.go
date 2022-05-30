@@ -1606,13 +1606,6 @@ func (properties *AutoStorageProperties_STATUS) AssignPropertiesToAutoStoragePro
 }
 
 type BatchAccountIdentity struct {
-	// PrincipalId: The principal id of the Batch account. This property will only be provided for a system assigned identity.
-	PrincipalId *string `json:"principalId,omitempty"`
-
-	// TenantId: The tenant id associated with the Batch account. This property will only be provided for a system assigned
-	// identity.
-	TenantId *string `json:"tenantId,omitempty"`
-
 	// +kubebuilder:validation:Required
 	// Type: The type of identity used for the Batch account.
 	Type *BatchAccountIdentity_Type `json:"type,omitempty"`
@@ -1626,18 +1619,6 @@ func (identity *BatchAccountIdentity) ConvertToARM(resolved genruntime.ConvertTo
 		return nil, nil
 	}
 	result := &BatchAccountIdentityARM{}
-
-	// Set property ‘PrincipalId’:
-	if identity.PrincipalId != nil {
-		principalId := *identity.PrincipalId
-		result.PrincipalId = &principalId
-	}
-
-	// Set property ‘TenantId’:
-	if identity.TenantId != nil {
-		tenantId := *identity.TenantId
-		result.TenantId = &tenantId
-	}
 
 	// Set property ‘Type’:
 	if identity.Type != nil {
@@ -1659,18 +1640,6 @@ func (identity *BatchAccountIdentity) PopulateFromARM(owner genruntime.Arbitrary
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected BatchAccountIdentityARM, got %T", armInput)
 	}
 
-	// Set property ‘PrincipalId’:
-	if typedInput.PrincipalId != nil {
-		principalId := *typedInput.PrincipalId
-		identity.PrincipalId = &principalId
-	}
-
-	// Set property ‘TenantId’:
-	if typedInput.TenantId != nil {
-		tenantId := *typedInput.TenantId
-		identity.TenantId = &tenantId
-	}
-
 	// Set property ‘Type’:
 	if typedInput.Type != nil {
 		typeVar := *typedInput.Type
@@ -1683,12 +1652,6 @@ func (identity *BatchAccountIdentity) PopulateFromARM(owner genruntime.Arbitrary
 
 // AssignPropertiesFromBatchAccountIdentity populates our BatchAccountIdentity from the provided source BatchAccountIdentity
 func (identity *BatchAccountIdentity) AssignPropertiesFromBatchAccountIdentity(source *v20210101s.BatchAccountIdentity) error {
-
-	// PrincipalId
-	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
-
-	// TenantId
-	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
 
 	// Type
 	if source.Type != nil {
@@ -1706,12 +1669,6 @@ func (identity *BatchAccountIdentity) AssignPropertiesFromBatchAccountIdentity(s
 func (identity *BatchAccountIdentity) AssignPropertiesToBatchAccountIdentity(destination *v20210101s.BatchAccountIdentity) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
-
-	// PrincipalId
-	destination.PrincipalId = genruntime.ClonePointerToString(identity.PrincipalId)
-
-	// TenantId
-	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
 
 	// Type
 	if identity.Type != nil {

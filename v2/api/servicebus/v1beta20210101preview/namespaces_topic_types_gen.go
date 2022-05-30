@@ -884,9 +884,6 @@ func (topic *NamespacesTopic_STATUS) AssignPropertiesToNamespacesTopic_STATUS(de
 }
 
 type NamespacesTopic_Spec struct {
-	// AccessedAt: Last time the message was sent, or a request was received, for this topic.
-	AccessedAt *string `json:"accessedAt,omitempty"`
-
 	// AutoDeleteOnIdle: ISO 8601 timespan idle interval after which the topic is automatically deleted. The minimum duration
 	// is 5 minutes.
 	AutoDeleteOnIdle *string `json:"autoDeleteOnIdle,omitempty"`
@@ -894,12 +891,6 @@ type NamespacesTopic_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
-
-	// CountDetails: Message count details
-	CountDetails *MessageCountDetails `json:"countDetails,omitempty"`
-
-	// CreatedAt: Exact time the message was created.
-	CreatedAt *string `json:"createdAt,omitempty"`
 
 	// DefaultMessageTimeToLive: ISO 8601 Default message timespan to live value. This is the duration after which the message
 	// expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not
@@ -920,9 +911,6 @@ type NamespacesTopic_Spec struct {
 	// EnablePartitioning: Value that indicates whether the topic to be partitioned across multiple message brokers is enabled.
 	EnablePartitioning *bool `json:"enablePartitioning,omitempty"`
 
-	// Id: Resource Id
-	Id *string `json:"id,omitempty"`
-
 	// MaxSizeInMegabytes: Maximum size of the topic in megabytes, which is the size of the memory allocated for the topic.
 	// Default is 1024.
 	MaxSizeInMegabytes *int `json:"maxSizeInMegabytes,omitempty"`
@@ -936,23 +924,8 @@ type NamespacesTopic_Spec struct {
 	// RequiresDuplicateDetection: Value indicating if this topic requires duplicate detection.
 	RequiresDuplicateDetection *bool `json:"requiresDuplicateDetection,omitempty"`
 
-	// SizeInBytes: Size of the topic, in bytes.
-	SizeInBytes *int `json:"sizeInBytes,omitempty"`
-
-	// SubscriptionCount: Number of subscriptions.
-	SubscriptionCount *int `json:"subscriptionCount,omitempty"`
-
 	// SupportOrdering: Value that indicates whether the topic supports ordering.
 	SupportOrdering *bool `json:"supportOrdering,omitempty"`
-
-	// SystemData: The system meta data relating to this resource.
-	SystemData *SystemData `json:"systemData,omitempty"`
-
-	// Type: Resource type
-	Type *string `json:"type,omitempty"`
-
-	// UpdatedAt: The exact time the message was updated.
-	UpdatedAt *string `json:"updatedAt,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &NamespacesTopic_Spec{}
@@ -967,20 +940,11 @@ func (topic *NamespacesTopic_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	// Set property ‘AzureName’:
 	result.AzureName = topic.AzureName
 
-	// Set property ‘Id’:
-	if topic.Id != nil {
-		id := *topic.Id
-		result.Id = &id
-	}
-
 	// Set property ‘Name’:
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if topic.AccessedAt != nil ||
-		topic.AutoDeleteOnIdle != nil ||
-		topic.CountDetails != nil ||
-		topic.CreatedAt != nil ||
+	if topic.AutoDeleteOnIdle != nil ||
 		topic.DefaultMessageTimeToLive != nil ||
 		topic.DuplicateDetectionHistoryTimeWindow != nil ||
 		topic.EnableBatchedOperations != nil ||
@@ -988,31 +952,12 @@ func (topic *NamespacesTopic_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		topic.EnablePartitioning != nil ||
 		topic.MaxSizeInMegabytes != nil ||
 		topic.RequiresDuplicateDetection != nil ||
-		topic.SizeInBytes != nil ||
-		topic.SubscriptionCount != nil ||
-		topic.SupportOrdering != nil ||
-		topic.UpdatedAt != nil {
+		topic.SupportOrdering != nil {
 		result.Properties = &SBTopicPropertiesARM{}
-	}
-	if topic.AccessedAt != nil {
-		accessedAt := *topic.AccessedAt
-		result.Properties.AccessedAt = &accessedAt
 	}
 	if topic.AutoDeleteOnIdle != nil {
 		autoDeleteOnIdle := *topic.AutoDeleteOnIdle
 		result.Properties.AutoDeleteOnIdle = &autoDeleteOnIdle
-	}
-	if topic.CountDetails != nil {
-		countDetailsARM, err := (*topic.CountDetails).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		countDetails := *countDetailsARM.(*MessageCountDetailsARM)
-		result.Properties.CountDetails = &countDetails
-	}
-	if topic.CreatedAt != nil {
-		createdAt := *topic.CreatedAt
-		result.Properties.CreatedAt = &createdAt
 	}
 	if topic.DefaultMessageTimeToLive != nil {
 		defaultMessageTimeToLive := *topic.DefaultMessageTimeToLive
@@ -1042,37 +987,9 @@ func (topic *NamespacesTopic_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		requiresDuplicateDetection := *topic.RequiresDuplicateDetection
 		result.Properties.RequiresDuplicateDetection = &requiresDuplicateDetection
 	}
-	if topic.SizeInBytes != nil {
-		sizeInBytes := *topic.SizeInBytes
-		result.Properties.SizeInBytes = &sizeInBytes
-	}
-	if topic.SubscriptionCount != nil {
-		subscriptionCount := *topic.SubscriptionCount
-		result.Properties.SubscriptionCount = &subscriptionCount
-	}
 	if topic.SupportOrdering != nil {
 		supportOrdering := *topic.SupportOrdering
 		result.Properties.SupportOrdering = &supportOrdering
-	}
-	if topic.UpdatedAt != nil {
-		updatedAt := *topic.UpdatedAt
-		result.Properties.UpdatedAt = &updatedAt
-	}
-
-	// Set property ‘SystemData’:
-	if topic.SystemData != nil {
-		systemDataARM, err := (*topic.SystemData).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		systemData := *systemDataARM.(*SystemDataARM)
-		result.SystemData = &systemData
-	}
-
-	// Set property ‘Type’:
-	if topic.Type != nil {
-		typeVar := *topic.Type
-		result.Type = &typeVar
 	}
 	return result, nil
 }
@@ -1089,15 +1006,6 @@ func (topic *NamespacesTopic_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected NamespacesTopic_SpecARM, got %T", armInput)
 	}
 
-	// Set property ‘AccessedAt’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.AccessedAt != nil {
-			accessedAt := *typedInput.Properties.AccessedAt
-			topic.AccessedAt = &accessedAt
-		}
-	}
-
 	// Set property ‘AutoDeleteOnIdle’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -1109,29 +1017,6 @@ func (topic *NamespacesTopic_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property ‘AzureName’:
 	topic.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘CountDetails’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.CountDetails != nil {
-			var countDetails1 MessageCountDetails
-			err := countDetails1.PopulateFromARM(owner, *typedInput.Properties.CountDetails)
-			if err != nil {
-				return err
-			}
-			countDetails := countDetails1
-			topic.CountDetails = &countDetails
-		}
-	}
-
-	// Set property ‘CreatedAt’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.CreatedAt != nil {
-			createdAt := *typedInput.Properties.CreatedAt
-			topic.CreatedAt = &createdAt
-		}
-	}
 
 	// Set property ‘DefaultMessageTimeToLive’:
 	// copying flattened property:
@@ -1178,12 +1063,6 @@ func (topic *NamespacesTopic_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		topic.Id = &id
-	}
-
 	// Set property ‘MaxSizeInMegabytes’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -1207,56 +1086,12 @@ func (topic *NamespacesTopic_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		}
 	}
 
-	// Set property ‘SizeInBytes’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.SizeInBytes != nil {
-			sizeInBytes := *typedInput.Properties.SizeInBytes
-			topic.SizeInBytes = &sizeInBytes
-		}
-	}
-
-	// Set property ‘SubscriptionCount’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.SubscriptionCount != nil {
-			subscriptionCount := *typedInput.Properties.SubscriptionCount
-			topic.SubscriptionCount = &subscriptionCount
-		}
-	}
-
 	// Set property ‘SupportOrdering’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.SupportOrdering != nil {
 			supportOrdering := *typedInput.Properties.SupportOrdering
 			topic.SupportOrdering = &supportOrdering
-		}
-	}
-
-	// Set property ‘SystemData’:
-	if typedInput.SystemData != nil {
-		var systemData1 SystemData
-		err := systemData1.PopulateFromARM(owner, *typedInput.SystemData)
-		if err != nil {
-			return err
-		}
-		systemData := systemData1
-		topic.SystemData = &systemData
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		topic.Type = &typeVar
-	}
-
-	// Set property ‘UpdatedAt’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.UpdatedAt != nil {
-			updatedAt := *typedInput.Properties.UpdatedAt
-			topic.UpdatedAt = &updatedAt
 		}
 	}
 
@@ -1317,14 +1152,6 @@ func (topic *NamespacesTopic_Spec) ConvertSpecTo(destination genruntime.Converti
 // AssignPropertiesFromNamespacesTopic_Spec populates our NamespacesTopic_Spec from the provided source NamespacesTopic_Spec
 func (topic *NamespacesTopic_Spec) AssignPropertiesFromNamespacesTopic_Spec(source *v20210101ps.NamespacesTopic_Spec) error {
 
-	// AccessedAt
-	if source.AccessedAt != nil {
-		accessedAt := *source.AccessedAt
-		topic.AccessedAt = &accessedAt
-	} else {
-		topic.AccessedAt = nil
-	}
-
 	// AutoDeleteOnIdle
 	if source.AutoDeleteOnIdle != nil {
 		autoDeleteOnIdle := *source.AutoDeleteOnIdle
@@ -1335,26 +1162,6 @@ func (topic *NamespacesTopic_Spec) AssignPropertiesFromNamespacesTopic_Spec(sour
 
 	// AzureName
 	topic.AzureName = source.AzureName
-
-	// CountDetails
-	if source.CountDetails != nil {
-		var countDetail MessageCountDetails
-		err := countDetail.AssignPropertiesFromMessageCountDetails(source.CountDetails)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromMessageCountDetails() to populate field CountDetails")
-		}
-		topic.CountDetails = &countDetail
-	} else {
-		topic.CountDetails = nil
-	}
-
-	// CreatedAt
-	if source.CreatedAt != nil {
-		createdAt := *source.CreatedAt
-		topic.CreatedAt = &createdAt
-	} else {
-		topic.CreatedAt = nil
-	}
 
 	// DefaultMessageTimeToLive
 	if source.DefaultMessageTimeToLive != nil {
@@ -1396,9 +1203,6 @@ func (topic *NamespacesTopic_Spec) AssignPropertiesFromNamespacesTopic_Spec(sour
 		topic.EnablePartitioning = nil
 	}
 
-	// Id
-	topic.Id = genruntime.ClonePointerToString(source.Id)
-
 	// MaxSizeInMegabytes
 	topic.MaxSizeInMegabytes = genruntime.ClonePointerToInt(source.MaxSizeInMegabytes)
 
@@ -1418,41 +1222,12 @@ func (topic *NamespacesTopic_Spec) AssignPropertiesFromNamespacesTopic_Spec(sour
 		topic.RequiresDuplicateDetection = nil
 	}
 
-	// SizeInBytes
-	topic.SizeInBytes = genruntime.ClonePointerToInt(source.SizeInBytes)
-
-	// SubscriptionCount
-	topic.SubscriptionCount = genruntime.ClonePointerToInt(source.SubscriptionCount)
-
 	// SupportOrdering
 	if source.SupportOrdering != nil {
 		supportOrdering := *source.SupportOrdering
 		topic.SupportOrdering = &supportOrdering
 	} else {
 		topic.SupportOrdering = nil
-	}
-
-	// SystemData
-	if source.SystemData != nil {
-		var systemDatum SystemData
-		err := systemDatum.AssignPropertiesFromSystemData(source.SystemData)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromSystemData() to populate field SystemData")
-		}
-		topic.SystemData = &systemDatum
-	} else {
-		topic.SystemData = nil
-	}
-
-	// Type
-	topic.Type = genruntime.ClonePointerToString(source.Type)
-
-	// UpdatedAt
-	if source.UpdatedAt != nil {
-		updatedAt := *source.UpdatedAt
-		topic.UpdatedAt = &updatedAt
-	} else {
-		topic.UpdatedAt = nil
 	}
 
 	// No error
@@ -1464,14 +1239,6 @@ func (topic *NamespacesTopic_Spec) AssignPropertiesToNamespacesTopic_Spec(destin
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// AccessedAt
-	if topic.AccessedAt != nil {
-		accessedAt := *topic.AccessedAt
-		destination.AccessedAt = &accessedAt
-	} else {
-		destination.AccessedAt = nil
-	}
-
 	// AutoDeleteOnIdle
 	if topic.AutoDeleteOnIdle != nil {
 		autoDeleteOnIdle := *topic.AutoDeleteOnIdle
@@ -1482,26 +1249,6 @@ func (topic *NamespacesTopic_Spec) AssignPropertiesToNamespacesTopic_Spec(destin
 
 	// AzureName
 	destination.AzureName = topic.AzureName
-
-	// CountDetails
-	if topic.CountDetails != nil {
-		var countDetail v20210101ps.MessageCountDetails
-		err := topic.CountDetails.AssignPropertiesToMessageCountDetails(&countDetail)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToMessageCountDetails() to populate field CountDetails")
-		}
-		destination.CountDetails = &countDetail
-	} else {
-		destination.CountDetails = nil
-	}
-
-	// CreatedAt
-	if topic.CreatedAt != nil {
-		createdAt := *topic.CreatedAt
-		destination.CreatedAt = &createdAt
-	} else {
-		destination.CreatedAt = nil
-	}
 
 	// DefaultMessageTimeToLive
 	if topic.DefaultMessageTimeToLive != nil {
@@ -1543,9 +1290,6 @@ func (topic *NamespacesTopic_Spec) AssignPropertiesToNamespacesTopic_Spec(destin
 		destination.EnablePartitioning = nil
 	}
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(topic.Id)
-
 	// MaxSizeInMegabytes
 	destination.MaxSizeInMegabytes = genruntime.ClonePointerToInt(topic.MaxSizeInMegabytes)
 
@@ -1568,41 +1312,12 @@ func (topic *NamespacesTopic_Spec) AssignPropertiesToNamespacesTopic_Spec(destin
 		destination.RequiresDuplicateDetection = nil
 	}
 
-	// SizeInBytes
-	destination.SizeInBytes = genruntime.ClonePointerToInt(topic.SizeInBytes)
-
-	// SubscriptionCount
-	destination.SubscriptionCount = genruntime.ClonePointerToInt(topic.SubscriptionCount)
-
 	// SupportOrdering
 	if topic.SupportOrdering != nil {
 		supportOrdering := *topic.SupportOrdering
 		destination.SupportOrdering = &supportOrdering
 	} else {
 		destination.SupportOrdering = nil
-	}
-
-	// SystemData
-	if topic.SystemData != nil {
-		var systemDatum v20210101ps.SystemData
-		err := topic.SystemData.AssignPropertiesToSystemData(&systemDatum)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToSystemData() to populate field SystemData")
-		}
-		destination.SystemData = &systemDatum
-	} else {
-		destination.SystemData = nil
-	}
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(topic.Type)
-
-	// UpdatedAt
-	if topic.UpdatedAt != nil {
-		updatedAt := *topic.UpdatedAt
-		destination.UpdatedAt = &updatedAt
-	} else {
-		destination.UpdatedAt = nil
 	}
 
 	// Update the property bag

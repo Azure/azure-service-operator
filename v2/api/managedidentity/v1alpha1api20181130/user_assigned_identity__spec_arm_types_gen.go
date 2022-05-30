@@ -7,13 +7,10 @@ import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of UserAssignedIdentity_Spec. Use v1beta20181130.UserAssignedIdentity_Spec instead
 type UserAssignedIdentity_SpecARM struct {
-	AzureName  string                             `json:"azureName,omitempty"`
-	Id         *string                            `json:"id,omitempty"`
-	Location   *string                            `json:"location,omitempty"`
-	Name       string                             `json:"name,omitempty"`
-	Properties *UserAssignedIdentityPropertiesARM `json:"properties,omitempty"`
-	Tags       map[string]string                  `json:"tags,omitempty"`
-	Type       *string                            `json:"type,omitempty"`
+	AzureName string            `json:"azureName,omitempty"`
+	Location  *string           `json:"location,omitempty"`
+	Name      string            `json:"name,omitempty"`
+	Tags      map[string]string `json:"tags,omitempty"`
 }
 
 var _ genruntime.ARMResourceSpec = &UserAssignedIdentity_SpecARM{}
@@ -31,11 +28,4 @@ func (identity *UserAssignedIdentity_SpecARM) GetName() string {
 // GetType returns the ARM Type of the resource. This is always ""
 func (identity *UserAssignedIdentity_SpecARM) GetType() string {
 	return ""
-}
-
-// Deprecated version of UserAssignedIdentityProperties. Use v1beta20181130.UserAssignedIdentityProperties instead
-type UserAssignedIdentityPropertiesARM struct {
-	ClientId    *string `json:"clientId,omitempty"`
-	PrincipalId *string `json:"principalId,omitempty"`
-	TenantId    *string `json:"tenantId,omitempty"`
 }

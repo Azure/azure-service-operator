@@ -558,9 +558,7 @@ type VirtualNetwork_Spec struct {
 	DhcpOptions          *DhcpOptions                  `json:"dhcpOptions,omitempty"`
 	EnableDdosProtection *bool                         `json:"enableDdosProtection,omitempty"`
 	EnableVmProtection   *bool                         `json:"enableVmProtection,omitempty"`
-	Etag                 *string                       `json:"etag,omitempty"`
 	ExtendedLocation     *ExtendedLocation             `json:"extendedLocation,omitempty"`
-	Id                   *string                       `json:"id,omitempty"`
 	IpAllocations        []SubResource                 `json:"ipAllocations,omitempty"`
 	Location             *string                       `json:"location,omitempty"`
 	OriginalVersion      string                        `json:"originalVersion,omitempty"`
@@ -571,11 +569,9 @@ type VirtualNetwork_Spec struct {
 	// reference to a resources.azure.com/ResourceGroup resource
 	Owner                  *genruntime.KnownResourceReference          `group:"resources.azure.com" json:"owner,omitempty" kind:"ResourceGroup"`
 	PropertyBag            genruntime.PropertyBag                      `json:"$propertyBag,omitempty"`
-	ProvisioningState      *string                                     `json:"provisioningState,omitempty"`
-	ResourceGuid           *string                                     `json:"resourceGuid,omitempty"`
+	Reference              *genruntime.ResourceReference               `armReference:"Id" json:"reference,omitempty"`
 	Subnets                []Subnet_VirtualNetwork_SubResourceEmbedded `json:"subnets,omitempty"`
 	Tags                   map[string]string                           `json:"tags,omitempty"`
-	Type                   *string                                     `json:"type,omitempty"`
 	VirtualNetworkPeerings []VirtualNetworkPeering                     `json:"virtualNetworkPeerings,omitempty"`
 }
 
@@ -701,9 +697,6 @@ func (network *VirtualNetwork_Spec) AssignPropertiesFromVirtualNetwork_Spec(sour
 		network.EnableVmProtection = nil
 	}
 
-	// Etag
-	network.Etag = genruntime.ClonePointerToString(source.Etag)
-
 	// ExtendedLocation
 	if source.ExtendedLocation != nil {
 		var extendedLocation ExtendedLocation
@@ -715,9 +708,6 @@ func (network *VirtualNetwork_Spec) AssignPropertiesFromVirtualNetwork_Spec(sour
 	} else {
 		network.ExtendedLocation = nil
 	}
-
-	// Id
-	network.Id = genruntime.ClonePointerToString(source.Id)
 
 	// IpAllocations
 	if source.IpAllocations != nil {
@@ -751,11 +741,13 @@ func (network *VirtualNetwork_Spec) AssignPropertiesFromVirtualNetwork_Spec(sour
 		network.Owner = nil
 	}
 
-	// ProvisioningState
-	network.ProvisioningState = genruntime.ClonePointerToString(source.ProvisioningState)
-
-	// ResourceGuid
-	network.ResourceGuid = genruntime.ClonePointerToString(source.ResourceGuid)
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		network.Reference = &reference
+	} else {
+		network.Reference = nil
+	}
 
 	// Subnets
 	if source.Subnets != nil {
@@ -777,9 +769,6 @@ func (network *VirtualNetwork_Spec) AssignPropertiesFromVirtualNetwork_Spec(sour
 
 	// Tags
 	network.Tags = genruntime.CloneMapOfStringToString(source.Tags)
-
-	// Type
-	network.Type = genruntime.ClonePointerToString(source.Type)
 
 	// VirtualNetworkPeerings
 	if source.VirtualNetworkPeerings != nil {
@@ -882,9 +871,6 @@ func (network *VirtualNetwork_Spec) AssignPropertiesToVirtualNetwork_Spec(destin
 		destination.EnableVmProtection = nil
 	}
 
-	// Etag
-	destination.Etag = genruntime.ClonePointerToString(network.Etag)
-
 	// ExtendedLocation
 	if network.ExtendedLocation != nil {
 		var extendedLocation v20201101s.ExtendedLocation
@@ -896,9 +882,6 @@ func (network *VirtualNetwork_Spec) AssignPropertiesToVirtualNetwork_Spec(destin
 	} else {
 		destination.ExtendedLocation = nil
 	}
-
-	// Id
-	destination.Id = genruntime.ClonePointerToString(network.Id)
 
 	// IpAllocations
 	if network.IpAllocations != nil {
@@ -932,11 +915,13 @@ func (network *VirtualNetwork_Spec) AssignPropertiesToVirtualNetwork_Spec(destin
 		destination.Owner = nil
 	}
 
-	// ProvisioningState
-	destination.ProvisioningState = genruntime.ClonePointerToString(network.ProvisioningState)
-
-	// ResourceGuid
-	destination.ResourceGuid = genruntime.ClonePointerToString(network.ResourceGuid)
+	// Reference
+	if network.Reference != nil {
+		reference := network.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
+	}
 
 	// Subnets
 	if network.Subnets != nil {
@@ -958,9 +943,6 @@ func (network *VirtualNetwork_Spec) AssignPropertiesToVirtualNetwork_Spec(destin
 
 	// Tags
 	destination.Tags = genruntime.CloneMapOfStringToString(network.Tags)
-
-	// Type
-	destination.Type = genruntime.ClonePointerToString(network.Type)
 
 	// VirtualNetworkPeerings
 	if network.VirtualNetworkPeerings != nil {
@@ -1174,8 +1156,8 @@ func (options *DhcpOptions_STATUS) AssignPropertiesToDhcpOptions_STATUS(destinat
 // Storage version of v1alpha1api20201101.Subnet_VirtualNetwork_SubResourceEmbedded
 // Deprecated version of Subnet_VirtualNetwork_SubResourceEmbedded. Use v1beta20201101.Subnet_VirtualNetwork_SubResourceEmbedded instead
 type Subnet_VirtualNetwork_SubResourceEmbedded struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Reference   *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 // AssignPropertiesFromSubnet_VirtualNetwork_SubResourceEmbedded populates our Subnet_VirtualNetwork_SubResourceEmbedded from the provided source Subnet_VirtualNetwork_SubResourceEmbedded
@@ -1183,8 +1165,13 @@ func (embedded *Subnet_VirtualNetwork_SubResourceEmbedded) AssignPropertiesFromS
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// Id
-	embedded.Id = genruntime.ClonePointerToString(source.Id)
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		embedded.Reference = &reference
+	} else {
+		embedded.Reference = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1202,8 +1189,13 @@ func (embedded *Subnet_VirtualNetwork_SubResourceEmbedded) AssignPropertiesToSub
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(embedded.PropertyBag)
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(embedded.Id)
+	// Reference
+	if embedded.Reference != nil {
+		reference := embedded.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1220,7 +1212,6 @@ func (embedded *Subnet_VirtualNetwork_SubResourceEmbedded) AssignPropertiesToSub
 // Deprecated version of VirtualNetworkBgpCommunities. Use v1beta20201101.VirtualNetworkBgpCommunities instead
 type VirtualNetworkBgpCommunities struct {
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	RegionalCommunity       *string                `json:"regionalCommunity,omitempty"`
 	VirtualNetworkCommunity *string                `json:"virtualNetworkCommunity,omitempty"`
 }
 
@@ -1228,9 +1219,6 @@ type VirtualNetworkBgpCommunities struct {
 func (communities *VirtualNetworkBgpCommunities) AssignPropertiesFromVirtualNetworkBgpCommunities(source *v20201101s.VirtualNetworkBgpCommunities) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
-
-	// RegionalCommunity
-	communities.RegionalCommunity = genruntime.ClonePointerToString(source.RegionalCommunity)
 
 	// VirtualNetworkCommunity
 	communities.VirtualNetworkCommunity = genruntime.ClonePointerToString(source.VirtualNetworkCommunity)
@@ -1250,9 +1238,6 @@ func (communities *VirtualNetworkBgpCommunities) AssignPropertiesFromVirtualNetw
 func (communities *VirtualNetworkBgpCommunities) AssignPropertiesToVirtualNetworkBgpCommunities(destination *v20201101s.VirtualNetworkBgpCommunities) error {
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(communities.PropertyBag)
-
-	// RegionalCommunity
-	destination.RegionalCommunity = genruntime.ClonePointerToString(communities.RegionalCommunity)
 
 	// VirtualNetworkCommunity
 	destination.VirtualNetworkCommunity = genruntime.ClonePointerToString(communities.VirtualNetworkCommunity)
@@ -1323,8 +1308,8 @@ func (communities *VirtualNetworkBgpCommunities_STATUS) AssignPropertiesToVirtua
 // Storage version of v1alpha1api20201101.VirtualNetworkPeering
 // Deprecated version of VirtualNetworkPeering. Use v1beta20201101.VirtualNetworkPeering instead
 type VirtualNetworkPeering struct {
-	Id          *string                `json:"id,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	PropertyBag genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Reference   *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 // AssignPropertiesFromVirtualNetworkPeering populates our VirtualNetworkPeering from the provided source VirtualNetworkPeering
@@ -1332,8 +1317,13 @@ func (peering *VirtualNetworkPeering) AssignPropertiesFromVirtualNetworkPeering(
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
 
-	// Id
-	peering.Id = genruntime.ClonePointerToString(source.Id)
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		peering.Reference = &reference
+	} else {
+		peering.Reference = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -1351,8 +1341,13 @@ func (peering *VirtualNetworkPeering) AssignPropertiesToVirtualNetworkPeering(de
 	// Clone the existing property bag
 	propertyBag := genruntime.NewPropertyBag(peering.PropertyBag)
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(peering.Id)
+	// Reference
+	if peering.Reference != nil {
+		reference := peering.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
