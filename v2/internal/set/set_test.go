@@ -1,4 +1,9 @@
-package set
+/*
+ * Copyright (c) Microsoft Corporation.
+ * Licensed under the MIT license.
+ */
+ 
+ package set
 
 import (
 	"testing"
