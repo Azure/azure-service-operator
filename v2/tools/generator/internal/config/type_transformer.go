@@ -15,11 +15,12 @@ import (
 
 // A TransformTarget represents the target of a transformation
 type TransformTarget struct {
-	Group    string `yaml:",omitempty"`
-	Version  string `yaml:"version,omitempty"`
-	Name     string `yaml:",omitempty"`
-	Optional bool   `yaml:",omitempty"`
-	Map      *MapType
+	Group      string `yaml:",omitempty"`
+	Version    string `yaml:"version,omitempty"`
+	Name       string `yaml:",omitempty"`
+	Optional   bool   `yaml:",omitempty"`
+	Map        *MapType
+	actualType astmodel.Type
 }
 
 type MapType struct {
@@ -36,11 +37,9 @@ type TypeTransformer struct {
 
 	// IfType only performs the transform if the original type matches (only usable with Property at the moment)
 	IfType *TransformTarget `yaml:"ifType,omitempty"`
-	ifType astmodel.Type    // cache the astmodel type
 
 	// Target is the type to turn the type into
-	Target     *TransformTarget `yaml:",omitempty"`
-	targetType astmodel.Type    // cache the astmodel type
+	Target *TransformTarget `yaml:",omitempty"`
 
 	// Remove indicates that the property should be removed from the
 	// type. This is only usable with Property. Target and Remove are
@@ -134,7 +133,7 @@ func (transformer *TypeTransformer) Initialize(makeLocalPackageReferenceFunc fun
 			return err
 		}
 
-		transformer.ifType = ifType
+		transformer.IfType.actualType = ifType
 	}
 
 	if transformer.Target != nil {
@@ -148,7 +147,7 @@ func (transformer *TypeTransformer) Initialize(makeLocalPackageReferenceFunc fun
 				transformer.Name.String())
 		}
 
-		transformer.targetType = targetType
+		transformer.Target.actualType = targetType
 	}
 	return nil
 }
@@ -174,7 +173,7 @@ func primitiveTypeTarget(name string) (astmodel.Type, error) {
 // the provided type name matches the pattern(s) specified in the TypeTransformer
 func (transformer *TypeTransformer) TransformTypeName(typeName astmodel.TypeName) astmodel.Type {
 	if transformer.AppliesToType(typeName) {
-		return transformer.targetType
+		return transformer.Target.actualType
 	}
 
 	// Didn't match so return nil
@@ -244,13 +243,13 @@ func (transformer *TypeTransformer) TransformProperty(name astmodel.TypeName, ob
 
 	for _, prop := range objectType.Properties().AsSlice() {
 		if transformer.Property.Matches(string(prop.PropertyName())) &&
-			(transformer.ifType == nil || astmodel.TypeEquals(transformer.ifType, prop.PropertyType())) {
+			(transformer.IfType == nil || transformer.IfType.actualType == nil || astmodel.TypeEquals(transformer.IfType.actualType, prop.PropertyType())) {
 
 			found = true
 			propName = prop.PropertyName()
 
-			if transformer.targetType != nil {
-				newProps = append(newProps, prop.WithType(transformer.targetType))
+			if transformer.Target != nil && transformer.Target.actualType != nil {
+				newProps = append(newProps, prop.WithType(transformer.Target.actualType))
 			}
 			// Otherwise, this is a removal - we don't copy the prop across.
 		} else {
@@ -274,7 +273,7 @@ func (transformer *TypeTransformer) TransformProperty(name astmodel.TypeName, ob
 	if transformer.Remove {
 		result.Removed = true
 	} else {
-		result.NewPropertyType = transformer.targetType
+		result.NewPropertyType = transformer.Target.actualType
 	}
 	return &result
 }
