@@ -54,6 +54,18 @@ type TypeTransformer struct {
 	matchedProperties map[astmodel.TypeName]string
 }
 
+func (target *TransformTarget) assignActualType(
+	descriptor string,
+	makeLocalPackageReferenceFunc func(group string, version string) astmodel.LocalPackageReference) error {
+	t, err := target.produceTargetType(descriptor, makeLocalPackageReferenceFunc)
+	if err != nil {
+		return err
+	}
+
+	target.actualType = t
+	return nil
+}
+
 func (target TransformTarget) produceTargetType(
 	descriptor string,
 	makeLocalPackageReferenceFunc func(group string, version string) astmodel.LocalPackageReference) (astmodel.Type, error) {
@@ -128,16 +140,14 @@ func (transformer *TypeTransformer) Initialize(makeLocalPackageReferenceFunc fun
 			return errors.Errorf("ifType is only usable with property matches (for now)")
 		}
 
-		ifType, err := transformer.IfType.produceTargetType("ifType", transformer.makeLocalPackageReferenceFunc)
+		err := transformer.IfType.assignActualType("ifType", transformer.makeLocalPackageReferenceFunc)
 		if err != nil {
 			return err
 		}
-
-		transformer.IfType.actualType = ifType
 	}
 
 	if transformer.Target != nil {
-		targetType, err := transformer.Target.produceTargetType("target", transformer.makeLocalPackageReferenceFunc)
+		err := transformer.Target.assignActualType("target", transformer.makeLocalPackageReferenceFunc)
 		if err != nil {
 			return errors.Wrapf(
 				err,
@@ -146,9 +156,8 @@ func (transformer *TypeTransformer) Initialize(makeLocalPackageReferenceFunc fun
 				transformer.Version.String(),
 				transformer.Name.String())
 		}
-
-		transformer.Target.actualType = targetType
 	}
+
 	return nil
 }
 
