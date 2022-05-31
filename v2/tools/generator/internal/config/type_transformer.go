@@ -257,14 +257,14 @@ func (transformer *TypeTransformer) Initialize(makeLocalPackageReferenceFunc fun
 			return errors.Errorf("ifType is only usable with property matches (for now)")
 		}
 
-		err := transformer.IfType.assignActualType("ifType", transformer.makeLocalPackageReferenceFunc)
+		ifType, err := transformer.IfType.produceTargetType("ifType", transformer.makeLocalPackageReferenceFunc)
 		if err != nil {
 			return err
 		}
 	}
 
 	if transformer.Target != nil {
-		err := transformer.Target.assignActualType("target", transformer.makeLocalPackageReferenceFunc)
+		targetType, err := transformer.Target.produceTargetType("target", transformer.makeLocalPackageReferenceFunc)
 		if err != nil {
 			return errors.Wrapf(
 				err,
