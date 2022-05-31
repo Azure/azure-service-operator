@@ -90,7 +90,7 @@ func (target TransformTarget) produceTargetType(
 				target.Name)
 		} else {
 			var err error
-			result, err = primitiveTypeTarget(target.Name)
+			result, err = target.asPrimitiveType(target.Name)
 			if err != nil {
 				return nil, err
 			}
@@ -169,7 +169,7 @@ func (transformer *TypeTransformer) Initialize(makeLocalPackageReferenceFunc fun
 	return nil
 }
 
-func primitiveTypeTarget(name string) (astmodel.Type, error) {
+func (target *TransformTarget) asPrimitiveType(name string) (astmodel.Type, error) {
 	switch name {
 	case "bool":
 		return astmodel.BoolType, nil
