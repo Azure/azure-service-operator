@@ -114,17 +114,17 @@ func (t *TypeMatcher) WasMatched() error {
 func (t *TypeMatcher) String() string {
 	var result strings.Builder
 	var spacer string
-	if t.Group.String() != "" {
+	if t.Group.IsRestrictive() {
 		result.WriteString(fmt.Sprintf("Group: %q", t.Group.String()))
 		spacer = "; "
 	}
 
-	if t.Version.String() != "" {
+	if t.Version.IsRestrictive() {
 		result.WriteString(fmt.Sprintf("%sVersion: %q", spacer, t.Version.String()))
 		spacer = "; "
 	}
 
-	if t.Name.String() != "" {
+	if t.Name.IsRestrictive() {
 		result.WriteString(fmt.Sprintf("%sName: %q", spacer, t.Name.String()))
 		spacer = "; "
 	}

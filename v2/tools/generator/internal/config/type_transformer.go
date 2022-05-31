@@ -112,7 +112,7 @@ func (transformer *TypeTransformer) Initialize(makeLocalPackageReferenceFunc fun
 	transformer.matchedProperties = make(map[astmodel.TypeName]string)
 
 	if transformer.Remove {
-		if transformer.Property.String() == "" {
+		if !transformer.Property.IsRestrictive() {
 			return errors.Errorf("remove is only usable with property matches")
 		}
 		if transformer.Target != nil {
@@ -125,7 +125,7 @@ func (transformer *TypeTransformer) Initialize(makeLocalPackageReferenceFunc fun
 	}
 
 	if transformer.IfType != nil {
-		if transformer.Property.String() == "" {
+		if !transformer.Property.IsRestrictive() {
 			return errors.Errorf("ifType is only usable with property matches (for now)")
 		}
 
@@ -211,7 +211,7 @@ func (r PropertyTransformResult) String() string {
 func (transformer *TypeTransformer) RequiredPropertiesWereMatched() error {
 	// If this transformer applies to entire types (instead of just properties on types), we just defer to
 	// transformer.MatchedRequiredTypes
-	if transformer.Property.String() == "" {
+	if !transformer.Property.IsRestrictive() {
 		return transformer.RequiredTypesWereMatched()
 	}
 
