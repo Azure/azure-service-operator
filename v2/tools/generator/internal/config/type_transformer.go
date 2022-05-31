@@ -54,6 +54,14 @@ type TypeTransformer struct {
 	matchedProperties map[astmodel.TypeName]string
 }
 
+func (target *TransformTarget) appliesToType(t astmodel.Type) bool {
+	if target == nil || target.actualType == nil {
+		return true
+	}
+
+	return astmodel.TypeEquals(target.actualType, t)
+}
+
 func (target *TransformTarget) assignActualType(
 	descriptor string,
 	makeLocalPackageReferenceFunc func(group string, version string) astmodel.LocalPackageReference) error {
@@ -252,7 +260,7 @@ func (transformer *TypeTransformer) TransformProperty(name astmodel.TypeName, ob
 
 	for _, prop := range objectType.Properties().AsSlice() {
 		if transformer.Property.Matches(string(prop.PropertyName())) &&
-			(transformer.IfType == nil || transformer.IfType.actualType == nil || astmodel.TypeEquals(transformer.IfType.actualType, prop.PropertyType())) {
+			(transformer.IfType == nil || transformer.IfType.appliesToType(prop.PropertyType())) {
 
 			found = true
 			propName = prop.PropertyName()
