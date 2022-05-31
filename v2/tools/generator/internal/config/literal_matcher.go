@@ -55,6 +55,11 @@ func (lm *literalMatcher) WasMatched() error {
 	return lm.advisor.Errorf(lm.literal, "no match for %q", lm.literal)
 }
 
+// IsRestrictive returns true if we have a non-empty literal to match
+func (lm *literalMatcher) IsRestrictive() bool {
+	return lm.literal != ""
+}
+
 // String returns the literal we match
 func (lm *literalMatcher) String() string {
 	return lm.literal
