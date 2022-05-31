@@ -7,7 +7,6 @@ package config
 
 import (
 	"fmt"
-	"regexp"
 
 	"github.com/pkg/errors"
 
@@ -33,8 +32,7 @@ type TypeTransformer struct {
 	TypeMatcher `yaml:",inline"`
 
 	// Property is a wildcard matching specific properties on the types selected by this filter
-	Property      string `yaml:",omitempty"`
-	propertyRegex *regexp.Regexp
+	Property FieldMatcher `yaml:",omitempty"`
 
 	// IfType only performs the transform if the original type matches (only usable with Property at the moment)
 	IfType *TransformTarget `yaml:"ifType,omitempty"`
@@ -115,7 +113,7 @@ func (transformer *TypeTransformer) Initialize(makeLocalPackageReferenceFunc fun
 	transformer.matchedProperties = make(map[astmodel.TypeName]string)
 
 	if transformer.Remove {
-		if transformer.Property == "" {
+		if transformer.Property.String() == "" {
 			return errors.Errorf("remove is only usable with property matches")
 		}
 		if transformer.Target != nil {
@@ -127,9 +125,8 @@ func (transformer *TypeTransformer) Initialize(makeLocalPackageReferenceFunc fun
 		}
 	}
 
-	transformer.propertyRegex = createGlobbingRegex(transformer.Property)
 	if transformer.IfType != nil {
-		if transformer.Property == "" {
+		if transformer.Property.String() == "" {
 			return errors.Errorf("ifType is only usable with property matches (for now)")
 		}
 
@@ -147,9 +144,9 @@ func (transformer *TypeTransformer) Initialize(makeLocalPackageReferenceFunc fun
 			return errors.Wrapf(
 				err,
 				"type transformer for group: %s, version: %s, name: %s",
-				transformer.Group,
-				transformer.Version,
-				transformer.Name)
+				transformer.Group.String(),
+				transformer.Version.String(),
+				transformer.Name.String())
 		}
 
 		transformer.targetType = targetType
@@ -172,10 +169,6 @@ func primitiveTypeTarget(name string) (astmodel.Type, error) {
 	default:
 		return nil, errors.Errorf("unknown primitive type transformation target: %s", name)
 	}
-}
-
-func (transformer *TypeTransformer) propertyNameMatches(propName astmodel.PropertyName) bool {
-	return transformer.matches(transformer.Property, &transformer.propertyRegex, string(propName))
 }
 
 // TransformTypeName transforms the type with the specified name into the TypeTransformer target type if
@@ -216,18 +209,28 @@ func (r PropertyTransformResult) String() string {
 	)
 }
 
-func (transformer *TypeTransformer) MatchedRequiredProperties() bool {
+func (transformer *TypeTransformer) RequiredPropertiesWereMatched() error {
 	// If this transformer applies to entire types (instead of just properties on types), we just defer to
 	// transformer.MatchedRequiredTypes
-	if transformer.Property == "" {
-		return transformer.MatchedRequiredTypes()
+	if transformer.Property.String() == "" {
+		return transformer.RequiredTypesWereMatched()
 	}
 
 	if !*transformer.MatchRequired {
-		return true
+		return nil
 	}
 
-	return transformer.HasMatches() && len(transformer.matchedProperties) != 0
+	if err := transformer.RequiredTypesWereMatched(); err != nil {
+		return err
+	}
+
+	if err := transformer.Property.WasMatched(); err != nil {
+		return errors.Wrap(
+			err,
+			"matched types but all properties were excluded")
+	}
+
+	return nil
 }
 
 // TransformProperty transforms the property on the given object type
@@ -241,7 +244,7 @@ func (transformer *TypeTransformer) TransformProperty(name astmodel.TypeName, ob
 	var newProps []*astmodel.PropertyDefinition
 
 	for _, prop := range objectType.Properties().AsSlice() {
-		if transformer.propertyNameMatches(prop.PropertyName()) &&
+		if transformer.Property.Matches(string(prop.PropertyName())) &&
 			(transformer.ifType == nil || astmodel.TypeEquals(transformer.ifType, prop.PropertyType())) {
 
 			found = true
@@ -250,7 +253,7 @@ func (transformer *TypeTransformer) TransformProperty(name astmodel.TypeName, ob
 			if transformer.targetType != nil {
 				newProps = append(newProps, prop.WithType(transformer.targetType))
 			}
-			// Otherwise this is a removal - we don't copy the prop across.
+			// Otherwise, this is a removal - we don't copy the prop across.
 		} else {
 			newProps = append(newProps, prop)
 		}
