@@ -141,6 +141,7 @@ func DiffTypes(x, y interface{}) string {
 		LocalPackageReference{},
 		InterfaceImplementer{},
 		TypeSet{},
+		MapType{},
 	)
 
 	return cmp.Diff(x, y, allowAll)
