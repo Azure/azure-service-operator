@@ -21,7 +21,9 @@ func Test_TransformByGroup_CorrectlySelectsTypes(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
-		TypeMatcher: config.TypeMatcher{Group: "role"},
+		TypeMatcher: config.TypeMatcher{
+			Group: config.NewFieldMatcher("role"),
+		},
 		Target: &config.TransformTarget{
 			Name: "int",
 		},
@@ -43,7 +45,9 @@ func Test_TransformByVersion_CorrectlySelectsTypes(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
-		TypeMatcher: config.TypeMatcher{Version: "v2019*"},
+		TypeMatcher: config.TypeMatcher{
+			Version: config.NewFieldMatcher("v2019*"),
+		},
 		Target: &config.TransformTarget{
 			Name: "int",
 		},
@@ -65,7 +69,9 @@ func Test_TransformByName_CorrectlySelectsTypes(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
-		TypeMatcher: config.TypeMatcher{Name: "p*"},
+		TypeMatcher: config.TypeMatcher{
+			Name: config.NewFieldMatcher("p*"),
+		},
 		Target: &config.TransformTarget{
 			Name: "int",
 		},
@@ -87,7 +93,9 @@ func Test_TransformCanTransform_ToComplexType(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
-		TypeMatcher: config.TypeMatcher{Name: "tutor"},
+		TypeMatcher: config.TypeMatcher{
+			Name: config.NewFieldMatcher("tutor"),
+		},
 		Target: &config.TransformTarget{
 			Group:   "role",
 			Version: "2019-01-01",
@@ -106,7 +114,9 @@ func Test_TransformCanTransform_ToNestedMapType(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
-		TypeMatcher: config.TypeMatcher{Name: "tutor"},
+		TypeMatcher: config.TypeMatcher{
+			Name: config.NewFieldMatcher("tutor"),
+		},
 		Target: &config.TransformTarget{
 			Map: &config.MapType{
 				Key: config.TransformTarget{
@@ -142,7 +152,9 @@ func Test_TransformWithMissingMapValue_ReportsError(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
-		TypeMatcher: config.TypeMatcher{Name: "tutor"},
+		TypeMatcher: config.TypeMatcher{
+			Name: config.NewFieldMatcher("tutor"),
+		},
 		Target: &config.TransformTarget{
 			Map: &config.MapType{
 				Key: config.TransformTarget{
@@ -168,7 +180,9 @@ func Test_TransformWithMissingTargetType_ReportsError(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
-		TypeMatcher: config.TypeMatcher{Name: "tutor"},
+		TypeMatcher: config.TypeMatcher{
+			Name: config.NewFieldMatcher("tutor"),
+		},
 	}
 
 	err := transformer.Initialize(test.MakeLocalPackageReference)
@@ -194,7 +208,7 @@ func Test_TransformWithRemoveAndTarget_ReportsError(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
-		Property: "hat",
+		Property: config.NewFieldMatcher("hat"),
 		Target: &config.TransformTarget{
 			Name: "int",
 		},
@@ -211,7 +225,9 @@ func Test_TransformWithMultipleTargets_ReportsError(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
-		TypeMatcher: config.TypeMatcher{Name: "tutor"},
+		TypeMatcher: config.TypeMatcher{
+			Name: config.NewFieldMatcher("tutor"),
+		},
 		Target: &config.TransformTarget{
 			Name: "int",
 			Map: &config.MapType{
@@ -235,7 +251,9 @@ func Test_TransformWithNonExistentPrimitive_ReportsError(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
-		TypeMatcher: config.TypeMatcher{Name: "tutor"},
+		TypeMatcher: config.TypeMatcher{
+			Name: config.NewFieldMatcher("tutor"),
+		},
 		Target: &config.TransformTarget{
 			Name: "nemo",
 		},
@@ -251,7 +269,9 @@ func Test_TransformWithIfTypeAndNoProperty_ReportsError(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
-		TypeMatcher: config.TypeMatcher{Name: "tutor"},
+		TypeMatcher: config.TypeMatcher{
+			Name: config.NewFieldMatcher("tutor"),
+		},
 		IfType: &config.TransformTarget{
 			Name: "from",
 		},
@@ -270,8 +290,10 @@ func Test_TransformCanTransformProperty(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
-		TypeMatcher: config.TypeMatcher{Name: "*"},
-		Property:    "foo",
+		TypeMatcher: config.TypeMatcher{
+			Name: config.NewFieldMatcher("*"),
+		},
+		Property: config.NewFieldMatcher("foo"),
 		Target: &config.TransformTarget{
 			Name: "string",
 		},
@@ -297,8 +319,10 @@ func Test_TransformCanTransformProperty_Wildcard(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
-		TypeMatcher: config.TypeMatcher{Name: "*"},
-		Property:    "foo*",
+		TypeMatcher: config.TypeMatcher{
+			Name: config.NewFieldMatcher("*"),
+		},
+		Property: config.NewFieldMatcher("foo*"),
 		Target: &config.TransformTarget{
 			Name: "string",
 		},
@@ -336,11 +360,13 @@ func Test_TransformDoesNotTransformPropertyIfTypeDoesNotMatch(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
-		TypeMatcher: config.TypeMatcher{Name: "*"},
+		TypeMatcher: config.TypeMatcher{
+			Name: config.NewFieldMatcher("*"),
+		},
 		IfType: &config.TransformTarget{
 			Name: "string",
 		},
-		Property: "foo",
+		Property: config.NewFieldMatcher("foo"),
 		Target: &config.TransformTarget{
 			Name: "int",
 		},
@@ -362,11 +388,13 @@ func Test_TransformDoesTransformPropertyIfTypeDoesMatch(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
-		TypeMatcher: config.TypeMatcher{Name: "*"},
+		TypeMatcher: config.TypeMatcher{
+			Name: config.NewFieldMatcher("*"),
+		},
 		IfType: &config.TransformTarget{
 			Name: "int",
 		},
-		Property: "foo",
+		Property: config.NewFieldMatcher("foo"),
 		Target: &config.TransformTarget{
 			Name: "string",
 		},
@@ -392,11 +420,13 @@ func Test_TransformCanRemoveProperty(t *testing.T) {
 	g := NewGomegaWithT(t)
 
 	transformer := config.TypeTransformer{
-		TypeMatcher: config.TypeMatcher{Name: "*"},
+		TypeMatcher: config.TypeMatcher{
+			Name: config.NewFieldMatcher("*"),
+		},
 		IfType: &config.TransformTarget{
 			Name: "int",
 		},
-		Property: "foo",
+		Property: config.NewFieldMatcher("foo"),
 		Remove:   true,
 	}
 
