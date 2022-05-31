@@ -140,6 +140,7 @@ func identityVisitObjectTypePerPropertyContext(_ *ObjectType, _ *PropertyDefinit
 }
 
 var IdentityVisitOfObjectType = MakeIdentityVisitOfObjectType(identityVisitObjectTypePerPropertyContext)
+var OrderedIdentityVisitOfObjectType = MakeOrderedIdentityVisitOfObjectType(identityVisitObjectTypePerPropertyContext)
 
 type MakePerPropertyContext func(ot *ObjectType, prop *PropertyDefinition, ctx interface{}) (interface{}, error)
 
@@ -169,6 +170,80 @@ func MakeIdentityVisitOfObjectType(makeCtx MakePerPropertyContext) func(this *Ty
 				}
 			}
 		})
+
+		if len(errs) > 0 {
+			return nil, kerrors.NewAggregate(errs)
+		}
+
+		// map the embedded types too
+		embeddedPropsChanged := false
+		var newEmbeddedProps []*PropertyDefinition
+		for _, prop := range it.EmbeddedProperties() {
+			newCtx, err := makeCtx(it, prop, ctx)
+			if err != nil {
+				errs = append(errs, err)
+				continue
+			}
+
+			p, err := this.Visit(prop.propertyType, newCtx)
+			if err != nil {
+				errs = append(errs, err)
+			} else {
+				if !TypeEquals(p, prop.propertyType) {
+					embeddedPropsChanged = true
+				}
+
+				newEmbeddedProps = append(newEmbeddedProps, prop.WithType(p))
+			}
+		}
+
+		if len(errs) > 0 {
+			return nil, kerrors.NewAggregate(errs)
+		}
+
+		result := it.WithProperties(newProps...)
+
+		var err error
+		if embeddedPropsChanged {
+			// Since it's possible that the type was renamed we need to clear the old embedded properties
+			result = result.WithoutEmbeddedProperties()
+			result, err = result.WithEmbeddedProperties(newEmbeddedProps...)
+		}
+
+		if err != nil {
+			return nil, err
+		}
+
+		return result, nil
+	}
+}
+
+// This is identical to MakeIdentityVisitOfObjectType except that it iterates proeprties in order
+// which requires copying (slower).
+func MakeOrderedIdentityVisitOfObjectType(makeCtx MakePerPropertyContext) func(this *TypeVisitor, it *ObjectType, ctx interface{}) (Type, error) {
+	return func(this *TypeVisitor, it *ObjectType, ctx interface{}) (Type, error) {
+		// just map the property types
+
+		var errs []error
+		var newProps []*PropertyDefinition
+		for _, prop := range it.Properties().AsSlice() {
+			newCtx, err := makeCtx(it, prop, ctx)
+			if err != nil {
+				errs = append(errs, err)
+				continue
+			}
+
+			p, err := this.Visit(prop.propertyType, newCtx)
+			if err != nil {
+				errs = append(errs, err)
+			} else {
+				// only replace property if the type was changed;
+				// this allows short-circuiting below
+				if !TypeEquals(p, prop.propertyType) {
+					newProps = append(newProps, prop.WithType(p))
+				}
+			}
+		}
 
 		if len(errs) > 0 {
 			return nil, kerrors.NewAggregate(errs)

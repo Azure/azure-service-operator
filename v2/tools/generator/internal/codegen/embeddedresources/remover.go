@@ -154,7 +154,7 @@ func (e EmbeddedResourceRemover) makeEmbeddedResourceRemovalTypeVisitor() astmod
 				// and some child resources reuse the same "Properties" type. This causes
 				// the logic below to think that a resource is its own subresource. Without this
 				// check the entire resource would be removed, leaving nothing.
-				return astmodel.IdentityVisitOfObjectType(this, it, ctx)
+				return astmodel.OrderedIdentityVisitOfObjectType(this, it, ctx)
 			}
 
 			// TODO: This is confusing...?
@@ -179,7 +179,7 @@ func (e EmbeddedResourceRemover) makeEmbeddedResourceRemovalTypeVisitor() astmod
 				}
 			})
 
-			return astmodel.IdentityVisitOfObjectType(this, it, ctx)
+			return astmodel.OrderedIdentityVisitOfObjectType(this, it, ctx)
 		},
 	}.Build()
 
