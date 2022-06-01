@@ -16,10 +16,10 @@ import (
 
 // A TransformTarget represents the target of a transformation
 type TransformTarget struct {
-	Group         string `yaml:",omitempty"`
-	Version       string `yaml:"version,omitempty"`
-	Name          string `yaml:",omitempty"`
-	Optional      bool   `yaml:",omitempty"`
+	Group         FieldMatcher `yaml:",omitempty"`
+	Version       FieldMatcher `yaml:"version,omitempty"`
+	Name          FieldMatcher `yaml:",omitempty"`
+	Optional      bool         `yaml:",omitempty"`
 	Map           *MapType
 	actualType    astmodel.Type
 	actualVersion *string // actual version for matching
@@ -73,8 +73,8 @@ func (target *TransformTarget) AppliesToType(t astmodel.Type) bool {
 		inspect = opt.Element()
 	}
 
-	if target.Name != "" {
-		if target.Group != "" && target.Version != "" {
+	if target.Name.IsRestrictive() {
+		if target.Group.IsRestrictive() || target.Version.IsRestrictive() {
 			// Expecting TypeName
 			tn, ok := astmodel.AsTypeName(inspect)
 			if !ok {
@@ -82,31 +82,30 @@ func (target *TransformTarget) AppliesToType(t astmodel.Type) bool {
 				return false
 			}
 
-			if target.Name != "" && target.Name != "*" {
-				if !strings.EqualFold(tn.Name(), target.Name) {
-					// No match on name
-					return false
-				}
+			if !target.Name.Matches(tn.Name()) {
+				// No match on name
+				return false
 			}
 
 			g, v := tn.PackageReference.GroupVersion()
-			if target.Group != "" && target.Group != "*" {
-				if !strings.EqualFold(g, target.Group) {
+
+			if target.Group.IsRestrictive() {
+				if !target.Group.Matches(g) {
 					// No match on group
 					return false
 				}
 			}
 
-			if target.Version != "" && target.Version != "*" {
+			if target.Version.IsRestrictive() {
 
 				// Need to handle both full (v1beta20200101) and API (2020-01-01) formats
 				switch ref := tn.PackageReference.(type) {
 				case astmodel.LocalPackageReference:
-					if !ref.HasApiVersion(target.Version) && !strings.EqualFold(v, target.Version) {
+					if !ref.HasApiVersion(target.Version.String()) && !target.Version.Matches(v) {
 						return false
 					}
 				case astmodel.StoragePackageReference:
-					if !ref.Local().HasApiVersion(target.Version) && !strings.EqualFold(v, target.Version) {
+					if !ref.Local().HasApiVersion(target.Version.String()) && target.Version.Matches(v) {
 						return false
 					}
 				default:
@@ -124,12 +123,12 @@ func (target *TransformTarget) AppliesToType(t astmodel.Type) bool {
 			return false
 		}
 
-		if strings.EqualFold(pt.Name(), target.Name) {
+		if target.Name.Matches(pt.Name()) {
 			return true
 		}
 
 		// Special case, allowing config to use `any` as a synonym for `interface{}`
-		if strings.EqualFold(target.Name, "any") && strings.EqualFold(pt.Name(), astmodel.AnyType.Name()) {
+		if strings.EqualFold(target.Name.String(), "any") && strings.EqualFold(pt.Name(), astmodel.AnyType.Name()) {
 			return true
 		}
 
@@ -166,20 +165,20 @@ func (target *TransformTarget) assignActualType(
 func (target TransformTarget) produceTargetType(
 	descriptor string,
 	makeLocalPackageReferenceFunc func(group string, version string) astmodel.LocalPackageReference) (astmodel.Type, error) {
-	if target.Name != "" && target.Map != nil {
+	if target.Name.IsRestrictive() && target.Map != nil {
 		return nil, errors.Errorf("multiple target types defined")
 	}
 
 	var result astmodel.Type
 
-	if target.Name != "" {
-		if target.Group != "" && target.Version != "" {
+	if target.Name.IsRestrictive() {
+		if target.Group.IsRestrictive() || target.Version.IsRestrictive() {
 			result = astmodel.MakeTypeName(
-				makeLocalPackageReferenceFunc(target.Group, target.Version),
-				target.Name)
+				makeLocalPackageReferenceFunc(target.Group.String(), target.Version.String()),
+				target.Name.String())
 		} else {
 			var err error
-			result, err = target.asPrimitiveType(target.Name)
+			result, err = target.asPrimitiveType(target.Name.String())
 			if err != nil {
 				return nil, err
 			}
