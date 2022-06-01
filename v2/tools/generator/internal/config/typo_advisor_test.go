@@ -12,6 +12,22 @@ import (
 	"github.com/pkg/errors"
 )
 
+func TestTypoAdvisorErrorf_WhenNoTerms_ReturnsExpectedError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	advisor := createTestTypoAdvisor()
+	err := advisor.Errorf("typo", "%s went boom!", "typo")
+	g.Expect(err.Error()).To(Equal("typo went boom!"))
+}
+
+func TestTypoAdvisorErrorf_WhenTermsAvailable_ReturnsExpectedError(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+	advisor := createTestTypoAdvisor("alpha", "beta", "gamma", "delta")
+	err := advisor.Errorf("aleph", "%s went boom!", "aleph")
+	g.Expect(err.Error()).To(Equal("aleph went boom! (did you mean alpha?)"))
+}
+
 func TestTypoAdvisor_Wrapf_WhenNoError_ReturnsNil(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
