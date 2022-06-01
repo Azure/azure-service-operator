@@ -40,8 +40,8 @@ func getLatestNameKey(tn astmodel.TypeName) latestNameKey {
 }
 
 func isNewer(left, right astmodel.TypeDefinition) bool {
-	leftVersion := left.Name().PackageReference.(astmodel.LocalPackageReference).Group()
-	rightVersion := right.Name().PackageReference.(astmodel.LocalPackageReference).Group()
+	leftVersion := left.Name().PackageReference.(astmodel.LocalPackageReference).ApiVersion()
+	rightVersion := right.Name().PackageReference.(astmodel.LocalPackageReference).ApiVersion()
 
 	// versions are ASCIIbetically ordered
 	return leftVersion > rightVersion
