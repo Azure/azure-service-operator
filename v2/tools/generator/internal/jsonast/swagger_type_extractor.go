@@ -62,7 +62,7 @@ type ResourceDefinition struct {
 	SourceFile string
 	ARMType    string // e.g. Microsoft.XYZ/resourceThings
 	ARMURI     string
-	// TODO: use ARMURI for generating Resource URIs (only used for documentation at the moment)
+	// TODO: use ARMURI for generating Resource URIs (only used for documentation & ownership at the moment)
 }
 
 // ExtractTypes finds all operations in the Swagger spec that
@@ -240,7 +240,7 @@ func (extractor *SwaggerTypeExtractor) findARMResourceSchema(op spec.PathItem, r
 
 	if foundSpec == nil {
 		if noBody {
-			klog.Warningf("Empty body for %s", rawOperationPath)
+			klog.V(3).Infof("Empty body for %s", rawOperationPath)
 		} else {
 			klog.Warningf("Response indicated that type was ARM resource but no schema found for %s in %q", rawOperationPath, extractor.swaggerPath)
 			return nil, nil, false

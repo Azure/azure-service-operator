@@ -5,6 +5,8 @@ Licensed under the MIT license.
 
 package controllers_test
 
+/* TODO: disabled pending (evildiscriminator)
+
 import (
 	"testing"
 
@@ -81,3 +83,5 @@ func Endpoint_CRUD(tc *testcommon.KubePerTestContext, profile *cdn.Profile) {
 
 	tc.Expect(endpoint.Status.Id).ToNot(BeNil())
 }
+
+*/

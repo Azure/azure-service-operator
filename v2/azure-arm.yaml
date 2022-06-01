@@ -679,20 +679,21 @@ objectModelConfiguration:
       RedisEnterpriseDatabase:
         $export: true
         $supportedFrom: v2.0.0-alpha.4
-  cdn:
-    2021-06-01:
-      EndpointProperties_WebApplicationFirewallPolicyLink:
-        Id:
-          $armReference: true
-      Profile:
-        $export: true
-        $supportedFrom: v2.0.0-beta.1
-      ProfilesEndpoint:
-        $export: true
-        $supportedFrom: v2.0.0-beta.1
-      ResourceReference:
-        Id:
-          $armReference: true
+  # TODO: disabled until (evildiscriminator)
+  # cdn:
+  #   2021-06-01:
+  #     EndpointProperties_WebApplicationFirewallPolicyLink:
+  #       Id:
+  #         $armReference: true
+  #     Profile:
+  #       $export: true
+  #       $supportedFrom: v2.0.0-beta.1
+  #     ProfilesEndpoint:
+  #       $export: true
+  #       $supportedFrom: v2.0.0-beta.1
+  #     ResourceReference:
+  #       Id:
+  #         $armReference: true
   compute:
     2020-09-30:
       CreationData:

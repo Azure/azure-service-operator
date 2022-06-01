@@ -78,8 +78,8 @@ func LoadTypes(idFactory astmodel.IdentifierFactory, config *config.Configuratio
 
 				resourceType := astmodel.NewResourceType(specType, statusType)
 
-				// add on ARM Type
-				resourceType = resourceType.WithARMType(resourceInfo.ARMType)
+				// add on ARM Type & URI
+				resourceType = resourceType.WithARMType(resourceInfo.ARMType).WithARMURI(resourceInfo.ARMURI)
 
 				// this is a bit of a hack, eventually we should have better scope support.
 				// at the moment we assume that a resource is an extension if it can be applied to
