@@ -383,11 +383,10 @@ func Test_TransformDoesNotTransformPropertyIfTypeDoesNotMatch(t *testing.T) {
 	g.Expect(result).To(BeNil()) // as ifType does not match
 }
 
-func Test_TransformDoesTransformPropertyIfTypeDoesMatch(t *testing.T) {
+func TestTransformProperty_DoesTransformProperty_IfTypeDoesMatch(t *testing.T) {
 	t.Parallel()
-	g := NewGomegaWithT(t)
 
-	transformer := config.TypeTransformer{
+	transformIntToString := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{
 			Name: config.NewFieldMatcher("*"),
 		},
@@ -400,26 +399,75 @@ func Test_TransformDoesTransformPropertyIfTypeDoesMatch(t *testing.T) {
 		},
 	}
 
-	err := transformer.Initialize(test.MakeLocalPackageReference)
-	g.Expect(err).To(BeNil())
+	transformOptionalIntToOptionalString := config.TypeTransformer{
+		TypeMatcher: config.TypeMatcher{
+			Name: config.NewFieldMatcher("*"),
+		},
+		IfType: &config.TransformTarget{
+			Name:     "int",
+			Optional: true,
+		},
+		Property: config.NewFieldMatcher("foo"),
+		Target: &config.TransformTarget{
+			Name:     "string",
+			Optional: true,
+		},
+	}
 
-	typeName := student2019
-	prop := astmodel.NewPropertyDefinition("foo", "foo", astmodel.IntType)
-	typeDef := astmodel.NewObjectType().WithProperties(prop)
+	intProperty := astmodel.NewPropertyDefinition("foo", "foo", astmodel.IntType)
+	objectWithInt := astmodel.NewObjectType().WithProperties(intProperty)
 
-	result := transformer.TransformProperty(typeName, typeDef)
-	g.Expect(result).To(Not(BeNil()))
+	optionalIntProperty := astmodel.NewPropertyDefinition("foo", "foo", astmodel.NewOptionalType(astmodel.IntType))
+	objectWithOptionalInt := astmodel.NewObjectType().WithProperties(optionalIntProperty)
 
-	fooProp, ok := result.NewType.Property("foo")
-	g.Expect(ok).To(BeTrue())
-	g.Expect(fooProp.PropertyType()).To(Equal(astmodel.StringType))
+	cases := []struct {
+		name              string
+		transformer       config.TypeTransformer
+		subject           *astmodel.ObjectType
+		propertyToInspect astmodel.PropertyName
+		expectedType      astmodel.Type
+	}{
+		{
+			"Int to string",
+			transformIntToString,
+			objectWithInt,
+			"foo",
+			astmodel.StringType,
+		},
+		{
+			"optional Int to optional string",
+			transformOptionalIntToOptionalString,
+			objectWithOptionalInt,
+			"foo",
+			astmodel.NewOptionalType(astmodel.StringType),
+		},
+	}
+
+	for _, c := range cases {
+		c := c
+
+		t.Run(
+			c.name,
+			func(t *testing.T) {
+				t.Parallel()
+				g := NewGomegaWithT(t)
+
+				g.Expect(c.transformer.Initialize(test.MakeLocalPackageReference)).To(Succeed())
+
+				result := c.transformer.TransformProperty(student2019, c.subject)
+				g.Expect(result).To(Not(BeNil()))
+
+				prop, ok := result.NewType.Property(c.propertyToInspect)
+				g.Expect(ok).To(BeTrue())
+				g.Expect(prop.PropertyType()).To(Equal(c.expectedType))
+			})
+	}
 }
 
-func Test_TransformCanRemoveProperty(t *testing.T) {
+func TestTransformProperty_CanRemoveProperty(t *testing.T) {
 	t.Parallel()
-	g := NewGomegaWithT(t)
 
-	transformer := config.TypeTransformer{
+	removeIntProperty := config.TypeTransformer{
 		TypeMatcher: config.TypeMatcher{
 			Name: config.NewFieldMatcher("*"),
 		},
@@ -430,18 +478,67 @@ func Test_TransformCanRemoveProperty(t *testing.T) {
 		Remove:   true,
 	}
 
-	err := transformer.Initialize(test.MakeLocalPackageReference)
-	g.Expect(err).To(BeNil())
+	intProperty := astmodel.NewPropertyDefinition("foo", "foo", astmodel.IntType)
+	objectWithIntProperty := astmodel.NewObjectType().WithProperties(intProperty)
 
-	typeName := student2019
-	prop := astmodel.NewPropertyDefinition("foo", "foo", astmodel.IntType)
-	typeDef := astmodel.NewObjectType().WithProperties(prop)
+	removeCopyProperty := config.TypeTransformer{
+		TypeMatcher: config.TypeMatcher{
+			Name: config.NewFieldMatcher("*"),
+		},
+		IfType: &config.TransformTarget{
+			Group:    "deploymenttemplate",
+			Version:  "2019-04-01",
+			Name:     "ResourceCopy",
+			Optional: true,
+		},
+		Property: config.NewFieldMatcher("Copy"),
+		Remove:   true,
+	}
 
-	result := transformer.TransformProperty(typeName, typeDef)
-	g.Expect(result).To(Not(BeNil()))
+	resourceCopyType := astmodel.MakeTypeName(
+		test.MakeLocalPackageReference("deploymenttemplate", "2019-04-01"),
+		"ResourceCopy")
+	copyProperty := astmodel.NewPropertyDefinition("Copy", "copy", astmodel.NewOptionalType(resourceCopyType))
+	objectWithCopyProperty := astmodel.NewObjectType().WithProperties(copyProperty)
 
-	_, ok := result.NewType.Property("foo")
-	g.Expect(ok).To(BeFalse())
+	cases := []struct {
+		name              string
+		transformer       config.TypeTransformer
+		subject           *astmodel.ObjectType
+		propertyToInspect astmodel.PropertyName
+	}{
+		{
+			"Removes int property",
+			removeIntProperty,
+			objectWithIntProperty,
+			"foo",
+		},
+		{
+			"Removes Copy property",
+			removeCopyProperty,
+			objectWithCopyProperty,
+			"Copy",
+		},
+	}
+
+	for _, c := range cases {
+		c := c
+
+		t.Run(
+			c.name,
+			func(t *testing.T) {
+				t.Parallel()
+				g := NewGomegaWithT(t)
+
+				g.Expect(c.transformer.Initialize(test.MakeLocalPackageReference)).To(Succeed())
+
+				result := c.transformer.TransformProperty(student2019, c.subject)
+				g.Expect(result).To(Not(BeNil()))
+
+				_, ok := result.NewType.Property(c.propertyToInspect)
+				g.Expect(ok).To(BeFalse())
+			})
+	}
 }
 
 func Test_TransformResult_String(t *testing.T) {
@@ -466,4 +563,59 @@ func Test_TransformResult_StringRemove(t *testing.T) {
 		Because:  "it's irrelevant",
 	}
 	g.Expect(result.String()).To(Equal(test.MakeLocalPackageReference("role", "2019-01-01").PackagePath() + "/student.HairColour removed because it's irrelevant"))
+}
+
+func TestTypeTarget_AppliesToType_ReturnsExpectedResult(t *testing.T) {
+	t.Parallel()
+
+	mapTarget := &config.TransformTarget{
+		Map: &config.MapType{
+			Key:   config.TransformTarget{Name: "string"},
+			Value: config.TransformTarget{Name: "any"},
+		},
+	}
+
+	mapType := astmodel.NewMapType(astmodel.StringType, astmodel.AnyType)
+
+	nameTarget := &config.TransformTarget{
+		Group:    "definitions",
+		Version:  "v1",
+		Name:     "ResourceCopy",
+		Optional: true,
+	}
+
+	nameTargetWithWildcardVersion := &config.TransformTarget{
+		Group:    "definitions",
+		Version:  "*",
+		Name:     "ResourceCopy",
+		Optional: true,
+	}
+
+	nameType := astmodel.NewOptionalType(
+		astmodel.MakeTypeName(
+			test.MakeLocalPackageReference("definitions", "v1"),
+			"ResourceCopy"))
+
+	cases := []struct {
+		name        string
+		target      *config.TransformTarget
+		subject     astmodel.Type
+		expectation bool
+	}{
+		{"Matches map[string]any", mapTarget, mapType, true},
+		{"Matches with exact details", nameTarget, nameType, true},
+		{"Matches with version wildcard", nameTargetWithWildcardVersion, nameType, true},
+	}
+
+	for _, c := range cases {
+		c := c
+		t.Run(
+			c.name,
+			func(t *testing.T) {
+				t.Parallel()
+				g := NewGomegaWithT(t)
+
+				g.Expect(c.target.AppliesToType(c.subject)).To(Equal(c.expectation))
+			})
+	}
 }

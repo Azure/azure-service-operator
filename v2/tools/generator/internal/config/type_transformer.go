@@ -7,6 +7,7 @@ package config
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/pkg/errors"
 
@@ -15,12 +16,13 @@ import (
 
 // A TransformTarget represents the target of a transformation
 type TransformTarget struct {
-	Group      string `yaml:",omitempty"`
-	Version    string `yaml:"version,omitempty"`
-	Name       string `yaml:",omitempty"`
-	Optional   bool   `yaml:",omitempty"`
-	Map        *MapType
-	actualType astmodel.Type
+	Group         string `yaml:",omitempty"`
+	Version       string `yaml:"version,omitempty"`
+	Name          string `yaml:",omitempty"`
+	Optional      bool   `yaml:",omitempty"`
+	Map           *MapType
+	actualType    astmodel.Type
+	actualVersion *string // actual version for matching
 }
 
 type MapType struct {
@@ -54,12 +56,99 @@ type TypeTransformer struct {
 	matchedProperties map[astmodel.TypeName]string
 }
 
-func (target *TransformTarget) appliesToType(t astmodel.Type) bool {
-	if target == nil || target.actualType == nil {
+func (target *TransformTarget) AppliesToType(t astmodel.Type) bool {
+	if target == nil {
 		return true
 	}
 
-	return astmodel.TypeEquals(target.actualType, t)
+	inspect := t
+	if target.Optional {
+		// Need optional
+		opt, ok := astmodel.AsOptionalType(inspect)
+		if !ok {
+			// but don't have optional
+			return false
+		}
+
+		inspect = opt.Element()
+	}
+
+	if target.Name != "" {
+		if target.Group != "" && target.Version != "" {
+			// Expecting TypeName
+			tn, ok := astmodel.AsTypeName(inspect)
+			if !ok {
+				// Not a TypeName
+				return false
+			}
+
+			if target.Name != "" && target.Name != "*" {
+				if !strings.EqualFold(tn.Name(), target.Name) {
+					// No match on name
+					return false
+				}
+			}
+
+			g, v := tn.PackageReference.GroupVersion()
+			if target.Group != "" && target.Group != "*" {
+				if !strings.EqualFold(g, target.Group) {
+					// No match on group
+					return false
+				}
+			}
+
+			if target.Version != "" && target.Version != "*" {
+
+				// Need to handle both full (v1beta20200101) and API (2020-01-01) formats
+				switch ref := tn.PackageReference.(type) {
+				case astmodel.LocalPackageReference:
+					if !ref.HasApiVersion(target.Version) && !strings.EqualFold(v, target.Version) {
+						return false
+					}
+				case astmodel.StoragePackageReference:
+					if !ref.Local().HasApiVersion(target.Version) && !strings.EqualFold(v, target.Version) {
+						return false
+					}
+				default:
+					return false
+				}
+			}
+
+			return true
+		}
+
+		// Expecting primitive type
+		pt, ok := astmodel.AsPrimitiveType(inspect)
+		if !ok {
+			// Not a primitive type
+			return false
+		}
+
+		if strings.EqualFold(pt.Name(), target.Name) {
+			return true
+		}
+
+		// Special case, allowing config to use `any` as a synonym for `interface{}`
+		if strings.EqualFold(target.Name, "any") && strings.EqualFold(pt.Name(), astmodel.AnyType.Name()) {
+			return true
+		}
+
+		return false
+	}
+
+	if target.Map != nil {
+		// Expecting map type
+		mp, ok := astmodel.AsMapType(inspect)
+		if !ok {
+			// Not a map type
+			return false
+		}
+
+		return target.Map.Key.AppliesToType(mp.KeyType()) &&
+			target.Map.Value.AppliesToType(mp.ValueType())
+	}
+
+	return true
 }
 
 func (target *TransformTarget) assignActualType(
@@ -260,7 +349,7 @@ func (transformer *TypeTransformer) TransformProperty(name astmodel.TypeName, ob
 
 	for _, prop := range objectType.Properties().AsSlice() {
 		if transformer.Property.Matches(string(prop.PropertyName())) &&
-			(transformer.IfType == nil || transformer.IfType.appliesToType(prop.PropertyType())) {
+			(transformer.IfType == nil || transformer.IfType.AppliesToType(prop.PropertyType())) {
 
 			found = true
 			propName = prop.PropertyName()
