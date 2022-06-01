@@ -101,10 +101,12 @@ func (pr LocalPackageReference) HasVersionPrefix(prefix string) bool {
 	return pr.generatorVersion == prefix
 }
 
+// GeneratorVersion returns the part of the package name refering to the version of the generator
 func (pr LocalPackageReference) GeneratorVersion() string {
 	return pr.generatorVersion
 }
 
+// ApiVersion returns the API version of this reference, separate from the generator version
 func (pr LocalPackageReference) ApiVersion() string {
 	return pr.apiVersion
 }
