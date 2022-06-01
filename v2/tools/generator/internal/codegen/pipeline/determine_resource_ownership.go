@@ -109,34 +109,6 @@ func determineOwnership(definitions astmodel.TypeDefinitionSet, configuration *c
 	return definitions.OverlayWith(updatedDefs), nil
 }
 
-func resolveResourcesTypeNames(
-	resourcesPropertyName astmodel.TypeName,
-	resourcesPropertyType *astmodel.ObjectType) ([]astmodel.TypeName, error) {
-	var results []astmodel.TypeName
-
-	// Each property type is a subresource type
-	for _, prop := range resourcesPropertyType.Properties() {
-		optionalType, ok := prop.PropertyType().(*astmodel.OptionalType)
-		if !ok {
-			return nil, errors.Errorf(
-				"OneOf type %s property %s not of type *astmodel.OptionalType",
-				resourcesPropertyName.Name(),
-				prop.PropertyName())
-		}
-
-		propTypeName, ok := optionalType.Element().(astmodel.TypeName)
-		if !ok {
-			return nil, errors.Errorf(
-				"OneOf type %s optional property %s not of type astmodel.TypeName",
-				resourcesPropertyName.Name(),
-				prop.PropertyName())
-		}
-		results = append(results, propTypeName)
-	}
-
-	return results, nil
-}
-
 // this is the name we expect to see on "child resources" in the ARM JSON schema
 const ChildResourceNameSuffix = "ChildResource"
 
