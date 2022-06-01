@@ -199,7 +199,7 @@ func (target *TransformTarget) produceTargetType(
 				target.Name.String())
 		} else {
 			var err error
-			result, err = target.asPrimitiveType(target.Name)
+			result, err = target.asPrimitiveType(target.Name.String())
 			if err != nil {
 				return nil, err
 			}
