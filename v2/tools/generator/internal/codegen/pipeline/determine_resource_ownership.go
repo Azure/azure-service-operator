@@ -70,29 +70,8 @@ func determineOwnership(definitions astmodel.TypeDefinitionSet, configuration *c
 		}
 
 		me := def.Type().(*astmodel.ResourceType)
-		myPrefix := me.ARMURI() + "/"
 
-		var childResourceTypeNames []astmodel.TypeName
-		for otherName, otherDef := range resources {
-			if rt, ok := astmodel.AsResourceType(otherDef.Type()); ok {
-				if rt == me {
-					continue // don’t self-own
-				}
-
-				otherURI := rt.ARMURI()
-				if strings.HasPrefix(otherURI, myPrefix) {
-					// now, accept it only if it contains two '/':
-					// so that the string is of the form:
-					//     {prefix}/resourceType/resourceName
-					// and not:
-					//     {prefix}/resourceType/resourceName/anotherResourceType/anotherResourceName
-					withoutPrefix := otherURI[len(myPrefix)-1:]
-					if strings.Count(withoutPrefix, "/") == 2 {
-						childResourceTypeNames = append(childResourceTypeNames, otherName)
-					}
-				}
-			}
-		}
+		childResourceTypeNames := findChildren(me, resources)
 
 		err = updateChildResourceDefinitionsWithOwner(definitions, childResourceTypeNames, def.Name(), updatedDefs)
 		if err != nil {
@@ -107,6 +86,41 @@ func determineOwnership(definitions astmodel.TypeDefinitionSet, configuration *c
 	setDefaultOwner(configuration, definitions, updatedDefs)
 
 	return definitions.OverlayWith(updatedDefs), nil
+}
+
+func findChildren(rt *astmodel.ResourceType, others astmodel.TypeDefinitionSet) []astmodel.TypeName {
+
+	// append "/" to the ARM URI so that if this is (e.g.):
+	//     /resource/name
+	// it doesn't match as a prefix of:
+	//     /resource/namedThing
+	// but it is a prefix of:
+	//     /resource/name/subresource/subname
+	myPrefix := rt.ARMURI() + "/"
+
+	var result []astmodel.TypeName
+	for otherName, otherDef := range others {
+		if other, ok := astmodel.AsResourceType(otherDef.Type()); ok {
+			if rt == other {
+				continue // don’t self-own
+			}
+
+			otherURI := other.ARMURI()
+			if strings.HasPrefix(otherURI, myPrefix) {
+				// now, accept it only if it contains two '/' exactly:
+				// so that the string is of the form:
+				//     {prefix}/resourceType/resourceName
+				// and not a grandchild resource:
+				//     {prefix}/resourceType/resourceName/anotherResourceType/anotherResourceName
+				withoutPrefix := otherURI[len(myPrefix)-1:]
+				if strings.Count(withoutPrefix, "/") == 2 {
+					result = append(result, otherName)
+				}
+			}
+		}
+	}
+
+	return result
 }
 
 // this is the name we expect to see on "child resources" in the ARM JSON schema

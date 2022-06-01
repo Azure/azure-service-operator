@@ -1,0 +1,84 @@
+/*
+ * Copyright (c) Microsoft Corporation.
+ * Licensed under the MIT license.
+ */
+
+package pipeline
+
+import (
+	"testing"
+
+	"github.com/onsi/gomega"
+
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
+)
+
+var pr astmodel.PackageReference = astmodel.MakeLocalPackageReference("prefix", "group", "v", "20000101")
+
+func Test_FindChildren_ResourceDoesNotOwnItself(t *testing.T) {
+	t.Parallel()
+
+	g := gomega.NewWithT(t)
+
+	resources := make(astmodel.TypeDefinitionSet)
+
+	ownerType := astmodel.NewResourceType(nil, nil).WithARMURI("/resources/owner")
+	resources.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(pr, "Owner"), ownerType))
+
+	children := findChildren(ownerType, resources)
+	g.Expect(children).To(gomega.BeEmpty())
+}
+
+func Test_FindChildren_ResourceOwnsChild(t *testing.T) {
+	t.Parallel()
+
+	g := gomega.NewWithT(t)
+
+	resources := make(astmodel.TypeDefinitionSet)
+
+	ownerType := astmodel.NewResourceType(nil, nil).WithARMURI("/resources/owner")
+	resources.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(pr, "Owner"), ownerType))
+
+	childType := astmodel.NewResourceType(nil, nil).WithARMURI("/resources/owner/subresources/child")
+	childName := astmodel.MakeTypeName(pr, "Child")
+	resources.Add(astmodel.MakeTypeDefinition(childName, childType))
+
+	children := findChildren(ownerType, resources)
+	g.Expect(children).To(gomega.ConsistOf(childName))
+}
+
+func Test_FindChildren_ResourceDoesNotOwnGrandChild(t *testing.T) {
+	t.Parallel()
+
+	g := gomega.NewWithT(t)
+
+	resources := make(astmodel.TypeDefinitionSet)
+
+	ownerType := astmodel.NewResourceType(nil, nil).WithARMURI("/resources/owner")
+	resources.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(pr, "Owner"), ownerType))
+
+	grandChildType := astmodel.NewResourceType(nil, nil).WithARMURI("/resources/owner/subresources/child/subsubresources/grandchild")
+	grandChildName := astmodel.MakeTypeName(pr, "GrandChild")
+	resources.Add(astmodel.MakeTypeDefinition(grandChildName, grandChildType))
+
+	children := findChildren(ownerType, resources)
+	g.Expect(children).To(gomega.BeEmpty())
+}
+
+func Test_FindChildren_ResourceDoesNotOwnExtendedVersionOfName(t *testing.T) {
+	t.Parallel()
+
+	g := gomega.NewWithT(t)
+
+	resources := make(astmodel.TypeDefinitionSet)
+
+	ownerType := astmodel.NewResourceType(nil, nil).WithARMURI("/resources/owner")
+	resources.Add(astmodel.MakeTypeDefinition(astmodel.MakeTypeName(pr, "Owner"), ownerType))
+
+	grandChildType := astmodel.NewResourceType(nil, nil).WithARMURI("/resources/ownerLonger")
+	grandChildName := astmodel.MakeTypeName(pr, "GrandChild")
+	resources.Add(astmodel.MakeTypeDefinition(grandChildName, grandChildType))
+
+	children := findChildren(ownerType, resources)
+	g.Expect(children).To(gomega.BeEmpty())
+}
