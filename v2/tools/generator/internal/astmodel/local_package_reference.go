@@ -113,6 +113,8 @@ func (pr LocalPackageReference) ApiVersion() string {
 
 // HasApiVersion returns true if this reference has the specified API version
 func (pr LocalPackageReference) HasApiVersion(ver string) bool {
+	// TODO: When we start preserving the API version properly switch this to
+	// a simple strings.EqualFold()
 	return strings.EqualFold(pr.apiVersion, sanitizePackageName(ver))
 }
 
