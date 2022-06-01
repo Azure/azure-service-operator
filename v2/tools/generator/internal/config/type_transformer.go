@@ -76,60 +76,16 @@ func (target *TransformTarget) AppliesToType(t astmodel.Type) bool {
 	if target.Name.IsRestrictive() {
 		if target.Group.IsRestrictive() || target.Version.IsRestrictive() {
 			// Expecting TypeName
-			tn, ok := astmodel.AsTypeName(inspect)
-			if !ok {
-				// Not a TypeName
-				return false
+			if tn, ok := astmodel.AsTypeName(inspect); ok {
+				return target.appliesToTypeName(tn)
 			}
 
-			if !target.Name.Matches(tn.Name()) {
-				// No match on name
-				return false
-			}
-
-			g, v := tn.PackageReference.GroupVersion()
-
-			if target.Group.IsRestrictive() {
-				if !target.Group.Matches(g) {
-					// No match on group
-					return false
-				}
-			}
-
-			if target.Version.IsRestrictive() {
-
-				// Need to handle both full (v1beta20200101) and API (2020-01-01) formats
-				switch ref := tn.PackageReference.(type) {
-				case astmodel.LocalPackageReference:
-					if !ref.HasApiVersion(target.Version.String()) && !target.Version.Matches(v) {
-						return false
-					}
-				case astmodel.StoragePackageReference:
-					if !ref.Local().HasApiVersion(target.Version.String()) && target.Version.Matches(v) {
-						return false
-					}
-				default:
-					return false
-				}
-			}
-
-			return true
-		}
-
-		// Expecting primitive type
-		pt, ok := astmodel.AsPrimitiveType(inspect)
-		if !ok {
-			// Not a primitive type
 			return false
 		}
 
-		if target.Name.Matches(pt.Name()) {
-			return true
-		}
-
-		// Special case, allowing config to use `any` as a synonym for `interface{}`
-		if strings.EqualFold(target.Name.String(), "any") && strings.EqualFold(pt.Name(), astmodel.AnyType.Name()) {
-			return true
+		// Expecting primitive type
+		if pt, ok := astmodel.AsPrimitiveType(inspect); ok {
+			return target.appliesToPrimitiveType(pt)
 		}
 
 		return false
@@ -137,17 +93,68 @@ func (target *TransformTarget) AppliesToType(t astmodel.Type) bool {
 
 	if target.Map != nil {
 		// Expecting map type
-		mp, ok := astmodel.AsMapType(inspect)
-		if !ok {
-			// Not a map type
-			return false
+		if mp, ok := astmodel.AsMapType(inspect); ok {
+			return target.appliesToMapType(mp)
 		}
 
-		return target.Map.Key.AppliesToType(mp.KeyType()) &&
-			target.Map.Value.AppliesToType(mp.ValueType())
+		return false
 	}
 
 	return true
+}
+
+func (target *TransformTarget) appliesToTypeName(tn astmodel.TypeName) bool {
+	if !target.Name.Matches(tn.Name()) {
+		// No match on name
+		return false
+	}
+
+	g, v := tn.PackageReference.GroupVersion()
+
+	if target.Group.IsRestrictive() {
+		if !target.Group.Matches(g) {
+			// No match on group
+			return false
+		}
+	}
+
+	if target.Version.IsRestrictive() {
+
+		// Need to handle both full (v1beta20200101) and API (2020-01-01) formats
+		switch ref := tn.PackageReference.(type) {
+		case astmodel.LocalPackageReference:
+			if !ref.HasApiVersion(target.Version.String()) && !target.Version.Matches(v) {
+				return false
+			}
+		case astmodel.StoragePackageReference:
+			if !ref.Local().HasApiVersion(target.Version.String()) && target.Version.Matches(v) {
+				return false
+			}
+		default:
+			return false
+		}
+	}
+
+	return true
+}
+
+func (target *TransformTarget) appliesToPrimitiveType(pt *astmodel.PrimitiveType) bool {
+	if target.Name.Matches(pt.Name()) {
+		return true
+	}
+
+	// Special case, allowing config to use `any` as a synonym for `interface{}`
+	if strings.EqualFold(target.Name.String(), "any") &&
+		strings.EqualFold(pt.Name(), astmodel.AnyType.Name()) {
+		return true
+	}
+
+	return false
+}
+
+func (target *TransformTarget) appliesToMapType(mp *astmodel.MapType) bool {
+	return target.Map.Key.AppliesToType(mp.KeyType()) &&
+		target.Map.Value.AppliesToType(mp.ValueType())
 }
 
 func (target *TransformTarget) assignActualType(
