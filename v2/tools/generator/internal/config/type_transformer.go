@@ -16,13 +16,13 @@ import (
 
 // A TransformTarget represents the target of a transformation
 type TransformTarget struct {
-	Group         FieldMatcher `yaml:",omitempty"`
-	Version       FieldMatcher `yaml:"version,omitempty"`
-	Name          FieldMatcher `yaml:",omitempty"`
-	Optional      bool         `yaml:",omitempty"`
-	Map           *MapType
-	actualType    astmodel.Type
-	actualVersion *string // actual version for matching
+	Group        FieldMatcher `yaml:",omitempty"`
+	Version      FieldMatcher `yaml:"version,omitempty"`
+	Name         FieldMatcher `yaml:",omitempty"`
+	Optional     bool         `yaml:",omitempty"`
+	Map          *MapType
+	actualType   astmodel.Type
+	appliesCache map[astmodel.Type]bool // cache for the results of AppliesToType()
 }
 
 type MapType struct {
@@ -57,6 +57,20 @@ type TypeTransformer struct {
 }
 
 func (target *TransformTarget) AppliesToType(t astmodel.Type) bool {
+	if target.appliesCache == nil {
+		target.appliesCache = make(map[astmodel.Type]bool)
+	}
+
+	if result, ok := target.appliesCache[t]; ok {
+		return result
+	}
+
+	result := target.appliesToType(t)
+	target.appliesCache[t] = result
+	return result
+}
+
+func (target *TransformTarget) appliesToType(t astmodel.Type) bool {
 	if target == nil {
 		return true
 	}
