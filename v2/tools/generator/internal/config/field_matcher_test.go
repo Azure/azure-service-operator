@@ -50,7 +50,7 @@ func TestFieldMatcher_IsRestrictive_GivesExpectedResults(t *testing.T) {
 
 	cases := []struct {
 		name        string
-		yaml     string
+		yaml        string
 		restrictive bool
 	}{
 		{"Empty literal is unrestrictive", "field: ''", false},
