@@ -14,9 +14,10 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/Azure/azure-service-operator/v2/internal/set"
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+
+	"github.com/Azure/azure-service-operator/v2/internal/set"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -54,7 +55,8 @@ type ResourceVersionsReport struct {
 
 func NewResourceVersionsReport(
 	definitions astmodel.TypeDefinitionSet,
-	cfg *config.ObjectModelConfiguration) *ResourceVersionsReport {
+	cfg *config.ObjectModelConfiguration,
+) *ResourceVersionsReport {
 	result := &ResourceVersionsReport{
 		objectModelConfiguration: cfg,
 		groups:                   set.Make[string](),
@@ -170,7 +172,7 @@ func (report *ResourceVersionsReport) createTable(
 		return astmodel.ComparePathAndVersion(right.PackageReference.PackagePath(), left.PackageReference.PackagePath())
 	})
 
-	var errs []error
+	errs := make([]error, 0, len(toIterate))
 	for _, rsrc := range toIterate {
 		resourceType := astmodel.MustBeResourceType(rsrc.Type())
 

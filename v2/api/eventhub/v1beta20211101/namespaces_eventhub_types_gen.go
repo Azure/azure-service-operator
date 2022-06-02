@@ -752,7 +752,7 @@ func (eventhubs *NamespacesEventhubs_Spec) ConvertToARM(resolved genruntime.Conv
 
 	// Set property ‘Tags’:
 	if eventhubs.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(eventhubs.Tags))
 		for key, value := range eventhubs.Tags {
 			result.Tags[key] = value
 		}
@@ -820,7 +820,7 @@ func (eventhubs *NamespacesEventhubs_Spec) PopulateFromARM(owner genruntime.Arbi
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		eventhubs.Tags = make(map[string]string)
+		eventhubs.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			eventhubs.Tags[key] = value
 		}

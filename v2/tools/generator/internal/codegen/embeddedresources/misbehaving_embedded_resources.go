@@ -22,7 +22,7 @@ func findMisbehavingResources(configuration *config.Configuration, defs astmodel
 	visitor := astmodel.TypeVisitorBuilder{
 		VisitObjectType: func(this *astmodel.TypeVisitor, ot *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
 			typedCtx := ctx.(misbehavingResourceCtx)
-			for _, prop := range ot.Properties() {
+			for _, prop := range ot.Properties().Copy() {
 				isResourceLifecycleOwnedByParent, err := configuration.IsResourceLifecycleOwnedByParent(typedCtx.typeName, prop.PropertyName())
 				if err != nil && !config.IsNotConfiguredError(err) {
 					return nil, errors.Wrap(err, "unexpected error checking config")
@@ -50,7 +50,6 @@ func findMisbehavingResources(configuration *config.Configuration, defs astmodel
 
 	for _, def := range astmodel.FindResourceDefinitions(defs) {
 		_, err := typeWalker.Walk(def)
-
 		if err != nil {
 			return nil, errors.Wrapf(err, "failed to walk type %s", def.Name())
 		}

@@ -56,8 +56,8 @@ func NameTypesForCRD(idFactory astmodel.IdentifierFactory) *Stage {
 func nameInnerTypes(
 	def astmodel.TypeDefinition,
 	idFactory astmodel.IdentifierFactory,
-	getDescription func(typeName astmodel.TypeName) []string) ([]astmodel.TypeDefinition, error) {
-
+	getDescription func(typeName astmodel.TypeName) []string,
+) ([]astmodel.TypeDefinition, error) {
 	var resultTypes []astmodel.TypeDefinition
 
 	builder := astmodel.TypeVisitorBuilder{}
@@ -123,7 +123,7 @@ func nameInnerTypes(
 		var errs []error
 		var props []*astmodel.PropertyDefinition
 		// first map the inner types:
-		for _, prop := range it.Properties() {
+		it.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
 			propType := prop.PropertyType()
 			propHint := nameHint + "_" + string(prop.PropertyName())
 			if validated, ok := propType.(*astmodel.ValidatedType); ok {
@@ -143,7 +143,7 @@ func nameInnerTypes(
 					props = append(props, prop.WithType(newPropType))
 				}
 			}
-		}
+		})
 
 		if len(errs) > 0 {
 			return nil, kerrors.NewAggregate(errs)

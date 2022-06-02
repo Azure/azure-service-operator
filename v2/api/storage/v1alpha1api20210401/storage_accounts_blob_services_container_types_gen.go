@@ -572,7 +572,7 @@ func (container *BlobContainer_Status) PopulateFromARM(owner genruntime.Arbitrar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Metadata != nil {
-			container.Metadata = make(map[string]string)
+			container.Metadata = make(map[string]string, len(typedInput.Properties.Metadata))
 			for key, value := range typedInput.Properties.Metadata {
 				container.Metadata[key] = value
 			}
@@ -975,7 +975,7 @@ func (containers *StorageAccountsBlobServicesContainers_Spec) ConvertToARM(resol
 		result.Properties.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
 	}
 	if containers.Metadata != nil {
-		result.Properties.Metadata = make(map[string]string)
+		result.Properties.Metadata = make(map[string]string, len(containers.Metadata))
 		for key, value := range containers.Metadata {
 			result.Properties.Metadata[key] = value
 		}
@@ -987,7 +987,7 @@ func (containers *StorageAccountsBlobServicesContainers_Spec) ConvertToARM(resol
 
 	// Set property ‘Tags’:
 	if containers.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(containers.Tags))
 		for key, value := range containers.Tags {
 			result.Tags[key] = value
 		}
@@ -1052,7 +1052,7 @@ func (containers *StorageAccountsBlobServicesContainers_Spec) PopulateFromARM(ow
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Metadata != nil {
-			containers.Metadata = make(map[string]string)
+			containers.Metadata = make(map[string]string, len(typedInput.Properties.Metadata))
 			for key, value := range typedInput.Properties.Metadata {
 				containers.Metadata[key] = value
 			}
@@ -1075,7 +1075,7 @@ func (containers *StorageAccountsBlobServicesContainers_Spec) PopulateFromARM(ow
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		containers.Tags = make(map[string]string)
+		containers.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			containers.Tags[key] = value
 		}

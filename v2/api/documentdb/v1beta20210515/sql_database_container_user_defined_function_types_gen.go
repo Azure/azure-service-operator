@@ -388,7 +388,7 @@ func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
 
 	// Set property ‘Tags’:
 	if functions.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(functions.Tags))
 		for key, value := range functions.Tags {
 			result.Tags[key] = value
 		}
@@ -452,7 +452,7 @@ func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		functions.Tags = make(map[string]string)
+		functions.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			functions.Tags[key] = value
 		}
@@ -749,7 +749,7 @@ func (results *SqlUserDefinedFunctionGetResults_Status) PopulateFromARM(owner ge
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		results.Tags = make(map[string]string)
+		results.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			results.Tags[key] = value
 		}

@@ -892,7 +892,7 @@ func (subscriptions *EventSubscriptions_Spec) ConvertToARM(resolved genruntime.C
 
 	// Set property ‘Tags’:
 	if subscriptions.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(subscriptions.Tags))
 		for key, value := range subscriptions.Tags {
 			result.Tags[key] = value
 		}
@@ -1008,7 +1008,7 @@ func (subscriptions *EventSubscriptions_Spec) PopulateFromARM(owner genruntime.A
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		subscriptions.Tags = make(map[string]string)
+		subscriptions.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			subscriptions.Tags[key] = value
 		}

@@ -7,6 +7,8 @@ package astmodel
 
 import (
 	"sort"
+
+	"golang.org/x/exp/maps"
 )
 
 // InterfaceImplementation specifies how a type will satisfy an interface implementation
@@ -20,7 +22,7 @@ var _ FunctionContainer = &InterfaceImplementation{}
 
 // NewInterfaceImplementation creates a new interface implementation with the given name and set of functions
 func NewInterfaceImplementation(name TypeName, functions ...Function) *InterfaceImplementation {
-	result := &InterfaceImplementation{name: name, functions: make(map[string]Function)}
+	result := &InterfaceImplementation{name: name, functions: make(map[string]Function, len(functions))}
 	for _, f := range functions {
 		result.functions[f.Name()] = f
 	}
@@ -71,10 +73,7 @@ func (iface *InterfaceImplementation) FunctionCount() int {
 // Functions returns all the function implementations
 // A sorted slice is returned to preserve immutability and provide determinism
 func (iface *InterfaceImplementation) Functions() []Function {
-	var functions []Function
-	for _, f := range iface.functions {
-		functions = append(functions, f)
-	}
+	functions := maps.Values(iface.functions)
 
 	sort.Slice(functions, func(i int, j int) bool {
 		return functions[i].Name() < functions[j].Name()

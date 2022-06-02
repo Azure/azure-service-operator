@@ -23,7 +23,6 @@ func PruneResourcesWithLifecycleOwnedByParent(configuration *config.Configuratio
 		PruneResourcesWithLifecycleOwnedByParentStageID,
 		"Prune embedded resources whose lifecycle is owned by the parent.",
 		func(ctx context.Context, state *State) (*State, error) {
-
 			result := make(astmodel.TypeDefinitionSet)
 
 			// A previous stage may have used these flags, but we want to make sure we're using them too so reset
@@ -87,7 +86,7 @@ func newMisbehavingEmbeddedTypeVisitor(configuration *config.Configuration) astm
 
 func (m *misbehavingEmbeddedTypePruner) pruneMisbehavingEmbeddedResourceProperties(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
 	typeName := ctx.(astmodel.TypeName)
-	for _, prop := range it.Properties() {
+	for _, prop := range it.Properties().Copy() {
 		isResourceLifecycleOwnedByParent, err := m.configuration.IsResourceLifecycleOwnedByParent(typeName, prop.PropertyName())
 		if err != nil && !config.IsNotConfiguredError(err) {
 			// Unexpected error type

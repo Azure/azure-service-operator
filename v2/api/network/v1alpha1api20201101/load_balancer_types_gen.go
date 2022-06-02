@@ -584,7 +584,7 @@ func (balancer *LoadBalancer_Status) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		balancer.Tags = make(map[string]string)
+		balancer.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			balancer.Tags[key] = value
 		}
@@ -1101,7 +1101,7 @@ func (balancers *LoadBalancers_Spec) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property ‘Tags’:
 	if balancers.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(balancers.Tags))
 		for key, value := range balancers.Tags {
 			result.Tags[key] = value
 		}
@@ -1237,7 +1237,7 @@ func (balancers *LoadBalancers_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		balancers.Tags = make(map[string]string)
+		balancers.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			balancers.Tags[key] = value
 		}

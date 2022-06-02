@@ -11,6 +11,7 @@ import (
 	"strings"
 
 	"github.com/pkg/errors"
+	"golang.org/x/exp/maps"
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -483,22 +484,29 @@ func (s synthesizer) handleArrayArray(leftArray *astmodel.ArrayType, rightArray 
 	return leftArray.WithElement(intersected), nil
 }
 
-func (s synthesizer) handleObjectObject(leftObj *astmodel.ObjectType, rightObj *astmodel.ObjectType) (astmodel.Type, error) {
-	mergedProps := make(map[astmodel.PropertyName]*astmodel.PropertyDefinition)
-
-	leftProperties := leftObj.Properties()
-	rightProperties := rightObj.Properties()
-
-	for _, p := range leftProperties {
-		mergedProps[p.PropertyName()] = p
+func max(left, right int) int {
+	if left > right {
+		return left
 	}
 
-	for _, p := range rightProperties {
+	return right
+}
+
+func (s synthesizer) handleObjectObject(leftObj *astmodel.ObjectType, rightObj *astmodel.ObjectType) (astmodel.Type, error) {
+	leftProperties := leftObj.Properties()
+	rightProperties := rightObj.Properties()
+	mergedProps := make(map[astmodel.PropertyName]*astmodel.PropertyDefinition, max(leftProperties.Len(), rightProperties.Len()))
+
+	leftProperties.ForEach(func(p *astmodel.PropertyDefinition) {
+		mergedProps[p.PropertyName()] = p
+	})
+
+	rightProperties.ForEach(func(p *astmodel.PropertyDefinition) {
 		if existingProp, ok := mergedProps[p.PropertyName()]; ok {
 			newType, err := s.intersectTypes(existingProp.PropertyType(), p.PropertyType())
 			if err != nil {
 				klog.Errorf("unable to combine properties: %s (%s)", p.PropertyName(), err)
-				continue
+				return // continue
 				// return nil, err
 			}
 
@@ -516,13 +524,10 @@ func (s synthesizer) handleObjectObject(leftObj *astmodel.ObjectType, rightObj *
 		} else {
 			mergedProps[p.PropertyName()] = p
 		}
-	}
+	})
 
 	// flatten
-	var properties []*astmodel.PropertyDefinition
-	for _, p := range mergedProps {
-		properties = append(properties, p)
-	}
+	properties := maps.Values(mergedProps)
 
 	// TODO: need to handle merging other bits of objects
 	return leftObj.WithProperties(properties...), nil
@@ -554,8 +559,9 @@ func (s synthesizer) handleEnum(leftEnum *astmodel.EnumType, right astmodel.Type
 		return leftEnum, nil
 	}
 
-	var strs []string
-	for _, enumValue := range leftEnum.Options() {
+	opts := leftEnum.Options()
+	strs := make([]string, 0, len(opts))
+	for _, enumValue := range opts {
 		strs = append(strs, enumValue.String())
 	}
 
@@ -662,7 +668,7 @@ func (synthesizer) handleValidatedAndNonValidated(validated *astmodel.ValidatedT
 // a string map and object can be combined with the map type becoming additionalProperties
 func (synthesizer) handleMapObject(leftMap *astmodel.MapType, rightObj *astmodel.ObjectType) (astmodel.Type, error) {
 	if astmodel.TypeEquals(leftMap.KeyType(), astmodel.StringType) {
-		if len(rightObj.Properties()) == 0 {
+		if rightObj.Properties().IsEmpty() {
 			// no properties, treat as map
 			// TODO: there could be other things in the object to check?
 			return leftMap, nil

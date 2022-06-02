@@ -26,7 +26,8 @@ func NewIndexRegistrationFunction(
 	name string,
 	resourceTypeName astmodel.TypeName,
 	indexKey string,
-	propertyChain []*astmodel.PropertyDefinition) *IndexRegistrationFunction {
+	propertyChain []*astmodel.PropertyDefinition,
+) *IndexRegistrationFunction {
 	return &IndexRegistrationFunction{
 		name:             name,
 		resourceTypeName: resourceTypeName,
@@ -72,8 +73,8 @@ func (f *IndexRegistrationFunction) RequiredPackageReferences() *astmodel.Packag
 // AsFunc returns the function as a go dst
 func (f *IndexRegistrationFunction) AsFunc(
 	genContext *astmodel.CodeGenerationContext,
-	_ astmodel.TypeName) *dst.FuncDecl {
-
+	_ astmodel.TypeName,
+) *dst.FuncDecl {
 	rawObjName := "rawObj"
 	objName := "obj"
 
@@ -91,8 +92,8 @@ func (f *IndexRegistrationFunction) AsFunc(
 	// if obj.Spec.AdministratorLoginPassword == nil {
 	//	return nil
 	// }
-	var propNames []string
-	var nilGuards []dst.Stmt
+	propNames := make([]string, 0, len(f.propertyChain))
+	nilGuards := make([]dst.Stmt, 0, len(f.propertyChain))
 	for _, prop := range f.propertyChain {
 		propNames = append(propNames, prop.PropertyName().String())
 		intermediateSelector := astbuilder.Selector(specSelector, propNames...)

@@ -89,8 +89,8 @@ func (c *armTypeCreator) createARMTypes() (astmodel.TypeDefinitionSet, error) {
 
 func (c *armTypeCreator) createARMResourceSpecDefinition(
 	resource *astmodel.ResourceType,
-	resourceSpecDef astmodel.TypeDefinition) (astmodel.TypeDefinition, error) {
-
+	resourceSpecDef astmodel.TypeDefinition,
+) (astmodel.TypeDefinition, error) {
 	emptyDef := astmodel.TypeDefinition{}
 
 	armTypeDef, err := c.createARMTypeDefinition(true, resourceSpecDef)
@@ -123,7 +123,7 @@ func (c *armTypeCreator) createARMResourceSpecDefinition(
 }
 
 func removeValidations(t *astmodel.ObjectType) (*astmodel.ObjectType, error) {
-	for _, p := range t.Properties() {
+	for _, p := range t.Properties().Copy() {
 
 		// set all properties as not-required
 		p = p.MakeOptional()
@@ -282,7 +282,6 @@ func (c *armTypeCreator) createSecretReferenceProperty(prop *astmodel.PropertyDe
 
 func (c *armTypeCreator) createARMProperty(prop *astmodel.PropertyDefinition, _ bool) (*astmodel.PropertyDefinition, error) {
 	newType, err := c.createARMTypeIfNeeded(prop.PropertyType())
-
 	if err != nil {
 		return nil, err
 	}
@@ -301,7 +300,7 @@ func (c *armTypeCreator) convertObjectPropertiesForARM(t *astmodel.ObjectType, i
 
 	result := t.WithoutProperties()
 	var errs []error
-	for _, prop := range t.Properties() {
+	for _, prop := range t.Properties().Copy() {
 		for _, handler := range propertyHandlers {
 			newProp, err := handler(prop, isSpecType)
 			if err != nil {

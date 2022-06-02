@@ -47,14 +47,15 @@ func (set WritableConversionEndpointSet) CreatePropertyBagMemberEndpoints(source
 // Returns the count of writable endpoints added.
 func (set WritableConversionEndpointSet) addForEachProperty(
 	instance astmodel.Type,
-	factory func(definition *astmodel.PropertyDefinition) *WritableConversionEndpoint) int {
+	factory func(definition *astmodel.PropertyDefinition) *WritableConversionEndpoint,
+) int {
 	count := 0
 	if container, ok := astmodel.AsPropertyContainer(instance); ok {
 
 		// Construct a set containing the properties we can assign
 		// This is made up of all regular properties, plus specific kinds of embedded properties
 
-		properties := container.Properties()
+		properties := container.Properties().Copy()
 		typesToCopy := astmodel.NewTypeNameSet(astmodel.ObjectMetaType)
 		for _, prop := range container.EmbeddedProperties() {
 			name, ok := astmodel.AsTypeName(prop.PropertyType())

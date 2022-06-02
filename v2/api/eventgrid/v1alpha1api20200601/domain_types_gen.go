@@ -539,7 +539,7 @@ func (domain *Domain_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		domain.Tags = make(map[string]string)
+		domain.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			domain.Tags[key] = value
 		}
@@ -863,7 +863,7 @@ func (domains *Domains_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property ‘Tags’:
 	if domains.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(domains.Tags))
 		for key, value := range domains.Tags {
 			result.Tags[key] = value
 		}
@@ -944,7 +944,7 @@ func (domains *Domains_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		domains.Tags = make(map[string]string)
+		domains.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			domains.Tags[key] = value
 		}

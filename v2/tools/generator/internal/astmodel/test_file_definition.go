@@ -27,8 +27,8 @@ var _ GoSourceFile = &TestFileDefinition{}
 func NewTestFileDefinition(
 	packageRef PackageReference,
 	definitions []TypeDefinition,
-	generatedPackages map[PackageReference]*PackageDefinition) *TestFileDefinition {
-
+	generatedPackages map[PackageReference]*PackageDefinition,
+) *TestFileDefinition {
 	// TODO: check that all definitions are from same package
 	return &TestFileDefinition{packageRef, definitions, generatedPackages}
 }
@@ -100,8 +100,7 @@ func (file *TestFileDefinition) TestCaseCount() int {
 
 // disambiguates any conflicts
 func (file *TestFileDefinition) generateImports() *PackageImportSet {
-
-	var requiredImports = NewPackageImportSet()
+	requiredImports := NewPackageImportSet()
 	for _, s := range file.definitions {
 		definer, ok := s.Type().(TestCaseContainer)
 		if !ok {
@@ -121,8 +120,9 @@ func (file *TestFileDefinition) generateImports() *PackageImportSet {
 }
 
 func (file *TestFileDefinition) generateImportSpecs(imports *PackageImportSet) []dst.Spec {
-	var importSpecs []dst.Spec
-	for _, requiredImport := range imports.AsSortedSlice() {
+	requiredImports := imports.AsSortedSlice()
+	importSpecs := make([]dst.Spec, 0, len(requiredImports))
+	for _, requiredImport := range requiredImports {
 		importSpecs = append(importSpecs, requiredImport.AsImportSpec())
 	}
 

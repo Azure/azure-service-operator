@@ -39,8 +39,8 @@ const (
 
 func (builder conversionBuilder) propertyConversionHandler(
 	toProp *astmodel.PropertyDefinition,
-	fromType *astmodel.ObjectType) []dst.Stmt {
-
+	fromType *astmodel.ObjectType,
+) []dst.Stmt {
 	for _, conversionHandler := range builder.propertyConversionHandlers {
 		stmts, matched := conversionHandler(toProp, fromType)
 		if matched {
@@ -101,8 +101,8 @@ func getReceiverObjectType(codeGenerationContext *astmodel.CodeGenerationContext
 func generateTypeConversionAssignments(
 	fromType *astmodel.ObjectType,
 	toType *astmodel.ObjectType,
-	propertyHandler func(toProp *astmodel.PropertyDefinition, fromType *astmodel.ObjectType) []dst.Stmt) []dst.Stmt {
-
+	propertyHandler func(toProp *astmodel.PropertyDefinition, fromType *astmodel.ObjectType) []dst.Stmt,
+) []dst.Stmt {
 	var result []dst.Stmt
 	for _, toField := range toType.Properties().AsSlice() {
 		fieldConversionStmts := propertyHandler(toField, fromType)
@@ -136,8 +136,8 @@ func NewARMConversionImplementation(
 	armTypeName astmodel.TypeName,
 	armType *astmodel.ObjectType,
 	idFactory astmodel.IdentifierFactory,
-	typeKind TypeKind) *astmodel.InterfaceImplementation {
-
+	typeKind TypeKind,
+) *astmodel.InterfaceImplementation {
 	var convertToARMFunc *ConvertToARMFunction
 	if typeKind != TypeKindStatus {
 		// status type should not have ConvertToARM
@@ -179,7 +179,7 @@ func NewARMConversionImplementation(
 }
 
 func removeEmptyStatements(stmts []dst.Stmt) []dst.Stmt {
-	var result []dst.Stmt
+	result := make([]dst.Stmt, 0, len(stmts))
 	for _, stmt := range stmts {
 		if _, ok := stmt.(*dst.EmptyStmt); ok {
 			continue

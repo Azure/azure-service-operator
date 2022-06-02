@@ -567,7 +567,7 @@ func (workspace *Workspace_Status) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		workspace.Tags = make(map[string]string)
+		workspace.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			workspace.Tags[key] = value
 		}
@@ -966,7 +966,7 @@ func (workspaces *Workspaces_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property ‘Tags’:
 	if workspaces.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(workspaces.Tags))
 		for key, value := range workspaces.Tags {
 			result.Tags[key] = value
 		}
@@ -1081,7 +1081,7 @@ func (workspaces *Workspaces_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		workspaces.Tags = make(map[string]string)
+		workspaces.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			workspaces.Tags[key] = value
 		}
@@ -1658,7 +1658,7 @@ func (features *WorkspaceFeatures) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property ‘AdditionalProperties’:
 	if features.AdditionalProperties != nil {
-		result.AdditionalProperties = make(map[string]v1.JSON)
+		result.AdditionalProperties = make(map[string]v1.JSON, len(features.AdditionalProperties))
 		for key, value := range features.AdditionalProperties {
 			result.AdditionalProperties[key] = *value.DeepCopy()
 		}
@@ -1714,7 +1714,7 @@ func (features *WorkspaceFeatures) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property ‘AdditionalProperties’:
 	if typedInput.AdditionalProperties != nil {
-		features.AdditionalProperties = make(map[string]v1.JSON)
+		features.AdditionalProperties = make(map[string]v1.JSON, len(typedInput.AdditionalProperties))
 		for key, value := range typedInput.AdditionalProperties {
 			features.AdditionalProperties[key] = *value.DeepCopy()
 		}

@@ -371,7 +371,7 @@ func (queues *StorageAccountsQueueServicesQueues_Spec) ConvertToARM(resolved gen
 		result.Properties = &QueuePropertiesARM{}
 	}
 	if queues.Metadata != nil {
-		result.Properties.Metadata = make(map[string]string)
+		result.Properties.Metadata = make(map[string]string, len(queues.Metadata))
 		for key, value := range queues.Metadata {
 			result.Properties.Metadata[key] = value
 		}
@@ -379,7 +379,7 @@ func (queues *StorageAccountsQueueServicesQueues_Spec) ConvertToARM(resolved gen
 
 	// Set property ‘Tags’:
 	if queues.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(queues.Tags))
 		for key, value := range queues.Tags {
 			result.Tags[key] = value
 		}
@@ -412,7 +412,7 @@ func (queues *StorageAccountsQueueServicesQueues_Spec) PopulateFromARM(owner gen
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Metadata != nil {
-			queues.Metadata = make(map[string]string)
+			queues.Metadata = make(map[string]string, len(typedInput.Properties.Metadata))
 			for key, value := range typedInput.Properties.Metadata {
 				queues.Metadata[key] = value
 			}
@@ -426,7 +426,7 @@ func (queues *StorageAccountsQueueServicesQueues_Spec) PopulateFromARM(owner gen
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		queues.Tags = make(map[string]string)
+		queues.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			queues.Tags[key] = value
 		}
@@ -659,7 +659,7 @@ func (queue *StorageQueue_Status) PopulateFromARM(owner genruntime.ArbitraryOwne
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Metadata != nil {
-			queue.Metadata = make(map[string]string)
+			queue.Metadata = make(map[string]string, len(typedInput.Properties.Metadata))
 			for key, value := range typedInput.Properties.Metadata {
 				queue.Metadata[key] = value
 			}

@@ -72,7 +72,7 @@ func MakeReferenceGraph(roots TypeNameSet, references map[TypeName]TypeNameSet) 
 // MakeReferenceGraphWithRoots produces a ReferenceGraph with the given roots, and references
 // derived from the provided types collection.
 func MakeReferenceGraphWithRoots(roots TypeNameSet, definitions TypeDefinitionSet) ReferenceGraph {
-	references := make(map[TypeName]TypeNameSet)
+	references := make(map[TypeName]TypeNameSet, len(definitions))
 	for _, def := range definitions {
 		references[def.Name()] = def.References()
 	}

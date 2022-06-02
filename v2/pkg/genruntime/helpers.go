@@ -67,9 +67,9 @@ func MinInt(a int, b int) int {
 
 // ARMSpecNames returns a slice of names from the given ARMResourceSpec slice.
 func ARMSpecNames(specs []ARMResourceSpec) []string {
-	var result []string
-	for _, s := range specs {
-		result = append(result, s.GetName())
+	result := make([]string, len(specs))
+	for ix := range specs {
+		result[ix] = specs[ix].GetName()
 	}
 
 	return result

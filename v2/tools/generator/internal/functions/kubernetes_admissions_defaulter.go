@@ -105,7 +105,7 @@ func (d *DefaulterBuilder) localDefault(k *ResourceFunction, codeGenerationConte
 	receiverIdent := k.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
-	var defaults []dst.Stmt
+	defaults := make([]dst.Stmt, 0, len(d.defaults))
 	for _, def := range d.defaults {
 		defaults = append(
 			defaults,

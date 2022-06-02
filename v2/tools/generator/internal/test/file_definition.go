@@ -10,8 +10,6 @@ import (
 )
 
 func CreateFileDefinition(definitions ...astmodel.TypeDefinition) *astmodel.FileDefinition {
-	packages := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
-
 	ref := definitions[0].Name().PackageReference
 	group, version := ref.GroupVersion()
 	pkgDefinition := astmodel.NewPackageDefinition(group, version)
@@ -19,7 +17,9 @@ func CreateFileDefinition(definitions ...astmodel.TypeDefinition) *astmodel.File
 		pkgDefinition.AddDefinition(def)
 	}
 
-	packages[ref] = pkgDefinition
+	packages := map[astmodel.PackageReference]*astmodel.PackageDefinition{
+		ref: pkgDefinition,
+	}
 
 	// put all definitions in one file, regardless.
 	// the package reference isn't really used here.
@@ -28,8 +28,6 @@ func CreateFileDefinition(definitions ...astmodel.TypeDefinition) *astmodel.File
 }
 
 func CreateTestFileDefinition(definitions ...astmodel.TypeDefinition) *astmodel.TestFileDefinition {
-	packages := make(map[astmodel.PackageReference]*astmodel.PackageDefinition)
-
 	// Use the package reference of the first definition for the whole file
 	ref := definitions[0].Name().PackageReference
 
@@ -39,7 +37,9 @@ func CreateTestFileDefinition(definitions ...astmodel.TypeDefinition) *astmodel.
 		pkgDefinition.AddDefinition(def)
 	}
 
-	packages[ref] = pkgDefinition
+	packages := map[astmodel.PackageReference]*astmodel.PackageDefinition{
+		ref: pkgDefinition,
+	}
 
 	// put all definitions in one file, regardless.
 	// the package reference isn't really used here.

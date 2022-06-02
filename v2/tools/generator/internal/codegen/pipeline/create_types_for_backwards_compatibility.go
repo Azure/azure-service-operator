@@ -25,12 +25,12 @@ const CreateTypesForBackwardCompatibilityID = "createTypesForBackwardCompatibili
 // easily upgrade.
 func CreateTypesForBackwardCompatibility(
 	prefix string,
-	configuration *config.ObjectModelConfiguration) *Stage {
+	configuration *config.ObjectModelConfiguration,
+) *Stage {
 	stage := NewStage(
 		CreateTypesForBackwardCompatibilityID,
 		"Create clones of types for backward compatibility with prior ASO versions",
 		func(ctx context.Context, state *State) (*State, error) {
-
 			resources, err := findResourcesRequiringCompatibilityVersion(prefix, state.Definitions(), configuration)
 			if err != nil {
 				return nil, err
@@ -78,8 +78,8 @@ func CreateTypesForBackwardCompatibility(
 
 func createBackwardCompatibleDefinitions(
 	resources astmodel.TypeDefinitionSet,
-	definitions astmodel.TypeDefinitionSet) (astmodel.TypeDefinitionSet, error) {
-
+	definitions astmodel.TypeDefinitionSet,
+) (astmodel.TypeDefinitionSet, error) {
 	// Find all type definitions needed for the resources specified
 	defs, err := astmodel.FindConnectedDefinitions(definitions, resources)
 	if err != nil {
@@ -106,7 +106,8 @@ func createBackwardCompatibleDefinitions(
 func findResourcesRequiringCompatibilityVersion(
 	prefix string,
 	definitions astmodel.TypeDefinitionSet,
-	configuration *config.ObjectModelConfiguration) (astmodel.TypeDefinitionSet, error) {
+	configuration *config.ObjectModelConfiguration,
+) (astmodel.TypeDefinitionSet, error) {
 	compat := make(astmodel.TypeDefinitionSet)
 	var errs []error
 	resources := astmodel.FindResourceDefinitions(definitions)
@@ -176,9 +177,9 @@ func addCompatibilityComments(defs astmodel.TypeDefinitionSet) (astmodel.TypeDef
 
 func removePropertyDescriptions(ot *astmodel.ObjectType) astmodel.Type {
 	result := ot
-	for _, property := range ot.Properties() {
+	ot.Properties().ForEach(func(property *astmodel.PropertyDefinition) {
 		result = result.WithProperty(property.WithDescription(""))
-	}
+	})
 
 	return result
 }

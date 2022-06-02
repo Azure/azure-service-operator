@@ -771,7 +771,7 @@ func (assignments *RoleAssignments_Spec) ConvertToARM(resolved genruntime.Conver
 
 	// Set property ‘Tags’:
 	if assignments.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(assignments.Tags))
 		for key, value := range assignments.Tags {
 			result.Tags[key] = value
 		}
@@ -861,7 +861,7 @@ func (assignments *RoleAssignments_Spec) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		assignments.Tags = make(map[string]string)
+		assignments.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			assignments.Tags[key] = value
 		}

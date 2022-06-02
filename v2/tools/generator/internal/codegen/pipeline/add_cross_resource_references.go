@@ -119,7 +119,7 @@ func MakeCrossResourceReferenceTypeVisitor(idFactory astmodel.IdentifierFactory,
 		typeName := ctx.(astmodel.TypeName)
 
 		var newProps []*astmodel.PropertyDefinition
-		for _, prop := range it.Properties() {
+		it.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
 			if visitor.isPropertyAnARMReference(typeName, prop) {
 				klog.V(4).Infof("Transforming \"%s.%s\" field into genruntime.ResourceReference", typeName, prop.PropertyName())
 				originalName := string(prop.PropertyName())
@@ -131,7 +131,7 @@ func MakeCrossResourceReferenceTypeVisitor(idFactory astmodel.IdentifierFactory,
 			}
 
 			newProps = append(newProps, prop)
-		}
+		})
 
 		it = it.WithoutProperties()
 		result := it.WithProperties(newProps...)
