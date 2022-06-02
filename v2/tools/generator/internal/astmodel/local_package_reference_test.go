@@ -23,10 +23,10 @@ func TestMakeLocalPackageReference_GivenGroupAndPackage_ReturnsInstanceWithPrope
 	t.Parallel()
 
 	cases := []struct {
-		name    string
-		group   string
+		name       string
+		group      string
 		apiVersion string
-		pkg     string
+		pkg        string
 	}{
 		{"Networking", "microsoft.networking", "2020-09-01", "v20200901"},
 		{"Batch (new)", "microsoft.batch", "2020-09-01", "v20200901"},
