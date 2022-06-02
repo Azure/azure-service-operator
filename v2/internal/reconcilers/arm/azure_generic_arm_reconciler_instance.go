@@ -16,7 +16,6 @@ import (
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
-	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
@@ -47,18 +46,12 @@ func newAzureDeploymentReconcilerInstance(
 	reconciler AzureDeploymentReconciler) *azureDeploymentReconcilerInstance {
 
 	return &azureDeploymentReconcilerInstance{
-		Obj:       metaObj,
-		Log:       log,
-		Recorder:  recorder,
-		ARMClient: armClient,
-		Extension: reconciler.Extension,
-		ARMOwnedResourceReconcilerCommon: reconcilers.ARMOwnedResourceReconcilerCommon{
-			ResourceResolver: reconciler.ResourceResolver,
-			ReconcilerCommon: reconcilers.ReconcilerCommon{
-				KubeClient:         reconciler.KubeClient,
-				PositiveConditions: reconciler.PositiveConditions,
-			},
-		},
+		Obj:                              metaObj,
+		Log:                              log,
+		Recorder:                         recorder,
+		ARMClient:                        armClient,
+		Extension:                        reconciler.Extension,
+		ARMOwnedResourceReconcilerCommon: reconciler.ARMOwnedResourceReconcilerCommon,
 	}
 }
 
@@ -71,7 +64,7 @@ func (r *azureDeploymentReconcilerInstance) CreateOrUpdate(ctx context.Context) 
 		return ctrl.Result{}, err
 	}
 
-	r.Log.V(Verbose).Info("Reconciling resource", "action", action)
+	r.Log.V(Verbose).Info("Determined CreateOrUpdate action", "action", action)
 
 	result, err := actionFunc(ctx)
 	if err != nil {
@@ -93,7 +86,7 @@ func (r *azureDeploymentReconcilerInstance) Delete(ctx context.Context) (ctrl.Re
 		return ctrl.Result{}, err
 	}
 
-	r.Log.V(Verbose).Info("Deleting Azure resource", "action", action)
+	r.Log.V(Verbose).Info("Determined Delete action", "action", action)
 
 	result, err := actionFunc(ctx)
 	if err != nil {
@@ -152,10 +145,12 @@ func (r *azureDeploymentReconcilerInstance) MakeReadyConditionImpactingErrorFrom
 	return result
 }
 
-func (r *azureDeploymentReconcilerInstance) AddInitialResourceState(resourceID string) error {
-	conditions.SetCondition(r.Obj, r.PositiveConditions.Ready.Reconciling(r.Obj.GetGeneration()))
-	genruntime.SetResourceID(r.Obj, resourceID) // TODO: This is sorta weird because we can actually just get it via resolver... so this is a cached value only?
-
+func (r *azureDeploymentReconcilerInstance) AddInitialResourceState(ctx context.Context) error {
+	armResource, err := r.ConvertResourceToARMResource(ctx)
+	if err != nil {
+		return err
+	}
+	genruntime.SetResourceID(r.Obj, armResource.GetID())
 	return nil
 }
 
@@ -171,17 +166,7 @@ func (r *azureDeploymentReconcilerInstance) DetermineDeleteAction() (DeleteActio
 
 func (r *azureDeploymentReconcilerInstance) DetermineCreateOrUpdateAction() (CreateOrUpdateAction, CreateOrUpdateActionFunc, error) {
 	ready := genruntime.GetReadyCondition(r.Obj)
-	pollerID, pollerResumeToken, hasPollerResumeToken := GetPollerResumeToken(r.Obj)
-
-	conditionString := "<nil>"
-	if ready != nil {
-		conditionString = ready.String()
-	}
-	r.Log.V(Verbose).Info(
-		"DetermineCreateOrUpdateAction",
-		"condition", conditionString,
-		"pollerID", pollerID,
-		"resumeToken", pollerResumeToken)
+	_, _, hasPollerResumeToken := GetPollerResumeToken(r.Obj)
 
 	if ready != nil && ready.Reason == conditions.ReasonDeleting {
 		return CreateOrUpdateActionNoAction, NoAction, errors.Errorf("resource is currently deleting; it can not be applied")
@@ -189,10 +174,6 @@ func (r *azureDeploymentReconcilerInstance) DetermineCreateOrUpdateAction() (Cre
 
 	if hasPollerResumeToken {
 		return CreateOrUpdateActionMonitorCreation, r.MonitorResourceCreation, nil
-	}
-
-	if r.NeedToClaimResource(r.Obj) {
-		return CreateOrUpdateActionClaimResource, r.ClaimResource, nil
 	}
 
 	return CreateOrUpdateActionBeginCreation, r.BeginCreateOrUpdateResource, nil
@@ -213,17 +194,10 @@ func (r *azureDeploymentReconcilerInstance) StartDeleteOfResource(ctx context.Co
 	r.Log.V(Status).Info(msg)
 	r.Recorder.Event(r.Obj, v1.EventTypeNormal, string(DeleteActionBeginDelete), msg)
 
-	// If we have no resourceID to begin with, or no finalizer, the Azure resource was never created
-	hasFinalizer := controllerutil.ContainsFinalizer(r.Obj, reconcilers.GenericControllerFinalizer)
+	// If we have no resourceID to begin with, the Azure resource was never created
 	resourceID := genruntime.GetResourceIDOrDefault(r.Obj)
-	if resourceID == "" || !hasFinalizer {
-		return ctrl.Result{}, r.RemoveResourceFinalizer(ctx, r.Log, r.Obj)
-	}
-
-	reconcilePolicy := reconcilers.GetReconcilePolicy(r.Obj, r.Log)
-	if !reconcilePolicy.AllowsDelete() {
-		r.Log.V(Info).Info("Bypassing delete of resource in Azure due to policy", "policy", reconcilePolicy)
-		return ctrl.Result{}, r.RemoveResourceFinalizer(ctx, r.Log, r.Obj)
+	if resourceID == "" {
+		return ctrl.Result{}, nil
 	}
 
 	// Check that this objects owner still exists
@@ -232,8 +206,9 @@ func (r *azureDeploymentReconcilerInstance) StartDeleteOfResource(ctx context.Co
 	if err != nil {
 		var typedErr *resolver.ReferenceNotFound
 		if errors.As(err, &typedErr) {
-			return ctrl.Result{}, r.RemoveResourceFinalizer(ctx, r.Log, r.Obj)
+			return ctrl.Result{}, nil
 		}
+		return ctrl.Result{}, err
 	}
 
 	// retryAfter = ARM can tell us how long to wait for a DELETE
@@ -242,15 +217,6 @@ func (r *azureDeploymentReconcilerInstance) StartDeleteOfResource(ctx context.Co
 		return ctrl.Result{}, errors.Wrapf(err, "deleting resource %q", resourceID)
 	}
 
-	conditions.SetCondition(r.Obj, r.PositiveConditions.Ready.Deleting(r.Obj.GetGeneration()))
-	err = r.CommitUpdate(ctx, r.Log, r.Obj)
-	if err != nil {
-		return ctrl.Result{}, err
-	}
-
-	// Note: We requeue here because we've only changed the status and status updates don't trigger another reconcile
-	// because we use predicate.GenerationChangedPredicate and predicate.AnnotationChangedPredicate
-	// delete has started, check back to seen when the finalizer can be removed
 	// Normally don't need to set both of these fields but because retryAfter can be 0 we do
 	return ctrl.Result{Requeue: true, RequeueAfter: retryAfter}, nil
 }
@@ -258,12 +224,6 @@ func (r *azureDeploymentReconcilerInstance) StartDeleteOfResource(ctx context.Co
 // MonitorDelete will call Azure to check if the resource still exists. If so, it will requeue, else,
 // the finalizer will be removed.
 func (r *azureDeploymentReconcilerInstance) MonitorDelete(ctx context.Context) (ctrl.Result, error) {
-	hasFinalizer := controllerutil.ContainsFinalizer(r.Obj, reconcilers.GenericControllerFinalizer)
-	if !hasFinalizer {
-		r.Log.V(Status).Info("Resource no longer has finalizer, moving deletion to success")
-		return ctrl.Result{}, r.RemoveResourceFinalizer(ctx, r.Log, r.Obj)
-	}
-
 	msg := "Continue monitoring deletion"
 	r.Log.V(Verbose).Info(msg)
 	r.Recorder.Event(r.Obj, v1.EventTypeNormal, string(DeleteActionMonitorDelete), msg)
@@ -289,10 +249,7 @@ func (r *azureDeploymentReconcilerInstance) MonitorDelete(ctx context.Context) (
 		return ctrl.Result{Requeue: true}, nil
 	}
 
-	// TODO: Transfer the below into the generic controller?
-	err = r.RemoveResourceFinalizer(ctx, r.Log, r.Obj)
-
-	return ctrl.Result{}, err
+	return ctrl.Result{}, nil
 }
 
 func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(ctx context.Context) (ctrl.Result, error) {
@@ -307,20 +264,10 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(ctx cont
 	}
 	r.Log.V(Status).Info("About to send resource to Azure")
 
-	err = r.AddInitialResourceState(armResource.GetID())
-	if err != nil {
-		return ctrl.Result{}, err
-	}
-
-	reconcilePolicy := reconcilers.GetReconcilePolicy(r.Obj, r.Log)
-	if !reconcilePolicy.AllowsModify() {
-		return r.handleSkipReconcile(ctx)
-	}
-
 	// Try to create the resource
 	pollerResp, err := r.ARMClient.BeginCreateOrUpdateByID(ctx, armResource.GetID(), armResource.Spec().GetAPIVersion(), armResource.Spec())
 	if err != nil {
-		return ctrl.Result{}, r.handlePollerFailed(err)
+		return ctrl.Result{}, r.handleCreatePollerFailed(err)
 	}
 
 	r.Log.V(Status).Info("Successfully sent resource to Azure", "id", armResource.GetID())
@@ -329,25 +276,19 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(ctx cont
 	// If we are done here it means the deployment succeeded immediately. It can't have failed because if it did
 	// we would have taken the err path above.
 	if pollerResp.Poller.Done() {
-		return r.handlePollerSuccess(ctx)
+		return r.handleCreatePollerSuccess(ctx)
 	}
 
 	resumeToken, err := pollerResp.Poller.ResumeToken()
 	if err != nil {
-		return ctrl.Result{}, errors.Wrapf(err, "couldn't create resume token for resource %q", armResource.GetID())
+		return ctrl.Result{}, errors.Wrapf(err, "couldn't create PUT resume token for resource %q", armResource.GetID())
 	}
 
 	SetPollerResumeToken(r.Obj, pollerResp.ID, resumeToken)
-
-	err = r.CommitUpdate(ctx, r.Log, r.Obj)
-	if err != nil {
-		return ctrl.Result{}, err
-	}
-
 	return ctrl.Result{Requeue: true}, nil
 }
 
-func (r *azureDeploymentReconcilerInstance) handlePollerFailed(err error) error {
+func (r *azureDeploymentReconcilerInstance) handleCreatePollerFailed(err error) error {
 	r.Log.V(Status).Info(
 		"Resource creation failure",
 		"resourceID", genruntime.GetResourceIDOrDefault(r.Obj),
@@ -359,38 +300,29 @@ func (r *azureDeploymentReconcilerInstance) handlePollerFailed(err error) error 
 	return err
 }
 
-func (r *azureDeploymentReconcilerInstance) handleSkipReconcile(ctx context.Context) (ctrl.Result, error) {
-	reconcilePolicy := reconcilers.GetReconcilePolicy(r.Obj, r.Log)
-	r.Log.V(Status).Info(
-		"Skipping creation of resource due to policy",
-		reconcilers.ReconcilePolicyAnnotation, reconcilePolicy,
-		"resourceID", genruntime.GetResourceIDOrDefault(r.Obj))
-
+func (r *azureDeploymentReconcilerInstance) skipReconcile(ctx context.Context) error {
 	err := r.updateStatus(ctx)
 	if err != nil {
 		if genericarmclient.IsNotFoundError(err) {
 			err = conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityWarning, conditions.ReasonAzureResourceNotFound)
-			ClearPollerResumeToken(r.Obj)
 		}
-		return ctrl.Result{}, err
+		return err
 	}
-
-	ClearPollerResumeToken(r.Obj)
-	conditions.SetCondition(r.Obj, r.PositiveConditions.Ready.Succeeded(r.Obj.GetGeneration()))
-	if err = r.CommitUpdate(ctx, r.Log, r.Obj); err != nil {
-		return ctrl.Result{}, err
-	}
-
-	return ctrl.Result{}, nil
+	return nil
 }
 
-func (r *azureDeploymentReconcilerInstance) handlePollerSuccess(ctx context.Context) (ctrl.Result, error) {
+func (r *azureDeploymentReconcilerInstance) handleCreatePollerSuccess(ctx context.Context) (ctrl.Result, error) {
 	r.Log.V(Status).Info(
 		"Resource successfully created",
 		"resourceID", genruntime.GetResourceIDOrDefault(r.Obj))
 
 	err := r.updateStatus(ctx)
 	if err != nil {
+		if genericarmclient.IsNotFoundError(err) {
+			// If we're getting NotFound here there must be an RP bug, as poller said success. If that happens we want
+			// to make sure that we don't get stuck, so we clear the poller URL.
+			ClearPollerResumeToken(r.Obj)
+		}
 		return ctrl.Result{}, errors.Wrapf(err, "error updating status")
 	}
 
@@ -404,12 +336,6 @@ func (r *azureDeploymentReconcilerInstance) handlePollerSuccess(ctx context.Cont
 	}
 
 	ClearPollerResumeToken(r.Obj)
-	conditions.SetCondition(r.Obj, r.PositiveConditions.Ready.Succeeded(r.Obj.GetGeneration()))
-	err = r.CommitUpdate(ctx, r.Log, r.Obj)
-	if err != nil {
-		return ctrl.Result{}, err
-	}
-
 	return ctrl.Result{}, nil
 }
 
@@ -419,23 +345,23 @@ func (r *azureDeploymentReconcilerInstance) MonitorResourceCreation(ctx context.
 		return ctrl.Result{}, errors.New("cannot MonitorResourceCreation with empty pollerResumeToken or pollerID")
 	}
 
+	if pollerID != genericarmclient.CreatePollerID {
+		return ctrl.Result{}, errors.Errorf("cannot MonitorResourceCreation with pollerID=%s", pollerID)
+	}
+
 	poller := &genericarmclient.PollerResponse{ID: pollerID}
 	err := poller.Resume(ctx, r.ARMClient, pollerResumeToken)
 	if err != nil {
-		return ctrl.Result{}, r.handlePollerFailed(err)
+		return ctrl.Result{}, r.handleCreatePollerFailed(err)
 	}
 	if poller.Poller.Done() {
-		return r.handlePollerSuccess(ctx)
+		return r.handleCreatePollerSuccess(ctx)
 	}
 
 	// Requeue to check again later
 	retryAfter := genericarmclient.GetRetryAfter(poller.RawResponse)
-	r.Log.V(Debug).Info("Requeuing monitoring", "requeueAfter", retryAfter)
+	r.Log.V(Debug).Info("Resource not created yet, will check again", "requeueAfter", retryAfter)
 	return ctrl.Result{Requeue: true, RequeueAfter: retryAfter}, nil
-}
-
-func (r *azureDeploymentReconcilerInstance) ClaimResource(ctx context.Context) (ctrl.Result, error) {
-	return r.ARMOwnedResourceReconcilerCommon.ClaimResource(ctx, r.Log, r.Obj)
 }
 
 //////////////////////////////////////////
