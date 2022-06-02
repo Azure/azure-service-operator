@@ -103,3 +103,34 @@ func loadTestData(t *testing.T) []byte {
 
 	return yamlBytes
 }
+
+func TestGroupConfiguration_WhenVersionConfigurationNotConsumed_ReturnsErrorWithExpectedTip(t *testing.T) {
+	t.Parallel()
+	g := NewGomegaWithT(t)
+
+	// Create configuration with the wrong version
+	typeConfig := NewTypeConfiguration("Person")
+	typeConfig.SetSupportedFrom("vNext")
+
+	versionConfig := NewVersionConfiguration("2022-01-01")
+	versionConfig.addType(typeConfig.name, typeConfig)
+
+	groupConfig := NewGroupConfiguration("demo")
+	groupConfig.addVersion(versionConfig.name, versionConfig)
+
+	omConfig := NewObjectModelConfiguration()
+	omConfig.addGroup(groupConfig.name, groupConfig)
+
+	// Lookup $supportedFrom for our type - version is from 2021 but our config has 2022
+	tn := astmodel.MakeTypeName(
+		test.MakeLocalPackageReference(groupConfig.name, "2021-01-01"),
+		"Person")
+
+	_, err := omConfig.LookupSupportedFrom(tn)
+	g.Expect(err).NotTo(BeNil()) // We expect this error
+
+	err = omConfig.VerifySupportedFromConsumed()
+	g.Expect(err).NotTo(BeNil())                                   // We expect an error, config hasn't been used
+	g.Expect(err.Error()).To(ContainSubstring("did you mean"))     // We want to receive a tip
+	g.Expect(err.Error()).To(ContainSubstring(versionConfig.name)) // and we want the correct version to be suggested
+}
