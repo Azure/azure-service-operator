@@ -218,7 +218,7 @@ func MakeIdentityVisitOfObjectType(makeCtx MakePerPropertyContext) func(this *Ty
 	}
 }
 
-// This is identical to MakeIdentityVisitOfObjectType except that it iterates proeprties in order
+// This is identical to MakeIdentityVisitOfObjectType except that it iterates properties in alphabetical order
 // which requires copying (slower).
 func MakeOrderedIdentityVisitOfObjectType(makeCtx MakePerPropertyContext) func(this *TypeVisitor, it *ObjectType, ctx interface{}) (Type, error) {
 	return func(this *TypeVisitor, it *ObjectType, ctx interface{}) (Type, error) {
