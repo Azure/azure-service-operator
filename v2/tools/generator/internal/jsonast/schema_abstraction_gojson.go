@@ -28,7 +28,8 @@ type GoJSONSchema struct {
 func MakeGoJSONSchema(
 	schema *gojsonschema.SubSchema,
 	makeLocalPackageReference func(groupName, version string) astmodel.LocalPackageReference,
-	idFactory astmodel.IdentifierFactory) Schema {
+	idFactory astmodel.IdentifierFactory,
+) Schema {
 	return GoJSONSchema{
 		schema,
 		makeLocalPackageReference,
@@ -97,7 +98,7 @@ func (schema GoJSONSchema) oneOf() []Schema {
 }
 
 func (schema GoJSONSchema) properties() map[string]Schema {
-	result := make(map[string]Schema)
+	result := make(map[string]Schema, len(schema.inner.PropertiesChildren))
 	for _, prop := range schema.inner.PropertiesChildren {
 		result[prop.Property] = schema.withInner(prop)
 	}

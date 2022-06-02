@@ -481,7 +481,7 @@ func (queues *NamespacesQueues_Spec) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property ‘Tags’:
 	if queues.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(queues.Tags))
 		for key, value := range queues.Tags {
 			result.Tags[key] = value
 		}
@@ -643,7 +643,7 @@ func (queues *NamespacesQueues_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		queues.Tags = make(map[string]string)
+		queues.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			queues.Tags[key] = value
 		}

@@ -54,15 +54,15 @@ func (f *OneOfJSONMarshalFunction) References() astmodel.TypeNameSet {
 // AsFunc returns the function as a go dst
 func (f *OneOfJSONMarshalFunction) AsFunc(
 	codeGenerationContext *astmodel.CodeGenerationContext,
-	receiver astmodel.TypeName) *dst.FuncDecl {
-
+	receiver astmodel.TypeName,
+) *dst.FuncDecl {
 	jsonPackage := codeGenerationContext.MustGetImportedPackageName(astmodel.JsonReference)
 
 	receiverName := f.idFactory.CreateReceiver(receiver.Name())
 
-	var statements []dst.Stmt
-
-	for _, property := range f.oneOfObject.Properties().AsSlice() {
+	props := f.oneOfObject.Properties().AsSlice()
+	statements := make([]dst.Stmt, 0, len(props))
+	for _, property := range props {
 		ret := astbuilder.Returns(
 			astbuilder.CallQualifiedFunc(
 				jsonPackage,

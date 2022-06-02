@@ -359,7 +359,8 @@ func generateRenaming(
 	idFactory astmodel.IdentifierFactory,
 	original astmodel.TypeName,
 	filePath string,
-	typeNames map[astmodel.TypeName]int) astmodel.TypeName {
+	typeNames map[astmodel.TypeName]int,
+) astmodel.TypeName {
 	name := filepath.Base(filePath)
 	name = strings.TrimSuffix(name, filepath.Ext(name))
 
@@ -407,8 +408,8 @@ func structurallyIdentical(
 	leftType astmodel.Type,
 	leftDefinitions astmodel.TypeDefinitionSet,
 	rightType astmodel.Type,
-	rightDefinitions astmodel.TypeDefinitionSet) bool {
-
+	rightDefinitions astmodel.TypeDefinitionSet,
+) bool {
 	// we cannot simply recurse when we hit TypeNames as there can be cycles in types.
 	// instead we store all TypeNames that need to be checked in here, and
 	// check them one at a time until there is nothing left to be checked:
@@ -478,8 +479,8 @@ func loadAllSchemas(
 	rootPath string,
 	localPathPrefix string,
 	idFactory astmodel.IdentifierFactory,
-	overrides []config.SchemaOverride) (map[string]jsonast.PackageAndSwagger, error) {
-
+	overrides []config.SchemaOverride,
+) (map[string]jsonast.PackageAndSwagger, error) {
 	var mutex sync.Mutex
 	schemas := make(map[string]jsonast.PackageAndSwagger)
 

@@ -41,7 +41,7 @@ func findEmptyObjectTypes(definitions astmodel.TypeDefinitionSet) astmodel.TypeN
 		}
 
 		// If there's still something "in" the object then we don't want to remove it
-		if len(ot.Properties()) != 0 || len(ot.EmbeddedProperties()) != 0 {
+		if !ot.Properties().IsEmpty() || len(ot.EmbeddedProperties()) != 0 {
 			continue
 		}
 
@@ -81,7 +81,7 @@ func makeRemovedTypeVisitor(toRemove astmodel.TypeNameSet) astmodel.TypeVisitor 
 		// just map the property types
 		var errs []error
 		var newProps []*astmodel.PropertyDefinition
-		for _, prop := range it.Properties() {
+		it.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
 			ctx := &visitorCtx{}
 			p, err := this.Visit(prop.PropertyType(), ctx)
 			if err != nil {
@@ -91,7 +91,7 @@ func makeRemovedTypeVisitor(toRemove astmodel.TypeNameSet) astmodel.TypeVisitor 
 			} else if toRemove.Contains(*ctx.typeName) {
 				klog.V(4).Infof("Removing property %q (referencing %q) as the type has no properties", prop.PropertyName(), *ctx.typeName)
 			}
-		}
+		})
 
 		if len(errs) > 0 {
 			return nil, kerrors.NewAggregate(errs)

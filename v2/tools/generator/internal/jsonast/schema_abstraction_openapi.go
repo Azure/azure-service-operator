@@ -35,7 +35,8 @@ func MakeOpenAPISchema(
 	fileName string,
 	outputPackage astmodel.LocalPackageReference,
 	idFactory astmodel.IdentifierFactory,
-	cache OpenAPIFileLoader) Schema {
+	cache OpenAPIFileLoader,
+) Schema {
 	return &OpenAPISchema{schema, fileName, outputPackage, idFactory, cache}
 }
 
@@ -106,7 +107,7 @@ func (schema *OpenAPISchema) requiredProperties() []string {
 }
 
 func (schema *OpenAPISchema) properties() map[string]Schema {
-	result := make(map[string]Schema)
+	result := make(map[string]Schema, len(schema.inner.Properties))
 	for propName, propSchema := range schema.inner.Properties {
 		result[propName] = schema.withNewSchema(propSchema)
 	}
@@ -353,8 +354,8 @@ func findFileForRef(schemaPath string, ref spec.Ref) (string, error) {
 func loadRefSchema(
 	ref spec.Ref,
 	schemaPath string,
-	loader OpenAPIFileLoader) (string, spec.Schema, *astmodel.LocalPackageReference) {
-
+	loader OpenAPIFileLoader,
+) (string, spec.Schema, *astmodel.LocalPackageReference) {
 	absPath, err := findFileForRef(schemaPath, ref)
 	if err != nil {
 		panic(err)

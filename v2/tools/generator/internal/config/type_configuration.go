@@ -200,12 +200,11 @@ func (tc *TypeConfiguration) visitProperty(
 	}
 
 	return nil
-
 }
 
 // visitProperties invokes the provided visitor on all properties.
 func (tc *TypeConfiguration) visitProperties(visitor *configurationVisitor) error {
-	var errs []error
+	errs := make([]error, 0, len(tc.properties))
 	for _, pc := range tc.properties {
 		err := visitor.visitProperty(pc)
 		err = tc.advisor.Wrapf(err, pc.name, "property %s not seen", pc.name)
@@ -327,7 +326,7 @@ func (tc *TypeConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 // configuredProperties returns a sorted slice containing all the properties configured on this type
 func (tc *TypeConfiguration) configuredProperties() []string {
-	var result []string
+	result := make([]string, 0, len(tc.properties))
 	for _, c := range tc.properties {
 		// Use the actual names of the properties, not the lower-cased keys of the map
 		result = append(result, c.name)

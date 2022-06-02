@@ -26,16 +26,14 @@ type TypeMatcher struct {
 	// The default is true.
 	MatchRequired *bool `yaml:"matchRequired,omitempty"`
 
-	// matchedTypes is the set of all type names matched by this matcher
-	matchedTypes astmodel.TypeNameSet
+	// matchedAnything is true if TypeMatcher matched anything
+	matchedAnything bool
 }
 
 var _ fmt.Stringer = &TypeMatcher{}
 
 // Initialize initializes the type matcher
 func (t *TypeMatcher) Initialize() error {
-	t.matchedTypes = astmodel.NewTypeNameSet()
-
 	// Default MatchRequired
 	if t.MatchRequired == nil {
 		temp := true
@@ -59,11 +57,7 @@ func (t *TypeMatcher) AppliesToType(typeName astmodel.TypeName) bool {
 
 	// Track this match, so we can later report if we didn't match anything
 	if result {
-		if t.matchedTypes == nil {
-			t.matchedTypes = astmodel.NewTypeNameSet(typeName)
-		} else {
-			t.matchedTypes.Add(typeName)
-		}
+		t.matchedAnything = true
 	}
 
 	return result
@@ -80,7 +74,7 @@ func (t *TypeMatcher) RequiredTypesWereMatched() error {
 
 // WasMatched returns nil if this matcher ever matched at least one type, otherwise a diagnostic error
 func (t *TypeMatcher) WasMatched() error {
-	if len(t.matchedTypes) > 0 {
+	if t.matchedAnything {
 		// Matched at least one type
 		return nil
 	}
@@ -145,8 +139,9 @@ func createGlobbingRegex(globbing string) *regexp.Regexp {
 		return nil
 	}
 
-	var regexes []string
-	for _, glob := range strings.Split(globbing, ";") {
+	globs := strings.Split(globbing, ";")
+	regexes := make([]string, 0, len(globs))
+	for _, glob := range globs {
 		g := regexp.QuoteMeta(glob)
 		g = strings.ReplaceAll(g, "\\*", ".*")
 		g = strings.ReplaceAll(g, "\\?", ".")

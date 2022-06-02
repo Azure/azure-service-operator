@@ -563,7 +563,7 @@ func (policies *StorageAccountsManagementPolicies_Spec) ConvertToARM(resolved ge
 
 	// Set property ‘Tags’:
 	if policies.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(policies.Tags))
 		for key, value := range policies.Tags {
 			result.Tags[key] = value
 		}
@@ -604,7 +604,7 @@ func (policies *StorageAccountsManagementPolicies_Spec) PopulateFromARM(owner ge
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		policies.Tags = make(map[string]string)
+		policies.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			policies.Tags[key] = value
 		}

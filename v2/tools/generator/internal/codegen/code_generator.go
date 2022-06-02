@@ -289,8 +289,7 @@ func (generator *CodeGenerator) RemoveStages(stageIds ...string) {
 		stagesToRemove[s] = false
 	}
 
-	var stages []*pipeline.Stage
-
+	stages := make([]*pipeline.Stage, 0, len(generator.pipeline))
 	for _, stage := range generator.pipeline {
 		if _, ok := stagesToRemove[stage.Id()]; ok {
 			stagesToRemove[stage.Id()] = true

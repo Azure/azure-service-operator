@@ -696,7 +696,7 @@ func (endpoint *Endpoint_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		endpoint.Tags = make(map[string]string)
+		endpoint.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			endpoint.Tags[key] = value
 		}
@@ -1424,7 +1424,7 @@ func (endpoints *ProfilesEndpoints_Spec) ConvertToARM(resolved genruntime.Conver
 
 	// Set property ‘Tags’:
 	if endpoints.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(endpoints.Tags))
 		for key, value := range endpoints.Tags {
 			result.Tags[key] = value
 		}
@@ -1607,7 +1607,7 @@ func (endpoints *ProfilesEndpoints_Spec) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		endpoints.Tags = make(map[string]string)
+		endpoints.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			endpoints.Tags[key] = value
 		}

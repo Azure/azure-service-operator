@@ -32,7 +32,9 @@ func Test_NewPropertyDefinition_GivenValues_ReturnsInstanceWithExpectedFields(t 
 
 	g.Expect(property.propertyName).To(Equal(propertyName))
 	g.Expect(property.propertyType).To(Equal(propertyType))
-	g.Expect(property.tags["json"]).To(Equal([]string{propertyJsonName, "omitempty"}))
+	jsonTags, ok := property.tags.Get("json")
+	g.Expect(ok).To(BeTrue())
+	g.Expect(jsonTags).To(Equal([]string{propertyJsonName, "omitempty"}))
 	g.Expect(property.description).To(BeEmpty())
 }
 
@@ -417,8 +419,8 @@ func Test_PropertyDefinitionMakeTypeRequired_PropertyTypeArrayAndMap(t *testing.
 			updated := original.MakeTypeRequired()
 
 			g.Expect(updated).To(BeIdenticalTo(original))
-			//g.Expect(updated.IsRequired()).To(BeFalse())
-			//g.Expect(updated.propertyType).To(BeIdenticalTo(original.propertyType))
+			// g.Expect(updated.IsRequired()).To(BeFalse())
+			// g.Expect(updated.propertyType).To(BeIdenticalTo(original.propertyType))
 
 			g.Expect(updated.renderedTags()).To(Equal(fmt.Sprintf("json:\"%s,omitempty\"", propertyJsonName)))
 		})

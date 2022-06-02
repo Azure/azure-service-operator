@@ -35,8 +35,8 @@ func NewResourceRegistrationFile(
 	storageVersionResources []astmodel.TypeName,
 	indexFunctions map[astmodel.TypeName][]*functions.IndexRegistrationFunction,
 	secretPropertyKeys map[astmodel.TypeName][]string,
-	resourceExtensions []astmodel.TypeName) *ResourceRegistrationFile {
-
+	resourceExtensions []astmodel.TypeName,
+) *ResourceRegistrationFile {
 	return &ResourceRegistrationFile{
 		resources:               resources,
 		storageVersionResources: storageVersionResources,
@@ -204,7 +204,7 @@ func createGetKnownTypesFunc(codeGenerationContext *astmodel.CodeGenerationConte
 	// Sort the resources for a deterministic file layout
 	sort.Slice(resources, orderByImportedTypeName(codeGenerationContext, resources))
 
-	var resourceAppendStatements []dst.Stmt
+	resourceAppendStatements := make([]dst.Stmt, 0, len(resources))
 	for _, typeName := range resources {
 		appendStmt := astbuilder.AppendSlice(
 			resultIdent,
@@ -266,8 +266,8 @@ func createGetKnownStorageTypesFunc(
 	codeGenerationContext *astmodel.CodeGenerationContext,
 	resources []astmodel.TypeName,
 	indexFunctions map[astmodel.TypeName][]*functions.IndexRegistrationFunction,
-	secretPropertyKeys map[astmodel.TypeName][]string) dst.Decl {
-
+	secretPropertyKeys map[astmodel.TypeName][]string,
+) dst.Decl {
 	funcName := "getKnownStorageTypes"
 	funcComment := "returns the list of storage types which can be reconciled."
 
@@ -279,7 +279,7 @@ func createGetKnownStorageTypesFunc(
 
 	sort.Slice(resources, orderByImportedTypeName(codeGenerationContext, resources))
 
-	var resourceAppendStatements []dst.Stmt
+	resourceAppendStatements := make([]dst.Stmt, 0, len(resources))
 	for _, typeName := range resources {
 		newStorageTypeBuilder := astbuilder.NewCompositeLiteralBuilder(astmodel.StorageTypeRegistrationType.AsType(codeGenerationContext))
 		newStorageTypeBuilder.AddField("Obj", astbuilder.CallFunc("new", typeName.AsType(codeGenerationContext)))
@@ -385,7 +385,6 @@ func createGetKnownStorageTypesFunc(
 }
 
 func (r *ResourceRegistrationFile) createGetResourceExtensions(context *astmodel.CodeGenerationContext) dst.Decl {
-
 	funcName := "getResourceExtensions"
 	funcComment := "returns a list of resource extensions"
 
@@ -396,7 +395,7 @@ func (r *ResourceRegistrationFile) createGetResourceExtensions(context *astmodel
 		astmodel.NewArrayType(astmodel.ResourceExtensionType).AsType(context),
 		"")
 
-	var resourceAppendStatements []dst.Stmt
+	resourceAppendStatements := make([]dst.Stmt, 0, len(r.resourceExtensions))
 	for _, typeName := range r.resourceExtensions {
 		appendStmt := astbuilder.AppendSlice(
 			resultIdent,
@@ -453,8 +452,9 @@ func (r *ResourceRegistrationFile) createCreateSchemeFunc(codeGenerationContext 
 		dst.NewIdent(ignore),
 		astbuilder.CallQualifiedFunc(clientGoScheme, addToScheme, dst.NewIdent(scheme)))
 
-	var importedPackageNames []string
-	for pkg := range r.getImportedPackages() {
+	importedPackages := r.getImportedPackages()
+	importedPackageNames := make([]string, 0, len(importedPackages))
+	for pkg := range importedPackages {
 		packageName, err := codeGenerationContext.GetImportedPackageName(pkg)
 		if err != nil {
 			return nil, err
@@ -467,7 +467,7 @@ func (r *ResourceRegistrationFile) createCreateSchemeFunc(codeGenerationContext 
 		return importedPackageNames[left] < importedPackageNames[right]
 	})
 
-	var groupVersionAssignments []dst.Stmt
+	groupVersionAssignments := make([]dst.Stmt, 0, len(importedPackageNames))
 	for _, group := range importedPackageNames {
 		groupSchemeAssign := astbuilder.SimpleAssignment(
 			dst.NewIdent(ignore),
@@ -503,14 +503,13 @@ func (r *ResourceRegistrationFile) createCreateSchemeFunc(codeGenerationContext 
 }
 
 func (r *ResourceRegistrationFile) defineIndexFunctions(codeGenerationContext *astmodel.CodeGenerationContext) []dst.Decl {
-	var result []dst.Decl
 	var indexFunctions []*functions.IndexRegistrationFunction
-
 	for _, funcs := range r.indexFunctions {
 		indexFunctions = append(indexFunctions, funcs...)
 	}
 	sort.Slice(indexFunctions, orderByFunctionName(indexFunctions))
 
+	result := make([]dst.Decl, 0, len(indexFunctions))
 	for _, f := range indexFunctions {
 		result = append(result, f.AsFunc(codeGenerationContext, astmodel.TypeName{}))
 	}

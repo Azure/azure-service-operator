@@ -522,7 +522,7 @@ func (cluster *Cluster_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		cluster.Tags = make(map[string]string)
+		cluster.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			cluster.Tags[key] = value
 		}
@@ -795,7 +795,7 @@ func (enterprise *RedisEnterprise_Spec) ConvertToARM(resolved genruntime.Convert
 
 	// Set property ‘Tags’:
 	if enterprise.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(enterprise.Tags))
 		for key, value := range enterprise.Tags {
 			result.Tags[key] = value
 		}
@@ -856,7 +856,7 @@ func (enterprise *RedisEnterprise_Spec) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		enterprise.Tags = make(map[string]string)
+		enterprise.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			enterprise.Tags[key] = value
 		}

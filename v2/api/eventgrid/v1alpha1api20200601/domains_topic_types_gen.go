@@ -571,7 +571,7 @@ func (topics *DomainsTopics_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property ‘Tags’:
 	if topics.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(topics.Tags))
 		for key, value := range topics.Tags {
 			result.Tags[key] = value
 		}
@@ -607,7 +607,7 @@ func (topics *DomainsTopics_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		topics.Tags = make(map[string]string)
+		topics.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			topics.Tags[key] = value
 		}

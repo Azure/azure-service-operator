@@ -47,10 +47,11 @@ func resolveOneOfMemberToObjectType(t Type, definitions TypeDefinitionSet) (Type
 func getDiscriminatorMapping(
 	oneOf *ObjectType,
 	propName PropertyName,
-	definitions TypeDefinitionSet) map[string]PropertyNameAndType {
-
-	result := make(map[string]PropertyNameAndType)
-	for _, prop := range oneOf.Properties() {
+	definitions TypeDefinitionSet,
+) map[string]PropertyNameAndType {
+	props := oneOf.Properties().Copy()
+	result := make(map[string]PropertyNameAndType, len(props))
+	for _, prop := range props {
 		propObjTypeName, propObjType := resolveOneOfMemberToObjectType(prop.PropertyType(), definitions)
 
 		potentialDiscriminatorProp, ok := propObjType.Property(propName)
@@ -95,14 +96,11 @@ func getDiscriminatorMapping(
 
 func DetermineDiscriminantAndValues(oneOf *ObjectType, definitions TypeDefinitionSet) (string, map[string]PropertyNameAndType) {
 	// grab out the first member of the OneOf
-	var firstMember *ObjectType
-	for _, prop := range oneOf.Properties() {
-		_, firstMember = resolveOneOfMemberToObjectType(prop.PropertyType(), definitions)
-		break
-	}
+	firstProp := oneOf.Properties().First()
+	_, firstMember := resolveOneOfMemberToObjectType(firstProp.PropertyType(), definitions)
 
 	// try to find a discriminator property out of the properties on the first member
-	for _, prop := range firstMember.Properties() {
+	for _, prop := range firstMember.Properties().Copy() {
 		mapping := getDiscriminatorMapping(oneOf, prop.PropertyName(), definitions)
 		if mapping != nil {
 			jsonTag, ok := prop.Tag("json")

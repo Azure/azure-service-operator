@@ -619,7 +619,7 @@ func (embedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) Popu
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		embedded.Tags = make(map[string]string)
+		embedded.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			embedded.Tags[key] = value
 		}
@@ -1123,7 +1123,7 @@ func (addresses *PublicIPAddresses_Spec) ConvertToARM(resolved genruntime.Conver
 
 	// Set property ‘Tags’:
 	if addresses.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(addresses.Tags))
 		for key, value := range addresses.Tags {
 			result.Tags[key] = value
 		}
@@ -1277,7 +1277,7 @@ func (addresses *PublicIPAddresses_Spec) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		addresses.Tags = make(map[string]string)
+		addresses.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			addresses.Tags[key] = value
 		}

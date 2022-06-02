@@ -6,11 +6,13 @@
 package functions
 
 import (
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
-	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
-	"github.com/dave/dst"
 	"reflect"
 	"sort"
+
+	"github.com/dave/dst"
+
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
 const (
@@ -27,7 +29,6 @@ var _ astmodel.Function = &GetExtendedResourcesFunction{}
 
 // NewGetExtendedResourcesFunction creates a new GetExtendedResources
 func NewGetExtendedResourcesFunction(idFactory astmodel.IdentifierFactory, resources []astmodel.TypeName) *GetExtendedResourcesFunction {
-
 	result := &GetExtendedResourcesFunction{
 		idFactory: idFactory,
 		resources: sortResources(resources),
@@ -38,7 +39,7 @@ func NewGetExtendedResourcesFunction(idFactory astmodel.IdentifierFactory, resou
 
 // getPackageRefs iterates through the resources and returns package references
 func getPackageRefs(resources []astmodel.TypeName) []astmodel.PackageReference {
-	var packageRefs []astmodel.PackageReference
+	packageRefs := make([]astmodel.PackageReference, 0, len(resources)+1)
 	// Package reference for return type
 	packageRefs = append(packageRefs, astmodel.KubernetesResourceType.PackageReference)
 
@@ -79,8 +80,8 @@ func (ext *GetExtendedResourcesFunction) References() astmodel.TypeNameSet {
 
 // AsFunc returns the generated code for the GetExtendedResources() function
 func (ext *GetExtendedResourcesFunction) AsFunc(
-	generationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName) *dst.FuncDecl {
-
+	generationContext *astmodel.CodeGenerationContext, receiver astmodel.TypeName,
+) *dst.FuncDecl {
 	krType := astmodel.NewArrayType(astmodel.KubernetesResourceType).AsType(generationContext)
 	krLiteral := astbuilder.NewCompositeLiteralBuilder(krType).Build()
 

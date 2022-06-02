@@ -627,7 +627,7 @@ func (embedded *NetworkInterface_Status_NetworkInterface_SubResourceEmbedded) Po
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		embedded.Tags = make(map[string]string)
+		embedded.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			embedded.Tags[key] = value
 		}
@@ -1181,7 +1181,7 @@ func (interfaces *NetworkInterfaces_Spec) ConvertToARM(resolved genruntime.Conve
 
 	// Set property ‘Tags’:
 	if interfaces.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(interfaces.Tags))
 		for key, value := range interfaces.Tags {
 			result.Tags[key] = value
 		}
@@ -1287,7 +1287,7 @@ func (interfaces *NetworkInterfaces_Spec) PopulateFromARM(owner genruntime.Arbit
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		interfaces.Tags = make(map[string]string)
+		interfaces.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			interfaces.Tags[key] = value
 		}

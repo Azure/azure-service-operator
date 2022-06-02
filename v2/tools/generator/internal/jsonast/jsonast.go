@@ -445,8 +445,9 @@ func enumHandler(ctx context.Context, scanner *SchemaScanner, schema Schema) (as
 		}
 	}
 
-	var values []astmodel.EnumValue
-	for _, v := range schema.enumValues() {
+	enumValues := schema.enumValues()
+	values := make([]astmodel.EnumValue, 0, len(enumValues))
+	for _, v := range enumValues {
 
 		vTrimmed := strings.Trim(v, "\"")
 
@@ -530,11 +531,11 @@ func getProperties(
 	schema Schema,
 ) ([]*astmodel.PropertyDefinition, error) {
 	ctx, span := tab.StartSpan(ctx, "getProperties")
-
 	defer span.End()
 
-	var properties []*astmodel.PropertyDefinition
-	for propName, propSchema := range schema.properties() {
+	props := schema.properties()
+	properties := make([]*astmodel.PropertyDefinition, 0, len(props))
+	for propName, propSchema := range props {
 
 		property, err := generatePropertyDefinition(ctx, scanner, propName, propSchema)
 		if err != nil {

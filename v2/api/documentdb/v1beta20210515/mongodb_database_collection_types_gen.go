@@ -388,7 +388,7 @@ func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) ConvertToAR
 
 	// Set property ‘Tags’:
 	if collections.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(collections.Tags))
 		for key, value := range collections.Tags {
 			result.Tags[key] = value
 		}
@@ -452,7 +452,7 @@ func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) PopulateFro
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		collections.Tags = make(map[string]string)
+		collections.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			collections.Tags[key] = value
 		}
@@ -764,7 +764,7 @@ func (results *MongoDBCollectionGetResults_Status) PopulateFromARM(owner genrunt
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		results.Tags = make(map[string]string)
+		results.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			results.Tags[key] = value
 		}
@@ -960,7 +960,7 @@ func (resource *MongoDBCollectionGetProperties_Status_Resource) PopulateFromARM(
 
 	// Set property ‘ShardKey’:
 	if typedInput.ShardKey != nil {
-		resource.ShardKey = make(map[string]string)
+		resource.ShardKey = make(map[string]string, len(typedInput.ShardKey))
 		for key, value := range typedInput.ShardKey {
 			resource.ShardKey[key] = value
 		}
@@ -1129,7 +1129,7 @@ func (resource *MongoDBCollectionResource) ConvertToARM(resolved genruntime.Conv
 
 	// Set property ‘ShardKey’:
 	if resource.ShardKey != nil {
-		result.ShardKey = make(map[string]string)
+		result.ShardKey = make(map[string]string, len(resource.ShardKey))
 		for key, value := range resource.ShardKey {
 			result.ShardKey[key] = value
 		}
@@ -1173,7 +1173,7 @@ func (resource *MongoDBCollectionResource) PopulateFromARM(owner genruntime.Arbi
 
 	// Set property ‘ShardKey’:
 	if typedInput.ShardKey != nil {
-		resource.ShardKey = make(map[string]string)
+		resource.ShardKey = make(map[string]string, len(typedInput.ShardKey))
 		for key, value := range typedInput.ShardKey {
 			resource.ShardKey[key] = value
 		}

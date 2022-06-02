@@ -637,7 +637,7 @@ func (configurations *ServersConfigurations_Spec) ConvertToARM(resolved genrunti
 
 	// Set property ‘Tags’:
 	if configurations.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(configurations.Tags))
 		for key, tagsValue := range configurations.Tags {
 			result.Tags[key] = tagsValue
 		}
@@ -682,7 +682,7 @@ func (configurations *ServersConfigurations_Spec) PopulateFromARM(owner genrunti
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		configurations.Tags = make(map[string]string)
+		configurations.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			configurations.Tags[key] = value
 		}
