@@ -606,7 +606,7 @@ func (gateway *VirtualNetworkGateway_STATUS) PopulateFromARM(owner genruntime.Ar
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		gateway.Tags = make(map[string]string)
+		gateway.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			gateway.Tags[key] = value
 		}
@@ -1229,7 +1229,7 @@ func (gateway *VirtualNetworkGateway_Spec) ConvertToARM(resolved genruntime.Conv
 
 	// Set property ‘Tags’:
 	if gateway.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(gateway.Tags))
 		for key, value := range gateway.Tags {
 			result.Tags[key] = value
 		}
@@ -1392,7 +1392,7 @@ func (gateway *VirtualNetworkGateway_Spec) PopulateFromARM(owner genruntime.Arbi
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		gateway.Tags = make(map[string]string)
+		gateway.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			gateway.Tags[key] = value
 		}

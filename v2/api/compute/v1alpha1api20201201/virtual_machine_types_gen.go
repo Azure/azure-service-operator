@@ -729,7 +729,7 @@ func (machine *VirtualMachine_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		machine.Tags = make(map[string]string)
+		machine.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			machine.Tags[key] = value
 		}
@@ -1546,7 +1546,7 @@ func (machine *VirtualMachine_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property ‘Tags’:
 	if machine.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(machine.Tags))
 		for key, value := range machine.Tags {
 			result.Tags[key] = value
 		}
@@ -1833,7 +1833,7 @@ func (machine *VirtualMachine_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		machine.Tags = make(map[string]string)
+		machine.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			machine.Tags[key] = value
 		}
@@ -5214,7 +5214,7 @@ func (identity *VirtualMachineIdentity_STATUS) PopulateFromARM(owner genruntime.
 
 	// Set property ‘UserAssignedIdentities’:
 	if typedInput.UserAssignedIdentities != nil {
-		identity.UserAssignedIdentities = make(map[string]VirtualMachineIdentity_UserAssignedIdentities_STATUS)
+		identity.UserAssignedIdentities = make(map[string]VirtualMachineIdentity_UserAssignedIdentities_STATUS, len(typedInput.UserAssignedIdentities))
 		for key, value := range typedInput.UserAssignedIdentities {
 			var value1 VirtualMachineIdentity_UserAssignedIdentities_STATUS
 			err := value1.PopulateFromARM(owner, value)

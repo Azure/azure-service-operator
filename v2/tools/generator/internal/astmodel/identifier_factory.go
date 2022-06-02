@@ -43,6 +43,7 @@ type identifierFactory struct {
 	reservedWords             map[string]string
 	forbiddenReceiverSuffixes set.Set[string]
 
+	internCache   internCache
 	idCache       idCache
 	receiverCache map[string]string
 	rwLock        sync.RWMutex
@@ -51,6 +52,23 @@ type identifierFactory struct {
 type idCacheKey struct {
 	name       string
 	visibility Visibility
+}
+
+// Even though we cache input → result for identifier generation,
+// we could (and do) generate the same result many times,
+// for different inputs.
+// internCache lets us share the same result for each different input, which
+// reduces overall memory usage (and speeds up string comparisons,
+// but this is unmeasured).
+type internCache map[string]string
+
+func (c internCache) intern(value string) string {
+	if interned, ok := c[value]; ok {
+		return interned
+	}
+
+	c[value] = value
+	return value
 }
 
 type idCache map[idCacheKey]string
@@ -64,6 +82,7 @@ func NewIdentifierFactory() IdentifierFactory {
 		renames:                   createRenames(),
 		reservedWords:             createReservedWords(),
 		idCache:                   make(idCache),
+		internCache:               make(internCache),
 		receiverCache:             make(map[string]string),
 		forbiddenReceiverSuffixes: createForbiddenReceiverSuffixes(),
 	}
@@ -81,6 +100,7 @@ func (factory *identifierFactory) CreateIdentifier(name string, visibility Visib
 
 	result := factory.createIdentifierUncached(name, visibility)
 	factory.rwLock.Lock()
+	result = factory.internCache.intern(result)
 	factory.idCache[cacheKey] = result
 	factory.rwLock.Unlock()
 	return result
@@ -190,6 +210,7 @@ func (factory *identifierFactory) CreateReceiver(name string) string {
 	result = factory.CreateLocal(base)
 
 	factory.rwLock.Lock()
+	result = factory.internCache.intern(result)
 	factory.receiverCache[name] = result
 	factory.rwLock.Unlock()
 
@@ -253,7 +274,7 @@ func transformToSnakeCase(input string) string {
 	words := sliceIntoWords(input)
 
 	// my kingdom for LINQ
-	var lowerWords []string
+	lowerWords := make([]string, 0, len(words))
 	for _, word := range words {
 		lowerWords = append(lowerWords, strings.ToLower(word))
 	}

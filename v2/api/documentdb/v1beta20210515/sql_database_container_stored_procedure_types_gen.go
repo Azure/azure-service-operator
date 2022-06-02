@@ -440,7 +440,7 @@ func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_STATUS) P
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		procedure.Tags = make(map[string]string)
+		procedure.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			procedure.Tags[key] = value
 		}
@@ -607,7 +607,7 @@ func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec) Con
 
 	// Set property ‘Tags’:
 	if procedure.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(procedure.Tags))
 		for key, value := range procedure.Tags {
 			result.Tags[key] = value
 		}
@@ -671,7 +671,7 @@ func (procedure *DatabaseAccountsSqlDatabasesContainersStoredProcedure_Spec) Pop
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		procedure.Tags = make(map[string]string)
+		procedure.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			procedure.Tags[key] = value
 		}

@@ -163,7 +163,7 @@ func (ref ResourceReference) Copy() ResourceReference {
 
 // ValidateResourceReferences calls Validate on each ResourceReference
 func ValidateResourceReferences(refs set.Set[ResourceReference]) error {
-	var errs []error
+	errs := make([]error, 0, len(refs))
 	for ref := range refs {
 		errs = append(errs, ref.Validate())
 	}

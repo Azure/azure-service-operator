@@ -428,7 +428,7 @@ func (queue *StorageAccountsQueueServicesQueue_STATUS) PopulateFromARM(owner gen
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Metadata != nil {
-			queue.Metadata = make(map[string]string)
+			queue.Metadata = make(map[string]string, len(typedInput.Properties.Metadata))
 			for key, value := range typedInput.Properties.Metadata {
 				queue.Metadata[key] = value
 			}
@@ -543,7 +543,7 @@ func (queue *StorageAccountsQueueServicesQueue_Spec) ConvertToARM(resolved genru
 		result.Properties = &QueuePropertiesARM{}
 	}
 	if queue.Metadata != nil {
-		result.Properties.Metadata = make(map[string]string)
+		result.Properties.Metadata = make(map[string]string, len(queue.Metadata))
 		for key, value := range queue.Metadata {
 			result.Properties.Metadata[key] = value
 		}
@@ -570,7 +570,7 @@ func (queue *StorageAccountsQueueServicesQueue_Spec) PopulateFromARM(owner genru
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Metadata != nil {
-			queue.Metadata = make(map[string]string)
+			queue.Metadata = make(map[string]string, len(typedInput.Properties.Metadata))
 			for key, value := range typedInput.Properties.Metadata {
 				queue.Metadata[key] = value
 			}

@@ -627,7 +627,7 @@ func (embedded *NetworkInterface_STATUS_NetworkInterface_SubResourceEmbedded) Po
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		embedded.Tags = make(map[string]string)
+		embedded.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			embedded.Tags[key] = value
 		}
@@ -1215,7 +1215,7 @@ func (networkInterface *NetworkInterface_Spec) ConvertToARM(resolved genruntime.
 
 	// Set property ‘Tags’:
 	if networkInterface.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(networkInterface.Tags))
 		for key, value := range networkInterface.Tags {
 			result.Tags[key] = value
 		}
@@ -1355,7 +1355,7 @@ func (networkInterface *NetworkInterface_Spec) PopulateFromARM(owner genruntime.
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		networkInterface.Tags = make(map[string]string)
+		networkInterface.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			networkInterface.Tags[key] = value
 		}
@@ -3253,7 +3253,7 @@ func (embedded *NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded) C
 
 	// Set property ‘Tags’:
 	if embedded.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(embedded.Tags))
 		for key, value := range embedded.Tags {
 			result.Tags[key] = value
 		}
@@ -3296,7 +3296,7 @@ func (embedded *NetworkSecurityGroupSpec_NetworkInterface_SubResourceEmbedded) P
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		embedded.Tags = make(map[string]string)
+		embedded.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			embedded.Tags[key] = value
 		}
@@ -3643,7 +3643,7 @@ func (service *PrivateLinkServiceSpec) ConvertToARM(resolved genruntime.ConvertT
 
 	// Set property ‘Tags’:
 	if service.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(service.Tags))
 		for key, value := range service.Tags {
 			result.Tags[key] = value
 		}
@@ -3741,7 +3741,7 @@ func (service *PrivateLinkServiceSpec) PopulateFromARM(owner genruntime.Arbitrar
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		service.Tags = make(map[string]string)
+		service.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			service.Tags[key] = value
 		}
@@ -6002,7 +6002,7 @@ func (embedded *VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded) Conv
 
 	// Set property ‘Tags’:
 	if embedded.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(embedded.Tags))
 		for key, value := range embedded.Tags {
 			result.Tags[key] = value
 		}
@@ -6055,7 +6055,7 @@ func (embedded *VirtualNetworkTapSpec_NetworkInterface_SubResourceEmbedded) Popu
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		embedded.Tags = make(map[string]string)
+		embedded.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			embedded.Tags[key] = value
 		}

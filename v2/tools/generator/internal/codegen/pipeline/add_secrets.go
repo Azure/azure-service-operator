@@ -52,7 +52,7 @@ func applyConfigSecretOverrides(config *config.Configuration, definitions astmod
 
 	applyConfigSecrets := func(_ *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
 		typeName := ctx.(astmodel.TypeName)
-		for _, prop := range it.Properties() {
+		for _, prop := range it.Properties().Copy() {
 			isSecret, _ := config.IsSecret(typeName, prop.PropertyName())
 			if isSecret {
 				it = it.WithProperty(prop.WithIsSecret(true))
@@ -127,7 +127,7 @@ func removeStatusSecrets(definitions astmodel.TypeDefinitionSet) (astmodel.TypeD
 }
 
 func removeSecretProperties(_ *astmodel.TypeVisitor, it *astmodel.ObjectType, _ interface{}) (astmodel.Type, error) {
-	for _, prop := range it.Properties() {
+	for _, prop := range it.Properties().Copy() {
 		if prop.IsSecret() {
 			// The expectation is that this is a string
 			propType := prop.PropertyType()
@@ -143,7 +143,7 @@ func removeSecretProperties(_ *astmodel.TypeVisitor, it *astmodel.ObjectType, _ 
 }
 
 func transformSecretProperties(_ *astmodel.TypeVisitor, it *astmodel.ObjectType, _ interface{}) (astmodel.Type, error) {
-	for _, prop := range it.Properties() {
+	for _, prop := range it.Properties().Copy() {
 		if prop.IsSecret() {
 			// The expectation is that this is a string
 			propType := prop.PropertyType()

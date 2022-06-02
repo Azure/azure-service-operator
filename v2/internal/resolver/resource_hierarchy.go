@@ -43,7 +43,6 @@ func (h ResourceHierarchy) ResourceGroup() (string, error) {
 // Location returns the location root of the hierarchy, or an error
 // if the root is not a subscription.
 func (h ResourceHierarchy) Location() (string, error) {
-
 	rootKind := h.RootKind()
 	if rootKind != ResourceHierarchyRootSubscription {
 		return "", errors.Errorf("not rooted in a subscription: %s", rootKind)
@@ -149,7 +148,7 @@ func (h ResourceHierarchy) RootKind() ResourceHierarchyRoot {
 }
 
 func (h ResourceHierarchy) getAzureNames() []string {
-	var azureNames []string
+	azureNames := make([]string, 0, len(h))
 
 	for _, res := range h {
 		azureNames = append(azureNames, res.AzureName())

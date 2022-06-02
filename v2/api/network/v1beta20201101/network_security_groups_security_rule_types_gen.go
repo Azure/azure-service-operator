@@ -1588,7 +1588,7 @@ func (group *ApplicationSecurityGroupSpec) ConvertToARM(resolved genruntime.Conv
 
 	// Set property ‘Tags’:
 	if group.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(group.Tags))
 		for key, value := range group.Tags {
 			result.Tags[key] = value
 		}
@@ -1618,7 +1618,7 @@ func (group *ApplicationSecurityGroupSpec) PopulateFromARM(owner genruntime.Arbi
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		group.Tags = make(map[string]string)
+		group.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			group.Tags[key] = value
 		}

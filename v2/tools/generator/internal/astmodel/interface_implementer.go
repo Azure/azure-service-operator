@@ -10,6 +10,7 @@ import (
 	"sort"
 
 	"github.com/dave/dst"
+	"golang.org/x/exp/maps"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
 )
@@ -62,13 +63,11 @@ func (i InterfaceImplementer) References() TypeNameSet {
 func (i InterfaceImplementer) AsDeclarations(
 	codeGenerationContext *CodeGenerationContext,
 	typeName TypeName,
-	_ []string) []dst.Decl {
-
-	var result []dst.Decl
-
+	_ []string,
+) []dst.Decl {
 	// interfaces must be ordered by name for deterministic output
 	// (We sort them directly to skip future lookups)
-	var interfaces []*InterfaceImplementation
+	interfaces := make([]*InterfaceImplementation, 0, len(i.interfaces))
 	for _, iface := range i.interfaces {
 		interfaces = append(interfaces, iface)
 	}
@@ -77,14 +76,11 @@ func (i InterfaceImplementer) AsDeclarations(
 		return interfaces[i].Name().name < interfaces[j].Name().name
 	})
 
+	result := make([]dst.Decl, 0, len(interfaces))
 	for _, iface := range interfaces {
 		result = append(result, i.generateInterfaceImplAssertion(codeGenerationContext, iface, typeName))
 
-		var functions []Function
-		for _, f := range iface.functions {
-			functions = append(functions, f)
-		}
-
+		functions := maps.Values(iface.functions)
 		sort.Slice(functions, func(i int, j int) bool {
 			return functions[i].Name() < functions[j].Name()
 		})
@@ -129,8 +125,8 @@ func (i InterfaceImplementer) RequiredPackageReferences() *PackageReferenceSet {
 func (i InterfaceImplementer) generateInterfaceImplAssertion(
 	codeGenerationContext *CodeGenerationContext,
 	iface *InterfaceImplementation,
-	typeName TypeName) dst.Decl {
-
+	typeName TypeName,
+) dst.Decl {
 	ifacePackageName, err := codeGenerationContext.GetImportedPackageName(iface.name.PackageReference)
 	if err != nil {
 		panic(err)

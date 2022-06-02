@@ -633,7 +633,7 @@ func (server *FlexibleServer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		server.Tags = make(map[string]string)
+		server.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			server.Tags[key] = value
 		}
@@ -1128,7 +1128,7 @@ func (server *FlexibleServer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property ‘Tags’:
 	if server.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(server.Tags))
 		for key, value := range server.Tags {
 			result.Tags[key] = value
 		}
@@ -1287,7 +1287,7 @@ func (server *FlexibleServer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		server.Tags = make(map[string]string)
+		server.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			server.Tags[key] = value
 		}

@@ -356,7 +356,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property ‘MapFoo’:
 	if resource.MapFoo != nil {
-		result.MapFoo = make(map[string]FooARM)
+		result.MapFoo = make(map[string]FooARM, len(resource.MapFoo))
 		for key, value := range resource.MapFoo {
 			valueARM, err := value.ConvertToARM(resolved)
 			if err != nil {
@@ -368,7 +368,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property ‘MapOfArrays’:
 	if resource.MapOfArrays != nil {
-		result.MapOfArrays = make(map[string][]FooARM)
+		result.MapOfArrays = make(map[string][]FooARM, len(resource.MapOfArrays))
 		for key, value := range resource.MapOfArrays {
 			var valueTemp []FooARM
 			for _, item := range value {
@@ -384,7 +384,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property ‘MapOfEnums’:
 	if resource.MapOfEnums != nil {
-		result.MapOfEnums = make(map[string]Color)
+		result.MapOfEnums = make(map[string]Color, len(resource.MapOfEnums))
 		for key, value := range resource.MapOfEnums {
 			result.MapOfEnums[key] = value
 		}
@@ -392,10 +392,10 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property ‘MapOfMaps’:
 	if resource.MapOfMaps != nil {
-		result.MapOfMaps = make(map[string]map[string]FooARM)
+		result.MapOfMaps = make(map[string]map[string]FooARM, len(resource.MapOfMaps))
 		for key, value := range resource.MapOfMaps {
 			if value != nil {
-				valueTemp := make(map[string]FooARM)
+				valueTemp := make(map[string]FooARM, len(value))
 				for valueKey, value1 := range value {
 					value1ARM, err := value1.ConvertToARM(resolved)
 					if err != nil {
@@ -410,13 +410,13 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property ‘MapOfMapsOfMaps’:
 	if resource.MapOfMapsOfMaps != nil {
-		result.MapOfMapsOfMaps = make(map[string]map[string]map[string]FooARM)
+		result.MapOfMapsOfMaps = make(map[string]map[string]map[string]FooARM, len(resource.MapOfMapsOfMaps))
 		for key, value := range resource.MapOfMapsOfMaps {
 			if value != nil {
-				valueTemp := make(map[string]map[string]FooARM)
+				valueTemp := make(map[string]map[string]FooARM, len(value))
 				for valueKey, value1 := range value {
 					if value1 != nil {
-						value1Temp := make(map[string]FooARM)
+						value1Temp := make(map[string]FooARM, len(value1))
 						for valueKey1, value2 := range value1 {
 							value2ARM, err := value2.ConvertToARM(resolved)
 							if err != nil {
@@ -434,13 +434,13 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property ‘MapOfMapsOfMapsOfStrings’:
 	if resource.MapOfMapsOfMapsOfStrings != nil {
-		result.MapOfMapsOfMapsOfStrings = make(map[string]map[string]map[string]string)
+		result.MapOfMapsOfMapsOfStrings = make(map[string]map[string]map[string]string, len(resource.MapOfMapsOfMapsOfStrings))
 		for key, value := range resource.MapOfMapsOfMapsOfStrings {
 			if value != nil {
-				valueTemp := make(map[string]map[string]string)
+				valueTemp := make(map[string]map[string]string, len(value))
 				for valueKey, value1 := range value {
 					if value1 != nil {
-						value1Temp := make(map[string]string)
+						value1Temp := make(map[string]string, len(value1))
 						for valueKey1, value2 := range value1 {
 							value1Temp[valueKey1] = value2
 						}
@@ -454,7 +454,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property ‘MapOfStrings’:
 	if resource.MapOfStrings != nil {
-		result.MapOfStrings = make(map[string]string)
+		result.MapOfStrings = make(map[string]string, len(resource.MapOfStrings))
 		for key, value := range resource.MapOfStrings {
 			result.MapOfStrings[key] = value
 		}
@@ -488,7 +488,7 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property ‘MapFoo’:
 	if typedInput.MapFoo != nil {
-		resource.MapFoo = make(map[string]Foo)
+		resource.MapFoo = make(map[string]Foo, len(typedInput.MapFoo))
 		for key, value := range typedInput.MapFoo {
 			var value1 Foo
 			err := value1.PopulateFromARM(owner, value)
@@ -501,7 +501,7 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property ‘MapOfArrays’:
 	if typedInput.MapOfArrays != nil {
-		resource.MapOfArrays = make(map[string][]Foo)
+		resource.MapOfArrays = make(map[string][]Foo, len(typedInput.MapOfArrays))
 		for key, value := range typedInput.MapOfArrays {
 			var valueTemp []Foo
 			for _, item := range value {
@@ -518,7 +518,7 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property ‘MapOfEnums’:
 	if typedInput.MapOfEnums != nil {
-		resource.MapOfEnums = make(map[string]Color)
+		resource.MapOfEnums = make(map[string]Color, len(typedInput.MapOfEnums))
 		for key, value := range typedInput.MapOfEnums {
 			resource.MapOfEnums[key] = value
 		}
@@ -526,10 +526,10 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property ‘MapOfMaps’:
 	if typedInput.MapOfMaps != nil {
-		resource.MapOfMaps = make(map[string]map[string]Foo)
+		resource.MapOfMaps = make(map[string]map[string]Foo, len(typedInput.MapOfMaps))
 		for key, value := range typedInput.MapOfMaps {
 			if value != nil {
-				valueTemp := make(map[string]Foo)
+				valueTemp := make(map[string]Foo, len(value))
 				for valueKey, value1 := range value {
 					var value2 Foo
 					err := value2.PopulateFromARM(owner, value1)
@@ -545,13 +545,13 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property ‘MapOfMapsOfMaps’:
 	if typedInput.MapOfMapsOfMaps != nil {
-		resource.MapOfMapsOfMaps = make(map[string]map[string]map[string]Foo)
+		resource.MapOfMapsOfMaps = make(map[string]map[string]map[string]Foo, len(typedInput.MapOfMapsOfMaps))
 		for key, value := range typedInput.MapOfMapsOfMaps {
 			if value != nil {
-				valueTemp := make(map[string]map[string]Foo)
+				valueTemp := make(map[string]map[string]Foo, len(value))
 				for valueKey, value1 := range value {
 					if value1 != nil {
-						value1Temp := make(map[string]Foo)
+						value1Temp := make(map[string]Foo, len(value1))
 						for valueKey1, value2 := range value1 {
 							var value3 Foo
 							err := value3.PopulateFromARM(owner, value2)
@@ -570,13 +570,13 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property ‘MapOfMapsOfMapsOfStrings’:
 	if typedInput.MapOfMapsOfMapsOfStrings != nil {
-		resource.MapOfMapsOfMapsOfStrings = make(map[string]map[string]map[string]string)
+		resource.MapOfMapsOfMapsOfStrings = make(map[string]map[string]map[string]string, len(typedInput.MapOfMapsOfMapsOfStrings))
 		for key, value := range typedInput.MapOfMapsOfMapsOfStrings {
 			if value != nil {
-				valueTemp := make(map[string]map[string]string)
+				valueTemp := make(map[string]map[string]string, len(value))
 				for valueKey, value1 := range value {
 					if value1 != nil {
-						value1Temp := make(map[string]string)
+						value1Temp := make(map[string]string, len(value1))
 						for valueKey1, value2 := range value1 {
 							value1Temp[valueKey1] = value2
 						}
@@ -590,7 +590,7 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property ‘MapOfStrings’:
 	if typedInput.MapOfStrings != nil {
-		resource.MapOfStrings = make(map[string]string)
+		resource.MapOfStrings = make(map[string]string, len(typedInput.MapOfStrings))
 		for key, value := range typedInput.MapOfStrings {
 			resource.MapOfStrings[key] = value
 		}

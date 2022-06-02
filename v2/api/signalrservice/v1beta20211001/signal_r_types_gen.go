@@ -689,7 +689,7 @@ func (signalR *SignalR_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		signalR.Tags = make(map[string]string)
+		signalR.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			signalR.Tags[key] = value
 		}
@@ -1376,7 +1376,7 @@ func (signalR *SignalR_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property ‘Tags’:
 	if signalR.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(signalR.Tags))
 		for key, value := range signalR.Tags {
 			result.Tags[key] = value
 		}
@@ -1522,7 +1522,7 @@ func (signalR *SignalR_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		signalR.Tags = make(map[string]string)
+		signalR.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			signalR.Tags[key] = value
 		}
@@ -2066,7 +2066,7 @@ func (identity *ManagedIdentity_STATUS) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property ‘UserAssignedIdentities’:
 	if typedInput.UserAssignedIdentities != nil {
-		identity.UserAssignedIdentities = make(map[string]UserAssignedIdentityProperty_STATUS)
+		identity.UserAssignedIdentities = make(map[string]UserAssignedIdentityProperty_STATUS, len(typedInput.UserAssignedIdentities))
 		for key, value := range typedInput.UserAssignedIdentities {
 			var value1 UserAssignedIdentityProperty_STATUS
 			err := value1.PopulateFromARM(owner, value)
@@ -3194,7 +3194,7 @@ func (feature *SignalRFeature) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property ‘Properties’:
 	if feature.Properties != nil {
-		result.Properties = make(map[string]string)
+		result.Properties = make(map[string]string, len(feature.Properties))
 		for key, value := range feature.Properties {
 			result.Properties[key] = value
 		}
@@ -3228,7 +3228,7 @@ func (feature *SignalRFeature) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property ‘Properties’:
 	if typedInput.Properties != nil {
-		feature.Properties = make(map[string]string)
+		feature.Properties = make(map[string]string, len(typedInput.Properties))
 		for key, value := range typedInput.Properties {
 			feature.Properties[key] = value
 		}
@@ -3338,7 +3338,7 @@ func (feature *SignalRFeature_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property ‘Properties’:
 	if typedInput.Properties != nil {
-		feature.Properties = make(map[string]string)
+		feature.Properties = make(map[string]string, len(typedInput.Properties))
 		for key, value := range typedInput.Properties {
 			feature.Properties[key] = value
 		}

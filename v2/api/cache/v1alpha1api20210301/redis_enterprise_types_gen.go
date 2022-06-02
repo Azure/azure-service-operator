@@ -511,7 +511,7 @@ func (enterprise *RedisEnterprise_STATUS) PopulateFromARM(owner genruntime.Arbit
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		enterprise.Tags = make(map[string]string)
+		enterprise.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			enterprise.Tags[key] = value
 		}
@@ -780,7 +780,7 @@ func (enterprise *RedisEnterprise_Spec) ConvertToARM(resolved genruntime.Convert
 
 	// Set property ‘Tags’:
 	if enterprise.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(enterprise.Tags))
 		for key, value := range enterprise.Tags {
 			result.Tags[key] = value
 		}
@@ -841,7 +841,7 @@ func (enterprise *RedisEnterprise_Spec) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		enterprise.Tags = make(map[string]string)
+		enterprise.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			enterprise.Tags[key] = value
 		}

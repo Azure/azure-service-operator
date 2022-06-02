@@ -11,8 +11,10 @@ import (
 	"strings"
 
 	"github.com/dave/dst"
+	"golang.org/x/exp/slices"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/readonly"
 )
 
 // PropertyName is a semantic type
@@ -47,7 +49,7 @@ type PropertyDefinition struct {
 	isSecret bool
 	readOnly bool
 
-	tags map[string][]string
+	tags readonly.Map[string, []string] // Note: have to be careful about not mutating inner []string
 }
 
 func (property *PropertyDefinition) AddFlattenedFrom(name PropertyName) *PropertyDefinition {
@@ -74,54 +76,36 @@ var _ fmt.Stringer = &PropertyDefinition{}
 // name is the name for the new property (mandatory)
 // propertyType is the type for the new property (mandatory)
 func NewPropertyDefinition(propertyName PropertyName, jsonName string, propertyType Type) *PropertyDefinition {
-	tags := make(map[string][]string)
-	tags["json"] = []string{jsonName, "omitempty"}
-
 	return &PropertyDefinition{
 		propertyName:  propertyName,
 		propertyType:  propertyType,
 		description:   "",
 		flattenedFrom: []PropertyName{propertyName},
-		tags:          tags,
+		tags: readonly.CreateMap(map[string][]string{
+			"json": {jsonName, "omitempty"},
+		}),
 	}
 }
 
 // WithName returns a new PropertyDefinition with the given name
 func (property *PropertyDefinition) WithName(name PropertyName) *PropertyDefinition {
-	result := *property
+	result := property.copy()
 	result.propertyName = name
-	return &result
+	return result
 }
 
 // WithName returns a new PropertyDefinition with the JSON name
 func (property *PropertyDefinition) WithJsonName(jsonName string) *PropertyDefinition {
-	result := *property
+	result := property.copy()
 	// TODO post-alpha: replace result.tags with structured types
-	if jsonName != result.tags["json"][0] {
+	jsonTag, _ := result.tags.Get("json")
+	if jsonName != jsonTag[0] {
 		// copy tags and update
-		newTags := cloneMapOfStringToSliceOfString(result.tags)
-		jsonTagValues := cloneSliceOfString(newTags["json"])
+		jsonTagValues := slices.Clone(jsonTag)
 		jsonTagValues[0] = jsonName
-		newTags["json"] = jsonTagValues
-
-		result.tags = newTags
+		result.tags = result.tags.With("json", jsonTagValues)
 	}
 
-	return &result
-}
-
-func cloneMapOfStringToSliceOfString(m map[string][]string) map[string][]string {
-	result := make(map[string][]string)
-	for k, v := range m {
-		result[k] = v
-	}
-
-	return result
-}
-
-func cloneSliceOfString(s []string) []string {
-	result := make([]string, len(s))
-	copy(result, s)
 	return result
 }
 
@@ -141,9 +125,9 @@ func (property *PropertyDefinition) SetFlatten(flatten bool) *PropertyDefinition
 		return property
 	}
 
-	result := *property
+	result := property.copy()
 	result.flatten = flatten
-	return &result
+	return result
 }
 
 // WithReadOnly returns a new PropertyDefinition with ReadOnly set to the specified value
@@ -206,29 +190,36 @@ func (property *PropertyDefinition) HasName(name PropertyName) bool {
 
 // WithTag adds the given tag to the field
 func (property *PropertyDefinition) WithTag(key string, value string) *PropertyDefinition {
-	// Check if exists
-	for _, v := range property.tags[key] {
-		if v == value {
+	values, ok := property.tags.Get(key)
+	if ok {
+		if slices.Contains(values, value) {
 			return property
+		} else {
+			result := property.copy()
+			result.tags = result.tags.With(key, append(slices.Clone(values), value))
+			return result
 		}
+	} else {
+		result := property.copy()
+		result.tags = result.tags.With(key, []string{value})
+		return result
 	}
-
-	result := property.copy()
-	result.tags[key] = append(result.tags[key], value)
-
-	return result
 }
 
 // WithoutTag removes the given tag (or value of tag) from the field. If value is empty, remove the entire tag.
 // if value is not empty, remove just that value.
 func (property *PropertyDefinition) WithoutTag(key string, value string) *PropertyDefinition {
-	result := property.copy()
-
 	if value != "" {
 		// Find the value and remove it
 		// TODO: Do we want a generic helper that does this?
-		var tagsWithoutValue []string
-		for _, item := range result.tags[key] {
+		values, ok := property.tags.Get(key)
+		if !ok {
+			return property
+		}
+
+		result := property.copy()
+		tagsWithoutValue := make([]string, 0, len(values))
+		for _, item := range values {
 			if item == value {
 				continue
 			}
@@ -236,31 +227,27 @@ func (property *PropertyDefinition) WithoutTag(key string, value string) *Proper
 		}
 
 		if len(tagsWithoutValue) == 0 {
-			delete(result.tags, key)
+			result.tags = result.tags.Without(key)
 		} else {
-			result.tags[key] = tagsWithoutValue
+			result.tags = result.tags.With(key, tagsWithoutValue)
 		}
+		return result
 	} else {
-		delete(result.tags, key)
+		result := property.copy()
+		result.tags = result.tags.Without(key)
+		return result
 	}
-
-	return result
 }
 
 // HasTag returns true if the property has the specified tag
 func (property *PropertyDefinition) HasTag(key string) bool {
-	_, ok := property.tags[key]
-	return ok
+	return property.tags.ContainsKey(key)
 }
 
 // HasTagValue returns true if the property has the specified tag value
 func (property *PropertyDefinition) HasTagValue(key string, value string) bool {
-	if values, ok := property.tags[key]; ok {
-		for _, item := range values {
-			if item == value {
-				return true
-			}
-		}
+	if values, ok := property.tags.Get(key); ok {
+		return slices.Contains(values, value)
 	}
 
 	return false
@@ -268,8 +255,11 @@ func (property *PropertyDefinition) HasTagValue(key string, value string) bool {
 
 // Tag returns the tag values of a given tag key
 func (property *PropertyDefinition) Tag(key string) ([]string, bool) {
-	result, ok := property.tags[key]
-	return result, ok
+	if result, ok := property.tags.Get(key); ok {
+		return slices.Clone(result), true
+	}
+
+	return nil, false
 }
 
 // JSONName returns the JSON name of the property, or false if there is no json name
@@ -389,18 +379,16 @@ func (property *PropertyDefinition) IsSecret() bool {
 }
 
 func (property *PropertyDefinition) renderedTags() string {
-	var orderedKeys []string
-	for key := range property.tags {
-		orderedKeys = append(orderedKeys, key)
-	}
+	orderedKeys := property.tags.Keys()
 
 	sort.Slice(orderedKeys, func(i, j int) bool {
 		return orderedKeys[i] < orderedKeys[j]
 	})
 
-	var tags []string
+	tags := make([]string, 0, len(orderedKeys))
 	for _, key := range orderedKeys {
-		tagString := strings.Join(property.tags[key], ",")
+		values, _ := property.tags.Get(key)
+		tagString := strings.Join(values, ",")
 		tags = append(tags, fmt.Sprintf("%s:%q", key, tagString))
 	}
 
@@ -466,26 +454,10 @@ func (property *PropertyDefinition) AsField(codeGenerationContext *CodeGeneratio
 }
 
 func (property *PropertyDefinition) tagsEqual(f *PropertyDefinition) bool {
-	if len(property.tags) != len(f.tags) {
-		return false
-	}
-
-	for key, value := range property.tags {
-		otherValue, ok := f.tags[key]
-		if !ok || len(value) != len(otherValue) {
-			return false
-		}
-		// Comparison here takes ordering into account because for tags like
-		// json, ordering matters - `json:"foo,omitempty"` is different than
-		// `json:"omitempty,foo`
-		for i := 0; i < len(value); i++ {
-			if value[i] != otherValue[i] {
-				return false
-			}
-		}
-	}
-
-	return true
+	// Comparison here takes ordering into account because for tags like
+	// json, ordering matters - `json:"foo,omitempty"` is different than
+	// `json:"omitempty,foo`
+	return property.tags.Equals(f.tags, slices.Equal[string])
 }
 
 // Equals tests to see if the specified PropertyDefinition specifies the same property
@@ -502,13 +474,6 @@ func (property *PropertyDefinition) Equals(o *PropertyDefinition, overrides Equa
 
 func (property *PropertyDefinition) copy() *PropertyDefinition {
 	result := *property
-
-	// Copy ptr fields
-	result.tags = make(map[string][]string, len(property.tags))
-	for key, value := range property.tags {
-		result.tags[key] = append([]string(nil), value...)
-	}
-
 	return &result
 }
 

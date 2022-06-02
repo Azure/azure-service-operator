@@ -801,7 +801,7 @@ func (cluster *ManagedCluster_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		cluster.Tags = make(map[string]string)
+		cluster.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			cluster.Tags[key] = value
 		}
@@ -1697,7 +1697,7 @@ func (cluster *ManagedCluster_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property ‘Tags’:
 	if cluster.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(cluster.Tags))
 		for key, value := range cluster.Tags {
 			result.Tags[key] = value
 		}
@@ -2001,7 +2001,7 @@ func (cluster *ManagedCluster_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		cluster.Tags = make(map[string]string)
+		cluster.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			cluster.Tags[key] = value
 		}
@@ -4451,7 +4451,7 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 
 	// Set property ‘NodeLabels’:
 	if profile.NodeLabels != nil {
-		result.NodeLabels = make(map[string]string)
+		result.NodeLabels = make(map[string]string, len(profile.NodeLabels))
 		for key, value := range profile.NodeLabels {
 			result.NodeLabels[key] = value
 		}
@@ -4538,7 +4538,7 @@ func (profile *ManagedClusterAgentPoolProfile) ConvertToARM(resolved genruntime.
 
 	// Set property ‘Tags’:
 	if profile.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(profile.Tags))
 		for key, value := range profile.Tags {
 			result.Tags[key] = value
 		}
@@ -4697,7 +4697,7 @@ func (profile *ManagedClusterAgentPoolProfile) PopulateFromARM(owner genruntime.
 
 	// Set property ‘NodeLabels’:
 	if typedInput.NodeLabels != nil {
-		profile.NodeLabels = make(map[string]string)
+		profile.NodeLabels = make(map[string]string, len(typedInput.NodeLabels))
 		for key, value := range typedInput.NodeLabels {
 			profile.NodeLabels[key] = value
 		}
@@ -4768,7 +4768,7 @@ func (profile *ManagedClusterAgentPoolProfile) PopulateFromARM(owner genruntime.
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		profile.Tags = make(map[string]string)
+		profile.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			profile.Tags[key] = value
 		}
@@ -5452,7 +5452,7 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) PopulateFromARM(owner genr
 
 	// Set property ‘NodeLabels’:
 	if typedInput.NodeLabels != nil {
-		profile.NodeLabels = make(map[string]string)
+		profile.NodeLabels = make(map[string]string, len(typedInput.NodeLabels))
 		for key, value := range typedInput.NodeLabels {
 			profile.NodeLabels[key] = value
 		}
@@ -5548,7 +5548,7 @@ func (profile *ManagedClusterAgentPoolProfile_STATUS) PopulateFromARM(owner genr
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		profile.Tags = make(map[string]string)
+		profile.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			profile.Tags[key] = value
 		}
@@ -6554,7 +6554,7 @@ func (identity *ManagedClusterIdentity_STATUS) PopulateFromARM(owner genruntime.
 
 	// Set property ‘UserAssignedIdentities’:
 	if typedInput.UserAssignedIdentities != nil {
-		identity.UserAssignedIdentities = make(map[string]ManagedClusterIdentity_UserAssignedIdentities_STATUS)
+		identity.UserAssignedIdentities = make(map[string]ManagedClusterIdentity_UserAssignedIdentities_STATUS, len(typedInput.UserAssignedIdentities))
 		for key, value := range typedInput.UserAssignedIdentities {
 			var value1 ManagedClusterIdentity_UserAssignedIdentities_STATUS
 			err := value1.PopulateFromARM(owner, value)
@@ -9840,7 +9840,7 @@ func (exception *ManagedClusterPodIdentityException) ConvertToARM(resolved genru
 
 	// Set property ‘PodLabels’:
 	if exception.PodLabels != nil {
-		result.PodLabels = make(map[string]string)
+		result.PodLabels = make(map[string]string, len(exception.PodLabels))
 		for key, value := range exception.PodLabels {
 			result.PodLabels[key] = value
 		}
@@ -9874,7 +9874,7 @@ func (exception *ManagedClusterPodIdentityException) PopulateFromARM(owner genru
 
 	// Set property ‘PodLabels’:
 	if typedInput.PodLabels != nil {
-		exception.PodLabels = make(map[string]string)
+		exception.PodLabels = make(map[string]string, len(typedInput.PodLabels))
 		for key, value := range typedInput.PodLabels {
 			exception.PodLabels[key] = value
 		}
@@ -9960,7 +9960,7 @@ func (exception *ManagedClusterPodIdentityException_STATUS) PopulateFromARM(owne
 
 	// Set property ‘PodLabels’:
 	if typedInput.PodLabels != nil {
-		exception.PodLabels = make(map[string]string)
+		exception.PodLabels = make(map[string]string, len(typedInput.PodLabels))
 		for key, value := range typedInput.PodLabels {
 			exception.PodLabels[key] = value
 		}

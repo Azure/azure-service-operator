@@ -455,7 +455,7 @@ func (database *DatabaseAccountsMongodbDatabase_STATUS) PopulateFromARM(owner ge
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		database.Tags = make(map[string]string)
+		database.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			database.Tags[key] = value
 		}
@@ -646,7 +646,7 @@ func (database *DatabaseAccountsMongodbDatabase_Spec) ConvertToARM(resolved genr
 
 	// Set property ‘Tags’:
 	if database.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(database.Tags))
 		for key, value := range database.Tags {
 			result.Tags[key] = value
 		}
@@ -710,7 +710,7 @@ func (database *DatabaseAccountsMongodbDatabase_Spec) PopulateFromARM(owner genr
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		database.Tags = make(map[string]string)
+		database.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			database.Tags[key] = value
 		}

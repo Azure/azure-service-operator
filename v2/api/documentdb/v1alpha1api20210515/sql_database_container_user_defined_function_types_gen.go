@@ -443,7 +443,7 @@ func (function *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_STATUS
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		function.Tags = make(map[string]string)
+		function.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			function.Tags[key] = value
 		}
@@ -604,7 +604,7 @@ func (function *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec) 
 
 	// Set property ‘Tags’:
 	if function.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(function.Tags))
 		for key, value := range function.Tags {
 			result.Tags[key] = value
 		}
@@ -668,7 +668,7 @@ func (function *DatabaseAccountsSqlDatabasesContainersUserDefinedFunction_Spec) 
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		function.Tags = make(map[string]string)
+		function.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			function.Tags[key] = value
 		}

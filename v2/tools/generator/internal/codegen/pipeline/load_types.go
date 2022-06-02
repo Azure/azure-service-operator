@@ -281,11 +281,14 @@ func generateSpecTypes(swaggerTypes jsonast.SwaggerTypes) (astmodel.TypeDefiniti
 		rewriter := astmodel.TypeVisitorBuilder{
 			VisitObjectType: func(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
 				// strip all readonly props
-				for pName, p := range it.Properties() {
-					if p.ReadOnly() {
-						it = it.WithoutProperty(pName)
+				var propsToRemove []astmodel.PropertyName
+				it.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
+					if prop.ReadOnly() {
+						propsToRemove = append(propsToRemove, prop.PropertyName())
 					}
-				}
+				})
+
+				it = it.WithoutSpecificProperties(propsToRemove...)
 
 				return astmodel.IdentityVisitOfObjectType(this, it, ctx)
 			},

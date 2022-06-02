@@ -397,7 +397,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	// Set property ‘ArrayOfMaps’:
 	for _, item := range resource.ArrayOfMaps {
 		if item != nil {
-			itemTemp := make(map[string]FooARM)
+			itemTemp := make(map[string]FooARM, len(item))
 			for key, value := range item {
 				valueARM, err := value.ConvertToARM(resolved)
 				if err != nil {
@@ -482,7 +482,7 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// Set property ‘ArrayOfMaps’:
 	for _, item := range typedInput.ArrayOfMaps {
 		if item != nil {
-			itemTemp := make(map[string]Foo)
+			itemTemp := make(map[string]Foo, len(item))
 			for key, value := range item {
 				var value1 Foo
 				err := value1.PopulateFromARM(owner, value)

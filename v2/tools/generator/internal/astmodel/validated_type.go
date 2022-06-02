@@ -70,7 +70,7 @@ func (sv StringValidations) Equals(other Validations) bool {
 }
 
 func (sv StringValidations) ToKubeBuilderValidations() []KubeBuilderValidation {
-	var result []KubeBuilderValidation
+	result := make([]KubeBuilderValidation, 0, len(sv.Patterns)+2)
 	if sv.MaxLength != nil {
 		result = append(result, MakeMaxLengthValidation(*sv.MaxLength))
 	}

@@ -3160,7 +3160,7 @@ func (embedded *NetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedd
 
 	// Set property ‘Tags’:
 	if embedded.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(embedded.Tags))
 		for key, value := range embedded.Tags {
 			result.Tags[key] = value
 		}
@@ -3203,7 +3203,7 @@ func (embedded *NetworkSecurityGroupSpec_VirtualNetworksSubnet_SubResourceEmbedd
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		embedded.Tags = make(map[string]string)
+		embedded.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			embedded.Tags[key] = value
 		}
@@ -3681,7 +3681,7 @@ func (table *RouteTableSpec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property ‘Tags’:
 	if table.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(table.Tags))
 		for key, value := range table.Tags {
 			result.Tags[key] = value
 		}
@@ -3733,7 +3733,7 @@ func (table *RouteTableSpec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		table.Tags = make(map[string]string)
+		table.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			table.Tags[key] = value
 		}
@@ -4169,7 +4169,7 @@ func (policy *ServiceEndpointPolicySpec) ConvertToARM(resolved genruntime.Conver
 
 	// Set property ‘Tags’:
 	if policy.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(policy.Tags))
 		for key, value := range policy.Tags {
 			result.Tags[key] = value
 		}
@@ -4212,7 +4212,7 @@ func (policy *ServiceEndpointPolicySpec) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		policy.Tags = make(map[string]string)
+		policy.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			policy.Tags[key] = value
 		}

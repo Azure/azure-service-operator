@@ -130,8 +130,8 @@ func updateChildResourceDefinitionsWithOwner(
 	definitions astmodel.TypeDefinitionSet,
 	childResourceTypeNames []astmodel.TypeName,
 	owningResourceName astmodel.TypeName,
-	updatedDefs astmodel.TypeDefinitionSet) error {
-
+	updatedDefs astmodel.TypeDefinitionSet,
+) error {
 	for _, typeName := range childResourceTypeNames {
 		// If the typename ends in ChildResource, remove that
 		if strings.HasSuffix(typeName.Name(), ChildResourceNameSuffix) {
@@ -186,8 +186,8 @@ func updateChildResourceDefinitionsWithOwner(
 func setDefaultOwner(
 	configuration *config.Configuration,
 	definitions astmodel.TypeDefinitionSet,
-	updatedDefs astmodel.TypeDefinitionSet) {
-
+	updatedDefs astmodel.TypeDefinitionSet,
+) {
 	// Go over all of the resource types and flag any that don't have an owner as having resource group as their owner
 	for _, def := range definitions {
 		// Check if we've already modified this type - we need to use the already modified value

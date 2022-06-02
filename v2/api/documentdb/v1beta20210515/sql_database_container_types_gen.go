@@ -455,7 +455,7 @@ func (container *DatabaseAccountsSqlDatabasesContainer_STATUS) PopulateFromARM(o
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		container.Tags = make(map[string]string)
+		container.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			container.Tags[key] = value
 		}
@@ -646,7 +646,7 @@ func (container *DatabaseAccountsSqlDatabasesContainer_Spec) ConvertToARM(resolv
 
 	// Set property ‘Tags’:
 	if container.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(container.Tags))
 		for key, value := range container.Tags {
 			result.Tags[key] = value
 		}
@@ -710,7 +710,7 @@ func (container *DatabaseAccountsSqlDatabasesContainer_Spec) PopulateFromARM(own
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		container.Tags = make(map[string]string)
+		container.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			container.Tags[key] = value
 		}

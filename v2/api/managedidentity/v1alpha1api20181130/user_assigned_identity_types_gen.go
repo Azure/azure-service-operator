@@ -456,7 +456,7 @@ func (identity *UserAssignedIdentity_STATUS) PopulateFromARM(owner genruntime.Ar
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		identity.Tags = make(map[string]string)
+		identity.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			identity.Tags[key] = value
 		}
@@ -597,7 +597,7 @@ func (identity *UserAssignedIdentity_Spec) ConvertToARM(resolved genruntime.Conv
 
 	// Set property ‘Tags’:
 	if identity.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(identity.Tags))
 		for key, value := range identity.Tags {
 			result.Tags[key] = value
 		}
@@ -633,7 +633,7 @@ func (identity *UserAssignedIdentity_Spec) PopulateFromARM(owner genruntime.Arbi
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		identity.Tags = make(map[string]string)
+		identity.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			identity.Tags[key] = value
 		}

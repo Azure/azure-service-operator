@@ -668,7 +668,7 @@ func (scaleSet *VirtualMachineScaleSet_STATUS) PopulateFromARM(owner genruntime.
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		scaleSet.Tags = make(map[string]string)
+		scaleSet.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			scaleSet.Tags[key] = value
 		}
@@ -1408,7 +1408,7 @@ func (scaleSet *VirtualMachineScaleSet_Spec) ConvertToARM(resolved genruntime.Co
 
 	// Set property ‘Tags’:
 	if scaleSet.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(scaleSet.Tags))
 		for key, value := range scaleSet.Tags {
 			result.Tags[key] = value
 		}
@@ -1608,7 +1608,7 @@ func (scaleSet *VirtualMachineScaleSet_Spec) PopulateFromARM(owner genruntime.Ar
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		scaleSet.Tags = make(map[string]string)
+		scaleSet.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			scaleSet.Tags[key] = value
 		}
@@ -3213,7 +3213,7 @@ func (identity *VirtualMachineScaleSetIdentity_STATUS) PopulateFromARM(owner gen
 
 	// Set property ‘UserAssignedIdentities’:
 	if typedInput.UserAssignedIdentities != nil {
-		identity.UserAssignedIdentities = make(map[string]VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS)
+		identity.UserAssignedIdentities = make(map[string]VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS, len(typedInput.UserAssignedIdentities))
 		for key, value := range typedInput.UserAssignedIdentities {
 			var value1 VirtualMachineScaleSetIdentity_UserAssignedIdentities_STATUS
 			err := value1.PopulateFromARM(owner, value)

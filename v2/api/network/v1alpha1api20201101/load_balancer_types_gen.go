@@ -584,7 +584,7 @@ func (balancer *LoadBalancer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		balancer.Tags = make(map[string]string)
+		balancer.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			balancer.Tags[key] = value
 		}
@@ -1124,7 +1124,7 @@ func (balancer *LoadBalancer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property ‘Tags’:
 	if balancer.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(balancer.Tags))
 		for key, value := range balancer.Tags {
 			result.Tags[key] = value
 		}
@@ -1275,7 +1275,7 @@ func (balancer *LoadBalancer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		balancer.Tags = make(map[string]string)
+		balancer.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			balancer.Tags[key] = value
 		}
@@ -6130,7 +6130,7 @@ func (address *PublicIPAddressSpec) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property ‘Tags’:
 	if address.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(address.Tags))
 		for key, value := range address.Tags {
 			result.Tags[key] = value
 		}
@@ -6329,7 +6329,7 @@ func (address *PublicIPAddressSpec) PopulateFromARM(owner genruntime.ArbitraryOw
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		address.Tags = make(map[string]string)
+		address.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			address.Tags[key] = value
 		}

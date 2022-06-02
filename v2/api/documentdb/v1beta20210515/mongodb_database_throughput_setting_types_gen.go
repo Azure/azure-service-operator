@@ -440,7 +440,7 @@ func (setting *DatabaseAccountsMongodbDatabasesThroughputSetting_STATUS) Populat
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		setting.Tags = make(map[string]string)
+		setting.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			setting.Tags[key] = value
 		}
@@ -595,7 +595,7 @@ func (setting *DatabaseAccountsMongodbDatabasesThroughputSetting_Spec) ConvertTo
 
 	// Set property ‘Tags’:
 	if setting.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(setting.Tags))
 		for key, value := range setting.Tags {
 			result.Tags[key] = value
 		}
@@ -645,7 +645,7 @@ func (setting *DatabaseAccountsMongodbDatabasesThroughputSetting_Spec) PopulateF
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		setting.Tags = make(map[string]string)
+		setting.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			setting.Tags[key] = value
 		}

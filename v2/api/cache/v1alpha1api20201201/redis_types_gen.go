@@ -587,7 +587,7 @@ func (redis *Redis_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RedisConfiguration != nil {
-			redis.RedisConfiguration = make(map[string]string)
+			redis.RedisConfiguration = make(map[string]string, len(typedInput.Properties.RedisConfiguration))
 			for key, value := range typedInput.Properties.RedisConfiguration {
 				redis.RedisConfiguration[key] = value
 			}
@@ -673,7 +673,7 @@ func (redis *Redis_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		redis.Tags = make(map[string]string)
+		redis.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			redis.Tags[key] = value
 		}
@@ -683,7 +683,7 @@ func (redis *Redis_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TenantSettings != nil {
-			redis.TenantSettings = make(map[string]string)
+			redis.TenantSettings = make(map[string]string, len(typedInput.Properties.TenantSettings))
 			for key, value := range typedInput.Properties.TenantSettings {
 				redis.TenantSettings[key] = value
 			}
@@ -1142,7 +1142,7 @@ func (redis *Redis_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		result.Properties.PublicNetworkAccess = &publicNetworkAccess
 	}
 	if redis.RedisConfiguration != nil {
-		result.Properties.RedisConfiguration = make(map[string]string)
+		result.Properties.RedisConfiguration = make(map[string]string, len(redis.RedisConfiguration))
 		for key, value := range redis.RedisConfiguration {
 			result.Properties.RedisConfiguration[key] = value
 		}
@@ -1184,7 +1184,7 @@ func (redis *Redis_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		result.Properties.SubnetId = &subnetId
 	}
 	if redis.TenantSettings != nil {
-		result.Properties.TenantSettings = make(map[string]string)
+		result.Properties.TenantSettings = make(map[string]string, len(redis.TenantSettings))
 		for key, value := range redis.TenantSettings {
 			result.Properties.TenantSettings[key] = value
 		}
@@ -1192,7 +1192,7 @@ func (redis *Redis_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 	// Set property ‘Tags’:
 	if redis.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(redis.Tags))
 		for key, value := range redis.Tags {
 			result.Tags[key] = value
 		}
@@ -1264,7 +1264,7 @@ func (redis *Redis_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.RedisConfiguration != nil {
-			redis.RedisConfiguration = make(map[string]string)
+			redis.RedisConfiguration = make(map[string]string, len(typedInput.Properties.RedisConfiguration))
 			for key, value := range typedInput.Properties.RedisConfiguration {
 				redis.RedisConfiguration[key] = value
 			}
@@ -1334,7 +1334,7 @@ func (redis *Redis_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		redis.Tags = make(map[string]string)
+		redis.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			redis.Tags[key] = value
 		}
@@ -1344,7 +1344,7 @@ func (redis *Redis_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.TenantSettings != nil {
-			redis.TenantSettings = make(map[string]string)
+			redis.TenantSettings = make(map[string]string, len(typedInput.Properties.TenantSettings))
 			for key, value := range typedInput.Properties.TenantSettings {
 				redis.TenantSettings[key] = value
 			}

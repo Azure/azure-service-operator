@@ -867,7 +867,7 @@ func (account *StorageAccount_STATUS) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		account.Tags = make(map[string]string)
+		account.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			account.Tags[key] = value
 		}
@@ -1802,7 +1802,7 @@ func (account *StorageAccount_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 
 	// Set property ‘Tags’:
 	if account.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(account.Tags))
 		for key, value := range account.Tags {
 			result.Tags[key] = value
 		}
@@ -2058,7 +2058,7 @@ func (account *StorageAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		account.Tags = make(map[string]string)
+		account.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			account.Tags[key] = value
 		}
@@ -4270,7 +4270,7 @@ func (identity *Identity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property ‘UserAssignedIdentities’:
 	if typedInput.UserAssignedIdentities != nil {
-		identity.UserAssignedIdentities = make(map[string]UserAssignedIdentity_STATUS)
+		identity.UserAssignedIdentities = make(map[string]UserAssignedIdentity_STATUS, len(typedInput.UserAssignedIdentities))
 		for key, value := range typedInput.UserAssignedIdentities {
 			var value1 UserAssignedIdentity_STATUS
 			err := value1.PopulateFromARM(owner, value)

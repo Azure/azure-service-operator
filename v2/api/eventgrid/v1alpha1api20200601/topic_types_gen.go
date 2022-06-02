@@ -533,7 +533,7 @@ func (topic *Topic_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		topic.Tags = make(map[string]string)
+		topic.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			topic.Tags[key] = value
 		}
@@ -862,7 +862,7 @@ func (topic *Topic_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 
 	// Set property ‘Tags’:
 	if topic.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(topic.Tags))
 		for key, value := range topic.Tags {
 			result.Tags[key] = value
 		}
@@ -943,7 +943,7 @@ func (topic *Topic_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		topic.Tags = make(map[string]string)
+		topic.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			topic.Tags[key] = value
 		}

@@ -29,7 +29,7 @@ var (
 var emptyObject = astmodel.NewObjectType()
 
 func defineEnum(strings ...string) astmodel.Type {
-	var values []astmodel.EnumValue
+	values := make([]astmodel.EnumValue, 0, len(strings))
 	for _, value := range strings {
 		values = append(values, astmodel.EnumValue{
 			Identifier: value,

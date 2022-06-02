@@ -636,7 +636,7 @@ func (account *BatchAccount_STATUS) PopulateFromARM(owner genruntime.ArbitraryOw
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		account.Tags = make(map[string]string)
+		account.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			account.Tags[key] = value
 		}
@@ -1087,7 +1087,7 @@ func (account *BatchAccount_Spec) ConvertToARM(resolved genruntime.ConvertToARMR
 
 	// Set property ‘Tags’:
 	if account.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(account.Tags))
 		for key, value := range account.Tags {
 			result.Tags[key] = value
 		}
@@ -1194,7 +1194,7 @@ func (account *BatchAccount_Spec) PopulateFromARM(owner genruntime.ArbitraryOwne
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		account.Tags = make(map[string]string)
+		account.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			account.Tags[key] = value
 		}
@@ -1742,7 +1742,7 @@ func (identity *BatchAccountIdentity_STATUS) PopulateFromARM(owner genruntime.Ar
 
 	// Set property ‘UserAssignedIdentities’:
 	if typedInput.UserAssignedIdentities != nil {
-		identity.UserAssignedIdentities = make(map[string]BatchAccountIdentity_UserAssignedIdentities_STATUS)
+		identity.UserAssignedIdentities = make(map[string]BatchAccountIdentity_UserAssignedIdentities_STATUS, len(typedInput.UserAssignedIdentities))
 		for key, value := range typedInput.UserAssignedIdentities {
 			var value1 BatchAccountIdentity_UserAssignedIdentities_STATUS
 			err := value1.PopulateFromARM(owner, value)

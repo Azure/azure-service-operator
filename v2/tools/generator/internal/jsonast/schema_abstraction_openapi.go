@@ -111,7 +111,7 @@ func (schema *OpenAPISchema) requiredProperties() []string {
 }
 
 func (schema *OpenAPISchema) properties() map[string]Schema {
-	result := make(map[string]Schema)
+	result := make(map[string]Schema, len(schema.inner.Properties))
 	for propName, propSchema := range schema.inner.Properties {
 		result[propName] = schema.withNewSchema(propSchema)
 	}

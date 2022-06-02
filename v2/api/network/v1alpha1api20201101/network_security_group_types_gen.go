@@ -525,7 +525,7 @@ func (embedded *NetworkSecurityGroup_STATUS_NetworkSecurityGroup_SubResourceEmbe
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		embedded.Tags = make(map[string]string)
+		embedded.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			embedded.Tags[key] = value
 		}
@@ -869,7 +869,7 @@ func (group *NetworkSecurityGroup_Spec) ConvertToARM(resolved genruntime.Convert
 
 	// Set property ‘Tags’:
 	if group.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(group.Tags))
 		for key, value := range group.Tags {
 			result.Tags[key] = value
 		}
@@ -920,7 +920,7 @@ func (group *NetworkSecurityGroup_Spec) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		group.Tags = make(map[string]string)
+		group.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			group.Tags[key] = value
 		}

@@ -35,7 +35,8 @@ func NewJSONSerializationTestCase(
 	name astmodel.TypeName,
 	container astmodel.PropertyContainer,
 	isOneOf bool,
-	idFactory astmodel.IdentifierFactory) *JSONSerializationTestCase {
+	idFactory astmodel.IdentifierFactory,
+) *JSONSerializationTestCase {
 	testName := fmt.Sprintf("%s_WhenSerializedToJson_DeserializesAsEqual", name.Name())
 	return &JSONSerializationTestCase{
 		testName:  testName,
@@ -61,8 +62,7 @@ func (o *JSONSerializationTestCase) References() astmodel.TypeNameSet {
 // subject is the name of the type under test
 // codeGenerationContext contains reference material to use when generating
 func (o *JSONSerializationTestCase) AsFuncs(name astmodel.TypeName, genContext *astmodel.CodeGenerationContext) []dst.Decl {
-	var errs []error
-	properties := o.container.Properties()
+	properties := o.container.Properties().Copy()
 
 	// Find all the simple generators (those with no external dependencies)
 	simpleGenerators := o.createGenerators(properties, genContext, o.createIndependentGenerator)
@@ -84,6 +84,7 @@ func (o *JSONSerializationTestCase) AsFuncs(name astmodel.TypeName, genContext *
 	o.removeByPackage(properties, astmodel.GenRuntimeConditionsReference)
 
 	// Write errors for any properties we don't handle
+	errs := make([]error, 0, len(properties))
 	for _, p := range properties {
 		errs = append(errs, errors.Errorf("no generator created for %s (%s)", p.PropertyName(), p.PropertyType()))
 	}
@@ -137,11 +138,11 @@ func (o *JSONSerializationTestCase) RequiredImports() *astmodel.PackageImportSet
 	result.AddImportOfReference(astmodel.PrettyReference)
 
 	// Merge references required for properties
-	for _, prop := range o.container.Properties() {
+	o.container.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
 		for _, ref := range prop.PropertyType().RequiredPackageReferences().AsSlice() {
 			result.AddImportOfReference(ref)
 		}
-	}
+	})
 
 	// We're not currently creating generators for types in this package, so leave it out
 	result.Remove(astmodel.NewPackageImport(astmodel.GenRuntimeReference))
@@ -557,8 +558,8 @@ func (o *JSONSerializationTestCase) createGeneratorMethod(ctx *astmodel.CodeGene
 
 // createGeneratorsFactoryMethod generates the AST for a method creating gopter generators
 func (o *JSONSerializationTestCase) createGeneratorsFactoryMethod(
-	methodName string, generators []dst.Stmt, ctx *astmodel.CodeGenerationContext) dst.Decl {
-
+	methodName string, generators []dst.Stmt, ctx *astmodel.CodeGenerationContext,
+) dst.Decl {
 	gopterPackage := ctx.MustGetImportedPackageName(astmodel.GopterReference)
 
 	mapType := &dst.MapType{
@@ -584,15 +585,15 @@ func (o *JSONSerializationTestCase) createGeneratorsFactoryMethod(
 func (o *JSONSerializationTestCase) createGenerators(
 	properties map[astmodel.PropertyName]*astmodel.PropertyDefinition,
 	genContext *astmodel.CodeGenerationContext,
-	factory func(name string, propertyType astmodel.Type, genContext *astmodel.CodeGenerationContext) dst.Expr) []dst.Stmt {
-
+	factory func(name string, propertyType astmodel.Type, genContext *astmodel.CodeGenerationContext) dst.Expr,
+) []dst.Stmt {
 	gensIdent := dst.NewIdent("gens")
 
 	var handled []astmodel.PropertyName
 	var result []dst.Stmt
 
 	// Sort Properties into alphabetical order to ensure we always generate the same code
-	var toGenerate []astmodel.PropertyName
+	toGenerate := make([]astmodel.PropertyName, 0, len(properties))
 	for name := range properties {
 		toGenerate = append(toGenerate, name)
 	}
@@ -623,8 +624,8 @@ func (o *JSONSerializationTestCase) createGenerators(
 func (o *JSONSerializationTestCase) createIndependentGenerator(
 	name string,
 	propertyType astmodel.Type,
-	genContext *astmodel.CodeGenerationContext) dst.Expr {
-
+	genContext *astmodel.CodeGenerationContext,
+) dst.Expr {
 	genPackage := genContext.MustGetImportedPackageName(astmodel.GopterGenReference)
 
 	// Handle simple primitive properties
@@ -716,8 +717,8 @@ func (o *JSONSerializationTestCase) createIndependentGenerator(
 func (o *JSONSerializationTestCase) createRelatedGenerator(
 	name string,
 	propertyType astmodel.Type,
-	genContext *astmodel.CodeGenerationContext) dst.Expr {
-
+	genContext *astmodel.CodeGenerationContext,
+) dst.Expr {
 	genPackageName := genContext.MustGetImportedPackageName(astmodel.GopterGenReference)
 
 	switch t := propertyType.(type) {
@@ -799,8 +800,8 @@ func (o *JSONSerializationTestCase) createRelatedGenerator(
 
 func (o *JSONSerializationTestCase) removeByPackage(
 	properties map[astmodel.PropertyName]*astmodel.PropertyDefinition,
-	ref astmodel.PackageReference) {
-
+	ref astmodel.PackageReference,
+) {
 	// Work out which properties need to be removed because their types come from the specified package
 	var toRemove []astmodel.PropertyName
 	for name, prop := range properties {
@@ -852,8 +853,9 @@ func (o *JSONSerializationTestCase) Subject() *dst.Ident {
 }
 
 func (o *JSONSerializationTestCase) createEnumGenerator(enumName string, genPackageName string, enum *astmodel.EnumType) dst.Expr {
-	var values []dst.Expr
-	for _, o := range enum.Options() {
+	opts := enum.Options()
+	values := make([]dst.Expr, 0, len(opts))
+	for _, o := range opts {
 		id := astmodel.GetEnumValueId(enumName, o)
 		values = append(values, dst.NewIdent(id))
 	}

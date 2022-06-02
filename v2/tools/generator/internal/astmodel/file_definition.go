@@ -64,7 +64,7 @@ func calcRanks(definitions []TypeDefinition) map[TypeName]int {
 	}
 
 	// Create a queue of all the definitions we need to process
-	var queue []TypeDefinition
+	queue := make([]TypeDefinition, 0, len(definitions))
 	for _, d := range definitions {
 		if _, ok := d.Type().(*ResourceType); ok {
 			// Resources have rank 0

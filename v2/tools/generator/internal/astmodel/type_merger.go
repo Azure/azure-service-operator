@@ -41,9 +41,11 @@ func NewTypeMerger(fallback MergerFunc) *TypeMerger {
 	return &TypeMerger{fallback: fallback}
 }
 
-var typeInterface reflect.Type = reflect.TypeOf((*Type)(nil)).Elem() // yuck
-var errorInterface reflect.Type = reflect.TypeOf((*error)(nil)).Elem()
-var mergerFuncType reflect.Type = reflect.TypeOf((*MergerFunc)(nil)).Elem()
+var (
+	typeInterface  reflect.Type = reflect.TypeOf((*Type)(nil)).Elem() // yuck
+	errorInterface reflect.Type = reflect.TypeOf((*error)(nil)).Elem()
+	mergerFuncType reflect.Type = reflect.TypeOf((*MergerFunc)(nil)).Elem()
+)
 
 type validatedMerger struct {
 	merger                    reflect.Value
@@ -149,8 +151,8 @@ func (m *TypeMerger) MergeWithContext(ctx interface{}, left, right Type) (Type, 
 		return left, nil
 	}
 
-	leftType := reflect.ValueOf(left).Type()
-	rightType := reflect.ValueOf(right).Type()
+	leftType := reflect.TypeOf(left)
+	rightType := reflect.TypeOf(right)
 
 	for _, merger := range m.mergers {
 		leftTypeMatches := merger.left == leftType || merger.left == typeInterface

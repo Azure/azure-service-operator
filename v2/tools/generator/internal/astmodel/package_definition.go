@@ -117,8 +117,8 @@ func (p *PackageDefinition) emitFiles(filesToGenerate map[string][]TypeDefinitio
 func (p *PackageDefinition) writeCodeFile(
 	outputFile string,
 	defs []TypeDefinition,
-	packages map[PackageReference]*PackageDefinition) error {
-
+	packages map[PackageReference]*PackageDefinition,
+) error {
 	ref := defs[0].Name().PackageReference
 	genFile := NewFileDefinition(ref, defs, packages)
 
@@ -135,8 +135,8 @@ func (p *PackageDefinition) writeCodeFile(
 func (p *PackageDefinition) writeTestFile(
 	outputFile string,
 	defs []TypeDefinition,
-	packages map[PackageReference]*PackageDefinition) error {
-
+	packages map[PackageReference]*PackageDefinition,
+) error {
 	// First check to see if we have test cases to write
 	haveTestCases := false
 	for _, def := range defs {
@@ -173,7 +173,7 @@ func allocateTypesToFiles(definitions TypeDefinitionSet) map[string][]TypeDefini
 	}
 
 	// rootFor maps a type name to the best root for it
-	rootFor := make(map[TypeName]Root)
+	rootFor := make(map[TypeName]Root, len(graph.roots))
 
 	for root := range graph.roots {
 		collected := make(ReachableTypes)
@@ -191,7 +191,7 @@ func allocateTypesToFiles(definitions TypeDefinitionSet) map[string][]TypeDefini
 		}
 	}
 
-	filesToGenerate := make(map[string][]TypeDefinition)
+	filesToGenerate := make(map[string][]TypeDefinition, len(definitions))
 
 	for _, def := range definitions {
 		var fileName string
@@ -243,7 +243,6 @@ var (
 func emitGroupVersionFile(pkgDef *PackageDefinition, outputDir string) error {
 	gvFile := filepath.Join(outputDir, "groupversion_info"+CodeGeneratedFileSuffix+".go")
 	return emitTemplateFile(pkgDef, groupVersionFileTemplate, gvFile)
-
 }
 
 var docFileTemplate = template.Must(template.New("docFile").Parse(`/*
@@ -261,7 +260,6 @@ package {{.PackageName}}
 func emitDocFile(pkgDef *PackageDefinition, outputDir string) error {
 	docFile := filepath.Join(outputDir, "doc.go")
 	return emitTemplateFile(pkgDef, docFileTemplate, docFile)
-
 }
 
 func emitTemplateFile(pkgDef *PackageDefinition, template *template.Template, fileRef string) error {
@@ -271,7 +269,7 @@ func emitTemplateFile(pkgDef *PackageDefinition, template *template.Template, fi
 		return err
 	}
 
-	err = ioutil.WriteFile(fileRef, buf.Bytes(), 0600)
+	err = ioutil.WriteFile(fileRef, buf.Bytes(), 0o600)
 	if err != nil {
 		return errors.Wrapf(err, "error writing file %q", fileRef)
 	}

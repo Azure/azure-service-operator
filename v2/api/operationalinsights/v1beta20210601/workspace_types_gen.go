@@ -592,7 +592,7 @@ func (workspace *Workspace_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		workspace.Tags = make(map[string]string)
+		workspace.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			workspace.Tags[key] = value
 		}
@@ -1015,7 +1015,7 @@ func (workspace *Workspace_Spec) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property ‘Tags’:
 	if workspace.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(workspace.Tags))
 		for key, value := range workspace.Tags {
 			result.Tags[key] = value
 		}
@@ -1130,7 +1130,7 @@ func (workspace *Workspace_Spec) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		workspace.Tags = make(map[string]string)
+		workspace.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			workspace.Tags[key] = value
 		}

@@ -619,7 +619,7 @@ func (embedded *PublicIPAddress_STATUS_PublicIPAddress_SubResourceEmbedded) Popu
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		embedded.Tags = make(map[string]string)
+		embedded.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			embedded.Tags[key] = value
 		}
@@ -1171,7 +1171,7 @@ func (address *PublicIPAddress_Spec) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property ‘Tags’:
 	if address.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(address.Tags))
 		for key, value := range address.Tags {
 			result.Tags[key] = value
 		}
@@ -1378,7 +1378,7 @@ func (address *PublicIPAddress_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		address.Tags = make(map[string]string)
+		address.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			address.Tags[key] = value
 		}
@@ -2568,7 +2568,7 @@ func (gateway *NatGatewaySpec) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property ‘Tags’:
 	if gateway.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(gateway.Tags))
 		for key, value := range gateway.Tags {
 			result.Tags[key] = value
 		}
@@ -2649,7 +2649,7 @@ func (gateway *NatGatewaySpec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		gateway.Tags = make(map[string]string)
+		gateway.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			gateway.Tags[key] = value
 		}
@@ -3409,7 +3409,7 @@ func (embedded *PublicIPAddressSpec_SubResourceEmbedded) ConvertToARM(resolved g
 
 	// Set property ‘Tags’:
 	if embedded.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(embedded.Tags))
 		for key, value := range embedded.Tags {
 			result.Tags[key] = value
 		}
@@ -3466,7 +3466,7 @@ func (embedded *PublicIPAddressSpec_SubResourceEmbedded) PopulateFromARM(owner g
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		embedded.Tags = make(map[string]string)
+		embedded.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			embedded.Tags[key] = value
 		}

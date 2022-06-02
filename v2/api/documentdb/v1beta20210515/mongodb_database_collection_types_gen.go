@@ -455,7 +455,7 @@ func (collection *DatabaseAccountsMongodbDatabasesCollection_STATUS) PopulateFro
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		collection.Tags = make(map[string]string)
+		collection.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			collection.Tags[key] = value
 		}
@@ -646,7 +646,7 @@ func (collection *DatabaseAccountsMongodbDatabasesCollection_Spec) ConvertToARM(
 
 	// Set property ‘Tags’:
 	if collection.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(collection.Tags))
 		for key, value := range collection.Tags {
 			result.Tags[key] = value
 		}
@@ -710,7 +710,7 @@ func (collection *DatabaseAccountsMongodbDatabasesCollection_Spec) PopulateFromA
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		collection.Tags = make(map[string]string)
+		collection.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			collection.Tags[key] = value
 		}
@@ -961,7 +961,7 @@ func (resource *MongoDBCollectionGetProperties_Resource_STATUS) PopulateFromARM(
 
 	// Set property ‘ShardKey’:
 	if typedInput.ShardKey != nil {
-		resource.ShardKey = make(map[string]string)
+		resource.ShardKey = make(map[string]string, len(typedInput.ShardKey))
 		for key, value := range typedInput.ShardKey {
 			resource.ShardKey[key] = value
 		}
@@ -1129,7 +1129,7 @@ func (resource *MongoDBCollectionResource) ConvertToARM(resolved genruntime.Conv
 
 	// Set property ‘ShardKey’:
 	if resource.ShardKey != nil {
-		result.ShardKey = make(map[string]string)
+		result.ShardKey = make(map[string]string, len(resource.ShardKey))
 		for key, value := range resource.ShardKey {
 			result.ShardKey[key] = value
 		}
@@ -1173,7 +1173,7 @@ func (resource *MongoDBCollectionResource) PopulateFromARM(owner genruntime.Arbi
 
 	// Set property ‘ShardKey’:
 	if typedInput.ShardKey != nil {
-		resource.ShardKey = make(map[string]string)
+		resource.ShardKey = make(map[string]string, len(typedInput.ShardKey))
 		for key, value := range typedInput.ShardKey {
 			resource.ShardKey[key] = value
 		}

@@ -690,7 +690,7 @@ func (disk *Disk_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwnerReferenc
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		disk.Tags = make(map[string]string)
+		disk.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			disk.Tags[key] = value
 		}
@@ -1331,7 +1331,7 @@ func (disk *Disk_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDeta
 
 	// Set property ‘Tags’:
 	if disk.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(disk.Tags))
 		for key, value := range disk.Tags {
 			result.Tags[key] = value
 		}
@@ -1542,7 +1542,7 @@ func (disk *Disk_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerReference,
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		disk.Tags = make(map[string]string)
+		disk.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			disk.Tags[key] = value
 		}

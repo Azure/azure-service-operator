@@ -611,7 +611,7 @@ func (snapshot *Snapshot_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		snapshot.Tags = make(map[string]string)
+		snapshot.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			snapshot.Tags[key] = value
 		}
@@ -1123,7 +1123,7 @@ func (snapshot *Snapshot_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property ‘Tags’:
 	if snapshot.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(snapshot.Tags))
 		for key, value := range snapshot.Tags {
 			result.Tags[key] = value
 		}
@@ -1293,7 +1293,7 @@ func (snapshot *Snapshot_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		snapshot.Tags = make(map[string]string)
+		snapshot.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			snapshot.Tags[key] = value
 		}

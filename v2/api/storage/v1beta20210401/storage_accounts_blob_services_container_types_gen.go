@@ -610,7 +610,7 @@ func (container *StorageAccountsBlobServicesContainer_STATUS) PopulateFromARM(ow
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Metadata != nil {
-			container.Metadata = make(map[string]string)
+			container.Metadata = make(map[string]string, len(typedInput.Properties.Metadata))
 			for key, value := range typedInput.Properties.Metadata {
 				container.Metadata[key] = value
 			}
@@ -1017,7 +1017,7 @@ func (container *StorageAccountsBlobServicesContainer_Spec) ConvertToARM(resolve
 		result.Properties.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
 	}
 	if container.Metadata != nil {
-		result.Properties.Metadata = make(map[string]string)
+		result.Properties.Metadata = make(map[string]string, len(container.Metadata))
 		for key, value := range container.Metadata {
 			result.Properties.Metadata[key] = value
 		}
@@ -1080,7 +1080,7 @@ func (container *StorageAccountsBlobServicesContainer_Spec) PopulateFromARM(owne
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Metadata != nil {
-			container.Metadata = make(map[string]string)
+			container.Metadata = make(map[string]string, len(typedInput.Properties.Metadata))
 			for key, value := range typedInput.Properties.Metadata {
 				container.Metadata[key] = value
 			}

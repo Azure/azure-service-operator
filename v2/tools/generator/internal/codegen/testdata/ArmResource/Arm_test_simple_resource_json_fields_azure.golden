@@ -341,7 +341,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property ‘JsonObject’:
 	if resource.JsonObject != nil {
-		result.JsonObject = make(map[string]v1.JSON)
+		result.JsonObject = make(map[string]v1.JSON, len(resource.JsonObject))
 		for key, value := range resource.JsonObject {
 			result.JsonObject[key] = *value.DeepCopy()
 		}
@@ -387,7 +387,7 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property ‘JsonObject’:
 	if typedInput.JsonObject != nil {
-		resource.JsonObject = make(map[string]v1.JSON)
+		resource.JsonObject = make(map[string]v1.JSON, len(typedInput.JsonObject))
 		for key, value := range typedInput.JsonObject {
 			resource.JsonObject[key] = *value.DeepCopy()
 		}

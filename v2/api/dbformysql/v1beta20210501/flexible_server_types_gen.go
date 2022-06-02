@@ -708,7 +708,7 @@ func (server *FlexibleServer_STATUS) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		server.Tags = make(map[string]string)
+		server.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			server.Tags[key] = value
 		}
@@ -1325,7 +1325,7 @@ func (server *FlexibleServer_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property ‘Tags’:
 	if server.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(server.Tags))
 		for key, value := range server.Tags {
 			result.Tags[key] = value
 		}
@@ -1525,7 +1525,7 @@ func (server *FlexibleServer_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		server.Tags = make(map[string]string)
+		server.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			server.Tags[key] = value
 		}
@@ -2785,7 +2785,7 @@ func (identity *Identity) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property ‘UserAssignedIdentities’:
 	if identity.UserAssignedIdentities != nil {
-		result.UserAssignedIdentities = make(map[string]v1.JSON)
+		result.UserAssignedIdentities = make(map[string]v1.JSON, len(identity.UserAssignedIdentities))
 		for key, value := range identity.UserAssignedIdentities {
 			result.UserAssignedIdentities[key] = *value.DeepCopy()
 		}
@@ -2813,7 +2813,7 @@ func (identity *Identity) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 
 	// Set property ‘UserAssignedIdentities’:
 	if typedInput.UserAssignedIdentities != nil {
-		identity.UserAssignedIdentities = make(map[string]v1.JSON)
+		identity.UserAssignedIdentities = make(map[string]v1.JSON, len(typedInput.UserAssignedIdentities))
 		for key, value := range typedInput.UserAssignedIdentities {
 			identity.UserAssignedIdentities[key] = *value.DeepCopy()
 		}
@@ -2936,7 +2936,7 @@ func (identity *Identity_STATUS) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property ‘UserAssignedIdentities’:
 	if typedInput.UserAssignedIdentities != nil {
-		identity.UserAssignedIdentities = make(map[string]v1.JSON)
+		identity.UserAssignedIdentities = make(map[string]v1.JSON, len(typedInput.UserAssignedIdentities))
 		for key, value := range typedInput.UserAssignedIdentities {
 			identity.UserAssignedIdentities[key] = *value.DeepCopy()
 		}
