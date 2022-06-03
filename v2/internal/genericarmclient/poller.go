@@ -14,11 +14,9 @@ import (
 	"github.com/pkg/errors"
 )
 
-// PollerResponse is the response from issuing a PUT to Azure. It contains a poller (for polling the long-running
-// operation URL) and a RawResponse containing the raw HTTP response.
-type PollerResponse struct {
+type PollerResponse[T any] struct {
 	// Poller contains an initialized poller.
-	Poller *azcoreruntime.Poller[GenericResource]
+	Poller *azcoreruntime.Poller[T]
 
 	// ID is the ID of the poller (not the ID of the resource). This is used to prevent another kind of poller from
 	// being resumed with this pollers URL (which would cause deserialization issues and other problems).
@@ -26,11 +24,13 @@ type PollerResponse struct {
 
 	// RawResponse contains the underlying HTTP response.
 	RawResponse *http.Response
+
+	ErrorHandler func(resp *http.Response) error
 }
 
-// Resume rehydrates a ResourcesCreateOrUpdateByIDPollerResponse from the provided client and resume token.
-func (l *PollerResponse) Resume(ctx context.Context, client *GenericClient, token string) error {
-	poller, err := azcoreruntime.NewPollerFromResumeToken[GenericResource](token, client.pl, nil)
+// Resume rehydrates a CreateOrUpdatePollerResponse from the provided client and resume token.
+func (l *PollerResponse[T]) Resume(ctx context.Context, client *GenericClient, token string) error {
+	poller, err := azcoreruntime.NewPollerFromResumeToken[T](token, client.pl, nil)
 	if err != nil {
 		return err
 	}
@@ -39,7 +39,13 @@ func (l *PollerResponse) Resume(ctx context.Context, client *GenericClient, toke
 	// nolint:bodyclose
 	resp, err := poller.Poll(ctx)
 	if err != nil {
-		return errors.Wrapf(err, "unable to resume poller")
+		var typedError *azcore.ResponseError
+		if errors.As(err, &typedError) {
+			if typedError.RawResponse != nil {
+				return l.ErrorHandler(typedError.RawResponse)
+			}
+		}
+		return err
 	}
 
 	if poller.Done() {
@@ -51,7 +57,7 @@ func (l *PollerResponse) Resume(ctx context.Context, client *GenericClient, toke
 			var typedError *azcore.ResponseError
 			if errors.As(err, &typedError) {
 				if typedError.RawResponse != nil {
-					return client.createOrUpdateByIDHandleError(typedError.RawResponse)
+					return l.ErrorHandler(typedError.RawResponse)
 				}
 			}
 			return err

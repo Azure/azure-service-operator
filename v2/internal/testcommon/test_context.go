@@ -306,12 +306,18 @@ func createRecorder(cassetteName string, cfg config.Values, recordReplay bool) (
 			}
 		}
 
-		for _, values := range i.Response.Headers {
+		for key, values := range i.Response.Headers {
 			for i := range values {
 				values[i] = hide(values[i], azureIDs.subscriptionID, uuid.Nil.String())
 				values[i] = hide(values[i], azureIDs.tenantID, uuid.Nil.String())
 				if azureIDs.billingInvoiceID != "" {
 					values[i] = hide(values[i], azureIDs.billingInvoiceID, DummyBillingId)
+				}
+			}
+			// Hide the base request URL in the AzureOperation and Location headers
+			if key == "Azure-Asyncoperation" || key == "Location" {
+				for i := range values {
+					values[i] = hideBaseRequestURL(values[i])
 				}
 			}
 		}

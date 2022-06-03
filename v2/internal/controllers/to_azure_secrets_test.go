@@ -161,10 +161,10 @@ func Test_UserSecretInDifferentNamespace_ShouldNotTriggerReconcile(t *testing.T)
 
 	// Deleting server1 here using AzureClient so that Operator does not know about the deletion.
 	// If operator reconciles that resource again it will be recreated and we will notice
-	_, err = tc.AzureClient.DeleteByID(tc.Ctx, resourceID, vm1.GetAPIVersion())
-	if err != nil {
-		return
-	}
+	resp, err := tc.AzureClient.BeginDeleteByID(tc.Ctx, resourceID, vm1.GetAPIVersion())
+	tc.Expect(err).ToNot(HaveOccurred())
+	_, err = resp.Poller.PollUntilDone(tc.Ctx, nil)
+	tc.Expect(err).ToNot(HaveOccurred())
 
 	// VM2 with same secret name in ns2
 	_ = createNamespacedVM(tc, rg2, ns2, ns2Secret)

@@ -20,8 +20,6 @@ interactions:
     headers:
       Cache-Control:
       - no-cache
-      Content-Length:
-      - "276"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -30,10 +28,12 @@ interactions:
       - no-cache
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
-    status: 201 Created
-    code: 201
+    status: 200 OK
+    code: 200
     duration: ""
 - request:
     body: ""
@@ -81,30 +81,28 @@ interactions:
     method: PUT
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis2-gzcvdq","location":"West
-      US 2","name":"asotest-redis2-gzcvdq","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Creating","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":false,"isPrimary":false},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":{"primaryKey":"{KEY}","secondaryKey":"{KEY}"},"hostName":"asotest-redis2-gzcvdq.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
+      US 2","name":"asotest-redis2-gzcvdq","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Succeeded","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":true,"isPrimary":true},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":{"primaryKey":"{KEY}","secondaryKey":"{KEY}"},"hostName":"asotest-redis2-gzcvdq.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
     headers:
       Cache-Control:
       - no-cache
-      Content-Length:
-      - "975"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
       - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis2-gzcvdq?api-version=2020-12-01
       Pragma:
       - no-cache
       Server:
       - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
       X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 201 Created
-    code: 201
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
+    status: 200 OK
+    code: 200
     duration: ""
 - request:
     body: '{"location":"westus2","name":"asotest-redis1-zbvfwv","properties":{"enableNonSslPort":false,"minimumTlsVersion":"1.2","redisConfiguration":{"maxmemory-delta":"10","maxmemory-policy":"allkeys-lru"},"redisVersion":"6","sku":{"capacity":1,"family":"P","name":"Premium"}}}'
@@ -122,928 +120,37 @@ interactions:
     method: PUT
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis1-zbvfwv","location":"West
-      US 2","name":"asotest-redis1-zbvfwv","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Creating","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":false,"isPrimary":false},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":{"primaryKey":"{KEY}","secondaryKey":"{KEY}"},"hostName":"asotest-redis1-zbvfwv.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
+      US 2","name":"asotest-redis1-zbvfwv","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Succeeded","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":true,"isPrimary":true},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":{"primaryKey":"{KEY}","secondaryKey":"{KEY}"},"hostName":"asotest-redis1-zbvfwv.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
     headers:
       Cache-Control:
       - no-cache
-      Content-Length:
-      - "975"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
       - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv?api-version=2020-12-01
       Pragma:
       - no-cache
       Server:
       - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
       X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 201 Created
-    code: 201
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
+    status: 200 OK
+    code: 200
     duration: ""
 - request:
     body: ""
     form: {}
     headers:
+      Accept:
+      - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis2-gzcvdq?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis2-gzcvdq","location":"West
-      US 2","name":"asotest-redis2-gzcvdq","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Creating","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":false,"isPrimary":false},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":null,"hostName":"asotest-redis2-gzcvdq.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis1-zbvfwv","location":"West
-      US 2","name":"asotest-redis1-zbvfwv","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Creating","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":false,"isPrimary":false},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":null,"hostName":"asotest-redis1-zbvfwv.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis2-gzcvdq?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis2-gzcvdq","location":"West
-      US 2","name":"asotest-redis2-gzcvdq","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Creating","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":false,"isPrimary":false},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":null,"hostName":"asotest-redis2-gzcvdq.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis1-zbvfwv","location":"West
-      US 2","name":"asotest-redis1-zbvfwv","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Creating","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":false,"isPrimary":false},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":null,"hostName":"asotest-redis1-zbvfwv.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis2-gzcvdq?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis2-gzcvdq","location":"West
-      US 2","name":"asotest-redis2-gzcvdq","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Creating","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":false,"isPrimary":false},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":null,"hostName":"asotest-redis2-gzcvdq.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis1-zbvfwv","location":"West
-      US 2","name":"asotest-redis1-zbvfwv","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Creating","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":false,"isPrimary":false},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":null,"hostName":"asotest-redis1-zbvfwv.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis2-gzcvdq?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis2-gzcvdq","location":"West
-      US 2","name":"asotest-redis2-gzcvdq","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Creating","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":false,"isPrimary":false},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":null,"hostName":"asotest-redis2-gzcvdq.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis1-zbvfwv","location":"West
-      US 2","name":"asotest-redis1-zbvfwv","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Creating","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":false,"isPrimary":false},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":null,"hostName":"asotest-redis1-zbvfwv.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis2-gzcvdq?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis2-gzcvdq","location":"West
-      US 2","name":"asotest-redis2-gzcvdq","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Creating","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":false,"isPrimary":false},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":null,"hostName":"asotest-redis2-gzcvdq.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis1-zbvfwv","location":"West
-      US 2","name":"asotest-redis1-zbvfwv","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Creating","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":false,"isPrimary":false},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":null,"hostName":"asotest-redis1-zbvfwv.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis2-gzcvdq?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis2-gzcvdq","location":"West
-      US 2","name":"asotest-redis2-gzcvdq","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Creating","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":false,"isPrimary":false},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":null,"hostName":"asotest-redis2-gzcvdq.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis1-zbvfwv","location":"West
-      US 2","name":"asotest-redis1-zbvfwv","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Creating","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":false,"isPrimary":false},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":null,"hostName":"asotest-redis1-zbvfwv.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "6"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis2-gzcvdq?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis2-gzcvdq","location":"West
-      US 2","name":"asotest-redis2-gzcvdq","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Creating","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":false,"isPrimary":false},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":null,"hostName":"asotest-redis2-gzcvdq.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "6"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis1-zbvfwv","location":"West
-      US 2","name":"asotest-redis1-zbvfwv","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Creating","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":false,"isPrimary":false},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":null,"hostName":"asotest-redis1-zbvfwv.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "7"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis2-gzcvdq?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis2-gzcvdq","location":"West
-      US 2","name":"asotest-redis2-gzcvdq","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Creating","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":false,"isPrimary":false},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":null,"hostName":"asotest-redis2-gzcvdq.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "7"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis1-zbvfwv","location":"West
-      US 2","name":"asotest-redis1-zbvfwv","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Creating","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":false,"isPrimary":false},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":null,"hostName":"asotest-redis1-zbvfwv.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "8"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis2-gzcvdq?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis2-gzcvdq","location":"West
-      US 2","name":"asotest-redis2-gzcvdq","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Creating","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":false,"isPrimary":false},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":null,"hostName":"asotest-redis2-gzcvdq.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "8"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis1-zbvfwv","location":"West
-      US 2","name":"asotest-redis1-zbvfwv","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Creating","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":false,"isPrimary":false},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":null,"hostName":"asotest-redis1-zbvfwv.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "9"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis2-gzcvdq?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis2-gzcvdq","location":"West
-      US 2","name":"asotest-redis2-gzcvdq","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Creating","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":false,"isPrimary":false},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":null,"hostName":"asotest-redis2-gzcvdq.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "9"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis1-zbvfwv","location":"West
-      US 2","name":"asotest-redis1-zbvfwv","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Creating","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":false,"isPrimary":false},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":null,"hostName":"asotest-redis1-zbvfwv.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "10"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis2-gzcvdq?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis2-gzcvdq","location":"West
-      US 2","name":"asotest-redis2-gzcvdq","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Creating","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":false,"isPrimary":false},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":null,"hostName":"asotest-redis2-gzcvdq.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "10"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis1-zbvfwv","location":"West
-      US 2","name":"asotest-redis1-zbvfwv","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Creating","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":false,"isPrimary":false},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":null,"hostName":"asotest-redis1-zbvfwv.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "11"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis2-gzcvdq?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis2-gzcvdq","location":"West
-      US 2","name":"asotest-redis2-gzcvdq","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Creating","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":false,"isPrimary":false},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":null,"hostName":"asotest-redis2-gzcvdq.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "11"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis1-zbvfwv","location":"West
-      US 2","name":"asotest-redis1-zbvfwv","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Creating","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":true,"isPrimary":true},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":null,"hostName":"asotest-redis1-zbvfwv.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "12"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis2-gzcvdq?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis2-gzcvdq","location":"West
-      US 2","name":"asotest-redis2-gzcvdq","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Creating","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":true,"isPrimary":true},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":null,"hostName":"asotest-redis2-gzcvdq.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "12"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis1-zbvfwv","location":"West
-      US 2","name":"asotest-redis1-zbvfwv","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Creating","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":true,"isPrimary":true},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":null,"hostName":"asotest-redis1-zbvfwv.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "13"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis1-zbvfwv","location":"West
-      US 2","name":"asotest-redis1-zbvfwv","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Succeeded","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":true,"isPrimary":true},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":null,"hostName":"asotest-redis1-zbvfwv.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "13"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis2-gzcvdq?api-version=2020-12-01
     method: GET
   response:
@@ -1067,7 +174,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
     status: 200 OK
     code: 200
     duration: ""
@@ -1078,7 +185,7 @@ interactions:
       Accept:
       - application/json
       Test-Request-Attempt:
-      - "14"
+      - "0"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv?api-version=2020-12-01
     method: GET
   response:
@@ -1102,42 +209,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "14"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis2-gzcvdq?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis2-gzcvdq","location":"West
-      US 2","name":"asotest-redis2-gzcvdq","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Succeeded","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":true,"isPrimary":true},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":null,"hostName":"asotest-redis2-gzcvdq.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
     status: 200 OK
     code: 200
     duration: ""
@@ -1176,7 +248,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
     status: 200 OK
     code: 200
     duration: ""
@@ -1187,7 +259,7 @@ interactions:
       Accept:
       - application/json
       Test-Request-Attempt:
-      - "15"
+      - "1"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv?api-version=2020-12-01
     method: GET
   response:
@@ -1211,7 +283,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
     status: 200 OK
     code: 200
     duration: ""
@@ -1251,7 +323,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
     status: 201 Created
     code: 201
     duration: ""
@@ -1283,7 +355,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
     status: 200 OK
     code: 200
     duration: ""
@@ -1317,7 +389,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
     status: 200 OK
     code: 200
     duration: ""
@@ -1355,7 +427,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
     status: 200 OK
     code: 200
     duration: ""
@@ -1389,7 +461,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
     status: 200 OK
     code: 200
     duration: ""
@@ -1421,81 +493,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv/firewallRules/asotestfwrulexxtytm?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"error":{"code":"ResourceNotFound","message":"A requested resource could
-      not be found. It may already have been deleted.\r\nRequestID=c460e353-1111-4e8d-9dd6-fe74bc6b1bea","target":null}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "188"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: '{"name":"default","properties":{"scheduleEntries":[{"dayOfWeek":"Monday","maintenanceWindow":"PT6H","startHourUtc":6}]}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "120"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv/patchSchedules/default?api-version=2020-12-01
-    method: PUT
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis1-zbvfwv/patchSchedules/default","location":"West
-      US 2","name":"asotest-redis1-zbvfwv/default","type":"Microsoft.Cache/Redis/PatchSchedules","properties":{"scheduleEntries":[{"dayOfWeek":"Monday","startHourUtc":6,"maintenanceWindow":"PT6H"}]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
     status: 200 OK
     code: 200
     duration: ""
@@ -1537,9 +535,147 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
     status: 201 Created
     code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv/linkedServers/asotest-redis2-gzcvdq?api-version=2020-12-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis1-zbvfwv/linkedServers/asotest-redis2-gzcvdq","name":"asotest-redis2-gzcvdq","type":"Microsoft.Cache/Redis/linkedServers","properties":{"linkedRedisCacheId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis2-gzcvdq","linkedRedisCacheLocation":"West
+      US 2","serverRole":"Secondary","provisioningState":"Creating"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Rp-Server-Mvid:
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv/linkedServers/asotest-redis2-gzcvdq?api-version=2020-12-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis1-zbvfwv/linkedServers/asotest-redis2-gzcvdq","name":"asotest-redis2-gzcvdq","type":"Microsoft.Cache/Redis/linkedServers","properties":{"linkedRedisCacheId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis2-gzcvdq","linkedRedisCacheLocation":"West
+      US 2","serverRole":"Secondary","provisioningState":"Creating"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Rp-Server-Mvid:
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv/linkedServers/asotest-redis2-gzcvdq?api-version=2020-12-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis1-zbvfwv/linkedServers/asotest-redis2-gzcvdq","name":"asotest-redis2-gzcvdq","type":"Microsoft.Cache/Redis/linkedServers","properties":{"linkedRedisCacheId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis2-gzcvdq","linkedRedisCacheLocation":"West
+      US 2","serverRole":"Secondary","provisioningState":"Creating"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Rp-Server-Mvid:
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"name":"default","properties":{"scheduleEntries":[{"dayOfWeek":"Monday","maintenanceWindow":"PT6H","startHourUtc":6}]}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "120"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv/patchSchedules/default?api-version=2020-12-01
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis1-zbvfwv/patchSchedules/default","location":"West
+      US 2","name":"asotest-redis1-zbvfwv/default","type":"Microsoft.Cache/Redis/PatchSchedules","properties":{"scheduleEntries":[{"dayOfWeek":"Monday","startHourUtc":6,"maintenanceWindow":"PT6H"}]}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Rp-Server-Mvid:
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
+    status: 200 OK
+    code: 200
     duration: ""
 - request:
     body: ""
@@ -1572,7 +708,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
     status: 200 OK
     code: 200
     duration: ""
@@ -1611,7 +747,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
     status: 200 OK
     code: 200
     duration: ""
@@ -1646,106 +782,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv/linkedServers/asotest-redis2-gzcvdq?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis1-zbvfwv/linkedServers/asotest-redis2-gzcvdq","name":"asotest-redis2-gzcvdq","type":"Microsoft.Cache/Redis/linkedServers","properties":{"linkedRedisCacheId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis2-gzcvdq","linkedRedisCacheLocation":"West
-      US 2","serverRole":"Secondary","provisioningState":"Creating"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv/linkedServers/asotest-redis2-gzcvdq?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis1-zbvfwv/linkedServers/asotest-redis2-gzcvdq","name":"asotest-redis2-gzcvdq","type":"Microsoft.Cache/Redis/linkedServers","properties":{"linkedRedisCacheId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis2-gzcvdq","linkedRedisCacheLocation":"West
-      US 2","serverRole":"Secondary","provisioningState":"Creating"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv/linkedServers/asotest-redis2-gzcvdq?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis1-zbvfwv/linkedServers/asotest-redis2-gzcvdq","name":"asotest-redis2-gzcvdq","type":"Microsoft.Cache/Redis/linkedServers","properties":{"linkedRedisCacheId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis2-gzcvdq","linkedRedisCacheLocation":"West
-      US 2","serverRole":"Secondary","provisioningState":"Creating"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
     status: 200 OK
     code: 200
     duration: ""
@@ -1778,7 +815,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
     status: 200 OK
     code: 200
     duration: ""
@@ -1811,7 +848,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
     status: 200 OK
     code: 200
     duration: ""
@@ -1825,7 +862,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis1-zbvfwv/linkedServers/asotest-redis2-gzcvdq","name":"asotest-redis2-gzcvdq","type":"Microsoft.Cache/Redis/linkedServers","properties":{"linkedRedisCacheId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis2-gzcvdq","linkedRedisCacheLocation":"West
-      US 2","serverRole":"Secondary","provisioningState":"Syncing"}}'
+      US 2","serverRole":"Secondary","provisioningState":"Creating"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -1844,7 +881,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
     status: 200 OK
     code: 200
     duration: ""
@@ -1877,7 +914,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
     status: 200 OK
     code: 200
     duration: ""
@@ -1891,7 +928,7 @@ interactions:
     method: GET
   response:
     body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis1-zbvfwv/linkedServers/asotest-redis2-gzcvdq","name":"asotest-redis2-gzcvdq","type":"Microsoft.Cache/Redis/linkedServers","properties":{"linkedRedisCacheId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis2-gzcvdq","linkedRedisCacheLocation":"West
-      US 2","serverRole":"Secondary","provisioningState":"Succeeded"}}'
+      US 2","serverRole":"Secondary","provisioningState":"Syncing"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -1910,7 +947,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
     status: 200 OK
     code: 200
     duration: ""
@@ -1918,8 +955,6 @@ interactions:
     body: ""
     form: {}
     headers:
-      Accept:
-      - application/json
       Test-Request-Attempt:
       - "8"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv/linkedServers/asotest-redis2-gzcvdq?api-version=2020-12-01
@@ -1945,39 +980,9 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
     status: 200 OK
     code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv/linkedServers/asotest-redis2-gzcvdq?api-version=2020-12-01
-    method: DELETE
-  response:
-    body: ""
-    headers:
-      Cache-Control:
-      - no-cache
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 204 No Content
-    code: 204
     duration: ""
 - request:
     body: ""
@@ -2010,7 +1015,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
     status: 200 OK
     code: 200
     duration: ""
@@ -2021,124 +1026,14 @@ interactions:
       Accept:
       - application/json
       Test-Request-Attempt:
-      - "10"
+      - "0"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv/linkedServers/asotest-redis2-gzcvdq?api-version=2020-12-01
-    method: GET
+    method: DELETE
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis1-zbvfwv/linkedServers/asotest-redis2-gzcvdq","name":"asotest-redis2-gzcvdq","type":"Microsoft.Cache/Redis/linkedServers","properties":{"linkedRedisCacheId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis2-gzcvdq","linkedRedisCacheLocation":"West
-      US 2","serverRole":"Secondary","provisioningState":"Succeeded"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
     body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "11"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv/linkedServers/asotest-redis2-gzcvdq?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis1-zbvfwv/linkedServers/asotest-redis2-gzcvdq","name":"asotest-redis2-gzcvdq","type":"Microsoft.Cache/Redis/linkedServers","properties":{"linkedRedisCacheId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis2-gzcvdq","linkedRedisCacheLocation":"West
-      US 2","serverRole":"Secondary","provisioningState":"Succeeded"}}'
     headers:
       Cache-Control:
       - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "12"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv/linkedServers/asotest-redis2-gzcvdq?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis1-zbvfwv/linkedServers/asotest-redis2-gzcvdq","name":"asotest-redis2-gzcvdq","type":"Microsoft.Cache/Redis/linkedServers","properties":{"linkedRedisCacheId":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis2-gzcvdq","linkedRedisCacheLocation":"West
-      US 2","serverRole":"Secondary","provisioningState":"Succeeded"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "13"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv/linkedServers/asotest-redis2-gzcvdq?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"error":{"code":"ResourceNotFound","message":"A requested resource could
-      not be found. It may already have been deleted.\r\nRequestID=9e0e42d9-77b0-4f3d-b256-b9d5806c89e3","target":null}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "188"
-      Content-Type:
-      - application/json; charset=utf-8
       Expires:
       - "-1"
       Pragma:
@@ -2150,9 +1045,9 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 404 Not Found
-    code: 404
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
+    status: 204 No Content
+    code: 204
     duration: ""
 - request:
     body: ""
@@ -2174,7 +1069,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationresults/d74818de-395e-40c7-b0d0-5da1701a8a8f?api-version=2020-12-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationresults/1103d17f-df50-41da-b28d-c1d558d902ed?api-version=2020-12-01
       Pragma:
       - no-cache
       Server:
@@ -2184,7 +1079,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
     status: 202 Accepted
     code: 202
     duration: ""
@@ -2199,18 +1094,16 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis2-gzcvdq?api-version=2020-12-01
     method: DELETE
   response:
-    body: '{"error":{"code":"BadRequest","message":"Cannot delete ''asotest-redis2-gzcvdq''
-      since it has linked servers associated with it. Please remove the linked server(s)
-      and then try deleting the cache.\r\nRequestID=f058bb4b-fdaa-4464-8d1b-b5cb0436f3f1","target":null}}'
+    body: ""
     headers:
       Cache-Control:
       - no-cache
       Content-Length:
-      - "261"
-      Content-Type:
-      - application/json; charset=utf-8
+      - "0"
       Expires:
       - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationresults/ca88ad7a-ca1d-4b76-aa6f-5a2c6f21beea?api-version=2020-12-01
       Pragma:
       - no-cache
       Server:
@@ -2220,126 +1113,82 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 400 Bad Request
-    code: 400
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
+    status: 202 Accepted
+    code: 202
     duration: ""
 - request:
     body: ""
     form: {}
     headers:
-      Accept:
-      - application/json
       Test-Request-Attempt:
-      - "16"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv?api-version=2020-12-01
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationresults/1103d17f-df50-41da-b28d-c1d558d902ed?api-version=2020-12-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis1-zbvfwv","location":"West
-      US 2","name":"asotest-redis1-zbvfwv","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Deleting","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":true,"isPrimary":true},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":null,"hostName":"asotest-redis1-zbvfwv.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
+    body: ""
     headers:
       Cache-Control:
       - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
+      Content-Length:
+      - "0"
       Expires:
       - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationresults/1103d17f-df50-41da-b28d-c1d558d902ed?api-version=2020-12-01
       Pragma:
       - no-cache
       Server:
       - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
       X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
+    status: 202 Accepted
+    code: 202
     duration: ""
 - request:
     body: ""
     form: {}
     headers:
-      Accept:
-      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationresults/ca88ad7a-ca1d-4b76-aa6f-5a2c6f21beea?api-version=2020-12-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationresults/ca88ad7a-ca1d-4b76-aa6f-5a2c6f21beea?api-version=2020-12-01
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Rp-Server-Mvid:
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis2-gzcvdq?api-version=2020-12-01
-    method: DELETE
-  response:
-    body: '{"error":{"code":"BadRequest","message":"Cannot delete ''asotest-redis2-gzcvdq''
-      since it has linked servers associated with it. Please remove the linked server(s)
-      and then try deleting the cache.\r\nRequestID=928dc089-4a7f-4bd6-9c6b-71282b8456b4","target":null}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "261"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 400 Bad Request
-    code: 400
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "17"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv?api-version=2020-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationresults/1103d17f-df50-41da-b28d-c1d558d902ed?api-version=2020-12-01
     method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis1-zbvfwv","location":"West
-      US 2","name":"asotest-redis1-zbvfwv","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Deleting","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":true,"isPrimary":true},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":null,"hostName":"asotest-redis1-zbvfwv.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis2-gzcvdq?api-version=2020-12-01
-    method: DELETE
   response:
     body: ""
     headers:
@@ -2350,7 +1199,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationresults/93be166e-d281-47d8-a0c6-9000baf1ca05?api-version=2020-12-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationresults/1103d17f-df50-41da-b28d-c1d558d902ed?api-version=2020-12-01
       Pragma:
       - no-cache
       Server:
@@ -2360,7 +1209,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
     status: 202 Accepted
     code: 202
     duration: ""
@@ -2368,234 +1217,21 @@ interactions:
     body: ""
     form: {}
     headers:
-      Accept:
-      - application/json
       Test-Request-Attempt:
-      - "18"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv?api-version=2020-12-01
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationresults/ca88ad7a-ca1d-4b76-aa6f-5a2c6f21beea?api-version=2020-12-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis1-zbvfwv","location":"West
-      US 2","name":"asotest-redis1-zbvfwv","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Deleting","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":true,"isPrimary":true},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":null,"hostName":"asotest-redis1-zbvfwv.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
     body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "15"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis2-gzcvdq?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis2-gzcvdq","location":"West
-      US 2","name":"asotest-redis2-gzcvdq","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Deleting","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":true,"isPrimary":true},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":null,"hostName":"asotest-redis2-gzcvdq.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "19"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis1-zbvfwv","location":"West
-      US 2","name":"asotest-redis1-zbvfwv","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Deleting","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":true,"isPrimary":true},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":null,"hostName":"asotest-redis1-zbvfwv.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "16"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis2-gzcvdq?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis2-gzcvdq","location":"West
-      US 2","name":"asotest-redis2-gzcvdq","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Deleting","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":true,"isPrimary":true},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":null,"hostName":"asotest-redis2-gzcvdq.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "20"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis1-zbvfwv","location":"West
-      US 2","name":"asotest-redis1-zbvfwv","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Deleting","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":true,"isPrimary":true},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":null,"hostName":"asotest-redis1-zbvfwv.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "17"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis2-gzcvdq?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis2-gzcvdq","location":"West
-      US 2","name":"asotest-redis2-gzcvdq","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Deleting","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":true,"isPrimary":true},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":null,"hostName":"asotest-redis2-gzcvdq.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "21"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis1-zbvfwv?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"error":{"code":"ResourceNotFound","message":"A requested resource could
-      not be found. It may already have been deleted.\r\nRequestID=ad7fb34c-1ebc-4b27-9dbc-666769414add","target":null}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Length:
-      - "188"
-      Content-Type:
-      - application/json; charset=utf-8
+      - "0"
       Expires:
       - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationresults/ca88ad7a-ca1d-4b76-aa6f-5a2c6f21beea?api-version=2020-12-01
       Pragma:
       - no-cache
       Server:
@@ -2605,28 +1241,281 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
-    status: 404 Not Found
-    code: 404
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
+    status: 202 Accepted
+    code: 202
     duration: ""
 - request:
     body: ""
     form: {}
     headers:
-      Accept:
-      - application/json
       Test-Request-Attempt:
-      - "18"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis2-gzcvdq?api-version=2020-12-01
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationresults/1103d17f-df50-41da-b28d-c1d558d902ed?api-version=2020-12-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/Redis/asotest-redis2-gzcvdq","location":"West
-      US 2","name":"asotest-redis2-gzcvdq","type":"Microsoft.Cache/Redis","tags":{},"properties":{"provisioningState":"Deleting","redisVersion":"6.0.14","sku":{"name":"Premium","family":"P","capacity":1},"enableNonSslPort":false,"instances":[{"sslPort":15000,"isMaster":true,"isPrimary":true},{"sslPort":15001,"isMaster":false,"isPrimary":false}],"minimumTlsVersion":"1.2","publicNetworkAccess":"Enabled","redisConfiguration":{"maxmemory-policy":"allkeys-lru","maxmemory-reserved":"642","maxclients":"7500","maxfragmentationmemory-reserved":"642","maxmemory-delta":"642"},"accessKeys":null,"hostName":"asotest-redis2-gzcvdq.redis.cache.windows.net","port":6379,"sslPort":6380,"linkedServers":[]}}'
+    body: ""
     headers:
       Cache-Control:
       - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationresults/1103d17f-df50-41da-b28d-c1d558d902ed?api-version=2020-12-01
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Rp-Server-Mvid:
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationresults/ca88ad7a-ca1d-4b76-aa6f-5a2c6f21beea?api-version=2020-12-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationresults/ca88ad7a-ca1d-4b76-aa6f-5a2c6f21beea?api-version=2020-12-01
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Rp-Server-Mvid:
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationresults/ca88ad7a-ca1d-4b76-aa6f-5a2c6f21beea?api-version=2020-12-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationresults/ca88ad7a-ca1d-4b76-aa6f-5a2c6f21beea?api-version=2020-12-01
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Rp-Server-Mvid:
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationresults/1103d17f-df50-41da-b28d-c1d558d902ed?api-version=2020-12-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationresults/1103d17f-df50-41da-b28d-c1d558d902ed?api-version=2020-12-01
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Rp-Server-Mvid:
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "4"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationresults/ca88ad7a-ca1d-4b76-aa6f-5a2c6f21beea?api-version=2020-12-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationresults/ca88ad7a-ca1d-4b76-aa6f-5a2c6f21beea?api-version=2020-12-01
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Rp-Server-Mvid:
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "4"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationresults/1103d17f-df50-41da-b28d-c1d558d902ed?api-version=2020-12-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationresults/1103d17f-df50-41da-b28d-c1d558d902ed?api-version=2020-12-01
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Rp-Server-Mvid:
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "5"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationresults/1103d17f-df50-41da-b28d-c1d558d902ed?api-version=2020-12-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationresults/1103d17f-df50-41da-b28d-c1d558d902ed?api-version=2020-12-01
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Rp-Server-Mvid:
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "5"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationresults/ca88ad7a-ca1d-4b76-aa6f-5a2c6f21beea?api-version=2020-12-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationresults/ca88ad7a-ca1d-4b76-aa6f-5a2c6f21beea?api-version=2020-12-01
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Rp-Server-Mvid:
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "6"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationresults/ca88ad7a-ca1d-4b76-aa6f-5a2c6f21beea?api-version=2020-12-01
+    method: GET
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
       Expires:
       - "-1"
       Pragma:
@@ -2635,12 +1524,10 @@ interactions:
       - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
       X-Rp-Server-Mvid:
-      - 4da883f8-5df9-4855-a10f-ab06bed1009e
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
     status: 200 OK
     code: 200
     duration: ""
@@ -2648,35 +1535,31 @@ interactions:
     body: ""
     form: {}
     headers:
-      Accept:
-      - application/json
       Test-Request-Attempt:
-      - "19"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm/providers/Microsoft.Cache/redis/asotest-redis2-gzcvdq?api-version=2020-12-01
+      - "6"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Cache/locations/West%20US%202/operationresults/1103d17f-df50-41da-b28d-c1d558d902ed?api-version=2020-12-01
     method: GET
   response:
-    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Cache/Redis/asotest-redis2-gzcvdq''
-      under resource group ''asotest-rg-hyymvm'' was not found. For more details please
-      go to https://aka.ms/ARMResourceNotFoundFix"}}'
+    body: ""
     headers:
       Cache-Control:
       - no-cache
       Content-Length:
-      - "232"
-      Content-Type:
-      - application/json; charset=utf-8
+      - "0"
       Expires:
       - "-1"
       Pragma:
       - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
+      X-Rp-Server-Mvid:
+      - c648d00f-daa5-4722-b6a6-0b7bd442c10b
+    status: 200 OK
+    code: 200
     duration: ""
 - request:
     body: ""
@@ -2748,22 +1631,17 @@ interactions:
     body: ""
     form: {}
     headers:
-      Accept:
-      - application/json
       Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-hyymvm?api-version=2020-06-01
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRIWVlNVk0tV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
     method: GET
   response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-hyymvm''
-      could not be found."}}'
+    body: ""
     headers:
       Cache-Control:
       - no-cache
       Content-Length:
-      - "109"
-      Content-Type:
-      - application/json; charset=utf-8
+      - "0"
       Expires:
       - "-1"
       Pragma:
@@ -2772,8 +1650,6 @@ interactions:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
+    status: 200 OK
+    code: 200
     duration: ""

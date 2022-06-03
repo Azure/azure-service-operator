@@ -20,8 +20,6 @@ interactions:
     headers:
       Cache-Control:
       - no-cache
-      Content-Length:
-      - "276"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -30,10 +28,12 @@ interactions:
       - no-cache
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
-    status: 201 Created
-    code: 201
+    status: 200 OK
+    code: 200
     duration: ""
 - request:
     body: ""
@@ -81,89 +81,19 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"asotest-routetable-ttechn\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wuysaf/providers/Microsoft.Network/routeTables/asotest-routetable-ttechn\",\r\n
-      \ \"etag\": \"W/\\\"8a55f977-b7c8-479c-979d-d4d12024734b\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"5c5b39c8-988e-468f-b719-2eb23fddf0aa\\\"\",\r\n  \"type\":
       \"Microsoft.Network/routeTables\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"c88f48ec-7510-40f4-b861-d00a37b4f917\",\r\n
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"5d043050-cd04-4167-82bd-fab48dd9fc26\",\r\n
       \   \"disableBgpRoutePropagation\": false,\r\n    \"routes\": []\r\n  }\r\n}"
     headers:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/55c91d99-08be-428d-b4ff-ef5a5e1204b8?api-version=2020-11-01
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "517"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "2"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 201 Created
-    code: 201
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/55c91d99-08be-428d-b4ff-ef5a5e1204b8?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
-    headers:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/72f1df23-36ba-4d26-b8cb-04df2f6361c2?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wuysaf/providers/Microsoft.Network/routeTables/asotest-routetable-ttechn?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"name\": \"asotest-routetable-ttechn\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wuysaf/providers/Microsoft.Network/routeTables/asotest-routetable-ttechn\",\r\n
-      \ \"etag\": \"W/\\\"a6051877-5a7f-4966-afb5-08f03b959a54\\\"\",\r\n  \"type\":
-      \"Microsoft.Network/routeTables\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"c88f48ec-7510-40f4-b861-d00a37b4f917\",\r\n
-      \   \"disableBgpRoutePropagation\": false,\r\n    \"routes\": []\r\n  }\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - W/"a6051877-5a7f-4966-afb5-08f03b959a54"
       Expires:
       - "-1"
       Pragma:
@@ -187,14 +117,14 @@ interactions:
       Accept:
       - application/json
       Test-Request-Attempt:
-      - "1"
+      - "0"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wuysaf/providers/Microsoft.Network/routeTables/asotest-routetable-ttechn?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-routetable-ttechn\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wuysaf/providers/Microsoft.Network/routeTables/asotest-routetable-ttechn\",\r\n
-      \ \"etag\": \"W/\\\"a6051877-5a7f-4966-afb5-08f03b959a54\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"5c5b39c8-988e-468f-b719-2eb23fddf0aa\\\"\",\r\n  \"type\":
       \"Microsoft.Network/routeTables\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"c88f48ec-7510-40f4-b861-d00a37b4f917\",\r\n
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"5d043050-cd04-4167-82bd-fab48dd9fc26\",\r\n
       \   \"disableBgpRoutePropagation\": false,\r\n    \"routes\": []\r\n  }\r\n}"
     headers:
       Cache-Control:
@@ -202,7 +132,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"a6051877-5a7f-4966-afb5-08f03b959a54"
+      - W/"5c5b39c8-988e-468f-b719-2eb23fddf0aa"
       Expires:
       - "-1"
       Pragma:
@@ -235,13 +165,13 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"asotest-ipv4route-dlvvam\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wuysaf/providers/Microsoft.Network/routeTables/asotest-routetable-ttechn/routes/asotest-ipv4route-dlvvam\",\r\n
-      \ \"etag\": \"W/\\\"7265fd7a-e241-4de8-8779-2c2ecd1dbba2\\\"\",\r\n  \"properties\":
+      \ \"etag\": \"W/\\\"8b6b2107-c587-4dbd-bd7a-9ad98fb4160a\\\"\",\r\n  \"properties\":
       {\r\n    \"provisioningState\": \"Updating\",\r\n    \"addressPrefix\": \"Storage\",\r\n
       \   \"nextHopType\": \"VirtualAppliance\",\r\n    \"nextHopIpAddress\": \"10.0.100.4\",\r\n
       \   \"hasBgpOverride\": false\r\n  },\r\n  \"type\": \"Microsoft.Network/routeTables/routes\"\r\n}"
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/dfd91240-0b03-4910-81f4-82e279cc7828?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/674e278c-2d2e-4b93-8ecf-91272a025508?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -280,13 +210,13 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"asotest-ipv6route-ovwahm\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wuysaf/providers/Microsoft.Network/routeTables/asotest-routetable-ttechn/routes/asotest-ipv6route-ovwahm\",\r\n
-      \ \"etag\": \"W/\\\"dd077dbb-6843-40ab-8f73-3bccc6264068\\\"\",\r\n  \"properties\":
+      \ \"etag\": \"W/\\\"3efd0dea-95a4-4225-83b1-30a13346fefb\\\"\",\r\n  \"properties\":
       {\r\n    \"provisioningState\": \"Updating\",\r\n    \"addressPrefix\": \"cab:cab::/96\",\r\n
       \   \"nextHopType\": \"VirtualAppliance\",\r\n    \"nextHopIpAddress\": \"ace:cab:deca:f00d::1\",\r\n
       \   \"hasBgpOverride\": false\r\n  },\r\n  \"type\": \"Microsoft.Network/routeTables/routes\"\r\n}"
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/e44acfd1-90d9-4d8f-9c3d-7981e9ce9e35?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/8c6ec650-2114-4132-a9c3-b49db2ecd8c3?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -315,7 +245,38 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/dfd91240-0b03-4910-81f4-82e279cc7828?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/674e278c-2d2e-4b93-8ecf-91272a025508?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/8c6ec650-2114-4132-a9c3-b49db2ecd8c3?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
@@ -350,7 +311,7 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-ipv4route-dlvvam\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wuysaf/providers/Microsoft.Network/routeTables/asotest-routetable-ttechn/routes/asotest-ipv4route-dlvvam\",\r\n
-      \ \"etag\": \"W/\\\"2fb6fc4d-9a75-496c-b98b-6a68e21f3f3c\\\"\",\r\n  \"properties\":
+      \ \"etag\": \"W/\\\"7f9c7f6e-3def-4822-8e9f-811a7d3f5c36\\\"\",\r\n  \"properties\":
       {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"Storage\",\r\n
       \   \"nextHopType\": \"VirtualAppliance\",\r\n    \"nextHopIpAddress\": \"10.0.100.4\",\r\n
       \   \"hasBgpOverride\": false\r\n  },\r\n  \"type\": \"Microsoft.Network/routeTables/routes\"\r\n}"
@@ -360,7 +321,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"2fb6fc4d-9a75-496c-b98b-6a68e21f3f3c"
+      - W/"7f9c7f6e-3def-4822-8e9f-811a7d3f5c36"
       Expires:
       - "-1"
       Pragma:
@@ -383,15 +344,21 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/e44acfd1-90d9-4d8f-9c3d-7981e9ce9e35?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wuysaf/providers/Microsoft.Network/routeTables/asotest-routetable-ttechn/routes/asotest-ipv6route-ovwahm?api-version=2020-11-01
     method: GET
   response:
-    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
+    body: "{\r\n  \"name\": \"asotest-ipv6route-ovwahm\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wuysaf/providers/Microsoft.Network/routeTables/asotest-routetable-ttechn/routes/asotest-ipv6route-ovwahm\",\r\n
+      \ \"etag\": \"W/\\\"7f9c7f6e-3def-4822-8e9f-811a7d3f5c36\\\"\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"cab:cab::/96\",\r\n
+      \   \"nextHopType\": \"VirtualAppliance\",\r\n    \"nextHopIpAddress\": \"ace:cab:deca:f00d::1\",\r\n
+      \   \"hasBgpOverride\": false\r\n  },\r\n  \"type\": \"Microsoft.Network/routeTables/routes\"\r\n}"
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
+      Etag:
+      - W/"7f9c7f6e-3def-4822-8e9f-811a7d3f5c36"
       Expires:
       - "-1"
       Pragma:
@@ -420,7 +387,7 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-ipv4route-dlvvam\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wuysaf/providers/Microsoft.Network/routeTables/asotest-routetable-ttechn/routes/asotest-ipv4route-dlvvam\",\r\n
-      \ \"etag\": \"W/\\\"2fb6fc4d-9a75-496c-b98b-6a68e21f3f3c\\\"\",\r\n  \"properties\":
+      \ \"etag\": \"W/\\\"7f9c7f6e-3def-4822-8e9f-811a7d3f5c36\\\"\",\r\n  \"properties\":
       {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"Storage\",\r\n
       \   \"nextHopType\": \"VirtualAppliance\",\r\n    \"nextHopIpAddress\": \"10.0.100.4\",\r\n
       \   \"hasBgpOverride\": false\r\n  },\r\n  \"type\": \"Microsoft.Network/routeTables/routes\"\r\n}"
@@ -430,44 +397,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"2fb6fc4d-9a75-496c-b98b-6a68e21f3f3c"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wuysaf/providers/Microsoft.Network/routeTables/asotest-routetable-ttechn/routes/asotest-ipv6route-ovwahm?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"name\": \"asotest-ipv6route-ovwahm\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wuysaf/providers/Microsoft.Network/routeTables/asotest-routetable-ttechn/routes/asotest-ipv6route-ovwahm\",\r\n
-      \ \"etag\": \"W/\\\"2fb6fc4d-9a75-496c-b98b-6a68e21f3f3c\\\"\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"cab:cab::/96\",\r\n
-      \   \"nextHopType\": \"VirtualAppliance\",\r\n    \"nextHopIpAddress\": \"ace:cab:deca:f00d::1\",\r\n
-      \   \"hasBgpOverride\": false\r\n  },\r\n  \"type\": \"Microsoft.Network/routeTables/routes\"\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - W/"2fb6fc4d-9a75-496c-b98b-6a68e21f3f3c"
+      - W/"7f9c7f6e-3def-4822-8e9f-811a7d3f5c36"
       Expires:
       - "-1"
       Pragma:
@@ -496,7 +426,7 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-ipv6route-ovwahm\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wuysaf/providers/Microsoft.Network/routeTables/asotest-routetable-ttechn/routes/asotest-ipv6route-ovwahm\",\r\n
-      \ \"etag\": \"W/\\\"2fb6fc4d-9a75-496c-b98b-6a68e21f3f3c\\\"\",\r\n  \"properties\":
+      \ \"etag\": \"W/\\\"7f9c7f6e-3def-4822-8e9f-811a7d3f5c36\\\"\",\r\n  \"properties\":
       {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"cab:cab::/96\",\r\n
       \   \"nextHopType\": \"VirtualAppliance\",\r\n    \"nextHopIpAddress\": \"ace:cab:deca:f00d::1\",\r\n
       \   \"hasBgpOverride\": false\r\n  },\r\n  \"type\": \"Microsoft.Network/routeTables/routes\"\r\n}"
@@ -506,7 +436,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"2fb6fc4d-9a75-496c-b98b-6a68e21f3f3c"
+      - W/"7f9c7f6e-3def-4822-8e9f-811a7d3f5c36"
       Expires:
       - "-1"
       Pragma:
@@ -539,13 +469,13 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"asotest-ipv4route-dlvvam\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wuysaf/providers/Microsoft.Network/routeTables/asotest-routetable-ttechn/routes/asotest-ipv4route-dlvvam\",\r\n
-      \ \"etag\": \"W/\\\"19c1ee33-2d60-47fa-8c8c-885c91b1cea3\\\"\",\r\n  \"properties\":
+      \ \"etag\": \"W/\\\"eab336ab-3fc1-4b76-a8fa-21896e4f6daa\\\"\",\r\n  \"properties\":
       {\r\n    \"provisioningState\": \"Updating\",\r\n    \"addressPrefix\": \"Storage\",\r\n
       \   \"nextHopType\": \"VirtualAppliance\",\r\n    \"nextHopIpAddress\": \"10.0.100.5\",\r\n
       \   \"hasBgpOverride\": false\r\n  },\r\n  \"type\": \"Microsoft.Network/routeTables/routes\"\r\n}"
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/8bb87a3d-8e4d-42de-b40d-9fe22a1a57c5?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/bf309eb7-ea0c-449a-b33c-7773ce709209?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Type:
@@ -574,7 +504,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/8bb87a3d-8e4d-42de-b40d-9fe22a1a57c5?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/bf309eb7-ea0c-449a-b33c-7773ce709209?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
@@ -609,7 +539,7 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-ipv4route-dlvvam\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wuysaf/providers/Microsoft.Network/routeTables/asotest-routetable-ttechn/routes/asotest-ipv4route-dlvvam\",\r\n
-      \ \"etag\": \"W/\\\"0fd589ea-78df-408c-87fb-76110d0d536a\\\"\",\r\n  \"properties\":
+      \ \"etag\": \"W/\\\"c5b75035-813e-425b-9ba0-84824d77b6ce\\\"\",\r\n  \"properties\":
       {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"Storage\",\r\n
       \   \"nextHopType\": \"VirtualAppliance\",\r\n    \"nextHopIpAddress\": \"10.0.100.5\",\r\n
       \   \"hasBgpOverride\": false\r\n  },\r\n  \"type\": \"Microsoft.Network/routeTables/routes\"\r\n}"
@@ -619,7 +549,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"0fd589ea-78df-408c-87fb-76110d0d536a"
+      - W/"c5b75035-813e-425b-9ba0-84824d77b6ce"
       Expires:
       - "-1"
       Pragma:
@@ -648,7 +578,7 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-ipv4route-dlvvam\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wuysaf/providers/Microsoft.Network/routeTables/asotest-routetable-ttechn/routes/asotest-ipv4route-dlvvam\",\r\n
-      \ \"etag\": \"W/\\\"0fd589ea-78df-408c-87fb-76110d0d536a\\\"\",\r\n  \"properties\":
+      \ \"etag\": \"W/\\\"c5b75035-813e-425b-9ba0-84824d77b6ce\\\"\",\r\n  \"properties\":
       {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"Storage\",\r\n
       \   \"nextHopType\": \"VirtualAppliance\",\r\n    \"nextHopIpAddress\": \"10.0.100.5\",\r\n
       \   \"hasBgpOverride\": false\r\n  },\r\n  \"type\": \"Microsoft.Network/routeTables/routes\"\r\n}"
@@ -658,7 +588,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"0fd589ea-78df-408c-87fb-76110d0d536a"
+      - W/"c5b75035-813e-425b-9ba0-84824d77b6ce"
       Expires:
       - "-1"
       Pragma:
@@ -689,7 +619,7 @@ interactions:
     body: ""
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/70a1ef82-4ee2-45bb-8517-695dc2ac388b?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/9a6828e4-3861-486b-aad9-ad8358e935d7?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -697,7 +627,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/70a1ef82-4ee2-45bb-8517-695dc2ac388b?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/9a6828e4-3861-486b-aad9-ad8358e935d7?api-version=2020-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -726,7 +656,7 @@ interactions:
     body: ""
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/b48881fd-1d46-4aa4-9d79-1017f63bf5ae?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/aaf1866d-a680-464d-8248-ef40bc7b502f?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -734,7 +664,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/b48881fd-1d46-4aa4-9d79-1017f63bf5ae?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/aaf1866d-a680-464d-8248-ef40bc7b502f?api-version=2020-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -748,6 +678,68 @@ interactions:
       - nosniff
     status: 202 Accepted
     code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/9a6828e4-3861-486b-aad9-ad8358e935d7?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/aaf1866d-a680-464d-8248-ef40bc7b502f?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
     duration: ""
 - request:
     body: ""
@@ -791,76 +783,6 @@ interactions:
       Accept:
       - application/json
       Test-Request-Attempt:
-      - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wuysaf/providers/Microsoft.Network/routeTables/asotest-routetable-ttechn/routes/asotest-ipv6route-ovwahm?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"error\": {\r\n    \"code\": \"NotFound\",\r\n    \"message\":
-      \"Resource /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wuysaf/providers/Microsoft.Network/routeTables/asotest-routetable-ttechn/routes/asotest-ipv6route-ovwahm
-      not found.\",\r\n    \"details\": []\r\n  }\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "289"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "5"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wuysaf/providers/Microsoft.Network/routeTables/asotest-routetable-ttechn/routes/asotest-ipv4route-dlvvam?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"error\": {\r\n    \"code\": \"NotFound\",\r\n    \"message\":
-      \"Resource /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wuysaf/providers/Microsoft.Network/routeTables/asotest-routetable-ttechn/routes/asotest-ipv4route-dlvvam
-      not found.\",\r\n    \"details\": []\r\n  }\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "289"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
       - "0"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wuysaf/providers/Microsoft.Network/routeTables/asotest-routetable-ttechn?api-version=2020-11-01
     method: DELETE
@@ -870,7 +792,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/ad6b118c-43fc-4035-a58c-7cab9429c8b4?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/8dcc779b-e8a3-43ce-a30f-76d16769009e?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -878,7 +800,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/ad6b118c-43fc-4035-a58c-7cab9429c8b4?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/8dcc779b-e8a3-43ce-a30f-76d16769009e?api-version=2020-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -897,35 +819,32 @@ interactions:
     body: ""
     form: {}
     headers:
-      Accept:
-      - application/json
       Test-Request-Attempt:
-      - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wuysaf/providers/Microsoft.Network/routeTables/asotest-routetable-ttechn?api-version=2020-11-01
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/8dcc779b-e8a3-43ce-a30f-76d16769009e?api-version=2020-11-01
     method: GET
   response:
-    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Network/routeTables/asotest-routetable-ttechn''
-      under resource group ''asotest-rg-wuysaf'' was not found. For more details please
-      go to https://aka.ms/ARMResourceNotFoundFix"}}'
+    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
     headers:
       Cache-Control:
       - no-cache
-      Content-Length:
-      - "244"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
       - "-1"
       Pragma:
       - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
+    status: 200 OK
+    code: 200
     duration: ""
 - request:
     body: ""
@@ -934,7 +853,7 @@ interactions:
       Accept:
       - application/json
       Test-Request-Attempt:
-      - "3"
+      - "1"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wuysaf/providers/Microsoft.Network/routeTables/asotest-routetable-ttechn?api-version=2020-11-01
     method: GET
   response:
@@ -997,22 +916,17 @@ interactions:
     body: ""
     form: {}
     headers:
-      Accept:
-      - application/json
       Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-wuysaf?api-version=2020-06-01
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRXVVlTQUYtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
     method: GET
   response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-wuysaf''
-      could not be found."}}'
+    body: ""
     headers:
       Cache-Control:
       - no-cache
       Content-Length:
-      - "109"
-      Content-Type:
-      - application/json; charset=utf-8
+      - "0"
       Expires:
       - "-1"
       Pragma:
@@ -1021,8 +935,6 @@ interactions:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
+    status: 200 OK
+    code: 200
     duration: ""

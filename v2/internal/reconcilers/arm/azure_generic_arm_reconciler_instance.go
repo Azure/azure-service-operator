@@ -160,9 +160,9 @@ func (r *azureDeploymentReconcilerInstance) AddInitialResourceState(ctx context.
 }
 
 func (r *azureDeploymentReconcilerInstance) DetermineDeleteAction() (DeleteAction, DeleteActionFunc, error) {
-	ready := genruntime.GetReadyCondition(r.Obj)
+	pollerID, _, hasPollerResumeToken := GetPollerResumeToken(r.Obj)
 
-	if ready != nil && ready.Reason == conditions.ReasonDeleting {
+	if hasPollerResumeToken && pollerID == genericarmclient.DeletePollerID {
 		return DeleteActionMonitorDelete, r.MonitorDelete, nil
 	}
 
@@ -210,34 +210,36 @@ func (r *azureDeploymentReconcilerInstance) MonitorDelete(ctx context.Context) (
 	msg := "Continue monitoring deletion"
 	r.Log.V(Verbose).Info(msg)
 	r.Recorder.Event(r.Obj, v1.EventTypeNormal, string(DeleteActionMonitorDelete), msg)
+	//
+	//// Technically we don't need the resource ID anymore to monitor delete
+	//_, hasResourceID := genruntime.GetResourceID(r.Obj)
+	//if !hasResourceID {
+	//	return ctrl.Result{}, errors.Errorf("can't MonitorDelete a resource without a resource ID")
+	//}
 
-	resourceID, hasResourceID := genruntime.GetResourceID(r.Obj)
-	if !hasResourceID {
-		return ctrl.Result{}, errors.Errorf("can't MonitorDelete a resource without a resource ID")
+	pollerID, pollerResumeToken, hasToken := GetPollerResumeToken(r.Obj)
+	if !hasToken {
+		return ctrl.Result{}, errors.New("cannot MonitorResourceCreation with empty pollerResumeToken or pollerID")
 	}
 
-	apiVersion, verr := r.GetAPIVersion()
-	if verr != nil {
-		return ctrl.Result{}, errors.Wrapf(verr, "error getting api version for resource %s while monitoring deletion of resource", r.Obj.GetName())
+	if pollerID != genericarmclient.DeletePollerID {
+		return ctrl.Result{}, errors.Errorf("cannot MonitorResourceCreation with pollerID=%s", pollerID)
 	}
 
-	// already deleting, just check to see if it still exists and if it's gone, remove finalizer
-	found, retryAfter, err := r.ARMClient.HeadByID(ctx, resourceID, apiVersion)
+	poller := r.ARMClient.ResumeDeletePoller(pollerID)
+	err := poller.Resume(ctx, r.ARMClient, pollerResumeToken)
 	if err != nil {
-		if retryAfter != 0 {
-			r.Log.V(Info).Info("Error performing HEAD on resource, will retry", "delaySec", retryAfter/time.Second)
-			return ctrl.Result{RequeueAfter: retryAfter}, nil
-		}
-
-		return ctrl.Result{}, errors.Wrap(err, "head resource")
+		return ctrl.Result{}, r.handleDeletePollerFailed(err)
+	}
+	if poller.Poller.Done() {
+		// The resource was deleted
+		return ctrl.Result{}, nil
 	}
 
-	if found {
-		r.Log.V(Verbose).Info("Found resource: continuing to wait for deletion...")
-		return ctrl.Result{Requeue: true}, nil
-	}
-
-	return ctrl.Result{}, nil
+	retryAfter := genericarmclient.GetRetryAfter(poller.RawResponse)
+	r.Log.V(Verbose).Info("Found resource: continuing to wait for deletion...")
+	// Normally don't need to set both of these fields but because retryAfter can be 0 we do
+	return ctrl.Result{Requeue: true, RequeueAfter: retryAfter}, nil
 }
 
 func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(ctx context.Context) (ctrl.Result, error) {
@@ -285,6 +287,18 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(ctx cont
 func (r *azureDeploymentReconcilerInstance) handleCreatePollerFailed(err error) error {
 	r.Log.V(Status).Info(
 		"Resource creation failure",
+		"resourceID", genruntime.GetResourceIDOrDefault(r.Obj),
+		"error", err.Error())
+
+	err = r.MakeReadyConditionImpactingErrorFromError(err)
+	ClearPollerResumeToken(r.Obj)
+
+	return err
+}
+
+func (r *azureDeploymentReconcilerInstance) handleDeletePollerFailed(err error) error {
+	r.Log.V(Status).Info(
+		"Resource deletion failure",
 		"resourceID", genruntime.GetResourceIDOrDefault(r.Obj),
 		"error", err.Error())
 
@@ -349,7 +363,7 @@ func (r *azureDeploymentReconcilerInstance) MonitorResourceCreation(ctx context.
 		return ctrl.Result{}, errors.Errorf("cannot MonitorResourceCreation with pollerID=%s", pollerID)
 	}
 
-	poller := &genericarmclient.PollerResponse{ID: pollerID}
+	poller := r.ARMClient.ResumeCreatePoller(pollerID)
 	err := poller.Resume(ctx, r.ARMClient, pollerResumeToken)
 	if err != nil {
 		return ctrl.Result{}, r.handleCreatePollerFailed(err)
@@ -581,16 +595,25 @@ func deleteResource(
 		return ctrl.Result{}, err
 	}
 
-	apiVersion, err := genruntime.GetAPIVersion(obj, resourceResolver.Scheme())
-	if err != nil {
-		return ctrl.Result{}, errors.Wrapf(err, "error getting api version for resource %s while starting deletion of resource", obj.GetName())
-	}
-
 	// retryAfter = ARM can tell us how long to wait for a DELETE
-	retryAfter, err := armClient.DeleteByID(ctx, resourceID, apiVersion)
+	pollerResp, err := armClient.BeginDeleteByID(ctx, resourceID, obj.GetAPIVersion())
 	if err != nil {
 		return ctrl.Result{}, errors.Wrapf(err, "deleting resource %q", resourceID)
 	}
 
+	// If we are done here it means the delete succeeded immediately. It can't have failed because if it did
+	// we would have taken the err path above.
+	if pollerResp.Poller.Done() {
+		return ctrl.Result{}, nil
+	}
+
+	retryAfter := genericarmclient.GetRetryAfter(pollerResp.RawResponse)
+	resumeToken, err := pollerResp.Poller.ResumeToken()
+	if err != nil {
+		return ctrl.Result{}, errors.Wrapf(err, "couldn't create DELETE resume token for resource %q", resourceID)
+	}
+	SetPollerResumeToken(obj, pollerResp.ID, resumeToken)
+
+	// Normally don't need to set both of these fields but because retryAfter can be 0 we do
 	return ctrl.Result{Requeue: true, RequeueAfter: retryAfter}, nil
 }
