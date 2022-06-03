@@ -4,7 +4,6 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="generator" content="Hugo 0.88.1" />
-<link rel="alternate" type="application/rss&#43;xml" href="https://azure.github.io/azure-service-operator/architecture-decision-records/index.xml">
 <meta name="robots" content="index, follow">
 
 
@@ -19,17 +18,33 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>Architecture Decision Records | Azure Service Operator</title>
-<meta name="description" content="Each architecture decision record (ADR) documents one of the architecturally significant decisions we&rsquo;ve made during the Azure Service Operator …">
-<meta property="og:title" content="Architecture Decision Records" />
-<meta property="og:description" content="The most popular HTML, CSS, and JS library in the world." />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/architecture-decision-records/" />
+<title>Improving the Reconciler interface | Azure Service Operator</title>
+<meta name="description" content="Reconciler Interface
+Today the interface is:
+type Reconciler interface {
+    Reconcile(
+        ctx context.Context,
+        log logr.Logger, …">
+<meta property="og:title" content="Improving the Reconciler interface" />
+<meta property="og:description" content="Reconciler Interface Today the interface is:
+type Reconciler interface { Reconcile( ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj MetaObject) (ctrl.Result, error) } This is pretty similar to the interface that controller-runtime gives us:
+type Reconciler interface { // Reconcile performs a full reconciliation for the object referred to by the Request.  // The Controller will requeue the Request to be processed again if an error is non-nil or  // Result." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/design/reconcile-interface/" /><meta property="article:section" content="design" />
 
-<meta itemprop="name" content="Architecture Decision Records">
-<meta itemprop="description" content="The most popular HTML, CSS, and JS library in the world."><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Architecture Decision Records"/>
-<meta name="twitter:description" content="The most popular HTML, CSS, and JS library in the world."/>
+
+
+<meta itemprop="name" content="Improving the Reconciler interface">
+<meta itemprop="description" content="Reconciler Interface Today the interface is:
+type Reconciler interface { Reconcile( ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj MetaObject) (ctrl.Result, error) } This is pretty similar to the interface that controller-runtime gives us:
+type Reconciler interface { // Reconcile performs a full reconciliation for the object referred to by the Request.  // The Controller will requeue the Request to be processed again if an error is non-nil or  // Result.">
+
+<meta itemprop="wordCount" content="1412">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Improving the Reconciler interface"/>
+<meta name="twitter:description" content="Reconciler Interface Today the interface is:
+type Reconciler interface { Reconcile( ctx context.Context, log logr.Logger, eventRecorder record.EventRecorder, obj MetaObject) (ctrl.Result, error) } This is pretty similar to the interface that controller-runtime gives us:
+type Reconciler interface { // Reconcile performs a full reconciliation for the object referred to by the Request.  // The Controller will requeue the Request to be processed again if an error is non-nil or  // Result."/>
 
 
 
@@ -43,7 +58,7 @@
   crossorigin="anonymous"></script>
 
   </head>
-  <body class="td-section">
+  <body class="td-page">
     <header>
       
 <nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
@@ -99,7 +114,7 @@
 				
 				
 				
-				<a class="nav-link" href="/azure-service-operator/design/" ><span>Design</span></a>
+				<a class="nav-link active" href="/azure-service-operator/design/" ><span class="active">Design</span></a>
 			</li>
 			
 			<li class="nav-item mr-4 mb-2 mb-lg-0">
@@ -111,7 +126,7 @@
 				
 				
 				
-				<a class="nav-link active" href="/azure-service-operator/architecture-decision-records/" ><span class="active">Architecture</span></a>
+				<a class="nav-link" href="/azure-service-operator/architecture-decision-records/" ><span>Architecture</span></a>
 			</li>
 			
 			
@@ -276,22 +291,22 @@
   <a href="/azure-service-operator/contributing/create-a-new-release/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingcreate-a-new-release"><span class="">Creating a new release</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatordesign-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatordesign-li">
   <a href="/azure-service-operator/design/" title="Design &amp; Specifications" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesign"><span class="">Design</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignclarifying-object-structure-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignclarifying-object-structure-li">
   <a href="/azure-service-operator/design/clarifying-object-structure/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignclarifying-object-structure"><span class="">Clarifying object structure</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigncrossplane-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigncrossplane-li">
   <a href="/azure-service-operator/design/crossplane/" title="Code generation for Crossplane" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigncrossplane"><span class="">Crossplane support</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigndefaulter-validator-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigndefaulter-validator-li">
   <a href="/azure-service-operator/design/defaulter-validator/" title="Custom validation and defaulting for code generated resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigndefaulter-validator"><span class="">Custom validation</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignsecrets-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignsecrets-li">
   <a href="/azure-service-operator/design/secrets/" title="Managing dataplane secrets" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignsecrets"><span class="">Dataplane secrets</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignreconcile-interface-li">
-  <a href="/azure-service-operator/design/reconcile-interface/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignreconcile-interface"><span class="">Improving the Reconciler interface</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignresource-states-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatordesignreconcile-interface-li">
+  <a href="/azure-service-operator/design/reconcile-interface/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignreconcile-interface"><span class="td-sidebar-nav-active-item">Improving the Reconciler interface</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignresource-states-li">
   <a href="/azure-service-operator/design/resource-states/" title="Proposal for reporting resource Status" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignresource-states"><span class="">Resource status</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatordesignversioning-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatordesignversioning-li">
   <a href="/azure-service-operator/design/versioning/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignversioning"><span class="">Resource versioning</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatordesignversioningcase-studies-li">
@@ -307,28 +322,28 @@
   </ul>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigntype-references-and-ownership-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigntype-references-and-ownership-li">
   <a href="/azure-service-operator/design/type-references-and-ownership/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigntype-references-and-ownership"><span class="">Type References &amp; ownership</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorarchitecture-decision-records-li">
-  <a href="/azure-service-operator/architecture-decision-records/" title="Architecture Decision Records" class="align-left pl-0 active td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorarchitecture-decision-records"><span class="td-sidebar-nav-active-item">Architecture</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorarchitecture-decision-records-li">
+  <a href="/azure-service-operator/architecture-decision-records/" title="Architecture Decision Records" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorarchitecture-decision-records"><span class="">Architecture</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorarchitecture-decision-recordsadr-2020-04-code-generation-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorarchitecture-decision-recordsadr-2020-04-code-generation-li">
   <a href="/azure-service-operator/architecture-decision-records/adr-2020-04-code-generation/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2020-04-code-generation"><span class="">2020-04: Why Code Generation?</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorarchitecture-decision-recordsadr-2020-07-pipeline-architecture-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorarchitecture-decision-recordsadr-2020-07-pipeline-architecture-li">
   <a href="/azure-service-operator/architecture-decision-records/adr-2020-07-pipeline-architecture/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2020-07-pipeline-architecture"><span class="">2020-07: Pipeline Architecture</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorarchitecture-decision-recordsadr-2020-11-abstract-syntax-trees-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorarchitecture-decision-recordsadr-2020-11-abstract-syntax-trees-li">
   <a href="/azure-service-operator/architecture-decision-records/adr-2020-11-abstract-syntax-trees/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2020-11-abstract-syntax-trees"><span class="">2020-11: AST Library Choice</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorarchitecture-decision-recordsadr-2021-02-property-conversions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorarchitecture-decision-recordsadr-2021-02-property-conversions-li">
   <a href="/azure-service-operator/architecture-decision-records/adr-2021-02-property-conversions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2021-02-property-conversions"><span class="">2021-02: Property Conversions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorarchitecture-decision-recordsadr-2021-06-api-version-recovery-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorarchitecture-decision-recordsadr-2021-06-api-version-recovery-li">
   <a href="/azure-service-operator/architecture-decision-records/adr-2021-06-api-version-recovery/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2021-06-api-version-recovery"><span class="">2021-06: API Version Recovery</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorarchitecture-decision-recordsadr-2021-08-committing-generated-code-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorarchitecture-decision-recordsadr-2021-08-committing-generated-code-li">
   <a href="/azure-service-operator/architecture-decision-records/adr-2021-08-committing-generated-code/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2021-08-committing-generated-code"><span class="">2021-08: Committing Generated Code</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorarchitecture-decision-recordsadr-2022-01-reconciler-extensions-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorarchitecture-decision-recordsadr-2022-01-reconciler-extensions-li">
   <a href="/azure-service-operator/architecture-decision-records/adr-2022-01-reconciler-extensions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2022-01-reconciler-extensions"><span class="">2022-01: Reconciler Extensions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorarchitecture-decision-recordsadr-2022-02-backward-compatibility-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatorarchitecture-decision-recordsadr-2022-02-backward-compatibility-li">
   <a href="/azure-service-operator/architecture-decision-records/adr-2022-02-backward-compatibility/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2022-02-backward-compatibility"><span class="">2022-02: Backward Resource Compatibility</span></a>
 </li>
   </ul>
@@ -348,6 +363,21 @@
 
             
 
+
+<div class="td-toc"><nav id="TableOfContents">
+  <ul>
+    <li><a href="#whats-duplicated-today">What&rsquo;s duplicated today</a>
+      <ul>
+        <li><a href="#create-vs-delete-check">Create vs Delete check</a></li>
+        <li><a href="#handling-reconcile-policy">Handling reconcile policy</a></li>
+        <li><a href="#claiming-a-resource">Claiming a resource</a></li>
+        <li><a href="#checking-if-a-resource-has-been-claimed-before-deletion">Checking if a resource has been claimed before deletion</a></li>
+        <li><a href="#some-loggingeventing">Some logging/eventing</a></li>
+      </ul>
+    </li>
+    <li><a href="#proposal">Proposal</a></li>
+  </ul>
+</nav></div>
 
 
 
@@ -376,17 +406,20 @@
             
   
 
-            <nav aria-label="breadcrumb" class="td-breadcrumbs td-breadcrumbs__single">
+            <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
+  <li class="breadcrumb-item">
+    <a href="https://azure.github.io/azure-service-operator/design/">Design</a>
+  </li>
   <li class="breadcrumb-item active" aria-current="page">
-    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/">Architecture</a>
+    <a href="https://azure.github.io/azure-service-operator/design/reconcile-interface/">Improving the Reconciler interface</a>
   </li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>Architecture Decision Records</h1>
-  
+	<h1>Improving the Reconciler interface</h1>
+	
 	<header class="article-meta">
 		
 
@@ -401,102 +434,193 @@
   
 
 		
-	</header>
-	<p>Each <em>architecture decision record</em> (ADR) documents one of the architecturally significant decisions we&rsquo;ve made during the Azure Service Operator project.</p>
-<p>Files are listed chronologically by month, and should contain the following sections:</p>
-<ul>
-<li>Context</li>
-<li>Decision</li>
-<li>Status</li>
-<li>Consequences</li>
-<li>Experience Report</li>
-<li>References</li>
-</ul>
-<p>For background information, check out <a href="https://www.cognitect.com/blog/2011/11/15/documenting-architecture-decisions">this Cognitect blog entry</a>.</p>
-<p>ADR documents should be updated over time to keep them relevant, typically by updating the <em>Experience Report</em> section.</p>
+	</header>    
+	<h1 id="reconciler-interface">Reconciler Interface</h1>
+<p>Today the interface is:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Reconciler</span> <span style="color:#66d9ef">interface</span> {
+    <span style="color:#a6e22e">Reconcile</span>(
+        <span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>,
+        <span style="color:#a6e22e">log</span> <span style="color:#a6e22e">logr</span>.<span style="color:#a6e22e">Logger</span>,
+        <span style="color:#a6e22e">eventRecorder</span> <span style="color:#a6e22e">record</span>.<span style="color:#a6e22e">EventRecorder</span>,
+        <span style="color:#a6e22e">obj</span> <span style="color:#a6e22e">MetaObject</span>) (<span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>, <span style="color:#66d9ef">error</span>)
+}
+</code></pre></div><p>This is pretty similar to the interface that controller-runtime gives us:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Reconciler</span> <span style="color:#66d9ef">interface</span> {
+    <span style="color:#75715e">// Reconcile performs a full reconciliation for the object referred to by the Request.
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// The Controller will requeue the Request to be processed again if an error is non-nil or
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// Result.Requeue is true, otherwise upon completion it will remove the work from the queue.
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">Reconcile</span>(<span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>, <span style="color:#a6e22e">Request</span>) (<span style="color:#a6e22e">Result</span>, <span style="color:#66d9ef">error</span>)
+}
+</code></pre></div><p>The problem with the interface at this level is that each controller must duplicate certain checks. This not only involves needless code duplication, but also opens the door for subtle bugs when differences occur.</p>
+<h2 id="whats-duplicated-today">What&rsquo;s duplicated today</h2>
+<h3 id="create-vs-delete-check">Create vs Delete check</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">result</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>
+    <span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">obj</span>.<span style="color:#a6e22e">GetDeletionTimestamp</span>().<span style="color:#a6e22e">IsZero</span>() {
+        <span style="color:#a6e22e">result</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Delete</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">log</span>, <span style="color:#a6e22e">typedObj</span>)
+    } <span style="color:#66d9ef">else</span> {
+        <span style="color:#a6e22e">result</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">CreateOrUpdate</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">log</span>, <span style="color:#a6e22e">typedObj</span>)
+    }
 
-        <div class="section-index">
-    
-    
-    
-    
-    
-    
-    
-    
-    <hr class="panel-line">
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/architecture-decision-records/adr-2020-04-code-generation/">2020-04: Why Code Generation?</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/architecture-decision-records/adr-2020-07-pipeline-architecture/">2020-07: Pipeline Architecture</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/architecture-decision-records/adr-2020-11-abstract-syntax-trees/">2020-11: AST Library Choice</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/architecture-decision-records/adr-2021-02-property-conversions/">2021-02: Property Conversions</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/architecture-decision-records/adr-2021-06-api-version-recovery/">2021-06: API Version Recovery</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/architecture-decision-records/adr-2021-08-committing-generated-code/">2021-08: Committing Generated Code</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/architecture-decision-records/adr-2022-01-reconciler-extensions/">2022-01: Reconciler Extensions</a>
-                </h5>
-                <p></p>
-            </div>
-        
-            
-            <div class="entry">
-                <h5>
-                    <a href="/azure-service-operator/architecture-decision-records/adr-2022-02-backward-compatibility/">2022-02: Backward Resource Compatibility</a>
-                </h5>
-                <p></p>
-            </div>
-        
-    
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#a6e22e">err</span>
+    }
+</code></pre></div><h3 id="handling-reconcile-policy">Handling reconcile policy</h3>
+<p>In delete:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">    <span style="color:#a6e22e">reconcilePolicy</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">reconcilers</span>.<span style="color:#a6e22e">GetReconcilePolicy</span>(<span style="color:#a6e22e">user</span>, <span style="color:#a6e22e">log</span>)
+    <span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">reconcilePolicy</span>.<span style="color:#a6e22e">AllowsDelete</span>() {
+        <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">V</span>(<span style="color:#a6e22e">Info</span>).<span style="color:#a6e22e">Info</span>(<span style="color:#e6db74">&#34;Bypassing delete of resource due to policy&#34;</span>, <span style="color:#e6db74">&#34;policy&#34;</span>, <span style="color:#a6e22e">reconcilePolicy</span>)
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">RemoveResourceFinalizer</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">log</span>, <span style="color:#a6e22e">user</span>)
+    }
+</code></pre></div><p>In create/update:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">    <span style="color:#a6e22e">reconcilePolicy</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">reconcilers</span>.<span style="color:#a6e22e">GetReconcilePolicy</span>(<span style="color:#a6e22e">user</span>, <span style="color:#a6e22e">log</span>)
+    <span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">reconcilePolicy</span>.<span style="color:#a6e22e">AllowsModify</span>() {
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">handleSkipReconcile</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">log</span>, <span style="color:#a6e22e">user</span>)
+    }
+</code></pre></div><p>Most of the implementation of <code>handleSkipReconcile</code> is also duplicated. For ARM resources we <em>also</em> want to populate status as part of that call, which requires a GET call to ARM; not every kind of resource will need this extra step.</p>
+<h3 id="claiming-a-resource">Claiming a resource</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">NeedToClaimResource</span>(<span style="color:#a6e22e">user</span>) {
+        <span style="color:#75715e">// TODO: This assumes we&#39;re requeing and doing the &#34;stages&#34; thing, which I am not sure if it makes sense to do for everybody anymore
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">_</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">ClaimResource</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">log</span>, <span style="color:#a6e22e">user</span>)
+        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+            <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#a6e22e">err</span>
+        }
+    }
+</code></pre></div><p>Each resource must add the finalizer, so that check could be lifted out into the generic controller. Other claiming activities are resource specific.
+An example of a resource specific claiming activity is checking that the owner exists. Only resource types that support owner will do this. There may be additional parts to the <code>Claim</code> workflow as well, such as
+determining what the ARM ID of the resource is going to be and saving that as an annotation.</p>
+<h3 id="checking-if-a-resource-has-been-claimed-before-deletion">Checking if a resource has been claimed before deletion</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">    <span style="color:#75715e">// If we have no resourceID to begin with, or no finalizer, the Azure resource was never created
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">hasFinalizer</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">controllerutil</span>.<span style="color:#a6e22e">ContainsFinalizer</span>(<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Obj</span>, <span style="color:#a6e22e">reconcilers</span>.<span style="color:#a6e22e">GenericControllerFinalizer</span>)
+    <span style="color:#a6e22e">resourceID</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">genruntime</span>.<span style="color:#a6e22e">GetResourceIDOrDefault</span>(<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Obj</span>)
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">resourceID</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;&#34;</span> <span style="color:#f92672">||</span> !<span style="color:#a6e22e">hasFinalizer</span> {
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">RemoveResourceFinalizer</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Log</span>, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Obj</span>)
+    }
+
+</code></pre></div><p>Note that this check may need to be expanded by individual reconcilers. For example the one above checks both resourceID (ARM specific) and the standard finalizer (generic)</p>
+<h3 id="some-loggingeventing">Some logging/eventing</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">    <span style="color:#a6e22e">msg</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;Starting delete of resource&#34;</span>
+    <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Log</span>.<span style="color:#a6e22e">V</span>(<span style="color:#a6e22e">Status</span>).<span style="color:#a6e22e">Info</span>(<span style="color:#a6e22e">msg</span>)
+    <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Recorder</span>.<span style="color:#a6e22e">Event</span>(<span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Obj</span>, <span style="color:#a6e22e">v1</span>.<span style="color:#a6e22e">EventTypeNormal</span>, string(<span style="color:#a6e22e">DeleteActionBeginDelete</span>), <span style="color:#a6e22e">msg</span>)
+</code></pre></div><h2 id="proposal">Proposal</h2>
+<p>We create a more detailed interface and do as much work as we can in the <code>GenericController</code>. Each of these proposed methods would be idempotent:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">Reconciler</span> <span style="color:#66d9ef">interface</span> {
+    <span style="color:#a6e22e">CreateOrUpdate</span>(
+        <span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>,
+        <span style="color:#a6e22e">log</span> <span style="color:#a6e22e">logr</span>.<span style="color:#a6e22e">Logger</span>,
+        <span style="color:#a6e22e">eventRecorder</span> <span style="color:#a6e22e">record</span>.<span style="color:#a6e22e">EventRecorder</span>,
+        <span style="color:#a6e22e">obj</span> <span style="color:#a6e22e">MetaObject</span>) (<span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>, <span style="color:#66d9ef">error</span>)
+
+    <span style="color:#a6e22e">Delete</span>(
+        <span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>,
+        <span style="color:#a6e22e">log</span> <span style="color:#a6e22e">logr</span>.<span style="color:#a6e22e">Logger</span>,
+        <span style="color:#a6e22e">eventRecorder</span> <span style="color:#a6e22e">record</span>.<span style="color:#a6e22e">EventRecorder</span>,
+        <span style="color:#a6e22e">obj</span> <span style="color:#a6e22e">MetaObject</span>) (<span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>, <span style="color:#66d9ef">error</span>)
+
+    <span style="color:#75715e">// No ctrl.Result return here. An error means we can&#39;t proceed, no error means proceed directly to CreateOrUpdate.
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">Claim</span>(
+        <span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>,
+        <span style="color:#a6e22e">log</span> <span style="color:#a6e22e">logr</span>.<span style="color:#a6e22e">Logger</span>,
+        <span style="color:#a6e22e">eventRecorder</span> <span style="color:#a6e22e">record</span>.<span style="color:#a6e22e">EventRecorder</span>,
+        <span style="color:#a6e22e">obj</span> <span style="color:#a6e22e">MetaObject</span>) <span style="color:#66d9ef">error</span> 
+
+    <span style="color:#75715e">// This is only called by the GenericController in cases where CreateOrUpdate couldn&#39;t be called due to reconcile policy
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// No ctrl.Result return here. An error means we couldn&#39;t get the status. Generic Controller will set the Ready condition
+</span><span style="color:#75715e"></span>    <span style="color:#75715e">// with this error and automatically retry.
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">UpdateStatus</span>(
+        <span style="color:#a6e22e">ctx</span> <span style="color:#a6e22e">context</span>.<span style="color:#a6e22e">Context</span>,
+        <span style="color:#a6e22e">log</span> <span style="color:#a6e22e">logr</span>.<span style="color:#a6e22e">Logger</span>,
+        <span style="color:#a6e22e">eventRecorder</span> <span style="color:#a6e22e">record</span>.<span style="color:#a6e22e">EventRecorder</span>,
+        <span style="color:#a6e22e">obj</span> <span style="color:#a6e22e">MetaObject</span>) <span style="color:#66d9ef">error</span>
+}
+</code></pre></div><p>Here&rsquo;s a sketch of what this would look like in the generic controller. This code is just illustrative, it&rsquo;d be refactored to be a bit less verbose in the actual implementation:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go">    <span style="color:#75715e">// Check namespace annotation to ensure we aren&#39;t reconciling resource that this controller doesn&#39;t &#34;own&#34;. This exists in generic controller today
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">CheckNamespaceAnnotation</span>() {
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#66d9ef">nil</span>
+    }
+
+    <span style="color:#75715e">// Claim the resource
+</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">gr</span>.<span style="color:#a6e22e">Reconciler</span>.<span style="color:#a6e22e">Claim</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">log</span>, <span style="color:#a6e22e">gr</span>.<span style="color:#a6e22e">Recorder</span>, <span style="color:#a6e22e">metaObj</span>)
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">readyErr</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">conditions</span>.<span style="color:#a6e22e">AsReadyConditionImpactingError</span>(<span style="color:#a6e22e">err</span>); <span style="color:#a6e22e">ok</span> {
+        <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">readyErr</span>, <span style="color:#e6db74">&#34;Encountered error impacting Ready condition&#34;</span>)
+        <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">gr</span>.<span style="color:#a6e22e">WriteReadyConditionError</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">metaObj</span>, <span style="color:#a6e22e">readyErr</span>)
+    }
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+        <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;Error claiming resource&#34;</span>)
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#a6e22e">reconcilers</span>.<span style="color:#a6e22e">IgnoreNotFoundAndConflict</span>(<span style="color:#a6e22e">err</span>)
+    }
+    <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">V</span>(<span style="color:#a6e22e">Info</span>).<span style="color:#a6e22e">Info</span>(<span style="color:#e6db74">&#34;adding finalizer&#34;</span>)
+    <span style="color:#a6e22e">controllerutil</span>.<span style="color:#a6e22e">AddFinalizer</span>(<span style="color:#a6e22e">obj</span>, <span style="color:#a6e22e">GenericControllerFinalizer</span>)
+    <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">gr</span>.<span style="color:#a6e22e">KubeClient</span>.<span style="color:#a6e22e">CommitObject</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">obj</span>)
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+        <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;Error adding finalizer&#34;</span>)
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#a6e22e">reconcilers</span>.<span style="color:#a6e22e">IgnoreNotFoundAndConflict</span>(<span style="color:#a6e22e">err</span>)
+    }
+
+    <span style="color:#75715e">// Take the action needed
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">result</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>
+    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>
+    <span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">metaObj</span>.<span style="color:#a6e22e">GetDeletionTimestamp</span>().<span style="color:#a6e22e">IsZero</span>() {
+        <span style="color:#75715e">// Check the reconcile policy to ensure we&#39;re allowed to issue a delete
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">reconcilePolicy</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">GetReconcilePolicy</span>(<span style="color:#a6e22e">metaObj</span>, <span style="color:#a6e22e">log</span>)
+        <span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">reconcilePolicy</span>.<span style="color:#a6e22e">AllowsDelete</span>() {
+            <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">V</span>(<span style="color:#a6e22e">Info</span>).<span style="color:#a6e22e">Info</span>(<span style="color:#e6db74">&#34;Bypassing delete of resource due to policy&#34;</span>, <span style="color:#e6db74">&#34;policy&#34;</span>, <span style="color:#a6e22e">reconcilePolicy</span>)
+            <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#a6e22e">RemoveResourceFinalizer</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">log</span>, <span style="color:#a6e22e">metaObj</span>)
+        }
+
+        <span style="color:#75715e">// Check if we actually need to issue a delete
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">hasFinalizer</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">controllerutil</span>.<span style="color:#a6e22e">ContainsFinalizer</span>(<span style="color:#a6e22e">metaObj</span>, <span style="color:#a6e22e">reconcilers</span>.<span style="color:#a6e22e">GenericControllerFinalizer</span>)
+        <span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">hasFinalizer</span> {
+            <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Info</span>(<span style="color:#e6db74">&#34;Deleted resource&#34;</span>)
+            <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#66d9ef">nil</span>
+        }
+        <span style="color:#a6e22e">result</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">Delete</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">log</span>, <span style="color:#a6e22e">gr</span>.<span style="color:#a6e22e">Recorder</span>, <span style="color:#a6e22e">metaObj</span>) <span style="color:#75715e">// It would be the responsibility of the reconcilers delete to check anything specific that it did during Claim and short-circuit if needed
+</span><span style="color:#75715e"></span>    } <span style="color:#66d9ef">else</span> {
+        <span style="color:#75715e">// Check the reconcile policy to ensure we&#39;re allowed to issue a create or update
+</span><span style="color:#75715e"></span>        <span style="color:#a6e22e">reconcilePolicy</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">reconcilers</span>.<span style="color:#a6e22e">GetReconcilePolicy</span>(<span style="color:#a6e22e">metaObj</span>, <span style="color:#a6e22e">log</span>)
+        <span style="color:#66d9ef">if</span> !<span style="color:#a6e22e">reconcilePolicy</span>.<span style="color:#a6e22e">AllowsModify</span>() {
+            <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">handleSkipReconcile</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">log</span>, <span style="color:#a6e22e">metaObj</span>) <span style="color:#75715e">// This would call GetStatus to optionally fill out the status and Commit that
+</span><span style="color:#75715e"></span>        }
+
+        <span style="color:#a6e22e">result</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">CreateOrUpdate</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">log</span>, <span style="color:#a6e22e">gr</span>.<span style="color:#a6e22e">Recorder</span>, <span style="color:#a6e22e">metaObj</span>)
+    }
+
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">readyErr</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">conditions</span>.<span style="color:#a6e22e">AsReadyConditionImpactingError</span>(<span style="color:#a6e22e">err</span>); <span style="color:#a6e22e">ok</span> {
+        <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">readyErr</span>, <span style="color:#e6db74">&#34;Encountered error impacting Ready condition&#34;</span>)
+        <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">gr</span>.<span style="color:#a6e22e">WriteReadyConditionError</span>(<span style="color:#a6e22e">ctx</span>, <span style="color:#a6e22e">metaObj</span>, <span style="color:#a6e22e">readyErr</span>)
+    }
+    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
+        <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#a6e22e">err</span>, <span style="color:#e6db74">&#34;Error claiming resource&#34;</span>)
+        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">ctrl</span>.<span style="color:#a6e22e">Result</span>{}, <span style="color:#a6e22e">reconcilers</span>.<span style="color:#a6e22e">IgnoreNotFoundAndConflict</span>(<span style="color:#a6e22e">err</span>)
+    }
+</code></pre></div><h1 id="faq">FAQ</h1>
+<p><strong>Q:</strong> What component would own commiting the object to etcd?</p>
+<p><strong>A:</strong> <code>GenericController</code> would always do a commit to etcd after a reconcile. It may need to check that the actual individual reconciler changed <code>Obj</code>. If no change it won&rsquo;t commit. Commit ability will not be taken from individual reconcilers though, if
+they need it they can do extra commits using the <code>KubeClient</code> they have access to.</p>
+<p><strong>Q:</strong> What component would own setting the ready condition?</p>
+<p><strong>A:</strong> The <code>GenericController</code>. Custom errors would be propagated via the error mechanism we have now from the individual reconciler to the <code>GenericController</code>.
+There are no custom success states currently, but if there were we wouldn&rsquo;t block the reconciler from setting them manually if we wanted some in the future.</p>
+<p><strong>Q:</strong> Why split out <code>Claim</code>?</p>
+<p><strong>A:</strong> Part of <code>Claim</code> is general (adding the standard finalizer). Part of it is reconciler specific (for example checking if the owner exists). <code>Claim</code> is part of a fault-tolerance model. The resource must actually succeed in writing its finalizer to
+etcd before it interacts with ARM or SQL or whatever other data store the CR is telling it to talk to. It&rsquo;s important (but subtle) to get that right, so it makes sense to lift it out of the individual reconcilers and ensure that the <code>Commit</code> happens.
+Lifting <code>Claim</code> to be part of the interface also makes it easy to ensure that all reconcilers are doing things in the right order (and thus maintaining the fault tolerance guarantees we need).</p>
+<p><strong>Q:</strong> Why split out <code>UpdateStatus</code>?</p>
+<p><strong>A:</strong> In the standard case, it&rsquo;s expected that <code>CreateOrUpdate</code> will do this itself. When <code>reconcilePolicy</code> is set to skip updates, we just want to update the <code>Status</code> but not actually perform an <code>CreateOrUpdate</code> actions.
+This is split out so that the <code>GenericController</code> can make the check and perform the minimal required operation (just refreshing <code>Status</code>).</p>
+<p><strong>Q:</strong> What are the downsides of this?</p>
+<p><strong>A:</strong> Pretty much the standard framework vs library argument. We&rsquo;re restricting ourselves by pulling some of these calls up into <code>GenericController</code>. Now all of our reconcilers must look a particular way. We&rsquo;ll still have a library for doing most things
+(<code>Commit</code>, etc), but we&rsquo;re forcing a particular lifecycle for resources and it&rsquo;s possible in the future there is friction there.</p>
+<p><strong>Q:</strong> What are the upsides of this?</p>
+<p><strong>A:</strong> Consistency and testing are the big ones. By pulling this code up into <code>GenericController</code> and forcing each reconciler to implement it we remove the possibility that an implementer forgets to handle <code>reconcilePolicy</code>, or does it in a way that&rsquo;s incorrect.
+We reduce the amount of boilerplate required to write a custom reconciler as well.
+Since all code takes the same codepath for common things like finalizer addition and <code>reconcilePolicy</code> checks, we can be confident that those features work for all resources without needing to test them for each handcrafted resource manually. That&rsquo;s
+especially important because the handcrafted resources may not be HTTP based (<code>MySQLUser</code> isn&rsquo;t, for example), which means tests for those resources are quite expensive (in time cost) and fragile (susceptible to flakiness due to Azure).</p>
+
+	
+	
+	
 </div>
 
-	
-	
-	
-</div>
 
           </main>
         </div>

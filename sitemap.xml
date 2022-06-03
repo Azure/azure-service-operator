@@ -118,6 +118,8 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/introduction/secrets/</loc>
   </url><url>
+    <loc>https://azure.github.io/azure-service-operator/design/reconcile-interface/</loc>
+  </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/insights.v1alpha1api20180501preview/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/reference/insights.v1alpha1api20200202/</loc>
