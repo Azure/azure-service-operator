@@ -21,6 +21,7 @@ func Test_ContainerInstance_ContainerGroup_CRUD(t *testing.T) {
 
 	rg := tc.CreateTestResourceGroupAndWait()
 
+	// The test refers to the quick-start-template from https://github.com/Azure/azure-quickstart-templates/tree/master/quickstarts/microsoft.containerinstance/aci-linuxcontainer-public-ip
 	name := tc.NoSpaceNamer.GenerateName("containergroup")
 	image := "mcr.microsoft.com/azuredocs/aci-helloworld"
 	port := int(80)
