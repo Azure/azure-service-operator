@@ -88,7 +88,7 @@ func (r *Resolver) ResolveReferenceToARMID(ctx context.Context, ref genruntime.N
 
 // ResolveReferencesToARMIDs resolves all provided references to their ARM IDs.
 func (r *Resolver) ResolveReferencesToARMIDs(ctx context.Context, refs map[genruntime.NamespacedResourceReference]struct{}) (genruntime.ResolvedReferences, error) {
-	result := make(map[genruntime.ResourceReference]string)
+	result := make(map[genruntime.ResourceReference]string, len(refs))
 
 	for ref := range refs {
 		armID, err := r.ResolveReferenceToARMID(ctx, ref)
@@ -109,7 +109,7 @@ func (r *Resolver) ResolveResourceReferences(ctx context.Context, metaObject gen
 	}
 
 	// Include the namespace
-	namespacedRefs := make(map[genruntime.NamespacedResourceReference]struct{})
+	namespacedRefs := make(map[genruntime.NamespacedResourceReference]struct{}, len(refs))
 	for ref := range refs {
 		namespacedRefs[ref.ToNamespacedRef(metaObject.GetNamespace())] = struct{}{}
 	}

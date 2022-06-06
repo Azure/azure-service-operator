@@ -390,7 +390,7 @@ func (triggers *DatabaseAccountsSqlDatabasesContainersTriggers_Spec) ConvertToAR
 
 	// Set property ‘Tags’:
 	if triggers.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(triggers.Tags))
 		for key, value := range triggers.Tags {
 			result.Tags[key] = value
 		}
@@ -454,7 +454,7 @@ func (triggers *DatabaseAccountsSqlDatabasesContainersTriggers_Spec) PopulateFro
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		triggers.Tags = make(map[string]string)
+		triggers.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			triggers.Tags[key] = value
 		}
@@ -744,7 +744,7 @@ func (results *SqlTriggerGetResults_Status) PopulateFromARM(owner genruntime.Arb
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		results.Tags = make(map[string]string)
+		results.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			results.Tags[key] = value
 		}

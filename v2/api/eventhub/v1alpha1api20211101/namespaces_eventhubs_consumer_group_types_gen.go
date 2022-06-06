@@ -618,7 +618,7 @@ func (consumergroups *NamespacesEventhubsConsumergroups_Spec) ConvertToARM(resol
 
 	// Set property ‘Tags’:
 	if consumergroups.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(consumergroups.Tags))
 		for key, value := range consumergroups.Tags {
 			result.Tags[key] = value
 		}
@@ -654,7 +654,7 @@ func (consumergroups *NamespacesEventhubsConsumergroups_Spec) PopulateFromARM(ow
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		consumergroups.Tags = make(map[string]string)
+		consumergroups.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			consumergroups.Tags[key] = value
 		}

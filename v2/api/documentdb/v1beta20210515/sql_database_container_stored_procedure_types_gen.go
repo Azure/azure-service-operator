@@ -388,7 +388,7 @@ func (procedures *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) C
 
 	// Set property ‘Tags’:
 	if procedures.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(procedures.Tags))
 		for key, value := range procedures.Tags {
 			result.Tags[key] = value
 		}
@@ -452,7 +452,7 @@ func (procedures *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) P
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		procedures.Tags = make(map[string]string)
+		procedures.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			procedures.Tags[key] = value
 		}
@@ -749,7 +749,7 @@ func (results *SqlStoredProcedureGetResults_Status) PopulateFromARM(owner genrun
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		results.Tags = make(map[string]string)
+		results.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			results.Tags[key] = value
 		}

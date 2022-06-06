@@ -21,8 +21,9 @@ var _ StringMatcher = &MultiMatcher{}
 
 // newMultiMatcher returns a new matcher for multiple strings
 func newMultiMatcher(matcher string) *MultiMatcher {
-	var matchers []StringMatcher
-	for _, str := range strings.Split(matcher, ";") {
+	splits := strings.Split(matcher, ";")
+	matchers := make([]StringMatcher, 0, len(splits))
+	for _, str := range splits {
 		m := NewStringMatcher(str)
 		matchers = append(matchers, m)
 	}

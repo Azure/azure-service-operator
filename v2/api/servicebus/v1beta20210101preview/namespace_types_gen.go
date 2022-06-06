@@ -409,7 +409,7 @@ func (namespaces *Namespaces_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property ‘Tags’:
 	if namespaces.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(namespaces.Tags))
 		for key, value := range namespaces.Tags {
 			result.Tags[key] = value
 		}
@@ -481,7 +481,7 @@ func (namespaces *Namespaces_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		namespaces.Tags = make(map[string]string)
+		namespaces.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			namespaces.Tags[key] = value
 		}
@@ -953,7 +953,7 @@ func (namespace *SBNamespace_Status) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		namespace.Tags = make(map[string]string)
+		namespace.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			namespace.Tags[key] = value
 		}
@@ -1667,7 +1667,7 @@ func (identity *Identity_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property ‘UserAssignedIdentities’:
 	if typedInput.UserAssignedIdentities != nil {
-		identity.UserAssignedIdentities = make(map[string]DictionaryValue_Status)
+		identity.UserAssignedIdentities = make(map[string]DictionaryValue_Status, len(typedInput.UserAssignedIdentities))
 		for key, value := range typedInput.UserAssignedIdentities {
 			var value1 DictionaryValue_Status
 			err := value1.PopulateFromARM(owner, value)

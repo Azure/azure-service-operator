@@ -34,9 +34,8 @@ func ApplyExportFilters(configuration *config.Configuration) *Stage {
 // filterTypes applies the configuration include/exclude filters to the generated definitions
 func filterTypes(
 	configuration *config.Configuration,
-	state *State) (*State, error) {
-
-	renames := make(map[astmodel.TypeName]astmodel.TypeName)
+	state *State,
+) (*State, error) {
 	resourcesToExport := make(astmodel.TypeDefinitionSet)
 	var errs []error
 	for _, def := range astmodel.FindResourceDefinitions(state.Definitions()) {
@@ -67,6 +66,7 @@ func filterTypes(
 	}
 
 	// Find and apply renames
+	renames := make(map[astmodel.TypeName]astmodel.TypeName)
 	for n := range typesToExport {
 		if as, asErr := configuration.ObjectModelConfiguration.LookupExportAs(n); asErr == nil {
 			renames[n] = n.WithName(as)

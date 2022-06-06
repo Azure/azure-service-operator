@@ -57,6 +57,8 @@ func NewTypeWalker(allDefs TypeDefinitionSet, visitor TypeVisitor) *TypeWalker {
 
 	// visitor is a copy - modifications won't impact passed visitor
 	visitor.visitTypeName = typeWalker.visitTypeName
+	visitor.visitTypeNameIsIdentity = false // disable short-cut optimization
+
 	visitor.visitObjectType = typeWalker.visitObjectType
 
 	typeWalker.visitor = visitor
@@ -135,12 +137,15 @@ func (t *TypeWalker) visitObjectType(this *TypeVisitor, it *ObjectType, ctx inte
 		panic(fmt.Sprintf("TypeWalker visitor visitObjectType must return a *ObjectType, instead returned %T", result))
 	}
 
-	for _, prop := range ot.Properties() {
+	var toRemove []PropertyName
+	ot.Properties().ForEach(func(prop *PropertyDefinition) {
 		shouldRemove := shouldRemove(prop.PropertyType())
 		if shouldRemove {
-			ot = ot.WithoutProperty(prop.PropertyName())
+			toRemove = append(toRemove, prop.PropertyName())
 		}
-	}
+	})
+
+	ot = ot.WithoutSpecificProperties(toRemove...)
 
 	return ot, nil
 }

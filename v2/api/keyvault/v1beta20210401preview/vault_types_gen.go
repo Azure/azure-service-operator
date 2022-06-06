@@ -456,7 +456,7 @@ func (vault *Vault_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		vault.Tags = make(map[string]string)
+		vault.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			vault.Tags[key] = value
 		}
@@ -632,7 +632,7 @@ func (vaults *Vaults_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 	// Set property ‘Tags’:
 	if vaults.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(vaults.Tags))
 		for key, value := range vaults.Tags {
 			result.Tags[key] = value
 		}
@@ -679,7 +679,7 @@ func (vaults *Vaults_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		vaults.Tags = make(map[string]string)
+		vaults.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			vaults.Tags[key] = value
 		}

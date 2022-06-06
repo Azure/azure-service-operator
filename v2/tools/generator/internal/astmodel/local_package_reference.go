@@ -17,6 +17,10 @@ type LocalPackageReference struct {
 	group            string
 	apiVersion       string
 	generatorVersion string
+
+	// version == apiVersion + generatorVersion
+	// cached to save on allocations
+	version string
 }
 
 var (
@@ -28,11 +32,15 @@ const GeneratorVersion string = "v1beta"
 
 // MakeLocalPackageReference Creates a new local package reference from a group and version
 func MakeLocalPackageReference(prefix string, group string, versionPrefix string, version string) LocalPackageReference {
+	generatorVersion := versionPrefix
+	apiVersion := sanitizePackageName(version)
+
 	return LocalPackageReference{
 		localPathPrefix:  prefix,
 		group:            group,
-		generatorVersion: versionPrefix,
-		apiVersion:       sanitizePackageName(version),
+		generatorVersion: generatorVersion,
+		apiVersion:       apiVersion,
+		version:          generatorVersion + apiVersion,
 	}
 }
 
@@ -48,7 +56,7 @@ func (pr LocalPackageReference) Group() string {
 
 // Version returns the version of this local reference
 func (pr LocalPackageReference) Version() string {
-	return pr.generatorVersion + pr.apiVersion
+	return pr.version
 }
 
 // PackageName returns the package name of this reference
@@ -93,6 +101,7 @@ func (pr LocalPackageReference) IsPreview() bool {
 // WithVersionPrefix returns a new LocalPackageReference with a different version prefix
 func (pr LocalPackageReference) WithVersionPrefix(prefix string) LocalPackageReference {
 	pr.generatorVersion = prefix
+	pr.version = prefix + pr.apiVersion
 	return pr
 }
 
@@ -127,7 +136,7 @@ func (pr LocalPackageReference) GroupVersion() (string, string) {
 
 // sanitizePackageName removes all non-alphanumeric characters and converts to lower case
 func sanitizePackageName(input string) string {
-	var builder = make([]rune, 0, len(input))
+	builder := make([]rune, 0, len(input))
 
 	for _, r := range input {
 		if unicode.IsLetter(r) || unicode.IsNumber(r) {

@@ -956,7 +956,7 @@ func (services *StorageAccountsBlobServices_Spec) ConvertToARM(resolved genrunti
 
 	// Set property ‘Tags’:
 	if services.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(services.Tags))
 		for key, value := range services.Tags {
 			result.Tags[key] = value
 		}
@@ -1100,7 +1100,7 @@ func (services *StorageAccountsBlobServices_Spec) PopulateFromARM(owner genrunti
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		services.Tags = make(map[string]string)
+		services.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			services.Tags[key] = value
 		}

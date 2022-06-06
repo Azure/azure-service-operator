@@ -390,7 +390,7 @@ func (databases *DatabaseAccountsSqlDatabases_Spec) ConvertToARM(resolved genrun
 
 	// Set property ‘Tags’:
 	if databases.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(databases.Tags))
 		for key, value := range databases.Tags {
 			result.Tags[key] = value
 		}
@@ -454,7 +454,7 @@ func (databases *DatabaseAccountsSqlDatabases_Spec) PopulateFromARM(owner genrun
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		databases.Tags = make(map[string]string)
+		databases.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			databases.Tags[key] = value
 		}
@@ -759,7 +759,7 @@ func (results *SqlDatabaseGetResults_Status) PopulateFromARM(owner genruntime.Ar
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		results.Tags = make(map[string]string)
+		results.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			results.Tags[key] = value
 		}

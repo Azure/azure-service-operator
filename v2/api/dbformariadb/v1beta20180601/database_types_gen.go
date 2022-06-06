@@ -560,7 +560,7 @@ func (databases *ServersDatabases_Spec) ConvertToARM(resolved genruntime.Convert
 
 	// Set property ‘Tags’:
 	if databases.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(databases.Tags))
 		for key, value := range databases.Tags {
 			result.Tags[key] = value
 		}
@@ -614,7 +614,7 @@ func (databases *ServersDatabases_Spec) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		databases.Tags = make(map[string]string)
+		databases.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			databases.Tags[key] = value
 		}

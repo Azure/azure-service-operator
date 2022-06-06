@@ -463,7 +463,7 @@ func (registries *Registries_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property ‘Tags’:
 	if registries.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(registries.Tags))
 		for key, value := range registries.Tags {
 			result.Tags[key] = value
 		}
@@ -599,7 +599,7 @@ func (registries *Registries_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		registries.Tags = make(map[string]string)
+		registries.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			registries.Tags[key] = value
 		}
@@ -1224,7 +1224,7 @@ func (registry *Registry_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		registry.Tags = make(map[string]string)
+		registry.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			registry.Tags[key] = value
 		}
@@ -1846,7 +1846,7 @@ func (properties *IdentityProperties) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property ‘UserAssignedIdentities’:
 	if properties.UserAssignedIdentities != nil {
-		result.UserAssignedIdentities = make(map[string]UserIdentityPropertiesARM)
+		result.UserAssignedIdentities = make(map[string]UserIdentityPropertiesARM, len(properties.UserAssignedIdentities))
 		for key, value := range properties.UserAssignedIdentities {
 			valueARM, err := value.ConvertToARM(resolved)
 			if err != nil {
@@ -1890,7 +1890,7 @@ func (properties *IdentityProperties) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property ‘UserAssignedIdentities’:
 	if typedInput.UserAssignedIdentities != nil {
-		properties.UserAssignedIdentities = make(map[string]UserIdentityProperties)
+		properties.UserAssignedIdentities = make(map[string]UserIdentityProperties, len(typedInput.UserAssignedIdentities))
 		for key, value := range typedInput.UserAssignedIdentities {
 			var value1 UserIdentityProperties
 			err := value1.PopulateFromARM(owner, value)
@@ -2034,7 +2034,7 @@ func (properties *IdentityProperties_Status) PopulateFromARM(owner genruntime.Ar
 
 	// Set property ‘UserAssignedIdentities’:
 	if typedInput.UserAssignedIdentities != nil {
-		properties.UserAssignedIdentities = make(map[string]UserIdentityProperties_Status)
+		properties.UserAssignedIdentities = make(map[string]UserIdentityProperties_Status, len(typedInput.UserAssignedIdentities))
 		for key, value := range typedInput.UserAssignedIdentities {
 			var value1 UserIdentityProperties_Status
 			err := value1.PopulateFromARM(owner, value)

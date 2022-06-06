@@ -87,7 +87,7 @@ func loadJSON(testOutputFile string) map[string][]TestRun {
 	// Break into individual lines to make error reporting easier
 	lines := strings.Split(string(content), "\n")
 
-	var data []JSONFormat
+	data := make([]JSONFormat, 0, len(lines))
 	errCount := 0
 	for row, line := range lines {
 		var d JSONFormat

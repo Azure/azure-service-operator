@@ -34,8 +34,8 @@ func TestNewObjectType_ReturnsEmptyType(t *testing.T) {
 
 	st := NewObjectType()
 
-	g.Expect(st.properties).To(HaveLen(0))
-	g.Expect(st.functions).To(HaveLen(0))
+	g.Expect(st.properties.Len()).To(Equal(0))
+	g.Expect(st.functions.Len()).To(Equal(0))
 }
 
 /*
@@ -278,8 +278,11 @@ func Test_WithFunction_GivenEmptyObject_ReturnsPopulatedObject(t *testing.T) {
 	fn := NewFakeFunction("Activate")
 	object := empty.WithFunction(fn)
 	g.Expect(empty).NotTo(Equal(object)) // Ensure the original wasn't modified
-	g.Expect(object.functions).To(HaveLen(1))
-	g.Expect(object.functions["Activate"].Equals(fn, EqualityOverrides{})).To(BeTrue())
+	g.Expect(object.functions.Len()).To(Equal(1))
+
+	activateFn, ok := object.functions.Get("Activate")
+	g.Expect(ok).To(BeTrue())
+	g.Expect(activateFn.Equals(fn, EqualityOverrides{})).To(BeTrue())
 }
 
 /*
@@ -316,6 +319,6 @@ func Test_WithTestCase_ReturnsExpectedObject(t *testing.T) {
 	object := empty.WithTestCase(fake)
 
 	g.Expect(empty).NotTo(Equal(object)) // Ensure the original wasn't modified
-	g.Expect(object.testcases).To(HaveLen(1))
-	g.Expect(object.testcases[name]).To(Equal(fake))
+	g.Expect(object.testcases.Len()).To(Equal(1))
+	g.Expect(object.testcases.Values()[0]).To(Equal(fake))
 }

@@ -514,7 +514,7 @@ func (profile *Profile_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		profile.Tags = make(map[string]string)
+		profile.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			profile.Tags[key] = value
 		}
@@ -761,7 +761,7 @@ func (profiles *Profiles_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property ‘Tags’:
 	if profiles.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(profiles.Tags))
 		for key, value := range profiles.Tags {
 			result.Tags[key] = value
 		}
@@ -831,7 +831,7 @@ func (profiles *Profiles_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		profiles.Tags = make(map[string]string)
+		profiles.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			profiles.Tags[key] = value
 		}
@@ -1051,7 +1051,7 @@ func (identity *ManagedServiceIdentity) ConvertToARM(resolved genruntime.Convert
 
 	// Set property ‘UserAssignedIdentities’:
 	if identity.UserAssignedIdentities != nil {
-		result.UserAssignedIdentities = make(map[string]v1.JSON)
+		result.UserAssignedIdentities = make(map[string]v1.JSON, len(identity.UserAssignedIdentities))
 		for key, value := range identity.UserAssignedIdentities {
 			result.UserAssignedIdentities[key] = *value.DeepCopy()
 		}
@@ -1079,7 +1079,7 @@ func (identity *ManagedServiceIdentity) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property ‘UserAssignedIdentities’:
 	if typedInput.UserAssignedIdentities != nil {
-		identity.UserAssignedIdentities = make(map[string]v1.JSON)
+		identity.UserAssignedIdentities = make(map[string]v1.JSON, len(typedInput.UserAssignedIdentities))
 		for key, value := range typedInput.UserAssignedIdentities {
 			identity.UserAssignedIdentities[key] = *value.DeepCopy()
 		}

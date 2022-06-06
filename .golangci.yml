@@ -8,6 +8,7 @@ linters:
     - megacheck
     - tparallel
     - paralleltest
+    - prealloc
   presets:
     - bugs
     - unused

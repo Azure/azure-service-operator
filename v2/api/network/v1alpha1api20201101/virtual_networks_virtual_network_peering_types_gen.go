@@ -885,7 +885,7 @@ func (peerings *VirtualNetworksVirtualNetworkPeerings_Spec) ConvertToARM(resolve
 
 	// Set property ‘Tags’:
 	if peerings.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(peerings.Tags))
 		for key, value := range peerings.Tags {
 			result.Tags[key] = value
 		}
@@ -999,7 +999,7 @@ func (peerings *VirtualNetworksVirtualNetworkPeerings_Spec) PopulateFromARM(owne
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		peerings.Tags = make(map[string]string)
+		peerings.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			peerings.Tags[key] = value
 		}

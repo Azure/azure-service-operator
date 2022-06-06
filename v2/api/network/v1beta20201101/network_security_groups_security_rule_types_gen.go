@@ -491,7 +491,7 @@ func (rules *NetworkSecurityGroupsSecurityRules_Spec) ConvertToARM(resolved genr
 
 	// Set property ‘Tags’:
 	if rules.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(rules.Tags))
 		for key, value := range rules.Tags {
 			result.Tags[key] = value
 		}
@@ -666,7 +666,7 @@ func (rules *NetworkSecurityGroupsSecurityRules_Spec) PopulateFromARM(owner genr
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		rules.Tags = make(map[string]string)
+		rules.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			rules.Tags[key] = value
 		}

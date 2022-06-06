@@ -317,7 +317,7 @@ func (omc *ObjectModelConfiguration) visitGroup(
 
 // visitGroups invokes the provided visitor on all nested groups.
 func (omc *ObjectModelConfiguration) visitGroups(visitor *configurationVisitor) error {
-	var errs []error
+	errs := make([]error, 0, len(omc.groups))
 	for _, gc := range omc.groups {
 		err := visitor.visitGroup(gc)
 		err = omc.typoAdvisor.Wrapf(err, gc.name, "group %s not seen", gc.name)
@@ -383,8 +383,7 @@ func (omc *ObjectModelConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 // configuredGroups returns a sorted slice containing all the groups configured in this group
 func (omc *ObjectModelConfiguration) configuredGroups() []string {
-	var result []string
-
+	result := make([]string, 0, len(omc.groups))
 	for _, g := range omc.groups {
 		// Use the actual names of the groups, not the lower-cased keys of the map
 		result = append(result, g.name)
@@ -398,7 +397,8 @@ func (omc *ObjectModelConfiguration) configuredGroups() []string {
 // While intended for test use, this isn't in a _test.go file as we want to use it from tests in multiple packages.
 func (omc *ObjectModelConfiguration) ModifyGroup(
 	ref astmodel.PackageReference,
-	action func(configuration *GroupConfiguration) error) error {
+	action func(configuration *GroupConfiguration) error,
+) error {
 	groupName, _ := ref.GroupVersion()
 	grp, err := omc.findGroup(ref)
 	if err != nil && !IsNotConfiguredError(err) {
@@ -418,7 +418,8 @@ func (omc *ObjectModelConfiguration) ModifyGroup(
 // While intended for test use, this isn't in a _test.go file as we want to use it from tests in multiple packages.
 func (omc *ObjectModelConfiguration) ModifyVersion(
 	ref astmodel.PackageReference,
-	action func(configuration *VersionConfiguration) error) error {
+	action func(configuration *VersionConfiguration) error,
+) error {
 	_, version := ref.GroupVersion()
 	return omc.ModifyGroup(
 		ref,
@@ -442,7 +443,8 @@ func (omc *ObjectModelConfiguration) ModifyVersion(
 // While intended for test use, this isn't in a _test.go file as we want to use it from tests in multiple packages.
 func (omc *ObjectModelConfiguration) ModifyType(
 	name astmodel.TypeName,
-	action func(typeConfiguration *TypeConfiguration) error) error {
+	action func(typeConfiguration *TypeConfiguration) error,
+) error {
 	return omc.ModifyVersion(
 		name.PackageReference,
 		func(versionConfiguration *VersionConfiguration) error {
@@ -467,7 +469,8 @@ func (omc *ObjectModelConfiguration) ModifyType(
 func (omc *ObjectModelConfiguration) ModifyProperty(
 	typeName astmodel.TypeName,
 	property astmodel.PropertyName,
-	action func(propertyConfiguration *PropertyConfiguration) error) error {
+	action func(propertyConfiguration *PropertyConfiguration) error,
+) error {
 	return omc.ModifyType(
 		typeName,
 		func(typeConfiguration *TypeConfiguration) error {

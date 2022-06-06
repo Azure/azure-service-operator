@@ -982,7 +982,7 @@ func (webtests *Webtests_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property ‘Tags’:
 	if webtests.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(webtests.Tags))
 		for key, value := range webtests.Tags {
 			result.Tags[key] = value
 		}
@@ -1122,7 +1122,7 @@ func (webtests *Webtests_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		webtests.Tags = make(map[string]string)
+		webtests.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			webtests.Tags[key] = value
 		}

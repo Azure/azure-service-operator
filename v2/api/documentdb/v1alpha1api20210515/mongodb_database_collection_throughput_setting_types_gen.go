@@ -371,7 +371,7 @@ func (settings *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Sp
 
 	// Set property ‘Tags’:
 	if settings.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(settings.Tags))
 		for key, value := range settings.Tags {
 			result.Tags[key] = value
 		}
@@ -418,7 +418,7 @@ func (settings *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Sp
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		settings.Tags = make(map[string]string)
+		settings.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			settings.Tags[key] = value
 		}
@@ -673,7 +673,7 @@ func (results *ThroughputSettingsGetResults_Status) PopulateFromARM(owner genrun
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		results.Tags = make(map[string]string)
+		results.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			results.Tags[key] = value
 		}

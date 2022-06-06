@@ -454,7 +454,7 @@ func Statements(statements ...interface{}) []dst.Stmt {
 		}
 	}
 
-	var result []dst.Stmt
+	result := make([]dst.Stmt, 0, len(stmts))
 	for _, st := range stmts {
 		result = append(result, dst.Clone(st).(dst.Stmt))
 	}
@@ -482,7 +482,7 @@ func Expressions(statements ...interface{}) []dst.Expr {
 		}
 	}
 
-	var result []dst.Expr
+	result := make([]dst.Expr, 0, len(exprs))
 	for _, ex := range exprs {
 		result = append(result, dst.Clone(ex).(dst.Expr))
 	}

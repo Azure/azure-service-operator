@@ -1270,7 +1270,7 @@ func (components *Components_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property ‘Tags’:
 	if components.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(components.Tags))
 		for key, value := range components.Tags {
 			result.Tags[key] = value
 		}
@@ -1435,7 +1435,7 @@ func (components *Components_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		components.Tags = make(map[string]string)
+		components.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			components.Tags[key] = value
 		}

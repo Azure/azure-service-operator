@@ -56,7 +56,7 @@ func (r renamer) simplifyEmbeddedNameRemoveContextAndCount(_ astmodel.TypeName, 
 
 func (r renamer) simplifyEmbeddedNameRemoveContext(_ astmodel.TypeName, associatedNames astmodel.TypeNameSet) (astmodel.TypeAssociation, error) {
 	// Gather information about the associated definitions
-	associatedCountPerContext := make(map[string]int)
+	associatedCountPerContext := make(map[string]int, len(associatedNames))
 	for associated := range associatedNames {
 		embeddedName, err := parseContextualTypeName(associated)
 		if err != nil {
@@ -104,8 +104,8 @@ func (r renamer) simplifyEmbeddedName(_ astmodel.TypeName, associatedNames astmo
 
 func (r renamer) performRenames(
 	renames astmodel.TypeAssociation,
-	flag astmodel.TypeFlag) (astmodel.TypeDefinitionSet, error) {
-
+	flag astmodel.TypeFlag,
+) (astmodel.TypeDefinitionSet, error) {
 	result := make(astmodel.TypeDefinitionSet)
 
 	renamingVisitor := astmodel.TypeVisitorBuilder{

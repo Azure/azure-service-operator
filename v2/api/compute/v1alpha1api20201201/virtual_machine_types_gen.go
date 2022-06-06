@@ -741,7 +741,7 @@ func (machine *VirtualMachine_Status) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		machine.Tags = make(map[string]string)
+		machine.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			machine.Tags[key] = value
 		}
@@ -1569,7 +1569,7 @@ func (machines *VirtualMachines_Spec) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property ‘Tags’:
 	if machines.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(machines.Tags))
 		for key, value := range machines.Tags {
 			result.Tags[key] = value
 		}
@@ -1856,7 +1856,7 @@ func (machines *VirtualMachines_Spec) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		machines.Tags = make(map[string]string)
+		machines.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			machines.Tags[key] = value
 		}
@@ -4695,7 +4695,7 @@ func (extension *VirtualMachineExtension_Status) PopulateFromARM(owner genruntim
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProtectedSettings != nil {
-			extension.ProtectedSettings = make(map[string]v1.JSON)
+			extension.ProtectedSettings = make(map[string]v1.JSON, len(typedInput.Properties.ProtectedSettings))
 			for key, value := range typedInput.Properties.ProtectedSettings {
 				extension.ProtectedSettings[key] = *value.DeepCopy()
 			}
@@ -4724,7 +4724,7 @@ func (extension *VirtualMachineExtension_Status) PopulateFromARM(owner genruntim
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Settings != nil {
-			extension.Settings = make(map[string]v1.JSON)
+			extension.Settings = make(map[string]v1.JSON, len(typedInput.Properties.Settings))
 			for key, value := range typedInput.Properties.Settings {
 				extension.Settings[key] = *value.DeepCopy()
 			}
@@ -4733,7 +4733,7 @@ func (extension *VirtualMachineExtension_Status) PopulateFromARM(owner genruntim
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		extension.Tags = make(map[string]string)
+		extension.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			extension.Tags[key] = value
 		}
@@ -4972,7 +4972,7 @@ func (identity *VirtualMachineIdentity) ConvertToARM(resolved genruntime.Convert
 
 	// Set property ‘UserAssignedIdentities’:
 	if identity.UserAssignedIdentities != nil {
-		result.UserAssignedIdentities = make(map[string]v1.JSON)
+		result.UserAssignedIdentities = make(map[string]v1.JSON, len(identity.UserAssignedIdentities))
 		for key, value := range identity.UserAssignedIdentities {
 			result.UserAssignedIdentities[key] = *value.DeepCopy()
 		}
@@ -5000,7 +5000,7 @@ func (identity *VirtualMachineIdentity) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property ‘UserAssignedIdentities’:
 	if typedInput.UserAssignedIdentities != nil {
-		identity.UserAssignedIdentities = make(map[string]v1.JSON)
+		identity.UserAssignedIdentities = make(map[string]v1.JSON, len(typedInput.UserAssignedIdentities))
 		for key, value := range typedInput.UserAssignedIdentities {
 			identity.UserAssignedIdentities[key] = *value.DeepCopy()
 		}
@@ -5117,7 +5117,7 @@ func (identity *VirtualMachineIdentity_Status) PopulateFromARM(owner genruntime.
 
 	// Set property ‘UserAssignedIdentities’:
 	if typedInput.UserAssignedIdentities != nil {
-		identity.UserAssignedIdentities = make(map[string]VirtualMachineIdentity_Status_UserAssignedIdentities)
+		identity.UserAssignedIdentities = make(map[string]VirtualMachineIdentity_Status_UserAssignedIdentities, len(typedInput.UserAssignedIdentities))
 		for key, value := range typedInput.UserAssignedIdentities {
 			var value1 VirtualMachineIdentity_Status_UserAssignedIdentities
 			err := value1.PopulateFromARM(owner, value)

@@ -19,7 +19,7 @@ import (
 // options is an optional set of configuration options to control the assertion
 func AssertPackagesGenerateExpectedCode(t *testing.T, definitions astmodel.TypeDefinitionSet, options ...AssertionOption) {
 	// Group type definitions by package
-	groups := make(map[astmodel.PackageReference][]astmodel.TypeDefinition)
+	groups := make(map[astmodel.PackageReference][]astmodel.TypeDefinition, len(definitions))
 	for _, def := range definitions {
 		ref := def.Name().PackageReference
 		groups[ref] = append(groups[ref], def)
@@ -44,8 +44,8 @@ func AssertTypeDefinitionsGenerateExpectedCode(
 	t *testing.T,
 	name string,
 	defs []astmodel.TypeDefinition,
-	options ...AssertionOption) {
-
+	options ...AssertionOption,
+) {
 	asserter := newTypeAsserter(t)
 	asserter.configure(options)
 	asserter.assert(name, defs...)
@@ -61,8 +61,8 @@ func AssertSingleTypeDefinitionGeneratesExpectedCode(
 	t *testing.T,
 	fileName string,
 	def astmodel.TypeDefinition,
-	options ...AssertionOption) {
-
+	options ...AssertionOption,
+) {
 	asserter := newTypeAsserter(t)
 	asserter.configure(options)
 	asserter.assert(fileName, def)

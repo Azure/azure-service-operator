@@ -503,7 +503,7 @@ func (image *Image_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		image.Tags = make(map[string]string)
+		image.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			image.Tags[key] = value
 		}
@@ -750,7 +750,7 @@ func (images *Images_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 	// Set property ‘Tags’:
 	if images.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(images.Tags))
 		for key, value := range images.Tags {
 			result.Tags[key] = value
 		}
@@ -834,7 +834,7 @@ func (images *Images_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		images.Tags = make(map[string]string)
+		images.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			images.Tags[key] = value
 		}

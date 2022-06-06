@@ -579,7 +579,7 @@ func (network *VirtualNetwork_Status) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		network.Tags = make(map[string]string)
+		network.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			network.Tags[key] = value
 		}
@@ -992,7 +992,7 @@ func (networks *VirtualNetworks_Spec) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property ‘Tags’:
 	if networks.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(networks.Tags))
 		for key, value := range networks.Tags {
 			result.Tags[key] = value
 		}
@@ -1126,7 +1126,7 @@ func (networks *VirtualNetworks_Spec) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		networks.Tags = make(map[string]string)
+		networks.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			networks.Tags[key] = value
 		}

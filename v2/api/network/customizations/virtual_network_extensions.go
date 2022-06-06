@@ -33,8 +33,8 @@ func (extension *VirtualNetworkExtension) ModifyARMResource(
 	obj genruntime.ARMMetaObject,
 	kubeClient kubeclient.Client,
 	resolver *resolver.Resolver,
-	log logr.Logger) (genruntime.ARMResource, error) {
-
+	log logr.Logger,
+) (genruntime.ARMResource, error) {
 	typedObj, ok := obj.(*network.VirtualNetwork)
 	if !ok {
 		return nil, errors.Errorf("cannot run on unknown resource type %T, expected *network.VirtualNetwork", obj)
@@ -53,7 +53,7 @@ func (extension *VirtualNetworkExtension) ModifyARMResource(
 		return nil, errors.Wrapf(err, "failed listing subnets owned by VNET %s/%s", obj.GetNamespace(), obj.GetName())
 	}
 
-	var armSubnets []genruntime.ARMResourceSpec
+	armSubnets := make([]genruntime.ARMResourceSpec, 0, len(subnets.Items))
 	for _, subnet := range subnets.Items {
 		subnet := subnet
 
@@ -87,8 +87,8 @@ func transformToARM(
 	obj genruntime.ARMMetaObject,
 	gvk schema.GroupVersionKind,
 	kubeClient kubeclient.Client,
-	resolver *resolver.Resolver) (genruntime.ARMResourceSpec, error) {
-
+	resolver *resolver.Resolver,
+) (genruntime.ARMResourceSpec, error) {
 	spec, err := genruntime.GetVersionedSpecFromGVK(obj, kubeClient.Scheme(), gvk)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get spec from %s/%s", obj.GetNamespace(), obj.GetName())

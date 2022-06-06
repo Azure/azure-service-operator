@@ -438,7 +438,7 @@ func (topics *NamespacesTopics_Spec) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property ‘Tags’:
 	if topics.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(topics.Tags))
 		for key, value := range topics.Tags {
 			result.Tags[key] = value
 		}
@@ -555,7 +555,7 @@ func (topics *NamespacesTopics_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		topics.Tags = make(map[string]string)
+		topics.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			topics.Tags[key] = value
 		}
