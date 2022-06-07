@@ -11,15 +11,15 @@ import (
 	"strings"
 	"time"
 
-	"github.com/pkg/errors"
-
 	"github.com/Azure/azure-service-operator/v2/internal/metrics"
+	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
 	armruntime "github.com/Azure/azure-sdk-for-go/sdk/azcore/arm/runtime"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/policy"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
+	azcoreruntime "github.com/Azure/azure-sdk-for-go/sdk/azcore/runtime"
 
 	"github.com/Azure/azure-service-operator/v2/internal/version"
 )
@@ -40,12 +40,13 @@ type GenericClient struct {
 // TODO: Need to do retryAfter detection in each call?
 
 // NewGenericClient creates a new instance of GenericClient
-func NewGenericClient(endpoint arm.Endpoint, creds azcore.TokenCredential, subscriptionID string, metrics metrics.ARMClientMetrics) *GenericClient {
+func NewGenericClient(endpoint string, creds azcore.TokenCredential, subscriptionID string, metrics metrics.ARMClientMetrics) (*GenericClient, error) {
 	return NewGenericClientFromHTTPClient(endpoint, creds, nil, subscriptionID, metrics)
 }
 
 // NewGenericClientFromHTTPClient creates a new instance of GenericClient from the provided connection.
-func NewGenericClientFromHTTPClient(endpoint arm.Endpoint, creds azcore.TokenCredential, httpClient *http.Client, subscriptionID string, metrics metrics.ARMClientMetrics) *GenericClient {
+func NewGenericClientFromHTTPClient(endpoint string, creds azcore.TokenCredential, httpClient *http.Client, subscriptionID string, metrics metrics.ARMClientMetrics) (*GenericClient, error) {
+
 	opts := &arm.ClientOptions{
 		ClientOptions: policy.ClientOptions{
 			Retry: policy.RetryOptions{
@@ -63,7 +64,7 @@ func NewGenericClientFromHTTPClient(endpoint arm.Endpoint, creds azcore.TokenCre
 		opts.Transport = httpClient
 	}
 
-	pipeline := armruntime.NewPipeline(
+	pipeline, err := armruntime.NewPipeline(
 		"generic",
 		version.BuildVersion,
 		creds,
@@ -71,13 +72,13 @@ func NewGenericClientFromHTTPClient(endpoint arm.Endpoint, creds azcore.TokenCre
 		opts)
 
 	return &GenericClient{
-		endpoint:       string(endpoint),
+		endpoint:       endpoint,
 		pl:             pipeline,
 		creds:          creds,
 		subscriptionID: subscriptionID,
 		opts:           opts,
 		metrics:        metrics,
-	}
+	}, err
 }
 
 // SubscriptionID returns the subscription the client is configured for
@@ -113,7 +114,8 @@ func (client *GenericClient) BeginCreateOrUpdateByID(
 		RawResponse: resp,
 		ID:          "GenericClient.CreateOrUpdateByID",
 	}
-	pt, err := armruntime.NewPoller("GenericClient.CreateOrUpdateByID", "", resp, client.pl)
+
+	pt, err := azcoreruntime.NewPoller[string](resp, client.pl, nil)
 	if err != nil {
 		return nil, err
 	}
