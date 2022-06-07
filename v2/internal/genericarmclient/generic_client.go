@@ -64,12 +64,10 @@ func NewGenericClientFromHTTPClient(endpoint string, creds azcore.TokenCredentia
 		opts.Transport = httpClient
 	}
 
-	pipeline, err := armruntime.NewPipeline(
-		"generic",
-		version.BuildVersion,
-		creds,
-		runtime.PipelineOptions{},
-		opts)
+	pipeline, err := armruntime.NewPipeline("generic", version.BuildVersion, creds, runtime.PipelineOptions{}, opts)
+	if err != nil {
+		return nil, err
+	}
 
 	return &GenericClient{
 		endpoint:       endpoint,
@@ -78,7 +76,7 @@ func NewGenericClientFromHTTPClient(endpoint string, creds azcore.TokenCredentia
 		subscriptionID: subscriptionID,
 		opts:           opts,
 		metrics:        metrics,
-	}, err
+	}, nil
 }
 
 // SubscriptionID returns the subscription the client is configured for
@@ -115,7 +113,7 @@ func (client *GenericClient) BeginCreateOrUpdateByID(
 		ID:          "GenericClient.CreateOrUpdateByID",
 	}
 
-	pt, err := azcoreruntime.NewPoller[string](resp, client.pl, nil)
+	pt, err := azcoreruntime.NewPoller[GenericResource](resp, client.pl, nil)
 	if err != nil {
 		return nil, err
 	}
