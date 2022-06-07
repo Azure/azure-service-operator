@@ -18,7 +18,8 @@ import (
 // operation URL) and a RawResponse containing the raw HTTP response.
 type PollerResponse struct {
 	// Poller contains an initialized poller.
-	Poller *azcoreruntime.Poller[GenericResource]
+	//TODO: Keeping the generic type as string here.. Should we narrow it down to a type?
+	Poller *azcoreruntime.Poller[string]
 
 	// ID is the ID of the poller (not the ID of the resource). This is used to prevent another kind of poller from
 	// being resumed with this pollers URL (which would cause deserialization issues and other problems).
@@ -30,7 +31,7 @@ type PollerResponse struct {
 
 // Resume rehydrates a ResourcesCreateOrUpdateByIDPollerResponse from the provided client and resume token.
 func (l *PollerResponse) Resume(ctx context.Context, client *GenericClient, token string) error {
-	poller, err := azcoreruntime.NewPollerFromResumeToken[GenericResource](token, client.pl, nil)
+	poller, err := azcoreruntime.NewPollerFromResumeToken[string](token, client.pl, nil)
 	if err != nil {
 		return err
 	}
