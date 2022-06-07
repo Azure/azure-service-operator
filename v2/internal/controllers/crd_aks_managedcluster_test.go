@@ -85,8 +85,8 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "AKS AgentPool CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
-				AKS_ManagedCluster_AgentPool_CRUD(testContext, cluster)
+			Test: func(tc *testcommon.KubePerTestContext) {
+				AKS_ManagedCluster_AgentPool_CRUD(tc, cluster)
 			},
 		},
 	)

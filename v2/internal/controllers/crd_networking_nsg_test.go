@@ -49,8 +49,8 @@ func Test_Networking_NetworkSecurityGroup_CRUD(t *testing.T) {
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "SecurityRules CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
-				NetworkSecurityGroup_SecurityRules_CRUD(testContext, nsg)
+			Test: func(tc *testcommon.KubePerTestContext) {
+				NetworkSecurityGroup_SecurityRules_CRUD(tc, nsg)
 			},
 		},
 	)

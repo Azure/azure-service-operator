@@ -44,11 +44,11 @@ func Test_ServiceBus_Namespace_Standard_CRUD(t *testing.T) {
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "Queue CRUD",
-			Test: func(t *testcommon.KubePerTestContext) { ServiceBus_Queue_CRUD(tc, namespace) },
+			Test: func(tc *testcommon.KubePerTestContext) { ServiceBus_Queue_CRUD(tc, namespace) },
 		},
 		testcommon.Subtest{
 			Name: "Topic CRUD",
-			Test: func(t *testcommon.KubePerTestContext) { ServiceBus_Topic_CRUD(tc, namespace) },
+			Test: func(tc *testcommon.KubePerTestContext) { ServiceBus_Topic_CRUD(tc, namespace) },
 		},
 	)
 
