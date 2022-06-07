@@ -8,6 +8,7 @@ package controllers_test
 import (
 	"testing"
 
+	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 
 	containerinstance "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1beta20211001"
@@ -18,16 +19,11 @@ func Test_ContainerInstance_ContainerGroup_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
-
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	// The test refers to the quick-start-template from https://github.com/Azure/azure-quickstart-templates/tree/master/quickstarts/microsoft.containerinstance/aci-linuxcontainer-public-ip
 	name := tc.NoSpaceNamer.GenerateName("containergroup")
-	image := "mcr.microsoft.com/azuredocs/aci-helloworld"
-	port := int(80)
 	protocol := containerinstance.ContainerPortProtocolTCP
-	cpu := float64(1)
-	memoryInGB := float64(2)
 	osType := containerinstance.ContainerGroupsSpecPropertiesOsTypeLinux
 	restartPolicy := containerinstance.ContainerGroupsSpecPropertiesRestartPolicyAlways
 	ipAddressType := containerinstance.IpAddressTypePublic
@@ -42,17 +38,17 @@ func Test_ContainerInstance_ContainerGroup_CRUD(t *testing.T) {
 			Containers: []containerinstance.ContainerGroups_Spec_Properties_Containers{
 				{
 					Name:  &name,
-					Image: &image,
+					Image: to.StringPtr("mcr.microsoft.com/azuredocs/aci-helloworld"),
 					Ports: []containerinstance.ContainerPort{
 						{
-							Port:     &port,
+							Port:     to.IntPtr(80),
 							Protocol: &protocol,
 						},
 					},
 					Resources: &containerinstance.ResourceRequirements{
 						Requests: &containerinstance.ResourceRequests{
-							Cpu:        &cpu,
-							MemoryInGB: &memoryInGB,
+							Cpu:        to.Float64Ptr(1),
+							MemoryInGB: to.Float64Ptr(2),
 						},
 					},
 				},
@@ -63,7 +59,7 @@ func Test_ContainerInstance_ContainerGroup_CRUD(t *testing.T) {
 				Type: &ipAddressType,
 				Ports: []containerinstance.Port{
 					{
-						Port:     &port,
+						Port:     to.IntPtr(80),
 						Protocol: &portProtocol,
 					},
 				},
