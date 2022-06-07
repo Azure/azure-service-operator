@@ -68,8 +68,14 @@ func Test_ContainerInstance_ContainerGroup_CRUD(t *testing.T) {
 	}
 
 	tc.CreateResourcesAndWait(&cg)
-	defer tc.DeleteResourcesAndWait(&cg)
-
-	// Perform some assertions on the resources we just created
 	tc.Expect(cg.Status.Id).ToNot(BeNil())
+	armId := *cg.Status.Id
+
+	tc.DeleteResourcesAndWait(&cg)
+
+	// Ensure that the resource was really deleted in Azure
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(containerinstance.APIVersionValue))
+	tc.Expect(err).ToNot(HaveOccurred())
+	tc.Expect(retryAfter).To(BeZero())
+	tc.Expect(exists).To(BeFalse())
 }
