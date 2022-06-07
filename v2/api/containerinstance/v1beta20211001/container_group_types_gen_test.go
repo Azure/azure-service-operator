@@ -959,7 +959,6 @@ func ContainerGroupSubnetIdGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForContainerGroupSubnetId is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForContainerGroupSubnetId(gens map[string]gopter.Gen) {
-	gens["Id"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.PtrOf(gen.AlphaString())
 }
 
@@ -4392,7 +4391,6 @@ func AddIndependentPropertyGeneratorsForLogAnalytics(gens map[string]gopter.Gen)
 	gens["Metadata"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
 	gens["WorkspaceId"] = gen.PtrOf(gen.AlphaString())
 	gens["WorkspaceKey"] = gen.PtrOf(gen.AlphaString())
-	gens["WorkspaceResourceId"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_LogAnalytics_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

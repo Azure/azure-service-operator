@@ -2499,12 +2499,12 @@ const (
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ContainerGroupSubnetId
 type ContainerGroupSubnetId struct {
-	// +kubebuilder:validation:Required
-	// Id: Resource ID of virtual network and subnet.
-	Id *string `json:"id,omitempty"`
-
 	// Name: Friendly name for the subnet.
 	Name *string `json:"name,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Reference: Resource ID of virtual network and subnet.
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &ContainerGroupSubnetId{}
@@ -2517,9 +2517,13 @@ func (subnetId *ContainerGroupSubnetId) ConvertToARM(resolved genruntime.Convert
 	result := &ContainerGroupSubnetIdARM{}
 
 	// Set property ‘Id’:
-	if subnetId.Id != nil {
-		id := *subnetId.Id
-		result.Id = &id
+	if subnetId.Reference != nil {
+		referenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*subnetId.Reference)
+		if err != nil {
+			return nil, err
+		}
+		reference := referenceARMID
+		result.Id = &reference
 	}
 
 	// Set property ‘Name’:
@@ -2542,17 +2546,13 @@ func (subnetId *ContainerGroupSubnetId) PopulateFromARM(owner genruntime.Arbitra
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerGroupSubnetIdARM, got %T", armInput)
 	}
 
-	// Set property ‘Id’:
-	if typedInput.Id != nil {
-		id := *typedInput.Id
-		subnetId.Id = &id
-	}
-
 	// Set property ‘Name’:
 	if typedInput.Name != nil {
 		name := *typedInput.Name
 		subnetId.Name = &name
 	}
+
+	// no assignment for property ‘Reference’
 
 	// No error
 	return nil
@@ -2561,11 +2561,16 @@ func (subnetId *ContainerGroupSubnetId) PopulateFromARM(owner genruntime.Arbitra
 // AssignPropertiesFromContainerGroupSubnetId populates our ContainerGroupSubnetId from the provided source ContainerGroupSubnetId
 func (subnetId *ContainerGroupSubnetId) AssignPropertiesFromContainerGroupSubnetId(source *v20211001s.ContainerGroupSubnetId) error {
 
-	// Id
-	subnetId.Id = genruntime.ClonePointerToString(source.Id)
-
 	// Name
 	subnetId.Name = genruntime.ClonePointerToString(source.Name)
+
+	// Reference
+	if source.Reference != nil {
+		reference := source.Reference.Copy()
+		subnetId.Reference = &reference
+	} else {
+		subnetId.Reference = nil
+	}
 
 	// No error
 	return nil
@@ -2576,11 +2581,16 @@ func (subnetId *ContainerGroupSubnetId) AssignPropertiesToContainerGroupSubnetId
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
 
-	// Id
-	destination.Id = genruntime.ClonePointerToString(subnetId.Id)
-
 	// Name
 	destination.Name = genruntime.ClonePointerToString(subnetId.Name)
+
+	// Reference
+	if subnetId.Reference != nil {
+		reference := subnetId.Reference.Copy()
+		destination.Reference = &reference
+	} else {
+		destination.Reference = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {
@@ -7602,8 +7612,8 @@ type LogAnalytics struct {
 	// WorkspaceKey: The workspace key for log analytics
 	WorkspaceKey *string `json:"workspaceKey,omitempty"`
 
-	// WorkspaceResourceId: The workspace resource id for log analytics
-	WorkspaceResourceId *string `json:"workspaceResourceId,omitempty"`
+	// WorkspaceResourceReference: The workspace resource id for log analytics
+	WorkspaceResourceReference *genruntime.ResourceReference `armReference:"WorkspaceResourceId" json:"workspaceResourceReference,omitempty"`
 }
 
 var _ genruntime.ARMTransformer = &LogAnalytics{}
@@ -7642,9 +7652,13 @@ func (analytics *LogAnalytics) ConvertToARM(resolved genruntime.ConvertToARMReso
 	}
 
 	// Set property ‘WorkspaceResourceId’:
-	if analytics.WorkspaceResourceId != nil {
-		workspaceResourceId := *analytics.WorkspaceResourceId
-		result.WorkspaceResourceId = &workspaceResourceId
+	if analytics.WorkspaceResourceReference != nil {
+		workspaceResourceReferenceARMID, err := resolved.ResolvedReferences.ARMIDOrErr(*analytics.WorkspaceResourceReference)
+		if err != nil {
+			return nil, err
+		}
+		workspaceResourceReference := workspaceResourceReferenceARMID
+		result.WorkspaceResourceId = &workspaceResourceReference
 	}
 	return result, nil
 }
@@ -7687,11 +7701,7 @@ func (analytics *LogAnalytics) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 		analytics.WorkspaceKey = &workspaceKey
 	}
 
-	// Set property ‘WorkspaceResourceId’:
-	if typedInput.WorkspaceResourceId != nil {
-		workspaceResourceId := *typedInput.WorkspaceResourceId
-		analytics.WorkspaceResourceId = &workspaceResourceId
-	}
+	// no assignment for property ‘WorkspaceResourceReference’
 
 	// No error
 	return nil
@@ -7717,8 +7727,13 @@ func (analytics *LogAnalytics) AssignPropertiesFromLogAnalytics(source *v2021100
 	// WorkspaceKey
 	analytics.WorkspaceKey = genruntime.ClonePointerToString(source.WorkspaceKey)
 
-	// WorkspaceResourceId
-	analytics.WorkspaceResourceId = genruntime.ClonePointerToString(source.WorkspaceResourceId)
+	// WorkspaceResourceReference
+	if source.WorkspaceResourceReference != nil {
+		workspaceResourceReference := source.WorkspaceResourceReference.Copy()
+		analytics.WorkspaceResourceReference = &workspaceResourceReference
+	} else {
+		analytics.WorkspaceResourceReference = nil
+	}
 
 	// No error
 	return nil
@@ -7746,8 +7761,13 @@ func (analytics *LogAnalytics) AssignPropertiesToLogAnalytics(destination *v2021
 	// WorkspaceKey
 	destination.WorkspaceKey = genruntime.ClonePointerToString(analytics.WorkspaceKey)
 
-	// WorkspaceResourceId
-	destination.WorkspaceResourceId = genruntime.ClonePointerToString(analytics.WorkspaceResourceId)
+	// WorkspaceResourceReference
+	if analytics.WorkspaceResourceReference != nil {
+		workspaceResourceReference := analytics.WorkspaceResourceReference.Copy()
+		destination.WorkspaceResourceReference = &workspaceResourceReference
+	} else {
+		destination.WorkspaceResourceReference = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

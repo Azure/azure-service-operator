@@ -267,9 +267,12 @@ type ContainerGroupIdentity_Status struct {
 // Storage version of v1beta20211001.ContainerGroupSubnetId
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ContainerGroupSubnetId
 type ContainerGroupSubnetId struct {
-	Id          *string                `json:"id,omitempty"`
 	Name        *string                `json:"name,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Reference: Resource ID of virtual network and subnet.
+	Reference *genruntime.ResourceReference `armReference:"Id" json:"reference,omitempty"`
 }
 
 // Storage version of v1beta20211001.ContainerGroupSubnetId_Status
@@ -566,12 +569,14 @@ type InitContainerPropertiesDefinition_Status_InstanceView struct {
 // Storage version of v1beta20211001.LogAnalytics
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/LogAnalytics
 type LogAnalytics struct {
-	LogType             *string                `json:"logType,omitempty"`
-	Metadata            map[string]string      `json:"metadata,omitempty"`
-	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	WorkspaceId         *string                `json:"workspaceId,omitempty"`
-	WorkspaceKey        *string                `json:"workspaceKey,omitempty"`
-	WorkspaceResourceId *string                `json:"workspaceResourceId,omitempty"`
+	LogType      *string                `json:"logType,omitempty"`
+	Metadata     map[string]string      `json:"metadata,omitempty"`
+	PropertyBag  genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	WorkspaceId  *string                `json:"workspaceId,omitempty"`
+	WorkspaceKey *string                `json:"workspaceKey,omitempty"`
+
+	// WorkspaceResourceReference: The workspace resource id for log analytics
+	WorkspaceResourceReference *genruntime.ResourceReference `armReference:"WorkspaceResourceId" json:"workspaceResourceReference,omitempty"`
 }
 
 // Storage version of v1beta20211001.LogAnalytics_Status

@@ -751,10 +751,10 @@ objectModelConfiguration:
         $supportedFrom: v2.0.0-beta.1
       LogAnalytics:
         WorkspaceResourceId:
-          $armReference: false
+          $armReference: true
       ContainerGroupSubnetId:
         Id:
-          $armReference: false
+          $armReference: true
   containerregistry:
     2021-09-01:
       Registry:

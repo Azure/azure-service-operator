@@ -118,7 +118,6 @@ const (
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ContainerGroupSubnetId
 type ContainerGroupSubnetIdARM struct {
-	// Id: Resource ID of virtual network and subnet.
 	Id *string `json:"id,omitempty"`
 
 	// Name: Friendly name for the subnet.
@@ -302,9 +301,7 @@ type LogAnalyticsARM struct {
 	WorkspaceId *string `json:"workspaceId,omitempty"`
 
 	// WorkspaceKey: The workspace key for log analytics
-	WorkspaceKey *string `json:"workspaceKey,omitempty"`
-
-	// WorkspaceResourceId: The workspace resource id for log analytics
+	WorkspaceKey        *string `json:"workspaceKey,omitempty"`
 	WorkspaceResourceId *string `json:"workspaceResourceId,omitempty"`
 }
 
