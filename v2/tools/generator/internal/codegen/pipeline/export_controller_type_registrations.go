@@ -179,11 +179,11 @@ func (chain propertyChain) indexMethodName(
 		chain.indexPropertyPath())
 }
 
-func makeIndexPropertyKey(propertyChain propertyChain) string {
+func (chain propertyChain) indexPropertyKey() string {
 	values := []string{
 		".spec",
 	}
-	for _, prop := range propertyChain.props {
+	for _, prop := range chain.props {
 		name, ok := prop.JSONName()
 		if !ok {
 			panic(fmt.Sprintf("property %s has no JSON name", prop.PropertyName()))
