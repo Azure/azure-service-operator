@@ -85,7 +85,6 @@ func handleSecretPropertyChains(
 	for _, chain := range chains {
 		secretPropertyKey := chain.indexPropertyKey()
 		indexFunction := functions.NewIndexRegistrationFunction(
-			idFactory,
 			chain.indexMethodName(idFactory, def.Name()),
 			def.Name(),
 			secretPropertyKey,
@@ -160,15 +159,18 @@ func (b *indexFunctionBuilder) catalogSecretProperties(this *astmodel.TypeVisito
 	return identityVisit(this, it, ctx)
 }
 
+<<<<<<< HEAD
 func (chain *propertyChain) indexMethodName(
+=======
+func (chain propertyChain) indexMethodName(
+>>>>>>> 54f61d421 (Change makeUniqueIndexMethodName to a method)
 	idFactory astmodel.IdentifierFactory,
 	resourceTypeName astmodel.TypeName,
-	propertyChain propertyChain,
 ) string {
 	// TODO: Technically speaking it's still possible to generate names that clash here, although it's pretty
 	// TODO: unlikely. Do we need to do more?
 
-	lastProp := propertyChain.props[len(propertyChain.props)-1]
+	lastProp := chain.props[len(chain.props)-1]
 
 	group, _ := resourceTypeName.PackageReference.GroupVersion()
 	return fmt.Sprintf("index%s%s%s",
