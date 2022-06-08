@@ -222,11 +222,16 @@ func (ctx propertyChain) clone() propertyChain {
 	return propertyChain{props: duplicate}
 }
 
-func preservePropertyChain(_ *astmodel.ObjectType, prop *astmodel.PropertyDefinition, ctx interface{}) (interface{}, error) {
-	chain := ctx.(propertyChain)
+// add returns a new chain that includes the given property at the end of the chain.
+func (chain propertyChain) add(prop *astmodel.PropertyDefinition) propertyChain {
 	newChain := chain.clone()
 	newChain.props = append(newChain.props, prop)
-	return newChain, nil
+	return newChain
+}
+
+func preservePropertyChain(_ *astmodel.ObjectType, prop *astmodel.PropertyDefinition, ctx interface{}) (interface{}, error) {
+	chain := ctx.(propertyChain)
+	return chain.add(prop), nil
 }
 
 func (b *indexFunctionBuilder) catalogSecretProperties(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
@@ -234,9 +239,8 @@ func (b *indexFunctionBuilder) catalogSecretProperties(this *astmodel.TypeVisito
 
 	it.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
 		if prop.IsSecret() {
-			newCtx := chain.clone()
-			newCtx.props = append(newCtx.props, prop)
-			b.propChains = append(b.propChains, newCtx.props)
+			chain := chain.add(prop)
+			b.propChains = append(b.propChains, chain.props)
 		}
 	})
 
