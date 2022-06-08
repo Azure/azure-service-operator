@@ -85,7 +85,7 @@ func handleSecretPropertyChains(
 			chain.indexMethodName(idFactory, def.Name()),
 			def.Name(),
 			secretPropertyKey,
-			chain.props)
+			chain.properties())
 		indexFunctions = append(indexFunctions, indexFunction)
 		secretPropertyKeys = append(secretPropertyKeys, secretPropertyKey)
 	}
@@ -137,6 +137,11 @@ func (chain propertyChain) add(prop *astmodel.PropertyDefinition) propertyChain 
 	return newChain
 }
 
+// properties returns the properties in the chain in a new slice.
+func (chain propertyChain) properties() []*astmodel.PropertyDefinition {
+	return append([]*astmodel.PropertyDefinition(nil), chain.props...)
+}
+
 func preservePropertyChain(_ *astmodel.ObjectType, prop *astmodel.PropertyDefinition, ctx interface{}) (interface{}, error) {
 	chain := ctx.(propertyChain)
 	return chain.add(prop), nil
@@ -163,7 +168,8 @@ func (chain propertyChain) indexMethodName(
 	// TODO: Technically speaking it's still possible to generate names that clash here, although it's pretty
 	// TODO: unlikely. Do we need to do more?
 
-	lastProp := chain.props[len(chain.props)-1]
+	props := chain.properties()
+	lastProp := props[len(props)-1]
 
 	group, _ := resourceTypeName.PackageReference.GroupVersion()
 	return fmt.Sprintf("index%s%s%s",
@@ -180,7 +186,7 @@ func (chain propertyChain) indexPropertyKey() string {
 	values := []string{
 		".spec",
 	}
-	for _, prop := range chain.props {
+	for _, prop := range chain.properties() {
 		name, ok := prop.JSONName()
 		if !ok {
 			panic(fmt.Sprintf("property %s has no JSON name", prop.PropertyName()))
