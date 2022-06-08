@@ -180,7 +180,7 @@ func catalogSecretPropertyChains(def astmodel.TypeDefinition, definitions astmod
 			return ctx, nil
 		}
 
-		return newPropertyChain(), nil
+		return propertyChain{}, nil
 	}
 
 	_, err := walker.Walk(def)
@@ -213,40 +213,30 @@ func newPropertyChain() *propertyChain {
 	}
 }
 
-// add returns a new chain that includes the given property at the end of the chain.
-func (chain *propertyChain) add(prop *astmodel.PropertyDefinition) *propertyChain {
-	return &propertyChain{
-		root: chain,
-		prop: prop,
-	}
+type propertyChain struct {
+	props []*astmodel.PropertyDefinition
 }
 
-// properties returns the properties in the chain in a new slice.
-func (chain *propertyChain) properties() []*astmodel.PropertyDefinition {
-	var result []*astmodel.PropertyDefinition
-	if chain.root != nil {
-		result = chain.root.properties()
-	}
-
-	if chain.prop != nil {
-		result = append(result, chain.prop)
-	}
-
-	return result
+func (ctx propertyChain) clone() propertyChain {
+	duplicate := append([]*astmodel.PropertyDefinition(nil), ctx.props...)
+	return propertyChain{props: duplicate}
 }
 
 func preservePropertyChain(_ *astmodel.ObjectType, prop *astmodel.PropertyDefinition, ctx interface{}) (interface{}, error) {
-	chain := ctx.(*propertyChain)
-
-	return chain.add(prop), nil
+	chain := ctx.(propertyChain)
+	newChain := chain.clone()
+	newChain.props = append(newChain.props, prop)
+	return newChain, nil
 }
 
 func (b *indexFunctionBuilder) catalogSecretProperties(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
-	chain := ctx.(*propertyChain)
+	chain := ctx.(propertyChain)
 
 	it.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
 		if prop.IsSecret() {
-			b.propChains = append(b.propChains, chain.add(prop))
+			newCtx := chain.clone()
+			newCtx.props = append(newCtx.props, prop)
+			b.propChains = append(b.propChains, newCtx.props)
 		}
 	})
 
