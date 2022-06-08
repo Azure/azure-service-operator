@@ -79,7 +79,7 @@ func handleSecretPropertyChains(
 	secretPropertyKeys := make([]string, 0, len(chains))
 
 	for _, chain := range chains {
-		secretPropertyKey := makeIndexPropertyKey(chain)
+		secretPropertyKey := chain.indexPropertyKey()
 		indexFunction := functions.NewIndexRegistrationFunction(
 			idFactory,
 			chain.indexMethodName(idFactory, def.Name()),
@@ -176,11 +176,11 @@ func (chain propertyChain) indexMethodName(
 // that it looks like a jsonpath expression is purely coincidental. The key may refer to a property that is actually
 // a member of a collection, such as .spec.secretsCollection.password. This is OK because the key is just a string
 // and all that string is doing is uniquely representing this field.
-func makeIndexPropertyKey(propertyChain propertyChain) string {
+func (chain propertyChain) indexPropertyKey() string {
 	values := []string{
 		".spec",
 	}
-	for _, prop := range propertyChain.props {
+	for _, prop := range chain.props {
 		name, ok := prop.JSONName()
 		if !ok {
 			panic(fmt.Sprintf("property %s has no JSON name", prop.PropertyName()))
