@@ -106,7 +106,7 @@ func catalogSecretPropertyChains(def astmodel.TypeDefinition, definitions astmod
 			return ctx, nil
 		}
 
-		return indexFunctionBuilderContext{}, nil
+		return propertyChain{}, nil
 	}
 
 	_, err := walker.Walk(def)
@@ -121,34 +121,34 @@ type indexFunctionBuilder struct {
 	propChains [][]*astmodel.PropertyDefinition
 }
 
-type indexFunctionBuilderContext struct {
+type propertyChain struct {
 	props []*astmodel.PropertyDefinition
 }
 
-func (ctx indexFunctionBuilderContext) clone() indexFunctionBuilderContext {
+func (ctx propertyChain) clone() propertyChain {
 	duplicate := append([]*astmodel.PropertyDefinition(nil), ctx.props...)
-	return indexFunctionBuilderContext{props: duplicate}
+	return propertyChain{props: duplicate}
 }
 
-func preservePropertyContext(_ *astmodel.ObjectType, prop *astmodel.PropertyDefinition, ctx interface{}) (interface{}, error) {
-	typedCtx := ctx.(indexFunctionBuilderContext)
-	newCtx := typedCtx.clone()
-	newCtx.props = append(newCtx.props, prop)
-	return newCtx, nil
+func preservePropertyChain(_ *astmodel.ObjectType, prop *astmodel.PropertyDefinition, ctx interface{}) (interface{}, error) {
+	chain := ctx.(propertyChain)
+	newChain := chain.clone()
+	newChain.props = append(newChain.props, prop)
+	return newChain, nil
 }
 
 func (b *indexFunctionBuilder) catalogSecretProperties(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
-	typedCtx := ctx.(indexFunctionBuilderContext)
+	chain := ctx.(propertyChain)
 
 	it.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
 		if prop.IsSecret() {
-			newCtx := typedCtx.clone()
+			newCtx := chain.clone()
 			newCtx.props = append(newCtx.props, prop)
 			b.propChains = append(b.propChains, newCtx.props)
 		}
 	})
 
-	identityVisit := astmodel.MakeIdentityVisitOfObjectType(preservePropertyContext)
+	identityVisit := astmodel.MakeIdentityVisitOfObjectType(preservePropertyChain)
 	return identityVisit(this, it, ctx)
 }
 
