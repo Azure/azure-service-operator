@@ -71,7 +71,7 @@ func ExportControllerResourceRegistrations(idFactory astmodel.IdentifierFactory,
 }
 
 func handleSecretPropertyChains(
-	chains [][]*astmodel.PropertyDefinition,
+	chains []propertyChain,
 	idFactory astmodel.IdentifierFactory,
 	def astmodel.TypeDefinition,
 ) ([]*functions.IndexRegistrationFunction, []string) {
@@ -85,7 +85,7 @@ func handleSecretPropertyChains(
 			makeUniqueIndexMethodName(idFactory, def.Name(), chain),
 			def.Name(),
 			secretPropertyKey,
-			chain)
+			chain.props)
 		indexFunctions = append(indexFunctions, indexFunction)
 		secretPropertyKeys = append(secretPropertyKeys, secretPropertyKey)
 	}
@@ -93,7 +93,7 @@ func handleSecretPropertyChains(
 	return indexFunctions, secretPropertyKeys
 }
 
-func catalogSecretPropertyChains(def astmodel.TypeDefinition, definitions astmodel.TypeDefinitionSet) ([][]*astmodel.PropertyDefinition, error) {
+func catalogSecretPropertyChains(def astmodel.TypeDefinition, definitions astmodel.TypeDefinitionSet) ([]propertyChain, error) {
 	indexBuilder := &indexFunctionBuilder{}
 
 	visitor := astmodel.TypeVisitorBuilder{
@@ -118,15 +118,15 @@ func catalogSecretPropertyChains(def astmodel.TypeDefinition, definitions astmod
 }
 
 type indexFunctionBuilder struct {
-	propChains [][]*astmodel.PropertyDefinition
+	propChains []propertyChain
 }
 
 type propertyChain struct {
 	props []*astmodel.PropertyDefinition
 }
 
-func (ctx propertyChain) clone() propertyChain {
-	duplicate := append([]*astmodel.PropertyDefinition(nil), ctx.props...)
+func (chain propertyChain) clone() propertyChain {
+	duplicate := append([]*astmodel.PropertyDefinition(nil), chain.props...)
 	return propertyChain{props: duplicate}
 }
 
@@ -148,7 +148,7 @@ func (b *indexFunctionBuilder) catalogSecretProperties(this *astmodel.TypeVisito
 	it.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
 		if prop.IsSecret() {
 			chain := chain.add(prop)
-			b.propChains = append(b.propChains, chain.props)
+			b.propChains = append(b.propChains, chain)
 		}
 	})
 
@@ -159,12 +159,12 @@ func (b *indexFunctionBuilder) catalogSecretProperties(this *astmodel.TypeVisito
 func makeUniqueIndexMethodName(
 	idFactory astmodel.IdentifierFactory,
 	resourceTypeName astmodel.TypeName,
-	propertyChain []*astmodel.PropertyDefinition,
+	propertyChain propertyChain,
 ) string {
 	// TODO: Technically speaking it's still possible to generate names that clash here, although it's pretty
 	// TODO: unlikely. Do we need to do more?
 
-	lastProp := propertyChain[len(propertyChain)-1]
+	lastProp := propertyChain.props[len(propertyChain.props)-1]
 
 	group, _ := resourceTypeName.PackageReference.GroupVersion()
 	return fmt.Sprintf("index%s%s%s",
@@ -177,11 +177,11 @@ func makeUniqueIndexMethodName(
 // that it looks like a jsonpath expression is purely coincidental. The key may refer to a property that is actually
 // a member of a collection, such as .spec.secretsCollection.password. This is OK because the key is just a string
 // and all that string is doing is uniquely representing this field.
-func makeIndexPropertyKey(propertyChain []*astmodel.PropertyDefinition) string {
+func makeIndexPropertyKey(propertyChain propertyChain) string {
 	values := []string{
 		".spec",
 	}
-	for _, prop := range propertyChain {
+	for _, prop := range propertyChain.props {
 		name, ok := prop.JSONName()
 		if !ok {
 			panic(fmt.Sprintf("property %s has no JSON name", prop.PropertyName()))
