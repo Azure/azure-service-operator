@@ -75,13 +75,18 @@ func handleSecretPropertyChains(
 	idFactory astmodel.IdentifierFactory,
 	def astmodel.TypeDefinition,
 ) ([]*functions.IndexRegistrationFunction, []string) {
+
 	indexFunctions := make([]*functions.IndexRegistrationFunction, 0, len(chains))
 	secretPropertyKeys := make([]string, 0, len(chains))
 
+	// Using map and count per resource to avoid duplicate method names where
+	// resource's group, type and last prop values are same
+	nameMap := make(map[string]interface{})
+	count := 0
 	for _, chain := range chains {
 		secretPropertyKey := makeIndexPropertyKey(chain)
 		indexFunction := functions.NewIndexRegistrationFunction(
-			makeUniqueIndexMethodName(idFactory, def.Name(), chain),
+			makeUniqueIndexMethodName(idFactory, def.Name(), chain, nameMap, &count),
 			def.Name(),
 			secretPropertyKey,
 			chain)
@@ -155,17 +160,25 @@ func makeUniqueIndexMethodName(
 	idFactory astmodel.IdentifierFactory,
 	resourceTypeName astmodel.TypeName,
 	propertyChain []*astmodel.PropertyDefinition,
-) string {
-	// TODO: Technically speaking it's still possible to generate names that clash here, although it's pretty
-	// TODO: unlikely. Do we need to do more?
+	nameMap map[string]interface{},
+	count *int) string {
 
 	lastProp := propertyChain[len(propertyChain)-1]
 
 	group, _ := resourceTypeName.PackageReference.GroupVersion()
-	return fmt.Sprintf("index%s%s%s",
+	name := fmt.Sprintf("index%s%s%s",
 		idFactory.CreateIdentifier(group, astmodel.Exported),
 		resourceTypeName.Name(),
 		lastProp.PropertyName())
+
+	if _, ok := nameMap[name]; ok {
+		// If exists, append the counter index
+		*count += 1
+		return fmt.Sprintf("%s%d", name, *count)
+	}
+
+	nameMap[name] = ""
+	return name
 }
 
 func makeIndexPropertyKey(propertyChain []*astmodel.PropertyDefinition) string {
