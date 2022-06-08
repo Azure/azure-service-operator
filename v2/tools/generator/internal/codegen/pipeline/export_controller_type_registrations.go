@@ -75,7 +75,6 @@ func handleSecretPropertyChains(
 	idFactory astmodel.IdentifierFactory,
 	def astmodel.TypeDefinition,
 ) ([]*functions.IndexRegistrationFunction, []string) {
-
 	indexFunctions := make([]*functions.IndexRegistrationFunction, 0, len(chains))
 	secretPropertyKeys := make([]string, 0, len(chains))
 
