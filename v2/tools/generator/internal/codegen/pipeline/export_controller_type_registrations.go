@@ -71,7 +71,7 @@ func ExportControllerResourceRegistrations(idFactory astmodel.IdentifierFactory,
 }
 
 func handleSecretPropertyChains(
-	chains []propertyChain,
+	chains []*propertyChain,
 	idFactory astmodel.IdentifierFactory,
 	def astmodel.TypeDefinition,
 ) ([]*functions.IndexRegistrationFunction, []string) {
@@ -93,7 +93,7 @@ func handleSecretPropertyChains(
 	return indexFunctions, secretPropertyKeys
 }
 
-func catalogSecretPropertyChains(def astmodel.TypeDefinition, definitions astmodel.TypeDefinitionSet) ([]propertyChain, error) {
+func catalogSecretPropertyChains(def astmodel.TypeDefinition, definitions astmodel.TypeDefinitionSet) ([]*propertyChain, error) {
 	indexBuilder := &indexFunctionBuilder{}
 
 	visitor := astmodel.TypeVisitorBuilder{
@@ -106,7 +106,7 @@ func catalogSecretPropertyChains(def astmodel.TypeDefinition, definitions astmod
 			return ctx, nil
 		}
 
-		return propertyChain{}, nil
+		return newPropertyChain(), nil
 	}
 
 	_, err := walker.Walk(def)
@@ -118,37 +118,52 @@ func catalogSecretPropertyChains(def astmodel.TypeDefinition, definitions astmod
 }
 
 type indexFunctionBuilder struct {
-	propChains []propertyChain
+	propChains []*propertyChain
 }
 
 type propertyChain struct {
-	props []*astmodel.PropertyDefinition
+	root *propertyChain
+	prop *astmodel.PropertyDefinition
 }
 
-func (chain propertyChain) clone() propertyChain {
-	duplicate := append([]*astmodel.PropertyDefinition(nil), chain.props...)
-	return propertyChain{props: duplicate}
+// newPropertyChain returns a new chain with no properties.
+func newPropertyChain() *propertyChain {
+	return &propertyChain{
+		root: nil,
+		prop: nil,
+	}
 }
 
 // add returns a new chain that includes the given property at the end of the chain.
-func (chain propertyChain) add(prop *astmodel.PropertyDefinition) propertyChain {
-	newChain := chain.clone()
-	newChain.props = append(newChain.props, prop)
-	return newChain
+func (chain *propertyChain) add(prop *astmodel.PropertyDefinition) *propertyChain {
+	return &propertyChain{
+		root: chain,
+		prop: prop,
+	}
 }
 
 // properties returns the properties in the chain in a new slice.
-func (chain propertyChain) properties() []*astmodel.PropertyDefinition {
-	return append([]*astmodel.PropertyDefinition(nil), chain.props...)
+func (chain *propertyChain) properties() []*astmodel.PropertyDefinition {
+	var result []*astmodel.PropertyDefinition
+	if chain.root != nil {
+		result = chain.root.properties()
+	}
+
+	if chain.prop != nil {
+		result = append(result, chain.prop)
+	}
+
+	return result
 }
 
 func preservePropertyChain(_ *astmodel.ObjectType, prop *astmodel.PropertyDefinition, ctx interface{}) (interface{}, error) {
-	chain := ctx.(propertyChain)
+	chain := ctx.(*propertyChain)
+
 	return chain.add(prop), nil
 }
 
 func (b *indexFunctionBuilder) catalogSecretProperties(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
-	chain := ctx.(propertyChain)
+	chain := ctx.(*propertyChain)
 
 	it.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
 		if prop.IsSecret() {
@@ -161,16 +176,14 @@ func (b *indexFunctionBuilder) catalogSecretProperties(this *astmodel.TypeVisito
 	return identityVisit(this, it, ctx)
 }
 
-func (chain propertyChain) indexMethodName(
+func (chain *propertyChain) indexMethodName(
 	idFactory astmodel.IdentifierFactory,
 	resourceTypeName astmodel.TypeName,
 ) string {
 	// TODO: Technically speaking it's still possible to generate names that clash here, although it's pretty
 	// TODO: unlikely. Do we need to do more?
 
-	props := chain.properties()
-	lastProp := props[len(props)-1]
-
+	lastProp := chain.prop
 	group, _ := resourceTypeName.PackageReference.GroupVersion()
 	return fmt.Sprintf("index%s%s%s",
 		idFactory.CreateIdentifier(group, astmodel.Exported),
@@ -178,11 +191,11 @@ func (chain propertyChain) indexMethodName(
 		lastProp.PropertyName())
 }
 
-// makeIndexPropertyKey makes an indexable key for this property chain. Note that this key is just a string. The fact
+// indexPropertyKey makes an indexable key for this property chain. Note that this key is just a string. The fact
 // that it looks like a jsonpath expression is purely coincidental. The key may refer to a property that is actually
 // a member of a collection, such as .spec.secretsCollection.password. This is OK because the key is just a string
 // and all that string is doing is uniquely representing this field.
-func (chain propertyChain) indexPropertyKey() string {
+func (chain *propertyChain) indexPropertyKey() string {
 	values := []string{
 		".spec",
 	}
@@ -191,7 +204,9 @@ func (chain propertyChain) indexPropertyKey() string {
 		if !ok {
 			panic(fmt.Sprintf("property %s has no JSON name", prop.PropertyName()))
 		}
+
 		values = append(values, name)
 	}
+
 	return strings.Join(values, ".")
 }
