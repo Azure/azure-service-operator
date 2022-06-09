@@ -189,3 +189,29 @@ func (r *ReconcilerCommon) CommitUpdate(ctx context.Context, log logr.Logger, ob
 	LogObj(log, "updated resource in etcd", obj)
 	return nil
 }
+
+func (r *ReconcilerCommon) RemoveResourceFinalizer(ctx context.Context, log logr.Logger, obj genruntime.MetaObject) error {
+	controllerutil.RemoveFinalizer(obj, GenericControllerFinalizer)
+	err := r.CommitUpdate(ctx, log, obj)
+
+	// We must also ignore conflict here because updating a resource that
+	// doesn't exist returns conflict unfortunately: https://github.com/kubernetes/kubernetes/issues/89985
+	err = IgnoreNotFoundAndConflict(err)
+	if err != nil {
+		return err
+	}
+
+	log.V(Status).Info("Deleted resource")
+	return nil
+}
+
+func ClassifyResolverError(err error) error {
+	// If it's specifically secret not found, say so
+	var typedErr *resolver.SecretNotFound
+	if errors.As(err, &typedErr) {
+		return conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityWarning, conditions.ReasonSecretNotFound)
+	}
+	// Everything else is ReferenceNotFound. This is maybe a bit of a lie but secrets are also references and we want to make sure
+	// everything is classified as something, so for now it's good enough.
+	return conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityWarning, conditions.ReasonReferenceNotFound)
+}

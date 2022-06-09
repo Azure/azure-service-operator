@@ -15,7 +15,7 @@ import (
 
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
-	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
+	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -101,7 +101,7 @@ func transformToARM(
 
 	_, resolvedDetails, err := resolver.ResolveAll(ctx, obj)
 	if err != nil {
-		return nil, arm.ClassifyResolverError(err)
+		return nil, reconcilers.ClassifyResolverError(err)
 	}
 
 	armSpec, err := armTransformer.ConvertToARM(resolvedDetails)

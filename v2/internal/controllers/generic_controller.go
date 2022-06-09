@@ -243,6 +243,7 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 
 	result, err := gr.Reconciler.Reconcile(ctx, log, gr.Recorder, metaObj)
 	if readyErr, ok := conditions.AsReadyConditionImpactingError(err); ok {
+		log.Error(readyErr, "Encountered error impacting Ready condition")
 		err = gr.WriteReadyConditionError(ctx, metaObj, readyErr)
 	}
 
