@@ -183,7 +183,7 @@ func (target *TransformTarget) assignActualType(
 	return nil
 }
 
-func (target TransformTarget) produceTargetType(
+func (target *TransformTarget) produceTargetType(
 	descriptor string,
 	makeLocalPackageReferenceFunc func(group string, version string) astmodel.LocalPackageReference) (astmodel.Type, error) {
 	if target.Name.IsRestrictive() && target.Map != nil {
@@ -351,7 +351,7 @@ func (transformer *TypeTransformer) RequiredPropertiesWereMatched() error {
 	if err := transformer.Property.WasMatched(); err != nil {
 		return errors.Wrap(
 			err,
-			"matched types but all properties were excluded")
+			"matched types but all properties were excluded by name or type")
 	}
 
 	return nil
