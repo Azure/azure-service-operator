@@ -65,9 +65,15 @@ func (mm *MultiMatcher) WasMatched() error {
 		len(mm.matchers))
 }
 
-// HasMultipleMatchers returns true if the matcher contains multiple definitions
-func HasMultipleMatchers(matcher string) bool {
-	return strings.ContainsRune(matcher, ';')
+// IsRestrictive returns true if any of our contained matchers are restrictive
+func (mm MultiMatcher) IsRestrictive() bool {
+	for _, m := range mm.matchers {
+		if m.IsRestrictive() {
+			return true
+		}
+	}
+
+	return false
 }
 
 // String returns all the matchers we contain
@@ -82,4 +88,9 @@ func (mm *MultiMatcher) String() string {
 	}
 
 	return builder.String()
+}
+
+// HasMultipleMatchers returns true if the matcher contains multiple definitions
+func HasMultipleMatchers(matcher string) bool {
+	return strings.ContainsRune(matcher, ';')
 }

@@ -105,3 +105,29 @@ func TestMultiMatcher_DoesNotShortCircuit(t *testing.T) {
 	}
 
 }
+
+func TestMultiMatcher_IsRestrictive_GivesExpectedResults(t *testing.T) {
+	t.Parallel()
+
+	cases := []struct {
+		name        string
+		matcher     string
+		restrictive bool
+	}{
+		{"Two unrestrictive matchers are unrestrictive", "*;", false},
+		{"Restrictive wildcard is restrictive", "Foo*;", true},
+		{"Restrictive literal is restrictive", "*;Foo", true},
+	}
+
+	for _, c := range cases {
+		c := c
+		t.Run(
+			c.name,
+			func(t *testing.T) {
+				t.Parallel()
+				g := NewGomegaWithT(t)
+				matcher := newMultiMatcher(c.matcher)
+				g.Expect(matcher.IsRestrictive()).To(Equal(c.restrictive))
+			})
+	}
+}

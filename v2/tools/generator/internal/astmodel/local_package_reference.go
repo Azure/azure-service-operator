@@ -110,12 +110,21 @@ func (pr LocalPackageReference) HasVersionPrefix(prefix string) bool {
 	return pr.generatorVersion == prefix
 }
 
+// GeneratorVersion returns the part of the package name refering to the version of the generator
 func (pr LocalPackageReference) GeneratorVersion() string {
 	return pr.generatorVersion
 }
 
+// ApiVersion returns the API version of this reference, separate from the generator version
 func (pr LocalPackageReference) ApiVersion() string {
 	return pr.apiVersion
+}
+
+// HasApiVersion returns true if this reference has the specified API version
+func (pr LocalPackageReference) HasApiVersion(ver string) bool {
+	// TODO: When we start preserving the API version properly switch this to
+	// a simple strings.EqualFold()
+	return strings.EqualFold(pr.apiVersion, sanitizePackageName(ver))
 }
 
 // IsLocalPackageReference returns true if the supplied reference is a local one

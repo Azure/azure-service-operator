@@ -50,6 +50,11 @@ func (dm *FieldMatcher) WasMatched() error {
 	return dm.actual.WasMatched()
 }
 
+// IsRestrictive returns true if our nested matcher is present and restrictive, false otherwise
+func (dm *FieldMatcher) IsRestrictive() bool {
+	return dm.actual != nil && dm.actual.IsRestrictive()
+}
+
 // UnmarshalYAML populates our instance from the YAML.
 // We expect just a single string, which we use create an actual StringMatcher
 func (dm *FieldMatcher) UnmarshalYAML(value *yaml.Node) error {

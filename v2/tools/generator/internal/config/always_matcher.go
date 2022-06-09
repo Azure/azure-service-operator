@@ -29,3 +29,8 @@ func (a alwaysMatcher) Matches(value string) bool {
 func (a alwaysMatcher) WasMatched() error {
 	return nil
 }
+
+// IsRestrictive returns false because the always matcher doesn't restrict anything
+func (a alwaysMatcher) IsRestrictive() bool {
+	return false
+}

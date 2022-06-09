@@ -297,7 +297,7 @@ func (config *Configuration) initialize(configPath string) error {
 			errs = append(errs, err)
 		}
 
-		if transformer.Property.String() != "" {
+		if transformer.Property.IsRestrictive() {
 			propertyTransformers = append(propertyTransformers, transformer)
 		} else {
 			typeTransformers = append(typeTransformers, transformer)

@@ -16,6 +16,8 @@ type StringMatcher interface {
 	Matches(value string) bool
 	// WasMatched returns nil if the matcher had a match, otherwise returning a diagnostic error
 	WasMatched() error
+	// IsRestrictive returns true if the matcher is populated and will restrict matches
+	IsRestrictive() bool
 }
 
 // NewStringMatcher returns a matcher for the specified string
