@@ -13,8 +13,6 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:19:06 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu?api-version=2020-06-01
     method: PUT
   response:
@@ -45,8 +43,6 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:19:06 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu?api-version=2020-06-01
     method: GET
   response:
@@ -81,12 +77,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:19:10 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-tbbith?api-version=2018-11-30
     method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-mnlufu/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-tbbith","name":"asotest-mi-tbbith","type":"Microsoft.ManagedIdentity/userAssignedIdentities","location":"westus2","tags":{},"properties":{"tenantId":"72f988bf-86f1-41af-91ab-2d7cd011db47","principalId":"6ab979fc-ddcd-4d71-84a6-ab2cd2a5e149","clientId":"ed043a5d-b7b0-4313-835c-e8592c7a2d90"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-mnlufu/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-tbbith","name":"asotest-mi-tbbith","type":"Microsoft.ManagedIdentity/userAssignedIdentities","location":"westus2","tags":{},"properties":{"tenantId":"72f988bf-86f1-41af-91ab-2d7cd011db47","principalId":"b4de6890-d9c7-4a70-802b-c2e285c69378","clientId":"48aec427-1a74-4404-b1d5-145f091de8e6"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -108,17 +102,21 @@ interactions:
     code: 201
     duration: ""
 - request:
-    body: ""
+    body: '{"location":"westus2","name":"asotest-mi-tbbith"}'
     form: {}
     headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "49"
+      Content-Type:
+      - application/json
       Test-Request-Attempt:
-      - "0"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:19:12 GMT
+      - "1"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-tbbith?api-version=2018-11-30
-    method: GET
+    method: PUT
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-mnlufu/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-tbbith","name":"asotest-mi-tbbith","type":"Microsoft.ManagedIdentity/userAssignedIdentities","location":"westus2","tags":{},"properties":{"tenantId":"72f988bf-86f1-41af-91ab-2d7cd011db47","principalId":"6ab979fc-ddcd-4d71-84a6-ab2cd2a5e149","clientId":"ed043a5d-b7b0-4313-835c-e8592c7a2d90"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-mnlufu/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-tbbith","name":"asotest-mi-tbbith","type":"Microsoft.ManagedIdentity/userAssignedIdentities","location":"westus2","tags":{},"properties":{"tenantId":"72f988bf-86f1-41af-91ab-2d7cd011db47","principalId":"b4de6890-d9c7-4a70-802b-c2e285c69378","clientId":"48aec427-1a74-4404-b1d5-145f091de8e6"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -144,13 +142,11 @@ interactions:
       Accept:
       - application/json
       Test-Request-Attempt:
-      - "1"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:19:12 GMT
+      - "0"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-tbbith?api-version=2018-11-30
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-mnlufu/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-tbbith","name":"asotest-mi-tbbith","type":"Microsoft.ManagedIdentity/userAssignedIdentities","location":"westus2","tags":{},"properties":{"tenantId":"72f988bf-86f1-41af-91ab-2d7cd011db47","principalId":"6ab979fc-ddcd-4d71-84a6-ab2cd2a5e149","clientId":"ed043a5d-b7b0-4313-835c-e8592c7a2d90"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-mnlufu/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-tbbith","name":"asotest-mi-tbbith","type":"Microsoft.ManagedIdentity/userAssignedIdentities","location":"westus2","tags":{},"properties":{"tenantId":"72f988bf-86f1-41af-91ab-2d7cd011db47","principalId":"b4de6890-d9c7-4a70-802b-c2e285c69378","clientId":"48aec427-1a74-4404-b1d5-145f091de8e6"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -170,7 +166,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"location":"westus2","name":"71350183-d252-4648-9f93-7993b21f9ba7","properties":{"principalId":"6ab979fc-ddcd-4d71-84a6-ab2cd2a5e149","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
+    body: '{"location":"westus2","name":"71350183-d252-4648-9f93-7993b21f9ba7","properties":{"principalId":"b4de6890-d9c7-4a70-802b-c2e285c69378","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
     form: {}
     headers:
       Accept:
@@ -181,441 +177,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:19:15 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu/providers/Microsoft.Authorization/roleAssignments/71350183-d252-4648-9f93-7993b21f9ba7?api-version=2020-08-01-preview
     method: PUT
   response:
-    body: '{"error":{"code":"PrincipalNotFound","message":"Principal 6ab979fcddcd4d7184a6ab2cd2a5e149
-      does not exist in the directory 72f988bf-86f1-41af-91ab-2d7cd011db47."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "163"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Set-Cookie:
-      - x-ms-gateway-slice=Production; path=/; secure; samesite=none; httponly
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 400 Bad Request
-    code: 400
-    duration: ""
-- request:
-    body: '{"location":"westus2","name":"71350183-d252-4648-9f93-7993b21f9ba7","properties":{"principalId":"6ab979fc-ddcd-4d71-84a6-ab2cd2a5e149","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "296"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:19:16 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu/providers/Microsoft.Authorization/roleAssignments/71350183-d252-4648-9f93-7993b21f9ba7?api-version=2020-08-01-preview
-    method: PUT
-  response:
-    body: '{"error":{"code":"PrincipalNotFound","message":"Principal 6ab979fcddcd4d7184a6ab2cd2a5e149
-      does not exist in the directory 72f988bf-86f1-41af-91ab-2d7cd011db47."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "163"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Set-Cookie:
-      - x-ms-gateway-slice=Production; path=/; secure; samesite=none; httponly
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 400 Bad Request
-    code: 400
-    duration: ""
-- request:
-    body: '{"location":"westus2","name":"71350183-d252-4648-9f93-7993b21f9ba7","properties":{"principalId":"6ab979fc-ddcd-4d71-84a6-ab2cd2a5e149","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "296"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "2"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:19:17 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu/providers/Microsoft.Authorization/roleAssignments/71350183-d252-4648-9f93-7993b21f9ba7?api-version=2020-08-01-preview
-    method: PUT
-  response:
-    body: '{"error":{"code":"PrincipalNotFound","message":"Principal 6ab979fcddcd4d7184a6ab2cd2a5e149
-      does not exist in the directory 72f988bf-86f1-41af-91ab-2d7cd011db47."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "163"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Set-Cookie:
-      - x-ms-gateway-slice=Production; path=/; secure; samesite=none; httponly
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 400 Bad Request
-    code: 400
-    duration: ""
-- request:
-    body: '{"location":"westus2","name":"71350183-d252-4648-9f93-7993b21f9ba7","properties":{"principalId":"6ab979fc-ddcd-4d71-84a6-ab2cd2a5e149","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "296"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "3"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:19:17 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu/providers/Microsoft.Authorization/roleAssignments/71350183-d252-4648-9f93-7993b21f9ba7?api-version=2020-08-01-preview
-    method: PUT
-  response:
-    body: '{"error":{"code":"PrincipalNotFound","message":"Principal 6ab979fcddcd4d7184a6ab2cd2a5e149
-      does not exist in the directory 72f988bf-86f1-41af-91ab-2d7cd011db47."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "163"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Set-Cookie:
-      - x-ms-gateway-slice=Production; path=/; secure; samesite=none; httponly
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 400 Bad Request
-    code: 400
-    duration: ""
-- request:
-    body: '{"location":"westus2","name":"71350183-d252-4648-9f93-7993b21f9ba7","properties":{"principalId":"6ab979fc-ddcd-4d71-84a6-ab2cd2a5e149","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "296"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "4"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:19:18 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu/providers/Microsoft.Authorization/roleAssignments/71350183-d252-4648-9f93-7993b21f9ba7?api-version=2020-08-01-preview
-    method: PUT
-  response:
-    body: '{"error":{"code":"PrincipalNotFound","message":"Principal 6ab979fcddcd4d7184a6ab2cd2a5e149
-      does not exist in the directory 72f988bf-86f1-41af-91ab-2d7cd011db47."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "163"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Set-Cookie:
-      - x-ms-gateway-slice=Production; path=/; secure; samesite=none; httponly
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 400 Bad Request
-    code: 400
-    duration: ""
-- request:
-    body: '{"location":"westus2","name":"71350183-d252-4648-9f93-7993b21f9ba7","properties":{"principalId":"6ab979fc-ddcd-4d71-84a6-ab2cd2a5e149","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "296"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "5"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:19:18 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu/providers/Microsoft.Authorization/roleAssignments/71350183-d252-4648-9f93-7993b21f9ba7?api-version=2020-08-01-preview
-    method: PUT
-  response:
-    body: '{"error":{"code":"PrincipalNotFound","message":"Principal 6ab979fcddcd4d7184a6ab2cd2a5e149
-      does not exist in the directory 72f988bf-86f1-41af-91ab-2d7cd011db47."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "163"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Set-Cookie:
-      - x-ms-gateway-slice=Production; path=/; secure; samesite=none; httponly
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 400 Bad Request
-    code: 400
-    duration: ""
-- request:
-    body: '{"location":"westus2","name":"71350183-d252-4648-9f93-7993b21f9ba7","properties":{"principalId":"6ab979fc-ddcd-4d71-84a6-ab2cd2a5e149","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "296"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "6"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:19:19 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu/providers/Microsoft.Authorization/roleAssignments/71350183-d252-4648-9f93-7993b21f9ba7?api-version=2020-08-01-preview
-    method: PUT
-  response:
-    body: '{"error":{"code":"PrincipalNotFound","message":"Principal 6ab979fcddcd4d7184a6ab2cd2a5e149
-      does not exist in the directory 72f988bf-86f1-41af-91ab-2d7cd011db47."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "163"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Set-Cookie:
-      - x-ms-gateway-slice=Production; path=/; secure; samesite=none; httponly
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 400 Bad Request
-    code: 400
-    duration: ""
-- request:
-    body: '{"location":"westus2","name":"71350183-d252-4648-9f93-7993b21f9ba7","properties":{"principalId":"6ab979fc-ddcd-4d71-84a6-ab2cd2a5e149","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "296"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "7"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:19:20 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu/providers/Microsoft.Authorization/roleAssignments/71350183-d252-4648-9f93-7993b21f9ba7?api-version=2020-08-01-preview
-    method: PUT
-  response:
-    body: '{"error":{"code":"PrincipalNotFound","message":"Principal 6ab979fcddcd4d7184a6ab2cd2a5e149
-      does not exist in the directory 72f988bf-86f1-41af-91ab-2d7cd011db47."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "163"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Set-Cookie:
-      - x-ms-gateway-slice=Production; path=/; secure; samesite=none; httponly
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 400 Bad Request
-    code: 400
-    duration: ""
-- request:
-    body: '{"location":"westus2","name":"71350183-d252-4648-9f93-7993b21f9ba7","properties":{"principalId":"6ab979fc-ddcd-4d71-84a6-ab2cd2a5e149","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "296"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "8"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:19:21 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu/providers/Microsoft.Authorization/roleAssignments/71350183-d252-4648-9f93-7993b21f9ba7?api-version=2020-08-01-preview
-    method: PUT
-  response:
-    body: '{"error":{"code":"PrincipalNotFound","message":"Principal 6ab979fcddcd4d7184a6ab2cd2a5e149
-      does not exist in the directory 72f988bf-86f1-41af-91ab-2d7cd011db47."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "163"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Set-Cookie:
-      - x-ms-gateway-slice=Production; path=/; secure; samesite=none; httponly
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 400 Bad Request
-    code: 400
-    duration: ""
-- request:
-    body: '{"location":"westus2","name":"71350183-d252-4648-9f93-7993b21f9ba7","properties":{"principalId":"6ab979fc-ddcd-4d71-84a6-ab2cd2a5e149","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "296"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "9"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:19:22 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu/providers/Microsoft.Authorization/roleAssignments/71350183-d252-4648-9f93-7993b21f9ba7?api-version=2020-08-01-preview
-    method: PUT
-  response:
-    body: '{"error":{"code":"PrincipalNotFound","message":"Principal 6ab979fcddcd4d7184a6ab2cd2a5e149
-      does not exist in the directory 72f988bf-86f1-41af-91ab-2d7cd011db47."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "163"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Set-Cookie:
-      - x-ms-gateway-slice=Production; path=/; secure; samesite=none; httponly
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 400 Bad Request
-    code: 400
-    duration: ""
-- request:
-    body: '{"location":"westus2","name":"71350183-d252-4648-9f93-7993b21f9ba7","properties":{"principalId":"6ab979fc-ddcd-4d71-84a6-ab2cd2a5e149","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "296"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "10"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:19:24 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu/providers/Microsoft.Authorization/roleAssignments/71350183-d252-4648-9f93-7993b21f9ba7?api-version=2020-08-01-preview
-    method: PUT
-  response:
-    body: '{"error":{"code":"PrincipalNotFound","message":"Principal 6ab979fcddcd4d7184a6ab2cd2a5e149
-      does not exist in the directory 72f988bf-86f1-41af-91ab-2d7cd011db47."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "163"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Set-Cookie:
-      - x-ms-gateway-slice=Production; path=/; secure; samesite=none; httponly
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 400 Bad Request
-    code: 400
-    duration: ""
-- request:
-    body: '{"location":"westus2","name":"71350183-d252-4648-9f93-7993b21f9ba7","properties":{"principalId":"6ab979fc-ddcd-4d71-84a6-ab2cd2a5e149","roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c"}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "296"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "11"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:19:27 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu/providers/Microsoft.Authorization/roleAssignments/71350183-d252-4648-9f93-7993b21f9ba7?api-version=2020-08-01-preview
-    method: PUT
-  response:
-    body: '{"properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c","principalId":"6ab979fc-ddcd-4d71-84a6-ab2cd2a5e149","principalType":"ServicePrincipal","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":null,"updatedBy":"84f47115-7605-44df-accf-7e01c55e425f","delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu/providers/Microsoft.Authorization/roleAssignments/71350183-d252-4648-9f93-7993b21f9ba7","type":"Microsoft.Authorization/roleAssignments","name":"71350183-d252-4648-9f93-7993b21f9ba7"}'
+    body: '{"properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c","principalId":"b4de6890-d9c7-4a70-802b-c2e285c69378","principalType":"ServicePrincipal","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":null,"updatedBy":"34e81c0e-d5e6-478f-8544-2686be295567","delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu/providers/Microsoft.Authorization/roleAssignments/71350183-d252-4648-9f93-7993b21f9ba7","type":"Microsoft.Authorization/roleAssignments","name":"71350183-d252-4648-9f93-7993b21f9ba7"}'
     headers:
       Cache-Control:
       - no-cache
@@ -642,12 +207,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:19:29 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu/providers/Microsoft.Authorization/roleAssignments/71350183-d252-4648-9f93-7993b21f9ba7?api-version=2020-08-01-preview
     method: GET
   response:
-    body: '{"properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c","principalId":"6ab979fc-ddcd-4d71-84a6-ab2cd2a5e149","principalType":"ServicePrincipal","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":"84f47115-7605-44df-accf-7e01c55e425f","updatedBy":"84f47115-7605-44df-accf-7e01c55e425f","delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu/providers/Microsoft.Authorization/roleAssignments/71350183-d252-4648-9f93-7993b21f9ba7","type":"Microsoft.Authorization/roleAssignments","name":"71350183-d252-4648-9f93-7993b21f9ba7"}'
+    body: '{"properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c","principalId":"b4de6890-d9c7-4a70-802b-c2e285c69378","principalType":"ServicePrincipal","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":"34e81c0e-d5e6-478f-8544-2686be295567","updatedBy":"34e81c0e-d5e6-478f-8544-2686be295567","delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu/providers/Microsoft.Authorization/roleAssignments/71350183-d252-4648-9f93-7993b21f9ba7","type":"Microsoft.Authorization/roleAssignments","name":"71350183-d252-4648-9f93-7993b21f9ba7"}'
     headers:
       Cache-Control:
       - no-cache
@@ -676,12 +239,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:19:29 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu/providers/Microsoft.Authorization/roleAssignments/71350183-d252-4648-9f93-7993b21f9ba7?api-version=2020-08-01-preview
     method: GET
   response:
-    body: '{"properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c","principalId":"6ab979fc-ddcd-4d71-84a6-ab2cd2a5e149","principalType":"ServicePrincipal","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":"84f47115-7605-44df-accf-7e01c55e425f","updatedBy":"84f47115-7605-44df-accf-7e01c55e425f","delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu/providers/Microsoft.Authorization/roleAssignments/71350183-d252-4648-9f93-7993b21f9ba7","type":"Microsoft.Authorization/roleAssignments","name":"71350183-d252-4648-9f93-7993b21f9ba7"}'
+    body: '{"properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c","principalId":"b4de6890-d9c7-4a70-802b-c2e285c69378","principalType":"ServicePrincipal","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":"34e81c0e-d5e6-478f-8544-2686be295567","updatedBy":"34e81c0e-d5e6-478f-8544-2686be295567","delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu/providers/Microsoft.Authorization/roleAssignments/71350183-d252-4648-9f93-7993b21f9ba7","type":"Microsoft.Authorization/roleAssignments","name":"71350183-d252-4648-9f93-7993b21f9ba7"}'
     headers:
       Cache-Control:
       - no-cache
@@ -710,12 +271,10 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:19:30 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu/providers/Microsoft.Authorization/roleAssignments/71350183-d252-4648-9f93-7993b21f9ba7?api-version=2020-08-01-preview
     method: DELETE
   response:
-    body: '{"properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c","principalId":"6ab979fc-ddcd-4d71-84a6-ab2cd2a5e149","principalType":"ServicePrincipal","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":"84f47115-7605-44df-accf-7e01c55e425f","updatedBy":"84f47115-7605-44df-accf-7e01c55e425f","delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu/providers/Microsoft.Authorization/roleAssignments/71350183-d252-4648-9f93-7993b21f9ba7","type":"Microsoft.Authorization/roleAssignments","name":"71350183-d252-4648-9f93-7993b21f9ba7"}'
+    body: '{"properties":{"roleDefinitionId":"/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Authorization/roleDefinitions/b24988ac-6180-42a0-ab88-20f7382dd24c","principalId":"b4de6890-d9c7-4a70-802b-c2e285c69378","principalType":"ServicePrincipal","scope":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu","condition":null,"conditionVersion":null,"createdOn":"2001-02-03T04:05:06Z","updatedOn":"2001-02-03T04:05:06Z","createdBy":"34e81c0e-d5e6-478f-8544-2686be295567","updatedBy":"34e81c0e-d5e6-478f-8544-2686be295567","delegatedManagedIdentityResourceId":null,"description":null},"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu/providers/Microsoft.Authorization/roleAssignments/71350183-d252-4648-9f93-7993b21f9ba7","type":"Microsoft.Authorization/roleAssignments","name":"71350183-d252-4648-9f93-7993b21f9ba7"}'
     headers:
       Cache-Control:
       - no-cache
@@ -744,8 +303,6 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "2"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:19:31 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu/providers/Microsoft.Authorization/roleAssignments/71350183-d252-4648-9f93-7993b21f9ba7?api-version=2020-08-01-preview
     method: GET
   response:
@@ -779,8 +336,6 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "3"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:19:35 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu/providers/Microsoft.Authorization/roleAssignments/71350183-d252-4648-9f93-7993b21f9ba7?api-version=2020-08-01-preview
     method: GET
   response:
@@ -814,8 +369,6 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:19:36 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu?api-version=2020-06-01
     method: DELETE
   response:
@@ -848,8 +401,6 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:19:36 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-tbbith?api-version=2018-11-30
     method: DELETE
   response:
@@ -877,9 +428,7 @@ interactions:
       Accept:
       - application/json
       Test-Request-Attempt:
-      - "2"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:19:37 GMT
+      - "1"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu/providers/Microsoft.ManagedIdentity/userAssignedIdentities/asotest-mi-tbbith?api-version=2018-11-30
     method: GET
   response:
@@ -914,456 +463,6 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:19:51 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu?api-version=2020-06-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu","name":"asotest-rg-mnlufu","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "2"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:19:51 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu?api-version=2020-06-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu","name":"asotest-rg-mnlufu","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "3"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:19:51 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu?api-version=2020-06-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu","name":"asotest-rg-mnlufu","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "4"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:19:51 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu?api-version=2020-06-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu","name":"asotest-rg-mnlufu","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "5"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:19:52 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu?api-version=2020-06-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu","name":"asotest-rg-mnlufu","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "6"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:19:52 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu?api-version=2020-06-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu","name":"asotest-rg-mnlufu","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "7"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:19:52 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu?api-version=2020-06-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu","name":"asotest-rg-mnlufu","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "8"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:19:52 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu?api-version=2020-06-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu","name":"asotest-rg-mnlufu","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "9"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:19:53 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu?api-version=2020-06-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu","name":"asotest-rg-mnlufu","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "10"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:19:54 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu?api-version=2020-06-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu","name":"asotest-rg-mnlufu","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "11"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:19:57 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu?api-version=2020-06-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu","name":"asotest-rg-mnlufu","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "12"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:20:02 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu?api-version=2020-06-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu","name":"asotest-rg-mnlufu","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "13"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:20:12 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu?api-version=2020-06-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu","name":"asotest-rg-mnlufu","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "14"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:20:33 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu?api-version=2020-06-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu","name":"asotest-rg-mnlufu","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "15"
-      X-Ms-Date:
-      - Fri, 22 Oct 2021 17:21:14 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-mnlufu?api-version=2020-06-01
     method: GET
   response:

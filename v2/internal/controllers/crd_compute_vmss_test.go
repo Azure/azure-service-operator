@@ -9,16 +9,15 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/Azure/go-autorest/autorest/to"
-	. "github.com/onsi/gomega"
-	v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-
 	compute "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201"
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"github.com/Azure/go-autorest/autorest/to"
+	. "github.com/onsi/gomega"
+	v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 )
 
 func newVMVirtualNetwork(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference) *network.VirtualNetwork {
@@ -235,9 +234,16 @@ func Test_Compute_VMSS_CRUD(t *testing.T) {
 	tc.PatchResourceAndWait(old, vmss)
 	tc.Expect(vmss.Status.VirtualMachineProfile).ToNot(BeNil())
 	tc.Expect(vmss.Status.VirtualMachineProfile.ExtensionProfile).ToNot(BeNil())
-	tc.Expect(vmss.Status.VirtualMachineProfile.ExtensionProfile.Extensions).To(HaveLen(1))
-	tc.Expect(vmss.Status.VirtualMachineProfile.ExtensionProfile.Extensions[0].Name).ToNot(BeNil())
-	tc.Expect(*vmss.Status.VirtualMachineProfile.ExtensionProfile.Extensions[0].Name).To(Equal(extensionName))
+	tc.Expect(len(vmss.Status.VirtualMachineProfile.ExtensionProfile.Extensions)).To(BeNumerically(">", 0))
+
+	found := false
+	for _, extension := range vmss.Status.VirtualMachineProfile.ExtensionProfile.Extensions {
+		tc.Expect(extension.Name).ToNot(BeNil())
+		if *extension.Name == extensionName {
+			found = true
+		}
+	}
+	tc.Expect(found).To(BeTrue())
 
 	// Delete VMSS
 	tc.DeleteResourceAndWait(vmss)
