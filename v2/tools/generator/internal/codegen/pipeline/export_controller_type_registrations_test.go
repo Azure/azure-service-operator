@@ -14,7 +14,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
-func TestEnsureIndexIndexPropertyPathsUnique_ResolvesConflicts(t *testing.T) {
+func TestEnsureIndexPropertyPathsUnique_ResolvesConflicts(t *testing.T) {
 	t.Parallel()
 
 	type tc struct {
