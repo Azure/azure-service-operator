@@ -55,7 +55,8 @@ type Configuration struct {
 	SamplesURL string `yaml:"samplesUrl"`
 	// EmitDocFiles is used as a signal to create doc.go files for packages. If omitted, default is false.
 	EmitDocFiles bool `yaml:"emitDocFiles"`
-
+	// Destination file and additional information for our supported resources report
+	SupportedResourcesReport *SupportedResourcesReport `yaml:"supportedResourcesReport"`
 	// Additional information about our object model
 	ObjectModelConfiguration *ObjectModelConfiguration `yaml:"objectModelConfiguration"`
 
@@ -127,9 +128,13 @@ func (config *Configuration) GetPropertyTransformersError() error {
 
 // NewConfiguration returns a new empty Configuration
 func NewConfiguration() *Configuration {
-	return &Configuration{
+	result := &Configuration{
 		ObjectModelConfiguration: NewObjectModelConfiguration(),
 	}
+
+	result.SupportedResourcesReport = NewSupportedResourcesReport(result)
+
+	return result
 }
 
 // LoadConfiguration loads a `Configuration` from the specified file
