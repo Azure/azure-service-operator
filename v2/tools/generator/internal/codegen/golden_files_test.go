@@ -28,7 +28,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/test"
 )
 
-var goldenTestPackageReference = astmodel.MakeLocalPackageReference(test.GoModulePrefix, "test", astmodel.GeneratorVersion, "20200101")
+var goldenTestPackageReference = astmodel.MakeLocalPackageReference(test.GoModulePrefix, "test", astmodel.GeneratorVersion, "2020-01-01")
 
 type GoldenTestConfig struct {
 	HasARMResources      bool                        `yaml:"hasArmResources"`

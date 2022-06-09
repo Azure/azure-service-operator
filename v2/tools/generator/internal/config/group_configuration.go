@@ -53,7 +53,7 @@ func (gc *GroupConfiguration) addVersion(name string, version *VersionConfigurat
 	local := astmodel.MakeLocalPackageReference("prefix", "group", astmodel.GeneratorVersion, name)
 
 	gc.versions[strings.ToLower(name)] = version
-	gc.versions[strings.ToLower(local.ApiVersion())] = version
+	gc.versions[strings.ToLower(local.Version())] = version
 }
 
 // visitVersion invokes the provided visitor on the specified version if present.
@@ -129,6 +129,7 @@ func (gc *GroupConfiguration) findVersionForLocalPackageReference(ref astmodel.L
 	pkgKey := strings.ToLower(ref.PackageName())
 	if version, ok := gc.versions[pkgKey]; ok {
 		// make sure there's an exact match on the actual version name, so we don't generate a recommendation
+		gc.advisor.AddTerm(version.name)
 		return version, nil
 	}
 
