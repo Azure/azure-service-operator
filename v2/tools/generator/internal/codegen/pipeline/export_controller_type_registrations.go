@@ -79,6 +79,8 @@ func handleSecretPropertyChains(
 	indexFunctions := make([]*functions.IndexRegistrationFunction, 0, len(chains))
 	secretPropertyKeys := make([]string, 0, len(chains))
 
+	ensureIndexPropertyPathsUnique(chains)
+
 	for _, chain := range chains {
 		secretPropertyKey := chain.indexPropertyKey()
 		indexFunction := functions.NewIndexRegistrationFunction(
