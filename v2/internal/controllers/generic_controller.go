@@ -173,7 +173,7 @@ func register(
 		WithOptions(options.Options)
 
 	for _, watch := range info.Watches {
-		builder = builder.Watches(watch.Src, watch.MakeEventHandler(mgr.GetClient(), options.Log.WithName(info.Name)))
+		builder = builder.Watches(watch.Src, watch.MakeEventHandler(kubeClient, options.Log.WithName(info.Name)))
 	}
 
 	err = builder.Complete(reconciler)

@@ -68,6 +68,19 @@ func IfNotNil(toCheck dst.Expr, statements ...dst.Stmt) *dst.IfStmt {
 	}
 }
 
+// IfNil executes a series of statements if the supplied expression is nil
+//
+// if <source> != nil {
+//     <statements>
+// }
+//
+func IfNil(toCheck dst.Expr, statements ...dst.Stmt) *dst.IfStmt {
+	return &dst.IfStmt{
+		Cond: AreEqual(toCheck, Nil()),
+		Body: StatementBlock(statements...),
+	}
+}
+
 // IfOk checks a boolean ok variable and if it is ok runs the given statements
 //
 //	if ok {

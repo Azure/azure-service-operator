@@ -410,6 +410,13 @@ func Nil() *dst.Ident {
 	return dst.NewIdent("nil")
 }
 
+// Continue returns the continue keyword
+func Continue() dst.Stmt {
+	return &dst.BranchStmt{
+		Tok: token.CONTINUE,
+	}
+}
+
 // StatementBlock generates a block containing the supplied statements
 // If we're given a single statement that's already a block, we won't double wrap it
 func StatementBlock(statements ...dst.Stmt) *dst.BlockStmt {

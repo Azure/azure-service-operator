@@ -299,7 +299,7 @@ var responseHeadersToRemove = []string{
 var (
 	dateMatcher     = regexp.MustCompile(`\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(.\d+)?Z`)
 	sshKeyMatcher   = regexp.MustCompile("ssh-rsa [0-9a-zA-Z+/=]+")
-	passwordMatcher = regexp.MustCompile("pass.*?pass")
+	passwordMatcher = regexp.MustCompile("\"pass[^\"]*?pass\"")
 
 	// keyMatcher matches any valid base64 value with at least 10 sets of 4 bytes of data that ends in = or ==.
 	// Both storage account keys and Redis account keys are longer than that and end in = or ==. Note that technically
@@ -323,7 +323,7 @@ func hideSSHKeys(s string) string {
 
 // hidePasswords hides anything that looks like a generated password
 func hidePasswords(s string) string {
-	return passwordMatcher.ReplaceAllLiteralString(s, "{PASSWORD}")
+	return passwordMatcher.ReplaceAllLiteralString(s, "\"{PASSWORD}\"")
 }
 
 func hideKeys(s string) string {
