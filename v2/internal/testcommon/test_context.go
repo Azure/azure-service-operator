@@ -102,6 +102,10 @@ func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
 	}
 	var armClient *genericarmclient.GenericClient
 	armClient, err = genericarmclient.NewGenericClientFromHTTPClient(cloud.AzurePublic.Services[cloud.ResourceManager].Endpoint, creds, httpClient, subscriptionID, metrics.NewARMClientMetrics())
+	if err != nil {
+		logger.Error(err, "failed to get new generic client")
+		t.Fail()
+	}
 
 	t.Cleanup(func() {
 		if !t.Failed() {
