@@ -73,6 +73,11 @@ func (gm *globMatcher) WasMatched() error {
 		strings.Join(choices, ", "))
 }
 
+// IsRestrictive returns false if we are blank or a universal wildcard, true otherwise.
+func (gm *globMatcher) IsRestrictive() bool {
+	return gm.glob != "" && gm.glob != "*"
+}
+
 func (gm *globMatcher) createRegex() {
 	g := regexp.QuoteMeta(gm.glob)
 	g = strings.ReplaceAll(g, "\\*", ".*")

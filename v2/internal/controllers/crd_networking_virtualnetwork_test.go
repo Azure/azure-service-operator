@@ -41,8 +41,8 @@ func Test_Networking_VirtualNetwork_CRUD(t *testing.T) {
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "Subnet CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
-				Subnet_CRUD(testContext, vnet)
+			Test: func(tc *testcommon.KubePerTestContext) {
+				Subnet_CRUD(tc, vnet)
 			},
 		},
 	)

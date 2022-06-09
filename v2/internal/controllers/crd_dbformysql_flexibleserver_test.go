@@ -22,6 +22,9 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
 
+	//location := tc.AzureRegion Capacity crunch in West US 2 makes this not work when live
+	location := "eastus"
+
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	adminPasswordKey := "adminPassword"
@@ -44,7 +47,7 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 	flexibleServer := &mysql.FlexibleServer{
 		ObjectMeta: tc.MakeObjectMeta("mysql"),
 		Spec: mysql.FlexibleServers_Spec{
-			Location: tc.AzureRegion,
+			Location: &location,
 			Owner:    testcommon.AsOwner(rg),
 			Version:  &version,
 			Sku: &mysql.Sku{
@@ -88,14 +91,14 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "MySQL Flexible servers database CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
-				MySQLFlexibleServer_Database_CRUD(testContext, flexibleServer)
+			Test: func(tc *testcommon.KubePerTestContext) {
+				MySQLFlexibleServer_Database_CRUD(tc, flexibleServer)
 			},
 		},
 		testcommon.Subtest{
 			Name: "MySQL Flexible servers firewall CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
-				MySQLFlexibleServer_FirewallRule_CRUD(testContext, flexibleServer)
+			Test: func(tc *testcommon.KubePerTestContext) {
+				MySQLFlexibleServer_FirewallRule_CRUD(tc, flexibleServer)
 			},
 		},
 	)

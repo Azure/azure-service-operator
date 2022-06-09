@@ -75,3 +75,6 @@ dist
 template.json
 
 hack/tools
+
+# Private powershell scripts
+.ps

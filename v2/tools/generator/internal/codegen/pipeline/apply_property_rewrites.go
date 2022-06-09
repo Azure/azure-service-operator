@@ -32,7 +32,7 @@ func ApplyPropertyRewrites(config *config.Configuration) *Stage {
 
 				transformations := config.TransformTypeProperties(name, objectType)
 				for _, transformation := range transformations {
-					klog.V(2).Infof("Transforming %s", transformation)
+					klog.V(3).Infof("Transforming %s", transformation)
 					objectType = transformation.NewType
 				}
 

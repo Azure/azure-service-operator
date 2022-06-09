@@ -98,7 +98,8 @@ func AsEnumType(aType Type) (*EnumType, bool) {
 	return nil, false
 }
 
-// AsTypeName unwraps any wrappers around the provided type and returns either the underlying TypeName and true, or a blank and false.
+// AsTypeName unwraps any wrappers around the provided type and returns either the underlying TypeName and true, or a
+// blank and false.
 func AsTypeName(aType Type) (TypeName, bool) {
 	if name, ok := aType.(TypeName); ok {
 		return name, true
@@ -111,7 +112,8 @@ func AsTypeName(aType Type) (TypeName, bool) {
 	return TypeName{}, false
 }
 
-// AsResourceType unwraps any wrappers around the provided type and returns either the underlying ResourceType and true, or a nil and false.
+// AsResourceType unwraps any wrappers around the provided type and returns either the underlying ResourceType and true,
+// or a nil and false.
 func AsResourceType(aType Type) (*ResourceType, bool) {
 	if name, ok := aType.(*ResourceType); ok {
 		return name, true

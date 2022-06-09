@@ -43,3 +43,29 @@ func TestLiteralMatcher_Matches_GivesExpectedResults(t *testing.T) {
 			})
 	}
 }
+
+func TestLiteralMatcher_IsRestrictive_GivesExpectedResults(t *testing.T) {
+	t.Parallel()
+
+	cases := []struct {
+		name        string
+		literal     string
+		restrictive bool
+	}{
+		{"Empty is not restrictive", "", false},
+		{"Whitespace is not restrictive", "    ", false},
+		{"Content is restrictive", "content", true},
+	}
+
+	for _, c := range cases {
+		c := c
+		t.Run(
+			c.name,
+			func(t *testing.T) {
+				t.Parallel()
+				g := NewGomegaWithT(t)
+				matcher := newLiteralMatcher(c.literal)
+				g.Expect(matcher.IsRestrictive()).To(Equal(c.restrictive))
+			})
+	}
+}
