@@ -262,12 +262,12 @@ func (client *GenericClient) deleteByID(ctx context.Context, resourceID string, 
 	resourceType := metrics.GetTypeFromResourceID(resourceID)
 
 	client.metrics.RecordAzureRequestsTime(resourceType, time.Since(requestStartTime), metrics.HttpDelete)
-	client.metrics.RecordAzureRequestsTotal(resourceType, resp.StatusCode, metrics.HttpDelete)
 
 	if err != nil {
 		client.metrics.RecordAzureFailedRequestsTotal(resourceType, metrics.HttpDelete)
 		return nil, err
 	}
+	client.metrics.RecordAzureRequestsTotal(resourceType, resp.StatusCode, metrics.HttpDelete)
 
 	if !runtime.HasStatusCode(resp, http.StatusOK, http.StatusAccepted, http.StatusNoContent, http.StatusNotFound) {
 		return nil, runtime.NewResponseError(resp)

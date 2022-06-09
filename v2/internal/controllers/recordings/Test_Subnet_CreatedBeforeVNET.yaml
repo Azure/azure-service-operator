@@ -66,13 +66,13 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"location":"westus2","name":"asotest-vn-rosbkx","properties":{"addressSpace":{"addressPrefixes":["10.0.0.0/16"]},"subnets":[{"name":"asotest-subnet-tvejwg","properties":{"addressPrefix":"10.0.0.0/24"}}]}}'
+    body: '{"location":"westus2","name":"asotest-vn-rosbkx","properties":{"addressSpace":{"addressPrefixes":["10.0.0.0/16"]}}}'
     form: {}
     headers:
       Accept:
       - application/json
       Content-Length:
-      - "205"
+      - "115"
       Content-Type:
       - application/json
       Test-Request-Attempt:
@@ -81,28 +81,21 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"asotest-vn-rosbkx\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx\",\r\n
-      \ \"etag\": \"W/\\\"a866782f-9b67-4b9c-99b8-83abe5676ea8\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"5f7fdd42-e0b2-4038-93b6-61f7c375602c\\\"\",\r\n  \"type\":
       \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"9aa27010-5346-4542-b238-1a46b10688f2\",\r\n
+      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"cecf4566-c731-4d9e-9230-1a51fff1a710\",\r\n
       \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/16\"\r\n
-      \     ]\r\n    },\r\n    \"subnets\": [\r\n      {\r\n        \"name\": \"asotest-subnet-tvejwg\",\r\n
-      \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx/subnets/asotest-subnet-tvejwg\",\r\n
-      \       \"etag\": \"W/\\\"a866782f-9b67-4b9c-99b8-83abe5676ea8\\\"\",\r\n        \"properties\":
-      {\r\n          \"provisioningState\": \"Updating\",\r\n          \"addressPrefix\":
-      \"10.0.0.0/24\",\r\n          \"delegations\": [],\r\n          \"privateEndpointNetworkPolicies\":
-      \"Enabled\",\r\n          \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n
-      \       },\r\n        \"type\": \"Microsoft.Network/virtualNetworks/subnets\"\r\n
-      \     }\r\n    ],\r\n    \"virtualNetworkPeerings\": [],\r\n    \"enableDdosProtection\":
-      false\r\n  }\r\n}"
+      \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
+      [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
     headers:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/d26a769f-fefd-47b6-a500-88dc6d2fdec8?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/3ca7ef81-a0b7-4500-9ec7-ab651ec8ab1f?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "1283"
+      - "630"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -122,96 +115,12 @@ interactions:
     code: 201
     duration: ""
 - request:
-    body: '{"name":"asotest-subnet-tvejwg","properties":{"addressPrefix":"10.0.0.0/24"}}'
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Content-Length:
-      - "77"
-      Content-Type:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx/subnets/asotest-subnet-tvejwg?api-version=2020-11-01
-    method: PUT
-  response:
-    body: "{\r\n  \"name\": \"asotest-subnet-tvejwg\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx/subnets/asotest-subnet-tvejwg\",\r\n
-      \ \"etag\": \"W/\\\"73682f23-3bc9-4462-9c4a-1d5ee79f2074\\\"\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
-      \   \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\": \"Enabled\",\r\n
-      \   \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n  },\r\n  \"type\":
-      \"Microsoft.Network/virtualNetworks/subnets\"\r\n}"
-    headers:
-      Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/52ae3f15-3a4f-4558-b20b-8c7d41741642?api-version=2020-11-01
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx/subnets/asotest-subnet-tvejwg?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"name\": \"asotest-subnet-tvejwg\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx/subnets/asotest-subnet-tvejwg\",\r\n
-      \ \"etag\": \"W/\\\"73682f23-3bc9-4462-9c4a-1d5ee79f2074\\\"\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
-      \   \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\": \"Enabled\",\r\n
-      \   \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n  },\r\n  \"type\":
-      \"Microsoft.Network/virtualNetworks/subnets\"\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - W/"73682f23-3bc9-4462-9c4a-1d5ee79f2074"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
     body: ""
     form: {}
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/d26a769f-fefd-47b6-a500-88dc6d2fdec8?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/3ca7ef81-a0b7-4500-9ec7-ab651ec8ab1f?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
@@ -248,26 +157,96 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-vn-rosbkx\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx\",\r\n
-      \ \"etag\": \"W/\\\"73682f23-3bc9-4462-9c4a-1d5ee79f2074\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"f0fa92b3-fb1e-4067-bb03-606b44378d3f\\\"\",\r\n  \"type\":
       \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"9aa27010-5346-4542-b238-1a46b10688f2\",\r\n
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"cecf4566-c731-4d9e-9230-1a51fff1a710\",\r\n
       \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/16\"\r\n
-      \     ]\r\n    },\r\n    \"subnets\": [\r\n      {\r\n        \"name\": \"asotest-subnet-tvejwg\",\r\n
-      \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx/subnets/asotest-subnet-tvejwg\",\r\n
-      \       \"etag\": \"W/\\\"73682f23-3bc9-4462-9c4a-1d5ee79f2074\\\"\",\r\n        \"properties\":
-      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"addressPrefix\":
-      \"10.0.0.0/24\",\r\n          \"delegations\": [],\r\n          \"privateEndpointNetworkPolicies\":
-      \"Enabled\",\r\n          \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n
-      \       },\r\n        \"type\": \"Microsoft.Network/virtualNetworks/subnets\"\r\n
-      \     }\r\n    ],\r\n    \"virtualNetworkPeerings\": [],\r\n    \"enableDdosProtection\":
-      false\r\n  }\r\n}"
+      \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
+      [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"73682f23-3bc9-4462-9c4a-1d5ee79f2074"
+      - W/"f0fa92b3-fb1e-4067-bb03-606b44378d3f"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"name":"asotest-subnet-tvejwg","properties":{"addressPrefix":"10.0.0.0/24"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "77"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx/subnets/asotest-subnet-tvejwg?api-version=2020-11-01
+    method: PUT
+  response:
+    body: "{\r\n  \"name\": \"asotest-subnet-tvejwg\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx/subnets/asotest-subnet-tvejwg\",\r\n
+      \ \"etag\": \"W/\\\"4ebd1d4d-b26e-4e9b-be35-8a1467f0889d\\\"\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
+      \   \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\": \"Enabled\",\r\n
+      \   \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n  },\r\n  \"type\":
+      \"Microsoft.Network/virtualNetworks/subnets\"\r\n}"
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/729f614a-e1f7-4630-b49a-1d22031fc081?api-version=2020-11-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "567"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "3"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/729f614a-e1f7-4630-b49a-1d22031fc081?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
       Expires:
       - "-1"
       Pragma:
@@ -292,15 +271,53 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx/subnets/asotest-subnet-tvejwg?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-subnet-tvejwg\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx/subnets/asotest-subnet-tvejwg\",\r\n
+      \ \"etag\": \"W/\\\"93103a67-8681-464d-8fe2-22fa45a64618\\\"\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
+      \   \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\": \"Enabled\",\r\n
+      \   \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n  },\r\n  \"type\":
+      \"Microsoft.Network/virtualNetworks/subnets\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"93103a67-8681-464d-8fe2-22fa45a64618"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx/subnets/asotest-subnet-tvejwg?api-version=2020-11-01
     method: DELETE
   response:
     body: ""
     headers:
-      Azure-Asyncnotification:
-      - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/e6827ae6-b7c9-4bbd-bcd9-19069a1742a5?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/6f8b664e-f4b7-4591-9d9b-05862a49cbda?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -308,7 +325,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/e6827ae6-b7c9-4bbd-bcd9-19069a1742a5?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/6f8b664e-f4b7-4591-9d9b-05862a49cbda?api-version=2020-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -331,24 +348,27 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx/subnets/asotest-subnet-tvejwg?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx?api-version=2020-11-01
     method: DELETE
   response:
-    body: "{\r\n  \"error\": {\r\n    \"code\": \"AnotherOperationInProgress\",\r\n
-      \   \"message\": \"Another operation on this or dependent resource is in progress.
-      To retrieve status of the operation use uri: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/e6827ae6-b7c9-4bbd-bcd9-19069a1742a5?api-version=2020-11-01.\",\r\n
-      \   \"details\": []\r\n  }\r\n}"
+    body: ""
     headers:
+      Azure-Asyncnotification:
+      - Enabled
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/f06359c8-f158-4bee-afb8-b72870e7a1d2?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "411"
-      Content-Type:
-      - application/json; charset=utf-8
+      - "0"
       Expires:
       - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/f06359c8-f158-4bee-afb8-b72870e7a1d2?api-version=2020-11-01
       Pragma:
       - no-cache
+      Retry-After:
+      - "10"
       Server:
       - Microsoft-HTTPAPI/2.0
       - Microsoft-HTTPAPI/2.0
@@ -356,8 +376,8 @@ interactions:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
       - nosniff
-    status: 409 Conflict
-    code: 409
+    status: 202 Accepted
+    code: 202
     duration: ""
 - request:
     body: ""
@@ -400,7 +420,7 @@ interactions:
       Test-Request-Attempt:
       - "1"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx/subnets/asotest-subnet-tvejwg?api-version=2020-11-01
-    method: DELETE
+    method: GET
   response:
     body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Network/virtualNetworks/asotest-vn-rosbkx''
       under resource group ''asotest-rg-gfhebn'' was not found. For more details please
@@ -436,13 +456,14 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx?api-version=2020-11-01
     method: GET
   response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-gfhebn''
-      could not be found."}}'
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Network/virtualNetworks/asotest-vn-rosbkx''
+      under resource group ''asotest-rg-gfhebn'' was not found. For more details please
+      go to https://aka.ms/ARMResourceNotFoundFix"}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Length:
-      - "109"
+      - "240"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -467,39 +488,6 @@ interactions:
       Test-Request-Attempt:
       - "1"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn?api-version=2020-06-01
-    method: GET
-  response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-gfhebn''
-      could not be found."}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "109"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-gfhebn/providers/Microsoft.Network/virtualNetworks/asotest-vn-rosbkx/subnets/asotest-subnet-tvejwg?api-version=2020-11-01
     method: GET
   response:
     body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-gfhebn''

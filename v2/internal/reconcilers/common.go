@@ -12,6 +12,7 @@ import (
 
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
+	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	ctrl "sigs.k8s.io/controller-runtime"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
@@ -69,7 +70,7 @@ type ARMOwnedResourceReconcilerCommon struct {
 
 // NeedsToWaitForOwner returns false if the owner doesn't need to be waited for, and true if it does.
 func (r *ARMOwnedResourceReconcilerCommon) NeedsToWaitForOwner(ctx context.Context, log logr.Logger, obj genruntime.ARMOwnedMetaObject) (bool, error) {
-	_, err := r.ResourceResolver.ResolveOwner(ctx, obj)
+	owner, err := r.ResourceResolver.ResolveOwner(ctx, obj)
 	if err != nil {
 		var typedErr *resolver.ReferenceNotFound
 		if errors.As(err, &typedErr) {
@@ -78,6 +79,25 @@ func (r *ARMOwnedResourceReconcilerCommon) NeedsToWaitForOwner(ctx context.Conte
 		}
 
 		return true, errors.Wrap(err, "failed to get owner")
+	}
+
+	// No need to wait for resources that don't have an owner
+	if owner == nil {
+		return false, nil
+	}
+
+	// If the owner isn't ready, wait
+	ready := genruntime.GetReadyCondition(owner)
+	isOwnerReady := ready != nil && ready.Status == metav1.ConditionTrue
+	if !isOwnerReady {
+		var readyStr string
+		if ready == nil {
+			readyStr = "<nil>"
+		} else {
+			readyStr = ready.String()
+		}
+		log.V(Info).Info("Owner exists but is not ready. Current condition", "ready", readyStr)
+		return true, nil
 	}
 
 	return false, nil
