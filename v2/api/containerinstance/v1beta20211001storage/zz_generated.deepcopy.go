@@ -1791,7 +1791,7 @@ func (in *ImageRegistryCredential) DeepCopyInto(out *ImageRegistryCredential) {
 	}
 	if in.Password != nil {
 		in, out := &in.Password, &out.Password
-		*out = new(string)
+		*out = new(genruntime.SecretReference)
 		**out = **in
 	}
 	if in.PropertyBag != nil {

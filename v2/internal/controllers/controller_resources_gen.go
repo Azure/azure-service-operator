@@ -230,9 +230,19 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{},
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(containerinstance_v20211001s.ContainerGroup),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(containerinstance_v20211001s.ContainerGroup),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.imageRegistryCredentials.password",
+				Func: indexContainerinstanceContainerGroupPassword,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.imageRegistryCredentials.password"}, &containerinstance_v20211001s.ContainerGroupList{}),
+			},
+		},
 	})
 	result = append(result, &registration.StorageType{
 		Obj:     new(containerregistry_v20210901s.Registry),
@@ -1073,6 +1083,22 @@ func indexComputeVirtualMachineScaleSetAdminPassword(rawObj client.Object) []str
 		return nil
 	}
 	return []string{obj.Spec.VirtualMachineProfile.OsProfile.AdminPassword.Name}
+}
+
+// indexContainerinstanceContainerGroupPassword an index function for containerinstance_v20211001s.ContainerGroup .spec.imageRegistryCredentials.password
+func indexContainerinstanceContainerGroupPassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*containerinstance_v20211001s.ContainerGroup)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, imageRegistryCredentialItem := range obj.Spec.ImageRegistryCredentials {
+		if imageRegistryCredentialItem.Password == nil {
+			continue
+		}
+		result = append(result, imageRegistryCredentialItem.Password.Name)
+	}
+	return result
 }
 
 // indexDbformariadbServerAdministratorLoginPassword an index function for dbformariadb_v20180601s.Server .spec.properties.serverPropertiesForDefaultCreate.administratorLoginPassword

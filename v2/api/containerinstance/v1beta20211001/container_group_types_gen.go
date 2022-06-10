@@ -4335,7 +4335,7 @@ type ImageRegistryCredential struct {
 	IdentityUrl *string `json:"identityUrl,omitempty"`
 
 	// Password: The password for the private registry.
-	Password *string `json:"password,omitempty"`
+	Password *genruntime.SecretReference `json:"password,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Server: The Docker image registry server without a protocol such as "http" and "https".
@@ -4369,7 +4369,11 @@ func (credential *ImageRegistryCredential) ConvertToARM(resolved genruntime.Conv
 
 	// Set property ‘Password’:
 	if credential.Password != nil {
-		password := *credential.Password
+		passwordSecret, err := resolved.ResolvedSecrets.LookupSecret(*credential.Password)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property Password")
+		}
+		password := passwordSecret
 		result.Password = &password
 	}
 
@@ -4411,11 +4415,7 @@ func (credential *ImageRegistryCredential) PopulateFromARM(owner genruntime.Arbi
 		credential.IdentityUrl = &identityUrl
 	}
 
-	// Set property ‘Password’:
-	if typedInput.Password != nil {
-		password := *typedInput.Password
-		credential.Password = &password
-	}
+	// no assignment for property ‘Password’
 
 	// Set property ‘Server’:
 	if typedInput.Server != nil {
@@ -4443,7 +4443,12 @@ func (credential *ImageRegistryCredential) AssignPropertiesFromImageRegistryCred
 	credential.IdentityUrl = genruntime.ClonePointerToString(source.IdentityUrl)
 
 	// Password
-	credential.Password = genruntime.ClonePointerToString(source.Password)
+	if source.Password != nil {
+		password := source.Password.Copy()
+		credential.Password = &password
+	} else {
+		credential.Password = nil
+	}
 
 	// Server
 	credential.Server = genruntime.ClonePointerToString(source.Server)
@@ -4467,7 +4472,12 @@ func (credential *ImageRegistryCredential) AssignPropertiesToImageRegistryCreden
 	destination.IdentityUrl = genruntime.ClonePointerToString(credential.IdentityUrl)
 
 	// Password
-	destination.Password = genruntime.ClonePointerToString(credential.Password)
+	if credential.Password != nil {
+		password := credential.Password.Copy()
+		destination.Password = &password
+	} else {
+		destination.Password = nil
+	}
 
 	// Server
 	destination.Server = genruntime.ClonePointerToString(credential.Server)

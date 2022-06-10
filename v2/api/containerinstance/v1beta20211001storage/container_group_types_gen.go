@@ -365,12 +365,12 @@ type EncryptionProperties_Status struct {
 // Storage version of v1beta20211001.ImageRegistryCredential
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ImageRegistryCredential
 type ImageRegistryCredential struct {
-	Identity    *string                `json:"identity,omitempty"`
-	IdentityUrl *string                `json:"identityUrl,omitempty"`
-	Password    *string                `json:"password,omitempty"`
-	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Server      *string                `json:"server,omitempty"`
-	Username    *string                `json:"username,omitempty"`
+	Identity    *string                     `json:"identity,omitempty"`
+	IdentityUrl *string                     `json:"identityUrl,omitempty"`
+	Password    *genruntime.SecretReference `json:"password,omitempty"`
+	PropertyBag genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	Server      *string                     `json:"server,omitempty"`
+	Username    *string                     `json:"username,omitempty"`
 }
 
 // Storage version of v1beta20211001.ImageRegistryCredential_Status

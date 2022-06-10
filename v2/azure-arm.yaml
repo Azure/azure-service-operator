@@ -755,6 +755,9 @@ objectModelConfiguration:
       ContainerGroupSubnetId:
         Id:
           $armReference: true
+      ImageRegistryCredential:
+        Password:
+          $isSecret: true
   containerregistry:
     2021-09-01:
       Registry:
