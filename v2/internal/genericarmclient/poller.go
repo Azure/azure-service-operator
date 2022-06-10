@@ -18,7 +18,6 @@ import (
 // operation URL) and a RawResponse containing the raw HTTP response.
 type PollerResponse struct {
 	// Poller contains an initialized poller.
-	//TODO: Keeping the generic type as string here.. Should we narrow it down to a type?
 	Poller *azcoreruntime.Poller[GenericResource]
 
 	// ID is the ID of the poller (not the ID of the resource). This is used to prevent another kind of poller from
