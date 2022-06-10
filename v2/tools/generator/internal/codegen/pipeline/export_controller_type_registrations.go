@@ -12,6 +12,8 @@ import (
 
 	"github.com/pkg/errors"
 
+	"github.com/Azure/azure-service-operator/v2/internal/set"
+
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/functions"
 )
@@ -71,21 +73,23 @@ func ExportControllerResourceRegistrations(idFactory astmodel.IdentifierFactory,
 }
 
 func handleSecretPropertyChains(
-	chains [][]*astmodel.PropertyDefinition,
+	chains []*propertyChain,
 	idFactory astmodel.IdentifierFactory,
 	def astmodel.TypeDefinition,
 ) ([]*functions.IndexRegistrationFunction, []string) {
 	indexFunctions := make([]*functions.IndexRegistrationFunction, 0, len(chains))
 	secretPropertyKeys := make([]string, 0, len(chains))
 
+	ensureIndexPropertyPathsUnique(chains)
+
 	for _, chain := range chains {
-		secretPropertyKey := makeIndexPropertyKey(chain)
+		secretPropertyKey := chain.indexPropertyKey()
 		indexFunction := functions.NewIndexRegistrationFunction(
 			idFactory,
-			makeUniqueIndexMethodName(idFactory, def.Name(), chain),
+			chain.indexMethodName(idFactory, def.Name()),
 			def.Name(),
 			secretPropertyKey,
-			chain)
+			chain.properties())
 		indexFunctions = append(indexFunctions, indexFunction)
 		secretPropertyKeys = append(secretPropertyKeys, secretPropertyKey)
 	}
@@ -93,7 +97,77 @@ func handleSecretPropertyChains(
 	return indexFunctions, secretPropertyKeys
 }
 
-func catalogSecretPropertyChains(def astmodel.TypeDefinition, definitions astmodel.TypeDefinitionSet) ([][]*astmodel.PropertyDefinition, error) {
+// ensureIndexPropertyPathsUnique looks for conflicting index property paths (which would lead to conflicting index
+// method names) ensures they all produce unique names.
+func ensureIndexPropertyPathsUnique(chains []*propertyChain) {
+	// First mark all the properties at the end of each chain as required
+	for _, chain := range chains {
+		chain.requiredForPropertyPath = true
+	}
+
+	// Look until either we have no collisions, or we can't resolve them
+	for {
+		// Look for collisions
+		chainsByName := make(map[string][]*propertyChain)
+		for _, chain := range chains {
+			methodName := chain.indexPropertyPath()
+			chainsByName[methodName] = append(chainsByName[methodName], chain)
+		}
+
+		// For any collision we find (where two or more chains share the same method name), try to resolve it
+		pathsChanged := false
+		for _, collidingChains := range chainsByName {
+			if len(collidingChains) > 1 && tryResolvePropertyPathCollision(collidingChains) {
+				pathsChanged = true
+			}
+		}
+
+		if !pathsChanged {
+			break
+		}
+	}
+}
+
+// tryResolvePropertyPathCollision tries to resolve a collision between multiple chains, returning true if it was able
+// to make a change (this allows us to terminate if no change is made, ensuring we don't end up in an infinite loop).
+// If the parents of our colliding properties have different names, we can disambiguate by including the parent name
+// in the property path. If all the parents have the same name, we recursively look at their parents until we find
+// either a different name, or we run out of parents.
+func tryResolvePropertyPathCollision(chains []*propertyChain) bool {
+	// Isolate all unique parents
+	parents := set.Make[*propertyChain]()
+	for _, chain := range chains {
+		if chain.root != nil {
+			parents.Add(chain.root)
+		}
+	}
+
+	if len(parents) == 0 {
+		// No parents, nothing to do
+		return false
+	}
+
+	// Check for parents with different names
+	names := set.Make[string]()
+	for _, parent := range parents.Values() {
+		name := string(parent.prop.PropertyName())
+		names.Add(name)
+	}
+
+	if len(names) == 1 {
+		// All parents have the same name, try resolving with their parents instead
+		return tryResolvePropertyPathCollision(parents.Values())
+	}
+
+	// We have parents and their names differ, use those names in the property path
+	for _, parent := range parents.Values() {
+		parent.requiredForPropertyPath = true
+	}
+
+	return true
+}
+
+func catalogSecretPropertyChains(def astmodel.TypeDefinition, definitions astmodel.TypeDefinitionSet) ([]*propertyChain, error) {
 	indexBuilder := &indexFunctionBuilder{}
 
 	visitor := astmodel.TypeVisitorBuilder{
@@ -106,7 +180,7 @@ func catalogSecretPropertyChains(def astmodel.TypeDefinition, definitions astmod
 			return ctx, nil
 		}
 
-		return indexFunctionBuilderContext{}, nil
+		return newPropertyChain(), nil
 	}
 
 	_, err := walker.Walk(def)
@@ -118,71 +192,109 @@ func catalogSecretPropertyChains(def astmodel.TypeDefinition, definitions astmod
 }
 
 type indexFunctionBuilder struct {
-	propChains [][]*astmodel.PropertyDefinition
+	propChains []*propertyChain
 }
 
-type indexFunctionBuilderContext struct {
-	props []*astmodel.PropertyDefinition
+// propertyChain represents an chain of properties that can be used to index a secret on a resource. Each chain is made
+// up of a leaf property and a reference to a (potentially shared) parent chain. Sharing these parents keeps memory
+// consumption down, while also allowing us to include properties partway along the path to resolve ambiguities when
+// generating method names.
+type propertyChain struct {
+	root                    *propertyChain
+	prop                    *astmodel.PropertyDefinition
+	requiredForPropertyPath bool
 }
 
-func (ctx indexFunctionBuilderContext) clone() indexFunctionBuilderContext {
-	duplicate := append([]*astmodel.PropertyDefinition(nil), ctx.props...)
-	return indexFunctionBuilderContext{props: duplicate}
+// newPropertyChain returns a new chain with no properties.
+func newPropertyChain() *propertyChain {
+	return &propertyChain{
+		root: nil,
+		prop: nil,
+	}
 }
 
-func preservePropertyContext(_ *astmodel.ObjectType, prop *astmodel.PropertyDefinition, ctx interface{}) (interface{}, error) {
-	typedCtx := ctx.(indexFunctionBuilderContext)
-	newCtx := typedCtx.clone()
-	newCtx.props = append(newCtx.props, prop)
-	return newCtx, nil
+// add returns a new chain that includes the given property at the end of the chain.
+func (chain *propertyChain) add(prop *astmodel.PropertyDefinition) *propertyChain {
+	return &propertyChain{
+		root: chain,
+		prop: prop,
+	}
+}
+
+// properties returns the properties in the chain in a new slice.
+func (chain *propertyChain) properties() []*astmodel.PropertyDefinition {
+	var result []*astmodel.PropertyDefinition
+	if chain.root != nil {
+		result = chain.root.properties()
+	}
+
+	if chain.prop != nil {
+		result = append(result, chain.prop)
+	}
+
+	return result
+}
+
+func preservePropertyChain(_ *astmodel.ObjectType, prop *astmodel.PropertyDefinition, ctx interface{}) (interface{}, error) {
+	chain := ctx.(*propertyChain)
+
+	return chain.add(prop), nil
 }
 
 func (b *indexFunctionBuilder) catalogSecretProperties(this *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
-	typedCtx := ctx.(indexFunctionBuilderContext)
+	chain := ctx.(*propertyChain)
 
 	it.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
 		if prop.IsSecret() {
-			newCtx := typedCtx.clone()
-			newCtx.props = append(newCtx.props, prop)
-			b.propChains = append(b.propChains, newCtx.props)
+			b.propChains = append(b.propChains, chain.add(prop))
 		}
 	})
 
-	identityVisit := astmodel.MakeIdentityVisitOfObjectType(preservePropertyContext)
+	identityVisit := astmodel.MakeIdentityVisitOfObjectType(preservePropertyChain)
 	return identityVisit(this, it, ctx)
 }
 
-func makeUniqueIndexMethodName(
+func (chain *propertyChain) indexMethodName(
 	idFactory astmodel.IdentifierFactory,
 	resourceTypeName astmodel.TypeName,
-	propertyChain []*astmodel.PropertyDefinition,
 ) string {
-	// TODO: Technically speaking it's still possible to generate names that clash here, although it's pretty
-	// TODO: unlikely. Do we need to do more?
-
-	lastProp := propertyChain[len(propertyChain)-1]
-
 	group, _ := resourceTypeName.PackageReference.GroupVersion()
 	return fmt.Sprintf("index%s%s%s",
 		idFactory.CreateIdentifier(group, astmodel.Exported),
 		resourceTypeName.Name(),
-		lastProp.PropertyName())
+		chain.indexPropertyPath())
 }
 
-// makeIndexPropertyKey makes an indexable key for this property chain. Note that this key is just a string. The fact
+// indexPropertyPath returns the path of the property in the chain, using only those properties that have been flagged
+func (chain *propertyChain) indexPropertyPath() string {
+	var result string
+	if chain.root != nil {
+		result = chain.root.indexPropertyPath()
+	}
+
+	if chain.requiredForPropertyPath {
+		result += chain.prop.PropertyName().String()
+	}
+
+	return result
+}
+
+// indexPropertyKey makes an indexable key for this property chain. Note that this key is just a string. The fact
 // that it looks like a jsonpath expression is purely coincidental. The key may refer to a property that is actually
 // a member of a collection, such as .spec.secretsCollection.password. This is OK because the key is just a string
 // and all that string is doing is uniquely representing this field.
-func makeIndexPropertyKey(propertyChain []*astmodel.PropertyDefinition) string {
+func (chain *propertyChain) indexPropertyKey() string {
 	values := []string{
 		".spec",
 	}
-	for _, prop := range propertyChain {
+	for _, prop := range chain.properties() {
 		name, ok := prop.JSONName()
 		if !ok {
 			panic(fmt.Sprintf("property %s has no JSON name", prop.PropertyName()))
 		}
+
 		values = append(values, name)
 	}
+
 	return strings.Join(values, ".")
 }
