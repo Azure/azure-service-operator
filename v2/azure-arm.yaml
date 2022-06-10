@@ -744,6 +744,20 @@ objectModelConfiguration:
       SubResource:
         Id:
           $armReference: true
+  containerinstance:
+    2021-10-01:
+      ContainerGroup:
+        $export: true
+        $supportedFrom: v2.0.0-beta.1
+      LogAnalytics:
+        WorkspaceResourceId:
+          $armReference: true
+      ContainerGroupSubnetId:
+        Id:
+          $armReference: true
+      ImageRegistryCredential:
+        Password:
+          $isSecret: true
   containerregistry:
     2021-09-01:
       Registry:

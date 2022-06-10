@@ -39,6 +39,9 @@ import (
 	compute_v20201201s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage"
 	compute_v20210701 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20210701"
 	compute_v20210701s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20210701storage"
+	containerinstance_customizations "github.com/Azure/azure-service-operator/v2/api/containerinstance/customizations"
+	containerinstance_v20211001 "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1beta20211001"
+	containerinstance_v20211001s "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1beta20211001storage"
 	containerregistry_customizations "github.com/Azure/azure-service-operator/v2/api/containerregistry/customizations"
 	containerregistry_alpha20210901 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1alpha1api20210901"
 	containerregistry_alpha20210901s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1alpha1api20210901storage"
@@ -225,6 +228,21 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Obj:     new(compute_v20210701s.Image),
 		Indexes: []registration.Index{},
 		Watches: []registration.Watch{},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(containerinstance_v20211001s.ContainerGroup),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.imageRegistryCredentials.password",
+				Func: indexContainerinstanceContainerGroupPassword,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.imageRegistryCredentials.password"}, &containerinstance_v20211001s.ContainerGroupList{}),
+			},
+		},
 	})
 	result = append(result, &registration.StorageType{
 		Obj:     new(containerregistry_v20210901s.Registry),
@@ -618,6 +636,8 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(compute_v20201201s.VirtualMachineScaleSet))
 	result = append(result, new(compute_v20210701.Image))
 	result = append(result, new(compute_v20210701s.Image))
+	result = append(result, new(containerinstance_v20211001.ContainerGroup))
+	result = append(result, new(containerinstance_v20211001s.ContainerGroup))
 	result = append(result, new(containerregistry_alpha20210901.Registry))
 	result = append(result, new(containerregistry_alpha20210901s.Registry))
 	result = append(result, new(containerregistry_v20210901.Registry))
@@ -881,6 +901,8 @@ func createScheme() *runtime.Scheme {
 	_ = compute_v20201201s.AddToScheme(scheme)
 	_ = compute_v20210701.AddToScheme(scheme)
 	_ = compute_v20210701s.AddToScheme(scheme)
+	_ = containerinstance_v20211001.AddToScheme(scheme)
+	_ = containerinstance_v20211001s.AddToScheme(scheme)
 	_ = containerregistry_alpha20210901.AddToScheme(scheme)
 	_ = containerregistry_alpha20210901s.AddToScheme(scheme)
 	_ = containerregistry_v20210901.AddToScheme(scheme)
@@ -966,6 +988,7 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &compute_customizations.SnapshotExtension{})
 	result = append(result, &compute_customizations.VirtualMachineExtension{})
 	result = append(result, &compute_customizations.VirtualMachineScaleSetExtension{})
+	result = append(result, &containerinstance_customizations.ContainerGroupExtension{})
 	result = append(result, &containerregistry_customizations.RegistryExtension{})
 	result = append(result, &containerservice_customizations.ManagedClusterExtension{})
 	result = append(result, &containerservice_customizations.ManagedClustersAgentPoolExtension{})
@@ -1060,6 +1083,22 @@ func indexComputeVirtualMachineScaleSetAdminPassword(rawObj client.Object) []str
 		return nil
 	}
 	return []string{obj.Spec.VirtualMachineProfile.OsProfile.AdminPassword.Name}
+}
+
+// indexContainerinstanceContainerGroupPassword an index function for containerinstance_v20211001s.ContainerGroup .spec.imageRegistryCredentials.password
+func indexContainerinstanceContainerGroupPassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*containerinstance_v20211001s.ContainerGroup)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, imageRegistryCredentialItem := range obj.Spec.ImageRegistryCredentials {
+		if imageRegistryCredentialItem.Password == nil {
+			continue
+		}
+		result = append(result, imageRegistryCredentialItem.Password.Name)
+	}
+	return result
 }
 
 // indexDbformariadbServerAdministratorLoginPassword an index function for dbformariadb_v20180601s.Server .spec.properties.serverPropertiesForDefaultCreate.administratorLoginPassword

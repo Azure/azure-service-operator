@@ -57,6 +57,12 @@ These are the resources with Azure Service Operator support committed to our **m
 | VirtualMachineScaleSet | 2020-12-01  | v1beta20201201      | v2.0.0-beta.0  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/compute/v1beta20201201_virtualmachinescaleset.yaml)      |
 | VirtualMachineScaleSet | 2020-12-01  | v1alpha1api20201201 | v2.0.0-alpha.1 | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/compute/v1alpha1api20201201_virtualmachinescaleset.yaml) |
 
+## Containerinstance
+
+| Resource       | ARM Version | CRD Version    | Supported From | Sample                                                                                                                                   |
+|----------------|-------------|----------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------|
+| ContainerGroup | 2021-10-01  | v1beta20211001 | v2.0.0-beta.1  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/containerinstance/v1beta20211001_containergroup.yaml) |
+
 ## Containerregistry
 
 | Resource | ARM Version | CRD Version         | Supported From | Sample                                                                                                                                  |
