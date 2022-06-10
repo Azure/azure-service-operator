@@ -23,10 +23,10 @@ func TestMakeLocalPackageReference_GivenGroupAndPackage_ReturnsInstanceWithPrope
 	t.Parallel()
 
 	cases := []struct {
-		name    string
-		group   string
-		version string
-		pkg     string
+		name       string
+		group      string
+		apiVersion string
+		pkg        string
 	}{
 		{"Networking", "microsoft.networking", "2020-09-01", "v20200901"},
 		{"Batch (new)", "microsoft.batch", "2020-09-01", "v20200901"},
@@ -38,12 +38,10 @@ func TestMakeLocalPackageReference_GivenGroupAndPackage_ReturnsInstanceWithPrope
 			t.Parallel()
 			g := NewGomegaWithT(t)
 
-			ref := makeTestLocalPackageReference(c.group, c.version)
-			grp := ref.Group()
-			pkg := ref.PackageName()
-
-			g.Expect(grp).To(Equal(c.group))
-			g.Expect(pkg).To(Equal(c.pkg))
+			ref := makeTestLocalPackageReference(c.group, c.apiVersion)
+			g.Expect(ref.Group()).To(Equal(c.group))
+			g.Expect(ref.PackageName()).To(Equal(c.pkg))
+			g.Expect(ref.ApiVersion()).To(Equal(c.apiVersion))
 		})
 	}
 }

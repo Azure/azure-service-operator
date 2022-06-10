@@ -217,13 +217,13 @@ func (r *azureDeploymentReconcilerInstance) StartDeleteOfResource(ctx context.Co
 	hasFinalizer := controllerutil.ContainsFinalizer(r.Obj, reconcilers.GenericControllerFinalizer)
 	resourceID := genruntime.GetResourceIDOrDefault(r.Obj)
 	if resourceID == "" || !hasFinalizer {
-		return ctrl.Result{}, r.deleteResourceSucceeded(ctx)
+		return ctrl.Result{}, r.RemoveResourceFinalizer(ctx, r.Log, r.Obj)
 	}
 
 	reconcilePolicy := reconcilers.GetReconcilePolicy(r.Obj, r.Log)
 	if !reconcilePolicy.AllowsDelete() {
 		r.Log.V(Info).Info("Bypassing delete of resource in Azure due to policy", "policy", reconcilePolicy)
-		return ctrl.Result{}, r.deleteResourceSucceeded(ctx)
+		return ctrl.Result{}, r.RemoveResourceFinalizer(ctx, r.Log, r.Obj)
 	}
 
 	// Check that this objects owner still exists
@@ -232,7 +232,7 @@ func (r *azureDeploymentReconcilerInstance) StartDeleteOfResource(ctx context.Co
 	if err != nil {
 		var typedErr *resolver.ReferenceNotFound
 		if errors.As(err, &typedErr) {
-			return ctrl.Result{}, r.deleteResourceSucceeded(ctx)
+			return ctrl.Result{}, r.RemoveResourceFinalizer(ctx, r.Log, r.Obj)
 		}
 	}
 
@@ -261,7 +261,7 @@ func (r *azureDeploymentReconcilerInstance) MonitorDelete(ctx context.Context) (
 	hasFinalizer := controllerutil.ContainsFinalizer(r.Obj, reconcilers.GenericControllerFinalizer)
 	if !hasFinalizer {
 		r.Log.V(Status).Info("Resource no longer has finalizer, moving deletion to success")
-		return ctrl.Result{}, r.deleteResourceSucceeded(ctx)
+		return ctrl.Result{}, r.RemoveResourceFinalizer(ctx, r.Log, r.Obj)
 	}
 
 	msg := "Continue monitoring deletion"
@@ -289,8 +289,8 @@ func (r *azureDeploymentReconcilerInstance) MonitorDelete(ctx context.Context) (
 		return ctrl.Result{Requeue: true}, nil
 	}
 
-	// TODO: Transfer the below into controller?
-	err = r.deleteResourceSucceeded(ctx)
+	// TODO: Transfer the below into the generic controller?
+	err = r.RemoveResourceFinalizer(ctx, r.Log, r.Obj)
 
 	return ctrl.Result{}, err
 }
@@ -523,22 +523,6 @@ func (r *azureDeploymentReconcilerInstance) updateStatus(ctx context.Context) er
 	return nil
 }
 
-// TODO: it's not clear if we want to reserve updates of the resource to the controller itself (and keep KubeClient out of the azureDeploymentReconcilerInstance)
-func (r *azureDeploymentReconcilerInstance) deleteResourceSucceeded(ctx context.Context) error {
-	controllerutil.RemoveFinalizer(r.Obj, reconcilers.GenericControllerFinalizer)
-	err := r.CommitUpdate(ctx, r.Log, r.Obj)
-
-	// We must also ignore conflict here because updating a resource that
-	// doesn't exist returns conflict unfortunately: https://github.com/kubernetes/kubernetes/issues/89985
-	err = reconcilers.IgnoreNotFoundAndConflict(err)
-	if err != nil {
-		return err
-	}
-
-	r.Log.V(Status).Info("Deleted resource")
-	return nil
-}
-
 // saveAzureSecrets retrieves secrets from Azure and saves them to Kubernetes.
 // If there are no secrets to save this method is a no-op.
 func (r *azureDeploymentReconcilerInstance) saveAzureSecrets(ctx context.Context) error {
@@ -605,7 +589,7 @@ func ConvertToARMResourceImpl(
 
 	resourceHierarchy, resolvedDetails, err := resolver.ResolveAll(ctx, metaObject)
 	if err != nil {
-		return nil, ClassifyResolverError(err)
+		return nil, reconcilers.ClassifyResolverError(err)
 	}
 
 	armSpec, err := armTransformer.ConvertToARM(resolvedDetails)
@@ -625,15 +609,4 @@ func ConvertToARMResourceImpl(
 
 	result := genruntime.NewARMResource(typedArmSpec, nil, armID)
 	return result, nil
-}
-
-func ClassifyResolverError(err error) error {
-	// If it's specifically secret not found, say so
-	var typedErr *resolver.SecretNotFound
-	if errors.As(err, &typedErr) {
-		return conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityWarning, conditions.ReasonSecretNotFound)
-	}
-	// Everything else is ReferenceNotFound. This is maybe a bit of a lie but secrets are also references and we want to make sure
-	// everything is classified as something, so for now it's good enough.
-	return conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityWarning, conditions.ReasonReferenceNotFound)
 }

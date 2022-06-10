@@ -173,7 +173,7 @@ func register(
 		WithOptions(options.Options)
 
 	for _, watch := range info.Watches {
-		builder = builder.Watches(watch.Src, watch.MakeEventHandler(mgr.GetClient(), options.Log.WithName(info.Name)))
+		builder = builder.Watches(watch.Src, watch.MakeEventHandler(kubeClient, options.Log.WithName(info.Name)))
 	}
 
 	err = builder.Complete(reconciler)
@@ -243,6 +243,7 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 
 	result, err := gr.Reconciler.Reconcile(ctx, log, gr.Recorder, metaObj)
 	if readyErr, ok := conditions.AsReadyConditionImpactingError(err); ok {
+		log.Error(readyErr, "Encountered error impacting Ready condition")
 		err = gr.WriteReadyConditionError(ctx, metaObj, readyErr)
 	}
 
