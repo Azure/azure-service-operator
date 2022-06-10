@@ -33,8 +33,8 @@ func (mockTokenCred) NewAuthenticationPolicy() policy.Policy {
 	})
 }
 
-func (mockTokenCred) GetToken(context.Context, policy.TokenRequestOptions) (*azcore.AccessToken, error) {
-	return &azcore.AccessToken{
+func (mockTokenCred) GetToken(context.Context, policy.TokenRequestOptions) (azcore.AccessToken, error) {
+	return azcore.AccessToken{
 		Token:     "abc123",
 		ExpiresOn: time.Now().Add(1 * time.Hour),
 	}, nil

@@ -19,7 +19,7 @@ import (
 	"testing"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
-	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
 	"github.com/dnaeon/go-vcr/cassette"
 	"github.com/dnaeon/go-vcr/recorder"
 	"github.com/go-logr/logr"
@@ -99,8 +99,12 @@ func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
 	httpClient := &http.Client{
 		Transport: addCountHeader(translateErrors(recorder, cassetteName, t)),
 	}
-
-	armClient := genericarmclient.NewGenericClientFromHTTPClient(arm.AzurePublicCloud, creds, httpClient, subscriptionID, metrics.NewARMClientMetrics())
+	var armClient *genericarmclient.GenericClient
+	armClient, err = genericarmclient.NewGenericClientFromHTTPClient(cloud.AzurePublic.Services[cloud.ResourceManager].Endpoint, creds, httpClient, subscriptionID, metrics.NewARMClientMetrics())
+	if err != nil {
+		logger.Error(err, "failed to get new generic client")
+		t.Fail()
+	}
 
 	t.Cleanup(func() {
 		if !t.Failed() {
