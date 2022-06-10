@@ -59,7 +59,11 @@ func (ext *DatabaseAccountExtension) RetrieveSecrets(
 		subscription := armClient.SubscriptionID()
 		// Using armClient.ClientOptions() here ensures we share the same HTTP connection, so this is not opening a new
 		// connection each time through
-		acctClient := armcosmos.NewDatabaseAccountsClient(subscription, armClient.Creds(), armClient.ClientOptions())
+		var acctClient *armcosmos.DatabaseAccountsClient
+		acctClient, err = armcosmos.NewDatabaseAccountsClient(subscription, armClient.Creds(), armClient.ClientOptions())
+		if err != nil {
+			return nil, errors.Wrapf(err, "failed to create new DatabaseAccountClient")
+		}
 
 		// TODO: There is a ListReadOnlyKeys API that requires less permissions. We should consider determining
 		// TODO: that we don't need to call the ListKeys API and install call the listReadOnlyKeys API.
