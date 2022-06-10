@@ -81,6 +81,7 @@ func handleSecretPropertyChains(
 	for _, chain := range chains {
 		secretPropertyKey := makeIndexPropertyKey(chain)
 		indexFunction := functions.NewIndexRegistrationFunction(
+			idFactory,
 			makeUniqueIndexMethodName(idFactory, def.Name(), chain),
 			def.Name(),
 			secretPropertyKey,
@@ -168,6 +169,10 @@ func makeUniqueIndexMethodName(
 		lastProp.PropertyName())
 }
 
+// makeIndexPropertyKey makes an indexable key for this property chain. Note that this key is just a string. The fact
+// that it looks like a jsonpath expression is purely coincidental. The key may refer to a property that is actually
+// a member of a collection, such as .spec.secretsCollection.password. This is OK because the key is just a string
+// and all that string is doing is uniquely representing this field.
 func makeIndexPropertyKey(propertyChain []*astmodel.PropertyDefinition) string {
 	values := []string{
 		".spec",
