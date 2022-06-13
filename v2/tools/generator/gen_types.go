@@ -48,9 +48,14 @@ func NewGenTypesCommand() (*cobra.Command, error) {
 
 				klog.V(0).Infof("Debug output will be written to the folder %s\n", tmpDir)
 				cg.UseDebugMode(tmpDir)
+				defer func() {
+					// Write the debug folder again so the user doesn't have to scroll back
+					klog.V(0).Infof("Debug output is available in folder %s\n", tmpDir)
+				}()
 			}
 
 			err = cg.Generate(ctx)
+
 			if err != nil {
 				return logAndExtractStack("Error during code generation", err)
 			}
