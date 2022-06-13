@@ -7,6 +7,7 @@ package main
 
 import (
 	"context"
+	"io/ioutil"
 
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
@@ -18,6 +19,8 @@ import (
 
 // NewGenTypesCommand creates a new cobra Command when invoked from the command line
 func NewGenTypesCommand() (*cobra.Command, error) {
+	debugMode := false
+
 	cmd := &cobra.Command{
 		// TODO: there's not great support for required
 		// TODO: arguments in cobra so this is the best we get... see:
@@ -34,6 +37,19 @@ func NewGenTypesCommand() (*cobra.Command, error) {
 				return err
 			}
 
+			if debugMode {
+				// Create a temporary folder for the debug output
+				// and set the output path to that.
+				tmpDir, err := ioutil.TempDir("", "aso-gen-debug-")
+				if err != nil {
+					klog.Errorf("Error creating temporary directory: %s\n", err)
+					return err
+				}
+
+				klog.V(0).Infof("Debug output will be written to the folder %s\n", tmpDir)
+				cg.UseDebugMode(tmpDir)
+			}
+
 			err = cg.Generate(ctx)
 			if err != nil {
 				return logAndExtractStack("Error during code generation", err)
@@ -42,6 +58,8 @@ func NewGenTypesCommand() (*cobra.Command, error) {
 			return nil
 		}),
 	}
+
+	cmd.Flags().BoolVarP(&debugMode, "debug", "d", false, "write debug logs to a temp folder")
 
 	return cmd, nil
 }

@@ -364,3 +364,7 @@ func (generator *CodeGenerator) IndexOfStage(id string) int {
 
 	return -1
 }
+
+// UseDebugMode configures the generator to use debug mode
+func (generator *CodeGenerator) UseDebugMode(outputFolder string) {
+}
