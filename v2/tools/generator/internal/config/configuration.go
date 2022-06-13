@@ -191,6 +191,11 @@ func (config *Configuration) IsSecret(name astmodel.TypeName, property astmodel.
 	return config.ObjectModelConfiguration.IsSecret(name, property)
 }
 
+// VerifyIsSecretConsumed returns an error if any configured Secret References were not consumed
+func (config *Configuration) VerifyIsSecretConsumed() error {
+	return config.ObjectModelConfiguration.VerifyIsSecretConsumed()
+}
+
 // IsResourceLifecycleOwnedByParent looks up a property to determine if represents a subresource whose lifecycle is owned
 // by the parent resource.
 func (config *Configuration) IsResourceLifecycleOwnedByParent(name astmodel.TypeName, property astmodel.PropertyName) (bool, error) {

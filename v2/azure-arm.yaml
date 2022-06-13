@@ -728,12 +728,6 @@ objectModelConfiguration:
       ManagedDiskParameters:
         Id:
           $armReference: true
-      OSProfile:
-        AdminPassword:
-          $isSecret: true
-      VirtualMachineScaleSetOSProfile:
-        AdminPassword:
-          $isSecret: true
     2021-07-01:
       DiskEncryptionSetParameters:
         Id: 
