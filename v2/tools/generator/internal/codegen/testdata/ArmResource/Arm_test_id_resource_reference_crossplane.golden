@@ -53,6 +53,14 @@ type FakeResourceProperties struct {
 	// /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}
 	Id *string `json:"id,omitempty"`
 
+	// NsgIds: A collection of NSG IDs of the form
+	// /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/networkSecurityGroups/{nsgName}
+	NsgIds []string `json:"nsgIds,omitempty"`
+
+	// NsgMap: A map of NSG IDs of the form
+	// /subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/networkSecurityGroups/{nsgName}
+	NsgMap map[string]string `json:"nsgMap,omitempty"`
+
 	// SubnetId: A string of the form
 	// /SUBSCRIPTIONS/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}
 	SubnetId *string `json:"subnetId,omitempty"`

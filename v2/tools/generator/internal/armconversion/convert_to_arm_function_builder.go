@@ -168,7 +168,10 @@ func (builder *convertToARMBuilder) referencePropertyHandler(
 	// This is just an optimization to avoid scanning excess properties collections
 	isString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.StringType)
 	isOptionalString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.NewOptionalType(astmodel.StringType))
-	if !isString && !isOptionalString {
+	isSliceString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.NewArrayType(astmodel.StringType))
+	isMapString := astmodel.TypeEquals(toProp.PropertyType(), astmodel.NewMapType(astmodel.StringType, astmodel.StringType))
+
+	if !isString && !isOptionalString && !isSliceString && !isMapString {
 		return nil, false
 	}
 

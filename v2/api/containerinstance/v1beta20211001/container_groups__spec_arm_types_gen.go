@@ -51,11 +51,6 @@ type ContainerGroupIdentityARM struct {
 	// implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the
 	// container group.
 	Type *ContainerGroupIdentityType `json:"type,omitempty"`
-
-	// UserAssignedIdentities: The list of user identities associated with the container group. The user identity dictionary
-	// key references will be ARM resource ids in the form:
-	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-	UserAssignedIdentities map[string]v1.JSON `json:"userAssignedIdentities,omitempty"`
 }
 
 type ContainerGroups_Spec_PropertiesARM struct {
