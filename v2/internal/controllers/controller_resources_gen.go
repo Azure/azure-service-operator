@@ -23,6 +23,9 @@ import (
 	cache_v20201201s "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20201201storage"
 	cache_v20210301 "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20210301"
 	cache_v20210301s "github.com/Azure/azure-service-operator/v2/api/cache/v1beta20210301storage"
+	cdn_customizations "github.com/Azure/azure-service-operator/v2/api/cdn/customizations"
+	cdn_v20210601 "github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601"
+	cdn_v20210601s "github.com/Azure/azure-service-operator/v2/api/cdn/v1beta20210601storage"
 	compute_customizations "github.com/Azure/azure-service-operator/v2/api/compute/customizations"
 	compute_alpha20200930 "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20200930"
 	compute_alpha20200930s "github.com/Azure/azure-service-operator/v2/api/compute/v1alpha1api20200930storage"
@@ -36,6 +39,9 @@ import (
 	compute_v20201201s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage"
 	compute_v20210701 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20210701"
 	compute_v20210701s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20210701storage"
+	containerinstance_customizations "github.com/Azure/azure-service-operator/v2/api/containerinstance/customizations"
+	containerinstance_v20211001 "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1beta20211001"
+	containerinstance_v20211001s "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1beta20211001storage"
 	containerregistry_customizations "github.com/Azure/azure-service-operator/v2/api/containerregistry/customizations"
 	containerregistry_alpha20210901 "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1alpha1api20210901"
 	containerregistry_alpha20210901s "github.com/Azure/azure-service-operator/v2/api/containerregistry/v1alpha1api20210901storage"
@@ -46,6 +52,9 @@ import (
 	containerservice_alpha20210501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1alpha1api20210501storage"
 	containerservice_v20210501 "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501"
 	containerservice_v20210501s "github.com/Azure/azure-service-operator/v2/api/containerservice/v1beta20210501storage"
+	dbformariadb_customizations "github.com/Azure/azure-service-operator/v2/api/dbformariadb/customizations"
+	dbformariadb_v20180601 "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601"
+	dbformariadb_v20180601s "github.com/Azure/azure-service-operator/v2/api/dbformariadb/v1beta20180601storage"
 	dbformysql_customizations "github.com/Azure/azure-service-operator/v2/api/dbformysql/customizations"
 	dbformysql_alpha20210501 "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501"
 	dbformysql_alpha20210501s "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1alpha1api20210501storage"
@@ -80,6 +89,9 @@ import (
 	insights_v20180501ps "github.com/Azure/azure-service-operator/v2/api/insights/v1beta20180501previewstorage"
 	insights_v20200202 "github.com/Azure/azure-service-operator/v2/api/insights/v1beta20200202"
 	insights_v20200202s "github.com/Azure/azure-service-operator/v2/api/insights/v1beta20200202storage"
+	keyvault_customizations "github.com/Azure/azure-service-operator/v2/api/keyvault/customizations"
+	keyvault_v20210401p "github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview"
+	keyvault_v20210401ps "github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401previewstorage"
 	managedidentity_customizations "github.com/Azure/azure-service-operator/v2/api/managedidentity/customizations"
 	managedidentity_alpha20181130 "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1alpha1api20181130"
 	managedidentity_alpha20181130s "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1alpha1api20181130storage"
@@ -163,6 +175,16 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{},
 	})
 	result = append(result, &registration.StorageType{
+		Obj:     new(cdn_v20210601s.Profile),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{},
+	})
+	result = append(result, &registration.StorageType{
+		Obj:     new(cdn_v20210601s.ProfilesEndpoint),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{},
+	})
+	result = append(result, &registration.StorageType{
 		Obj:     new(compute_v20200930s.Disk),
 		Indexes: []registration.Index{},
 		Watches: []registration.Watch{},
@@ -208,6 +230,21 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{},
 	})
 	result = append(result, &registration.StorageType{
+		Obj: new(containerinstance_v20211001s.ContainerGroup),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.imageRegistryCredentials.password",
+				Func: indexContainerinstanceContainerGroupPassword,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.imageRegistryCredentials.password"}, &containerinstance_v20211001s.ContainerGroupList{}),
+			},
+		},
+	})
+	result = append(result, &registration.StorageType{
 		Obj:     new(containerregistry_v20210901s.Registry),
 		Indexes: []registration.Index{},
 		Watches: []registration.Watch{},
@@ -221,6 +258,31 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Obj:     new(containerservice_v20210501s.ManagedClustersAgentPool),
 		Indexes: []registration.Index{},
 		Watches: []registration.Watch{},
+	})
+	result = append(result, &registration.StorageType{
+		Obj:     new(dbformariadb_v20180601s.Configuration),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{},
+	})
+	result = append(result, &registration.StorageType{
+		Obj:     new(dbformariadb_v20180601s.Database),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(dbformariadb_v20180601s.Server),
+		Indexes: []registration.Index{
+			{
+				Key:  ".spec.properties.serverPropertiesForDefaultCreate.administratorLoginPassword",
+				Func: indexDbformariadbServerAdministratorLoginPassword,
+			},
+		},
+		Watches: []registration.Watch{
+			{
+				Src:              &source.Kind{Type: &v1.Secret{}},
+				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.serverPropertiesForDefaultCreate.administratorLoginPassword"}, &dbformariadb_v20180601s.ServerList{}),
+			},
+		},
 	})
 	result = append(result, &registration.StorageType{
 		Obj: new(dbformysql_v20210501s.FlexibleServer),
@@ -393,6 +455,11 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{},
 	})
 	result = append(result, &registration.StorageType{
+		Obj:     new(keyvault_v20210401ps.Vault),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{},
+	})
+	result = append(result, &registration.StorageType{
 		Obj:     new(managedidentity_v20181130s.UserAssignedIdentity),
 		Indexes: []registration.Index{},
 		Watches: []registration.Watch{},
@@ -419,6 +486,16 @@ func getKnownStorageTypes() []*registration.StorageType {
 	})
 	result = append(result, &registration.StorageType{
 		Obj:     new(network_v20201101s.PublicIPAddress),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{},
+	})
+	result = append(result, &registration.StorageType{
+		Obj:     new(network_v20201101s.RouteTable),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{},
+	})
+	result = append(result, &registration.StorageType{
+		Obj:     new(network_v20201101s.RouteTablesRoute),
 		Indexes: []registration.Index{},
 		Watches: []registration.Watch{},
 	})
@@ -535,6 +612,10 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(cache_v20210301.RedisEnterpriseDatabase))
 	result = append(result, new(cache_v20210301s.RedisEnterprise))
 	result = append(result, new(cache_v20210301s.RedisEnterpriseDatabase))
+	result = append(result, new(cdn_v20210601.Profile))
+	result = append(result, new(cdn_v20210601.ProfilesEndpoint))
+	result = append(result, new(cdn_v20210601s.Profile))
+	result = append(result, new(cdn_v20210601s.ProfilesEndpoint))
 	result = append(result, new(compute_alpha20200930.Disk))
 	result = append(result, new(compute_alpha20200930.Snapshot))
 	result = append(result, new(compute_alpha20200930s.Disk))
@@ -555,6 +636,8 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(compute_v20201201s.VirtualMachineScaleSet))
 	result = append(result, new(compute_v20210701.Image))
 	result = append(result, new(compute_v20210701s.Image))
+	result = append(result, new(containerinstance_v20211001.ContainerGroup))
+	result = append(result, new(containerinstance_v20211001s.ContainerGroup))
 	result = append(result, new(containerregistry_alpha20210901.Registry))
 	result = append(result, new(containerregistry_alpha20210901s.Registry))
 	result = append(result, new(containerregistry_v20210901.Registry))
@@ -567,6 +650,12 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(containerservice_v20210501.ManagedClustersAgentPool))
 	result = append(result, new(containerservice_v20210501s.ManagedCluster))
 	result = append(result, new(containerservice_v20210501s.ManagedClustersAgentPool))
+	result = append(result, new(dbformariadb_v20180601.Configuration))
+	result = append(result, new(dbformariadb_v20180601.Database))
+	result = append(result, new(dbformariadb_v20180601.Server))
+	result = append(result, new(dbformariadb_v20180601s.Configuration))
+	result = append(result, new(dbformariadb_v20180601s.Database))
+	result = append(result, new(dbformariadb_v20180601s.Server))
 	result = append(result, new(dbformysql_alpha20210501.FlexibleServer))
 	result = append(result, new(dbformysql_alpha20210501.FlexibleServersDatabase))
 	result = append(result, new(dbformysql_alpha20210501.FlexibleServersFirewallRule))
@@ -687,6 +776,8 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(insights_v20180501ps.Webtest))
 	result = append(result, new(insights_v20200202.Component))
 	result = append(result, new(insights_v20200202s.Component))
+	result = append(result, new(keyvault_v20210401p.Vault))
+	result = append(result, new(keyvault_v20210401ps.Vault))
 	result = append(result, new(managedidentity_alpha20181130.UserAssignedIdentity))
 	result = append(result, new(managedidentity_alpha20181130s.UserAssignedIdentity))
 	result = append(result, new(managedidentity_v20181130.UserAssignedIdentity))
@@ -714,6 +805,8 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(network_v20201101.NetworkSecurityGroup))
 	result = append(result, new(network_v20201101.NetworkSecurityGroupsSecurityRule))
 	result = append(result, new(network_v20201101.PublicIPAddress))
+	result = append(result, new(network_v20201101.RouteTable))
+	result = append(result, new(network_v20201101.RouteTablesRoute))
 	result = append(result, new(network_v20201101.VirtualNetwork))
 	result = append(result, new(network_v20201101.VirtualNetworkGateway))
 	result = append(result, new(network_v20201101.VirtualNetworksSubnet))
@@ -723,6 +816,8 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(network_v20201101s.NetworkSecurityGroup))
 	result = append(result, new(network_v20201101s.NetworkSecurityGroupsSecurityRule))
 	result = append(result, new(network_v20201101s.PublicIPAddress))
+	result = append(result, new(network_v20201101s.RouteTable))
+	result = append(result, new(network_v20201101s.RouteTablesRoute))
 	result = append(result, new(network_v20201101s.VirtualNetwork))
 	result = append(result, new(network_v20201101s.VirtualNetworkGateway))
 	result = append(result, new(network_v20201101s.VirtualNetworksSubnet))
@@ -750,13 +845,11 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(storage_alpha20210401.StorageAccount))
 	result = append(result, new(storage_alpha20210401.StorageAccountsBlobService))
 	result = append(result, new(storage_alpha20210401.StorageAccountsBlobServicesContainer))
-	result = append(result, new(storage_alpha20210401.StorageAccountsManagementPolicy))
 	result = append(result, new(storage_alpha20210401.StorageAccountsQueueService))
 	result = append(result, new(storage_alpha20210401.StorageAccountsQueueServicesQueue))
 	result = append(result, new(storage_alpha20210401s.StorageAccount))
 	result = append(result, new(storage_alpha20210401s.StorageAccountsBlobService))
 	result = append(result, new(storage_alpha20210401s.StorageAccountsBlobServicesContainer))
-	result = append(result, new(storage_alpha20210401s.StorageAccountsManagementPolicy))
 	result = append(result, new(storage_alpha20210401s.StorageAccountsQueueService))
 	result = append(result, new(storage_alpha20210401s.StorageAccountsQueueServicesQueue))
 	result = append(result, new(storage_v20210401.StorageAccount))
@@ -794,6 +887,8 @@ func createScheme() *runtime.Scheme {
 	_ = cache_v20201201s.AddToScheme(scheme)
 	_ = cache_v20210301.AddToScheme(scheme)
 	_ = cache_v20210301s.AddToScheme(scheme)
+	_ = cdn_v20210601.AddToScheme(scheme)
+	_ = cdn_v20210601s.AddToScheme(scheme)
 	_ = compute_alpha20200930.AddToScheme(scheme)
 	_ = compute_alpha20200930s.AddToScheme(scheme)
 	_ = compute_alpha20201201.AddToScheme(scheme)
@@ -806,6 +901,8 @@ func createScheme() *runtime.Scheme {
 	_ = compute_v20201201s.AddToScheme(scheme)
 	_ = compute_v20210701.AddToScheme(scheme)
 	_ = compute_v20210701s.AddToScheme(scheme)
+	_ = containerinstance_v20211001.AddToScheme(scheme)
+	_ = containerinstance_v20211001s.AddToScheme(scheme)
 	_ = containerregistry_alpha20210901.AddToScheme(scheme)
 	_ = containerregistry_alpha20210901s.AddToScheme(scheme)
 	_ = containerregistry_v20210901.AddToScheme(scheme)
@@ -814,6 +911,8 @@ func createScheme() *runtime.Scheme {
 	_ = containerservice_alpha20210501s.AddToScheme(scheme)
 	_ = containerservice_v20210501.AddToScheme(scheme)
 	_ = containerservice_v20210501s.AddToScheme(scheme)
+	_ = dbformariadb_v20180601.AddToScheme(scheme)
+	_ = dbformariadb_v20180601s.AddToScheme(scheme)
 	_ = dbformysql_alpha20210501.AddToScheme(scheme)
 	_ = dbformysql_alpha20210501s.AddToScheme(scheme)
 	_ = dbformysql_v20210501.AddToScheme(scheme)
@@ -842,6 +941,8 @@ func createScheme() *runtime.Scheme {
 	_ = insights_v20180501ps.AddToScheme(scheme)
 	_ = insights_v20200202.AddToScheme(scheme)
 	_ = insights_v20200202s.AddToScheme(scheme)
+	_ = keyvault_v20210401p.AddToScheme(scheme)
+	_ = keyvault_v20210401ps.AddToScheme(scheme)
 	_ = managedidentity_alpha20181130.AddToScheme(scheme)
 	_ = managedidentity_alpha20181130s.AddToScheme(scheme)
 	_ = managedidentity_v20181130.AddToScheme(scheme)
@@ -880,14 +981,20 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &cache_customizations.RedisFirewallRuleExtension{})
 	result = append(result, &cache_customizations.RedisLinkedServerExtension{})
 	result = append(result, &cache_customizations.RedisPatchScheduleExtension{})
+	result = append(result, &cdn_customizations.ProfileExtension{})
+	result = append(result, &cdn_customizations.ProfilesEndpointExtension{})
 	result = append(result, &compute_customizations.DiskExtension{})
 	result = append(result, &compute_customizations.ImageExtension{})
 	result = append(result, &compute_customizations.SnapshotExtension{})
 	result = append(result, &compute_customizations.VirtualMachineExtension{})
 	result = append(result, &compute_customizations.VirtualMachineScaleSetExtension{})
+	result = append(result, &containerinstance_customizations.ContainerGroupExtension{})
 	result = append(result, &containerregistry_customizations.RegistryExtension{})
 	result = append(result, &containerservice_customizations.ManagedClusterExtension{})
 	result = append(result, &containerservice_customizations.ManagedClustersAgentPoolExtension{})
+	result = append(result, &dbformariadb_customizations.ConfigurationExtension{})
+	result = append(result, &dbformariadb_customizations.DatabaseExtension{})
+	result = append(result, &dbformariadb_customizations.ServerExtension{})
 	result = append(result, &dbformysql_customizations.FlexibleServerExtension{})
 	result = append(result, &dbformysql_customizations.FlexibleServersDatabaseExtension{})
 	result = append(result, &dbformysql_customizations.FlexibleServersFirewallRuleExtension{})
@@ -918,12 +1025,15 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	result = append(result, &eventhub_customizations.NamespacesEventhubsConsumerGroupExtension{})
 	result = append(result, &insights_customizations.ComponentExtension{})
 	result = append(result, &insights_customizations.WebtestExtension{})
+	result = append(result, &keyvault_customizations.VaultExtension{})
 	result = append(result, &managedidentity_customizations.UserAssignedIdentityExtension{})
 	result = append(result, &network_customizations.LoadBalancerExtension{})
 	result = append(result, &network_customizations.NetworkInterfaceExtension{})
 	result = append(result, &network_customizations.NetworkSecurityGroupExtension{})
 	result = append(result, &network_customizations.NetworkSecurityGroupsSecurityRuleExtension{})
 	result = append(result, &network_customizations.PublicIPAddressExtension{})
+	result = append(result, &network_customizations.RouteTableExtension{})
+	result = append(result, &network_customizations.RouteTablesRouteExtension{})
 	result = append(result, &network_customizations.VirtualNetworkExtension{})
 	result = append(result, &network_customizations.VirtualNetworkGatewayExtension{})
 	result = append(result, &network_customizations.VirtualNetworksSubnetExtension{})
@@ -973,6 +1083,40 @@ func indexComputeVirtualMachineScaleSetAdminPassword(rawObj client.Object) []str
 		return nil
 	}
 	return []string{obj.Spec.VirtualMachineProfile.OsProfile.AdminPassword.Name}
+}
+
+// indexContainerinstanceContainerGroupPassword an index function for containerinstance_v20211001s.ContainerGroup .spec.imageRegistryCredentials.password
+func indexContainerinstanceContainerGroupPassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*containerinstance_v20211001s.ContainerGroup)
+	if !ok {
+		return nil
+	}
+	var result []string
+	for _, imageRegistryCredentialItem := range obj.Spec.ImageRegistryCredentials {
+		if imageRegistryCredentialItem.Password == nil {
+			continue
+		}
+		result = append(result, imageRegistryCredentialItem.Password.Name)
+	}
+	return result
+}
+
+// indexDbformariadbServerAdministratorLoginPassword an index function for dbformariadb_v20180601s.Server .spec.properties.serverPropertiesForDefaultCreate.administratorLoginPassword
+func indexDbformariadbServerAdministratorLoginPassword(rawObj client.Object) []string {
+	obj, ok := rawObj.(*dbformariadb_v20180601s.Server)
+	if !ok {
+		return nil
+	}
+	if obj.Spec.Properties == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ServerPropertiesForDefaultCreate == nil {
+		return nil
+	}
+	if obj.Spec.Properties.ServerPropertiesForDefaultCreate.AdministratorLoginPassword == nil {
+		return nil
+	}
+	return []string{obj.Spec.Properties.ServerPropertiesForDefaultCreate.AdministratorLoginPassword.Name}
 }
 
 // indexDbformysqlFlexibleServerAdministratorLoginPassword an index function for dbformysql_v20210501s.FlexibleServer .spec.administratorLoginPassword

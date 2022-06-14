@@ -19,7 +19,7 @@ import (
 	"testing"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
-	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
+	"github.com/Azure/azure-sdk-for-go/sdk/azcore/cloud"
 	"github.com/dnaeon/go-vcr/cassette"
 	"github.com/dnaeon/go-vcr/recorder"
 	"github.com/go-logr/logr"
@@ -99,8 +99,12 @@ func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
 	httpClient := &http.Client{
 		Transport: addCountHeader(translateErrors(recorder, cassetteName, t)),
 	}
-
-	armClient := genericarmclient.NewGenericClientFromHTTPClient(arm.AzurePublicCloud, creds, httpClient, subscriptionID, metrics.NewARMClientMetrics())
+	var armClient *genericarmclient.GenericClient
+	armClient, err = genericarmclient.NewGenericClientFromHTTPClient(cloud.AzurePublic.Services[cloud.ResourceManager].Endpoint, creds, httpClient, subscriptionID, metrics.NewARMClientMetrics())
+	if err != nil {
+		logger.Error(err, "failed to get new generic client")
+		t.Fail()
+	}
 
 	t.Cleanup(func() {
 		if !t.Failed() {
@@ -299,7 +303,7 @@ var responseHeadersToRemove = []string{
 var (
 	dateMatcher     = regexp.MustCompile(`\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(.\d+)?Z`)
 	sshKeyMatcher   = regexp.MustCompile("ssh-rsa [0-9a-zA-Z+/=]+")
-	passwordMatcher = regexp.MustCompile("pass.*?pass")
+	passwordMatcher = regexp.MustCompile("\"pass[^\"]*?pass\"")
 
 	// keyMatcher matches any valid base64 value with at least 10 sets of 4 bytes of data that ends in = or ==.
 	// Both storage account keys and Redis account keys are longer than that and end in = or ==. Note that technically
@@ -323,7 +327,7 @@ func hideSSHKeys(s string) string {
 
 // hidePasswords hides anything that looks like a generated password
 func hidePasswords(s string) string {
-	return passwordMatcher.ReplaceAllLiteralString(s, "{PASSWORD}")
+	return passwordMatcher.ReplaceAllLiteralString(s, "\"{PASSWORD}\"")
 }
 
 func hideKeys(s string) string {

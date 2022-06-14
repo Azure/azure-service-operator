@@ -112,7 +112,7 @@ func (group *NetworkSecurityGroup) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (group NetworkSecurityGroup) GetAPIVersion() string {
-	return "2020-11-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -525,7 +525,7 @@ func (embedded *NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbe
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		embedded.Tags = make(map[string]string)
+		embedded.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			embedded.Tags[key] = value
 		}
@@ -829,7 +829,7 @@ func (groups *NetworkSecurityGroups_Spec) ConvertToARM(resolved genruntime.Conve
 	if groups == nil {
 		return nil, nil
 	}
-	var result NetworkSecurityGroups_SpecARM
+	result := &NetworkSecurityGroups_SpecARM{}
 
 	// Set property ‘Location’:
 	if groups.Location != nil {
@@ -842,7 +842,7 @@ func (groups *NetworkSecurityGroups_Spec) ConvertToARM(resolved genruntime.Conve
 
 	// Set property ‘Tags’:
 	if groups.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(groups.Tags))
 		for key, value := range groups.Tags {
 			result.Tags[key] = value
 		}
@@ -878,7 +878,7 @@ func (groups *NetworkSecurityGroups_Spec) PopulateFromARM(owner genruntime.Arbit
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		groups.Tags = make(map[string]string)
+		groups.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			groups.Tags[key] = value
 		}

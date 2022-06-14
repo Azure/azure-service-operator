@@ -11,7 +11,7 @@ import (
 
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
-	"k8s.io/api/core/v1"
+	v1 "k8s.io/api/core/v1"
 
 	postgresql "github.com/Azure/azure-service-operator/v2/api/dbforpostgresql/v1beta20210601"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -43,6 +43,7 @@ func Test_DBForPostgreSQL_FlexibleServer_CRUD(t *testing.T) {
 	}
 	version := postgresql.ServerPropertiesVersion13
 	tier := postgresql.SkuTierGeneralPurpose
+	fqdnSecret := "fqdnsecret"
 	flexibleServer := &postgresql.FlexibleServer{
 		ObjectMeta: tc.MakeObjectMeta("postgresql"),
 		Spec: postgresql.FlexibleServers_Spec{
@@ -58,6 +59,11 @@ func Test_DBForPostgreSQL_FlexibleServer_CRUD(t *testing.T) {
 			Storage: &postgresql.Storage{
 				StorageSizeGB: to.IntPtr(128),
 			},
+			OperatorSpec: &postgresql.FlexibleServerOperatorSpec{
+				Secrets: &postgresql.FlexibleServerOperatorSecrets{
+					FullyQualifiedDomainName: &genruntime.SecretDestination{Name: fqdnSecret, Key: "fqdn"},
+				},
+			},
 		},
 	}
 
@@ -67,6 +73,9 @@ func Test_DBForPostgreSQL_FlexibleServer_CRUD(t *testing.T) {
 	// It should be created in Kubernetes
 	g.Expect(flexibleServer.Status.Id).ToNot(BeNil())
 	armId := *flexibleServer.Status.Id
+
+	// It should have the expected secret data written
+	tc.ExpectSecretHasKeys(fqdnSecret, "fqdn")
 
 	// Perform a simple patch
 	old := flexibleServer.DeepCopy()
@@ -81,20 +90,20 @@ func Test_DBForPostgreSQL_FlexibleServer_CRUD(t *testing.T) {
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "Flexible servers database CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
-				FlexibleServer_Database_CRUD(testContext, flexibleServer)
+			Test: func(tc *testcommon.KubePerTestContext) {
+				FlexibleServer_Database_CRUD(tc, flexibleServer)
 			},
 		},
 		testcommon.Subtest{
 			Name: "Flexible servers firewall CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
-				FlexibleServer_FirewallRule_CRUD(testContext, flexibleServer)
+			Test: func(tc *testcommon.KubePerTestContext) {
+				FlexibleServer_FirewallRule_CRUD(tc, flexibleServer)
 			},
 		},
 		testcommon.Subtest{
 			Name: "Flexible servers configuration CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
-				FlexibleServer_Configuration_CRUD(testContext, flexibleServer)
+			Test: func(tc *testcommon.KubePerTestContext) {
+				FlexibleServer_Configuration_CRUD(tc, flexibleServer)
 			},
 		},
 	)
@@ -102,7 +111,7 @@ func Test_DBForPostgreSQL_FlexibleServer_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(flexibleServer)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(ctx, armId, string(postgresql.FlexibleServersDatabasesSpecAPIVersion20210601))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(ctx, armId, string(postgresql.APIVersionValue))
 	g.Expect(err).ToNot(HaveOccurred())
 	g.Expect(retryAfter).To(BeZero())
 	g.Expect(exists).To(BeFalse())

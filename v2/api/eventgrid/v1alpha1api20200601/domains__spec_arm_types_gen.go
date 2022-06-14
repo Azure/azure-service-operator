@@ -17,16 +17,16 @@ var _ genruntime.ARMResourceSpec = &Domains_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (domains Domains_SpecARM) GetAPIVersion() string {
-	return "2020-06-01"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource
-func (domains Domains_SpecARM) GetName() string {
+func (domains *Domains_SpecARM) GetName() string {
 	return domains.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventGrid/domains"
-func (domains Domains_SpecARM) GetType() string {
+func (domains *Domains_SpecARM) GetType() string {
 	return "Microsoft.EventGrid/domains"
 }
 

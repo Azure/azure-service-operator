@@ -98,7 +98,7 @@ func (database *FlexibleServersDatabase) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
 func (database FlexibleServersDatabase) GetAPIVersion() string {
-	return "2021-06-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -541,11 +541,6 @@ func (database *Database_Status) AssignPropertiesToDatabaseStatus(destination *v
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2021-06-01"}
-type FlexibleServersDatabasesSpecAPIVersion string
-
-const FlexibleServersDatabasesSpecAPIVersion20210601 = FlexibleServersDatabasesSpecAPIVersion("2021-06-01")
-
 type FlexibleServersDatabases_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -577,7 +572,7 @@ func (databases *FlexibleServersDatabases_Spec) ConvertToARM(resolved genruntime
 	if databases == nil {
 		return nil, nil
 	}
-	var result FlexibleServersDatabases_SpecARM
+	result := &FlexibleServersDatabases_SpecARM{}
 
 	// Set property ‘Location’:
 	if databases.Location != nil {
@@ -603,7 +598,7 @@ func (databases *FlexibleServersDatabases_Spec) ConvertToARM(resolved genruntime
 
 	// Set property ‘Tags’:
 	if databases.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(databases.Tags))
 		for key, value := range databases.Tags {
 			result.Tags[key] = value
 		}
@@ -657,7 +652,7 @@ func (databases *FlexibleServersDatabases_Spec) PopulateFromARM(owner genruntime
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		databases.Tags = make(map[string]string)
+		databases.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			databases.Tags[key] = value
 		}

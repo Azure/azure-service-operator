@@ -98,7 +98,7 @@ func (queue *NamespacesQueue) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01-preview"
 func (queue NamespacesQueue) GetAPIVersion() string {
-	return "2021-01-01-preview"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -317,11 +317,6 @@ type NamespacesQueueList struct {
 	Items           []NamespacesQueue `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2021-01-01-preview"}
-type NamespacesQueuesSpecAPIVersion string
-
-const NamespacesQueuesSpecAPIVersion20210101Preview = NamespacesQueuesSpecAPIVersion("2021-01-01-preview")
-
 type NamespacesQueues_Spec struct {
 	// AutoDeleteOnIdle: ISO 8061 timeSpan idle interval after which the queue is automatically deleted. The minimum duration
 	// is 5 minutes.
@@ -399,7 +394,7 @@ func (queues *NamespacesQueues_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	if queues == nil {
 		return nil, nil
 	}
-	var result NamespacesQueues_SpecARM
+	result := &NamespacesQueues_SpecARM{}
 
 	// Set property ‘Location’:
 	if queues.Location != nil {
@@ -486,7 +481,7 @@ func (queues *NamespacesQueues_Spec) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property ‘Tags’:
 	if queues.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(queues.Tags))
 		for key, value := range queues.Tags {
 			result.Tags[key] = value
 		}
@@ -648,7 +643,7 @@ func (queues *NamespacesQueues_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		queues.Tags = make(map[string]string)
+		queues.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			queues.Tags[key] = value
 		}

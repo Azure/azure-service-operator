@@ -112,7 +112,7 @@ func (function *SqlDatabaseContainerUserDefinedFunction) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (function SqlDatabaseContainerUserDefinedFunction) GetAPIVersion() string {
-	return "2021-05-15"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -356,7 +356,7 @@ func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
 	if functions == nil {
 		return nil, nil
 	}
-	var result DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SpecARM
+	result := &DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_SpecARM{}
 
 	// Set property ‘Location’:
 	if functions.Location != nil {
@@ -376,7 +376,7 @@ func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
 		if err != nil {
 			return nil, err
 		}
-		options := optionsARM.(CreateUpdateOptionsARM)
+		options := *optionsARM.(*CreateUpdateOptionsARM)
 		result.Properties.Options = &options
 	}
 	if functions.Resource != nil {
@@ -384,13 +384,13 @@ func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
 		if err != nil {
 			return nil, err
 		}
-		resource := resourceARM.(SqlUserDefinedFunctionResourceARM)
+		resource := *resourceARM.(*SqlUserDefinedFunctionResourceARM)
 		result.Properties.Resource = &resource
 	}
 
 	// Set property ‘Tags’:
 	if functions.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(functions.Tags))
 		for key, value := range functions.Tags {
 			result.Tags[key] = value
 		}
@@ -454,7 +454,7 @@ func (functions *DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		functions.Tags = make(map[string]string)
+		functions.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			functions.Tags[key] = value
 		}
@@ -744,7 +744,7 @@ func (results *SqlUserDefinedFunctionGetResults_Status) PopulateFromARM(owner ge
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		results.Tags = make(map[string]string)
+		results.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			results.Tags[key] = value
 		}
@@ -978,7 +978,7 @@ func (resource *SqlUserDefinedFunctionResource) ConvertToARM(resolved genruntime
 	if resource == nil {
 		return nil, nil
 	}
-	var result SqlUserDefinedFunctionResourceARM
+	result := &SqlUserDefinedFunctionResourceARM{}
 
 	// Set property ‘Body’:
 	if resource.Body != nil {

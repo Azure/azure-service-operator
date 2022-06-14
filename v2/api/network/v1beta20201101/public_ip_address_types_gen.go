@@ -98,7 +98,7 @@ func (address *PublicIPAddress) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (address PublicIPAddress) GetAPIVersion() string {
-	return "2020-11-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -648,7 +648,7 @@ func (embedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) Popu
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		embedded.Tags = make(map[string]string)
+		embedded.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			embedded.Tags[key] = value
 		}
@@ -1026,11 +1026,6 @@ func (embedded *PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded) Assi
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2020-11-01"}
-type PublicIPAddressesSpecAPIVersion string
-
-const PublicIPAddressesSpecAPIVersion20201101 = PublicIPAddressesSpecAPIVersion("2020-11-01")
-
 type PublicIPAddresses_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -1090,7 +1085,7 @@ func (addresses *PublicIPAddresses_Spec) ConvertToARM(resolved genruntime.Conver
 	if addresses == nil {
 		return nil, nil
 	}
-	var result PublicIPAddresses_SpecARM
+	result := &PublicIPAddresses_SpecARM{}
 
 	// Set property ‘ExtendedLocation’:
 	if addresses.ExtendedLocation != nil {
@@ -1098,7 +1093,7 @@ func (addresses *PublicIPAddresses_Spec) ConvertToARM(resolved genruntime.Conver
 		if err != nil {
 			return nil, err
 		}
-		extendedLocation := extendedLocationARM.(ExtendedLocationARM)
+		extendedLocation := *extendedLocationARM.(*ExtendedLocationARM)
 		result.ExtendedLocation = &extendedLocation
 	}
 
@@ -1127,7 +1122,7 @@ func (addresses *PublicIPAddresses_Spec) ConvertToARM(resolved genruntime.Conver
 		if err != nil {
 			return nil, err
 		}
-		ddosSettings := ddosSettingsARM.(DdosSettingsARM)
+		ddosSettings := *ddosSettingsARM.(*DdosSettingsARM)
 		result.Properties.DdosSettings = &ddosSettings
 	}
 	if addresses.DnsSettings != nil {
@@ -1135,7 +1130,7 @@ func (addresses *PublicIPAddresses_Spec) ConvertToARM(resolved genruntime.Conver
 		if err != nil {
 			return nil, err
 		}
-		dnsSettings := dnsSettingsARM.(PublicIPAddressDnsSettingsARM)
+		dnsSettings := *dnsSettingsARM.(*PublicIPAddressDnsSettingsARM)
 		result.Properties.DnsSettings = &dnsSettings
 	}
 	if addresses.IdleTimeoutInMinutes != nil {
@@ -1151,7 +1146,7 @@ func (addresses *PublicIPAddresses_Spec) ConvertToARM(resolved genruntime.Conver
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.IpTags = append(result.Properties.IpTags, itemARM.(IpTagARM))
+		result.Properties.IpTags = append(result.Properties.IpTags, *itemARM.(*IpTagARM))
 	}
 	if addresses.PublicIPAddressVersion != nil {
 		publicIPAddressVersion := *addresses.PublicIPAddressVersion
@@ -1166,7 +1161,7 @@ func (addresses *PublicIPAddresses_Spec) ConvertToARM(resolved genruntime.Conver
 		if err != nil {
 			return nil, err
 		}
-		publicIPPrefix := publicIPPrefixARM.(SubResourceARM)
+		publicIPPrefix := *publicIPPrefixARM.(*SubResourceARM)
 		result.Properties.PublicIPPrefix = &publicIPPrefix
 	}
 
@@ -1176,13 +1171,13 @@ func (addresses *PublicIPAddresses_Spec) ConvertToARM(resolved genruntime.Conver
 		if err != nil {
 			return nil, err
 		}
-		sku := skuARM.(PublicIPAddressSkuARM)
+		sku := *skuARM.(*PublicIPAddressSkuARM)
 		result.Sku = &sku
 	}
 
 	// Set property ‘Tags’:
 	if addresses.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(addresses.Tags))
 		for key, value := range addresses.Tags {
 			result.Tags[key] = value
 		}
@@ -1336,7 +1331,7 @@ func (addresses *PublicIPAddresses_Spec) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		addresses.Tags = make(map[string]string)
+		addresses.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			addresses.Tags[key] = value
 		}
@@ -1697,7 +1692,7 @@ func (settings *DdosSettings) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if settings == nil {
 		return nil, nil
 	}
-	var result DdosSettingsARM
+	result := &DdosSettingsARM{}
 
 	// Set property ‘DdosCustomPolicy’:
 	if settings.DdosCustomPolicy != nil {
@@ -1705,7 +1700,7 @@ func (settings *DdosSettings) ConvertToARM(resolved genruntime.ConvertToARMResol
 		if err != nil {
 			return nil, err
 		}
-		ddosCustomPolicy := ddosCustomPolicyARM.(SubResourceARM)
+		ddosCustomPolicy := *ddosCustomPolicyARM.(*SubResourceARM)
 		result.DdosCustomPolicy = &ddosCustomPolicy
 	}
 
@@ -2206,7 +2201,7 @@ func (ipTag *IpTag) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails
 	if ipTag == nil {
 		return nil, nil
 	}
-	var result IpTagARM
+	result := &IpTagARM{}
 
 	// Set property ‘IpTagType’:
 	if ipTag.IpTagType != nil {
@@ -2493,7 +2488,7 @@ func (settings *PublicIPAddressDnsSettings) ConvertToARM(resolved genruntime.Con
 	if settings == nil {
 		return nil, nil
 	}
-	var result PublicIPAddressDnsSettingsARM
+	result := &PublicIPAddressDnsSettingsARM{}
 
 	// Set property ‘DomainNameLabel’:
 	if settings.DomainNameLabel != nil {
@@ -2725,7 +2720,7 @@ func (addressSku *PublicIPAddressSku) ConvertToARM(resolved genruntime.ConvertTo
 	if addressSku == nil {
 		return nil, nil
 	}
-	var result PublicIPAddressSkuARM
+	result := &PublicIPAddressSkuARM{}
 
 	// Set property ‘Name’:
 	if addressSku.Name != nil {

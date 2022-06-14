@@ -15,12 +15,15 @@ import (
 
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101storage"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
-	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
+	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/extensions"
 )
+
+// Attention: A lot of code in this file is very similar to the logic in route_table_extensions.go.
+// The two should be kept in sync as much as possible.
 
 var _ extensions.ARMResourceModifier = &VirtualNetworkExtension{}
 
@@ -30,14 +33,14 @@ func (extension *VirtualNetworkExtension) ModifyARMResource(
 	obj genruntime.ARMMetaObject,
 	kubeClient kubeclient.Client,
 	resolver *resolver.Resolver,
-	log logr.Logger) (genruntime.ARMResource, error) {
-
+	log logr.Logger,
+) (genruntime.ARMResource, error) {
 	typedObj, ok := obj.(*network.VirtualNetwork)
 	if !ok {
-		return nil, errors.Errorf("cannot run on unknown resource type %T", obj)
+		return nil, errors.Errorf("cannot run on unknown resource type %T, expected *network.VirtualNetwork", obj)
 	}
 
-	// Type assert that we are the hub type. This should fail to compile if
+	// Type assert that we are the hub type. This will fail to compile if
 	// the hub type has been changed but this extension has not been updated to match
 	var _ conversion.Hub = typedObj
 
@@ -50,7 +53,7 @@ func (extension *VirtualNetworkExtension) ModifyARMResource(
 		return nil, errors.Wrapf(err, "failed listing subnets owned by VNET %s/%s", obj.GetNamespace(), obj.GetName())
 	}
 
-	var armSubnets []genruntime.ARMResourceSpec
+	armSubnets := make([]genruntime.ARMResourceSpec, 0, len(subnets.Items))
 	for _, subnet := range subnets.Items {
 		subnet := subnet
 
@@ -62,7 +65,7 @@ func (extension *VirtualNetworkExtension) ModifyARMResource(
 		armSubnets = append(armSubnets, transformed)
 	}
 
-	log.V(Info).Info("Found subnets to include on VNET", "count", len(armSubnets), "names", getSubnetNames(armSubnets))
+	log.V(Info).Info("Found subnets to include on VNET", "count", len(armSubnets), "names", genruntime.ARMSpecNames(armSubnets))
 
 	err = fuzzySetSubnets(armObj.Spec(), armSubnets)
 	if err != nil {
@@ -70,15 +73,6 @@ func (extension *VirtualNetworkExtension) ModifyARMResource(
 	}
 
 	return armObj, nil
-}
-
-func getSubnetNames(subnets []genruntime.ARMResourceSpec) []string {
-	var result []string
-	for _, s := range subnets {
-		result = append(result, s.GetName())
-	}
-
-	return result
 }
 
 func getSubnetGVK(vnet genruntime.ARMMetaObject) schema.GroupVersionKind {
@@ -93,8 +87,8 @@ func transformToARM(
 	obj genruntime.ARMMetaObject,
 	gvk schema.GroupVersionKind,
 	kubeClient kubeclient.Client,
-	resolver *resolver.Resolver) (genruntime.ARMResourceSpec, error) {
-
+	resolver *resolver.Resolver,
+) (genruntime.ARMResourceSpec, error) {
 	spec, err := genruntime.GetVersionedSpecFromGVK(obj, kubeClient.Scheme(), gvk)
 	if err != nil {
 		return nil, errors.Wrapf(err, "unable to get spec from %s/%s", obj.GetNamespace(), obj.GetName())
@@ -107,7 +101,7 @@ func transformToARM(
 
 	_, resolvedDetails, err := resolver.ResolveAll(ctx, obj)
 	if err != nil {
-		return nil, arm.ClassifyResolverError(err)
+		return nil, reconcilers.ClassifyResolverError(err)
 	}
 
 	armSpec, err := armTransformer.ConvertToARM(resolvedDetails)
@@ -115,12 +109,12 @@ func transformToARM(
 		return nil, errors.Wrapf(err, "transforming resource %s to ARM", obj.GetName())
 	}
 
-	typedArmSpec, ok := armSpec.(genruntime.ARMResourceSpec)
+	typedARMSpec, ok := armSpec.(genruntime.ARMResourceSpec)
 	if !ok {
 		return nil, errors.Errorf("casting armSpec of type %T to genruntime.ARMResourceSpec", armSpec)
 	}
 
-	return typedArmSpec, nil
+	return typedARMSpec, nil
 }
 
 // TODO: When we move to Swagger as the source of truth, the type for vnet.properties.subnets and subnet.properties
@@ -130,7 +124,18 @@ func transformToARM(
 // To make matters even more horrible, the type used in the vnet.properties.subnets property is not the same
 // type as used for subnet.properties (although structurally they are basically the same). To overcome this
 // we JSON serialize the subnet and deserialize it into the vnet.properties.subnets field.
-func fuzzySetSubnets(vnet genruntime.ARMResourceSpec, subnets []genruntime.ARMResourceSpec) error {
+func fuzzySetSubnets(vnet genruntime.ARMResourceSpec, subnets []genruntime.ARMResourceSpec) (err error) {
+	if len(subnets) == 0 {
+		// Nothing to do
+		return nil
+	}
+
+	defer func() {
+		if x := recover(); x != nil {
+			err = errors.Errorf("caught panic: %s", x)
+		}
+	}()
+
 	// Here be dragons
 	vnetValue := reflect.ValueOf(vnet)
 	vnetValue = reflect.Indirect(vnetValue)
@@ -142,12 +147,16 @@ func fuzzySetSubnets(vnet genruntime.ARMResourceSpec, subnets []genruntime.ARMRe
 	if (propertiesField == reflect.Value{}) {
 		return errors.Errorf("couldn't find properties field on vnet")
 	}
-	propertiesField = reflect.Indirect(propertiesField)
-	if (propertiesField == reflect.Value{}) {
-		return errors.Errorf("cannot assign to nil vnet properties")
+
+	propertiesValue := reflect.Indirect(propertiesField)
+	if (propertiesValue == reflect.Value{}) {
+		// If the properties field is nil, we must construct an entirely new properties and assign it here
+		temp := reflect.New(propertiesField.Type().Elem())
+		propertiesField.Set(temp)
+		propertiesValue = reflect.Indirect(temp)
 	}
 
-	subnetsField := propertiesField.FieldByName("Subnets")
+	subnetsField := propertiesValue.FieldByName("Subnets")
 	if (subnetsField == reflect.Value{}) {
 		return errors.Errorf("couldn't find subnets field on vnet")
 	}

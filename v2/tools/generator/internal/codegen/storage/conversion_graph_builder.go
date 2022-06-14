@@ -6,8 +6,6 @@
 package storage
 
 import (
-	"fmt"
-
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -25,7 +23,8 @@ type ConversionGraphBuilder struct {
 // NewConversionGraphBuilder creates a new builder for all our required conversion graphs
 func NewConversionGraphBuilder(
 	configuration *config.ObjectModelConfiguration,
-	versionPrefix string) *ConversionGraphBuilder {
+	versionPrefix string,
+) *ConversionGraphBuilder {
 	return &ConversionGraphBuilder{
 		configuration: configuration,
 		versionPrefix: versionPrefix,
@@ -50,7 +49,7 @@ func (b *ConversionGraphBuilder) AddAll(set *astmodel.PackageReferenceSet) {
 
 // Build connects all the provided API definitions together into a single conversion graph
 func (b *ConversionGraphBuilder) Build() (*ConversionGraph, error) {
-	subgraphs := make(map[string]*GroupConversionGraph)
+	subgraphs := make(map[string]*GroupConversionGraph, len(b.subBuilders))
 	for group, builder := range b.subBuilders {
 		subgraph, err := builder.Build()
 		if err != nil {
@@ -71,11 +70,7 @@ func (b *ConversionGraphBuilder) Build() (*ConversionGraph, error) {
 // getSubBuilder finds the relevant builder for the group of the provided reference, creating one if necessary
 func (b *ConversionGraphBuilder) getSubBuilder(ref astmodel.PackageReference) *GroupConversionGraphBuilder {
 	// Expect to get either a local or a storage reference, not an external one
-	group, _, ok := ref.GroupVersion()
-	if !ok {
-		panic(fmt.Sprintf("cannot use external package reference %s with a conversion graph", ref))
-	}
-
+	group, _ := ref.GroupVersion()
 	subBuilder, ok := b.subBuilders[group]
 	if !ok {
 		subBuilder = NewGroupConversionGraphBuilder(group, b.versionPrefix)

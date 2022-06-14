@@ -73,7 +73,7 @@ func (workspace *Workspace) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
 func (workspace Workspace) GetAPIVersion() string {
-	return "2021-06-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -200,13 +200,20 @@ type WorkspaceList struct {
 	Items           []Workspace `json:"items"`
 }
 
+// Storage version of v1alpha1api20210601.APIVersion
+// Deprecated version of APIVersion. Use v1beta20210601.APIVersion instead
+// +kubebuilder:validation:Enum={"2021-06-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-06-01")
+
 // Storage version of v1alpha1api20210601.Workspace_Status
 // Deprecated version of Workspace_Status. Use v1beta20210601.Workspace_Status instead
 type Workspace_Status struct {
 	Conditions                      []conditions.Condition             `json:"conditions,omitempty"`
 	CreatedDate                     *string                            `json:"createdDate,omitempty"`
 	CustomerId                      *string                            `json:"customerId,omitempty"`
-	ETag                            *string                            `json:"eTag,omitempty"`
+	Etag                            *string                            `json:"etag,omitempty"`
 	Features                        *WorkspaceFeatures_Status          `json:"features,omitempty"`
 	ForceCmkForQuery                *bool                              `json:"forceCmkForQuery,omitempty"`
 	Id                              *string                            `json:"id,omitempty"`
@@ -289,8 +296,8 @@ func (workspace *Workspace_Status) AssignPropertiesFromWorkspaceStatus(source *v
 	// CustomerId
 	workspace.CustomerId = genruntime.ClonePointerToString(source.CustomerId)
 
-	// ETag
-	workspace.ETag = genruntime.ClonePointerToString(source.ETag)
+	// Etag
+	workspace.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// Features
 	if source.Features != nil {
@@ -409,8 +416,8 @@ func (workspace *Workspace_Status) AssignPropertiesToWorkspaceStatus(destination
 	// CustomerId
 	destination.CustomerId = genruntime.ClonePointerToString(workspace.CustomerId)
 
-	// ETag
-	destination.ETag = genruntime.ClonePointerToString(workspace.ETag)
+	// Etag
+	destination.Etag = genruntime.ClonePointerToString(workspace.Etag)
 
 	// Features
 	if workspace.Features != nil {

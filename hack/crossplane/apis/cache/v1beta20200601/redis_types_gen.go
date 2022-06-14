@@ -30,15 +30,15 @@ type RedisList struct {
 	Items           []Redis `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2020-06-01")
+
 type RedisResource_Status struct {
 	v1alpha1.ResourceStatus `json:",inline,omitempty"`
 	AtProvider              RedisResourceObservation `json:"atProvider,omitempty"`
 }
-
-// +kubebuilder:validation:Enum={"2020-06-01"}
-type RedisSpecAPIVersion string
-
-const RedisSpecAPIVersion20200601 = RedisSpecAPIVersion("2020-06-01")
 
 type Redis_Spec struct {
 	v1alpha1.ResourceSpec `json:",inline,omitempty"`
@@ -325,6 +325,8 @@ const (
 )
 
 type RedisProperties_Status_RedisConfiguration struct {
+	AdditionalProperties map[string]string `json:"additionalProperties,omitempty"`
+
 	// AofStorageConnectionString0: First storage account connection string
 	AofStorageConnectionString0 *string `json:"aof-storage-connection-string-0,omitempty"`
 
@@ -356,8 +358,7 @@ type RedisProperties_Status_RedisConfiguration struct {
 	RdbBackupMaxSnapshotCount *string `json:"rdb-backup-max-snapshot-count,omitempty"`
 
 	// RdbStorageConnectionString: The storage account connection string for storing rdb file
-	RdbStorageConnectionString *string           `json:"rdb-storage-connection-string,omitempty"`
-	additionalProperties       map[string]string `json:"additionalProperties,omitempty"`
+	RdbStorageConnectionString *string `json:"rdb-storage-connection-string,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2020-06-01/Microsoft.Cache.json#/definitions/Sku

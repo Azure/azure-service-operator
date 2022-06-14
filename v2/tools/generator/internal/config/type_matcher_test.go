@@ -28,7 +28,9 @@ func Test_FilterByGroup_CorrectlySelectsStructs(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	filter := config.TypeMatcher{Group: "role"}
+	filter := config.TypeMatcher{
+		Group: config.NewFieldMatcher("role"),
+	}
 	err := filter.Initialize()
 	g.Expect(err).To(BeNil())
 
@@ -45,7 +47,9 @@ func Test_FilterByVersion_CorrectlySelectsStructs(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	filter := config.TypeMatcher{Version: "v2019*"}
+	filter := config.TypeMatcher{
+		Version: config.NewFieldMatcher("v2019*"),
+	}
 	err := filter.Initialize()
 	g.Expect(err).To(BeNil())
 
@@ -61,7 +65,9 @@ func Test_FilterByName_CorrectlySelectsStructs(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	filter := config.TypeMatcher{Name: "p*"}
+	filter := config.TypeMatcher{
+		Name: config.NewFieldMatcher("p*"),
+	}
 	err := filter.Initialize()
 	g.Expect(err).To(BeNil())
 
@@ -77,7 +83,10 @@ func Test_FilterByMultipleConditions_CorrectlySelectsStructs(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	filter := config.TypeMatcher{Name: "p*", Version: "v2019*"}
+	filter := config.TypeMatcher{
+		Name:    config.NewFieldMatcher("p*"),
+		Version: config.NewFieldMatcher("v2019*"),
+	}
 	err := filter.Initialize()
 	g.Expect(err).To(BeNil())
 
@@ -95,7 +104,10 @@ func Test_FiltersAreCaseInsensitive(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	filter := config.TypeMatcher{Group: "ROLE", Name: "TuToR"}
+	filter := config.TypeMatcher{
+		Group: config.NewFieldMatcher("ROLE"),
+		Name:  config.NewFieldMatcher("TuToR"),
+	}
 	err := filter.Initialize()
 	g.Expect(err).To(BeNil())
 
@@ -112,7 +124,9 @@ func Test_FilterByMultipleWildcards_CorrectlySelectsStructs(t *testing.T) {
 	t.Parallel()
 	g := NewGomegaWithT(t)
 
-	filter := config.TypeMatcher{Name: "p*;*t"}
+	filter := config.TypeMatcher{
+		Name: config.NewFieldMatcher("p*;*t"),
+	}
 	err := filter.Initialize()
 	g.Expect(err).To(BeNil())
 

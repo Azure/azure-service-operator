@@ -23,16 +23,16 @@ var _ genruntime.ARMResourceSpec = &RedisPatchSchedules_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
 func (schedules RedisPatchSchedules_SpecARM) GetAPIVersion() string {
-	return "2020-12-01"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource
-func (schedules RedisPatchSchedules_SpecARM) GetName() string {
+func (schedules *RedisPatchSchedules_SpecARM) GetName() string {
 	return schedules.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redis/patchSchedules"
-func (schedules RedisPatchSchedules_SpecARM) GetType() string {
+func (schedules *RedisPatchSchedules_SpecARM) GetType() string {
 	return "Microsoft.Cache/redis/patchSchedules"
 }
 

@@ -112,7 +112,7 @@ func (queue *NamespacesQueue) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01-preview"
 func (queue NamespacesQueue) GetAPIVersion() string {
-	return "2021-01-01-preview"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -368,7 +368,7 @@ func (queues *NamespacesQueues_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	if queues == nil {
 		return nil, nil
 	}
-	var result NamespacesQueues_SpecARM
+	result := &NamespacesQueues_SpecARM{}
 
 	// Set property ‘Location’:
 	if queues.Location != nil {
@@ -455,7 +455,7 @@ func (queues *NamespacesQueues_Spec) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property ‘Tags’:
 	if queues.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(queues.Tags))
 		for key, value := range queues.Tags {
 			result.Tags[key] = value
 		}
@@ -617,7 +617,7 @@ func (queues *NamespacesQueues_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		queues.Tags = make(map[string]string)
+		queues.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			queues.Tags[key] = value
 		}

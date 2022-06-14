@@ -93,8 +93,8 @@ func (config *Configuration) FullTypesRegistrationOutputFilePath() string {
 
 func (config *Configuration) GetTypeFiltersError() error {
 	for _, filter := range config.TypeFilters {
-		if !filter.MatchedRequiredTypes() {
-			return errors.Errorf("Type filter action: %q, target: %q matched no types", filter.Action, filter.String())
+		if err := filter.RequiredTypesWereMatched(); err != nil {
+			return errors.Wrapf(err, "type filter action: %q", filter.Action)
 		}
 	}
 
@@ -103,8 +103,8 @@ func (config *Configuration) GetTypeFiltersError() error {
 
 func (config *Configuration) GetTypeTransformersError() error {
 	for _, filter := range config.typeTransformers {
-		if !filter.MatchedRequiredTypes() {
-			return errors.Errorf("Type transformer target: %q matched no types", filter.String())
+		if err := filter.RequiredTypesWereMatched(); err != nil {
+			return errors.Wrap(err, "type transformer")
 		}
 	}
 
@@ -113,11 +113,12 @@ func (config *Configuration) GetTypeTransformersError() error {
 
 func (config *Configuration) GetPropertyTransformersError() error {
 	for _, filter := range config.propertyTransformers {
-		if !filter.MatchedRequiredTypes() {
-			return errors.Errorf("Type transformer target: %q for property %q matched no types", filter.String(), filter.Property)
+		if err := filter.RequiredTypesWereMatched(); err != nil {
+			return errors.Wrap(err, "type transformer target")
 		}
-		if !filter.MatchedRequiredProperties() {
-			return errors.Errorf("Type transformer target: %q for property %q matched types, but no types had the property", filter.String(), filter.Property)
+
+		if err := filter.RequiredPropertiesWereMatched(); err != nil {
+			return errors.Wrapf(err, "type transformer target")
 		}
 	}
 
@@ -188,6 +189,11 @@ func (config *Configuration) VerifyARMReferencesConsumed() error {
 // IsSecret looks up a property to determine whether it is a secret.
 func (config *Configuration) IsSecret(name astmodel.TypeName, property astmodel.PropertyName) (bool, error) {
 	return config.ObjectModelConfiguration.IsSecret(name, property)
+}
+
+// VerifyIsSecretConsumed returns an error if any configured Secret References were not consumed
+func (config *Configuration) VerifyIsSecretConsumed() error {
+	return config.ObjectModelConfiguration.VerifyIsSecretConsumed()
 }
 
 // IsResourceLifecycleOwnedByParent looks up a property to determine if represents a subresource whose lifecycle is owned
@@ -296,7 +302,7 @@ func (config *Configuration) initialize(configPath string) error {
 			errs = append(errs, err)
 		}
 
-		if transformer.Property != "" {
+		if transformer.Property.IsRestrictive() {
 			propertyTransformers = append(propertyTransformers, transformer)
 		} else {
 			typeTransformers = append(typeTransformers, transformer)

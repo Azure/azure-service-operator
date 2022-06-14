@@ -17,15 +17,15 @@ var _ genruntime.ARMResourceSpec = &DatabaseAccountsSqlDatabasesContainersThroug
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (settings DatabaseAccountsSqlDatabasesContainersThroughputSettings_SpecARM) GetAPIVersion() string {
-	return "2021-05-15"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource
-func (settings DatabaseAccountsSqlDatabasesContainersThroughputSettings_SpecARM) GetName() string {
+func (settings *DatabaseAccountsSqlDatabasesContainersThroughputSettings_SpecARM) GetName() string {
 	return settings.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/throughputSettings"
-func (settings DatabaseAccountsSqlDatabasesContainersThroughputSettings_SpecARM) GetType() string {
+func (settings *DatabaseAccountsSqlDatabasesContainersThroughputSettings_SpecARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts/sqlDatabases/containers/throughputSettings"
 }

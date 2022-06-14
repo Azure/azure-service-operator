@@ -41,8 +41,8 @@ func Test_Networking_VirtualNetwork_CRUD(t *testing.T) {
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "Subnet CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
-				Subnet_CRUD(testContext, vnet)
+			Test: func(tc *testcommon.KubePerTestContext) {
+				Subnet_CRUD(tc, vnet)
 			},
 		},
 	)
@@ -50,7 +50,7 @@ func Test_Networking_VirtualNetwork_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(vnet)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.VirtualNetworksSpecAPIVersion20201101))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersionValue))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())
@@ -121,7 +121,7 @@ func Test_Networking_Subnet_CreatedThenVNETUpdated_SubnetStillExists(t *testing.
 
 	// Now ensure that the Subnet still exists
 	// Ensure that the resource was really deleted in Azure
-	exists, _, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.VirtualNetworksSubnetsSpecAPIVersion20201101))
+	exists, _, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(network.APIVersionValue))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeTrue())
 }

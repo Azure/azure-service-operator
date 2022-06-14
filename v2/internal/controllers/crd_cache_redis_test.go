@@ -19,7 +19,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-//nolint:tparallel
 func Test_Cache_Redis_CRUD(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
@@ -54,14 +53,14 @@ func Test_Cache_Redis_CRUD(t *testing.T) {
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "Redis linked server CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
-				Redis_LinkedServer_CRUD(testContext, rg, redis1, redis2)
+			Test: func(tc *testcommon.KubePerTestContext) {
+				Redis_LinkedServer_CRUD(tc, rg, redis1, redis2)
 			},
 		},
 		testcommon.Subtest{
 			Name: "Redis patch schedule CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
-				Redis_PatchSchedule_CRUD(testContext, redis1)
+			Test: func(tc *testcommon.KubePerTestContext) {
+				Redis_PatchSchedule_CRUD(tc, redis1)
 			},
 		},
 	)
@@ -69,7 +68,7 @@ func Test_Cache_Redis_CRUD(t *testing.T) {
 	tc.DeleteResourcesAndWait(redis1, redis2)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(cache.RedisSpecAPIVersion20201201))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(cache.APIVersionValue))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

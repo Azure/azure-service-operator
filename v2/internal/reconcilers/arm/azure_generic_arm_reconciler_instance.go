@@ -14,13 +14,13 @@ import (
 	"github.com/pkg/errors"
 	v1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/client-go/tools/record"
 	ctrl "sigs.k8s.io/controller-runtime"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
-	"github.com/Azure/azure-service-operator/v2/internal/ownerutil"
+	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
@@ -31,29 +31,38 @@ import (
 )
 
 type azureDeploymentReconcilerInstance struct {
-	AzureDeploymentReconciler
+	reconcilers.ARMOwnedResourceReconcilerCommon
 	Obj       genruntime.ARMMetaObject
 	Log       logr.Logger
+	Recorder  record.EventRecorder
+	Extension genruntime.ResourceExtension
 	ARMClient *genericarmclient.GenericClient
 }
 
 func newAzureDeploymentReconcilerInstance(
 	metaObj genruntime.ARMMetaObject,
 	log logr.Logger,
+	recorder record.EventRecorder,
 	armClient *genericarmclient.GenericClient,
 	reconciler AzureDeploymentReconciler) *azureDeploymentReconcilerInstance {
 
 	return &azureDeploymentReconcilerInstance{
-		Obj:                       metaObj,
-		Log:                       log,
-		ARMClient:                 armClient,
-		AzureDeploymentReconciler: reconciler,
+		Obj:       metaObj,
+		Log:       log,
+		Recorder:  recorder,
+		ARMClient: armClient,
+		Extension: reconciler.Extension,
+		ARMOwnedResourceReconcilerCommon: reconcilers.ARMOwnedResourceReconcilerCommon{
+			ResourceResolver: reconciler.ResourceResolver,
+			ReconcilerCommon: reconcilers.ReconcilerCommon{
+				KubeClient:         reconciler.KubeClient,
+				PositiveConditions: reconciler.PositiveConditions,
+			},
+		},
 	}
 }
 
 func (r *azureDeploymentReconcilerInstance) CreateOrUpdate(ctx context.Context) (ctrl.Result, error) {
-	logObj(r.Log, "reconciling resource", r.Obj)
-
 	action, actionFunc, err := r.DetermineCreateOrUpdateAction()
 	if err != nil {
 		r.Log.Error(err, "error determining create or update action")
@@ -76,8 +85,6 @@ func (r *azureDeploymentReconcilerInstance) CreateOrUpdate(ctx context.Context) 
 }
 
 func (r *azureDeploymentReconcilerInstance) Delete(ctx context.Context) (ctrl.Result, error) {
-	logObj(r.Log, "reconciling resource", r.Obj)
-
 	action, actionFunc, err := r.DetermineDeleteAction()
 	if err != nil {
 		r.Log.Error(err, "error determining delete action")
@@ -100,6 +107,14 @@ func (r *azureDeploymentReconcilerInstance) Delete(ctx context.Context) (ctrl.Re
 }
 
 func (r *azureDeploymentReconcilerInstance) MakeReadyConditionImpactingErrorFromError(azureErr error) error {
+	var readyConditionError *conditions.ReadyConditionImpactingError
+	isReadyConditionImpactingError := errors.As(azureErr, &readyConditionError)
+	if isReadyConditionImpactingError {
+		// The error has already been classified. This currently only happens in test with the go-vcr injected
+		// http client
+		return azureErr
+	}
+
 	var cloudError *genericarmclient.CloudError
 	isCloudErr := errors.As(azureErr, &cloudError)
 	if !isCloudErr {
@@ -176,13 +191,7 @@ func (r *azureDeploymentReconcilerInstance) DetermineCreateOrUpdateAction() (Cre
 		return CreateOrUpdateActionMonitorCreation, r.MonitorResourceCreation, nil
 	}
 
-	// TODO: What do we do if somebody tries to change the owner of a resource?
-	// TODO: That's not allowed in Azure so we can't actually make the change, but
-	// TODO: we could interpret it as a commend to create a duplicate resource under the
-	// TODO: new owner (and orphan the old Azure resource?). Alternatively we could just put the
-	// TODO: Kubernetes resource into an error state
-	// TODO: See: https://github.com/Azure/k8s-infra/issues/274
-	if r.needToClaimResource() {
+	if r.NeedToClaimResource(r.Obj) {
 		return CreateOrUpdateActionClaimResource, r.ClaimResource, nil
 	}
 
@@ -205,16 +214,16 @@ func (r *azureDeploymentReconcilerInstance) StartDeleteOfResource(ctx context.Co
 	r.Recorder.Event(r.Obj, v1.EventTypeNormal, string(DeleteActionBeginDelete), msg)
 
 	// If we have no resourceID to begin with, or no finalizer, the Azure resource was never created
-	hasFinalizer := controllerutil.ContainsFinalizer(r.Obj, GenericControllerFinalizer)
+	hasFinalizer := controllerutil.ContainsFinalizer(r.Obj, reconcilers.GenericControllerFinalizer)
 	resourceID := genruntime.GetResourceIDOrDefault(r.Obj)
 	if resourceID == "" || !hasFinalizer {
-		return ctrl.Result{}, r.deleteResourceSucceeded(ctx)
+		return ctrl.Result{}, r.RemoveResourceFinalizer(ctx, r.Log, r.Obj)
 	}
 
-	reconcilePolicy := GetReconcilePolicy(r.Obj, r.Log)
+	reconcilePolicy := reconcilers.GetReconcilePolicy(r.Obj, r.Log)
 	if !reconcilePolicy.AllowsDelete() {
 		r.Log.V(Info).Info("Bypassing delete of resource in Azure due to policy", "policy", reconcilePolicy)
-		return ctrl.Result{}, r.deleteResourceSucceeded(ctx)
+		return ctrl.Result{}, r.RemoveResourceFinalizer(ctx, r.Log, r.Obj)
 	}
 
 	// Check that this objects owner still exists
@@ -223,7 +232,7 @@ func (r *azureDeploymentReconcilerInstance) StartDeleteOfResource(ctx context.Co
 	if err != nil {
 		var typedErr *resolver.ReferenceNotFound
 		if errors.As(err, &typedErr) {
-			return ctrl.Result{}, r.deleteResourceSucceeded(ctx)
+			return ctrl.Result{}, r.RemoveResourceFinalizer(ctx, r.Log, r.Obj)
 		}
 	}
 
@@ -234,9 +243,7 @@ func (r *azureDeploymentReconcilerInstance) StartDeleteOfResource(ctx context.Co
 	}
 
 	conditions.SetCondition(r.Obj, r.PositiveConditions.Ready.Deleting(r.Obj.GetGeneration()))
-	err = r.CommitUpdate(ctx)
-
-	err = client.IgnoreNotFound(err)
+	err = r.CommitUpdate(ctx, r.Log, r.Obj)
 	if err != nil {
 		return ctrl.Result{}, err
 	}
@@ -251,10 +258,10 @@ func (r *azureDeploymentReconcilerInstance) StartDeleteOfResource(ctx context.Co
 // MonitorDelete will call Azure to check if the resource still exists. If so, it will requeue, else,
 // the finalizer will be removed.
 func (r *azureDeploymentReconcilerInstance) MonitorDelete(ctx context.Context) (ctrl.Result, error) {
-	hasFinalizer := controllerutil.ContainsFinalizer(r.Obj, GenericControllerFinalizer)
+	hasFinalizer := controllerutil.ContainsFinalizer(r.Obj, reconcilers.GenericControllerFinalizer)
 	if !hasFinalizer {
 		r.Log.V(Status).Info("Resource no longer has finalizer, moving deletion to success")
-		return ctrl.Result{}, r.deleteResourceSucceeded(ctx)
+		return ctrl.Result{}, r.RemoveResourceFinalizer(ctx, r.Log, r.Obj)
 	}
 
 	msg := "Continue monitoring deletion"
@@ -282,8 +289,8 @@ func (r *azureDeploymentReconcilerInstance) MonitorDelete(ctx context.Context) (
 		return ctrl.Result{Requeue: true}, nil
 	}
 
-	// TODO: Transfer the below into controller?
-	err = r.deleteResourceSucceeded(ctx)
+	// TODO: Transfer the below into the generic controller?
+	err = r.RemoveResourceFinalizer(ctx, r.Log, r.Obj)
 
 	return ctrl.Result{}, err
 }
@@ -300,7 +307,7 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(ctx cont
 		return ctrl.Result{}, err
 	}
 
-	reconcilePolicy := GetReconcilePolicy(r.Obj, r.Log)
+	reconcilePolicy := reconcilers.GetReconcilePolicy(r.Obj, r.Log)
 	if !reconcilePolicy.AllowsModify() {
 		return r.handleSkipReconcile(ctx)
 	}
@@ -327,11 +334,9 @@ func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(ctx cont
 
 	SetPollerResumeToken(r.Obj, pollerResp.ID, resumeToken)
 
-	err = r.CommitUpdate(ctx)
+	err = r.CommitUpdate(ctx, r.Log, r.Obj)
 	if err != nil {
-		// NotFound is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
-		// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
-		return ctrl.Result{}, client.IgnoreNotFound(err)
+		return ctrl.Result{}, err
 	}
 
 	return ctrl.Result{Requeue: true}, nil
@@ -350,10 +355,10 @@ func (r *azureDeploymentReconcilerInstance) handlePollerFailed(err error) error 
 }
 
 func (r *azureDeploymentReconcilerInstance) handleSkipReconcile(ctx context.Context) (ctrl.Result, error) {
-	reconcilePolicy := GetReconcilePolicy(r.Obj, r.Log)
+	reconcilePolicy := reconcilers.GetReconcilePolicy(r.Obj, r.Log)
 	r.Log.V(Status).Info(
 		"Skipping creation of resource due to policy",
-		ReconcilePolicyAnnotation, reconcilePolicy,
+		reconcilers.ReconcilePolicyAnnotation, reconcilePolicy,
 		"resourceID", genruntime.GetResourceIDOrDefault(r.Obj))
 
 	err := r.updateStatus(ctx)
@@ -367,10 +372,8 @@ func (r *azureDeploymentReconcilerInstance) handleSkipReconcile(ctx context.Cont
 
 	ClearPollerResumeToken(r.Obj)
 	conditions.SetCondition(r.Obj, r.PositiveConditions.Ready.Succeeded(r.Obj.GetGeneration()))
-	if err = r.CommitUpdate(ctx); err != nil {
-		// NotFound is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
-		// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
-		return ctrl.Result{}, client.IgnoreNotFound(err)
+	if err = r.CommitUpdate(ctx, r.Log, r.Obj); err != nil {
+		return ctrl.Result{}, err
 	}
 
 	return ctrl.Result{}, nil
@@ -397,11 +400,9 @@ func (r *azureDeploymentReconcilerInstance) handlePollerSuccess(ctx context.Cont
 
 	ClearPollerResumeToken(r.Obj)
 	conditions.SetCondition(r.Obj, r.PositiveConditions.Ready.Succeeded(r.Obj.GetGeneration()))
-	err = r.CommitUpdate(ctx)
+	err = r.CommitUpdate(ctx, r.Log, r.Obj)
 	if err != nil {
-		// NotFound is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
-		// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
-		return ctrl.Result{}, client.IgnoreNotFound(err)
+		return ctrl.Result{}, err
 	}
 
 	return ctrl.Result{}, nil
@@ -428,52 +429,8 @@ func (r *azureDeploymentReconcilerInstance) MonitorResourceCreation(ctx context.
 	return ctrl.Result{Requeue: true, RequeueAfter: retryAfter}, nil
 }
 
-func (r *azureDeploymentReconcilerInstance) needToClaimResource() bool {
-	owner := r.Obj.Owner()
-	unresolvedOwner := owner != nil && len(r.Obj.GetOwnerReferences()) == 0
-	unsetFinalizer := !controllerutil.ContainsFinalizer(r.Obj, GenericControllerFinalizer)
-
-	return unresolvedOwner || unsetFinalizer
-}
-
-// ClaimResource adds a finalizer and ensures that the owner reference is set
 func (r *azureDeploymentReconcilerInstance) ClaimResource(ctx context.Context) (ctrl.Result, error) {
-	r.Log.V(Info).Info("applying ownership", "action", CreateOrUpdateActionClaimResource)
-	isOwnerReady, err := r.isOwnerReady(ctx)
-	if err != nil {
-		return ctrl.Result{}, err
-	}
-
-	if !isOwnerReady {
-		err = errors.Errorf("Owner %q cannot be found. Progress is blocked until the owner is created.", r.Obj.Owner().String())
-		err = conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityWarning, conditions.ReasonWaitingForOwner)
-		return ctrl.Result{}, err
-	}
-
-	// Adding the finalizer should happen in a reconcile loop prior to the PUT being sent to Azure to avoid situations where
-	// we issue a PUT to Azure but the commit of the resource into etcd fails, causing us to have an unset
-	// finalizer and have started resource creation in Azure.
-	r.Log.V(Info).Info("adding finalizer", "action", CreateOrUpdateActionClaimResource)
-	controllerutil.AddFinalizer(r.Obj, GenericControllerFinalizer)
-
-	// Short circuit here if there's no owner management to do
-	if r.Obj.Owner() == nil {
-		err = r.CommitUpdate(ctx)
-		err = client.IgnoreNotFound(err)
-		if err != nil {
-			return ctrl.Result{}, errors.Wrap(err, "updating resource error")
-		}
-
-		return ctrl.Result{Requeue: true}, nil
-	}
-
-	err = r.applyOwnership(ctx)
-	if err != nil {
-		return ctrl.Result{}, err
-	}
-
-	// Fast requeue as we're moving to the next stage
-	return ctrl.Result{Requeue: true}, nil
+	return r.ARMOwnedResourceReconcilerCommon.ClaimResource(ctx, r.Log, r.Obj)
 }
 
 //////////////////////////////////////////
@@ -566,73 +523,6 @@ func (r *azureDeploymentReconcilerInstance) updateStatus(ctx context.Context) er
 	return nil
 }
 
-func (r *azureDeploymentReconcilerInstance) CommitUpdate(ctx context.Context) error {
-	err := r.KubeClient.CommitObject(ctx, r.Obj)
-	if err != nil {
-		return err
-	}
-	logObj(r.Log, "updated resource in etcd", r.Obj)
-	return nil
-}
-
-// isOwnerReady returns true if the owner is ready or if there is no owner required
-func (r *azureDeploymentReconcilerInstance) isOwnerReady(ctx context.Context) (bool, error) {
-	_, err := r.ResourceResolver.ResolveOwner(ctx, r.Obj)
-	if err != nil {
-		var typedErr *resolver.ReferenceNotFound
-		if errors.As(err, &typedErr) {
-			r.Log.V(Info).Info("Owner does not yet exist", "NamespacedName", typedErr.NamespacedName)
-			return false, nil
-		}
-
-		return false, errors.Wrap(err, "failed to get owner")
-	}
-
-	return true, nil
-}
-
-func (r *azureDeploymentReconcilerInstance) applyOwnership(ctx context.Context) error {
-	owner, err := r.ResourceResolver.ResolveOwner(ctx, r.Obj)
-	if err != nil {
-		return errors.Wrap(err, "failed to get owner")
-	}
-
-	if owner == nil {
-		return nil
-	}
-
-	ownerRef := ownerutil.MakeOwnerReference(owner)
-
-	r.Obj.SetOwnerReferences(ownerutil.EnsureOwnerRef(r.Obj.GetOwnerReferences(), ownerRef))
-	r.Log.V(Info).Info(
-		"Set owner reference",
-		"ownerGvk", owner.GetObjectKind().GroupVersionKind(),
-		"ownerName", owner.GetName())
-	err = r.CommitUpdate(ctx)
-
-	if err != nil {
-		return errors.Wrap(err, "update owner references failed")
-	}
-
-	return nil
-}
-
-// TODO: it's not clear if we want to reserve updates of the resource to the controller itself (and keep KubeClient out of the azureDeploymentReconcilerInstance)
-func (r *azureDeploymentReconcilerInstance) deleteResourceSucceeded(ctx context.Context) error {
-	controllerutil.RemoveFinalizer(r.Obj, GenericControllerFinalizer)
-	err := r.CommitUpdate(ctx)
-
-	// We must also ignore conflict here because updating a resource that
-	// doesn't exist returns conflict unfortunately: https://github.com/kubernetes/kubernetes/issues/89985
-	err = IgnoreNotFoundAndConflict(err)
-	if err != nil {
-		return err
-	}
-
-	r.Log.V(Status).Info("Deleted resource")
-	return nil
-}
-
 // saveAzureSecrets retrieves secrets from Azure and saves them to Kubernetes.
 // If there are no secrets to save this method is a no-op.
 func (r *azureDeploymentReconcilerInstance) saveAzureSecrets(ctx context.Context) error {
@@ -699,7 +589,7 @@ func ConvertToARMResourceImpl(
 
 	resourceHierarchy, resolvedDetails, err := resolver.ResolveAll(ctx, metaObject)
 	if err != nil {
-		return nil, ClassifyResolverError(err)
+		return nil, reconcilers.ClassifyResolverError(err)
 	}
 
 	armSpec, err := armTransformer.ConvertToARM(resolvedDetails)
@@ -719,15 +609,4 @@ func ConvertToARMResourceImpl(
 
 	result := genruntime.NewARMResource(typedArmSpec, nil, armID)
 	return result, nil
-}
-
-func ClassifyResolverError(err error) error {
-	// If it's specifically secret not found, say so
-	var typedErr *resolver.SecretNotFound
-	if errors.As(err, &typedErr) {
-		return conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityWarning, conditions.ReasonSecretNotFound)
-	}
-	// Everything else is ReferenceNotFound. This is maybe a bit of a lie but secrets are also references and we want to make sure
-	// everything is classified as something, so for now it's good enough.
-	return conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityWarning, conditions.ReasonReferenceNotFound)
 }

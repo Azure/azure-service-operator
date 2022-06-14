@@ -112,7 +112,7 @@ func (rule *NamespacesEventhubsAuthorizationRule) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
 func (rule NamespacesEventhubsAuthorizationRule) GetAPIVersion() string {
-	return "2021-11-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -356,7 +356,7 @@ func (rules *NamespacesEventhubsAuthorizationRules_Spec) ConvertToARM(resolved g
 	if rules == nil {
 		return nil, nil
 	}
-	var result NamespacesEventhubsAuthorizationRules_SpecARM
+	result := &NamespacesEventhubsAuthorizationRules_SpecARM{}
 
 	// Set property ‘Location’:
 	if rules.Location != nil {
@@ -377,7 +377,7 @@ func (rules *NamespacesEventhubsAuthorizationRules_Spec) ConvertToARM(resolved g
 
 	// Set property ‘Tags’:
 	if rules.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(rules.Tags))
 		for key, value := range rules.Tags {
 			result.Tags[key] = value
 		}
@@ -421,7 +421,7 @@ func (rules *NamespacesEventhubsAuthorizationRules_Spec) PopulateFromARM(owner g
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		rules.Tags = make(map[string]string)
+		rules.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			rules.Tags[key] = value
 		}

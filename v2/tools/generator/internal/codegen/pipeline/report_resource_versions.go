@@ -15,7 +15,7 @@ import (
 	"strings"
 
 	"github.com/pkg/errors"
-	"k8s.io/klog/v2"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 
@@ -33,24 +33,35 @@ func ReportResourceVersions(configuration *config.Configuration) *Stage {
 		ReportResourceVersionsStageID,
 		"Generate a report listing all the resources generated",
 		func(ctx context.Context, state *State) (*State, error) {
-			report := NewResourceVersionsReport(state.Definitions())
+			report := NewResourceVersionsReport(state.Definitions(), configuration.ObjectModelConfiguration)
+
 			err := report.WriteTo(configuration.FullTypesOutputPath(), configuration.SamplesURL)
+			if err != nil {
+				return nil, err
+			}
+
+			err = configuration.ObjectModelConfiguration.VerifySupportedFromConsumed()
 			return state, err
 		})
 }
 
 type ResourceVersionsReport struct {
-	groups set.Set[string]                       // A set of all our groups
-	kinds  map[string]astmodel.TypeDefinitionSet // For each group, the set of all available resources
+	objectModelConfiguration *config.ObjectModelConfiguration
+	groups                   set.Set[string]                       // A set of all our groups
+	kinds                    map[string]astmodel.TypeDefinitionSet // For each group, the set of all available resources
 	// A separate list of resources for each package
 	lists map[astmodel.PackageReference][]astmodel.TypeDefinition
 }
 
-func NewResourceVersionsReport(definitions astmodel.TypeDefinitionSet) *ResourceVersionsReport {
+func NewResourceVersionsReport(
+	definitions astmodel.TypeDefinitionSet,
+	cfg *config.ObjectModelConfiguration,
+) *ResourceVersionsReport {
 	result := &ResourceVersionsReport{
-		groups: set.Make[string](),
-		kinds:  make(map[string]astmodel.TypeDefinitionSet),
-		lists:  make(map[astmodel.PackageReference][]astmodel.TypeDefinition),
+		objectModelConfiguration: cfg,
+		groups:                   set.Make[string](),
+		kinds:                    make(map[string]astmodel.TypeDefinitionSet),
+		lists:                    make(map[astmodel.PackageReference][]astmodel.TypeDefinition),
 	}
 
 	result.summarize(definitions)
@@ -68,30 +79,27 @@ func (report *ResourceVersionsReport) summarize(definitions astmodel.TypeDefinit
 			continue
 		}
 
-		grp, _, ok := pkg.GroupVersion()
-		if !ok {
-			// Any external packages we encounter here  are odd, but not worth aborting our run over
-			klog.V(3).Infof("Skipping external package %s while generating resource version report", pkg.String())
-			continue
-		}
-
+		grp, _ := pkg.GroupVersion()
 		report.groups.Add(grp)
 		report.lists[pkg] = append(report.lists[pkg], rsrc)
 
-		set, ok := report.kinds[grp]
+		defs, ok := report.kinds[grp]
 		if !ok {
-			set = make(astmodel.TypeDefinitionSet)
-			report.kinds[grp] = set
+			defs = make(astmodel.TypeDefinitionSet)
+			report.kinds[grp] = defs
 		}
 
-		set.Add(rsrc)
+		defs.Add(rsrc)
 	}
 }
 
 // WriteTo creates a file containing the generated report
 func (report *ResourceVersionsReport) WriteTo(outputPath string, samplesURL string) error {
 	var buffer strings.Builder
-	report.WriteToBuffer(&buffer, samplesURL)
+	err := report.WriteToBuffer(&buffer, samplesURL)
+	if err != nil {
+		return errors.Wrapf(err, "writing versions report to %s", outputPath)
+	}
 
 	if _, err := os.Stat(outputPath); os.IsNotExist(err) {
 		err = os.MkdirAll(outputPath, 0o700)
@@ -105,7 +113,7 @@ func (report *ResourceVersionsReport) WriteTo(outputPath string, samplesURL stri
 }
 
 // WriteToBuffer creates the report in the provided buffer
-func (report *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder, samplesURL string) {
+func (report *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder, samplesURL string) error {
 	buffer.WriteString("---\n")
 	buffer.WriteString("title: Supported Resources\n")
 	buffer.WriteString("---\n\n")
@@ -113,33 +121,43 @@ func (report *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder, sam
 	buffer.WriteString("grouped by the originating ARM service. ")
 	buffer.WriteString("(Newly supported resources will appear in this list prior to inclusion in any ASO release.)\n\n")
 
-	// Sort groups into increasing order
+	// Sort groups into alphabetical order
 	groups := set.AsSortedSlice(report.groups)
 
+	var errs []error
 	for _, svc := range groups {
 		buffer.WriteString(fmt.Sprintf("## %s\n\n", strings.Title(svc)))
-		table := report.createTable(report.kinds[svc], svc, samplesURL)
+		table, err := report.createTable(report.kinds[svc], svc, samplesURL)
+		if err != nil {
+			errs = append(errs, err)
+			continue
+		}
+
 		table.WriteTo(buffer)
 		buffer.WriteString("\n")
 	}
+
+	return kerrors.NewAggregate(errs)
 }
 
 func (report *ResourceVersionsReport) createTable(
 	resources astmodel.TypeDefinitionSet,
 	group string,
 	samplesURL string,
-) *reporting.MarkdownTable {
+) (*reporting.MarkdownTable, error) {
 	const (
-		name       = "Resource"
-		armVersion = "ARM Version"
-		crdVersion = "CRD Version"
-		sample     = "Sample"
+		name          = "Resource"
+		armVersion    = "ARM Version"
+		crdVersion    = "CRD Version"
+		sample        = "Sample"
+		supportedFrom = "Supported From"
 	)
 
 	result := reporting.NewMarkdownTable(
 		name,
 		armVersion,
 		crdVersion,
+		supportedFrom,
 		sample)
 
 	toIterate := resources.AsSlice()
@@ -154,6 +172,7 @@ func (report *ResourceVersionsReport) createTable(
 		return astmodel.ComparePathAndVersion(right.PackageReference.PackagePath(), left.PackageReference.PackagePath())
 	})
 
+	errs := make([]error, 0, len(toIterate))
 	for _, rsrc := range toIterate {
 		resourceType := astmodel.MustBeResourceType(rsrc.Type())
 
@@ -163,21 +182,50 @@ func (report *ResourceVersionsReport) createTable(
 			armVersion = crdVersion
 		}
 
-		var sample string
-		if samplesURL != "" {
-			// Note: These links are guaranteed to work because of the Taskfile 'controller:verify-samples' target
-			samplePath := fmt.Sprintf("%s/%s/%s_%s.yaml", samplesURL, group, crdVersion, strings.ToLower(rsrc.Name().Name()))
-			sample = fmt.Sprintf("[View](%s)", samplePath)
-		} else {
-			sample = "-"
-		}
+		sample := report.generateSampleLink(samplesURL, group, rsrc)
+		supportedFrom, err := report.generateSupportedFrom(rsrc.Name())
+		errs = append(errs, err)
 
 		result.AddRow(
 			rsrc.Name().Name(),
 			armVersion,
 			crdVersion,
+			supportedFrom,
 			sample)
 	}
 
-	return result
+	err := kerrors.NewAggregate(errs)
+	if err != nil {
+		return nil, errors.Wrap(err, "generating versions report")
+	}
+
+	return result, nil
+}
+
+func (report *ResourceVersionsReport) generateSampleLink(samplesURL string, group string, rsrc astmodel.TypeDefinition) string {
+	crdVersion := rsrc.Name().PackageReference.PackageName()
+	if samplesURL != "" {
+		// Note: These links are guaranteed to work because of the Taskfile 'controller:verify-samples' target
+		samplePath := fmt.Sprintf("%s/%s/%s_%s.yaml", samplesURL, group, crdVersion, strings.ToLower(rsrc.Name().Name()))
+		return fmt.Sprintf("[View](%s)", samplePath)
+	}
+
+	return "-"
+}
+
+func (report *ResourceVersionsReport) generateSupportedFrom(typeName astmodel.TypeName) (string, error) {
+	supportedFrom, err := report.objectModelConfiguration.LookupSupportedFrom(typeName)
+	if err != nil {
+		return "", err
+	}
+
+	_, ver := typeName.PackageReference.GroupVersion()
+
+	// Special case for resources that existed prior to beta.0
+	// the `v1beta` versions of those resources are only available from "beta.0"
+	if strings.Contains(ver, "v1beta") && strings.HasPrefix(supportedFrom, "v2.0.0-alpha") {
+		return "v2.0.0-beta.0", nil
+	}
+
+	return supportedFrom, nil
 }

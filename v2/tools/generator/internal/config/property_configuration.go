@@ -32,9 +32,6 @@ type PropertyConfiguration struct {
 
 const (
 	armReferenceTag                     = "$armReference"                     // Bool specifying whether a property is an ARM reference
-	exportTag                           = "$export"                           // Boolean specifying whether a resource type is exported
-	exportAsTag                         = "$exportAs"                         // String specifying the name to use for a type (implies $export: true)
-	nameInNextVersionTag                = "$nameInNextVersion"                // String specifying a type or property name change in the next version
 	isSecretTag                         = "$isSecret"                         // Bool specifying whether a property contains a secret
 	isResourceLifecycleOwnedByParentTag = "$isResourceLifecycleOwnedByParent" // Bool specifying whether a property represents a subresource whose lifecycle is owned by the parent resource
 )
@@ -125,7 +122,7 @@ func (pc *PropertyConfiguration) ClearResourceLifecycleOwnedByParentConsumed() {
 }
 
 // VerifyIsResourceLifecycleOwnedByParentConsumed returns an error if our configuration has the
-// misbehavingEmbeddedResource flag and it was not consumed.
+// misbehavingEmbeddedResource flag, and was not consumed.
 func (pc *PropertyConfiguration) VerifyIsResourceLifecycleOwnedByParentConsumed() error {
 	if pc.isResourceLifecycleOwnedByParent.isUnconsumed() {
 		v, _ := pc.isResourceLifecycleOwnedByParent.read()

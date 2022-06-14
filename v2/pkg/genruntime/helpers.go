@@ -64,3 +64,13 @@ func MinInt(a int, b int) int {
 	}
 	return b
 }
+
+// ARMSpecNames returns a slice of names from the given ARMResourceSpec slice.
+func ARMSpecNames(specs []ARMResourceSpec) []string {
+	result := make([]string, len(specs))
+	for ix := range specs {
+		result[ix] = specs[ix].GetName()
+	}
+
+	return result
+}

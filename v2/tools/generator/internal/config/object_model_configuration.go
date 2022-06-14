@@ -42,7 +42,7 @@ func NewObjectModelConfiguration() *ObjectModelConfiguration {
 // found. Returns a NotConfiguredError if no rename is available.
 func (omc *ObjectModelConfiguration) LookupNameInNextVersion(name astmodel.TypeName) (string, error) {
 	var newName string
-	visitor := NewSingleTypeConfigurationVisitor(
+	visitor := newSingleTypeConfigurationVisitor(
 		name,
 		func(configuration *TypeConfiguration) error {
 			n, err := configuration.LookupNameInNextVersion()
@@ -59,7 +59,7 @@ func (omc *ObjectModelConfiguration) LookupNameInNextVersion(name astmodel.TypeN
 
 // VerifyNameInNextVersionConsumed returns an error if any configured type renames were not consumed
 func (omc *ObjectModelConfiguration) VerifyNameInNextVersionConsumed() error {
-	visitor := NewEveryTypeConfigurationVisitor(
+	visitor := newEveryTypeConfigurationVisitor(
 		func(configuration *TypeConfiguration) error {
 			return configuration.VerifyNameInNextVersionConsumed()
 		})
@@ -70,7 +70,7 @@ func (omc *ObjectModelConfiguration) VerifyNameInNextVersionConsumed() error {
 // NotConfiguredError if no export is configured.
 func (omc *ObjectModelConfiguration) LookupExport(name astmodel.TypeName) (bool, error) {
 	var export bool
-	visitor := NewSingleTypeConfigurationVisitor(
+	visitor := newSingleTypeConfigurationVisitor(
 		name,
 		func(configuration *TypeConfiguration) error {
 			ex, err := configuration.LookupExport()
@@ -87,7 +87,7 @@ func (omc *ObjectModelConfiguration) LookupExport(name astmodel.TypeName) (bool,
 
 // VerifyExportConsumed returns an error if our configured export flag was not used, nil otherwise.
 func (omc *ObjectModelConfiguration) VerifyExportConsumed() error {
-	visitor := NewEveryTypeConfigurationVisitor(
+	visitor := newEveryTypeConfigurationVisitor(
 		func(configuration *TypeConfiguration) error {
 			return configuration.VerifyExportConsumed()
 		})
@@ -98,7 +98,7 @@ func (omc *ObjectModelConfiguration) VerifyExportConsumed() error {
 // name if found. Returns a NotConfiguredError if no export is configured.
 func (omc *ObjectModelConfiguration) LookupExportAs(name astmodel.TypeName) (string, error) {
 	var exportAs string
-	typeVisitor := NewSingleTypeConfigurationVisitor(
+	typeVisitor := newSingleTypeConfigurationVisitor(
 		name,
 		func(configuration *TypeConfiguration) error {
 			ea, err := configuration.LookupExportAs()
@@ -112,7 +112,7 @@ func (omc *ObjectModelConfiguration) LookupExportAs(name astmodel.TypeName) (str
 	}
 
 	// Add an alias so that any existing configuration can be found via the new name
-	versionVisitor := NewSingleVersionConfigurationVisitor(
+	versionVisitor := newSingleVersionConfigurationVisitor(
 		name.PackageReference,
 		func(configuration *VersionConfiguration) error {
 			return configuration.addTypeAlias(name.Name(), exportAs)
@@ -128,7 +128,7 @@ func (omc *ObjectModelConfiguration) LookupExportAs(name astmodel.TypeName) (str
 
 // VerifyExportAsConsumed returns an error if our configured export name was not used, nil otherwise.
 func (omc *ObjectModelConfiguration) VerifyExportAsConsumed() error {
-	visitor := NewEveryTypeConfigurationVisitor(
+	visitor := newEveryTypeConfigurationVisitor(
 		func(configuration *TypeConfiguration) error {
 			return configuration.VerifyExportAsConsumed()
 		})
@@ -139,7 +139,7 @@ func (omc *ObjectModelConfiguration) VerifyExportAsConsumed() error {
 // Returns true or false if configured, or a NotConfiguredError if not.
 func (omc *ObjectModelConfiguration) ARMReference(name astmodel.TypeName, property astmodel.PropertyName) (bool, error) {
 	var result bool
-	visitor := NewSinglePropertyConfigurationVisitor(
+	visitor := newSinglePropertyConfigurationVisitor(
 		name,
 		property,
 		func(configuration *PropertyConfiguration) error {
@@ -157,7 +157,7 @@ func (omc *ObjectModelConfiguration) ARMReference(name astmodel.TypeName, proper
 
 // VerifyARMReferencesConsumed returns an error if any ARM Reference configuration was not consumed
 func (omc *ObjectModelConfiguration) VerifyARMReferencesConsumed() error {
-	visitor := NewEveryPropertyConfigurationVisitor(
+	visitor := newEveryPropertyConfigurationVisitor(
 		func(configuration *PropertyConfiguration) error {
 			return configuration.VerifyARMReferenceConsumed()
 		})
@@ -167,7 +167,7 @@ func (omc *ObjectModelConfiguration) VerifyARMReferencesConsumed() error {
 // AzureGeneratedSecrets looks up a type to determine if it has any Azure generated secrets
 func (omc *ObjectModelConfiguration) AzureGeneratedSecrets(name astmodel.TypeName) ([]string, error) {
 	var result []string
-	visitor := NewSingleTypeConfigurationVisitor(
+	visitor := newSingleTypeConfigurationVisitor(
 		name,
 		func(configuration *TypeConfiguration) error {
 			var err error
@@ -184,7 +184,7 @@ func (omc *ObjectModelConfiguration) AzureGeneratedSecrets(name astmodel.TypeNam
 
 // VerifyAzureGeneratedSecretsConsumed returns an error if Azure generated secrets were not used, nil otherwise.
 func (omc *ObjectModelConfiguration) VerifyAzureGeneratedSecretsConsumed() error {
-	visitor := NewEveryTypeConfigurationVisitor(
+	visitor := newEveryTypeConfigurationVisitor(
 		func(configuration *TypeConfiguration) error {
 			return configuration.VerifyAzureGeneratedSecretsConsumed()
 		})
@@ -194,7 +194,7 @@ func (omc *ObjectModelConfiguration) VerifyAzureGeneratedSecretsConsumed() error
 // IsSecret looks up a property to determine whether it is a secret.
 func (omc *ObjectModelConfiguration) IsSecret(name astmodel.TypeName, property astmodel.PropertyName) (bool, error) {
 	var result bool
-	visitor := NewSinglePropertyConfigurationVisitor(
+	visitor := newSinglePropertyConfigurationVisitor(
 		name,
 		property,
 		func(configuration *PropertyConfiguration) error {
@@ -213,7 +213,7 @@ func (omc *ObjectModelConfiguration) IsSecret(name astmodel.TypeName, property a
 
 // VerifyIsSecretConsumed returns an error if any IsSecret configuration was not consumed
 func (omc *ObjectModelConfiguration) VerifyIsSecretConsumed() error {
-	visitor := NewEveryPropertyConfigurationVisitor(
+	visitor := newEveryPropertyConfigurationVisitor(
 		func(configuration *PropertyConfiguration) error {
 			return configuration.VerifyIsSecretConsumed()
 		})
@@ -224,7 +224,7 @@ func (omc *ObjectModelConfiguration) VerifyIsSecretConsumed() error {
 // False is returned if the property does not represent a subresource whose lifecycle is owned by the parent.
 func (omc *ObjectModelConfiguration) IsResourceLifecycleOwnedByParent(name astmodel.TypeName, property astmodel.PropertyName) (bool, error) {
 	var result bool
-	visitor := NewSinglePropertyConfigurationVisitor(
+	visitor := newSinglePropertyConfigurationVisitor(
 		name,
 		property,
 		func(configuration *PropertyConfiguration) error {
@@ -243,7 +243,7 @@ func (omc *ObjectModelConfiguration) IsResourceLifecycleOwnedByParent(name astmo
 
 // MarkIsResourceLifecycleOwnedByParentUnconsumed marks all IsResourceLifecycleOwnedByParent as unconsumed
 func (omc *ObjectModelConfiguration) MarkIsResourceLifecycleOwnedByParentUnconsumed() error {
-	visitor := NewEveryPropertyConfigurationVisitor(
+	visitor := newEveryPropertyConfigurationVisitor(
 		func(configuration *PropertyConfiguration) error {
 			configuration.ClearResourceLifecycleOwnedByParentConsumed()
 			return nil
@@ -254,9 +254,37 @@ func (omc *ObjectModelConfiguration) MarkIsResourceLifecycleOwnedByParentUnconsu
 // VerifyIsResourceLifecycleOwnedByParentConsumed returns an error if any IsResourceLifecycleOwnedByParent configuration
 // was not consumed
 func (omc *ObjectModelConfiguration) VerifyIsResourceLifecycleOwnedByParentConsumed() error {
-	visitor := NewEveryPropertyConfigurationVisitor(
+	visitor := newEveryPropertyConfigurationVisitor(
 		func(configuration *PropertyConfiguration) error {
 			return configuration.VerifyIsResourceLifecycleOwnedByParentConsumed()
+		})
+	return visitor.Visit(omc)
+}
+
+// LookupSupportedFrom checks to see whether a specified type has its first ASO release configured, returning either
+// that release or a NotConfiguredError.
+func (omc *ObjectModelConfiguration) LookupSupportedFrom(name astmodel.TypeName) (string, error) {
+	var result string
+	visitor := newSingleTypeConfigurationVisitor(
+		name,
+		func(configuration *TypeConfiguration) error {
+			var err error
+			result, err = configuration.LookupSupportedFrom()
+			return err
+		})
+	err := visitor.Visit(omc)
+	if err != nil {
+		return "", err
+	}
+
+	return result, nil
+}
+
+// VerifySupportedFromConsumed returns an error if any configured supportedFrom tag was not used, nil otherwise.
+func (omc *ObjectModelConfiguration) VerifySupportedFromConsumed() error {
+	visitor := newEveryTypeConfigurationVisitor(
+		func(configuration *TypeConfiguration) error {
+			return configuration.VerifySupportedFromConsumed()
 		})
 	return visitor.Visit(omc)
 }
@@ -289,7 +317,7 @@ func (omc *ObjectModelConfiguration) visitGroup(
 
 // visitGroups invokes the provided visitor on all nested groups.
 func (omc *ObjectModelConfiguration) visitGroups(visitor *configurationVisitor) error {
-	var errs []error
+	errs := make([]error, 0, len(omc.groups))
 	for _, gc := range omc.groups {
 		err := visitor.visitGroup(gc)
 		err = omc.typoAdvisor.Wrapf(err, gc.name, "group %s not seen", gc.name)
@@ -302,12 +330,7 @@ func (omc *ObjectModelConfiguration) visitGroups(visitor *configurationVisitor) 
 
 // findGroup uses the provided TypeName to work out which nested GroupConfiguration should be used
 func (omc *ObjectModelConfiguration) findGroup(ref astmodel.PackageReference) (*GroupConfiguration, error) {
-	group, _, ok := ref.GroupVersion()
-	if !ok {
-		return nil, errors.Errorf(
-			"external package reference %s not supported",
-			ref)
-	}
+	group, _ := ref.GroupVersion()
 
 	if omc == nil || omc.groups == nil {
 		msg := fmt.Sprintf("no configuration for group %s", group)
@@ -360,8 +383,7 @@ func (omc *ObjectModelConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 // configuredGroups returns a sorted slice containing all the groups configured in this group
 func (omc *ObjectModelConfiguration) configuredGroups() []string {
-	var result []string
-
+	result := make([]string, 0, len(omc.groups))
 	for _, g := range omc.groups {
 		// Use the actual names of the groups, not the lower-cased keys of the map
 		result = append(result, g.name)
@@ -375,14 +397,9 @@ func (omc *ObjectModelConfiguration) configuredGroups() []string {
 // While intended for test use, this isn't in a _test.go file as we want to use it from tests in multiple packages.
 func (omc *ObjectModelConfiguration) ModifyGroup(
 	ref astmodel.PackageReference,
-	action func(configuration *GroupConfiguration) error) error {
-	groupName, _, ok := ref.GroupVersion()
-	if !ok {
-		return errors.Errorf(
-			"external package reference %s not supported",
-			ref)
-	}
-
+	action func(configuration *GroupConfiguration) error,
+) error {
+	groupName, _ := ref.GroupVersion()
 	grp, err := omc.findGroup(ref)
 	if err != nil && !IsNotConfiguredError(err) {
 		return errors.Wrapf(err, "configuring groupName %s", groupName)
@@ -401,14 +418,9 @@ func (omc *ObjectModelConfiguration) ModifyGroup(
 // While intended for test use, this isn't in a _test.go file as we want to use it from tests in multiple packages.
 func (omc *ObjectModelConfiguration) ModifyVersion(
 	ref astmodel.PackageReference,
-	action func(configuration *VersionConfiguration) error) error {
-	_, version, ok := ref.GroupVersion()
-	if !ok {
-		return errors.Errorf(
-			"external package reference %s not supported",
-			ref)
-	}
-
+	action func(configuration *VersionConfiguration) error,
+) error {
+	_, version := ref.GroupVersion()
 	return omc.ModifyGroup(
 		ref,
 		func(configuration *GroupConfiguration) error {
@@ -431,7 +443,8 @@ func (omc *ObjectModelConfiguration) ModifyVersion(
 // While intended for test use, this isn't in a _test.go file as we want to use it from tests in multiple packages.
 func (omc *ObjectModelConfiguration) ModifyType(
 	name astmodel.TypeName,
-	action func(typeConfiguration *TypeConfiguration) error) error {
+	action func(typeConfiguration *TypeConfiguration) error,
+) error {
 	return omc.ModifyVersion(
 		name.PackageReference,
 		func(versionConfiguration *VersionConfiguration) error {
@@ -456,7 +469,8 @@ func (omc *ObjectModelConfiguration) ModifyType(
 func (omc *ObjectModelConfiguration) ModifyProperty(
 	typeName astmodel.TypeName,
 	property astmodel.PropertyName,
-	action func(propertyConfiguration *PropertyConfiguration) error) error {
+	action func(propertyConfiguration *PropertyConfiguration) error,
+) error {
 	return omc.ModifyType(
 		typeName,
 		func(typeConfiguration *TypeConfiguration) error {

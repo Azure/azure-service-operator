@@ -12,6 +12,7 @@ import (
 	"strings"
 
 	"github.com/dave/dst"
+	"golang.org/x/exp/maps"
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astbuilder"
@@ -79,7 +80,7 @@ func NewAzureResourceType(specType Type, statusType Type, typeName TypeName, kin
 
 		isNameOptional := false
 		isTypeOptional := false
-		for _, property := range objectType.Properties() {
+		objectType.Properties().ForEach(func(property *PropertyDefinition) {
 			// force this string because otherwise linter complains thinking it's an enum without an exhaustive switch...
 			// It turns out there are other reasons to alias string than just to make an enum, seems like the linter doesn't
 			// realize that
@@ -97,7 +98,7 @@ func NewAzureResourceType(specType Type, statusType Type, typeName TypeName, kin
 			case APIVersionProperty:
 				apiVersionProperty = property
 			}
-		}
+		})
 
 		if typeProperty == nil {
 			panic(fmt.Sprintf("Resource %s is missing type property", typeName))
@@ -225,6 +226,15 @@ func (resource *ResourceType) WithFunction(function Function) *ResourceType {
 	return result
 }
 
+// WithoutFunction returns a new Resource without the specific function
+func (resource *ResourceType) WithoutFunction(name string) *ResourceType {
+	// Create a copy to preserve immutability
+	result := resource.copy()
+	delete(result.functions, name)
+
+	return result
+}
+
 // WithoutFunctions creates a new Resource with no functions (useful for testing)
 func (resource *ResourceType) WithoutFunctions() *ResourceType {
 	// Create a copy to preserve immutability
@@ -265,10 +275,7 @@ func (resource *ResourceType) WithAPIVersion(apiVersionTypeName TypeName, apiVer
 
 // TestCases returns a new slice containing all the test cases associated with this resource
 func (resource *ResourceType) TestCases() []TestCase {
-	var result []TestCase
-	for _, tc := range resource.testcases {
-		result = append(result, tc)
-	}
+	result := maps.Values(resource.testcases)
 
 	sort.Slice(result, func(i int, j int) bool {
 		return result[i].Name() < result[j].Name()
@@ -368,7 +375,7 @@ func (resource *ResourceType) EmbeddedProperties() []*PropertyDefinition {
 }
 
 // Properties returns all the properties from this resource type
-func (resource *ResourceType) Properties() PropertySet {
+func (resource *ResourceType) Properties() ReadOnlyPropertySet {
 	result := NewPropertySet(resource.createSpecProperty())
 	if resource.status != nil {
 		result.Add(resource.createStatusProperty())
@@ -411,9 +418,16 @@ func (resource *ResourceType) ARMType() string {
 	return resource.armType
 }
 
-// TODO: It's possible we could do this at the package level?
+func (resource *ResourceType) HasAPIVersion() bool {
+	return !resource.apiVersionTypeName.IsEmpty()
+}
+
 // APIVersionTypeName returns the type name of the API version
 func (resource *ResourceType) APIVersionTypeName() TypeName {
+	if !resource.HasAPIVersion() {
+		panic("resource has no APIVersion TypeName to return")
+	}
+
 	return resource.apiVersionTypeName
 }
 
@@ -425,10 +439,7 @@ func (resource *ResourceType) APIVersionEnumValue() EnumValue {
 // Functions returns all the function implementations
 // A sorted slice is returned to preserve immutability and provide determinism
 func (resource *ResourceType) Functions() []Function {
-	var functions []Function
-	for _, f := range resource.functions {
-		functions = append(functions, f)
-	}
+	functions := maps.Values(resource.functions)
 
 	sort.Slice(functions, func(i int, j int) bool {
 		return functions[i].Name() < functions[j].Name()
@@ -453,9 +464,10 @@ func (resource *ResourceType) References() TypeNameSet {
 	}
 
 	result := SetUnion(spec, status)
+
 	// It's a bit awkward to have to do this, but it doesn't exist as a reference
 	// anywhere else
-	if !resource.APIVersionTypeName().Equals(TypeName{}, EqualityOverrides{}) {
+	if resource.HasAPIVersion() {
 		result.Add(resource.APIVersionTypeName())
 	}
 
@@ -548,10 +560,7 @@ func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerati
 
 	// Add required RBAC annotations, only on storage version
 	if resource.isStorageVersion {
-		group, _, ok := declContext.Name.PackageReference.GroupVersion()
-		if !ok {
-			panic(fmt.Sprintf("expected resource package reference to be local: %q", declContext.Name))
-		}
+		group, _ := declContext.Name.PackageReference.GroupVersion()
 		group = strings.ToLower(group + GroupSuffix)
 		resourceName := strings.ToLower(declContext.Name.Plural().Name())
 
@@ -602,9 +611,9 @@ func (resource *ResourceType) AsDeclarations(codeGenerationContext *CodeGenerati
 }
 
 func (resource *ResourceType) generateMethodDecls(codeGenerationContext *CodeGenerationContext, typeName TypeName) []dst.Decl {
-	var result []dst.Decl
-
-	for _, f := range resource.Functions() {
+	funcs := resource.Functions()
+	result := make([]dst.Decl, 0, len(funcs))
+	for _, f := range funcs {
 		funcDef := generateMethodDeclForFunction(typeName, f, codeGenerationContext)
 		result = append(result, funcDef)
 	}
@@ -621,8 +630,8 @@ func (resource *ResourceType) makeResourceListTypeName(name TypeName) TypeName {
 func (resource *ResourceType) resourceListTypeDecls(
 	codeGenerationContext *CodeGenerationContext,
 	resourceTypeName TypeName,
-	description []string) []dst.Decl {
-
+	description []string,
+) []dst.Decl {
 	typeName := resource.makeResourceListTypeName(resourceTypeName)
 
 	packageName := codeGenerationContext.MustGetImportedPackageName(MetaV1Reference)
@@ -732,8 +741,8 @@ func (resource *ResourceType) WriteDebugDescription(builder *strings.Builder, de
 func generateMethodDeclForFunction(
 	typeName TypeName,
 	f Function,
-	codeGenerationContext *CodeGenerationContext) *dst.FuncDecl {
-
+	codeGenerationContext *CodeGenerationContext,
+) *dst.FuncDecl {
 	defer func() {
 		if err := recover(); err != nil {
 			panic(fmt.Sprintf(

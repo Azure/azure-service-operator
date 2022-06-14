@@ -98,7 +98,7 @@ func (collection *MongodbDatabaseCollection) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (collection MongodbDatabaseCollection) GetAPIVersion() string {
-	return "2021-05-15"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -317,11 +317,6 @@ type MongodbDatabaseCollectionList struct {
 	Items           []MongodbDatabaseCollection `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2021-05-15"}
-type DatabaseAccountsMongodbDatabasesCollectionsSpecAPIVersion string
-
-const DatabaseAccountsMongodbDatabasesCollectionsSpecAPIVersion20210515 = DatabaseAccountsMongodbDatabasesCollectionsSpecAPIVersion("2021-05-15")
-
 type DatabaseAccountsMongodbDatabasesCollections_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -359,7 +354,7 @@ func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) ConvertToAR
 	if collections == nil {
 		return nil, nil
 	}
-	var result DatabaseAccountsMongodbDatabasesCollections_SpecARM
+	result := &DatabaseAccountsMongodbDatabasesCollections_SpecARM{}
 
 	// Set property ‘Location’:
 	if collections.Location != nil {
@@ -379,7 +374,7 @@ func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		options := optionsARM.(CreateUpdateOptionsARM)
+		options := *optionsARM.(*CreateUpdateOptionsARM)
 		result.Properties.Options = &options
 	}
 	if collections.Resource != nil {
@@ -387,13 +382,13 @@ func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		resource := resourceARM.(MongoDBCollectionResourceARM)
+		resource := *resourceARM.(*MongoDBCollectionResourceARM)
 		result.Properties.Resource = &resource
 	}
 
 	// Set property ‘Tags’:
 	if collections.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(collections.Tags))
 		for key, value := range collections.Tags {
 			result.Tags[key] = value
 		}
@@ -457,7 +452,7 @@ func (collections *DatabaseAccountsMongodbDatabasesCollections_Spec) PopulateFro
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		collections.Tags = make(map[string]string)
+		collections.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			collections.Tags[key] = value
 		}
@@ -769,7 +764,7 @@ func (results *MongoDBCollectionGetResults_Status) PopulateFromARM(owner genrunt
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		results.Tags = make(map[string]string)
+		results.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			results.Tags[key] = value
 		}
@@ -965,7 +960,7 @@ func (resource *MongoDBCollectionGetProperties_Status_Resource) PopulateFromARM(
 
 	// Set property ‘ShardKey’:
 	if typedInput.ShardKey != nil {
-		resource.ShardKey = make(map[string]string)
+		resource.ShardKey = make(map[string]string, len(typedInput.ShardKey))
 		for key, value := range typedInput.ShardKey {
 			resource.ShardKey[key] = value
 		}
@@ -1109,7 +1104,7 @@ func (resource *MongoDBCollectionResource) ConvertToARM(resolved genruntime.Conv
 	if resource == nil {
 		return nil, nil
 	}
-	var result MongoDBCollectionResourceARM
+	result := &MongoDBCollectionResourceARM{}
 
 	// Set property ‘AnalyticalStorageTtl’:
 	if resource.AnalyticalStorageTtl != nil {
@@ -1129,12 +1124,12 @@ func (resource *MongoDBCollectionResource) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		result.Indexes = append(result.Indexes, itemARM.(MongoIndexARM))
+		result.Indexes = append(result.Indexes, *itemARM.(*MongoIndexARM))
 	}
 
 	// Set property ‘ShardKey’:
 	if resource.ShardKey != nil {
-		result.ShardKey = make(map[string]string)
+		result.ShardKey = make(map[string]string, len(resource.ShardKey))
 		for key, value := range resource.ShardKey {
 			result.ShardKey[key] = value
 		}
@@ -1178,7 +1173,7 @@ func (resource *MongoDBCollectionResource) PopulateFromARM(owner genruntime.Arbi
 
 	// Set property ‘ShardKey’:
 	if typedInput.ShardKey != nil {
-		resource.ShardKey = make(map[string]string)
+		resource.ShardKey = make(map[string]string, len(typedInput.ShardKey))
 		for key, value := range typedInput.ShardKey {
 			resource.ShardKey[key] = value
 		}
@@ -1281,7 +1276,7 @@ func (index *MongoIndex) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	if index == nil {
 		return nil, nil
 	}
-	var result MongoIndexARM
+	result := &MongoIndexARM{}
 
 	// Set property ‘Key’:
 	if index.Key != nil {
@@ -1289,7 +1284,7 @@ func (index *MongoIndex) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		if err != nil {
 			return nil, err
 		}
-		key := keyARM.(MongoIndexKeysARM)
+		key := *keyARM.(*MongoIndexKeysARM)
 		result.Key = &key
 	}
 
@@ -1299,7 +1294,7 @@ func (index *MongoIndex) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 		if err != nil {
 			return nil, err
 		}
-		options := optionsARM.(MongoIndexOptionsARM)
+		options := *optionsARM.(*MongoIndexOptionsARM)
 		result.Options = &options
 	}
 	return result, nil
@@ -1546,7 +1541,7 @@ func (keys *MongoIndexKeys) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	if keys == nil {
 		return nil, nil
 	}
-	var result MongoIndexKeysARM
+	result := &MongoIndexKeysARM{}
 
 	// Set property ‘Keys’:
 	for _, item := range keys.Keys {
@@ -1678,7 +1673,7 @@ func (options *MongoIndexOptions) ConvertToARM(resolved genruntime.ConvertToARMR
 	if options == nil {
 		return nil, nil
 	}
-	var result MongoIndexOptionsARM
+	result := &MongoIndexOptionsARM{}
 
 	// Set property ‘ExpireAfterSeconds’:
 	if options.ExpireAfterSeconds != nil {

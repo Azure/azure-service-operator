@@ -41,7 +41,8 @@ func (fi *FunctionInjector) Inject(def TypeDefinition, fns ...Function) (TypeDef
 // injectFunctionIntoObject takes the function provided as a context and includes it on the
 // provided object type
 func (_ *FunctionInjector) injectFunctionIntoObject(
-	_ *TypeVisitor, ot *ObjectType, ctx interface{}) (Type, error) {
+	_ *TypeVisitor, ot *ObjectType, ctx interface{},
+) (Type, error) {
 	fn := ctx.(Function)
 	return ot.WithFunction(fn), nil
 }
@@ -49,7 +50,8 @@ func (_ *FunctionInjector) injectFunctionIntoObject(
 // injectFunctionIntoResource takes the function provided as a context and includes it on the
 // provided resource type
 func (_ *FunctionInjector) injectFunctionIntoResource(
-	_ *TypeVisitor, rt *ResourceType, ctx interface{}) (Type, error) {
+	_ *TypeVisitor, rt *ResourceType, ctx interface{},
+) (Type, error) {
 	fn := ctx.(Function)
 	return rt.WithFunction(fn), nil
 }

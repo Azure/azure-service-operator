@@ -17,16 +17,16 @@ var _ genruntime.ARMResourceSpec = &FlexibleServersConfigurations_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
 func (configurations FlexibleServersConfigurations_SpecARM) GetAPIVersion() string {
-	return "2021-06-01"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource
-func (configurations FlexibleServersConfigurations_SpecARM) GetName() string {
+func (configurations *FlexibleServersConfigurations_SpecARM) GetName() string {
 	return configurations.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DBforPostgreSQL/flexibleServers/configurations"
-func (configurations FlexibleServersConfigurations_SpecARM) GetType() string {
+func (configurations *FlexibleServersConfigurations_SpecARM) GetType() string {
 	return "Microsoft.DBforPostgreSQL/flexibleServers/configurations"
 }
 

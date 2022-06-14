@@ -23,16 +23,16 @@ var _ genruntime.ARMResourceSpec = &RedisFirewallRules_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
 func (rules RedisFirewallRules_SpecARM) GetAPIVersion() string {
-	return "2020-12-01"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource
-func (rules RedisFirewallRules_SpecARM) GetName() string {
+func (rules *RedisFirewallRules_SpecARM) GetName() string {
 	return rules.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Cache/redis/firewallRules"
-func (rules RedisFirewallRules_SpecARM) GetType() string {
+func (rules *RedisFirewallRules_SpecARM) GetType() string {
 	return "Microsoft.Cache/redis/firewallRules"
 }
 

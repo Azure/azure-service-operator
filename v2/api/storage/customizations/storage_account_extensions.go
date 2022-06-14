@@ -31,14 +31,14 @@ func (ext *StorageAccountExtension) RetrieveSecrets(
 	armClient *genericarmclient.GenericClient,
 	log logr.Logger) ([]*v1.Secret, error) {
 
-	// This has to be the current storage version. It will need to be updated
-	// if the storage version changes.
+	// This has to be the current hub storage version. It will need to be updated
+	// if the hub storage version changes.
 	typedObj, ok := obj.(*storage.StorageAccount)
 	if !ok {
-		return nil, errors.Errorf("cannot run on unknown resource type %T", obj)
+		return nil, errors.Errorf("cannot run on unknown resource type %T, expected *storage.StorageAccount", obj)
 	}
 
-	// Type assert that we are the hub type. This should fail to compile if
+	// Type assert that we are the hub type. This will fail to compile if
 	// the hub type has been changed but this extension has not
 	var _ conversion.Hub = typedObj
 
@@ -59,7 +59,11 @@ func (ext *StorageAccountExtension) RetrieveSecrets(
 		subscription := armClient.SubscriptionID()
 		// Using armClient.ClientOptions() here ensures we share the same HTTP connection, so this is not opening a new
 		// connection each time through
-		acctClient := armstorage.NewAccountsClient(subscription, armClient.Creds(), armClient.ClientOptions())
+		var acctClient *armstorage.AccountsClient
+		acctClient, err = armstorage.NewAccountsClient(subscription, armClient.Creds(), armClient.ClientOptions())
+		if err != nil {
+			return nil, errors.Wrapf(err, "failed to create new AccountsClient")
+		}
 
 		var resp armstorage.AccountsClientListKeysResponse
 		resp, err = acctClient.ListKeys(ctx, id.ResourceGroupName, obj.AzureName(), nil)

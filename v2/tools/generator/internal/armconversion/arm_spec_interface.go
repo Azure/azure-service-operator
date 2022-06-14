@@ -30,8 +30,8 @@ func checkPropertyPresence(o *astmodel.ObjectType, name astmodel.PropertyName) e
 func NewARMSpecInterfaceImpl(
 	idFactory astmodel.IdentifierFactory,
 	resource *astmodel.ResourceType,
-	spec *astmodel.ObjectType) (*astmodel.InterfaceImplementation, error) {
-
+	spec *astmodel.ObjectType,
+) (*astmodel.InterfaceImplementation, error) {
 	nameProperty := idFactory.CreatePropertyName(astmodel.NameProperty, astmodel.Exported)
 	err := checkPropertyPresence(spec, nameProperty)
 	if err != nil {
@@ -41,9 +41,12 @@ func NewARMSpecInterfaceImpl(
 	getNameFunc := functions.NewObjectFunction("Get"+astmodel.NameProperty, idFactory, getNameFunction)
 	getNameFunc.AddPackageReference(astmodel.GenRuntimeReference)
 
-	getTypeFunc := functions.NewGetTypeFunction(resource.ARMType(), idFactory, functions.ReceiverTypeStruct)
+	getTypeFunc := functions.NewGetTypeFunction(resource.ARMType(), idFactory, functions.ReceiverTypePtr)
 
-	getAPIVersionFunc := functions.NewGetAPIVersionFunction(resource.APIVersionTypeName(), resource.APIVersionEnumValue(), idFactory)
+	getAPIVersionFunc := functions.NewGetAPIVersionFunction(
+		resource.APIVersionTypeName(),
+		resource.APIVersionEnumValue(),
+		idFactory)
 
 	result := astmodel.NewInterfaceImplementation(
 		astmodel.ARMResourceSpecType,
@@ -58,7 +61,8 @@ func getNameFunction(
 	fn *functions.ObjectFunction,
 	genContext *astmodel.CodeGenerationContext,
 	receiver astmodel.TypeName,
-	methodName string) *dst.FuncDecl {
+	methodName string,
+) *dst.FuncDecl {
 	return armSpecInterfaceSimpleGetFunction(
 		fn,
 		genContext,
@@ -74,8 +78,8 @@ func armSpecInterfaceSimpleGetFunction(
 	receiver astmodel.TypeName,
 	methodName string,
 	propertyName string,
-	castToString bool) *dst.FuncDecl {
-
+	castToString bool,
+) *dst.FuncDecl {
 	receiverIdent := fn.IdFactory().CreateReceiver(receiver.Name())
 	receiverType := receiver.AsType(codeGenerationContext)
 
@@ -93,13 +97,8 @@ func armSpecInterfaceSimpleGetFunction(
 	details := &astbuilder.FuncDetails{
 		Name:          methodName,
 		ReceiverIdent: receiverIdent,
-		// TODO: We're too loosey-goosey here with ptr vs value receiver.
-		// TODO: We basically need to use a value receiver right now because
-		// TODO: ConvertToARM always returns a value, but for other interface impls
-		// TODO: for example on resource we use ptr receiver... the inconsistency is
-		// TODO: awkward...
-		ReceiverType: receiverType,
-		Body:         astbuilder.Statements(retResult),
+		ReceiverType:  astbuilder.Dereference(receiverType),
+		Body:          astbuilder.Statements(retResult),
 	}
 
 	details.AddComments(fmt.Sprintf("returns the %s of the resource", propertyName))

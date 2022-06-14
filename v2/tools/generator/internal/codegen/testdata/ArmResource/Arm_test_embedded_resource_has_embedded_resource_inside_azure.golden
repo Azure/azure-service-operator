@@ -94,7 +94,7 @@ func (a *A) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (a A) GetAPIVersion() string {
-	return "2020-06-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -277,16 +277,16 @@ var _ genruntime.ARMResourceSpec = &A_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (a A_SpecARM) GetAPIVersion() string {
-	return "2020-06-01"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource
-func (a A_SpecARM) GetName() string {
+func (a *A_SpecARM) GetName() string {
 	return a.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/A"
-func (a A_SpecARM) GetType() string {
+func (a *A_SpecARM) GetType() string {
 	return "Microsoft.Azure/A"
 }
 
@@ -366,7 +366,7 @@ func (b *B) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (b B) GetAPIVersion() string {
-	return "2020-06-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -549,16 +549,16 @@ var _ genruntime.ARMResourceSpec = &B_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (b B_SpecARM) GetAPIVersion() string {
-	return "2020-06-01"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource
-func (b B_SpecARM) GetName() string {
+func (b *B_SpecARM) GetName() string {
 	return b.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/B"
-func (b B_SpecARM) GetType() string {
+func (b *B_SpecARM) GetType() string {
 	return "Microsoft.Azure/B"
 }
 
@@ -638,7 +638,7 @@ func (c *C) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (c C) GetAPIVersion() string {
-	return "2020-06-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -821,18 +821,23 @@ var _ genruntime.ARMResourceSpec = &C_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (c C_SpecARM) GetAPIVersion() string {
-	return "2020-06-01"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource
-func (c C_SpecARM) GetName() string {
+func (c *C_SpecARM) GetName() string {
 	return c.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/C"
-func (c C_SpecARM) GetType() string {
+func (c *C_SpecARM) GetType() string {
 	return "Microsoft.Azure/C"
 }
+
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2020-06-01")
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/AProperties
 type APropertiesARM struct {
@@ -840,11 +845,6 @@ type APropertiesARM struct {
 	RefField    *BResourceARM `json:"refField,omitempty"`
 	StringField *string       `json:"stringField,omitempty"`
 }
-
-// +kubebuilder:validation:Enum={"2020-06-01"}
-type ASpecAPIVersion string
-
-const ASpecAPIVersion20200601 = ASpecAPIVersion("2020-06-01")
 
 type A_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -866,7 +866,7 @@ func (a *A_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 	if a == nil {
 		return nil, nil
 	}
-	var result A_SpecARM
+	result := &A_SpecARM{}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -877,7 +877,7 @@ func (a *A_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 		if err != nil {
 			return nil, err
 		}
-		properties := propertiesARM.(APropertiesARM)
+		properties := *propertiesARM.(*APropertiesARM)
 		result.Properties = &properties
 	}
 	return result, nil
@@ -1054,11 +1054,6 @@ type BPropertiesARM struct {
 	RefField  *CResourceARM         `json:"refField,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"2020-06-01"}
-type BSpecAPIVersion string
-
-const BSpecAPIVersion20200601 = BSpecAPIVersion("2020-06-01")
-
 type B_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -1079,7 +1074,7 @@ func (b *B_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 	if b == nil {
 		return nil, nil
 	}
-	var result B_SpecARM
+	result := &B_SpecARM{}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -1090,7 +1085,7 @@ func (b *B_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 		if err != nil {
 			return nil, err
 		}
-		properties := propertiesARM.(BPropertiesARM)
+		properties := *propertiesARM.(*BPropertiesARM)
 		result.Properties = &properties
 	}
 	return result, nil
@@ -1267,11 +1262,6 @@ type CPropertiesARM struct {
 	StringField *string `json:"stringField,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"2020-06-01"}
-type CSpecAPIVersion string
-
-const CSpecAPIVersion20200601 = CSpecAPIVersion("2020-06-01")
-
 type C_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -1292,7 +1282,7 @@ func (c *C_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 	if c == nil {
 		return nil, nil
 	}
-	var result C_SpecARM
+	result := &C_SpecARM{}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -1303,7 +1293,7 @@ func (c *C_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 		if err != nil {
 			return nil, err
 		}
-		properties := propertiesARM.(CPropertiesARM)
+		properties := *propertiesARM.(*CPropertiesARM)
 		result.Properties = &properties
 	}
 	return result, nil
@@ -1488,7 +1478,7 @@ func (properties *AProperties) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if properties == nil {
 		return nil, nil
 	}
-	var result APropertiesARM
+	result := &APropertiesARM{}
 
 	// Set property ‘IntField’:
 	if properties.IntField != nil {
@@ -1502,7 +1492,7 @@ func (properties *AProperties) ConvertToARM(resolved genruntime.ConvertToARMReso
 		if err != nil {
 			return nil, err
 		}
-		refField := refFieldARM.(BResourceARM)
+		refField := *refFieldARM.(*BResourceARM)
 		result.RefField = &refField
 	}
 
@@ -1625,7 +1615,7 @@ func (properties *BProperties) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if properties == nil {
 		return nil, nil
 	}
-	var result BPropertiesARM
+	result := &BPropertiesARM{}
 
 	// Set property ‘EnumField’:
 	if properties.EnumField != nil {
@@ -1639,7 +1629,7 @@ func (properties *BProperties) ConvertToARM(resolved genruntime.ConvertToARMReso
 		if err != nil {
 			return nil, err
 		}
-		refField := refFieldARM.(CResourceARM)
+		refField := *refFieldARM.(*CResourceARM)
 		result.RefField = &refField
 	}
 	return result, nil
@@ -1764,7 +1754,7 @@ func (properties *CProperties) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if properties == nil {
 		return nil, nil
 	}
-	var result CPropertiesARM
+	result := &CPropertiesARM{}
 
 	// Set property ‘IntField’:
 	if properties.IntField != nil {
@@ -1860,7 +1850,7 @@ func (resource *BResource) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if resource == nil {
 		return nil, nil
 	}
-	var result BResourceARM
+	result := &BResourceARM{}
 
 	// Set property ‘Id’:
 	if resource.Reference != nil {
@@ -1943,7 +1933,7 @@ func (resource *CResource) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if resource == nil {
 		return nil, nil
 	}
-	var result CResourceARM
+	result := &CResourceARM{}
 
 	// Set property ‘Id’:
 	if resource.Reference != nil {

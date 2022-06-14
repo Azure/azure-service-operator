@@ -105,7 +105,7 @@ func (setting *MongodbDatabaseCollectionThroughputSetting) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (setting MongodbDatabaseCollectionThroughputSetting) GetAPIVersion() string {
-	return "2021-05-15"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -345,7 +345,7 @@ func (settings *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Sp
 	if settings == nil {
 		return nil, nil
 	}
-	var result DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM
+	result := &DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_SpecARM{}
 
 	// Set property ‘Location’:
 	if settings.Location != nil {
@@ -365,13 +365,13 @@ func (settings *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Sp
 		if err != nil {
 			return nil, err
 		}
-		resource := resourceARM.(ThroughputSettingsResourceARM)
+		resource := *resourceARM.(*ThroughputSettingsResourceARM)
 		result.Properties.Resource = &resource
 	}
 
 	// Set property ‘Tags’:
 	if settings.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(settings.Tags))
 		for key, value := range settings.Tags {
 			result.Tags[key] = value
 		}
@@ -418,7 +418,7 @@ func (settings *DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Sp
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		settings.Tags = make(map[string]string)
+		settings.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			settings.Tags[key] = value
 		}
@@ -673,7 +673,7 @@ func (results *ThroughputSettingsGetResults_Status) PopulateFromARM(owner genrun
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		results.Tags = make(map[string]string)
+		results.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			results.Tags[key] = value
 		}
@@ -954,7 +954,7 @@ func (resource *ThroughputSettingsResource) ConvertToARM(resolved genruntime.Con
 	if resource == nil {
 		return nil, nil
 	}
-	var result ThroughputSettingsResourceARM
+	result := &ThroughputSettingsResourceARM{}
 
 	// Set property ‘AutoscaleSettings’:
 	if resource.AutoscaleSettings != nil {
@@ -962,7 +962,7 @@ func (resource *ThroughputSettingsResource) ConvertToARM(resolved genruntime.Con
 		if err != nil {
 			return nil, err
 		}
-		autoscaleSettings := autoscaleSettingsARM.(AutoscaleSettingsResourceARM)
+		autoscaleSettings := *autoscaleSettingsARM.(*AutoscaleSettingsResourceARM)
 		result.AutoscaleSettings = &autoscaleSettings
 	}
 
@@ -1075,7 +1075,7 @@ func (resource *AutoscaleSettingsResource) ConvertToARM(resolved genruntime.Conv
 	if resource == nil {
 		return nil, nil
 	}
-	var result AutoscaleSettingsResourceARM
+	result := &AutoscaleSettingsResourceARM{}
 
 	// Set property ‘AutoUpgradePolicy’:
 	if resource.AutoUpgradePolicy != nil {
@@ -1083,7 +1083,7 @@ func (resource *AutoscaleSettingsResource) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		autoUpgradePolicy := autoUpgradePolicyARM.(AutoUpgradePolicyResourceARM)
+		autoUpgradePolicy := *autoUpgradePolicyARM.(*AutoUpgradePolicyResourceARM)
 		result.AutoUpgradePolicy = &autoUpgradePolicy
 	}
 
@@ -1300,7 +1300,7 @@ func (resource *AutoUpgradePolicyResource) ConvertToARM(resolved genruntime.Conv
 	if resource == nil {
 		return nil, nil
 	}
-	var result AutoUpgradePolicyResourceARM
+	result := &AutoUpgradePolicyResourceARM{}
 
 	// Set property ‘ThroughputPolicy’:
 	if resource.ThroughputPolicy != nil {
@@ -1308,7 +1308,7 @@ func (resource *AutoUpgradePolicyResource) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		throughputPolicy := throughputPolicyARM.(ThroughputPolicyResourceARM)
+		throughputPolicy := *throughputPolicyARM.(*ThroughputPolicyResourceARM)
 		result.ThroughputPolicy = &throughputPolicy
 	}
 	return result, nil
@@ -1482,7 +1482,7 @@ func (resource *ThroughputPolicyResource) ConvertToARM(resolved genruntime.Conve
 	if resource == nil {
 		return nil, nil
 	}
-	var result ThroughputPolicyResourceARM
+	result := &ThroughputPolicyResourceARM{}
 
 	// Set property ‘IncrementPercent’:
 	if resource.IncrementPercent != nil {

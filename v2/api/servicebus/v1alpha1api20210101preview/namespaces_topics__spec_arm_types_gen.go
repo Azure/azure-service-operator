@@ -17,16 +17,16 @@ var _ genruntime.ARMResourceSpec = &NamespacesTopics_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01-preview"
 func (topics NamespacesTopics_SpecARM) GetAPIVersion() string {
-	return "2021-01-01-preview"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource
-func (topics NamespacesTopics_SpecARM) GetName() string {
+func (topics *NamespacesTopics_SpecARM) GetName() string {
 	return topics.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.ServiceBus/namespaces/topics"
-func (topics NamespacesTopics_SpecARM) GetType() string {
+func (topics *NamespacesTopics_SpecARM) GetType() string {
 	return "Microsoft.ServiceBus/namespaces/topics"
 }
 

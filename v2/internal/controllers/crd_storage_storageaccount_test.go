@@ -8,11 +8,12 @@ package controllers_test
 import (
 	"testing"
 
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	"github.com/Azure/go-autorest/autorest/to"
 	. "github.com/onsi/gomega"
 	v1 "k8s.io/api/core/v1"
 	"sigs.k8s.io/controller-runtime/pkg/client"
+
+	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -46,13 +47,13 @@ func Test_Storage_StorageAccount_CRUD(t *testing.T) {
 		},
 		testcommon.Subtest{
 			Name: "Queue Services CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
+			Test: func(tc *testcommon.KubePerTestContext) {
 				StorageAccount_QueueServices_CRUD(tc, acct)
 			},
 		},
 		testcommon.Subtest{
 			Name: "Management Policies CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
+			Test: func(tc *testcommon.KubePerTestContext) {
 				StorageAccount_ManagementPolicy_CRUD(tc, acct)
 			},
 		},
@@ -64,7 +65,7 @@ func Test_Storage_StorageAccount_CRUD(t *testing.T) {
 	exists, _, err := tc.AzureClient.HeadByID(
 		tc.Ctx,
 		armId,
-		string(storage.StorageAccountsSpecAPIVersion20210401))
+		string(storage.APIVersionValue))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(exists).To(BeFalse())
 }
@@ -83,8 +84,8 @@ func StorageAccount_BlobServices_CRUD(tc *testcommon.KubePerTestContext, storage
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "Container CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
-				StorageAccount_BlobServices_Container_CRUD(testContext, blobService)
+			Test: func(tc *testcommon.KubePerTestContext) {
+				StorageAccount_BlobServices_Container_CRUD(tc, blobService)
 			},
 		})
 }
@@ -115,7 +116,7 @@ func StorageAccount_QueueServices_CRUD(tc *testcommon.KubePerTestContext, storag
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "Queue CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
+			Test: func(tc *testcommon.KubePerTestContext) {
 				StorageAccount_QueueServices_Queue_CRUD(tc, queueService)
 			},
 		},

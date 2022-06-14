@@ -91,7 +91,7 @@ func (service *StorageAccountsQueueService) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
 func (service StorageAccountsQueueService) GetAPIVersion() string {
-	return "2021-04-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -503,11 +503,6 @@ func (properties *QueueServiceProperties_Status) AssignPropertiesToQueueServiceP
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2021-04-01"}
-type StorageAccountsQueueServicesSpecAPIVersion string
-
-const StorageAccountsQueueServicesSpecAPIVersion20210401 = StorageAccountsQueueServicesSpecAPIVersion("2021-04-01")
-
 type StorageAccountsQueueServices_Spec struct {
 	// Cors: Sets the CORS rules. You can include up to five CorsRule elements in the request.
 	Cors *CorsRules `json:"cors,omitempty"`
@@ -532,7 +527,7 @@ func (services *StorageAccountsQueueServices_Spec) ConvertToARM(resolved genrunt
 	if services == nil {
 		return nil, nil
 	}
-	var result StorageAccountsQueueServices_SpecARM
+	result := &StorageAccountsQueueServices_SpecARM{}
 
 	// Set property ‘Location’:
 	if services.Location != nil {
@@ -552,13 +547,13 @@ func (services *StorageAccountsQueueServices_Spec) ConvertToARM(resolved genrunt
 		if err != nil {
 			return nil, err
 		}
-		cors := corsARM.(CorsRulesARM)
+		cors := *corsARM.(*CorsRulesARM)
 		result.Properties.Cors = &cors
 	}
 
 	// Set property ‘Tags’:
 	if services.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(services.Tags))
 		for key, value := range services.Tags {
 			result.Tags[key] = value
 		}
@@ -605,7 +600,7 @@ func (services *StorageAccountsQueueServices_Spec) PopulateFromARM(owner genrunt
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		services.Tags = make(map[string]string)
+		services.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			services.Tags[key] = value
 		}

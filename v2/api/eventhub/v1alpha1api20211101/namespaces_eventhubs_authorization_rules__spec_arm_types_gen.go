@@ -17,15 +17,15 @@ var _ genruntime.ARMResourceSpec = &NamespacesEventhubsAuthorizationRules_SpecAR
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-11-01"
 func (rules NamespacesEventhubsAuthorizationRules_SpecARM) GetAPIVersion() string {
-	return "2021-11-01"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource
-func (rules NamespacesEventhubsAuthorizationRules_SpecARM) GetName() string {
+func (rules *NamespacesEventhubsAuthorizationRules_SpecARM) GetName() string {
 	return rules.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.EventHub/namespaces/eventhubs/authorizationRules"
-func (rules NamespacesEventhubsAuthorizationRules_SpecARM) GetType() string {
+func (rules *NamespacesEventhubsAuthorizationRules_SpecARM) GetType() string {
 	return "Microsoft.EventHub/namespaces/eventhubs/authorizationRules"
 }

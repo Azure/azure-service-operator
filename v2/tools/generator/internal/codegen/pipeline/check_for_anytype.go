@@ -97,7 +97,7 @@ func containsAnyType(theType astmodel.Type) bool {
 }
 
 func packageName(name astmodel.TypeName) string {
-	if group, version, ok := name.PackageReference.GroupVersion(); ok {
+	if group, version, ok := name.PackageReference.TryGroupVersion(); ok {
 		return group + "/" + version
 	}
 
@@ -114,7 +114,7 @@ func collectBadPackages(
 		grouped[groupVersion] = append(grouped[groupVersion], name.Name())
 	}
 
-	var groupNames []string
+	var groupNames []string //nolint:prealloc // unlikely case
 	for groupName := range grouped {
 		// Only complain about this package if it's one we don't know about.
 		if expectedPackages.Contains(groupName) {

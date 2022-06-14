@@ -11,7 +11,6 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/benbjohnson/clock"
 	"github.com/go-logr/logr"
 	"github.com/pkg/errors"
 	"golang.org/x/time/rate"
@@ -32,8 +31,7 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/internal/config"
 	. "github.com/Azure/azure-service-operator/v2/internal/logging"
-	"github.com/Azure/azure-service-operator/v2/internal/reconcilers/arm"
-	"github.com/Azure/azure-service-operator/v2/internal/resolver"
+	"github.com/Azure/azure-service-operator/v2/internal/reconcilers"
 	"github.com/Azure/azure-service-operator/v2/internal/util/kubeclient"
 	"github.com/Azure/azure-service-operator/v2/internal/util/lockedrand"
 	"github.com/Azure/azure-service-operator/v2/internal/util/randextensions"
@@ -52,10 +50,10 @@ type GenericReconciler struct {
 	LoggerFactory        LoggerFactory
 	KubeClient           kubeclient.Client
 	Recorder             record.EventRecorder
-	Name                 string
 	Config               config.Values
 	Rand                 *rand.Rand
 	GVK                  schema.GroupVersionKind
+	PositiveConditions   *conditions.PositiveConditionBuilder
 	RequeueDelayOverride time.Duration
 }
 
@@ -68,13 +66,6 @@ type Options struct {
 	RequeueDelay  time.Duration
 	Config        config.Values
 	LoggerFactory func(obj metav1.Object) logr.Logger
-}
-
-func (options *Options) setDefaults() {
-	// default logger to the controller-runtime logger
-	if options.Log == (logr.Logger{}) || options.Log == logr.Discard() {
-		options.Log = ctrl.Log
-	}
 }
 
 func RegisterWebhooks(mgr ctrl.Manager, objs []client.Object) error {
@@ -102,23 +93,15 @@ func RegisterAll(
 	mgr ctrl.Manager,
 	fieldIndexer client.FieldIndexer,
 	kubeClient kubeclient.Client,
-	clientFactory arm.ARMClientFactory,
+	positiveConditions *conditions.PositiveConditionBuilder,
 	objs []*registration.StorageType,
-	extensions map[schema.GroupVersionKind]genruntime.ResourceExtension,
-	options Options,
-) error {
-	options.setDefaults()
-
-	reconciledResourceLookup, err := MakeResourceStorageTypeLookup(mgr, objs)
-	if err != nil {
-		return err
-	}
+	options Options) error {
 
 	// pre-register any indexes we need
 	for _, obj := range objs {
 		for _, indexer := range obj.Indexes {
 			options.Log.V(Info).Info("Registering indexer for type", "type", fmt.Sprintf("%T", obj.Obj), "key", indexer.Key)
-			err = fieldIndexer.IndexField(context.Background(), obj.Obj, indexer.Key, indexer.Func)
+			err := fieldIndexer.IndexField(context.Background(), obj.Obj, indexer.Key, indexer.Func)
 			if err != nil {
 				return errors.Wrapf(err, "failed to register indexer for %T, Key: %q", obj.Obj, indexer.Key)
 			}
@@ -129,7 +112,7 @@ func RegisterAll(
 	for _, obj := range objs {
 		// TODO: Consider pulling some of the construction of things out of register (gvk, etc), so that we can pass in just
 		// TODO: the applicable extensions rather than a map of all of them
-		if err := register(mgr, kubeClient, reconciledResourceLookup, clientFactory, obj, extensions, options); err != nil {
+		if err := register(mgr, kubeClient, positiveConditions, obj, options); err != nil {
 			errs = append(errs, err)
 		}
 	}
@@ -140,28 +123,15 @@ func RegisterAll(
 func register(
 	mgr ctrl.Manager,
 	kubeClient kubeclient.Client,
-	reconciledResourceLookup map[schema.GroupKind]schema.GroupVersionKind,
-	clientFactory arm.ARMClientFactory,
+	positiveConditions *conditions.PositiveConditionBuilder,
 	info *registration.StorageType,
-	extensions map[schema.GroupVersionKind]genruntime.ResourceExtension,
-	options Options,
-) error {
-	v, err := conversion.EnforcePtr(info.Obj)
-	if err != nil {
-		return errors.Wrap(err, "info.Obj was expected to be ptr but was not")
-	}
-
-	t := v.Type()
-	controllerName := fmt.Sprintf("%sController", t.Name())
+	options Options) error {
 
 	// Use the provided GVK to construct a new runtime object of the desired concrete type.
 	gvk, err := apiutil.GVKForObject(info.Obj, mgr.GetScheme())
 	if err != nil {
 		return errors.Wrapf(err, "creating GVK for obj %T", info)
 	}
-
-	options.Log.V(Status).Info("Registering", "GVK", gvk)
-	extension := extensions[gvk]
 
 	loggerFactory := func(mo genruntime.MetaObject) logr.Logger {
 		result := options.Log
@@ -171,31 +141,20 @@ func register(
 			}
 		}
 
-		return result.WithName(controllerName)
+		return result.WithName(info.Name)
 	}
+	eventRecorder := mgr.GetEventRecorderFor(info.Name)
 
-	eventRecorder := mgr.GetEventRecorderFor(controllerName)
-
-	// Make the ARM reconciler
-	// TODO: In the future when we support other reconciler's we may need to construct
-	// TODO: this further up the stack and pass it in
-	innerReconciler := arm.NewAzureDeploymentReconciler(
-		clientFactory,
-		eventRecorder,
-		kubeClient,
-		resolver.NewResolver(kubeClient, reconciledResourceLookup),
-		conditions.NewPositiveConditionBuilder(clock.New()),
-		options.Config,
-		extension)
+	options.Log.V(Status).Info("Registering", "GVK", gvk)
 
 	reconciler := &GenericReconciler{
-		Reconciler:    innerReconciler,
-		KubeClient:    kubeClient,
-		Name:          t.Name(),
-		Config:        options.Config,
-		LoggerFactory: loggerFactory,
-		Recorder:      eventRecorder,
-		GVK:           gvk,
+		Reconciler:         info.Reconciler,
+		KubeClient:         kubeClient,
+		Config:             options.Config,
+		LoggerFactory:      loggerFactory,
+		Recorder:           eventRecorder,
+		GVK:                gvk,
+		PositiveConditions: positiveConditions,
 		//nolint:gosec // do not want cryptographic randomness here
 		Rand:                 rand.New(lockedrand.NewSource(time.Now().UnixNano())),
 		RequeueDelayOverride: options.RequeueDelay,
@@ -205,7 +164,7 @@ func register(
 	// to learn more look at https://pkg.go.dev/sigs.k8s.io/controller-runtime/pkg/predicate#GenerationChangedPredicate
 	filter := predicate.Or(
 		predicate.GenerationChangedPredicate{},
-		arm.ARMReconcilerAnnotationChangedPredicate(options.Log.WithName(controllerName)))
+		reconcilers.ARMReconcilerAnnotationChangedPredicate(options.Log.WithName(info.Name)))
 
 	builder := ctrl.NewControllerManagedBy(mgr).
 		// Note: These predicates prevent status updates from triggering a reconcile.
@@ -214,7 +173,7 @@ func register(
 		WithOptions(options.Options)
 
 	for _, watch := range info.Watches {
-		builder = builder.Watches(watch.Src, watch.MakeEventHandler(mgr.GetClient(), options.Log.WithName(controllerName)))
+		builder = builder.Watches(watch.Src, watch.MakeEventHandler(kubeClient, options.Log.WithName(info.Name)))
 	}
 
 	err = builder.Complete(reconciler)
@@ -223,31 +182,6 @@ func register(
 	}
 
 	return nil
-}
-
-// MakeResourceStorageTypeLookup creates a map of schema.GroupKind to schema.GroupVersionKind. This can be used to look
-// up the storage version of any resource given the GroupKind that is being reconciled.
-func MakeResourceStorageTypeLookup(mgr ctrl.Manager, objs []*registration.StorageType) (map[schema.GroupKind]schema.GroupVersionKind, error) {
-	result := make(map[schema.GroupKind]schema.GroupVersionKind)
-
-	for _, obj := range objs {
-		gvk, err := apiutil.GVKForObject(obj.Obj, mgr.GetScheme())
-		if err != nil {
-			return nil, errors.Wrapf(err, "creating GVK for obj %T", obj)
-		}
-		groupKind := schema.GroupKind{Group: gvk.Group, Kind: gvk.Kind}
-		if existing, ok := result[groupKind]; ok {
-			return nil, errors.Errorf(
-				"group: %q, kind: %q already has registered storage version %q, but found %q as well",
-				gvk.Group,
-				gvk.Kind,
-				existing.Version,
-				gvk.Version)
-		}
-		result[groupKind] = gvk
-	}
-
-	return result, nil
 }
 
 // NamespaceAnnotation defines the annotation name to use when marking
@@ -285,6 +219,7 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		"kind", fmt.Sprintf("%T", obj),
 		"resourceVersion", obj.GetResourceVersion(),
 		"generation", obj.GetGeneration())
+	reconcilers.LogObj(log, "reconciling resource", metaObj)
 
 	// Ensure the resource is tagged with the operator's namespace.
 	annotations := metaObj.GetAnnotations()
@@ -306,9 +241,22 @@ func (gr *GenericReconciler) Reconcile(ctx context.Context, req ctrl.Request) (c
 		return ctrl.Result{Requeue: true}, gr.KubeClient.Update(ctx, obj)
 	}
 
-	result, err := gr.Reconciler.Reconcile(ctx, log, metaObj)
+	result, err := gr.Reconciler.Reconcile(ctx, log, gr.Recorder, metaObj)
+	if readyErr, ok := conditions.AsReadyConditionImpactingError(err); ok {
+		log.Error(readyErr, "Encountered error impacting Ready condition")
+		err = gr.WriteReadyConditionError(ctx, metaObj, readyErr)
+	}
+
 	if err != nil {
-		return ctrl.Result{}, err
+		log.Error(err, "error during reconcile")
+		// NotFound is a superfluous error as per https://github.com/kubernetes-sigs/controller-runtime/issues/377
+		// The correct handling is just to ignore it and we will get an event shortly with the updated version to patch
+		// We must also ignore conflict here because updating a resource that
+		// doesn't exist returns conflict unfortunately: https://github.com/kubernetes/kubernetes/issues/89985. This is OK
+		// to ignore because a conflict means either the resource has been deleted (in which case there's nothing to do) or
+		// it has been updated, in which case there's going to be a new event triggered for it and we can count this
+		// round of reconciliation as a success andait for the next event.
+		return ctrl.Result{}, reconcilers.IgnoreNotFoundAndConflict(err)
 	}
 
 	if (result == ctrl.Result{}) {
@@ -349,4 +297,25 @@ func (gr *GenericReconciler) makeSuccessResult() ctrl.Result {
 		result.RequeueAfter = randextensions.Jitter(gr.Rand, *gr.Config.SyncPeriod, 0.1)
 	}
 	return result
+}
+
+func (gr *GenericReconciler) WriteReadyConditionError(ctx context.Context, obj genruntime.MetaObject, err *conditions.ReadyConditionImpactingError) error {
+	conditions.SetCondition(obj, gr.PositiveConditions.Ready.ReadyCondition(
+		err.Severity,
+		obj.GetGeneration(),
+		err.Reason,
+		err.Error()))
+	commitErr := gr.KubeClient.CommitObject(ctx, obj)
+	if commitErr != nil {
+		return errors.Wrap(commitErr, "updating resource error")
+	}
+
+	if err.Severity == conditions.ConditionSeverityError {
+		// This is a bit weird, but fatal errors shouldn't trigger a fresh reconcile, so
+		// returning nil results in reconcile "succeeding" meaning an event won't be
+		// queued to reconcile again.
+		return nil
+	}
+
+	return err
 }

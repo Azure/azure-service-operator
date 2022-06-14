@@ -112,7 +112,7 @@ func (rule *FlexibleServersFirewallRule) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-06-01"
 func (rule FlexibleServersFirewallRule) GetAPIVersion() string {
-	return "2021-06-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -572,7 +572,7 @@ func (rules *FlexibleServersFirewallRules_Spec) ConvertToARM(resolved genruntime
 	if rules == nil {
 		return nil, nil
 	}
-	var result FlexibleServersFirewallRules_SpecARM
+	result := &FlexibleServersFirewallRules_SpecARM{}
 
 	// Set property ‘Location’:
 	if rules.Location != nil {
@@ -598,7 +598,7 @@ func (rules *FlexibleServersFirewallRules_Spec) ConvertToARM(resolved genruntime
 
 	// Set property ‘Tags’:
 	if rules.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(rules.Tags))
 		for key, value := range rules.Tags {
 			result.Tags[key] = value
 		}
@@ -652,7 +652,7 @@ func (rules *FlexibleServersFirewallRules_Spec) PopulateFromARM(owner genruntime
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		rules.Tags = make(map[string]string)
+		rules.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			rules.Tags[key] = value
 		}

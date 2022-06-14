@@ -18,16 +18,16 @@ var _ genruntime.ARMResourceSpec = &Images_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-07-01"
 func (images Images_SpecARM) GetAPIVersion() string {
-	return "2021-07-01"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource
-func (images Images_SpecARM) GetName() string {
+func (images *Images_SpecARM) GetName() string {
 	return images.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Compute/images"
-func (images Images_SpecARM) GetType() string {
+func (images *Images_SpecARM) GetType() string {
 	return "Microsoft.Compute/images"
 }
 

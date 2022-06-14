@@ -98,7 +98,7 @@ func (topic *Topic) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (topic Topic) GetAPIVersion() string {
-	return "2020-06-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -548,7 +548,7 @@ func (topic *Topic_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		topic.Tags = make(map[string]string)
+		topic.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			topic.Tags[key] = value
 		}
@@ -803,11 +803,6 @@ func (topic *Topic_Status) AssignPropertiesToTopicStatus(destination *v20200601s
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2020-06-01"}
-type TopicsSpecAPIVersion string
-
-const TopicsSpecAPIVersion20200601 = TopicsSpecAPIVersion("2020-06-01")
-
 type Topics_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -833,7 +828,7 @@ func (topics *Topics_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if topics == nil {
 		return nil, nil
 	}
-	var result Topics_SpecARM
+	result := &Topics_SpecARM{}
 
 	// Set property ‘Location’:
 	if topics.Location != nil {
@@ -846,7 +841,7 @@ func (topics *Topics_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolved
 
 	// Set property ‘Tags’:
 	if topics.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(topics.Tags))
 		for key, value := range topics.Tags {
 			result.Tags[key] = value
 		}
@@ -882,7 +877,7 @@ func (topics *Topics_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefere
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		topics.Tags = make(map[string]string)
+		topics.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			topics.Tags[key] = value
 		}

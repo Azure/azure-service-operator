@@ -10,39 +10,30 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/pkg/errors"
+
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 )
 
 // TypeMatcher contains basic functionality for a filter
 type TypeMatcher struct {
-	// Group is a wildcard matching specifier for which groups are selected by this filter
-	Group      string `yaml:",omitempty"`
-	groupRegex *regexp.Regexp
-	// Version is a wildcard matching specifier for which types are selected by this filter
-	Version      string `yaml:",omitempty"`
-	versionRegex *regexp.Regexp
-	// Name is a wildcard matching specifier for which types are selected by this filter
-	Name      string `yaml:",omitempty"`
-	nameRegex *regexp.Regexp
+	Group   FieldMatcher `yaml:",omitempty"` // Filter matching types by group
+	Version FieldMatcher `yaml:",omitempty"` // Filter matching types by version
+	Name    FieldMatcher `yaml:",omitempty"` // Filter matching types by name
 	// Because is used to articulate why the filter applied to a type (used to generate explanatory logs in debug mode)
 	Because string
 	// MatchRequired indicates if an error will be raised if this TypeMatcher doesn't match at least one type.
 	// The default is true.
 	MatchRequired *bool `yaml:"matchRequired,omitempty"`
 
-	// matchedTypes is the set of all type names matched by this matcher
-	matchedTypes astmodel.TypeNameSet
+	// matchedAnything is true if TypeMatcher matched anything
+	matchedAnything bool
 }
 
 var _ fmt.Stringer = &TypeMatcher{}
 
 // Initialize initializes the type matcher
 func (t *TypeMatcher) Initialize() error {
-	t.groupRegex = createGlobbingRegex(t.Group)
-	t.versionRegex = createGlobbingRegex(t.Version)
-	t.nameRegex = createGlobbingRegex(t.Name)
-	t.matchedTypes = astmodel.NewTypeNameSet()
-
 	// Default MatchRequired
 	if t.MatchRequired == nil {
 		temp := true
@@ -52,83 +43,83 @@ func (t *TypeMatcher) Initialize() error {
 	return nil
 }
 
-func (t *TypeMatcher) groupMatches(schema string) bool {
-	return t.matches(t.Group, &t.groupRegex, schema)
-}
-
-func (t *TypeMatcher) versionMatches(version string) bool {
-	return t.matches(t.Version, &t.versionRegex, version)
-}
-
-func (t *TypeMatcher) nameMatches(name string) bool {
-	return t.matches(t.Name, &t.nameRegex, name)
-}
-
-func (t *TypeMatcher) matches(glob string, regex **regexp.Regexp, name string) bool {
-	if glob == "" {
-		return true
-	}
-
-	if *regex == nil {
-		*regex = createGlobbingRegex(glob)
-	}
-
-	return (*regex).MatchString(name)
-}
-
 // AppliesToType indicates whether this filter should be applied to the supplied type definition
 func (t *TypeMatcher) AppliesToType(typeName astmodel.TypeName) bool {
-	if group, version, ok := typeName.PackageReference.GroupVersion(); ok {
-
-		result := t.groupMatches(group) &&
-			t.versionMatches(version) &&
-			t.nameMatches(typeName.Name())
-
-		// Track this match, so we can later report if we didn't match anything
-		if result {
-			if t.matchedTypes == nil {
-				t.matchedTypes = astmodel.NewTypeNameSet(typeName)
-			} else {
-				t.matchedTypes.Add(typeName)
-			}
-		}
-
-		return result
+	group, version, ok := typeName.PackageReference.TryGroupVersion()
+	if !ok {
+		// Never match external references
+		return false
 	}
 
-	// Never match external references
-	return false
+	result := t.Group.Matches(group) &&
+		t.Version.Matches(version) &&
+		t.Name.Matches(typeName.Name())
+
+	// Track this match, so we can later report if we didn't match anything
+	if result {
+		t.matchedAnything = true
+	}
+
+	return result
 }
 
-func (t *TypeMatcher) MatchedRequiredTypes() bool {
+// RequiredTypesWereMatched returns an error if no matches were made
+func (t *TypeMatcher) RequiredTypesWereMatched() error {
 	if *t.MatchRequired {
-		return t.HasMatches()
+		return t.WasMatched()
 	}
 
-	return true
+	return nil
 }
 
-// HasMatches returns true if this matcher has ever matched at least 1 type
-func (t *TypeMatcher) HasMatches() bool {
-	return len(t.matchedTypes) > 0
+// WasMatched returns nil if this matcher ever matched at least one type, otherwise a diagnostic error
+func (t *TypeMatcher) WasMatched() error {
+	if t.matchedAnything {
+		// Matched at least one type
+		return nil
+	}
+
+	if err := t.Group.WasMatched(); err != nil {
+		return errors.Wrapf(
+			err,
+			"type matcher [%s] matched no types; every group was excluded",
+			t.String())
+	}
+
+	if err := t.Version.WasMatched(); err != nil {
+		return errors.Wrapf(
+			err,
+			"type matcher [%s] matched no types; groups matched, but every version was excluded",
+			t.String())
+	}
+
+	if err := t.Name.WasMatched(); err != nil {
+		return errors.Wrapf(
+			err,
+			"type matcher [%s] matched no types; groups and versions matched, but every type was excluded",
+			t.String())
+	}
+
+	// Don't expect this case to ever be used, but be informative anyway
+	return errors.Errorf("Type matcher [%s] matched no types", t.String())
 }
 
 // String returns a description of this filter
 func (t *TypeMatcher) String() string {
 	var result strings.Builder
 	var spacer string
-	if t.Group != "" {
-		result.WriteString(fmt.Sprintf("Group: %q", t.Group))
+	if t.Group.IsRestrictive() {
+		result.WriteString(fmt.Sprintf("Group: %q", t.Group.String()))
 		spacer = "; "
 	}
 
-	if t.Name != "" {
-		result.WriteString(fmt.Sprintf("%sName: %q", spacer, t.Name))
+	if t.Version.IsRestrictive() {
+		result.WriteString(fmt.Sprintf("%sVersion: %q", spacer, t.Version.String()))
 		spacer = "; "
 	}
 
-	if t.Version != "" {
-		result.WriteString(fmt.Sprintf("%sVersion: %q", spacer, t.Version))
+	if t.Name.IsRestrictive() {
+		result.WriteString(fmt.Sprintf("%sName: %q", spacer, t.Name.String()))
 		spacer = "; "
 	}
 
@@ -148,8 +139,9 @@ func createGlobbingRegex(globbing string) *regexp.Regexp {
 		return nil
 	}
 
-	var regexes []string
-	for _, glob := range strings.Split(globbing, ";") {
+	globs := strings.Split(globbing, ";")
+	regexes := make([]string, 0, len(globs))
+	for _, glob := range globs {
 		g := regexp.QuoteMeta(glob)
 		g = strings.ReplaceAll(g, "\\*", ".*")
 		g = strings.ReplaceAll(g, "\\?", ".")

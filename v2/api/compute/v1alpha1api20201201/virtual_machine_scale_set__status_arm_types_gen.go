@@ -168,7 +168,6 @@ type VirtualMachineScaleSetNetworkProfile_StatusARM struct {
 
 // Deprecated version of VirtualMachineScaleSetOSProfile_Status. Use v1beta20201201.VirtualMachineScaleSetOSProfile_Status instead
 type VirtualMachineScaleSetOSProfile_StatusARM struct {
-	AdminPassword        *string                         `json:"adminPassword,omitempty"`
 	AdminUsername        *string                         `json:"adminUsername,omitempty"`
 	ComputerNamePrefix   *string                         `json:"computerNamePrefix,omitempty"`
 	CustomData           *string                         `json:"customData,omitempty"`

@@ -96,7 +96,7 @@ func (resource *FakeResource) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (resource FakeResource) GetAPIVersion() string {
-	return "2020-06-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -283,18 +283,23 @@ var _ genruntime.ARMResourceSpec = &FakeResource_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (resource FakeResource_SpecARM) GetAPIVersion() string {
-	return "2020-06-01"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource
-func (resource FakeResource_SpecARM) GetName() string {
+func (resource *FakeResource_SpecARM) GetName() string {
 	return resource.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/FakeResource"
-func (resource FakeResource_SpecARM) GetType() string {
+func (resource *FakeResource_SpecARM) GetType() string {
 	return "Microsoft.Azure/FakeResource"
 }
+
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2020-06-01")
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/Color
 // +kubebuilder:validation:Enum={"blue","green","red"}
@@ -305,11 +310,6 @@ const (
 	ColorGreen = Color("green")
 	ColorRed   = Color("red")
 )
-
-// +kubebuilder:validation:Enum={"2020-06-01"}
-type FakeResourceSpecAPIVersion string
-
-const FakeResourceSpecAPIVersion20200601 = FakeResourceSpecAPIVersion("2020-06-01")
 
 type FakeResource_Spec struct {
 	// +kubebuilder:validation:Required
@@ -337,7 +337,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	if resource == nil {
 		return nil, nil
 	}
-	var result FakeResource_SpecARM
+	result := &FakeResource_SpecARM{}
 
 	// Set property ‘ArrayFoo’:
 	for _, item := range resource.ArrayFoo {
@@ -345,7 +345,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 		if err != nil {
 			return nil, err
 		}
-		result.ArrayFoo = append(result.ArrayFoo, itemARM.(FooARM))
+		result.ArrayFoo = append(result.ArrayFoo, *itemARM.(*FooARM))
 	}
 
 	// Set property ‘ArrayOfArrays’:
@@ -356,7 +356,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 			if err != nil {
 				return nil, err
 			}
-			itemTemp = append(itemTemp, item1ARM.(FooARM))
+			itemTemp = append(itemTemp, *item1ARM.(*FooARM))
 		}
 		result.ArrayOfArrays = append(result.ArrayOfArrays, itemTemp)
 	}
@@ -371,7 +371,7 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 				if err != nil {
 					return nil, err
 				}
-				item1Temp = append(item1Temp, item2ARM.(FooARM))
+				item1Temp = append(item1Temp, *item2ARM.(*FooARM))
 			}
 			itemTemp = append(itemTemp, item1Temp)
 		}
@@ -386,13 +386,13 @@ func (resource *FakeResource_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	// Set property ‘ArrayOfMaps’:
 	for _, item := range resource.ArrayOfMaps {
 		if item != nil {
-			itemTemp := make(map[string]FooARM)
+			itemTemp := make(map[string]FooARM, len(item))
 			for key, value := range item {
 				valueARM, err := value.ConvertToARM(resolved)
 				if err != nil {
 					return nil, err
 				}
-				itemTemp[key] = valueARM.(FooARM)
+				itemTemp[key] = *valueARM.(*FooARM)
 			}
 			result.ArrayOfMaps = append(result.ArrayOfMaps, itemTemp)
 		}
@@ -465,7 +465,7 @@ func (resource *FakeResource_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// Set property ‘ArrayOfMaps’:
 	for _, item := range typedInput.ArrayOfMaps {
 		if item != nil {
-			itemTemp := make(map[string]Foo)
+			itemTemp := make(map[string]Foo, len(item))
 			for key, value := range item {
 				var value1 Foo
 				err := value1.PopulateFromARM(owner, value)
@@ -863,7 +863,7 @@ func (foo *Foo) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if foo == nil {
 		return nil, nil
 	}
-	var result FooARM
+	result := &FooARM{}
 
 	// Set property ‘Name’:
 	if foo.Name != nil {

@@ -99,7 +99,7 @@ func (scaleSet *VirtualMachineScaleSet) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
 func (scaleSet VirtualMachineScaleSet) GetAPIVersion() string {
-	return "2020-12-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -665,7 +665,7 @@ func (scaleSet *VirtualMachineScaleSet_Status) PopulateFromARM(owner genruntime.
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		scaleSet.Tags = make(map[string]string)
+		scaleSet.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			scaleSet.Tags[key] = value
 		}
@@ -1159,11 +1159,6 @@ func (scaleSet *VirtualMachineScaleSet_Status) AssignPropertiesToVirtualMachineS
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2020-12-01"}
-type VirtualMachineScaleSetsSpecAPIVersion string
-
-const VirtualMachineScaleSetsSpecAPIVersion20201201 = VirtualMachineScaleSetsSpecAPIVersion("2020-12-01")
-
 type VirtualMachineScaleSets_Spec struct {
 	// AdditionalCapabilities: Enables or disables a capability on the virtual machine or virtual machine scale set.
 	AdditionalCapabilities *AdditionalCapabilities `json:"additionalCapabilities,omitempty"`
@@ -1247,7 +1242,7 @@ func (sets *VirtualMachineScaleSets_Spec) ConvertToARM(resolved genruntime.Conve
 	if sets == nil {
 		return nil, nil
 	}
-	var result VirtualMachineScaleSets_SpecARM
+	result := &VirtualMachineScaleSets_SpecARM{}
 
 	// Set property ‘ExtendedLocation’:
 	if sets.ExtendedLocation != nil {
@@ -1255,7 +1250,7 @@ func (sets *VirtualMachineScaleSets_Spec) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		extendedLocation := extendedLocationARM.(ExtendedLocationARM)
+		extendedLocation := *extendedLocationARM.(*ExtendedLocationARM)
 		result.ExtendedLocation = &extendedLocation
 	}
 
@@ -1265,7 +1260,7 @@ func (sets *VirtualMachineScaleSets_Spec) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		identity := identityARM.(VirtualMachineScaleSetIdentityARM)
+		identity := *identityARM.(*VirtualMachineScaleSetIdentityARM)
 		result.Identity = &identity
 	}
 
@@ -1284,7 +1279,7 @@ func (sets *VirtualMachineScaleSets_Spec) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		plan := planARM.(PlanARM)
+		plan := *planARM.(*PlanARM)
 		result.Plan = &plan
 	}
 
@@ -1309,7 +1304,7 @@ func (sets *VirtualMachineScaleSets_Spec) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		additionalCapabilities := additionalCapabilitiesARM.(AdditionalCapabilitiesARM)
+		additionalCapabilities := *additionalCapabilitiesARM.(*AdditionalCapabilitiesARM)
 		result.Properties.AdditionalCapabilities = &additionalCapabilities
 	}
 	if sets.AutomaticRepairsPolicy != nil {
@@ -1317,7 +1312,7 @@ func (sets *VirtualMachineScaleSets_Spec) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		automaticRepairsPolicy := automaticRepairsPolicyARM.(AutomaticRepairsPolicyARM)
+		automaticRepairsPolicy := *automaticRepairsPolicyARM.(*AutomaticRepairsPolicyARM)
 		result.Properties.AutomaticRepairsPolicy = &automaticRepairsPolicy
 	}
 	if sets.DoNotRunExtensionsOnOverprovisionedVMs != nil {
@@ -1329,7 +1324,7 @@ func (sets *VirtualMachineScaleSets_Spec) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		hostGroup := hostGroupARM.(SubResourceARM)
+		hostGroup := *hostGroupARM.(*SubResourceARM)
 		result.Properties.HostGroup = &hostGroup
 	}
 	if sets.OrchestrationMode != nil {
@@ -1349,7 +1344,7 @@ func (sets *VirtualMachineScaleSets_Spec) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		proximityPlacementGroup := proximityPlacementGroupARM.(SubResourceARM)
+		proximityPlacementGroup := *proximityPlacementGroupARM.(*SubResourceARM)
 		result.Properties.ProximityPlacementGroup = &proximityPlacementGroup
 	}
 	if sets.ScaleInPolicy != nil {
@@ -1357,7 +1352,7 @@ func (sets *VirtualMachineScaleSets_Spec) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		scaleInPolicy := scaleInPolicyARM.(ScaleInPolicyARM)
+		scaleInPolicy := *scaleInPolicyARM.(*ScaleInPolicyARM)
 		result.Properties.ScaleInPolicy = &scaleInPolicy
 	}
 	if sets.SinglePlacementGroup != nil {
@@ -1369,7 +1364,7 @@ func (sets *VirtualMachineScaleSets_Spec) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		upgradePolicy := upgradePolicyARM.(UpgradePolicyARM)
+		upgradePolicy := *upgradePolicyARM.(*UpgradePolicyARM)
 		result.Properties.UpgradePolicy = &upgradePolicy
 	}
 	if sets.VirtualMachineProfile != nil {
@@ -1377,7 +1372,7 @@ func (sets *VirtualMachineScaleSets_Spec) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		virtualMachineProfile := virtualMachineProfileARM.(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfileARM)
+		virtualMachineProfile := *virtualMachineProfileARM.(*VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfileARM)
 		result.Properties.VirtualMachineProfile = &virtualMachineProfile
 	}
 	if sets.ZoneBalance != nil {
@@ -1391,13 +1386,13 @@ func (sets *VirtualMachineScaleSets_Spec) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		sku := skuARM.(SkuARM)
+		sku := *skuARM.(*SkuARM)
 		result.Sku = &sku
 	}
 
 	// Set property ‘Tags’:
 	if sets.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(sets.Tags))
 		for key, value := range sets.Tags {
 			result.Tags[key] = value
 		}
@@ -1597,7 +1592,7 @@ func (sets *VirtualMachineScaleSets_Spec) PopulateFromARM(owner genruntime.Arbit
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		sets.Tags = make(map[string]string)
+		sets.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			sets.Tags[key] = value
 		}
@@ -2143,7 +2138,7 @@ func (policy *AutomaticRepairsPolicy) ConvertToARM(resolved genruntime.ConvertTo
 	if policy == nil {
 		return nil, nil
 	}
-	var result AutomaticRepairsPolicyARM
+	result := &AutomaticRepairsPolicyARM{}
 
 	// Set property ‘Enabled’:
 	if policy.Enabled != nil {
@@ -2349,7 +2344,7 @@ func (policy *ScaleInPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if policy == nil {
 		return nil, nil
 	}
-	var result ScaleInPolicyARM
+	result := &ScaleInPolicyARM{}
 
 	// Set property ‘Rules’:
 	for _, item := range policy.Rules {
@@ -2537,7 +2532,7 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if sku == nil {
 		return nil, nil
 	}
-	var result SkuARM
+	result := &SkuARM{}
 
 	// Set property ‘Capacity’:
 	if sku.Capacity != nil {
@@ -2748,7 +2743,7 @@ func (policy *UpgradePolicy) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if policy == nil {
 		return nil, nil
 	}
-	var result UpgradePolicyARM
+	result := &UpgradePolicyARM{}
 
 	// Set property ‘AutomaticOSUpgradePolicy’:
 	if policy.AutomaticOSUpgradePolicy != nil {
@@ -2756,7 +2751,7 @@ func (policy *UpgradePolicy) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		if err != nil {
 			return nil, err
 		}
-		automaticOSUpgradePolicy := automaticOSUpgradePolicyARM.(AutomaticOSUpgradePolicyARM)
+		automaticOSUpgradePolicy := *automaticOSUpgradePolicyARM.(*AutomaticOSUpgradePolicyARM)
 		result.AutomaticOSUpgradePolicy = &automaticOSUpgradePolicy
 	}
 
@@ -2772,7 +2767,7 @@ func (policy *UpgradePolicy) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		if err != nil {
 			return nil, err
 		}
-		rollingUpgradePolicy := rollingUpgradePolicyARM.(RollingUpgradePolicyARM)
+		rollingUpgradePolicy := *rollingUpgradePolicyARM.(*RollingUpgradePolicyARM)
 		result.RollingUpgradePolicy = &rollingUpgradePolicy
 	}
 	return result, nil
@@ -3072,7 +3067,7 @@ func (identity *VirtualMachineScaleSetIdentity) ConvertToARM(resolved genruntime
 	if identity == nil {
 		return nil, nil
 	}
-	var result VirtualMachineScaleSetIdentityARM
+	result := &VirtualMachineScaleSetIdentityARM{}
 
 	// Set property ‘Type’:
 	if identity.Type != nil {
@@ -3197,7 +3192,7 @@ func (identity *VirtualMachineScaleSetIdentity_Status) PopulateFromARM(owner gen
 
 	// Set property ‘UserAssignedIdentities’:
 	if typedInput.UserAssignedIdentities != nil {
-		identity.UserAssignedIdentities = make(map[string]VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities)
+		identity.UserAssignedIdentities = make(map[string]VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities, len(typedInput.UserAssignedIdentities))
 		for key, value := range typedInput.UserAssignedIdentities {
 			var value1 VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities
 			err := value1.PopulateFromARM(owner, value)
@@ -3772,7 +3767,7 @@ type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile struct {
 	NetworkProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile `json:"networkProfile,omitempty"`
 
 	// OsProfile: Describes a virtual machine scale set OS profile.
-	OsProfile *VirtualMachineScaleSetOSProfile `json:"osProfile,omitempty"`
+	OsProfile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile `json:"osProfile,omitempty"`
 
 	// Priority: Specifies the priority for the virtual machines in the scale set.
 	// Minimum api-version: 2017-10-30-preview.
@@ -3793,7 +3788,7 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) Co
 	if profile == nil {
 		return nil, nil
 	}
-	var result VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfileARM
+	result := &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfileARM{}
 
 	// Set property ‘BillingProfile’:
 	if profile.BillingProfile != nil {
@@ -3801,7 +3796,7 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) Co
 		if err != nil {
 			return nil, err
 		}
-		billingProfile := billingProfileARM.(BillingProfileARM)
+		billingProfile := *billingProfileARM.(*BillingProfileARM)
 		result.BillingProfile = &billingProfile
 	}
 
@@ -3811,7 +3806,7 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) Co
 		if err != nil {
 			return nil, err
 		}
-		diagnosticsProfile := diagnosticsProfileARM.(DiagnosticsProfileARM)
+		diagnosticsProfile := *diagnosticsProfileARM.(*DiagnosticsProfileARM)
 		result.DiagnosticsProfile = &diagnosticsProfile
 	}
 
@@ -3827,7 +3822,7 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) Co
 		if err != nil {
 			return nil, err
 		}
-		extensionProfile := extensionProfileARM.(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfileARM)
+		extensionProfile := *extensionProfileARM.(*VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfileARM)
 		result.ExtensionProfile = &extensionProfile
 	}
 
@@ -3843,7 +3838,7 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) Co
 		if err != nil {
 			return nil, err
 		}
-		networkProfile := networkProfileARM.(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfileARM)
+		networkProfile := *networkProfileARM.(*VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfileARM)
 		result.NetworkProfile = &networkProfile
 	}
 
@@ -3853,7 +3848,7 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) Co
 		if err != nil {
 			return nil, err
 		}
-		osProfile := osProfileARM.(VirtualMachineScaleSetOSProfileARM)
+		osProfile := *osProfileARM.(*VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfileARM)
 		result.OsProfile = &osProfile
 	}
 
@@ -3869,7 +3864,7 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) Co
 		if err != nil {
 			return nil, err
 		}
-		scheduledEventsProfile := scheduledEventsProfileARM.(ScheduledEventsProfileARM)
+		scheduledEventsProfile := *scheduledEventsProfileARM.(*ScheduledEventsProfileARM)
 		result.ScheduledEventsProfile = &scheduledEventsProfile
 	}
 
@@ -3879,7 +3874,7 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) Co
 		if err != nil {
 			return nil, err
 		}
-		securityProfile := securityProfileARM.(SecurityProfileARM)
+		securityProfile := *securityProfileARM.(*SecurityProfileARM)
 		result.SecurityProfile = &securityProfile
 	}
 
@@ -3889,7 +3884,7 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) Co
 		if err != nil {
 			return nil, err
 		}
-		storageProfile := storageProfileARM.(VirtualMachineScaleSetStorageProfileARM)
+		storageProfile := *storageProfileARM.(*VirtualMachineScaleSetStorageProfileARM)
 		result.StorageProfile = &storageProfile
 	}
 	return result, nil
@@ -3965,7 +3960,7 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) Po
 
 	// Set property ‘OsProfile’:
 	if typedInput.OsProfile != nil {
-		var osProfile1 VirtualMachineScaleSetOSProfile
+		var osProfile1 VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile
 		err := osProfile1.PopulateFromARM(owner, *typedInput.OsProfile)
 		if err != nil {
 			return err
@@ -4081,10 +4076,10 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) As
 
 	// OsProfile
 	if source.OsProfile != nil {
-		var osProfile VirtualMachineScaleSetOSProfile
-		err := osProfile.AssignPropertiesFromVirtualMachineScaleSetOSProfile(source.OsProfile)
+		var osProfile VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile
+		err := osProfile.AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfile(source.OsProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetOSProfile() to populate field OsProfile")
+			return errors.Wrap(err, "calling AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfile() to populate field OsProfile")
 		}
 		profile.OsProfile = &osProfile
 	} else {
@@ -4205,10 +4200,10 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) As
 
 	// OsProfile
 	if profile.OsProfile != nil {
-		var osProfile v20201201s.VirtualMachineScaleSetOSProfile
-		err := profile.OsProfile.AssignPropertiesToVirtualMachineScaleSetOSProfile(&osProfile)
+		var osProfile v20201201s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile
+		err := profile.OsProfile.AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfile(&osProfile)
 		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetOSProfile() to populate field OsProfile")
+			return errors.Wrap(err, "calling AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfile() to populate field OsProfile")
 		}
 		destination.OsProfile = &osProfile
 	} else {
@@ -4290,7 +4285,7 @@ func (policy *AutomaticOSUpgradePolicy) ConvertToARM(resolved genruntime.Convert
 	if policy == nil {
 		return nil, nil
 	}
-	var result AutomaticOSUpgradePolicyARM
+	result := &AutomaticOSUpgradePolicyARM{}
 
 	// Set property ‘DisableAutomaticRollback’:
 	if policy.DisableAutomaticRollback != nil {
@@ -4529,7 +4524,7 @@ func (policy *RollingUpgradePolicy) ConvertToARM(resolved genruntime.ConvertToAR
 	if policy == nil {
 		return nil, nil
 	}
-	var result RollingUpgradePolicyARM
+	result := &RollingUpgradePolicyARM{}
 
 	// Set property ‘EnableCrossZoneUpgrade’:
 	if policy.EnableCrossZoneUpgrade != nil {
@@ -4921,7 +4916,7 @@ func (profile *ScheduledEventsProfile) ConvertToARM(resolved genruntime.ConvertT
 	if profile == nil {
 		return nil, nil
 	}
-	var result ScheduledEventsProfileARM
+	result := &ScheduledEventsProfileARM{}
 
 	// Set property ‘TerminateNotificationProfile’:
 	if profile.TerminateNotificationProfile != nil {
@@ -4929,7 +4924,7 @@ func (profile *ScheduledEventsProfile) ConvertToARM(resolved genruntime.ConvertT
 		if err != nil {
 			return nil, err
 		}
-		terminateNotificationProfile := terminateNotificationProfileARM.(TerminateNotificationProfileARM)
+		terminateNotificationProfile := *terminateNotificationProfileARM.(*TerminateNotificationProfileARM)
 		result.TerminateNotificationProfile = &terminateNotificationProfile
 	}
 	return result, nil
@@ -5422,361 +5417,7 @@ func (profile *VirtualMachineScaleSetNetworkProfile_Status) AssignPropertiesToVi
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/VirtualMachineScaleSetOSProfile
-type VirtualMachineScaleSetOSProfile struct {
-	// AdminPassword: Specifies the password of the administrator account.
-	// Minimum-length (Windows): 8 characters
-	// Minimum-length (Linux): 6 characters
-	// Max-length (Windows): 123 characters
-	// Max-length (Linux): 72 characters
-	// Complexity requirements: 3 out of 4 conditions below need to be fulfilled
-	// Has lower characters
-	// Has upper characters
-	// Has a digit
-	// Has a special character (Regex match [\W_])
-	// Disallowed values: "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1",
-	// "Password22", "iloveyou!"
-	// For resetting the password, see [How to reset the Remote Desktop service or its login password in a Windows
-	// VM](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-reset-rdp?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
-	// For resetting root password, see [Manage users, SSH, and check or repair disks on Azure Linux VMs using the VMAccess
-	// Extension](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-vmaccess-extension?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json#reset-root-password)
-	AdminPassword *genruntime.SecretReference `json:"adminPassword,omitempty"`
-
-	// AdminUsername: Specifies the name of the administrator account.
-	// Windows-only restriction: Cannot end in "."
-	// Disallowed values: "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123",
-	// "a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server",
-	// "sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5".
-	// Minimum-length (Linux): 1  character
-	// Max-length (Linux): 64 characters
-	// Max-length (Windows): 20 characters
-	// <li> For root access to the Linux VM, see [Using root privileges on Linux virtual machines in
-	// Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-use-root-privileges?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
-	// <li> For a list of built-in system users on Linux that should not be used in this field, see [Selecting User Names for
-	// Linux on
-	// Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-usernames?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
-	AdminUsername *string `json:"adminUsername,omitempty"`
-
-	// ComputerNamePrefix: Specifies the computer name prefix for all of the virtual machines in the scale set. Computer name
-	// prefixes must be 1 to 15 characters long.
-	ComputerNamePrefix *string `json:"computerNamePrefix,omitempty"`
-
-	// CustomData: Specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a binary array
-	// that is saved as a file on the Virtual Machine. The maximum length of the binary array is 65535 bytes.
-	// For using cloud-init for your VM, see [Using cloud-init to customize a Linux VM during
-	// creation](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-cloud-init?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
-	CustomData *string `json:"customData,omitempty"`
-
-	// LinuxConfiguration: Specifies the Linux operating system settings on the virtual machine.
-	// For a list of supported Linux distributions, see [Linux on Azure-Endorsed
-	// Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-endorsed-distros?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
-	// For running non-endorsed distributions, see [Information for Non-Endorsed
-	// Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-create-upload-generic?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
-	LinuxConfiguration *LinuxConfiguration `json:"linuxConfiguration,omitempty"`
-
-	// Secrets: Specifies set of certificates that should be installed onto the virtual machines in the scale set.
-	Secrets []VaultSecretGroup `json:"secrets,omitempty"`
-
-	// WindowsConfiguration: Specifies Windows operating system settings on the virtual machine.
-	WindowsConfiguration *WindowsConfiguration `json:"windowsConfiguration,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &VirtualMachineScaleSetOSProfile{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (profile *VirtualMachineScaleSetOSProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if profile == nil {
-		return nil, nil
-	}
-	var result VirtualMachineScaleSetOSProfileARM
-
-	// Set property ‘AdminPassword’:
-	if profile.AdminPassword != nil {
-		adminPasswordSecret, err := resolved.ResolvedSecrets.LookupSecret(*profile.AdminPassword)
-		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property AdminPassword")
-		}
-		adminPassword := adminPasswordSecret
-		result.AdminPassword = &adminPassword
-	}
-
-	// Set property ‘AdminUsername’:
-	if profile.AdminUsername != nil {
-		adminUsername := *profile.AdminUsername
-		result.AdminUsername = &adminUsername
-	}
-
-	// Set property ‘ComputerNamePrefix’:
-	if profile.ComputerNamePrefix != nil {
-		computerNamePrefix := *profile.ComputerNamePrefix
-		result.ComputerNamePrefix = &computerNamePrefix
-	}
-
-	// Set property ‘CustomData’:
-	if profile.CustomData != nil {
-		customData := *profile.CustomData
-		result.CustomData = &customData
-	}
-
-	// Set property ‘LinuxConfiguration’:
-	if profile.LinuxConfiguration != nil {
-		linuxConfigurationARM, err := (*profile.LinuxConfiguration).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		linuxConfiguration := linuxConfigurationARM.(LinuxConfigurationARM)
-		result.LinuxConfiguration = &linuxConfiguration
-	}
-
-	// Set property ‘Secrets’:
-	for _, item := range profile.Secrets {
-		itemARM, err := item.ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		result.Secrets = append(result.Secrets, itemARM.(VaultSecretGroupARM))
-	}
-
-	// Set property ‘WindowsConfiguration’:
-	if profile.WindowsConfiguration != nil {
-		windowsConfigurationARM, err := (*profile.WindowsConfiguration).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		windowsConfiguration := windowsConfigurationARM.(WindowsConfigurationARM)
-		result.WindowsConfiguration = &windowsConfiguration
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (profile *VirtualMachineScaleSetOSProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &VirtualMachineScaleSetOSProfileARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (profile *VirtualMachineScaleSetOSProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(VirtualMachineScaleSetOSProfileARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSetOSProfileARM, got %T", armInput)
-	}
-
-	// no assignment for property ‘AdminPassword’
-
-	// Set property ‘AdminUsername’:
-	if typedInput.AdminUsername != nil {
-		adminUsername := *typedInput.AdminUsername
-		profile.AdminUsername = &adminUsername
-	}
-
-	// Set property ‘ComputerNamePrefix’:
-	if typedInput.ComputerNamePrefix != nil {
-		computerNamePrefix := *typedInput.ComputerNamePrefix
-		profile.ComputerNamePrefix = &computerNamePrefix
-	}
-
-	// Set property ‘CustomData’:
-	if typedInput.CustomData != nil {
-		customData := *typedInput.CustomData
-		profile.CustomData = &customData
-	}
-
-	// Set property ‘LinuxConfiguration’:
-	if typedInput.LinuxConfiguration != nil {
-		var linuxConfiguration1 LinuxConfiguration
-		err := linuxConfiguration1.PopulateFromARM(owner, *typedInput.LinuxConfiguration)
-		if err != nil {
-			return err
-		}
-		linuxConfiguration := linuxConfiguration1
-		profile.LinuxConfiguration = &linuxConfiguration
-	}
-
-	// Set property ‘Secrets’:
-	for _, item := range typedInput.Secrets {
-		var item1 VaultSecretGroup
-		err := item1.PopulateFromARM(owner, item)
-		if err != nil {
-			return err
-		}
-		profile.Secrets = append(profile.Secrets, item1)
-	}
-
-	// Set property ‘WindowsConfiguration’:
-	if typedInput.WindowsConfiguration != nil {
-		var windowsConfiguration1 WindowsConfiguration
-		err := windowsConfiguration1.PopulateFromARM(owner, *typedInput.WindowsConfiguration)
-		if err != nil {
-			return err
-		}
-		windowsConfiguration := windowsConfiguration1
-		profile.WindowsConfiguration = &windowsConfiguration
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromVirtualMachineScaleSetOSProfile populates our VirtualMachineScaleSetOSProfile from the provided source VirtualMachineScaleSetOSProfile
-func (profile *VirtualMachineScaleSetOSProfile) AssignPropertiesFromVirtualMachineScaleSetOSProfile(source *v20201201s.VirtualMachineScaleSetOSProfile) error {
-
-	// AdminPassword
-	if source.AdminPassword != nil {
-		adminPassword := source.AdminPassword.Copy()
-		profile.AdminPassword = &adminPassword
-	} else {
-		profile.AdminPassword = nil
-	}
-
-	// AdminUsername
-	profile.AdminUsername = genruntime.ClonePointerToString(source.AdminUsername)
-
-	// ComputerNamePrefix
-	profile.ComputerNamePrefix = genruntime.ClonePointerToString(source.ComputerNamePrefix)
-
-	// CustomData
-	profile.CustomData = genruntime.ClonePointerToString(source.CustomData)
-
-	// LinuxConfiguration
-	if source.LinuxConfiguration != nil {
-		var linuxConfiguration LinuxConfiguration
-		err := linuxConfiguration.AssignPropertiesFromLinuxConfiguration(source.LinuxConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromLinuxConfiguration() to populate field LinuxConfiguration")
-		}
-		profile.LinuxConfiguration = &linuxConfiguration
-	} else {
-		profile.LinuxConfiguration = nil
-	}
-
-	// Secrets
-	if source.Secrets != nil {
-		secretList := make([]VaultSecretGroup, len(source.Secrets))
-		for secretIndex, secretItem := range source.Secrets {
-			// Shadow the loop variable to avoid aliasing
-			secretItem := secretItem
-			var secret VaultSecretGroup
-			err := secret.AssignPropertiesFromVaultSecretGroup(&secretItem)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromVaultSecretGroup() to populate field Secrets")
-			}
-			secretList[secretIndex] = secret
-		}
-		profile.Secrets = secretList
-	} else {
-		profile.Secrets = nil
-	}
-
-	// WindowsConfiguration
-	if source.WindowsConfiguration != nil {
-		var windowsConfiguration WindowsConfiguration
-		err := windowsConfiguration.AssignPropertiesFromWindowsConfiguration(source.WindowsConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromWindowsConfiguration() to populate field WindowsConfiguration")
-		}
-		profile.WindowsConfiguration = &windowsConfiguration
-	} else {
-		profile.WindowsConfiguration = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToVirtualMachineScaleSetOSProfile populates the provided destination VirtualMachineScaleSetOSProfile from our VirtualMachineScaleSetOSProfile
-func (profile *VirtualMachineScaleSetOSProfile) AssignPropertiesToVirtualMachineScaleSetOSProfile(destination *v20201201s.VirtualMachineScaleSetOSProfile) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// AdminPassword
-	if profile.AdminPassword != nil {
-		adminPassword := profile.AdminPassword.Copy()
-		destination.AdminPassword = &adminPassword
-	} else {
-		destination.AdminPassword = nil
-	}
-
-	// AdminUsername
-	destination.AdminUsername = genruntime.ClonePointerToString(profile.AdminUsername)
-
-	// ComputerNamePrefix
-	destination.ComputerNamePrefix = genruntime.ClonePointerToString(profile.ComputerNamePrefix)
-
-	// CustomData
-	destination.CustomData = genruntime.ClonePointerToString(profile.CustomData)
-
-	// LinuxConfiguration
-	if profile.LinuxConfiguration != nil {
-		var linuxConfiguration v20201201s.LinuxConfiguration
-		err := profile.LinuxConfiguration.AssignPropertiesToLinuxConfiguration(&linuxConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToLinuxConfiguration() to populate field LinuxConfiguration")
-		}
-		destination.LinuxConfiguration = &linuxConfiguration
-	} else {
-		destination.LinuxConfiguration = nil
-	}
-
-	// Secrets
-	if profile.Secrets != nil {
-		secretList := make([]v20201201s.VaultSecretGroup, len(profile.Secrets))
-		for secretIndex, secretItem := range profile.Secrets {
-			// Shadow the loop variable to avoid aliasing
-			secretItem := secretItem
-			var secret v20201201s.VaultSecretGroup
-			err := secretItem.AssignPropertiesToVaultSecretGroup(&secret)
-			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToVaultSecretGroup() to populate field Secrets")
-			}
-			secretList[secretIndex] = secret
-		}
-		destination.Secrets = secretList
-	} else {
-		destination.Secrets = nil
-	}
-
-	// WindowsConfiguration
-	if profile.WindowsConfiguration != nil {
-		var windowsConfiguration v20201201s.WindowsConfiguration
-		err := profile.WindowsConfiguration.AssignPropertiesToWindowsConfiguration(&windowsConfiguration)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToWindowsConfiguration() to populate field WindowsConfiguration")
-		}
-		destination.WindowsConfiguration = &windowsConfiguration
-	} else {
-		destination.WindowsConfiguration = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 type VirtualMachineScaleSetOSProfile_Status struct {
-	// AdminPassword: Specifies the password of the administrator account.
-	// Minimum-length (Windows): 8 characters
-	// Minimum-length (Linux): 6 characters
-	// Max-length (Windows): 123 characters
-	// Max-length (Linux): 72 characters
-	// Complexity requirements: 3 out of 4 conditions below need to be fulfilled
-	// Has lower characters
-	// Has upper characters
-	// Has a digit
-	// Has a special character (Regex match [\W_])
-	// Disallowed values: "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1",
-	// "Password22", "iloveyou!"
-	// For resetting the password, see [How to reset the Remote Desktop service or its login password in a Windows
-	// VM](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-reset-rdp?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
-	// For resetting root password, see [Manage users, SSH, and check or repair disks on Azure Linux VMs using the VMAccess
-	// Extension](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-vmaccess-extension?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json#reset-root-password)
-	AdminPassword *string `json:"adminPassword,omitempty"`
-
 	// AdminUsername: Specifies the name of the administrator account.
 	// Windows-only restriction: Cannot end in "."
 	// Disallowed values: "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123",
@@ -5828,12 +5469,6 @@ func (profile *VirtualMachineScaleSetOSProfile_Status) PopulateFromARM(owner gen
 	typedInput, ok := armInput.(VirtualMachineScaleSetOSProfile_StatusARM)
 	if !ok {
 		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSetOSProfile_StatusARM, got %T", armInput)
-	}
-
-	// Set property ‘AdminPassword’:
-	if typedInput.AdminPassword != nil {
-		adminPassword := *typedInput.AdminPassword
-		profile.AdminPassword = &adminPassword
 	}
 
 	// Set property ‘AdminUsername’:
@@ -5892,9 +5527,6 @@ func (profile *VirtualMachineScaleSetOSProfile_Status) PopulateFromARM(owner gen
 
 // AssignPropertiesFromVirtualMachineScaleSetOSProfileStatus populates our VirtualMachineScaleSetOSProfile_Status from the provided source VirtualMachineScaleSetOSProfile_Status
 func (profile *VirtualMachineScaleSetOSProfile_Status) AssignPropertiesFromVirtualMachineScaleSetOSProfileStatus(source *v20201201s.VirtualMachineScaleSetOSProfile_Status) error {
-
-	// AdminPassword
-	profile.AdminPassword = genruntime.ClonePointerToString(source.AdminPassword)
 
 	// AdminUsername
 	profile.AdminUsername = genruntime.ClonePointerToString(source.AdminUsername)
@@ -5955,9 +5587,6 @@ func (profile *VirtualMachineScaleSetOSProfile_Status) AssignPropertiesFromVirtu
 func (profile *VirtualMachineScaleSetOSProfile_Status) AssignPropertiesToVirtualMachineScaleSetOSProfileStatus(destination *v20201201s.VirtualMachineScaleSetOSProfile_Status) error {
 	// Create a new property bag
 	propertyBag := genruntime.NewPropertyBag()
-
-	// AdminPassword
-	destination.AdminPassword = genruntime.ClonePointerToString(profile.AdminPassword)
 
 	// AdminUsername
 	destination.AdminUsername = genruntime.ClonePointerToString(profile.AdminUsername)
@@ -6045,7 +5674,7 @@ func (profile *VirtualMachineScaleSetStorageProfile) ConvertToARM(resolved genru
 	if profile == nil {
 		return nil, nil
 	}
-	var result VirtualMachineScaleSetStorageProfileARM
+	result := &VirtualMachineScaleSetStorageProfileARM{}
 
 	// Set property ‘DataDisks’:
 	for _, item := range profile.DataDisks {
@@ -6053,7 +5682,7 @@ func (profile *VirtualMachineScaleSetStorageProfile) ConvertToARM(resolved genru
 		if err != nil {
 			return nil, err
 		}
-		result.DataDisks = append(result.DataDisks, itemARM.(VirtualMachineScaleSetDataDiskARM))
+		result.DataDisks = append(result.DataDisks, *itemARM.(*VirtualMachineScaleSetDataDiskARM))
 	}
 
 	// Set property ‘ImageReference’:
@@ -6062,7 +5691,7 @@ func (profile *VirtualMachineScaleSetStorageProfile) ConvertToARM(resolved genru
 		if err != nil {
 			return nil, err
 		}
-		imageReference := imageReferenceARM.(ImageReferenceARM)
+		imageReference := *imageReferenceARM.(*ImageReferenceARM)
 		result.ImageReference = &imageReference
 	}
 
@@ -6072,7 +5701,7 @@ func (profile *VirtualMachineScaleSetStorageProfile) ConvertToARM(resolved genru
 		if err != nil {
 			return nil, err
 		}
-		osDisk := osDiskARM.(VirtualMachineScaleSetOSDiskARM)
+		osDisk := *osDiskARM.(*VirtualMachineScaleSetOSDiskARM)
 		result.OsDisk = &osDisk
 	}
 	return result, nil
@@ -6442,7 +6071,7 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_Ext
 	if profile == nil {
 		return nil, nil
 	}
-	var result VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfileARM
+	result := &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfileARM{}
 
 	// Set property ‘Extensions’:
 	for _, item := range profile.Extensions {
@@ -6450,7 +6079,7 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_Ext
 		if err != nil {
 			return nil, err
 		}
-		result.Extensions = append(result.Extensions, itemARM.(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_ExtensionsARM))
+		result.Extensions = append(result.Extensions, *itemARM.(*VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_ExtensionsARM))
 	}
 
 	// Set property ‘ExtensionsTimeBudget’:
@@ -6573,7 +6202,7 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_Net
 	if profile == nil {
 		return nil, nil
 	}
-	var result VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfileARM
+	result := &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfileARM{}
 
 	// Set property ‘HealthProbe’:
 	if profile.HealthProbe != nil {
@@ -6581,7 +6210,7 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_Net
 		if err != nil {
 			return nil, err
 		}
-		healthProbe := healthProbeARM.(ApiEntityReferenceARM)
+		healthProbe := *healthProbeARM.(*ApiEntityReferenceARM)
 		result.HealthProbe = &healthProbe
 	}
 
@@ -6591,7 +6220,7 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_Net
 		if err != nil {
 			return nil, err
 		}
-		result.NetworkInterfaceConfigurations = append(result.NetworkInterfaceConfigurations, itemARM.(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurationsARM))
+		result.NetworkInterfaceConfigurations = append(result.NetworkInterfaceConfigurations, *itemARM.(*VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurationsARM))
 	}
 	return result, nil
 }
@@ -6716,6 +6345,341 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_Net
 	return nil
 }
 
+type VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile struct {
+	// AdminPassword: Specifies the password of the administrator account.
+	// Minimum-length (Windows): 8 characters
+	// Minimum-length (Linux): 6 characters
+	// Max-length (Windows): 123 characters
+	// Max-length (Linux): 72 characters
+	// Complexity requirements: 3 out of 4 conditions below need to be fulfilled
+	// Has lower characters
+	// Has upper characters
+	// Has a digit
+	// Has a special character (Regex match [\W_])
+	// Disallowed values: "abc@123", "P@$$w0rd", "P@ssw0rd", "P@ssword123", "Pa$$word", "pass@word1", "Password!", "Password1",
+	// "Password22", "iloveyou!"
+	// For resetting the password, see [How to reset the Remote Desktop service or its login password in a Windows
+	// VM](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-windows-reset-rdp?toc=%2fazure%2fvirtual-machines%2fwindows%2ftoc.json)
+	// For resetting root password, see [Manage users, SSH, and check or repair disks on Azure Linux VMs using the VMAccess
+	// Extension](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-vmaccess-extension?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json#reset-root-password)
+	AdminPassword *genruntime.SecretReference `json:"adminPassword,omitempty"`
+
+	// AdminUsername: Specifies the name of the administrator account.
+	// Windows-only restriction: Cannot end in "."
+	// Disallowed values: "administrator", "admin", "user", "user1", "test", "user2", "test1", "user3", "admin1", "1", "123",
+	// "a", "actuser", "adm", "admin2", "aspnet", "backup", "console", "david", "guest", "john", "owner", "root", "server",
+	// "sql", "support", "support_388945a0", "sys", "test2", "test3", "user4", "user5".
+	// Minimum-length (Linux): 1  character
+	// Max-length (Linux): 64 characters
+	// Max-length (Windows): 20 characters
+	// <li> For root access to the Linux VM, see [Using root privileges on Linux virtual machines in
+	// Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-use-root-privileges?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
+	// <li> For a list of built-in system users on Linux that should not be used in this field, see [Selecting User Names for
+	// Linux on
+	// Azure](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-usernames?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
+	AdminUsername *string `json:"adminUsername,omitempty"`
+
+	// ComputerNamePrefix: Specifies the computer name prefix for all of the virtual machines in the scale set. Computer name
+	// prefixes must be 1 to 15 characters long.
+	ComputerNamePrefix *string `json:"computerNamePrefix,omitempty"`
+
+	// CustomData: Specifies a base-64 encoded string of custom data. The base-64 encoded string is decoded to a binary array
+	// that is saved as a file on the Virtual Machine. The maximum length of the binary array is 65535 bytes.
+	// For using cloud-init for your VM, see [Using cloud-init to customize a Linux VM during
+	// creation](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-using-cloud-init?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
+	CustomData *string `json:"customData,omitempty"`
+
+	// LinuxConfiguration: Specifies the Linux operating system settings on the virtual machine.
+	// For a list of supported Linux distributions, see [Linux on Azure-Endorsed
+	// Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-endorsed-distros?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json)
+	// For running non-endorsed distributions, see [Information for Non-Endorsed
+	// Distributions](https://docs.microsoft.com/azure/virtual-machines/virtual-machines-linux-create-upload-generic?toc=%2fazure%2fvirtual-machines%2flinux%2ftoc.json).
+	LinuxConfiguration *LinuxConfiguration `json:"linuxConfiguration,omitempty"`
+
+	// Secrets: Specifies set of certificates that should be installed onto the virtual machines in the scale set.
+	Secrets []VaultSecretGroup `json:"secrets,omitempty"`
+
+	// WindowsConfiguration: Specifies Windows operating system settings on the virtual machine.
+	WindowsConfiguration *WindowsConfiguration `json:"windowsConfiguration,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if profile == nil {
+		return nil, nil
+	}
+	result := &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfileARM{}
+
+	// Set property ‘AdminPassword’:
+	if profile.AdminPassword != nil {
+		adminPasswordSecret, err := resolved.ResolvedSecrets.LookupSecret(*profile.AdminPassword)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property AdminPassword")
+		}
+		adminPassword := adminPasswordSecret
+		result.AdminPassword = &adminPassword
+	}
+
+	// Set property ‘AdminUsername’:
+	if profile.AdminUsername != nil {
+		adminUsername := *profile.AdminUsername
+		result.AdminUsername = &adminUsername
+	}
+
+	// Set property ‘ComputerNamePrefix’:
+	if profile.ComputerNamePrefix != nil {
+		computerNamePrefix := *profile.ComputerNamePrefix
+		result.ComputerNamePrefix = &computerNamePrefix
+	}
+
+	// Set property ‘CustomData’:
+	if profile.CustomData != nil {
+		customData := *profile.CustomData
+		result.CustomData = &customData
+	}
+
+	// Set property ‘LinuxConfiguration’:
+	if profile.LinuxConfiguration != nil {
+		linuxConfigurationARM, err := (*profile.LinuxConfiguration).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		linuxConfiguration := *linuxConfigurationARM.(*LinuxConfigurationARM)
+		result.LinuxConfiguration = &linuxConfiguration
+	}
+
+	// Set property ‘Secrets’:
+	for _, item := range profile.Secrets {
+		itemARM, err := item.ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		result.Secrets = append(result.Secrets, *itemARM.(*VaultSecretGroupARM))
+	}
+
+	// Set property ‘WindowsConfiguration’:
+	if profile.WindowsConfiguration != nil {
+		windowsConfigurationARM, err := (*profile.WindowsConfiguration).ConvertToARM(resolved)
+		if err != nil {
+			return nil, err
+		}
+		windowsConfiguration := *windowsConfigurationARM.(*WindowsConfigurationARM)
+		result.WindowsConfiguration = &windowsConfiguration
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfileARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfileARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfileARM, got %T", armInput)
+	}
+
+	// no assignment for property ‘AdminPassword’
+
+	// Set property ‘AdminUsername’:
+	if typedInput.AdminUsername != nil {
+		adminUsername := *typedInput.AdminUsername
+		profile.AdminUsername = &adminUsername
+	}
+
+	// Set property ‘ComputerNamePrefix’:
+	if typedInput.ComputerNamePrefix != nil {
+		computerNamePrefix := *typedInput.ComputerNamePrefix
+		profile.ComputerNamePrefix = &computerNamePrefix
+	}
+
+	// Set property ‘CustomData’:
+	if typedInput.CustomData != nil {
+		customData := *typedInput.CustomData
+		profile.CustomData = &customData
+	}
+
+	// Set property ‘LinuxConfiguration’:
+	if typedInput.LinuxConfiguration != nil {
+		var linuxConfiguration1 LinuxConfiguration
+		err := linuxConfiguration1.PopulateFromARM(owner, *typedInput.LinuxConfiguration)
+		if err != nil {
+			return err
+		}
+		linuxConfiguration := linuxConfiguration1
+		profile.LinuxConfiguration = &linuxConfiguration
+	}
+
+	// Set property ‘Secrets’:
+	for _, item := range typedInput.Secrets {
+		var item1 VaultSecretGroup
+		err := item1.PopulateFromARM(owner, item)
+		if err != nil {
+			return err
+		}
+		profile.Secrets = append(profile.Secrets, item1)
+	}
+
+	// Set property ‘WindowsConfiguration’:
+	if typedInput.WindowsConfiguration != nil {
+		var windowsConfiguration1 WindowsConfiguration
+		err := windowsConfiguration1.PopulateFromARM(owner, *typedInput.WindowsConfiguration)
+		if err != nil {
+			return err
+		}
+		windowsConfiguration := windowsConfiguration1
+		profile.WindowsConfiguration = &windowsConfiguration
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfile populates our VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile from the provided source VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile
+func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile) AssignPropertiesFromVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfile(source *v20201201s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile) error {
+
+	// AdminPassword
+	if source.AdminPassword != nil {
+		adminPassword := source.AdminPassword.Copy()
+		profile.AdminPassword = &adminPassword
+	} else {
+		profile.AdminPassword = nil
+	}
+
+	// AdminUsername
+	profile.AdminUsername = genruntime.ClonePointerToString(source.AdminUsername)
+
+	// ComputerNamePrefix
+	profile.ComputerNamePrefix = genruntime.ClonePointerToString(source.ComputerNamePrefix)
+
+	// CustomData
+	profile.CustomData = genruntime.ClonePointerToString(source.CustomData)
+
+	// LinuxConfiguration
+	if source.LinuxConfiguration != nil {
+		var linuxConfiguration LinuxConfiguration
+		err := linuxConfiguration.AssignPropertiesFromLinuxConfiguration(source.LinuxConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromLinuxConfiguration() to populate field LinuxConfiguration")
+		}
+		profile.LinuxConfiguration = &linuxConfiguration
+	} else {
+		profile.LinuxConfiguration = nil
+	}
+
+	// Secrets
+	if source.Secrets != nil {
+		secretList := make([]VaultSecretGroup, len(source.Secrets))
+		for secretIndex, secretItem := range source.Secrets {
+			// Shadow the loop variable to avoid aliasing
+			secretItem := secretItem
+			var secret VaultSecretGroup
+			err := secret.AssignPropertiesFromVaultSecretGroup(&secretItem)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesFromVaultSecretGroup() to populate field Secrets")
+			}
+			secretList[secretIndex] = secret
+		}
+		profile.Secrets = secretList
+	} else {
+		profile.Secrets = nil
+	}
+
+	// WindowsConfiguration
+	if source.WindowsConfiguration != nil {
+		var windowsConfiguration WindowsConfiguration
+		err := windowsConfiguration.AssignPropertiesFromWindowsConfiguration(source.WindowsConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromWindowsConfiguration() to populate field WindowsConfiguration")
+		}
+		profile.WindowsConfiguration = &windowsConfiguration
+	} else {
+		profile.WindowsConfiguration = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfile populates the provided destination VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile from our VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile
+func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile) AssignPropertiesToVirtualMachineScaleSetsSpecPropertiesVirtualMachineProfileOsProfile(destination *v20201201s.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AdminPassword
+	if profile.AdminPassword != nil {
+		adminPassword := profile.AdminPassword.Copy()
+		destination.AdminPassword = &adminPassword
+	} else {
+		destination.AdminPassword = nil
+	}
+
+	// AdminUsername
+	destination.AdminUsername = genruntime.ClonePointerToString(profile.AdminUsername)
+
+	// ComputerNamePrefix
+	destination.ComputerNamePrefix = genruntime.ClonePointerToString(profile.ComputerNamePrefix)
+
+	// CustomData
+	destination.CustomData = genruntime.ClonePointerToString(profile.CustomData)
+
+	// LinuxConfiguration
+	if profile.LinuxConfiguration != nil {
+		var linuxConfiguration v20201201s.LinuxConfiguration
+		err := profile.LinuxConfiguration.AssignPropertiesToLinuxConfiguration(&linuxConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToLinuxConfiguration() to populate field LinuxConfiguration")
+		}
+		destination.LinuxConfiguration = &linuxConfiguration
+	} else {
+		destination.LinuxConfiguration = nil
+	}
+
+	// Secrets
+	if profile.Secrets != nil {
+		secretList := make([]v20201201s.VaultSecretGroup, len(profile.Secrets))
+		for secretIndex, secretItem := range profile.Secrets {
+			// Shadow the loop variable to avoid aliasing
+			secretItem := secretItem
+			var secret v20201201s.VaultSecretGroup
+			err := secretItem.AssignPropertiesToVaultSecretGroup(&secret)
+			if err != nil {
+				return errors.Wrap(err, "calling AssignPropertiesToVaultSecretGroup() to populate field Secrets")
+			}
+			secretList[secretIndex] = secret
+		}
+		destination.Secrets = secretList
+	} else {
+		destination.Secrets = nil
+	}
+
+	// WindowsConfiguration
+	if profile.WindowsConfiguration != nil {
+		var windowsConfiguration v20201201s.WindowsConfiguration
+		err := profile.WindowsConfiguration.AssignPropertiesToWindowsConfiguration(&windowsConfiguration)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToWindowsConfiguration() to populate field WindowsConfiguration")
+		}
+		destination.WindowsConfiguration = &windowsConfiguration
+	} else {
+		destination.WindowsConfiguration = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Generated from: https://schema.management.azure.com/schemas/2020-12-01/Microsoft.Compute.json#/definitions/ApiEntityReference
 type ApiEntityReference struct {
 	// Reference: The ARM resource id in the form of /subscriptions/{SubscriptionId}/resourceGroups/{ResourceGroupName}/...
@@ -6729,7 +6693,7 @@ func (reference *ApiEntityReference) ConvertToARM(resolved genruntime.ConvertToA
 	if reference == nil {
 		return nil, nil
 	}
-	var result ApiEntityReferenceARM
+	result := &ApiEntityReferenceARM{}
 
 	// Set property ‘Id’:
 	if reference.Reference != nil {
@@ -6876,7 +6840,7 @@ func (profile *TerminateNotificationProfile) ConvertToARM(resolved genruntime.Co
 	if profile == nil {
 		return nil, nil
 	}
-	var result TerminateNotificationProfileARM
+	result := &TerminateNotificationProfileARM{}
 
 	// Set property ‘Enable’:
 	if profile.Enable != nil {
@@ -7099,7 +7063,7 @@ func (disk *VirtualMachineScaleSetDataDisk) ConvertToARM(resolved genruntime.Con
 	if disk == nil {
 		return nil, nil
 	}
-	var result VirtualMachineScaleSetDataDiskARM
+	result := &VirtualMachineScaleSetDataDiskARM{}
 
 	// Set property ‘Caching’:
 	if disk.Caching != nil {
@@ -7143,7 +7107,7 @@ func (disk *VirtualMachineScaleSetDataDisk) ConvertToARM(resolved genruntime.Con
 		if err != nil {
 			return nil, err
 		}
-		managedDisk := managedDiskARM.(VirtualMachineScaleSetManagedDiskParametersARM)
+		managedDisk := *managedDiskARM.(*VirtualMachineScaleSetManagedDiskParametersARM)
 		result.ManagedDisk = &managedDisk
 	}
 
@@ -7714,7 +7678,7 @@ func (extension *VirtualMachineScaleSetExtension_Status) PopulateFromARM(owner g
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.ProtectedSettings != nil {
-			extension.ProtectedSettings = make(map[string]v1.JSON)
+			extension.ProtectedSettings = make(map[string]v1.JSON, len(typedInput.Properties.ProtectedSettings))
 			for key, value := range typedInput.Properties.ProtectedSettings {
 				extension.ProtectedSettings[key] = *value.DeepCopy()
 			}
@@ -7751,7 +7715,7 @@ func (extension *VirtualMachineScaleSetExtension_Status) PopulateFromARM(owner g
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Settings != nil {
-			extension.Settings = make(map[string]v1.JSON)
+			extension.Settings = make(map[string]v1.JSON, len(typedInput.Properties.Settings))
 			for key, value := range typedInput.Properties.Settings {
 				extension.Settings[key] = *value.DeepCopy()
 			}
@@ -8313,7 +8277,7 @@ func (disk *VirtualMachineScaleSetOSDisk) ConvertToARM(resolved genruntime.Conve
 	if disk == nil {
 		return nil, nil
 	}
-	var result VirtualMachineScaleSetOSDiskARM
+	result := &VirtualMachineScaleSetOSDiskARM{}
 
 	// Set property ‘Caching’:
 	if disk.Caching != nil {
@@ -8333,7 +8297,7 @@ func (disk *VirtualMachineScaleSetOSDisk) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		diffDiskSettings := diffDiskSettingsARM.(DiffDiskSettingsARM)
+		diffDiskSettings := *diffDiskSettingsARM.(*DiffDiskSettingsARM)
 		result.DiffDiskSettings = &diffDiskSettings
 	}
 
@@ -8349,7 +8313,7 @@ func (disk *VirtualMachineScaleSetOSDisk) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		image := imageARM.(VirtualHardDiskARM)
+		image := *imageARM.(*VirtualHardDiskARM)
 		result.Image = &image
 	}
 
@@ -8359,7 +8323,7 @@ func (disk *VirtualMachineScaleSetOSDisk) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		managedDisk := managedDiskARM.(VirtualMachineScaleSetManagedDiskParametersARM)
+		managedDisk := *managedDiskARM.(*VirtualMachineScaleSetManagedDiskParametersARM)
 		result.ManagedDisk = &managedDisk
 	}
 
@@ -9002,7 +8966,7 @@ func (extensions *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_
 	if extensions == nil {
 		return nil, nil
 	}
-	var result VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_ExtensionsARM
+	result := &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_ExtensionsARM{}
 
 	// Set property ‘Name’:
 	if extensions.Name != nil {
@@ -9022,7 +8986,7 @@ func (extensions *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_
 		result.Properties.Publisher = &publisher
 	}
 	if extensions.Settings != nil {
-		result.Properties.Settings = make(map[string]v1.JSON)
+		result.Properties.Settings = make(map[string]v1.JSON, len(extensions.Settings))
 		for key, value := range extensions.Settings {
 			result.Properties.Settings[key] = *value.DeepCopy()
 		}
@@ -9069,7 +9033,7 @@ func (extensions *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Settings != nil {
-			extensions.Settings = make(map[string]v1.JSON)
+			extensions.Settings = make(map[string]v1.JSON, len(typedInput.Properties.Settings))
 			for key, value := range typedInput.Properties.Settings {
 				extensions.Settings[key] = *value.DeepCopy()
 			}
@@ -9237,7 +9201,7 @@ func (configurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProf
 	if configurations == nil {
 		return nil, nil
 	}
-	var result VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurationsARM
+	result := &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurationsARM{}
 
 	// Set property ‘Id’:
 	if configurations.Id != nil {
@@ -9266,7 +9230,7 @@ func (configurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProf
 		if err != nil {
 			return nil, err
 		}
-		dnsSettings := dnsSettingsARM.(VirtualMachineScaleSetNetworkConfigurationDnsSettingsARM)
+		dnsSettings := *dnsSettingsARM.(*VirtualMachineScaleSetNetworkConfigurationDnsSettingsARM)
 		result.Properties.DnsSettings = &dnsSettings
 	}
 	if configurations.EnableAcceleratedNetworking != nil {
@@ -9286,14 +9250,14 @@ func (configurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProf
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.IpConfigurations = append(result.Properties.IpConfigurations, itemARM.(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM))
+		result.Properties.IpConfigurations = append(result.Properties.IpConfigurations, *itemARM.(*VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM))
 	}
 	if configurations.NetworkSecurityGroup != nil {
 		networkSecurityGroupARM, err := (*configurations.NetworkSecurityGroup).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		networkSecurityGroup := networkSecurityGroupARM.(SubResourceARM)
+		networkSecurityGroup := *networkSecurityGroupARM.(*SubResourceARM)
 		result.Properties.NetworkSecurityGroup = &networkSecurityGroup
 	}
 	if configurations.Primary != nil {
@@ -10055,7 +10019,7 @@ func (parameters *VirtualMachineScaleSetManagedDiskParameters) ConvertToARM(reso
 	if parameters == nil {
 		return nil, nil
 	}
-	var result VirtualMachineScaleSetManagedDiskParametersARM
+	result := &VirtualMachineScaleSetManagedDiskParametersARM{}
 
 	// Set property ‘DiskEncryptionSet’:
 	if parameters.DiskEncryptionSet != nil {
@@ -10063,7 +10027,7 @@ func (parameters *VirtualMachineScaleSetManagedDiskParameters) ConvertToARM(reso
 		if err != nil {
 			return nil, err
 		}
-		diskEncryptionSet := diskEncryptionSetARM.(DiskEncryptionSetParametersARM)
+		diskEncryptionSet := *diskEncryptionSetARM.(*DiskEncryptionSetParametersARM)
 		result.DiskEncryptionSet = &diskEncryptionSet
 	}
 
@@ -10291,7 +10255,7 @@ func (settings *VirtualMachineScaleSetNetworkConfigurationDnsSettings) ConvertTo
 	if settings == nil {
 		return nil, nil
 	}
-	var result VirtualMachineScaleSetNetworkConfigurationDnsSettingsARM
+	result := &VirtualMachineScaleSetNetworkConfigurationDnsSettingsARM{}
 
 	// Set property ‘DnsServers’:
 	for _, item := range settings.DnsServers {
@@ -10487,7 +10451,7 @@ func (configurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProf
 	if configurations == nil {
 		return nil, nil
 	}
-	var result VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM
+	result := &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurationsARM{}
 
 	// Set property ‘Id’:
 	if configurations.Id != nil {
@@ -10517,28 +10481,28 @@ func (configurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProf
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.ApplicationGatewayBackendAddressPools = append(result.Properties.ApplicationGatewayBackendAddressPools, itemARM.(SubResourceARM))
+		result.Properties.ApplicationGatewayBackendAddressPools = append(result.Properties.ApplicationGatewayBackendAddressPools, *itemARM.(*SubResourceARM))
 	}
 	for _, item := range configurations.ApplicationSecurityGroups {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.ApplicationSecurityGroups = append(result.Properties.ApplicationSecurityGroups, itemARM.(SubResourceARM))
+		result.Properties.ApplicationSecurityGroups = append(result.Properties.ApplicationSecurityGroups, *itemARM.(*SubResourceARM))
 	}
 	for _, item := range configurations.LoadBalancerBackendAddressPools {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.LoadBalancerBackendAddressPools = append(result.Properties.LoadBalancerBackendAddressPools, itemARM.(SubResourceARM))
+		result.Properties.LoadBalancerBackendAddressPools = append(result.Properties.LoadBalancerBackendAddressPools, *itemARM.(*SubResourceARM))
 	}
 	for _, item := range configurations.LoadBalancerInboundNatPools {
 		itemARM, err := item.ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.LoadBalancerInboundNatPools = append(result.Properties.LoadBalancerInboundNatPools, itemARM.(SubResourceARM))
+		result.Properties.LoadBalancerInboundNatPools = append(result.Properties.LoadBalancerInboundNatPools, *itemARM.(*SubResourceARM))
 	}
 	if configurations.Primary != nil {
 		primary := *configurations.Primary
@@ -10553,7 +10517,7 @@ func (configurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProf
 		if err != nil {
 			return nil, err
 		}
-		publicIPAddressConfiguration := publicIPAddressConfigurationARM.(VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationARM)
+		publicIPAddressConfiguration := *publicIPAddressConfigurationARM.(*VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationARM)
 		result.Properties.PublicIPAddressConfiguration = &publicIPAddressConfiguration
 	}
 	if configurations.Subnet != nil {
@@ -10561,7 +10525,7 @@ func (configurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProf
 		if err != nil {
 			return nil, err
 		}
-		subnet := subnetARM.(ApiEntityReferenceARM)
+		subnet := *subnetARM.(*ApiEntityReferenceARM)
 		result.Properties.Subnet = &subnet
 	}
 	return result, nil
@@ -11245,7 +11209,7 @@ func (configuration *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfi
 	if configuration == nil {
 		return nil, nil
 	}
-	var result VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationARM
+	result := &VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfigurationARM{}
 
 	// Set property ‘Name’:
 	if configuration.Name != nil {
@@ -11266,7 +11230,7 @@ func (configuration *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfi
 		if err != nil {
 			return nil, err
 		}
-		dnsSettings := dnsSettingsARM.(VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsARM)
+		dnsSettings := *dnsSettingsARM.(*VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsARM)
 		result.Properties.DnsSettings = &dnsSettings
 	}
 	if configuration.IdleTimeoutInMinutes != nil {
@@ -11278,7 +11242,7 @@ func (configuration *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfi
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.IpTags = append(result.Properties.IpTags, itemARM.(VirtualMachineScaleSetIpTagARM))
+		result.Properties.IpTags = append(result.Properties.IpTags, *itemARM.(*VirtualMachineScaleSetIpTagARM))
 	}
 	if configuration.PublicIPAddressVersion != nil {
 		publicIPAddressVersion := *configuration.PublicIPAddressVersion
@@ -11289,7 +11253,7 @@ func (configuration *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfi
 		if err != nil {
 			return nil, err
 		}
-		publicIPPrefix := publicIPPrefixARM.(SubResourceARM)
+		publicIPPrefix := *publicIPPrefixARM.(*SubResourceARM)
 		result.Properties.PublicIPPrefix = &publicIPPrefix
 	}
 	return result, nil
@@ -11527,7 +11491,7 @@ func (ipTag *VirtualMachineScaleSetIpTag) ConvertToARM(resolved genruntime.Conve
 	if ipTag == nil {
 		return nil, nil
 	}
-	var result VirtualMachineScaleSetIpTagARM
+	result := &VirtualMachineScaleSetIpTagARM{}
 
 	// Set property ‘IpTagType’:
 	if ipTag.IpTagType != nil {
@@ -11694,7 +11658,7 @@ func (settings *VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings) C
 	if settings == nil {
 		return nil, nil
 	}
-	var result VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsARM
+	result := &VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsARM{}
 
 	// Set property ‘DomainNameLabel’:
 	if settings.DomainNameLabel != nil {

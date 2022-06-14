@@ -98,7 +98,7 @@ func (container *StorageAccountsBlobServicesContainer) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
 func (container StorageAccountsBlobServicesContainer) GetAPIVersion() string {
-	return "2021-04-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -606,7 +606,7 @@ func (container *BlobContainer_Status) PopulateFromARM(owner genruntime.Arbitrar
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Metadata != nil {
-			container.Metadata = make(map[string]string)
+			container.Metadata = make(map[string]string, len(typedInput.Properties.Metadata))
 			for key, value := range typedInput.Properties.Metadata {
 				container.Metadata[key] = value
 			}
@@ -945,11 +945,6 @@ func (container *BlobContainer_Status) AssignPropertiesToBlobContainerStatus(des
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2021-04-01"}
-type StorageAccountsBlobServicesContainersSpecAPIVersion string
-
-const StorageAccountsBlobServicesContainersSpecAPIVersion20210401 = StorageAccountsBlobServicesContainersSpecAPIVersion("2021-04-01")
-
 type StorageAccountsBlobServicesContainers_Spec struct {
 	// +kubebuilder:validation:MaxLength=63
 	// +kubebuilder:validation:MinLength=3
@@ -992,7 +987,7 @@ func (containers *StorageAccountsBlobServicesContainers_Spec) ConvertToARM(resol
 	if containers == nil {
 		return nil, nil
 	}
-	var result StorageAccountsBlobServicesContainers_SpecARM
+	result := &StorageAccountsBlobServicesContainers_SpecARM{}
 
 	// Set property ‘Location’:
 	if containers.Location != nil {
@@ -1024,11 +1019,11 @@ func (containers *StorageAccountsBlobServicesContainers_Spec) ConvertToARM(resol
 		if err != nil {
 			return nil, err
 		}
-		immutableStorageWithVersioning := immutableStorageWithVersioningARM.(ImmutableStorageWithVersioningARM)
+		immutableStorageWithVersioning := *immutableStorageWithVersioningARM.(*ImmutableStorageWithVersioningARM)
 		result.Properties.ImmutableStorageWithVersioning = &immutableStorageWithVersioning
 	}
 	if containers.Metadata != nil {
-		result.Properties.Metadata = make(map[string]string)
+		result.Properties.Metadata = make(map[string]string, len(containers.Metadata))
 		for key, value := range containers.Metadata {
 			result.Properties.Metadata[key] = value
 		}
@@ -1040,7 +1035,7 @@ func (containers *StorageAccountsBlobServicesContainers_Spec) ConvertToARM(resol
 
 	// Set property ‘Tags’:
 	if containers.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(containers.Tags))
 		for key, value := range containers.Tags {
 			result.Tags[key] = value
 		}
@@ -1105,7 +1100,7 @@ func (containers *StorageAccountsBlobServicesContainers_Spec) PopulateFromARM(ow
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		if typedInput.Properties.Metadata != nil {
-			containers.Metadata = make(map[string]string)
+			containers.Metadata = make(map[string]string, len(typedInput.Properties.Metadata))
 			for key, value := range typedInput.Properties.Metadata {
 				containers.Metadata[key] = value
 			}
@@ -1128,7 +1123,7 @@ func (containers *StorageAccountsBlobServicesContainers_Spec) PopulateFromARM(ow
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		containers.Tags = make(map[string]string)
+		containers.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			containers.Tags[key] = value
 		}
@@ -1533,7 +1528,7 @@ func (versioning *ImmutableStorageWithVersioning) ConvertToARM(resolved genrunti
 	if versioning == nil {
 		return nil, nil
 	}
-	var result ImmutableStorageWithVersioningARM
+	result := &ImmutableStorageWithVersioningARM{}
 
 	// Set property ‘Enabled’:
 	if versioning.Enabled != nil {

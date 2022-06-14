@@ -112,7 +112,7 @@ func (procedure *SqlDatabaseContainerStoredProcedure) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (procedure SqlDatabaseContainerStoredProcedure) GetAPIVersion() string {
-	return "2021-05-15"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -356,7 +356,7 @@ func (procedures *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) C
 	if procedures == nil {
 		return nil, nil
 	}
-	var result DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM
+	result := &DatabaseAccountsSqlDatabasesContainersStoredProcedures_SpecARM{}
 
 	// Set property ‘Location’:
 	if procedures.Location != nil {
@@ -376,7 +376,7 @@ func (procedures *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) C
 		if err != nil {
 			return nil, err
 		}
-		options := optionsARM.(CreateUpdateOptionsARM)
+		options := *optionsARM.(*CreateUpdateOptionsARM)
 		result.Properties.Options = &options
 	}
 	if procedures.Resource != nil {
@@ -384,13 +384,13 @@ func (procedures *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) C
 		if err != nil {
 			return nil, err
 		}
-		resource := resourceARM.(SqlStoredProcedureResourceARM)
+		resource := *resourceARM.(*SqlStoredProcedureResourceARM)
 		result.Properties.Resource = &resource
 	}
 
 	// Set property ‘Tags’:
 	if procedures.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(procedures.Tags))
 		for key, value := range procedures.Tags {
 			result.Tags[key] = value
 		}
@@ -454,7 +454,7 @@ func (procedures *DatabaseAccountsSqlDatabasesContainersStoredProcedures_Spec) P
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		procedures.Tags = make(map[string]string)
+		procedures.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			procedures.Tags[key] = value
 		}
@@ -744,7 +744,7 @@ func (results *SqlStoredProcedureGetResults_Status) PopulateFromARM(owner genrun
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		results.Tags = make(map[string]string)
+		results.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			results.Tags[key] = value
 		}
@@ -978,7 +978,7 @@ func (resource *SqlStoredProcedureResource) ConvertToARM(resolved genruntime.Con
 	if resource == nil {
 		return nil, nil
 	}
-	var result SqlStoredProcedureResourceARM
+	result := &SqlStoredProcedureResourceARM{}
 
 	// Set property ‘Body’:
 	if resource.Body != nil {

@@ -64,8 +64,8 @@ func (t *TypeConverter) ConvertDefinition(def astmodel.TypeDefinition) (astmodel
 func (t *TypeConverter) convertResourceType(
 	tv *astmodel.TypeVisitor,
 	resource *astmodel.ResourceType,
-	ctx interface{}) (astmodel.Type, error) {
-
+	ctx interface{},
+) (astmodel.Type, error) {
 	// storage resource definitions do not need defaulter/validator interfaces, they have no webhooks
 	result := resource.WithoutInterface(astmodel.DefaulterInterfaceName).
 		WithoutInterface(astmodel.ValidatorInterfaceName)
@@ -75,10 +75,10 @@ func (t *TypeConverter) convertResourceType(
 
 // convertObjectType creates a storage variation of an object type
 func (t *TypeConverter) convertObjectType(
-	_ *astmodel.TypeVisitor, object *astmodel.ObjectType, _ interface{}) (astmodel.Type, error) {
-
+	_ *astmodel.TypeVisitor, object *astmodel.ObjectType, _ interface{},
+) (astmodel.Type, error) {
 	var errs []error
-	properties := object.Properties()
+	properties := object.Properties().Copy()
 	for name, prop := range properties {
 		p, err := t.propertyConverter.ConvertProperty(prop)
 		if err != nil {
@@ -111,7 +111,8 @@ func (t *TypeConverter) convertObjectType(
 
 // redirectTypeNamesToStoragePackage modifies TypeNames to reference the current storage package
 func (t *TypeConverter) redirectTypeNamesToStoragePackage(
-	_ *astmodel.TypeVisitor, name astmodel.TypeName, _ interface{}) (astmodel.Type, error) {
+	_ *astmodel.TypeVisitor, name astmodel.TypeName, _ interface{},
+) (astmodel.Type, error) {
 	if result, ok := t.tryConvertToStoragePackage(name); ok {
 		return result, nil
 	}
@@ -122,7 +123,8 @@ func (t *TypeConverter) redirectTypeNamesToStoragePackage(
 
 // stripAllValidations removes all validations
 func (t *TypeConverter) stripAllValidations(
-	this *astmodel.TypeVisitor, v *astmodel.ValidatedType, ctx interface{}) (astmodel.Type, error) {
+	this *astmodel.TypeVisitor, v *astmodel.ValidatedType, ctx interface{},
+) (astmodel.Type, error) {
 	// strip all type validations from storage definitions,
 	// act as if they do not exist
 	return this.Visit(v.ElementType(), ctx)
@@ -132,7 +134,8 @@ func (t *TypeConverter) stripAllValidations(
 func (t *TypeConverter) stripAllFlags(
 	tv *astmodel.TypeVisitor,
 	flaggedType *astmodel.FlaggedType,
-	ctx interface{}) (astmodel.Type, error) {
+	ctx interface{},
+) (astmodel.Type, error) {
 	if flaggedType.HasFlag(astmodel.ARMFlag) {
 		// We don't want to do anything with ARM definitions
 		return flaggedType, nil

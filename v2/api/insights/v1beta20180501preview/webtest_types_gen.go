@@ -99,7 +99,7 @@ func (webtest *Webtest) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2018-05-01-preview"
 func (webtest Webtest) GetAPIVersion() string {
-	return "2018-05-01-preview"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -317,6 +317,11 @@ type WebtestList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []Webtest `json:"items"`
 }
+
+// +kubebuilder:validation:Enum={"2018-05-01-preview"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2018-05-01-preview")
 
 type WebTest_Status struct {
 	// Conditions: The observed state of the resource
@@ -877,11 +882,6 @@ func (test *WebTest_Status) AssignPropertiesToWebTestStatus(destination *v201805
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2018-05-01-preview"}
-type WebtestsSpecAPIVersion string
-
-const WebtestsSpecAPIVersion20180501Preview = WebtestsSpecAPIVersion("2018-05-01-preview")
-
 type Webtests_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -948,7 +948,7 @@ func (webtests *Webtests_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if webtests == nil {
 		return nil, nil
 	}
-	var result Webtests_SpecARM
+	result := &Webtests_SpecARM{}
 
 	// Set property ‘Location’:
 	if webtests.Location != nil {
@@ -979,7 +979,7 @@ func (webtests *Webtests_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		if err != nil {
 			return nil, err
 		}
-		configuration := configurationARM.(WebTestPropertiesConfigurationARM)
+		configuration := *configurationARM.(*WebTestPropertiesConfigurationARM)
 		result.Properties.Configuration = &configuration
 	}
 	if webtests.Description != nil {
@@ -1003,7 +1003,7 @@ func (webtests *Webtests_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Locations = append(result.Properties.Locations, itemARM.(WebTestGeolocationARM))
+		result.Properties.Locations = append(result.Properties.Locations, *itemARM.(*WebTestGeolocationARM))
 	}
 	if webtests.Name != nil {
 		name := *webtests.Name
@@ -1014,7 +1014,7 @@ func (webtests *Webtests_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		if err != nil {
 			return nil, err
 		}
-		request := requestARM.(WebTestPropertiesRequestARM)
+		request := *requestARM.(*WebTestPropertiesRequestARM)
 		result.Properties.Request = &request
 	}
 	if webtests.RetryEnabled != nil {
@@ -1034,13 +1034,13 @@ func (webtests *Webtests_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 		if err != nil {
 			return nil, err
 		}
-		validationRules := validationRulesARM.(WebTestPropertiesValidationRulesARM)
+		validationRules := *validationRulesARM.(*WebTestPropertiesValidationRulesARM)
 		result.Properties.ValidationRules = &validationRules
 	}
 
 	// Set property ‘Tags’:
 	if webtests.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(webtests.Tags))
 		for key, value := range webtests.Tags {
 			result.Tags[key] = value
 		}
@@ -1180,7 +1180,7 @@ func (webtests *Webtests_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		webtests.Tags = make(map[string]string)
+		webtests.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			webtests.Tags[key] = value
 		}
@@ -1530,7 +1530,7 @@ func (geolocation *WebTestGeolocation) ConvertToARM(resolved genruntime.ConvertT
 	if geolocation == nil {
 		return nil, nil
 	}
-	var result WebTestGeolocationARM
+	result := &WebTestGeolocationARM{}
 
 	// Set property ‘Id’:
 	if geolocation.Id != nil {
@@ -1662,7 +1662,7 @@ func (configuration *WebTestPropertiesConfiguration) ConvertToARM(resolved genru
 	if configuration == nil {
 		return nil, nil
 	}
-	var result WebTestPropertiesConfigurationARM
+	result := &WebTestPropertiesConfigurationARM{}
 
 	// Set property ‘WebTest’:
 	if configuration.WebTest != nil {
@@ -1761,7 +1761,7 @@ func (request *WebTestPropertiesRequest) ConvertToARM(resolved genruntime.Conver
 	if request == nil {
 		return nil, nil
 	}
-	var result WebTestPropertiesRequestARM
+	result := &WebTestPropertiesRequestARM{}
 
 	// Set property ‘FollowRedirects’:
 	if request.FollowRedirects != nil {
@@ -1775,7 +1775,7 @@ func (request *WebTestPropertiesRequest) ConvertToARM(resolved genruntime.Conver
 		if err != nil {
 			return nil, err
 		}
-		result.Headers = append(result.Headers, itemARM.(HeaderFieldARM))
+		result.Headers = append(result.Headers, *itemARM.(*HeaderFieldARM))
 	}
 
 	// Set property ‘HttpVerb’:
@@ -1995,7 +1995,7 @@ func (rules *WebTestPropertiesValidationRules) ConvertToARM(resolved genruntime.
 	if rules == nil {
 		return nil, nil
 	}
-	var result WebTestPropertiesValidationRulesARM
+	result := &WebTestPropertiesValidationRulesARM{}
 
 	// Set property ‘ContentValidation’:
 	if rules.ContentValidation != nil {
@@ -2003,7 +2003,7 @@ func (rules *WebTestPropertiesValidationRules) ConvertToARM(resolved genruntime.
 		if err != nil {
 			return nil, err
 		}
-		contentValidation := contentValidationARM.(WebTestPropertiesValidationRulesContentValidationARM)
+		contentValidation := *contentValidationARM.(*WebTestPropertiesValidationRulesContentValidationARM)
 		result.ContentValidation = &contentValidation
 	}
 
@@ -2598,7 +2598,7 @@ func (field *HeaderField) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 	if field == nil {
 		return nil, nil
 	}
-	var result HeaderFieldARM
+	result := &HeaderFieldARM{}
 
 	// Set property ‘Key’:
 	if field.Key != nil {
@@ -2770,7 +2770,7 @@ func (validation *WebTestPropertiesValidationRulesContentValidation) ConvertToAR
 	if validation == nil {
 		return nil, nil
 	}
-	var result WebTestPropertiesValidationRulesContentValidationARM
+	result := &WebTestPropertiesValidationRulesContentValidationARM{}
 
 	// Set property ‘ContentMatch’:
 	if validation.ContentMatch != nil {

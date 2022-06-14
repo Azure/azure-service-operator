@@ -8,6 +8,8 @@ linters:
     - megacheck
     - tparallel
     - paralleltest
+    - prealloc
+    - unparam  # This was added while we used go1.18 which means it's always been disabled. It may eventually be re-enabled and we'll need to fix what it finds
   presets:
     - bugs
     - unused

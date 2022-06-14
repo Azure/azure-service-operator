@@ -94,7 +94,7 @@ func (a *A) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (a A) GetAPIVersion() string {
-	return "2020-06-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -277,29 +277,29 @@ var _ genruntime.ARMResourceSpec = &A_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (a A_SpecARM) GetAPIVersion() string {
-	return "2020-06-01"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource
-func (a A_SpecARM) GetName() string {
+func (a *A_SpecARM) GetName() string {
 	return a.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Azure/A"
-func (a A_SpecARM) GetType() string {
+func (a *A_SpecARM) GetType() string {
 	return "Microsoft.Azure/A"
 }
+
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2020-06-01")
 
 // Generated from: https://test.test/schemas/2020-01-01/test.json#/definitions/AProperties
 type APropertiesARM struct {
 	Left  *Left_SubResourceEmbeddedARM    `json:"left,omitempty"`
 	Right *Right_SubResourceEmbedded_1ARM `json:"right,omitempty"`
 }
-
-// +kubebuilder:validation:Enum={"2020-06-01"}
-type ASpecAPIVersion string
-
-const ASpecAPIVersion20200601 = ASpecAPIVersion("2020-06-01")
 
 type A_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
@@ -321,7 +321,7 @@ func (a *A_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 	if a == nil {
 		return nil, nil
 	}
-	var result A_SpecARM
+	result := &A_SpecARM{}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -332,7 +332,7 @@ func (a *A_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (
 		if err != nil {
 			return nil, err
 		}
-		properties := propertiesARM.(APropertiesARM)
+		properties := *propertiesARM.(*APropertiesARM)
 		result.Properties = &properties
 	}
 	return result, nil
@@ -516,7 +516,7 @@ func (properties *AProperties) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if properties == nil {
 		return nil, nil
 	}
-	var result APropertiesARM
+	result := &APropertiesARM{}
 
 	// Set property ‘Left’:
 	if properties.Left != nil {
@@ -524,7 +524,7 @@ func (properties *AProperties) ConvertToARM(resolved genruntime.ConvertToARMReso
 		if err != nil {
 			return nil, err
 		}
-		left := leftARM.(Left_SubResourceEmbeddedARM)
+		left := *leftARM.(*Left_SubResourceEmbeddedARM)
 		result.Left = &left
 	}
 
@@ -534,7 +534,7 @@ func (properties *AProperties) ConvertToARM(resolved genruntime.ConvertToARMReso
 		if err != nil {
 			return nil, err
 		}
-		right := rightARM.(Right_SubResourceEmbedded_1ARM)
+		right := *rightARM.(*Right_SubResourceEmbedded_1ARM)
 		result.Right = &right
 	}
 	return result, nil
@@ -694,7 +694,7 @@ func (embedded *Left_SubResourceEmbedded) ConvertToARM(resolved genruntime.Conve
 	if embedded == nil {
 		return nil, nil
 	}
-	var result Left_SubResourceEmbeddedARM
+	result := &Left_SubResourceEmbeddedARM{}
 
 	// Set property ‘Name’:
 	if embedded.Name != nil {
@@ -708,7 +708,7 @@ func (embedded *Left_SubResourceEmbedded) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		properties := propertiesARM.(LeftPropertiesARM)
+		properties := *propertiesARM.(*LeftPropertiesARM)
 		result.Properties = &properties
 	}
 
@@ -718,7 +718,7 @@ func (embedded *Left_SubResourceEmbedded) ConvertToARM(resolved genruntime.Conve
 		if err != nil {
 			return nil, err
 		}
-		refField := refFieldARM.(FakeResource_SubResourceEmbeddedARM)
+		refField := *refFieldARM.(*FakeResource_SubResourceEmbeddedARM)
 		result.RefField = &refField
 	}
 	return result, nil
@@ -864,7 +864,7 @@ func (embedded1 *Right_SubResourceEmbedded_1) ConvertToARM(resolved genruntime.C
 	if embedded1 == nil {
 		return nil, nil
 	}
-	var result Right_SubResourceEmbedded_1ARM
+	result := &Right_SubResourceEmbedded_1ARM{}
 
 	// Set property ‘Name’:
 	if embedded1.Name != nil {
@@ -878,7 +878,7 @@ func (embedded1 *Right_SubResourceEmbedded_1) ConvertToARM(resolved genruntime.C
 		if err != nil {
 			return nil, err
 		}
-		properties := propertiesARM.(RightPropertiesARM)
+		properties := *propertiesARM.(*RightPropertiesARM)
 		result.Properties = &properties
 	}
 
@@ -888,7 +888,7 @@ func (embedded1 *Right_SubResourceEmbedded_1) ConvertToARM(resolved genruntime.C
 		if err != nil {
 			return nil, err
 		}
-		refField := refFieldARM.(FakeResource_SubResourceEmbedded_1ARM)
+		refField := *refFieldARM.(*FakeResource_SubResourceEmbedded_1ARM)
 		result.RefField = &refField
 	}
 	return result, nil
@@ -1038,7 +1038,7 @@ func (embedded *FakeResource_SubResourceEmbedded) ConvertToARM(resolved genrunti
 	if embedded == nil {
 		return nil, nil
 	}
-	var result FakeResource_SubResourceEmbeddedARM
+	result := &FakeResource_SubResourceEmbeddedARM{}
 
 	// Set property ‘Name’:
 	if embedded.Name != nil {
@@ -1052,7 +1052,7 @@ func (embedded *FakeResource_SubResourceEmbedded) ConvertToARM(resolved genrunti
 		if err != nil {
 			return nil, err
 		}
-		properties := propertiesARM.(FakeResourceProperties_SubResourceEmbeddedARM)
+		properties := *propertiesARM.(*FakeResourceProperties_SubResourceEmbeddedARM)
 		result.Properties = &properties
 	}
 	return result, nil
@@ -1157,7 +1157,7 @@ func (embedded1 *FakeResource_SubResourceEmbedded_1) ConvertToARM(resolved genru
 	if embedded1 == nil {
 		return nil, nil
 	}
-	var result FakeResource_SubResourceEmbedded_1ARM
+	result := &FakeResource_SubResourceEmbedded_1ARM{}
 
 	// Set property ‘Name’:
 	if embedded1.Name != nil {
@@ -1171,7 +1171,7 @@ func (embedded1 *FakeResource_SubResourceEmbedded_1) ConvertToARM(resolved genru
 		if err != nil {
 			return nil, err
 		}
-		properties := propertiesARM.(FakeResourceProperties_SubResourceEmbedded_1ARM)
+		properties := *propertiesARM.(*FakeResourceProperties_SubResourceEmbedded_1ARM)
 		result.Properties = &properties
 	}
 	return result, nil
@@ -1275,7 +1275,7 @@ func (properties *LeftProperties) ConvertToARM(resolved genruntime.ConvertToARMR
 	if properties == nil {
 		return nil, nil
 	}
-	var result LeftPropertiesARM
+	result := &LeftPropertiesARM{}
 
 	// Set property ‘StrField’:
 	if properties.StrField != nil {
@@ -1348,7 +1348,7 @@ func (properties *RightProperties) ConvertToARM(resolved genruntime.ConvertToARM
 	if properties == nil {
 		return nil, nil
 	}
-	var result RightPropertiesARM
+	result := &RightPropertiesARM{}
 
 	// Set property ‘StrField’:
 	if properties.StrField != nil {
@@ -1421,7 +1421,7 @@ func (embedded *FakeResourceProperties_SubResourceEmbedded) ConvertToARM(resolve
 	if embedded == nil {
 		return nil, nil
 	}
-	var result FakeResourceProperties_SubResourceEmbeddedARM
+	result := &FakeResourceProperties_SubResourceEmbeddedARM{}
 
 	// Set property ‘Loop2’:
 	if embedded.Loop2 != nil {
@@ -1429,7 +1429,7 @@ func (embedded *FakeResourceProperties_SubResourceEmbedded) ConvertToARM(resolve
 		if err != nil {
 			return nil, err
 		}
-		loop2 := loop2ARM.(Right_SubResourceEmbeddedARM)
+		loop2 := *loop2ARM.(*Right_SubResourceEmbeddedARM)
 		result.Loop2 = &loop2
 	}
 	return result, nil
@@ -1521,7 +1521,7 @@ func (embedded1 *FakeResourceProperties_SubResourceEmbedded_1) ConvertToARM(reso
 	if embedded1 == nil {
 		return nil, nil
 	}
-	var result FakeResourceProperties_SubResourceEmbedded_1ARM
+	result := &FakeResourceProperties_SubResourceEmbedded_1ARM{}
 
 	// Set property ‘Loop1’:
 	if embedded1.Loop1 != nil {
@@ -1529,7 +1529,7 @@ func (embedded1 *FakeResourceProperties_SubResourceEmbedded_1) ConvertToARM(reso
 		if err != nil {
 			return nil, err
 		}
-		loop1 := loop1ARM.(Left_SubResourceEmbedded_1ARM)
+		loop1 := *loop1ARM.(*Left_SubResourceEmbedded_1ARM)
 		result.Loop1 = &loop1
 	}
 	return result, nil
@@ -1634,7 +1634,7 @@ func (embedded1 *Left_SubResourceEmbedded_1) ConvertToARM(resolved genruntime.Co
 	if embedded1 == nil {
 		return nil, nil
 	}
-	var result Left_SubResourceEmbedded_1ARM
+	result := &Left_SubResourceEmbedded_1ARM{}
 
 	// Set property ‘Name’:
 	if embedded1.Name != nil {
@@ -1648,7 +1648,7 @@ func (embedded1 *Left_SubResourceEmbedded_1) ConvertToARM(resolved genruntime.Co
 		if err != nil {
 			return nil, err
 		}
-		properties := propertiesARM.(LeftPropertiesARM)
+		properties := *propertiesARM.(*LeftPropertiesARM)
 		result.Properties = &properties
 	}
 	return result, nil
@@ -1753,7 +1753,7 @@ func (embedded *Right_SubResourceEmbedded) ConvertToARM(resolved genruntime.Conv
 	if embedded == nil {
 		return nil, nil
 	}
-	var result Right_SubResourceEmbeddedARM
+	result := &Right_SubResourceEmbeddedARM{}
 
 	// Set property ‘Name’:
 	if embedded.Name != nil {
@@ -1767,7 +1767,7 @@ func (embedded *Right_SubResourceEmbedded) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		properties := propertiesARM.(RightPropertiesARM)
+		properties := *propertiesARM.(*RightPropertiesARM)
 		result.Properties = &properties
 	}
 	return result, nil

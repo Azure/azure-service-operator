@@ -7,6 +7,7 @@ package pipeline
 
 import (
 	"context"
+	"fmt"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -87,6 +88,12 @@ func removeStatusTypeValidations(definitions astmodel.TypeDefinitionSet) (astmod
 	return result, err
 }
 
+type overlapError struct {
+	name       astmodel.TypeName
+	specRefs   []astmodel.TypeName
+	statusRefs []astmodel.TypeName
+}
+
 func errorIfSpecStatusOverlap(statusDefinitions astmodel.TypeDefinitionSet, definitions astmodel.TypeDefinitionSet) error {
 	allSpecTypes, err := astmodel.FindSpecConnectedDefinitions(definitions)
 	if err != nil {
@@ -96,12 +103,42 @@ func errorIfSpecStatusOverlap(statusDefinitions astmodel.TypeDefinitionSet, defi
 	// Verify that the set of spec definitions and the set of modified status definitions is totally disjoint
 	intersection := allSpecTypes.Intersect(statusDefinitions)
 	if len(intersection) > 0 {
-		var nameStrings []string
+		var problems []overlapError
 		for name := range intersection {
-			nameStrings = append(nameStrings, name.String())
+			specRefs := []astmodel.TypeName{}
+			for tname, t := range definitions {
+				if t.References().Contains(name) {
+					specRefs = append(specRefs, tname)
+				}
+			}
+
+			statusRefs := []astmodel.TypeName{}
+			for tname, t := range statusDefinitions {
+				if t.References().Contains(name) {
+					statusRefs = append(statusRefs, tname)
+				}
+			}
+
+			problems = append(problems, overlapError{
+				name:       name,
+				specRefs:   specRefs,
+				statusRefs: statusRefs,
+			})
 		}
 
-		return errors.Errorf("expected 0 overlapping spec/status definitions but there were %d. Overlapping: %s", len(intersection), strings.Join(nameStrings, ", "))
+		result := strings.Builder{}
+		result.WriteString(fmt.Sprintf("expected 0 overlapping spec/status definitions but there were %d.\n", len(intersection)))
+		for _, problem := range problems {
+			result.WriteString(fmt.Sprintf("- %s, referenced by:\n", problem.name))
+			for _, referencer := range problem.specRefs {
+				result.WriteString(fmt.Sprintf("\t- [spec] %s\n", referencer))
+			}
+			for _, referencer := range problem.statusRefs {
+				result.WriteString(fmt.Sprintf("\t- [status] %s\n", referencer))
+			}
+		}
+
+		return errors.Errorf(result.String())
 	}
 
 	return nil
@@ -118,9 +155,9 @@ func removeEnumValidations(this *astmodel.TypeVisitor, et *astmodel.EnumType, _ 
 
 // removeKubebuilderRequired removes kubebuilder:validation:Required from all properties
 func removeKubebuilderRequired(this *astmodel.TypeVisitor, ot *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
-	for _, prop := range ot.Properties() {
+	ot.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
 		ot = ot.WithProperty(prop.MakeOptional())
-	}
+	})
 
 	return astmodel.IdentityVisitOfObjectType(this, ot, ctx)
 }

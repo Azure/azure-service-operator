@@ -10,6 +10,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
+	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -98,7 +99,7 @@ func (server *FlexibleServer) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
 func (server FlexibleServer) GetAPIVersion() string {
-	return "2021-05-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -212,7 +213,7 @@ func (server *FlexibleServer) ValidateUpdate(old runtime.Object) error {
 
 // createValidations validates the creation of the resource
 func (server *FlexibleServer) createValidations() []func() error {
-	return []func() error{server.validateResourceReferences}
+	return []func() error{server.validateResourceReferences, server.validateSecretDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -226,7 +227,11 @@ func (server *FlexibleServer) updateValidations() []func(old runtime.Object) err
 		func(old runtime.Object) error {
 			return server.validateResourceReferences()
 		},
-		server.validateWriteOnceProperties}
+		server.validateWriteOnceProperties,
+		func(old runtime.Object) error {
+			return server.validateSecretDestinations()
+		},
+	}
 }
 
 // validateResourceReferences validates all resource references
@@ -236,6 +241,20 @@ func (server *FlexibleServer) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (server *FlexibleServer) validateSecretDestinations() error {
+	if server.Spec.OperatorSpec == nil {
+		return nil
+	}
+	if server.Spec.OperatorSpec.Secrets == nil {
+		return nil
+	}
+	secrets := []*genruntime.SecretDestination{
+		server.Spec.OperatorSpec.Secrets.FullyQualifiedDomainName,
+	}
+	return genruntime.ValidateSecretDestinations(secrets)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -318,9 +337,9 @@ type FlexibleServerList struct {
 }
 
 // +kubebuilder:validation:Enum={"2021-05-01"}
-type FlexibleServersSpecAPIVersion string
+type APIVersion string
 
-const FlexibleServersSpecAPIVersion20210501 = FlexibleServersSpecAPIVersion("2021-05-01")
+const APIVersionValue = APIVersion("2021-05-01")
 
 type FlexibleServers_Spec struct {
 	// AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
@@ -354,6 +373,10 @@ type FlexibleServers_Spec struct {
 
 	// Network: Network related properties of a server
 	Network *Network `json:"network,omitempty"`
+
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *FlexibleServerOperatorSpec `json:"operatorSpec,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -390,7 +413,7 @@ func (servers *FlexibleServers_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	if servers == nil {
 		return nil, nil
 	}
-	var result FlexibleServers_SpecARM
+	result := &FlexibleServers_SpecARM{}
 
 	// Set property ‘Location’:
 	if servers.Location != nil {
@@ -438,7 +461,7 @@ func (servers *FlexibleServers_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		backup := backupARM.(BackupARM)
+		backup := *backupARM.(*BackupARM)
 		result.Properties.Backup = &backup
 	}
 	if servers.CreateMode != nil {
@@ -450,7 +473,7 @@ func (servers *FlexibleServers_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		highAvailability := highAvailabilityARM.(HighAvailabilityARM)
+		highAvailability := *highAvailabilityARM.(*HighAvailabilityARM)
 		result.Properties.HighAvailability = &highAvailability
 	}
 	if servers.MaintenanceWindow != nil {
@@ -458,7 +481,7 @@ func (servers *FlexibleServers_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		maintenanceWindow := maintenanceWindowARM.(MaintenanceWindowARM)
+		maintenanceWindow := *maintenanceWindowARM.(*MaintenanceWindowARM)
 		result.Properties.MaintenanceWindow = &maintenanceWindow
 	}
 	if servers.Network != nil {
@@ -466,7 +489,7 @@ func (servers *FlexibleServers_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		network := networkARM.(NetworkARM)
+		network := *networkARM.(*NetworkARM)
 		result.Properties.Network = &network
 	}
 	if servers.ReplicationRole != nil {
@@ -486,7 +509,7 @@ func (servers *FlexibleServers_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		storage := storageARM.(StorageARM)
+		storage := *storageARM.(*StorageARM)
 		result.Properties.Storage = &storage
 	}
 	if servers.Version != nil {
@@ -500,13 +523,13 @@ func (servers *FlexibleServers_Spec) ConvertToARM(resolved genruntime.ConvertToA
 		if err != nil {
 			return nil, err
 		}
-		sku := skuARM.(SkuARM)
+		sku := *skuARM.(*SkuARM)
 		result.Sku = &sku
 	}
 
 	// Set property ‘Tags’:
 	if servers.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(servers.Tags))
 		for key, value := range servers.Tags {
 			result.Tags[key] = value
 		}
@@ -620,6 +643,8 @@ func (servers *FlexibleServers_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 		}
 	}
 
+	// no assignment for property ‘OperatorSpec’
+
 	// Set property ‘Owner’:
 	servers.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
@@ -679,7 +704,7 @@ func (servers *FlexibleServers_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		servers.Tags = make(map[string]string)
+		servers.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			servers.Tags[key] = value
 		}
@@ -825,6 +850,18 @@ func (servers *FlexibleServers_Spec) AssignPropertiesFromFlexibleServersSpec(sou
 		servers.Network = &network
 	} else {
 		servers.Network = nil
+	}
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec FlexibleServerOperatorSpec
+		err := operatorSpec.AssignPropertiesFromFlexibleServerOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromFlexibleServerOperatorSpec() to populate field OperatorSpec")
+		}
+		servers.OperatorSpec = &operatorSpec
+	} else {
+		servers.OperatorSpec = nil
 	}
 
 	// Owner
@@ -974,6 +1011,18 @@ func (servers *FlexibleServers_Spec) AssignPropertiesToFlexibleServersSpec(desti
 		destination.Network = nil
 	}
 
+	// OperatorSpec
+	if servers.OperatorSpec != nil {
+		var operatorSpec v20210501s.FlexibleServerOperatorSpec
+		err := servers.OperatorSpec.AssignPropertiesToFlexibleServerOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToFlexibleServerOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
+
 	// OriginalVersion
 	destination.OriginalVersion = servers.OriginalVersion()
 
@@ -1075,6 +1124,9 @@ type Server_Status struct {
 	// CreateMode: The mode to create a new MySQL server.
 	CreateMode *ServerPropertiesStatusCreateMode `json:"createMode,omitempty"`
 
+	// DataEncryption: The Data Encryption for CMK.
+	DataEncryption *DataEncryption_Status `json:"dataEncryption,omitempty"`
+
 	// FullyQualifiedDomainName: The fully qualified domain name of a server.
 	FullyQualifiedDomainName *string `json:"fullyQualifiedDomainName,omitempty"`
 
@@ -1084,6 +1136,9 @@ type Server_Status struct {
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
+
+	// Identity: The cmk identity for the server.
+	Identity *Identity_Status `json:"identity,omitempty"`
 
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
@@ -1238,6 +1293,20 @@ func (server *Server_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 		}
 	}
 
+	// Set property ‘DataEncryption’:
+	// copying flattened property:
+	if typedInput.Properties != nil {
+		if typedInput.Properties.DataEncryption != nil {
+			var dataEncryption1 DataEncryption_Status
+			err := dataEncryption1.PopulateFromARM(owner, *typedInput.Properties.DataEncryption)
+			if err != nil {
+				return err
+			}
+			dataEncryption := dataEncryption1
+			server.DataEncryption = &dataEncryption
+		}
+	}
+
 	// Set property ‘FullyQualifiedDomainName’:
 	// copying flattened property:
 	if typedInput.Properties != nil {
@@ -1265,6 +1334,17 @@ func (server *Server_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 	if typedInput.Id != nil {
 		id := *typedInput.Id
 		server.Id = &id
+	}
+
+	// Set property ‘Identity’:
+	if typedInput.Identity != nil {
+		var identity1 Identity_Status
+		err := identity1.PopulateFromARM(owner, *typedInput.Identity)
+		if err != nil {
+			return err
+		}
+		identity := identity1
+		server.Identity = &identity
 	}
 
 	// Set property ‘Location’:
@@ -1390,7 +1470,7 @@ func (server *Server_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		server.Tags = make(map[string]string)
+		server.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			server.Tags[key] = value
 		}
@@ -1447,6 +1527,18 @@ func (server *Server_Status) AssignPropertiesFromServerStatus(source *v20210501s
 		server.CreateMode = nil
 	}
 
+	// DataEncryption
+	if source.DataEncryption != nil {
+		var dataEncryption DataEncryption_Status
+		err := dataEncryption.AssignPropertiesFromDataEncryptionStatus(source.DataEncryption)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDataEncryptionStatus() to populate field DataEncryption")
+		}
+		server.DataEncryption = &dataEncryption
+	} else {
+		server.DataEncryption = nil
+	}
+
 	// FullyQualifiedDomainName
 	server.FullyQualifiedDomainName = genruntime.ClonePointerToString(source.FullyQualifiedDomainName)
 
@@ -1464,6 +1556,18 @@ func (server *Server_Status) AssignPropertiesFromServerStatus(source *v20210501s
 
 	// Id
 	server.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Identity
+	if source.Identity != nil {
+		var identity Identity_Status
+		err := identity.AssignPropertiesFromIdentityStatus(source.Identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromIdentityStatus() to populate field Identity")
+		}
+		server.Identity = &identity
+	} else {
+		server.Identity = nil
+	}
 
 	// Location
 	server.Location = genruntime.ClonePointerToString(source.Location)
@@ -1608,6 +1712,18 @@ func (server *Server_Status) AssignPropertiesToServerStatus(destination *v202105
 		destination.CreateMode = nil
 	}
 
+	// DataEncryption
+	if server.DataEncryption != nil {
+		var dataEncryption v20210501s.DataEncryption_Status
+		err := server.DataEncryption.AssignPropertiesToDataEncryptionStatus(&dataEncryption)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDataEncryptionStatus() to populate field DataEncryption")
+		}
+		destination.DataEncryption = &dataEncryption
+	} else {
+		destination.DataEncryption = nil
+	}
+
 	// FullyQualifiedDomainName
 	destination.FullyQualifiedDomainName = genruntime.ClonePointerToString(server.FullyQualifiedDomainName)
 
@@ -1625,6 +1741,18 @@ func (server *Server_Status) AssignPropertiesToServerStatus(destination *v202105
 
 	// Id
 	destination.Id = genruntime.ClonePointerToString(server.Id)
+
+	// Identity
+	if server.Identity != nil {
+		var identity v20210501s.Identity_Status
+		err := server.Identity.AssignPropertiesToIdentityStatus(&identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToIdentityStatus() to populate field Identity")
+		}
+		destination.Identity = &identity
+	} else {
+		destination.Identity = nil
+	}
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(server.Location)
@@ -1758,7 +1886,7 @@ func (backup *Backup) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 	if backup == nil {
 		return nil, nil
 	}
-	var result BackupARM
+	result := &BackupARM{}
 
 	// Set property ‘BackupRetentionDays’:
 	if backup.BackupRetentionDays != nil {
@@ -1945,6 +2073,188 @@ func (backup *Backup_Status) AssignPropertiesToBackupStatus(destination *v202105
 	return nil
 }
 
+type DataEncryption_Status struct {
+	// GeoBackupKeyUri: Geo backup key uri as key vault can't cross region, need cmk in same region as geo backup
+	GeoBackupKeyUri *string `json:"geoBackupKeyUri,omitempty"`
+
+	// GeoBackupUserAssignedIdentityId: Geo backup user identity resource id as identity can't cross region, need identity in
+	// same region as geo backup
+	GeoBackupUserAssignedIdentityId *string `json:"geoBackupUserAssignedIdentityId,omitempty"`
+
+	// PrimaryKeyUri: Primary key uri
+	PrimaryKeyUri *string `json:"primaryKeyUri,omitempty"`
+
+	// PrimaryUserAssignedIdentityId: Primary user identity resource id
+	PrimaryUserAssignedIdentityId *string `json:"primaryUserAssignedIdentityId,omitempty"`
+
+	// Type: The key type, AzureKeyVault for enable cmk, SystemManaged for disable cmk.
+	Type *DataEncryptionStatusType `json:"type,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &DataEncryption_Status{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (encryption *DataEncryption_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &DataEncryption_StatusARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (encryption *DataEncryption_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(DataEncryption_StatusARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected DataEncryption_StatusARM, got %T", armInput)
+	}
+
+	// Set property ‘GeoBackupKeyUri’:
+	if typedInput.GeoBackupKeyUri != nil {
+		geoBackupKeyUri := *typedInput.GeoBackupKeyUri
+		encryption.GeoBackupKeyUri = &geoBackupKeyUri
+	}
+
+	// Set property ‘GeoBackupUserAssignedIdentityId’:
+	if typedInput.GeoBackupUserAssignedIdentityId != nil {
+		geoBackupUserAssignedIdentityId := *typedInput.GeoBackupUserAssignedIdentityId
+		encryption.GeoBackupUserAssignedIdentityId = &geoBackupUserAssignedIdentityId
+	}
+
+	// Set property ‘PrimaryKeyUri’:
+	if typedInput.PrimaryKeyUri != nil {
+		primaryKeyUri := *typedInput.PrimaryKeyUri
+		encryption.PrimaryKeyUri = &primaryKeyUri
+	}
+
+	// Set property ‘PrimaryUserAssignedIdentityId’:
+	if typedInput.PrimaryUserAssignedIdentityId != nil {
+		primaryUserAssignedIdentityId := *typedInput.PrimaryUserAssignedIdentityId
+		encryption.PrimaryUserAssignedIdentityId = &primaryUserAssignedIdentityId
+	}
+
+	// Set property ‘Type’:
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		encryption.Type = &typeVar
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromDataEncryptionStatus populates our DataEncryption_Status from the provided source DataEncryption_Status
+func (encryption *DataEncryption_Status) AssignPropertiesFromDataEncryptionStatus(source *v20210501s.DataEncryption_Status) error {
+
+	// GeoBackupKeyUri
+	encryption.GeoBackupKeyUri = genruntime.ClonePointerToString(source.GeoBackupKeyUri)
+
+	// GeoBackupUserAssignedIdentityId
+	encryption.GeoBackupUserAssignedIdentityId = genruntime.ClonePointerToString(source.GeoBackupUserAssignedIdentityId)
+
+	// PrimaryKeyUri
+	encryption.PrimaryKeyUri = genruntime.ClonePointerToString(source.PrimaryKeyUri)
+
+	// PrimaryUserAssignedIdentityId
+	encryption.PrimaryUserAssignedIdentityId = genruntime.ClonePointerToString(source.PrimaryUserAssignedIdentityId)
+
+	// Type
+	if source.Type != nil {
+		typeVar := DataEncryptionStatusType(*source.Type)
+		encryption.Type = &typeVar
+	} else {
+		encryption.Type = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToDataEncryptionStatus populates the provided destination DataEncryption_Status from our DataEncryption_Status
+func (encryption *DataEncryption_Status) AssignPropertiesToDataEncryptionStatus(destination *v20210501s.DataEncryption_Status) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// GeoBackupKeyUri
+	destination.GeoBackupKeyUri = genruntime.ClonePointerToString(encryption.GeoBackupKeyUri)
+
+	// GeoBackupUserAssignedIdentityId
+	destination.GeoBackupUserAssignedIdentityId = genruntime.ClonePointerToString(encryption.GeoBackupUserAssignedIdentityId)
+
+	// PrimaryKeyUri
+	destination.PrimaryKeyUri = genruntime.ClonePointerToString(encryption.PrimaryKeyUri)
+
+	// PrimaryUserAssignedIdentityId
+	destination.PrimaryUserAssignedIdentityId = genruntime.ClonePointerToString(encryption.PrimaryUserAssignedIdentityId)
+
+	// Type
+	if encryption.Type != nil {
+		typeVar := string(*encryption.Type)
+		destination.Type = &typeVar
+	} else {
+		destination.Type = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type FlexibleServerOperatorSpec struct {
+	// Secrets: configures where to place Azure generated secrets.
+	Secrets *FlexibleServerOperatorSecrets `json:"secrets,omitempty"`
+}
+
+// AssignPropertiesFromFlexibleServerOperatorSpec populates our FlexibleServerOperatorSpec from the provided source FlexibleServerOperatorSpec
+func (operator *FlexibleServerOperatorSpec) AssignPropertiesFromFlexibleServerOperatorSpec(source *v20210501s.FlexibleServerOperatorSpec) error {
+
+	// Secrets
+	if source.Secrets != nil {
+		var secret FlexibleServerOperatorSecrets
+		err := secret.AssignPropertiesFromFlexibleServerOperatorSecrets(source.Secrets)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromFlexibleServerOperatorSecrets() to populate field Secrets")
+		}
+		operator.Secrets = &secret
+	} else {
+		operator.Secrets = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToFlexibleServerOperatorSpec populates the provided destination FlexibleServerOperatorSpec from our FlexibleServerOperatorSpec
+func (operator *FlexibleServerOperatorSpec) AssignPropertiesToFlexibleServerOperatorSpec(destination *v20210501s.FlexibleServerOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Secrets
+	if operator.Secrets != nil {
+		var secret v20210501s.FlexibleServerOperatorSecrets
+		err := operator.Secrets.AssignPropertiesToFlexibleServerOperatorSecrets(&secret)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToFlexibleServerOperatorSecrets() to populate field Secrets")
+		}
+		destination.Secrets = &secret
+	} else {
+		destination.Secrets = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/HighAvailability
 type HighAvailability struct {
 	// Mode: High availability mode for a server.
@@ -1961,7 +2271,7 @@ func (availability *HighAvailability) ConvertToARM(resolved genruntime.ConvertTo
 	if availability == nil {
 		return nil, nil
 	}
-	var result HighAvailabilityARM
+	result := &HighAvailabilityARM{}
 
 	// Set property ‘Mode’:
 	if availability.Mode != nil {
@@ -2158,6 +2468,141 @@ func (availability *HighAvailability_Status) AssignPropertiesToHighAvailabilityS
 	return nil
 }
 
+type Identity_Status struct {
+	// PrincipalId: ObjectId from the KeyVault
+	PrincipalId *string `json:"principalId,omitempty"`
+
+	// TenantId: TenantId from the KeyVault
+	TenantId *string `json:"tenantId,omitempty"`
+
+	// Type: Type of managed service identity.
+	Type *IdentityStatusType `json:"type,omitempty"`
+
+	// UserAssignedIdentities: Metadata of user assigned identity.
+	UserAssignedIdentities map[string]v1.JSON `json:"userAssignedIdentities,omitempty"`
+}
+
+var _ genruntime.FromARMConverter = &Identity_Status{}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (identity *Identity_Status) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &Identity_StatusARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (identity *Identity_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(Identity_StatusARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected Identity_StatusARM, got %T", armInput)
+	}
+
+	// Set property ‘PrincipalId’:
+	if typedInput.PrincipalId != nil {
+		principalId := *typedInput.PrincipalId
+		identity.PrincipalId = &principalId
+	}
+
+	// Set property ‘TenantId’:
+	if typedInput.TenantId != nil {
+		tenantId := *typedInput.TenantId
+		identity.TenantId = &tenantId
+	}
+
+	// Set property ‘Type’:
+	if typedInput.Type != nil {
+		typeVar := *typedInput.Type
+		identity.Type = &typeVar
+	}
+
+	// Set property ‘UserAssignedIdentities’:
+	if typedInput.UserAssignedIdentities != nil {
+		identity.UserAssignedIdentities = make(map[string]v1.JSON, len(typedInput.UserAssignedIdentities))
+		for key, value := range typedInput.UserAssignedIdentities {
+			identity.UserAssignedIdentities[key] = *value.DeepCopy()
+		}
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromIdentityStatus populates our Identity_Status from the provided source Identity_Status
+func (identity *Identity_Status) AssignPropertiesFromIdentityStatus(source *v20210501s.Identity_Status) error {
+
+	// PrincipalId
+	identity.PrincipalId = genruntime.ClonePointerToString(source.PrincipalId)
+
+	// TenantId
+	identity.TenantId = genruntime.ClonePointerToString(source.TenantId)
+
+	// Type
+	if source.Type != nil {
+		typeVar := IdentityStatusType(*source.Type)
+		identity.Type = &typeVar
+	} else {
+		identity.Type = nil
+	}
+
+	// UserAssignedIdentities
+	if source.UserAssignedIdentities != nil {
+		userAssignedIdentityMap := make(map[string]v1.JSON, len(source.UserAssignedIdentities))
+		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
+			// Shadow the loop variable to avoid aliasing
+			userAssignedIdentityValue := userAssignedIdentityValue
+			userAssignedIdentityMap[userAssignedIdentityKey] = *userAssignedIdentityValue.DeepCopy()
+		}
+		identity.UserAssignedIdentities = userAssignedIdentityMap
+	} else {
+		identity.UserAssignedIdentities = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToIdentityStatus populates the provided destination Identity_Status from our Identity_Status
+func (identity *Identity_Status) AssignPropertiesToIdentityStatus(destination *v20210501s.Identity_Status) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// PrincipalId
+	destination.PrincipalId = genruntime.ClonePointerToString(identity.PrincipalId)
+
+	// TenantId
+	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
+
+	// Type
+	if identity.Type != nil {
+		typeVar := string(*identity.Type)
+		destination.Type = &typeVar
+	} else {
+		destination.Type = nil
+	}
+
+	// UserAssignedIdentities
+	if identity.UserAssignedIdentities != nil {
+		userAssignedIdentityMap := make(map[string]v1.JSON, len(identity.UserAssignedIdentities))
+		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
+			// Shadow the loop variable to avoid aliasing
+			userAssignedIdentityValue := userAssignedIdentityValue
+			userAssignedIdentityMap[userAssignedIdentityKey] = *userAssignedIdentityValue.DeepCopy()
+		}
+		destination.UserAssignedIdentities = userAssignedIdentityMap
+	} else {
+		destination.UserAssignedIdentities = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/MaintenanceWindow
 type MaintenanceWindow struct {
 	// CustomWindow: indicates whether custom window is enabled or disabled
@@ -2180,7 +2625,7 @@ func (window *MaintenanceWindow) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if window == nil {
 		return nil, nil
 	}
-	var result MaintenanceWindowARM
+	result := &MaintenanceWindowARM{}
 
 	// Set property ‘CustomWindow’:
 	if window.CustomWindow != nil {
@@ -2414,7 +2859,7 @@ func (network *Network) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	if network == nil {
 		return nil, nil
 	}
-	var result NetworkARM
+	result := &NetworkARM{}
 
 	// Set property ‘DelegatedSubnetResourceId’:
 	if network.DelegatedSubnetResourceReference != nil {
@@ -2693,7 +3138,7 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if sku == nil {
 		return nil, nil
 	}
-	var result SkuARM
+	result := &SkuARM{}
 
 	// Set property ‘Name’:
 	if sku.Name != nil {
@@ -2884,7 +3329,7 @@ func (storage *Storage) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	if storage == nil {
 		return nil, nil
 	}
-	var result StorageARM
+	result := &StorageARM{}
 
 	// Set property ‘AutoGrow’:
 	if storage.AutoGrow != nil {
@@ -3265,12 +3710,64 @@ const (
 	BackupGeoRedundantBackupEnabled  = BackupGeoRedundantBackup("Enabled")
 )
 
+type DataEncryptionStatusType string
+
+const (
+	DataEncryptionStatusTypeAzureKeyVault = DataEncryptionStatusType("AzureKeyVault")
+	DataEncryptionStatusTypeSystemManaged = DataEncryptionStatusType("SystemManaged")
+)
+
 type EnableStatusEnum_Status string
 
 const (
 	EnableStatusEnum_StatusDisabled = EnableStatusEnum_Status("Disabled")
 	EnableStatusEnum_StatusEnabled  = EnableStatusEnum_Status("Enabled")
 )
+
+type FlexibleServerOperatorSecrets struct {
+	// FullyQualifiedDomainName: indicates where the FullyQualifiedDomainName secret should be placed. If omitted, the secret
+	// will not be retrieved from Azure.
+	FullyQualifiedDomainName *genruntime.SecretDestination `json:"fullyQualifiedDomainName,omitempty"`
+}
+
+// AssignPropertiesFromFlexibleServerOperatorSecrets populates our FlexibleServerOperatorSecrets from the provided source FlexibleServerOperatorSecrets
+func (secrets *FlexibleServerOperatorSecrets) AssignPropertiesFromFlexibleServerOperatorSecrets(source *v20210501s.FlexibleServerOperatorSecrets) error {
+
+	// FullyQualifiedDomainName
+	if source.FullyQualifiedDomainName != nil {
+		fullyQualifiedDomainName := source.FullyQualifiedDomainName.Copy()
+		secrets.FullyQualifiedDomainName = &fullyQualifiedDomainName
+	} else {
+		secrets.FullyQualifiedDomainName = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToFlexibleServerOperatorSecrets populates the provided destination FlexibleServerOperatorSecrets from our FlexibleServerOperatorSecrets
+func (secrets *FlexibleServerOperatorSecrets) AssignPropertiesToFlexibleServerOperatorSecrets(destination *v20210501s.FlexibleServerOperatorSecrets) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// FullyQualifiedDomainName
+	if secrets.FullyQualifiedDomainName != nil {
+		fullyQualifiedDomainName := secrets.FullyQualifiedDomainName.Copy()
+		destination.FullyQualifiedDomainName = &fullyQualifiedDomainName
+	} else {
+		destination.FullyQualifiedDomainName = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
 
 // +kubebuilder:validation:Enum={"Disabled","SameZone","ZoneRedundant"}
 type HighAvailabilityMode string

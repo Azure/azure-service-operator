@@ -4,8 +4,8 @@
 package v1beta20210601
 
 type Workspace_StatusARM struct {
-	// ETag: The ETag of the workspace.
-	ETag *string `json:"eTag,omitempty"`
+	// Etag: The etag of the workspace.
+	Etag *string `json:"etag,omitempty"`
 
 	// Id: Fully qualified resource ID for the resource. Ex -
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}

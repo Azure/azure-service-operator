@@ -1,5 +1,6 @@
 | Type Definitions in package "cache"                  | v1alpha1api20201201 | v1alpha1api20210301 | v1beta20201201 | v1beta20210301 |
 |------------------------------------------------------|---------------------|---------------------|----------------|----------------|
+| APIVersion                                           | v1alpha1api20201201 | v1alpha1api20210301 | v1beta20201201 | v1beta20210301 |
 | ClusterProperties                                    |                     | v1alpha1api20210301 |                | v1beta20210301 |
 | ClusterPropertiesMinimumTlsVersion                   |                     | v1alpha1api20210301 |                | v1beta20210301 |
 | ClusterPropertiesStatusMinimumTlsVersion             |                     | v1alpha1api20210301 |                | v1beta20210301 |
@@ -30,15 +31,12 @@
 | RedisCreatePropertiesPublicNetworkAccess             | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | RedisEnterprise                                      |                     | v1alpha1api20210301 |                | v1beta20210301 |
 | RedisEnterpriseDatabase                              |                     | v1alpha1api20210301 |                | v1beta20210301 |
-| RedisEnterpriseDatabasesSpecAPIVersion               |                     | v1alpha1api20210301 |                | v1beta20210301 |
 | RedisEnterpriseDatabases_Spec                        |                     | v1alpha1api20210301 |                | v1beta20210301 |
-| RedisEnterpriseSpecAPIVersion                        |                     | v1alpha1api20210301 |                | v1beta20210301 |
 | RedisEnterprise_Spec                                 |                     | v1alpha1api20210301 |                | v1beta20210301 |
 | RedisFirewallRule                                    | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | RedisFirewallRuleProperties                          | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | RedisFirewallRuleProperties_Status                   | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | RedisFirewallRule_Status                             | v1alpha1api20201201 |                     | v1beta20201201 |                |
-| RedisFirewallRulesSpecAPIVersion                     | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | RedisFirewallRules_Spec                              | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | RedisInstanceDetails_Status                          | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | RedisLinkedServer                                    | v1alpha1api20201201 |                     | v1beta20201201 |                |
@@ -48,18 +46,15 @@
 | RedisLinkedServerProperties_Status                   | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | RedisLinkedServerWithProperties_Status               | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | RedisLinkedServer_Status                             | v1alpha1api20201201 |                     | v1beta20201201 |                |
-| RedisLinkedServersSpecAPIVersion                     | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | RedisLinkedServers_Spec                              | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | RedisPatchSchedule                                   | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | RedisPatchSchedule_Status                            | v1alpha1api20201201 |                     | v1beta20201201 |                |
-| RedisPatchSchedulesSpecAPIVersion                    | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | RedisPatchSchedules_Spec                             | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | RedisPropertiesStatusMinimumTlsVersion               | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | RedisPropertiesStatusProvisioningState               | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | RedisPropertiesStatusPublicNetworkAccess             | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | RedisProperties_Status                               | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | RedisResource_Status                                 | v1alpha1api20201201 |                     | v1beta20201201 |                |
-| RedisSpecAPIVersion                                  | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | Redis_Spec                                           | v1alpha1api20201201 |                     | v1beta20201201 |                |
 | ResourceState_Status                                 |                     | v1alpha1api20210301 |                | v1beta20210301 |
 | ScheduleEntries                                      | v1alpha1api20201201 |                     | v1beta20201201 |                |

@@ -7,6 +7,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
+	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -51,7 +52,7 @@ func (server *FlexibleServer) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-01"
 func (server FlexibleServer) GetAPIVersion() string {
-	return "2021-05-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -129,6 +130,12 @@ type FlexibleServerList struct {
 	Items           []FlexibleServer `json:"items"`
 }
 
+// Storage version of v1beta20210501.APIVersion
+// +kubebuilder:validation:Enum={"2021-05-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-05-01")
+
 // Storage version of v1beta20210501.FlexibleServers_Spec
 type FlexibleServers_Spec struct {
 	AdministratorLogin         *string                     `json:"administratorLogin,omitempty"`
@@ -137,14 +144,15 @@ type FlexibleServers_Spec struct {
 
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName         string             `json:"azureName,omitempty"`
-	Backup            *Backup            `json:"backup,omitempty"`
-	CreateMode        *string            `json:"createMode,omitempty"`
-	HighAvailability  *HighAvailability  `json:"highAvailability,omitempty"`
-	Location          *string            `json:"location,omitempty"`
-	MaintenanceWindow *MaintenanceWindow `json:"maintenanceWindow,omitempty"`
-	Network           *Network           `json:"network,omitempty"`
-	OriginalVersion   string             `json:"originalVersion,omitempty"`
+	AzureName         string                      `json:"azureName,omitempty"`
+	Backup            *Backup                     `json:"backup,omitempty"`
+	CreateMode        *string                     `json:"createMode,omitempty"`
+	HighAvailability  *HighAvailability           `json:"highAvailability,omitempty"`
+	Location          *string                     `json:"location,omitempty"`
+	MaintenanceWindow *MaintenanceWindow          `json:"maintenanceWindow,omitempty"`
+	Network           *Network                    `json:"network,omitempty"`
+	OperatorSpec      *FlexibleServerOperatorSpec `json:"operatorSpec,omitempty"`
+	OriginalVersion   string                      `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -188,9 +196,11 @@ type Server_Status struct {
 	Backup                   *Backup_Status            `json:"backup,omitempty"`
 	Conditions               []conditions.Condition    `json:"conditions,omitempty"`
 	CreateMode               *string                   `json:"createMode,omitempty"`
+	DataEncryption           *DataEncryption_Status    `json:"dataEncryption,omitempty"`
 	FullyQualifiedDomainName *string                   `json:"fullyQualifiedDomainName,omitempty"`
 	HighAvailability         *HighAvailability_Status  `json:"highAvailability,omitempty"`
 	Id                       *string                   `json:"id,omitempty"`
+	Identity                 *Identity_Status          `json:"identity,omitempty"`
 	Location                 *string                   `json:"location,omitempty"`
 	MaintenanceWindow        *MaintenanceWindow_Status `json:"maintenanceWindow,omitempty"`
 	Name                     *string                   `json:"name,omitempty"`
@@ -245,6 +255,23 @@ type Backup_Status struct {
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1beta20210501.DataEncryption_Status
+type DataEncryption_Status struct {
+	GeoBackupKeyUri                 *string                `json:"geoBackupKeyUri,omitempty"`
+	GeoBackupUserAssignedIdentityId *string                `json:"geoBackupUserAssignedIdentityId,omitempty"`
+	PrimaryKeyUri                   *string                `json:"primaryKeyUri,omitempty"`
+	PrimaryUserAssignedIdentityId   *string                `json:"primaryUserAssignedIdentityId,omitempty"`
+	PropertyBag                     genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Type                            *string                `json:"type,omitempty"`
+}
+
+// Storage version of v1beta20210501.FlexibleServerOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type FlexibleServerOperatorSpec struct {
+	PropertyBag genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	Secrets     *FlexibleServerOperatorSecrets `json:"secrets,omitempty"`
+}
+
 // Storage version of v1beta20210501.HighAvailability
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/HighAvailability
 type HighAvailability struct {
@@ -259,6 +286,15 @@ type HighAvailability_Status struct {
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	StandbyAvailabilityZone *string                `json:"standbyAvailabilityZone,omitempty"`
 	State                   *string                `json:"state,omitempty"`
+}
+
+// Storage version of v1beta20210501.Identity_Status
+type Identity_Status struct {
+	PrincipalId            *string                `json:"principalId,omitempty"`
+	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	TenantId               *string                `json:"tenantId,omitempty"`
+	Type                   *string                `json:"type,omitempty"`
+	UserAssignedIdentities map[string]v1.JSON     `json:"userAssignedIdentities,omitempty"`
 }
 
 // Storage version of v1beta20210501.MaintenanceWindow
@@ -341,6 +377,12 @@ type SystemData_Status struct {
 	LastModifiedBy     *string                `json:"lastModifiedBy,omitempty"`
 	LastModifiedByType *string                `json:"lastModifiedByType,omitempty"`
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20210501.FlexibleServerOperatorSecrets
+type FlexibleServerOperatorSecrets struct {
+	FullyQualifiedDomainName *genruntime.SecretDestination `json:"fullyQualifiedDomainName,omitempty"`
+	PropertyBag              genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
 }
 
 func init() {

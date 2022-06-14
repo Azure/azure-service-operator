@@ -55,12 +55,7 @@ func CreatePackagesForDefinitions(definitions astmodel.TypeDefinitionSet) (map[a
 	for _, def := range definitions {
 		name := def.Name()
 		ref := name.PackageReference
-		group, version, ok := ref.GroupVersion()
-		if !ok {
-			klog.Errorf("Definition %s from external package %s skipped", name.Name(), ref)
-			continue
-		}
-
+		group, version := ref.GroupVersion()
 		if pkg, ok := packages[ref]; ok {
 			pkg.AddDefinition(def)
 		} else {
@@ -74,7 +69,7 @@ func CreatePackagesForDefinitions(definitions astmodel.TypeDefinitionSet) (map[a
 }
 
 func writeFiles(ctx context.Context, packages map[astmodel.PackageReference]*astmodel.PackageDefinition, outputPath string, emitDocFiles bool) error {
-	var pkgs []*astmodel.PackageDefinition
+	pkgs := make([]*astmodel.PackageDefinition, 0, len(packages))
 	for _, pkg := range packages {
 		pkgs = append(pkgs, pkg)
 	}
@@ -114,7 +109,7 @@ func writeFiles(ctx context.Context, packages map[astmodel.PackageReference]*ast
 				outputDir := filepath.Join(outputPath, pkg.GroupName, pkg.PackageName)
 				if _, err := os.Stat(outputDir); os.IsNotExist(err) {
 					klog.V(5).Infof("Creating directory %q\n", outputDir)
-					err = os.MkdirAll(outputDir, 0700)
+					err = os.MkdirAll(outputDir, 0o700)
 					if err != nil {
 						select { // try to write to errs, ignore if buffer full
 						case errs <- errors.Wrapf(err, "unable to create directory %q", outputDir):
@@ -149,7 +144,7 @@ func writeFiles(ctx context.Context, packages map[astmodel.PackageReference]*ast
 
 	// collect all errors, if any
 	close(errs)
-	var totalErrs []error
+	totalErrs := make([]error, 0, len(errs))
 	for err := range errs {
 		totalErrs = append(totalErrs, err)
 	}

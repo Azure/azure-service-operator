@@ -25,16 +25,16 @@ var _ genruntime.ARMResourceSpec = &StorageAccountsBlobServicesContainers_SpecAR
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
 func (containers StorageAccountsBlobServicesContainers_SpecARM) GetAPIVersion() string {
-	return "2021-04-01"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource
-func (containers StorageAccountsBlobServicesContainers_SpecARM) GetName() string {
+func (containers *StorageAccountsBlobServicesContainers_SpecARM) GetName() string {
 	return containers.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts/blobServices/containers"
-func (containers StorageAccountsBlobServicesContainers_SpecARM) GetType() string {
+func (containers *StorageAccountsBlobServicesContainers_SpecARM) GetType() string {
 	return "Microsoft.Storage/storageAccounts/blobServices/containers"
 }
 

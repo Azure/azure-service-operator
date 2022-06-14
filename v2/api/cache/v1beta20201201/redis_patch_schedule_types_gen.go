@@ -91,7 +91,7 @@ func (schedule *RedisPatchSchedule) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
 func (schedule RedisPatchSchedule) GetAPIVersion() string {
-	return "2020-12-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -318,6 +318,9 @@ type RedisPatchSchedule_Status struct {
 	// /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
 	Id *string `json:"id,omitempty"`
 
+	// Location: The geo-location where the resource lives
+	Location *string `json:"location,omitempty"`
+
 	// Name: The name of the resource
 	Name *string `json:"name,omitempty"`
 
@@ -400,6 +403,12 @@ func (schedule *RedisPatchSchedule_Status) PopulateFromARM(owner genruntime.Arbi
 		schedule.Id = &id
 	}
 
+	// Set property ‘Location’:
+	if typedInput.Location != nil {
+		location := *typedInput.Location
+		schedule.Location = &location
+	}
+
 	// Set property ‘Name’:
 	if typedInput.Name != nil {
 		name := *typedInput.Name
@@ -437,6 +446,9 @@ func (schedule *RedisPatchSchedule_Status) AssignPropertiesFromRedisPatchSchedul
 
 	// Id
 	schedule.Id = genruntime.ClonePointerToString(source.Id)
+
+	// Location
+	schedule.Location = genruntime.ClonePointerToString(source.Location)
 
 	// Name
 	schedule.Name = genruntime.ClonePointerToString(source.Name)
@@ -477,6 +489,9 @@ func (schedule *RedisPatchSchedule_Status) AssignPropertiesToRedisPatchScheduleS
 	// Id
 	destination.Id = genruntime.ClonePointerToString(schedule.Id)
 
+	// Location
+	destination.Location = genruntime.ClonePointerToString(schedule.Location)
+
 	// Name
 	destination.Name = genruntime.ClonePointerToString(schedule.Name)
 
@@ -512,11 +527,6 @@ func (schedule *RedisPatchSchedule_Status) AssignPropertiesToRedisPatchScheduleS
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2020-12-01"}
-type RedisPatchSchedulesSpecAPIVersion string
-
-const RedisPatchSchedulesSpecAPIVersion20201201 = RedisPatchSchedulesSpecAPIVersion("2020-12-01")
-
 type RedisPatchSchedules_Spec struct {
 	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
@@ -542,7 +552,7 @@ func (schedules *RedisPatchSchedules_Spec) ConvertToARM(resolved genruntime.Conv
 	if schedules == nil {
 		return nil, nil
 	}
-	var result RedisPatchSchedules_SpecARM
+	result := &RedisPatchSchedules_SpecARM{}
 
 	// Set property ‘Location’:
 	if schedules.Location != nil {
@@ -562,12 +572,12 @@ func (schedules *RedisPatchSchedules_Spec) ConvertToARM(resolved genruntime.Conv
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.ScheduleEntries = append(result.Properties.ScheduleEntries, itemARM.(ScheduleEntryARM))
+		result.Properties.ScheduleEntries = append(result.Properties.ScheduleEntries, *itemARM.(*ScheduleEntryARM))
 	}
 
 	// Set property ‘Tags’:
 	if schedules.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(schedules.Tags))
 		for key, value := range schedules.Tags {
 			result.Tags[key] = value
 		}
@@ -613,7 +623,7 @@ func (schedules *RedisPatchSchedules_Spec) PopulateFromARM(owner genruntime.Arbi
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		schedules.Tags = make(map[string]string)
+		schedules.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			schedules.Tags[key] = value
 		}
@@ -789,7 +799,7 @@ func (entry *ScheduleEntry) ConvertToARM(resolved genruntime.ConvertToARMResolve
 	if entry == nil {
 		return nil, nil
 	}
-	var result ScheduleEntryARM
+	result := &ScheduleEntryARM{}
 
 	// Set property ‘DayOfWeek’:
 	if entry.DayOfWeek != nil {

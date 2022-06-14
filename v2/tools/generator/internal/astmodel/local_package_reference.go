@@ -17,6 +17,10 @@ type LocalPackageReference struct {
 	group            string
 	apiVersion       string
 	generatorVersion string
+
+	// version == apiVersion + generatorVersion
+	// cached to save on allocations
+	version string
 }
 
 var (
@@ -32,7 +36,8 @@ func MakeLocalPackageReference(prefix string, group string, versionPrefix string
 		localPathPrefix:  prefix,
 		group:            group,
 		generatorVersion: versionPrefix,
-		apiVersion:       sanitizePackageName(version),
+		apiVersion:       version,
+		version:          versionPrefix + sanitizePackageName(version),
 	}
 }
 
@@ -48,7 +53,7 @@ func (pr LocalPackageReference) Group() string {
 
 // Version returns the version of this local reference
 func (pr LocalPackageReference) Version() string {
-	return pr.generatorVersion + pr.apiVersion
+	return pr.version
 }
 
 // PackageName returns the package name of this reference
@@ -93,6 +98,7 @@ func (pr LocalPackageReference) IsPreview() bool {
 // WithVersionPrefix returns a new LocalPackageReference with a different version prefix
 func (pr LocalPackageReference) WithVersionPrefix(prefix string) LocalPackageReference {
 	pr.generatorVersion = prefix
+	pr.version = prefix + sanitizePackageName(pr.apiVersion)
 	return pr
 }
 
@@ -101,12 +107,19 @@ func (pr LocalPackageReference) HasVersionPrefix(prefix string) bool {
 	return pr.generatorVersion == prefix
 }
 
+// GeneratorVersion returns the part of the package name refering to the version of the generator
 func (pr LocalPackageReference) GeneratorVersion() string {
 	return pr.generatorVersion
 }
 
+// ApiVersion returns the API version of this reference, separate from the generator version
 func (pr LocalPackageReference) ApiVersion() string {
 	return pr.apiVersion
+}
+
+// HasApiVersion returns true if this reference has the specified API version
+func (pr LocalPackageReference) HasApiVersion(ver string) bool {
+	return strings.EqualFold(pr.apiVersion, ver)
 }
 
 // IsLocalPackageReference returns true if the supplied reference is a local one
@@ -115,14 +128,19 @@ func IsLocalPackageReference(ref PackageReference) bool {
 	return ok
 }
 
-// GroupVersion returns the group and version of this local reference.
-func (pr LocalPackageReference) GroupVersion() (string, string, bool) {
+// TryGroupVersion returns the group and version of this local reference.
+func (pr LocalPackageReference) TryGroupVersion() (string, string, bool) {
 	return pr.group, pr.Version(), true
+}
+
+// GroupVersion returns the group and version of this local reference.
+func (pr LocalPackageReference) GroupVersion() (string, string) {
+	return pr.group, pr.Version()
 }
 
 // sanitizePackageName removes all non-alphanumeric characters and converts to lower case
 func sanitizePackageName(input string) string {
-	var builder = make([]rune, 0, len(input))
+	builder := make([]rune, 0, len(input))
 
 	for _, r := range input {
 		if unicode.IsLetter(r) || unicode.IsNumber(r) {

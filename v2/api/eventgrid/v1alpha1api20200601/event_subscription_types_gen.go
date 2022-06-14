@@ -112,7 +112,7 @@ func (subscription *EventSubscription) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (subscription EventSubscription) GetAPIVersion() string {
-	return "2020-06-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -793,7 +793,7 @@ func (subscriptions *EventSubscriptions_Spec) ConvertToARM(resolved genruntime.C
 	if subscriptions == nil {
 		return nil, nil
 	}
-	var result EventSubscriptions_SpecARM
+	result := &EventSubscriptions_SpecARM{}
 
 	// Set property ‘Location’:
 	if subscriptions.Location != nil {
@@ -819,7 +819,7 @@ func (subscriptions *EventSubscriptions_Spec) ConvertToARM(resolved genruntime.C
 		if err != nil {
 			return nil, err
 		}
-		deadLetterDestination := deadLetterDestinationARM.(StorageBlobDeadLetterDestinationARM)
+		deadLetterDestination := *deadLetterDestinationARM.(*StorageBlobDeadLetterDestinationARM)
 		result.Properties.DeadLetterDestination = &deadLetterDestination
 	}
 	if subscriptions.Destination != nil {
@@ -827,7 +827,7 @@ func (subscriptions *EventSubscriptions_Spec) ConvertToARM(resolved genruntime.C
 		if err != nil {
 			return nil, err
 		}
-		destination := destinationARM.(EventSubscriptionDestinationARM)
+		destination := *destinationARM.(*EventSubscriptionDestinationARM)
 		result.Properties.Destination = &destination
 	}
 	if subscriptions.EventDeliverySchema != nil {
@@ -843,7 +843,7 @@ func (subscriptions *EventSubscriptions_Spec) ConvertToARM(resolved genruntime.C
 		if err != nil {
 			return nil, err
 		}
-		filter := filterARM.(EventSubscriptionFilterARM)
+		filter := *filterARM.(*EventSubscriptionFilterARM)
 		result.Properties.Filter = &filter
 	}
 	for _, item := range subscriptions.Labels {
@@ -854,13 +854,13 @@ func (subscriptions *EventSubscriptions_Spec) ConvertToARM(resolved genruntime.C
 		if err != nil {
 			return nil, err
 		}
-		retryPolicy := retryPolicyARM.(RetryPolicyARM)
+		retryPolicy := *retryPolicyARM.(*RetryPolicyARM)
 		result.Properties.RetryPolicy = &retryPolicy
 	}
 
 	// Set property ‘Tags’:
 	if subscriptions.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(subscriptions.Tags))
 		for key, value := range subscriptions.Tags {
 			result.Tags[key] = value
 		}
@@ -976,7 +976,7 @@ func (subscriptions *EventSubscriptions_Spec) PopulateFromARM(owner genruntime.A
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		subscriptions.Tags = make(map[string]string)
+		subscriptions.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			subscriptions.Tags[key] = value
 		}
@@ -1326,7 +1326,7 @@ func (destination *EventSubscriptionDestination) ConvertToARM(resolved genruntim
 	if destination == nil {
 		return nil, nil
 	}
-	var result EventSubscriptionDestinationARM
+	result := &EventSubscriptionDestinationARM{}
 
 	// Set property ‘AzureFunction’:
 	if destination.AzureFunction != nil {
@@ -1334,7 +1334,7 @@ func (destination *EventSubscriptionDestination) ConvertToARM(resolved genruntim
 		if err != nil {
 			return nil, err
 		}
-		azureFunction := azureFunctionARM.(AzureFunctionEventSubscriptionDestinationARM)
+		azureFunction := *azureFunctionARM.(*AzureFunctionEventSubscriptionDestinationARM)
 		result.AzureFunction = &azureFunction
 	}
 
@@ -1344,7 +1344,7 @@ func (destination *EventSubscriptionDestination) ConvertToARM(resolved genruntim
 		if err != nil {
 			return nil, err
 		}
-		eventHub := eventHubARM.(EventHubEventSubscriptionDestinationARM)
+		eventHub := *eventHubARM.(*EventHubEventSubscriptionDestinationARM)
 		result.EventHub = &eventHub
 	}
 
@@ -1354,7 +1354,7 @@ func (destination *EventSubscriptionDestination) ConvertToARM(resolved genruntim
 		if err != nil {
 			return nil, err
 		}
-		hybridConnection := hybridConnectionARM.(HybridConnectionEventSubscriptionDestinationARM)
+		hybridConnection := *hybridConnectionARM.(*HybridConnectionEventSubscriptionDestinationARM)
 		result.HybridConnection = &hybridConnection
 	}
 
@@ -1364,7 +1364,7 @@ func (destination *EventSubscriptionDestination) ConvertToARM(resolved genruntim
 		if err != nil {
 			return nil, err
 		}
-		serviceBusQueue := serviceBusQueueARM.(ServiceBusQueueEventSubscriptionDestinationARM)
+		serviceBusQueue := *serviceBusQueueARM.(*ServiceBusQueueEventSubscriptionDestinationARM)
 		result.ServiceBusQueue = &serviceBusQueue
 	}
 
@@ -1374,7 +1374,7 @@ func (destination *EventSubscriptionDestination) ConvertToARM(resolved genruntim
 		if err != nil {
 			return nil, err
 		}
-		serviceBusTopic := serviceBusTopicARM.(ServiceBusTopicEventSubscriptionDestinationARM)
+		serviceBusTopic := *serviceBusTopicARM.(*ServiceBusTopicEventSubscriptionDestinationARM)
 		result.ServiceBusTopic = &serviceBusTopic
 	}
 
@@ -1384,7 +1384,7 @@ func (destination *EventSubscriptionDestination) ConvertToARM(resolved genruntim
 		if err != nil {
 			return nil, err
 		}
-		storageQueue := storageQueueARM.(StorageQueueEventSubscriptionDestinationARM)
+		storageQueue := *storageQueueARM.(*StorageQueueEventSubscriptionDestinationARM)
 		result.StorageQueue = &storageQueue
 	}
 
@@ -1394,7 +1394,7 @@ func (destination *EventSubscriptionDestination) ConvertToARM(resolved genruntim
 		if err != nil {
 			return nil, err
 		}
-		webHook := webHookARM.(WebHookEventSubscriptionDestinationARM)
+		webHook := *webHookARM.(*WebHookEventSubscriptionDestinationARM)
 		result.WebHook = &webHook
 	}
 	return result, nil
@@ -1768,7 +1768,7 @@ func (filter *EventSubscriptionFilter) ConvertToARM(resolved genruntime.ConvertT
 	if filter == nil {
 		return nil, nil
 	}
-	var result EventSubscriptionFilterARM
+	result := &EventSubscriptionFilterARM{}
 
 	// Set property ‘AdvancedFilters’:
 	for _, item := range filter.AdvancedFilters {
@@ -1776,7 +1776,7 @@ func (filter *EventSubscriptionFilter) ConvertToARM(resolved genruntime.ConvertT
 		if err != nil {
 			return nil, err
 		}
-		result.AdvancedFilters = append(result.AdvancedFilters, itemARM.(AdvancedFilterARM))
+		result.AdvancedFilters = append(result.AdvancedFilters, *itemARM.(*AdvancedFilterARM))
 	}
 
 	// Set property ‘IncludedEventTypes’:
@@ -2147,7 +2147,7 @@ func (policy *RetryPolicy) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if policy == nil {
 		return nil, nil
 	}
-	var result RetryPolicyARM
+	result := &RetryPolicyARM{}
 
 	// Set property ‘EventTimeToLiveInMinutes’:
 	if policy.EventTimeToLiveInMinutes != nil {
@@ -2311,7 +2311,7 @@ func (destination *StorageBlobDeadLetterDestination) ConvertToARM(resolved genru
 	if destination == nil {
 		return nil, nil
 	}
-	var result StorageBlobDeadLetterDestinationARM
+	result := &StorageBlobDeadLetterDestinationARM{}
 
 	// Set property ‘EndpointType’:
 	if destination.EndpointType != nil {
@@ -2325,7 +2325,7 @@ func (destination *StorageBlobDeadLetterDestination) ConvertToARM(resolved genru
 		if err != nil {
 			return nil, err
 		}
-		properties := propertiesARM.(StorageBlobDeadLetterDestinationPropertiesARM)
+		properties := *propertiesARM.(*StorageBlobDeadLetterDestinationPropertiesARM)
 		result.Properties = &properties
 	}
 	return result, nil
@@ -2450,7 +2450,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if filter == nil {
 		return nil, nil
 	}
-	var result AdvancedFilterARM
+	result := &AdvancedFilterARM{}
 
 	// Set property ‘BoolEquals’:
 	if filter.BoolEquals != nil {
@@ -2458,7 +2458,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 		if err != nil {
 			return nil, err
 		}
-		boolEquals := boolEqualsARM.(AdvancedFilter_BoolEqualsARM)
+		boolEquals := *boolEqualsARM.(*AdvancedFilter_BoolEqualsARM)
 		result.BoolEquals = &boolEquals
 	}
 
@@ -2468,7 +2468,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 		if err != nil {
 			return nil, err
 		}
-		numberGreaterThan := numberGreaterThanARM.(AdvancedFilter_NumberGreaterThanARM)
+		numberGreaterThan := *numberGreaterThanARM.(*AdvancedFilter_NumberGreaterThanARM)
 		result.NumberGreaterThan = &numberGreaterThan
 	}
 
@@ -2478,7 +2478,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 		if err != nil {
 			return nil, err
 		}
-		numberGreaterThanOrEquals := numberGreaterThanOrEqualsARM.(AdvancedFilter_NumberGreaterThanOrEqualsARM)
+		numberGreaterThanOrEquals := *numberGreaterThanOrEqualsARM.(*AdvancedFilter_NumberGreaterThanOrEqualsARM)
 		result.NumberGreaterThanOrEquals = &numberGreaterThanOrEquals
 	}
 
@@ -2488,7 +2488,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 		if err != nil {
 			return nil, err
 		}
-		numberIn := numberInARM.(AdvancedFilter_NumberInARM)
+		numberIn := *numberInARM.(*AdvancedFilter_NumberInARM)
 		result.NumberIn = &numberIn
 	}
 
@@ -2498,7 +2498,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 		if err != nil {
 			return nil, err
 		}
-		numberLessThan := numberLessThanARM.(AdvancedFilter_NumberLessThanARM)
+		numberLessThan := *numberLessThanARM.(*AdvancedFilter_NumberLessThanARM)
 		result.NumberLessThan = &numberLessThan
 	}
 
@@ -2508,7 +2508,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 		if err != nil {
 			return nil, err
 		}
-		numberLessThanOrEquals := numberLessThanOrEqualsARM.(AdvancedFilter_NumberLessThanOrEqualsARM)
+		numberLessThanOrEquals := *numberLessThanOrEqualsARM.(*AdvancedFilter_NumberLessThanOrEqualsARM)
 		result.NumberLessThanOrEquals = &numberLessThanOrEquals
 	}
 
@@ -2518,7 +2518,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 		if err != nil {
 			return nil, err
 		}
-		numberNotIn := numberNotInARM.(AdvancedFilter_NumberNotInARM)
+		numberNotIn := *numberNotInARM.(*AdvancedFilter_NumberNotInARM)
 		result.NumberNotIn = &numberNotIn
 	}
 
@@ -2528,7 +2528,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 		if err != nil {
 			return nil, err
 		}
-		stringBeginsWith := stringBeginsWithARM.(AdvancedFilter_StringBeginsWithARM)
+		stringBeginsWith := *stringBeginsWithARM.(*AdvancedFilter_StringBeginsWithARM)
 		result.StringBeginsWith = &stringBeginsWith
 	}
 
@@ -2538,7 +2538,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 		if err != nil {
 			return nil, err
 		}
-		stringContains := stringContainsARM.(AdvancedFilter_StringContainsARM)
+		stringContains := *stringContainsARM.(*AdvancedFilter_StringContainsARM)
 		result.StringContains = &stringContains
 	}
 
@@ -2548,7 +2548,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 		if err != nil {
 			return nil, err
 		}
-		stringEndsWith := stringEndsWithARM.(AdvancedFilter_StringEndsWithARM)
+		stringEndsWith := *stringEndsWithARM.(*AdvancedFilter_StringEndsWithARM)
 		result.StringEndsWith = &stringEndsWith
 	}
 
@@ -2558,7 +2558,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 		if err != nil {
 			return nil, err
 		}
-		stringIn := stringInARM.(AdvancedFilter_StringInARM)
+		stringIn := *stringInARM.(*AdvancedFilter_StringInARM)
 		result.StringIn = &stringIn
 	}
 
@@ -2568,7 +2568,7 @@ func (filter *AdvancedFilter) ConvertToARM(resolved genruntime.ConvertToARMResol
 		if err != nil {
 			return nil, err
 		}
-		stringNotIn := stringNotInARM.(AdvancedFilter_StringNotInARM)
+		stringNotIn := *stringNotInARM.(*AdvancedFilter_StringNotInARM)
 		result.StringNotIn = &stringNotIn
 	}
 	return result, nil
@@ -3128,7 +3128,7 @@ func (destination *AzureFunctionEventSubscriptionDestination) ConvertToARM(resol
 	if destination == nil {
 		return nil, nil
 	}
-	var result AzureFunctionEventSubscriptionDestinationARM
+	result := &AzureFunctionEventSubscriptionDestinationARM{}
 
 	// Set property ‘EndpointType’:
 	if destination.EndpointType != nil {
@@ -3141,7 +3141,7 @@ func (destination *AzureFunctionEventSubscriptionDestination) ConvertToARM(resol
 		if err != nil {
 			return nil, err
 		}
-		properties := propertiesARM.(AzureFunctionEventSubscriptionDestinationPropertiesARM)
+		properties := *propertiesARM.(*AzureFunctionEventSubscriptionDestinationPropertiesARM)
 		result.Properties = &properties
 	}
 	return result, nil
@@ -3260,7 +3260,7 @@ func (destination *EventHubEventSubscriptionDestination) ConvertToARM(resolved g
 	if destination == nil {
 		return nil, nil
 	}
-	var result EventHubEventSubscriptionDestinationARM
+	result := &EventHubEventSubscriptionDestinationARM{}
 
 	// Set property ‘EndpointType’:
 	if destination.EndpointType != nil {
@@ -3273,7 +3273,7 @@ func (destination *EventHubEventSubscriptionDestination) ConvertToARM(resolved g
 		if err != nil {
 			return nil, err
 		}
-		properties := propertiesARM.(EventHubEventSubscriptionDestinationPropertiesARM)
+		properties := *propertiesARM.(*EventHubEventSubscriptionDestinationPropertiesARM)
 		result.Properties = &properties
 	}
 	return result, nil
@@ -3400,7 +3400,7 @@ func (destination *HybridConnectionEventSubscriptionDestination) ConvertToARM(re
 	if destination == nil {
 		return nil, nil
 	}
-	var result HybridConnectionEventSubscriptionDestinationARM
+	result := &HybridConnectionEventSubscriptionDestinationARM{}
 
 	// Set property ‘EndpointType’:
 	if destination.EndpointType != nil {
@@ -3413,7 +3413,7 @@ func (destination *HybridConnectionEventSubscriptionDestination) ConvertToARM(re
 		if err != nil {
 			return nil, err
 		}
-		properties := propertiesARM.(HybridConnectionEventSubscriptionDestinationPropertiesARM)
+		properties := *propertiesARM.(*HybridConnectionEventSubscriptionDestinationPropertiesARM)
 		result.Properties = &properties
 	}
 	return result, nil
@@ -3526,7 +3526,7 @@ func (destination *ServiceBusQueueEventSubscriptionDestination) ConvertToARM(res
 	if destination == nil {
 		return nil, nil
 	}
-	var result ServiceBusQueueEventSubscriptionDestinationARM
+	result := &ServiceBusQueueEventSubscriptionDestinationARM{}
 
 	// Set property ‘EndpointType’:
 	if destination.EndpointType != nil {
@@ -3539,7 +3539,7 @@ func (destination *ServiceBusQueueEventSubscriptionDestination) ConvertToARM(res
 		if err != nil {
 			return nil, err
 		}
-		properties := propertiesARM.(ServiceBusQueueEventSubscriptionDestinationPropertiesARM)
+		properties := *propertiesARM.(*ServiceBusQueueEventSubscriptionDestinationPropertiesARM)
 		result.Properties = &properties
 	}
 	return result, nil
@@ -3652,7 +3652,7 @@ func (destination *ServiceBusTopicEventSubscriptionDestination) ConvertToARM(res
 	if destination == nil {
 		return nil, nil
 	}
-	var result ServiceBusTopicEventSubscriptionDestinationARM
+	result := &ServiceBusTopicEventSubscriptionDestinationARM{}
 
 	// Set property ‘EndpointType’:
 	if destination.EndpointType != nil {
@@ -3665,7 +3665,7 @@ func (destination *ServiceBusTopicEventSubscriptionDestination) ConvertToARM(res
 		if err != nil {
 			return nil, err
 		}
-		properties := propertiesARM.(ServiceBusTopicEventSubscriptionDestinationPropertiesARM)
+		properties := *propertiesARM.(*ServiceBusTopicEventSubscriptionDestinationPropertiesARM)
 		result.Properties = &properties
 	}
 	return result, nil
@@ -3784,7 +3784,7 @@ func (properties *StorageBlobDeadLetterDestinationProperties) ConvertToARM(resol
 	if properties == nil {
 		return nil, nil
 	}
-	var result StorageBlobDeadLetterDestinationPropertiesARM
+	result := &StorageBlobDeadLetterDestinationPropertiesARM{}
 
 	// Set property ‘BlobContainerName’:
 	if properties.BlobContainerName != nil {
@@ -3887,7 +3887,7 @@ func (destination *StorageQueueEventSubscriptionDestination) ConvertToARM(resolv
 	if destination == nil {
 		return nil, nil
 	}
-	var result StorageQueueEventSubscriptionDestinationARM
+	result := &StorageQueueEventSubscriptionDestinationARM{}
 
 	// Set property ‘EndpointType’:
 	if destination.EndpointType != nil {
@@ -3900,7 +3900,7 @@ func (destination *StorageQueueEventSubscriptionDestination) ConvertToARM(resolv
 		if err != nil {
 			return nil, err
 		}
-		properties := propertiesARM.(StorageQueueEventSubscriptionDestinationPropertiesARM)
+		properties := *propertiesARM.(*StorageQueueEventSubscriptionDestinationPropertiesARM)
 		result.Properties = &properties
 	}
 	return result, nil
@@ -4013,7 +4013,7 @@ func (destination *WebHookEventSubscriptionDestination) ConvertToARM(resolved ge
 	if destination == nil {
 		return nil, nil
 	}
-	var result WebHookEventSubscriptionDestinationARM
+	result := &WebHookEventSubscriptionDestinationARM{}
 
 	// Set property ‘EndpointType’:
 	if destination.EndpointType != nil {
@@ -4026,7 +4026,7 @@ func (destination *WebHookEventSubscriptionDestination) ConvertToARM(resolved ge
 		if err != nil {
 			return nil, err
 		}
-		properties := propertiesARM.(WebHookEventSubscriptionDestinationPropertiesARM)
+		properties := *propertiesARM.(*WebHookEventSubscriptionDestinationPropertiesARM)
 		result.Properties = &properties
 	}
 	return result, nil
@@ -4159,7 +4159,7 @@ func (equals *AdvancedFilter_BoolEquals) ConvertToARM(resolved genruntime.Conver
 	if equals == nil {
 		return nil, nil
 	}
-	var result AdvancedFilter_BoolEqualsARM
+	result := &AdvancedFilter_BoolEqualsARM{}
 
 	// Set property ‘Key’:
 	if equals.Key != nil {
@@ -4288,7 +4288,7 @@ func (than *AdvancedFilter_NumberGreaterThan) ConvertToARM(resolved genruntime.C
 	if than == nil {
 		return nil, nil
 	}
-	var result AdvancedFilter_NumberGreaterThanARM
+	result := &AdvancedFilter_NumberGreaterThanARM{}
 
 	// Set property ‘Key’:
 	if than.Key != nil {
@@ -4417,7 +4417,7 @@ func (equals *AdvancedFilter_NumberGreaterThanOrEquals) ConvertToARM(resolved ge
 	if equals == nil {
 		return nil, nil
 	}
-	var result AdvancedFilter_NumberGreaterThanOrEqualsARM
+	result := &AdvancedFilter_NumberGreaterThanOrEqualsARM{}
 
 	// Set property ‘Key’:
 	if equals.Key != nil {
@@ -4546,7 +4546,7 @@ func (numberIn *AdvancedFilter_NumberIn) ConvertToARM(resolved genruntime.Conver
 	if numberIn == nil {
 		return nil, nil
 	}
-	var result AdvancedFilter_NumberInARM
+	result := &AdvancedFilter_NumberInARM{}
 
 	// Set property ‘Key’:
 	if numberIn.Key != nil {
@@ -4683,7 +4683,7 @@ func (than *AdvancedFilter_NumberLessThan) ConvertToARM(resolved genruntime.Conv
 	if than == nil {
 		return nil, nil
 	}
-	var result AdvancedFilter_NumberLessThanARM
+	result := &AdvancedFilter_NumberLessThanARM{}
 
 	// Set property ‘Key’:
 	if than.Key != nil {
@@ -4812,7 +4812,7 @@ func (equals *AdvancedFilter_NumberLessThanOrEquals) ConvertToARM(resolved genru
 	if equals == nil {
 		return nil, nil
 	}
-	var result AdvancedFilter_NumberLessThanOrEqualsARM
+	result := &AdvancedFilter_NumberLessThanOrEqualsARM{}
 
 	// Set property ‘Key’:
 	if equals.Key != nil {
@@ -4941,7 +4941,7 @@ func (notIn *AdvancedFilter_NumberNotIn) ConvertToARM(resolved genruntime.Conver
 	if notIn == nil {
 		return nil, nil
 	}
-	var result AdvancedFilter_NumberNotInARM
+	result := &AdvancedFilter_NumberNotInARM{}
 
 	// Set property ‘Key’:
 	if notIn.Key != nil {
@@ -5078,7 +5078,7 @@ func (with *AdvancedFilter_StringBeginsWith) ConvertToARM(resolved genruntime.Co
 	if with == nil {
 		return nil, nil
 	}
-	var result AdvancedFilter_StringBeginsWithARM
+	result := &AdvancedFilter_StringBeginsWithARM{}
 
 	// Set property ‘Key’:
 	if with.Key != nil {
@@ -5195,7 +5195,7 @@ func (contains *AdvancedFilter_StringContains) ConvertToARM(resolved genruntime.
 	if contains == nil {
 		return nil, nil
 	}
-	var result AdvancedFilter_StringContainsARM
+	result := &AdvancedFilter_StringContainsARM{}
 
 	// Set property ‘Key’:
 	if contains.Key != nil {
@@ -5312,7 +5312,7 @@ func (with *AdvancedFilter_StringEndsWith) ConvertToARM(resolved genruntime.Conv
 	if with == nil {
 		return nil, nil
 	}
-	var result AdvancedFilter_StringEndsWithARM
+	result := &AdvancedFilter_StringEndsWithARM{}
 
 	// Set property ‘Key’:
 	if with.Key != nil {
@@ -5429,7 +5429,7 @@ func (stringIn *AdvancedFilter_StringIn) ConvertToARM(resolved genruntime.Conver
 	if stringIn == nil {
 		return nil, nil
 	}
-	var result AdvancedFilter_StringInARM
+	result := &AdvancedFilter_StringInARM{}
 
 	// Set property ‘Key’:
 	if stringIn.Key != nil {
@@ -5546,7 +5546,7 @@ func (notIn *AdvancedFilter_StringNotIn) ConvertToARM(resolved genruntime.Conver
 	if notIn == nil {
 		return nil, nil
 	}
-	var result AdvancedFilter_StringNotInARM
+	result := &AdvancedFilter_StringNotInARM{}
 
 	// Set property ‘Key’:
 	if notIn.Key != nil {
@@ -5668,7 +5668,7 @@ func (properties *AzureFunctionEventSubscriptionDestinationProperties) ConvertTo
 	if properties == nil {
 		return nil, nil
 	}
-	var result AzureFunctionEventSubscriptionDestinationPropertiesARM
+	result := &AzureFunctionEventSubscriptionDestinationPropertiesARM{}
 
 	// Set property ‘MaxEventsPerBatch’:
 	if properties.MaxEventsPerBatch != nil {
@@ -5794,7 +5794,7 @@ func (properties *EventHubEventSubscriptionDestinationProperties) ConvertToARM(r
 	if properties == nil {
 		return nil, nil
 	}
-	var result EventHubEventSubscriptionDestinationPropertiesARM
+	result := &EventHubEventSubscriptionDestinationPropertiesARM{}
 
 	// Set property ‘ResourceId’:
 	if properties.ResourceReference != nil {
@@ -5884,7 +5884,7 @@ func (properties *HybridConnectionEventSubscriptionDestinationProperties) Conver
 	if properties == nil {
 		return nil, nil
 	}
-	var result HybridConnectionEventSubscriptionDestinationPropertiesARM
+	result := &HybridConnectionEventSubscriptionDestinationPropertiesARM{}
 
 	// Set property ‘ResourceId’:
 	if properties.ResourceReference != nil {
@@ -5974,7 +5974,7 @@ func (properties *ServiceBusQueueEventSubscriptionDestinationProperties) Convert
 	if properties == nil {
 		return nil, nil
 	}
-	var result ServiceBusQueueEventSubscriptionDestinationPropertiesARM
+	result := &ServiceBusQueueEventSubscriptionDestinationPropertiesARM{}
 
 	// Set property ‘ResourceId’:
 	if properties.ResourceReference != nil {
@@ -6064,7 +6064,7 @@ func (properties *ServiceBusTopicEventSubscriptionDestinationProperties) Convert
 	if properties == nil {
 		return nil, nil
 	}
-	var result ServiceBusTopicEventSubscriptionDestinationPropertiesARM
+	result := &ServiceBusTopicEventSubscriptionDestinationPropertiesARM{}
 
 	// Set property ‘ResourceId’:
 	if properties.ResourceReference != nil {
@@ -6155,7 +6155,7 @@ func (properties *StorageQueueEventSubscriptionDestinationProperties) ConvertToA
 	if properties == nil {
 		return nil, nil
 	}
-	var result StorageQueueEventSubscriptionDestinationPropertiesARM
+	result := &StorageQueueEventSubscriptionDestinationPropertiesARM{}
 
 	// Set property ‘QueueName’:
 	if properties.QueueName != nil {
@@ -6267,7 +6267,7 @@ func (properties *WebHookEventSubscriptionDestinationProperties) ConvertToARM(re
 	if properties == nil {
 		return nil, nil
 	}
-	var result WebHookEventSubscriptionDestinationPropertiesARM
+	result := &WebHookEventSubscriptionDestinationPropertiesARM{}
 
 	// Set property ‘AzureActiveDirectoryApplicationIdOrUri’:
 	if properties.AzureActiveDirectoryApplicationIdOrUri != nil {

@@ -16,7 +16,9 @@ import (
 // TypeVisitor represents a visitor for a tree of types.
 // The `ctx` argument can be used to “smuggle” additional data down the call-chain.
 type TypeVisitor struct {
-	visitTypeName      func(this *TypeVisitor, it TypeName, ctx interface{}) (Type, error)
+	visitTypeNameIsIdentity bool // performance optimization to avoid reboxing TypeNames constantly
+	visitTypeName           func(this *TypeVisitor, it TypeName, ctx interface{}) (Type, error)
+
 	visitOneOfType     func(this *TypeVisitor, it *OneOfType, ctx interface{}) (Type, error)
 	visitAllOfType     func(this *TypeVisitor, it *AllOfType, ctx interface{}) (Type, error)
 	visitArrayType     func(this *TypeVisitor, it *ArrayType, ctx interface{}) (Type, error)
@@ -39,6 +41,11 @@ func (tv *TypeVisitor) Visit(t Type, ctx interface{}) (Type, error) {
 
 	switch it := t.(type) {
 	case TypeName:
+		// IdentityVisitOfTypeName will re-box the TypeName
+		// avoid this allocation if possible by short-cutting
+		if tv.visitTypeNameIsIdentity {
+			return t, nil
+		}
 		return tv.visitTypeName(tv, it, ctx)
 	case *OneOfType:
 		return tv.visitOneOfType(tv, it, ctx)
@@ -133,15 +140,90 @@ func identityVisitObjectTypePerPropertyContext(_ *ObjectType, _ *PropertyDefinit
 }
 
 var IdentityVisitOfObjectType = MakeIdentityVisitOfObjectType(identityVisitObjectTypePerPropertyContext)
+var OrderedIdentityVisitOfObjectType = MakeOrderedIdentityVisitOfObjectType(identityVisitObjectTypePerPropertyContext)
 
 type MakePerPropertyContext func(ot *ObjectType, prop *PropertyDefinition, ctx interface{}) (interface{}, error)
 
 // MakeIdentityVisitOfObjectType creates a visitor function which creates a per-property context before visiting each
 // property of the ObjectType
 func MakeIdentityVisitOfObjectType(makeCtx MakePerPropertyContext) func(this *TypeVisitor, it *ObjectType, ctx interface{}) (Type, error) {
-
 	return func(this *TypeVisitor, it *ObjectType, ctx interface{}) (Type, error) {
 		// just map the property types
+
+		var errs []error
+		var newProps []*PropertyDefinition
+		it.Properties().ForEach(func(prop *PropertyDefinition) {
+			newCtx, err := makeCtx(it, prop, ctx)
+			if err != nil {
+				errs = append(errs, err)
+				return // continue
+			}
+
+			p, err := this.Visit(prop.propertyType, newCtx)
+			if err != nil {
+				errs = append(errs, err)
+			} else {
+				// only replace property if the type was changed;
+				// this allows short-circuiting below
+				if !TypeEquals(p, prop.propertyType) {
+					newProps = append(newProps, prop.WithType(p))
+				}
+			}
+		})
+
+		if len(errs) > 0 {
+			return nil, kerrors.NewAggregate(errs)
+		}
+
+		// map the embedded types too
+		embeddedPropsChanged := false
+		var newEmbeddedProps []*PropertyDefinition
+		for _, prop := range it.EmbeddedProperties() {
+			newCtx, err := makeCtx(it, prop, ctx)
+			if err != nil {
+				errs = append(errs, err)
+				continue
+			}
+
+			p, err := this.Visit(prop.propertyType, newCtx)
+			if err != nil {
+				errs = append(errs, err)
+			} else {
+				if !TypeEquals(p, prop.propertyType) {
+					embeddedPropsChanged = true
+				}
+
+				newEmbeddedProps = append(newEmbeddedProps, prop.WithType(p))
+			}
+		}
+
+		if len(errs) > 0 {
+			return nil, kerrors.NewAggregate(errs)
+		}
+
+		result := it.WithProperties(newProps...)
+
+		var err error
+		if embeddedPropsChanged {
+			// Since it's possible that the type was renamed we need to clear the old embedded properties
+			result = result.WithoutEmbeddedProperties()
+			result, err = result.WithEmbeddedProperties(newEmbeddedProps...)
+		}
+
+		if err != nil {
+			return nil, err
+		}
+
+		return result, nil
+	}
+}
+
+// This is identical to MakeIdentityVisitOfObjectType except that it iterates properties in alphabetical order
+// which requires copying (slower).
+func MakeOrderedIdentityVisitOfObjectType(makeCtx MakePerPropertyContext) func(this *TypeVisitor, it *ObjectType, ctx interface{}) (Type, error) {
+	return func(this *TypeVisitor, it *ObjectType, ctx interface{}) (Type, error) {
+		// just map the property types
+
 		var errs []error
 		var newProps []*PropertyDefinition
 		for _, prop := range it.Properties().AsSlice() {
@@ -155,7 +237,11 @@ func MakeIdentityVisitOfObjectType(makeCtx MakePerPropertyContext) func(this *Ty
 			if err != nil {
 				errs = append(errs, err)
 			} else {
-				newProps = append(newProps, prop.WithType(p))
+				// only replace property if the type was changed;
+				// this allows short-circuiting below
+				if !TypeEquals(p, prop.propertyType) {
+					newProps = append(newProps, prop.WithType(p))
+				}
 			}
 		}
 
@@ -164,6 +250,7 @@ func MakeIdentityVisitOfObjectType(makeCtx MakePerPropertyContext) func(this *Ty
 		}
 
 		// map the embedded types too
+		embeddedPropsChanged := false
 		var newEmbeddedProps []*PropertyDefinition
 		for _, prop := range it.EmbeddedProperties() {
 			newCtx, err := makeCtx(it, prop, ctx)
@@ -176,6 +263,10 @@ func MakeIdentityVisitOfObjectType(makeCtx MakePerPropertyContext) func(this *Ty
 			if err != nil {
 				errs = append(errs, err)
 			} else {
+				if !TypeEquals(p, prop.propertyType) {
+					embeddedPropsChanged = true
+				}
+
 				newEmbeddedProps = append(newEmbeddedProps, prop.WithType(p))
 			}
 		}
@@ -185,9 +276,14 @@ func MakeIdentityVisitOfObjectType(makeCtx MakePerPropertyContext) func(this *Ty
 		}
 
 		result := it.WithProperties(newProps...)
-		// Since it's possible that the type was renamed we need to clear the old embedded properties
-		result = result.WithoutEmbeddedProperties()
-		result, err := result.WithEmbeddedProperties(newEmbeddedProps...)
+
+		var err error
+		if embeddedPropsChanged {
+			// Since it's possible that the type was renamed we need to clear the old embedded properties
+			result = result.WithoutEmbeddedProperties()
+			result, err = result.WithEmbeddedProperties(newEmbeddedProps...)
+		}
+
 		if err != nil {
 			return nil, err
 		}
@@ -236,7 +332,26 @@ func IdentityVisitOfResourceType(this *TypeVisitor, it *ResourceType, ctx interf
 		return nil, errors.Wrapf(err, "failed to visit resource status type %q", it.status)
 	}
 
-	if visitedSpec == it.spec && visitedStatus == it.status {
+	changedAPIVersionName := false
+	if it.HasAPIVersion() {
+		originalAPIVersionTypeName := it.APIVersionTypeName()
+		newAPIVersion, err := this.visitTypeName(this, originalAPIVersionTypeName, ctx)
+		if err != nil {
+			return nil, errors.Wrapf(err, "failed to visit resource API version name %q", originalAPIVersionTypeName)
+		}
+
+		if !TypeEquals(originalAPIVersionTypeName, newAPIVersion) {
+			newAPIVersionName, ok := newAPIVersion.(TypeName)
+			if !ok {
+				return nil, errors.Wrapf(err, "attempted to change API Version type name into non-type name %q", newAPIVersion)
+			}
+
+			changedAPIVersionName = true
+			it = it.WithAPIVersion(newAPIVersionName, it.APIVersionEnumValue())
+		}
+	}
+
+	if visitedSpec == it.spec && visitedStatus == it.status && !changedAPIVersionName {
 		return it, nil // short-circuit
 	}
 

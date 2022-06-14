@@ -63,7 +63,7 @@ func (enum *EnumType) WithValidation() *EnumType {
 func (enum *EnumType) AsDeclarations(codeGenerationContext *CodeGenerationContext, declContext DeclarationContext) []dst.Decl {
 	result := []dst.Decl{enum.createBaseDeclaration(codeGenerationContext, declContext.Name, declContext.Description, declContext.Validations)}
 
-	var specs []dst.Spec
+	specs := make([]dst.Spec, 0, len(enum.options))
 	for _, v := range enum.options {
 		s := enum.createValueDeclaration(declContext.Name, v)
 		specs = append(specs, s)
@@ -190,8 +190,8 @@ func (enum *EnumType) Options() []EnumValue {
 
 // CreateValidation creates the validation annotation for this Enum
 func (enum *EnumType) CreateValidation() KubeBuilderValidation {
-	var values []interface{}
-	for _, opt := range enum.Options() {
+	values := make([]interface{}, 0, len(enum.options))
+	for _, opt := range enum.options {
 		values = append(values, opt.Value)
 	}
 

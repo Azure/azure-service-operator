@@ -71,7 +71,8 @@ func (params ConversionParameters) WithDestinationType(t Type) ConversionParamet
 
 // WithAssignmentHandler returns a new ConversionParameters with the updated AssignmentHandler.
 func (params ConversionParameters) WithAssignmentHandler(
-	assignmentHandler func(result dst.Expr, destination dst.Expr) dst.Stmt) ConversionParameters {
+	assignmentHandler func(result dst.Expr, destination dst.Expr) dst.Stmt,
+) ConversionParameters {
 	result := params.copy()
 	result.AssignmentHandler = assignmentHandler
 
@@ -293,7 +294,7 @@ func IdentityConvertComplexArrayProperty(builder *ConversionFunctionBuilder, par
 // This function panics if the map keys are not primitive types.
 // This function generates code that looks like this:
 // 	if <source> != nil {
-//		<destination> = make(map[<destinationType.KeyType()]<destinationType.ValueType()>)
+//		<destination> = make(map[<destinationType.KeyType()]<destinationType.ValueType()>, len(<source>))
 //		for key, value := range <source> {
 // 			<code for producing result from destinationType.ValueType()>
 //			<destination>[key] = <result>
@@ -346,7 +347,8 @@ func IdentityConvertComplexMapProperty(builder *ConversionFunctionBuilder, param
 	makeMapStatement := astbuilder.AssignmentStatement(
 		destination,
 		makeMapToken,
-		astbuilder.MakeMap(keyTypeAst, valueTypeAst))
+		astbuilder.MakeMapWithCapacity(keyTypeAst, valueTypeAst,
+			astbuilder.CallFunc("len", params.GetSource())))
 	rangeStatement := &dst.RangeStmt{
 		Key:   dst.NewIdent(keyIdent),
 		Value: dst.NewIdent(valueIdent),

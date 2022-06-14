@@ -112,7 +112,7 @@ func (rule *RedisFirewallRule) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
 func (rule RedisFirewallRule) GetAPIVersion() string {
-	return "2020-12-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -534,7 +534,7 @@ func (rules *RedisFirewallRules_Spec) ConvertToARM(resolved genruntime.ConvertTo
 	if rules == nil {
 		return nil, nil
 	}
-	var result RedisFirewallRules_SpecARM
+	result := &RedisFirewallRules_SpecARM{}
 
 	// Set property ‘Location’:
 	if rules.Location != nil {
@@ -560,7 +560,7 @@ func (rules *RedisFirewallRules_Spec) ConvertToARM(resolved genruntime.ConvertTo
 
 	// Set property ‘Tags’:
 	if rules.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(rules.Tags))
 		for key, value := range rules.Tags {
 			result.Tags[key] = value
 		}
@@ -614,7 +614,7 @@ func (rules *RedisFirewallRules_Spec) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		rules.Tags = make(map[string]string)
+		rules.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			rules.Tags[key] = value
 		}

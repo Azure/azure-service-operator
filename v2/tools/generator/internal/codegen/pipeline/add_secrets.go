@@ -9,6 +9,7 @@ import (
 	"context"
 
 	"github.com/pkg/errors"
+	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
@@ -23,7 +24,6 @@ func AddSecrets(config *config.Configuration) *Stage {
 		AddSecretsStageID,
 		"Replace properties flagged as secret with genruntime.SecretReference",
 		func(ctx context.Context, state *State) (*State, error) {
-
 			types, err := applyConfigSecretOverrides(config, state.Definitions())
 			if err != nil {
 				return nil, errors.Wrap(err, "applying config secret overrides")
@@ -54,7 +54,7 @@ func applyConfigSecretOverrides(config *config.Configuration, definitions astmod
 
 	applyConfigSecrets := func(_ *astmodel.TypeVisitor, it *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
 		typeName := ctx.(astmodel.TypeName)
-		for _, prop := range it.Properties() {
+		for _, prop := range it.Properties().Copy() {
 			isSecret, _ := config.IsSecret(typeName, prop.PropertyName())
 			if isSecret {
 				it = it.WithProperty(prop.WithIsSecret(true))
@@ -75,6 +75,16 @@ func applyConfigSecretOverrides(config *config.Configuration, definitions astmod
 		}
 
 		result.Add(updatedDef)
+	}
+
+	// Verify that all 'isSecret' modifiers are consumed before returning the result
+	err := config.VerifyIsSecretConsumed()
+	if err != nil {
+		klog.Error(err)
+
+		return nil, errors.Wrap(
+			err,
+			"Found unused $isSecret configurations; these need to be fixed or removed.")
 	}
 
 	return result, nil
@@ -129,7 +139,7 @@ func removeStatusSecrets(definitions astmodel.TypeDefinitionSet) (astmodel.TypeD
 }
 
 func removeSecretProperties(_ *astmodel.TypeVisitor, it *astmodel.ObjectType, _ interface{}) (astmodel.Type, error) {
-	for _, prop := range it.Properties() {
+	for _, prop := range it.Properties().Copy() {
 		if prop.IsSecret() {
 			// The expectation is that this is a string
 			propType := prop.PropertyType()
@@ -145,7 +155,7 @@ func removeSecretProperties(_ *astmodel.TypeVisitor, it *astmodel.ObjectType, _ 
 }
 
 func transformSecretProperties(_ *astmodel.TypeVisitor, it *astmodel.ObjectType, _ interface{}) (astmodel.Type, error) {
-	for _, prop := range it.Properties() {
+	for _, prop := range it.Properties().Copy() {
 		if prop.IsSecret() {
 			// The expectation is that this is a string
 			propType := prop.PropertyType()

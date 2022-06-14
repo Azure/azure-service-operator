@@ -100,7 +100,11 @@ func (builder *convertToARMBuilder) functionBodyStatements() []dst.Stmt {
 	result = append(
 		result,
 		astbuilder.ReturnIfNil(dst.NewIdent(builder.receiverIdent), astbuilder.Nil(), astbuilder.Nil()))
-	result = append(result, astbuilder.NewVariable(builder.resultIdent, builder.armTypeIdent))
+
+	decl := astbuilder.ShortDeclaration(
+		builder.resultIdent,
+		astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(dst.NewIdent(builder.armTypeIdent)).Build()))
+	result = append(result, decl)
 
 	// Each ARM object property needs to be filled out
 	result = append(
@@ -447,7 +451,7 @@ func (builder *convertToARMBuilder) convertSecretProperty(_ *astmodel.Conversion
 //	if err != nil {
 //		return nil, err
 //	}
-//	<destination> = <nameHint>.(FooARM)
+//	<destination> = <nameHint>.(*FooARM)
 func (builder *convertToARMBuilder) convertComplexTypeNameProperty(conversionBuilder *astmodel.ConversionFunctionBuilder, params astmodel.ConversionParameters) []dst.Stmt {
 	destinationType, ok := params.DestinationType.(astmodel.TypeName)
 	if !ok {
@@ -472,7 +476,7 @@ func (builder *convertToARMBuilder) convertComplexTypeNameProperty(conversionBui
 
 	typeAssertExpr := &dst.TypeAssertExpr{
 		X:    dst.NewIdent(propertyLocalVarName),
-		Type: dst.NewIdent(destinationType.Name()),
+		Type: astbuilder.Dereference(dst.NewIdent(destinationType.Name())),
 	}
 
 	if !destinationType.PackageReference.Equals(conversionBuilder.CodeGenerationContext.CurrentPackage()) {
@@ -482,10 +486,17 @@ func (builder *convertToARMBuilder) convertComplexTypeNameProperty(conversionBui
 			panic(err)
 		}
 
-		typeAssertExpr.Type = astbuilder.Selector(dst.NewIdent(packageName), destinationType.Name())
+		typeAssertExpr.Type = astbuilder.Dereference(astbuilder.Selector(dst.NewIdent(packageName), destinationType.Name()))
 	}
 
-	results = append(results, params.AssignmentHandlerOrDefault()(params.GetDestination(), typeAssertExpr))
+	// TODO: This results in code that isn't very "human-like". Today the contract of most handlers is that they
+	// TODO: result in a type which is not a ptr. This is a useful contract as then the caller always knows if they need
+	// TODO: to take the address of the inner result (&result) to assign to a ptr field, or not (to assign to a non-ptr field).
+	// TODO: Unfortunately, we can't fix this issue by inverting things and making the contract that the type is a ptr type, as
+	// TODO: in many cases (primitive types, strings, etc) that doesn't make sense and also results in awkward to read code.
+	finalAssignmentExpr := astbuilder.Dereference(typeAssertExpr)
+
+	results = append(results, params.AssignmentHandlerOrDefault()(params.GetDestination(), finalAssignmentExpr))
 
 	return results
 }

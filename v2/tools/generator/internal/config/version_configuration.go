@@ -55,12 +55,17 @@ func (vc *VersionConfiguration) visitType(
 		return err
 	}
 
-	return visitor.visitType(tc)
+	err = visitor.visitType(tc)
+	if err != nil {
+		return errors.Wrapf(err, "configuration of version %s", vc.name)
+	}
+
+	return nil
 }
 
 // visitTypes invokes the provided visitor on all nested types.
 func (vc *VersionConfiguration) visitTypes(visitor *configurationVisitor) error {
-	var errs []error
+	errs := make([]error, 0, len(vc.types))
 	for _, tc := range vc.types {
 		err := visitor.visitType(tc)
 		err = vc.advisor.Wrapf(err, tc.name, "type %s not seen", tc.name)
@@ -159,7 +164,7 @@ func (vc *VersionConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 // configuredTypes returns a sorted slice containing all the properties configured on this type
 func (vc *VersionConfiguration) configuredTypes() []string {
-	var result []string
+	result := make([]string, 0, len(vc.types))
 	for _, t := range vc.types {
 		// Use the actual names of the types, not the lower-cased keys of the map
 		result = append(result, t.name)

@@ -11,7 +11,7 @@ import (
 	"github.com/Azure/go-autorest/autorest/to"
 	"github.com/kr/pretty"
 	. "github.com/onsi/gomega"
-	"k8s.io/api/core/v1"
+	core "k8s.io/api/core/v1"
 
 	mysql "github.com/Azure/azure-service-operator/v2/api/dbformysql/v1beta20210501"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
@@ -22,10 +22,13 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 	t.Parallel()
 	tc := globalTestContext.ForTest(t)
 
+	//location := tc.AzureRegion Capacity crunch in West US 2 makes this not work when live
+	location := "eastus"
+
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	adminPasswordKey := "adminPassword"
-	secret := &v1.Secret{
+	secret := &core.Secret{
 		ObjectMeta: tc.MakeObjectMeta("mysqlsecret"),
 		StringData: map[string]string{
 			adminPasswordKey: tc.Namer.GeneratePassword(),
@@ -40,10 +43,11 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 		Key:  adminPasswordKey,
 	}
 	tier := mysql.SkuTierGeneralPurpose
+	fqdnSecret := "fqdnsecret"
 	flexibleServer := &mysql.FlexibleServer{
 		ObjectMeta: tc.MakeObjectMeta("mysql"),
 		Spec: mysql.FlexibleServers_Spec{
-			Location: tc.AzureRegion,
+			Location: &location,
 			Owner:    testcommon.AsOwner(rg),
 			Version:  &version,
 			Sku: &mysql.Sku{
@@ -55,6 +59,11 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 			Storage: &mysql.Storage{
 				StorageSizeGB: to.IntPtr(128),
 			},
+			OperatorSpec: &mysql.FlexibleServerOperatorSpec{
+				Secrets: &mysql.FlexibleServerOperatorSecrets{
+					FullyQualifiedDomainName: &genruntime.SecretDestination{Name: fqdnSecret, Key: "fqdn"},
+				},
+			},
 		},
 	}
 
@@ -63,6 +72,9 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 	// It should be created in Kubernetes
 	tc.Expect(flexibleServer.Status.Id).ToNot(BeNil())
 	armId := *flexibleServer.Status.Id
+
+	// It should have the expected secret data written
+	tc.ExpectSecretHasKeys(fqdnSecret, "fqdn")
 
 	// Perform a simple patch
 	old := flexibleServer.DeepCopy()
@@ -79,14 +91,14 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "MySQL Flexible servers database CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
-				MySQLFlexibleServer_Database_CRUD(testContext, flexibleServer)
+			Test: func(tc *testcommon.KubePerTestContext) {
+				MySQLFlexibleServer_Database_CRUD(tc, flexibleServer)
 			},
 		},
 		testcommon.Subtest{
 			Name: "MySQL Flexible servers firewall CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
-				MySQLFlexibleServer_FirewallRule_CRUD(testContext, flexibleServer)
+			Test: func(tc *testcommon.KubePerTestContext) {
+				MySQLFlexibleServer_FirewallRule_CRUD(tc, flexibleServer)
 			},
 		},
 	)
@@ -94,7 +106,7 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(flexibleServer)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(mysql.FlexibleServersDatabasesSpecAPIVersion20210501))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(mysql.APIVersionValue))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

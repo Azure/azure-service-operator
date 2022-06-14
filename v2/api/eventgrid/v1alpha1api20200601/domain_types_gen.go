@@ -112,7 +112,7 @@ func (domain *Domain) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-06-01"
 func (domain Domain) GetAPIVersion() string {
-	return "2020-06-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -331,6 +331,12 @@ type DomainList struct {
 	Items           []Domain `json:"items"`
 }
 
+// Deprecated version of APIVersion. Use v1beta20200601.APIVersion instead
+// +kubebuilder:validation:Enum={"2020-06-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2020-06-01")
+
 // Deprecated version of Domain_Status. Use v1beta20200601.Domain_Status instead
 type Domain_Status struct {
 	// Conditions: The observed state of the resource
@@ -533,7 +539,7 @@ func (domain *Domain_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		domain.Tags = make(map[string]string)
+		domain.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			domain.Tags[key] = value
 		}
@@ -813,7 +819,7 @@ func (domains *Domains_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if domains == nil {
 		return nil, nil
 	}
-	var result Domains_SpecARM
+	result := &Domains_SpecARM{}
 
 	// Set property ‘Location’:
 	if domains.Location != nil {
@@ -836,7 +842,7 @@ func (domains *Domains_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.InboundIpRules = append(result.Properties.InboundIpRules, itemARM.(InboundIpRuleARM))
+		result.Properties.InboundIpRules = append(result.Properties.InboundIpRules, *itemARM.(*InboundIpRuleARM))
 	}
 	if domains.InputSchema != nil {
 		inputSchema := *domains.InputSchema
@@ -847,7 +853,7 @@ func (domains *Domains_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		if err != nil {
 			return nil, err
 		}
-		inputSchemaMapping := inputSchemaMappingARM.(JsonInputSchemaMappingARM)
+		inputSchemaMapping := *inputSchemaMappingARM.(*JsonInputSchemaMappingARM)
 		result.Properties.InputSchemaMapping = &inputSchemaMapping
 	}
 	if domains.PublicNetworkAccess != nil {
@@ -857,7 +863,7 @@ func (domains *Domains_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 
 	// Set property ‘Tags’:
 	if domains.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(domains.Tags))
 		for key, value := range domains.Tags {
 			result.Tags[key] = value
 		}
@@ -938,7 +944,7 @@ func (domains *Domains_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		domains.Tags = make(map[string]string)
+		domains.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			domains.Tags[key] = value
 		}
@@ -1221,7 +1227,7 @@ func (rule *InboundIpRule) ConvertToARM(resolved genruntime.ConvertToARMResolved
 	if rule == nil {
 		return nil, nil
 	}
-	var result InboundIpRuleARM
+	result := &InboundIpRuleARM{}
 
 	// Set property ‘Action’:
 	if rule.Action != nil {
@@ -1473,7 +1479,7 @@ func (mapping *JsonInputSchemaMapping) ConvertToARM(resolved genruntime.ConvertT
 	if mapping == nil {
 		return nil, nil
 	}
-	var result JsonInputSchemaMappingARM
+	result := &JsonInputSchemaMappingARM{}
 
 	// Set property ‘InputSchemaMappingType’:
 	if mapping.InputSchemaMappingType != nil {
@@ -1487,7 +1493,7 @@ func (mapping *JsonInputSchemaMapping) ConvertToARM(resolved genruntime.ConvertT
 		if err != nil {
 			return nil, err
 		}
-		properties := propertiesARM.(JsonInputSchemaMappingPropertiesARM)
+		properties := *propertiesARM.(*JsonInputSchemaMappingPropertiesARM)
 		result.Properties = &properties
 	}
 	return result, nil
@@ -1831,7 +1837,7 @@ func (properties *JsonInputSchemaMappingProperties) ConvertToARM(resolved genrun
 	if properties == nil {
 		return nil, nil
 	}
-	var result JsonInputSchemaMappingPropertiesARM
+	result := &JsonInputSchemaMappingPropertiesARM{}
 
 	// Set property ‘DataVersion’:
 	if properties.DataVersion != nil {
@@ -1839,7 +1845,7 @@ func (properties *JsonInputSchemaMappingProperties) ConvertToARM(resolved genrun
 		if err != nil {
 			return nil, err
 		}
-		dataVersion := dataVersionARM.(JsonFieldWithDefaultARM)
+		dataVersion := *dataVersionARM.(*JsonFieldWithDefaultARM)
 		result.DataVersion = &dataVersion
 	}
 
@@ -1849,7 +1855,7 @@ func (properties *JsonInputSchemaMappingProperties) ConvertToARM(resolved genrun
 		if err != nil {
 			return nil, err
 		}
-		eventTime := eventTimeARM.(JsonFieldARM)
+		eventTime := *eventTimeARM.(*JsonFieldARM)
 		result.EventTime = &eventTime
 	}
 
@@ -1859,7 +1865,7 @@ func (properties *JsonInputSchemaMappingProperties) ConvertToARM(resolved genrun
 		if err != nil {
 			return nil, err
 		}
-		eventType := eventTypeARM.(JsonFieldWithDefaultARM)
+		eventType := *eventTypeARM.(*JsonFieldWithDefaultARM)
 		result.EventType = &eventType
 	}
 
@@ -1869,7 +1875,7 @@ func (properties *JsonInputSchemaMappingProperties) ConvertToARM(resolved genrun
 		if err != nil {
 			return nil, err
 		}
-		id := idARM.(JsonFieldARM)
+		id := *idARM.(*JsonFieldARM)
 		result.Id = &id
 	}
 
@@ -1879,7 +1885,7 @@ func (properties *JsonInputSchemaMappingProperties) ConvertToARM(resolved genrun
 		if err != nil {
 			return nil, err
 		}
-		subject := subjectARM.(JsonFieldWithDefaultARM)
+		subject := *subjectARM.(*JsonFieldWithDefaultARM)
 		result.Subject = &subject
 	}
 
@@ -1889,7 +1895,7 @@ func (properties *JsonInputSchemaMappingProperties) ConvertToARM(resolved genrun
 		if err != nil {
 			return nil, err
 		}
-		topic := topicARM.(JsonFieldARM)
+		topic := *topicARM.(*JsonFieldARM)
 		result.Topic = &topic
 	}
 	return result, nil
@@ -2156,7 +2162,7 @@ func (field *JsonField) ConvertToARM(resolved genruntime.ConvertToARMResolvedDet
 	if field == nil {
 		return nil, nil
 	}
-	var result JsonFieldARM
+	result := &JsonFieldARM{}
 
 	// Set property ‘SourceField’:
 	if field.SourceField != nil {
@@ -2230,7 +2236,7 @@ func (withDefault *JsonFieldWithDefault) ConvertToARM(resolved genruntime.Conver
 	if withDefault == nil {
 		return nil, nil
 	}
-	var result JsonFieldWithDefaultARM
+	result := &JsonFieldWithDefaultARM{}
 
 	// Set property ‘DefaultValue’:
 	if withDefault.DefaultValue != nil {

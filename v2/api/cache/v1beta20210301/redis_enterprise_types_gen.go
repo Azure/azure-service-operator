@@ -98,7 +98,7 @@ func (enterprise *RedisEnterprise) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-03-01"
 func (enterprise RedisEnterprise) GetAPIVersion() string {
-	return "2021-03-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -317,6 +317,11 @@ type RedisEnterpriseList struct {
 	Items           []RedisEnterprise `json:"items"`
 }
 
+// +kubebuilder:validation:Enum={"2021-03-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-03-01")
+
 type Cluster_Status struct {
 	// Conditions: The observed state of the resource
 	Conditions []conditions.Condition `json:"conditions,omitempty"`
@@ -517,7 +522,7 @@ func (cluster *Cluster_Status) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		cluster.Tags = make(map[string]string)
+		cluster.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			cluster.Tags[key] = value
 		}
@@ -723,11 +728,6 @@ func (cluster *Cluster_Status) AssignPropertiesToClusterStatus(destination *v202
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2021-03-01"}
-type RedisEnterpriseSpecAPIVersion string
-
-const RedisEnterpriseSpecAPIVersion20210301 = RedisEnterpriseSpecAPIVersion("2021-03-01")
-
 type RedisEnterprise_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -763,7 +763,7 @@ func (enterprise *RedisEnterprise_Spec) ConvertToARM(resolved genruntime.Convert
 	if enterprise == nil {
 		return nil, nil
 	}
-	var result RedisEnterprise_SpecARM
+	result := &RedisEnterprise_SpecARM{}
 
 	// Set property ‘Location’:
 	if enterprise.Location != nil {
@@ -789,13 +789,13 @@ func (enterprise *RedisEnterprise_Spec) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		sku := skuARM.(SkuARM)
+		sku := *skuARM.(*SkuARM)
 		result.Sku = &sku
 	}
 
 	// Set property ‘Tags’:
 	if enterprise.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(enterprise.Tags))
 		for key, value := range enterprise.Tags {
 			result.Tags[key] = value
 		}
@@ -856,7 +856,7 @@ func (enterprise *RedisEnterprise_Spec) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		enterprise.Tags = make(map[string]string)
+		enterprise.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			enterprise.Tags[key] = value
 		}
@@ -1123,7 +1123,7 @@ func (sku *Sku) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (i
 	if sku == nil {
 		return nil, nil
 	}
-	var result SkuARM
+	result := &SkuARM{}
 
 	// Set property ‘Capacity’:
 	if sku.Capacity != nil {

@@ -136,13 +136,14 @@ func (pi PackageImport) createImportAliasForStoragePackageReference(
 }
 
 func (pi PackageImport) simplifiedApiVersion(version string) string {
-	return pi.simplify(version, apiVersionSimplifications)
+	return strings.ToLower(pi.simplify(version, apiVersionSimplifications))
 }
 
 var apiVersionSimplifications = map[string]string{
 	"alpha":   "a",
 	"beta":    "b",
 	"preview": "p",
+	"-":       "",
 }
 
 func (pi PackageImport) simplifiedGeneratorVersion(version string) string {

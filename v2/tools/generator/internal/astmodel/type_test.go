@@ -60,8 +60,8 @@ func TestWriteDebugDescription(t *testing.T) {
 		{"SuitEnum", suitEnum, "Enum[string:clubs|diamonds|hearts|spades]"}, // alphabetical
 		{"SuitName", suit, "local/test/v1/Suit:Enum[string:clubs|diamonds|hearts|spades]"},
 		{"MapOfSuitToAge", NewMapType(suit, age), "Map[local/test/v1/Suit:Enum[string:clubs|diamonds|hearts|spades]]local/test/v1/Age:int"},
-		{"FlaggedAge", armAge, "local/test/v1/Age:int[#arm]"},
-		{"FlaggedSuit", armSuit, "local/test/v1/Suit:Enum[string:clubs|diamonds|hearts|spades][#arm]"},
+		{"FlaggedAge", armAge, "local/test/v1/Age:int[Flag:arm]"},
+		{"FlaggedSuit", armSuit, "local/test/v1/Suit:Enum[string:clubs|diamonds|hearts|spades][Flag:arm]"},
 		{"ErroredAge", erroredAge, "Error[local/test/v1/Age:int|boom|oh oh]"},
 	}
 

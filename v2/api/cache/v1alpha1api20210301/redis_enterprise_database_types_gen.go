@@ -112,7 +112,7 @@ func (database *RedisEnterpriseDatabase) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-03-01"
 func (database RedisEnterpriseDatabase) GetAPIVersion() string {
-	return "2021-03-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -738,7 +738,7 @@ func (databases *RedisEnterpriseDatabases_Spec) ConvertToARM(resolved genruntime
 	if databases == nil {
 		return nil, nil
 	}
-	var result RedisEnterpriseDatabases_SpecARM
+	result := &RedisEnterpriseDatabases_SpecARM{}
 
 	// Set property ‘Location’:
 	if databases.Location != nil {
@@ -775,14 +775,14 @@ func (databases *RedisEnterpriseDatabases_Spec) ConvertToARM(resolved genruntime
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Modules = append(result.Properties.Modules, itemARM.(ModuleARM))
+		result.Properties.Modules = append(result.Properties.Modules, *itemARM.(*ModuleARM))
 	}
 	if databases.Persistence != nil {
 		persistenceARM, err := (*databases.Persistence).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		persistence := persistenceARM.(PersistenceARM)
+		persistence := *persistenceARM.(*PersistenceARM)
 		result.Properties.Persistence = &persistence
 	}
 	if databases.Port != nil {
@@ -792,7 +792,7 @@ func (databases *RedisEnterpriseDatabases_Spec) ConvertToARM(resolved genruntime
 
 	// Set property ‘Tags’:
 	if databases.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(databases.Tags))
 		for key, value := range databases.Tags {
 			result.Tags[key] = value
 		}
@@ -891,7 +891,7 @@ func (databases *RedisEnterpriseDatabases_Spec) PopulateFromARM(owner genruntime
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		databases.Tags = make(map[string]string)
+		databases.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			databases.Tags[key] = value
 		}
@@ -1183,7 +1183,7 @@ func (module *Module) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetai
 	if module == nil {
 		return nil, nil
 	}
-	var result ModuleARM
+	result := &ModuleARM{}
 
 	// Set property ‘Args’:
 	if module.Args != nil {
@@ -1361,7 +1361,7 @@ func (persistence *Persistence) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if persistence == nil {
 		return nil, nil
 	}
-	var result PersistenceARM
+	result := &PersistenceARM{}
 
 	// Set property ‘AofEnabled’:
 	if persistence.AofEnabled != nil {

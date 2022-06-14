@@ -162,6 +162,7 @@ func AddRelatedPropertyGeneratorsForFlexibleServersSpec(gens map[string]gopter.G
 	gens["HighAvailability"] = gen.PtrOf(HighAvailabilityGenerator())
 	gens["MaintenanceWindow"] = gen.PtrOf(MaintenanceWindowGenerator())
 	gens["Network"] = gen.PtrOf(NetworkGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(FlexibleServerOperatorSpecGenerator())
 	gens["Sku"] = gen.PtrOf(SkuGenerator())
 	gens["Storage"] = gen.PtrOf(StorageGenerator())
 }
@@ -251,7 +252,9 @@ func AddIndependentPropertyGeneratorsForServerStatus(gens map[string]gopter.Gen)
 // AddRelatedPropertyGeneratorsForServerStatus is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForServerStatus(gens map[string]gopter.Gen) {
 	gens["Backup"] = gen.PtrOf(BackupStatusGenerator())
+	gens["DataEncryption"] = gen.PtrOf(DataEncryptionStatusGenerator())
 	gens["HighAvailability"] = gen.PtrOf(HighAvailabilityStatusGenerator())
+	gens["Identity"] = gen.PtrOf(IdentityStatusGenerator())
 	gens["MaintenanceWindow"] = gen.PtrOf(MaintenanceWindowStatusGenerator())
 	gens["Network"] = gen.PtrOf(NetworkStatusGenerator())
 	gens["Sku"] = gen.PtrOf(SkuStatusGenerator())
@@ -380,6 +383,130 @@ func AddIndependentPropertyGeneratorsForBackupStatus(gens map[string]gopter.Gen)
 	gens["GeoRedundantBackup"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_DataEncryption_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DataEncryption_Status via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDataEncryptionStatus, DataEncryptionStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDataEncryptionStatus runs a test to see if a specific instance of DataEncryption_Status round trips to JSON and back losslessly
+func RunJSONSerializationTestForDataEncryptionStatus(subject DataEncryption_Status) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DataEncryption_Status
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DataEncryption_Status instances for property testing - lazily instantiated by
+// DataEncryptionStatusGenerator()
+var dataEncryptionStatusGenerator gopter.Gen
+
+// DataEncryptionStatusGenerator returns a generator of DataEncryption_Status instances for property testing.
+func DataEncryptionStatusGenerator() gopter.Gen {
+	if dataEncryptionStatusGenerator != nil {
+		return dataEncryptionStatusGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDataEncryptionStatus(generators)
+	dataEncryptionStatusGenerator = gen.Struct(reflect.TypeOf(DataEncryption_Status{}), generators)
+
+	return dataEncryptionStatusGenerator
+}
+
+// AddIndependentPropertyGeneratorsForDataEncryptionStatus is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDataEncryptionStatus(gens map[string]gopter.Gen) {
+	gens["GeoBackupKeyUri"] = gen.PtrOf(gen.AlphaString())
+	gens["GeoBackupUserAssignedIdentityId"] = gen.PtrOf(gen.AlphaString())
+	gens["PrimaryKeyUri"] = gen.PtrOf(gen.AlphaString())
+	gens["PrimaryUserAssignedIdentityId"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_FlexibleServerOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of FlexibleServerOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForFlexibleServerOperatorSpec, FlexibleServerOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForFlexibleServerOperatorSpec runs a test to see if a specific instance of FlexibleServerOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForFlexibleServerOperatorSpec(subject FlexibleServerOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual FlexibleServerOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of FlexibleServerOperatorSpec instances for property testing - lazily instantiated by
+// FlexibleServerOperatorSpecGenerator()
+var flexibleServerOperatorSpecGenerator gopter.Gen
+
+// FlexibleServerOperatorSpecGenerator returns a generator of FlexibleServerOperatorSpec instances for property testing.
+func FlexibleServerOperatorSpecGenerator() gopter.Gen {
+	if flexibleServerOperatorSpecGenerator != nil {
+		return flexibleServerOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForFlexibleServerOperatorSpec(generators)
+	flexibleServerOperatorSpecGenerator = gen.Struct(reflect.TypeOf(FlexibleServerOperatorSpec{}), generators)
+
+	return flexibleServerOperatorSpecGenerator
+}
+
+// AddRelatedPropertyGeneratorsForFlexibleServerOperatorSpec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForFlexibleServerOperatorSpec(gens map[string]gopter.Gen) {
+	gens["Secrets"] = gen.PtrOf(FlexibleServerOperatorSecretsGenerator())
+}
+
 func Test_HighAvailability_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -500,6 +627,67 @@ func AddIndependentPropertyGeneratorsForHighAvailabilityStatus(gens map[string]g
 	gens["Mode"] = gen.PtrOf(gen.AlphaString())
 	gens["StandbyAvailabilityZone"] = gen.PtrOf(gen.AlphaString())
 	gens["State"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_Identity_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Identity_Status via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForIdentityStatus, IdentityStatusGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForIdentityStatus runs a test to see if a specific instance of Identity_Status round trips to JSON and back losslessly
+func RunJSONSerializationTestForIdentityStatus(subject Identity_Status) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Identity_Status
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Identity_Status instances for property testing - lazily instantiated by IdentityStatusGenerator()
+var identityStatusGenerator gopter.Gen
+
+// IdentityStatusGenerator returns a generator of Identity_Status instances for property testing.
+func IdentityStatusGenerator() gopter.Gen {
+	if identityStatusGenerator != nil {
+		return identityStatusGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForIdentityStatus(generators)
+	identityStatusGenerator = gen.Struct(reflect.TypeOf(Identity_Status{}), generators)
+
+	return identityStatusGenerator
+}
+
+// AddIndependentPropertyGeneratorsForIdentityStatus is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForIdentityStatus(gens map[string]gopter.Gen) {
+	gens["PrincipalId"] = gen.PtrOf(gen.AlphaString())
+	gens["TenantId"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_MaintenanceWindow_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -1046,4 +1234,58 @@ func AddIndependentPropertyGeneratorsForSystemDataStatus(gens map[string]gopter.
 	gens["LastModifiedAt"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedBy"] = gen.PtrOf(gen.AlphaString())
 	gens["LastModifiedByType"] = gen.PtrOf(gen.AlphaString())
+}
+
+func Test_FlexibleServerOperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of FlexibleServerOperatorSecrets via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForFlexibleServerOperatorSecrets, FlexibleServerOperatorSecretsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForFlexibleServerOperatorSecrets runs a test to see if a specific instance of FlexibleServerOperatorSecrets round trips to JSON and back losslessly
+func RunJSONSerializationTestForFlexibleServerOperatorSecrets(subject FlexibleServerOperatorSecrets) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual FlexibleServerOperatorSecrets
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of FlexibleServerOperatorSecrets instances for property testing - lazily instantiated by
+// FlexibleServerOperatorSecretsGenerator()
+var flexibleServerOperatorSecretsGenerator gopter.Gen
+
+// FlexibleServerOperatorSecretsGenerator returns a generator of FlexibleServerOperatorSecrets instances for property testing.
+func FlexibleServerOperatorSecretsGenerator() gopter.Gen {
+	if flexibleServerOperatorSecretsGenerator != nil {
+		return flexibleServerOperatorSecretsGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	flexibleServerOperatorSecretsGenerator = gen.Struct(reflect.TypeOf(FlexibleServerOperatorSecrets{}), generators)
+
+	return flexibleServerOperatorSecretsGenerator
 }

@@ -85,8 +85,8 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "AKS AgentPool CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
-				AKS_ManagedCluster_AgentPool_CRUD(testContext, cluster)
+			Test: func(tc *testcommon.KubePerTestContext) {
+				AKS_ManagedCluster_AgentPool_CRUD(tc, cluster)
 			},
 		},
 	)
@@ -94,7 +94,7 @@ func Test_AKS_ManagedCluster_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(cluster)
 
 	// Ensure that the cluster was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(aks.ManagedClustersSpecAPIVersion20210501))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(aks.APIVersionValue))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

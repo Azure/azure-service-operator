@@ -112,7 +112,7 @@ func (topic *NamespacesTopic) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-01-01-preview"
 func (topic NamespacesTopic) GetAPIVersion() string {
-	return "2021-01-01-preview"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -363,7 +363,7 @@ func (topics *NamespacesTopics_Spec) ConvertToARM(resolved genruntime.ConvertToA
 	if topics == nil {
 		return nil, nil
 	}
-	var result NamespacesTopics_SpecARM
+	result := &NamespacesTopics_SpecARM{}
 
 	// Set property ‘Location’:
 	if topics.Location != nil {
@@ -425,7 +425,7 @@ func (topics *NamespacesTopics_Spec) ConvertToARM(resolved genruntime.ConvertToA
 
 	// Set property ‘Tags’:
 	if topics.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(topics.Tags))
 		for key, value := range topics.Tags {
 			result.Tags[key] = value
 		}
@@ -542,7 +542,7 @@ func (topics *NamespacesTopics_Spec) PopulateFromARM(owner genruntime.ArbitraryO
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		topics.Tags = make(map[string]string)
+		topics.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			topics.Tags[key] = value
 		}

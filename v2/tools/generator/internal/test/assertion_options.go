@@ -32,7 +32,7 @@ func DiffWith(defs ...astmodel.TypeDefinition) AssertionOption {
 // highlight differences.
 // TypeDefinitionSet are matched by fully qualified name.
 func DiffWithTypes(definitions astmodel.TypeDefinitionSet) AssertionOption {
-	var defs []astmodel.TypeDefinition
+	defs := make([]astmodel.TypeDefinition, 0, len(definitions))
 	for _, d := range definitions {
 		defs = append(defs, d)
 	}

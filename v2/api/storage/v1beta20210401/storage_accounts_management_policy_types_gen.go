@@ -91,7 +91,7 @@ func (policy *StorageAccountsManagementPolicy) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
 func (policy StorageAccountsManagementPolicy) GetAPIVersion() string {
-	return "2021-04-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -520,11 +520,6 @@ func (policy *ManagementPolicy_Status) AssignPropertiesToManagementPolicyStatus(
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2021-04-01"}
-type StorageAccountsManagementPoliciesSpecAPIVersion string
-
-const StorageAccountsManagementPoliciesSpecAPIVersion20210401 = StorageAccountsManagementPoliciesSpecAPIVersion("2021-04-01")
-
 type StorageAccountsManagementPolicies_Spec struct {
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -548,7 +543,7 @@ func (policies *StorageAccountsManagementPolicies_Spec) ConvertToARM(resolved ge
 	if policies == nil {
 		return nil, nil
 	}
-	var result StorageAccountsManagementPolicies_SpecARM
+	result := &StorageAccountsManagementPolicies_SpecARM{}
 
 	// Set property ‘Name’:
 	result.Name = resolved.Name
@@ -562,13 +557,13 @@ func (policies *StorageAccountsManagementPolicies_Spec) ConvertToARM(resolved ge
 		if err != nil {
 			return nil, err
 		}
-		policy := policyARM.(ManagementPolicySchemaARM)
+		policy := *policyARM.(*ManagementPolicySchemaARM)
 		result.Properties.Policy = &policy
 	}
 
 	// Set property ‘Tags’:
 	if policies.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(policies.Tags))
 		for key, value := range policies.Tags {
 			result.Tags[key] = value
 		}
@@ -609,7 +604,7 @@ func (policies *StorageAccountsManagementPolicies_Spec) PopulateFromARM(owner ge
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		policies.Tags = make(map[string]string)
+		policies.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			policies.Tags[key] = value
 		}
@@ -761,7 +756,7 @@ func (schema *ManagementPolicySchema) ConvertToARM(resolved genruntime.ConvertTo
 	if schema == nil {
 		return nil, nil
 	}
-	var result ManagementPolicySchemaARM
+	result := &ManagementPolicySchemaARM{}
 
 	// Set property ‘Rules’:
 	for _, item := range schema.Rules {
@@ -769,7 +764,7 @@ func (schema *ManagementPolicySchema) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		result.Rules = append(result.Rules, itemARM.(ManagementPolicyRuleARM))
+		result.Rules = append(result.Rules, *itemARM.(*ManagementPolicyRuleARM))
 	}
 	return result, nil
 }
@@ -978,7 +973,7 @@ func (rule *ManagementPolicyRule) ConvertToARM(resolved genruntime.ConvertToARMR
 	if rule == nil {
 		return nil, nil
 	}
-	var result ManagementPolicyRuleARM
+	result := &ManagementPolicyRuleARM{}
 
 	// Set property ‘Definition’:
 	if rule.Definition != nil {
@@ -986,7 +981,7 @@ func (rule *ManagementPolicyRule) ConvertToARM(resolved genruntime.ConvertToARMR
 		if err != nil {
 			return nil, err
 		}
-		definition := definitionARM.(ManagementPolicyDefinitionARM)
+		definition := *definitionARM.(*ManagementPolicyDefinitionARM)
 		result.Definition = &definition
 	}
 
@@ -1305,7 +1300,7 @@ func (definition *ManagementPolicyDefinition) ConvertToARM(resolved genruntime.C
 	if definition == nil {
 		return nil, nil
 	}
-	var result ManagementPolicyDefinitionARM
+	result := &ManagementPolicyDefinitionARM{}
 
 	// Set property ‘Actions’:
 	if definition.Actions != nil {
@@ -1313,7 +1308,7 @@ func (definition *ManagementPolicyDefinition) ConvertToARM(resolved genruntime.C
 		if err != nil {
 			return nil, err
 		}
-		actions := actionsARM.(ManagementPolicyActionARM)
+		actions := *actionsARM.(*ManagementPolicyActionARM)
 		result.Actions = &actions
 	}
 
@@ -1323,7 +1318,7 @@ func (definition *ManagementPolicyDefinition) ConvertToARM(resolved genruntime.C
 		if err != nil {
 			return nil, err
 		}
-		filters := filtersARM.(ManagementPolicyFilterARM)
+		filters := *filtersARM.(*ManagementPolicyFilterARM)
 		result.Filters = &filters
 	}
 	return result, nil
@@ -1576,7 +1571,7 @@ func (action *ManagementPolicyAction) ConvertToARM(resolved genruntime.ConvertTo
 	if action == nil {
 		return nil, nil
 	}
-	var result ManagementPolicyActionARM
+	result := &ManagementPolicyActionARM{}
 
 	// Set property ‘BaseBlob’:
 	if action.BaseBlob != nil {
@@ -1584,7 +1579,7 @@ func (action *ManagementPolicyAction) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		baseBlob := baseBlobARM.(ManagementPolicyBaseBlobARM)
+		baseBlob := *baseBlobARM.(*ManagementPolicyBaseBlobARM)
 		result.BaseBlob = &baseBlob
 	}
 
@@ -1594,7 +1589,7 @@ func (action *ManagementPolicyAction) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		snapshot := snapshotARM.(ManagementPolicySnapShotARM)
+		snapshot := *snapshotARM.(*ManagementPolicySnapShotARM)
 		result.Snapshot = &snapshot
 	}
 
@@ -1604,7 +1599,7 @@ func (action *ManagementPolicyAction) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		version := versionARM.(ManagementPolicyVersionARM)
+		version := *versionARM.(*ManagementPolicyVersionARM)
 		result.Version = &version
 	}
 	return result, nil
@@ -1932,7 +1927,7 @@ func (filter *ManagementPolicyFilter) ConvertToARM(resolved genruntime.ConvertTo
 	if filter == nil {
 		return nil, nil
 	}
-	var result ManagementPolicyFilterARM
+	result := &ManagementPolicyFilterARM{}
 
 	// Set property ‘BlobIndexMatch’:
 	for _, item := range filter.BlobIndexMatch {
@@ -1940,7 +1935,7 @@ func (filter *ManagementPolicyFilter) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		result.BlobIndexMatch = append(result.BlobIndexMatch, itemARM.(TagFilterARM))
+		result.BlobIndexMatch = append(result.BlobIndexMatch, *itemARM.(*TagFilterARM))
 	}
 
 	// Set property ‘BlobTypes’:
@@ -2209,7 +2204,7 @@ func (blob *ManagementPolicyBaseBlob) ConvertToARM(resolved genruntime.ConvertTo
 	if blob == nil {
 		return nil, nil
 	}
-	var result ManagementPolicyBaseBlobARM
+	result := &ManagementPolicyBaseBlobARM{}
 
 	// Set property ‘Delete’:
 	if blob.Delete != nil {
@@ -2217,7 +2212,7 @@ func (blob *ManagementPolicyBaseBlob) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		delete := deleteARM.(DateAfterModificationARM)
+		delete := *deleteARM.(*DateAfterModificationARM)
 		result.Delete = &delete
 	}
 
@@ -2233,7 +2228,7 @@ func (blob *ManagementPolicyBaseBlob) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		tierToArchive := tierToArchiveARM.(DateAfterModificationARM)
+		tierToArchive := *tierToArchiveARM.(*DateAfterModificationARM)
 		result.TierToArchive = &tierToArchive
 	}
 
@@ -2243,7 +2238,7 @@ func (blob *ManagementPolicyBaseBlob) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		tierToCool := tierToCoolARM.(DateAfterModificationARM)
+		tierToCool := *tierToCoolARM.(*DateAfterModificationARM)
 		result.TierToCool = &tierToCool
 	}
 	return result, nil
@@ -2617,7 +2612,7 @@ func (shot *ManagementPolicySnapShot) ConvertToARM(resolved genruntime.ConvertTo
 	if shot == nil {
 		return nil, nil
 	}
-	var result ManagementPolicySnapShotARM
+	result := &ManagementPolicySnapShotARM{}
 
 	// Set property ‘Delete’:
 	if shot.Delete != nil {
@@ -2625,7 +2620,7 @@ func (shot *ManagementPolicySnapShot) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		delete := deleteARM.(DateAfterCreationARM)
+		delete := *deleteARM.(*DateAfterCreationARM)
 		result.Delete = &delete
 	}
 
@@ -2635,7 +2630,7 @@ func (shot *ManagementPolicySnapShot) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		tierToArchive := tierToArchiveARM.(DateAfterCreationARM)
+		tierToArchive := *tierToArchiveARM.(*DateAfterCreationARM)
 		result.TierToArchive = &tierToArchive
 	}
 
@@ -2645,7 +2640,7 @@ func (shot *ManagementPolicySnapShot) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		tierToCool := tierToCoolARM.(DateAfterCreationARM)
+		tierToCool := *tierToCoolARM.(*DateAfterCreationARM)
 		result.TierToCool = &tierToCool
 	}
 	return result, nil
@@ -2971,7 +2966,7 @@ func (version *ManagementPolicyVersion) ConvertToARM(resolved genruntime.Convert
 	if version == nil {
 		return nil, nil
 	}
-	var result ManagementPolicyVersionARM
+	result := &ManagementPolicyVersionARM{}
 
 	// Set property ‘Delete’:
 	if version.Delete != nil {
@@ -2979,7 +2974,7 @@ func (version *ManagementPolicyVersion) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		delete := deleteARM.(DateAfterCreationARM)
+		delete := *deleteARM.(*DateAfterCreationARM)
 		result.Delete = &delete
 	}
 
@@ -2989,7 +2984,7 @@ func (version *ManagementPolicyVersion) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		tierToArchive := tierToArchiveARM.(DateAfterCreationARM)
+		tierToArchive := *tierToArchiveARM.(*DateAfterCreationARM)
 		result.TierToArchive = &tierToArchive
 	}
 
@@ -2999,7 +2994,7 @@ func (version *ManagementPolicyVersion) ConvertToARM(resolved genruntime.Convert
 		if err != nil {
 			return nil, err
 		}
-		tierToCool := tierToCoolARM.(DateAfterCreationARM)
+		tierToCool := *tierToCoolARM.(*DateAfterCreationARM)
 		result.TierToCool = &tierToCool
 	}
 	return result, nil
@@ -3333,7 +3328,7 @@ func (filter *TagFilter) ConvertToARM(resolved genruntime.ConvertToARMResolvedDe
 	if filter == nil {
 		return nil, nil
 	}
-	var result TagFilterARM
+	result := &TagFilterARM{}
 
 	// Set property ‘Name’:
 	if filter.Name != nil {
@@ -3555,7 +3550,7 @@ func (creation *DateAfterCreation) ConvertToARM(resolved genruntime.ConvertToARM
 	if creation == nil {
 		return nil, nil
 	}
-	var result DateAfterCreationARM
+	result := &DateAfterCreationARM{}
 
 	// Set property ‘DaysAfterCreationGreaterThan’:
 	if creation.DaysAfterCreationGreaterThan != nil {
@@ -3715,7 +3710,7 @@ func (modification *DateAfterModification) ConvertToARM(resolved genruntime.Conv
 	if modification == nil {
 		return nil, nil
 	}
-	var result DateAfterModificationARM
+	result := &DateAfterModificationARM{}
 
 	// Set property ‘DaysAfterLastAccessTimeGreaterThan’:
 	if modification.DaysAfterLastAccessTimeGreaterThan != nil {

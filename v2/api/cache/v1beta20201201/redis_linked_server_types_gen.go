@@ -98,7 +98,7 @@ func (server *RedisLinkedServer) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-12-01"
 func (server RedisLinkedServer) GetAPIVersion() string {
-	return "2020-12-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -549,11 +549,6 @@ func (properties *RedisLinkedServerWithProperties_Status) AssignPropertiesToRedi
 	return nil
 }
 
-// +kubebuilder:validation:Enum={"2020-12-01"}
-type RedisLinkedServersSpecAPIVersion string
-
-const RedisLinkedServersSpecAPIVersion20201201 = RedisLinkedServersSpecAPIVersion("2020-12-01")
-
 type RedisLinkedServers_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -591,7 +586,7 @@ func (servers *RedisLinkedServers_Spec) ConvertToARM(resolved genruntime.Convert
 	if servers == nil {
 		return nil, nil
 	}
-	var result RedisLinkedServers_SpecARM
+	result := &RedisLinkedServers_SpecARM{}
 
 	// Set property ‘Location’:
 	if servers.Location != nil {
@@ -627,7 +622,7 @@ func (servers *RedisLinkedServers_Spec) ConvertToARM(resolved genruntime.Convert
 
 	// Set property ‘Tags’:
 	if servers.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(servers.Tags))
 		for key, value := range servers.Tags {
 			result.Tags[key] = value
 		}
@@ -683,7 +678,7 @@ func (servers *RedisLinkedServers_Spec) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		servers.Tags = make(map[string]string)
+		servers.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			servers.Tags[key] = value
 		}

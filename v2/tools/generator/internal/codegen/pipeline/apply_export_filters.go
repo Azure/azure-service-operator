@@ -9,6 +9,7 @@ import (
 	"context"
 
 	"github.com/pkg/errors"
+	kerrors "k8s.io/apimachinery/pkg/util/errors"
 	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -33,16 +34,17 @@ func ApplyExportFilters(configuration *config.Configuration) *Stage {
 // filterTypes applies the configuration include/exclude filters to the generated definitions
 func filterTypes(
 	configuration *config.Configuration,
-	state *State) (*State, error) {
-
-	renames := make(map[astmodel.TypeName]astmodel.TypeName)
+	state *State,
+) (*State, error) {
 	resourcesToExport := make(astmodel.TypeDefinitionSet)
+	var errs []error
 	for _, def := range astmodel.FindResourceDefinitions(state.Definitions()) {
 		defName := def.Name()
 
 		export, err := shouldExport(defName, configuration)
 		if err != nil {
-			return nil, err
+			errs = append(errs, err)
+			continue
 		}
 
 		if !export {
@@ -54,12 +56,17 @@ func filterTypes(
 		resourcesToExport.Add(def)
 	}
 
+	if err := kerrors.NewAggregate(errs); err != nil {
+		return nil, err
+	}
+
 	typesToExport, err := astmodel.FindConnectedDefinitions(state.Definitions(), resourcesToExport)
 	if err != nil {
 		return nil, errors.Wrap(err, "finding types connected to resources marked for export")
 	}
 
 	// Find and apply renames
+	renames := make(map[astmodel.TypeName]astmodel.TypeName)
 	for n := range typesToExport {
 		if as, asErr := configuration.ObjectModelConfiguration.LookupExportAs(n); asErr == nil {
 			renames[n] = n.WithName(as)

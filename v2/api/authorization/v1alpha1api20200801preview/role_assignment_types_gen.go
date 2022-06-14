@@ -112,7 +112,7 @@ func (assignment *RoleAssignment) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-08-01-preview"
 func (assignment RoleAssignment) GetAPIVersion() string {
-	return "2020-08-01-preview"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -329,6 +329,12 @@ type RoleAssignmentList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []RoleAssignment `json:"items"`
 }
+
+// Deprecated version of APIVersion. Use v1beta20200801preview.APIVersion instead
+// +kubebuilder:validation:Enum={"2020-08-01-preview"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2020-08-01-preview")
 
 // Deprecated version of RoleAssignment_Status. Use v1beta20200801preview.RoleAssignment_Status instead
 type RoleAssignment_Status struct {
@@ -709,7 +715,7 @@ func (assignments *RoleAssignments_Spec) ConvertToARM(resolved genruntime.Conver
 	if assignments == nil {
 		return nil, nil
 	}
-	var result RoleAssignments_SpecARM
+	result := &RoleAssignments_SpecARM{}
 
 	// Set property ‘Location’:
 	if assignments.Location != nil {
@@ -765,7 +771,7 @@ func (assignments *RoleAssignments_Spec) ConvertToARM(resolved genruntime.Conver
 
 	// Set property ‘Tags’:
 	if assignments.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(assignments.Tags))
 		for key, value := range assignments.Tags {
 			result.Tags[key] = value
 		}
@@ -855,7 +861,7 @@ func (assignments *RoleAssignments_Spec) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		assignments.Tags = make(map[string]string)
+		assignments.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			assignments.Tags[key] = value
 		}

@@ -112,7 +112,7 @@ func (peering *VirtualNetworksVirtualNetworkPeering) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2020-11-01"
 func (peering VirtualNetworksVirtualNetworkPeering) GetAPIVersion() string {
-	return "2020-11-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -836,7 +836,7 @@ func (peerings *VirtualNetworksVirtualNetworkPeerings_Spec) ConvertToARM(resolve
 	if peerings == nil {
 		return nil, nil
 	}
-	var result VirtualNetworksVirtualNetworkPeerings_SpecARM
+	result := &VirtualNetworksVirtualNetworkPeerings_SpecARM{}
 
 	// Set property ‘Location’:
 	if peerings.Location != nil {
@@ -879,7 +879,7 @@ func (peerings *VirtualNetworksVirtualNetworkPeerings_Spec) ConvertToARM(resolve
 		if err != nil {
 			return nil, err
 		}
-		remoteAddressSpace := remoteAddressSpaceARM.(AddressSpaceARM)
+		remoteAddressSpace := *remoteAddressSpaceARM.(*AddressSpaceARM)
 		result.Properties.RemoteAddressSpace = &remoteAddressSpace
 	}
 	if peerings.RemoteBgpCommunities != nil {
@@ -887,7 +887,7 @@ func (peerings *VirtualNetworksVirtualNetworkPeerings_Spec) ConvertToARM(resolve
 		if err != nil {
 			return nil, err
 		}
-		remoteBgpCommunities := remoteBgpCommunitiesARM.(VirtualNetworkBgpCommunitiesARM)
+		remoteBgpCommunities := *remoteBgpCommunitiesARM.(*VirtualNetworkBgpCommunitiesARM)
 		result.Properties.RemoteBgpCommunities = &remoteBgpCommunities
 	}
 	if peerings.RemoteVirtualNetwork != nil {
@@ -895,7 +895,7 @@ func (peerings *VirtualNetworksVirtualNetworkPeerings_Spec) ConvertToARM(resolve
 		if err != nil {
 			return nil, err
 		}
-		remoteVirtualNetwork := remoteVirtualNetworkARM.(SubResourceARM)
+		remoteVirtualNetwork := *remoteVirtualNetworkARM.(*SubResourceARM)
 		result.Properties.RemoteVirtualNetwork = &remoteVirtualNetwork
 	}
 	if peerings.UseRemoteGateways != nil {
@@ -905,7 +905,7 @@ func (peerings *VirtualNetworksVirtualNetworkPeerings_Spec) ConvertToARM(resolve
 
 	// Set property ‘Tags’:
 	if peerings.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(peerings.Tags))
 		for key, value := range peerings.Tags {
 			result.Tags[key] = value
 		}
@@ -1019,7 +1019,7 @@ func (peerings *VirtualNetworksVirtualNetworkPeerings_Spec) PopulateFromARM(owne
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		peerings.Tags = make(map[string]string)
+		peerings.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			peerings.Tags[key] = value
 		}

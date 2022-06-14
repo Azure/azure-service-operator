@@ -89,7 +89,7 @@ func (set *PackageImportSet) ImportFor(ref PackageReference) (PackageImport, boo
 // AsSlice returns a slice containing all the imports
 func (set *PackageImportSet) AsSlice() []PackageImport {
 	set.ensureAliasesAssigned()
-	var result []PackageImport
+	result := make([]PackageImport, 0, len(set.imports))
 	for _, imp := range set.imports {
 		result = append(result, imp)
 	}
@@ -111,8 +111,9 @@ func (set *PackageImportSet) AsSortedSlice() []PackageImport {
 // AsImportSpecs returns the abstract syntax tree representation for importing the packages in this set
 func (set *PackageImportSet) AsImportSpecs() []dst.Spec {
 	set.ensureAliasesAssigned()
-	var importSpecs []dst.Spec
-	for _, requiredImport := range set.AsSortedSlice() {
+	requiredImports := set.AsSortedSlice()
+	importSpecs := make([]dst.Spec, 0, len(requiredImports))
+	for _, requiredImport := range requiredImports {
 		importSpecs = append(importSpecs, requiredImport.AsImportSpec())
 	}
 
@@ -186,7 +187,7 @@ func (set *PackageImportSet) orderImports(i PackageImport, j PackageImport) bool
 func (set *PackageImportSet) createMapByGroup() map[string][]PackageImport {
 	result := make(map[string][]PackageImport)
 	for _, imp := range set.imports {
-		group, _, ok := imp.packageReference.GroupVersion()
+		group, _, ok := imp.packageReference.TryGroupVersion()
 		if !ok {
 			continue
 		}

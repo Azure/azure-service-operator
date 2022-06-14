@@ -249,15 +249,9 @@ func (c *armConversionApplier) addARMConversionInterface(
 }
 
 func (c *armConversionApplier) createOwnerProperty(ownerTypeName *astmodel.TypeName) (*astmodel.PropertyDefinition, error) {
-	ref := ownerTypeName.PackageReference
-	var group string
-	var kind string
-	if grp, _, ok := ref.GroupVersion(); ok {
-		group = grp + astmodel.GroupSuffix
-		kind = ownerTypeName.Name()
-	} else {
-		return nil, errors.Errorf("owners from external package %s not currently supported", ref)
-	}
+	grp, _ := ownerTypeName.PackageReference.GroupVersion()
+	group := grp + astmodel.GroupSuffix
+	kind := ownerTypeName.Name()
 
 	prop := astmodel.NewPropertyDefinition(
 		c.idFactory.CreatePropertyName(astmodel.OwnerProperty, astmodel.Exported),

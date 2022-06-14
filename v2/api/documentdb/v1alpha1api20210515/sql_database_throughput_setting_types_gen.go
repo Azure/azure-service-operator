@@ -105,7 +105,7 @@ func (setting *SqlDatabaseThroughputSetting) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (setting SqlDatabaseThroughputSetting) GetAPIVersion() string {
-	return "2021-05-15"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -345,7 +345,7 @@ func (settings *DatabaseAccountsSqlDatabasesThroughputSettings_Spec) ConvertToAR
 	if settings == nil {
 		return nil, nil
 	}
-	var result DatabaseAccountsSqlDatabasesThroughputSettings_SpecARM
+	result := &DatabaseAccountsSqlDatabasesThroughputSettings_SpecARM{}
 
 	// Set property ‘Location’:
 	if settings.Location != nil {
@@ -365,13 +365,13 @@ func (settings *DatabaseAccountsSqlDatabasesThroughputSettings_Spec) ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		resource := resourceARM.(ThroughputSettingsResourceARM)
+		resource := *resourceARM.(*ThroughputSettingsResourceARM)
 		result.Properties.Resource = &resource
 	}
 
 	// Set property ‘Tags’:
 	if settings.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(settings.Tags))
 		for key, value := range settings.Tags {
 			result.Tags[key] = value
 		}
@@ -418,7 +418,7 @@ func (settings *DatabaseAccountsSqlDatabasesThroughputSettings_Spec) PopulateFro
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		settings.Tags = make(map[string]string)
+		settings.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			settings.Tags[key] = value
 		}

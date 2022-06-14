@@ -35,11 +35,6 @@ type Database_Status struct {
 	AtProvider              DatabaseObservation `json:"atProvider,omitempty"`
 }
 
-// +kubebuilder:validation:Enum={"2020-11-01-preview"}
-type ServersDatabasesSpecAPIVersion string
-
-const ServersDatabasesSpecAPIVersion20201101Preview = ServersDatabasesSpecAPIVersion("2020-11-01-preview")
-
 type ServersDatabases_Spec struct {
 	v1alpha1.ResourceSpec `json:",inline,omitempty"`
 	ForProvider           ServersDatabasesParameters `json:"forProvider,omitempty"`

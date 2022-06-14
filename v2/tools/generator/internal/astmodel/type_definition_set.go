@@ -10,6 +10,8 @@ import (
 
 	"github.com/google/go-cmp/cmp"
 	"github.com/pkg/errors"
+
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/readonly"
 )
 
 // TypeDefinitionSet is a map of TypeName to TypeDefinition, representing a set of type definitions.
@@ -141,6 +143,9 @@ func DiffTypes(x, y interface{}) string {
 		LocalPackageReference{},
 		InterfaceImplementer{},
 		TypeSet{},
+		readonly.Map[string, Function]{},
+		readonly.Map[string, TestCase]{},
+		readonly.Map[string, []string]{},
 	)
 
 	return cmp.Diff(x, y, allowAll)
@@ -295,7 +300,7 @@ func (set TypeDefinitionSet) ResolveResourceStatusDefinition(resourceType *Resou
 
 // AsSlice creates a new slice containing all the definitions
 func (set TypeDefinitionSet) AsSlice() []TypeDefinition {
-	var result []TypeDefinition
+	result := make([]TypeDefinition, 0, len(set))
 	for _, def := range set {
 		result = append(result, def)
 	}
@@ -386,7 +391,7 @@ func ResolveResourceSpecAndStatus(defs ReadonlyTypeDefinitions, resourceDef Type
 	}
 	spec, ok := AsObjectType(specDef.Type())
 	if !ok {
-		return nil, errors.Errorf("resource spec %q did not contain an object", resource.SpecType().String())
+		return nil, errors.Errorf("resource spec %q did not contain an object, instead %s", resource.SpecType().String(), specDef.Type())
 	}
 
 	// Resolve the status if it's there (we need this because our golden file tests don't have status currently)
@@ -400,7 +405,7 @@ func ResolveResourceSpecAndStatus(defs ReadonlyTypeDefinitions, resourceDef Type
 		}
 		status, ok = AsObjectType(statusDef.Type())
 		if !ok {
-			return nil, errors.Errorf("resource status %q did not contain an object", resource.StatusType().String())
+			return nil, errors.Errorf("resource status %q did not contain an object, instead %s", resource.StatusType().String(), statusDef.Type())
 		}
 	}
 

@@ -56,7 +56,7 @@ If ASO was already configured to generate resources from this group (or version)
 
 ## Run the code generator
 
-Follow the steps in the [contributing guide](../contributing/) to set up your development environment.
+Follow the steps in the [contributing guide](../_index.md) to set up your development environment.
 Once you have a working development environment, run the `task` command to run the code generator.
 
 ## Fix any errors raised by the code generator
@@ -171,7 +171,7 @@ as a template for authoring an extension for your resource.
 The best way to do this is to start from an [existing test](https://github.com/Azure/azure-service-operator/blob/main/v2/internal/controllers/crd_cosmosdb_mongodb_test.go) and modify it to work for your resource. It can also be helpful to refer to examples in the [ARM templates GitHub repo](https://github.com/Azure/azure-quickstart-templates).
 
 ## Run the CRUD test for the resource and commit the recording
-See [the code generator README](../contributing/#running-integration-tests) for how to run recording tests.
+See [the code generator README](../#running-integration-tests) for how to run recording tests.
 
 ## Add a new sample
 The samples are located in the [samples directory](https://github.com/Azure/azure-service-operator/blob/main/v2/config/samples). There should be at least one sample for each kind of supported resource. These currently need to be added manually. It's possible in the future we will automatically generate samples similar to how we automatically generate CRDs and types, but that doesn't happen today.

@@ -20,16 +20,16 @@ var _ genruntime.ARMResourceSpec = &StorageAccountsManagementPolicies_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-04-01"
 func (policies StorageAccountsManagementPolicies_SpecARM) GetAPIVersion() string {
-	return "2021-04-01"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource
-func (policies StorageAccountsManagementPolicies_SpecARM) GetName() string {
+func (policies *StorageAccountsManagementPolicies_SpecARM) GetName() string {
 	return policies.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.Storage/storageAccounts/managementPolicies"
-func (policies StorageAccountsManagementPolicies_SpecARM) GetType() string {
+func (policies *StorageAccountsManagementPolicies_SpecARM) GetType() string {
 	return "Microsoft.Storage/storageAccounts/managementPolicies"
 }
 

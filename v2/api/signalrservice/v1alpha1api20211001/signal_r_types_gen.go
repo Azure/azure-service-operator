@@ -113,7 +113,7 @@ func (signalR *SignalR) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-10-01"
 func (signalR SignalR) GetAPIVersion() string {
-	return "2021-10-01"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -331,6 +331,12 @@ type SignalRList struct {
 	metav1.ListMeta `json:"metadata,omitempty"`
 	Items           []SignalR `json:"items"`
 }
+
+// Deprecated version of APIVersion. Use v1beta20211001.APIVersion instead
+// +kubebuilder:validation:Enum={"2021-10-01"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2021-10-01")
 
 // Deprecated version of SignalRResource_Status. Use v1beta20211001.SignalRResource_Status instead
 type SignalRResource_Status struct {
@@ -652,7 +658,7 @@ func (resource *SignalRResource_Status) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		resource.Tags = make(map[string]string)
+		resource.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			resource.Tags[key] = value
 		}
@@ -1203,7 +1209,7 @@ func (signalR *SignalR_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 	if signalR == nil {
 		return nil, nil
 	}
-	var result SignalR_SpecARM
+	result := &SignalR_SpecARM{}
 
 	// Set property ‘Identity’:
 	if signalR.Identity != nil {
@@ -1211,7 +1217,7 @@ func (signalR *SignalR_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		if err != nil {
 			return nil, err
 		}
-		identity := identityARM.(ManagedIdentityARM)
+		identity := *identityARM.(*ManagedIdentityARM)
 		result.Identity = &identity
 	}
 
@@ -1247,7 +1253,7 @@ func (signalR *SignalR_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		if err != nil {
 			return nil, err
 		}
-		cors := corsARM.(SignalRCorsSettingsARM)
+		cors := *corsARM.(*SignalRCorsSettingsARM)
 		result.Properties.Cors = &cors
 	}
 	if signalR.DisableAadAuth != nil {
@@ -1263,14 +1269,14 @@ func (signalR *SignalR_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.Features = append(result.Properties.Features, itemARM.(SignalRFeatureARM))
+		result.Properties.Features = append(result.Properties.Features, *itemARM.(*SignalRFeatureARM))
 	}
 	if signalR.NetworkACLs != nil {
 		networkACLsARM, err := (*signalR.NetworkACLs).ConvertToARM(resolved)
 		if err != nil {
 			return nil, err
 		}
-		networkACLs := networkACLsARM.(SignalRNetworkACLsARM)
+		networkACLs := *networkACLsARM.(*SignalRNetworkACLsARM)
 		result.Properties.NetworkACLs = &networkACLs
 	}
 	if signalR.PublicNetworkAccess != nil {
@@ -1282,7 +1288,7 @@ func (signalR *SignalR_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		if err != nil {
 			return nil, err
 		}
-		resourceLogConfiguration := resourceLogConfigurationARM.(ResourceLogConfigurationARM)
+		resourceLogConfiguration := *resourceLogConfigurationARM.(*ResourceLogConfigurationARM)
 		result.Properties.ResourceLogConfiguration = &resourceLogConfiguration
 	}
 	if signalR.Tls != nil {
@@ -1290,7 +1296,7 @@ func (signalR *SignalR_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		if err != nil {
 			return nil, err
 		}
-		tls := tlsARM.(SignalRTlsSettingsARM)
+		tls := *tlsARM.(*SignalRTlsSettingsARM)
 		result.Properties.Tls = &tls
 	}
 	if signalR.Upstream != nil {
@@ -1298,7 +1304,7 @@ func (signalR *SignalR_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		if err != nil {
 			return nil, err
 		}
-		upstream := upstreamARM.(ServerlessUpstreamSettingsARM)
+		upstream := *upstreamARM.(*ServerlessUpstreamSettingsARM)
 		result.Properties.Upstream = &upstream
 	}
 
@@ -1308,13 +1314,13 @@ func (signalR *SignalR_Spec) ConvertToARM(resolved genruntime.ConvertToARMResolv
 		if err != nil {
 			return nil, err
 		}
-		sku := skuARM.(ResourceSkuARM)
+		sku := *skuARM.(*ResourceSkuARM)
 		result.Sku = &sku
 	}
 
 	// Set property ‘Tags’:
 	if signalR.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(signalR.Tags))
 		for key, value := range signalR.Tags {
 			result.Tags[key] = value
 		}
@@ -1460,7 +1466,7 @@ func (signalR *SignalR_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRefe
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		signalR.Tags = make(map[string]string)
+		signalR.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			signalR.Tags[key] = value
 		}
@@ -1887,7 +1893,7 @@ func (identity *ManagedIdentity) ConvertToARM(resolved genruntime.ConvertToARMRe
 	if identity == nil {
 		return nil, nil
 	}
-	var result ManagedIdentityARM
+	result := &ManagedIdentityARM{}
 
 	// Set property ‘Type’:
 	if identity.Type != nil {
@@ -1897,7 +1903,7 @@ func (identity *ManagedIdentity) ConvertToARM(resolved genruntime.ConvertToARMRe
 
 	// Set property ‘UserAssignedIdentities’:
 	if identity.UserAssignedIdentities != nil {
-		result.UserAssignedIdentities = make(map[string]v1.JSON)
+		result.UserAssignedIdentities = make(map[string]v1.JSON, len(identity.UserAssignedIdentities))
 		for key, value := range identity.UserAssignedIdentities {
 			result.UserAssignedIdentities[key] = *value.DeepCopy()
 		}
@@ -1925,7 +1931,7 @@ func (identity *ManagedIdentity) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property ‘UserAssignedIdentities’:
 	if typedInput.UserAssignedIdentities != nil {
-		identity.UserAssignedIdentities = make(map[string]v1.JSON)
+		identity.UserAssignedIdentities = make(map[string]v1.JSON, len(typedInput.UserAssignedIdentities))
 		for key, value := range typedInput.UserAssignedIdentities {
 			identity.UserAssignedIdentities[key] = *value.DeepCopy()
 		}
@@ -2042,7 +2048,7 @@ func (identity *ManagedIdentity_Status) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property ‘UserAssignedIdentities’:
 	if typedInput.UserAssignedIdentities != nil {
-		identity.UserAssignedIdentities = make(map[string]UserAssignedIdentityProperty_Status)
+		identity.UserAssignedIdentities = make(map[string]UserAssignedIdentityProperty_Status, len(typedInput.UserAssignedIdentities))
 		for key, value := range typedInput.UserAssignedIdentities {
 			var value1 UserAssignedIdentityProperty_Status
 			err := value1.PopulateFromARM(owner, value)
@@ -2265,7 +2271,7 @@ func (configuration *ResourceLogConfiguration) ConvertToARM(resolved genruntime.
 	if configuration == nil {
 		return nil, nil
 	}
-	var result ResourceLogConfigurationARM
+	result := &ResourceLogConfigurationARM{}
 
 	// Set property ‘Categories’:
 	for _, item := range configuration.Categories {
@@ -2273,7 +2279,7 @@ func (configuration *ResourceLogConfiguration) ConvertToARM(resolved genruntime.
 		if err != nil {
 			return nil, err
 		}
-		result.Categories = append(result.Categories, itemARM.(ResourceLogCategoryARM))
+		result.Categories = append(result.Categories, *itemARM.(*ResourceLogCategoryARM))
 	}
 	return result, nil
 }
@@ -2471,7 +2477,7 @@ func (resourceSku *ResourceSku) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if resourceSku == nil {
 		return nil, nil
 	}
-	var result ResourceSkuARM
+	result := &ResourceSkuARM{}
 
 	// Set property ‘Capacity’:
 	if resourceSku.Capacity != nil {
@@ -2710,7 +2716,7 @@ func (settings *ServerlessUpstreamSettings) ConvertToARM(resolved genruntime.Con
 	if settings == nil {
 		return nil, nil
 	}
-	var result ServerlessUpstreamSettingsARM
+	result := &ServerlessUpstreamSettingsARM{}
 
 	// Set property ‘Templates’:
 	for _, item := range settings.Templates {
@@ -2718,7 +2724,7 @@ func (settings *ServerlessUpstreamSettings) ConvertToARM(resolved genruntime.Con
 		if err != nil {
 			return nil, err
 		}
-		result.Templates = append(result.Templates, itemARM.(UpstreamTemplateARM))
+		result.Templates = append(result.Templates, *itemARM.(*UpstreamTemplateARM))
 	}
 	return result, nil
 }
@@ -3006,7 +3012,7 @@ func (settings *SignalRCorsSettings) ConvertToARM(resolved genruntime.ConvertToA
 	if settings == nil {
 		return nil, nil
 	}
-	var result SignalRCorsSettingsARM
+	result := &SignalRCorsSettingsARM{}
 
 	// Set property ‘AllowedOrigins’:
 	for _, item := range settings.AllowedOrigins {
@@ -3141,7 +3147,7 @@ func (feature *SignalRFeature) ConvertToARM(resolved genruntime.ConvertToARMReso
 	if feature == nil {
 		return nil, nil
 	}
-	var result SignalRFeatureARM
+	result := &SignalRFeatureARM{}
 
 	// Set property ‘Flag’:
 	if feature.Flag != nil {
@@ -3151,7 +3157,7 @@ func (feature *SignalRFeature) ConvertToARM(resolved genruntime.ConvertToARMReso
 
 	// Set property ‘Properties’:
 	if feature.Properties != nil {
-		result.Properties = make(map[string]string)
+		result.Properties = make(map[string]string, len(feature.Properties))
 		for key, value := range feature.Properties {
 			result.Properties[key] = value
 		}
@@ -3185,7 +3191,7 @@ func (feature *SignalRFeature) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property ‘Properties’:
 	if typedInput.Properties != nil {
-		feature.Properties = make(map[string]string)
+		feature.Properties = make(map[string]string, len(typedInput.Properties))
 		for key, value := range typedInput.Properties {
 			feature.Properties[key] = value
 		}
@@ -3291,7 +3297,7 @@ func (feature *SignalRFeature_Status) PopulateFromARM(owner genruntime.Arbitrary
 
 	// Set property ‘Properties’:
 	if typedInput.Properties != nil {
-		feature.Properties = make(map[string]string)
+		feature.Properties = make(map[string]string, len(typedInput.Properties))
 		for key, value := range typedInput.Properties {
 			feature.Properties[key] = value
 		}
@@ -3372,7 +3378,7 @@ func (acLs *SignalRNetworkACLs) ConvertToARM(resolved genruntime.ConvertToARMRes
 	if acLs == nil {
 		return nil, nil
 	}
-	var result SignalRNetworkACLsARM
+	result := &SignalRNetworkACLsARM{}
 
 	// Set property ‘DefaultAction’:
 	if acLs.DefaultAction != nil {
@@ -3386,7 +3392,7 @@ func (acLs *SignalRNetworkACLs) ConvertToARM(resolved genruntime.ConvertToARMRes
 		if err != nil {
 			return nil, err
 		}
-		result.PrivateEndpoints = append(result.PrivateEndpoints, itemARM.(PrivateEndpointACLARM))
+		result.PrivateEndpoints = append(result.PrivateEndpoints, *itemARM.(*PrivateEndpointACLARM))
 	}
 
 	// Set property ‘PublicNetwork’:
@@ -3395,7 +3401,7 @@ func (acLs *SignalRNetworkACLs) ConvertToARM(resolved genruntime.ConvertToARMRes
 		if err != nil {
 			return nil, err
 		}
-		publicNetwork := publicNetworkARM.(NetworkACLARM)
+		publicNetwork := *publicNetworkARM.(*NetworkACLARM)
 		result.PublicNetwork = &publicNetwork
 	}
 	return result, nil
@@ -3706,7 +3712,7 @@ func (settings *SignalRTlsSettings) ConvertToARM(resolved genruntime.ConvertToAR
 	if settings == nil {
 		return nil, nil
 	}
-	var result SignalRTlsSettingsARM
+	result := &SignalRTlsSettingsARM{}
 
 	// Set property ‘ClientCertEnabled’:
 	if settings.ClientCertEnabled != nil {
@@ -4019,7 +4025,7 @@ func (networkACL *NetworkACL) ConvertToARM(resolved genruntime.ConvertToARMResol
 	if networkACL == nil {
 		return nil, nil
 	}
-	var result NetworkACLARM
+	result := &NetworkACLARM{}
 
 	// Set property ‘Allow’:
 	for _, item := range networkACL.Allow {
@@ -4259,7 +4265,7 @@ func (endpointACL *PrivateEndpointACL) ConvertToARM(resolved genruntime.ConvertT
 	if endpointACL == nil {
 		return nil, nil
 	}
-	var result PrivateEndpointACLARM
+	result := &PrivateEndpointACLARM{}
 
 	// Set property ‘Allow’:
 	for _, item := range endpointACL.Allow {
@@ -4527,7 +4533,7 @@ func (category *ResourceLogCategory) ConvertToARM(resolved genruntime.ConvertToA
 	if category == nil {
 		return nil, nil
 	}
-	var result ResourceLogCategoryARM
+	result := &ResourceLogCategoryARM{}
 
 	// Set property ‘Enabled’:
 	if category.Enabled != nil {
@@ -4715,7 +4721,7 @@ func (template *UpstreamTemplate) ConvertToARM(resolved genruntime.ConvertToARMR
 	if template == nil {
 		return nil, nil
 	}
-	var result UpstreamTemplateARM
+	result := &UpstreamTemplateARM{}
 
 	// Set property ‘Auth’:
 	if template.Auth != nil {
@@ -4723,7 +4729,7 @@ func (template *UpstreamTemplate) ConvertToARM(resolved genruntime.ConvertToARMR
 		if err != nil {
 			return nil, err
 		}
-		auth := authARM.(UpstreamAuthSettingsARM)
+		auth := *authARM.(*UpstreamAuthSettingsARM)
 		result.Auth = &auth
 	}
 
@@ -5146,7 +5152,7 @@ func (settings *UpstreamAuthSettings) ConvertToARM(resolved genruntime.ConvertTo
 	if settings == nil {
 		return nil, nil
 	}
-	var result UpstreamAuthSettingsARM
+	result := &UpstreamAuthSettingsARM{}
 
 	// Set property ‘ManagedIdentity’:
 	if settings.ManagedIdentity != nil {
@@ -5154,7 +5160,7 @@ func (settings *UpstreamAuthSettings) ConvertToARM(resolved genruntime.ConvertTo
 		if err != nil {
 			return nil, err
 		}
-		managedIdentity := managedIdentityARM.(ManagedIdentitySettingsARM)
+		managedIdentity := *managedIdentityARM.(*ManagedIdentitySettingsARM)
 		result.ManagedIdentity = &managedIdentity
 	}
 
@@ -5378,7 +5384,7 @@ func (settings *ManagedIdentitySettings) ConvertToARM(resolved genruntime.Conver
 	if settings == nil {
 		return nil, nil
 	}
-	var result ManagedIdentitySettingsARM
+	result := &ManagedIdentitySettingsARM{}
 
 	// Set property ‘Resource’:
 	if settings.Resource != nil {

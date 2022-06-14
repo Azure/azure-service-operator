@@ -242,6 +242,7 @@ func (tc *KubePerTestContext) Subtest(t *testing.T) *KubePerTestContext {
 	result.T = t
 	result.G = gomega.NewWithT(t)
 	result.Namer = tc.Namer.WithTestName(t.Name())
+	result.NoSpaceNamer = result.Namer.WithSeparator("") // TODO: better way to avoid this mistake in the future
 	result.TestName = t.Name()
 	result.logger = NewTestLogger(t)
 	return result

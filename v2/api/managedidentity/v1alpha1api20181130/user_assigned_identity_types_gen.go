@@ -112,7 +112,7 @@ func (identity *UserAssignedIdentity) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2018-11-30"
 func (identity UserAssignedIdentity) GetAPIVersion() string {
-	return "2018-11-30"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -331,6 +331,12 @@ type UserAssignedIdentityList struct {
 	Items           []UserAssignedIdentity `json:"items"`
 }
 
+// Deprecated version of APIVersion. Use v1beta20181130.APIVersion instead
+// +kubebuilder:validation:Enum={"2018-11-30"}
+type APIVersion string
+
+const APIVersionValue = APIVersion("2018-11-30")
+
 // Deprecated version of Identity_Status. Use v1beta20181130.Identity_Status instead
 type Identity_Status struct {
 	ClientId *string `json:"clientId,omitempty"`
@@ -450,7 +456,7 @@ func (identity *Identity_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		identity.Tags = make(map[string]string)
+		identity.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			identity.Tags[key] = value
 		}
@@ -573,7 +579,7 @@ func (identities *UserAssignedIdentities_Spec) ConvertToARM(resolved genruntime.
 	if identities == nil {
 		return nil, nil
 	}
-	var result UserAssignedIdentities_SpecARM
+	result := &UserAssignedIdentities_SpecARM{}
 
 	// Set property ‘Location’:
 	if identities.Location != nil {
@@ -586,7 +592,7 @@ func (identities *UserAssignedIdentities_Spec) ConvertToARM(resolved genruntime.
 
 	// Set property ‘Tags’:
 	if identities.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(identities.Tags))
 		for key, value := range identities.Tags {
 			result.Tags[key] = value
 		}
@@ -622,7 +628,7 @@ func (identities *UserAssignedIdentities_Spec) PopulateFromARM(owner genruntime.
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		identities.Tags = make(map[string]string)
+		identities.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			identities.Tags[key] = value
 		}

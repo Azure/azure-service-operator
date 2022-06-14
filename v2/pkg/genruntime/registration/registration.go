@@ -10,6 +10,8 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/handler"
 	"sigs.k8s.io/controller-runtime/pkg/source"
+
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 // Index describes an index registration.
@@ -28,13 +30,22 @@ type Watch struct {
 	MakeEventHandler EventHandlerFactory
 }
 
-// StorageType describes a storage type to register, as well as any additional
-// indexes or watches required.
-// Obj is the object whose Kind should be registered as the storage type.
+// StorageType describes a storage type which will be reconciled.
 type StorageType struct {
-	Obj     client.Object
+	// Obj is the object whose Kind should be registered as the storage type.
+	Obj client.Object
+	// Indexes are additional indexes which must be set up in client-go for this type. These indexes will
+	// be used by the reconciliation loop for this resource.
 	Indexes []Index
+	// Watches are additional event sources that trigger the reconciliation process. This is commonly
+	// used when multiple resources in Kubernetes combine to work together. For example, when a
+	// database takes a Kubernetes secret as an input, that secret must also be watched in addition
+	// to the database itself, so that changes to the secret are correctly propagated.
 	Watches []Watch
+	// Reconciler is the reconciler instance for resources of this type.
+	Reconciler genruntime.Reconciler
+	// Name is the friendly name of this storage type
+	Name string
 }
 
 // NewStorageType makes a new storage type for the specified object

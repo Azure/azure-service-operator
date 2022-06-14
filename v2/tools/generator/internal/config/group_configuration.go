@@ -53,7 +53,7 @@ func (gc *GroupConfiguration) addVersion(name string, version *VersionConfigurat
 	local := astmodel.MakeLocalPackageReference("prefix", "group", astmodel.GeneratorVersion, name)
 
 	gc.versions[strings.ToLower(name)] = version
-	gc.versions[strings.ToLower(local.ApiVersion())] = version
+	gc.versions[strings.ToLower(local.Version())] = version
 }
 
 // visitVersion invokes the provided visitor on the specified version if present.
@@ -67,15 +67,20 @@ func (gc *GroupConfiguration) visitVersion(
 		return err
 	}
 
-	return visitor.visitVersion(vc)
+	err = visitor.visitVersion(vc)
+	if err != nil {
+		return errors.Wrapf(err, "configuration of group %s", gc.name)
+	}
+
+	return nil
 }
 
 // visitVersions invokes the provided visitor on all versions.
 func (gc *GroupConfiguration) visitVersions(visitor *configurationVisitor) error {
-	var errs []error
-
 	// All our versions are listed under multiple keys, so we hedge against processing them multiple times
 	versionsSeen := set.Make[string]()
+
+	errs := make([]error, 0)
 	for _, v := range gc.versions {
 		if versionsSeen.Contains(v.name) {
 			continue
@@ -115,12 +120,16 @@ func (gc *GroupConfiguration) findVersionForLocalPackageReference(ref astmodel.L
 	// Check based on the ApiVersion alone
 	apiKey := strings.ToLower(ref.ApiVersion())
 	if version, ok := gc.versions[apiKey]; ok {
+		// make sure there's an exact match on the actual version name, so we don't generate a recommendation
+		gc.advisor.AddTerm(version.name)
 		return version, nil
 	}
 
 	// Also check the entire package name (allows config to specify just a particular generator version if needed)
 	pkgKey := strings.ToLower(ref.PackageName())
 	if version, ok := gc.versions[pkgKey]; ok {
+		// make sure there's an exact match on the actual version name, so we don't generate a recommendation
+		gc.advisor.AddTerm(version.name)
 		return version, nil
 	}
 
@@ -170,10 +179,9 @@ func (gc *GroupConfiguration) UnmarshalYAML(value *yaml.Node) error {
 
 // configuredVersions returns a sorted slice containing all the versions configured in this group
 func (gc *GroupConfiguration) configuredVersions() []string {
-	var result []string
-
 	// All our versions are listed twice, under two different keys, so we hedge against processing them multiple times
 	versionsSeen := set.Make[string]()
+	result := make([]string, 0, len(gc.versions))
 	for _, v := range gc.versions {
 		if versionsSeen.Contains(v.name) {
 			continue

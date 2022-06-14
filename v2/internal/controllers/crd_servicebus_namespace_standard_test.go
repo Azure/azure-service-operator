@@ -44,18 +44,18 @@ func Test_ServiceBus_Namespace_Standard_CRUD(t *testing.T) {
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
 			Name: "Queue CRUD",
-			Test: func(t *testcommon.KubePerTestContext) { ServiceBus_Queue_CRUD(tc, namespace) },
+			Test: func(tc *testcommon.KubePerTestContext) { ServiceBus_Queue_CRUD(tc, namespace) },
 		},
 		testcommon.Subtest{
 			Name: "Topic CRUD",
-			Test: func(t *testcommon.KubePerTestContext) { ServiceBus_Topic_CRUD(tc, namespace) },
+			Test: func(tc *testcommon.KubePerTestContext) { ServiceBus_Topic_CRUD(tc, namespace) },
 		},
 	)
 
 	tc.DeleteResourceAndWait(namespace)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(servicebus.NamespacesSpecAPIVersion20210101Preview))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(servicebus.APIVersionValue))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

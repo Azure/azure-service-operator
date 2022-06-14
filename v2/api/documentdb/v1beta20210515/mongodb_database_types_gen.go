@@ -98,7 +98,7 @@ func (database *MongodbDatabase) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (database MongodbDatabase) GetAPIVersion() string {
-	return "2021-05-15"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -317,11 +317,6 @@ type MongodbDatabaseList struct {
 	Items           []MongodbDatabase `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2021-05-15"}
-type DatabaseAccountsMongodbDatabasesSpecAPIVersion string
-
-const DatabaseAccountsMongodbDatabasesSpecAPIVersion20210515 = DatabaseAccountsMongodbDatabasesSpecAPIVersion("2021-05-15")
-
 type DatabaseAccountsMongodbDatabases_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -359,7 +354,7 @@ func (databases *DatabaseAccountsMongodbDatabases_Spec) ConvertToARM(resolved ge
 	if databases == nil {
 		return nil, nil
 	}
-	var result DatabaseAccountsMongodbDatabases_SpecARM
+	result := &DatabaseAccountsMongodbDatabases_SpecARM{}
 
 	// Set property ‘Location’:
 	if databases.Location != nil {
@@ -379,7 +374,7 @@ func (databases *DatabaseAccountsMongodbDatabases_Spec) ConvertToARM(resolved ge
 		if err != nil {
 			return nil, err
 		}
-		options := optionsARM.(CreateUpdateOptionsARM)
+		options := *optionsARM.(*CreateUpdateOptionsARM)
 		result.Properties.Options = &options
 	}
 	if databases.Resource != nil {
@@ -387,13 +382,13 @@ func (databases *DatabaseAccountsMongodbDatabases_Spec) ConvertToARM(resolved ge
 		if err != nil {
 			return nil, err
 		}
-		resource := resourceARM.(MongoDBDatabaseResourceARM)
+		resource := *resourceARM.(*MongoDBDatabaseResourceARM)
 		result.Properties.Resource = &resource
 	}
 
 	// Set property ‘Tags’:
 	if databases.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(databases.Tags))
 		for key, value := range databases.Tags {
 			result.Tags[key] = value
 		}
@@ -457,7 +452,7 @@ func (databases *DatabaseAccountsMongodbDatabases_Spec) PopulateFromARM(owner ge
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		databases.Tags = make(map[string]string)
+		databases.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			databases.Tags[key] = value
 		}
@@ -769,7 +764,7 @@ func (results *MongoDBDatabaseGetResults_Status) PopulateFromARM(owner genruntim
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		results.Tags = make(map[string]string)
+		results.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			results.Tags[key] = value
 		}
@@ -907,7 +902,7 @@ func (options *CreateUpdateOptions) ConvertToARM(resolved genruntime.ConvertToAR
 	if options == nil {
 		return nil, nil
 	}
-	var result CreateUpdateOptionsARM
+	result := &CreateUpdateOptionsARM{}
 
 	// Set property ‘AutoscaleSettings’:
 	if options.AutoscaleSettings != nil {
@@ -915,7 +910,7 @@ func (options *CreateUpdateOptions) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		autoscaleSettings := autoscaleSettingsARM.(AutoscaleSettingsARM)
+		autoscaleSettings := *autoscaleSettingsARM.(*AutoscaleSettingsARM)
 		result.AutoscaleSettings = &autoscaleSettings
 	}
 
@@ -1140,7 +1135,7 @@ func (resource *MongoDBDatabaseResource) ConvertToARM(resolved genruntime.Conver
 	if resource == nil {
 		return nil, nil
 	}
-	var result MongoDBDatabaseResourceARM
+	result := &MongoDBDatabaseResourceARM{}
 
 	// Set property ‘Id’:
 	if resource.Id != nil {
@@ -1311,7 +1306,7 @@ func (settings *AutoscaleSettings) ConvertToARM(resolved genruntime.ConvertToARM
 	if settings == nil {
 		return nil, nil
 	}
-	var result AutoscaleSettingsARM
+	result := &AutoscaleSettingsARM{}
 
 	// Set property ‘MaxThroughput’:
 	if settings.MaxThroughput != nil {

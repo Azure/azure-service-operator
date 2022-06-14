@@ -31,12 +31,14 @@ func (ext *DatabaseAccountExtension) RetrieveSecrets(
 	armClient *genericarmclient.GenericClient,
 	log logr.Logger) ([]*v1.Secret, error) {
 
+	// This has to be the current hub storage version. It will need to be updated
+	// if the hub storage version changes.
 	typedObj, ok := obj.(*documentdb.DatabaseAccount)
 	if !ok {
-		return nil, errors.Errorf("cannot run on unknown resource type %T", obj)
+		return nil, errors.Errorf("cannot run on unknown resource type %T, expected *documentdb.DatabaseAccount", obj)
 	}
 
-	// Type assert that we are the hub type. This should fail to compile if
+	// Type assert that we are the hub type. This will fail to compile if
 	// the hub type has been changed but this extension has not
 	var _ conversion.Hub = typedObj
 
@@ -57,7 +59,11 @@ func (ext *DatabaseAccountExtension) RetrieveSecrets(
 		subscription := armClient.SubscriptionID()
 		// Using armClient.ClientOptions() here ensures we share the same HTTP connection, so this is not opening a new
 		// connection each time through
-		acctClient := armcosmos.NewDatabaseAccountsClient(subscription, armClient.Creds(), armClient.ClientOptions())
+		var acctClient *armcosmos.DatabaseAccountsClient
+		acctClient, err = armcosmos.NewDatabaseAccountsClient(subscription, armClient.Creds(), armClient.ClientOptions())
+		if err != nil {
+			return nil, errors.Wrapf(err, "failed to create new DatabaseAccountClient")
+		}
 
 		// TODO: There is a ListReadOnlyKeys API that requires less permissions. We should consider determining
 		// TODO: that we don't need to call the ListKeys API and install call the listReadOnlyKeys API.

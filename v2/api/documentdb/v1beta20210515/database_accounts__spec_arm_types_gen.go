@@ -36,16 +36,16 @@ var _ genruntime.ARMResourceSpec = &DatabaseAccounts_SpecARM{}
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (accounts DatabaseAccounts_SpecARM) GetAPIVersion() string {
-	return "2021-05-15"
+	return string(APIVersionValue)
 }
 
 // GetName returns the Name of the resource
-func (accounts DatabaseAccounts_SpecARM) GetName() string {
+func (accounts *DatabaseAccounts_SpecARM) GetName() string {
 	return accounts.Name
 }
 
 // GetType returns the ARM Type of the resource. This is always "Microsoft.DocumentDB/databaseAccounts"
-func (accounts DatabaseAccounts_SpecARM) GetType() string {
+func (accounts *DatabaseAccounts_SpecARM) GetType() string {
 	return "Microsoft.DocumentDB/databaseAccounts"
 }
 

@@ -98,7 +98,7 @@ func (database *SqlDatabase) AzureName() string {
 
 // GetAPIVersion returns the ARM API version of the resource. This is always "2021-05-15"
 func (database SqlDatabase) GetAPIVersion() string {
-	return "2021-05-15"
+	return string(APIVersionValue)
 }
 
 // GetResourceKind returns the kind of the resource
@@ -317,11 +317,6 @@ type SqlDatabaseList struct {
 	Items           []SqlDatabase `json:"items"`
 }
 
-// +kubebuilder:validation:Enum={"2021-05-15"}
-type DatabaseAccountsSqlDatabasesSpecAPIVersion string
-
-const DatabaseAccountsSqlDatabasesSpecAPIVersion20210515 = DatabaseAccountsSqlDatabasesSpecAPIVersion("2021-05-15")
-
 type DatabaseAccountsSqlDatabases_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
@@ -359,7 +354,7 @@ func (databases *DatabaseAccountsSqlDatabases_Spec) ConvertToARM(resolved genrun
 	if databases == nil {
 		return nil, nil
 	}
-	var result DatabaseAccountsSqlDatabases_SpecARM
+	result := &DatabaseAccountsSqlDatabases_SpecARM{}
 
 	// Set property ‘Location’:
 	if databases.Location != nil {
@@ -379,7 +374,7 @@ func (databases *DatabaseAccountsSqlDatabases_Spec) ConvertToARM(resolved genrun
 		if err != nil {
 			return nil, err
 		}
-		options := optionsARM.(CreateUpdateOptionsARM)
+		options := *optionsARM.(*CreateUpdateOptionsARM)
 		result.Properties.Options = &options
 	}
 	if databases.Resource != nil {
@@ -387,13 +382,13 @@ func (databases *DatabaseAccountsSqlDatabases_Spec) ConvertToARM(resolved genrun
 		if err != nil {
 			return nil, err
 		}
-		resource := resourceARM.(SqlDatabaseResourceARM)
+		resource := *resourceARM.(*SqlDatabaseResourceARM)
 		result.Properties.Resource = &resource
 	}
 
 	// Set property ‘Tags’:
 	if databases.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(databases.Tags))
 		for key, value := range databases.Tags {
 			result.Tags[key] = value
 		}
@@ -457,7 +452,7 @@ func (databases *DatabaseAccountsSqlDatabases_Spec) PopulateFromARM(owner genrun
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		databases.Tags = make(map[string]string)
+		databases.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			databases.Tags[key] = value
 		}
@@ -769,7 +764,7 @@ func (results *SqlDatabaseGetResults_Status) PopulateFromARM(owner genruntime.Ar
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		results.Tags = make(map[string]string)
+		results.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			results.Tags[key] = value
 		}
@@ -1049,7 +1044,7 @@ func (resource *SqlDatabaseResource) ConvertToARM(resolved genruntime.ConvertToA
 	if resource == nil {
 		return nil, nil
 	}
-	var result SqlDatabaseResourceARM
+	result := &SqlDatabaseResourceARM{}
 
 	// Set property ‘Id’:
 	if resource.Id != nil {

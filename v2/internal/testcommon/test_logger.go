@@ -8,6 +8,7 @@ package testcommon
 import (
 	"bytes"
 	"fmt"
+	"strings"
 	"testing"
 	"time"
 
@@ -20,11 +21,24 @@ var LogLevel = 5
 var _ logr.LogSink = &TestLogger{}
 
 func NewTestLogger(t *testing.T) logr.Logger {
+	panicCount := 0
 	return logr.New(&TestLogger{
 		t:       t,
 		values:  nil,
 		enabled: true,
 		name:    "",
+
+		// There are known logging races that can cause the envtest controller to log after a test has exited. This most commonly
+		// happens when the test context cleanup code is running. It uses DeleteResourceAndWait, and it is technically possible that
+		// the "Wait" part notices that the resource is deleted and allows the test to complete before the reconciler has
+		// actually finished its final delete reconcile pass. In this case a small number of logs (1-2) can be emitted after the test
+		// has technically finished. This can easily be reproduced by forcing a wait in the controller before it emits its final logs.
+		// Note that multiple controllers in test all share the same logger, so technically (if we get really unlucky) this can still
+		// be hit. You can increase the ignoredPanicMax to reduce the probability of that. With that said, the max is low now because
+		// we really don't (in general) want to tolerate this situation as it means we lose test logs and have stuff happening after
+		// a test should have ended.
+		ignoredPanicMax:   2,
+		ignoredPanicCount: &panicCount,
 	})
 }
 
@@ -35,6 +49,9 @@ type TestLogger struct {
 
 	enabled bool
 	name    string
+
+	ignoredPanicCount *int // ptr to share state across copies
+	ignoredPanicMax   int
 }
 
 func (_ TestLogger) Init(info logr.RuntimeInfo) {
@@ -65,10 +82,12 @@ func (t *TestLogger) clone() *TestLogger {
 	clonedValues = append(clonedValues, t.values...)
 
 	result := &TestLogger{
-		t:       t.t,
-		enabled: t.enabled,
-		values:  clonedValues,
-		name:    t.name,
+		t:                 t.t,
+		enabled:           t.enabled,
+		values:            clonedValues,
+		name:              t.name,
+		ignoredPanicMax:   t.ignoredPanicMax,
+		ignoredPanicCount: t.ignoredPanicCount,
 	}
 	return result
 }
@@ -90,7 +109,28 @@ func (t *TestLogger) makeHeader() string {
 	return fmt.Sprintf("%s%s]%s", severity, timeStr, nameString)
 }
 
+func (t *TestLogger) handlePanic() {
+	if err := recover(); err != nil {
+		errStr, ok := err.(string)
+
+		if !ok || !strings.Contains(errStr, "Log in goroutine after") {
+			panic(err)
+		}
+
+		// increment count of panics
+		*t.ignoredPanicCount += 1
+
+		if *t.ignoredPanicCount > t.ignoredPanicMax {
+			panic(err)
+		}
+
+		// If we're under the count we swallow the panic
+	}
+}
+
 func (t *TestLogger) Info(level int, msg string, keysAndValues ...interface{}) {
+	defer t.handlePanic()
+
 	if t.Enabled(level) {
 		t.t.Helper()
 
@@ -109,6 +149,8 @@ func (t *TestLogger) Enabled(_level int) bool {
 }
 
 func (t *TestLogger) Error(err error, msg string, keysAndValues ...interface{}) {
+	defer t.handlePanic()
+
 	if t.Enabled(0) {
 		b := &bytes.Buffer{}
 		header := t.makeHeader()

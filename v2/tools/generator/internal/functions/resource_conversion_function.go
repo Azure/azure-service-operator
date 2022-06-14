@@ -151,13 +151,7 @@ func (fn *ResourceConversionFunction) directConversion(
 	receiverName string, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 	fmtPackage := generationContext.MustGetImportedPackageName(astmodel.FmtReference)
 
-	// Expect this to always work; our hub type will never be an external reference
-	hubGroup, hubVersion, ok := fn.hub.PackageReference.GroupVersion()
-	if !ok {
-		msg := fmt.Sprintf("hub type with external package reference %s is unexpected", fn.hub.PackageReference)
-		panic(msg)
-	}
-
+	hubGroup, hubVersion := fn.hub.PackageReference.GroupVersion()
 	localId := fn.localVariableId()
 	localIdent := dst.NewIdent(localId)
 	hubIdent := dst.NewIdent("hub")

@@ -24,7 +24,6 @@ func MakeOneOfDiscriminantRequired() *Stage {
 		MakeOneOfDiscriminantRequiredStageId,
 		"Fix one of types to a discriminator which is not omitempty/optional",
 		func(ctx context.Context, state *State) (*State, error) {
-
 			updatedDefs := make(astmodel.TypeDefinitionSet)
 			for _, def := range state.Definitions() {
 				isOneOf := astmodel.OneOfFlag.IsOn(def.Type())
@@ -62,13 +61,13 @@ func newPropertyModifier(json string) *propertyModifier {
 }
 
 func (r *propertyModifier) makeDiscriminatorPropertiesRequired(
-	this *astmodel.TypeVisitor, ot *astmodel.ObjectType, ctx interface{}) (astmodel.Type, error) {
-
-	for _, prop := range ot.Properties() {
+	this *astmodel.TypeVisitor, ot *astmodel.ObjectType, ctx interface{},
+) (astmodel.Type, error) {
+	ot.Properties().ForEach(func(prop *astmodel.PropertyDefinition) {
 		if json, ok := prop.JSONName(); ok && r.json == json {
 			ot = ot.WithProperty(prop.MakeTypeRequired())
 		}
-	}
+	})
 
 	return astmodel.IdentityVisitOfObjectType(this, ot, ctx)
 }
