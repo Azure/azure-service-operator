@@ -77,7 +77,7 @@ func TestWordWrap(t *testing.T) {
 		t.Run(c.text, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
-			lines := wordWrap(c.text, c.width)
+			lines := Wordwrap(c.text, c.width)
 			g.Expect(lines).To(Equal(c.results))
 		})
 	}

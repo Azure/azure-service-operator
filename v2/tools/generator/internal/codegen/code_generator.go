@@ -22,8 +22,10 @@ import (
 
 // CodeGenerator is a generator of code
 type CodeGenerator struct {
-	configuration *config.Configuration
-	pipeline      []*pipeline.Stage
+	configuration     *config.Configuration
+	pipeline          []*pipeline.Stage
+	debugMode         bool
+	debugOutputFolder string
 }
 
 // NewCodeGeneratorFromConfigFile produces a new Generator with the given configuration file
@@ -224,6 +226,14 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 func (generator *CodeGenerator) Generate(ctx context.Context) error {
 	klog.V(1).Infof("Generator version: %s", version.BuildVersion)
 
+	if generator.debugMode {
+		// Generate a diagram containing our stages
+		diagram := newDebugDiagram(generator.debugOutputFolder)
+		err := diagram.diagramPipeline(generator.pipeline)
+		if err != nil {
+			return errors.Wrapf(err, "failed to generate diagram")
+		}
+	}
 	state := pipeline.NewState()
 	for i, stage := range generator.pipeline {
 		klog.V(0).Infof(
@@ -367,4 +377,6 @@ func (generator *CodeGenerator) IndexOfStage(id string) int {
 
 // UseDebugMode configures the generator to use debug mode
 func (generator *CodeGenerator) UseDebugMode(outputFolder string) {
+	generator.debugMode = true
+	generator.debugOutputFolder = outputFolder
 }

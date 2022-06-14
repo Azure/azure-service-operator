@@ -112,14 +112,14 @@ var brRegex = regexp.MustCompile("<br[^/>]*/?>")
 func docCommentWrap(lines []string, width int) []string {
 	var result []string
 	for _, l := range lines {
-		result = append(result, wordWrap(l, width)...)
+		result = append(result, Wordwrap(l, width)...)
 	}
 
 	return result
 }
 
-// wordWrap applies word wrapping to the specified string, returning a slice containing the lines.
-func wordWrap(text string, width int) []string {
+// Wordwrap applies word wrapping to the specified string, returning a slice containing the lines.
+func Wordwrap(text string, width int) []string {
 	var result []string
 
 	start := 0
