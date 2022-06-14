@@ -17,7 +17,7 @@ import (
 	"github.com/onsi/gomega"
 	"github.com/pkg/errors"
 	corev1 "k8s.io/api/core/v1"
-	kerrors "k8s.io/apimachinery/pkg/api/errors"
+	apierrors "k8s.io/apimachinery/pkg/api/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -58,7 +58,7 @@ func (tc KubePerTestContext) createTestNamespace() error {
 		return nil
 	})
 
-	if err != nil && !kerrors.IsAlreadyExists(err) {
+	if err != nil && !apierrors.IsAlreadyExists(err) {
 		return errors.Wrapf(err, "creating namespace")
 	}
 
@@ -447,6 +447,13 @@ func (tc *KubePerTestContext) DeleteResourcesAndWait(objs ...client.Object) {
 	for _, obj := range objs {
 		tc.Eventually(obj).Should(tc.Match.BeDeleted())
 	}
+}
+
+// ExpectResourceDoesNotExist ensures the resource doesn't exist
+func (tc *KubePerTestContext) ExpectResourceDoesNotExist(key types.NamespacedName, obj client.Object) {
+	err := tc.kubeClient.Get(tc.Ctx, key, obj)
+	tc.Expect(err).To(gomega.HaveOccurred())
+	tc.Expect(apierrors.IsNotFound(err)).To(gomega.BeTrue())
 }
 
 // LogSection creates a distinctive header in the log to aid scanning
