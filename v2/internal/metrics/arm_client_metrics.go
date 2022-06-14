@@ -32,9 +32,9 @@ var _ Metrics = &ARMClientMetrics{}
 
 func NewARMClientMetrics() ARMClientMetrics {
 
-	azureRequestsTotal := prometheus.NewCounterVec(prometheus.CounterOpts{
-		Name: "azure_requests_total",
-		Help: "Total number of requests to azure",
+	azureSuccessfulRequestsTotal := prometheus.NewCounterVec(prometheus.CounterOpts{
+		Name: "azure_successful_requests_total",
+		Help: "Total number of successful requests to azure",
 	}, []string{"resource", "requestType", "responseCode"})
 
 	azureFailedRequestsTotal := prometheus.NewCounterVec(prometheus.CounterOpts{
@@ -48,7 +48,7 @@ func NewARMClientMetrics() ARMClientMetrics {
 	}, []string{"resource", "requestType"})
 
 	return ARMClientMetrics{
-		azureRequestsTotal:       azureRequestsTotal,
+		azureRequestsTotal:       azureSuccessfulRequestsTotal,
 		azureFailedRequestsTotal: azureFailedRequestsTotal,
 		azureRequestsTime:        azureRequestsTime,
 	}
@@ -59,8 +59,8 @@ func (a ARMClientMetrics) RegisterMetrics() {
 	metrics.Registry.MustRegister(a.azureRequestsTime, a.azureRequestsTotal, a.azureFailedRequestsTotal)
 }
 
-// RecordAzureRequestsTotal records the total(failed + successful) number requests to ARM by increasing the counter.
-func (a ARMClientMetrics) RecordAzureRequestsTotal(resourceName string, statusCode int, method HTTPMethod) {
+// RecordAzureSuccessRequestsTotal records the total successful number requests to ARM by increasing the counter.
+func (a ARMClientMetrics) RecordAzureSuccessRequestsTotal(resourceName string, statusCode int, method HTTPMethod) {
 	a.azureRequestsTotal.WithLabelValues(resourceName, string(method), strconv.Itoa(statusCode)).Inc()
 }
 

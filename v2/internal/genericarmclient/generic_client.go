@@ -11,8 +11,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Azure/azure-service-operator/v2/internal/metrics"
 	"github.com/pkg/errors"
+
+	"github.com/Azure/azure-service-operator/v2/internal/metrics"
 
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore"
 	"github.com/Azure/azure-sdk-for-go/sdk/azcore/arm"
@@ -140,16 +141,11 @@ func (client *GenericClient) createOrUpdateByID(
 
 	client.metrics.RecordAzureRequestsTime(resourceType, time.Since(requestStartTime), metrics.HttpPut)
 
-	statusCode := 0
-	if resp != nil {
-		statusCode = resp.StatusCode
-	}
-	client.metrics.RecordAzureRequestsTotal(resourceType, statusCode, metrics.HttpPut)
-
 	if err != nil {
 		client.metrics.RecordAzureFailedRequestsTotal(resourceType, metrics.HttpPut)
 		return nil, err
 	}
+	client.metrics.RecordAzureSuccessRequestsTotal(resourceType, resp.StatusCode, metrics.HttpPut)
 
 	if !runtime.HasStatusCode(resp, http.StatusOK, http.StatusCreated, http.StatusAccepted) {
 		return nil, client.createOrUpdateByIDHandleError(resp)
@@ -267,7 +263,7 @@ func (client *GenericClient) deleteByID(ctx context.Context, resourceID string, 
 		client.metrics.RecordAzureFailedRequestsTotal(resourceType, metrics.HttpDelete)
 		return nil, err
 	}
-	client.metrics.RecordAzureRequestsTotal(resourceType, resp.StatusCode, metrics.HttpDelete)
+	client.metrics.RecordAzureSuccessRequestsTotal(resourceType, resp.StatusCode, metrics.HttpDelete)
 
 	if !runtime.HasStatusCode(resp, http.StatusOK, http.StatusAccepted, http.StatusNoContent, http.StatusNotFound) {
 		return nil, runtime.NewResponseError(resp)
