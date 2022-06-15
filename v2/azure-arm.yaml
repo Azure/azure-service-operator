@@ -19,6 +19,14 @@ emitDocFiles: true
 
 pipeline: azure
 
+supportedResourcesReport:
+  # Path is relative to the module path, above
+  outputPath: ../docs/hugo/content/reference/_index.md
+  introduction: |
+    These are the resources with Azure Service Operator support committed to our **main** branch
+    grouped by the originating ARM service.
+    (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
+
 #
 # These filters are used early in the processing pipeline. 
 #
