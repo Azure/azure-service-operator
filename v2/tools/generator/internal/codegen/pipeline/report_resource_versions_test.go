@@ -59,45 +59,31 @@ func TestGolden_ReportResourceVersions(t *testing.T) {
 	defs := make(astmodel.TypeDefinitionSet)
 	defs.AddAll(person2020, address2020, person2021, address2021)
 
-	cfg := config.NewObjectModelConfiguration()
-	g.Expect(
-		cfg.ModifyType(
-			person2020.Name(),
-			func(tc *config.TypeConfiguration) error {
-				tc.SetSupportedFrom("beta.0")
-				return nil
-			})).
-		To(Succeed())
-	g.Expect(
-		cfg.ModifyType(
-			address2020.Name(),
-			func(tc *config.TypeConfiguration) error {
-				tc.SetSupportedFrom("beta.0")
-				return nil
-			})).
-		To(Succeed())
-	g.Expect(
-		cfg.ModifyType(
-			person2021.Name(),
-			func(tc *config.TypeConfiguration) error {
-				tc.SetSupportedFrom("beta.2")
-				return nil
-			})).
-		To(Succeed())
-	g.Expect(
-		cfg.ModifyType(
-			address2021.Name(),
-			func(tc *config.TypeConfiguration) error {
-				tc.SetSupportedFrom("beta.2")
-				return nil
-			})).
-		To(Succeed())
+	// utility function used to configure a which ASO version from which a resource was supported
+	supportedFrom := func(from string) func(tc *config.TypeConfiguration) error {
+		return func(tc *config.TypeConfiguration) error {
+			tc.SetSupportedFrom(from)
+			return nil
+		}
+	}
+
+	cfg := config.NewConfiguration()
+	cfg.SamplesURL = "https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples"
+
+	omc := cfg.ObjectModelConfiguration
+	g.Expect(omc.ModifyType(person2020.Name(), supportedFrom("beta.0"))).To(Succeed())
+	g.Expect(omc.ModifyType(address2020.Name(), supportedFrom("beta.0"))).To(Succeed())
+	g.Expect(omc.ModifyType(person2021.Name(), supportedFrom("beta.2"))).To(Succeed())
+	g.Expect(omc.ModifyType(address2021.Name(), supportedFrom("beta.2"))).To(Succeed())
+
+	srr := cfg.SupportedResourcesReport
+	srr.Introduction = "These are the resources with Azure Service Operator support."
 
 	report := NewResourceVersionsReport(defs, cfg)
 
 	var buffer strings.Builder
 	g.Expect(report.WriteToBuffer(
-		&buffer, "https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples")).
+		&buffer)).
 		To(Succeed())
 
 	gold.Assert(t, t.Name(), []byte(buffer.String()))
