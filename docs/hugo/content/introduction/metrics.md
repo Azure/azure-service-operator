@@ -38,7 +38,7 @@ By default, metrics for ASOv2 are turned on and can be toggled by the following 
 | `controller_runtime_reconcile_time_seconds`    | A prometheus histogram metric which keeps track of the duration of reconcilations                            | Controller   |             |              |
 | `controller_runtime_max_concurrent_reconciles` | A prometheus gauge metric with number of concurrent reconciles per controller                                | Controller   |             |              |
 | `controller_runtime_active_workers`            | A prometheus gauge metric with number of active workers per controller                                       | Controller   |             |              |
-| `azure_requests_total`                         | A prometheus counter metric with total number of requests to Azure                                           | ResourceName | RequestType | ResponseCode |
+| `azure_successful_requests_total`              | A prometheus counter metric with total number of successful requests to Azure                                | ResourceName | RequestType | ResponseCode |
 | `azure_failed_requests_total`                  | A prometheus counter metric with total number of failed requests to Azure                                    | ResourceName | RequestType |              |
 | `azure_requests_time_seconds`                  | A prometheus histogram metric which keeps track of the duration of round-trip time taken by request to Azure | ResourceName | RequestType |              |
 
