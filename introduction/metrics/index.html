@@ -36,7 +36,7 @@ Toggling the metrics By default, metrics for ASOv2 are turned on and can be togg
 Toggling the metrics By default, metrics for ASOv2 are turned on and can be toggled by the following options:
   ASOv2 Helm Chart While installing the Helm chart, we can turn the metrics on and off and set the metrics expose address using the below settings.">
 
-<meta itemprop="wordCount" content="355">
+<meta itemprop="wordCount" content="356">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content=""/>
 <meta name="twitter:description" content="ASOv2 Metrics Prometheus metrics are exposed for ASOv2 which can be helpful in diagnosability and tracing. The metrics exposed fall into two groups: Azure based metrics, and reconciler metrics (from controller-runtime).
@@ -502,8 +502,8 @@ a different metrics-addr by changing the default value of that same flag.</p>
 <td></td>
 </tr>
 <tr>
-<td><code>azure_requests_total</code></td>
-<td>A prometheus counter metric with total number of requests to Azure</td>
+<td><code>azure_successful_requests_total</code></td>
+<td>A prometheus counter metric with total number of successful requests to Azure</td>
 <td>ResourceName</td>
 <td>RequestType</td>
 <td>ResponseCode</td>
