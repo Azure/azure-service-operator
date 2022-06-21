@@ -19,6 +19,14 @@ emitDocFiles: true
 
 pipeline: azure
 
+supportedResourcesReport:
+  # Path is relative to the module path, above
+  outputPath: ../docs/hugo/content/reference/_index.md
+  introduction: |
+    These are the resources with Azure Service Operator support committed to our **main** branch
+    grouped by the originating ARM service.
+    (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
+
 #
 # These filters are used early in the processing pipeline. 
 #
@@ -244,6 +252,11 @@ typeTransformers:
     because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
   - name: Identity
     group: eventhub
+    property: UserAssignedIdentities
+    remove: true
+    because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
+  - name: ContainerGroupIdentity
+    group: containerinstance
     property: UserAssignedIdentities
     remove: true
     because: The UserAssignedIdentities property is entirely readOnly but is modelled poorly in the JSON schemas. See discussion on https://github.com/Azure/azure-resource-manager-schemas/issues/835
@@ -871,6 +884,9 @@ objectModelConfiguration:
           - PrimaryReadonlyMasterKey
           - SecondaryReadonlyMasterKey
           - DocumentEndpoint
+      DatabaseAccountCreateUpdateProperties:
+        NetworkAclBypassResourceIds:
+          $armReference: false  # TODO: Breaking: Change this to true
       DatabaseAccountsMongodbDatabase:
         $exportAs: MongodbDatabase
         $supportedFrom: v2.0.0-alpha.2

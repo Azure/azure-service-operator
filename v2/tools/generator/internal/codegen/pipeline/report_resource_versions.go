@@ -10,12 +10,12 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"path"
 	"sort"
 	"strings"
 
 	"github.com/pkg/errors"
 	kerrors "k8s.io/apimachinery/pkg/util/errors"
+	"k8s.io/klog/v2"
 
 	"github.com/Azure/azure-service-operator/v2/internal/set"
 
@@ -33,9 +33,9 @@ func ReportResourceVersions(configuration *config.Configuration) *Stage {
 		ReportResourceVersionsStageID,
 		"Generate a report listing all the resources generated",
 		func(ctx context.Context, state *State) (*State, error) {
-			report := NewResourceVersionsReport(state.Definitions(), configuration.ObjectModelConfiguration)
+			report := NewResourceVersionsReport(state.Definitions(), configuration)
 
-			err := report.WriteTo(configuration.FullTypesOutputPath(), configuration.SamplesURL)
+			err := report.WriteTo(configuration.SupportedResourcesReport.FullOutputPath())
 			if err != nil {
 				return nil, err
 			}
@@ -46,19 +46,24 @@ func ReportResourceVersions(configuration *config.Configuration) *Stage {
 }
 
 type ResourceVersionsReport struct {
+	reportConfiguration      *config.SupportedResourcesReport
 	objectModelConfiguration *config.ObjectModelConfiguration
+	samplesUrl               string
 	groups                   set.Set[string]                       // A set of all our groups
 	kinds                    map[string]astmodel.TypeDefinitionSet // For each group, the set of all available resources
+	frontMatter              string                                // Front matter to be inserted at the top of the report
 	// A separate list of resources for each package
 	lists map[astmodel.PackageReference][]astmodel.TypeDefinition
 }
 
 func NewResourceVersionsReport(
 	definitions astmodel.TypeDefinitionSet,
-	cfg *config.ObjectModelConfiguration,
+	cfg *config.Configuration,
 ) *ResourceVersionsReport {
 	result := &ResourceVersionsReport{
-		objectModelConfiguration: cfg,
+		reportConfiguration:      cfg.SupportedResourcesReport,
+		objectModelConfiguration: cfg.ObjectModelConfiguration,
+		samplesUrl:               cfg.SamplesURL,
 		groups:                   set.Make[string](),
 		kinds:                    make(map[string]astmodel.TypeDefinitionSet),
 		lists:                    make(map[astmodel.PackageReference][]astmodel.TypeDefinition),
@@ -94,32 +99,38 @@ func (report *ResourceVersionsReport) summarize(definitions astmodel.TypeDefinit
 }
 
 // WriteTo creates a file containing the generated report
-func (report *ResourceVersionsReport) WriteTo(outputPath string, samplesURL string) error {
+func (report *ResourceVersionsReport) WriteTo(outputFile string) error {
+
+	klog.V(1).Infof("Writing report to %s", outputFile)
+	report.frontMatter = report.readFrontMatter(outputFile)
+
 	var buffer strings.Builder
-	err := report.WriteToBuffer(&buffer, samplesURL)
+	err := report.WriteToBuffer(&buffer)
 	if err != nil {
-		return errors.Wrapf(err, "writing versions report to %s", outputPath)
+		return errors.Wrapf(err, "writing versions report to %s", outputFile)
 	}
 
-	if _, err := os.Stat(outputPath); os.IsNotExist(err) {
-		err = os.MkdirAll(outputPath, 0o700)
+	if _, err := os.Stat(outputFile); os.IsNotExist(err) {
+		err = os.MkdirAll(outputFile, 0o700)
 		if err != nil {
-			return errors.Wrapf(err, "Unable to create directory %q", outputPath)
+			return errors.Wrapf(err, "Unable to create directory %q", outputFile)
 		}
 	}
 
-	destination := path.Join(outputPath, "resources.md")
-	return ioutil.WriteFile(destination, []byte(buffer.String()), 0o600)
+	return ioutil.WriteFile(outputFile, []byte(buffer.String()), 0o600)
 }
 
 // WriteToBuffer creates the report in the provided buffer
-func (report *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder, samplesURL string) error {
-	buffer.WriteString("---\n")
-	buffer.WriteString("title: Supported Resources\n")
-	buffer.WriteString("---\n\n")
-	buffer.WriteString("These are the resources with Azure Service Operator support committed to our **main** branch, ")
-	buffer.WriteString("grouped by the originating ARM service. ")
-	buffer.WriteString("(Newly supported resources will appear in this list prior to inclusion in any ASO release.)\n\n")
+func (report *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder) error {
+
+	if report.frontMatter != "" {
+		buffer.WriteString(report.frontMatter)
+	} else {
+		buffer.WriteString(report.defaultFrontMatter())
+	}
+
+	buffer.WriteString(report.reportConfiguration.Introduction)
+	buffer.WriteString("\n\n")
 
 	// Sort groups into alphabetical order
 	groups := set.AsSortedSlice(report.groups)
@@ -127,7 +138,7 @@ func (report *ResourceVersionsReport) WriteToBuffer(buffer *strings.Builder, sam
 	var errs []error
 	for _, svc := range groups {
 		buffer.WriteString(fmt.Sprintf("## %s\n\n", strings.Title(svc)))
-		table, err := report.createTable(report.kinds[svc], svc, samplesURL)
+		table, err := report.createTable(report.kinds[svc], svc, report.samplesUrl)
 		if err != nil {
 			errs = append(errs, err)
 			continue
@@ -228,4 +239,42 @@ func (report *ResourceVersionsReport) generateSupportedFrom(typeName astmodel.Ty
 	}
 
 	return supportedFrom, nil
+}
+
+// Read in any front matter present in our output file, so we preserve it when writing out the new file.
+// Returns an empty string if the file doesn't exist
+func (report *ResourceVersionsReport) readFrontMatter(outputPath string) string {
+
+	if _, err := os.Stat(outputPath); os.IsNotExist(err) {
+		return ""
+	}
+
+	klog.V(2).Infof("Reading front matter from %s", outputPath)
+	data, err := ioutil.ReadFile(outputPath)
+	if err != nil {
+		return ""
+	}
+
+	var buffer strings.Builder
+
+	// Copy until we find the end of the frontmatter
+	for index, line := range strings.Split(string(data), "\n") {
+		buffer.WriteString(line)
+		buffer.WriteString("\n")
+		if index >= 2 && strings.HasPrefix(line, "---") {
+			break
+		}
+	}
+
+	return buffer.String()
+}
+
+// defaultFrontMatter returns the default front-matter for the report if no existing file is present,
+// or if it has no front-matter present.
+func (report *ResourceVersionsReport) defaultFrontMatter() string {
+	var buffer strings.Builder
+	buffer.WriteString("---\n")
+	buffer.WriteString("title: Supported Resources\n")
+	buffer.WriteString("---\n\n")
+	return buffer.String()
 }

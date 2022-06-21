@@ -5,6 +5,14 @@ schemaUrlRewrite:
 destinationGoModuleFile: go.mod
 # These two paths are relative to the module path above.
 typesOutputPath: apis
+
+supportedResourcesReport:
+  # Path is relative to the module path, above
+  outputPath: apis/resources.md
+  introduction: |
+    These are the Crossplane resources committed to our **main** branch, grouped by the originating ARM service.
+    (Newly supported resources will appear in this list prior to inclusion in any ASO release.)
+
 pipeline: crossplane
 typeFilters:
   - action: prune
