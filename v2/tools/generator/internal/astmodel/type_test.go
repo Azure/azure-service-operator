@@ -16,12 +16,12 @@ func TestWriteDebugDescription(t *testing.T) {
 	t.Parallel()
 
 	here := MakeLocalPackageReference("local", "test", "v", "1")
+	there := MakeLocalPackageReference("local", "test", "v", "2")
 
 	age := MakeTypeName(here, "Age")
-	ageDefinition := MakeTypeDefinition(age, IntType)
 
 	personId := MakeTypeName(here, "PersonId")
-	personIdDefinition := MakeTypeDefinition(personId, StringType)
+	otherPersonId := MakeTypeName(there, "PersonId")
 
 	suit := MakeTypeName(here, "Suit")
 	diamonds := EnumValue{"diamonds", "Diamonds"}
@@ -29,40 +29,36 @@ func TestWriteDebugDescription(t *testing.T) {
 	clubs := EnumValue{"clubs", "Clubs"}
 	spades := EnumValue{"spades", "Spades"}
 	suitEnum := NewEnumType(StringType, diamonds, hearts, clubs, spades)
-	suitDefinition := MakeTypeDefinition(suit, suitEnum)
 
 	armAge := ARMFlag.ApplyTo(age)
 	armSuit := ARMFlag.ApplyTo(suit)
 
 	erroredAge := NewErroredType(age, []string{"boom"}, []string{"oh oh"})
 
-	defs := make(TypeDefinitionSet)
-	defs.Add(ageDefinition)
-	defs.Add(personIdDefinition)
-	defs.Add(suitDefinition)
-
 	cases := []struct {
 		name     string
 		subject  Type
 		expected string
 	}{
-		{"Integer", IntType, "int"},
-		{"String", StringType, "string"},
-		{"OptionalInteger", NewOptionalType(IntType), "Optional[int]"},
-		{"OptionalString", NewOptionalType(StringType), "Optional[string]"},
-		{"ArrayOfString", NewArrayType(StringType), "Array[string]"},
-		{"ArrayOfOptionalString", NewArrayType(NewOptionalType(StringType)), "Array[Optional[string]]"},
-		{"MapOfStringToInt", NewMapType(StringType, IntType), "Map[string]int"},
-		{"MapOfStringToOptionalString", NewMapType(StringType, NewOptionalType(StringType)), "Map[string]Optional[string]"},
-		{"AliasedType", age, "local/test/v1/Age:int"},
-		{"MapOfStringToAge", NewMapType(StringType, age), "Map[string]local/test/v1/Age:int"},
-		{"MapOfPersonIDToAge", NewMapType(personId, age), "Map[local/test/v1/PersonId:string]local/test/v1/Age:int"},
-		{"SuitEnum", suitEnum, "Enum[string:clubs|diamonds|hearts|spades]"}, // alphabetical
-		{"SuitName", suit, "local/test/v1/Suit:Enum[string:clubs|diamonds|hearts|spades]"},
-		{"MapOfSuitToAge", NewMapType(suit, age), "Map[local/test/v1/Suit:Enum[string:clubs|diamonds|hearts|spades]]local/test/v1/Age:int"},
-		{"FlaggedAge", armAge, "local/test/v1/Age:int[Flag:arm]"},
-		{"FlaggedSuit", armSuit, "local/test/v1/Suit:Enum[string:clubs|diamonds|hearts|spades][Flag:arm]"},
-		{"ErroredAge", erroredAge, "Error[local/test/v1/Age:int|boom|oh oh]"},
+		{"Primitive type shows name (int)", IntType, "int"},
+		{"Primitive type shows name (string)", StringType, "string"},
+		{"Optional primitive type shows * prefix (int)", NewOptionalType(IntType), "*int"},
+		{"Optional primitive type shows * prefix (string)", NewOptionalType(StringType), "*string"},
+		{"Array of primitive type shows type of member", NewArrayType(StringType), "Array[string]"},
+		{"Array of optional primitive type shows type of member", NewArrayType(NewOptionalType(StringType)), "Array[*string]"},
+		{"Map of primitive types shows types of keys and values", NewMapType(StringType, IntType), "Map[string]int"},
+		{"Map with optional value type shows optionality", NewMapType(StringType, NewOptionalType(StringType)), "Map[string]*string"},
+		{"Alias of type shows name of alias", age, "Age"},
+		{"Map with alias value shows name of alias", NewMapType(StringType, age), "Map[string]Age"},
+		{"Map with alias key shows name of alias", NewMapType(personId, age), "Map[PersonId]Age"},
+		{"Enumeration shows base type and values in alphabetical order", suitEnum, "enum:string[clubs|diamonds|hearts|spades]"},
+		{"Alias of enumeration shows name of alias", suit, "Suit"},
+		{"Map using aliases shows names of aliases", NewMapType(suit, age), "Map[Suit]Age"},
+		{"Flagged type shows details of flags", armAge, "Age[Flag:arm]"},
+		{"Flagged alias shows details of flags", armSuit, "Suit[Flag:arm]"},
+		{"Errored type shows details of errors", erroredAge, "Error[Age|boom|oh oh]"},
+		{"Type name from current package has simple form", personId, "PersonId"},
+		{"Type name from other packages shows full path", otherPersonId, "local/test/v2/PersonId"},
 	}
 
 	for _, c := range cases {
@@ -72,7 +68,7 @@ func TestWriteDebugDescription(t *testing.T) {
 			g := NewGomegaWithT(t)
 
 			var builder strings.Builder
-			c.subject.WriteDebugDescription(&builder, defs)
+			c.subject.WriteDebugDescription(&builder, here)
 			g.Expect(builder.String()).To(Equal(c.expected))
 		})
 	}

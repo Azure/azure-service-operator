@@ -163,7 +163,7 @@ func (allOf *AllOfType) String() string {
 // WriteDebugDescription adds a description of the current AnyOf type to the passed builder
 // builder receives the full description, including nested types
 // definitions is a dictionary for resolving named types
-func (allOf *AllOfType) WriteDebugDescription(builder *strings.Builder, definitions TypeDefinitionSet) {
+func (allOf *AllOfType) WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference) {
 	if allOf == nil {
 		builder.WriteString("<nilAllOf>")
 		return
@@ -174,7 +174,7 @@ func (allOf *AllOfType) WriteDebugDescription(builder *strings.Builder, definiti
 		if ix > 0 {
 			builder.WriteString("|")
 		}
-		t.WriteDebugDescription(builder, definitions)
+		t.WriteDebugDescription(builder, currentPackage)
 	})
 	builder.WriteString("]")
 }

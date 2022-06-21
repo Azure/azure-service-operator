@@ -225,7 +225,7 @@ func flattenPropType(
 		return innerProps, nil
 
 	default:
-		desc := astmodel.DebugDescription(propType, defs)
+		desc := astmodel.DebugDescription(propType)
 		return nil, errors.Errorf("flatten applied to non-object type: %s", desc)
 	}
 }

@@ -226,6 +226,7 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 func (generator *CodeGenerator) Generate(ctx context.Context) error {
 	klog.V(1).Infof("Generator version: %s", version.BuildVersion)
 
+	var reporter *debugReporter
 	if generator.debugMode {
 		// Generate a diagram containing our stages
 		diagram := newDebugDiagram(generator.debugOutputFolder)
@@ -233,7 +234,11 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 		if err != nil {
 			return errors.Wrapf(err, "failed to generate diagram")
 		}
+
+		// Create a reporter to use between each stage
+		reporter = newDebugReporter(generator.debugOutputFolder)
 	}
+
 	state := pipeline.NewState()
 	for i, stage := range generator.pipeline {
 		klog.V(0).Infof(
@@ -255,6 +260,10 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 		}
 
 		generator.logStateChange(state, newState)
+
+		if reporter != nil {
+			reporter.ReportStage(i, stage.Description(), newState)
+		}
 
 		duration := time.Since(start).Round(time.Millisecond)
 		klog.V(0).Infof(
