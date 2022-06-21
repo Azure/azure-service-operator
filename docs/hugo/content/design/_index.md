@@ -8,10 +8,7 @@ menu:
 cascade:
 - type: docs
 ---
-
-Each *architecture decision record* (ADR) documents one of the architecturally significant decisions we've made during the Azure Service Operator project.
-
-Files are listed chronologically by month, and should contain the following sections:
+Significant changes to Azure Service Operator should be captured by an ADR (architecture design record) in this folder. ADRs are listed chronologically by month, and should contain the following sections:
 
 * Context
 * Decision
@@ -19,6 +16,8 @@ Files are listed chronologically by month, and should contain the following sect
 * Consequences
 * Experience Report
 * References
+
+Ideally, each ADR should run to one or two pages in length; if more detail is necessary, create a separate design document in this folder and link it from the ADR.
 
 For background information, check out [this Cognitect blog entry](https://www.cognitect.com/blog/2011/11/15/documenting-architecture-decisions).
 
