@@ -781,6 +781,9 @@ objectModelConfiguration:
       ManagedCluster:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
+        $azureGeneratedSecrets:
+          - AdminCredentials
+          - UserCredentials
       ManagedClusterAgentPoolProfile:
         VnetSubnetID:
           $armReference: true

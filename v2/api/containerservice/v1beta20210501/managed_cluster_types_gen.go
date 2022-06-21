@@ -213,7 +213,7 @@ func (cluster *ManagedCluster) ValidateUpdate(old runtime.Object) error {
 
 // createValidations validates the creation of the resource
 func (cluster *ManagedCluster) createValidations() []func() error {
-	return []func() error{cluster.validateResourceReferences}
+	return []func() error{cluster.validateResourceReferences, cluster.validateSecretDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -227,7 +227,11 @@ func (cluster *ManagedCluster) updateValidations() []func(old runtime.Object) er
 		func(old runtime.Object) error {
 			return cluster.validateResourceReferences()
 		},
-		cluster.validateWriteOnceProperties}
+		cluster.validateWriteOnceProperties,
+		func(old runtime.Object) error {
+			return cluster.validateSecretDestinations()
+		},
+	}
 }
 
 // validateResourceReferences validates all resource references
@@ -237,6 +241,21 @@ func (cluster *ManagedCluster) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (cluster *ManagedCluster) validateSecretDestinations() error {
+	if cluster.Spec.OperatorSpec == nil {
+		return nil
+	}
+	if cluster.Spec.OperatorSpec.Secrets == nil {
+		return nil
+	}
+	secrets := []*genruntime.SecretDestination{
+		cluster.Spec.OperatorSpec.Secrets.AdminCredentials,
+		cluster.Spec.OperatorSpec.Secrets.UserCredentials,
+	}
+	return genruntime.ValidateSecretDestinations(secrets)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -1582,6 +1601,10 @@ type ManagedClusters_Spec struct {
 	// NodeResourceGroup: The name of the resource group containing agent pool nodes.
 	NodeResourceGroup *string `json:"nodeResourceGroup,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *ManagedClusterOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -2094,6 +2117,8 @@ func (clusters *ManagedClusters_Spec) PopulateFromARM(owner genruntime.Arbitrary
 		}
 	}
 
+	// no assignment for property ‘OperatorSpec’
+
 	// Set property ‘Owner’:
 	clusters.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
@@ -2442,6 +2467,18 @@ func (clusters *ManagedClusters_Spec) AssignPropertiesFromManagedClustersSpec(so
 	// NodeResourceGroup
 	clusters.NodeResourceGroup = genruntime.ClonePointerToString(source.NodeResourceGroup)
 
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec ManagedClusterOperatorSpec
+		err := operatorSpec.AssignPropertiesFromManagedClusterOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromManagedClusterOperatorSpec() to populate field OperatorSpec")
+		}
+		clusters.OperatorSpec = &operatorSpec
+	} else {
+		clusters.OperatorSpec = nil
+	}
+
 	// Owner
 	if source.Owner != nil {
 		owner := source.Owner.Copy()
@@ -2739,6 +2776,18 @@ func (clusters *ManagedClusters_Spec) AssignPropertiesToManagedClustersSpec(dest
 
 	// NodeResourceGroup
 	destination.NodeResourceGroup = genruntime.ClonePointerToString(clusters.NodeResourceGroup)
+
+	// OperatorSpec
+	if clusters.OperatorSpec != nil {
+		var operatorSpec v20210501s.ManagedClusterOperatorSpec
+		err := clusters.OperatorSpec.AssignPropertiesToManagedClusterOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToManagedClusterOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = clusters.OriginalVersion()
@@ -7425,6 +7474,59 @@ func (identity *ManagedClusterIdentity_Status) AssignPropertiesToManagedClusterI
 	return nil
 }
 
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ManagedClusterOperatorSpec struct {
+	// Secrets: configures where to place Azure generated secrets.
+	Secrets *ManagedClusterOperatorSecrets `json:"secrets,omitempty"`
+}
+
+// AssignPropertiesFromManagedClusterOperatorSpec populates our ManagedClusterOperatorSpec from the provided source ManagedClusterOperatorSpec
+func (operator *ManagedClusterOperatorSpec) AssignPropertiesFromManagedClusterOperatorSpec(source *v20210501s.ManagedClusterOperatorSpec) error {
+
+	// Secrets
+	if source.Secrets != nil {
+		var secret ManagedClusterOperatorSecrets
+		err := secret.AssignPropertiesFromManagedClusterOperatorSecrets(source.Secrets)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromManagedClusterOperatorSecrets() to populate field Secrets")
+		}
+		operator.Secrets = &secret
+	} else {
+		operator.Secrets = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToManagedClusterOperatorSpec populates the provided destination ManagedClusterOperatorSpec from our ManagedClusterOperatorSpec
+func (operator *ManagedClusterOperatorSpec) AssignPropertiesToManagedClusterOperatorSpec(destination *v20210501s.ManagedClusterOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Secrets
+	if operator.Secrets != nil {
+		var secret v20210501s.ManagedClusterOperatorSecrets
+		err := operator.Secrets.AssignPropertiesToManagedClusterOperatorSecrets(&secret)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToManagedClusterOperatorSecrets() to populate field Secrets")
+		}
+		destination.Secrets = &secret
+	} else {
+		destination.Secrets = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterPodIdentityProfile
 type ManagedClusterPodIdentityProfile struct {
 	// AllowNetworkPluginKubenet: Running in Kubenet is disabled by default due to the security related nature of AAD Pod
@@ -10657,6 +10759,71 @@ func (profile *ManagedClusterLoadBalancerProfile_Status) AssignPropertiesToManag
 		destination.OutboundIPs = &outboundIP
 	} else {
 		destination.OutboundIPs = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type ManagedClusterOperatorSecrets struct {
+	// AdminCredentials: indicates where the AdminCredentials secret should be placed. If omitted, the secret will not be
+	// retrieved from Azure.
+	AdminCredentials *genruntime.SecretDestination `json:"adminCredentials,omitempty"`
+
+	// UserCredentials: indicates where the UserCredentials secret should be placed. If omitted, the secret will not be
+	// retrieved from Azure.
+	UserCredentials *genruntime.SecretDestination `json:"userCredentials,omitempty"`
+}
+
+// AssignPropertiesFromManagedClusterOperatorSecrets populates our ManagedClusterOperatorSecrets from the provided source ManagedClusterOperatorSecrets
+func (secrets *ManagedClusterOperatorSecrets) AssignPropertiesFromManagedClusterOperatorSecrets(source *v20210501s.ManagedClusterOperatorSecrets) error {
+
+	// AdminCredentials
+	if source.AdminCredentials != nil {
+		adminCredential := source.AdminCredentials.Copy()
+		secrets.AdminCredentials = &adminCredential
+	} else {
+		secrets.AdminCredentials = nil
+	}
+
+	// UserCredentials
+	if source.UserCredentials != nil {
+		userCredential := source.UserCredentials.Copy()
+		secrets.UserCredentials = &userCredential
+	} else {
+		secrets.UserCredentials = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToManagedClusterOperatorSecrets populates the provided destination ManagedClusterOperatorSecrets from our ManagedClusterOperatorSecrets
+func (secrets *ManagedClusterOperatorSecrets) AssignPropertiesToManagedClusterOperatorSecrets(destination *v20210501s.ManagedClusterOperatorSecrets) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AdminCredentials
+	if secrets.AdminCredentials != nil {
+		adminCredential := secrets.AdminCredentials.Copy()
+		destination.AdminCredentials = &adminCredential
+	} else {
+		destination.AdminCredentials = nil
+	}
+
+	// UserCredentials
+	if secrets.UserCredentials != nil {
+		userCredential := secrets.UserCredentials.Copy()
+		destination.UserCredentials = &userCredential
+	} else {
+		destination.UserCredentials = nil
 	}
 
 	// Update the property bag
