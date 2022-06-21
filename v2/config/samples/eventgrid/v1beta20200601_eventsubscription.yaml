@@ -6,7 +6,7 @@ metadata:
 spec:
   owner:
     name: sample-domain-topic
-    group: microsoft.resources
+    group: resources.azure.com
     kind: ResourceGroup
   destination:
     storageQueue:
@@ -15,5 +15,5 @@ spec:
         resourceReference: 
           group: storage.azure.com
           kind: StorageAccount
-          name: samplekubestorage
+          name: samplekubestoragebeta
         queueName: samplequeue

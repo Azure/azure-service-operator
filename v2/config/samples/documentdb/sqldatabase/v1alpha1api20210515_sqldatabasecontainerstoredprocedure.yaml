@@ -1,0 +1,19 @@
+# Adapted from CosmosDB SQL Bicep examples:
+# https://docs.microsoft.com/en-us/azure/cosmos-db/sql/manage-with-bicep#create-sproc
+apiVersion: documentdb.azure.com/v1alpha1api20210515
+kind: SqlDatabaseContainerStoredProcedure
+metadata:
+  name: sample-sql-stored-procedure-alpha
+  namespace: default
+spec:
+  location: westcentralus
+  owner:
+    name: sample-sql-container-alpha
+  resource:
+    id: sample-sql-stored-procedure-alpha
+    body: |
+      function () {
+          var context = getContext();
+          var response = context.getResponse();
+          response.setBody('Hello, World');
+      }

@@ -4,7 +4,6 @@ metadata:
   name: sampleregistry
   namespace: default
 spec:
-  azureName: sampleregistry
   location: westcentralus
   owner:
     name: aso-sample-rg

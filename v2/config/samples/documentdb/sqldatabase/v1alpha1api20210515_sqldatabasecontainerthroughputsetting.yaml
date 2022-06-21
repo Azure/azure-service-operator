@@ -1,0 +1,10 @@
+apiVersion: documentdb.azure.com/v1alpha1api20210515
+kind: SQLDatabaseContainerThroughputSetting
+metadata:
+  name: sample-mongo-throughput-alpha
+  namespace: default
+spec:
+  owner:
+    name: sample-sql-container-alpha
+  resource:
+    throughput: 500

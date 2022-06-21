@@ -9,15 +9,15 @@ spec:
     aso-sample-rg
   properties:
     serverPropertiesForDefaultCreate:
-      administratorLogin: "admin"
+      administratorLogin: "hellouser"
       administratorLoginPassword:
         # This is a reference to a k8s secret
         name: server-admin-pw
         key: password
-      createMode: default
-      publicNetworkAccess: enabled
+      createMode: Default
+      publicNetworkAccess: Enabled
       storageProfile:
-        storageAutogrow: enabled
+        storageAutogrow: Enabled
         storageMB: 5120
   sku: 
     name: GP_Gen5_2

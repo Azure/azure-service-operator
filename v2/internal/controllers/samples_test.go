@@ -6,205 +6,231 @@ Licensed under the MIT license.
 package controllers_test
 
 import (
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
-	"os"
-	"path/filepath"
-	"reflect"
-	"strings"
 	"testing"
 
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
+	"github.com/emirpasic/gods/maps/linkedhashmap"
+	"github.com/onsi/gomega"
+	v1 "k8s.io/api/core/v1"
+
+	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"github.com/emirpasic/gods/maps/treemap"
-	"github.com/onsi/gomega"
-	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/runtime/serializer"
-	"k8s.io/apimachinery/pkg/util/yaml"
 )
 
-const samplesPath = "../../config/samples"
-
-// exclusions slice contains resources to exclude from test as we have disabled these
-// resources from being generated in ASOv2 or their configuration is based on other resources.
-var exclusions = [...]string{"batchaccountpool", "snapshot",
-	"sqldatabasecontainerthroughputsetting", "sqldatabasethroughputsetting",
-	"webtest", "storageaccountsqueueservice", "resourcegroup",
-	// Problematic ones, their configuration is based on other resources
-	"loadbalancer", "virtualmachine",
-}
-
-func Test_Samples_CreationAndDeletion(t *testing.T) {
-
+func Test_Authorization_Samples_CreationAndDeletion(t *testing.T) {
 	t.Parallel()
-
 	tc := globalTestContext.ForTest(t)
+	runGroupTest(tc, "authorization", false)
+}
 
-	rg := tc.CreateTestResourceGroupAndWait()
+func Test_Batch_Samples_CreationAndDeletion(t *testing.T) {
+	t.Parallel()
+	tc := globalTestContext.ForTest(t)
+	runGroupTest(tc, "batch", false)
+}
 
-	samples, err := loadSamples(tc, rg)
-	tc.Expect(err).To(gomega.BeNil())
-	tc.Expect(len(samples)).ToNot(gomega.BeZero())
+// Had to split cache resources into version groups as the time taken for recording
+// as a whole was exceeding 150 minutes
+func Test_Cache_Alpha_Redis_Samples_CreationAndDeletion(t *testing.T) {
+	t.Parallel()
+	tc := globalTestContext.ForTest(t)
+	runGroupTest(tc, "cache/v1alphaapi", false)
+}
 
-	for gv, resourceTree := range samples {
-		tc.RunParallelSubtests(
-			testcommon.Subtest{
-				Name: fmt.Sprintf("Test for '%s' samples", gv),
-				Test: func(testContext *testcommon.KubePerTestContext) {
-					createAndDeleteResourceTree(tc, resourceTree)
-				},
+func Test_Cache_Beta_Redis_Samples_CreationAndDeletion(t *testing.T) {
+	t.Parallel()
+	tc := globalTestContext.ForTest(t)
+	runGroupTest(tc, "cache/v1beta", false)
+}
+
+func Test_CDN_Samples_CreationAndDeletion(t *testing.T) {
+	t.Parallel()
+	tc := globalTestContext.ForTest(t)
+	runGroupTest(tc, "cdn", true)
+}
+
+func Test_ContainerInstance_Samples_CreationAndDeletion(t *testing.T) {
+	t.Parallel()
+	tc := globalTestContext.ForTest(t)
+	runGroupTest(tc, "containerinstance", true)
+}
+
+func Test_ContainerRegistry_Samples_CreationAndDeletion(t *testing.T) {
+	t.Parallel()
+	tc := globalTestContext.ForTest(t)
+	runGroupTest(tc, "containerregistry", true)
+}
+
+func Test_ContainerService_Samples_CreationAndDeletion(t *testing.T) {
+	t.Parallel()
+	tc := globalTestContext.ForTest(t)
+	runGroupTest(tc, "containerservice", false)
+}
+
+func Test_DbforMariaDB_Samples_CreationAndDeletion(t *testing.T) {
+	t.Parallel()
+	tc := globalTestContext.ForTest(t)
+	runGroupTest(tc, "dbformariadb", true)
+}
+
+// TODO: FlexiblServer is not being able to be created. Hitting RESPONSE 404 as ARM is sending a success
+// and still controller can't find the created resource TODO: update me
+
+//func Test_DbForMySQL_Samples_CreationAndDeletion(t *testing.T) {
+//	t.Parallel()
+//	tc := globalTestContext.ForTest(t)
+//	runGroupTest(tc, "dbformysql", false)
+//}
+
+//func Test_DbForPostgreSQL_Samples_CreationAndDeletion(t *testing.T) {
+//	t.Parallel()
+//	tc := globalTestContext.ForTest(t)
+//	runGroupTest(tc, "dbforpostgresql", true)
+//}
+
+func Test_DocumentDB_MongoDB_Samples_CreationAndDeletion(t *testing.T) {
+	t.Parallel()
+	tc := globalTestContext.ForTest(t)
+	runGroupTest(tc, "documentdb/mongodb", false)
+}
+
+func Test_DocumentDB_SqlDatabase_Samples_CreationAndDeletion(t *testing.T) {
+	t.Parallel()
+	tc := globalTestContext.ForTest(t)
+	runGroupTest(tc, "documentdb/sqldatabase", false)
+}
+
+func Test_Eventgrid_Samples_CreationAndDeletion(t *testing.T) {
+	t.Parallel()
+	tc := globalTestContext.ForTest(t)
+	runGroupTest(tc, "eventgrid", true)
+}
+
+func Test_EventHub_Samples_CreationAndDeletion(t *testing.T) {
+	t.Parallel()
+	tc := globalTestContext.ForTest(t)
+	runGroupTest(tc, "eventhub", true)
+}
+
+func Test_Insights_Samples_CreationAndDeletion(t *testing.T) {
+	t.Parallel()
+	tc := globalTestContext.ForTest(t)
+	runGroupTest(tc, "insights", true)
+}
+
+func Test_Keyvault_Samples_CreationAndDeletion(t *testing.T) {
+	t.Parallel()
+	tc := globalTestContext.ForTest(t)
+	runGroupTest(tc, "keyvault", true)
+}
+
+func Test_ManagedIdentity_Samples_CreationAndDeletion(t *testing.T) {
+	t.Parallel()
+	tc := globalTestContext.ForTest(t)
+	runGroupTest(tc, "managedidentity", true)
+}
+
+func Test_OperationalInsights_Samples_CreationAndDeletion(t *testing.T) {
+	t.Parallel()
+	tc := globalTestContext.ForTest(t)
+	runGroupTest(tc, "operationalinsights", true)
+}
+
+func Test_SignalRService_Samples_CreationAndDeletion(t *testing.T) {
+	t.Parallel()
+	tc := globalTestContext.ForTest(t)
+	runGroupTest(tc, "signalrservice", true)
+}
+
+func Test_ServiceBus_Samples_CreationAndDeletion(t *testing.T) {
+	t.Parallel()
+	tc := globalTestContext.ForTest(t)
+	runGroupTest(tc, "servicebus", true)
+}
+
+func Test_Storage_Samples_CreationAndDeletion(t *testing.T) {
+	t.Parallel()
+	tc := globalTestContext.ForTest(t)
+	runGroupTest(tc, "storage", true)
+}
+
+// TODO: These are the complex groups which have too many nested referenced objects and armID refs
+// TODO: which we can't handle currently due to having no capability to figure out the order
+// TODO: of installing the references
+//func Test_Compute_Samples_CreationAndDeletion(t *testing.T) {
+//	t.Parallel()
+//	tc := globalTestContext.ForTest(t)
+//	runGroupTest(tc, "compute", true)
+//}
+
+//func Test_Network_Samples_CreationAndDeletion(t *testing.T) {
+//	t.Parallel()
+//	tc := globalTestContext.ForTest(t)
+//	runGroupTest(tc, "network", true)
+//}
+
+func runGroupTest(tc *testcommon.KubePerTestContext, group string, useRandomName bool) {
+	rg := tc.NewTestResourceGroup()
+	samples, refs := testcommon.NewSamplesTester(tc, useRandomName).LoadSamples(rg, group)
+
+	tc.Expect(samples).ToNot(gomega.BeNil())
+	tc.Expect(refs).ToNot(gomega.BeNil())
+
+	tc.Expect(samples).ToNot(gomega.BeZero())
+
+	tc.CreateResourceAndWait(rg)
+	defer tc.DeleteResourceAndWait(rg)
+
+	for _, refTree := range refs.SamplesMap {
+		createAndDeleteResourceTree(tc, refTree, true, 0)
+	}
+
+	for _, resourceTree := range samples.SamplesMap {
+		// Check if we have any references for the samples beforehand and Create them
+		createAndDeleteResourceTree(tc, resourceTree, false, 0)
+	}
+}
+
+func createAndDeleteResourceTree(tc *testcommon.KubePerTestContext, hashMap *linkedhashmap.Map, isRef bool, index int) {
+
+	var secrets []*v1.Secret
+	vals := hashMap.Values()
+	if index >= hashMap.Size() {
+		return
+	}
+
+	resourceObj := vals[index].(genruntime.ARMMetaObject)
+	refs, err := reflecthelpers.FindSecretReferences(resourceObj)
+	if err != nil {
+		return
+	}
+
+	for ref, _ := range refs {
+		password := tc.Namer.GeneratePasswordOfLength(40)
+
+		secret := &v1.Secret{
+			ObjectMeta: tc.MakeObjectMetaWithName(ref.Name),
+			StringData: map[string]string{
+				ref.Key: password,
 			},
-		)
-	}
-}
-
-func createAndDeleteResourceTree(tc *testcommon.KubePerTestContext, resourceTree *treemap.Map) {
-
-	k, v := resourceTree.Min()
-
-	if k != nil && v != nil {
-		resourceObj := v.(genruntime.ARMMetaObject)
-		tc.CreateResourceAndWait(resourceObj)
-
-		resourceTree.Remove(k)
-		createAndDeleteResourceTree(tc, resourceTree)
-
-		// no DELETE for child objects, to delete them we must delete its parent
-		if resourceObj.Owner().Kind == resolver.ResourceGroupKind {
-			tc.DeleteResourceAndWait(resourceObj)
 		}
+
+		tc.CreateResource(secret)
+		secrets = append(secrets, secret)
 	}
 
-}
+	tc.CreateResourceAndWait(resourceObj)
 
-func loadSamples(tc *testcommon.KubePerTestContext, rg *resources.ResourceGroup) (map[string]*treemap.Map, error) {
+	// Using recursion here to maintain the order of creation and deletion of resources
+	createAndDeleteResourceTree(tc, hashMap, isRef, index+1)
 
-	samples := make(map[string]*treemap.Map)
-	var childObjects []genruntime.ARMMetaObject
-
-	decoder := serializer.NewCodecFactory(tc.GetScheme()).UniversalDecoder()
-
-	err := filepath.Walk(samplesPath,
-		func(path string, info os.FileInfo, err error) error {
-
-			if err != nil {
-				return err
-			}
-			if !info.IsDir() && !isExclusion(path) {
-				//if !info.IsDir() && strings.Contains(path, "storage") && !isExclusion(path) {
-
-				sample := getObjectFromFile(tc, decoder, path)
-
-				sample.SetNamespace(tc.Namespace)
-				sample.SetName(tc.NoSpaceNamer.GenerateName(""))
-
-				if sample.Owner().Kind == resolver.ResourceGroupKind {
-					handleParentObject(sample, rg, samples)
-				} else {
-					childObjects = append(childObjects, sample)
-				}
-			}
-
-			return nil
-		})
-
-	// TODO: Find a better way to handle Child resources. Doing it this way as we need to make sure all the parent
-	// objects are already present in the map.
-	handleChildObjects(tc, childObjects, samples)
-
-	return samples, err
-}
-
-func getObjectFromFile(tc *testcommon.KubePerTestContext, decoder runtime.Decoder, path string) genruntime.ARMMetaObject {
-
-	jsonMap := make(map[string]interface{})
-
-	byteData, err := ioutil.ReadFile(path)
-	tc.Expect(err).To(gomega.BeNil())
-
-	jsonBytes, err := yaml.ToJSON(byteData)
-	tc.Expect(err).To(gomega.BeNil())
-
-	err = json.Unmarshal(jsonBytes, &jsonMap)
-	tc.Expect(err).To(gomega.BeNil())
-
-	// We need unstructured object here to fetch the correct GVK for the object
-	unstructuredObj := unstructured.Unstructured{Object: jsonMap}
-
-	obj, err := genruntime.NewObjectFromExemplar(&unstructuredObj, tc.GetScheme())
-	tc.Expect(err).To(gomega.BeNil())
-
-	byteData, err = json.Marshal(unstructuredObj.Object)
-	tc.Expect(err).To(gomega.BeNil())
-
-	err = runtime.DecodeInto(decoder, byteData, obj)
-
-	return obj.(genruntime.ARMMetaObject)
-}
-
-func handleChildObjects(tc *testcommon.KubePerTestContext, childObjects []genruntime.ARMMetaObject, samples map[string]*treemap.Map) {
-	for _, sample := range childObjects {
-		specField := reflect.ValueOf(sample.GetSpec())
-		version := specField.MethodByName("OriginalVersion").Call([]reflect.Value{})
-
-		tc.Expect(version[0]).ToNot(gomega.BeNil())
-		tc.Expect(version[0].String()).ToNot(gomega.BeEmpty())
-
-		gv := generateGVString(sample.Owner().Group, version[0].String())
-
-		node, ok := samples[gv]
-		tc.Expect(ok).To(gomega.BeTrue())
-
-		// TODO: Fow now, we don't have complex cases and this should pass always. If in future we have nested child objects,
-		// We might need to have a look into extending this.
-		val, ok := node.Get(sample.Owner().Kind)
-		tc.Expect(ok).To(gomega.BeTrue())
-
-		owner := val.(genruntime.ARMMetaObject)
-
-		sample = setOwnersName(sample, owner.GetName())
-		samples[gv].Put(sample.GetObjectKind().GroupVersionKind().Kind, sample)
-		samples[gv] = node
+	for _, secret := range secrets {
+		tc.DeleteResource(secret)
 	}
-}
 
-func handleParentObject(sample genruntime.ARMMetaObject, rg *resources.ResourceGroup, samples map[string]*treemap.Map) {
-	gv := sample.GetObjectKind().GroupVersionKind().GroupVersion().String()
-	sample = setOwnersName(sample, rg.Name)
-
-	kind := sample.GetObjectKind().GroupVersionKind().Kind
-
-	if _, ok := samples[gv]; ok {
-		samples[gv].Put(kind, sample)
-	} else {
-		treeMap := treemap.NewWithStringComparator()
-		treeMap.Put(kind, sample)
-		samples[gv] = treeMap
+	// no DELETE for child objects, to delete them we must delete its parent
+	if resourceObj.Owner().Kind == resolver.ResourceGroupKind && !isRef {
+		tc.DeleteResourceAndWait(resourceObj)
 	}
-}
-
-func isExclusion(path string) bool {
-
-	for _, exc := range exclusions {
-		if strings.Contains(path, exc) {
-			return true
-		}
-	}
-	return false
-}
-
-func setOwnersName(sample genruntime.ARMMetaObject, ownerName string) genruntime.ARMMetaObject {
-	specField := reflect.ValueOf(sample.GetSpec()).Elem()
-	ownerField := specField.FieldByName("Owner").Elem()
-	ownerField.FieldByName("Name").SetString(ownerName)
-
-	return sample
-}
-
-func generateGVString(group, version string) string {
-	return group + "/" + version
 }

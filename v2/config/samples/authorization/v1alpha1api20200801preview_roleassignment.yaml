@@ -1,14 +1,14 @@
 apiVersion: authorization.azure.com/v1alpha1api20200801preview
 kind: RoleAssignment
 metadata:
-  name: aso-sample-roleassignment
+  name: b5ce4677-d53d-4532-aa18-ac32aecb1117 # Should be UUID
   namespace: default
 spec:
   location: westcentralus
   # This resource can be owner by any resource. In this example we've chosen a resource group for simplicity
   owner:
     name: aso-sample-rg
-    group: microsoft.resources
+    group: resources.azure.com
     kind: ResourceGroup
   # This is the Principal ID of the AAD identity to which the role will be assigned
   principalId: 00000000-0000-0000-0000-000000000000

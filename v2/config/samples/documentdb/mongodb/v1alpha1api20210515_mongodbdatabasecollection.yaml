@@ -1,0 +1,22 @@
+apiVersion: documentdb.azure.com/v1alpha1api20210515
+kind: MongodbDatabaseCollection
+metadata:
+  name: sample-mongo-collection-alpha
+  namespace: default
+spec:
+  location: westcentralus
+  owner:
+    name: sample-db-mongodb
+  options:
+    throughput: 400
+  resource:
+    id: sample-mongo-collection-alpha
+    indexes:
+      - key:
+          keys: ["_id"]
+        options:
+          unique: true
+      - key:
+          keys: ["col1", "col2"]
+        options:
+          unique: false

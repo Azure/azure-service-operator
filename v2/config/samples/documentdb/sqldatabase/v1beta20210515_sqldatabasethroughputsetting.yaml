@@ -1,0 +1,11 @@
+apiVersion: documentdb.azure.com/v1beta20210515
+kind: SQLDatabaseThroughputSetting
+metadata:
+  name: sample-sql-throughput-beta
+  namespace: default
+spec:
+  owner:
+    name: sample-sql-db-beta
+  resource:
+    autoscaleSettings:
+      maxThroughput: 4000

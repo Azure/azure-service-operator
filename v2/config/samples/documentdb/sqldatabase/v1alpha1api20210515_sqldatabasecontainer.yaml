@@ -1,0 +1,28 @@
+# Adapted from CosmosDB SQL Bicep examples:
+# https://docs.microsoft.com/en-us/azure/cosmos-db/sql/manage-with-bicep#create-sproc
+apiVersion: documentdb.azure.com/v1alpha1api20210515
+kind: SqlDatabaseContainer
+metadata:
+  name: sample-sql-container-alpha
+  namespace: default
+spec:
+  location: westcentralus
+  owner:
+    name: sample-sql-db-alpha
+  options:
+    throughput: 400
+  resource:
+    id: sample-sql-container-alpha
+    conflictResolutionPolicy:
+      mode: LastWriterWins
+    defaultTtl: 200
+    indexingPolicy:
+      indexingMode: consistent
+      includedPaths:
+        - path: "/*"
+      excludedPaths:
+        - path: "/myPathToNotIndex/*"
+    partitionKey:
+      kind: Hash
+      paths:
+      - "/myPartitionKey"

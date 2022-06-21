@@ -1,0 +1,25 @@
+apiVersion: documentdb.azure.com/v1beta20210515
+kind: DatabaseAccount
+metadata:
+  name: sample-db-account-beta
+  namespace: default
+spec:
+  location: westcentralus
+  owner:
+    name: aso-sample-rg
+  kind: MongoDB
+  databaseAccountOfferType: Standard
+  locations:
+    - locationName: westcentralus
+  # Optional: Save the connection details for this DatabaseAccount into a Kubernetes secret
+  operatorSpec:
+    secrets:
+      primaryMasterKey:
+        name: db-secret
+        key: primarymasterkey
+      secondaryMasterKey:
+        name: db-secret
+        key: secondarymasterkey
+      documentEndpoint:
+        name: db-secret
+        key: endpoint

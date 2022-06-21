@@ -1,0 +1,34 @@
+apiVersion: cache.azure.com/v1beta20201201
+kind: Redis
+metadata:
+  name: sampleredis2
+  namespace: default
+spec:
+  location: westcentralus
+  owner:
+    name: aso-sample-rg
+  sku:
+    family: P
+    name: Premium
+    capacity: 1
+  enableNonSslPort: false
+  minimumTlsVersion: "1.2"
+  redisConfiguration:
+    maxmemory-delta: "10"
+    maxmemory-policy: allkeys-lru
+  redisVersion: "6"
+  # Optional: Save the connection details for this Redis into a Kubernetes secret
+  operatorSpec:
+    secrets:
+      primaryKey:
+        name: redis-secret1
+        key: primaryKey
+      secondaryKey:
+        name: redis-secret1
+        key: secondaryKey
+      hostName:
+        name: redis-secret1
+        key: hostName
+      sslPort:
+        name: redis-secret1
+        key: port
