@@ -10,25 +10,23 @@
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/design/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/</loc>
-  </url><url>
     <loc>https://azure.github.io/azure-service-operator/introduction/metrics/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-04-code-generation/</loc>
+    <loc>https://azure.github.io/azure-service-operator/design/adr-2020-04-code-generation/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-07-pipeline-architecture/</loc>
+    <loc>https://azure.github.io/azure-service-operator/design/adr-2020-07-pipeline-architecture/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-11-abstract-syntax-trees/</loc>
+    <loc>https://azure.github.io/azure-service-operator/design/adr-2020-11-abstract-syntax-trees/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-02-property-conversions/</loc>
+    <loc>https://azure.github.io/azure-service-operator/design/adr-2021-02-property-conversions/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-06-api-version-recovery/</loc>
+    <loc>https://azure.github.io/azure-service-operator/design/adr-2021-06-api-version-recovery/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-08-committing-generated-code/</loc>
+    <loc>https://azure.github.io/azure-service-operator/design/adr-2021-08-committing-generated-code/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-01-reconciler-extensions/</loc>
+    <loc>https://azure.github.io/azure-service-operator/design/adr-2022-01-reconciler-extensions/</loc>
   </url><url>
-    <loc>https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-02-backward-compatibility/</loc>
+    <loc>https://azure.github.io/azure-service-operator/design/adr-2022-02-backward-compatibility/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/contributing/add-a-new-code-generated-resource/</loc>
   </url><url>

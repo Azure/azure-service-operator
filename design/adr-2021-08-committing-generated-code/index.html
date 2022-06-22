@@ -18,35 +18,35 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>2021-02: Property Conversions | Azure Service Operator</title>
+<title>2021-08: Committing Generated Code | Azure Service Operator</title>
 <meta name="description" content="Context
-To facilitate the use of dedicated storage variants for persistence of our custom resources, we need to codegen conversion routines that will …">
-<meta property="og:title" content="2021-02: Property Conversions" />
-<meta property="og:description" content="Context To facilitate the use of dedicated storage variants for persistence of our custom resources, we need to codegen conversion routines that will copy all properties defined on one version of a resource to another version.
-Given the way resources evolve from version to version, these we need to support a wide range of conversions between types that are similar, but not identical.
-For example, looking primitive types (such as string, int, and bool):" />
+We’re aware that common practice avoids committing generated code into source control, treating it as an ephemeral resource that can be …">
+<meta property="og:title" content="2021-08: Committing Generated Code" />
+<meta property="og:description" content="Context We’re aware that common practice avoids committing generated code into source control, treating it as an ephemeral resource that can be regenerated on demand.
+Even so, we are concluding that we want to check in our generated code.
+Upstream changes We do not fully control the source definitions from which we are generating our object model and we are concerned about upstream changes that change our generated output in unexpected ways." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-02-property-conversions/" /><meta property="article:section" content="architecture-decision-records" />
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/design/adr-2021-08-committing-generated-code/" /><meta property="article:section" content="design" />
 
 
 
-<meta itemprop="name" content="2021-02: Property Conversions">
-<meta itemprop="description" content="Context To facilitate the use of dedicated storage variants for persistence of our custom resources, we need to codegen conversion routines that will copy all properties defined on one version of a resource to another version.
-Given the way resources evolve from version to version, these we need to support a wide range of conversions between types that are similar, but not identical.
-For example, looking primitive types (such as string, int, and bool):">
+<meta itemprop="name" content="2021-08: Committing Generated Code">
+<meta itemprop="description" content="Context We’re aware that common practice avoids committing generated code into source control, treating it as an ephemeral resource that can be regenerated on demand.
+Even so, we are concluding that we want to check in our generated code.
+Upstream changes We do not fully control the source definitions from which we are generating our object model and we are concerned about upstream changes that change our generated output in unexpected ways.">
 
-<meta itemprop="wordCount" content="612">
+<meta itemprop="wordCount" content="531">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="2021-02: Property Conversions"/>
-<meta name="twitter:description" content="Context To facilitate the use of dedicated storage variants for persistence of our custom resources, we need to codegen conversion routines that will copy all properties defined on one version of a resource to another version.
-Given the way resources evolve from version to version, these we need to support a wide range of conversions between types that are similar, but not identical.
-For example, looking primitive types (such as string, int, and bool):"/>
+<meta name="twitter:title" content="2021-08: Committing Generated Code"/>
+<meta name="twitter:description" content="Context We’re aware that common practice avoids committing generated code into source control, treating it as an ephemeral resource that can be regenerated on demand.
+Even so, we are concluding that we want to check in our generated code.
+Upstream changes We do not fully control the source definitions from which we are generating our object model and we are concerned about upstream changes that change our generated output in unexpected ways."/>
 
 
 
 
-<link rel="preload" href="/azure-service-operator/scss/main.min.209ee91954d0f2f182770e6c71011a5580360636bcf2a9bcf7f1c3da478784ff.css" as="style">
-<link href="/azure-service-operator/scss/main.min.209ee91954d0f2f182770e6c71011a5580360636bcf2a9bcf7f1c3da478784ff.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/azure-service-operator/scss/main.min.cd6c2bbb05cdf98237b53882fed8c7a8b3fd7a7f7963d7cb305dd0d984782137.css" as="style">
+<link href="/azure-service-operator/scss/main.min.cd6c2bbb05cdf98237b53882fed8c7a8b3fd7a7f7963d7cb305dd0d984782137.css" rel="stylesheet" integrity="">
 
 <script
   src="https://code.jquery.com/jquery-3.6.0.min.js"
@@ -110,19 +110,7 @@ For example, looking primitive types (such as string, int, and bool):"/>
 				
 				
 				
-				<a class="nav-link" href="/azure-service-operator/design/" ><span>Design</span></a>
-			</li>
-			
-			<li class="nav-item mr-4 mb-2 mb-lg-0">
-				
-				
-				
-				
-				
-				
-				
-				
-				<a class="nav-link active" href="/azure-service-operator/architecture-decision-records/" ><span class="active">Architecture</span></a>
+				<a class="nav-link active" href="/azure-service-operator/design/" ><span class="active">Design</span></a>
 			</li>
 			
 			
@@ -285,22 +273,38 @@ For example, looking primitive types (such as string, int, and bool):"/>
   <a href="/azure-service-operator/contributing/create-a-new-release/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingcreate-a-new-release"><span class="">Creating a new release</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatordesign-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatordesign-li">
   <a href="/azure-service-operator/design/" title="Design &amp; Specifications" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesign"><span class="">Design</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignclarifying-object-structure-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2020-04-code-generation-li">
+  <a href="/azure-service-operator/design/adr-2020-04-code-generation/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-04-code-generation"><span class="">2020-04: Why Code Generation?</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2020-07-pipeline-architecture-li">
+  <a href="/azure-service-operator/design/adr-2020-07-pipeline-architecture/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-07-pipeline-architecture"><span class="">2020-07: Pipeline Architecture</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2020-11-abstract-syntax-trees-li">
+  <a href="/azure-service-operator/design/adr-2020-11-abstract-syntax-trees/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-11-abstract-syntax-trees"><span class="">2020-11: AST Library Choice</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2021-02-property-conversions-li">
+  <a href="/azure-service-operator/design/adr-2021-02-property-conversions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2021-02-property-conversions"><span class="">2021-02: Property Conversions</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2021-06-api-version-recovery-li">
+  <a href="/azure-service-operator/design/adr-2021-06-api-version-recovery/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2021-06-api-version-recovery"><span class="">2021-06: API Version Recovery</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatordesignadr-2021-08-committing-generated-code-li">
+  <a href="/azure-service-operator/design/adr-2021-08-committing-generated-code/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2021-08-committing-generated-code"><span class="td-sidebar-nav-active-item">2021-08: Committing Generated Code</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-01-reconciler-extensions-li">
+  <a href="/azure-service-operator/design/adr-2022-01-reconciler-extensions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-01-reconciler-extensions"><span class="">2022-01: Reconciler Extensions</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-02-backward-compatibility-li">
+  <a href="/azure-service-operator/design/adr-2022-02-backward-compatibility/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-02-backward-compatibility"><span class="">2022-02: Backward Resource Compatibility</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignclarifying-object-structure-li">
   <a href="/azure-service-operator/design/clarifying-object-structure/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignclarifying-object-structure"><span class="">Clarifying object structure</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigncrossplane-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigncrossplane-li">
   <a href="/azure-service-operator/design/crossplane/" title="Code generation for Crossplane" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigncrossplane"><span class="">Crossplane support</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigndefaulter-validator-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigndefaulter-validator-li">
   <a href="/azure-service-operator/design/defaulter-validator/" title="Custom validation and defaulting for code generated resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigndefaulter-validator"><span class="">Custom validation</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignsecrets-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignsecrets-li">
   <a href="/azure-service-operator/design/secrets/" title="Managing dataplane secrets" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignsecrets"><span class="">Dataplane secrets</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignreconcile-interface-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignreconcile-interface-li">
   <a href="/azure-service-operator/design/reconcile-interface/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignreconcile-interface"><span class="">Improving the Reconciler interface</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignresource-states-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignresource-states-li">
   <a href="/azure-service-operator/design/resource-states/" title="Proposal for reporting resource Status" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignresource-states"><span class="">Resource status</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatordesignversioning-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatordesignversioning-li">
   <a href="/azure-service-operator/design/versioning/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignversioning"><span class="">Resource versioning</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatordesignversioningcase-studies-li">
@@ -316,29 +320,8 @@ For example, looking primitive types (such as string, int, and bool):"/>
   </ul>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigntype-references-and-ownership-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigntype-references-and-ownership-li">
   <a href="/azure-service-operator/design/type-references-and-ownership/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigntype-references-and-ownership"><span class="">Type References &amp; ownership</span></a>
-</li>
-  </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorarchitecture-decision-records-li">
-  <a href="/azure-service-operator/architecture-decision-records/" title="Architecture Decision Records" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorarchitecture-decision-records"><span class="">Architecture</span></a>
-  <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorarchitecture-decision-recordsadr-2020-04-code-generation-li">
-  <a href="/azure-service-operator/architecture-decision-records/adr-2020-04-code-generation/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2020-04-code-generation"><span class="">2020-04: Why Code Generation?</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorarchitecture-decision-recordsadr-2020-07-pipeline-architecture-li">
-  <a href="/azure-service-operator/architecture-decision-records/adr-2020-07-pipeline-architecture/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2020-07-pipeline-architecture"><span class="">2020-07: Pipeline Architecture</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorarchitecture-decision-recordsadr-2020-11-abstract-syntax-trees-li">
-  <a href="/azure-service-operator/architecture-decision-records/adr-2020-11-abstract-syntax-trees/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2020-11-abstract-syntax-trees"><span class="">2020-11: AST Library Choice</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorarchitecture-decision-recordsadr-2021-02-property-conversions-li">
-  <a href="/azure-service-operator/architecture-decision-records/adr-2021-02-property-conversions/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2021-02-property-conversions"><span class="td-sidebar-nav-active-item">2021-02: Property Conversions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorarchitecture-decision-recordsadr-2021-06-api-version-recovery-li">
-  <a href="/azure-service-operator/architecture-decision-records/adr-2021-06-api-version-recovery/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2021-06-api-version-recovery"><span class="">2021-06: API Version Recovery</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorarchitecture-decision-recordsadr-2021-08-committing-generated-code-li">
-  <a href="/azure-service-operator/architecture-decision-records/adr-2021-08-committing-generated-code/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2021-08-committing-generated-code"><span class="">2021-08: Committing Generated Code</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorarchitecture-decision-recordsadr-2022-01-reconciler-extensions-li">
-  <a href="/azure-service-operator/architecture-decision-records/adr-2022-01-reconciler-extensions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2022-01-reconciler-extensions"><span class="">2022-01: Reconciler Extensions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorarchitecture-decision-recordsadr-2022-02-backward-compatibility-li">
-  <a href="/azure-service-operator/architecture-decision-records/adr-2022-02-backward-compatibility/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2022-02-backward-compatibility"><span class="">2022-02: Backward Resource Compatibility</span></a>
 </li>
   </ul>
 </li>
@@ -360,7 +343,13 @@ For example, looking primitive types (such as string, int, and bool):"/>
 
 <div class="td-toc"><nav id="TableOfContents">
   <ul>
-    <li><a href="#context">Context</a></li>
+    <li><a href="#context">Context</a>
+      <ul>
+        <li><a href="#upstream-changes">Upstream changes</a></li>
+        <li><a href="#generator-changes">Generator changes</a></li>
+        <li><a href="#generator-awareness">Generator awareness</a></li>
+      </ul>
+    </li>
     <li><a href="#decision">Decision</a></li>
     <li><a href="#status">Status</a></li>
     <li><a href="#consequences">Consequences</a></li>
@@ -399,16 +388,16 @@ For example, looking primitive types (such as string, int, and bool):"/>
             <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
   <li class="breadcrumb-item">
-    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/">Architecture</a>
+    <a href="https://azure.github.io/azure-service-operator/design/">Design</a>
   </li>
   <li class="breadcrumb-item active" aria-current="page">
-    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2021-02-property-conversions/">2021-02: Property Conversions</a>
+    <a href="https://azure.github.io/azure-service-operator/design/adr-2021-08-committing-generated-code/">2021-08: Committing Generated Code</a>
   </li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>2021-02: Property Conversions</h1>
+	<h1>2021-08: Committing Generated Code</h1>
 	
 	<header class="article-meta">
 		
@@ -426,56 +415,34 @@ For example, looking primitive types (such as string, int, and bool):"/>
 		
 	</header>    
 	<h2 id="context">Context</h2>
-<p>To facilitate the use of dedicated storage variants for persistence of our custom resources, we need to codegen conversion routines that will copy all properties defined on one version of a resource to another version.</p>
-<p>Given the way resources evolve from version to version, these we need to support a wide range of conversions between types that are similar, but not identical.</p>
-<p>For example, looking primitive types (such as <strong>string</strong>, <strong>int</strong>, and <strong>bool</strong>):</p>
-<p>A <strong>primitive type can become optional</strong> in a later version when a suitable default is provided, or when an alternative becomes available.</p>
-<p>An <strong>optional primitive type can become mandatory</strong> in a later version when deprecation of other properties leaves only one way to do things.</p>
-<p>A <strong>primitive type can be replaced by an enumeration</strong> when validation for a property (such as VM SKU) is tightened up to avoid problems.</p>
-<p>A <strong>primitive type can be replaced by an alias</strong> when additional validation constraints (e.g., limiting bounds or a regular expression) are added to address problems.</p>
-<p>These transformations (and others) can occur in combination with each other (e.g., <strong>a primitive type replaced by an optional enumeration</strong>) and with other constructs, such as maps, arrays, resources, and complex object types.</p>
-<p>Other constraints apply, such as the need to <strong>clone optional values during copying</strong> lest the two objects become coupled with changes to one being visible on the other.</p>
-<p>When implementation began, it very quickly became apparent that independently addressing every possible conversion requirement would be difficult to impossible given the combinatorial explosion of possibilities.</p>
+<p>We’re aware that common practice avoids committing generated code into source control, treating it as an ephemeral resource that can be regenerated on demand.</p>
+<p>Even so, we are concluding that we want to check in our generated code.</p>
+<h3 id="upstream-changes">Upstream changes</h3>
+<p>We do not fully control the source definitions from which we are generating our object model and we are concerned about upstream changes that change our generated output in unexpected ways.</p>
+<p>While such changes are very unlikely, given the controls that ARM has in place around breaking API changes, exceptions are made, and mistakes do happen.</p>
+<p>As a part of the Kubernetes ecosystem of tooling, we need to adhere to strong guidelines for backward compatibility; inadvertently releasing an incompatible version of ASO would be a significant issue. It’s likely that recovering from such a release would require a second breaking release (to restore compatibility with the original) which would itself cause customer pain.</p>
+<p>Having the generated code committed into our repository gives us an opportunity to detect and address such changes before a new release of ASO.</p>
+<p>It is also useful to have the assurance of knowing exactly what generated code was included in a particular release of ASO. Our ability to reproduce and debug a reported issue would be much reduced if an upstream modification (resulting in a change to our generated code) meant that we could not reproduce the exact code being run by a customer.</p>
+<h3 id="generator-changes">Generator changes</h3>
+<p>With so much code being generated, we are starting to become concerned that a simple change to the generator might have unexpected consequences, perhaps due to reuse of a function definition, for example.</p>
+<p>Having the generated code committed into our repository would give an opportunity to review those changes in advance, helping to catch any issues well before any code is merged into our repository.</p>
+<p>We admit that reviewing all the generated code is likely to be infeasible, but we can at least benefit from random sampling of the changes, and by reviewing at least one resource in depth.</p>
+<h3 id="generator-awareness">Generator awareness</h3>
+<p>We want the project to be accessible to outside developers.</p>
+<p>Requiring a new developer to successfully run the code generator before being able to build the operator itself would be a significant barrier to anyone trying to get an understanding of what we’ve built.</p>
+<p>Having the generated code committed into our repository means that a full build of the service operator can be performed without needing to even be aware that the generator exists, reducing the effort required for someone to get started.</p>
 <h2 id="decision">Decision</h2>
-<p>Use a recursive algorithm to generate the required conversion by composing simpler conversion steps together.</p>
-<p>For example, given a need to copy an optional string to an optional enumeration, the process works as follows:</p>
-<p>Original problem: <code>*string -&gt; *Sku</code> (where Sku is based on a string)</p>
-<p>The handler <code>assignFromOptional</code> knows how to handle the optionality of <code>*string</code>, reducing the size of the problem. A recursive call is made to solve the new problem.</p>
-<p>Reduced problem: <code>string -&gt; *Sku</code></p>
-<p>The handler <code>assignToOptional</code> knows how to handle the optionality of <code>*Sku</code>, reducing the size of the problem further. A recursive call is made to solve the new problem.</p>
-<p>Reduced problem #2: <code>string -&gt; Sku</code></p>
-<p>The handler <code>assignToAliasedPrimitive</code> recognizes that <code>Sku</code> is an enumeration based on <code>string</code> and reduces the problem. A recursive call is made to solve the new problem.</p>
-<p>Reduced problem #3: <code>string -&gt; string</code></p>
-<p>Now <code>assignPrimitiveFromPrimitive</code> can handle the reduced problem, generating a simple assignment to copy the value across:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">destination</span> = <span style="color:#a6e22e">source</span>
-</code></pre></div><p>Working backwards, the handler <code>assignToAliasedPrimitive</code> injects the required cast to the enumeration</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">destination</span> = <span style="color:#a6e22e">Sku</span>(<span style="color:#a6e22e">source</span>)
-</code></pre></div><p>Then, <code>assignToOptional</code> injects a local variable and takes its address</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#a6e22e">sku</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Sku</span>(<span style="color:#a6e22e">source</span>)
-<span style="color:#a6e22e">destination</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">sku</span>
-</code></pre></div><p>Finally, <code>assignFromOptional</code> injects a check to see if we have a value to assign in the first place, assigning a suitable zero value if we don&rsquo;t:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">if</span> <span style="color:#a6e22e">source</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-    <span style="color:#a6e22e">sku</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">Sku</span>(<span style="color:#a6e22e">source</span>)
-    <span style="color:#a6e22e">destination</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">sku</span>
-} <span style="color:#66d9ef">else</span> {
-    <span style="color:#a6e22e">destination</span> <span style="color:#f92672">:=</span> <span style="color:#e6db74">&#34;&#34;</span>
-}
-</code></pre></div><h2 id="status">Status</h2>
-<p>Successfully implemented. First commit in <a href="https://github.com/Azure/k8s-infra/pull/378">PR# #378</a></p>
-<p>The full list of implemented conversions can be found in <code>property_conversions.go</code>.</p>
+<p>We will commit the generated code in a separate folder.</p>
+<h2 id="status">Status</h2>
+<p>Adopted.</p>
+<p>First commit of our generated code was in <a href="https://github.com/Azure/azure-service-operator/pull/1741">PR #1741</a>.</p>
 <h2 id="consequences">Consequences</h2>
-<p>It required some finessing of the conversion code to generate high quality conversions; early results were functional but not comparable with handwritten efforts.</p>
-<p>As we’ve encountered new cases where new transformations are required, the list of conversions has been extended with additional handlers, including:</p>
-<p>•	Support for enumerations (<a href="https://github.com/Azure/k8s-infra/pull/392">PR #392</a>)
-•	Conversion of complex object types (<a href="https://github.com/Azure/k8s-infra/pull/395">PR #395</a>)
-•	Support for aliases of otherwise supported types (<a href="https://github.com/Azure/k8s-infra/pull/433">PR #433</a>)
-•	Ability to read values from functions (<a href="https://github.com/Azure/azure-service-operator/pull/1545">PR #1545</a>)
-•	Support for JSON properties (<a href="https://github.com/Azure/azure-service-operator/pull/1545">PR #1574</a>)
-•	Property Bags for storing/recalling unknown properties (<a href="https://github.com/Azure/azure-service-operator/pull/1682">PR# 1682</a>)</p>
+<p>We have observed unexpected consequences of generator changes and been able to correct course before creating a PR.</p>
+<p>Some PRs have had a wide reaching impact, resulting in very large PRs with lots of modifications to generated code. To facilitate review, some pieces of work have been split into two PRs: One with a fully tested new feature in disabled form, allowing detailed review of the change, and another to enable the feature and regenerate affected code.</p>
 <h2 id="experience-report">Experience Report</h2>
-<p>TBC</p>
+<p>TBC.</p>
 <h2 id="references">References</h2>
-<p>TBC</p>
+<p>TBC.</p>
 
 	
 	

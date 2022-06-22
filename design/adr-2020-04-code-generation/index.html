@@ -26,7 +26,7 @@ The Azure Service Operator CSE team had successfully developed support for a han
 Their experience yielded several useful lessons.
   Working closely with their customers, they only built out resource support for those features required by the current customer base. While this successfully reduced the amount of work, each additional customer brought new requirements and a need to revisit/enhance existing resources." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-04-code-generation/" /><meta property="article:section" content="architecture-decision-records" />
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/design/adr-2020-04-code-generation/" /><meta property="article:section" content="design" />
 
 
 
@@ -45,8 +45,8 @@ Their experience yielded several useful lessons.
 
 
 
-<link rel="preload" href="/azure-service-operator/scss/main.min.209ee91954d0f2f182770e6c71011a5580360636bcf2a9bcf7f1c3da478784ff.css" as="style">
-<link href="/azure-service-operator/scss/main.min.209ee91954d0f2f182770e6c71011a5580360636bcf2a9bcf7f1c3da478784ff.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/azure-service-operator/scss/main.min.cd6c2bbb05cdf98237b53882fed8c7a8b3fd7a7f7963d7cb305dd0d984782137.css" as="style">
+<link href="/azure-service-operator/scss/main.min.cd6c2bbb05cdf98237b53882fed8c7a8b3fd7a7f7963d7cb305dd0d984782137.css" rel="stylesheet" integrity="">
 
 <script
   src="https://code.jquery.com/jquery-3.6.0.min.js"
@@ -110,19 +110,7 @@ Their experience yielded several useful lessons.
 				
 				
 				
-				<a class="nav-link" href="/azure-service-operator/design/" ><span>Design</span></a>
-			</li>
-			
-			<li class="nav-item mr-4 mb-2 mb-lg-0">
-				
-				
-				
-				
-				
-				
-				
-				
-				<a class="nav-link active" href="/azure-service-operator/architecture-decision-records/" ><span class="active">Architecture</span></a>
+				<a class="nav-link active" href="/azure-service-operator/design/" ><span class="active">Design</span></a>
 			</li>
 			
 			
@@ -285,22 +273,38 @@ Their experience yielded several useful lessons.
   <a href="/azure-service-operator/contributing/create-a-new-release/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingcreate-a-new-release"><span class="">Creating a new release</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatordesign-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatordesign-li">
   <a href="/azure-service-operator/design/" title="Design &amp; Specifications" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesign"><span class="">Design</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignclarifying-object-structure-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatordesignadr-2020-04-code-generation-li">
+  <a href="/azure-service-operator/design/adr-2020-04-code-generation/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-04-code-generation"><span class="td-sidebar-nav-active-item">2020-04: Why Code Generation?</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2020-07-pipeline-architecture-li">
+  <a href="/azure-service-operator/design/adr-2020-07-pipeline-architecture/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-07-pipeline-architecture"><span class="">2020-07: Pipeline Architecture</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2020-11-abstract-syntax-trees-li">
+  <a href="/azure-service-operator/design/adr-2020-11-abstract-syntax-trees/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-11-abstract-syntax-trees"><span class="">2020-11: AST Library Choice</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2021-02-property-conversions-li">
+  <a href="/azure-service-operator/design/adr-2021-02-property-conversions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2021-02-property-conversions"><span class="">2021-02: Property Conversions</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2021-06-api-version-recovery-li">
+  <a href="/azure-service-operator/design/adr-2021-06-api-version-recovery/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2021-06-api-version-recovery"><span class="">2021-06: API Version Recovery</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2021-08-committing-generated-code-li">
+  <a href="/azure-service-operator/design/adr-2021-08-committing-generated-code/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2021-08-committing-generated-code"><span class="">2021-08: Committing Generated Code</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-01-reconciler-extensions-li">
+  <a href="/azure-service-operator/design/adr-2022-01-reconciler-extensions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-01-reconciler-extensions"><span class="">2022-01: Reconciler Extensions</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-02-backward-compatibility-li">
+  <a href="/azure-service-operator/design/adr-2022-02-backward-compatibility/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-02-backward-compatibility"><span class="">2022-02: Backward Resource Compatibility</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignclarifying-object-structure-li">
   <a href="/azure-service-operator/design/clarifying-object-structure/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignclarifying-object-structure"><span class="">Clarifying object structure</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigncrossplane-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigncrossplane-li">
   <a href="/azure-service-operator/design/crossplane/" title="Code generation for Crossplane" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigncrossplane"><span class="">Crossplane support</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigndefaulter-validator-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigndefaulter-validator-li">
   <a href="/azure-service-operator/design/defaulter-validator/" title="Custom validation and defaulting for code generated resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigndefaulter-validator"><span class="">Custom validation</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignsecrets-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignsecrets-li">
   <a href="/azure-service-operator/design/secrets/" title="Managing dataplane secrets" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignsecrets"><span class="">Dataplane secrets</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignreconcile-interface-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignreconcile-interface-li">
   <a href="/azure-service-operator/design/reconcile-interface/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignreconcile-interface"><span class="">Improving the Reconciler interface</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignresource-states-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignresource-states-li">
   <a href="/azure-service-operator/design/resource-states/" title="Proposal for reporting resource Status" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignresource-states"><span class="">Resource status</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatordesignversioning-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatordesignversioning-li">
   <a href="/azure-service-operator/design/versioning/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignversioning"><span class="">Resource versioning</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatordesignversioningcase-studies-li">
@@ -316,29 +320,8 @@ Their experience yielded several useful lessons.
   </ul>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigntype-references-and-ownership-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigntype-references-and-ownership-li">
   <a href="/azure-service-operator/design/type-references-and-ownership/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigntype-references-and-ownership"><span class="">Type References &amp; ownership</span></a>
-</li>
-  </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorarchitecture-decision-records-li">
-  <a href="/azure-service-operator/architecture-decision-records/" title="Architecture Decision Records" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorarchitecture-decision-records"><span class="">Architecture</span></a>
-  <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorarchitecture-decision-recordsadr-2020-04-code-generation-li">
-  <a href="/azure-service-operator/architecture-decision-records/adr-2020-04-code-generation/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2020-04-code-generation"><span class="td-sidebar-nav-active-item">2020-04: Why Code Generation?</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorarchitecture-decision-recordsadr-2020-07-pipeline-architecture-li">
-  <a href="/azure-service-operator/architecture-decision-records/adr-2020-07-pipeline-architecture/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2020-07-pipeline-architecture"><span class="">2020-07: Pipeline Architecture</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorarchitecture-decision-recordsadr-2020-11-abstract-syntax-trees-li">
-  <a href="/azure-service-operator/architecture-decision-records/adr-2020-11-abstract-syntax-trees/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2020-11-abstract-syntax-trees"><span class="">2020-11: AST Library Choice</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorarchitecture-decision-recordsadr-2021-02-property-conversions-li">
-  <a href="/azure-service-operator/architecture-decision-records/adr-2021-02-property-conversions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2021-02-property-conversions"><span class="">2021-02: Property Conversions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorarchitecture-decision-recordsadr-2021-06-api-version-recovery-li">
-  <a href="/azure-service-operator/architecture-decision-records/adr-2021-06-api-version-recovery/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2021-06-api-version-recovery"><span class="">2021-06: API Version Recovery</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorarchitecture-decision-recordsadr-2021-08-committing-generated-code-li">
-  <a href="/azure-service-operator/architecture-decision-records/adr-2021-08-committing-generated-code/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2021-08-committing-generated-code"><span class="">2021-08: Committing Generated Code</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorarchitecture-decision-recordsadr-2022-01-reconciler-extensions-li">
-  <a href="/azure-service-operator/architecture-decision-records/adr-2022-01-reconciler-extensions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2022-01-reconciler-extensions"><span class="">2022-01: Reconciler Extensions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorarchitecture-decision-recordsadr-2022-02-backward-compatibility-li">
-  <a href="/azure-service-operator/architecture-decision-records/adr-2022-02-backward-compatibility/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2022-02-backward-compatibility"><span class="">2022-02: Backward Resource Compatibility</span></a>
 </li>
   </ul>
 </li>
@@ -399,10 +382,10 @@ Their experience yielded several useful lessons.
             <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
   <li class="breadcrumb-item">
-    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/">Architecture</a>
+    <a href="https://azure.github.io/azure-service-operator/design/">Design</a>
   </li>
   <li class="breadcrumb-item active" aria-current="page">
-    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2020-04-code-generation/">2020-04: Why Code Generation?</a>
+    <a href="https://azure.github.io/azure-service-operator/design/adr-2020-04-code-generation/">2020-04: Why Code Generation?</a>
   </li>
   </ol>
 </nav>

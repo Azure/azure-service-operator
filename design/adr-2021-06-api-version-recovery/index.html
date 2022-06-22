@@ -18,36 +18,32 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>2022-01: Reconciler Extensions | Azure Service Operator</title>
+<title>2021-06: API Version Recovery | Azure Service Operator</title>
 <meta name="description" content="Context
-We are discovering inconsistencies in the way different Azure Resource Providers behave.
-These inconsistencies are anticipated. Given the …">
-<meta property="og:title" content="2022-01: Reconciler Extensions" />
-<meta property="og:description" content="Context We are discovering inconsistencies in the way different Azure Resource Providers behave.
-These inconsistencies are anticipated. Given the number of disparate teams independently implementing their providers and given the way the ARM guidance has changed over time, differences in behaviour are to be expected.
-For example, the Azure Redis Resource Provider can return a HTTP conflict (409) with a retry message indicating that it&rsquo;s not a fatal error but a transient one." />
+In addition to structural changes, there may be behaviour changes between ARM API versions. It is therefore important that we use the correct …">
+<meta property="og:title" content="2021-06: API Version Recovery" />
+<meta property="og:description" content="Context In addition to structural changes, there may be behaviour changes between ARM API versions. It is therefore important that we use the correct API version - the version requested by the user - when interacting with ARM, to ensure that we get the expected behaviour.
+Revisting the CRM example from the Versioning specification, consider what happens if we have two available versions of the resource Person, lets call them v1 and v2." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-01-reconciler-extensions/" /><meta property="article:section" content="architecture-decision-records" />
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/design/adr-2021-06-api-version-recovery/" /><meta property="article:section" content="design" />
 
 
 
-<meta itemprop="name" content="2022-01: Reconciler Extensions">
-<meta itemprop="description" content="Context We are discovering inconsistencies in the way different Azure Resource Providers behave.
-These inconsistencies are anticipated. Given the number of disparate teams independently implementing their providers and given the way the ARM guidance has changed over time, differences in behaviour are to be expected.
-For example, the Azure Redis Resource Provider can return a HTTP conflict (409) with a retry message indicating that it&rsquo;s not a fatal error but a transient one.">
+<meta itemprop="name" content="2021-06: API Version Recovery">
+<meta itemprop="description" content="Context In addition to structural changes, there may be behaviour changes between ARM API versions. It is therefore important that we use the correct API version - the version requested by the user - when interacting with ARM, to ensure that we get the expected behaviour.
+Revisting the CRM example from the Versioning specification, consider what happens if we have two available versions of the resource Person, lets call them v1 and v2.">
 
-<meta itemprop="wordCount" content="1206">
+<meta itemprop="wordCount" content="945">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="2022-01: Reconciler Extensions"/>
-<meta name="twitter:description" content="Context We are discovering inconsistencies in the way different Azure Resource Providers behave.
-These inconsistencies are anticipated. Given the number of disparate teams independently implementing their providers and given the way the ARM guidance has changed over time, differences in behaviour are to be expected.
-For example, the Azure Redis Resource Provider can return a HTTP conflict (409) with a retry message indicating that it&rsquo;s not a fatal error but a transient one."/>
+<meta name="twitter:title" content="2021-06: API Version Recovery"/>
+<meta name="twitter:description" content="Context In addition to structural changes, there may be behaviour changes between ARM API versions. It is therefore important that we use the correct API version - the version requested by the user - when interacting with ARM, to ensure that we get the expected behaviour.
+Revisting the CRM example from the Versioning specification, consider what happens if we have two available versions of the resource Person, lets call them v1 and v2."/>
 
 
 
 
-<link rel="preload" href="/azure-service-operator/scss/main.min.209ee91954d0f2f182770e6c71011a5580360636bcf2a9bcf7f1c3da478784ff.css" as="style">
-<link href="/azure-service-operator/scss/main.min.209ee91954d0f2f182770e6c71011a5580360636bcf2a9bcf7f1c3da478784ff.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/azure-service-operator/scss/main.min.cd6c2bbb05cdf98237b53882fed8c7a8b3fd7a7f7963d7cb305dd0d984782137.css" as="style">
+<link href="/azure-service-operator/scss/main.min.cd6c2bbb05cdf98237b53882fed8c7a8b3fd7a7f7963d7cb305dd0d984782137.css" rel="stylesheet" integrity="">
 
 <script
   src="https://code.jquery.com/jquery-3.6.0.min.js"
@@ -111,19 +107,7 @@ For example, the Azure Redis Resource Provider can return a HTTP conflict (409) 
 				
 				
 				
-				<a class="nav-link" href="/azure-service-operator/design/" ><span>Design</span></a>
-			</li>
-			
-			<li class="nav-item mr-4 mb-2 mb-lg-0">
-				
-				
-				
-				
-				
-				
-				
-				
-				<a class="nav-link active" href="/azure-service-operator/architecture-decision-records/" ><span class="active">Architecture</span></a>
+				<a class="nav-link active" href="/azure-service-operator/design/" ><span class="active">Design</span></a>
 			</li>
 			
 			
@@ -286,22 +270,38 @@ For example, the Azure Redis Resource Provider can return a HTTP conflict (409) 
   <a href="/azure-service-operator/contributing/create-a-new-release/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorcontributingcreate-a-new-release"><span class="">Creating a new release</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatordesign-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatordesign-li">
   <a href="/azure-service-operator/design/" title="Design &amp; Specifications" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesign"><span class="">Design</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignclarifying-object-structure-li">
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2020-04-code-generation-li">
+  <a href="/azure-service-operator/design/adr-2020-04-code-generation/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-04-code-generation"><span class="">2020-04: Why Code Generation?</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2020-07-pipeline-architecture-li">
+  <a href="/azure-service-operator/design/adr-2020-07-pipeline-architecture/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-07-pipeline-architecture"><span class="">2020-07: Pipeline Architecture</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2020-11-abstract-syntax-trees-li">
+  <a href="/azure-service-operator/design/adr-2020-11-abstract-syntax-trees/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2020-11-abstract-syntax-trees"><span class="">2020-11: AST Library Choice</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2021-02-property-conversions-li">
+  <a href="/azure-service-operator/design/adr-2021-02-property-conversions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2021-02-property-conversions"><span class="">2021-02: Property Conversions</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatordesignadr-2021-06-api-version-recovery-li">
+  <a href="/azure-service-operator/design/adr-2021-06-api-version-recovery/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2021-06-api-version-recovery"><span class="td-sidebar-nav-active-item">2021-06: API Version Recovery</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2021-08-committing-generated-code-li">
+  <a href="/azure-service-operator/design/adr-2021-08-committing-generated-code/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2021-08-committing-generated-code"><span class="">2021-08: Committing Generated Code</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-01-reconciler-extensions-li">
+  <a href="/azure-service-operator/design/adr-2022-01-reconciler-extensions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-01-reconciler-extensions"><span class="">2022-01: Reconciler Extensions</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignadr-2022-02-backward-compatibility-li">
+  <a href="/azure-service-operator/design/adr-2022-02-backward-compatibility/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignadr-2022-02-backward-compatibility"><span class="">2022-02: Backward Resource Compatibility</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignclarifying-object-structure-li">
   <a href="/azure-service-operator/design/clarifying-object-structure/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignclarifying-object-structure"><span class="">Clarifying object structure</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigncrossplane-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigncrossplane-li">
   <a href="/azure-service-operator/design/crossplane/" title="Code generation for Crossplane" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigncrossplane"><span class="">Crossplane support</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigndefaulter-validator-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigndefaulter-validator-li">
   <a href="/azure-service-operator/design/defaulter-validator/" title="Custom validation and defaulting for code generated resources" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigndefaulter-validator"><span class="">Custom validation</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignsecrets-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignsecrets-li">
   <a href="/azure-service-operator/design/secrets/" title="Managing dataplane secrets" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignsecrets"><span class="">Dataplane secrets</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignreconcile-interface-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignreconcile-interface-li">
   <a href="/azure-service-operator/design/reconcile-interface/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignreconcile-interface"><span class="">Improving the Reconciler interface</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesignresource-states-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesignresource-states-li">
   <a href="/azure-service-operator/design/resource-states/" title="Proposal for reporting resource Status" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesignresource-states"><span class="">Resource status</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatordesignversioning-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatordesignversioning-li">
   <a href="/azure-service-operator/design/versioning/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatordesignversioning"><span class="">Resource versioning</span></a>
   <ul class="ul-3 foldable">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child collapse" id="m-azure-service-operatordesignversioningcase-studies-li">
@@ -317,29 +317,8 @@ For example, the Azure Redis Resource Provider can return a HTTP conflict (409) 
   </ul>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-azure-service-operatordesigntype-references-and-ownership-li">
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatordesigntype-references-and-ownership-li">
   <a href="/azure-service-operator/design/type-references-and-ownership/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatordesigntype-references-and-ownership"><span class="">Type References &amp; ownership</span></a>
-</li>
-  </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-azure-service-operatorarchitecture-decision-records-li">
-  <a href="/azure-service-operator/architecture-decision-records/" title="Architecture Decision Records" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-azure-service-operatorarchitecture-decision-records"><span class="">Architecture</span></a>
-  <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorarchitecture-decision-recordsadr-2020-04-code-generation-li">
-  <a href="/azure-service-operator/architecture-decision-records/adr-2020-04-code-generation/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2020-04-code-generation"><span class="">2020-04: Why Code Generation?</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorarchitecture-decision-recordsadr-2020-07-pipeline-architecture-li">
-  <a href="/azure-service-operator/architecture-decision-records/adr-2020-07-pipeline-architecture/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2020-07-pipeline-architecture"><span class="">2020-07: Pipeline Architecture</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorarchitecture-decision-recordsadr-2020-11-abstract-syntax-trees-li">
-  <a href="/azure-service-operator/architecture-decision-records/adr-2020-11-abstract-syntax-trees/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2020-11-abstract-syntax-trees"><span class="">2020-11: AST Library Choice</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorarchitecture-decision-recordsadr-2021-02-property-conversions-li">
-  <a href="/azure-service-operator/architecture-decision-records/adr-2021-02-property-conversions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2021-02-property-conversions"><span class="">2021-02: Property Conversions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorarchitecture-decision-recordsadr-2021-06-api-version-recovery-li">
-  <a href="/azure-service-operator/architecture-decision-records/adr-2021-06-api-version-recovery/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2021-06-api-version-recovery"><span class="">2021-06: API Version Recovery</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorarchitecture-decision-recordsadr-2021-08-committing-generated-code-li">
-  <a href="/azure-service-operator/architecture-decision-records/adr-2021-08-committing-generated-code/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2021-08-committing-generated-code"><span class="">2021-08: Committing Generated Code</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorarchitecture-decision-recordsadr-2022-01-reconciler-extensions-li">
-  <a href="/azure-service-operator/architecture-decision-records/adr-2022-01-reconciler-extensions/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2022-01-reconciler-extensions"><span class="td-sidebar-nav-active-item">2022-01: Reconciler Extensions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorarchitecture-decision-recordsadr-2022-02-backward-compatibility-li">
-  <a href="/azure-service-operator/architecture-decision-records/adr-2022-02-backward-compatibility/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorarchitecture-decision-recordsadr-2022-02-backward-compatibility"><span class="">2022-02: Backward Resource Compatibility</span></a>
 </li>
   </ul>
 </li>
@@ -364,7 +343,11 @@ For example, the Azure Redis Resource Provider can return a HTTP conflict (409) 
     <li><a href="#context">Context</a></li>
     <li><a href="#decision">Decision</a>
       <ul>
-        <li><a href="#example">Example</a></li>
+        <li><a href="#api-preservation">API Preservation</a></li>
+        <li><a href="#retrieving-the-api-version">Retrieving the API Version</a></li>
+        <li><a href="#retrieving-spec-and-status">Retrieving Spec and Status</a></li>
+        <li><a href="#spec-conversion">Spec Conversion</a></li>
+        <li><a href="#status-conversion">Status Conversion</a></li>
       </ul>
     </li>
     <li><a href="#status">Status</a></li>
@@ -404,16 +387,16 @@ For example, the Azure Redis Resource Provider can return a HTTP conflict (409) 
             <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
   <li class="breadcrumb-item">
-    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/">Architecture</a>
+    <a href="https://azure.github.io/azure-service-operator/design/">Design</a>
   </li>
   <li class="breadcrumb-item active" aria-current="page">
-    <a href="https://azure.github.io/azure-service-operator/architecture-decision-records/adr-2022-01-reconciler-extensions/">2022-01: Reconciler Extensions</a>
+    <a href="https://azure.github.io/azure-service-operator/design/adr-2021-06-api-version-recovery/">2021-06: API Version Recovery</a>
   </li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>2022-01: Reconciler Extensions</h1>
+	<h1>2021-06: API Version Recovery</h1>
 	
 	<header class="article-meta">
 		
@@ -431,165 +414,120 @@ For example, the Azure Redis Resource Provider can return a HTTP conflict (409) 
 		
 	</header>    
 	<h2 id="context">Context</h2>
-<p>We are discovering inconsistencies in the way different Azure Resource Providers behave.</p>
-<p>These inconsistencies are anticipated. Given the number of disparate teams independently implementing their providers and given the way the ARM guidance has changed over time, differences in behaviour are to be expected.</p>
-<p>For example, the Azure Redis Resource Provider can return a HTTP conflict (409) with a retry message indicating that it&rsquo;s not a fatal error but a transient one.</p>
-<p>Currently we handle this with special case behaviour in <code>error_classifier.go</code> (see <a href="https://github.com/Azure/azure-service-operator/pull/2008">PR#2008</a> for details).</p>
-<p>However, directly changing our generic reconciler is a problem. The growing complexity and increasing number of resources makes this unsustainable, resulting in a risk that changes made to support a new resource type will break an existing one.</p>
-<p>We need a way to precisely customize behaviour on a per-resource basis, allowing us to maintain consistent functionality within the operator.</p>
-<p>When a new version of a resource is introduced, we don&rsquo;t want to lose any existing customizations. This rules out hosting the extensions directly on the current hub type.</p>
-<p>It&rsquo;s quite likely that some extension points will need to import our generated resource types to allow per-version manipulation. This rules out referencing extensions from the generated resource types.</p>
-<p>We don&rsquo;t want extension points to duplicate functionality already present in the generic reconciler as this runs the risk of inconsistencies (especially if we change the generic reconciler itself), and because it introduces a significant overhead to implementation. Instead, extension points will provide an opportunity to modify the current behaviour. An extension point that does nothing should have the same effect as one that hasn&rsquo;t been implemented.</p>
+<p>In addition to structural changes, there may be behaviour changes between ARM API versions. It is therefore important that we use the correct API version - the version requested by the user - when interacting with ARM, to ensure that we get the expected behaviour.</p>
+<p>Revisting the CRM example from the <a href="../versioning/">Versioning</a> specification, consider what happens if we have two available versions of the resource <code>Person</code>, lets call them <strong>v1</strong> and <strong>v2</strong>. In <strong>v2</strong> the new properties <code>PostalAddress</code> and <code>ResidentialAddress</code> are mandatory, requiring that everyone have a both a mailing address and a home.</p>
+<p><img src="images/adr-2021-06-api-version-recovery-example.png" alt="example"></p>
+<p>If we have a valid <strong>v1</strong> <code>Person</code>, trying to submit that through the <strong>v2</strong> ARM API will fail because it&rsquo;s missing these addresses.</p>
+<p>We need to be able to pivot from the version Person we have &ldquo;in hand&rdquo; (usually the Hub version) back to the original version in order to generate the correct ARM payload.</p>
+<p>We also have a performance issue - our current infrastructure for conversions is oriented to convert an entire resource, including both <em>Spec</em> and <em>Status</em>.</p>
+<p>When submitting a request to ARM we&rsquo;re only interested in the <em>Spec</em>; any effort expended on conversion of the current Status is wasted.</p>
+<p>Similarly, when retrieving <em>Status</em> from ARM, we&rsquo;re only interested in conversion of that; any effort expended on conversion of the <em>Spec</em> is also wasted.</p>
 <h2 id="decision">Decision</h2>
-<p>To provide a stable implementation location for extensions, we&rsquo;ll introduce a dedicated <code>customization</code> package alongside the existing versioned packages for each supported service. This package will provide customization for all supported resource versions. For example, alongside the existing <strong>batch</strong> packages <code>v1alpha1api20210101</code>, and <code>v1alpha1api20210101storage</code>, we will generate <code>customization</code>.</p>
-<p>Into the <code>customization</code> package we will codegen a skeleton framework. For each resource there will be a separate customization host type, suffixed with <code>Extensions</code>. For example, for the <strong>compute</strong> resources <code>Disk</code>, <code>VirtualMachine</code>, and <code>VirtualMachineScaleSet</code> we will create the extension types <code>DiskExtensions</code>, <code>VirtualMachineExtensions</code>, and <code>VirtualMachineScaleSetExtensions</code>.</p>
-<p>We&rsquo;ll enhance the existing registration file (<code>controller_resources_gen.go</code>) to also provide registration of extensions. They will be indexed by the GVK of each resource, allowing easy lookup by the generic reconciler.</p>
-<p>For each supported extension point in our reconciler, we&rsquo;ll define a separate interface containing a single method with exactly the parameters required for that extension point. These interfaces will be found in the <code>genruntime/extensions</code> package.</p>
-<p>Implementers will assert type compatibility with the desired extension interface to ensure at compile time they have the correct method signature. This will also ensure we get compilation errors if we unexpectedly need to modify the signature of an extension point in the future.</p>
-<p>The generic reconciler will identify available extensions by testing for the presence of the extension interface.</p>
-<p>Extension method signature will follow a common pattern:</p>
-<ul>
-<li>The parameter list will start with any input parameters required.
-These parameters will be custom for each extension point.</li>
-<li>A <code>next</code> parameter, a <strong>func</strong> that the extension should call to invoke the default behaviour.<br>
-This allows the extension to act both <em>before</em> and <em>after</em> the default behaviour, or even to <em>skip</em> the default behaviour if necessary.</li>
-<li>An <code>apiVersion</code> parameter that receives the actual ARM API version being used.<br>
-This enables extensions to do different things based on the ARM API version, such as correcting the behaviour of one version.</li>
-<li>A <code>log</code> parameter allowing additional information to be logged.<br>
-Some entry/exit information will be automatically logged, so extensions will only need to log any additions</li>
-<li>Optionally, an extension point may return a value.<br>
-If multiple return values are needed, these will be wrapped in a custom struct, with a public factory method.</li>
-<li>There will always be an <code>error</code> return value, and it will always be the last one.</li>
-</ul>
-<h3 id="example">Example</h3>
-<p>To allow customization of error handling for Azure Redis, we&rsquo;ll introduce an extension point for classification of errors.</p>
-<p>We create the required extension interface in the package <code>genruntime/extensions</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// error_classifier_extension.go
-</span><span style="color:#75715e"></span>
-<span style="color:#f92672">package</span> <span style="color:#a6e22e">extensions</span>
-
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ErrorClassifier</span> <span style="color:#66d9ef">interface</span> {
-    <span style="color:#75715e">// Classify the provided error, returning details about the error including whether it is fatal 
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// or can be retried.
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// cloudError is the error returned from ARM.
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// next is the function to call for standard classification behaviour.
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// apiVersion is the ARM API version used for the request.
-</span><span style="color:#75715e"></span>    <span style="color:#75715e">// log is a logger than can be used for telemetry.
-</span><span style="color:#75715e"></span>    <span style="color:#a6e22e">ClassifyError</span>(
-        <span style="color:#a6e22e">cloudError</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">genericarmclient</span>.<span style="color:#a6e22e">CloudError</span>, 
-        <span style="color:#a6e22e">next</span> <span style="color:#66d9ef">func</span>(<span style="color:#f92672">*</span><span style="color:#a6e22e">genericarmclient</span>.<span style="color:#a6e22e">CloudError</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">CloudErrorDetails</span>, <span style="color:#66d9ef">error</span>),
-        <span style="color:#a6e22e">apiVersion</span> <span style="color:#66d9ef">string</span>, 
-        <span style="color:#a6e22e">log</span> <span style="color:#a6e22e">logr</span>.<span style="color:#a6e22e">Logger</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">CloudErrorDetails</span>, <span style="color:#66d9ef">error</span>)
+<p>The original API version used to create the custom resource will as the API version for ARM. From the above example, a v1.Person will result in API version v1 being used, and for a v2.Person we&rsquo;ll use API version v2.</p>
+<p>We&rsquo;ll preserve this as another property on the CRD, but one the user does not need to manually provide, allowing us to know which API version to use when interacting with ARM.</p>
+<p>The code generator will also inject functions allowing easy access to this information.</p>
+<p>Helper methods in the generic reconciler will use these functions implement the required pivot between the current hub version and the specified API version.</p>
+<h3 id="api-preservation">API Preservation</h3>
+<p>Into the API version of each resource&rsquo;s <em>Spec</em>, inject function <code>OriginalVersion()</code>, with a hard coded return value:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// OriginalVersion returns the original API version used to create the resource.
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">storageAccountsSpec</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">StorageAccounts_Spec</span>) <span style="color:#a6e22e">OriginalVersion</span>() <span style="color:#66d9ef">string</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">GroupVersion</span>.<span style="color:#a6e22e">Version</span>
 }
-</code></pre></div><p>In the <code>cache/customization</code> package, a host type for the extension point will be generated:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// redis_extensions.go
-</span><span style="color:#75715e"></span>
-<span style="color:#f92672">package</span> <span style="color:#a6e22e">customization</span>
 
-<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">RedisExtensions</span> <span style="color:#66d9ef">struct</span>{}
-</code></pre></div><p>This type doesn&rsquo;t contain any members as we require extension points to be pure functions; if they contain mutable state, we run the risk of introducing concurrency and sequence errors that would be hard to diagnose and fix.</p>
-<p>Manual implementation of the extension point will be in a different file so that it&rsquo;s not obliterated next time we re-run the generator:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// redis_extensions.go
-</span><span style="color:#75715e"></span>
-<span style="color:#f92672">package</span> <span style="color:#a6e22e">customization</span>
-
-<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">_</span> <span style="color:#a6e22e">extensions</span>.<span style="color:#a6e22e">ErrorClassifier</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">RedisExtensions</span>{}
-
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">e</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">RedisExtensions</span>) <span style="color:#a6e22e">ClassifyError</span>(
-    <span style="color:#a6e22e">cloudError</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">genericarmclient</span>.<span style="color:#a6e22e">CloudError</span>, 
-    <span style="color:#a6e22e">next</span> <span style="color:#66d9ef">func</span>(<span style="color:#f92672">*</span><span style="color:#a6e22e">genericarmclient</span>.<span style="color:#a6e22e">CloudError</span>) <span style="color:#f92672">*</span><span style="color:#a6e22e">CloudErrorDetails</span>,
-    <span style="color:#a6e22e">apiVersion</span> <span style="color:#66d9ef">string</span>, 
-    <span style="color:#a6e22e">log</span> <span style="color:#a6e22e">logr</span>.<span style="color:#a6e22e">Logger</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">CloudErrorDetails</span>, <span style="color:#66d9ef">error</span>)
-
-    <span style="color:#a6e22e">err</span>, <span style="color:#a6e22e">result</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">next</span>(<span style="color:#a6e22e">cloudError</span>)
-    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-        <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nil</span>, <span style="color:#a6e22e">err</span>
-    }
-
-    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">inner</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">cloudError</span>.<span style="color:#a6e22e">InnerError</span>; <span style="color:#a6e22e">inner</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-        <span style="color:#a6e22e">code</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">to</span>.<span style="color:#a6e22e">String</span>(<span style="color:#a6e22e">inner</span>.<span style="color:#a6e22e">Code</span>)
-        <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">code</span> <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;Conflict&#34;</span> {
-            <span style="color:#75715e">// For Azure Redis, Conflict errors may be retried, as they are 
-</span><span style="color:#75715e"></span>            <span style="color:#75715e">// returned when a required dependency is still being created
-</span><span style="color:#75715e"></span>            <span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">Classification</span> = <span style="color:#a6e22e">CloudErrorRetryable</span>
-        }
-    }
-
-    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">result</span>, <span style="color:#66d9ef">nil</span>
-}
-</code></pre></div><p>Passing in the default behaviour as <code>next</code> allows extensions to augment and/or supplant the behaviour with a great deal of flexibility.</p>
-<p>In the generic reconciler, we make use of the extension:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// azure_generic_arm_reconciler.go
-</span><span style="color:#75715e"></span>
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">r</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">AzureDeploymentReconciler</span>) <span style="color:#a6e22e">makeReadyConditionFromError</span>(
-    <span style="color:#a6e22e">cloudError</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">genericarmclient</span>.<span style="color:#a6e22e">CloudError</span>) <span style="color:#a6e22e">conditions</span>.<span style="color:#a6e22e">Condition</span> {
-    <span style="color:#75715e">// ... existing code elided ...
-</span><span style="color:#75715e"></span>
-    <span style="color:#a6e22e">ext</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">FindErrorClassifierExtension</span>()
-    <span style="color:#a6e22e">errorDetails</span>, <span style="color:#a6e22e">err</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">ext</span>.<span style="color:#a6e22e">ClassifyError</span>(<span style="color:#a6e22e">cloudError</span>, <span style="color:#a6e22e">apiVersion</span>, <span style="color:#a6e22e">r</span>.<span style="color:#a6e22e">ClassifyCloudError</span>)
-    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-        <span style="color:#75715e">// handle error
-</span><span style="color:#75715e"></span>    }
-
-    <span style="color:#75715e">// ... existing code elided ...
+<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">GroupVersion</span> = <span style="color:#a6e22e">schema</span>.<span style="color:#a6e22e">GroupVersion</span>{<span style="color:#a6e22e">Group</span>: <span style="color:#e6db74">&#34;storage.azure.com&#34;</span>, <span style="color:#a6e22e">Version</span>: <span style="color:#e6db74">&#34;v1alpha1api20210401&#34;</span>}
+</code></pre></div><p>Into the Storage version of each resource&rsquo;s <em>Spec</em>, inject string property <code>OriginalVersion</code> to persist the value returned by <code>OriginalVersion()</code>.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">StorageAccounts_Spec</span> <span style="color:#66d9ef">struct</span> {
+    <span style="color:#75715e">// ... elided ...
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">OriginalVersion</span> <span style="color:#66d9ef">string</span> <span style="color:#e6db74">`json:&#34;originalVersion&#34;`</span>
+    <span style="color:#75715e">// ... elided ...
 </span><span style="color:#75715e"></span>}
-</code></pre></div><p>The helper method <code>FindErrorClassifierExtension()</code> does the lookup for the extension, and always returns a default implementation that can be invoked. The consuming code therefore doesn&rsquo;t need to worry about null checking, only error handling. To ensure consistent telemetry no matter who implements an extension, this default implementation will include logging.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// error_classifier_extension.go
-</span><span style="color:#75715e"></span>
-<span style="color:#f92672">package</span> <span style="color:#a6e22e">extensions</span>
+</code></pre></div><p><img src="images/adr-2021-06-api-version-recovery-preservation.png" alt="preservation"></p>
+<p>The generated <code>AssignProperties*()</code> methods will copy OriginalVersion as expected.</p>
+<h3 id="retrieving-the-api-version">Retrieving the API Version</h3>
+<p>Into each resource, inject function <code>OriginalGVK()</code> to return the required group-version-kind for the original version of the specified resource:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// OriginalGVK returns a GroupValueKind for the original API version used to create the resource
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">storageAccount</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">StorageAccount</span>) <span style="color:#a6e22e">OriginalGVK</span>() <span style="color:#f92672">*</span><span style="color:#a6e22e">schema</span>.<span style="color:#a6e22e">GroupVersionKind</span> {
+	<span style="color:#66d9ef">return</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">schema</span>.<span style="color:#a6e22e">GroupVersionKind</span>{
+		<span style="color:#a6e22e">Group</span>:   <span style="color:#a6e22e">GroupVersion</span>.<span style="color:#a6e22e">Group</span>,
+		<span style="color:#a6e22e">Version</span>: <span style="color:#a6e22e">storageAccount</span>.<span style="color:#a6e22e">Spec</span>.<span style="color:#a6e22e">OriginalVersion</span>,
+		<span style="color:#a6e22e">Kind</span>:    <span style="color:#e6db74">&#34;StorageAccount&#34;</span>,
+	}
+}
+</code></pre></div><p>Implementations will use either the <code>OriginalVersion</code> property (as shown above), or the <code>OriginalVersion()</code> function, depending on the resource variant.</p>
+<h3 id="retrieving-spec-and-status">Retrieving Spec and Status</h3>
+<p>Two new interfaces will be added to the <code>genruntime</code> package:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ConvertibleSpec</span> <span style="color:#66d9ef">interface</span> {
+	<span style="color:#75715e">// ConvertSpecTo will populate the passed Spec by copying over all available information from this one
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">ConvertSpecTo</span>(<span style="color:#a6e22e">destination</span> <span style="color:#a6e22e">ConvertibleSpec</span>) <span style="color:#66d9ef">error</span>
 
-<span style="color:#75715e">//TODO: This needs a better name
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ErrorClassifierDefault</span> <span style="color:#66d9ef">struct</span> {
-    <span style="color:#a6e22e">extension</span> <span style="color:#a6e22e">ErrorClassifierExtension</span>
+	<span style="color:#75715e">// ConvertSpecFrom will populate this spec by copying over all available information from the passed one
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">ConvertSpecFrom</span>(<span style="color:#a6e22e">source</span> <span style="color:#a6e22e">ConvertibleSpec</span>) <span style="color:#66d9ef">error</span>
 }
 
-<span style="color:#66d9ef">var</span> <span style="color:#a6e22e">_</span> <span style="color:#a6e22e">ErrorClassifier</span> = <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">ErrorClassifierDefault</span>{}
+<span style="color:#66d9ef">type</span> <span style="color:#a6e22e">ConvertibleStatus</span> <span style="color:#66d9ef">interface</span> {
+	<span style="color:#75715e">// ConvertStatusTo will populate the passed Status by copying over all available information from this one
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">ConvertStatusTo</span>(<span style="color:#a6e22e">destination</span> <span style="color:#a6e22e">ConvertibleStatus</span>) <span style="color:#66d9ef">error</span>
 
-<span style="color:#75715e">// NewErrorClassifierDefault creates a new ErrorClassifier that will invoke the passed host if it implements 
-</span><span style="color:#75715e">// the ErrorClassifier interface.
-</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewErrorClassifier</span>(<span style="color:#a6e22e">host</span> <span style="color:#66d9ef">interface</span>{}) <span style="color:#f92672">*</span><span style="color:#a6e22e">LoggingErrorClassifier</span> {
-    <span style="color:#a6e22e">result</span> <span style="color:#f92672">:=</span> <span style="color:#f92672">&amp;</span><span style="color:#a6e22e">ErrorClassifier</span>{}
-
-    <span style="color:#75715e">// Hook up our host if appropriate
-</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">extension</span>, <span style="color:#a6e22e">ok</span> <span style="color:#f92672">:=</span> <span style="color:#a6e22e">host</span>.(<span style="color:#a6e22e">ErrorClassifierExtension</span>); <span style="color:#a6e22e">ok</span> {
-        <span style="color:#a6e22e">result</span>.<span style="color:#a6e22e">extension</span> = <span style="color:#a6e22e">extension</span>
-    }
-
-    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">result</span>
+	<span style="color:#75715e">// ConvertStatusFrom will populate this status by copying over all available information from the passed one
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">ConvertStatusFrom</span>(<span style="color:#a6e22e">source</span> <span style="color:#a6e22e">ConvertibleStatus</span>) <span style="color:#66d9ef">error</span>
 }
+</code></pre></div><p>Implementations of these interfaces will be added to all generated <em>Spec</em> and <em>Status</em> types, leveraging the <code>AssignProperties*()</code> methods already being generated.</p>
+<p>The <code>KubernetesResource</code> interface and all implementations will be modified by adding four new methods:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#66d9ef">type</span> <span style="color:#a6e22e">KubernetesResource</span> <span style="color:#66d9ef">interface</span> {
+	<span style="color:#75715e">// GetSpec returns the specification of the resource
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">GetSpec</span>() <span style="color:#a6e22e">ConvertibleSpec</span>
 
-<span style="color:#66d9ef">func</span> (<span style="color:#a6e22e">classifier</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">ErrorClassifier</span>) <span style="color:#a6e22e">ClassifyError</span>(
-    <span style="color:#a6e22e">cloudError</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">genericarmclient</span>.<span style="color:#a6e22e">CloudError</span>, 
-    <span style="color:#a6e22e">next</span> <span style="color:#66d9ef">func</span>(<span style="color:#f92672">*</span><span style="color:#a6e22e">genericarmclient</span>.<span style="color:#a6e22e">CloudError</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">CloudErrorDetails</span>, <span style="color:#66d9ef">error</span>),
-    <span style="color:#a6e22e">apiVersion</span> <span style="color:#66d9ef">string</span>, 
-    <span style="color:#a6e22e">log</span> <span style="color:#a6e22e">logr</span>.<span style="color:#a6e22e">Logger</span>) (<span style="color:#f92672">*</span><span style="color:#a6e22e">CloudErrorDetails</span>, <span style="color:#66d9ef">error</span>) {
+	<span style="color:#75715e">// GetStatus returns the current status of the resource
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">GetStatus</span>() <span style="color:#a6e22e">ConvertibleStatus</span>
 
-    <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">V</span>(<span style="color:#a6e22e">Verbose</span>).<span style="color:#a6e22e">Info</span>(<span style="color:#e6db74">&#34;Classifying error&#34;</span>, <span style="color:#e6db74">&#34;error&#34;</span>, <span style="color:#a6e22e">cloudError</span>)
+	<span style="color:#75715e">// NewEmptyStatus returns a blank status ready for population
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">NewEmptyStatus</span>() <span style="color:#a6e22e">ConvertibleStatus</span>
 
-    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">details</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">CloudErrorDetails</span>
-    <span style="color:#66d9ef">var</span> <span style="color:#a6e22e">err</span> <span style="color:#66d9ef">error</span>
-    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">classifier</span>.<span style="color:#a6e22e">extension</span> <span style="color:#f92672">!=</span> <span style="color:#a6e22e">null</span> {
-      <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">V</span>(<span style="color:#a6e22e">Verbose</span>).<span style="color:#a6e22e">Info</span>(<span style="color:#e6db74">&#34;Invoking extension&#34;</span>)
-      <span style="color:#a6e22e">details</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">classifier</span>.<span style="color:#a6e22e">extension</span>.<span style="color:#a6e22e">ClassifyError</span>(<span style="color:#a6e22e">cloudError</span>, <span style="color:#a6e22e">next</span>, <span style="color:#a6e22e">apiVersion</span>, <span style="color:#a6e22e">log</span>)
-    } <span style="color:#66d9ef">else</span> {
-      <span style="color:#a6e22e">details</span>, <span style="color:#a6e22e">err</span> = <span style="color:#a6e22e">next</span>(<span style="color:#a6e22e">cloudError</span>, <span style="color:#a6e22e">next</span>, <span style="color:#a6e22e">apiVersion</span>, <span style="color:#a6e22e">log</span>)
-    }
-
-    <span style="color:#66d9ef">if</span> <span style="color:#a6e22e">err</span> <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nil</span> {
-      <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">Error</span>(<span style="color:#e6db74">&#34;Failure classifying error&#34;</span>, <span style="color:#e6db74">&#34;error&#34;</span>, <span style="color:#a6e22e">err</span>)
-    } <span style="color:#66d9ef">else</span> {
-      <span style="color:#a6e22e">log</span>.<span style="color:#a6e22e">V</span>(<span style="color:#a6e22e">Verbose</span>).<span style="color:#a6e22e">Info</span>(<span style="color:#e6db74">&#34;Success classifying error&#34;</span>, <span style="color:#e6db74">&#34;result&#34;</span>, <span style="color:#a6e22e">details</span>)
-    }
-
-    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">details</span>, <span style="color:#a6e22e">err</span>
+	<span style="color:#75715e">// SetStatus updates the status of the resource
+</span><span style="color:#75715e"></span>	<span style="color:#a6e22e">SetStatus</span>(<span style="color:#a6e22e">status</span> <span style="color:#a6e22e">ConvertibleStatus</span>) <span style="color:#66d9ef">error</span>
 }
+</code></pre></div><h3 id="spec-conversion">Spec Conversion</h3>
+<p>A helper method for the generic reconciler will be added to return the correct <em>Spec</em> from any resource:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// GetVersionedSpec returns a versioned spec for the provided resource; 
+</span><span style="color:#75715e">// the original API version used when the resource was first created 
+</span><span style="color:#75715e">// is used to identify the version to return
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">GetVersionedSpec</span>(<span style="color:#a6e22e">metaObject</span> <span style="color:#a6e22e">MetaObject</span>, <span style="color:#a6e22e">scheme</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">runtime</span>.<span style="color:#a6e22e">Scheme</span>) (<span style="color:#a6e22e">ConvertibleSpec</span>, <span style="color:#66d9ef">error</span>) {
+    <span style="color:#75715e">// ... elided ...
+</span><span style="color:#75715e"></span>}
+</code></pre></div><h3 id="status-conversion">Status Conversion</h3>
+<p>Two similar helper methods will be added for support of Status.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#75715e">// GetVersionedStatus returns a versioned status for the provided resource; 
+</span><span style="color:#75715e">// the original API version used when the resource was first created 
+</span><span style="color:#75715e">// is used to identify the version to return
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">GetVersionedStatus</span>(<span style="color:#a6e22e">metaObject</span> <span style="color:#a6e22e">MetaObject</span>, <span style="color:#a6e22e">scheme</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">runtime</span>.<span style="color:#a6e22e">Scheme</span>) (<span style="color:#a6e22e">ConvertibleStatus</span>, <span style="color:#66d9ef">error</span>) {
+    <span style="color:#75715e">// ... elided ...
+</span><span style="color:#75715e"></span>}
+
+<span style="color:#75715e">// NewEmptyVersionedStatus returns a blank versioned status for the provided 
+</span><span style="color:#75715e">// resource; the original API version used when the resource was first created 
+</span><span style="color:#75715e">// is used to identify the version to return
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">func</span> <span style="color:#a6e22e">NewEmptyVersionedStatus</span>(<span style="color:#a6e22e">metaObject</span> <span style="color:#a6e22e">MetaObject</span>, <span style="color:#a6e22e">scheme</span> <span style="color:#f92672">*</span><span style="color:#a6e22e">runtime</span>.<span style="color:#a6e22e">Scheme</span>) (<span style="color:#a6e22e">ConvertibleStatus</span>, <span style="color:#66d9ef">error</span>) {
+    <span style="color:#75715e">// ... elided ...
+</span><span style="color:#75715e"></span>}
 </code></pre></div><h2 id="status">Status</h2>
-<p>Proposed.</p>
+<p>Successfully implemented across several PRs:</p>
+<ul>
+<li><a href="https://github.com/Azure/azure-service-operator/pull/1773">PR #1773</a> - Add GetStatus() and GetSpec() to all resources</li>
+<li><a href="https://github.com/Azure/azure-service-operator/pull/1787">PR #1787</a> - Implement SetStatus() for all Resources</li>
+<li><a href="https://github.com/Azure/azure-service-operator/pull/1851">PR #1851</a> - Integrate support for multiple API versions</li>
+<li><a href="https://github.com/Azure/azure-service-operator/pull/1875">PR #1875</a> - Eliminate much use of reflection by using generated code</li>
+<li><a href="https://github.com/Azure/azure-service-operator/pull/1889">PR #1889</a> - Introduce API Version helper methods</li>
+<li><a href="https://github.com/Azure/azure-service-operator/pull/1935">PR #1935</a> - Integrate API versioning</li>
+<li><a href="https://github.com/Azure/azure-service-operator/pull/1936">PR #1936</a> - Activate versioning stages in pipeline and update generated files</li>
+<li><a href="https://github.com/Azure/azure-service-operator/pull/1973">PR #1973</a> - Generate patches for Kustomize to enable storage versioning</li>
+<li><a href="https://github.com/Azure/azure-service-operator/pull/1985">PR #1985</a> - Copy both ObjectMeta and TypeMeta when doing version conversion</li>
+</ul>
 <h2 id="consequences">Consequences</h2>
-<p>TBC.</p>
+<p>TBC</p>
 <h2 id="experience-report">Experience Report</h2>
-<p>TBC.</p>
+<p>TBC</p>
 <h2 id="references">References</h2>
+<p>TBC</p>
 
 	
 	
