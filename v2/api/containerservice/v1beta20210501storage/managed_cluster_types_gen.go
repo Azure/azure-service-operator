@@ -231,6 +231,7 @@ type ManagedClusters_Spec struct {
 	Location                     *string                                                                                                 `json:"location,omitempty"`
 	NetworkProfile               *ContainerServiceNetworkProfile                                                                         `json:"networkProfile,omitempty"`
 	NodeResourceGroup            *string                                                                                                 `json:"nodeResourceGroup,omitempty"`
+	OperatorSpec                 *ManagedClusterOperatorSpec                                                                             `json:"operatorSpec,omitempty"`
 	OriginalVersion              string                                                                                                  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -533,6 +534,13 @@ type ManagedClusterIdentity_Status struct {
 	UserAssignedIdentities map[string]ManagedClusterIdentity_Status_UserAssignedIdentities `json:"userAssignedIdentities,omitempty"`
 }
 
+// Storage version of v1beta20210501.ManagedClusterOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type ManagedClusterOperatorSpec struct {
+	PropertyBag genruntime.PropertyBag         `json:"$propertyBag,omitempty"`
+	Secrets     *ManagedClusterOperatorSecrets `json:"secrets,omitempty"`
+}
+
 // Storage version of v1beta20210501.ManagedClusterPodIdentityProfile
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.ContainerService.json#/definitions/ManagedClusterPodIdentityProfile
 type ManagedClusterPodIdentityProfile struct {
@@ -717,6 +725,13 @@ type ManagedClusterLoadBalancerProfile_Status struct {
 	OutboundIPPrefixes     *ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes `json:"outboundIPPrefixes,omitempty"`
 	OutboundIPs            *ManagedClusterLoadBalancerProfile_Status_OutboundIPs        `json:"outboundIPs,omitempty"`
 	PropertyBag            genruntime.PropertyBag                                       `json:"$propertyBag,omitempty"`
+}
+
+// Storage version of v1beta20210501.ManagedClusterOperatorSecrets
+type ManagedClusterOperatorSecrets struct {
+	AdminCredentials *genruntime.SecretDestination `json:"adminCredentials,omitempty"`
+	PropertyBag      genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	UserCredentials  *genruntime.SecretDestination `json:"userCredentials,omitempty"`
 }
 
 // Storage version of v1beta20210501.ManagedClusterPodIdentity
