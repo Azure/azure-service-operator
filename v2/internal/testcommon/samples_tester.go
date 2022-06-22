@@ -224,7 +224,7 @@ func getGroupPath(group string) string {
 	return path.Join(samplesPath, group)
 }
 
-func constructGVK(group, version, kind string) string {
+func constructGVK(group string, version string, kind string) string {
 	return group + "/" + version + ", Kind=" + kind
 
 }
