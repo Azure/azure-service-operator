@@ -31,10 +31,14 @@ const samplesPath = "../../config/samples"
 
 // exclusions slice contains resources to exclude from test as these resources run into
 // "runtime.notRegisteredErr" error from the Scheme.
-var exclusions = [...]string{"batchaccountpool", "snapshot",
-	"sqldatabasecontainerthroughputsetting", "sqldatabasethroughputsetting",
-	"webtest", "storageaccountsqueueservice",
-	// excluding dbformysql/user as is not a resource
+var exclusions = [...]string{
+        "batchaccountpool", 
+        "snapshot",
+	"sqldatabasecontainerthroughputsetting", 
+	"sqldatabasethroughputsetting",
+	"storageaccountsqueueservice",
+	"webtest", 
+	// excluding dbformysql/user as is not an ARM resource
 	"user",
 }
 
