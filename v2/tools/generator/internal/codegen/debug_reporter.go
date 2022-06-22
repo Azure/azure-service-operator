@@ -17,23 +17,28 @@ import (
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/codegen/pipeline"
+	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/config"
 )
 
 // debugReporter is a helper for generating debug logs during the code generation process.
 type debugReporter struct {
-	debugDir  string // The directory to write the debug logs to.
-	priorText string
+	outputFolder  string
+	groupSelector config.StringMatcher
+	priorText     string
 }
 
 // newDebugReporter creates a new debugReporter.
-func newDebugReporter(debugDir string) *debugReporter {
+// groupSelector specifies which groups to include (may include wildcards).
+// outputFolder specifies where to write the debug output.
+func newDebugReporter(groupSelector string, outputFolder string) *debugReporter {
 	return &debugReporter{
-		debugDir: debugDir,
+		groupSelector: config.NewStringMatcher(groupSelector),
+		outputFolder:  outputFolder,
 	}
 }
 
 func (dr *debugReporter) ReportStage(stage int, description string, state *pipeline.State) error {
-	if dr == nil || dr.debugDir == "" {
+	if dr == nil || dr.outputFolder == "" {
 		// Not in debug mode.
 		return nil
 	}
@@ -54,6 +59,12 @@ func (dr *debugReporter) createReport(state *pipeline.State) (string, error) {
 
 	packages := dr.findPackages(state.Definitions())
 	for _, pkg := range packages {
+		grp, _ := pkg.GroupVersion()
+		if !dr.groupSelector.Matches(grp) {
+			// Skip this package
+			continue
+		}
+
 		rpt := newDebugReport(pkg.PackagePath())
 		dr.writeDefinitions(rpt, dr.inPackage(pkg, state.Definitions()))
 
@@ -179,7 +190,7 @@ func (dr *debugReporter) createFileName(stage int, description string) string {
 	// Create a filename using the description and the stage number.
 	filename := strconv.Itoa(stage+1) + "-" + stageName + ".txt"
 
-	return path.Join(dr.debugDir, filename)
+	return path.Join(dr.outputFolder, filename)
 }
 
 func (dr *debugReporter) findPackages(def astmodel.TypeDefinitionSet) []astmodel.PackageReference {

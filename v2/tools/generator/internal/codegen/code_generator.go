@@ -22,10 +22,9 @@ import (
 
 // CodeGenerator is a generator of code
 type CodeGenerator struct {
-	configuration     *config.Configuration
-	pipeline          []*pipeline.Stage
-	debugMode         bool
-	debugOutputFolder string
+	configuration *config.Configuration
+	pipeline      []*pipeline.Stage
+	debugReporter *debugReporter
 }
 
 // NewCodeGeneratorFromConfigFile produces a new Generator with the given configuration file
@@ -226,17 +225,14 @@ func createAllPipelineStages(idFactory astmodel.IdentifierFactory, configuration
 func (generator *CodeGenerator) Generate(ctx context.Context) error {
 	klog.V(1).Infof("Generator version: %s", version.BuildVersion)
 
-	var reporter *debugReporter
-	if generator.debugMode {
+	if generator.debugReporter != nil {
 		// Generate a diagram containing our stages
-		diagram := newDebugDiagram(generator.debugOutputFolder)
+		outputFolder := generator.debugReporter.outputFolder
+		diagram := newDebugDiagram(outputFolder)
 		err := diagram.diagramPipeline(generator.pipeline)
 		if err != nil {
 			return errors.Wrapf(err, "failed to generate diagram")
 		}
-
-		// Create a reporter to use between each stage
-		reporter = newDebugReporter(generator.debugOutputFolder)
 	}
 
 	state := pipeline.NewState()
@@ -261,8 +257,11 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 
 		generator.logStateChange(state, newState)
 
-		if reporter != nil {
-			reporter.ReportStage(i, stage.Description(), newState)
+		if generator.debugReporter != nil {
+			err := generator.debugReporter.ReportStage(i, stage.Description(), newState)
+			if err != nil {
+				return errors.Wrapf(err, "failed to generate debug report for stage %d/%d: %s", i+1, len(generator.pipeline), stage.Description())
+			}
 		}
 
 		duration := time.Since(start).Round(time.Millisecond)
@@ -384,8 +383,9 @@ func (generator *CodeGenerator) IndexOfStage(id string) int {
 	return -1
 }
 
-// UseDebugMode configures the generator to use debug mode
-func (generator *CodeGenerator) UseDebugMode(outputFolder string) {
-	generator.debugMode = true
-	generator.debugOutputFolder = outputFolder
+// UseDebugMode configures the generator to use debug mode.
+// groupSpecifier indicates which groups to include (may include  wildcards).
+// outputFolder specifies where to write the debug output.
+func (generator *CodeGenerator) UseDebugMode(groupSpecifier string, outputFolder string) {
+	generator.debugReporter = newDebugReporter(groupSpecifier, outputFolder)
 }

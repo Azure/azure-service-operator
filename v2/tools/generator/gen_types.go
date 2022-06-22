@@ -19,7 +19,7 @@ import (
 
 // NewGenTypesCommand creates a new cobra Command when invoked from the command line
 func NewGenTypesCommand() (*cobra.Command, error) {
-	debugMode := false
+	var debugMode *string
 
 	cmd := &cobra.Command{
 		// TODO: there's not great support for required
@@ -37,7 +37,7 @@ func NewGenTypesCommand() (*cobra.Command, error) {
 				return err
 			}
 
-			if debugMode {
+			if debugMode != nil && *debugMode != "" {
 				// Create a temporary folder for the debug output
 				// and set the output path to that.
 				tmpDir, err := ioutil.TempDir("", "aso-gen-debug-")
@@ -47,7 +47,7 @@ func NewGenTypesCommand() (*cobra.Command, error) {
 				}
 
 				klog.V(0).Infof("Debug output will be written to the folder %s\n", tmpDir)
-				cg.UseDebugMode(tmpDir)
+				cg.UseDebugMode(*debugMode, tmpDir)
 				defer func() {
 					// Write the debug folder again so the user doesn't have to scroll back
 					klog.V(0).Infof("Debug output is available in folder %s\n", tmpDir)
@@ -64,7 +64,7 @@ func NewGenTypesCommand() (*cobra.Command, error) {
 		}),
 	}
 
-	cmd.Flags().BoolVarP(&debugMode, "debug", "d", false, "write debug logs to a temp folder")
+	debugMode = cmd.Flags().StringP("debug", "d", "", "write debug logs to a temp folder for selected groups. Examples: compute computer;network net*")
 
 	return cmd, nil
 }
