@@ -14,8 +14,8 @@ DIR=$5
 echo "Generating helm chart manifest"
 sed -i "s@\($PUBLIC_REGISTRY\)\(.*\)@\1azureserviceoperator:$VERSION@g" "$DIR"charts/azure-service-operator/values.yaml
 rm -rf "$DIR"charts/azure-service-operator/templates/generated # remove generated files
-rm -rf "$DIR"charts/azure-service-operator/charts/azure-service-operator-crds/crds
-mkdir "$DIR"charts/azure-service-operator/charts/azure-service-operator-crds/crds # create dirs for generated files
+rm -rf "$DIR"charts/azure-service-operator/charts/azure-service-operator-crds/templates
+mkdir -p "$DIR"charts/azure-service-operator/charts/azure-service-operator-crds/templates/crds # create dirs for generated files
 mkdir "$DIR"charts/azure-service-operator/templates/generated
 kustomize build "$DIR"config/default -o "$DIR"charts/azure-service-operator/templates/generated
 rm "$DIR"charts/azure-service-operator/templates/generated/*_namespace_* # remove namespace as we will let Helm manage it
@@ -28,12 +28,12 @@ sed -i '/metrics-addr/i \  \ {{if .Values.metrics.enable}}' "$DIR"charts/azure-s
 sed -i "1,/metrics-addr=.*/s/\(metrics-addr=\)\(.*\)/\1{{.Values.metrics.address | default \"127.0.0.1:8080\" }}/g" "$DIR"charts/azure-service-operator/templates/generated/*_deployment_*
 sed -i '/metrics-addr/a \  \ {{ end }}' "$DIR"charts/azure-service-operator/templates/generated/*_deployment_* # End metrics flow control
 sed -i ':a;$!{N;ba};s/\(metadata:\)/\1\n  \  \  annotations:\n  {{ toYaml .Values.podAnnotations | indent 6 }}/2' "$DIR"charts/azure-service-operator/templates/generated/*_deployment_* # Add pod annotations
-sed -i "1,/version:.*/s/\(version: \)\(.*\)/\1$VERSION/g" "$DIR"charts/azure-service-operator/Chart.yaml  # find version key and update the value with the current version for main chart
+sed -i "s/\(version: \)\(.*\)/\1$VERSION/g" "$DIR"charts/azure-service-operator/Chart.yaml  # find version key and update the value with the current version for both main and subchart
 
 # Azure-Service-Operator-crds actions
 # We had to split charts here here as with a single chart, we were running into the max size issue with helm
 # See https://github.com/helm/helm/issues/9788
-find "$DIR"charts/azure-service-operator/templates/generated/*_customresourcedefinition_* -exec mv '{}' "$DIR"charts/azure-service-operator/charts/azure-service-operator-crds/crds \; # move CRD definitions to crds chart folder
+find "$DIR"charts/azure-service-operator/templates/generated/*_customresourcedefinition_* -exec mv '{}' "$DIR"charts/azure-service-operator/charts/azure-service-operator-crds/templates/crds \; # move CRD definitions to crds chart folder
 sed -i "1,/version:.*/s/\(version: \)\(.*\)/\1$VERSION/g" "$DIR"charts/azure-service-operator/charts/azure-service-operator-crds/Chart.yaml  # find version key and update the value with the current version for crds chart
 
 # Helm chart packaging, indexing and updating dependencies
