@@ -25,11 +25,11 @@ func MakeSlice(listType dst.Expr, len dst.Expr) *dst.CallExpr {
 	}
 }
 
-// AppendSlice returns a statement for a slice append
+// AppendItemToSlice returns a statement for a slice append
 //
 // <lhs> = append(<lhs>, <rhs>)
 //
-func AppendSlice(lhs dst.Expr, rhs dst.Expr) dst.Stmt {
+func AppendItemToSlice(lhs dst.Expr, rhs dst.Expr) dst.Stmt {
 	return SimpleAssignment(
 		dst.Clone(lhs).(dst.Expr),
 		CallFunc("append", dst.Clone(lhs).(dst.Expr), dst.Clone(rhs).(dst.Expr)))
