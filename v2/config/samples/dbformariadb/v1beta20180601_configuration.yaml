@@ -8,4 +8,4 @@ spec:
   location: eastus
   owner:
     name: myserver
-  value: 102400
+  value: "102400"

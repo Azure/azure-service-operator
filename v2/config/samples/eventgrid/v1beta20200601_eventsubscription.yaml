@@ -6,8 +6,8 @@ metadata:
 spec:
   owner:
     name: sample-domain-topic
-    group: resources.azure.com
-    kind: ResourceGroup
+    group: eventgrid.azure.com
+    kind: Domain
   destination:
     storageQueue:
       endpointType: StorageQueue
@@ -16,4 +16,4 @@ spec:
           group: storage.azure.com
           kind: StorageAccount
           name: samplekubestoragebeta
-        queueName: samplequeue
+        queueName: samplequeuebeta

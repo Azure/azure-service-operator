@@ -5,7 +5,7 @@ metadata:
   namespace: default
 spec:
   location: westcentralus
-  kind: BlobStorage
+  kind: StorageV2
   sku:
     name: Standard_LRS
   owner:

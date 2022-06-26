@@ -1,4 +1,4 @@
-apiVersion: compute.azure.com/v1alpha1api20201201
+apiVersion: compute.azure.com/v1alpha1api20200930
 kind: Snapshot
 metadata:
   name: aso-sample-snapshot

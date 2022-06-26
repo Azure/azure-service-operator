@@ -11,3 +11,6 @@ spec:
     name: sample-sqldb-account
   resource:
     id: sample-sql-db-beta
+  options:
+    autoscaleSettings:
+      maxThroughput: 4000

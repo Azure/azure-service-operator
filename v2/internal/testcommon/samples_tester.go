@@ -7,6 +7,7 @@ package testcommon
 
 import (
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"os"
 	"path"
@@ -15,7 +16,6 @@ import (
 	"strings"
 
 	"github.com/emirpasic/gods/maps/linkedhashmap"
-	. "github.com/onsi/gomega"
 	"k8s.io/apimachinery/pkg/apis/meta/v1/unstructured"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/serializer"
@@ -26,25 +26,21 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-const RefsPackage = "refs"
+const refsPackage = "refs"
 const samplesPath = "../../config/samples"
 
 // exclusions slice contains resources to exclude from test as these resources run into
 // "runtime.notRegisteredErr" error from the Scheme.
 var exclusions = [...]string{
-        "batchaccountpool", 
-        "snapshot",
-	"sqldatabasecontainerthroughputsetting", 
-	"sqldatabasethroughputsetting",
-	"storageaccountsqueueservice",
-	"webtest", 
+	"webtest",
 	// excluding dbformysql/user as is not an ARM resource
 	"user",
 }
 
 type SamplesTester struct {
-	tc            *KubePerTestContext
+	noSpaceNamer  ResourceNamer
 	decoder       runtime.Decoder
+	scheme        *runtime.Scheme
 	UseRandomName bool
 }
 
@@ -53,22 +49,23 @@ type SampleObject struct {
 	childObjects map[string]genruntime.ARMMetaObject
 }
 
-func NewSampleObject() SampleObject {
-	return SampleObject{
+func NewSampleObject() *SampleObject {
+	return &SampleObject{
 		SamplesMap:   make(map[string]*linkedhashmap.Map),
 		childObjects: make(map[string]genruntime.ARMMetaObject),
 	}
 }
 
-func NewSamplesTester(tc *KubePerTestContext, useRandomName bool) *SamplesTester {
+func NewSamplesTester(noSpaceNamer ResourceNamer, scheme *runtime.Scheme, useRandomName bool) *SamplesTester {
 	return &SamplesTester{
-		tc:            tc,
-		decoder:       serializer.NewCodecFactory(tc.GetScheme()).UniversalDecoder(),
+		noSpaceNamer:  noSpaceNamer,
+		decoder:       serializer.NewCodecFactory(scheme).UniversalDecoder(),
+		scheme:        scheme,
 		UseRandomName: useRandomName,
 	}
 }
 
-func (t SamplesTester) LoadSamples(rg *resources.ResourceGroup, group string) (*SampleObject, *SampleObject) {
+func (t *SamplesTester) LoadSamples(rg *resources.ResourceGroup, namespace string, group string) (*SampleObject, *SampleObject, error) {
 
 	samples := NewSampleObject()
 	depSamples := NewSampleObject()
@@ -78,64 +75,77 @@ func (t SamplesTester) LoadSamples(rg *resources.ResourceGroup, group string) (*
 	err := filepath.Walk(groupPath,
 		func(filePath string, info os.FileInfo, err error) error {
 
-			if err != nil {
-				return err
-			}
 			if !info.IsDir() && !isExclusion(filePath) {
-				//if !info.IsDir() && !isExclusion(filePath) {
+				sample, err := t.getObjectFromFile(filePath)
+				if err != nil {
+					return err
+				}
 
-				sample := t.getObjectFromFile(filePath)
+				sample.SetNamespace(namespace)
 
-				sample.SetNamespace(t.tc.Namespace)
-
-				if !strings.Contains(filePath, RefsPackage) {
+				if !strings.Contains(filePath, refsPackage) {
 					if t.UseRandomName {
-						sample.SetName(t.tc.NoSpaceNamer.GenerateName(""))
+						sample.SetName(t.noSpaceNamer.GenerateName(""))
 					}
-					handleObject(sample, rg, &samples)
+					handleObject(sample, rg, samples)
 				} else {
 					// We don't change name for dependencies as they have fixed refs which we can't access inside the object
 					// need to make sure we have right names for the refs in samples
-					handleObject(sample, rg, &depSamples)
+					handleObject(sample, rg, depSamples)
 				}
 			}
 
 			return nil
 		})
 
-	t.tc.Expect(err).To(BeNil())
+	if err != nil {
+		return nil, nil, err
+	}
 
 	// We process the child objects once we have all the parent objects in the tree already
-	handleChildObjects(t.tc, &samples)
-	handleChildObjects(t.tc, &depSamples)
-
-	return &samples, &depSamples
+	err = handleChildObjects(t.scheme, samples)
+	if err != nil {
+		return nil, nil, err
+	}
+	err = handleChildObjects(t.scheme, depSamples)
+	if err != nil {
+		return nil, nil, err
+	}
+	return samples, depSamples, nil
 }
 
-func (t SamplesTester) getObjectFromFile(path string) genruntime.ARMMetaObject {
+func (t *SamplesTester) getObjectFromFile(path string) (genruntime.ARMMetaObject, error) {
 	jsonMap := make(map[string]interface{})
 
 	byteData, err := ioutil.ReadFile(path)
-	t.tc.Expect(err).To(BeNil())
+	if err != nil {
+		return nil, err
+	}
 
 	jsonBytes, err := yaml.ToJSON(byteData)
-	t.tc.Expect(err).To(BeNil())
+	if err != nil {
+		return nil, err
+	}
 
 	err = json.Unmarshal(jsonBytes, &jsonMap)
-	t.tc.Expect(err).To(BeNil())
+	if err != nil {
+		return nil, err
+	}
 
 	// We need unstructured object here to fetch the correct GVK for the object
 	unstructuredObj := unstructured.Unstructured{Object: jsonMap}
 
-	obj, err := genruntime.NewObjectFromExemplar(&unstructuredObj, t.tc.GetScheme())
-	t.tc.Expect(err).To(BeNil())
-
-	byteData, err = json.Marshal(unstructuredObj.Object)
-	t.tc.Expect(err).To(BeNil())
+	obj, err := genruntime.NewObjectFromExemplar(&unstructuredObj, t.scheme)
+	if err != nil {
+		return nil, err
+	}
 
 	err = runtime.DecodeInto(t.decoder, byteData, obj)
+	if err != nil {
+		return nil, err
+	}
 
-	return obj.(genruntime.ARMMetaObject)
+	return obj.(genruntime.ARMMetaObject), nil
 }
 
 func handleObject(sample genruntime.ARMMetaObject, rg *resources.ResourceGroup, samples *SampleObject) {
@@ -146,20 +156,21 @@ func handleObject(sample genruntime.ARMMetaObject, rg *resources.ResourceGroup, 
 	}
 }
 
-func handleChildObjects(tc *KubePerTestContext, samples *SampleObject) {
+func handleChildObjects(scheme *runtime.Scheme, samples *SampleObject) error {
 	for gvk, sample := range samples.childObjects {
 
-		specField := reflect.ValueOf(sample.GetSpec())
-		originalVersion := specField.MethodByName("OriginalVersion").Call([]reflect.Value{})
+		sampleGVKAware, ok := sample.(genruntime.GroupVersionKindAware)
+		if !ok {
+			//return error
+			return fmt.Errorf("error in casting '%s' to type '%s'", sample.GetObjectKind().GroupVersionKind().Kind, "genruntime.GroupVersionKindAware")
+		}
 
-		tc.Expect(originalVersion[0]).ToNot(BeNil())
-		tc.Expect(originalVersion).ToNot(HaveLen(0))
-		tc.Expect(originalVersion[0].String()).ToNot(BeEmpty())
-
-		version := originalVersion[0].String()
+		version := sampleGVKAware.OriginalGVK().Version
 		tree, ok := samples.SamplesMap[version]
 		// Parent version should always exist
-		tc.Expect(ok).To(BeTrue())
+		if !ok {
+			return fmt.Errorf("found resource: %s, for which owner does not exist", gvk)
+		}
 
 		// get the parent object
 		val, ok := tree.Get(sample.Owner().Kind)
@@ -168,7 +179,9 @@ func handleChildObjects(tc *KubePerTestContext, samples *SampleObject) {
 		if !ok {
 			ownerGVK := constructGVK(sample.Owner().Group, version, sample.Owner().Kind)
 			_, ok = samples.childObjects[ownerGVK]
-			tc.Expect(ok).To(BeTrue())
+			if !ok {
+				return fmt.Errorf("owner: %s, does not exist for resource '%s'", ownerGVK, gvk)
+			}
 			continue
 		}
 
@@ -183,8 +196,12 @@ func handleChildObjects(tc *KubePerTestContext, samples *SampleObject) {
 	// We need to do recursion here, as per the logic in this block, we check if we've visited the owner
 	// for current resource or not. If not, then we keep trying until we visit all the members of childObjects map.
 	if len(samples.childObjects) > 0 {
-		handleChildObjects(tc, samples)
+		err := handleChildObjects(scheme, samples)
+		if err != nil {
+			return err
+		}
 	}
+	return nil
 }
 
 func handleParentObject(sample genruntime.ARMMetaObject, rg *resources.ResourceGroup, samples map[string]*linkedhashmap.Map) {

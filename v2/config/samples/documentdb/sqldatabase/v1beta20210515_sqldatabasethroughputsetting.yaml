@@ -1,5 +1,5 @@
 apiVersion: documentdb.azure.com/v1beta20210515
-kind: SQLDatabaseThroughputSetting
+kind: SqlDatabaseThroughputSetting
 metadata:
   name: sample-sql-throughput-beta
   namespace: default

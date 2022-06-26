@@ -1,0 +1,636 @@
+---
+version: 1
+interactions:
+- request:
+    body: '{"name":"asotest-rg-webbqs","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "93"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-webbqs?api-version=2020-06-01
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-webbqs","name":"asotest-rg-webbqs","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "276"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-webbqs?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-webbqs","name":"asotest-rg-webbqs","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"identity":{"type":"SystemAssigned"},"location":"westcentralus","name":"asotestbrhzrd","properties":{"cors":{"allowedOrigins":["https://foo.com","https://bar.com"]},"features":[{"flag":"ServiceMode","value":"Classic"},{"flag":"EnableConnectivityLogs","value":"true"},{"flag":"EnableMessagingLogs","value":"true"},{"flag":"EnableLiveTrace","value":"true"}],"tls":{"clientCertEnabled":false},"upstream":{"templates":[{"categoryPattern":"*","eventPattern":"connect,disconnect","hubPattern":"*","urlTemplate":"https://example.com/chat/api/connect"}]}},"sku":{"capacity":1,"name":"Standard_S1"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "591"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-webbqs/providers/Microsoft.SignalRService/signalR/asotestbrhzrd?api-version=2021-10-01
+    method: PUT
+  response:
+    body: '{"sku":{"name":"Standard_S1","tier":"Standard","size":"S1","capacity":1},"properties":{"provisioningState":"Creating","externalIP":null,"hostName":"asotestbrhzrd.service.signalr.net","publicPort":443,"serverPort":443,"version":"1.0-preview","privateEndpointConnections":[],"sharedPrivateLinkResources":[],"tls":{"clientCertEnabled":false},"hostNamePrefix":"asotestbrhzrd","features":[{"flag":"ServiceMode","value":"Classic","properties":{}},{"flag":"EnableConnectivityLogs","value":"True","properties":{}},{"flag":"EnableMessagingLogs","value":"True","properties":{}},{"flag":"EnableLiveTrace","value":"True","properties":{}}],"resourceLogConfiguration":null,"cors":{"allowedOrigins":["https://foo.com","https://bar.com"]},"upstream":{"templates":[{"hubPattern":"*","eventPattern":"connect,disconnect","categoryPattern":"*","urlTemplate":"https://example.com/chat/api/connect","auth":null}]},"networkACLs":{"defaultAction":"Deny","publicNetwork":{"allow":["ServerConnection","ClientConnection","RESTAPI","Trace"],"deny":null},"privateEndpoints":[]},"publicNetworkAccess":"Enabled","disableLocalAuth":false,"disableAadAuth":false},"kind":"SignalR","identity":{"type":"SystemAssigned","principalId":"defa0a0a-02af-4260-aac0-127f9726a5d7","tenantId":"72f988bf-86f1-41af-91ab-2d7cd011db47"},"systemData":{"createdBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"location":"westcentralus","tags":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-webbqs/providers/Microsoft.SignalRService/SignalR/asotestbrhzrd","name":"asotestbrhzrd","type":"Microsoft.SignalRService/SignalR"}'
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-webbqs/providers/Microsoft.SignalRService/SignalR/asotestbrhzrd/operationStatuses/1ae0d1b6-7f3f-4410-b480-7a1fb5d5fbde?api-version=2021-10-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "1818"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-webbqs/providers/Microsoft.SignalRService/SignalR/asotestbrhzrd/operationResults/1ae0d1b6-7f3f-4410-b480-7a1fb5d5fbde?api-version=2021-10-01
+      Pragma:
+      - no-cache
+      Server:
+      - Kestrel
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Rp-Server-Mvid:
+      - a7df074e-9833-4af6-8182-5a1fcbe82718
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-webbqs/providers/Microsoft.SignalRService/SignalR/asotestbrhzrd/operationStatuses/1ae0d1b6-7f3f-4410-b480-7a1fb5d5fbde?api-version=2021-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-webbqs/providers/Microsoft.SignalRService/SignalR/asotestbrhzrd/operationStatuses/1ae0d1b6-7f3f-4410-b480-7a1fb5d5fbde","name":"1ae0d1b6-7f3f-4410-b480-7a1fb5d5fbde","status":"Running","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Kestrel
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Rp-Server-Mvid:
+      - a7df074e-9833-4af6-8182-5a1fcbe82718
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-webbqs/providers/Microsoft.SignalRService/SignalR/asotestbrhzrd/operationStatuses/1ae0d1b6-7f3f-4410-b480-7a1fb5d5fbde?api-version=2021-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-webbqs/providers/Microsoft.SignalRService/SignalR/asotestbrhzrd/operationStatuses/1ae0d1b6-7f3f-4410-b480-7a1fb5d5fbde","name":"1ae0d1b6-7f3f-4410-b480-7a1fb5d5fbde","status":"Running","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Kestrel
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Rp-Server-Mvid:
+      - a7df074e-9833-4af6-8182-5a1fcbe82718
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-webbqs/providers/Microsoft.SignalRService/SignalR/asotestbrhzrd/operationStatuses/1ae0d1b6-7f3f-4410-b480-7a1fb5d5fbde?api-version=2021-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-webbqs/providers/Microsoft.SignalRService/SignalR/asotestbrhzrd/operationStatuses/1ae0d1b6-7f3f-4410-b480-7a1fb5d5fbde","name":"1ae0d1b6-7f3f-4410-b480-7a1fb5d5fbde","status":"Running","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Kestrel
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Rp-Server-Mvid:
+      - a7df074e-9833-4af6-8182-5a1fcbe82718
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-webbqs/providers/Microsoft.SignalRService/SignalR/asotestbrhzrd/operationStatuses/1ae0d1b6-7f3f-4410-b480-7a1fb5d5fbde?api-version=2021-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-webbqs/providers/Microsoft.SignalRService/SignalR/asotestbrhzrd/operationStatuses/1ae0d1b6-7f3f-4410-b480-7a1fb5d5fbde","name":"1ae0d1b6-7f3f-4410-b480-7a1fb5d5fbde","status":"Succeeded","startTime":"2001-02-03T04:05:06Z","endTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Kestrel
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Rp-Server-Mvid:
+      - a7df074e-9833-4af6-8182-5a1fcbe82718
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-webbqs/providers/Microsoft.SignalRService/signalR/asotestbrhzrd?api-version=2021-10-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard_S1","tier":"Standard","size":"S1","capacity":1},"properties":{"provisioningState":"Succeeded","externalIP":"20.69.0.193","hostName":"asotestbrhzrd.service.signalr.net","publicPort":443,"serverPort":443,"version":"1.0","privateEndpointConnections":[],"sharedPrivateLinkResources":[],"tls":{"clientCertEnabled":false},"hostNamePrefix":"asotestbrhzrd","features":[{"flag":"ServiceMode","value":"Classic","properties":{}},{"flag":"EnableConnectivityLogs","value":"True","properties":{}},{"flag":"EnableMessagingLogs","value":"True","properties":{}},{"flag":"EnableLiveTrace","value":"True","properties":{}}],"resourceLogConfiguration":null,"cors":{"allowedOrigins":["https://foo.com","https://bar.com"]},"upstream":{"templates":[{"hubPattern":"*","eventPattern":"connect,disconnect","categoryPattern":"*","urlTemplate":"https://example.com/chat/api/connect","auth":null}]},"networkACLs":{"defaultAction":"Deny","publicNetwork":{"allow":["ServerConnection","ClientConnection","RESTAPI","Trace"],"deny":null},"privateEndpoints":[]},"publicNetworkAccess":"Enabled","disableLocalAuth":false,"disableAadAuth":false},"kind":"SignalR","identity":{"type":"SystemAssigned","principalId":"defa0a0a-02af-4260-aac0-127f9726a5d7","tenantId":"72f988bf-86f1-41af-91ab-2d7cd011db47"},"systemData":{"createdBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"location":"westcentralus","tags":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-webbqs/providers/Microsoft.SignalRService/SignalR/asotestbrhzrd","name":"asotestbrhzrd","type":"Microsoft.SignalRService/SignalR"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Kestrel
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Rp-Server-Mvid:
+      - a7df074e-9833-4af6-8182-5a1fcbe82718
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-webbqs/providers/Microsoft.SignalRService/signalR/asotestbrhzrd?api-version=2021-10-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Kestrel
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Rp-Server-Mvid:
+      - a7df074e-9833-4af6-8182-5a1fcbe82718
+    status: 204 No Content
+    code: 204
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-webbqs/providers/Microsoft.SignalRService/signalR/asotestbrhzrd?api-version=2021-10-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.SignalRService/SignalR/asotestbrhzrd''
+      under resource group ''asotest-rg-webbqs'' was not found. For more details please
+      go to https://aka.ms/ARMResourceNotFoundFix"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "235"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: '{"identity":{"type":"SystemAssigned"},"location":"westcentralus","name":"asotestzpwfjz","properties":{"cors":{"allowedOrigins":["https://foo.com","https://bar.com"]},"features":[{"flag":"ServiceMode","value":"Classic"},{"flag":"EnableConnectivityLogs","value":"true"},{"flag":"EnableMessagingLogs","value":"true"},{"flag":"EnableLiveTrace","value":"true"}],"tls":{"clientCertEnabled":false},"upstream":{"templates":[{"categoryPattern":"*","eventPattern":"connect,disconnect","hubPattern":"*","urlTemplate":"https://example.com/chat/api/connect"}]}},"sku":{"capacity":1,"name":"Standard_S1"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "591"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-webbqs/providers/Microsoft.SignalRService/signalR/asotestzpwfjz?api-version=2021-10-01
+    method: PUT
+  response:
+    body: '{"sku":{"name":"Standard_S1","tier":"Standard","size":"S1","capacity":1},"properties":{"provisioningState":"Creating","externalIP":null,"hostName":"asotestzpwfjz.service.signalr.net","publicPort":443,"serverPort":443,"version":"1.0-preview","privateEndpointConnections":[],"sharedPrivateLinkResources":[],"tls":{"clientCertEnabled":false},"hostNamePrefix":"asotestzpwfjz","features":[{"flag":"ServiceMode","value":"Classic","properties":{}},{"flag":"EnableConnectivityLogs","value":"True","properties":{}},{"flag":"EnableMessagingLogs","value":"True","properties":{}},{"flag":"EnableLiveTrace","value":"True","properties":{}}],"resourceLogConfiguration":null,"cors":{"allowedOrigins":["https://foo.com","https://bar.com"]},"upstream":{"templates":[{"hubPattern":"*","eventPattern":"connect,disconnect","categoryPattern":"*","urlTemplate":"https://example.com/chat/api/connect","auth":null}]},"networkACLs":{"defaultAction":"Deny","publicNetwork":{"allow":["ServerConnection","ClientConnection","RESTAPI","Trace"],"deny":null},"privateEndpoints":[]},"publicNetworkAccess":"Enabled","disableLocalAuth":false,"disableAadAuth":false},"kind":"SignalR","identity":{"type":"SystemAssigned","principalId":"f408b205-ea95-4c6c-a50c-2f1d52a6d22b","tenantId":"72f988bf-86f1-41af-91ab-2d7cd011db47"},"systemData":{"createdBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"location":"westcentralus","tags":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-webbqs/providers/Microsoft.SignalRService/SignalR/asotestzpwfjz","name":"asotestzpwfjz","type":"Microsoft.SignalRService/SignalR"}'
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-webbqs/providers/Microsoft.SignalRService/SignalR/asotestzpwfjz/operationStatuses/da6dbc0f-2d4d-4c79-a79f-56c2776bfcc0?api-version=2021-10-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "1818"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-webbqs/providers/Microsoft.SignalRService/SignalR/asotestzpwfjz/operationResults/da6dbc0f-2d4d-4c79-a79f-56c2776bfcc0?api-version=2021-10-01
+      Pragma:
+      - no-cache
+      Server:
+      - Kestrel
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Rp-Server-Mvid:
+      - a7df074e-9833-4af6-8182-5a1fcbe82718
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-webbqs/providers/Microsoft.SignalRService/SignalR/asotestzpwfjz/operationStatuses/da6dbc0f-2d4d-4c79-a79f-56c2776bfcc0?api-version=2021-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-webbqs/providers/Microsoft.SignalRService/SignalR/asotestzpwfjz/operationStatuses/da6dbc0f-2d4d-4c79-a79f-56c2776bfcc0","name":"da6dbc0f-2d4d-4c79-a79f-56c2776bfcc0","status":"Running","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Kestrel
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Rp-Server-Mvid:
+      - a7df074e-9833-4af6-8182-5a1fcbe82718
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-webbqs/providers/Microsoft.SignalRService/SignalR/asotestzpwfjz/operationStatuses/da6dbc0f-2d4d-4c79-a79f-56c2776bfcc0?api-version=2021-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-webbqs/providers/Microsoft.SignalRService/SignalR/asotestzpwfjz/operationStatuses/da6dbc0f-2d4d-4c79-a79f-56c2776bfcc0","name":"da6dbc0f-2d4d-4c79-a79f-56c2776bfcc0","status":"Running","startTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Kestrel
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Rp-Server-Mvid:
+      - a7df074e-9833-4af6-8182-5a1fcbe82718
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-webbqs/providers/Microsoft.SignalRService/SignalR/asotestzpwfjz/operationStatuses/da6dbc0f-2d4d-4c79-a79f-56c2776bfcc0?api-version=2021-10-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-webbqs/providers/Microsoft.SignalRService/SignalR/asotestzpwfjz/operationStatuses/da6dbc0f-2d4d-4c79-a79f-56c2776bfcc0","name":"da6dbc0f-2d4d-4c79-a79f-56c2776bfcc0","status":"Succeeded","startTime":"2001-02-03T04:05:06Z","endTime":"2001-02-03T04:05:06Z"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Kestrel
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Rp-Server-Mvid:
+      - a7df074e-9833-4af6-8182-5a1fcbe82718
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-webbqs/providers/Microsoft.SignalRService/signalR/asotestzpwfjz?api-version=2021-10-01
+    method: GET
+  response:
+    body: '{"sku":{"name":"Standard_S1","tier":"Standard","size":"S1","capacity":1},"properties":{"provisioningState":"Succeeded","externalIP":"20.69.0.193","hostName":"asotestzpwfjz.service.signalr.net","publicPort":443,"serverPort":443,"version":"1.0","privateEndpointConnections":[],"sharedPrivateLinkResources":[],"tls":{"clientCertEnabled":false},"hostNamePrefix":"asotestzpwfjz","features":[{"flag":"ServiceMode","value":"Classic","properties":{}},{"flag":"EnableConnectivityLogs","value":"True","properties":{}},{"flag":"EnableMessagingLogs","value":"True","properties":{}},{"flag":"EnableLiveTrace","value":"True","properties":{}}],"resourceLogConfiguration":null,"cors":{"allowedOrigins":["https://foo.com","https://bar.com"]},"upstream":{"templates":[{"hubPattern":"*","eventPattern":"connect,disconnect","categoryPattern":"*","urlTemplate":"https://example.com/chat/api/connect","auth":null}]},"networkACLs":{"defaultAction":"Deny","publicNetwork":{"allow":["ServerConnection","ClientConnection","RESTAPI","Trace"],"deny":null},"privateEndpoints":[]},"publicNetworkAccess":"Enabled","disableLocalAuth":false,"disableAadAuth":false},"kind":"SignalR","identity":{"type":"SystemAssigned","principalId":"f408b205-ea95-4c6c-a50c-2f1d52a6d22b","tenantId":"72f988bf-86f1-41af-91ab-2d7cd011db47"},"systemData":{"createdBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"e99b5771-87b0-473b-b919-9b70e36ece7a","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"location":"westcentralus","tags":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-webbqs/providers/Microsoft.SignalRService/SignalR/asotestzpwfjz","name":"asotestzpwfjz","type":"Microsoft.SignalRService/SignalR"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Kestrel
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+      X-Rp-Server-Mvid:
+      - a7df074e-9833-4af6-8182-5a1fcbe82718
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-webbqs/providers/Microsoft.SignalRService/signalR/asotestzpwfjz?api-version=2021-10-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Kestrel
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Rp-Server-Mvid:
+      - a7df074e-9833-4af6-8182-5a1fcbe82718
+    status: 204 No Content
+    code: 204
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-webbqs/providers/Microsoft.SignalRService/signalR/asotestzpwfjz?api-version=2021-10-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.SignalRService/SignalR/asotestzpwfjz''
+      under resource group ''asotest-rg-webbqs'' was not found. For more details please
+      go to https://aka.ms/ARMResourceNotFoundFix"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "235"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-webbqs?api-version=2020-06-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRXRUJCUVMtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-webbqs?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-webbqs''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""

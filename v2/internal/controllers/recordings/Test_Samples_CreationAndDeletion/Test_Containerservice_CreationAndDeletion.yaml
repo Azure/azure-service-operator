@@ -1,0 +1,3908 @@
+---
+version: 1
+interactions:
+- request:
+    body: '{"name":"asotest-rg-qqjpit","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "93"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit?api-version=2020-06-01
+    method: PUT
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit","name":"asotest-rg-qqjpit","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "276"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit","name":"asotest-rg-qqjpit","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"identity":{"type":"SystemAssigned"},"location":"westcentralus","name":"samplemanagedcluster","properties":{"agentPoolProfiles":[{"count":1,"mode":"System","name":"pool1","osType":"Linux","vmSize":"Standard_DS2_v2"}],"dnsPrefix":"aso"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "237"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster?api-version=2021-05-01
+    method: PUT
+  response:
+    body: |-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster",
+        "location": "westcentralus",
+        "name": "samplemanagedcluster",
+        "type": "Microsoft.ContainerService/ManagedClusters",
+        "properties": {
+         "provisioningState": "Creating",
+         "powerState": {
+          "code": "Running"
+         },
+         "kubernetesVersion": "1.22.6",
+         "dnsPrefix": "aso",
+         "fqdn": "aso-e6108c82.hcp.westcentralus.azmk8s.io",
+         "azurePortalFQDN": "aso-e6108c82.portal.hcp.westcentralus.azmk8s.io",
+         "agentPoolProfiles": [
+          {
+           "name": "pool1",
+           "count": 1,
+           "vmSize": "Standard_DS2_v2",
+           "osDiskSizeGB": 128,
+           "osDiskType": "Managed",
+           "kubeletDiskType": "OS",
+           "maxPods": 110,
+           "type": "VirtualMachineScaleSets",
+           "provisioningState": "Creating",
+           "powerState": {
+            "code": "Running"
+           },
+           "orchestratorVersion": "1.22.6",
+           "mode": "System",
+           "osType": "Linux",
+           "osSKU": "Ubuntu",
+           "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.06.08",
+           "enableFIPS": false
+          }
+         ],
+         "servicePrincipalProfile": {
+          "clientId": "msi"
+         },
+         "nodeResourceGroup": "MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus",
+         "enableRBAC": true,
+         "networkProfile": {
+          "networkPlugin": "kubenet",
+          "loadBalancerSku": "standard",
+          "loadBalancerProfile": {
+           "managedOutboundIPs": {
+            "count": 1
+           }
+          },
+          "podCidr": "10.244.0.0/16",
+          "serviceCidr": "10.0.0.0/16",
+          "dnsServiceIP": "10.0.0.10",
+          "dockerBridgeCidr": "172.17.0.1/16",
+          "outboundType": "loadBalancer"
+         },
+         "maxAgentPools": 100
+        },
+        "identity": {
+         "type": "SystemAssigned",
+         "principalId": "b2fd124f-ccb5-4014-926a-5fea19f056dc",
+         "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+        },
+        "sku": {
+         "name": "Basic",
+         "tier": "Free"
+        }
+       }
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/25f4a3da-6130-4f26-9ca5-6d91624964fa?api-version=2016-03-30
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "1908"
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/25f4a3da-6130-4f26-9ca5-6d91624964fa?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "daa3f425-3061-264f-9ca5-6d91624964fa",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/25f4a3da-6130-4f26-9ca5-6d91624964fa?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "daa3f425-3061-264f-9ca5-6d91624964fa",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/25f4a3da-6130-4f26-9ca5-6d91624964fa?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "daa3f425-3061-264f-9ca5-6d91624964fa",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/25f4a3da-6130-4f26-9ca5-6d91624964fa?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "daa3f425-3061-264f-9ca5-6d91624964fa",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "4"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/25f4a3da-6130-4f26-9ca5-6d91624964fa?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "daa3f425-3061-264f-9ca5-6d91624964fa",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "5"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/25f4a3da-6130-4f26-9ca5-6d91624964fa?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "daa3f425-3061-264f-9ca5-6d91624964fa",
+        "status": "Succeeded",
+        "startTime": "2001-02-03T04:05:06Z",
+        "endTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster?api-version=2021-05-01
+    method: GET
+  response:
+    body: |-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster",
+        "location": "westcentralus",
+        "name": "samplemanagedcluster",
+        "type": "Microsoft.ContainerService/ManagedClusters",
+        "properties": {
+         "provisioningState": "Succeeded",
+         "powerState": {
+          "code": "Running"
+         },
+         "kubernetesVersion": "1.22.6",
+         "dnsPrefix": "aso",
+         "fqdn": "aso-e6108c82.hcp.westcentralus.azmk8s.io",
+         "azurePortalFQDN": "aso-e6108c82.portal.hcp.westcentralus.azmk8s.io",
+         "agentPoolProfiles": [
+          {
+           "name": "pool1",
+           "count": 1,
+           "vmSize": "Standard_DS2_v2",
+           "osDiskSizeGB": 128,
+           "osDiskType": "Managed",
+           "kubeletDiskType": "OS",
+           "maxPods": 110,
+           "type": "VirtualMachineScaleSets",
+           "provisioningState": "Succeeded",
+           "powerState": {
+            "code": "Running"
+           },
+           "orchestratorVersion": "1.22.6",
+           "mode": "System",
+           "osType": "Linux",
+           "osSKU": "Ubuntu",
+           "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.06.08",
+           "enableFIPS": false
+          }
+         ],
+         "servicePrincipalProfile": {
+          "clientId": "msi"
+         },
+         "nodeResourceGroup": "MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus",
+         "enableRBAC": true,
+         "networkProfile": {
+          "networkPlugin": "kubenet",
+          "loadBalancerSku": "Standard",
+          "loadBalancerProfile": {
+           "managedOutboundIPs": {
+            "count": 1
+           },
+           "effectiveOutboundIPs": [
+            {
+             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus/providers/Microsoft.Network/publicIPAddresses/fe5a29a0-4082-44c3-83be-25db76f11ca4"
+            }
+           ]
+          },
+          "podCidr": "10.244.0.0/16",
+          "serviceCidr": "10.0.0.0/16",
+          "dnsServiceIP": "10.0.0.10",
+          "dockerBridgeCidr": "172.17.0.1/16",
+          "outboundType": "loadBalancer"
+         },
+         "maxAgentPools": 100,
+         "identityProfile": {
+          "kubeletidentity": {
+           "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus/providers/Microsoft.ManagedIdentity/userAssignedIdentities/samplemanagedcluster-agentpool",
+           "clientId": "22143dc0-fa3b-4a24-abb7-f8b68977ea31",
+           "objectId": "3127acc0-32e1-47f0-b9bf-08eb23cab9d2"
+          }
+         }
+        },
+        "identity": {
+         "type": "SystemAssigned",
+         "principalId": "b2fd124f-ccb5-4014-926a-5fea19f056dc",
+         "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+        },
+        "sku": {
+         "name": "Basic",
+         "tier": "Free"
+        }
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"name":"pool2","properties":{"count":1,"mode":"User","osType":"Linux","vmSize":"Standard_DS2_v2"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "99"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster/agentPools/pool2?api-version=2021-05-01
+    method: PUT
+  response:
+    body: |-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster/agentPools/pool2",
+        "name": "pool2",
+        "type": "Microsoft.ContainerService/managedClusters/agentPools",
+        "properties": {
+         "count": 1,
+         "vmSize": "Standard_DS2_v2",
+         "osDiskSizeGB": 128,
+         "osDiskType": "Managed",
+         "kubeletDiskType": "OS",
+         "maxPods": 110,
+         "type": "VirtualMachineScaleSets",
+         "provisioningState": "Creating",
+         "powerState": {
+          "code": "Running"
+         },
+         "orchestratorVersion": "1.22.6",
+         "mode": "User",
+         "osType": "Linux",
+         "osSKU": "Ubuntu",
+         "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.06.08",
+         "enableFIPS": false
+        }
+       }
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/06cc0d70-3b29-46a1-a0ae-b4ee81ef8ca5?api-version=2016-03-30
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "754"
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/06cc0d70-3b29-46a1-a0ae-b4ee81ef8ca5?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "700dcc06-293b-a146-a0ae-b4ee81ef8ca5",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/06cc0d70-3b29-46a1-a0ae-b4ee81ef8ca5?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "700dcc06-293b-a146-a0ae-b4ee81ef8ca5",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/06cc0d70-3b29-46a1-a0ae-b4ee81ef8ca5?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "700dcc06-293b-a146-a0ae-b4ee81ef8ca5",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/06cc0d70-3b29-46a1-a0ae-b4ee81ef8ca5?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "700dcc06-293b-a146-a0ae-b4ee81ef8ca5",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "4"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/06cc0d70-3b29-46a1-a0ae-b4ee81ef8ca5?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "700dcc06-293b-a146-a0ae-b4ee81ef8ca5",
+        "status": "Succeeded",
+        "startTime": "2001-02-03T04:05:06Z",
+        "endTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster/agentPools/pool2?api-version=2021-05-01
+    method: GET
+  response:
+    body: |-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster/agentPools/pool2",
+        "name": "pool2",
+        "type": "Microsoft.ContainerService/managedClusters/agentPools",
+        "properties": {
+         "count": 1,
+         "vmSize": "Standard_DS2_v2",
+         "osDiskSizeGB": 128,
+         "osDiskType": "Managed",
+         "kubeletDiskType": "OS",
+         "maxPods": 110,
+         "type": "VirtualMachineScaleSets",
+         "provisioningState": "Succeeded",
+         "powerState": {
+          "code": "Running"
+         },
+         "orchestratorVersion": "1.22.6",
+         "mode": "User",
+         "osType": "Linux",
+         "osSKU": "Ubuntu",
+         "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.06.08",
+         "enableFIPS": false
+        }
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster/agentPools/pool2?api-version=2021-05-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/76fd0347-acb2-4c1d-b677-80d22a9354fc?api-version=2016-03-30
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operationresults/76fd0347-acb2-4c1d-b677-80d22a9354fc?api-version=2016-03-30
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster/agentPools/pool2?api-version=2021-05-01
+    method: GET
+  response:
+    body: |-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster/agentPools/pool2",
+        "name": "pool2",
+        "type": "Microsoft.ContainerService/managedClusters/agentPools",
+        "properties": {
+         "count": 1,
+         "vmSize": "Standard_DS2_v2",
+         "osDiskSizeGB": 128,
+         "osDiskType": "Managed",
+         "kubeletDiskType": "OS",
+         "maxPods": 110,
+         "type": "VirtualMachineScaleSets",
+         "provisioningState": "Deleting",
+         "powerState": {
+          "code": "Running"
+         },
+         "orchestratorVersion": "1.22.6",
+         "mode": "User",
+         "osType": "Linux",
+         "osSKU": "Ubuntu",
+         "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.06.08",
+         "enableFIPS": false
+        }
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster/agentPools/pool2?api-version=2021-05-01
+    method: GET
+  response:
+    body: |-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster/agentPools/pool2",
+        "name": "pool2",
+        "type": "Microsoft.ContainerService/managedClusters/agentPools",
+        "properties": {
+         "count": 1,
+         "vmSize": "Standard_DS2_v2",
+         "osDiskSizeGB": 128,
+         "osDiskType": "Managed",
+         "kubeletDiskType": "OS",
+         "maxPods": 110,
+         "type": "VirtualMachineScaleSets",
+         "provisioningState": "Deleting",
+         "powerState": {
+          "code": "Running"
+         },
+         "orchestratorVersion": "1.22.6",
+         "mode": "User",
+         "osType": "Linux",
+         "osSKU": "Ubuntu",
+         "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.06.08",
+         "enableFIPS": false
+        }
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster/agentPools/pool2?api-version=2021-05-01
+    method: GET
+  response:
+    body: |-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster/agentPools/pool2",
+        "name": "pool2",
+        "type": "Microsoft.ContainerService/managedClusters/agentPools",
+        "properties": {
+         "count": 1,
+         "vmSize": "Standard_DS2_v2",
+         "osDiskSizeGB": 128,
+         "osDiskType": "Managed",
+         "kubeletDiskType": "OS",
+         "maxPods": 110,
+         "type": "VirtualMachineScaleSets",
+         "provisioningState": "Deleting",
+         "powerState": {
+          "code": "Running"
+         },
+         "orchestratorVersion": "1.22.6",
+         "mode": "User",
+         "osType": "Linux",
+         "osSKU": "Ubuntu",
+         "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.06.08",
+         "enableFIPS": false
+        }
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "4"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster/agentPools/pool2?api-version=2021-05-01
+    method: GET
+  response:
+    body: |-
+      {
+        "code": "NotFound",
+        "message": "Could not find the agentpool: pool2 in subscription: 00000000-0000-0000-0000-000000000000, resourceGroup: asotest-rg-qqjpit, resourceName: samplemanagedcluster.",
+        "subcode": ""
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "219"
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster?api-version=2021-05-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/be0d18c0-d2d4-4b6e-9c6e-d07585df6995?api-version=2016-03-30
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operationresults/be0d18c0-d2d4-4b6e-9c6e-d07585df6995?api-version=2016-03-30
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster?api-version=2021-05-01
+    method: GET
+  response:
+    body: |-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster",
+        "location": "westcentralus",
+        "name": "samplemanagedcluster",
+        "type": "Microsoft.ContainerService/ManagedClusters",
+        "properties": {
+         "provisioningState": "Deleting",
+         "powerState": {
+          "code": "Running"
+         },
+         "kubernetesVersion": "1.22.6",
+         "dnsPrefix": "aso",
+         "fqdn": "aso-e6108c82.hcp.westcentralus.azmk8s.io",
+         "azurePortalFQDN": "aso-e6108c82.portal.hcp.westcentralus.azmk8s.io",
+         "agentPoolProfiles": [
+          {
+           "name": "pool1",
+           "count": 1,
+           "vmSize": "Standard_DS2_v2",
+           "osDiskSizeGB": 128,
+           "osDiskType": "Managed",
+           "kubeletDiskType": "OS",
+           "maxPods": 110,
+           "type": "VirtualMachineScaleSets",
+           "provisioningState": "Deleting",
+           "powerState": {
+            "code": "Running"
+           },
+           "orchestratorVersion": "1.22.6",
+           "mode": "System",
+           "osType": "Linux",
+           "osSKU": "Ubuntu",
+           "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.06.08",
+           "enableFIPS": false
+          }
+         ],
+         "servicePrincipalProfile": {
+          "clientId": "msi"
+         },
+         "nodeResourceGroup": "MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus",
+         "enableRBAC": true,
+         "networkProfile": {
+          "networkPlugin": "kubenet",
+          "loadBalancerSku": "Standard",
+          "loadBalancerProfile": {
+           "managedOutboundIPs": {
+            "count": 1
+           },
+           "effectiveOutboundIPs": [
+            {
+             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus/providers/Microsoft.Network/publicIPAddresses/fe5a29a0-4082-44c3-83be-25db76f11ca4"
+            }
+           ]
+          },
+          "podCidr": "10.244.0.0/16",
+          "serviceCidr": "10.0.0.0/16",
+          "dnsServiceIP": "10.0.0.10",
+          "dockerBridgeCidr": "172.17.0.1/16",
+          "outboundType": "loadBalancer"
+         },
+         "maxAgentPools": 100,
+         "identityProfile": {
+          "kubeletidentity": {
+           "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus/providers/Microsoft.ManagedIdentity/userAssignedIdentities/samplemanagedcluster-agentpool",
+           "clientId": "22143dc0-fa3b-4a24-abb7-f8b68977ea31",
+           "objectId": "3127acc0-32e1-47f0-b9bf-08eb23cab9d2"
+          }
+         }
+        },
+        "identity": {
+         "type": "SystemAssigned",
+         "principalId": "b2fd124f-ccb5-4014-926a-5fea19f056dc",
+         "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+        },
+        "sku": {
+         "name": "Basic",
+         "tier": "Free"
+        }
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster?api-version=2021-05-01
+    method: GET
+  response:
+    body: |-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster",
+        "location": "westcentralus",
+        "name": "samplemanagedcluster",
+        "type": "Microsoft.ContainerService/ManagedClusters",
+        "properties": {
+         "provisioningState": "Deleting",
+         "powerState": {
+          "code": "Running"
+         },
+         "kubernetesVersion": "1.22.6",
+         "dnsPrefix": "aso",
+         "fqdn": "aso-e6108c82.hcp.westcentralus.azmk8s.io",
+         "azurePortalFQDN": "aso-e6108c82.portal.hcp.westcentralus.azmk8s.io",
+         "agentPoolProfiles": [
+          {
+           "name": "pool1",
+           "count": 1,
+           "vmSize": "Standard_DS2_v2",
+           "osDiskSizeGB": 128,
+           "osDiskType": "Managed",
+           "kubeletDiskType": "OS",
+           "maxPods": 110,
+           "type": "VirtualMachineScaleSets",
+           "provisioningState": "Deleting",
+           "powerState": {
+            "code": "Running"
+           },
+           "orchestratorVersion": "1.22.6",
+           "mode": "System",
+           "osType": "Linux",
+           "osSKU": "Ubuntu",
+           "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.06.08",
+           "enableFIPS": false
+          }
+         ],
+         "servicePrincipalProfile": {
+          "clientId": "msi"
+         },
+         "nodeResourceGroup": "MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus",
+         "enableRBAC": true,
+         "networkProfile": {
+          "networkPlugin": "kubenet",
+          "loadBalancerSku": "Standard",
+          "loadBalancerProfile": {
+           "managedOutboundIPs": {
+            "count": 1
+           },
+           "effectiveOutboundIPs": [
+            {
+             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus/providers/Microsoft.Network/publicIPAddresses/fe5a29a0-4082-44c3-83be-25db76f11ca4"
+            }
+           ]
+          },
+          "podCidr": "10.244.0.0/16",
+          "serviceCidr": "10.0.0.0/16",
+          "dnsServiceIP": "10.0.0.10",
+          "dockerBridgeCidr": "172.17.0.1/16",
+          "outboundType": "loadBalancer"
+         },
+         "maxAgentPools": 100,
+         "identityProfile": {
+          "kubeletidentity": {
+           "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus/providers/Microsoft.ManagedIdentity/userAssignedIdentities/samplemanagedcluster-agentpool",
+           "clientId": "22143dc0-fa3b-4a24-abb7-f8b68977ea31",
+           "objectId": "3127acc0-32e1-47f0-b9bf-08eb23cab9d2"
+          }
+         }
+        },
+        "identity": {
+         "type": "SystemAssigned",
+         "principalId": "b2fd124f-ccb5-4014-926a-5fea19f056dc",
+         "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+        },
+        "sku": {
+         "name": "Basic",
+         "tier": "Free"
+        }
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster?api-version=2021-05-01
+    method: GET
+  response:
+    body: |-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster",
+        "location": "westcentralus",
+        "name": "samplemanagedcluster",
+        "type": "Microsoft.ContainerService/ManagedClusters",
+        "properties": {
+         "provisioningState": "Deleting",
+         "powerState": {
+          "code": "Running"
+         },
+         "kubernetesVersion": "1.22.6",
+         "dnsPrefix": "aso",
+         "fqdn": "aso-e6108c82.hcp.westcentralus.azmk8s.io",
+         "azurePortalFQDN": "aso-e6108c82.portal.hcp.westcentralus.azmk8s.io",
+         "agentPoolProfiles": [
+          {
+           "name": "pool1",
+           "count": 1,
+           "vmSize": "Standard_DS2_v2",
+           "osDiskSizeGB": 128,
+           "osDiskType": "Managed",
+           "kubeletDiskType": "OS",
+           "maxPods": 110,
+           "type": "VirtualMachineScaleSets",
+           "provisioningState": "Deleting",
+           "powerState": {
+            "code": "Running"
+           },
+           "orchestratorVersion": "1.22.6",
+           "mode": "System",
+           "osType": "Linux",
+           "osSKU": "Ubuntu",
+           "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.06.08",
+           "enableFIPS": false
+          }
+         ],
+         "servicePrincipalProfile": {
+          "clientId": "msi"
+         },
+         "nodeResourceGroup": "MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus",
+         "enableRBAC": true,
+         "networkProfile": {
+          "networkPlugin": "kubenet",
+          "loadBalancerSku": "Standard",
+          "loadBalancerProfile": {
+           "managedOutboundIPs": {
+            "count": 1
+           },
+           "effectiveOutboundIPs": [
+            {
+             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus/providers/Microsoft.Network/publicIPAddresses/fe5a29a0-4082-44c3-83be-25db76f11ca4"
+            }
+           ]
+          },
+          "podCidr": "10.244.0.0/16",
+          "serviceCidr": "10.0.0.0/16",
+          "dnsServiceIP": "10.0.0.10",
+          "dockerBridgeCidr": "172.17.0.1/16",
+          "outboundType": "loadBalancer"
+         },
+         "maxAgentPools": 100,
+         "identityProfile": {
+          "kubeletidentity": {
+           "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus/providers/Microsoft.ManagedIdentity/userAssignedIdentities/samplemanagedcluster-agentpool",
+           "clientId": "22143dc0-fa3b-4a24-abb7-f8b68977ea31",
+           "objectId": "3127acc0-32e1-47f0-b9bf-08eb23cab9d2"
+          }
+         }
+        },
+        "identity": {
+         "type": "SystemAssigned",
+         "principalId": "b2fd124f-ccb5-4014-926a-5fea19f056dc",
+         "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+        },
+        "sku": {
+         "name": "Basic",
+         "tier": "Free"
+        }
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "4"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster?api-version=2021-05-01
+    method: GET
+  response:
+    body: |-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster",
+        "location": "westcentralus",
+        "name": "samplemanagedcluster",
+        "type": "Microsoft.ContainerService/ManagedClusters",
+        "properties": {
+         "provisioningState": "Deleting",
+         "powerState": {
+          "code": "Running"
+         },
+         "kubernetesVersion": "1.22.6",
+         "dnsPrefix": "aso",
+         "fqdn": "aso-e6108c82.hcp.westcentralus.azmk8s.io",
+         "azurePortalFQDN": "aso-e6108c82.portal.hcp.westcentralus.azmk8s.io",
+         "agentPoolProfiles": [
+          {
+           "name": "pool1",
+           "count": 1,
+           "vmSize": "Standard_DS2_v2",
+           "osDiskSizeGB": 128,
+           "osDiskType": "Managed",
+           "kubeletDiskType": "OS",
+           "maxPods": 110,
+           "type": "VirtualMachineScaleSets",
+           "provisioningState": "Deleting",
+           "powerState": {
+            "code": "Running"
+           },
+           "orchestratorVersion": "1.22.6",
+           "mode": "System",
+           "osType": "Linux",
+           "osSKU": "Ubuntu",
+           "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.06.08",
+           "enableFIPS": false
+          }
+         ],
+         "servicePrincipalProfile": {
+          "clientId": "msi"
+         },
+         "nodeResourceGroup": "MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus",
+         "enableRBAC": true,
+         "networkProfile": {
+          "networkPlugin": "kubenet",
+          "loadBalancerSku": "Standard",
+          "loadBalancerProfile": {
+           "managedOutboundIPs": {
+            "count": 1
+           },
+           "effectiveOutboundIPs": [
+            {
+             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus/providers/Microsoft.Network/publicIPAddresses/fe5a29a0-4082-44c3-83be-25db76f11ca4"
+            }
+           ]
+          },
+          "podCidr": "10.244.0.0/16",
+          "serviceCidr": "10.0.0.0/16",
+          "dnsServiceIP": "10.0.0.10",
+          "dockerBridgeCidr": "172.17.0.1/16",
+          "outboundType": "loadBalancer"
+         },
+         "maxAgentPools": 100,
+         "identityProfile": {
+          "kubeletidentity": {
+           "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus/providers/Microsoft.ManagedIdentity/userAssignedIdentities/samplemanagedcluster-agentpool",
+           "clientId": "22143dc0-fa3b-4a24-abb7-f8b68977ea31",
+           "objectId": "3127acc0-32e1-47f0-b9bf-08eb23cab9d2"
+          }
+         }
+        },
+        "identity": {
+         "type": "SystemAssigned",
+         "principalId": "b2fd124f-ccb5-4014-926a-5fea19f056dc",
+         "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+        },
+        "sku": {
+         "name": "Basic",
+         "tier": "Free"
+        }
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "5"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster?api-version=2021-05-01
+    method: GET
+  response:
+    body: |-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster",
+        "location": "westcentralus",
+        "name": "samplemanagedcluster",
+        "type": "Microsoft.ContainerService/ManagedClusters",
+        "properties": {
+         "provisioningState": "Deleting",
+         "powerState": {
+          "code": "Running"
+         },
+         "kubernetesVersion": "1.22.6",
+         "dnsPrefix": "aso",
+         "fqdn": "aso-e6108c82.hcp.westcentralus.azmk8s.io",
+         "azurePortalFQDN": "aso-e6108c82.portal.hcp.westcentralus.azmk8s.io",
+         "agentPoolProfiles": [
+          {
+           "name": "pool1",
+           "count": 1,
+           "vmSize": "Standard_DS2_v2",
+           "osDiskSizeGB": 128,
+           "osDiskType": "Managed",
+           "kubeletDiskType": "OS",
+           "maxPods": 110,
+           "type": "VirtualMachineScaleSets",
+           "provisioningState": "Deleting",
+           "powerState": {
+            "code": "Running"
+           },
+           "orchestratorVersion": "1.22.6",
+           "mode": "System",
+           "osType": "Linux",
+           "osSKU": "Ubuntu",
+           "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.06.08",
+           "enableFIPS": false
+          }
+         ],
+         "servicePrincipalProfile": {
+          "clientId": "msi"
+         },
+         "nodeResourceGroup": "MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus",
+         "enableRBAC": true,
+         "networkProfile": {
+          "networkPlugin": "kubenet",
+          "loadBalancerSku": "Standard",
+          "loadBalancerProfile": {
+           "managedOutboundIPs": {
+            "count": 1
+           },
+           "effectiveOutboundIPs": [
+            {
+             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus/providers/Microsoft.Network/publicIPAddresses/fe5a29a0-4082-44c3-83be-25db76f11ca4"
+            }
+           ]
+          },
+          "podCidr": "10.244.0.0/16",
+          "serviceCidr": "10.0.0.0/16",
+          "dnsServiceIP": "10.0.0.10",
+          "dockerBridgeCidr": "172.17.0.1/16",
+          "outboundType": "loadBalancer"
+         },
+         "maxAgentPools": 100,
+         "identityProfile": {
+          "kubeletidentity": {
+           "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus/providers/Microsoft.ManagedIdentity/userAssignedIdentities/samplemanagedcluster-agentpool",
+           "clientId": "22143dc0-fa3b-4a24-abb7-f8b68977ea31",
+           "objectId": "3127acc0-32e1-47f0-b9bf-08eb23cab9d2"
+          }
+         }
+        },
+        "identity": {
+         "type": "SystemAssigned",
+         "principalId": "b2fd124f-ccb5-4014-926a-5fea19f056dc",
+         "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+        },
+        "sku": {
+         "name": "Basic",
+         "tier": "Free"
+        }
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "6"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster?api-version=2021-05-01
+    method: GET
+  response:
+    body: |-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster",
+        "location": "westcentralus",
+        "name": "samplemanagedcluster",
+        "type": "Microsoft.ContainerService/ManagedClusters",
+        "properties": {
+         "provisioningState": "Deleting",
+         "powerState": {
+          "code": "Running"
+         },
+         "kubernetesVersion": "1.22.6",
+         "dnsPrefix": "aso",
+         "fqdn": "aso-e6108c82.hcp.westcentralus.azmk8s.io",
+         "azurePortalFQDN": "aso-e6108c82.portal.hcp.westcentralus.azmk8s.io",
+         "agentPoolProfiles": [
+          {
+           "name": "pool1",
+           "count": 1,
+           "vmSize": "Standard_DS2_v2",
+           "osDiskSizeGB": 128,
+           "osDiskType": "Managed",
+           "kubeletDiskType": "OS",
+           "maxPods": 110,
+           "type": "VirtualMachineScaleSets",
+           "provisioningState": "Deleting",
+           "powerState": {
+            "code": "Running"
+           },
+           "orchestratorVersion": "1.22.6",
+           "mode": "System",
+           "osType": "Linux",
+           "osSKU": "Ubuntu",
+           "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.06.08",
+           "enableFIPS": false
+          }
+         ],
+         "servicePrincipalProfile": {
+          "clientId": "msi"
+         },
+         "nodeResourceGroup": "MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus",
+         "enableRBAC": true,
+         "networkProfile": {
+          "networkPlugin": "kubenet",
+          "loadBalancerSku": "Standard",
+          "loadBalancerProfile": {
+           "managedOutboundIPs": {
+            "count": 1
+           },
+           "effectiveOutboundIPs": [
+            {
+             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus/providers/Microsoft.Network/publicIPAddresses/fe5a29a0-4082-44c3-83be-25db76f11ca4"
+            }
+           ]
+          },
+          "podCidr": "10.244.0.0/16",
+          "serviceCidr": "10.0.0.0/16",
+          "dnsServiceIP": "10.0.0.10",
+          "dockerBridgeCidr": "172.17.0.1/16",
+          "outboundType": "loadBalancer"
+         },
+         "maxAgentPools": 100,
+         "identityProfile": {
+          "kubeletidentity": {
+           "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus/providers/Microsoft.ManagedIdentity/userAssignedIdentities/samplemanagedcluster-agentpool",
+           "clientId": "22143dc0-fa3b-4a24-abb7-f8b68977ea31",
+           "objectId": "3127acc0-32e1-47f0-b9bf-08eb23cab9d2"
+          }
+         }
+        },
+        "identity": {
+         "type": "SystemAssigned",
+         "principalId": "b2fd124f-ccb5-4014-926a-5fea19f056dc",
+         "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+        },
+        "sku": {
+         "name": "Basic",
+         "tier": "Free"
+        }
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "7"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster?api-version=2021-05-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.ContainerService/managedClusters/samplemanagedcluster''
+      under resource group ''asotest-rg-qqjpit'' was not found. For more details please
+      go to https://aka.ms/ARMResourceNotFoundFix"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "252"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: '{"identity":{"type":"SystemAssigned"},"location":"westcentralus","name":"samplemanagedcluster","properties":{"agentPoolProfiles":[{"count":1,"mode":"System","name":"pool1","osType":"Linux","vmSize":"Standard_DS2_v2"}],"dnsPrefix":"aso"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "237"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster?api-version=2021-05-01
+    method: PUT
+  response:
+    body: |-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster",
+        "location": "westcentralus",
+        "name": "samplemanagedcluster",
+        "type": "Microsoft.ContainerService/ManagedClusters",
+        "properties": {
+         "provisioningState": "Creating",
+         "powerState": {
+          "code": "Running"
+         },
+         "kubernetesVersion": "1.22.6",
+         "dnsPrefix": "aso",
+         "fqdn": "aso-c1183bdc.hcp.westcentralus.azmk8s.io",
+         "azurePortalFQDN": "aso-c1183bdc.portal.hcp.westcentralus.azmk8s.io",
+         "agentPoolProfiles": [
+          {
+           "name": "pool1",
+           "count": 1,
+           "vmSize": "Standard_DS2_v2",
+           "osDiskSizeGB": 128,
+           "osDiskType": "Managed",
+           "kubeletDiskType": "OS",
+           "maxPods": 110,
+           "type": "VirtualMachineScaleSets",
+           "provisioningState": "Creating",
+           "powerState": {
+            "code": "Running"
+           },
+           "orchestratorVersion": "1.22.6",
+           "mode": "System",
+           "osType": "Linux",
+           "osSKU": "Ubuntu",
+           "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.06.08",
+           "enableFIPS": false
+          }
+         ],
+         "servicePrincipalProfile": {
+          "clientId": "msi"
+         },
+         "nodeResourceGroup": "MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus",
+         "enableRBAC": true,
+         "networkProfile": {
+          "networkPlugin": "kubenet",
+          "loadBalancerSku": "standard",
+          "loadBalancerProfile": {
+           "managedOutboundIPs": {
+            "count": 1
+           }
+          },
+          "podCidr": "10.244.0.0/16",
+          "serviceCidr": "10.0.0.0/16",
+          "dnsServiceIP": "10.0.0.10",
+          "dockerBridgeCidr": "172.17.0.1/16",
+          "outboundType": "loadBalancer"
+         },
+         "maxAgentPools": 100
+        },
+        "identity": {
+         "type": "SystemAssigned",
+         "principalId": "33ffe9c7-ccc9-40e9-b14c-f311602f649f",
+         "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+        },
+        "sku": {
+         "name": "Basic",
+         "tier": "Free"
+        }
+       }
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/345493f7-97ea-4922-a053-46100c5db9de?api-version=2016-03-30
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "1908"
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/345493f7-97ea-4922-a053-46100c5db9de?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "f7935434-ea97-2249-a053-46100c5db9de",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/345493f7-97ea-4922-a053-46100c5db9de?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "f7935434-ea97-2249-a053-46100c5db9de",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/345493f7-97ea-4922-a053-46100c5db9de?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "f7935434-ea97-2249-a053-46100c5db9de",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/345493f7-97ea-4922-a053-46100c5db9de?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "f7935434-ea97-2249-a053-46100c5db9de",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "4"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/345493f7-97ea-4922-a053-46100c5db9de?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "f7935434-ea97-2249-a053-46100c5db9de",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "5"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/345493f7-97ea-4922-a053-46100c5db9de?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "f7935434-ea97-2249-a053-46100c5db9de",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "6"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/345493f7-97ea-4922-a053-46100c5db9de?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "f7935434-ea97-2249-a053-46100c5db9de",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "7"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/345493f7-97ea-4922-a053-46100c5db9de?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "f7935434-ea97-2249-a053-46100c5db9de",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "8"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/345493f7-97ea-4922-a053-46100c5db9de?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "f7935434-ea97-2249-a053-46100c5db9de",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "9"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/345493f7-97ea-4922-a053-46100c5db9de?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "f7935434-ea97-2249-a053-46100c5db9de",
+        "status": "Succeeded",
+        "startTime": "2001-02-03T04:05:06Z",
+        "endTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "8"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster?api-version=2021-05-01
+    method: GET
+  response:
+    body: |-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster",
+        "location": "westcentralus",
+        "name": "samplemanagedcluster",
+        "type": "Microsoft.ContainerService/ManagedClusters",
+        "properties": {
+         "provisioningState": "Succeeded",
+         "powerState": {
+          "code": "Running"
+         },
+         "kubernetesVersion": "1.22.6",
+         "dnsPrefix": "aso",
+         "fqdn": "aso-c1183bdc.hcp.westcentralus.azmk8s.io",
+         "azurePortalFQDN": "aso-c1183bdc.portal.hcp.westcentralus.azmk8s.io",
+         "agentPoolProfiles": [
+          {
+           "name": "pool1",
+           "count": 1,
+           "vmSize": "Standard_DS2_v2",
+           "osDiskSizeGB": 128,
+           "osDiskType": "Managed",
+           "kubeletDiskType": "OS",
+           "maxPods": 110,
+           "type": "VirtualMachineScaleSets",
+           "provisioningState": "Succeeded",
+           "powerState": {
+            "code": "Running"
+           },
+           "orchestratorVersion": "1.22.6",
+           "mode": "System",
+           "osType": "Linux",
+           "osSKU": "Ubuntu",
+           "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.06.08",
+           "enableFIPS": false
+          }
+         ],
+         "servicePrincipalProfile": {
+          "clientId": "msi"
+         },
+         "nodeResourceGroup": "MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus",
+         "enableRBAC": true,
+         "networkProfile": {
+          "networkPlugin": "kubenet",
+          "loadBalancerSku": "Standard",
+          "loadBalancerProfile": {
+           "managedOutboundIPs": {
+            "count": 1
+           },
+           "effectiveOutboundIPs": [
+            {
+             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus/providers/Microsoft.Network/publicIPAddresses/417e6925-9203-4361-aa97-500c52e9a928"
+            }
+           ]
+          },
+          "podCidr": "10.244.0.0/16",
+          "serviceCidr": "10.0.0.0/16",
+          "dnsServiceIP": "10.0.0.10",
+          "dockerBridgeCidr": "172.17.0.1/16",
+          "outboundType": "loadBalancer"
+         },
+         "maxAgentPools": 100,
+         "identityProfile": {
+          "kubeletidentity": {
+           "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus/providers/Microsoft.ManagedIdentity/userAssignedIdentities/samplemanagedcluster-agentpool",
+           "clientId": "2c56ef78-b0a1-4161-bb2a-d3b690bddcea",
+           "objectId": "3f0f8e1f-d263-4208-8271-4578605b3608"
+          }
+         }
+        },
+        "identity": {
+         "type": "SystemAssigned",
+         "principalId": "33ffe9c7-ccc9-40e9-b14c-f311602f649f",
+         "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+        },
+        "sku": {
+         "name": "Basic",
+         "tier": "Free"
+        }
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: '{"name":"pool2","properties":{"count":1,"mode":"User","osType":"Linux","vmSize":"Standard_DS2_v2"}}'
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Content-Length:
+      - "99"
+      Content-Type:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster/agentPools/pool2?api-version=2021-05-01
+    method: PUT
+  response:
+    body: |-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster/agentPools/pool2",
+        "name": "pool2",
+        "type": "Microsoft.ContainerService/managedClusters/agentPools",
+        "properties": {
+         "count": 1,
+         "vmSize": "Standard_DS2_v2",
+         "osDiskSizeGB": 128,
+         "osDiskType": "Managed",
+         "kubeletDiskType": "OS",
+         "maxPods": 110,
+         "type": "VirtualMachineScaleSets",
+         "provisioningState": "Creating",
+         "powerState": {
+          "code": "Running"
+         },
+         "orchestratorVersion": "1.22.6",
+         "mode": "User",
+         "osType": "Linux",
+         "osSKU": "Ubuntu",
+         "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.06.08",
+         "enableFIPS": false
+        }
+       }
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/f43ecece-17e6-4e52-b224-d6677967210e?api-version=2016-03-30
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "754"
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 201 Created
+    code: 201
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/f43ecece-17e6-4e52-b224-d6677967210e?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "cece3ef4-e617-524e-b224-d6677967210e",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/f43ecece-17e6-4e52-b224-d6677967210e?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "cece3ef4-e617-524e-b224-d6677967210e",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/f43ecece-17e6-4e52-b224-d6677967210e?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "cece3ef4-e617-524e-b224-d6677967210e",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/f43ecece-17e6-4e52-b224-d6677967210e?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "cece3ef4-e617-524e-b224-d6677967210e",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "4"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/f43ecece-17e6-4e52-b224-d6677967210e?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "cece3ef4-e617-524e-b224-d6677967210e",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "5"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/f43ecece-17e6-4e52-b224-d6677967210e?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "cece3ef4-e617-524e-b224-d6677967210e",
+        "status": "InProgress",
+        "startTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "6"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/f43ecece-17e6-4e52-b224-d6677967210e?api-version=2016-03-30
+    method: GET
+  response:
+    body: |-
+      {
+        "name": "cece3ef4-e617-524e-b224-d6677967210e",
+        "status": "Succeeded",
+        "startTime": "2001-02-03T04:05:06Z",
+        "endTime": "2001-02-03T04:05:06Z"
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "5"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster/agentPools/pool2?api-version=2021-05-01
+    method: GET
+  response:
+    body: |-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster/agentPools/pool2",
+        "name": "pool2",
+        "type": "Microsoft.ContainerService/managedClusters/agentPools",
+        "properties": {
+         "count": 1,
+         "vmSize": "Standard_DS2_v2",
+         "osDiskSizeGB": 128,
+         "osDiskType": "Managed",
+         "kubeletDiskType": "OS",
+         "maxPods": 110,
+         "type": "VirtualMachineScaleSets",
+         "provisioningState": "Succeeded",
+         "powerState": {
+          "code": "Running"
+         },
+         "orchestratorVersion": "1.22.6",
+         "mode": "User",
+         "osType": "Linux",
+         "osSKU": "Ubuntu",
+         "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.06.13",
+         "enableFIPS": false
+        }
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster/agentPools/pool2?api-version=2021-05-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/84de65a6-01ee-4bf8-8cb1-32a1d917f91f?api-version=2016-03-30
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operationresults/84de65a6-01ee-4bf8-8cb1-32a1d917f91f?api-version=2016-03-30
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "6"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster/agentPools/pool2?api-version=2021-05-01
+    method: GET
+  response:
+    body: |-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster/agentPools/pool2",
+        "name": "pool2",
+        "type": "Microsoft.ContainerService/managedClusters/agentPools",
+        "properties": {
+         "count": 1,
+         "vmSize": "Standard_DS2_v2",
+         "osDiskSizeGB": 128,
+         "osDiskType": "Managed",
+         "kubeletDiskType": "OS",
+         "maxPods": 110,
+         "type": "VirtualMachineScaleSets",
+         "provisioningState": "Deleting",
+         "powerState": {
+          "code": "Running"
+         },
+         "orchestratorVersion": "1.22.6",
+         "mode": "User",
+         "osType": "Linux",
+         "osSKU": "Ubuntu",
+         "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.06.13",
+         "enableFIPS": false
+        }
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "7"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster/agentPools/pool2?api-version=2021-05-01
+    method: GET
+  response:
+    body: |-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster/agentPools/pool2",
+        "name": "pool2",
+        "type": "Microsoft.ContainerService/managedClusters/agentPools",
+        "properties": {
+         "count": 1,
+         "vmSize": "Standard_DS2_v2",
+         "osDiskSizeGB": 128,
+         "osDiskType": "Managed",
+         "kubeletDiskType": "OS",
+         "maxPods": 110,
+         "type": "VirtualMachineScaleSets",
+         "provisioningState": "Deleting",
+         "powerState": {
+          "code": "Running"
+         },
+         "orchestratorVersion": "1.22.6",
+         "mode": "User",
+         "osType": "Linux",
+         "osSKU": "Ubuntu",
+         "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.06.13",
+         "enableFIPS": false
+        }
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "8"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster/agentPools/pool2?api-version=2021-05-01
+    method: GET
+  response:
+    body: |-
+      {
+        "code": "NotFound",
+        "message": "Could not find the agentpool: pool2 in subscription: 00000000-0000-0000-0000-000000000000, resourceGroup: asotest-rg-qqjpit, resourceName: samplemanagedcluster.",
+        "subcode": ""
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "219"
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster?api-version=2021-05-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operations/43f58630-1678-4361-b00b-81fd7a8cbb01?api-version=2016-03-30
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.ContainerService/locations/westcentralus/operationresults/43f58630-1678-4361-b00b-81fd7a8cbb01?api-version=2016-03-30
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "9"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster?api-version=2021-05-01
+    method: GET
+  response:
+    body: |-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster",
+        "location": "westcentralus",
+        "name": "samplemanagedcluster",
+        "type": "Microsoft.ContainerService/ManagedClusters",
+        "properties": {
+         "provisioningState": "Deleting",
+         "powerState": {
+          "code": "Running"
+         },
+         "kubernetesVersion": "1.22.6",
+         "dnsPrefix": "aso",
+         "fqdn": "aso-c1183bdc.hcp.westcentralus.azmk8s.io",
+         "azurePortalFQDN": "aso-c1183bdc.portal.hcp.westcentralus.azmk8s.io",
+         "agentPoolProfiles": [
+          {
+           "name": "pool1",
+           "count": 1,
+           "vmSize": "Standard_DS2_v2",
+           "osDiskSizeGB": 128,
+           "osDiskType": "Managed",
+           "kubeletDiskType": "OS",
+           "maxPods": 110,
+           "type": "VirtualMachineScaleSets",
+           "provisioningState": "Deleting",
+           "powerState": {
+            "code": "Running"
+           },
+           "orchestratorVersion": "1.22.6",
+           "mode": "System",
+           "osType": "Linux",
+           "osSKU": "Ubuntu",
+           "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.06.08",
+           "enableFIPS": false
+          }
+         ],
+         "servicePrincipalProfile": {
+          "clientId": "msi"
+         },
+         "nodeResourceGroup": "MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus",
+         "enableRBAC": true,
+         "networkProfile": {
+          "networkPlugin": "kubenet",
+          "loadBalancerSku": "Standard",
+          "loadBalancerProfile": {
+           "managedOutboundIPs": {
+            "count": 1
+           },
+           "effectiveOutboundIPs": [
+            {
+             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus/providers/Microsoft.Network/publicIPAddresses/417e6925-9203-4361-aa97-500c52e9a928"
+            }
+           ]
+          },
+          "podCidr": "10.244.0.0/16",
+          "serviceCidr": "10.0.0.0/16",
+          "dnsServiceIP": "10.0.0.10",
+          "dockerBridgeCidr": "172.17.0.1/16",
+          "outboundType": "loadBalancer"
+         },
+         "maxAgentPools": 100,
+         "identityProfile": {
+          "kubeletidentity": {
+           "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus/providers/Microsoft.ManagedIdentity/userAssignedIdentities/samplemanagedcluster-agentpool",
+           "clientId": "2c56ef78-b0a1-4161-bb2a-d3b690bddcea",
+           "objectId": "3f0f8e1f-d263-4208-8271-4578605b3608"
+          }
+         }
+        },
+        "identity": {
+         "type": "SystemAssigned",
+         "principalId": "33ffe9c7-ccc9-40e9-b14c-f311602f649f",
+         "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+        },
+        "sku": {
+         "name": "Basic",
+         "tier": "Free"
+        }
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "10"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster?api-version=2021-05-01
+    method: GET
+  response:
+    body: |-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster",
+        "location": "westcentralus",
+        "name": "samplemanagedcluster",
+        "type": "Microsoft.ContainerService/ManagedClusters",
+        "properties": {
+         "provisioningState": "Deleting",
+         "powerState": {
+          "code": "Running"
+         },
+         "kubernetesVersion": "1.22.6",
+         "dnsPrefix": "aso",
+         "fqdn": "aso-c1183bdc.hcp.westcentralus.azmk8s.io",
+         "azurePortalFQDN": "aso-c1183bdc.portal.hcp.westcentralus.azmk8s.io",
+         "agentPoolProfiles": [
+          {
+           "name": "pool1",
+           "count": 1,
+           "vmSize": "Standard_DS2_v2",
+           "osDiskSizeGB": 128,
+           "osDiskType": "Managed",
+           "kubeletDiskType": "OS",
+           "maxPods": 110,
+           "type": "VirtualMachineScaleSets",
+           "provisioningState": "Deleting",
+           "powerState": {
+            "code": "Running"
+           },
+           "orchestratorVersion": "1.22.6",
+           "mode": "System",
+           "osType": "Linux",
+           "osSKU": "Ubuntu",
+           "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.06.08",
+           "enableFIPS": false
+          }
+         ],
+         "servicePrincipalProfile": {
+          "clientId": "msi"
+         },
+         "nodeResourceGroup": "MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus",
+         "enableRBAC": true,
+         "networkProfile": {
+          "networkPlugin": "kubenet",
+          "loadBalancerSku": "Standard",
+          "loadBalancerProfile": {
+           "managedOutboundIPs": {
+            "count": 1
+           },
+           "effectiveOutboundIPs": [
+            {
+             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus/providers/Microsoft.Network/publicIPAddresses/417e6925-9203-4361-aa97-500c52e9a928"
+            }
+           ]
+          },
+          "podCidr": "10.244.0.0/16",
+          "serviceCidr": "10.0.0.0/16",
+          "dnsServiceIP": "10.0.0.10",
+          "dockerBridgeCidr": "172.17.0.1/16",
+          "outboundType": "loadBalancer"
+         },
+         "maxAgentPools": 100,
+         "identityProfile": {
+          "kubeletidentity": {
+           "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus/providers/Microsoft.ManagedIdentity/userAssignedIdentities/samplemanagedcluster-agentpool",
+           "clientId": "2c56ef78-b0a1-4161-bb2a-d3b690bddcea",
+           "objectId": "3f0f8e1f-d263-4208-8271-4578605b3608"
+          }
+         }
+        },
+        "identity": {
+         "type": "SystemAssigned",
+         "principalId": "33ffe9c7-ccc9-40e9-b14c-f311602f649f",
+         "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+        },
+        "sku": {
+         "name": "Basic",
+         "tier": "Free"
+        }
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "11"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster?api-version=2021-05-01
+    method: GET
+  response:
+    body: |-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster",
+        "location": "westcentralus",
+        "name": "samplemanagedcluster",
+        "type": "Microsoft.ContainerService/ManagedClusters",
+        "properties": {
+         "provisioningState": "Deleting",
+         "powerState": {
+          "code": "Running"
+         },
+         "kubernetesVersion": "1.22.6",
+         "dnsPrefix": "aso",
+         "fqdn": "aso-c1183bdc.hcp.westcentralus.azmk8s.io",
+         "azurePortalFQDN": "aso-c1183bdc.portal.hcp.westcentralus.azmk8s.io",
+         "agentPoolProfiles": [
+          {
+           "name": "pool1",
+           "count": 1,
+           "vmSize": "Standard_DS2_v2",
+           "osDiskSizeGB": 128,
+           "osDiskType": "Managed",
+           "kubeletDiskType": "OS",
+           "maxPods": 110,
+           "type": "VirtualMachineScaleSets",
+           "provisioningState": "Deleting",
+           "powerState": {
+            "code": "Running"
+           },
+           "orchestratorVersion": "1.22.6",
+           "mode": "System",
+           "osType": "Linux",
+           "osSKU": "Ubuntu",
+           "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.06.08",
+           "enableFIPS": false
+          }
+         ],
+         "servicePrincipalProfile": {
+          "clientId": "msi"
+         },
+         "nodeResourceGroup": "MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus",
+         "enableRBAC": true,
+         "networkProfile": {
+          "networkPlugin": "kubenet",
+          "loadBalancerSku": "Standard",
+          "loadBalancerProfile": {
+           "managedOutboundIPs": {
+            "count": 1
+           },
+           "effectiveOutboundIPs": [
+            {
+             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus/providers/Microsoft.Network/publicIPAddresses/417e6925-9203-4361-aa97-500c52e9a928"
+            }
+           ]
+          },
+          "podCidr": "10.244.0.0/16",
+          "serviceCidr": "10.0.0.0/16",
+          "dnsServiceIP": "10.0.0.10",
+          "dockerBridgeCidr": "172.17.0.1/16",
+          "outboundType": "loadBalancer"
+         },
+         "maxAgentPools": 100,
+         "identityProfile": {
+          "kubeletidentity": {
+           "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus/providers/Microsoft.ManagedIdentity/userAssignedIdentities/samplemanagedcluster-agentpool",
+           "clientId": "2c56ef78-b0a1-4161-bb2a-d3b690bddcea",
+           "objectId": "3f0f8e1f-d263-4208-8271-4578605b3608"
+          }
+         }
+        },
+        "identity": {
+         "type": "SystemAssigned",
+         "principalId": "33ffe9c7-ccc9-40e9-b14c-f311602f649f",
+         "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+        },
+        "sku": {
+         "name": "Basic",
+         "tier": "Free"
+        }
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "12"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster?api-version=2021-05-01
+    method: GET
+  response:
+    body: |-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster",
+        "location": "westcentralus",
+        "name": "samplemanagedcluster",
+        "type": "Microsoft.ContainerService/ManagedClusters",
+        "properties": {
+         "provisioningState": "Deleting",
+         "powerState": {
+          "code": "Running"
+         },
+         "kubernetesVersion": "1.22.6",
+         "dnsPrefix": "aso",
+         "fqdn": "aso-c1183bdc.hcp.westcentralus.azmk8s.io",
+         "azurePortalFQDN": "aso-c1183bdc.portal.hcp.westcentralus.azmk8s.io",
+         "agentPoolProfiles": [
+          {
+           "name": "pool1",
+           "count": 1,
+           "vmSize": "Standard_DS2_v2",
+           "osDiskSizeGB": 128,
+           "osDiskType": "Managed",
+           "kubeletDiskType": "OS",
+           "maxPods": 110,
+           "type": "VirtualMachineScaleSets",
+           "provisioningState": "Deleting",
+           "powerState": {
+            "code": "Running"
+           },
+           "orchestratorVersion": "1.22.6",
+           "mode": "System",
+           "osType": "Linux",
+           "osSKU": "Ubuntu",
+           "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.06.08",
+           "enableFIPS": false
+          }
+         ],
+         "servicePrincipalProfile": {
+          "clientId": "msi"
+         },
+         "nodeResourceGroup": "MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus",
+         "enableRBAC": true,
+         "networkProfile": {
+          "networkPlugin": "kubenet",
+          "loadBalancerSku": "Standard",
+          "loadBalancerProfile": {
+           "managedOutboundIPs": {
+            "count": 1
+           },
+           "effectiveOutboundIPs": [
+            {
+             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus/providers/Microsoft.Network/publicIPAddresses/417e6925-9203-4361-aa97-500c52e9a928"
+            }
+           ]
+          },
+          "podCidr": "10.244.0.0/16",
+          "serviceCidr": "10.0.0.0/16",
+          "dnsServiceIP": "10.0.0.10",
+          "dockerBridgeCidr": "172.17.0.1/16",
+          "outboundType": "loadBalancer"
+         },
+         "maxAgentPools": 100,
+         "identityProfile": {
+          "kubeletidentity": {
+           "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus/providers/Microsoft.ManagedIdentity/userAssignedIdentities/samplemanagedcluster-agentpool",
+           "clientId": "2c56ef78-b0a1-4161-bb2a-d3b690bddcea",
+           "objectId": "3f0f8e1f-d263-4208-8271-4578605b3608"
+          }
+         }
+        },
+        "identity": {
+         "type": "SystemAssigned",
+         "principalId": "33ffe9c7-ccc9-40e9-b14c-f311602f649f",
+         "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+        },
+        "sku": {
+         "name": "Basic",
+         "tier": "Free"
+        }
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "13"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster?api-version=2021-05-01
+    method: GET
+  response:
+    body: |-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster",
+        "location": "westcentralus",
+        "name": "samplemanagedcluster",
+        "type": "Microsoft.ContainerService/ManagedClusters",
+        "properties": {
+         "provisioningState": "Deleting",
+         "powerState": {
+          "code": "Running"
+         },
+         "kubernetesVersion": "1.22.6",
+         "dnsPrefix": "aso",
+         "fqdn": "aso-c1183bdc.hcp.westcentralus.azmk8s.io",
+         "azurePortalFQDN": "aso-c1183bdc.portal.hcp.westcentralus.azmk8s.io",
+         "agentPoolProfiles": [
+          {
+           "name": "pool1",
+           "count": 1,
+           "vmSize": "Standard_DS2_v2",
+           "osDiskSizeGB": 128,
+           "osDiskType": "Managed",
+           "kubeletDiskType": "OS",
+           "maxPods": 110,
+           "type": "VirtualMachineScaleSets",
+           "provisioningState": "Deleting",
+           "powerState": {
+            "code": "Running"
+           },
+           "orchestratorVersion": "1.22.6",
+           "mode": "System",
+           "osType": "Linux",
+           "osSKU": "Ubuntu",
+           "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.06.08",
+           "enableFIPS": false
+          }
+         ],
+         "servicePrincipalProfile": {
+          "clientId": "msi"
+         },
+         "nodeResourceGroup": "MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus",
+         "enableRBAC": true,
+         "networkProfile": {
+          "networkPlugin": "kubenet",
+          "loadBalancerSku": "Standard",
+          "loadBalancerProfile": {
+           "managedOutboundIPs": {
+            "count": 1
+           },
+           "effectiveOutboundIPs": [
+            {
+             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus/providers/Microsoft.Network/publicIPAddresses/417e6925-9203-4361-aa97-500c52e9a928"
+            }
+           ]
+          },
+          "podCidr": "10.244.0.0/16",
+          "serviceCidr": "10.0.0.0/16",
+          "dnsServiceIP": "10.0.0.10",
+          "dockerBridgeCidr": "172.17.0.1/16",
+          "outboundType": "loadBalancer"
+         },
+         "maxAgentPools": 100,
+         "identityProfile": {
+          "kubeletidentity": {
+           "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus/providers/Microsoft.ManagedIdentity/userAssignedIdentities/samplemanagedcluster-agentpool",
+           "clientId": "2c56ef78-b0a1-4161-bb2a-d3b690bddcea",
+           "objectId": "3f0f8e1f-d263-4208-8271-4578605b3608"
+          }
+         }
+        },
+        "identity": {
+         "type": "SystemAssigned",
+         "principalId": "33ffe9c7-ccc9-40e9-b14c-f311602f649f",
+         "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+        },
+        "sku": {
+         "name": "Basic",
+         "tier": "Free"
+        }
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "14"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster?api-version=2021-05-01
+    method: GET
+  response:
+    body: |-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster",
+        "location": "westcentralus",
+        "name": "samplemanagedcluster",
+        "type": "Microsoft.ContainerService/ManagedClusters",
+        "properties": {
+         "provisioningState": "Deleting",
+         "powerState": {
+          "code": "Running"
+         },
+         "kubernetesVersion": "1.22.6",
+         "dnsPrefix": "aso",
+         "fqdn": "aso-c1183bdc.hcp.westcentralus.azmk8s.io",
+         "azurePortalFQDN": "aso-c1183bdc.portal.hcp.westcentralus.azmk8s.io",
+         "agentPoolProfiles": [
+          {
+           "name": "pool1",
+           "count": 1,
+           "vmSize": "Standard_DS2_v2",
+           "osDiskSizeGB": 128,
+           "osDiskType": "Managed",
+           "kubeletDiskType": "OS",
+           "maxPods": 110,
+           "type": "VirtualMachineScaleSets",
+           "provisioningState": "Deleting",
+           "powerState": {
+            "code": "Running"
+           },
+           "orchestratorVersion": "1.22.6",
+           "mode": "System",
+           "osType": "Linux",
+           "osSKU": "Ubuntu",
+           "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.06.08",
+           "enableFIPS": false
+          }
+         ],
+         "servicePrincipalProfile": {
+          "clientId": "msi"
+         },
+         "nodeResourceGroup": "MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus",
+         "enableRBAC": true,
+         "networkProfile": {
+          "networkPlugin": "kubenet",
+          "loadBalancerSku": "Standard",
+          "loadBalancerProfile": {
+           "managedOutboundIPs": {
+            "count": 1
+           },
+           "effectiveOutboundIPs": [
+            {
+             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus/providers/Microsoft.Network/publicIPAddresses/417e6925-9203-4361-aa97-500c52e9a928"
+            }
+           ]
+          },
+          "podCidr": "10.244.0.0/16",
+          "serviceCidr": "10.0.0.0/16",
+          "dnsServiceIP": "10.0.0.10",
+          "dockerBridgeCidr": "172.17.0.1/16",
+          "outboundType": "loadBalancer"
+         },
+         "maxAgentPools": 100,
+         "identityProfile": {
+          "kubeletidentity": {
+           "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus/providers/Microsoft.ManagedIdentity/userAssignedIdentities/samplemanagedcluster-agentpool",
+           "clientId": "2c56ef78-b0a1-4161-bb2a-d3b690bddcea",
+           "objectId": "3f0f8e1f-d263-4208-8271-4578605b3608"
+          }
+         }
+        },
+        "identity": {
+         "type": "SystemAssigned",
+         "principalId": "33ffe9c7-ccc9-40e9-b14c-f311602f649f",
+         "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+        },
+        "sku": {
+         "name": "Basic",
+         "tier": "Free"
+        }
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "15"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster?api-version=2021-05-01
+    method: GET
+  response:
+    body: |-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster",
+        "location": "westcentralus",
+        "name": "samplemanagedcluster",
+        "type": "Microsoft.ContainerService/ManagedClusters",
+        "properties": {
+         "provisioningState": "Deleting",
+         "powerState": {
+          "code": "Running"
+         },
+         "kubernetesVersion": "1.22.6",
+         "dnsPrefix": "aso",
+         "fqdn": "aso-c1183bdc.hcp.westcentralus.azmk8s.io",
+         "azurePortalFQDN": "aso-c1183bdc.portal.hcp.westcentralus.azmk8s.io",
+         "agentPoolProfiles": [
+          {
+           "name": "pool1",
+           "count": 1,
+           "vmSize": "Standard_DS2_v2",
+           "osDiskSizeGB": 128,
+           "osDiskType": "Managed",
+           "kubeletDiskType": "OS",
+           "maxPods": 110,
+           "type": "VirtualMachineScaleSets",
+           "provisioningState": "Deleting",
+           "powerState": {
+            "code": "Running"
+           },
+           "orchestratorVersion": "1.22.6",
+           "mode": "System",
+           "osType": "Linux",
+           "osSKU": "Ubuntu",
+           "nodeImageVersion": "AKSUbuntu-1804gen2containerd-2022.06.08",
+           "enableFIPS": false
+          }
+         ],
+         "servicePrincipalProfile": {
+          "clientId": "msi"
+         },
+         "nodeResourceGroup": "MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus",
+         "enableRBAC": true,
+         "networkProfile": {
+          "networkPlugin": "kubenet",
+          "loadBalancerSku": "Standard",
+          "loadBalancerProfile": {
+           "managedOutboundIPs": {
+            "count": 1
+           },
+           "effectiveOutboundIPs": [
+            {
+             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus/providers/Microsoft.Network/publicIPAddresses/417e6925-9203-4361-aa97-500c52e9a928"
+            }
+           ]
+          },
+          "podCidr": "10.244.0.0/16",
+          "serviceCidr": "10.0.0.0/16",
+          "dnsServiceIP": "10.0.0.10",
+          "dockerBridgeCidr": "172.17.0.1/16",
+          "outboundType": "loadBalancer"
+         },
+         "maxAgentPools": 100,
+         "identityProfile": {
+          "kubeletidentity": {
+           "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/MC_asotest-rg-qqjpit_samplemanagedcluster_westcentralus/providers/Microsoft.ManagedIdentity/userAssignedIdentities/samplemanagedcluster-agentpool",
+           "clientId": "2c56ef78-b0a1-4161-bb2a-d3b690bddcea",
+           "objectId": "3f0f8e1f-d263-4208-8271-4578605b3608"
+          }
+         }
+        },
+        "identity": {
+         "type": "SystemAssigned",
+         "principalId": "33ffe9c7-ccc9-40e9-b14c-f311602f649f",
+         "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47"
+        },
+        "sku": {
+         "name": "Basic",
+         "tier": "Free"
+        }
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "16"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit/providers/Microsoft.ContainerService/managedClusters/samplemanagedcluster?api-version=2021-05-01
+    method: GET
+  response:
+    body: |-
+      {
+        "code": "NotFound",
+        "message": "Could not find managed cluster resource: samplemanagedcluster in subscription: 00000000-0000-0000-0000-000000000000, resourceGroup: asotest-rg-qqjpit.",
+        "subcode": ""
+       }
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "209"
+      Content-Type:
+      - application/json
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit?api-version=2020-06-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/operationresults/eyJqb2JJZCI6IlJFU09VUkNFR1JPVVBERUxFVElPTkpPQi1BU09URVNUOjJEUkc6MkRRUUpQSVQtV0VTVFVTMiIsImpvYkxvY2F0aW9uIjoid2VzdHVzMiJ9?api-version=2020-06-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "15"
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit","name":"asotest-rg-qqjpit","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit","name":"asotest-rg-qqjpit","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit","name":"asotest-rg-qqjpit","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "4"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit","name":"asotest-rg-qqjpit","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "5"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qqjpit?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-qqjpit''
+      could not be found."}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "109"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
+    duration: ""

@@ -1,5 +1,5 @@
 apiVersion: documentdb.azure.com/v1beta20210515
-kind: SQLDatabaseContainerThroughputSetting
+kind: SqlDatabaseContainerThroughputSetting
 metadata:
   name: sample-mongo-throughput-beta
   namespace: default

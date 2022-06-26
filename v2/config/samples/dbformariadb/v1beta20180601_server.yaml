@@ -6,10 +6,10 @@ metadata:
 spec:
   location: eastus
   owner:
-    aso-sample-rg
+    name: aso-sample-rg
   properties:
     serverPropertiesForDefaultCreate:
-      administratorLogin: "hellouser"
+      administratorLogin: hellouser
       administratorLoginPassword:
         # This is a reference to a k8s secret
         name: server-admin-pw

@@ -1,7 +1,7 @@
 apiVersion: containerservice.azure.com/v1beta20210501
 kind: ManagedClustersAgentPool
 metadata:
-  name: pool3
+  name: pool2
   namespace: default
 spec:
   owner:
