@@ -73,11 +73,7 @@ func (r *ResourceRegistrationFile) AsAst() (*dst.File, error) {
 	}
 
 	// getKnownStorageTypes() function
-	knownStorageTypes := createGetKnownStorageTypesFunc(
-		codeGenContext,
-		r.storageVersionResources,
-		r.indexFunctions,
-		r.secretPropertyKeys)
+	knownStorageTypes := r.createGetKnownStorageTypesFunc(codeGenContext)
 	decls = append(decls, knownStorageTypes)
 
 	// getKnownTypes() function
@@ -126,7 +122,7 @@ func (r *ResourceRegistrationFile) AsAst() (*dst.File, error) {
 	return result, nil
 }
 
-// generateImports generates the a PackageImportSet containing the imports required for the resources
+// generateImports generates the PackageImportSet containing the imports required for the resources
 // in the ResourceRegistrationFile.
 func (r *ResourceRegistrationFile) generateImports() *astmodel.PackageImportSet {
 	requiredImports := astmodel.NewPackageImportSet()
@@ -262,12 +258,10 @@ func createGetKnownTypesFunc(codeGenerationContext *astmodel.CodeGenerationConte
 //			...
 //			return result
 //		}
-func createGetKnownStorageTypesFunc(
+func (r *ResourceRegistrationFile) createGetKnownStorageTypesFunc(
 	codeGenerationContext *astmodel.CodeGenerationContext,
-	resources []astmodel.TypeName,
-	indexFunctions map[astmodel.TypeName][]*functions.IndexRegistrationFunction,
-	secretPropertyKeys map[astmodel.TypeName][]string,
 ) dst.Decl {
+
 	funcName := "getKnownStorageTypes"
 	funcComment := "returns the list of storage types which can be reconciled."
 
@@ -277,10 +271,10 @@ func createGetKnownStorageTypesFunc(
 		astmodel.NewArrayType(astmodel.NewOptionalType(astmodel.StorageTypeRegistrationType)).AsType(codeGenerationContext),
 		"")
 
-	sort.Slice(resources, orderByImportedTypeName(codeGenerationContext, resources))
+	sort.Slice(r.storageVersionResources, orderByImportedTypeName(codeGenerationContext, r.storageVersionResources))
 
-	resourceAppendStatements := make([]dst.Stmt, 0, len(resources))
-	for _, typeName := range resources {
+	resourceAppendStatements := make([]dst.Stmt, 0, len(r.storageVersionResources))
+	for _, typeName := range r.storageVersionResources {
 		newStorageTypeBuilder := astbuilder.NewCompositeLiteralBuilder(astmodel.StorageTypeRegistrationType.AsType(codeGenerationContext))
 		newStorageTypeBuilder.AddField("Obj", astbuilder.CallFunc("new", typeName.AsType(codeGenerationContext)))
 
@@ -291,7 +285,7 @@ func createGetKnownStorageTypesFunc(
 		//			Func: <func>,
 		//		}
 		//	}
-		if indexFuncs, ok := indexFunctions[typeName]; ok {
+		if indexFuncs, ok := r.indexFunctions[typeName]; ok {
 			sliceBuilder := astbuilder.NewSliceLiteralBuilder(astmodel.IndexRegistrationType.AsType(codeGenerationContext), true)
 			sort.Slice(indexFuncs, orderByFunctionName(indexFuncs))
 
@@ -312,7 +306,7 @@ func createGetKnownStorageTypesFunc(
 		//			MakeEventHandler: <func>,
 		//		}
 		//	}
-		if secretKeys, ok := secretPropertyKeys[typeName]; ok {
+		if secretKeys, ok := r.secretPropertyKeys[typeName]; ok {
 			newWatchBuilder := astbuilder.NewCompositeLiteralBuilder(astmodel.WatchRegistrationType.AsType(codeGenerationContext))
 			sort.Strings(secretKeys)
 
