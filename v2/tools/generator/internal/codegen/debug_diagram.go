@@ -38,7 +38,7 @@ func newDebugDiagram(debugDir string) *debugDiagram {
 func (diagram *debugDiagram) diagramPipeline(stages []*pipeline.Stage) error {
 	dotsrc := diagram.createDiagram(stages)
 	filename := filepath.Join(diagram.debugDir, "pipeline.dot")
-	err := ioutil.WriteFile(filename, dotsrc, 0644)
+	err := ioutil.WriteFile(filename, dotsrc, 0600)
 	klog.V(2).Infof("Wrote diagram for pipeline to %s", filename)
 	return errors.Wrapf(err, "failed to write diagram to %s", filename)
 }

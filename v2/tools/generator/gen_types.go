@@ -40,7 +40,8 @@ func NewGenTypesCommand() (*cobra.Command, error) {
 			if debugMode != nil && *debugMode != "" {
 				// Create a temporary folder for the debug output
 				// and set the output path to that.
-				tmpDir, err := ioutil.TempDir("", "aso-gen-debug-")
+				var tmpDir string
+				tmpDir, err = ioutil.TempDir("", "aso-gen-debug-")
 				if err != nil {
 					klog.Errorf("Error creating temporary directory: %s\n", err)
 					return err

@@ -50,7 +50,7 @@ func (dr *debugReporter) ReportStage(stage int, description string, state *pipel
 
 	// Save the template to the debug directory
 	filename := dr.createFileName(stage, description)
-	err = ioutil.WriteFile(filename, []byte(report), 0644)
+	err = ioutil.WriteFile(filename, []byte(report), 0600)
 	return errors.Wrapf(err, "failed to write debug log to %s", filename)
 }
 
