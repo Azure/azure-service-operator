@@ -68,10 +68,10 @@ var cases = []struct {
 		UseRandomName:  false,
 		DeleteChildren: false,
 	},
-	//{
-	//	Group:         "eventgrid",
-	//	UseRandomName: true,
-	//},
+	{
+		Group:         "eventgrid",
+		UseRandomName: true,
+	},
 	{
 		Group:         "eventhub",
 		UseRandomName: true,
