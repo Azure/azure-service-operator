@@ -214,23 +214,16 @@ func createGetKnownTypesFunc(codeGenerationContext *astmodel.CodeGenerationConte
 		},
 	}
 
-	var body []dst.Stmt
-	body = append(body, resultVar)
-	body = append(body, resourceAppendStatements...)
-	body = append(body, returnStmt)
+	body := astbuilder.Statements(resultVar, resourceAppendStatements, returnStmt)
 
 	f := &astbuilder.FuncDetails{
-		Name:   funcName,
-		Body:   body,
-		Params: []*dst.Field{},
-		Returns: []*dst.Field{
-			{
-				Type: &dst.ArrayType{
-					Elt: astbuilder.Selector(dst.NewIdent(client), "Object"),
-				},
-			},
-		},
+		Name: funcName,
+		Body: body,
 	}
+
+	f.AddReturn(
+		&dst.ArrayType{
+			Elt: astbuilder.Selector(dst.NewIdent(client), "Object")})
 	f.AddComments(funcComment)
 
 	return f.DefineFunc(), nil
@@ -360,22 +353,17 @@ func (r *ResourceRegistrationFile) createGetKnownStorageTypesFunc(
 		},
 	}
 
-	var body []dst.Stmt
-	body = append(body, resultVar)
-	body = append(body, resourceAppendStatements...)
-	body = append(body, returnStmt)
+	body := astbuilder.Statements(resultVar, resourceAppendStatements, returnStmt)
 
 	f := &astbuilder.FuncDetails{
-		Name:   funcName,
-		Body:   body,
-		Params: []*dst.Field{},
-		Returns: []*dst.Field{
-			{
-				Type: astmodel.NewArrayType(
-					astmodel.NewOptionalType(astmodel.StorageTypeRegistrationType)).AsType(codeGenerationContext),
-			},
-		},
+		Name: funcName,
+		Body: body,
 	}
+
+	f.AddReturn(
+		astmodel.NewArrayType(
+			astmodel.NewOptionalType(astmodel.StorageTypeRegistrationType)).
+			AsType(codeGenerationContext))
 	f.AddComments(funcComment)
 
 	return f.DefineFunc()
@@ -403,10 +391,7 @@ func (r *ResourceRegistrationFile) createGetResourceExtensions(context *astmodel
 
 	returnStmt := astbuilder.Returns(resultIdent)
 
-	var body []dst.Stmt
-	body = append(body, resultVar)
-	body = append(body, resourceAppendStatements...)
-	body = append(body, returnStmt)
+	body := astbuilder.Statements(resultVar, resourceAppendStatements, returnStmt)
 
 	f := &astbuilder.FuncDetails{
 		Name: funcName,
@@ -479,21 +464,14 @@ func (r *ResourceRegistrationFile) createCreateSchemeFunc(codeGenerationContext 
 		},
 	}
 
-	var body []dst.Stmt
-	body = append(body, initSchemeVar)
-	body = append(body, clientGoSchemeAssign)
-	body = append(body, groupVersionAssignments...)
-	body = append(body, returnStmt)
+	body := astbuilder.Statements(initSchemeVar, clientGoSchemeAssign, groupVersionAssignments, returnStmt)
 
 	f := &astbuilder.FuncDetails{
 		Name: "createScheme",
 		Body: body,
 	}
 
-	f.AddReturn(
-		astbuilder.Dereference(
-			astbuilder.Selector(dst.NewIdent(runtime), "Scheme")))
-
+	f.AddReturn(astbuilder.Dereference(astbuilder.Selector(dst.NewIdent(runtime), "Scheme")))
 	f.AddComments("creates a Scheme containing the clientgo types and all of the custom types returned by getKnownTypes")
 
 	return f.DefineFunc(), nil
