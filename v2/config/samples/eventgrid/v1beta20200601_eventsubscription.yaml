@@ -9,7 +9,7 @@ spec:
     group: eventgrid.azure.com
     kind: Domain
   destination:
-    storageQueue:
+    storageQueueEventSubscriptionDestination:
       endpointType: StorageQueue
       properties: 
         resourceReference: 

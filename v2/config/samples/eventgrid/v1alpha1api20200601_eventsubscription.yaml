@@ -7,9 +7,9 @@ spec:
   owner:
     name: sample-domain-topic
     group: eventgrid.azure.com
-    kind: Domain
+    kind: Topic
   destination:
-    storageQueue:
+    storageQueueEventSubscriptionDestination:
       endpointType: StorageQueue
       properties: 
         resourceReference: 
