@@ -25,7 +25,7 @@ func MakeSlice(listType dst.Expr, len dst.Expr) *dst.CallExpr {
 	}
 }
 
-// AppendItemToSlice returns a statement for a slice append
+// AppendItemToSlice returns a statement to append a single item to a slice
 //
 // <lhs> = append(<lhs>, <rhs>)
 //
@@ -33,6 +33,22 @@ func AppendItemToSlice(lhs dst.Expr, rhs dst.Expr) dst.Stmt {
 	return SimpleAssignment(
 		dst.Clone(lhs).(dst.Expr),
 		CallFunc("append", dst.Clone(lhs).(dst.Expr), dst.Clone(rhs).(dst.Expr)))
+}
+
+// AppendItemsToSlice returns a statement to append many individual items to a slice
+//
+// <lhs> = append(<lhs>, <rhs>, <rhs>, <rhs>, ...)
+//
+func AppendItemsToSlice(lhs dst.Expr, rhs ...dst.Expr) dst.Stmt {
+	args := make([]dst.Expr, 0, len(rhs)+1)
+	args = append(args, lhs)
+	for _, arg := range rhs {
+		args = append(args, dst.Clone(arg).(dst.Expr))
+	}
+
+	return SimpleAssignment(
+		dst.Clone(lhs).(dst.Expr),
+		CallFunc("append", args...))
 }
 
 // IterateOverSlice creates a statement to iterate over the content of a list using the specified

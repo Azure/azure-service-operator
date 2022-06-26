@@ -201,18 +201,25 @@ func createGetKnownTypesFunc(codeGenerationContext *astmodel.CodeGenerationConte
 	sort.Slice(resources, orderByImportedTypeName(codeGenerationContext, resources))
 
 	resourceAppendStatements := make([]dst.Stmt, 0, len(resources))
+	batch := make([]dst.Expr, 0, 10)
+	var lastPkg astmodel.PackageReference
 	for _, typeName := range resources {
-		appendStmt := astbuilder.AppendItemToSlice(
-			resultIdent,
-			astbuilder.CallFunc("new", typeName.AsType(codeGenerationContext)))
+		if len(batch) > 0 && typeName.PackageReference != lastPkg {
+			appendStmt := astbuilder.AppendItemsToSlice(resultIdent, batch...)
+			resourceAppendStatements = append(resourceAppendStatements, appendStmt)
+			batch = batch[:0]
+		}
+
+		batch = append(batch, astbuilder.CallFunc("new", typeName.AsType(codeGenerationContext)))
+		lastPkg = typeName.PackageReference
+	}
+
+	if len(batch) > 0 {
+		appendStmt := astbuilder.AppendItemsToSlice(resultIdent, batch...)
 		resourceAppendStatements = append(resourceAppendStatements, appendStmt)
 	}
 
-	returnStmt := &dst.ReturnStmt{
-		Results: []dst.Expr{
-			resultIdent,
-		},
-	}
+	returnStmt := astbuilder.Returns(resultIdent)
 
 	body := astbuilder.Statements(resultVar, resourceAppendStatements, returnStmt)
 
