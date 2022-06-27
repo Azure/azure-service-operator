@@ -134,9 +134,8 @@ var cases = []struct {
 }
 
 func Test_Samples_CreationAndDeletion(t *testing.T) {
-	t.Parallel()
-
 	for _, test := range cases {
+		test := test
 		testName := strings.Join(
 			[]string{
 				"Test",
@@ -144,6 +143,7 @@ func Test_Samples_CreationAndDeletion(t *testing.T) {
 				"CreationAndDeletion",
 			}, "_")
 		t.Run(testName, func(t *testing.T) {
+			t.Parallel()
 			tc := globalTestContext.ForTest(t)
 			runGroupTest(
 				tc,
