@@ -138,64 +138,40 @@ import (
 func getKnownStorageTypes() []*registration.StorageType {
 	var result []*registration.StorageType
 	result = append(result, &registration.StorageType{
-		Obj:     new(authorization_v20200801ps.RoleAssignment),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(authorization_v20200801ps.RoleAssignment),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(batch_v20210101s.BatchAccount),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(batch_v20210101s.BatchAccount),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(cache_v20201201s.Redis),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(cache_v20201201s.Redis),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(cache_v20201201s.RedisFirewallRule),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(cache_v20201201s.RedisFirewallRule),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(cache_v20201201s.RedisLinkedServer),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(cache_v20201201s.RedisLinkedServer),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(cache_v20201201s.RedisPatchSchedule),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(cache_v20201201s.RedisPatchSchedule),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(cache_v20210301s.RedisEnterprise),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(cache_v20210301s.RedisEnterprise),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(cache_v20210301s.RedisEnterpriseDatabase),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(cache_v20210301s.RedisEnterpriseDatabase),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(cdn_v20210601s.Profile),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(cdn_v20210601s.Profile),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(cdn_v20210601s.ProfilesEndpoint),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(cdn_v20210601s.ProfilesEndpoint),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(compute_v20200930s.Disk),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(compute_v20200930s.Disk),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(compute_v20200930s.Snapshot),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(compute_v20200930s.Snapshot),
 	})
 	result = append(result, &registration.StorageType{
 		Obj: new(compute_v20201201s.VirtualMachine),
@@ -228,9 +204,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(compute_v20210701s.Image),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(compute_v20210701s.Image),
 	})
 	result = append(result, &registration.StorageType{
 		Obj: new(containerinstance_v20211001s.ContainerGroup),
@@ -248,29 +222,19 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(containerregistry_v20210901s.Registry),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(containerregistry_v20210901s.Registry),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(containerservice_v20210501s.ManagedCluster),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(containerservice_v20210501s.ManagedCluster),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(containerservice_v20210501s.ManagedClustersAgentPool),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(containerservice_v20210501s.ManagedClustersAgentPool),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(dbformariadb_v20180601s.Configuration),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(dbformariadb_v20180601s.Configuration),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(dbformariadb_v20180601s.Database),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(dbformariadb_v20180601s.Database),
 	})
 	result = append(result, &registration.StorageType{
 		Obj: new(dbformariadb_v20180601s.Server),
@@ -303,14 +267,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(dbformysql_v20210501s.FlexibleServersDatabase),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(dbformysql_v20210501s.FlexibleServersDatabase),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(dbformysql_v20210501s.FlexibleServersFirewallRule),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(dbformysql_v20210501s.FlexibleServersFirewallRule),
 	})
 	result = append(result, &registration.StorageType{
 		Obj: new(dbforpostgresql_v20210601s.FlexibleServer),
@@ -328,144 +288,88 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(dbforpostgresql_v20210601s.FlexibleServersConfiguration),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(dbforpostgresql_v20210601s.FlexibleServersConfiguration),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(dbforpostgresql_v20210601s.FlexibleServersDatabase),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(dbforpostgresql_v20210601s.FlexibleServersDatabase),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(dbforpostgresql_v20210601s.FlexibleServersFirewallRule),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(dbforpostgresql_v20210601s.FlexibleServersFirewallRule),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(documentdb_v20210515s.DatabaseAccount),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(documentdb_v20210515s.DatabaseAccount),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(documentdb_v20210515s.MongodbDatabase),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(documentdb_v20210515s.MongodbDatabase),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(documentdb_v20210515s.MongodbDatabaseCollection),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(documentdb_v20210515s.MongodbDatabaseCollection),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(documentdb_v20210515s.MongodbDatabaseCollectionThroughputSetting),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(documentdb_v20210515s.MongodbDatabaseCollectionThroughputSetting),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(documentdb_v20210515s.MongodbDatabaseThroughputSetting),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(documentdb_v20210515s.MongodbDatabaseThroughputSetting),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(documentdb_v20210515s.SqlDatabase),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(documentdb_v20210515s.SqlDatabase),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(documentdb_v20210515s.SqlDatabaseContainer),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(documentdb_v20210515s.SqlDatabaseContainer),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(documentdb_v20210515s.SqlDatabaseContainerStoredProcedure),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(documentdb_v20210515s.SqlDatabaseContainerStoredProcedure),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(documentdb_v20210515s.SqlDatabaseContainerThroughputSetting),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(documentdb_v20210515s.SqlDatabaseContainerThroughputSetting),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(documentdb_v20210515s.SqlDatabaseContainerTrigger),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(documentdb_v20210515s.SqlDatabaseContainerTrigger),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(documentdb_v20210515s.SqlDatabaseContainerUserDefinedFunction),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(documentdb_v20210515s.SqlDatabaseContainerUserDefinedFunction),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(documentdb_v20210515s.SqlDatabaseThroughputSetting),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(documentdb_v20210515s.SqlDatabaseThroughputSetting),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(eventgrid_v20200601s.Domain),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(eventgrid_v20200601s.Domain),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(eventgrid_v20200601s.DomainsTopic),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(eventgrid_v20200601s.DomainsTopic),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(eventgrid_v20200601s.EventSubscription),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(eventgrid_v20200601s.EventSubscription),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(eventgrid_v20200601s.Topic),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(eventgrid_v20200601s.Topic),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(eventhub_v20211101s.Namespace),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(eventhub_v20211101s.Namespace),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(eventhub_v20211101s.NamespacesAuthorizationRule),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(eventhub_v20211101s.NamespacesAuthorizationRule),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(eventhub_v20211101s.NamespacesEventhub),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(eventhub_v20211101s.NamespacesEventhub),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(eventhub_v20211101s.NamespacesEventhubsAuthorizationRule),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(eventhub_v20211101s.NamespacesEventhubsAuthorizationRule),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(eventhub_v20211101s.NamespacesEventhubsConsumerGroup),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(eventhub_v20211101s.NamespacesEventhubsConsumerGroup),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(insights_v20180501ps.Webtest),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(insights_v20180501ps.Webtest),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(insights_v20200202s.Component),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(insights_v20200202s.Component),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(keyvault_v20210401ps.Vault),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(keyvault_v20210401ps.Vault),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(machinelearningservices_v20210701s.Workspace),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(machinelearningservices_v20210701s.Workspace),
 	})
 	result = append(result, &registration.StorageType{
 		Obj: new(machinelearningservices_v20210701s.WorkspacesCompute),
@@ -495,124 +399,76 @@ func getKnownStorageTypes() []*registration.StorageType {
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(machinelearningservices_v20210701s.WorkspacesConnection),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(machinelearningservices_v20210701s.WorkspacesConnection),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(managedidentity_v20181130s.UserAssignedIdentity),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(managedidentity_v20181130s.UserAssignedIdentity),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(network_v20201101s.LoadBalancer),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(network_v20201101s.LoadBalancer),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(network_v20201101s.NetworkInterface),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(network_v20201101s.NetworkInterface),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(network_v20201101s.NetworkSecurityGroup),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(network_v20201101s.NetworkSecurityGroup),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(network_v20201101s.NetworkSecurityGroupsSecurityRule),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(network_v20201101s.NetworkSecurityGroupsSecurityRule),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(network_v20201101s.PublicIPAddress),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(network_v20201101s.PublicIPAddress),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(network_v20201101s.RouteTable),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(network_v20201101s.RouteTable),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(network_v20201101s.RouteTablesRoute),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(network_v20201101s.RouteTablesRoute),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(network_v20201101s.VirtualNetwork),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(network_v20201101s.VirtualNetwork),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(network_v20201101s.VirtualNetworkGateway),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(network_v20201101s.VirtualNetworkGateway),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(network_v20201101s.VirtualNetworksSubnet),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(network_v20201101s.VirtualNetworksSubnet),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(network_v20201101s.VirtualNetworksVirtualNetworkPeering),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(network_v20201101s.VirtualNetworksVirtualNetworkPeering),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(operationalinsights_v20210601s.Workspace),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(operationalinsights_v20210601s.Workspace),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(servicebus_v20210101ps.Namespace),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(servicebus_v20210101ps.Namespace),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(servicebus_v20210101ps.NamespacesQueue),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(servicebus_v20210101ps.NamespacesQueue),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(servicebus_v20210101ps.NamespacesTopic),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(servicebus_v20210101ps.NamespacesTopic),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(signalrservice_v20211001s.SignalR),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(signalrservice_v20211001s.SignalR),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(storage_v20210401s.StorageAccount),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(storage_v20210401s.StorageAccount),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(storage_v20210401s.StorageAccountsBlobService),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(storage_v20210401s.StorageAccountsBlobService),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(storage_v20210401s.StorageAccountsBlobServicesContainer),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(storage_v20210401s.StorageAccountsBlobServicesContainer),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(storage_v20210401s.StorageAccountsManagementPolicy),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(storage_v20210401s.StorageAccountsManagementPolicy),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(storage_v20210401s.StorageAccountsQueueService),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(storage_v20210401s.StorageAccountsQueueService),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(storage_v20210401s.StorageAccountsQueueServicesQueue),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(storage_v20210401s.StorageAccountsQueueServicesQueue),
 	})
 	return result
 }
@@ -852,12 +708,16 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(insights_v20200202s.Component))
 	result = append(result, new(keyvault_v20210401p.Vault))
 	result = append(result, new(keyvault_v20210401ps.Vault))
-	result = append(result, new(machinelearningservices_v20210701.Workspace))
-	result = append(result, new(machinelearningservices_v20210701.WorkspacesCompute))
-	result = append(result, new(machinelearningservices_v20210701.WorkspacesConnection))
-	result = append(result, new(machinelearningservices_v20210701s.Workspace))
-	result = append(result, new(machinelearningservices_v20210701s.WorkspacesCompute))
-	result = append(result, new(machinelearningservices_v20210701s.WorkspacesConnection))
+	result = append(
+		result,
+		new(machinelearningservices_v20210701.Workspace),
+		new(machinelearningservices_v20210701.WorkspacesCompute),
+		new(machinelearningservices_v20210701.WorkspacesConnection))
+	result = append(
+		result,
+		new(machinelearningservices_v20210701s.Workspace),
+		new(machinelearningservices_v20210701s.WorkspacesCompute),
+		new(machinelearningservices_v20210701s.WorkspacesConnection))
 	result = append(result, new(managedidentity_alpha20181130.UserAssignedIdentity))
 	result = append(result, new(managedidentity_alpha20181130s.UserAssignedIdentity))
 	result = append(result, new(managedidentity_v20181130.UserAssignedIdentity))
@@ -943,6 +803,7 @@ func getKnownTypes() []client.Object {
 		new(storage_alpha20210401.StorageAccount),
 		new(storage_alpha20210401.StorageAccountsBlobService),
 		new(storage_alpha20210401.StorageAccountsBlobServicesContainer),
+		new(storage_alpha20210401.StorageAccountsManagementPolicy),
 		new(storage_alpha20210401.StorageAccountsQueueService),
 		new(storage_alpha20210401.StorageAccountsQueueServicesQueue))
 	result = append(
@@ -950,6 +811,7 @@ func getKnownTypes() []client.Object {
 		new(storage_alpha20210401s.StorageAccount),
 		new(storage_alpha20210401s.StorageAccountsBlobService),
 		new(storage_alpha20210401s.StorageAccountsBlobServicesContainer),
+		new(storage_alpha20210401s.StorageAccountsManagementPolicy),
 		new(storage_alpha20210401s.StorageAccountsQueueService),
 		new(storage_alpha20210401s.StorageAccountsQueueServicesQueue))
 	result = append(

@@ -288,15 +288,16 @@ func (r *ResourceRegistrationFile) createGetKnownStorageTypesFunc(
 		if indexFuncs, ok := r.indexFunctions[typeName]; ok {
 			sliceBuilder := astbuilder.NewSliceLiteralBuilder(astmodel.IndexRegistrationType.AsType(codeGenerationContext), true)
 			sort.Slice(indexFuncs, orderByFunctionName(indexFuncs))
+			if len(indexFuncs) > 0 {
+				for _, indexFunc := range indexFuncs {
+					newIndexFunctionBuilder := astbuilder.NewCompositeLiteralBuilder(astmodel.IndexRegistrationType.AsType(codeGenerationContext))
+					newIndexFunctionBuilder.AddField("Key", astbuilder.StringLiteral(indexFunc.IndexKey()))
+					newIndexFunctionBuilder.AddField("Func", dst.NewIdent(indexFunc.Name()))
+					sliceBuilder.AddElement(newIndexFunctionBuilder.Build())
+				}
 
-			for _, indexFunc := range indexFuncs {
-				newIndexFunctionBuilder := astbuilder.NewCompositeLiteralBuilder(astmodel.IndexRegistrationType.AsType(codeGenerationContext))
-				newIndexFunctionBuilder.AddField("Key", astbuilder.StringLiteral(indexFunc.IndexKey()))
-				newIndexFunctionBuilder.AddField("Func", dst.NewIdent(indexFunc.Name()))
-				sliceBuilder.AddElement(newIndexFunctionBuilder.Build())
+				newStorageTypeBuilder.AddField("Indexes", sliceBuilder.Build())
 			}
-			// astbuilder.SliceLiteral(astmodel.IndexRegistrationType.AsType(codeGenerationContext), indexRegistrations...)
-			newStorageTypeBuilder.AddField("Indexes", sliceBuilder.Build())
 		}
 
 		// Register additional watches (if needed):
@@ -340,12 +341,11 @@ func (r *ResourceRegistrationFile) createGetKnownStorageTypesFunc(
 				astbuilder.AddrOf(astbuilder.NewCompositeLiteralBuilder(listTypeName).Build()))
 			newWatchBuilder.AddField("MakeEventHandler", eventHandler)
 
-			sliceBuilder := astbuilder.NewSliceLiteralBuilder(astmodel.WatchRegistrationType.AsType(codeGenerationContext), true)
 			if len(secretKeys) > 0 {
+				sliceBuilder := astbuilder.NewSliceLiteralBuilder(astmodel.WatchRegistrationType.AsType(codeGenerationContext), true)
 				sliceBuilder.AddElement(newWatchBuilder.Build())
+				newStorageTypeBuilder.AddField("Watches", sliceBuilder.Build())
 			}
-
-			newStorageTypeBuilder.AddField("Watches", sliceBuilder.Build())
 		}
 
 		appendStmt := astbuilder.AppendItemToSlice(
