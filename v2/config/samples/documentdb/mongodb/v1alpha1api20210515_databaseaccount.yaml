@@ -1,7 +1,7 @@
 apiVersion: documentdb.azure.com/v1alpha1api20210515
 kind: DatabaseAccount
 metadata:
-  name: sample-db-account
+  name: sample-db-account-alpha
   namespace: default
 spec:
   location: westus2
