@@ -190,12 +190,10 @@ func createGetKnownTypesFunc(codeGenerationContext *astmodel.CodeGenerationConte
 	}
 
 	resultIdent := dst.NewIdent("result")
-	resultVar := astbuilder.LocalVariableDeclaration(
-		resultIdent.String(),
-		&dst.ArrayType{
-			Elt: astbuilder.Selector(dst.NewIdent(client), "Object"),
-		},
-		"")
+	resultType := &dst.ArrayType{
+		Elt: astbuilder.Selector(dst.NewIdent(client), "Object"),
+	}
+	resultVar := astbuilder.LocalVariableDeclaration(resultIdent.String(), resultType, "")
 
 	// Sort the resources for a deterministic file layout
 	sort.Slice(resources, orderByImportedTypeName(codeGenerationContext, resources))
@@ -228,9 +226,7 @@ func createGetKnownTypesFunc(codeGenerationContext *astmodel.CodeGenerationConte
 		Body: body,
 	}
 
-	f.AddReturn(
-		&dst.ArrayType{
-			Elt: astbuilder.Selector(dst.NewIdent(client), "Object")})
+	f.AddReturn(resultType)
 	f.AddComments(funcComment)
 
 	return f.DefineFunc(), nil
