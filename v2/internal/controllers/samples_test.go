@@ -134,6 +134,8 @@ var cases = []struct {
 }
 
 func Test_Samples_CreationAndDeletion(t *testing.T) {
+	t.Parallel()
+
 	for _, test := range cases {
 		test := test
 		testName := strings.Join(
@@ -181,8 +183,6 @@ func runGroupTest(tc *testcommon.KubePerTestContext, group string, useRandomName
 }
 
 func createAndDeleteResourceTree(tc *testcommon.KubePerTestContext, hashMap *linkedhashmap.Map, isRef bool, deleteChildren bool, index int) {
-
-	var secrets []*v1.Secret
 	vals := hashMap.Values()
 	if index >= hashMap.Size() {
 		return
@@ -194,6 +194,7 @@ func createAndDeleteResourceTree(tc *testcommon.KubePerTestContext, hashMap *lin
 		return
 	}
 
+	var secrets []*v1.Secret
 	for ref, _ := range refs {
 		password := tc.Namer.GeneratePasswordOfLength(40)
 
