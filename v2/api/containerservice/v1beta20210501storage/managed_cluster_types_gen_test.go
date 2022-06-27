@@ -276,6 +276,7 @@ func AddRelatedPropertyGeneratorsForManagedClustersSpec(gens map[string]gopter.G
 	gens["IdentityProfile"] = gen.MapOf(gen.AlphaString(), Componentsqit0EtschemasmanagedclusterpropertiespropertiesidentityprofileadditionalpropertiesGenerator())
 	gens["LinuxProfile"] = gen.PtrOf(ContainerServiceLinuxProfileGenerator())
 	gens["NetworkProfile"] = gen.PtrOf(ContainerServiceNetworkProfileGenerator())
+	gens["OperatorSpec"] = gen.PtrOf(ManagedClusterOperatorSpecGenerator())
 	gens["PodIdentityProfile"] = gen.PtrOf(ManagedClusterPodIdentityProfileGenerator())
 	gens["PrivateLinkResources"] = gen.SliceOf(PrivateLinkResourceGenerator())
 	gens["ServicePrincipalProfile"] = gen.PtrOf(ManagedClusterServicePrincipalProfileGenerator())
@@ -1691,6 +1692,66 @@ func AddRelatedPropertyGeneratorsForManagedClusterIdentityStatus(gens map[string
 	gens["UserAssignedIdentities"] = gen.MapOf(gen.AlphaString(), ManagedClusterIdentityStatusUserAssignedIdentitiesGenerator())
 }
 
+func Test_ManagedClusterOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedClusterOperatorSpec via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterOperatorSpec, ManagedClusterOperatorSpecGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedClusterOperatorSpec runs a test to see if a specific instance of ManagedClusterOperatorSpec round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterOperatorSpec(subject ManagedClusterOperatorSpec) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedClusterOperatorSpec
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedClusterOperatorSpec instances for property testing - lazily instantiated by
+// ManagedClusterOperatorSpecGenerator()
+var managedClusterOperatorSpecGenerator gopter.Gen
+
+// ManagedClusterOperatorSpecGenerator returns a generator of ManagedClusterOperatorSpec instances for property testing.
+func ManagedClusterOperatorSpecGenerator() gopter.Gen {
+	if managedClusterOperatorSpecGenerator != nil {
+		return managedClusterOperatorSpecGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddRelatedPropertyGeneratorsForManagedClusterOperatorSpec(generators)
+	managedClusterOperatorSpecGenerator = gen.Struct(reflect.TypeOf(ManagedClusterOperatorSpec{}), generators)
+
+	return managedClusterOperatorSpecGenerator
+}
+
+// AddRelatedPropertyGeneratorsForManagedClusterOperatorSpec is a factory method for creating gopter generators
+func AddRelatedPropertyGeneratorsForManagedClusterOperatorSpec(gens map[string]gopter.Gen) {
+	gens["Secrets"] = gen.PtrOf(ManagedClusterOperatorSecretsGenerator())
+}
+
 func Test_ManagedClusterPodIdentityProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -2886,6 +2947,60 @@ func AddRelatedPropertyGeneratorsForManagedClusterLoadBalancerProfileStatus(gens
 	gens["ManagedOutboundIPs"] = gen.PtrOf(ManagedClusterLoadBalancerProfileStatusManagedOutboundIPsGenerator())
 	gens["OutboundIPPrefixes"] = gen.PtrOf(ManagedClusterLoadBalancerProfileStatusOutboundIPPrefixesGenerator())
 	gens["OutboundIPs"] = gen.PtrOf(ManagedClusterLoadBalancerProfileStatusOutboundIPsGenerator())
+}
+
+func Test_ManagedClusterOperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of ManagedClusterOperatorSecrets via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForManagedClusterOperatorSecrets, ManagedClusterOperatorSecretsGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForManagedClusterOperatorSecrets runs a test to see if a specific instance of ManagedClusterOperatorSecrets round trips to JSON and back losslessly
+func RunJSONSerializationTestForManagedClusterOperatorSecrets(subject ManagedClusterOperatorSecrets) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual ManagedClusterOperatorSecrets
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of ManagedClusterOperatorSecrets instances for property testing - lazily instantiated by
+// ManagedClusterOperatorSecretsGenerator()
+var managedClusterOperatorSecretsGenerator gopter.Gen
+
+// ManagedClusterOperatorSecretsGenerator returns a generator of ManagedClusterOperatorSecrets instances for property testing.
+func ManagedClusterOperatorSecretsGenerator() gopter.Gen {
+	if managedClusterOperatorSecretsGenerator != nil {
+		return managedClusterOperatorSecretsGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	managedClusterOperatorSecretsGenerator = gen.Struct(reflect.TypeOf(ManagedClusterOperatorSecrets{}), generators)
+
+	return managedClusterOperatorSecretsGenerator
 }
 
 func Test_ManagedClusterPodIdentity_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

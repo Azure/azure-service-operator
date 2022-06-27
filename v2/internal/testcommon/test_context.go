@@ -313,6 +313,9 @@ var (
 	// in the payloads (such as operationResults URLs for polling async operations for some services) that seem to use
 	// very long base64 strings as well.
 	keyMatcher = regexp.MustCompile("(?:[A-Za-z0-9+/]{4}){10,}(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)")
+
+	// kubeConfigMatcher specifically matches base64 data returned by the AKS get keys API
+	kubeConfigMatcher = regexp.MustCompile(`"value": "[a-zA-Z0-9+/]+={0,2}"`)
 )
 
 // hideDates replaces all ISO8601 datetimes with a fixed value
@@ -335,10 +338,15 @@ func hideKeys(s string) string {
 	return keyMatcher.ReplaceAllLiteralString(s, "{KEY}")
 }
 
+func hideKubeConfigs(s string) string {
+	return kubeConfigMatcher.ReplaceAllLiteralString(s, `"value": "IA=="`) // Have to replace with valid base64 data, so replace with " "
+}
+
 func hideRecordingData(s string) string {
 	result := hideDates(s)
 	result = hideSSHKeys(result)
 	result = hidePasswords(result)
+	result = hideKubeConfigs(result)
 	result = hideKeys(result)
 
 	return result
