@@ -85,9 +85,12 @@ if ! command -v go > /dev/null 2>&1; then
     exit 1
 fi
 
+GOVER=$(go version)
+write-info "Go version: ${GOVER[*]}"
+
 GOVERREQUIRED="go1.18"
 GOVERACTUAL=$(go version | { read _ _ ver _; echo $ver; })
-if [ "$GOVERREQUIRED" != "$GOVERACTUAL" ]; then
+if ! [[ "$GOVERACTUAL" =~ $GOVERREQUIRED.* ]]; then
     write-error "Go must be version $GOVERREQUIRED, not $GOVERACTUAL; see : https://golang.org/doc/install"
     exit 1
 fi
