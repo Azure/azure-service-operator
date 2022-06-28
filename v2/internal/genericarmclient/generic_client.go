@@ -281,12 +281,7 @@ func (client *GenericClient) deleteByID(ctx context.Context, resourceID string, 
 	resourceType := metrics.GetTypeFromResourceID(resourceID)
 
 	client.metrics.RecordAzureRequestsTime(resourceType, time.Since(requestStartTime), metrics.HttpDelete)
-
-	statusCode := 0
-	if resp != nil {
-		statusCode = resp.StatusCode
-	}
-	client.metrics.RecordAzureRequestsTotal(resourceType, statusCode, metrics.HttpDelete)
+	client.metrics.RecordAzureRequestsTotal(resourceType, resp.StatusCode, metrics.HttpDelete)
 
 	if err != nil {
 		client.metrics.RecordAzureFailedRequestsTotal(resourceType, metrics.HttpDelete)
