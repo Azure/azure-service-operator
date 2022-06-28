@@ -18,31 +18,30 @@
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/azure-service-operator/favicons/android-192x192.png" sizes="192x192">
 
-<title>Authentication in Azure Service Operator v2 | Azure Service Operator</title>
-<meta name="description" content="Azure Service Operator supports two different styles of authentication today.
-
-Service Principal
-aad-pod-identity authentication (managed identity) …">
-<meta property="og:title" content="Authentication in Azure Service Operator v2" />
-<meta property="og:description" content="Azure Service Operator supports two different styles of authentication today.
- Service Principal aad-pod-identity authentication (managed identity)  Service Principal Prerequisites  An existing Azure Service Principal.  To use Service Principal authentication, specify an aso-controller-settings secret with AZURE_CLIENT_ID and AZURE_CLIENT_SECRET set.
- AZURE_CLIENT_ID must be set to the Service Principal client ID. This will be a GUID. AZURE_CLIENT_SECRET must be set to the Service Principal client secret.  For more information about Service Principals, see creating an Azure Service Principal using the Azure CLI." />
+<title>Upgrading | Azure Service Operator</title>
+<meta name="description" content="Before you upgrade
+Ensure that you have carefully reviewed the upgrade instructions included in the release notes for the release
+you are upgrading …">
+<meta property="og:title" content="Upgrading" />
+<meta property="og:description" content="Before you upgrade Ensure that you have carefully reviewed the upgrade instructions included in the release notes for the release you are upgrading to.
+Recommended upgrade pattern We recommend that you upgrade ASO one minor version at a time.
+   Old version New version Recommended     v2.0.0-beta.0 v2.0.0-beta.1 ✔   v2.0.0-alpha.6 v2.0.0-beta.1 ❌    If you need to upgrade Azure Service Operator more than 1 minor version, we recommend that you do so one minor version at a time." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://azure.github.io/azure-service-operator/introduction/authentication/" /><meta property="article:section" content="introduction" />
+<meta property="og:url" content="https://azure.github.io/azure-service-operator/introduction/upgrading/" /><meta property="article:section" content="introduction" />
 
 
 
-<meta itemprop="name" content="Authentication in Azure Service Operator v2">
-<meta itemprop="description" content="Azure Service Operator supports two different styles of authentication today.
- Service Principal aad-pod-identity authentication (managed identity)  Service Principal Prerequisites  An existing Azure Service Principal.  To use Service Principal authentication, specify an aso-controller-settings secret with AZURE_CLIENT_ID and AZURE_CLIENT_SECRET set.
- AZURE_CLIENT_ID must be set to the Service Principal client ID. This will be a GUID. AZURE_CLIENT_SECRET must be set to the Service Principal client secret.  For more information about Service Principals, see creating an Azure Service Principal using the Azure CLI.">
+<meta itemprop="name" content="Upgrading">
+<meta itemprop="description" content="Before you upgrade Ensure that you have carefully reviewed the upgrade instructions included in the release notes for the release you are upgrading to.
+Recommended upgrade pattern We recommend that you upgrade ASO one minor version at a time.
+   Old version New version Recommended     v2.0.0-beta.0 v2.0.0-beta.1 ✔   v2.0.0-alpha.6 v2.0.0-beta.1 ❌    If you need to upgrade Azure Service Operator more than 1 minor version, we recommend that you do so one minor version at a time.">
 
-<meta itemprop="wordCount" content="340">
+<meta itemprop="wordCount" content="186">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Authentication in Azure Service Operator v2"/>
-<meta name="twitter:description" content="Azure Service Operator supports two different styles of authentication today.
- Service Principal aad-pod-identity authentication (managed identity)  Service Principal Prerequisites  An existing Azure Service Principal.  To use Service Principal authentication, specify an aso-controller-settings secret with AZURE_CLIENT_ID and AZURE_CLIENT_SECRET set.
- AZURE_CLIENT_ID must be set to the Service Principal client ID. This will be a GUID. AZURE_CLIENT_SECRET must be set to the Service Principal client secret.  For more information about Service Principals, see creating an Azure Service Principal using the Azure CLI."/>
+<meta name="twitter:title" content="Upgrading"/>
+<meta name="twitter:description" content="Before you upgrade Ensure that you have carefully reviewed the upgrade instructions included in the release notes for the release you are upgrading to.
+Recommended upgrade pattern We recommend that you upgrade ASO one minor version at a time.
+   Old version New version Recommended     v2.0.0-beta.0 v2.0.0-beta.1 ✔   v2.0.0-alpha.6 v2.0.0-beta.1 ❌    If you need to upgrade Azure Service Operator more than 1 minor version, we recommend that you do so one minor version at a time."/>
 
 
 
@@ -149,8 +148,8 @@ aad-pod-identity authentication (managed identity) …">
   <a href="/azure-service-operator/introduction/metrics/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionmetrics"><span class=""></span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionannotations-li">
   <a href="/azure-service-operator/introduction/annotations/" title="Annotations understood by the operator" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionannotations"><span class="">Annotations</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorintroductionauthentication-li">
-  <a href="/azure-service-operator/introduction/authentication/" title="Authentication in Azure Service Operator v2" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionauthentication"><span class="td-sidebar-nav-active-item">Authentication</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionauthentication-li">
+  <a href="/azure-service-operator/introduction/authentication/" title="Authentication in Azure Service Operator v2" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionauthentication"><span class="">Authentication</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductiondiagnosing-problems-li">
   <a href="/azure-service-operator/introduction/diagnosing-problems/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductiondiagnosing-problems"><span class="">Diagnosing problems</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionsecrets-li">
@@ -167,8 +166,8 @@ aad-pod-identity authentication (managed identity) …">
   <a href="/azure-service-operator/introduction/conditions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionconditions"><span class="">Understanding Conditions</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionuninstalling-li">
   <a href="/azure-service-operator/introduction/uninstalling/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionuninstalling"><span class="">Uninstalling</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-azure-service-operatorintroductionupgrading-li">
-  <a href="/azure-service-operator/introduction/upgrading/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionupgrading"><span class="">Upgrading</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-azure-service-operatorintroductionupgrading-li">
+  <a href="/azure-service-operator/introduction/upgrading/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-azure-service-operatorintroductionupgrading"><span class="td-sidebar-nav-active-item">Upgrading</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-azure-service-operatorreference-li">
@@ -349,14 +348,12 @@ aad-pod-identity authentication (managed identity) …">
 
 <div class="td-toc"><nav id="TableOfContents">
   <ul>
-    <li><a href="#service-principal">Service Principal</a>
+    <li><a href="#before-you-upgrade">Before you upgrade</a></li>
+    <li><a href="#recommended-upgrade-pattern">Recommended upgrade pattern</a></li>
+    <li><a href="#upgrading">Upgrading</a>
       <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-      </ul>
-    </li>
-    <li><a href="#managed-identity-aad-pod-identity">Managed Identity (aad-pod-identity)</a>
-      <ul>
-        <li><a href="#prerequisites-1">Prerequisites</a></li>
+        <li><a href="#kubectl-apply">kubectl apply</a></li>
+        <li><a href="#helm">Helm</a></li>
       </ul>
     </li>
   </ul>
@@ -395,13 +392,13 @@ aad-pod-identity authentication (managed identity) …">
     <a href="https://azure.github.io/azure-service-operator/introduction/">Guide</a>
   </li>
   <li class="breadcrumb-item active" aria-current="page">
-    <a href="https://azure.github.io/azure-service-operator/introduction/authentication/">Authentication</a>
+    <a href="https://azure.github.io/azure-service-operator/introduction/upgrading/">Upgrading</a>
   </li>
   </ol>
 </nav>
             
 <div class="td-content">
-	<h1>Authentication in Azure Service Operator v2</h1>
+	<h1>Upgrading</h1>
 	
 	<header class="article-meta">
 		
@@ -418,85 +415,54 @@ aad-pod-identity authentication (managed identity) …">
 
 		
 	</header>    
-	<p>Azure Service Operator supports two different styles of authentication today.</p>
-<ol>
-<li>Service Principal</li>
-<li>aad-pod-identity authentication (managed identity)</li>
-</ol>
-<h2 id="service-principal">Service Principal</h2>
-<h3 id="prerequisites">Prerequisites</h3>
-<ol>
-<li>An existing Azure Service Principal.</li>
-</ol>
-<p>To use Service Principal authentication, specify an <code>aso-controller-settings</code> secret with <code>AZURE_CLIENT_ID</code> and <code>AZURE_CLIENT_SECRET</code> set.</p>
+	<h2 id="before-you-upgrade">Before you upgrade</h2>
+<p>Ensure that you have carefully reviewed the upgrade instructions included in the <a href="https://github.com/Azure/azure-service-operator/releases">release notes</a> for the release
+you are upgrading to.</p>
+<h2 id="recommended-upgrade-pattern">Recommended upgrade pattern</h2>
+<p>We recommend that you upgrade ASO one minor version at a time.</p>
+<table>
+<thead>
+<tr>
+<th>Old version</th>
+<th>New version</th>
+<th style="text-align:center">Recommended</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>v2.0.0-beta.0</code></td>
+<td><code>v2.0.0-beta.1</code></td>
+<td style="text-align:center">✔</td>
+</tr>
+<tr>
+<td><code>v2.0.0-alpha.6</code></td>
+<td><code>v2.0.0-beta.1</code></td>
+<td style="text-align:center">❌</td>
+</tr>
+</tbody>
+</table>
+<p>If you need to upgrade Azure Service Operator more than 1 minor version, we recommend that you do so one minor version at a time.
+For example <code>v2.0.0-alpha.6</code> to <code>v2.0.0-beta.1</code> should be accomplished with two upgrades:</p>
 <ul>
-<li><code>AZURE_CLIENT_ID</code> must be set to the Service Principal client ID. This will be a GUID.</li>
-<li><code>AZURE_CLIENT_SECRET</code> must be set to the Service Principal client secret.</li>
+<li><code>v2.0.0-alpha.6</code> to <code>v2.0.0-beta.0</code></li>
+<li><code>v2.0.0-beta.0</code> to <code>v2.0.0-beta.1</code></li>
 </ul>
-<p>For more information about Service Principals, see <a href="https://docs.microsoft.com/cli/azure/create-an-azure-service-principal-azure-cli#password-based-authentication">creating an Azure Service Principal using the Azure CLI</a>.
-The <code>AZURE_CLIENT_ID</code> is sometimes also called the App ID. The <code>AZURE_CLIENT_SECRET</code> is the &ldquo;password&rdquo; returned by the command in the previously linked documentation.</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
-</span><span style="color:#e6db74">apiVersion: v1
-</span><span style="color:#e6db74">kind: Secret
-</span><span style="color:#e6db74">metadata:
-</span><span style="color:#e6db74"> name: aso-controller-settings
-</span><span style="color:#e6db74"> namespace: azureserviceoperator-system
-</span><span style="color:#e6db74">stringData:
-</span><span style="color:#e6db74"> AZURE_SUBSCRIPTION_ID: &#34;$AZURE_SUBSCRIPTION_ID&#34;
-</span><span style="color:#e6db74"> AZURE_TENANT_ID: &#34;$AZURE_TENANT_ID&#34;
-</span><span style="color:#e6db74"> AZURE_CLIENT_ID: &#34;$AZURE_CLIENT_ID&#34;
-</span><span style="color:#e6db74"> AZURE_CLIENT_SECRET: &#34;$AZURE_CLIENT_SECRET&#34;
-</span><span style="color:#e6db74">EOF</span>
-</code></pre></div><h2 id="managed-identity-aad-pod-identity">Managed Identity (aad-pod-identity)</h2>
-<h3 id="prerequisites-1">Prerequisites</h3>
-<ol>
-<li>An existing Azure Managed Identity.</li>
-<li><a href="https://github.com/Azure/aad-pod-identity">aad-pod-identity</a> installed into your cluster. If you are running ASO on an Azure Kubernetes Service (AKS) cluster, you can instead use the
-<a href="https://docs.microsoft.com/azure/aks/use-azure-ad-pod-identity">integrated aad-pod-identity</a>.</li>
-</ol>
-<p>First, set the following environment variables:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">export IDENTITY_RESOURCE_GROUP<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;myrg&#34;</span>                              <span style="color:#75715e"># The resource group containing the managed identity.</span>
-export IDENTITY_NAME<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;myidentity&#34;</span>                                  <span style="color:#75715e"># The name of the identity.</span>
-export AZURE_SUBSCRIPTION_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;00000000-0000-0000-0000-00000000000&#34;</span> <span style="color:#75715e"># The Azure Subscription ID the identity is in.</span>
-export AZURE_TENANT_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;00000000-0000-0000-0000-00000000000&#34;</span>       <span style="color:#75715e"># The Azure AAD Tenant the identity/subscription is associated with.</span>
-</code></pre></div><p>Use the <code>az cli</code> to get some more details about the identity to use:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">export IDENTITY_CLIENT_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>az identity show -g <span style="color:#e6db74">${</span>IDENTITY_RESOURCE_GROUP<span style="color:#e6db74">}</span> -n <span style="color:#e6db74">${</span>IDENTITY_NAME<span style="color:#e6db74">}</span> --query clientId -otsv<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
-export IDENTITY_RESOURCE_ID<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;</span><span style="color:#66d9ef">$(</span>az identity show -g <span style="color:#e6db74">${</span>IDENTITY_RESOURCE_GROUP<span style="color:#e6db74">}</span> -n <span style="color:#e6db74">${</span>IDENTITY_NAME<span style="color:#e6db74">}</span> --query id -otsv<span style="color:#66d9ef">)</span><span style="color:#e6db74">&#34;</span>
-</code></pre></div><p>Deploy an <code>AzureIdentity</code>:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
-</span><span style="color:#e6db74">apiVersion: &#34;aadpodidentity.k8s.io/v1&#34;
-</span><span style="color:#e6db74">kind: AzureIdentity
-</span><span style="color:#e6db74">metadata:
-</span><span style="color:#e6db74">  name: aso-identity
-</span><span style="color:#e6db74">  namespace: azureserviceoperator-system
-</span><span style="color:#e6db74">spec:
-</span><span style="color:#e6db74">  type: 0
-</span><span style="color:#e6db74">  resourceID: ${IDENTITY_RESOURCE_ID}
-</span><span style="color:#e6db74">  clientID: ${IDENTITY_CLIENT_ID}
-</span><span style="color:#e6db74">EOF</span>
-</code></pre></div><p>Deploy an <code>AzureIdentityBinding</code> to bind this identity to the Azure Service Operator manager pod:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
-</span><span style="color:#e6db74">apiVersion: &#34;aadpodidentity.k8s.io/v1&#34;
-</span><span style="color:#e6db74">kind: AzureIdentityBinding
-</span><span style="color:#e6db74">metadata:
-</span><span style="color:#e6db74">  name: aso-identity-binding
-</span><span style="color:#e6db74">  namespace: azureserviceoperator-system
-</span><span style="color:#e6db74">spec:
-</span><span style="color:#e6db74">  azureIdentity: aso-identity
-</span><span style="color:#e6db74">  selector: aso-manager-binding
-</span><span style="color:#e6db74">EOF</span>
-</code></pre></div><p>Deploy the <code>aso-controller-settings</code> secret, configured to use the identity:</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">cat <span style="color:#e6db74">&lt;&lt;EOF | kubectl apply -f -
-</span><span style="color:#e6db74">apiVersion: v1
-</span><span style="color:#e6db74">kind: Secret
-</span><span style="color:#e6db74">metadata:
-</span><span style="color:#e6db74"> name: aso-controller-settings
-</span><span style="color:#e6db74"> namespace: azureserviceoperator-system
-</span><span style="color:#e6db74">stringData:
-</span><span style="color:#e6db74"> AZURE_SUBSCRIPTION_ID: &#34;$AZURE_SUBSCRIPTION_ID&#34;
-</span><span style="color:#e6db74"> AZURE_TENANT_ID: &#34;$AZURE_TENANT_ID&#34;
-</span><span style="color:#e6db74"> AZURE_CLIENT_ID: &#34;$IDENTITY_CLIENT_ID&#34;
-</span><span style="color:#e6db74">EOF</span>
+<h2 id="upgrading">Upgrading</h2>
+<p>We recommend that you upgrade ASO using the same tool you installed it with.</p>
+<p><strong>Note:</strong> The instructions below all assume you&rsquo;re upgrading from the previous version to the latest version. Please follow
+the <a href="#recommended-upgrade-pattern">Recommended upgrade pattern</a> for upgrading multiple versions.</p>
+<h3 id="kubectl-apply">kubectl apply</h3>
+<p>The operator can be upgraded simply by running the same command you used to install it:</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">kubectl apply --server-side<span style="color:#f92672">=</span>true -f https://github.com/Azure/azure-service-operator/releases/download/v2.0.0-beta.0/azureserviceoperator_v2.0.0-beta.1.yaml
+</code></pre></div><h3 id="helm">Helm</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
+helm repo update
+helm upgrade --devel --version v2.0.0-beta.0 aso2 aso2/azure-service-operator <span style="color:#ae81ff">\ </span>
+        --namespace<span style="color:#f92672">=</span>azureserviceoperator-system <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>        --set azureSubscriptionID<span style="color:#f92672">=</span>$AZURE_SUBSCRIPTION_ID <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>        --set azureTenantID<span style="color:#f92672">=</span>$AZURE_TENANT_ID <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>        --set azureClientID<span style="color:#f92672">=</span>$AZURE_CLIENT_ID <span style="color:#ae81ff">\
+</span><span style="color:#ae81ff"></span>        --set azureClientSecret<span style="color:#f92672">=</span>$AZURE_CLIENT_SECRET
 </code></pre></div>
 	
 	

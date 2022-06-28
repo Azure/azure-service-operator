@@ -173,5 +173,9 @@
     <loc>https://azure.github.io/azure-service-operator/design/type-references-and-ownership/</loc>
   </url><url>
     <loc>https://azure.github.io/azure-service-operator/introduction/conditions/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/introduction/uninstalling/</loc>
+  </url><url>
+    <loc>https://azure.github.io/azure-service-operator/introduction/upgrading/</loc>
   </url>
 </urlset>
