@@ -15,6 +15,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/go-autorest/autorest/to"
+	"github.com/onsi/gomega"
+	v1 "k8s.io/api/core/v1"
+	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 func Test_MachineLearning_Workspaces_CRUD(t *testing.T) {
@@ -31,31 +34,54 @@ func Test_MachineLearning_Workspaces_CRUD(t *testing.T) {
 	kv := newVault(tc, rg)
 	tc.CreateResourceAndWait(kv)
 
-	workspaces := newWorkspace(tc, testcommon.AsOwner(rg), sa, kv)
+	workspace := newWorkspace(tc, testcommon.AsOwner(rg), sa, kv, tc.AzureRegion)
 
-	tc.CreateResourcesAndWait(workspaces)
+	tc.CreateResourcesAndWait(workspace)
+
+	// There should be no secrets at this point
+	list := &v1.SecretList{}
+	tc.ListResources(list, client.InNamespace(tc.Namespace))
+	tc.Expect(list.Items).To(gomega.HaveLen(0))
 
 	tc.RunParallelSubtests(
-
 		testcommon.Subtest{
 			Name: "Test_WorkspacesCompute_CRUD",
 			Test: func(testContext *testcommon.KubePerTestContext) {
-				WorkspaceCompute_CRUD(tc, testcommon.AsOwner(workspaces), rg)
+				WorkspaceCompute_CRUD(tc, testcommon.AsOwner(workspace), rg)
 			},
 		},
 	)
 
-	tc.DeleteResourcesAndWait(workspaces, kv, sa, rg)
+	tc.DeleteResourcesAndWait(workspace, kv, sa, rg)
 
 }
 
-func newWorkspace(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, sa *storage.StorageAccount, kv *v1beta20210401preview.Vault) *machinelearningservices.Workspace {
+func Workspaces_WriteSecrets(tc *testcommon.KubePerTestContext, workspace *machinelearningservices.Workspace) {
+	old := workspace.DeepCopy()
+	workspaceKeysSecret := "workspacekeyssecret"
+	workspace.Spec.OperatorSpec = &machinelearningservices.WorkspaceOperatorSpec{
+		Secrets: &machinelearningservices.WorkspaceOperatorSecrets{
+			PrimaryNotebookAccessKey:   &genruntime.SecretDestination{Name: workspaceKeysSecret, Key: "primaryNotebookAccessKey"},
+			SecondaryNotebookAccessKey: &genruntime.SecretDestination{Name: workspaceKeysSecret, Key: "secondaryNotebookAccessKey"},
+			UserStorageKey:             &genruntime.SecretDestination{Name: workspaceKeysSecret, Key: "userStorageKey"},
+		},
+	}
+	tc.PatchResourceAndWait(old, workspace)
+
+	tc.ExpectSecretHasKeys(
+		workspaceKeysSecret,
+		"primaryNotebookAccessKey",
+		"secondaryNotebookAccessKey",
+		"userStorageKey")
+}
+
+func newWorkspace(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, sa *storage.StorageAccount, kv *v1beta20210401preview.Vault, location *string) *machinelearningservices.Workspace {
 	identityType := machinelearningservices.IdentityTypeSystemAssigned
 
 	workspaces := &machinelearningservices.Workspace{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.NoSpaceNamer.GenerateName("work")),
 		Spec: machinelearningservices.Workspaces_Spec{
-			Location: tc.AzureRegion,
+			Location: location,
 			Owner:    owner,
 			Sku: &machinelearningservices.Sku{
 				Name: to.StringPtr("Standard_S1"),
@@ -72,12 +98,8 @@ func newWorkspace(tc *testcommon.KubePerTestContext, owner *genruntime.KnownReso
 	return workspaces
 }
 
-func Test_WorkspaceConnection_CRUD(t *testing.T) {
+func Test_MachineLearning_WorkspaceConnection_CRUD(t *testing.T) {
 	t.Parallel()
-
-	jsonValue := "{\"foo\":\"bar\", \"baz\":\"bee\"}"
-
-	valueFormat := machinelearningservices.WorkspaceConnectionPropsValueFormatJSON
 
 	tc := globalTestContext.ForTest(t)
 
@@ -90,9 +112,33 @@ func Test_WorkspaceConnection_CRUD(t *testing.T) {
 	kv := newVault(tc, rg)
 	tc.CreateResourceAndWait(kv)
 
-	workspaces := newWorkspace(tc, testcommon.AsOwner(rg), sa, kv)
+	// Have to use 'eastus' location here as 'ListKeys' API is unavailable/still broken for 'westus2'
+	workspaces := newWorkspace(tc, testcommon.AsOwner(rg), sa, kv, to.StringPtr("eastus"))
 
 	tc.CreateResourcesAndWait(workspaces)
+
+	tc.RunParallelSubtests(
+		testcommon.Subtest{
+			Name: "WriteWorkspaceSecretsToKubeSecret",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				Workspaces_WriteSecrets(tc, workspaces)
+			},
+		},
+		testcommon.Subtest{
+			Name: "WriteWorkspaceSecretsToKubeSecret",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				WorkspaceConnection_CRUD(tc, workspaces)
+			},
+		},
+	)
+
+	tc.DeleteResourcesAndWait(workspaces, kv, sa, rg)
+}
+
+func WorkspaceConnection_CRUD(tc *testcommon.KubePerTestContext, workspaces *machinelearningservices.Workspace) {
+
+	jsonValue := "{\"foo\":\"bar\", \"baz\":\"bee\"}"
+	valueFormat := machinelearningservices.WorkspaceConnectionPropsValueFormatJSON
 
 	connection := &machinelearningservices.WorkspacesConnection{
 		ObjectMeta: tc.MakeObjectMeta("conn"),
@@ -100,15 +146,14 @@ func Test_WorkspaceConnection_CRUD(t *testing.T) {
 			Owner:       testcommon.AsOwner(workspaces),
 			AuthType:    to.StringPtr("PAT"),
 			Category:    to.StringPtr("ACR"),
-			Location:    tc.AzureRegion,
+			Location:    to.StringPtr("eastus"),
 			Target:      to.StringPtr("www.microsoft.com"),
 			Value:       to.StringPtr(jsonValue),
 			ValueFormat: &valueFormat,
 		},
 	}
-
 	tc.CreateResourceAndWait(connection)
-	tc.DeleteResourcesAndWait(connection)
+	tc.DeleteResourceAndWait(connection)
 }
 
 func WorkspaceCompute_CRUD(tc *testcommon.KubePerTestContext, owner *genruntime.KnownResourceReference, rg *resources.ResourceGroup) {

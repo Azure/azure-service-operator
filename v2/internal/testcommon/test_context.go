@@ -101,7 +101,7 @@ func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
 		Transport: addCountHeader(translateErrors(recorder, cassetteName, t)),
 	}
 	var armClient *genericarmclient.GenericClient
-	armClient, err = genericarmclient.NewGenericClientFromHTTPClient(cloud.AzurePublic.Services[cloud.ResourceManager].Endpoint, creds, httpClient, subscriptionID, metrics.NewARMClientMetrics())
+	armClient, err = genericarmclient.NewGenericClientFromHTTPClient(cloud.AzurePublic.Services[cloud.ResourceManager].Endpoint, creds, httpClient, azureIDs.subscriptionID, metrics.NewARMClientMetrics())
 	if err != nil {
 		logger.Error(err, "failed to get new generic client")
 		t.Fail()

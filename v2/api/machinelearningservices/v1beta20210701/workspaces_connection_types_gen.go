@@ -648,7 +648,7 @@ func (connections *WorkspacesConnections_Spec) ConvertToARM(resolved genruntime.
 
 	// Set property ‘Tags’:
 	if connections.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(connections.Tags))
 		for key, tagsValue := range connections.Tags {
 			result.Tags[key] = tagsValue
 		}
@@ -702,7 +702,7 @@ func (connections *WorkspacesConnections_Spec) PopulateFromARM(owner genruntime.
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		connections.Tags = make(map[string]string)
+		connections.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			connections.Tags[key] = value
 		}

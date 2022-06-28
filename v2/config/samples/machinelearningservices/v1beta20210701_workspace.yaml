@@ -21,3 +21,27 @@ spec:
     group: "keyvault.azure.com"
     kind:  "Vault"
     name:  "samplevault"
+  # Optional: Save the keys for the storage account into a Kubernetes secret
+  operatorSpec:
+    secrets:
+      appInsightsInstrumentationKey:
+        name: workspace-secret
+        key: appInsightsInstrumentationKey
+      containerRegistryPassword:
+        name: workspace-secret
+        key: containerRegistryPassword
+      containerRegistryPassword2:
+        name: workspace-secret
+        key: containerRegistryPassword2
+      containerRegistryUserName:
+        name: workspace-secret
+        key: containerRegistryUserName
+      primaryNotebookAccessKey:
+        name: workspace-secret
+        key: primaryNotebookAccessKey
+      secondaryNotebookAccessKey:
+        name: workspace-secret
+        key: secondaryNotebookAccessKey
+      userStorageKey:
+        name: workspace-secret
+        key: userStorageKey

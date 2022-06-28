@@ -1044,6 +1044,14 @@ objectModelConfiguration:
       Workspace:
         $export: true
         $supportedFrom: v2.0.0-beta.1
+        $azureGeneratedSecrets:
+          - AppInsightsInstrumentationKey
+          - ContainerRegistryUserName
+          - ContainerRegistryPassword
+          - ContainerRegistryPassword2
+          - PrimaryNotebookAccessKey
+          - SecondaryNotebookAccessKey
+          - UserStorageKey
       Workspaces_Spec_Properties:
         ApplicationInsights:
           $armReference: true

@@ -221,6 +221,7 @@ type Workspaces_Spec struct {
 	// been created
 	KeyVaultReference *genruntime.ResourceReference `armReference:"KeyVault" json:"keyVaultReference,omitempty"`
 	Location          *string                       `json:"location,omitempty"`
+	OperatorSpec      *WorkspaceOperatorSpec        `json:"operatorSpec,omitempty"`
 	OriginalVersion   string                        `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
@@ -376,6 +377,13 @@ type SystemData_Status struct {
 	PropertyBag        genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1beta20210701.WorkspaceOperatorSpec
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type WorkspaceOperatorSpec struct {
+	PropertyBag genruntime.PropertyBag    `json:"$propertyBag,omitempty"`
+	Secrets     *WorkspaceOperatorSecrets `json:"secrets,omitempty"`
+}
+
 // Storage version of v1beta20210701.Workspaces_Spec_Properties_SharedPrivateLinkResources
 type Workspaces_Spec_Properties_SharedPrivateLinkResources struct {
 	GroupId *string `json:"groupId,omitempty"`
@@ -444,6 +452,18 @@ type UserAssignedIdentity_Status struct {
 	PrincipalId *string                `json:"principalId,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	TenantId    *string                `json:"tenantId,omitempty"`
+}
+
+// Storage version of v1beta20210701.WorkspaceOperatorSecrets
+type WorkspaceOperatorSecrets struct {
+	AppInsightsInstrumentationKey *genruntime.SecretDestination `json:"appInsightsInstrumentationKey,omitempty"`
+	ContainerRegistryPassword     *genruntime.SecretDestination `json:"containerRegistryPassword,omitempty"`
+	ContainerRegistryPassword2    *genruntime.SecretDestination `json:"containerRegistryPassword2,omitempty"`
+	ContainerRegistryUserName     *genruntime.SecretDestination `json:"containerRegistryUserName,omitempty"`
+	PrimaryNotebookAccessKey      *genruntime.SecretDestination `json:"primaryNotebookAccessKey,omitempty"`
+	PropertyBag                   genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	SecondaryNotebookAccessKey    *genruntime.SecretDestination `json:"secondaryNotebookAccessKey,omitempty"`
+	UserStorageKey                *genruntime.SecretDestination `json:"userStorageKey,omitempty"`
 }
 
 func init() {

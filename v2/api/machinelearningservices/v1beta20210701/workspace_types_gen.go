@@ -213,7 +213,7 @@ func (workspace *Workspace) ValidateUpdate(old runtime.Object) error {
 
 // createValidations validates the creation of the resource
 func (workspace *Workspace) createValidations() []func() error {
-	return []func() error{workspace.validateResourceReferences}
+	return []func() error{workspace.validateResourceReferences, workspace.validateSecretDestinations}
 }
 
 // deleteValidations validates the deletion of the resource
@@ -227,7 +227,11 @@ func (workspace *Workspace) updateValidations() []func(old runtime.Object) error
 		func(old runtime.Object) error {
 			return workspace.validateResourceReferences()
 		},
-		workspace.validateWriteOnceProperties}
+		workspace.validateWriteOnceProperties,
+		func(old runtime.Object) error {
+			return workspace.validateSecretDestinations()
+		},
+	}
 }
 
 // validateResourceReferences validates all resource references
@@ -237,6 +241,26 @@ func (workspace *Workspace) validateResourceReferences() error {
 		return err
 	}
 	return genruntime.ValidateResourceReferences(refs)
+}
+
+// validateSecretDestinations validates there are no colliding genruntime.SecretDestination's
+func (workspace *Workspace) validateSecretDestinations() error {
+	if workspace.Spec.OperatorSpec == nil {
+		return nil
+	}
+	if workspace.Spec.OperatorSpec.Secrets == nil {
+		return nil
+	}
+	secrets := []*genruntime.SecretDestination{
+		workspace.Spec.OperatorSpec.Secrets.AppInsightsInstrumentationKey,
+		workspace.Spec.OperatorSpec.Secrets.ContainerRegistryPassword,
+		workspace.Spec.OperatorSpec.Secrets.ContainerRegistryPassword2,
+		workspace.Spec.OperatorSpec.Secrets.ContainerRegistryUserName,
+		workspace.Spec.OperatorSpec.Secrets.PrimaryNotebookAccessKey,
+		workspace.Spec.OperatorSpec.Secrets.SecondaryNotebookAccessKey,
+		workspace.Spec.OperatorSpec.Secrets.UserStorageKey,
+	}
+	return genruntime.ValidateSecretDestinations(secrets)
 }
 
 // validateWriteOnceProperties validates all WriteOnce properties
@@ -771,7 +795,7 @@ func (workspace *Workspace_Status) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		workspace.Tags = make(map[string]string)
+		workspace.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			workspace.Tags[key] = value
 		}
@@ -1286,6 +1310,10 @@ type Workspaces_Spec struct {
 	// Location: Specifies the location of the resource.
 	Location *string `json:"location,omitempty"`
 
+	// OperatorSpec: The specification for configuring operator behavior. This field is interpreted by the operator and not
+	// passed directly to Azure
+	OperatorSpec *WorkspaceOperatorSpec `json:"operatorSpec,omitempty"`
+
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
 	// controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
@@ -1476,7 +1504,7 @@ func (workspaces *Workspaces_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 
 	// Set property ‘Tags’:
 	if workspaces.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(workspaces.Tags))
 		for key, value := range workspaces.Tags {
 			result.Tags[key] = value
 		}
@@ -1590,6 +1618,8 @@ func (workspaces *Workspaces_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 		workspaces.Location = &location
 	}
 
+	// no assignment for property ‘OperatorSpec’
+
 	// Set property ‘Owner’:
 	workspaces.Owner = &genruntime.KnownResourceReference{
 		Name: owner.Name,
@@ -1659,7 +1689,7 @@ func (workspaces *Workspaces_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		workspaces.Tags = make(map[string]string)
+		workspaces.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			workspaces.Tags[key] = value
 		}
@@ -1803,6 +1833,18 @@ func (workspaces *Workspaces_Spec) AssignPropertiesFromWorkspacesSpec(source *v2
 
 	// Location
 	workspaces.Location = genruntime.ClonePointerToString(source.Location)
+
+	// OperatorSpec
+	if source.OperatorSpec != nil {
+		var operatorSpec WorkspaceOperatorSpec
+		err := operatorSpec.AssignPropertiesFromWorkspaceOperatorSpec(source.OperatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromWorkspaceOperatorSpec() to populate field OperatorSpec")
+		}
+		workspaces.OperatorSpec = &operatorSpec
+	} else {
+		workspaces.OperatorSpec = nil
+	}
 
 	// Owner
 	if source.Owner != nil {
@@ -1983,6 +2025,18 @@ func (workspaces *Workspaces_Spec) AssignPropertiesToWorkspacesSpec(destination 
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(workspaces.Location)
+
+	// OperatorSpec
+	if workspaces.OperatorSpec != nil {
+		var operatorSpec v20210701s.WorkspaceOperatorSpec
+		err := workspaces.OperatorSpec.AssignPropertiesToWorkspaceOperatorSpec(&operatorSpec)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToWorkspaceOperatorSpec() to populate field OperatorSpec")
+		}
+		destination.OperatorSpec = &operatorSpec
+	} else {
+		destination.OperatorSpec = nil
+	}
 
 	// OriginalVersion
 	destination.OriginalVersion = workspaces.OriginalVersion()
@@ -2446,7 +2500,7 @@ func (identity *Identity) ConvertToARM(resolved genruntime.ConvertToARMResolvedD
 
 	// Set property ‘UserAssignedIdentities’:
 	if identity.UserAssignedIdentities != nil {
-		result.UserAssignedIdentities = make(map[string]v1.JSON)
+		result.UserAssignedIdentities = make(map[string]v1.JSON, len(identity.UserAssignedIdentities))
 		for key, value := range identity.UserAssignedIdentities {
 			result.UserAssignedIdentities[key] = *value.DeepCopy()
 		}
@@ -2474,7 +2528,7 @@ func (identity *Identity) PopulateFromARM(owner genruntime.ArbitraryOwnerReferen
 
 	// Set property ‘UserAssignedIdentities’:
 	if typedInput.UserAssignedIdentities != nil {
-		identity.UserAssignedIdentities = make(map[string]v1.JSON)
+		identity.UserAssignedIdentities = make(map[string]v1.JSON, len(typedInput.UserAssignedIdentities))
 		for key, value := range typedInput.UserAssignedIdentities {
 			identity.UserAssignedIdentities[key] = *value.DeepCopy()
 		}
@@ -2597,7 +2651,7 @@ func (identity *Identity_Status) PopulateFromARM(owner genruntime.ArbitraryOwner
 
 	// Set property ‘UserAssignedIdentities’:
 	if typedInput.UserAssignedIdentities != nil {
-		identity.UserAssignedIdentities = make(map[string]UserAssignedIdentity_Status)
+		identity.UserAssignedIdentities = make(map[string]UserAssignedIdentity_Status, len(typedInput.UserAssignedIdentities))
 		for key, value := range typedInput.UserAssignedIdentities {
 			var value1 UserAssignedIdentity_Status
 			err := value1.PopulateFromARM(owner, value)
@@ -3843,6 +3897,59 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *v
 	return nil
 }
 
+// Details for configuring operator behavior. Fields in this struct are interpreted by the operator directly rather than being passed to Azure
+type WorkspaceOperatorSpec struct {
+	// Secrets: configures where to place Azure generated secrets.
+	Secrets *WorkspaceOperatorSecrets `json:"secrets,omitempty"`
+}
+
+// AssignPropertiesFromWorkspaceOperatorSpec populates our WorkspaceOperatorSpec from the provided source WorkspaceOperatorSpec
+func (operator *WorkspaceOperatorSpec) AssignPropertiesFromWorkspaceOperatorSpec(source *v20210701s.WorkspaceOperatorSpec) error {
+
+	// Secrets
+	if source.Secrets != nil {
+		var secret WorkspaceOperatorSecrets
+		err := secret.AssignPropertiesFromWorkspaceOperatorSecrets(source.Secrets)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromWorkspaceOperatorSecrets() to populate field Secrets")
+		}
+		operator.Secrets = &secret
+	} else {
+		operator.Secrets = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToWorkspaceOperatorSpec populates the provided destination WorkspaceOperatorSpec from our WorkspaceOperatorSpec
+func (operator *WorkspaceOperatorSpec) AssignPropertiesToWorkspaceOperatorSpec(destination *v20210701s.WorkspaceOperatorSpec) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Secrets
+	if operator.Secrets != nil {
+		var secret v20210701s.WorkspaceOperatorSecrets
+		err := operator.Secrets.AssignPropertiesToWorkspaceOperatorSecrets(&secret)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToWorkspaceOperatorSecrets() to populate field Secrets")
+		}
+		destination.Secrets = &secret
+	} else {
+		destination.Secrets = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type WorkspacePropertiesStatusProvisioningState string
 
 const (
@@ -4708,6 +4815,171 @@ func (identity *UserAssignedIdentity_Status) AssignPropertiesToUserAssignedIdent
 
 	// TenantId
 	destination.TenantId = genruntime.ClonePointerToString(identity.TenantId)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+type WorkspaceOperatorSecrets struct {
+	// AppInsightsInstrumentationKey: indicates where the AppInsightsInstrumentationKey secret should be placed. If omitted,
+	// the secret will not be retrieved from Azure.
+	AppInsightsInstrumentationKey *genruntime.SecretDestination `json:"appInsightsInstrumentationKey,omitempty"`
+
+	// ContainerRegistryPassword: indicates where the ContainerRegistryPassword secret should be placed. If omitted, the secret
+	// will not be retrieved from Azure.
+	ContainerRegistryPassword *genruntime.SecretDestination `json:"containerRegistryPassword,omitempty"`
+
+	// ContainerRegistryPassword2: indicates where the ContainerRegistryPassword2 secret should be placed. If omitted, the
+	// secret will not be retrieved from Azure.
+	ContainerRegistryPassword2 *genruntime.SecretDestination `json:"containerRegistryPassword2,omitempty"`
+
+	// ContainerRegistryUserName: indicates where the ContainerRegistryUserName secret should be placed. If omitted, the secret
+	// will not be retrieved from Azure.
+	ContainerRegistryUserName *genruntime.SecretDestination `json:"containerRegistryUserName,omitempty"`
+
+	// PrimaryNotebookAccessKey: indicates where the PrimaryNotebookAccessKey secret should be placed. If omitted, the secret
+	// will not be retrieved from Azure.
+	PrimaryNotebookAccessKey *genruntime.SecretDestination `json:"primaryNotebookAccessKey,omitempty"`
+
+	// SecondaryNotebookAccessKey: indicates where the SecondaryNotebookAccessKey secret should be placed. If omitted, the
+	// secret will not be retrieved from Azure.
+	SecondaryNotebookAccessKey *genruntime.SecretDestination `json:"secondaryNotebookAccessKey,omitempty"`
+
+	// UserStorageKey: indicates where the UserStorageKey secret should be placed. If omitted, the secret will not be retrieved
+	// from Azure.
+	UserStorageKey *genruntime.SecretDestination `json:"userStorageKey,omitempty"`
+}
+
+// AssignPropertiesFromWorkspaceOperatorSecrets populates our WorkspaceOperatorSecrets from the provided source WorkspaceOperatorSecrets
+func (secrets *WorkspaceOperatorSecrets) AssignPropertiesFromWorkspaceOperatorSecrets(source *v20210701s.WorkspaceOperatorSecrets) error {
+
+	// AppInsightsInstrumentationKey
+	if source.AppInsightsInstrumentationKey != nil {
+		appInsightsInstrumentationKey := source.AppInsightsInstrumentationKey.Copy()
+		secrets.AppInsightsInstrumentationKey = &appInsightsInstrumentationKey
+	} else {
+		secrets.AppInsightsInstrumentationKey = nil
+	}
+
+	// ContainerRegistryPassword
+	if source.ContainerRegistryPassword != nil {
+		containerRegistryPassword := source.ContainerRegistryPassword.Copy()
+		secrets.ContainerRegistryPassword = &containerRegistryPassword
+	} else {
+		secrets.ContainerRegistryPassword = nil
+	}
+
+	// ContainerRegistryPassword2
+	if source.ContainerRegistryPassword2 != nil {
+		containerRegistryPassword2 := source.ContainerRegistryPassword2.Copy()
+		secrets.ContainerRegistryPassword2 = &containerRegistryPassword2
+	} else {
+		secrets.ContainerRegistryPassword2 = nil
+	}
+
+	// ContainerRegistryUserName
+	if source.ContainerRegistryUserName != nil {
+		containerRegistryUserName := source.ContainerRegistryUserName.Copy()
+		secrets.ContainerRegistryUserName = &containerRegistryUserName
+	} else {
+		secrets.ContainerRegistryUserName = nil
+	}
+
+	// PrimaryNotebookAccessKey
+	if source.PrimaryNotebookAccessKey != nil {
+		primaryNotebookAccessKey := source.PrimaryNotebookAccessKey.Copy()
+		secrets.PrimaryNotebookAccessKey = &primaryNotebookAccessKey
+	} else {
+		secrets.PrimaryNotebookAccessKey = nil
+	}
+
+	// SecondaryNotebookAccessKey
+	if source.SecondaryNotebookAccessKey != nil {
+		secondaryNotebookAccessKey := source.SecondaryNotebookAccessKey.Copy()
+		secrets.SecondaryNotebookAccessKey = &secondaryNotebookAccessKey
+	} else {
+		secrets.SecondaryNotebookAccessKey = nil
+	}
+
+	// UserStorageKey
+	if source.UserStorageKey != nil {
+		userStorageKey := source.UserStorageKey.Copy()
+		secrets.UserStorageKey = &userStorageKey
+	} else {
+		secrets.UserStorageKey = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToWorkspaceOperatorSecrets populates the provided destination WorkspaceOperatorSecrets from our WorkspaceOperatorSecrets
+func (secrets *WorkspaceOperatorSecrets) AssignPropertiesToWorkspaceOperatorSecrets(destination *v20210701s.WorkspaceOperatorSecrets) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// AppInsightsInstrumentationKey
+	if secrets.AppInsightsInstrumentationKey != nil {
+		appInsightsInstrumentationKey := secrets.AppInsightsInstrumentationKey.Copy()
+		destination.AppInsightsInstrumentationKey = &appInsightsInstrumentationKey
+	} else {
+		destination.AppInsightsInstrumentationKey = nil
+	}
+
+	// ContainerRegistryPassword
+	if secrets.ContainerRegistryPassword != nil {
+		containerRegistryPassword := secrets.ContainerRegistryPassword.Copy()
+		destination.ContainerRegistryPassword = &containerRegistryPassword
+	} else {
+		destination.ContainerRegistryPassword = nil
+	}
+
+	// ContainerRegistryPassword2
+	if secrets.ContainerRegistryPassword2 != nil {
+		containerRegistryPassword2 := secrets.ContainerRegistryPassword2.Copy()
+		destination.ContainerRegistryPassword2 = &containerRegistryPassword2
+	} else {
+		destination.ContainerRegistryPassword2 = nil
+	}
+
+	// ContainerRegistryUserName
+	if secrets.ContainerRegistryUserName != nil {
+		containerRegistryUserName := secrets.ContainerRegistryUserName.Copy()
+		destination.ContainerRegistryUserName = &containerRegistryUserName
+	} else {
+		destination.ContainerRegistryUserName = nil
+	}
+
+	// PrimaryNotebookAccessKey
+	if secrets.PrimaryNotebookAccessKey != nil {
+		primaryNotebookAccessKey := secrets.PrimaryNotebookAccessKey.Copy()
+		destination.PrimaryNotebookAccessKey = &primaryNotebookAccessKey
+	} else {
+		destination.PrimaryNotebookAccessKey = nil
+	}
+
+	// SecondaryNotebookAccessKey
+	if secrets.SecondaryNotebookAccessKey != nil {
+		secondaryNotebookAccessKey := secrets.SecondaryNotebookAccessKey.Copy()
+		destination.SecondaryNotebookAccessKey = &secondaryNotebookAccessKey
+	} else {
+		destination.SecondaryNotebookAccessKey = nil
+	}
+
+	// UserStorageKey
+	if secrets.UserStorageKey != nil {
+		userStorageKey := secrets.UserStorageKey.Copy()
+		destination.UserStorageKey = &userStorageKey
+	} else {
+		destination.UserStorageKey = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

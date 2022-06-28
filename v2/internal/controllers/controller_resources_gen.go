@@ -483,11 +483,11 @@ func getKnownStorageTypes() []*registration.StorageType {
 			},
 			{
 				Key:  ".spec.properties.hdInsight.properties.administratorAccount.password",
-				Func: indexMachinelearningservicesWorkspacesComputePassword,
+				Func: indexMachinelearningservicesWorkspacesComputeHDInsightPassword,
 			},
 			{
 				Key:  ".spec.properties.virtualMachine.properties.administratorAccount.password",
-				Func: indexMachinelearningservicesWorkspacesComputePassword,
+				Func: indexMachinelearningservicesWorkspacesComputeVirtualMachinePassword,
 			},
 		},
 		Watches: []registration.Watch{
@@ -1247,8 +1247,8 @@ func indexMachinelearningservicesWorkspacesComputeAdminUserSshPublicKey(rawObj c
 	return []string{obj.Spec.Properties.AmlCompute.Properties.UserAccountCredentials.AdminUserSshPublicKey.Name}
 }
 
-// indexMachinelearningservicesWorkspacesComputePassword an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.hdInsight.properties.administratorAccount.password
-func indexMachinelearningservicesWorkspacesComputePassword(rawObj client.Object) []string {
+// indexMachinelearningservicesWorkspacesComputeHDInsightPassword an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.hdInsight.properties.administratorAccount.password
+func indexMachinelearningservicesWorkspacesComputeHDInsightPassword(rawObj client.Object) []string {
 	obj, ok := rawObj.(*machinelearningservices_v20210701s.WorkspacesCompute)
 	if !ok {
 		return nil
@@ -1271,8 +1271,8 @@ func indexMachinelearningservicesWorkspacesComputePassword(rawObj client.Object)
 	return []string{obj.Spec.Properties.HDInsight.Properties.AdministratorAccount.Password.Name}
 }
 
-// indexMachinelearningservicesWorkspacesComputePassword an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.virtualMachine.properties.administratorAccount.password
-func indexMachinelearningservicesWorkspacesComputePassword(rawObj client.Object) []string {
+// indexMachinelearningservicesWorkspacesComputeVirtualMachinePassword an index function for machinelearningservices_v20210701s.WorkspacesCompute .spec.properties.virtualMachine.properties.administratorAccount.password
+func indexMachinelearningservicesWorkspacesComputeVirtualMachinePassword(rawObj client.Object) []string {
 	obj, ok := rawObj.(*machinelearningservices_v20210701s.WorkspacesCompute)
 	if !ok {
 		return nil

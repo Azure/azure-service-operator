@@ -481,7 +481,7 @@ func (resource *ComputeResource_Status) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		resource.Tags = make(map[string]string)
+		resource.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			resource.Tags[key] = value
 		}
@@ -743,7 +743,7 @@ func (computes *WorkspacesComputes_Spec) ConvertToARM(resolved genruntime.Conver
 
 	// Set property ‘Tags’:
 	if computes.Tags != nil {
-		result.Tags = make(map[string]string)
+		result.Tags = make(map[string]string, len(computes.Tags))
 		for key, value := range computes.Tags {
 			result.Tags[key] = value
 		}
@@ -823,7 +823,7 @@ func (computes *WorkspacesComputes_Spec) PopulateFromARM(owner genruntime.Arbitr
 
 	// Set property ‘Tags’:
 	if typedInput.Tags != nil {
-		computes.Tags = make(map[string]string)
+		computes.Tags = make(map[string]string, len(typedInput.Tags))
 		for key, value := range typedInput.Tags {
 			computes.Tags[key] = value
 		}
@@ -6530,7 +6530,7 @@ func (info *ErrorAdditionalInfo_Status) PopulateFromARM(owner genruntime.Arbitra
 
 	// Set property ‘Info’:
 	if typedInput.Info != nil {
-		info.Info = make(map[string]v1.JSON)
+		info.Info = make(map[string]v1.JSON, len(typedInput.Info))
 		for key, value := range typedInput.Info {
 			info.Info[key] = *value.DeepCopy()
 		}
