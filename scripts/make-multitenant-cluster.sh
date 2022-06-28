@@ -26,6 +26,9 @@ yq eval "$query" "$source" > "$target"
 # Remove the aadpodidbinding label - this is only needed for communicating to ARM
 yq eval -i "del(select($deployment) | .spec.template.metadata.labels.aadpodidbinding)" "$target"
 
+# Edit the deployment to turn off leader election for the webhook only pod, as the webhooks don't wait for leader election anyway.
+yq eval -i "del(select($deployment) | .spec.template.spec.containers[] | select(.name == \"manager\").args[] | select(. == \"--enable-leader-election\"))" "$target"
+
 # Change the manager container env vars - the webhook server only
 # needs pod namespace, operator mode and subscription id (which isn't
 # used).
