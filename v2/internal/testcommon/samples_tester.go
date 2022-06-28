@@ -83,15 +83,15 @@ func (t *SamplesTester) LoadSamples(rg *resources.ResourceGroup, namespace strin
 
 				sample.SetNamespace(namespace)
 
-				if !strings.Contains(filePath, refsPackage) {
+				if filepath.Base(filepath.Dir(filePath)) == refsPackage {
+					// We don't change name for dependencies as they have fixed refs which we can't access inside the object
+					// need to make sure we have right names for the refs in samples
+					handleObject(sample, rg, depSamples)
+				} else {
 					if t.UseRandomName {
 						sample.SetName(t.noSpaceNamer.GenerateName(""))
 					}
 					handleObject(sample, rg, samples)
-				} else {
-					// We don't change name for dependencies as they have fixed refs which we can't access inside the object
-					// need to make sure we have right names for the refs in samples
-					handleObject(sample, rg, depSamples)
 				}
 			}
 
