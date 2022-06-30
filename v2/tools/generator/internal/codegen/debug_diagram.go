@@ -53,19 +53,26 @@ func (diagram *debugDiagram) createDiagram(stages []*pipeline.Stage) []byte {
 	b.WriteString("digraph pipeline {\n\n")
 	b.WriteString("    node [shape=box];\n")
 
+	// blockSize is the number of nodes or edges to display in each block
+	// Dividing nodes and edges into blocks makes the graph source code easier to read
+	const blockSize = 10
+
 	// Create nodes
 	for index, stage := range stages {
 		b.WriteString(
 			fmt.Sprintf("    %s [label=\"%s\"];\n",
 				diagram.idFor(stage),
 				diagram.safeDescription(stage.Description())))
-		if index < len(stages)-1 && index%11 == 10 {
+
+		// If we've reached the end of the block, add a newline
+		if index < len(stages)-1 && index%(blockSize+1) == blockSize {
 			b.WriteString("\n")
 		}
 	}
 
 	// Create edges
-	// We construct edges in different directions so the nodes zigzag
+	// We construct edges in different directions so the nodes zigzag on the diagram,
+	// ensuring it doesn't end up looking weirdly tall and thin
 	forward := true // true if we're drawing edges forward, false if backwards
 	b.WriteString("\n    edge [arrowhead=normal]\n")
 	for index, stage := range stages {
@@ -84,7 +91,8 @@ func (diagram *debugDiagram) createDiagram(stages []*pipeline.Stage) []byte {
 			}
 		}
 
-		if index < len(stages)-1 && index%11 == 10 {
+		// If we've reached the end of the block, add a newline
+		if index < len(stages)-1 && index%(blockSize+1) == blockSize {
 			forward = !forward
 			b.WriteString("\n")
 		}
