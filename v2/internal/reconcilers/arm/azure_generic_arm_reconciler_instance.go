@@ -296,6 +296,11 @@ func (r *azureDeploymentReconcilerInstance) MonitorDelete(ctx context.Context) (
 }
 
 func (r *azureDeploymentReconcilerInstance) BeginCreateOrUpdateResource(ctx context.Context) (ctrl.Result, error) {
+	if r.Obj.AzureName() == "" {
+		err := errors.New("AzureName was not set. A webhook should default this to .metadata.name if it was omitted. Is the ASO webhook service running?")
+		return ctrl.Result{}, conditions.NewReadyConditionImpactingError(err, conditions.ConditionSeverityError, conditions.ReasonFailed)
+	}
+
 	armResource, err := r.ConvertResourceToARMResource(ctx)
 	if err != nil {
 		return ctrl.Result{}, err
