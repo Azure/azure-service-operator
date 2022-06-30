@@ -6,9 +6,14 @@ FROM mcr.microsoft.com/vscode/devcontainers/go:0-1.18
 # APT dependencies
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
-    && apt-get -y install --no-install-recommends bash-completion software-properties-common lsb-release npm \
+    && apt-get -y install --no-install-recommends bash-completion software-properties-common lsb-release \
     # install az-cli
     && curl -sL https://aka.ms/InstallAzureCLIDeb | bash -
+
+# For Hugo we need a newer version of NodeJS than the v12.22.12 available via the standard sources
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x -o /tmp/nodesource-setup.sh \
+    && sudo bash /tmp/nodesource-setup.sh \
+    && apt-get -y install nodejs
 
 # install docker
 # - not yet needed?
