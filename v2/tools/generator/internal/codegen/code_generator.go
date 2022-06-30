@@ -229,7 +229,7 @@ func (generator *CodeGenerator) Generate(ctx context.Context) error {
 		// Generate a diagram containing our stages
 		outputFolder := generator.debugReporter.outputFolder
 		diagram := newDebugDiagram(outputFolder)
-		err := diagram.diagramPipeline(generator.pipeline)
+		err := diagram.writeDiagram(generator.pipeline)
 		if err != nil {
 			return errors.Wrapf(err, "failed to generate diagram")
 		}

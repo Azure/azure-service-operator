@@ -34,8 +34,8 @@ func newDebugDiagram(debugDir string) *debugDiagram {
 	}
 }
 
-// diagramPipeline writes a diagram of the pipeline to pipeline.dot
-func (diagram *debugDiagram) diagramPipeline(stages []*pipeline.Stage) error {
+// writeDiagram writes a diagram of the pipeline to pipeline.dot
+func (diagram *debugDiagram) writeDiagram(stages []*pipeline.Stage) error {
 	dotsrc := diagram.createDiagram(stages)
 	filename := filepath.Join(diagram.debugDir, "pipeline.dot")
 	err := ioutil.WriteFile(filename, dotsrc, 0600)
