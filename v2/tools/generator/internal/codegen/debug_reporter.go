@@ -9,6 +9,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"path"
+	"regexp"
 	"sort"
 	"strconv"
 	"strings"
@@ -38,11 +39,6 @@ func newDebugReporter(groupSelector string, outputFolder string) *debugReporter 
 }
 
 func (dr *debugReporter) ReportStage(stage int, description string, state *pipeline.State) error {
-	if dr == nil || dr.outputFolder == "" {
-		// Not in debug mode.
-		return nil
-	}
-
 	report, err := dr.createReport(state)
 	if err != nil {
 		return errors.Wrapf(err, "failed to create debug report for stage %d", stage)
@@ -177,8 +173,12 @@ func (dr *debugReporter) writeEnum(rpt *debugReport, enum *astmodel.EnumType, cu
 	}
 }
 
+var dashMatcher = regexp.MustCompile("-+")
+
+// createFileName creates the filename for the debug report from the name of the stage, filtering out any characters
+// that are unsafe in filenames
 func (dr *debugReporter) createFileName(stage int, description string) string {
-	// filter non-alphanumeric characters from the stage name
+	// filter symbols and other unsafe characters from the stage name to generate a safe filename for the debug log
 	stageName := strings.Map(func(r rune) rune {
 		if r >= 'a' && r <= 'z' || r >= 'A' && r <= 'Z' || r >= '0' && r <= '9' {
 			return r
@@ -186,6 +186,9 @@ func (dr *debugReporter) createFileName(stage int, description string) string {
 
 		return '-'
 	}, description)
+
+	// Replace any sequence of dashes with a single one using a regular expression
+	stageName = dashMatcher.ReplaceAllString(stageName, "-")
 
 	// Create a filename using the description and the stage number.
 	filename := strconv.Itoa(stage+1) + "-" + stageName + ".txt"
