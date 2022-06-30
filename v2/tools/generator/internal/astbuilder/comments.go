@@ -101,7 +101,7 @@ func formatComment(comment string, width int) []string {
 		lines[i] = strings.TrimSpace(l)
 	}
 
-	// Wordwrap and return
+	// WordWrap and return
 	return docCommentWrap(lines, width)
 }
 
@@ -112,14 +112,14 @@ var brRegex = regexp.MustCompile("<br[^/>]*/?>")
 func docCommentWrap(lines []string, width int) []string {
 	var result []string
 	for _, l := range lines {
-		result = append(result, Wordwrap(l, width)...)
+		result = append(result, WordWrap(l, width)...)
 	}
 
 	return result
 }
 
-// Wordwrap applies word wrapping to the specified string, returning a slice containing the lines.
-func Wordwrap(text string, width int) []string {
+// WordWrap applies word wrapping to the specified string, returning a slice containing the lines.
+func WordWrap(text string, width int) []string {
 	var result []string
 
 	start := 0

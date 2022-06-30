@@ -7,8 +7,6 @@ package astbuilder
 
 import (
 	"testing"
-
-	. "github.com/onsi/gomega"
 )
 
 func TestDocumentationCommentFormatting(t *testing.T) {
@@ -77,7 +75,7 @@ func TestWordWrap(t *testing.T) {
 		t.Run(c.text, func(t *testing.T) {
 			t.Parallel()
 			g := NewGomegaWithT(t)
-			lines := Wordwrap(c.text, c.width)
+			lines := WordWrap(c.text, c.width)
 			g.Expect(lines).To(Equal(c.results))
 		})
 	}

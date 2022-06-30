@@ -142,7 +142,7 @@ func (diagram *debugDiagram) safeDescription(description string) string {
 		}
 	}
 
-	lines := astbuilder.Wordwrap(b.String(), 30)
+	lines := astbuilder.WordWrap(b.String(), 30)
 
 	return strings.Join(lines, "\\n")
 }
