@@ -92,12 +92,9 @@ import (
 	keyvault_customizations "github.com/Azure/azure-service-operator/v2/api/keyvault/customizations"
 	keyvault_v20210401p "github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview"
 	keyvault_v20210401ps "github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401previewstorage"
-<<<<<<< HEAD
-=======
 	machinelearningservices_customizations "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/customizations"
 	machinelearningservices_v20210701 "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta20210701"
 	machinelearningservices_v20210701s "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta20210701storage"
->>>>>>> 699ec955b (Add support for MLS)
 	managedidentity_customizations "github.com/Azure/azure-service-operator/v2/api/managedidentity/customizations"
 	managedidentity_alpha20181130 "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1alpha1api20181130"
 	managedidentity_alpha20181130s "github.com/Azure/azure-service-operator/v2/api/managedidentity/v1alpha1api20181130storage"
@@ -478,6 +475,10 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Func: indexMachinelearningservicesWorkspacesComputeHDInsightPassword,
 			},
 			{
+				Key:  ".spec.properties.virtualMachine.properties.administratorAccount.password",
+				Func: indexMachinelearningservicesWorkspacesComputeVirtualMachinePassword,
+			},
+			{
 				Key:  ".spec.properties.amlCompute.properties.userAccountCredentials.adminUserPassword",
 				Func: indexMachinelearningservicesWorkspacesComputeAdminUserPassword,
 			},
@@ -485,15 +486,11 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Key:  ".spec.properties.amlCompute.properties.userAccountCredentials.adminUserSshPublicKey",
 				Func: indexMachinelearningservicesWorkspacesComputeAdminUserSshPublicKey,
 			},
-			{
-				Key:  ".spec.properties.virtualMachine.properties.administratorAccount.password",
-				Func: indexMachinelearningservicesWorkspacesComputeVirtualMachinePassword,
-			},
 		},
 		Watches: []registration.Watch{
 			{
 				Src:              &source.Kind{Type: &v1.Secret{}},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.hdInsight.properties.administratorAccount.password", ".spec.properties.amlCompute.properties.userAccountCredentials.adminUserPassword", ".spec.properties.amlCompute.properties.userAccountCredentials.adminUserSshPublicKey", ".spec.properties.virtualMachine.properties.administratorAccount.password"}, &machinelearningservices_v20210701s.WorkspacesComputeList{}),
+				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.hdInsight.properties.administratorAccount.password", ".spec.properties.virtualMachine.properties.administratorAccount.password", ".spec.properties.amlCompute.properties.userAccountCredentials.adminUserPassword", ".spec.properties.amlCompute.properties.userAccountCredentials.adminUserSshPublicKey"}, &machinelearningservices_v20210701s.WorkspacesComputeList{}),
 			},
 		},
 	})

@@ -1043,7 +1043,7 @@ objectModelConfiguration:
     2021-07-01:
       Workspace:
         $export: true
-        $supportedFrom: v2.0.0-beta.1
+        $supportedFrom: v2.0.0-beta.2
         $azureGeneratedSecrets:
           - AppInsightsInstrumentationKey
           - ContainerRegistryUserName
@@ -1068,7 +1068,7 @@ objectModelConfiguration:
           $armReference: true
       WorkspacesCompute:
         $export: true
-        $supportedFrom: v2.0.0-beta.1
+        $supportedFrom: v2.0.0-beta.2
       VirtualMachineImage:
         Id:
           $armReference: true
@@ -1115,7 +1115,7 @@ objectModelConfiguration:
           $isSecret: true
       WorkspacesConnection:
         $export: true
-        $supportedFrom: v2.0.0-beta.1
+        $supportedFrom: v2.0.0-beta.2
   network:
     2020-11-01:
       LoadBalancer:

@@ -15,9 +15,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/go-autorest/autorest/to"
-	"github.com/onsi/gomega"
-	v1 "k8s.io/api/core/v1"
-	"sigs.k8s.io/controller-runtime/pkg/client"
 )
 
 func Test_MachineLearning_Workspaces_CRUD(t *testing.T) {
@@ -34,26 +31,29 @@ func Test_MachineLearning_Workspaces_CRUD(t *testing.T) {
 	kv := newVault(tc, rg)
 	tc.CreateResourceAndWait(kv)
 
-	workspace := newWorkspace(tc, testcommon.AsOwner(rg), sa, kv, tc.AzureRegion)
+	// Have to use 'eastus' location here as 'ListKeys' API is unavailable/still broken for 'westus2'
+	workspace := newWorkspace(tc, testcommon.AsOwner(rg), sa, kv, to.StringPtr("eastus"))
 
 	tc.CreateResourcesAndWait(workspace)
 
-	// There should be no secrets at this point
-	list := &v1.SecretList{}
-	tc.ListResources(list, client.InNamespace(tc.Namespace))
-	tc.Expect(list.Items).To(gomega.HaveLen(0))
+	Workspaces_WriteSecrets(tc, workspace)
 
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
-			Name: "Test_WorkspacesCompute_CRUD",
-			Test: func(testContext *testcommon.KubePerTestContext) {
+			Name: "Test_WorkspaceCompute_CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
 				WorkspaceCompute_CRUD(tc, testcommon.AsOwner(workspace), rg)
+			},
+		},
+		testcommon.Subtest{
+			Name: "Test_WorkspaceConnection_CRUD",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				WorkspaceConnection_CRUD(tc, workspace)
 			},
 		},
 	)
 
 	tc.DeleteResourcesAndWait(workspace, kv, sa, rg)
-
 }
 
 func Workspaces_WriteSecrets(tc *testcommon.KubePerTestContext, workspace *machinelearningservices.Workspace) {
@@ -98,43 +98,6 @@ func newWorkspace(tc *testcommon.KubePerTestContext, owner *genruntime.KnownReso
 	return workspaces
 }
 
-func Test_MachineLearning_WorkspaceConnection_CRUD(t *testing.T) {
-	t.Parallel()
-
-	tc := globalTestContext.ForTest(t)
-
-	rg := tc.CreateTestResourceGroupAndWait()
-
-	sa := newStorageAccount(tc, rg)
-
-	tc.CreateResourceAndWait(sa)
-
-	kv := newVault(tc, rg)
-	tc.CreateResourceAndWait(kv)
-
-	// Have to use 'eastus' location here as 'ListKeys' API is unavailable/still broken for 'westus2'
-	workspaces := newWorkspace(tc, testcommon.AsOwner(rg), sa, kv, to.StringPtr("eastus"))
-
-	tc.CreateResourcesAndWait(workspaces)
-
-	tc.RunParallelSubtests(
-		testcommon.Subtest{
-			Name: "WriteWorkspaceSecretsToKubeSecret",
-			Test: func(tc *testcommon.KubePerTestContext) {
-				Workspaces_WriteSecrets(tc, workspaces)
-			},
-		},
-		testcommon.Subtest{
-			Name: "WriteWorkspaceSecretsToKubeSecret",
-			Test: func(tc *testcommon.KubePerTestContext) {
-				WorkspaceConnection_CRUD(tc, workspaces)
-			},
-		},
-	)
-
-	tc.DeleteResourcesAndWait(workspaces, kv, sa, rg)
-}
-
 func WorkspaceConnection_CRUD(tc *testcommon.KubePerTestContext, workspaces *machinelearningservices.Workspace) {
 
 	jsonValue := "{\"foo\":\"bar\", \"baz\":\"bee\"}"
@@ -171,8 +134,6 @@ func WorkspaceCompute_CRUD(tc *testcommon.KubePerTestContext, owner *genruntime.
 	tc.CreateResourceAndWait(rule)
 
 	networkInterface := newVMNetworkInterfaceWithPublicIP(tc, testcommon.AsOwner(rg), subnet, publicIP, nsg)
-	// Inefficient but avoids triggering the vnet/subnets problem.
-	// https://github.com/Azure/azure-service-operator/issues/1944
 	tc.CreateResourcesAndWait(subnet, publicIP, networkInterface)
 
 	secret := createVMPasswordSecretAndRef(tc)
