@@ -13,7 +13,7 @@ This project is a beta. We follow the [Kubernetes definition of beta](https://ku
 
 ## What resources does ASO v2 support?
 
-See the list of supported resources [here](https://azure.github.io/azure-service-operator/introduction/resources/).
+See the list of supported resources [here](https://azure.github.io/azure-service-operator/reference/).
 
 ## Getting Started
 ### Prerequisites
@@ -25,7 +25,7 @@ See the list of supported resources [here](https://azure.github.io/azure-service
 1. Install [cert-manager](https://cert-manager.io/docs/installation/kubernetes/) on the cluster using the following command.
 
     ```bash
-    kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.7.1/cert-manager.yaml
+    kubectl apply -f https://github.com/jetstack/cert-manager/releases/download/v1.8.2/cert-manager.yaml
     ```
    Check that the cert-manager pods have started successfully before continuing.
 
@@ -72,7 +72,7 @@ See the list of supported resources [here](https://azure.github.io/azure-service
    ```
 
 3. Install [the latest **v2+** Helm chart](/v2/charts). Alternatively you can install from the [release YAML directly](https://azure.github.io/azure-service-operator/introduction/installing-from-yaml)
-
+   
    ```
    helm repo add aso2 https://raw.githubusercontent.com/Azure/azure-service-operator/main/v2/charts
    ```
@@ -167,7 +167,7 @@ As for deleting controller components, just `kubectl delete -f` the release mani
 to get started. For example, creating and deleting cert-manager.
 ```bash
 # remove the cert-manager components
-kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v1.1.0/cert-manager.yaml
+kubectl delete -f https://github.com/jetstack/cert-manager/releases/download/v1.8.2/cert-manager.yaml
 ```
 
 ## How to contribute
