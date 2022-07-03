@@ -7,6 +7,8 @@ package astbuilder
 
 import (
 	"testing"
+
+	. "github.com/onsi/gomega"
 )
 
 func TestDocumentationCommentFormatting(t *testing.T) {
