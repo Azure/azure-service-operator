@@ -25,6 +25,9 @@ import (
 	"github.com/Azure/azure-service-operator/v2/internal/version"
 )
 
+const CreatePollerID = "GenericClient.CreateOrUpdateByID"
+const DeletePollerID = "GenericClient.DeleteByID"
+
 // NOTE: All of these methods (and types) were adapted from
 // https://github.com/Azure/azure-sdk-for-go/blob/sdk/resources/armresources/v0.3.0/sdk/resources/armresources/zz_generated_resources_client.go
 // which was then moved to here: https://github.com/Azure/azure-sdk-for-go/blob/main/sdk/resourcemanager/resources/armresources/zz_generated_client.go
@@ -111,7 +114,7 @@ func (client *GenericClient) BeginCreateOrUpdateByID(
 	}
 	result := PollerResponse{
 		RawResponse: resp,
-		ID:          "GenericClient.CreateOrUpdateByID",
+		ID:          CreatePollerID,
 	}
 
 	pt, err := azcoreruntime.NewPoller[GenericResource](resp, client.pl, nil)
@@ -231,6 +234,27 @@ func (client *GenericClient) getByIDHandleResponse(resp *http.Response, resource
 	return nil
 }
 
+// DeleteByID - Deletes a resource by ID.
+// If the operation fails it returns the *CloudError error type.
+func (client *GenericClient) BeginDeleteByID(ctx context.Context, resourceID string, apiVersion string) (*PollerResponse, error) {
+	resp, err := client.deleteByID(ctx, resourceID, apiVersion)
+	if err != nil {
+		return nil, err
+	}
+
+	result := PollerResponse{
+		RawResponse: resp,
+		ID:          DeletePollerID,
+	}
+	pt, err := azcoreruntime.NewPoller[GenericResource](resp, client.pl, nil)
+	if err != nil {
+		return nil, err
+	}
+	result.Poller = pt
+	return &result, nil
+}
+
+// TODO: Delete this in favor of the async-aware one above
 // DeleteByID - Deletes a resource by ID.
 // If the operation fails it returns the *CloudError error type.
 func (client *GenericClient) DeleteByID(ctx context.Context, resourceID string, apiVersion string) (time.Duration, error) {

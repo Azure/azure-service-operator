@@ -1,9 +1,9 @@
 /*
- *Copyright (c) Microsoft Corporation.
- *Licensed under the MIT license.
+ * Copyright (c) Microsoft Corporation.
+ * Licensed under the MIT license.
  */
 
-package reconcilers
+package kubeclient
 
 import (
 	apierrors "k8s.io/apimachinery/pkg/api/errors"

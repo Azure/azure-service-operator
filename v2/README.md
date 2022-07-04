@@ -13,7 +13,7 @@ This project is a beta. We follow the [Kubernetes definition of beta](https://ku
 
 ## What resources does ASO v2 support?
 
-See the list of supported resources [here](https://azure.github.io/azure-service-operator/introduction/resources/).
+See the list of supported resources [here](https://azure.github.io/azure-service-operator/reference/).
 
 ## Getting Started
 ### Prerequisites
