@@ -85,9 +85,12 @@ if ! command -v go > /dev/null 2>&1; then
     exit 1
 fi
 
-GOVERREQUIRED="go1.18"
+GOVER=$(go version)
+write-info "Go version: ${GOVER[*]}"
+
+GOVERREQUIRED="go1.18.*"
 GOVERACTUAL=$(go version | { read _ _ ver _; echo $ver; })
-if [ "$GOVERREQUIRED" != "$GOVERACTUAL" ]; then
+if ! [[ "$GOVERACTUAL" =~ $GOVERREQUIRED ]]; then
     write-error "Go must be version $GOVERREQUIRED, not $GOVERACTUAL; see : https://golang.org/doc/install"
     exit 1
 fi
@@ -160,7 +163,7 @@ if [ "$DEVCONTAINER" != true ]; then
         write-info "Installing golangci-lint"
         # golangci-lint is provided by base image if in devcontainer
         # this command copied from there
-        curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$TOOL_DEST" v1.45.2 2>&1
+        curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "$TOOL_DEST" v1.46.2 2>&1
     fi
 fi
 

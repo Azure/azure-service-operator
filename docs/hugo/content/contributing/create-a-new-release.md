@@ -10,6 +10,15 @@ title: Creating a new release
 6. Publish the release. This will automatically trigger a GitHub action to build and publish an updated Docker image with the latest manager changes.
 7. Ensure that the action associated with your release finishes successfully.
 
+# Cataloging breaking changes in a new release
+
+There may be breaking changes in a new release of ASO, either due to changes we made or changes made in the upstream
+service Swagger specifications. We must validate each breaking change so that we can notify customers about it.
+
+1. Download the latest Helm chart release (example [beta.0](https://github.com/Azure/azure-service-operator/blob/main/v2/charts/azure-service-operator-crds-v2.0.0-beta.0.tgz)) and extract it.
+2. Run `task controller:gen-helm-chart` to generate a local helm chart (saved to `v2/charts`). Extract it as well.
+3. Produce a diff between these files: `diff -u <old> <new> > comparison.diff` and examine it.
+
 # Testing the new release
 1. Download the yaml file from the release page
 2. Create a kind cluster: `task controller:kind-create`
