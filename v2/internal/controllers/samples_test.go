@@ -21,6 +21,7 @@ import (
 
 var cases = []struct {
 	Group          string
+	testName       string
 	UseRandomName  bool
 	DeleteChildren bool
 }{
@@ -138,13 +139,8 @@ func Test_Samples_CreationAndDeletion(t *testing.T) {
 
 	for _, test := range cases {
 		test := test
-		testName := strings.Join(
-			[]string{
-				"Test",
-				strings.Title(strings.ReplaceAll(test.Group, "/", "_")),
-				"CreationAndDeletion",
-			}, "_")
-		t.Run(testName, func(t *testing.T) {
+		test.testName = getTestName(test.Group)
+		t.Run(test.testName, func(t *testing.T) {
 			t.Parallel()
 			tc := globalTestContext.ForTest(t)
 			runGroupTest(
@@ -156,6 +152,15 @@ func Test_Samples_CreationAndDeletion(t *testing.T) {
 		})
 	}
 
+}
+
+func getTestName(group string) string {
+	return strings.Join(
+		[]string{
+			"Test",
+			strings.Title(strings.ReplaceAll(group, "/", "_")),
+			"CreationAndDeletion",
+		}, "_")
 }
 
 func runGroupTest(tc *testcommon.KubePerTestContext, group string, useRandomName bool, deleteChildren bool) {
@@ -194,7 +199,7 @@ func createAndDeleteResourceTree(tc *testcommon.KubePerTestContext, hashMap *lin
 		return
 	}
 
-	var secrets []*v1.Secret
+	secrets := make([]*v1.Secret, len(refs))
 	for ref, _ := range refs {
 		password := tc.Namer.GeneratePasswordOfLength(40)
 
