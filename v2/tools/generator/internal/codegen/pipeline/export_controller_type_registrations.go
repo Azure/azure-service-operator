@@ -93,8 +93,9 @@ func handleSecretPropertyChains(
 		indexFunctions = append(indexFunctions, indexFunction)
 		secretPropertyKeys = append(secretPropertyKeys, secretPropertyKey)
 	}
-	
+
 	sort.Slice(indexFunctions, orderByFunctionName(indexFunctions))
+	sort.Strings(secretPropertyKeys)
 
 	return indexFunctions, secretPropertyKeys
 }

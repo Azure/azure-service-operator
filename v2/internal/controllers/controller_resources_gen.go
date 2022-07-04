@@ -490,7 +490,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{
 			{
 				Src:              &source.Kind{Type: &v1.Secret{}},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.virtualMachine.properties.administratorAccount.password", ".spec.properties.amlCompute.properties.userAccountCredentials.adminUserSshPublicKey", ".spec.properties.amlCompute.properties.userAccountCredentials.adminUserPassword", ".spec.properties.hdInsight.properties.administratorAccount.password"}, &machinelearningservices_v20210701s.WorkspacesComputeList{}),
+				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.amlCompute.properties.userAccountCredentials.adminUserPassword", ".spec.properties.amlCompute.properties.userAccountCredentials.adminUserSshPublicKey", ".spec.properties.hdInsight.properties.administratorAccount.password", ".spec.properties.virtualMachine.properties.administratorAccount.password"}, &machinelearningservices_v20210701s.WorkspacesComputeList{}),
 			},
 		},
 	})
