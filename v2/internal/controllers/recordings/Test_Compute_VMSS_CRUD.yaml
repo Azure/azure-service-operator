@@ -72,7 +72,7 @@ interactions:
       Accept:
       - application/json
       Content-Length:
-      - "114"
+      - "115"
       Content-Type:
       - application/json
       Test-Request-Attempt:
@@ -81,9 +81,9 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"asotest-vn-edpebd\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/virtualNetworks/asotest-vn-edpebd\",\r\n
-      \ \"etag\": \"W/\\\"0d4a0728-d30f-4ce2-9796-38876a2fb0b8\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"1825b257-f267-4e8a-8cab-2a849fbd89ed\\\"\",\r\n  \"type\":
       \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"38d75092-3eee-4530-a697-06efd48b74ee\",\r\n
+      {\r\n    \"provisioningState\": \"Updating\",\r\n    \"resourceGuid\": \"fe135492-06b8-4d75-97f1-c8d23cdaf0ef\",\r\n
       \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/16\"\r\n
       \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
       [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
@@ -91,11 +91,11 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/f02c109f-a28b-40f2-9b3c-b4a6aa753c82?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/3a5882f5-a13e-48f5-a646-e90e121f3ff4?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "629"
+      - "630"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -120,7 +120,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/f02c109f-a28b-40f2-9b3c-b4a6aa753c82?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/3a5882f5-a13e-48f5-a646-e90e121f3ff4?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
@@ -157,9 +157,9 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-vn-edpebd\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/virtualNetworks/asotest-vn-edpebd\",\r\n
-      \ \"etag\": \"W/\\\"00edcd4b-184a-4e98-9f74-f8d2c291c362\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"60425ac7-b03d-4d8f-b9ef-90295a45df56\\\"\",\r\n  \"type\":
       \"Microsoft.Network/virtualNetworks\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"38d75092-3eee-4530-a697-06efd48b74ee\",\r\n
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"fe135492-06b8-4d75-97f1-c8d23cdaf0ef\",\r\n
       \   \"addressSpace\": {\r\n      \"addressPrefixes\": [\r\n        \"10.0.0.0/16\"\r\n
       \     ]\r\n    },\r\n    \"subnets\": [],\r\n    \"virtualNetworkPeerings\":
       [],\r\n    \"enableDdosProtection\": false\r\n  }\r\n}"
@@ -169,7 +169,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"00edcd4b-184a-4e98-9f74-f8d2c291c362"
+      - W/"60425ac7-b03d-4d8f-b9ef-90295a45df56"
       Expires:
       - "-1"
       Pragma:
@@ -202,14 +202,14 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"asotest-subnet-sexygt\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/virtualNetworks/asotest-vn-edpebd/subnets/asotest-subnet-sexygt\",\r\n
-      \ \"etag\": \"W/\\\"5276ad12-74b9-4eea-97eb-0af27c86d948\\\"\",\r\n  \"properties\":
+      \ \"etag\": \"W/\\\"9203a660-fa42-43d0-bc00-2c939a3f8bc3\\\"\",\r\n  \"properties\":
       {\r\n    \"provisioningState\": \"Updating\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
       \   \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\": \"Enabled\",\r\n
       \   \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n  },\r\n  \"type\":
       \"Microsoft.Network/virtualNetworks/subnets\"\r\n}"
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/9ae15e64-75d6-417c-8bb2-d5d00924cd16?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/92c6a797-7119-4c79-a64b-2002088a19f5?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -239,7 +239,7 @@ interactions:
       Accept:
       - application/json
       Content-Length:
-      - "131"
+      - "132"
       Content-Type:
       - application/json
       Test-Request-Attempt:
@@ -248,9 +248,9 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"asotest-publicip-hiosyl\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-hiosyl\",\r\n
-      \ \"etag\": \"W/\\\"3560ac3d-59fb-4f27-b09b-4531d0d71874\\\"\",\r\n  \"location\":
+      \ \"etag\": \"W/\\\"4f4dd1d6-0cd9-465c-b48f-ebd16e50fffb\\\"\",\r\n  \"location\":
       \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Updating\",\r\n
-      \   \"resourceGuid\": \"82041700-34df-4078-b8b5-fd1a8cb1e292\",\r\n    \"publicIPAddressVersion\":
+      \   \"resourceGuid\": \"e9c393e6-8d28-42a7-a1ce-bfbba8903788\",\r\n    \"publicIPAddressVersion\":
       \"IPv4\",\r\n    \"publicIPAllocationMethod\": \"Static\",\r\n    \"idleTimeoutInMinutes\":
       4,\r\n    \"ipTags\": []\r\n  },\r\n  \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n
       \ \"sku\": {\r\n    \"name\": \"Standard\",\r\n    \"tier\": \"Regional\"\r\n
@@ -259,11 +259,11 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/db17a672-a1c8-40d7-8032-791a592dcda2?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/eba83351-e6cf-4cc2-9ee7-176a5013a70d?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "663"
+      - "664"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -288,7 +288,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/9ae15e64-75d6-417c-8bb2-d5d00924cd16?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/92c6a797-7119-4c79-a64b-2002088a19f5?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
@@ -325,7 +325,7 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-subnet-sexygt\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/virtualNetworks/asotest-vn-edpebd/subnets/asotest-subnet-sexygt\",\r\n
-      \ \"etag\": \"W/\\\"3398c192-cf71-4d39-bdb3-8bbf8cc22e32\\\"\",\r\n  \"properties\":
+      \ \"etag\": \"W/\\\"8b829461-43a0-46e2-8284-9a2366766dc5\\\"\",\r\n  \"properties\":
       {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"addressPrefix\": \"10.0.0.0/24\",\r\n
       \   \"delegations\": [],\r\n    \"privateEndpointNetworkPolicies\": \"Enabled\",\r\n
       \   \"privateLinkServiceNetworkPolicies\": \"Enabled\"\r\n  },\r\n  \"type\":
@@ -336,7 +336,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"3398c192-cf71-4d39-bdb3-8bbf8cc22e32"
+      - W/"8b829461-43a0-46e2-8284-9a2366766dc5"
       Expires:
       - "-1"
       Pragma:
@@ -360,7 +360,7 @@ interactions:
       Accept:
       - application/json
       Content-Length:
-      - "748"
+      - "749"
       Content-Type:
       - application/json
       Test-Request-Attempt:
@@ -369,12 +369,12 @@ interactions:
     method: PUT
   response:
     body: "{\r\n  \"name\": \"asotest-loadbalancer-otinhe\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-otinhe\",\r\n
-      \ \"etag\": \"W/\\\"1349f55c-bd98-40d8-8aed-0ea1cd53bc3a\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"1afae1d2-2760-4770-8f89-2938e6d7b57d\\\"\",\r\n  \"type\":
       \"Microsoft.Network/loadBalancers\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"111eaa7a-c7b4-4d1b-84b0-948b944cedae\",\r\n
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"9a7d8e88-499e-4a03-9721-e55be7a22a78\",\r\n
       \   \"frontendIPConfigurations\": [\r\n      {\r\n        \"name\": \"LoadBalancerFrontend\",\r\n
       \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-otinhe/frontendIPConfigurations/LoadBalancerFrontend\",\r\n
-      \       \"etag\": \"W/\\\"1349f55c-bd98-40d8-8aed-0ea1cd53bc3a\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"1afae1d2-2760-4770-8f89-2938e6d7b57d\\\"\",\r\n        \"type\":
       \"Microsoft.Network/loadBalancers/frontendIPConfigurations\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"privateIPAllocationMethod\":
       \"Dynamic\",\r\n          \"publicIPAddress\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-hiosyl\"\r\n
@@ -384,7 +384,7 @@ interactions:
       [],\r\n    \"loadBalancingRules\": [],\r\n    \"probes\": [],\r\n    \"inboundNatRules\":
       [],\r\n    \"outboundRules\": [],\r\n    \"inboundNatPools\": [\r\n      {\r\n
       \       \"name\": \"MyFancyNatPool\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-otinhe/inboundNatPools/MyFancyNatPool\",\r\n
-      \       \"etag\": \"W/\\\"1349f55c-bd98-40d8-8aed-0ea1cd53bc3a\\\"\",\r\n        \"properties\":
+      \       \"etag\": \"W/\\\"1afae1d2-2760-4770-8f89-2938e6d7b57d\\\"\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"frontendPortRangeStart\":
       50000,\r\n          \"frontendPortRangeEnd\": 51000,\r\n          \"backendPort\":
       22,\r\n          \"protocol\": \"Tcp\",\r\n          \"idleTimeoutInMinutes\":
@@ -398,11 +398,11 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/52660873-df03-4a56-b901-2c87cb0d8feb?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/77a9e57d-c9b3-49a4-a74b-e565ba971d54?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "2902"
+      - "2903"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -423,9 +423,69 @@ interactions:
     body: ""
     form: {}
     headers:
+      Accept:
+      - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/db17a672-a1c8-40d7-8032-791a592dcda2?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-otinhe?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-loadbalancer-otinhe\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-otinhe\",\r\n
+      \ \"etag\": \"W/\\\"1afae1d2-2760-4770-8f89-2938e6d7b57d\\\"\",\r\n  \"type\":
+      \"Microsoft.Network/loadBalancers\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"9a7d8e88-499e-4a03-9721-e55be7a22a78\",\r\n
+      \   \"frontendIPConfigurations\": [\r\n      {\r\n        \"name\": \"LoadBalancerFrontend\",\r\n
+      \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-otinhe/frontendIPConfigurations/LoadBalancerFrontend\",\r\n
+      \       \"etag\": \"W/\\\"1afae1d2-2760-4770-8f89-2938e6d7b57d\\\"\",\r\n        \"type\":
+      \"Microsoft.Network/loadBalancers/frontendIPConfigurations\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"privateIPAllocationMethod\":
+      \"Dynamic\",\r\n          \"publicIPAddress\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-hiosyl\"\r\n
+      \         },\r\n          \"inboundNatPools\": [\r\n            {\r\n              \"id\":
+      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-otinhe/inboundNatPools/MyFancyNatPool\"\r\n
+      \           }\r\n          ]\r\n        }\r\n      }\r\n    ],\r\n    \"backendAddressPools\":
+      [],\r\n    \"loadBalancingRules\": [],\r\n    \"probes\": [],\r\n    \"inboundNatRules\":
+      [],\r\n    \"outboundRules\": [],\r\n    \"inboundNatPools\": [\r\n      {\r\n
+      \       \"name\": \"MyFancyNatPool\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-otinhe/inboundNatPools/MyFancyNatPool\",\r\n
+      \       \"etag\": \"W/\\\"1afae1d2-2760-4770-8f89-2938e6d7b57d\\\"\",\r\n        \"properties\":
+      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"frontendPortRangeStart\":
+      50000,\r\n          \"frontendPortRangeEnd\": 51000,\r\n          \"backendPort\":
+      22,\r\n          \"protocol\": \"Tcp\",\r\n          \"idleTimeoutInMinutes\":
+      4,\r\n          \"enableFloatingIP\": false,\r\n          \"enableDestinationServiceEndpoint\":
+      false,\r\n          \"enableTcpReset\": false,\r\n          \"allowBackendPortConflict\":
+      false,\r\n          \"frontendIPConfiguration\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-otinhe/frontendIPConfigurations/LoadBalancerFrontend\"\r\n
+      \         }\r\n        },\r\n        \"type\": \"Microsoft.Network/loadBalancers/inboundNatPools\"\r\n
+      \     }\r\n    ]\r\n  },\r\n  \"sku\": {\r\n    \"name\": \"Standard\",\r\n
+      \   \"tier\": \"Regional\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"1afae1d2-2760-4770-8f89-2938e6d7b57d"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/eba83351-e6cf-4cc2-9ee7-176a5013a70d?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
@@ -462,10 +522,10 @@ interactions:
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-publicip-hiosyl\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-hiosyl\",\r\n
-      \ \"etag\": \"W/\\\"dd712f12-beee-423f-9ef5-bba27d68530f\\\"\",\r\n  \"location\":
+      \ \"etag\": \"W/\\\"15dbd409-06b3-4a55-a9a6-673dd8777789\\\"\",\r\n  \"location\":
       \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n
-      \   \"resourceGuid\": \"82041700-34df-4078-b8b5-fd1a8cb1e292\",\r\n    \"ipAddress\":
-      \"20.115.24.207\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
+      \   \"resourceGuid\": \"e9c393e6-8d28-42a7-a1ce-bfbba8903788\",\r\n    \"ipAddress\":
+      \"20.83.109.134\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
       \"Static\",\r\n    \"idleTimeoutInMinutes\": 4,\r\n    \"ipTags\": [],\r\n    \"ipConfiguration\":
       {\r\n      \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-otinhe/frontendIPConfigurations/LoadBalancerFrontend\"\r\n
       \   }\r\n  },\r\n  \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\":
@@ -476,98 +536,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"dd712f12-beee-423f-9ef5-bba27d68530f"
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/52660873-df03-4a56-b901-2c87cb0d8feb?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-otinhe?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"name\": \"asotest-loadbalancer-otinhe\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-otinhe\",\r\n
-      \ \"etag\": \"W/\\\"1349f55c-bd98-40d8-8aed-0ea1cd53bc3a\\\"\",\r\n  \"type\":
-      \"Microsoft.Network/loadBalancers\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"111eaa7a-c7b4-4d1b-84b0-948b944cedae\",\r\n
-      \   \"frontendIPConfigurations\": [\r\n      {\r\n        \"name\": \"LoadBalancerFrontend\",\r\n
-      \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-otinhe/frontendIPConfigurations/LoadBalancerFrontend\",\r\n
-      \       \"etag\": \"W/\\\"1349f55c-bd98-40d8-8aed-0ea1cd53bc3a\\\"\",\r\n        \"type\":
-      \"Microsoft.Network/loadBalancers/frontendIPConfigurations\",\r\n        \"properties\":
-      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"privateIPAllocationMethod\":
-      \"Dynamic\",\r\n          \"publicIPAddress\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-hiosyl\"\r\n
-      \         },\r\n          \"inboundNatPools\": [\r\n            {\r\n              \"id\":
-      \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-otinhe/inboundNatPools/MyFancyNatPool\"\r\n
-      \           }\r\n          ]\r\n        }\r\n      }\r\n    ],\r\n    \"backendAddressPools\":
-      [],\r\n    \"loadBalancingRules\": [],\r\n    \"probes\": [],\r\n    \"inboundNatRules\":
-      [],\r\n    \"outboundRules\": [],\r\n    \"inboundNatPools\": [\r\n      {\r\n
-      \       \"name\": \"MyFancyNatPool\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-otinhe/inboundNatPools/MyFancyNatPool\",\r\n
-      \       \"etag\": \"W/\\\"1349f55c-bd98-40d8-8aed-0ea1cd53bc3a\\\"\",\r\n        \"properties\":
-      {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"frontendPortRangeStart\":
-      50000,\r\n          \"frontendPortRangeEnd\": 51000,\r\n          \"backendPort\":
-      22,\r\n          \"protocol\": \"Tcp\",\r\n          \"idleTimeoutInMinutes\":
-      4,\r\n          \"enableFloatingIP\": false,\r\n          \"enableDestinationServiceEndpoint\":
-      false,\r\n          \"enableTcpReset\": false,\r\n          \"allowBackendPortConflict\":
-      false,\r\n          \"frontendIPConfiguration\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-otinhe/frontendIPConfigurations/LoadBalancerFrontend\"\r\n
-      \         }\r\n        },\r\n        \"type\": \"Microsoft.Network/loadBalancers/inboundNatPools\"\r\n
-      \     }\r\n    ]\r\n  },\r\n  \"sku\": {\r\n    \"name\": \"Standard\",\r\n
-      \   \"tier\": \"Regional\"\r\n  }\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Etag:
-      - W/"1349f55c-bd98-40d8-8aed-0ea1cd53bc3a"
+      - W/"15dbd409-06b3-4a55-a9a6-673dd8777789"
       Expires:
       - "-1"
       Pragma:
@@ -592,7 +561,7 @@ interactions:
       Accept:
       - application/json
       Content-Length:
-      - "1547"
+      - "1548"
       Content-Type:
       - application/json
       Test-Request-Attempt:
@@ -602,8 +571,7 @@ interactions:
   response:
     body: "{\r\n  \"name\": \"asotest-vmss-wrahwf\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Compute/virtualMachineScaleSets/asotest-vmss-wrahwf\",\r\n
       \ \"type\": \"Microsoft.Compute/virtualMachineScaleSets\",\r\n  \"location\":
-      \"westus2\",\r\n  \"tags\": {\r\n    \"azsecpack\": \"nonprod\",\r\n    \"platformsettings.host_environment.service.platform_optedin_for_rootcerts\":
-      \"true\"\r\n  },\r\n  \"sku\": {\r\n    \"name\": \"STANDARD_D1_v2\",\r\n    \"tier\":
+      \"westus2\",\r\n  \"sku\": {\r\n    \"name\": \"STANDARD_D1_v2\",\r\n    \"tier\":
       \"Standard\",\r\n    \"capacity\": 1\r\n  },\r\n  \"properties\": {\r\n    \"singlePlacementGroup\":
       false,\r\n    \"upgradePolicy\": {\r\n      \"mode\": \"Automatic\"\r\n    },\r\n
       \   \"virtualMachineProfile\": {\r\n      \"osProfile\": {\r\n        \"computerNamePrefix\":
@@ -620,33 +588,20 @@ interactions:
       \         \"diskSizeGB\": 30\r\n        },\r\n        \"imageReference\": {\r\n
       \         \"publisher\": \"Canonical\",\r\n          \"offer\": \"UbuntuServer\",\r\n
       \         \"sku\": \"18.04-lts\",\r\n          \"version\": \"latest\"\r\n        }\r\n
-      \     },\r\n      \"networkProfile\": {\"networkInterfaceConfigurations\":[{\"name\":\"mynicconfig\",\"properties\":{\"primary\":true,\"enableAcceleratedNetworking\":false,\"dnsSettings\":{\"dnsServers\":[]},\"enableIPForwarding\":false,\"ipConfigurations\":[{\"name\":\"myipconfiguration\",\"properties\":{\"subnet\":{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/virtualNetworks/asotest-vn-edpebd/subnets/asotest-subnet-sexygt\"},\"privateIPAddressVersion\":\"IPv4\",\"loadBalancerInboundNatPools\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-otinhe/inboundNatPools/MyFancyNatPool\"}]}}]}}]},\r\n
-      \     \"extensionProfile\": {\r\n        \"extensions\": [\r\n          {\r\n
-      \           \"name\": \"Microsoft.Azure.Monitor.AzureMonitorLinuxAgent\",\r\n
-      \           \"properties\": {\r\n              \"autoUpgradeMinorVersion\":
-      true,\r\n              \"enableAutomaticUpgrade\": true,\r\n              \"publisher\":
-      \"Microsoft.Azure.Monitor\",\r\n              \"type\": \"AzureMonitorLinuxAgent\",\r\n
-      \             \"typeHandlerVersion\": \"1.0\",\r\n              \"settings\":
-      {\"GCS_AUTO_CONFIG\":true}\r\n            }\r\n          },\r\n          {\r\n
-      \           \"name\": \"Microsoft.Azure.Security.Monitoring.AzureSecurityLinuxAgent\",\r\n
-      \           \"properties\": {\r\n              \"autoUpgradeMinorVersion\":
-      true,\r\n              \"enableAutomaticUpgrade\": true,\r\n              \"publisher\":
-      \"Microsoft.Azure.Security.Monitoring\",\r\n              \"type\": \"AzureSecurityLinuxAgent\",\r\n
-      \             \"typeHandlerVersion\": \"2.0\",\r\n              \"settings\":
-      {\"enableGenevaUpload\":true,\"enableAutoConfig\":true,\"reportSuccessOnUnsupportedDistro\":true}\r\n
-      \           }\r\n          }\r\n        ]\r\n      }\r\n    },\r\n    \"provisioningState\":
-      \"Creating\",\r\n    \"overprovision\": true,\r\n    \"doNotRunExtensionsOnOverprovisionedVMs\":
-      false,\r\n    \"uniqueId\": \"f131d87c-b5a8-414c-8061-50dd56ee4261\",\r\n    \"platformFaultDomainCount\":
+      \     },\r\n      \"networkProfile\": {\"networkInterfaceConfigurations\":[{\"name\":\"mynicconfig\",\"properties\":{\"primary\":true,\"enableAcceleratedNetworking\":false,\"dnsSettings\":{\"dnsServers\":[]},\"enableIPForwarding\":false,\"ipConfigurations\":[{\"name\":\"myipconfiguration\",\"properties\":{\"subnet\":{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/virtualNetworks/asotest-vn-edpebd/subnets/asotest-subnet-sexygt\"},\"privateIPAddressVersion\":\"IPv4\",\"loadBalancerInboundNatPools\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-otinhe/inboundNatPools/MyFancyNatPool\"}]}}]}}]}\r\n
+      \   },\r\n    \"provisioningState\": \"Creating\",\r\n    \"overprovision\":
+      true,\r\n    \"doNotRunExtensionsOnOverprovisionedVMs\": false,\r\n    \"uniqueId\":
+      \"84e6dfe7-bcac-4cea-af4f-feb08f8bedfa\",\r\n    \"platformFaultDomainCount\":
       3\r\n  }\r\n}"
     headers:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/operations/c3958b5c-773a-45fe-b8b1-067d02c999ba?p=2c322404-bacc-46e4-b75e-51c6102feac8&api-version=2020-12-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/operations/21a9e412-4a3a-4c57-8503-6c0bf5e4c4b6?p=293bc17d-9efb-4af6-9c31-0eb97e7abc2e&api-version=2020-12-01
       Cache-Control:
       - no-cache
       Content-Length:
-      - "4071"
+      - "2895"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -663,7 +618,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/CreateVMScaleSet3Min;59,Microsoft.Compute/CreateVMScaleSet30Min;297,Microsoft.Compute/VMScaleSetBatchedVMRequests5Min;1198,Microsoft.Compute/VmssQueuedVMOperations;0
+      - Microsoft.Compute/CreateVMScaleSet3Min;59,Microsoft.Compute/CreateVMScaleSet30Min;299,Microsoft.Compute/VMScaleSetBatchedVMRequests5Min;1198,Microsoft.Compute/VmssQueuedVMOperations;0
       X-Ms-Request-Charge:
       - "2"
     status: 201 Created
@@ -675,11 +630,11 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/operations/c3958b5c-773a-45fe-b8b1-067d02c999ba?p=2c322404-bacc-46e4-b75e-51c6102feac8&api-version=2020-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/operations/21a9e412-4a3a-4c57-8503-6c0bf5e4c4b6?p=293bc17d-9efb-4af6-9c31-0eb97e7abc2e&api-version=2020-12-01
     method: GET
   response:
-    body: "{\r\n  \"startTime\": \"2022-06-09T03:23:51.2078795+00:00\",\r\n  \"status\":
-      \"InProgress\",\r\n  \"name\": \"c3958b5c-773a-45fe-b8b1-067d02c999ba\"\r\n}"
+    body: "{\r\n  \"startTime\": \"2022-03-23T17:15:00.0842548+00:00\",\r\n  \"status\":
+      \"InProgress\",\r\n  \"name\": \"21a9e412-4a3a-4c57-8503-6c0bf5e4c4b6\"\r\n}"
     headers:
       Cache-Control:
       - no-cache
@@ -701,7 +656,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/GetOperation3Min;14999,Microsoft.Compute/GetOperation30Min;29980
+      - Microsoft.Compute/GetOperation3Min;14999,Microsoft.Compute/GetOperation30Min;29999
     status: 200 OK
     code: 200
     duration: ""
@@ -711,11 +666,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/operations/c3958b5c-773a-45fe-b8b1-067d02c999ba?p=2c322404-bacc-46e4-b75e-51c6102feac8&api-version=2020-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/operations/21a9e412-4a3a-4c57-8503-6c0bf5e4c4b6?p=293bc17d-9efb-4af6-9c31-0eb97e7abc2e&api-version=2020-12-01
     method: GET
   response:
-    body: "{\r\n  \"startTime\": \"2022-06-09T03:23:51.2078795+00:00\",\r\n  \"status\":
-      \"InProgress\",\r\n  \"name\": \"c3958b5c-773a-45fe-b8b1-067d02c999ba\"\r\n}"
+    body: "{\r\n  \"startTime\": \"2022-03-23T17:15:00.0842548+00:00\",\r\n  \"endTime\":
+      \"2022-03-23T17:15:35.3495+00:00\",\r\n  \"status\": \"Succeeded\",\r\n  \"name\":
+      \"21a9e412-4a3a-4c57-8503-6c0bf5e4c4b6\"\r\n}"
     headers:
       Cache-Control:
       - no-cache
@@ -735,110 +691,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/GetOperation3Min;14997,Microsoft.Compute/GetOperation30Min;29978
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/operations/c3958b5c-773a-45fe-b8b1-067d02c999ba?p=2c322404-bacc-46e4-b75e-51c6102feac8&api-version=2020-12-01
-    method: GET
-  response:
-    body: "{\r\n  \"startTime\": \"2022-06-09T03:23:51.2078795+00:00\",\r\n  \"status\":
-      \"InProgress\",\r\n  \"name\": \"c3958b5c-773a-45fe-b8b1-067d02c999ba\"\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/GetOperation3Min;14996,Microsoft.Compute/GetOperation30Min;29977
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "3"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/operations/c3958b5c-773a-45fe-b8b1-067d02c999ba?p=2c322404-bacc-46e4-b75e-51c6102feac8&api-version=2020-12-01
-    method: GET
-  response:
-    body: "{\r\n  \"startTime\": \"2022-06-09T03:23:51.2078795+00:00\",\r\n  \"status\":
-      \"InProgress\",\r\n  \"name\": \"c3958b5c-773a-45fe-b8b1-067d02c999ba\"\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/GetOperation3Min;14995,Microsoft.Compute/GetOperation30Min;29976
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "4"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/operations/c3958b5c-773a-45fe-b8b1-067d02c999ba?p=2c322404-bacc-46e4-b75e-51c6102feac8&api-version=2020-12-01
-    method: GET
-  response:
-    body: "{\r\n  \"startTime\": \"2022-06-09T03:23:51.2078795+00:00\",\r\n  \"endTime\":
-      \"2022-06-09T03:25:22.3026149+00:00\",\r\n  \"status\": \"Succeeded\",\r\n  \"name\":
-      \"c3958b5c-773a-45fe-b8b1-067d02c999ba\"\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/GetOperation3Min;14994,Microsoft.Compute/GetOperation30Min;29975
+      - Microsoft.Compute/GetOperation3Min;14998,Microsoft.Compute/GetOperation30Min;29998
     status: 200 OK
     code: 200
     duration: ""
@@ -855,8 +708,7 @@ interactions:
   response:
     body: "{\r\n  \"name\": \"asotest-vmss-wrahwf\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Compute/virtualMachineScaleSets/asotest-vmss-wrahwf\",\r\n
       \ \"type\": \"Microsoft.Compute/virtualMachineScaleSets\",\r\n  \"location\":
-      \"westus2\",\r\n  \"tags\": {\r\n    \"azsecpack\": \"nonprod\",\r\n    \"platformsettings.host_environment.service.platform_optedin_for_rootcerts\":
-      \"true\"\r\n  },\r\n  \"sku\": {\r\n    \"name\": \"STANDARD_D1_v2\",\r\n    \"tier\":
+      \"westus2\",\r\n  \"sku\": {\r\n    \"name\": \"STANDARD_D1_v2\",\r\n    \"tier\":
       \"Standard\",\r\n    \"capacity\": 1\r\n  },\r\n  \"properties\": {\r\n    \"singlePlacementGroup\":
       false,\r\n    \"upgradePolicy\": {\r\n      \"mode\": \"Automatic\"\r\n    },\r\n
       \   \"virtualMachineProfile\": {\r\n      \"osProfile\": {\r\n        \"computerNamePrefix\":
@@ -873,23 +725,10 @@ interactions:
       \         \"diskSizeGB\": 30\r\n        },\r\n        \"imageReference\": {\r\n
       \         \"publisher\": \"Canonical\",\r\n          \"offer\": \"UbuntuServer\",\r\n
       \         \"sku\": \"18.04-lts\",\r\n          \"version\": \"latest\"\r\n        }\r\n
-      \     },\r\n      \"networkProfile\": {\"networkInterfaceConfigurations\":[{\"name\":\"mynicconfig\",\"properties\":{\"primary\":true,\"enableAcceleratedNetworking\":false,\"dnsSettings\":{\"dnsServers\":[]},\"enableIPForwarding\":false,\"ipConfigurations\":[{\"name\":\"myipconfiguration\",\"properties\":{\"subnet\":{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/virtualNetworks/asotest-vn-edpebd/subnets/asotest-subnet-sexygt\"},\"privateIPAddressVersion\":\"IPv4\",\"loadBalancerInboundNatPools\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-otinhe/inboundNatPools/MyFancyNatPool\"}]}}]}}]},\r\n
-      \     \"extensionProfile\": {\r\n        \"extensions\": [\r\n          {\r\n
-      \           \"name\": \"Microsoft.Azure.Monitor.AzureMonitorLinuxAgent\",\r\n
-      \           \"properties\": {\r\n              \"autoUpgradeMinorVersion\":
-      true,\r\n              \"enableAutomaticUpgrade\": true,\r\n              \"publisher\":
-      \"Microsoft.Azure.Monitor\",\r\n              \"type\": \"AzureMonitorLinuxAgent\",\r\n
-      \             \"typeHandlerVersion\": \"1.0\",\r\n              \"settings\":
-      {\"GCS_AUTO_CONFIG\":true}\r\n            }\r\n          },\r\n          {\r\n
-      \           \"name\": \"Microsoft.Azure.Security.Monitoring.AzureSecurityLinuxAgent\",\r\n
-      \           \"properties\": {\r\n              \"autoUpgradeMinorVersion\":
-      true,\r\n              \"enableAutomaticUpgrade\": true,\r\n              \"publisher\":
-      \"Microsoft.Azure.Security.Monitoring\",\r\n              \"type\": \"AzureSecurityLinuxAgent\",\r\n
-      \             \"typeHandlerVersion\": \"2.0\",\r\n              \"settings\":
-      {\"enableGenevaUpload\":true,\"enableAutoConfig\":true,\"reportSuccessOnUnsupportedDistro\":true}\r\n
-      \           }\r\n          }\r\n        ]\r\n      }\r\n    },\r\n    \"provisioningState\":
-      \"Succeeded\",\r\n    \"overprovision\": true,\r\n    \"doNotRunExtensionsOnOverprovisionedVMs\":
-      false,\r\n    \"uniqueId\": \"f131d87c-b5a8-414c-8061-50dd56ee4261\",\r\n    \"platformFaultDomainCount\":
+      \     },\r\n      \"networkProfile\": {\"networkInterfaceConfigurations\":[{\"name\":\"mynicconfig\",\"properties\":{\"primary\":true,\"enableAcceleratedNetworking\":false,\"dnsSettings\":{\"dnsServers\":[]},\"enableIPForwarding\":false,\"ipConfigurations\":[{\"name\":\"myipconfiguration\",\"properties\":{\"subnet\":{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/virtualNetworks/asotest-vn-edpebd/subnets/asotest-subnet-sexygt\"},\"privateIPAddressVersion\":\"IPv4\",\"loadBalancerInboundNatPools\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-otinhe/inboundNatPools/MyFancyNatPool\"}]}}]}}]}\r\n
+      \   },\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"overprovision\":
+      true,\r\n    \"doNotRunExtensionsOnOverprovisionedVMs\": false,\r\n    \"uniqueId\":
+      \"84e6dfe7-bcac-4cea-af4f-feb08f8bedfa\",\r\n    \"platformFaultDomainCount\":
       3\r\n  }\r\n}"
     headers:
       Cache-Control:
@@ -910,7 +749,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/GetVMScaleSet3Min;391,Microsoft.Compute/GetVMScaleSet30Min;2565
+      - Microsoft.Compute/GetVMScaleSet3Min;397,Microsoft.Compute/GetVMScaleSet30Min;2589
     status: 200 OK
     code: 200
     duration: ""
@@ -923,7 +762,7 @@ interactions:
       Accept:
       - application/json
       Content-Length:
-      - "1779"
+      - "1780"
       Content-Type:
       - application/json
       Test-Request-Attempt:
@@ -933,8 +772,7 @@ interactions:
   response:
     body: "{\r\n  \"name\": \"asotest-vmss-wrahwf\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Compute/virtualMachineScaleSets/asotest-vmss-wrahwf\",\r\n
       \ \"type\": \"Microsoft.Compute/virtualMachineScaleSets\",\r\n  \"location\":
-      \"westus2\",\r\n  \"tags\": {\r\n    \"azsecpack\": \"nonprod\",\r\n    \"platformsettings.host_environment.service.platform_optedin_for_rootcerts\":
-      \"true\"\r\n  },\r\n  \"sku\": {\r\n    \"name\": \"STANDARD_D1_v2\",\r\n    \"tier\":
+      \"westus2\",\r\n  \"sku\": {\r\n    \"name\": \"STANDARD_D1_v2\",\r\n    \"tier\":
       \"Standard\",\r\n    \"capacity\": 1\r\n  },\r\n  \"properties\": {\r\n    \"singlePlacementGroup\":
       false,\r\n    \"upgradePolicy\": {\r\n      \"mode\": \"Automatic\"\r\n    },\r\n
       \   \"virtualMachineProfile\": {\r\n      \"osProfile\": {\r\n        \"computerNamePrefix\":
@@ -953,32 +791,20 @@ interactions:
       \         \"sku\": \"18.04-lts\",\r\n          \"version\": \"latest\"\r\n        }\r\n
       \     },\r\n      \"networkProfile\": {\"networkInterfaceConfigurations\":[{\"name\":\"mynicconfig\",\"properties\":{\"primary\":true,\"enableAcceleratedNetworking\":false,\"dnsSettings\":{\"dnsServers\":[]},\"enableIPForwarding\":false,\"ipConfigurations\":[{\"name\":\"myipconfiguration\",\"properties\":{\"subnet\":{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/virtualNetworks/asotest-vn-edpebd/subnets/asotest-subnet-sexygt\"},\"privateIPAddressVersion\":\"IPv4\",\"loadBalancerInboundNatPools\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-otinhe/inboundNatPools/MyFancyNatPool\"}]}}]}}]},\r\n
       \     \"extensionProfile\": {\r\n        \"extensions\": [\r\n          {\r\n
-      \           \"name\": \"Microsoft.Azure.Monitor.AzureMonitorLinuxAgent\",\r\n
-      \           \"properties\": {\r\n              \"autoUpgradeMinorVersion\":
-      true,\r\n              \"enableAutomaticUpgrade\": true,\r\n              \"publisher\":
-      \"Microsoft.Azure.Monitor\",\r\n              \"type\": \"AzureMonitorLinuxAgent\",\r\n
-      \             \"typeHandlerVersion\": \"1.0\",\r\n              \"settings\":
-      {\"GCS_AUTO_CONFIG\":true}\r\n            }\r\n          },\r\n          {\r\n
-      \           \"name\": \"Microsoft.Azure.Security.Monitoring.AzureSecurityLinuxAgent\",\r\n
-      \           \"properties\": {\r\n              \"autoUpgradeMinorVersion\":
-      true,\r\n              \"enableAutomaticUpgrade\": true,\r\n              \"publisher\":
-      \"Microsoft.Azure.Security.Monitoring\",\r\n              \"type\": \"AzureSecurityLinuxAgent\",\r\n
+      \           \"name\": \"mycustomextension\",\r\n            \"properties\":
+      {\r\n              \"autoUpgradeMinorVersion\": false,\r\n              \"publisher\":
+      \"Microsoft.Azure.Extensions\",\r\n              \"type\": \"CustomScript\",\r\n
       \             \"typeHandlerVersion\": \"2.0\",\r\n              \"settings\":
-      {\"enableGenevaUpload\":true,\"enableAutoConfig\":true,\"reportSuccessOnUnsupportedDistro\":true}\r\n
-      \           }\r\n          },\r\n          {\r\n            \"name\": \"mycustomextension\",\r\n
-      \           \"properties\": {\r\n              \"autoUpgradeMinorVersion\":
-      false,\r\n              \"publisher\": \"Microsoft.Azure.Extensions\",\r\n              \"type\":
-      \"CustomScript\",\r\n              \"typeHandlerVersion\": \"2.0\",\r\n              \"settings\":
       {\"commandToExecute\":\"/bin/bash -c \\\"echo hello\\\"\"}\r\n            }\r\n
       \         }\r\n        ]\r\n      }\r\n    },\r\n    \"provisioningState\":
       \"Updating\",\r\n    \"overprovision\": true,\r\n    \"doNotRunExtensionsOnOverprovisionedVMs\":
-      false,\r\n    \"uniqueId\": \"f131d87c-b5a8-414c-8061-50dd56ee4261\",\r\n    \"platformFaultDomainCount\":
+      false,\r\n    \"uniqueId\": \"84e6dfe7-bcac-4cea-af4f-feb08f8bedfa\",\r\n    \"platformFaultDomainCount\":
       3\r\n  }\r\n}"
     headers:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/operations/fddf2c68-58ec-45e1-9729-8fabeb2ad5b9?p=2c322404-bacc-46e4-b75e-51c6102feac8&api-version=2020-12-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/operations/99772a9d-4b41-44d1-9c1c-a433c0d1fab6?p=293bc17d-9efb-4af6-9c31-0eb97e7abc2e&api-version=2020-12-01
       Cache-Control:
       - no-cache
       Content-Type:
@@ -999,7 +825,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/CreateVMScaleSet3Min;58,Microsoft.Compute/CreateVMScaleSet30Min;296,Microsoft.Compute/VMScaleSetBatchedVMRequests5Min;1197,Microsoft.Compute/VmssQueuedVMOperations;0
+      - Microsoft.Compute/CreateVMScaleSet3Min;58,Microsoft.Compute/CreateVMScaleSet30Min;298,Microsoft.Compute/VMScaleSetBatchedVMRequests5Min;1197,Microsoft.Compute/VmssQueuedVMOperations;0
       X-Ms-Request-Charge:
       - "1"
     status: 200 OK
@@ -1011,11 +837,11 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/operations/fddf2c68-58ec-45e1-9729-8fabeb2ad5b9?p=2c322404-bacc-46e4-b75e-51c6102feac8&api-version=2020-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/operations/99772a9d-4b41-44d1-9c1c-a433c0d1fab6?p=293bc17d-9efb-4af6-9c31-0eb97e7abc2e&api-version=2020-12-01
     method: GET
   response:
-    body: "{\r\n  \"startTime\": \"2022-06-09T03:25:48.7092945+00:00\",\r\n  \"status\":
-      \"InProgress\",\r\n  \"name\": \"fddf2c68-58ec-45e1-9729-8fabeb2ad5b9\"\r\n}"
+    body: "{\r\n  \"startTime\": \"2022-03-23T17:16:15.5365148+00:00\",\r\n  \"status\":
+      \"InProgress\",\r\n  \"name\": \"99772a9d-4b41-44d1-9c1c-a433c0d1fab6\"\r\n}"
     headers:
       Cache-Control:
       - no-cache
@@ -1037,7 +863,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/GetOperation3Min;14992,Microsoft.Compute/GetOperation30Min;29973
+      - Microsoft.Compute/GetOperation3Min;14997,Microsoft.Compute/GetOperation30Min;29997
     status: 200 OK
     code: 200
     duration: ""
@@ -1047,12 +873,12 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/operations/fddf2c68-58ec-45e1-9729-8fabeb2ad5b9?p=2c322404-bacc-46e4-b75e-51c6102feac8&api-version=2020-12-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/operations/99772a9d-4b41-44d1-9c1c-a433c0d1fab6?p=293bc17d-9efb-4af6-9c31-0eb97e7abc2e&api-version=2020-12-01
     method: GET
   response:
-    body: "{\r\n  \"startTime\": \"2022-06-09T03:25:48.7092945+00:00\",\r\n  \"endTime\":
-      \"2022-06-09T03:26:32.1002417+00:00\",\r\n  \"status\": \"Succeeded\",\r\n  \"name\":
-      \"fddf2c68-58ec-45e1-9729-8fabeb2ad5b9\"\r\n}"
+    body: "{\r\n  \"startTime\": \"2022-03-23T17:16:15.5365148+00:00\",\r\n  \"endTime\":
+      \"2022-03-23T17:16:34.2550321+00:00\",\r\n  \"status\": \"Succeeded\",\r\n  \"name\":
+      \"99772a9d-4b41-44d1-9c1c-a433c0d1fab6\"\r\n}"
     headers:
       Cache-Control:
       - no-cache
@@ -1072,7 +898,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/GetOperation3Min;14991,Microsoft.Compute/GetOperation30Min;29972
+      - Microsoft.Compute/GetOperation3Min;14996,Microsoft.Compute/GetOperation30Min;29996
     status: 200 OK
     code: 200
     duration: ""
@@ -1089,8 +915,7 @@ interactions:
   response:
     body: "{\r\n  \"name\": \"asotest-vmss-wrahwf\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Compute/virtualMachineScaleSets/asotest-vmss-wrahwf\",\r\n
       \ \"type\": \"Microsoft.Compute/virtualMachineScaleSets\",\r\n  \"location\":
-      \"westus2\",\r\n  \"tags\": {\r\n    \"azsecpack\": \"nonprod\",\r\n    \"platformsettings.host_environment.service.platform_optedin_for_rootcerts\":
-      \"true\"\r\n  },\r\n  \"sku\": {\r\n    \"name\": \"STANDARD_D1_v2\",\r\n    \"tier\":
+      \"westus2\",\r\n  \"sku\": {\r\n    \"name\": \"STANDARD_D1_v2\",\r\n    \"tier\":
       \"Standard\",\r\n    \"capacity\": 1\r\n  },\r\n  \"properties\": {\r\n    \"singlePlacementGroup\":
       false,\r\n    \"upgradePolicy\": {\r\n      \"mode\": \"Automatic\"\r\n    },\r\n
       \   \"virtualMachineProfile\": {\r\n      \"osProfile\": {\r\n        \"computerNamePrefix\":
@@ -1109,26 +934,14 @@ interactions:
       \         \"sku\": \"18.04-lts\",\r\n          \"version\": \"latest\"\r\n        }\r\n
       \     },\r\n      \"networkProfile\": {\"networkInterfaceConfigurations\":[{\"name\":\"mynicconfig\",\"properties\":{\"primary\":true,\"enableAcceleratedNetworking\":false,\"dnsSettings\":{\"dnsServers\":[]},\"enableIPForwarding\":false,\"ipConfigurations\":[{\"name\":\"myipconfiguration\",\"properties\":{\"subnet\":{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/virtualNetworks/asotest-vn-edpebd/subnets/asotest-subnet-sexygt\"},\"privateIPAddressVersion\":\"IPv4\",\"loadBalancerInboundNatPools\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-otinhe/inboundNatPools/MyFancyNatPool\"}]}}]}}]},\r\n
       \     \"extensionProfile\": {\r\n        \"extensions\": [\r\n          {\r\n
-      \           \"name\": \"Microsoft.Azure.Monitor.AzureMonitorLinuxAgent\",\r\n
-      \           \"properties\": {\r\n              \"autoUpgradeMinorVersion\":
-      true,\r\n              \"enableAutomaticUpgrade\": true,\r\n              \"publisher\":
-      \"Microsoft.Azure.Monitor\",\r\n              \"type\": \"AzureMonitorLinuxAgent\",\r\n
-      \             \"typeHandlerVersion\": \"1.0\",\r\n              \"settings\":
-      {\"GCS_AUTO_CONFIG\":true}\r\n            }\r\n          },\r\n          {\r\n
-      \           \"name\": \"Microsoft.Azure.Security.Monitoring.AzureSecurityLinuxAgent\",\r\n
-      \           \"properties\": {\r\n              \"autoUpgradeMinorVersion\":
-      true,\r\n              \"enableAutomaticUpgrade\": true,\r\n              \"publisher\":
-      \"Microsoft.Azure.Security.Monitoring\",\r\n              \"type\": \"AzureSecurityLinuxAgent\",\r\n
+      \           \"name\": \"mycustomextension\",\r\n            \"properties\":
+      {\r\n              \"autoUpgradeMinorVersion\": false,\r\n              \"publisher\":
+      \"Microsoft.Azure.Extensions\",\r\n              \"type\": \"CustomScript\",\r\n
       \             \"typeHandlerVersion\": \"2.0\",\r\n              \"settings\":
-      {\"enableGenevaUpload\":true,\"enableAutoConfig\":true,\"reportSuccessOnUnsupportedDistro\":true}\r\n
-      \           }\r\n          },\r\n          {\r\n            \"name\": \"mycustomextension\",\r\n
-      \           \"properties\": {\r\n              \"autoUpgradeMinorVersion\":
-      false,\r\n              \"publisher\": \"Microsoft.Azure.Extensions\",\r\n              \"type\":
-      \"CustomScript\",\r\n              \"typeHandlerVersion\": \"2.0\",\r\n              \"settings\":
       {\"commandToExecute\":\"/bin/bash -c \\\"echo hello\\\"\"}\r\n            }\r\n
       \         }\r\n        ]\r\n      }\r\n    },\r\n    \"provisioningState\":
       \"Succeeded\",\r\n    \"overprovision\": true,\r\n    \"doNotRunExtensionsOnOverprovisionedVMs\":
-      false,\r\n    \"uniqueId\": \"f131d87c-b5a8-414c-8061-50dd56ee4261\",\r\n    \"platformFaultDomainCount\":
+      false,\r\n    \"uniqueId\": \"84e6dfe7-bcac-4cea-af4f-feb08f8bedfa\",\r\n    \"platformFaultDomainCount\":
       3\r\n  }\r\n}"
     headers:
       Cache-Control:
@@ -1149,7 +962,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/GetVMScaleSet3Min;387,Microsoft.Compute/GetVMScaleSet30Min;2561
+      - Microsoft.Compute/GetVMScaleSet3Min;393,Microsoft.Compute/GetVMScaleSet30Min;2585
     status: 200 OK
     code: 200
     duration: ""
@@ -1169,7 +982,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/operations/3f13bbca-b392-427d-89a8-2d6214758db1?p=2c322404-bacc-46e4-b75e-51c6102feac8&api-version=2020-12-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/operations/3c37a439-addc-4b93-93c2-2e0abcb012e4?p=293bc17d-9efb-4af6-9c31-0eb97e7abc2e&api-version=2020-12-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -1177,7 +990,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/operations/3f13bbca-b392-427d-89a8-2d6214758db1?p=2c322404-bacc-46e4-b75e-51c6102feac8&monitor=true&api-version=2020-12-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Compute/locations/westus2/operations/3c37a439-addc-4b93-93c2-2e0abcb012e4?p=293bc17d-9efb-4af6-9c31-0eb97e7abc2e&monitor=true&api-version=2020-12-01
       Pragma:
       - no-cache
       Retry-After:
@@ -1190,7 +1003,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/DeleteVMScaleSet3Min;79,Microsoft.Compute/DeleteVMScaleSet30Min;397,Microsoft.Compute/VMScaleSetBatchedVMRequests5Min;1196,Microsoft.Compute/VmssQueuedVMOperations;0
+      - Microsoft.Compute/DeleteVMScaleSet3Min;79,Microsoft.Compute/DeleteVMScaleSet30Min;399,Microsoft.Compute/VMScaleSetBatchedVMRequests5Min;1196,Microsoft.Compute/VmssQueuedVMOperations;0
       X-Ms-Request-Charge:
       - "1"
     status: 202 Accepted
@@ -1209,8 +1022,7 @@ interactions:
   response:
     body: "{\r\n  \"name\": \"asotest-vmss-wrahwf\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Compute/virtualMachineScaleSets/asotest-vmss-wrahwf\",\r\n
       \ \"type\": \"Microsoft.Compute/virtualMachineScaleSets\",\r\n  \"location\":
-      \"westus2\",\r\n  \"tags\": {\r\n    \"azsecpack\": \"nonprod\",\r\n    \"platformsettings.host_environment.service.platform_optedin_for_rootcerts\":
-      \"true\"\r\n  },\r\n  \"sku\": {\r\n    \"name\": \"STANDARD_D1_v2\",\r\n    \"tier\":
+      \"westus2\",\r\n  \"sku\": {\r\n    \"name\": \"STANDARD_D1_v2\",\r\n    \"tier\":
       \"Standard\",\r\n    \"capacity\": 1\r\n  },\r\n  \"properties\": {\r\n    \"singlePlacementGroup\":
       false,\r\n    \"upgradePolicy\": {\r\n      \"mode\": \"Automatic\"\r\n    },\r\n
       \   \"virtualMachineProfile\": {\r\n      \"osProfile\": {\r\n        \"computerNamePrefix\":
@@ -1229,26 +1041,14 @@ interactions:
       \         \"sku\": \"18.04-lts\",\r\n          \"version\": \"latest\"\r\n        }\r\n
       \     },\r\n      \"networkProfile\": {\"networkInterfaceConfigurations\":[{\"name\":\"mynicconfig\",\"properties\":{\"primary\":true,\"enableAcceleratedNetworking\":false,\"dnsSettings\":{\"dnsServers\":[]},\"enableIPForwarding\":false,\"ipConfigurations\":[{\"name\":\"myipconfiguration\",\"properties\":{\"subnet\":{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/virtualNetworks/asotest-vn-edpebd/subnets/asotest-subnet-sexygt\"},\"privateIPAddressVersion\":\"IPv4\",\"loadBalancerInboundNatPools\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-otinhe/inboundNatPools/MyFancyNatPool\"}]}}]}}]},\r\n
       \     \"extensionProfile\": {\r\n        \"extensions\": [\r\n          {\r\n
-      \           \"name\": \"Microsoft.Azure.Monitor.AzureMonitorLinuxAgent\",\r\n
-      \           \"properties\": {\r\n              \"autoUpgradeMinorVersion\":
-      true,\r\n              \"enableAutomaticUpgrade\": true,\r\n              \"publisher\":
-      \"Microsoft.Azure.Monitor\",\r\n              \"type\": \"AzureMonitorLinuxAgent\",\r\n
-      \             \"typeHandlerVersion\": \"1.0\",\r\n              \"settings\":
-      {\"GCS_AUTO_CONFIG\":true}\r\n            }\r\n          },\r\n          {\r\n
-      \           \"name\": \"Microsoft.Azure.Security.Monitoring.AzureSecurityLinuxAgent\",\r\n
-      \           \"properties\": {\r\n              \"autoUpgradeMinorVersion\":
-      true,\r\n              \"enableAutomaticUpgrade\": true,\r\n              \"publisher\":
-      \"Microsoft.Azure.Security.Monitoring\",\r\n              \"type\": \"AzureSecurityLinuxAgent\",\r\n
+      \           \"name\": \"mycustomextension\",\r\n            \"properties\":
+      {\r\n              \"autoUpgradeMinorVersion\": false,\r\n              \"publisher\":
+      \"Microsoft.Azure.Extensions\",\r\n              \"type\": \"CustomScript\",\r\n
       \             \"typeHandlerVersion\": \"2.0\",\r\n              \"settings\":
-      {\"enableGenevaUpload\":true,\"enableAutoConfig\":true,\"reportSuccessOnUnsupportedDistro\":true}\r\n
-      \           }\r\n          },\r\n          {\r\n            \"name\": \"mycustomextension\",\r\n
-      \           \"properties\": {\r\n              \"autoUpgradeMinorVersion\":
-      false,\r\n              \"publisher\": \"Microsoft.Azure.Extensions\",\r\n              \"type\":
-      \"CustomScript\",\r\n              \"typeHandlerVersion\": \"2.0\",\r\n              \"settings\":
       {\"commandToExecute\":\"/bin/bash -c \\\"echo hello\\\"\"}\r\n            }\r\n
       \         }\r\n        ]\r\n      }\r\n    },\r\n    \"provisioningState\":
       \"Deleting\",\r\n    \"overprovision\": true,\r\n    \"doNotRunExtensionsOnOverprovisionedVMs\":
-      false,\r\n    \"uniqueId\": \"f131d87c-b5a8-414c-8061-50dd56ee4261\",\r\n    \"platformFaultDomainCount\":
+      false,\r\n    \"uniqueId\": \"84e6dfe7-bcac-4cea-af4f-feb08f8bedfa\",\r\n    \"platformFaultDomainCount\":
       3\r\n  }\r\n}"
     headers:
       Cache-Control:
@@ -1269,7 +1069,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/GetVMScaleSet3Min;385,Microsoft.Compute/GetVMScaleSet30Min;2559
+      - Microsoft.Compute/GetVMScaleSet3Min;392,Microsoft.Compute/GetVMScaleSet30Min;2583
     status: 200 OK
     code: 200
     duration: ""
@@ -1286,8 +1086,7 @@ interactions:
   response:
     body: "{\r\n  \"name\": \"asotest-vmss-wrahwf\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Compute/virtualMachineScaleSets/asotest-vmss-wrahwf\",\r\n
       \ \"type\": \"Microsoft.Compute/virtualMachineScaleSets\",\r\n  \"location\":
-      \"westus2\",\r\n  \"tags\": {\r\n    \"azsecpack\": \"nonprod\",\r\n    \"platformsettings.host_environment.service.platform_optedin_for_rootcerts\":
-      \"true\"\r\n  },\r\n  \"sku\": {\r\n    \"name\": \"STANDARD_D1_v2\",\r\n    \"tier\":
+      \"westus2\",\r\n  \"sku\": {\r\n    \"name\": \"STANDARD_D1_v2\",\r\n    \"tier\":
       \"Standard\",\r\n    \"capacity\": 1\r\n  },\r\n  \"properties\": {\r\n    \"singlePlacementGroup\":
       false,\r\n    \"upgradePolicy\": {\r\n      \"mode\": \"Automatic\"\r\n    },\r\n
       \   \"virtualMachineProfile\": {\r\n      \"osProfile\": {\r\n        \"computerNamePrefix\":
@@ -1306,26 +1105,14 @@ interactions:
       \         \"sku\": \"18.04-lts\",\r\n          \"version\": \"latest\"\r\n        }\r\n
       \     },\r\n      \"networkProfile\": {\"networkInterfaceConfigurations\":[{\"name\":\"mynicconfig\",\"properties\":{\"primary\":true,\"enableAcceleratedNetworking\":false,\"dnsSettings\":{\"dnsServers\":[]},\"enableIPForwarding\":false,\"ipConfigurations\":[{\"name\":\"myipconfiguration\",\"properties\":{\"subnet\":{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/virtualNetworks/asotest-vn-edpebd/subnets/asotest-subnet-sexygt\"},\"privateIPAddressVersion\":\"IPv4\",\"loadBalancerInboundNatPools\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-otinhe/inboundNatPools/MyFancyNatPool\"}]}}]}}]},\r\n
       \     \"extensionProfile\": {\r\n        \"extensions\": [\r\n          {\r\n
-      \           \"name\": \"Microsoft.Azure.Monitor.AzureMonitorLinuxAgent\",\r\n
-      \           \"properties\": {\r\n              \"autoUpgradeMinorVersion\":
-      true,\r\n              \"enableAutomaticUpgrade\": true,\r\n              \"publisher\":
-      \"Microsoft.Azure.Monitor\",\r\n              \"type\": \"AzureMonitorLinuxAgent\",\r\n
-      \             \"typeHandlerVersion\": \"1.0\",\r\n              \"settings\":
-      {\"GCS_AUTO_CONFIG\":true}\r\n            }\r\n          },\r\n          {\r\n
-      \           \"name\": \"Microsoft.Azure.Security.Monitoring.AzureSecurityLinuxAgent\",\r\n
-      \           \"properties\": {\r\n              \"autoUpgradeMinorVersion\":
-      true,\r\n              \"enableAutomaticUpgrade\": true,\r\n              \"publisher\":
-      \"Microsoft.Azure.Security.Monitoring\",\r\n              \"type\": \"AzureSecurityLinuxAgent\",\r\n
+      \           \"name\": \"mycustomextension\",\r\n            \"properties\":
+      {\r\n              \"autoUpgradeMinorVersion\": false,\r\n              \"publisher\":
+      \"Microsoft.Azure.Extensions\",\r\n              \"type\": \"CustomScript\",\r\n
       \             \"typeHandlerVersion\": \"2.0\",\r\n              \"settings\":
-      {\"enableGenevaUpload\":true,\"enableAutoConfig\":true,\"reportSuccessOnUnsupportedDistro\":true}\r\n
-      \           }\r\n          },\r\n          {\r\n            \"name\": \"mycustomextension\",\r\n
-      \           \"properties\": {\r\n              \"autoUpgradeMinorVersion\":
-      false,\r\n              \"publisher\": \"Microsoft.Azure.Extensions\",\r\n              \"type\":
-      \"CustomScript\",\r\n              \"typeHandlerVersion\": \"2.0\",\r\n              \"settings\":
       {\"commandToExecute\":\"/bin/bash -c \\\"echo hello\\\"\"}\r\n            }\r\n
       \         }\r\n        ]\r\n      }\r\n    },\r\n    \"provisioningState\":
       \"Deleting\",\r\n    \"overprovision\": true,\r\n    \"doNotRunExtensionsOnOverprovisionedVMs\":
-      false,\r\n    \"uniqueId\": \"f131d87c-b5a8-414c-8061-50dd56ee4261\",\r\n    \"platformFaultDomainCount\":
+      false,\r\n    \"uniqueId\": \"84e6dfe7-bcac-4cea-af4f-feb08f8bedfa\",\r\n    \"platformFaultDomainCount\":
       3\r\n  }\r\n}"
     headers:
       Cache-Control:
@@ -1346,7 +1133,7 @@ interactions:
       X-Content-Type-Options:
       - nosniff
       X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/GetVMScaleSet3Min;384,Microsoft.Compute/GetVMScaleSet30Min;2558
+      - Microsoft.Compute/GetVMScaleSet3Min;390,Microsoft.Compute/GetVMScaleSet30Min;2581
     status: 200 OK
     code: 200
     duration: ""
@@ -1361,71 +1148,28 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Compute/virtualMachineScaleSets/asotest-vmss-wrahwf?api-version=2020-12-01
     method: GET
   response:
-    body: "{\r\n  \"name\": \"asotest-vmss-wrahwf\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Compute/virtualMachineScaleSets/asotest-vmss-wrahwf\",\r\n
-      \ \"type\": \"Microsoft.Compute/virtualMachineScaleSets\",\r\n  \"location\":
-      \"westus2\",\r\n  \"tags\": {\r\n    \"azsecpack\": \"nonprod\",\r\n    \"platformsettings.host_environment.service.platform_optedin_for_rootcerts\":
-      \"true\"\r\n  },\r\n  \"sku\": {\r\n    \"name\": \"STANDARD_D1_v2\",\r\n    \"tier\":
-      \"Standard\",\r\n    \"capacity\": 1\r\n  },\r\n  \"properties\": {\r\n    \"singlePlacementGroup\":
-      false,\r\n    \"upgradePolicy\": {\r\n      \"mode\": \"Automatic\"\r\n    },\r\n
-      \   \"virtualMachineProfile\": {\r\n      \"osProfile\": {\r\n        \"computerNamePrefix\":
-      \"computer\",\r\n        \"adminUsername\": \"adminUser\",\r\n        \"linuxConfiguration\":
-      {\r\n          \"disablePasswordAuthentication\": true,\r\n          \"ssh\":
-      {\r\n            \"publicKeys\": [\r\n              {\r\n                \"path\":
-      \"/home/adminUser/.ssh/authorized_keys\",\r\n                \"keyData\": \"ssh-rsa
-      {KEY}\\n\"\r\n              }\r\n            ]\r\n          },\r\n          \"provisionVMAgent\":
-      true\r\n        },\r\n        \"secrets\": [],\r\n        \"allowExtensionOperations\":
-      true,\r\n        \"requireGuestProvisionSignal\": true\r\n      },\r\n      \"storageProfile\":
-      {\r\n        \"osDisk\": {\r\n          \"osType\": \"Linux\",\r\n          \"createOption\":
-      \"FromImage\",\r\n          \"caching\": \"None\",\r\n          \"managedDisk\":
-      {\r\n            \"storageAccountType\": \"Standard_LRS\"\r\n          },\r\n
-      \         \"diskSizeGB\": 30\r\n        },\r\n        \"imageReference\": {\r\n
-      \         \"publisher\": \"Canonical\",\r\n          \"offer\": \"UbuntuServer\",\r\n
-      \         \"sku\": \"18.04-lts\",\r\n          \"version\": \"latest\"\r\n        }\r\n
-      \     },\r\n      \"networkProfile\": {\"networkInterfaceConfigurations\":[{\"name\":\"mynicconfig\",\"properties\":{\"primary\":true,\"enableAcceleratedNetworking\":false,\"dnsSettings\":{\"dnsServers\":[]},\"enableIPForwarding\":false,\"ipConfigurations\":[{\"name\":\"myipconfiguration\",\"properties\":{\"subnet\":{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/virtualNetworks/asotest-vn-edpebd/subnets/asotest-subnet-sexygt\"},\"privateIPAddressVersion\":\"IPv4\",\"loadBalancerInboundNatPools\":[{\"id\":\"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-otinhe/inboundNatPools/MyFancyNatPool\"}]}}]}}]},\r\n
-      \     \"extensionProfile\": {\r\n        \"extensions\": [\r\n          {\r\n
-      \           \"name\": \"Microsoft.Azure.Monitor.AzureMonitorLinuxAgent\",\r\n
-      \           \"properties\": {\r\n              \"autoUpgradeMinorVersion\":
-      true,\r\n              \"enableAutomaticUpgrade\": true,\r\n              \"publisher\":
-      \"Microsoft.Azure.Monitor\",\r\n              \"type\": \"AzureMonitorLinuxAgent\",\r\n
-      \             \"typeHandlerVersion\": \"1.0\",\r\n              \"settings\":
-      {\"GCS_AUTO_CONFIG\":true}\r\n            }\r\n          },\r\n          {\r\n
-      \           \"name\": \"Microsoft.Azure.Security.Monitoring.AzureSecurityLinuxAgent\",\r\n
-      \           \"properties\": {\r\n              \"autoUpgradeMinorVersion\":
-      true,\r\n              \"enableAutomaticUpgrade\": true,\r\n              \"publisher\":
-      \"Microsoft.Azure.Security.Monitoring\",\r\n              \"type\": \"AzureSecurityLinuxAgent\",\r\n
-      \             \"typeHandlerVersion\": \"2.0\",\r\n              \"settings\":
-      {\"enableGenevaUpload\":true,\"enableAutoConfig\":true,\"reportSuccessOnUnsupportedDistro\":true}\r\n
-      \           }\r\n          },\r\n          {\r\n            \"name\": \"mycustomextension\",\r\n
-      \           \"properties\": {\r\n              \"autoUpgradeMinorVersion\":
-      false,\r\n              \"publisher\": \"Microsoft.Azure.Extensions\",\r\n              \"type\":
-      \"CustomScript\",\r\n              \"typeHandlerVersion\": \"2.0\",\r\n              \"settings\":
-      {\"commandToExecute\":\"/bin/bash -c \\\"echo hello\\\"\"}\r\n            }\r\n
-      \         }\r\n        ]\r\n      }\r\n    },\r\n    \"provisioningState\":
-      \"Deleting\",\r\n    \"overprovision\": true,\r\n    \"doNotRunExtensionsOnOverprovisionedVMs\":
-      false,\r\n    \"uniqueId\": \"f131d87c-b5a8-414c-8061-50dd56ee4261\",\r\n    \"platformFaultDomainCount\":
-      3\r\n  }\r\n}"
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Compute/virtualMachineScaleSets/asotest-vmss-wrahwf''
+      under resource group ''asotest-rg-qztvbp'' was not found. For more details please
+      go to https://aka.ms/ARMResourceNotFoundFix"}}'
     headers:
       Cache-Control:
       - no-cache
+      Content-Length:
+      - "250"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
       - "-1"
       Pragma:
       - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Ratelimit-Remaining-Resource:
-      - Microsoft.Compute/GetVMScaleSet3Min;385,Microsoft.Compute/GetVMScaleSet30Min;2557
-    status: 200 OK
-    code: 200
+      X-Ms-Failure-Cause:
+      - gateway
+    status: 404 Not Found
+    code: 404
     duration: ""
 - request:
     body: ""
@@ -1468,40 +1212,6 @@ interactions:
       Accept:
       - application/json
       Test-Request-Attempt:
-      - "6"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Compute/virtualMachineScaleSets/asotest-vmss-wrahwf?api-version=2020-12-01
-    method: GET
-  response:
-    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Compute/virtualMachineScaleSets/asotest-vmss-wrahwf''
-      under resource group ''asotest-rg-qztvbp'' was not found. For more details please
-      go to https://aka.ms/ARMResourceNotFoundFix"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "250"
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
       - "0"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/virtualNetworks/asotest-vn-edpebd/subnets/asotest-subnet-sexygt?api-version=2020-11-01
     method: DELETE
@@ -1509,7 +1219,7 @@ interactions:
     body: ""
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/e305f55a-2fcb-401a-8754-bf26c1da8577?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/5b865579-dc24-43bc-8914-841a692e1391?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -1517,7 +1227,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/e305f55a-2fcb-401a-8754-bf26c1da8577?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/5b865579-dc24-43bc-8914-841a692e1391?api-version=2020-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -1548,7 +1258,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/e3a7f402-03e1-4aee-af08-34891ff9f3c1?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/25b91dcd-f513-42a1-bfd4-50f4d8951916?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -1556,7 +1266,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/e3a7f402-03e1-4aee-af08-34891ff9f3c1?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/25b91dcd-f513-42a1-bfd4-50f4d8951916?api-version=2020-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -1625,7 +1335,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/44530c78-1dfa-47db-8183-3e6ea85b3704?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/ca438c9b-9348-4b3e-88b9-6e0b34341c4d?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -1633,7 +1343,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/44530c78-1dfa-47db-8183-3e6ea85b3704?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/ca438c9b-9348-4b3e-88b9-6e0b34341c4d?api-version=2020-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -1696,7 +1406,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/26de3b36-b5c1-482a-b25d-acd059c572a3?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/2cd64c5d-0a51-4de8-803e-b26e77314e1a?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -1704,7 +1414,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/26de3b36-b5c1-482a-b25d-acd059c572a3?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/2cd64c5d-0a51-4de8-803e-b26e77314e1a?api-version=2020-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -1829,31 +1539,19 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-hiosyl?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp?api-version=2020-06-01
     method: GET
   response:
-    body: "{\r\n  \"name\": \"asotest-publicip-hiosyl\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-hiosyl\",\r\n
-      \ \"etag\": \"W/\\\"044acc1c-d440-4039-8fa3-4664eee4890c\\\"\",\r\n  \"location\":
-      \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Deleting\",\r\n
-      \   \"resourceGuid\": \"82041700-34df-4078-b8b5-fd1a8cb1e292\",\r\n    \"ipAddress\":
-      \"20.115.24.207\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
-      \"Static\",\r\n    \"idleTimeoutInMinutes\": 4,\r\n    \"ipTags\": []\r\n  },\r\n
-      \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
-      \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp","name":"asotest-rg-qztvbp","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Type:
       - application/json; charset=utf-8
-      Etag:
-      - W/"044acc1c-d440-4039-8fa3-4664eee4890c"
       Expires:
       - "-1"
       Pragma:
       - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       Vary:
@@ -1871,77 +1569,48 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp?api-version=2020-06-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp","name":"asotest-rg-qztvbp","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "2"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp?api-version=2020-06-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp","name":"asotest-rg-qztvbp","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "2"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-hiosyl?api-version=2020-11-01
     method: GET
   response:
-    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Network/publicIPAddresses/asotest-publicip-hiosyl''
-      under resource group ''asotest-rg-qztvbp'' was not found. For more details please
-      go to https://aka.ms/ARMResourceNotFoundFix"}}'
+    body: "{\r\n  \"error\": {\r\n    \"code\": \"NotFound\",\r\n    \"message\":
+      \"Resource /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-hiosyl
+      not found.\",\r\n    \"details\": []\r\n  }\r\n}"
     headers:
       Cache-Control:
       - no-cache
       Content-Length:
-      - "248"
+      - "261"
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 404 Not Found
+    code: 404
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-qztvbp","name":"asotest-rg-qztvbp","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
       Content-Type:
       - application/json; charset=utf-8
       Expires:
@@ -1950,12 +1619,12 @@ interactions:
       - no-cache
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
-    status: 404 Not Found
-    code: 404
+    status: 200 OK
+    code: 200
     duration: ""
 - request:
     body: ""
