@@ -112,16 +112,16 @@ func ensureIndexPropertyPathsUnique(chains []*propertyChain) {
 	// Look until either we have no collisions, or we can't resolve them
 	for {
 		// Look for collisions
-		collisions := make(map[string][]*propertyChain)
+		chainsByName := make(map[string][]*propertyChain)
 		for _, chain := range chains {
 			methodName := chain.indexPropertyPath()
-			collisions[methodName] = append(collisions[methodName], chain)
+			chainsByName[methodName] = append(chainsByName[methodName], chain)
 		}
 
-		// For any collision we find, try to resolve it
+		// For any collision we find (where two or more chains share the same method name), try to resolve it
 		pathsChanged := false
-		for _, collision := range collisions {
-			if len(collision) > 1 && tryResolvePropertyPathCollision(collision) {
+		for _, collidingChains := range chainsByName {
+			if len(collidingChains) > 1 && tryResolvePropertyPathCollision(collidingChains) {
 				pathsChanged = true
 			}
 		}
@@ -199,8 +199,8 @@ type indexFunctionBuilder struct {
 	propChains []*propertyChain
 }
 
-// propertyChain represents an immutable chain of properties that can be used to index a secret on a resource. Each
-// chain is made up of a leaf property and a reference to a shared parent chain. Sharing these parents keeps memory
+// propertyChain represents an chain of properties that can be used to index a secret on a resource. Each chain is made
+// up of a leaf property and a reference to a (potentially shared) parent chain. Sharing these parents keeps memory
 // consumption down, while also allowing us to include properties partway along the path to resolve ambiguities when
 // generating method names.
 type propertyChain struct {
@@ -262,9 +262,6 @@ func (chain *propertyChain) indexMethodName(
 	idFactory astmodel.IdentifierFactory,
 	resourceTypeName astmodel.TypeName,
 ) string {
-	// TODO: Technically speaking it's still possible to generate names that clash here, although it's pretty
-	// TODO: unlikely. Do we need to do more?
-
 	group, _ := resourceTypeName.PackageReference.GroupVersion()
 	return fmt.Sprintf("index%s%s%s",
 		idFactory.CreateIdentifier(group, astmodel.Exported),
@@ -286,6 +283,10 @@ func (chain *propertyChain) indexPropertyPath() string {
 	return result
 }
 
+// indexPropertyKey makes an indexable key for this property chain. Note that this key is just a string. The fact
+// that it looks like a jsonpath expression is purely coincidental. The key may refer to a property that is actually
+// a member of a collection, such as .spec.secretsCollection.password. This is OK because the key is just a string
+// and all that string is doing is uniquely representing this field.
 func (chain *propertyChain) indexPropertyKey() string {
 	values := []string{
 		".spec",
