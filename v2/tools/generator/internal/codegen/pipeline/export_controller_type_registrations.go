@@ -86,6 +86,7 @@ func handleSecretPropertyChains(
 	for _, chain := range chains {
 		secretPropertyKey := chain.indexPropertyKey()
 		indexFunction := functions.NewIndexRegistrationFunction(
+			idFactory,
 			chain.indexMethodName(idFactory, def.Name()),
 			def.Name(),
 			secretPropertyKey,
