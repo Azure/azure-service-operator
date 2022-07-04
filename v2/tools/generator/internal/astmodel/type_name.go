@@ -200,14 +200,15 @@ func (typeName TypeName) Plural() TypeName {
 // definitions is a dictionary for resolving named types
 func (typeName TypeName) WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference) {
 	if typeName.PackageReference != nil && !typeName.PackageReference.Equals(currentPackage) {
-		// Reference to a different package, so qualify the output
-		// For external packages, we just use the name
+		// Reference to a different package, so qualify the output.
+		// External packages are just qualified by name, other packages by full path
 		if IsExternalPackageReference(typeName.PackageReference) {
-			builder.WriteString(typeName.name)
+			builder.WriteString(typeName.PackageReference.PackageName())
 		} else {
 			builder.WriteString(typeName.PackageReference.String())
 		}
-		builder.WriteString("/")
+
+		builder.WriteString(".")
 	}
 
 	builder.WriteString(typeName.name)
