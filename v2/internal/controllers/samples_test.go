@@ -198,7 +198,7 @@ func createAndDeleteResourceTree(tc *testcommon.KubePerTestContext, hashMap *lin
 	tc.Expect(err).To(BeNil())
 
 	secrets := make(map[string]*v1.Secret)
-	for ref, _ := range refs {
+	for ref := range refs {
 		password := tc.Namer.GeneratePasswordOfLength(40)
 
 		secret := &v1.Secret{
