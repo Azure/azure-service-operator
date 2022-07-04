@@ -27,7 +27,7 @@ func newDebugReport(line string) *debugReport {
 	return &debugReport{line: line}
 }
 
-// add adds a new debugReport to the current debugReport, returning the nested report
+// add adds a new debugReport nested in the current debugReport, returning the nested report
 func (dr *debugReport) add(line string) *debugReport {
 	result := &debugReport{line: line}
 	dr.nested = append(dr.nested, result)
