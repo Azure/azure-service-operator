@@ -5,7 +5,7 @@ metadata:
   namespace: default
 spec:
   tags:
-    "hidden-link:/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/microsoft.insights/components/sampleappinsightsbeta": Resource
+    "hidden-link:/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/microsoft.insights/components/sampleappinsights": Resource
   location: westcentralus
   owner:
     name: aso-sample-rg
