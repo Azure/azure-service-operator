@@ -13,6 +13,8 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:13 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu?api-version=2020-06-01
     method: PUT
   response:
@@ -43,6 +45,8 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:14 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu?api-version=2020-06-01
     method: GET
   response:
@@ -77,13 +81,15 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:18 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-mcdjgt?api-version=2020-11-01
     method: PUT
   response:
     body: "{\r\n  \"name\": \"asotest-publicip-mcdjgt\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-mcdjgt\",\r\n
-      \ \"etag\": \"W/\\\"c1a27b74-2344-4ef7-a85f-3823e7be1e51\\\"\",\r\n  \"location\":
+      \ \"etag\": \"W/\\\"9c258521-4419-4f06-93a8-cba031ec0494\\\"\",\r\n  \"location\":
       \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Updating\",\r\n
-      \   \"resourceGuid\": \"aa46e26e-05a5-4dfc-b9cf-272ad8a2bb0a\",\r\n    \"publicIPAddressVersion\":
+      \   \"resourceGuid\": \"08d4667b-8633-4c12-8384-83d55e72a78a\",\r\n    \"publicIPAddressVersion\":
       \"IPv4\",\r\n    \"publicIPAllocationMethod\": \"Static\",\r\n    \"idleTimeoutInMinutes\":
       4,\r\n    \"ipTags\": []\r\n  },\r\n  \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n
       \ \"sku\": {\r\n    \"name\": \"Standard\",\r\n    \"tier\": \"Regional\"\r\n
@@ -92,7 +98,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/b7b33195-bf0e-4b12-ab5a-ace987021a0a?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/f360394f-4215-46a1-80c9-0a414f3f8475?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -121,7 +127,44 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/b7b33195-bf0e-4b12-ab5a-ace987021a0a?api-version=2020-11-01
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:19 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/f360394f-4215-46a1-80c9-0a414f3f8475?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "2"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Test-Request-Attempt:
+      - "1"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:22 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/f360394f-4215-46a1-80c9-0a414f3f8475?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
@@ -154,14 +197,16 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:22 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-mcdjgt?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-publicip-mcdjgt\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-mcdjgt\",\r\n
-      \ \"etag\": \"W/\\\"2336a7b7-a190-4984-a67b-439220b3dc80\\\"\",\r\n  \"location\":
+      \ \"etag\": \"W/\\\"b94d53b0-bc71-4230-b88d-996172332278\\\"\",\r\n  \"location\":
       \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n
-      \   \"resourceGuid\": \"aa46e26e-05a5-4dfc-b9cf-272ad8a2bb0a\",\r\n    \"ipAddress\":
-      \"20.3.88.110\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
+      \   \"resourceGuid\": \"08d4667b-8633-4c12-8384-83d55e72a78a\",\r\n    \"ipAddress\":
+      \"13.77.145.48\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
       \"Static\",\r\n    \"idleTimeoutInMinutes\": 4,\r\n    \"ipTags\": []\r\n  },\r\n
       \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
       \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
@@ -171,7 +216,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"2336a7b7-a190-4984-a67b-439220b3dc80"
+      - W/"b94d53b0-bc71-4230-b88d-996172332278"
       Expires:
       - "-1"
       Pragma:
@@ -200,16 +245,18 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:23 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-rjcndm?api-version=2020-11-01
     method: PUT
   response:
     body: "{\r\n  \"name\": \"asotest-loadbalancer-rjcndm\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-rjcndm\",\r\n
-      \ \"etag\": \"W/\\\"244d0a00-f036-4aa0-9b3d-ae65c2e291cf\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"572f99ca-835e-4d33-90ac-682fd3a8bd7d\\\"\",\r\n  \"type\":
       \"Microsoft.Network/loadBalancers\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"d60e2156-aef4-4a67-b0f7-8e7b987c6a4a\",\r\n
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"99817e28-ac72-4574-ad70-f6c3e19b99fc\",\r\n
       \   \"frontendIPConfigurations\": [\r\n      {\r\n        \"name\": \"LoadBalancerFrontend\",\r\n
       \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-rjcndm/frontendIPConfigurations/LoadBalancerFrontend\",\r\n
-      \       \"etag\": \"W/\\\"244d0a00-f036-4aa0-9b3d-ae65c2e291cf\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"572f99ca-835e-4d33-90ac-682fd3a8bd7d\\\"\",\r\n        \"type\":
       \"Microsoft.Network/loadBalancers/frontendIPConfigurations\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"privateIPAllocationMethod\":
       \"Dynamic\",\r\n          \"publicIPAddress\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-mcdjgt\"\r\n
@@ -219,7 +266,7 @@ interactions:
       [],\r\n    \"loadBalancingRules\": [],\r\n    \"probes\": [],\r\n    \"inboundNatRules\":
       [],\r\n    \"outboundRules\": [],\r\n    \"inboundNatPools\": [\r\n      {\r\n
       \       \"name\": \"MyFancyNatPool\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-rjcndm/inboundNatPools/MyFancyNatPool\",\r\n
-      \       \"etag\": \"W/\\\"244d0a00-f036-4aa0-9b3d-ae65c2e291cf\\\"\",\r\n        \"properties\":
+      \       \"etag\": \"W/\\\"572f99ca-835e-4d33-90ac-682fd3a8bd7d\\\"\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"frontendPortRangeStart\":
       50000,\r\n          \"frontendPortRangeEnd\": 51000,\r\n          \"backendPort\":
       22,\r\n          \"protocol\": \"Tcp\",\r\n          \"idleTimeoutInMinutes\":
@@ -233,7 +280,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/c3625017-bbd9-4711-9390-2def65e6283a?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/13ceb0ff-9366-4d53-9390-191301696b34?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -258,51 +305,22 @@ interactions:
     body: ""
     form: {}
     headers:
-      Test-Request-Attempt:
-      - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/c3625017-bbd9-4711-9390-2def65e6283a?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
       Accept:
       - application/json
       Test-Request-Attempt:
       - "0"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:24 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-rjcndm?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-loadbalancer-rjcndm\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-rjcndm\",\r\n
-      \ \"etag\": \"W/\\\"244d0a00-f036-4aa0-9b3d-ae65c2e291cf\\\"\",\r\n  \"type\":
+      \ \"etag\": \"W/\\\"572f99ca-835e-4d33-90ac-682fd3a8bd7d\\\"\",\r\n  \"type\":
       \"Microsoft.Network/loadBalancers\",\r\n  \"location\": \"westus2\",\r\n  \"properties\":
-      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"d60e2156-aef4-4a67-b0f7-8e7b987c6a4a\",\r\n
+      {\r\n    \"provisioningState\": \"Succeeded\",\r\n    \"resourceGuid\": \"99817e28-ac72-4574-ad70-f6c3e19b99fc\",\r\n
       \   \"frontendIPConfigurations\": [\r\n      {\r\n        \"name\": \"LoadBalancerFrontend\",\r\n
       \       \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-rjcndm/frontendIPConfigurations/LoadBalancerFrontend\",\r\n
-      \       \"etag\": \"W/\\\"244d0a00-f036-4aa0-9b3d-ae65c2e291cf\\\"\",\r\n        \"type\":
+      \       \"etag\": \"W/\\\"572f99ca-835e-4d33-90ac-682fd3a8bd7d\\\"\",\r\n        \"type\":
       \"Microsoft.Network/loadBalancers/frontendIPConfigurations\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"privateIPAllocationMethod\":
       \"Dynamic\",\r\n          \"publicIPAddress\": {\r\n            \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-mcdjgt\"\r\n
@@ -312,7 +330,7 @@ interactions:
       [],\r\n    \"loadBalancingRules\": [],\r\n    \"probes\": [],\r\n    \"inboundNatRules\":
       [],\r\n    \"outboundRules\": [],\r\n    \"inboundNatPools\": [\r\n      {\r\n
       \       \"name\": \"MyFancyNatPool\",\r\n        \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-rjcndm/inboundNatPools/MyFancyNatPool\",\r\n
-      \       \"etag\": \"W/\\\"244d0a00-f036-4aa0-9b3d-ae65c2e291cf\\\"\",\r\n        \"properties\":
+      \       \"etag\": \"W/\\\"572f99ca-835e-4d33-90ac-682fd3a8bd7d\\\"\",\r\n        \"properties\":
       {\r\n          \"provisioningState\": \"Succeeded\",\r\n          \"frontendPortRangeStart\":
       50000,\r\n          \"frontendPortRangeEnd\": 51000,\r\n          \"backendPort\":
       22,\r\n          \"protocol\": \"Tcp\",\r\n          \"idleTimeoutInMinutes\":
@@ -328,7 +346,7 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"244d0a00-f036-4aa0-9b3d-ae65c2e291cf"
+      - W/"572f99ca-835e-4d33-90ac-682fd3a8bd7d"
       Expires:
       - "-1"
       Pragma:
@@ -353,6 +371,8 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:28 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-rjcndm?api-version=2020-11-01
     method: DELETE
   response:
@@ -361,7 +381,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/a22b9320-005f-4041-aea6-b40370d5d823?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/b4891ade-794d-41fe-a968-aabc55ac16c2?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -369,7 +389,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/a22b9320-005f-4041-aea6-b40370d5d823?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/b4891ade-794d-41fe-a968-aabc55ac16c2?api-version=2020-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -392,6 +412,8 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:39 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-rjcndm?api-version=2020-11-01
     method: GET
   response:
@@ -426,6 +448,8 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "2"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:43 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/loadBalancers/asotest-loadbalancer-rjcndm?api-version=2020-11-01
     method: GET
   response:
@@ -460,45 +484,8 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-mcdjgt?api-version=2020-11-01
-    method: DELETE
-  response:
-    body: ""
-    headers:
-      Azure-Asyncnotification:
-      - Enabled
-      Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/9d03bd13-7c6f-4380-87b2-3d8f3821682a?api-version=2020-11-01
-      Cache-Control:
-      - no-cache
-      Content-Length:
-      - "0"
-      Expires:
-      - "-1"
-      Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/9d03bd13-7c6f-4380-87b2-3d8f3821682a?api-version=2020-11-01
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "10"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      X-Content-Type-Options:
-      - nosniff
-    status: 202 Accepted
-    code: 202
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "0"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:43 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu?api-version=2020-06-01
     method: DELETE
   response:
@@ -530,30 +517,294 @@ interactions:
       Accept:
       - application/json
       Test-Request-Attempt:
+      - "0"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:43 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-mcdjgt?api-version=2020-11-01
+    method: DELETE
+  response:
+    body: ""
+    headers:
+      Azure-Asyncnotification:
+      - Enabled
+      Azure-Asyncoperation:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/d62d148a-5192-47c9-9f05-6e9815aac1f7?api-version=2020-11-01
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - "0"
+      Expires:
+      - "-1"
+      Location:
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/d62d148a-5192-47c9-9f05-6e9815aac1f7?api-version=2020-11-01
+      Pragma:
+      - no-cache
+      Retry-After:
+      - "10"
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      X-Content-Type-Options:
+      - nosniff
+    status: 202 Accepted
+    code: 202
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
       - "1"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:54 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-mcdjgt?api-version=2020-11-01
     method: GET
   response:
-    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.Network/publicIPAddresses/asotest-publicip-mcdjgt''
-      under resource group ''asotest-rg-pkgwpu'' was not found. For more details please
-      go to https://aka.ms/ARMResourceNotFoundFix"}}'
+    body: "{\r\n  \"name\": \"asotest-publicip-mcdjgt\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-mcdjgt\",\r\n
+      \ \"etag\": \"W/\\\"72babec0-e7d6-4c64-83ce-32d0f5939e51\\\"\",\r\n  \"location\":
+      \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Deleting\",\r\n
+      \   \"resourceGuid\": \"08d4667b-8633-4c12-8384-83d55e72a78a\",\r\n    \"ipAddress\":
+      \"13.77.145.48\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
+      \"Static\",\r\n    \"idleTimeoutInMinutes\": 4,\r\n    \"ipTags\": []\r\n  },\r\n
+      \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
+      \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"72babec0-e7d6-4c64-83ce-32d0f5939e51"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "2"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:54 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-mcdjgt?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-publicip-mcdjgt\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-mcdjgt\",\r\n
+      \ \"etag\": \"W/\\\"72babec0-e7d6-4c64-83ce-32d0f5939e51\\\"\",\r\n  \"location\":
+      \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Deleting\",\r\n
+      \   \"resourceGuid\": \"08d4667b-8633-4c12-8384-83d55e72a78a\",\r\n    \"ipAddress\":
+      \"13.77.145.48\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
+      \"Static\",\r\n    \"idleTimeoutInMinutes\": 4,\r\n    \"ipTags\": []\r\n  },\r\n
+      \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
+      \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"72babec0-e7d6-4c64-83ce-32d0f5939e51"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "3"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:54 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-mcdjgt?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-publicip-mcdjgt\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-mcdjgt\",\r\n
+      \ \"etag\": \"W/\\\"72babec0-e7d6-4c64-83ce-32d0f5939e51\\\"\",\r\n  \"location\":
+      \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Deleting\",\r\n
+      \   \"resourceGuid\": \"08d4667b-8633-4c12-8384-83d55e72a78a\",\r\n    \"ipAddress\":
+      \"13.77.145.48\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
+      \"Static\",\r\n    \"idleTimeoutInMinutes\": 4,\r\n    \"ipTags\": []\r\n  },\r\n
+      \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
+      \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"72babec0-e7d6-4c64-83ce-32d0f5939e51"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "4"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:54 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-mcdjgt?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-publicip-mcdjgt\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-mcdjgt\",\r\n
+      \ \"etag\": \"W/\\\"72babec0-e7d6-4c64-83ce-32d0f5939e51\\\"\",\r\n  \"location\":
+      \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Deleting\",\r\n
+      \   \"resourceGuid\": \"08d4667b-8633-4c12-8384-83d55e72a78a\",\r\n    \"ipAddress\":
+      \"13.77.145.48\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
+      \"Static\",\r\n    \"idleTimeoutInMinutes\": 4,\r\n    \"ipTags\": []\r\n  },\r\n
+      \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
+      \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"72babec0-e7d6-4c64-83ce-32d0f5939e51"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "5"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:55 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-mcdjgt?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-publicip-mcdjgt\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-mcdjgt\",\r\n
+      \ \"etag\": \"W/\\\"72babec0-e7d6-4c64-83ce-32d0f5939e51\\\"\",\r\n  \"location\":
+      \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Deleting\",\r\n
+      \   \"resourceGuid\": \"08d4667b-8633-4c12-8384-83d55e72a78a\",\r\n    \"ipAddress\":
+      \"13.77.145.48\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
+      \"Static\",\r\n    \"idleTimeoutInMinutes\": 4,\r\n    \"ipTags\": []\r\n  },\r\n
+      \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
+      \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"72babec0-e7d6-4c64-83ce-32d0f5939e51"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "6"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:55 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-mcdjgt?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"error\": {\r\n    \"code\": \"NotFound\",\r\n    \"message\":
+      \"Resource /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-mcdjgt
+      not found.\",\r\n    \"details\": []\r\n  }\r\n}"
     headers:
       Cache-Control:
       - no-cache
       Content-Length:
-      - "248"
+      - "261"
       Content-Type:
       - application/json; charset=utf-8
       Expires:
       - "-1"
       Pragma:
       - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
       Strict-Transport-Security:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Failure-Cause:
-      - gateway
     status: 404 Not Found
     code: 404
     duration: ""
@@ -565,6 +816,8 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:59 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu?api-version=2020-06-01
     method: GET
   response:
@@ -595,6 +848,8 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "2"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:59 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu?api-version=2020-06-01
     method: GET
   response:
@@ -625,6 +880,8 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "3"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:59 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu?api-version=2020-06-01
     method: GET
   response:
@@ -655,6 +912,8 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "4"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:59 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu?api-version=2020-06-01
     method: GET
   response:
@@ -685,6 +944,328 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "5"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:59 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu","name":"asotest-rg-pkgwpu","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "6"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:59 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu","name":"asotest-rg-pkgwpu","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "7"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 17:59:59 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu","name":"asotest-rg-pkgwpu","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "8"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:00:00 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu","name":"asotest-rg-pkgwpu","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "9"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:00:01 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu","name":"asotest-rg-pkgwpu","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "10"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:00:02 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu","name":"asotest-rg-pkgwpu","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "11"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:00:04 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu","name":"asotest-rg-pkgwpu","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "12"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:00:10 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu","name":"asotest-rg-pkgwpu","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "13"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:00:20 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu","name":"asotest-rg-pkgwpu","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "14"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:00:40 GMT
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu?api-version=2020-06-01
+    method: GET
+  response:
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu","name":"asotest-rg-pkgwpu","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "15"
+      X-Ms-Date:
+      - Wed, 20 Oct 2021 18:01:21 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-pkgwpu?api-version=2020-06-01
     method: GET
   response:
