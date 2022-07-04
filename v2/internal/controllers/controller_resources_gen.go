@@ -471,14 +471,6 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Obj: new(machinelearningservices_v20210701s.WorkspacesCompute),
 		Indexes: []registration.Index{
 			{
-				Key:  ".spec.properties.hdInsight.properties.administratorAccount.password",
-				Func: indexMachinelearningservicesWorkspacesComputeHDInsightPassword,
-			},
-			{
-				Key:  ".spec.properties.virtualMachine.properties.administratorAccount.password",
-				Func: indexMachinelearningservicesWorkspacesComputeVirtualMachinePassword,
-			},
-			{
 				Key:  ".spec.properties.amlCompute.properties.userAccountCredentials.adminUserPassword",
 				Func: indexMachinelearningservicesWorkspacesComputeAdminUserPassword,
 			},
@@ -486,11 +478,19 @@ func getKnownStorageTypes() []*registration.StorageType {
 				Key:  ".spec.properties.amlCompute.properties.userAccountCredentials.adminUserSshPublicKey",
 				Func: indexMachinelearningservicesWorkspacesComputeAdminUserSshPublicKey,
 			},
+			{
+				Key:  ".spec.properties.hdInsight.properties.administratorAccount.password",
+				Func: indexMachinelearningservicesWorkspacesComputeHDInsightPassword,
+			},
+			{
+				Key:  ".spec.properties.virtualMachine.properties.administratorAccount.password",
+				Func: indexMachinelearningservicesWorkspacesComputeVirtualMachinePassword,
+			},
 		},
 		Watches: []registration.Watch{
 			{
 				Src:              &source.Kind{Type: &v1.Secret{}},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.hdInsight.properties.administratorAccount.password", ".spec.properties.virtualMachine.properties.administratorAccount.password", ".spec.properties.amlCompute.properties.userAccountCredentials.adminUserPassword", ".spec.properties.amlCompute.properties.userAccountCredentials.adminUserSshPublicKey"}, &machinelearningservices_v20210701s.WorkspacesComputeList{}),
+				MakeEventHandler: watchSecretsFactory([]string{".spec.properties.virtualMachine.properties.administratorAccount.password", ".spec.properties.amlCompute.properties.userAccountCredentials.adminUserSshPublicKey", ".spec.properties.amlCompute.properties.userAccountCredentials.adminUserPassword", ".spec.properties.hdInsight.properties.administratorAccount.password"}, &machinelearningservices_v20210701s.WorkspacesComputeList{}),
 			},
 		},
 	})

@@ -8,6 +8,7 @@ package pipeline
 import (
 	"context"
 	"fmt"
+	"sort"
 	"strings"
 
 	"github.com/pkg/errors"
@@ -92,6 +93,8 @@ func handleSecretPropertyChains(
 		indexFunctions = append(indexFunctions, indexFunction)
 		secretPropertyKeys = append(secretPropertyKeys, secretPropertyKey)
 	}
+	
+	sort.Slice(indexFunctions, orderByFunctionName(indexFunctions))
 
 	return indexFunctions, secretPropertyKeys
 }
