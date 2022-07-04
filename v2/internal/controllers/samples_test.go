@@ -195,11 +195,9 @@ func createAndDeleteResourceTree(tc *testcommon.KubePerTestContext, hashMap *lin
 
 	resourceObj := vals[index].(genruntime.ARMMetaObject)
 	refs, err := reflecthelpers.FindSecretReferences(resourceObj)
-	if err != nil {
-		return
-	}
+	tc.Expect(err).To(BeNil())
 
-	secrets := make([]*v1.Secret, len(refs))
+	secrets := make(map[string]*v1.Secret)
 	for ref, _ := range refs {
 		password := tc.Namer.GeneratePasswordOfLength(40)
 
@@ -211,7 +209,7 @@ func createAndDeleteResourceTree(tc *testcommon.KubePerTestContext, hashMap *lin
 		}
 
 		tc.CreateResource(secret)
-		secrets = append(secrets, secret)
+		secrets[ref.Name] = secret
 	}
 
 	tc.CreateResourceAndWait(resourceObj)
@@ -224,7 +222,7 @@ func createAndDeleteResourceTree(tc *testcommon.KubePerTestContext, hashMap *lin
 	}
 
 	if !isRef {
-		// No DELETE for child objects all, to delete them we must delete its parent
+		// No DELETE for child objects all, to delete them we must delete its parent or turn 'deleteChildren' to true
 		if resourceObj.Owner().Kind == resolver.ResourceGroupKind || deleteChildren {
 			tc.DeleteResourceAndWait(resourceObj)
 		}
