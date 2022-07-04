@@ -1,7 +1,7 @@
 apiVersion: insights.azure.com/v1alpha1api20180501preview
 kind: WebTest
 metadata:
-  name: samplewebtestalpha
+  name: samplewebtest
   namespace: default
 spec:
   tags:
@@ -9,7 +9,7 @@ spec:
   location: westcentralus
   owner:
     name: aso-sample-rg
-  Name: samplewebtestalpha
+  Name: samplewebtest
   Enabled: true
   Frequency: 300
   Kind: standard

@@ -46,7 +46,7 @@ interactions:
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ctnhzs?api-version=2020-06-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ctnhzs","name":"asotest-rg-ctnhzs","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ctnhzs","name":"asotest-rg-ctnhzs","type":"Microsoft.Resources/resourceGroups","location":"westcentralus","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Succeeded"}}'
     headers:
       Cache-Control:
       - no-cache
@@ -66,7 +66,7 @@ interactions:
     code: 200
     duration: ""
 - request:
-    body: '{"kind":"web","location":"westus2","name":"asotestpvvsas","properties":{"Application_Type":"other"}}'
+    body: '{"kind":"web","location":"westcentralus","name":"asotestpvvsas","properties":{"Application_Type":"other"}}'
     form: {}
     headers:
       Accept:
@@ -82,12 +82,12 @@ interactions:
   response:
     body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ctnhzs/providers/microsoft.insights/components/asotestpvvsas\",\r\n
       \ \"name\": \"asotestpvvsas\",\r\n  \"type\": \"microsoft.insights/components\",\r\n
-      \ \"location\": \"westus2\",\r\n  \"tags\": {},\r\n  \"kind\": \"web\",\r\n
+      \ \"location\": \"westcentralus\",\r\n  \"tags\": {},\r\n  \"kind\": \"web\",\r\n
       \ \"etag\": \"\\\"15001393-0000-0600-0000-62b7f4970000\\\"\",\r\n  \"properties\":
       {\r\n    \"ApplicationId\": \"asotestpvvsas\",\r\n    \"AppId\": \"f37db10a-8f9f-4c63-8640-35353d03ddd7\",\r\n
       \   \"Application_Type\": \"other\",\r\n    \"Flow_Type\": null,\r\n    \"Request_Source\":
       null,\r\n    \"InstrumentationKey\": \"d77ff82e-1438-4ea4-832f-07cfd78a9f9c\",\r\n
-      \   \"ConnectionString\": \"InstrumentationKey=d77ff82e-1438-4ea4-832f-07cfd78a9f9c;IngestionEndpoint=https://westus2-1.in.applicationinsights.azure.com/;LiveEndpoint=https://westus2.livediagnostics.monitor.azure.com/\",\r\n
+      \   \"ConnectionString\": \"InstrumentationKey=d77ff82e-1438-4ea4-832f-07cfd78a9f9c;IngestionEndpoint=https://westcentralus-1.in.applicationinsights.azure.com/;LiveEndpoint=https://westcentralus.livediagnostics.monitor.azure.com/\",\r\n
       \   \"Name\": \"asotestpvvsas\",\r\n    \"CreationDate\": \"2022-06-26T05:54:31.2748899+00:00\",\r\n
       \   \"TenantId\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"provisioningState\":
       \"Succeeded\",\r\n    \"SamplingPercentage\": null,\r\n    \"RetentionInDays\":
@@ -133,12 +133,12 @@ interactions:
   response:
     body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ctnhzs/providers/microsoft.insights/components/asotestpvvsas\",\r\n
       \ \"name\": \"asotestpvvsas\",\r\n  \"type\": \"microsoft.insights/components\",\r\n
-      \ \"location\": \"westus2\",\r\n  \"tags\": {},\r\n  \"kind\": \"web\",\r\n
+      \ \"location\": \"westcentralus\",\r\n  \"tags\": {},\r\n  \"kind\": \"web\",\r\n
       \ \"etag\": \"\\\"15001393-0000-0600-0000-62b7f4970000\\\"\",\r\n  \"properties\":
       {\r\n    \"ApplicationId\": \"asotestpvvsas\",\r\n    \"AppId\": \"f37db10a-8f9f-4c63-8640-35353d03ddd7\",\r\n
       \   \"Application_Type\": \"other\",\r\n    \"Flow_Type\": null,\r\n    \"Request_Source\":
       null,\r\n    \"InstrumentationKey\": \"d77ff82e-1438-4ea4-832f-07cfd78a9f9c\",\r\n
-      \   \"ConnectionString\": \"InstrumentationKey=d77ff82e-1438-4ea4-832f-07cfd78a9f9c;IngestionEndpoint=https://westus2-1.in.applicationinsights.azure.com/;LiveEndpoint=https://westus2.livediagnostics.monitor.azure.com/\",\r\n
+      \   \"ConnectionString\": \"InstrumentationKey=d77ff82e-1438-4ea4-832f-07cfd78a9f9c;IngestionEndpoint=https://westcentralus-1.in.applicationinsights.azure.com/;LiveEndpoint=https://westcentralus.livediagnostics.monitor.azure.com/\",\r\n
       \   \"Name\": \"asotestpvvsas\",\r\n    \"CreationDate\": \"2022-06-26T05:54:31.2748899+00:00\",\r\n
       \   \"TenantId\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"provisioningState\":
       \"Succeeded\",\r\n    \"SamplingPercentage\": null,\r\n    \"RetentionInDays\":
@@ -242,7 +242,7 @@ interactions:
     code: 404
     duration: ""
 - request:
-    body: '{"kind":"web","location":"westus2","name":"asotestvptnfl","properties":{"Application_Type":"other"}}'
+    body: '{"kind":"web","location":"westcentralus","name":"asotestvptnfl","properties":{"Application_Type":"other"}}'
     form: {}
     headers:
       Accept:
@@ -258,12 +258,12 @@ interactions:
   response:
     body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ctnhzs/providers/microsoft.insights/components/asotestvptnfl\",\r\n
       \ \"name\": \"asotestvptnfl\",\r\n  \"type\": \"microsoft.insights/components\",\r\n
-      \ \"location\": \"westus2\",\r\n  \"tags\": {},\r\n  \"kind\": \"web\",\r\n
+      \ \"location\": \"westcentralus\",\r\n  \"tags\": {},\r\n  \"kind\": \"web\",\r\n
       \ \"etag\": \"\\\"1500c093-0000-0600-0000-62b7f4b80000\\\"\",\r\n  \"properties\":
       {\r\n    \"ApplicationId\": \"asotestvptnfl\",\r\n    \"AppId\": \"5959552c-34aa-4f63-b5ab-572b2f37853b\",\r\n
       \   \"Application_Type\": \"other\",\r\n    \"Flow_Type\": null,\r\n    \"Request_Source\":
       null,\r\n    \"InstrumentationKey\": \"40ea5628-013a-4737-91c8-1bec6a6bcc89\",\r\n
-      \   \"ConnectionString\": \"InstrumentationKey=40ea5628-013a-4737-91c8-1bec6a6bcc89;IngestionEndpoint=https://westus2-0.in.applicationinsights.azure.com/;LiveEndpoint=https://westus2.livediagnostics.monitor.azure.com/\",\r\n
+      \   \"ConnectionString\": \"InstrumentationKey=40ea5628-013a-4737-91c8-1bec6a6bcc89;IngestionEndpoint=https://westcentralus-0.in.applicationinsights.azure.com/;LiveEndpoint=https://westcentralus.livediagnostics.monitor.azure.com/\",\r\n
       \   \"Name\": \"asotestvptnfl\",\r\n    \"CreationDate\": \"2022-06-26T05:55:02.4426044+00:00\",\r\n
       \   \"TenantId\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"provisioningState\":
       \"Succeeded\",\r\n    \"SamplingPercentage\": null,\r\n    \"RetentionInDays\":
@@ -309,12 +309,12 @@ interactions:
   response:
     body: "{\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-ctnhzs/providers/microsoft.insights/components/asotestvptnfl\",\r\n
       \ \"name\": \"asotestvptnfl\",\r\n  \"type\": \"microsoft.insights/components\",\r\n
-      \ \"location\": \"westus2\",\r\n  \"tags\": {},\r\n  \"kind\": \"web\",\r\n
+      \ \"location\": \"westcentralus\",\r\n  \"tags\": {},\r\n  \"kind\": \"web\",\r\n
       \ \"etag\": \"\\\"1500c093-0000-0600-0000-62b7f4b80000\\\"\",\r\n  \"properties\":
       {\r\n    \"ApplicationId\": \"asotestvptnfl\",\r\n    \"AppId\": \"5959552c-34aa-4f63-b5ab-572b2f37853b\",\r\n
       \   \"Application_Type\": \"other\",\r\n    \"Flow_Type\": null,\r\n    \"Request_Source\":
       null,\r\n    \"InstrumentationKey\": \"40ea5628-013a-4737-91c8-1bec6a6bcc89\",\r\n
-      \   \"ConnectionString\": \"InstrumentationKey=40ea5628-013a-4737-91c8-1bec6a6bcc89;IngestionEndpoint=https://westus2-0.in.applicationinsights.azure.com/;LiveEndpoint=https://westus2.livediagnostics.monitor.azure.com/\",\r\n
+      \   \"ConnectionString\": \"InstrumentationKey=40ea5628-013a-4737-91c8-1bec6a6bcc89;IngestionEndpoint=https://westcentralus-0.in.applicationinsights.azure.com/;LiveEndpoint=https://westcentralus.livediagnostics.monitor.azure.com/\",\r\n
       \   \"Name\": \"asotestvptnfl\",\r\n    \"CreationDate\": \"2022-06-26T05:55:02.4426044+00:00\",\r\n
       \   \"TenantId\": \"00000000-0000-0000-0000-000000000000\",\r\n    \"provisioningState\":
       \"Succeeded\",\r\n    \"SamplingPercentage\": null,\r\n    \"RetentionInDays\":

@@ -1,10 +1,10 @@
 apiVersion: insights.azure.com/v1alpha1api20200202
 kind: Component
 metadata:
-  name: sampleappinsightsalpha
+  name: sampleappinsights
   namespace: default
 spec:
-  location: westus2
+  location: westcentralus
   owner:
     name: aso-sample-rg
   Application_Type: other
