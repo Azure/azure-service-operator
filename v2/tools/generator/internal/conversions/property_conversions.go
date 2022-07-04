@@ -170,8 +170,8 @@ func CreateTypeConversion(
 
 	// No conversion found, we need to generate a useful error message, wrapping any existing error
 	msg := fmt.Sprintf("no conversion found to assign %q from %q",
-		astmodel.DebugDescription(destinationEndpoint.Type(), conversionContext.Types()),
-		astmodel.DebugDescription(sourceEndpoint.Type(), conversionContext.Types()))
+		astmodel.DebugDescription(destinationEndpoint.Type()),
+		astmodel.DebugDescription(sourceEndpoint.Type()))
 
 	if err != nil {
 		err = errors.Wrap(err, msg)
@@ -868,8 +868,8 @@ func assignArrayFromArray(
 		return nil, errors.Wrapf(
 			err,
 			"finding array conversion from %s to %s",
-			astmodel.DebugDescription(sourceEndpoint.Type(), conversionContext.Types()),
-			astmodel.DebugDescription(destinationEndpoint.Type(), conversionContext.Types()))
+			astmodel.DebugDescription(sourceEndpoint.Type()),
+			astmodel.DebugDescription(destinationEndpoint.Type()))
 	}
 	if conversion == nil {
 		return nil, nil
@@ -998,8 +998,8 @@ func assignMapFromMap(
 		return nil, errors.Wrapf(
 			err,
 			"finding map conversion from %s to %s",
-			astmodel.DebugDescription(sourceEndpoint.Type(), conversionContext.Types()),
-			astmodel.DebugDescription(destinationEndpoint.Type(), conversionContext.Types()))
+			astmodel.DebugDescription(sourceEndpoint.Type()),
+			astmodel.DebugDescription(destinationEndpoint.Type()))
 	}
 	if conversion == nil {
 		return nil, nil
@@ -1124,8 +1124,8 @@ func assignEnumFromEnum(
 	if !astmodel.TypeEquals(sourceEnum.BaseType(), destinationEnum.BaseType()) {
 		return nil, errors.Errorf(
 			"no conversion from %s to %s",
-			astmodel.DebugDescription(sourceEnum.BaseType(), nil),
-			astmodel.DebugDescription(destinationEnum.BaseType(), nil))
+			astmodel.DebugDescription(sourceEnum.BaseType()),
+			astmodel.DebugDescription(destinationEnum.BaseType()))
 	}
 
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, ctx *astmodel.CodeGenerationContext) []dst.Stmt {
@@ -1242,7 +1242,7 @@ func assignObjectDirectlyFromObject(
 		return nil, errors.Wrapf(
 			err,
 			"looking up next type for %s",
-			astmodel.DebugDescription(destinationEndpoint.Type(), conversionContext.Types()))
+			astmodel.DebugDescription(destinationEndpoint.Type()))
 	}
 
 	if !nextType.IsEmpty() && !astmodel.TypeEquals(nextType, sourceName) {
@@ -1354,7 +1354,7 @@ func assignObjectDirectlyToObject(
 		return nil, errors.Wrapf(
 			err,
 			"looking up next type for %s",
-			astmodel.DebugDescription(sourceEndpoint.Type(), conversionContext.Types()))
+			astmodel.DebugDescription(sourceEndpoint.Type()))
 	}
 
 	if !nextType.IsEmpty() && !astmodel.TypeEquals(nextType, destinationName) {
@@ -1473,7 +1473,7 @@ func assignObjectsViaIntermediateObject(
 		return nil, errors.Wrapf(
 			err,
 			"looking up next type for %s",
-			astmodel.DebugDescription(destinationEndpoint.Type(), conversionContext.Types()))
+			astmodel.DebugDescription(destinationEndpoint.Type()))
 	}
 
 	if intermediateName.IsEmpty() || astmodel.TypeEquals(intermediateName, sourceName) {
@@ -1492,8 +1492,8 @@ func assignObjectsViaIntermediateObject(
 		return nil, errors.Wrapf(
 			err,
 			"finding first intermediate conversion, from %s to %s",
-			astmodel.DebugDescription(sourceName, conversionContext.Types()),
-			astmodel.DebugDescription(intermediateName, conversionContext.Types()))
+			astmodel.DebugDescription(sourceName),
+			astmodel.DebugDescription(intermediateName))
 	}
 	if firstConversion == nil {
 		return nil, nil
@@ -1504,8 +1504,8 @@ func assignObjectsViaIntermediateObject(
 		return nil, errors.Wrapf(
 			err,
 			"finding second intermediate conversion, from %s to %s",
-			astmodel.DebugDescription(intermediateName, conversionContext.Types()),
-			astmodel.DebugDescription(destinationType, conversionContext.Types()))
+			astmodel.DebugDescription(intermediateName),
+			astmodel.DebugDescription(destinationType))
 	}
 
 	if secondConversion == nil {

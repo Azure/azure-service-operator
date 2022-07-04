@@ -167,11 +167,10 @@ func (builder *ConversionFunctionBuilder) BuildConversion(params ConversionParam
 		}
 	}
 
-	defs := builder.CodeGenerationContext.GetAllReachableDefinitions()
 	msg := fmt.Sprintf(
 		"don't know how to perform conversion for %s -> %s",
-		DebugDescription(params.SourceType, defs),
-		DebugDescription(params.DestinationType, defs))
+		DebugDescription(params.SourceType),
+		DebugDescription(params.DestinationType))
 	panic(msg)
 }
 
@@ -314,7 +313,7 @@ func IdentityConvertComplexMapProperty(builder *ConversionFunctionBuilder, param
 	if _, ok := destinationType.KeyType().(*PrimitiveType); !ok {
 		msg := fmt.Sprintf(
 			"map had non-primitive key type: %s",
-			DebugDescription(destinationType.KeyType(), nil))
+			DebugDescription(destinationType.KeyType()))
 		panic(msg)
 	}
 
@@ -551,7 +550,7 @@ func IdentityAssignValidatedTypeSource(builder *ConversionFunctionBuilder, param
 // IdentityDeepCopyJSON special cases copying JSON-type fields to call the DeepCopy method.
 // It generates code that looks like:
 //     <destination> = *<source>.DeepCopy()
-func IdentityDeepCopyJSON(builder *ConversionFunctionBuilder, params ConversionParameters) []dst.Stmt {
+func IdentityDeepCopyJSON(_ *ConversionFunctionBuilder, params ConversionParameters) []dst.Stmt {
 	if !TypeEquals(params.DestinationType, JSONType) {
 		return nil
 	}
