@@ -65,7 +65,11 @@ func NewGenTypesCommand() (*cobra.Command, error) {
 		}),
 	}
 
-	debugMode = cmd.Flags().StringP("debug", "d", "", "write debug logs to a temp folder for selected groups. Examples: compute computer;network net*")
+	debugMode = cmd.Flags().StringP(
+		"debug",
+		"d",
+		"",
+		"Write debug logs to a temp folder for a group (e.g. compute), multiple groups (e.g. compute;network), or groups matching a wildcard (e.g. net*)")
 
 	return cmd, nil
 }
