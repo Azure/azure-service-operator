@@ -293,6 +293,7 @@ func createGetKnownStorageTypesFunc(
 		//	}
 		if indexFuncs, ok := indexFunctions[typeName]; ok {
 			sliceBuilder := astbuilder.NewSliceLiteralBuilder(astmodel.IndexRegistrationType.AsType(codeGenerationContext), true)
+			sort.Slice(indexFuncs, orderByFunctionName(indexFuncs))
 
 			for _, indexFunc := range indexFuncs {
 				newIndexFunctionBuilder := astbuilder.NewCompositeLiteralBuilder(astmodel.IndexRegistrationType.AsType(codeGenerationContext))
@@ -313,6 +314,8 @@ func createGetKnownStorageTypesFunc(
 		//	}
 		if secretKeys, ok := secretPropertyKeys[typeName]; ok {
 			newWatchBuilder := astbuilder.NewCompositeLiteralBuilder(astmodel.WatchRegistrationType.AsType(codeGenerationContext))
+			sort.Strings(secretKeys)
+
 			// Not using astbuilder here because we want this to go onto a single line
 			source := &dst.CompositeLit{
 				Type: astmodel.ControllerRuntimeSourceKindType.AsType(codeGenerationContext),

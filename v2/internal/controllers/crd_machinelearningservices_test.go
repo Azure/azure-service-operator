@@ -36,7 +36,13 @@ func Test_MachineLearning_Workspaces_CRUD(t *testing.T) {
 
 	tc.CreateResourcesAndWait(workspace)
 
-	Workspaces_WriteSecrets(tc, workspace)
+	tc.RunSubtests(
+		testcommon.Subtest{
+			Name: "WriteWorkspacesSecrets",
+			Test: func(tc *testcommon.KubePerTestContext) {
+				Workspaces_WriteSecrets(tc, workspace)
+			},
+		})
 
 	tc.RunParallelSubtests(
 		testcommon.Subtest{
