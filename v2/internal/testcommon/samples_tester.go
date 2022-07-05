@@ -29,8 +29,8 @@ import (
 const refsPackage = "refs"
 const samplesPath = "../../config/samples"
 
-// exclusions slice contains resources to exclude from test as these resources run into
-// "runtime.notRegisteredErr" error from the Scheme.
+// exclusions slice contains resources to exclude from test as these are either not an arm resource
+// or contain hidden link references.
 var exclusions = [...]string{
 	"webtest",
 	// excluding dbformysql/user as is not an ARM resource
