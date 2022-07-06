@@ -29,11 +29,11 @@ import (
 const refsPackage = "refs"
 const samplesPath = "../../config/samples"
 
-// exclusions slice contains resources to exclude from test as these are either not an arm resource
-// or contain hidden link references.
+// exclusions slice contains resources to exclude from test
 var exclusions = [...]string{
+	// Excluding webtest as it contains hidden link references
 	"webtest",
-	// excluding dbformysql/user as is not an ARM resource
+	// Excluding dbformysql/user as is not an ARM resource
 	"user",
 }
 
