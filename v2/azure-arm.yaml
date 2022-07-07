@@ -590,9 +590,12 @@ status:
 #     identified as an ARM reference.
 #
 # $isSecret: <bool>
-#     Specifies that the property references a secret.
-#     Set to `true` to flag this property as a secret. Secrets are string values 
-#     read from a secure storage by ASO when needed.
+#     Specifies that the property references a secret
+#     Secrets are string values read from a secure storage by ASO when needed.
+#     Set to `true` to flag this property as a secret. This is an override for when the Swagger
+#     is incomplete. If you specify $isSecret: true, you should also open a PR to update the 
+#     upstream Swagger repo spec with the x-ms-secret annotation.
+#     Here's a reference PR: https://github.com/Azure/azure-rest-api-specs/pull/19399
 #
 # $nameInNextVersion: <string>
 #     Gives the name this property has in the next version of the resource
