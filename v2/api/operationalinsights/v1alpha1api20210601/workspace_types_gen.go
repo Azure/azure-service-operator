@@ -865,7 +865,7 @@ type Workspaces_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName        string             `json:"azureName,omitempty"`
-	ETag             *string            `json:"eTag,omitempty"`
+	Etag             *string            `json:"etag,omitempty"`
 	Features         *WorkspaceFeatures `json:"features,omitempty"`
 	ForceCmkForQuery *bool              `json:"forceCmkForQuery,omitempty"`
 	Location         *string            `json:"location,omitempty"`
@@ -893,10 +893,10 @@ func (workspaces *Workspaces_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 	result := &Workspaces_SpecARM{}
 
-	// Set property ‘ETag’:
-	if workspaces.ETag != nil {
-		eTag := *workspaces.ETag
-		result.ETag = &eTag
+	// Set property ‘Etag’:
+	if workspaces.Etag != nil {
+		etag := *workspaces.Etag
+		result.Etag = &etag
 	}
 
 	// Set property ‘Location’:
@@ -989,10 +989,10 @@ func (workspaces *Workspaces_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// Set property ‘AzureName’:
 	workspaces.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘ETag’:
-	if typedInput.ETag != nil {
-		eTag := *typedInput.ETag
-		workspaces.ETag = &eTag
+	// Set property ‘Etag’:
+	if typedInput.Etag != nil {
+		etag := *typedInput.Etag
+		workspaces.Etag = &etag
 	}
 
 	// Set property ‘Features’:
@@ -1161,8 +1161,8 @@ func (workspaces *Workspaces_Spec) AssignPropertiesFromWorkspacesSpec(source *al
 	// AzureName
 	workspaces.AzureName = source.AzureName
 
-	// ETag
-	workspaces.ETag = genruntime.ClonePointerToString(source.ETag)
+	// Etag
+	workspaces.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// Features
 	if source.Features != nil {
@@ -1261,8 +1261,8 @@ func (workspaces *Workspaces_Spec) AssignPropertiesToWorkspacesSpec(destination 
 	// AzureName
 	destination.AzureName = workspaces.AzureName
 
-	// ETag
-	destination.ETag = genruntime.ClonePointerToString(workspaces.ETag)
+	// Etag
+	destination.Etag = genruntime.ClonePointerToString(workspaces.Etag)
 
 	// Features
 	if workspaces.Features != nil {

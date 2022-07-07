@@ -10,7 +10,7 @@ import (
 
 // Deprecated version of Workspaces_Spec. Use v1beta20210601.Workspaces_Spec instead
 type Workspaces_SpecARM struct {
-	ETag       *string                 `json:"eTag,omitempty"`
+	Etag       *string                 `json:"etag,omitempty"`
 	Location   *string                 `json:"location,omitempty"`
 	Name       string                  `json:"name,omitempty"`
 	Properties *WorkspacePropertiesARM `json:"properties,omitempty"`

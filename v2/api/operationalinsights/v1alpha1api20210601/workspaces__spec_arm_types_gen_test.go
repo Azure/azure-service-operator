@@ -82,7 +82,7 @@ func WorkspacesSpecARMGenerator() gopter.Gen {
 
 // AddIndependentPropertyGeneratorsForWorkspacesSpecARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWorkspacesSpecARM(gens map[string]gopter.Gen) {
-	gens["ETag"] = gen.PtrOf(gen.AlphaString())
+	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["Name"] = gen.AlphaString()
 	gens["Tags"] = gen.MapOf(gen.AlphaString(), gen.AlphaString())
