@@ -836,6 +836,11 @@ objectModelConfiguration:
         $exportAs: ServerPropertiesForRestore
   dbformysql:
     2021-05-01:
+      DataEncryption:
+        PrimaryUserAssignedIdentityId:
+          $armReference: true
+        GeoBackupUserAssignedIdentityId:
+          $armReference: true
       FlexibleServer: 
         $export: true
         $supportedFrom: v2.0.0-alpha.2

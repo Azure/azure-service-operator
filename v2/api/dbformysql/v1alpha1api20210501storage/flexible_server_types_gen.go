@@ -218,7 +218,9 @@ type FlexibleServers_Spec struct {
 	AzureName         string                      `json:"azureName,omitempty"`
 	Backup            *Backup                     `json:"backup,omitempty"`
 	CreateMode        *string                     `json:"createMode,omitempty"`
+	DataEncryption    *DataEncryption             `json:"dataEncryption,omitempty"`
 	HighAvailability  *HighAvailability           `json:"highAvailability,omitempty"`
+	Identity          *Identity                   `json:"identity,omitempty"`
 	Location          *string                     `json:"location,omitempty"`
 	MaintenanceWindow *MaintenanceWindow          `json:"maintenanceWindow,omitempty"`
 	Network           *Network                    `json:"network,omitempty"`
@@ -327,6 +329,18 @@ func (servers *FlexibleServers_Spec) AssignPropertiesFromFlexibleServersSpec(sou
 	// CreateMode
 	servers.CreateMode = genruntime.ClonePointerToString(source.CreateMode)
 
+	// DataEncryption
+	if source.DataEncryption != nil {
+		var dataEncryption DataEncryption
+		err := dataEncryption.AssignPropertiesFromDataEncryption(source.DataEncryption)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromDataEncryption() to populate field DataEncryption")
+		}
+		servers.DataEncryption = &dataEncryption
+	} else {
+		servers.DataEncryption = nil
+	}
+
 	// HighAvailability
 	if source.HighAvailability != nil {
 		var highAvailability HighAvailability
@@ -337,6 +351,18 @@ func (servers *FlexibleServers_Spec) AssignPropertiesFromFlexibleServersSpec(sou
 		servers.HighAvailability = &highAvailability
 	} else {
 		servers.HighAvailability = nil
+	}
+
+	// Identity
+	if source.Identity != nil {
+		var identity Identity
+		err := identity.AssignPropertiesFromIdentity(source.Identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesFromIdentity() to populate field Identity")
+		}
+		servers.Identity = &identity
+	} else {
+		servers.Identity = nil
 	}
 
 	// Location
@@ -476,6 +502,18 @@ func (servers *FlexibleServers_Spec) AssignPropertiesToFlexibleServersSpec(desti
 	// CreateMode
 	destination.CreateMode = genruntime.ClonePointerToString(servers.CreateMode)
 
+	// DataEncryption
+	if servers.DataEncryption != nil {
+		var dataEncryption v20210501s.DataEncryption
+		err := servers.DataEncryption.AssignPropertiesToDataEncryption(&dataEncryption)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToDataEncryption() to populate field DataEncryption")
+		}
+		destination.DataEncryption = &dataEncryption
+	} else {
+		destination.DataEncryption = nil
+	}
+
 	// HighAvailability
 	if servers.HighAvailability != nil {
 		var highAvailability v20210501s.HighAvailability
@@ -486,6 +524,18 @@ func (servers *FlexibleServers_Spec) AssignPropertiesToFlexibleServersSpec(desti
 		destination.HighAvailability = &highAvailability
 	} else {
 		destination.HighAvailability = nil
+	}
+
+	// Identity
+	if servers.Identity != nil {
+		var identity v20210501s.Identity
+		err := servers.Identity.AssignPropertiesToIdentity(&identity)
+		if err != nil {
+			return errors.Wrap(err, "calling AssignPropertiesToIdentity() to populate field Identity")
+		}
+		destination.Identity = &identity
+	} else {
+		destination.Identity = nil
 	}
 
 	// Location
@@ -1124,6 +1174,99 @@ func (backup *Backup_Status) AssignPropertiesToBackupStatus(destination *v202105
 	return nil
 }
 
+// Storage version of v1alpha1api20210501.DataEncryption
+// Deprecated version of DataEncryption. Use v1beta20210501.DataEncryption instead
+type DataEncryption struct {
+	GeoBackupKeyUri                        *string                       `json:"geoBackupKeyUri,omitempty"`
+	GeoBackupUserAssignedIdentityReference *genruntime.ResourceReference `armReference:"GeoBackupUserAssignedIdentityId" json:"geoBackupUserAssignedIdentityReference,omitempty"`
+	PrimaryKeyUri                          *string                       `json:"primaryKeyUri,omitempty"`
+	PrimaryUserAssignedIdentityReference   *genruntime.ResourceReference `armReference:"PrimaryUserAssignedIdentityId" json:"primaryUserAssignedIdentityReference,omitempty"`
+	PropertyBag                            genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Type                                   *string                       `json:"type,omitempty"`
+}
+
+// AssignPropertiesFromDataEncryption populates our DataEncryption from the provided source DataEncryption
+func (encryption *DataEncryption) AssignPropertiesFromDataEncryption(source *v20210501s.DataEncryption) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// GeoBackupKeyUri
+	encryption.GeoBackupKeyUri = genruntime.ClonePointerToString(source.GeoBackupKeyUri)
+
+	// GeoBackupUserAssignedIdentityReference
+	if source.GeoBackupUserAssignedIdentityReference != nil {
+		geoBackupUserAssignedIdentityReference := source.GeoBackupUserAssignedIdentityReference.Copy()
+		encryption.GeoBackupUserAssignedIdentityReference = &geoBackupUserAssignedIdentityReference
+	} else {
+		encryption.GeoBackupUserAssignedIdentityReference = nil
+	}
+
+	// PrimaryKeyUri
+	encryption.PrimaryKeyUri = genruntime.ClonePointerToString(source.PrimaryKeyUri)
+
+	// PrimaryUserAssignedIdentityReference
+	if source.PrimaryUserAssignedIdentityReference != nil {
+		primaryUserAssignedIdentityReference := source.PrimaryUserAssignedIdentityReference.Copy()
+		encryption.PrimaryUserAssignedIdentityReference = &primaryUserAssignedIdentityReference
+	} else {
+		encryption.PrimaryUserAssignedIdentityReference = nil
+	}
+
+	// Type
+	encryption.Type = genruntime.ClonePointerToString(source.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		encryption.PropertyBag = propertyBag
+	} else {
+		encryption.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToDataEncryption populates the provided destination DataEncryption from our DataEncryption
+func (encryption *DataEncryption) AssignPropertiesToDataEncryption(destination *v20210501s.DataEncryption) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(encryption.PropertyBag)
+
+	// GeoBackupKeyUri
+	destination.GeoBackupKeyUri = genruntime.ClonePointerToString(encryption.GeoBackupKeyUri)
+
+	// GeoBackupUserAssignedIdentityReference
+	if encryption.GeoBackupUserAssignedIdentityReference != nil {
+		geoBackupUserAssignedIdentityReference := encryption.GeoBackupUserAssignedIdentityReference.Copy()
+		destination.GeoBackupUserAssignedIdentityReference = &geoBackupUserAssignedIdentityReference
+	} else {
+		destination.GeoBackupUserAssignedIdentityReference = nil
+	}
+
+	// PrimaryKeyUri
+	destination.PrimaryKeyUri = genruntime.ClonePointerToString(encryption.PrimaryKeyUri)
+
+	// PrimaryUserAssignedIdentityReference
+	if encryption.PrimaryUserAssignedIdentityReference != nil {
+		primaryUserAssignedIdentityReference := encryption.PrimaryUserAssignedIdentityReference.Copy()
+		destination.PrimaryUserAssignedIdentityReference = &primaryUserAssignedIdentityReference
+	} else {
+		destination.PrimaryUserAssignedIdentityReference = nil
+	}
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(encryption.Type)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 // Storage version of v1alpha1api20210501.DataEncryption_Status
 // Deprecated version of DataEncryption_Status. Use v1beta20210501.DataEncryption_Status instead
 type DataEncryption_Status struct {
@@ -1359,6 +1502,78 @@ func (availability *HighAvailability_Status) AssignPropertiesToHighAvailabilityS
 
 	// State
 	destination.State = genruntime.ClonePointerToString(availability.State)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// Storage version of v1alpha1api20210501.Identity
+// Deprecated version of Identity. Use v1beta20210501.Identity instead
+type Identity struct {
+	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Type                   *string                `json:"type,omitempty"`
+	UserAssignedIdentities map[string]v1.JSON     `json:"userAssignedIdentities,omitempty"`
+}
+
+// AssignPropertiesFromIdentity populates our Identity from the provided source Identity
+func (identity *Identity) AssignPropertiesFromIdentity(source *v20210501s.Identity) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(source.PropertyBag)
+
+	// Type
+	identity.Type = genruntime.ClonePointerToString(source.Type)
+
+	// UserAssignedIdentities
+	if source.UserAssignedIdentities != nil {
+		userAssignedIdentityMap := make(map[string]v1.JSON, len(source.UserAssignedIdentities))
+		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
+			// Shadow the loop variable to avoid aliasing
+			userAssignedIdentityValue := userAssignedIdentityValue
+			userAssignedIdentityMap[userAssignedIdentityKey] = *userAssignedIdentityValue.DeepCopy()
+		}
+		identity.UserAssignedIdentities = userAssignedIdentityMap
+	} else {
+		identity.UserAssignedIdentities = nil
+	}
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		identity.PropertyBag = propertyBag
+	} else {
+		identity.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToIdentity populates the provided destination Identity from our Identity
+func (identity *Identity) AssignPropertiesToIdentity(destination *v20210501s.Identity) error {
+	// Clone the existing property bag
+	propertyBag := genruntime.NewPropertyBag(identity.PropertyBag)
+
+	// Type
+	destination.Type = genruntime.ClonePointerToString(identity.Type)
+
+	// UserAssignedIdentities
+	if identity.UserAssignedIdentities != nil {
+		userAssignedIdentityMap := make(map[string]v1.JSON, len(identity.UserAssignedIdentities))
+		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
+			// Shadow the loop variable to avoid aliasing
+			userAssignedIdentityValue := userAssignedIdentityValue
+			userAssignedIdentityMap[userAssignedIdentityKey] = *userAssignedIdentityValue.DeepCopy()
+		}
+		destination.UserAssignedIdentities = userAssignedIdentityMap
+	} else {
+		destination.UserAssignedIdentities = nil
+	}
 
 	// Update the property bag
 	if len(propertyBag) > 0 {

@@ -290,7 +290,9 @@ func AddIndependentPropertyGeneratorsForFlexibleServersSpec(gens map[string]gopt
 // AddRelatedPropertyGeneratorsForFlexibleServersSpec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForFlexibleServersSpec(gens map[string]gopter.Gen) {
 	gens["Backup"] = gen.PtrOf(BackupGenerator())
+	gens["DataEncryption"] = gen.PtrOf(DataEncryptionGenerator())
 	gens["HighAvailability"] = gen.PtrOf(HighAvailabilityGenerator())
+	gens["Identity"] = gen.PtrOf(IdentityGenerator())
 	gens["MaintenanceWindow"] = gen.PtrOf(MaintenanceWindowGenerator())
 	gens["Network"] = gen.PtrOf(NetworkGenerator())
 	gens["OperatorSpec"] = gen.PtrOf(FlexibleServerOperatorSpecGenerator())
@@ -649,6 +651,109 @@ func AddIndependentPropertyGeneratorsForBackupStatus(gens map[string]gopter.Gen)
 	gens["BackupRetentionDays"] = gen.PtrOf(gen.Int())
 	gens["EarliestRestoreDate"] = gen.PtrOf(gen.AlphaString())
 	gens["GeoRedundantBackup"] = gen.PtrOf(gen.OneConstOf(EnableStatusEnum_StatusDisabled, EnableStatusEnum_StatusEnabled))
+}
+
+func Test_DataEncryption_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DataEncryption to DataEncryption via AssignPropertiesToDataEncryption & AssignPropertiesFromDataEncryption returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDataEncryption, DataEncryptionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDataEncryption tests if a specific instance of DataEncryption can be assigned to v1alpha1api20210501storage and back losslessly
+func RunPropertyAssignmentTestForDataEncryption(subject DataEncryption) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other alpha20210501s.DataEncryption
+	err := copied.AssignPropertiesToDataEncryption(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DataEncryption
+	err = actual.AssignPropertiesFromDataEncryption(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_DataEncryption_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DataEncryption via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDataEncryption, DataEncryptionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDataEncryption runs a test to see if a specific instance of DataEncryption round trips to JSON and back losslessly
+func RunJSONSerializationTestForDataEncryption(subject DataEncryption) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DataEncryption
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DataEncryption instances for property testing - lazily instantiated by DataEncryptionGenerator()
+var dataEncryptionGenerator gopter.Gen
+
+// DataEncryptionGenerator returns a generator of DataEncryption instances for property testing.
+func DataEncryptionGenerator() gopter.Gen {
+	if dataEncryptionGenerator != nil {
+		return dataEncryptionGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDataEncryption(generators)
+	dataEncryptionGenerator = gen.Struct(reflect.TypeOf(DataEncryption{}), generators)
+
+	return dataEncryptionGenerator
+}
+
+// AddIndependentPropertyGeneratorsForDataEncryption is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDataEncryption(gens map[string]gopter.Gen) {
+	gens["GeoBackupKeyUri"] = gen.PtrOf(gen.AlphaString())
+	gens["PrimaryKeyUri"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(DataEncryptionTypeAzureKeyVault, DataEncryptionTypeSystemManaged))
 }
 
 func Test_DataEncryption_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
@@ -1068,6 +1173,107 @@ func AddIndependentPropertyGeneratorsForHighAvailabilityStatus(gens map[string]g
 		HighAvailabilityStatusStateHealthy,
 		HighAvailabilityStatusStateNotEnabled,
 		HighAvailabilityStatusStateRemovingStandby))
+}
+
+func Test_Identity_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Identity to Identity via AssignPropertiesToIdentity & AssignPropertiesFromIdentity returns original",
+		prop.ForAll(RunPropertyAssignmentTestForIdentity, IdentityGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForIdentity tests if a specific instance of Identity can be assigned to v1alpha1api20210501storage and back losslessly
+func RunPropertyAssignmentTestForIdentity(subject Identity) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other alpha20210501s.Identity
+	err := copied.AssignPropertiesToIdentity(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Identity
+	err = actual.AssignPropertiesFromIdentity(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Identity_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Identity via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForIdentity, IdentityGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForIdentity runs a test to see if a specific instance of Identity round trips to JSON and back losslessly
+func RunJSONSerializationTestForIdentity(subject Identity) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Identity
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Identity instances for property testing - lazily instantiated by IdentityGenerator()
+var identityGenerator gopter.Gen
+
+// IdentityGenerator returns a generator of Identity instances for property testing.
+func IdentityGenerator() gopter.Gen {
+	if identityGenerator != nil {
+		return identityGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForIdentity(generators)
+	identityGenerator = gen.Struct(reflect.TypeOf(Identity{}), generators)
+
+	return identityGenerator
+}
+
+// AddIndependentPropertyGeneratorsForIdentity is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForIdentity(gens map[string]gopter.Gen) {
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(IdentityTypeUserAssigned))
 }
 
 func Test_Identity_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {

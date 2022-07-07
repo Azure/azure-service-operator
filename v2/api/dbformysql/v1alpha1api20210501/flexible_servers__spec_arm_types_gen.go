@@ -3,10 +3,14 @@
 // Licensed under the MIT license.
 package v1alpha1api20210501
 
-import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+import (
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+)
 
 // Deprecated version of FlexibleServers_Spec. Use v1beta20210501.FlexibleServers_Spec instead
 type FlexibleServers_SpecARM struct {
+	Identity   *IdentityARM         `json:"identity,omitempty"`
 	Location   *string              `json:"location,omitempty"`
 	Name       string               `json:"name,omitempty"`
 	Properties *ServerPropertiesARM `json:"properties,omitempty"`
@@ -31,6 +35,12 @@ func (servers *FlexibleServers_SpecARM) GetType() string {
 	return "Microsoft.DBforMySQL/flexibleServers"
 }
 
+// Deprecated version of Identity. Use v1beta20210501.Identity instead
+type IdentityARM struct {
+	Type                   *IdentityType      `json:"type,omitempty"`
+	UserAssignedIdentities map[string]v1.JSON `json:"userAssignedIdentities,omitempty"`
+}
+
 // Deprecated version of ServerProperties. Use v1beta20210501.ServerProperties instead
 type ServerPropertiesARM struct {
 	AdministratorLogin         *string                          `json:"administratorLogin,omitempty"`
@@ -38,6 +48,7 @@ type ServerPropertiesARM struct {
 	AvailabilityZone           *string                          `json:"availabilityZone,omitempty"`
 	Backup                     *BackupARM                       `json:"backup,omitempty"`
 	CreateMode                 *ServerPropertiesCreateMode      `json:"createMode,omitempty"`
+	DataEncryption             *DataEncryptionARM               `json:"dataEncryption,omitempty"`
 	HighAvailability           *HighAvailabilityARM             `json:"highAvailability,omitempty"`
 	MaintenanceWindow          *MaintenanceWindowARM            `json:"maintenanceWindow,omitempty"`
 	Network                    *NetworkARM                      `json:"network,omitempty"`
@@ -60,11 +71,26 @@ type BackupARM struct {
 	GeoRedundantBackup  *BackupGeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
 }
 
+// Deprecated version of DataEncryption. Use v1beta20210501.DataEncryption instead
+type DataEncryptionARM struct {
+	GeoBackupKeyUri                 *string             `json:"geoBackupKeyUri,omitempty"`
+	GeoBackupUserAssignedIdentityId *string             `json:"geoBackupUserAssignedIdentityId,omitempty"`
+	PrimaryKeyUri                   *string             `json:"primaryKeyUri,omitempty"`
+	PrimaryUserAssignedIdentityId   *string             `json:"primaryUserAssignedIdentityId,omitempty"`
+	Type                            *DataEncryptionType `json:"type,omitempty"`
+}
+
 // Deprecated version of HighAvailability. Use v1beta20210501.HighAvailability instead
 type HighAvailabilityARM struct {
 	Mode                    *HighAvailabilityMode `json:"mode,omitempty"`
 	StandbyAvailabilityZone *string               `json:"standbyAvailabilityZone,omitempty"`
 }
+
+// Deprecated version of IdentityType. Use v1beta20210501.IdentityType instead
+// +kubebuilder:validation:Enum={"UserAssigned"}
+type IdentityType string
+
+const IdentityTypeUserAssigned = IdentityType("UserAssigned")
 
 // Deprecated version of MaintenanceWindow. Use v1beta20210501.MaintenanceWindow instead
 type MaintenanceWindowARM struct {

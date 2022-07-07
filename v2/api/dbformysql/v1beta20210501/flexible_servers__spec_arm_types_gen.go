@@ -3,9 +3,15 @@
 // Licensed under the MIT license.
 package v1beta20210501
 
-import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+import (
+	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
+)
 
 type FlexibleServers_SpecARM struct {
+	// Identity: Properties to configure Identity for Bring your Own Keys
+	Identity *IdentityARM `json:"identity,omitempty"`
+
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`
 
@@ -39,6 +45,15 @@ func (servers *FlexibleServers_SpecARM) GetType() string {
 	return "Microsoft.DBforMySQL/flexibleServers"
 }
 
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Identity
+type IdentityARM struct {
+	// Type: Type of managed service identity.
+	Type *IdentityType `json:"type,omitempty"`
+
+	// UserAssignedIdentities: Metadata of user assigned identity.
+	UserAssignedIdentities map[string]v1.JSON `json:"userAssignedIdentities,omitempty"`
+}
+
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/ServerProperties
 type ServerPropertiesARM struct {
 	// AdministratorLogin: The administrator's login name of a server. Can only be specified when the server is being created
@@ -56,6 +71,9 @@ type ServerPropertiesARM struct {
 
 	// CreateMode: The mode to create a new MySQL server.
 	CreateMode *ServerPropertiesCreateMode `json:"createMode,omitempty"`
+
+	// DataEncryption: The date encryption for cmk.
+	DataEncryption *DataEncryptionARM `json:"dataEncryption,omitempty"`
 
 	// HighAvailability: Network related properties of a server
 	HighAvailability *HighAvailabilityARM `json:"highAvailability,omitempty"`
@@ -100,6 +118,20 @@ type BackupARM struct {
 	GeoRedundantBackup *BackupGeoRedundantBackup `json:"geoRedundantBackup,omitempty"`
 }
 
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/DataEncryption
+type DataEncryptionARM struct {
+	// GeoBackupKeyUri: Geo backup key uri as key vault can't cross region, need cmk in same region as geo backup
+	GeoBackupKeyUri                 *string `json:"geoBackupKeyUri,omitempty"`
+	GeoBackupUserAssignedIdentityId *string `json:"geoBackupUserAssignedIdentityId,omitempty"`
+
+	// PrimaryKeyUri: Primary key uri
+	PrimaryKeyUri                 *string `json:"primaryKeyUri,omitempty"`
+	PrimaryUserAssignedIdentityId *string `json:"primaryUserAssignedIdentityId,omitempty"`
+
+	// Type: The key type, AzureKeyVault for enable cmk, SystemManaged for disable cmk.
+	Type *DataEncryptionType `json:"type,omitempty"`
+}
+
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/HighAvailability
 type HighAvailabilityARM struct {
 	// Mode: High availability mode for a server.
@@ -108,6 +140,11 @@ type HighAvailabilityARM struct {
 	// StandbyAvailabilityZone: Availability zone of the standby server.
 	StandbyAvailabilityZone *string `json:"standbyAvailabilityZone,omitempty"`
 }
+
+// +kubebuilder:validation:Enum={"UserAssigned"}
+type IdentityType string
+
+const IdentityTypeUserAssigned = IdentityType("UserAssigned")
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/MaintenanceWindow
 type MaintenanceWindowARM struct {
