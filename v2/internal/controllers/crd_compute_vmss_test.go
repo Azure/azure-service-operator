@@ -235,9 +235,16 @@ func Test_Compute_VMSS_CRUD(t *testing.T) {
 	tc.PatchResourceAndWait(old, vmss)
 	tc.Expect(vmss.Status.VirtualMachineProfile).ToNot(BeNil())
 	tc.Expect(vmss.Status.VirtualMachineProfile.ExtensionProfile).ToNot(BeNil())
-	tc.Expect(vmss.Status.VirtualMachineProfile.ExtensionProfile.Extensions).To(HaveLen(1))
-	tc.Expect(vmss.Status.VirtualMachineProfile.ExtensionProfile.Extensions[0].Name).ToNot(BeNil())
-	tc.Expect(*vmss.Status.VirtualMachineProfile.ExtensionProfile.Extensions[0].Name).To(Equal(extensionName))
+	tc.Expect(len(vmss.Status.VirtualMachineProfile.ExtensionProfile.Extensions)).To(BeNumerically(">", 0))
+
+	found := false
+	for _, extension := range vmss.Status.VirtualMachineProfile.ExtensionProfile.Extensions {
+		tc.Expect(extension.Name).ToNot(BeNil())
+		if *extension.Name == extensionName {
+			found = true
+		}
+	}
+	tc.Expect(found).To(BeTrue())
 
 	// Delete VMSS
 	tc.DeleteResourceAndWait(vmss)

@@ -193,6 +193,14 @@ grouped by the originating ARM service.
 |----------|--------------------|-----------------------|----------------|-------------------------------------------------------------------------------------------------------------------------------|
 | Vault    | 2021-04-01-preview | v1beta20210401preview | v2.0.0-beta.1  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/keyvault/v1beta20210401preview_vault.yaml) |
 
+## Machinelearningservices
+
+| Resource             | ARM Version | CRD Version    | Supported From | Sample                                                                                                                                               |
+|----------------------|-------------|----------------|----------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Workspace            | 2021-07-01  | v1beta20210701 | v2.0.0-beta.2  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/machinelearningservices/v1beta20210701_workspace.yaml)            |
+| WorkspacesCompute    | 2021-07-01  | v1beta20210701 | v2.0.0-beta.2  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/machinelearningservices/v1beta20210701_workspacescompute.yaml)    |
+| WorkspacesConnection | 2021-07-01  | v1beta20210701 | v2.0.0-beta.2  | [View](https://github.com/Azure/azure-service-operator/tree/main/v2/config/samples/machinelearningservices/v1beta20210701_workspacesconnection.yaml) |
+
 ## Managedidentity
 
 | Resource             | ARM Version | CRD Version         | Supported From | Sample                                                                                                                                            |

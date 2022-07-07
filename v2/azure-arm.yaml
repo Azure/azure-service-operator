@@ -1039,6 +1039,83 @@ objectModelConfiguration:
       UserAssignedIdentity:
         $export: true
         $supportedFrom: v2.0.0-alpha.1
+  machinelearningservices:
+    2021-07-01:
+      Workspace:
+        $export: true
+        $supportedFrom: v2.0.0-beta.2
+        $azureGeneratedSecrets:
+          - AppInsightsInstrumentationKey
+          - ContainerRegistryUserName
+          - ContainerRegistryPassword
+          - ContainerRegistryPassword2
+          - PrimaryNotebookAccessKey
+          - SecondaryNotebookAccessKey
+          - UserStorageKey
+      Workspaces_Spec_Properties:
+        ApplicationInsights:
+          $armReference: true
+        PrimaryUserAssignedIdentity:
+          $armReference: true
+        StorageAccount:
+          $armReference: true
+        KeyVault:
+          $armReference: true
+        ContainerRegistry:
+          $armReference: true
+      SharedPrivateLinkResourceProperty:
+        PrivateLinkResourceId:
+          $armReference: true
+      WorkspacesCompute:
+        $export: true
+        $supportedFrom: v2.0.0-beta.2
+      VirtualMachineImage:
+        Id:
+          $armReference: true
+      Compute_HDInsight:
+        ResourceId:
+          $armReference: true
+      ResourceId:
+        Id:
+          $armReference: true
+      Compute_DataLakeAnalytics:
+        ResourceId:
+          $armReference: true
+      AksNetworkingConfiguration:
+        SubnetId:
+          $armReference: true
+      Compute_Databricks:
+        ResourceId:
+          $armReference: true
+      Compute_DataFactory:
+        ResourceId:
+          $armReference: true
+      Compute_AKS:
+        ResourceId:
+          $armReference: true
+      Compute_ComputeInstance:
+        ResourceId:
+          $armReference: true
+      Compute_SynapseSpark:
+        ResourceId:
+          $armReference: true
+      Compute_AmlCompute:
+        ResourceId:
+          $armReference: true
+      Compute_VirtualMachine:
+        ResourceId:
+          $armReference: true
+      UserAccountCredentials:
+        AdminUserPassword:
+          $isSecret: true
+        AdminUserSshPublicKey:
+          $isSecret: true
+      VirtualMachineSshCredentials:
+        Password:
+          $isSecret: true
+      WorkspacesConnection:
+        $export: true
+        $supportedFrom: v2.0.0-beta.2
   network:
     2020-11-01:
       LoadBalancer:
