@@ -7,7 +7,6 @@ package pipeline
 
 import (
 	"context"
-
 	"github.com/pkg/errors"
 
 	"github.com/Azure/azure-service-operator/v2/tools/generator/internal/astmodel"
@@ -104,5 +103,13 @@ func (s *objectSerializationTestCaseFactory) AddTestTo(def astmodel.TypeDefiniti
 	isOneOf := astmodel.OneOfFlag.IsOn(def.Type()) // this is ugly but can’t do much better right now
 
 	testcase := testcases.NewJSONSerializationTestCase(def.Name(), container, isOneOf, s.idFactory)
+	if _, isResource := astmodel.AsResourceType(def.Type()); isResource {
+		// Don't need to test resources many times, the spec and status types are tested independently
+		testcase.SetMinSuccessfulTests(20)
+	} else if astmodel.IsSpec(def.Name()) || astmodel.IsStatus(def.Name()) {
+		// Reduce count of Spec and Status tests to reflect those done by the resource tests
+		testcase.SetMinSuccessfulTests(80)
+	}
+
 	return s.injector.Inject(def, testcase)
 }
