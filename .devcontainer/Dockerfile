@@ -23,23 +23,17 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x -o /tmp/nodesource-setup.sh
 COPY install-dependencies.sh .
 RUN ./install-dependencies.sh devcontainer && rm install-dependencies.sh
 
-# Copy entrypoint script. This script allows us to set enviornment variables dynamically at container launch
-# regardless of what shell the users are using or if they are even using a shell at all. Many usages of this container
-# are from docker exec task <x>, where no shell is invoked. Due to that, approaches like ~/.bashrc don't work.
-# Additionally those options only work for a specific user, but we want this to work for ANY user because sometimes
-# users execute this container using the -u $(id -u ${USER}):$(id -g ${USER}) so that their identity owns the resulting
-# files. We cannot know what their uid/gid so something that works for all uid/gid's is needed.
-COPY entrypoint.sh /usr/local/share/entrypoint.sh
-RUN echo '#!/usr/bin/env bash' > /usr/local/share/setup.sh
-RUN chmod +x /usr/local/share/setup.sh
-
 # Setup envtest
-# NB: if you change this, dev.sh also likely needs updating
-RUN setup-envtest use 1.23.x --bin-dir /usr/local/envtest/bin
-# This sets the KUBEBUILDER_ASSETS variable
-RUN echo 'source <(setup-envtest use --bin-dir /usr/local/envtest/bin -i -p env)' >> "/usr/local/share/setup.sh"
-# also add KUBEBUILDER_ASSETS to path
-RUN echo 'export PATH=$KUBEBUILDER_ASSETS:$PATH' >> "/usr/local/share/setup.sh"
+# NB: if you change this, dev.sh also likely needs updating, also need to update the env below
+RUN setup-envtest use 1.23.5 --bin-dir /usr/local/envtest/bin
+# Set the KUBEBUILDER_ASSETS variable. Ideally we could do source <(setup-envtest use --bin-dir /usr/local/envtest/bin -i -p env)
+# but there's no way to dynamically set an env variable for all container users.
+# Many usages of this container are from docker exec task <x>, where no shell is invoked and the entrypoint is not run
+# (entrypoint is only run on start, not on exec). Due to that, the following approaches do not work:
+# - ~/.bashrc - only works for one user in a shell but we must support -u $(id -u ${USER}):$(id -g ${USER}) which means the container could run as more than 1 user
+# - /etc/profile or /etc/profile.d - only works for one user in a login shell
+ENV KUBEBUILDER_ASSETS=/usr/local/envtest/bin/k8s/1.23.5-linux-amd64
+ENV PATH=$KUBEBUILDER_ASSETS:$PATH
 
 # Make kubectl completions work with 'k' alias
 RUN echo 'alias k=kubectl' >> "/etc/bash.bashrc"
@@ -60,5 +54,5 @@ COPY library-scripts/docker-debian.sh /tmp/library-scripts/
 # devcontainer image is based on: https://github.com/microsoft/vscode-dev-containers/issues/1008
 RUN bash /tmp/library-scripts/docker-debian.sh true /var/run/docker-host.sock /var/run/docker.sock automatic false
 
-ENTRYPOINT ["/usr/local/share/entrypoint.sh"]
+ENTRYPOINT ["/usr/local/share/docker-init.sh"]
 CMD ["sleep", "infinity"]

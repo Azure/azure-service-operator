@@ -10,7 +10,7 @@ $GIT_ROOT/.devcontainer/install-dependencies.sh --skip-installed
 
 # Setup envtest binaries
 # NB: if you change this, .devcontainer/Dockerfile also likely needs updating
-source <(setup-envtest use -i -p env 1.23.x) # this sets KUBEBUILDER_ASSETS
+source <(setup-envtest use -i -p env 1.23.5) # this sets KUBEBUILDER_ASSETS
 export PATH="$KUBEBUILDER_ASSETS:$TOOL_DEST:$PATH"
 
 echo "Entering $SHELL with expanded PATH (use 'exit' to quit)."
