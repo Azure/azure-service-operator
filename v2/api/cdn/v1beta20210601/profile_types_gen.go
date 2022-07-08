@@ -67,7 +67,7 @@ func (profile *Profile) ConvertTo(hub conversion.Hub) error {
 	return profile.AssignPropertiesToProfile(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-cdn-azure-com-v1beta20210601-profile,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cdn.azure.com,resources=profiles,verbs=create;update,versions=v1beta20210601,name=default.v1beta20210601.profiles.cdn.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-cdn-azure-com-v1beta20210601-profile,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cdn.azure.com,resources=profiles,verbs=create;update,versions=v1beta20210601,name=default.v1beta20210601.profiles.cdn.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &Profile{}
 
@@ -156,7 +156,7 @@ func (profile *Profile) SetStatus(status genruntime.ConvertibleStatus) error {
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-cdn-azure-com-v1beta20210601-profile,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cdn.azure.com,resources=profiles,verbs=create;update,versions=v1beta20210601,name=validate.v1beta20210601.profiles.cdn.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-cdn-azure-com-v1beta20210601-profile,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cdn.azure.com,resources=profiles,verbs=create;update,versions=v1beta20210601,name=validate.v1beta20210601.profiles.cdn.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &Profile{}
 

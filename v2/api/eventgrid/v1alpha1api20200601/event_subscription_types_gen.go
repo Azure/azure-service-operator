@@ -80,7 +80,7 @@ func (subscription *EventSubscription) ConvertTo(hub conversion.Hub) error {
 	return nil
 }
 
-// +kubebuilder:webhook:path=/mutate-eventgrid-azure-com-v1alpha1api20200601-eventsubscription,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventgrid.azure.com,resources=eventsubscriptions,verbs=create;update,versions=v1alpha1api20200601,name=default.v1alpha1api20200601.eventsubscriptions.eventgrid.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-eventgrid-azure-com-v1alpha1api20200601-eventsubscription,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventgrid.azure.com,resources=eventsubscriptions,verbs=create;update,versions=v1alpha1api20200601,name=default.v1alpha1api20200601.eventsubscriptions.eventgrid.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &EventSubscription{}
 
@@ -168,7 +168,7 @@ func (subscription *EventSubscription) SetStatus(status genruntime.ConvertibleSt
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-eventgrid-azure-com-v1alpha1api20200601-eventsubscription,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventgrid.azure.com,resources=eventsubscriptions,verbs=create;update,versions=v1alpha1api20200601,name=validate.v1alpha1api20200601.eventsubscriptions.eventgrid.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-eventgrid-azure-com-v1alpha1api20200601-eventsubscription,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventgrid.azure.com,resources=eventsubscriptions,verbs=create;update,versions=v1alpha1api20200601,name=validate.v1alpha1api20200601.eventsubscriptions.eventgrid.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &EventSubscription{}
 

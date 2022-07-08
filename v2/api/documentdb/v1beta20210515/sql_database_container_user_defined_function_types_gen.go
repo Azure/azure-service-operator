@@ -66,7 +66,7 @@ func (function *SqlDatabaseContainerUserDefinedFunction) ConvertTo(hub conversio
 	return function.AssignPropertiesToSqlDatabaseContainerUserDefinedFunction(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1beta20210515-sqldatabasecontaineruserdefinedfunction,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=sqldatabasecontaineruserdefinedfunctions,verbs=create;update,versions=v1beta20210515,name=default.v1beta20210515.sqldatabasecontaineruserdefinedfunctions.documentdb.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1beta20210515-sqldatabasecontaineruserdefinedfunction,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=sqldatabasecontaineruserdefinedfunctions,verbs=create;update,versions=v1beta20210515,name=default.v1beta20210515.sqldatabasecontaineruserdefinedfunctions.documentdb.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &SqlDatabaseContainerUserDefinedFunction{}
 
@@ -155,7 +155,7 @@ func (function *SqlDatabaseContainerUserDefinedFunction) SetStatus(status genrun
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-documentdb-azure-com-v1beta20210515-sqldatabasecontaineruserdefinedfunction,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=sqldatabasecontaineruserdefinedfunctions,verbs=create;update,versions=v1beta20210515,name=validate.v1beta20210515.sqldatabasecontaineruserdefinedfunctions.documentdb.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-documentdb-azure-com-v1beta20210515-sqldatabasecontaineruserdefinedfunction,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=sqldatabasecontaineruserdefinedfunctions,verbs=create;update,versions=v1beta20210515,name=validate.v1beta20210515.sqldatabasecontaineruserdefinedfunctions.documentdb.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &SqlDatabaseContainerUserDefinedFunction{}
 

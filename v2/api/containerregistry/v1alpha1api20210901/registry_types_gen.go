@@ -80,7 +80,7 @@ func (registry *Registry) ConvertTo(hub conversion.Hub) error {
 	return nil
 }
 
-// +kubebuilder:webhook:path=/mutate-containerregistry-azure-com-v1alpha1api20210901-registry,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerregistry.azure.com,resources=registries,verbs=create;update,versions=v1alpha1api20210901,name=default.v1alpha1api20210901.registries.containerregistry.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-containerregistry-azure-com-v1alpha1api20210901-registry,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerregistry.azure.com,resources=registries,verbs=create;update,versions=v1alpha1api20210901,name=default.v1alpha1api20210901.registries.containerregistry.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &Registry{}
 
@@ -169,7 +169,7 @@ func (registry *Registry) SetStatus(status genruntime.ConvertibleStatus) error {
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-containerregistry-azure-com-v1alpha1api20210901-registry,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerregistry.azure.com,resources=registries,verbs=create;update,versions=v1alpha1api20210901,name=validate.v1alpha1api20210901.registries.containerregistry.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-containerregistry-azure-com-v1alpha1api20210901-registry,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerregistry.azure.com,resources=registries,verbs=create;update,versions=v1alpha1api20210901,name=validate.v1alpha1api20210901.registries.containerregistry.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &Registry{}
 

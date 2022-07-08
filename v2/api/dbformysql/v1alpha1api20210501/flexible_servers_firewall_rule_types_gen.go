@@ -80,7 +80,7 @@ func (rule *FlexibleServersFirewallRule) ConvertTo(hub conversion.Hub) error {
 	return nil
 }
 
-// +kubebuilder:webhook:path=/mutate-dbformysql-azure-com-v1alpha1api20210501-flexibleserversfirewallrule,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformysql.azure.com,resources=flexibleserversfirewallrules,verbs=create;update,versions=v1alpha1api20210501,name=default.v1alpha1api20210501.flexibleserversfirewallrules.dbformysql.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-dbformysql-azure-com-v1alpha1api20210501-flexibleserversfirewallrule,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformysql.azure.com,resources=flexibleserversfirewallrules,verbs=create;update,versions=v1alpha1api20210501,name=default.v1alpha1api20210501.flexibleserversfirewallrules.dbformysql.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &FlexibleServersFirewallRule{}
 
@@ -169,7 +169,7 @@ func (rule *FlexibleServersFirewallRule) SetStatus(status genruntime.Convertible
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-dbformysql-azure-com-v1alpha1api20210501-flexibleserversfirewallrule,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformysql.azure.com,resources=flexibleserversfirewallrules,verbs=create;update,versions=v1alpha1api20210501,name=validate.v1alpha1api20210501.flexibleserversfirewallrules.dbformysql.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-dbformysql-azure-com-v1alpha1api20210501-flexibleserversfirewallrule,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformysql.azure.com,resources=flexibleserversfirewallrules,verbs=create;update,versions=v1alpha1api20210501,name=validate.v1alpha1api20210501.flexibleserversfirewallrules.dbformysql.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &FlexibleServersFirewallRule{}
 

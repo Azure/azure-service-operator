@@ -66,7 +66,7 @@ func (database *RedisEnterpriseDatabase) ConvertTo(hub conversion.Hub) error {
 	return database.AssignPropertiesToRedisEnterpriseDatabase(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-cache-azure-com-v1beta20210301-redisenterprisedatabase,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cache.azure.com,resources=redisenterprisedatabases,verbs=create;update,versions=v1beta20210301,name=default.v1beta20210301.redisenterprisedatabases.cache.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-cache-azure-com-v1beta20210301-redisenterprisedatabase,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cache.azure.com,resources=redisenterprisedatabases,verbs=create;update,versions=v1beta20210301,name=default.v1beta20210301.redisenterprisedatabases.cache.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &RedisEnterpriseDatabase{}
 
@@ -155,7 +155,7 @@ func (database *RedisEnterpriseDatabase) SetStatus(status genruntime.Convertible
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-cache-azure-com-v1beta20210301-redisenterprisedatabase,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cache.azure.com,resources=redisenterprisedatabases,verbs=create;update,versions=v1beta20210301,name=validate.v1beta20210301.redisenterprisedatabases.cache.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-cache-azure-com-v1beta20210301-redisenterprisedatabase,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cache.azure.com,resources=redisenterprisedatabases,verbs=create;update,versions=v1beta20210301,name=validate.v1beta20210301.redisenterprisedatabases.cache.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &RedisEnterpriseDatabase{}
 

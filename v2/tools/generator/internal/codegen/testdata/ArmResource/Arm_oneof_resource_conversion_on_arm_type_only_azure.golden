@@ -65,7 +65,7 @@ func (resource *FakeResource) ConvertTo(hub conversion.Hub) error {
 	return resource.AssignPropertiesToFakeResource(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-test-azure-com-v1beta20200101-fakeresource,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=fakeresources,verbs=create;update,versions=v1beta20200101,name=default.v1beta20200101.fakeresources.test.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-test-azure-com-v1beta20200101-fakeresource,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=fakeresources,verbs=create;update,versions=v1beta20200101,name=default.v1beta20200101.fakeresources.test.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &FakeResource{}
 
@@ -125,7 +125,7 @@ func (resource *FakeResource) Owner() *genruntime.ResourceReference {
 	}
 }
 
-// +kubebuilder:webhook:path=/validate-test-azure-com-v1beta20200101-fakeresource,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=fakeresources,verbs=create;update,versions=v1beta20200101,name=validate.v1beta20200101.fakeresources.test.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-test-azure-com-v1beta20200101-fakeresource,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=test.azure.com,resources=fakeresources,verbs=create;update,versions=v1beta20200101,name=validate.v1beta20200101.fakeresources.test.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &FakeResource{}
 
