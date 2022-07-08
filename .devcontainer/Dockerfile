@@ -23,25 +23,32 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x -o /tmp/nodesource-setup.sh
 COPY install-dependencies.sh .
 RUN ./install-dependencies.sh devcontainer && rm install-dependencies.sh
 
+# Copy entrypoint script. This script allows us to set enviornment variables dynamically at container launch
+# regardless of what shell the users are using or if they are even using a shell at all. Many usages of this container
+# are from docker exec task <x>, where no shell is invoked. Due to that, approaches like ~/.bashrc don't work.
+# Additionally those options only work for a specific user, but we want this to work for ANY user because sometimes
+# users execute this container using the -u $(id -u ${USER}):$(id -g ${USER}) so that their identity owns the resulting
+# files. We cannot know what their uid/gid so something that works for all uid/gid's is needed.
+COPY entrypoint.sh /usr/local/share/entrypoint.sh
+RUN echo '#!/usr/bin/env bash' > /usr/local/share/setup.sh
+RUN chmod +x /usr/local/share/setup.sh
+
 # Setup envtest
 # NB: if you change this, dev.sh also likely needs updating
-USER vscode
-# - install binaries (these go to HOME which is why we switch user)
-RUN setup-envtest use 1.23.x
-# - add setup to .bashrc; first the KUBEBUILDER_ASSETS variable
-RUN echo 'source <(setup-envtest use -i -p env)' >> "/home/vscode/.bashrc"
-# - also add KUBEBUILDER_ASSETS to path
-RUN echo 'export PATH=$KUBEBUILDER_ASSETS:$PATH' >> "/home/vscode/.bashrc"
-USER root
+RUN setup-envtest use 1.23.x --bin-dir /usr/local/envtest/bin
+# This sets the KUBEBUILDER_ASSETS variable
+RUN echo 'source <(setup-envtest use --bin-dir /usr/local/envtest/bin -i -p env)' >> "/usr/local/share/setup.sh"
+# also add KUBEBUILDER_ASSETS to path
+RUN echo 'export PATH=$KUBEBUILDER_ASSETS:$PATH' >> "/usr/local/share/setup.sh"
 
 # Make kubectl completions work with 'k' alias
-RUN echo 'alias k=kubectl' >> "/home/vscode/.bashrc"
-RUN echo 'complete -F __start_kubectl k' >> "/home/vscode/.bashrc"
-RUN echo 'source <(kubectl completion bash)' >> "/home/vscode/.bashrc"
+RUN echo 'alias k=kubectl' >> "/etc/bash.bashrc"
+RUN echo 'complete -F __start_kubectl k' >> "/etc/bash.bashrc"
+RUN echo 'source <(kubectl completion bash)' >> "/etc/bash.bashrc"
 
 # Setup go-task completions
-RUN curl -sL "https://raw.githubusercontent.com/go-task/task/v3.0.0/completion/bash/task.bash" > "/home/vscode/.task.completion.sh" \
-    && echo 'source /home/vscode/.task.completion.sh' >> /home/vscode/.bashrc
+RUN curl -sL "https://raw.githubusercontent.com/go-task/task/v3.0.0/completion/bash/task.bash" > "/etc/.task.completion.sh" \
+    && echo 'source /etc/.task.completion.sh' >> "/etc/bash.bashrc"
 
 ENV KIND_CLUSTER_NAME=aso
 
@@ -53,5 +60,5 @@ COPY library-scripts/docker-debian.sh /tmp/library-scripts/
 # devcontainer image is based on: https://github.com/microsoft/vscode-dev-containers/issues/1008
 RUN bash /tmp/library-scripts/docker-debian.sh true /var/run/docker-host.sock /var/run/docker.sock automatic false
 
-ENTRYPOINT ["/usr/local/share/docker-init.sh"]
+ENTRYPOINT ["/usr/local/share/entrypoint.sh"]
 CMD ["sleep", "infinity"]
