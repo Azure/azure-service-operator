@@ -20,7 +20,8 @@ import (
 func Test_NamespacesEventhub_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NamespacesEventhub via JSON returns original",
@@ -80,7 +81,8 @@ func AddRelatedPropertyGeneratorsForNamespacesEventhub(gens map[string]gopter.Ge
 func Test_Eventhub_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Eventhub_Status via JSON returns original",
@@ -163,7 +165,8 @@ func AddRelatedPropertyGeneratorsForEventhubStatus(gens map[string]gopter.Gen) {
 func Test_NamespacesEventhubs_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NamespacesEventhubs_Spec via JSON returns original",
@@ -242,7 +245,8 @@ func AddRelatedPropertyGeneratorsForNamespacesEventhubsSpec(gens map[string]gopt
 func Test_CaptureDescription_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of CaptureDescription_Status via JSON returns original",
@@ -320,7 +324,8 @@ func AddRelatedPropertyGeneratorsForCaptureDescriptionStatus(gens map[string]gop
 func Test_NamespacesEventhubs_Spec_Properties_CaptureDescription_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NamespacesEventhubs_Spec_Properties_CaptureDescription via JSON returns original",
@@ -398,7 +403,8 @@ func AddRelatedPropertyGeneratorsForNamespacesEventhubsSpecPropertiesCaptureDesc
 func Test_Destination_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Destination_Status via JSON returns original",
@@ -463,7 +469,8 @@ func AddIndependentPropertyGeneratorsForDestinationStatus(gens map[string]gopter
 func Test_NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NamespacesEventhubs_Spec_Properties_CaptureDescription_Destination via JSON returns original",

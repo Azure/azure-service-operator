@@ -20,7 +20,8 @@ import (
 func Test_MongodbDatabaseCollectionThroughputSetting_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of MongodbDatabaseCollectionThroughputSetting via JSON returns original",
@@ -81,7 +82,8 @@ func AddRelatedPropertyGeneratorsForMongodbDatabaseCollectionThroughputSetting(g
 func Test_DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec via JSON returns original",
@@ -157,7 +159,8 @@ func AddRelatedPropertyGeneratorsForDatabaseAccountsMongodbDatabasesCollectionsT
 func Test_ThroughputSettingsGetResults_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ThroughputSettingsGetResults_Status via JSON returns original",
@@ -235,7 +238,8 @@ func AddRelatedPropertyGeneratorsForThroughputSettingsGetResultsStatus(gens map[
 func Test_ThroughputSettingsGetProperties_Status_Resource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ThroughputSettingsGetProperties_Status_Resource via JSON returns original",
@@ -314,7 +318,8 @@ func AddRelatedPropertyGeneratorsForThroughputSettingsGetPropertiesStatusResourc
 func Test_ThroughputSettingsResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ThroughputSettingsResource via JSON returns original",
@@ -388,7 +393,8 @@ func AddRelatedPropertyGeneratorsForThroughputSettingsResource(gens map[string]g
 func Test_AutoscaleSettingsResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AutoscaleSettingsResource via JSON returns original",
@@ -462,7 +468,8 @@ func AddRelatedPropertyGeneratorsForAutoscaleSettingsResource(gens map[string]go
 func Test_AutoscaleSettingsResource_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AutoscaleSettingsResource_Status via JSON returns original",
@@ -537,7 +544,8 @@ func AddRelatedPropertyGeneratorsForAutoscaleSettingsResourceStatus(gens map[str
 func Test_AutoUpgradePolicyResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AutoUpgradePolicyResource via JSON returns original",
@@ -597,7 +605,8 @@ func AddRelatedPropertyGeneratorsForAutoUpgradePolicyResource(gens map[string]go
 func Test_AutoUpgradePolicyResource_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AutoUpgradePolicyResource_Status via JSON returns original",
@@ -657,7 +666,8 @@ func AddRelatedPropertyGeneratorsForAutoUpgradePolicyResourceStatus(gens map[str
 func Test_ThroughputPolicyResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ThroughputPolicyResource via JSON returns original",
@@ -718,7 +728,8 @@ func AddIndependentPropertyGeneratorsForThroughputPolicyResource(gens map[string
 func Test_ThroughputPolicyResource_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ThroughputPolicyResource_Status via JSON returns original",

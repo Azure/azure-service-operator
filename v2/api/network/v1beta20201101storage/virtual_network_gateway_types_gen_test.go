@@ -20,7 +20,8 @@ import (
 func Test_VirtualNetworkGateway_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualNetworkGateway via JSON returns original",
@@ -81,7 +82,8 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkGateway(gens map[string]gopter
 func Test_VirtualNetworkGateway_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualNetworkGateway_Status via JSON returns original",
@@ -177,7 +179,8 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkGatewayStatus(gens map[string]
 func Test_VirtualNetworkGateways_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualNetworkGateways_Spec via JSON returns original",
@@ -267,7 +270,8 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkGatewaysSpec(gens map[string]g
 func Test_BgpSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of BgpSettings via JSON returns original",
@@ -342,7 +346,8 @@ func AddRelatedPropertyGeneratorsForBgpSettings(gens map[string]gopter.Gen) {
 func Test_BgpSettings_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of BgpSettings_Status via JSON returns original",
@@ -417,7 +422,8 @@ func AddRelatedPropertyGeneratorsForBgpSettingsStatus(gens map[string]gopter.Gen
 func Test_VirtualNetworkGatewayIPConfiguration_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualNetworkGatewayIPConfiguration_Status via JSON returns original",
@@ -497,7 +503,8 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkGatewayIPConfigurationStatus(g
 func Test_VirtualNetworkGatewaySku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualNetworkGatewaySku via JSON returns original",
@@ -558,7 +565,8 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySku(gens map[string
 func Test_VirtualNetworkGatewaySku_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualNetworkGatewaySku_Status via JSON returns original",
@@ -620,7 +628,8 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkGatewaySkuStatus(gens map[
 func Test_VirtualNetworkGateways_Spec_Properties_IpConfigurations_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualNetworkGateways_Spec_Properties_IpConfigurations via JSON returns original",
@@ -696,7 +705,8 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesIpConfig
 func Test_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration via JSON returns original",
@@ -780,7 +790,8 @@ func AddRelatedPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesVpnClien
 func Test_VpnClientConfiguration_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VpnClientConfiguration_Status via JSON returns original",
@@ -864,7 +875,8 @@ func AddRelatedPropertyGeneratorsForVpnClientConfigurationStatus(gens map[string
 func Test_IPConfigurationBgpPeeringAddress_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of IPConfigurationBgpPeeringAddress via JSON returns original",
@@ -925,7 +937,8 @@ func AddIndependentPropertyGeneratorsForIPConfigurationBgpPeeringAddress(gens ma
 func Test_IPConfigurationBgpPeeringAddress_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of IPConfigurationBgpPeeringAddress_Status via JSON returns original",
@@ -988,7 +1001,8 @@ func AddIndependentPropertyGeneratorsForIPConfigurationBgpPeeringAddressStatus(g
 func Test_IpsecPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of IpsecPolicy via JSON returns original",
@@ -1054,7 +1068,8 @@ func AddIndependentPropertyGeneratorsForIpsecPolicy(gens map[string]gopter.Gen) 
 func Test_IpsecPolicy_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of IpsecPolicy_Status via JSON returns original",
@@ -1120,7 +1135,8 @@ func AddIndependentPropertyGeneratorsForIpsecPolicyStatus(gens map[string]gopter
 func Test_RadiusServer_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RadiusServer via JSON returns original",
@@ -1181,7 +1197,8 @@ func AddIndependentPropertyGeneratorsForRadiusServer(gens map[string]gopter.Gen)
 func Test_RadiusServer_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RadiusServer_Status via JSON returns original",
@@ -1242,7 +1259,8 @@ func AddIndependentPropertyGeneratorsForRadiusServerStatus(gens map[string]gopte
 func Test_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRevokedCertificates via JSON returns original",
@@ -1304,7 +1322,8 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesVpnC
 func Test_VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualNetworkGateways_Spec_Properties_VpnClientConfiguration_VpnClientRootCertificates via JSON returns original",
@@ -1366,7 +1385,8 @@ func AddIndependentPropertyGeneratorsForVirtualNetworkGatewaysSpecPropertiesVpnC
 func Test_VpnClientRevokedCertificate_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VpnClientRevokedCertificate_Status via JSON returns original",
@@ -1430,7 +1450,8 @@ func AddIndependentPropertyGeneratorsForVpnClientRevokedCertificateStatus(gens m
 func Test_VpnClientRootCertificate_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VpnClientRootCertificate_Status via JSON returns original",

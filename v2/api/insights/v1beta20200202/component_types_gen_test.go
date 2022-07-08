@@ -105,7 +105,8 @@ func RunPropertyAssignmentTestForComponent(subject Component) string {
 func Test_Component_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Component via JSON returns original",
@@ -207,7 +208,8 @@ func RunPropertyAssignmentTestForApplicationInsightsComponentStatus(subject Appl
 func Test_ApplicationInsightsComponent_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ApplicationInsightsComponent_Status via JSON returns original",
@@ -352,7 +354,8 @@ func RunPropertyAssignmentTestForComponentsSpec(subject Components_Spec) string 
 func Test_Components_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Components_Spec via JSON returns original",
@@ -470,7 +473,8 @@ func RunPropertyAssignmentTestForPrivateLinkScopedResourceStatus(subject Private
 func Test_PrivateLinkScopedResource_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PrivateLinkScopedResource_Status via JSON returns original",

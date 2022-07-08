@@ -105,7 +105,8 @@ func RunPropertyAssignmentTestForRedisPatchSchedule(subject RedisPatchSchedule) 
 func Test_RedisPatchSchedule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RedisPatchSchedule via JSON returns original",
@@ -207,7 +208,8 @@ func RunPropertyAssignmentTestForRedisPatchScheduleStatus(subject RedisPatchSche
 func Test_RedisPatchSchedule_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RedisPatchSchedule_Status via JSON returns original",
@@ -326,7 +328,8 @@ func RunPropertyAssignmentTestForRedisPatchSchedulesSpec(subject RedisPatchSched
 func Test_RedisPatchSchedules_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RedisPatchSchedules_Spec via JSON returns original",
@@ -444,7 +447,8 @@ func RunPropertyAssignmentTestForScheduleEntry(subject ScheduleEntry) string {
 func Test_ScheduleEntry_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ScheduleEntry via JSON returns original",
@@ -547,7 +551,8 @@ func RunPropertyAssignmentTestForScheduleEntryStatus(subject ScheduleEntry_Statu
 func Test_ScheduleEntry_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ScheduleEntry_Status via JSON returns original",

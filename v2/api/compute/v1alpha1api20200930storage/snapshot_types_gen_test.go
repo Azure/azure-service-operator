@@ -105,7 +105,8 @@ func RunPropertyAssignmentTestForSnapshot(subject Snapshot) string {
 func Test_Snapshot_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Snapshot via JSON returns original",
@@ -207,7 +208,8 @@ func RunPropertyAssignmentTestForSnapshotStatus(subject Snapshot_Status) string 
 func Test_Snapshot_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Snapshot_Status via JSON returns original",
@@ -343,7 +345,8 @@ func RunPropertyAssignmentTestForSnapshotsSpec(subject Snapshots_Spec) string {
 func Test_Snapshots_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Snapshots_Spec via JSON returns original",
@@ -472,7 +475,8 @@ func RunPropertyAssignmentTestForSnapshotSku(subject SnapshotSku) string {
 func Test_SnapshotSku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SnapshotSku via JSON returns original",
@@ -573,7 +577,8 @@ func RunPropertyAssignmentTestForSnapshotSkuStatus(subject SnapshotSku_Status) s
 func Test_SnapshotSku_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SnapshotSku_Status via JSON returns original",

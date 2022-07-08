@@ -20,7 +20,8 @@ import (
 func Test_RedisLinkedServerWithProperties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RedisLinkedServerWithProperties_StatusARM via JSON returns original",
@@ -96,7 +97,8 @@ func AddRelatedPropertyGeneratorsForRedisLinkedServerWithPropertiesStatusARM(gen
 func Test_RedisLinkedServerProperties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RedisLinkedServerProperties_StatusARM via JSON returns original",

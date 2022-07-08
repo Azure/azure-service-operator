@@ -20,7 +20,8 @@ import (
 func Test_SBQueue_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SBQueue_StatusARM via JSON returns original",
@@ -96,7 +97,8 @@ func AddRelatedPropertyGeneratorsForSBQueueStatusARM(gens map[string]gopter.Gen)
 func Test_SBQueueProperties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SBQueueProperties_StatusARM via JSON returns original",
@@ -198,7 +200,8 @@ func AddRelatedPropertyGeneratorsForSBQueuePropertiesStatusARM(gens map[string]g
 func Test_MessageCountDetails_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of MessageCountDetails_StatusARM via JSON returns original",

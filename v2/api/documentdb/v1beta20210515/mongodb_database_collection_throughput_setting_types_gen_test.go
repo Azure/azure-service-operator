@@ -105,7 +105,8 @@ func RunPropertyAssignmentTestForMongodbDatabaseCollectionThroughputSetting(subj
 func Test_MongodbDatabaseCollectionThroughputSetting_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of MongodbDatabaseCollectionThroughputSetting via JSON returns original",
@@ -208,7 +209,8 @@ func RunPropertyAssignmentTestForDatabaseAccountsMongodbDatabasesCollectionsThro
 func Test_DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DatabaseAccountsMongodbDatabasesCollectionsThroughputSettings_Spec via JSON returns original",
@@ -325,7 +327,8 @@ func RunPropertyAssignmentTestForThroughputSettingsGetResultsStatus(subject Thro
 func Test_ThroughputSettingsGetResults_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ThroughputSettingsGetResults_Status via JSON returns original",
@@ -445,7 +448,8 @@ func RunPropertyAssignmentTestForThroughputSettingsGetPropertiesStatusResource(s
 func Test_ThroughputSettingsGetProperties_Status_Resource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ThroughputSettingsGetProperties_Status_Resource via JSON returns original",
@@ -566,7 +570,8 @@ func RunPropertyAssignmentTestForThroughputSettingsResource(subject ThroughputSe
 func Test_ThroughputSettingsResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ThroughputSettingsResource via JSON returns original",
@@ -682,7 +687,8 @@ func RunPropertyAssignmentTestForAutoscaleSettingsResource(subject AutoscaleSett
 func Test_AutoscaleSettingsResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AutoscaleSettingsResource via JSON returns original",
@@ -798,7 +804,8 @@ func RunPropertyAssignmentTestForAutoscaleSettingsResourceStatus(subject Autosca
 func Test_AutoscaleSettingsResource_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AutoscaleSettingsResource_Status via JSON returns original",
@@ -915,7 +922,8 @@ func RunPropertyAssignmentTestForAutoUpgradePolicyResource(subject AutoUpgradePo
 func Test_AutoUpgradePolicyResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AutoUpgradePolicyResource via JSON returns original",
@@ -1017,7 +1025,8 @@ func RunPropertyAssignmentTestForAutoUpgradePolicyResourceStatus(subject AutoUpg
 func Test_AutoUpgradePolicyResource_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AutoUpgradePolicyResource_Status via JSON returns original",
@@ -1119,7 +1128,8 @@ func RunPropertyAssignmentTestForThroughputPolicyResource(subject ThroughputPoli
 func Test_ThroughputPolicyResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ThroughputPolicyResource via JSON returns original",
@@ -1222,7 +1232,8 @@ func RunPropertyAssignmentTestForThroughputPolicyResourceStatus(subject Throughp
 func Test_ThroughputPolicyResource_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ThroughputPolicyResource_Status via JSON returns original",

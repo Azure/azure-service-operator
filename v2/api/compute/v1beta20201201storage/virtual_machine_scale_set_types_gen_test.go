@@ -20,7 +20,8 @@ import (
 func Test_VirtualMachineScaleSet_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSet via JSON returns original",
@@ -81,7 +82,8 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSet(gens map[string]gopte
 func Test_VirtualMachineScaleSet_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSet_Status via JSON returns original",
@@ -178,7 +180,8 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetStatus(gens map[string
 func Test_VirtualMachineScaleSets_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSets_Spec via JSON returns original",
@@ -272,7 +275,8 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpec(gens map[string]
 func Test_AutomaticRepairsPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AutomaticRepairsPolicy via JSON returns original",
@@ -333,7 +337,8 @@ func AddIndependentPropertyGeneratorsForAutomaticRepairsPolicy(gens map[string]g
 func Test_AutomaticRepairsPolicy_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AutomaticRepairsPolicy_Status via JSON returns original",
@@ -394,7 +399,8 @@ func AddIndependentPropertyGeneratorsForAutomaticRepairsPolicyStatus(gens map[st
 func Test_ScaleInPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ScaleInPolicy via JSON returns original",
@@ -453,7 +459,8 @@ func AddIndependentPropertyGeneratorsForScaleInPolicy(gens map[string]gopter.Gen
 func Test_ScaleInPolicy_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ScaleInPolicy_Status via JSON returns original",
@@ -513,7 +520,8 @@ func AddIndependentPropertyGeneratorsForScaleInPolicyStatus(gens map[string]gopt
 func Test_Sku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Sku via JSON returns original",
@@ -574,7 +582,8 @@ func AddIndependentPropertyGeneratorsForSku(gens map[string]gopter.Gen) {
 func Test_Sku_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Sku_Status via JSON returns original",
@@ -635,7 +644,8 @@ func AddIndependentPropertyGeneratorsForSkuStatus(gens map[string]gopter.Gen) {
 func Test_UpgradePolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of UpgradePolicy via JSON returns original",
@@ -709,7 +719,8 @@ func AddRelatedPropertyGeneratorsForUpgradePolicy(gens map[string]gopter.Gen) {
 func Test_UpgradePolicy_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of UpgradePolicy_Status via JSON returns original",
@@ -784,7 +795,8 @@ func AddRelatedPropertyGeneratorsForUpgradePolicyStatus(gens map[string]gopter.G
 func Test_VirtualMachineScaleSetIdentity_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetIdentity via JSON returns original",
@@ -844,7 +856,8 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentity(gens map[
 func Test_VirtualMachineScaleSetIdentity_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetIdentity_Status via JSON returns original",
@@ -920,7 +933,8 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIdentityStatus(gens ma
 func Test_VirtualMachineScaleSetVMProfile_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetVMProfile_Status via JSON returns original",
@@ -1003,7 +1017,8 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetVMProfileStatus(gens m
 func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile via JSON returns original",
@@ -1086,7 +1101,8 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtual
 func Test_AutomaticOSUpgradePolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AutomaticOSUpgradePolicy via JSON returns original",
@@ -1147,7 +1163,8 @@ func AddIndependentPropertyGeneratorsForAutomaticOSUpgradePolicy(gens map[string
 func Test_AutomaticOSUpgradePolicy_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AutomaticOSUpgradePolicy_Status via JSON returns original",
@@ -1208,7 +1225,8 @@ func AddIndependentPropertyGeneratorsForAutomaticOSUpgradePolicyStatus(gens map[
 func Test_RollingUpgradePolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RollingUpgradePolicy via JSON returns original",
@@ -1273,7 +1291,8 @@ func AddIndependentPropertyGeneratorsForRollingUpgradePolicy(gens map[string]gop
 func Test_RollingUpgradePolicy_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RollingUpgradePolicy_Status via JSON returns original",
@@ -1338,7 +1357,8 @@ func AddIndependentPropertyGeneratorsForRollingUpgradePolicyStatus(gens map[stri
 func Test_ScheduledEventsProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ScheduledEventsProfile via JSON returns original",
@@ -1398,7 +1418,8 @@ func AddRelatedPropertyGeneratorsForScheduledEventsProfile(gens map[string]gopte
 func Test_ScheduledEventsProfile_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ScheduledEventsProfile_Status via JSON returns original",
@@ -1458,7 +1479,8 @@ func AddRelatedPropertyGeneratorsForScheduledEventsProfileStatus(gens map[string
 func Test_VirtualMachineScaleSetExtensionProfile_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetExtensionProfile_Status via JSON returns original",
@@ -1532,7 +1554,8 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetExtensionProfileStatus
 func Test_VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetIdentity_Status_UserAssignedIdentities via JSON returns original",
@@ -1593,7 +1616,8 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIdentityStatusUser
 func Test_VirtualMachineScaleSetNetworkProfile_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetNetworkProfile_Status via JSON returns original",
@@ -1654,7 +1678,8 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkProfileStatus(g
 func Test_VirtualMachineScaleSetOSProfile_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetOSProfile_Status via JSON returns original",
@@ -1732,7 +1757,8 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetOSProfileStatus(gens m
 func Test_VirtualMachineScaleSetStorageProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetStorageProfile via JSON returns original",
@@ -1794,7 +1820,8 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetStorageProfile(gens ma
 func Test_VirtualMachineScaleSetStorageProfile_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetStorageProfile_Status via JSON returns original",
@@ -1856,7 +1883,8 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetStorageProfileStatus(g
 func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile via JSON returns original",
@@ -1930,7 +1958,8 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtual
 func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile via JSON returns original",
@@ -1991,7 +2020,8 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtual
 func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile via JSON returns original",
@@ -2069,7 +2099,8 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtual
 func Test_ApiEntityReference_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ApiEntityReference via JSON returns original",
@@ -2122,7 +2153,8 @@ func ApiEntityReferenceGenerator() gopter.Gen {
 func Test_ApiEntityReference_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ApiEntityReference_Status via JSON returns original",
@@ -2182,7 +2214,8 @@ func AddIndependentPropertyGeneratorsForApiEntityReferenceStatus(gens map[string
 func Test_TerminateNotificationProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of TerminateNotificationProfile via JSON returns original",
@@ -2243,7 +2276,8 @@ func AddIndependentPropertyGeneratorsForTerminateNotificationProfile(gens map[st
 func Test_TerminateNotificationProfile_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of TerminateNotificationProfile_Status via JSON returns original",
@@ -2304,7 +2338,8 @@ func AddIndependentPropertyGeneratorsForTerminateNotificationProfileStatus(gens 
 func Test_VirtualMachineScaleSetDataDisk_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetDataDisk via JSON returns original",
@@ -2385,7 +2420,8 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetDataDisk(gens map[stri
 func Test_VirtualMachineScaleSetDataDisk_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetDataDisk_Status via JSON returns original",
@@ -2466,7 +2502,8 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetDataDiskStatus(gens ma
 func Test_VirtualMachineScaleSetExtension_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetExtension_Status via JSON returns original",
@@ -2536,7 +2573,8 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetExtensionStatus(ge
 func Test_VirtualMachineScaleSetNetworkConfiguration_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetNetworkConfiguration_Status via JSON returns original",
@@ -2617,7 +2655,8 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurationSt
 func Test_VirtualMachineScaleSetOSDisk_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetOSDisk via JSON returns original",
@@ -2699,7 +2738,8 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetOSDisk(gens map[string
 func Test_VirtualMachineScaleSetOSDisk_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetOSDisk_Status via JSON returns original",
@@ -2781,7 +2821,8 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetOSDiskStatus(gens map[
 func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions via JSON returns original",
@@ -2845,7 +2886,8 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVir
 func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations via JSON returns original",
@@ -2928,7 +2970,8 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtual
 func Test_VirtualMachineScaleSetIPConfiguration_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetIPConfiguration_Status via JSON returns original",
@@ -3010,7 +3053,8 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetIPConfigurationStatus(
 func Test_VirtualMachineScaleSetManagedDiskParameters_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetManagedDiskParameters via JSON returns original",
@@ -3084,7 +3128,8 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParameters(
 func Test_VirtualMachineScaleSetManagedDiskParameters_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetManagedDiskParameters_Status via JSON returns original",
@@ -3158,7 +3203,8 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetManagedDiskParametersS
 func Test_VirtualMachineScaleSetNetworkConfigurationDnsSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetNetworkConfigurationDnsSettings via JSON returns original",
@@ -3218,7 +3264,8 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurati
 func Test_VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetNetworkConfigurationDnsSettings_Status via JSON returns original",
@@ -3278,7 +3325,8 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetNetworkConfigurati
 func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations via JSON returns original",
@@ -3362,7 +3410,8 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtual
 func Test_VirtualMachineScaleSetPublicIPAddressConfiguration_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetPublicIPAddressConfiguration_Status via JSON returns original",
@@ -3440,7 +3489,8 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressConfigu
 func Test_VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations_Properties_PublicIPAddressConfiguration via JSON returns original",
@@ -3520,7 +3570,8 @@ func AddRelatedPropertyGeneratorsForVirtualMachineScaleSetsSpecPropertiesVirtual
 func Test_VirtualMachineScaleSetIpTag_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetIpTag via JSON returns original",
@@ -3581,7 +3632,8 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIpTag(gens map[str
 func Test_VirtualMachineScaleSetIpTag_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetIpTag_Status via JSON returns original",
@@ -3642,7 +3694,8 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetIpTagStatus(gens m
 func Test_VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings via JSON returns original",
@@ -3702,7 +3755,8 @@ func AddIndependentPropertyGeneratorsForVirtualMachineScaleSetPublicIPAddressCon
 func Test_VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings_Status via JSON returns original",

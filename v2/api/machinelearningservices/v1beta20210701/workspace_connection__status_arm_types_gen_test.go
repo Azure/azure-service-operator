@@ -20,7 +20,8 @@ import (
 func Test_WorkspaceConnection_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of WorkspaceConnection_StatusARM via JSON returns original",
@@ -96,7 +97,8 @@ func AddRelatedPropertyGeneratorsForWorkspaceConnectionStatusARM(gens map[string
 func Test_WorkspaceConnectionProps_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of WorkspaceConnectionProps_StatusARM via JSON returns original",

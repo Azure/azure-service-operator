@@ -106,7 +106,8 @@ func RunPropertyAssignmentTestForFlexibleServersDatabase(subject FlexibleServers
 func Test_FlexibleServersDatabase_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of FlexibleServersDatabase via JSON returns original",
@@ -209,7 +210,8 @@ func RunPropertyAssignmentTestForDatabaseStatus(subject Database_Status) string 
 func Test_Database_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Database_Status via JSON returns original",
@@ -328,7 +330,8 @@ func RunPropertyAssignmentTestForFlexibleServersDatabasesSpec(subject FlexibleSe
 func Test_FlexibleServersDatabases_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of FlexibleServersDatabases_Spec via JSON returns original",

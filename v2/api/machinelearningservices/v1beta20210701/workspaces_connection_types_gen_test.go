@@ -105,7 +105,8 @@ func RunPropertyAssignmentTestForWorkspacesConnection(subject WorkspacesConnecti
 func Test_WorkspacesConnection_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of WorkspacesConnection via JSON returns original",
@@ -208,7 +209,8 @@ func RunPropertyAssignmentTestForWorkspaceConnectionStatus(subject WorkspaceConn
 func Test_WorkspaceConnection_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of WorkspaceConnection_Status via JSON returns original",
@@ -317,7 +319,8 @@ func RunPropertyAssignmentTestForWorkspacesConnectionsSpec(subject WorkspacesCon
 func Test_WorkspacesConnections_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of WorkspacesConnections_Spec via JSON returns original",

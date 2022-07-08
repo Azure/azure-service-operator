@@ -20,7 +20,8 @@ import (
 func Test_SqlTriggerGetResults_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SqlTriggerGetResults_StatusARM via JSON returns original",
@@ -98,7 +99,8 @@ func AddRelatedPropertyGeneratorsForSqlTriggerGetResultsStatusARM(gens map[strin
 func Test_SqlTriggerGetProperties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SqlTriggerGetProperties_StatusARM via JSON returns original",
@@ -158,7 +160,8 @@ func AddRelatedPropertyGeneratorsForSqlTriggerGetPropertiesStatusARM(gens map[st
 func Test_SqlTriggerGetProperties_Status_ResourceARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SqlTriggerGetProperties_Status_ResourceARM via JSON returns original",

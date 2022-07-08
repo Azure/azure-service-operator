@@ -106,7 +106,8 @@ func RunPropertyAssignmentTestForPublicIPAddress(subject PublicIPAddress) string
 func Test_PublicIPAddress_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PublicIPAddress via JSON returns original",
@@ -208,7 +209,8 @@ func RunPropertyAssignmentTestForPublicIPAddressStatusPublicIPAddressSubResource
 func Test_PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PublicIPAddress_Status_PublicIPAddress_SubResourceEmbedded via JSON returns original",
@@ -353,7 +355,8 @@ func RunPropertyAssignmentTestForPublicIPAddressesSpec(subject PublicIPAddresses
 func Test_PublicIPAddresses_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PublicIPAddresses_Spec via JSON returns original",
@@ -481,7 +484,8 @@ func RunPropertyAssignmentTestForDdosSettings(subject DdosSettings) string {
 func Test_DdosSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DdosSettings via JSON returns original",
@@ -597,7 +601,8 @@ func RunPropertyAssignmentTestForDdosSettingsStatus(subject DdosSettings_Status)
 func Test_DdosSettings_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DdosSettings_Status via JSON returns original",
@@ -713,7 +718,8 @@ func RunPropertyAssignmentTestForIPConfigurationStatusPublicIPAddressSubResource
 func Test_IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of IPConfiguration_Status_PublicIPAddress_SubResourceEmbedded via JSON returns original",
@@ -838,7 +844,8 @@ func RunPropertyAssignmentTestForIpTag(subject IpTag) string {
 func Test_IpTag_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of IpTag via JSON returns original",
@@ -940,7 +947,8 @@ func RunPropertyAssignmentTestForIpTagStatus(subject IpTag_Status) string {
 func Test_IpTag_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of IpTag_Status via JSON returns original",
@@ -1042,7 +1050,8 @@ func RunPropertyAssignmentTestForNatGatewayStatusPublicIPAddressSubResourceEmbed
 func Test_NatGateway_Status_PublicIPAddress_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NatGateway_Status_PublicIPAddress_SubResourceEmbedded via JSON returns original",
@@ -1159,7 +1168,8 @@ func RunPropertyAssignmentTestForPublicIPAddressDnsSettings(subject PublicIPAddr
 func Test_PublicIPAddressDnsSettings_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PublicIPAddressDnsSettings via JSON returns original",
@@ -1263,7 +1273,8 @@ func RunPropertyAssignmentTestForPublicIPAddressDnsSettingsStatus(subject Public
 func Test_PublicIPAddressDnsSettings_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PublicIPAddressDnsSettings_Status via JSON returns original",
@@ -1367,7 +1378,8 @@ func RunPropertyAssignmentTestForPublicIPAddressSku(subject PublicIPAddressSku) 
 func Test_PublicIPAddressSku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PublicIPAddressSku via JSON returns original",
@@ -1469,7 +1481,8 @@ func RunPropertyAssignmentTestForPublicIPAddressSkuStatus(subject PublicIPAddres
 func Test_PublicIPAddressSku_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PublicIPAddressSku_Status via JSON returns original",
@@ -1572,7 +1585,8 @@ func RunPropertyAssignmentTestForNatGatewaySkuStatus(subject NatGatewaySku_Statu
 func Test_NatGatewaySku_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NatGatewaySku_Status via JSON returns original",
@@ -1674,7 +1688,8 @@ func RunPropertyAssignmentTestForSubnetStatusPublicIPAddressSubResourceEmbedded(
 func Test_Subnet_Status_PublicIPAddress_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Subnet_Status_PublicIPAddress_SubResourceEmbedded via JSON returns original",

@@ -20,7 +20,8 @@ import (
 func Test_EventSubscription_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of EventSubscription_StatusARM via JSON returns original",
@@ -97,7 +98,8 @@ func AddRelatedPropertyGeneratorsForEventSubscriptionStatusARM(gens map[string]g
 func Test_EventSubscriptionProperties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of EventSubscriptionProperties_StatusARM via JSON returns original",
@@ -185,7 +187,8 @@ func AddRelatedPropertyGeneratorsForEventSubscriptionPropertiesStatusARM(gens ma
 func Test_DeadLetterDestination_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DeadLetterDestination_StatusARM via JSON returns original",
@@ -245,7 +248,8 @@ func AddIndependentPropertyGeneratorsForDeadLetterDestinationStatusARM(gens map[
 func Test_EventSubscriptionDestination_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of EventSubscriptionDestination_StatusARM via JSON returns original",
@@ -312,7 +316,8 @@ func AddIndependentPropertyGeneratorsForEventSubscriptionDestinationStatusARM(ge
 func Test_EventSubscriptionFilter_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of EventSubscriptionFilter_StatusARM via JSON returns original",
@@ -389,7 +394,8 @@ func AddRelatedPropertyGeneratorsForEventSubscriptionFilterStatusARM(gens map[st
 func Test_RetryPolicy_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RetryPolicy_StatusARM via JSON returns original",
@@ -450,7 +456,8 @@ func AddIndependentPropertyGeneratorsForRetryPolicyStatusARM(gens map[string]gop
 func Test_AdvancedFilter_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AdvancedFilter_StatusARM via JSON returns original",

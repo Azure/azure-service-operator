@@ -20,7 +20,8 @@ import (
 func Test_Database_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Database_StatusARM via JSON returns original",
@@ -95,7 +96,8 @@ func AddRelatedPropertyGeneratorsForDatabaseStatusARM(gens map[string]gopter.Gen
 func Test_DatabaseProperties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DatabaseProperties_StatusARM via JSON returns original",
@@ -201,7 +203,8 @@ func AddRelatedPropertyGeneratorsForDatabasePropertiesStatusARM(gens map[string]
 func Test_Module_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Module_StatusARM via JSON returns original",
@@ -262,7 +265,8 @@ func AddIndependentPropertyGeneratorsForModuleStatusARM(gens map[string]gopter.G
 func Test_Persistence_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Persistence_StatusARM via JSON returns original",

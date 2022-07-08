@@ -20,7 +20,8 @@ import (
 func Test_BlobServiceProperties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of BlobServiceProperties_StatusARM via JSON returns original",
@@ -97,7 +98,8 @@ func AddRelatedPropertyGeneratorsForBlobServicePropertiesStatusARM(gens map[stri
 func Test_BlobServiceProperties_Status_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of BlobServiceProperties_Status_PropertiesARM via JSON returns original",
@@ -178,7 +180,8 @@ func AddRelatedPropertyGeneratorsForBlobServicePropertiesStatusPropertiesARM(gen
 func Test_Sku_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Sku_StatusARM via JSON returns original",
@@ -246,7 +249,8 @@ func AddIndependentPropertyGeneratorsForSkuStatusARM(gens map[string]gopter.Gen)
 func Test_ChangeFeed_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ChangeFeed_StatusARM via JSON returns original",
@@ -307,7 +311,8 @@ func AddIndependentPropertyGeneratorsForChangeFeedStatusARM(gens map[string]gopt
 func Test_CorsRules_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of CorsRules_StatusARM via JSON returns original",
@@ -366,7 +371,8 @@ func AddRelatedPropertyGeneratorsForCorsRulesStatusARM(gens map[string]gopter.Ge
 func Test_DeleteRetentionPolicy_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DeleteRetentionPolicy_StatusARM via JSON returns original",
@@ -427,7 +433,8 @@ func AddIndependentPropertyGeneratorsForDeleteRetentionPolicyStatusARM(gens map[
 func Test_LastAccessTimeTrackingPolicy_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LastAccessTimeTrackingPolicy_StatusARM via JSON returns original",
@@ -490,7 +497,8 @@ func AddIndependentPropertyGeneratorsForLastAccessTimeTrackingPolicyStatusARM(ge
 func Test_RestorePolicyProperties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RestorePolicyProperties_StatusARM via JSON returns original",
@@ -553,7 +561,8 @@ func AddIndependentPropertyGeneratorsForRestorePolicyPropertiesStatusARM(gens ma
 func Test_CorsRule_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of CorsRule_StatusARM via JSON returns original",
