@@ -66,7 +66,7 @@ func (eventhub *NamespacesEventhub) ConvertTo(hub conversion.Hub) error {
 	return eventhub.AssignPropertiesToNamespacesEventhub(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-eventhub-azure-com-v1beta20211101-namespaceseventhub,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventhub.azure.com,resources=namespaceseventhubs,verbs=create;update,versions=v1beta20211101,name=default.v1beta20211101.namespaceseventhubs.eventhub.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-eventhub-azure-com-v1beta20211101-namespaceseventhub,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventhub.azure.com,resources=namespaceseventhubs,verbs=create;update,versions=v1beta20211101,name=default.v1beta20211101.namespaceseventhubs.eventhub.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &NamespacesEventhub{}
 
@@ -155,7 +155,7 @@ func (eventhub *NamespacesEventhub) SetStatus(status genruntime.ConvertibleStatu
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-eventhub-azure-com-v1beta20211101-namespaceseventhub,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventhub.azure.com,resources=namespaceseventhubs,verbs=create;update,versions=v1beta20211101,name=validate.v1beta20211101.namespaceseventhubs.eventhub.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-eventhub-azure-com-v1beta20211101-namespaceseventhub,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventhub.azure.com,resources=namespaceseventhubs,verbs=create;update,versions=v1beta20211101,name=validate.v1beta20211101.namespaceseventhubs.eventhub.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &NamespacesEventhub{}
 

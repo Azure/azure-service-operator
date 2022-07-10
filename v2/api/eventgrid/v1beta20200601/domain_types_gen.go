@@ -66,7 +66,7 @@ func (domain *Domain) ConvertTo(hub conversion.Hub) error {
 	return domain.AssignPropertiesToDomain(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-eventgrid-azure-com-v1beta20200601-domain,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventgrid.azure.com,resources=domains,verbs=create;update,versions=v1beta20200601,name=default.v1beta20200601.domains.eventgrid.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-eventgrid-azure-com-v1beta20200601-domain,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventgrid.azure.com,resources=domains,verbs=create;update,versions=v1beta20200601,name=default.v1beta20200601.domains.eventgrid.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &Domain{}
 
@@ -155,7 +155,7 @@ func (domain *Domain) SetStatus(status genruntime.ConvertibleStatus) error {
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-eventgrid-azure-com-v1beta20200601-domain,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventgrid.azure.com,resources=domains,verbs=create;update,versions=v1beta20200601,name=validate.v1beta20200601.domains.eventgrid.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-eventgrid-azure-com-v1beta20200601-domain,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=eventgrid.azure.com,resources=domains,verbs=create;update,versions=v1beta20200601,name=validate.v1beta20200601.domains.eventgrid.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &Domain{}
 

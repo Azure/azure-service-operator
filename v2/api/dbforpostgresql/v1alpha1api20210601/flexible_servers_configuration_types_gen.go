@@ -80,7 +80,7 @@ func (configuration *FlexibleServersConfiguration) ConvertTo(hub conversion.Hub)
 	return nil
 }
 
-// +kubebuilder:webhook:path=/mutate-dbforpostgresql-azure-com-v1alpha1api20210601-flexibleserversconfiguration,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbforpostgresql.azure.com,resources=flexibleserversconfigurations,verbs=create;update,versions=v1alpha1api20210601,name=default.v1alpha1api20210601.flexibleserversconfigurations.dbforpostgresql.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-dbforpostgresql-azure-com-v1alpha1api20210601-flexibleserversconfiguration,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbforpostgresql.azure.com,resources=flexibleserversconfigurations,verbs=create;update,versions=v1alpha1api20210601,name=default.v1alpha1api20210601.flexibleserversconfigurations.dbforpostgresql.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &FlexibleServersConfiguration{}
 
@@ -169,7 +169,7 @@ func (configuration *FlexibleServersConfiguration) SetStatus(status genruntime.C
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-dbforpostgresql-azure-com-v1alpha1api20210601-flexibleserversconfiguration,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbforpostgresql.azure.com,resources=flexibleserversconfigurations,verbs=create;update,versions=v1alpha1api20210601,name=validate.v1alpha1api20210601.flexibleserversconfigurations.dbforpostgresql.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-dbforpostgresql-azure-com-v1alpha1api20210601-flexibleserversconfiguration,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbforpostgresql.azure.com,resources=flexibleserversconfigurations,verbs=create;update,versions=v1alpha1api20210601,name=validate.v1alpha1api20210601.flexibleserversconfigurations.dbforpostgresql.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &FlexibleServersConfiguration{}
 

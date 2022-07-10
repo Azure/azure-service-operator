@@ -67,7 +67,7 @@ func (workspace *Workspace) ConvertTo(hub conversion.Hub) error {
 	return workspace.AssignPropertiesToWorkspace(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-machinelearningservices-azure-com-v1beta20210701-workspace,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=machinelearningservices.azure.com,resources=workspaces,verbs=create;update,versions=v1beta20210701,name=default.v1beta20210701.workspaces.machinelearningservices.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-machinelearningservices-azure-com-v1beta20210701-workspace,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=machinelearningservices.azure.com,resources=workspaces,verbs=create;update,versions=v1beta20210701,name=default.v1beta20210701.workspaces.machinelearningservices.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &Workspace{}
 
@@ -156,7 +156,7 @@ func (workspace *Workspace) SetStatus(status genruntime.ConvertibleStatus) error
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-machinelearningservices-azure-com-v1beta20210701-workspace,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=machinelearningservices.azure.com,resources=workspaces,verbs=create;update,versions=v1beta20210701,name=validate.v1beta20210701.workspaces.machinelearningservices.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-machinelearningservices-azure-com-v1beta20210701-workspace,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=machinelearningservices.azure.com,resources=workspaces,verbs=create;update,versions=v1beta20210701,name=validate.v1beta20210701.workspaces.machinelearningservices.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &Workspace{}
 
