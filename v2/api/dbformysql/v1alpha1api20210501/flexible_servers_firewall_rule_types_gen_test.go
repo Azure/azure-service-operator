@@ -106,7 +106,8 @@ func RunPropertyAssignmentTestForFlexibleServersFirewallRule(subject FlexibleSer
 func Test_FlexibleServersFirewallRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of FlexibleServersFirewallRule via JSON returns original",
@@ -209,7 +210,8 @@ func RunPropertyAssignmentTestForFirewallRuleStatus(subject FirewallRule_Status)
 func Test_FirewallRule_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of FirewallRule_Status via JSON returns original",
@@ -328,7 +330,8 @@ func RunPropertyAssignmentTestForFlexibleServersFirewallRulesSpec(subject Flexib
 func Test_FlexibleServersFirewallRules_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of FlexibleServersFirewallRules_Spec via JSON returns original",

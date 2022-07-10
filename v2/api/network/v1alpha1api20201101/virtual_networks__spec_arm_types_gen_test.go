@@ -20,7 +20,8 @@ import (
 func Test_VirtualNetworks_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualNetworks_SpecARM via JSON returns original",
@@ -97,7 +98,8 @@ func AddRelatedPropertyGeneratorsForVirtualNetworksSpecARM(gens map[string]gopte
 func Test_VirtualNetworks_Spec_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualNetworks_Spec_PropertiesARM via JSON returns original",
@@ -178,7 +180,8 @@ func AddRelatedPropertyGeneratorsForVirtualNetworksSpecPropertiesARM(gens map[st
 func Test_DhcpOptionsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DhcpOptionsARM via JSON returns original",
@@ -237,7 +240,8 @@ func AddIndependentPropertyGeneratorsForDhcpOptionsARM(gens map[string]gopter.Ge
 func Test_VirtualNetworks_Spec_Properties_SubnetsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualNetworks_Spec_Properties_SubnetsARM via JSON returns original",
@@ -311,7 +315,8 @@ func AddRelatedPropertyGeneratorsForVirtualNetworksSpecPropertiesSubnetsARM(gens
 func Test_VirtualNetworks_Spec_Properties_VirtualNetworkPeeringsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualNetworks_Spec_Properties_VirtualNetworkPeeringsARM via JSON returns original",
@@ -385,7 +390,8 @@ func AddRelatedPropertyGeneratorsForVirtualNetworksSpecPropertiesVirtualNetworkP
 func Test_VirtualNetworks_Spec_Properties_Subnets_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualNetworks_Spec_Properties_Subnets_PropertiesARM via JSON returns original",
@@ -468,7 +474,8 @@ func AddRelatedPropertyGeneratorsForVirtualNetworksSpecPropertiesSubnetsProperti
 func Test_VirtualNetworks_Spec_Properties_Subnets_Properties_DelegationsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualNetworks_Spec_Properties_Subnets_Properties_DelegationsARM via JSON returns original",

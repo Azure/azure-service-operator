@@ -20,7 +20,8 @@ import (
 func Test_NetworkInterfaces_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NetworkInterfaces_SpecARM via JSON returns original",
@@ -97,7 +98,8 @@ func AddRelatedPropertyGeneratorsForNetworkInterfacesSpecARM(gens map[string]gop
 func Test_NetworkInterfaces_Spec_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NetworkInterfaces_Spec_PropertiesARM via JSON returns original",
@@ -174,7 +176,8 @@ func AddRelatedPropertyGeneratorsForNetworkInterfacesSpecPropertiesARM(gens map[
 func Test_NetworkInterfaceDnsSettingsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NetworkInterfaceDnsSettingsARM via JSON returns original",
@@ -235,7 +238,8 @@ func AddIndependentPropertyGeneratorsForNetworkInterfaceDnsSettingsARM(gens map[
 func Test_NetworkInterfaces_Spec_Properties_IpConfigurationsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NetworkInterfaces_Spec_Properties_IpConfigurationsARM via JSON returns original",
@@ -309,7 +313,8 @@ func AddRelatedPropertyGeneratorsForNetworkInterfacesSpecPropertiesIpConfigurati
 func Test_SubResourceARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SubResourceARM via JSON returns original",
@@ -368,7 +373,8 @@ func AddIndependentPropertyGeneratorsForSubResourceARM(gens map[string]gopter.Ge
 func Test_NetworkInterfaceIPConfigurationPropertiesFormatARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NetworkInterfaceIPConfigurationPropertiesFormatARM via JSON returns original",

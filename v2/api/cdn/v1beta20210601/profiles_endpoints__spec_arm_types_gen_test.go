@@ -20,7 +20,8 @@ import (
 func Test_ProfilesEndpoints_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ProfilesEndpoints_SpecARM via JSON returns original",
@@ -96,7 +97,8 @@ func AddRelatedPropertyGeneratorsForProfilesEndpointsSpecARM(gens map[string]gop
 func Test_ProfilesEndpoints_Spec_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ProfilesEndpoints_Spec_PropertiesARM via JSON returns original",
@@ -193,7 +195,8 @@ func AddRelatedPropertyGeneratorsForProfilesEndpointsSpecPropertiesARM(gens map[
 func Test_EndpointPropertiesUpdateParametersDeliveryPolicyARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of EndpointPropertiesUpdateParametersDeliveryPolicyARM via JSON returns original",
@@ -267,7 +270,8 @@ func AddRelatedPropertyGeneratorsForEndpointPropertiesUpdateParametersDeliveryPo
 func Test_EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLinkARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLinkARM via JSON returns original",
@@ -327,7 +331,8 @@ func AddIndependentPropertyGeneratorsForEndpointPropertiesUpdateParametersWebApp
 func Test_GeoFilterARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of GeoFilterARM via JSON returns original",
@@ -388,7 +393,8 @@ func AddIndependentPropertyGeneratorsForGeoFilterARM(gens map[string]gopter.Gen)
 func Test_ProfilesEndpoints_Spec_Properties_OriginGroupsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ProfilesEndpoints_Spec_Properties_OriginGroupsARM via JSON returns original",
@@ -462,7 +468,8 @@ func AddRelatedPropertyGeneratorsForProfilesEndpointsSpecPropertiesOriginGroupsA
 func Test_ProfilesEndpoints_Spec_Properties_OriginsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ProfilesEndpoints_Spec_Properties_OriginsARM via JSON returns original",
@@ -536,7 +543,8 @@ func AddRelatedPropertyGeneratorsForProfilesEndpointsSpecPropertiesOriginsARM(ge
 func Test_ResourceReferenceARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ResourceReferenceARM via JSON returns original",
@@ -596,7 +604,8 @@ func AddIndependentPropertyGeneratorsForResourceReferenceARM(gens map[string]gop
 func Test_UrlSigningKeyARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of UrlSigningKeyARM via JSON returns original",
@@ -669,7 +678,8 @@ func AddRelatedPropertyGeneratorsForUrlSigningKeyARM(gens map[string]gopter.Gen)
 func Test_DeepCreatedOriginGroupPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DeepCreatedOriginGroupPropertiesARM via JSON returns original",
@@ -745,7 +755,8 @@ func AddRelatedPropertyGeneratorsForDeepCreatedOriginGroupPropertiesARM(gens map
 func Test_DeepCreatedOriginPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DeepCreatedOriginPropertiesARM via JSON returns original",
@@ -815,7 +826,8 @@ func AddIndependentPropertyGeneratorsForDeepCreatedOriginPropertiesARM(gens map[
 func Test_DeliveryRuleARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DeliveryRuleARM via JSON returns original",
@@ -890,7 +902,8 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleARM(gens map[string]gopter.Gen) 
 func Test_KeyVaultSigningKeyParametersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of KeyVaultSigningKeyParametersARM via JSON returns original",
@@ -955,7 +968,8 @@ func AddIndependentPropertyGeneratorsForKeyVaultSigningKeyParametersARM(gens map
 func Test_DeliveryRuleAction1ARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DeliveryRuleAction1ARM via JSON returns original",
@@ -1049,7 +1063,8 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleAction1ARM(gens map[string]gopte
 func Test_DeliveryRuleConditionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DeliveryRuleConditionARM via JSON returns original",
@@ -1173,7 +1188,8 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleConditionARM(gens map[string]gop
 func Test_HealthProbeParametersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of HealthProbeParametersARM via JSON returns original",
@@ -1236,7 +1252,8 @@ func AddIndependentPropertyGeneratorsForHealthProbeParametersARM(gens map[string
 func Test_ResponseBasedOriginErrorDetectionParametersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ResponseBasedOriginErrorDetectionParametersARM via JSON returns original",
@@ -1311,7 +1328,8 @@ func AddRelatedPropertyGeneratorsForResponseBasedOriginErrorDetectionParametersA
 func Test_DeliveryRuleCacheExpirationActionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DeliveryRuleCacheExpirationActionARM via JSON returns original",
@@ -1385,7 +1403,8 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleCacheExpirationActionARM(gens ma
 func Test_DeliveryRuleCacheKeyQueryStringActionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DeliveryRuleCacheKeyQueryStringActionARM via JSON returns original",
@@ -1459,7 +1478,8 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleCacheKeyQueryStringActionARM(gen
 func Test_DeliveryRuleClientPortConditionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DeliveryRuleClientPortConditionARM via JSON returns original",
@@ -1533,7 +1553,8 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleClientPortConditionARM(gens map[
 func Test_DeliveryRuleCookiesConditionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DeliveryRuleCookiesConditionARM via JSON returns original",
@@ -1607,7 +1628,8 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleCookiesConditionARM(gens map[str
 func Test_DeliveryRuleHostNameConditionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DeliveryRuleHostNameConditionARM via JSON returns original",
@@ -1681,7 +1703,8 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleHostNameConditionARM(gens map[st
 func Test_DeliveryRuleHttpVersionConditionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DeliveryRuleHttpVersionConditionARM via JSON returns original",
@@ -1755,7 +1778,8 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleHttpVersionConditionARM(gens map
 func Test_DeliveryRuleIsDeviceConditionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DeliveryRuleIsDeviceConditionARM via JSON returns original",
@@ -1829,7 +1853,8 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleIsDeviceConditionARM(gens map[st
 func Test_DeliveryRulePostArgsConditionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DeliveryRulePostArgsConditionARM via JSON returns original",
@@ -1903,7 +1928,8 @@ func AddRelatedPropertyGeneratorsForDeliveryRulePostArgsConditionARM(gens map[st
 func Test_DeliveryRuleQueryStringConditionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DeliveryRuleQueryStringConditionARM via JSON returns original",
@@ -1977,7 +2003,8 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleQueryStringConditionARM(gens map
 func Test_DeliveryRuleRemoteAddressConditionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DeliveryRuleRemoteAddressConditionARM via JSON returns original",
@@ -2051,7 +2078,8 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleRemoteAddressConditionARM(gens m
 func Test_DeliveryRuleRequestBodyConditionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DeliveryRuleRequestBodyConditionARM via JSON returns original",
@@ -2125,7 +2153,8 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleRequestBodyConditionARM(gens map
 func Test_DeliveryRuleRequestHeaderActionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DeliveryRuleRequestHeaderActionARM via JSON returns original",
@@ -2199,7 +2228,8 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleRequestHeaderActionARM(gens map[
 func Test_DeliveryRuleRequestHeaderConditionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DeliveryRuleRequestHeaderConditionARM via JSON returns original",
@@ -2273,7 +2303,8 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleRequestHeaderConditionARM(gens m
 func Test_DeliveryRuleRequestMethodConditionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DeliveryRuleRequestMethodConditionARM via JSON returns original",
@@ -2347,7 +2378,8 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleRequestMethodConditionARM(gens m
 func Test_DeliveryRuleRequestSchemeConditionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DeliveryRuleRequestSchemeConditionARM via JSON returns original",
@@ -2421,7 +2453,8 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleRequestSchemeConditionARM(gens m
 func Test_DeliveryRuleRequestUriConditionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DeliveryRuleRequestUriConditionARM via JSON returns original",
@@ -2495,7 +2528,8 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleRequestUriConditionARM(gens map[
 func Test_DeliveryRuleResponseHeaderActionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DeliveryRuleResponseHeaderActionARM via JSON returns original",
@@ -2569,7 +2603,8 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleResponseHeaderActionARM(gens map
 func Test_DeliveryRuleRouteConfigurationOverrideActionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DeliveryRuleRouteConfigurationOverrideActionARM via JSON returns original",
@@ -2643,7 +2678,8 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleRouteConfigurationOverrideAction
 func Test_DeliveryRuleServerPortConditionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DeliveryRuleServerPortConditionARM via JSON returns original",
@@ -2717,7 +2753,8 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleServerPortConditionARM(gens map[
 func Test_DeliveryRuleSocketAddrConditionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DeliveryRuleSocketAddrConditionARM via JSON returns original",
@@ -2791,7 +2828,8 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleSocketAddrConditionARM(gens map[
 func Test_DeliveryRuleSslProtocolConditionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DeliveryRuleSslProtocolConditionARM via JSON returns original",
@@ -2865,7 +2903,8 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleSslProtocolConditionARM(gens map
 func Test_DeliveryRuleUrlFileExtensionConditionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DeliveryRuleUrlFileExtensionConditionARM via JSON returns original",
@@ -2939,7 +2978,8 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleUrlFileExtensionConditionARM(gen
 func Test_DeliveryRuleUrlFileNameConditionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DeliveryRuleUrlFileNameConditionARM via JSON returns original",
@@ -3013,7 +3053,8 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleUrlFileNameConditionARM(gens map
 func Test_DeliveryRuleUrlPathConditionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DeliveryRuleUrlPathConditionARM via JSON returns original",
@@ -3087,7 +3128,8 @@ func AddRelatedPropertyGeneratorsForDeliveryRuleUrlPathConditionARM(gens map[str
 func Test_HttpErrorRangeParametersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of HttpErrorRangeParametersARM via JSON returns original",
@@ -3148,7 +3190,8 @@ func AddIndependentPropertyGeneratorsForHttpErrorRangeParametersARM(gens map[str
 func Test_OriginGroupOverrideActionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of OriginGroupOverrideActionARM via JSON returns original",
@@ -3222,7 +3265,8 @@ func AddRelatedPropertyGeneratorsForOriginGroupOverrideActionARM(gens map[string
 func Test_UrlRedirectActionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of UrlRedirectActionARM via JSON returns original",
@@ -3296,7 +3340,8 @@ func AddRelatedPropertyGeneratorsForUrlRedirectActionARM(gens map[string]gopter.
 func Test_UrlRewriteActionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of UrlRewriteActionARM via JSON returns original",
@@ -3370,7 +3415,8 @@ func AddRelatedPropertyGeneratorsForUrlRewriteActionARM(gens map[string]gopter.G
 func Test_UrlSigningActionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of UrlSigningActionARM via JSON returns original",
@@ -3444,7 +3490,8 @@ func AddRelatedPropertyGeneratorsForUrlSigningActionARM(gens map[string]gopter.G
 func Test_CacheExpirationActionParametersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of CacheExpirationActionParametersARM via JSON returns original",
@@ -3507,7 +3554,8 @@ func AddIndependentPropertyGeneratorsForCacheExpirationActionParametersARM(gens 
 func Test_CacheKeyQueryStringActionParametersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of CacheKeyQueryStringActionParametersARM via JSON returns original",
@@ -3573,7 +3621,8 @@ func AddIndependentPropertyGeneratorsForCacheKeyQueryStringActionParametersARM(g
 func Test_ClientPortMatchConditionParametersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ClientPortMatchConditionParametersARM via JSON returns original",
@@ -3653,7 +3702,8 @@ func AddIndependentPropertyGeneratorsForClientPortMatchConditionParametersARM(ge
 func Test_CookiesMatchConditionParametersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of CookiesMatchConditionParametersARM via JSON returns original",
@@ -3734,7 +3784,8 @@ func AddIndependentPropertyGeneratorsForCookiesMatchConditionParametersARM(gens 
 func Test_HeaderActionParametersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of HeaderActionParametersARM via JSON returns original",
@@ -3797,7 +3848,8 @@ func AddIndependentPropertyGeneratorsForHeaderActionParametersARM(gens map[strin
 func Test_HostNameMatchConditionParametersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of HostNameMatchConditionParametersARM via JSON returns original",
@@ -3877,7 +3929,8 @@ func AddIndependentPropertyGeneratorsForHostNameMatchConditionParametersARM(gens
 func Test_HttpVersionMatchConditionParametersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of HttpVersionMatchConditionParametersARM via JSON returns original",
@@ -3947,7 +4000,8 @@ func AddIndependentPropertyGeneratorsForHttpVersionMatchConditionParametersARM(g
 func Test_IsDeviceMatchConditionParametersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of IsDeviceMatchConditionParametersARM via JSON returns original",
@@ -4017,7 +4071,8 @@ func AddIndependentPropertyGeneratorsForIsDeviceMatchConditionParametersARM(gens
 func Test_OriginGroupOverrideActionParametersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of OriginGroupOverrideActionParametersARM via JSON returns original",
@@ -4091,7 +4146,8 @@ func AddRelatedPropertyGeneratorsForOriginGroupOverrideActionParametersARM(gens 
 func Test_PostArgsMatchConditionParametersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PostArgsMatchConditionParametersARM via JSON returns original",
@@ -4172,7 +4228,8 @@ func AddIndependentPropertyGeneratorsForPostArgsMatchConditionParametersARM(gens
 func Test_QueryStringMatchConditionParametersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of QueryStringMatchConditionParametersARM via JSON returns original",
@@ -4252,7 +4309,8 @@ func AddIndependentPropertyGeneratorsForQueryStringMatchConditionParametersARM(g
 func Test_RemoteAddressMatchConditionParametersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RemoteAddressMatchConditionParametersARM via JSON returns original",
@@ -4322,7 +4380,8 @@ func AddIndependentPropertyGeneratorsForRemoteAddressMatchConditionParametersARM
 func Test_RequestBodyMatchConditionParametersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RequestBodyMatchConditionParametersARM via JSON returns original",
@@ -4402,7 +4461,8 @@ func AddIndependentPropertyGeneratorsForRequestBodyMatchConditionParametersARM(g
 func Test_RequestHeaderMatchConditionParametersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RequestHeaderMatchConditionParametersARM via JSON returns original",
@@ -4483,7 +4543,8 @@ func AddIndependentPropertyGeneratorsForRequestHeaderMatchConditionParametersARM
 func Test_RequestMethodMatchConditionParametersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RequestMethodMatchConditionParametersARM via JSON returns original",
@@ -4560,7 +4621,8 @@ func AddIndependentPropertyGeneratorsForRequestMethodMatchConditionParametersARM
 func Test_RequestSchemeMatchConditionParametersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RequestSchemeMatchConditionParametersARM via JSON returns original",
@@ -4630,7 +4692,8 @@ func AddIndependentPropertyGeneratorsForRequestSchemeMatchConditionParametersARM
 func Test_RequestUriMatchConditionParametersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RequestUriMatchConditionParametersARM via JSON returns original",
@@ -4710,7 +4773,8 @@ func AddIndependentPropertyGeneratorsForRequestUriMatchConditionParametersARM(ge
 func Test_RouteConfigurationOverrideActionParametersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RouteConfigurationOverrideActionParametersARM via JSON returns original",
@@ -4785,7 +4849,8 @@ func AddRelatedPropertyGeneratorsForRouteConfigurationOverrideActionParametersAR
 func Test_ServerPortMatchConditionParametersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ServerPortMatchConditionParametersARM via JSON returns original",
@@ -4865,7 +4930,8 @@ func AddIndependentPropertyGeneratorsForServerPortMatchConditionParametersARM(ge
 func Test_SocketAddrMatchConditionParametersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SocketAddrMatchConditionParametersARM via JSON returns original",
@@ -4935,7 +5001,8 @@ func AddIndependentPropertyGeneratorsForSocketAddrMatchConditionParametersARM(ge
 func Test_SslProtocolMatchConditionParametersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SslProtocolMatchConditionParametersARM via JSON returns original",
@@ -5005,7 +5072,8 @@ func AddIndependentPropertyGeneratorsForSslProtocolMatchConditionParametersARM(g
 func Test_UrlFileExtensionMatchConditionParametersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of UrlFileExtensionMatchConditionParametersARM via JSON returns original",
@@ -5085,7 +5153,8 @@ func AddIndependentPropertyGeneratorsForUrlFileExtensionMatchConditionParameters
 func Test_UrlFileNameMatchConditionParametersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of UrlFileNameMatchConditionParametersARM via JSON returns original",
@@ -5165,7 +5234,8 @@ func AddIndependentPropertyGeneratorsForUrlFileNameMatchConditionParametersARM(g
 func Test_UrlPathMatchConditionParametersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of UrlPathMatchConditionParametersARM via JSON returns original",
@@ -5246,7 +5316,8 @@ func AddIndependentPropertyGeneratorsForUrlPathMatchConditionParametersARM(gens 
 func Test_UrlRedirectActionParametersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of UrlRedirectActionParametersARM via JSON returns original",
@@ -5316,7 +5387,8 @@ func AddIndependentPropertyGeneratorsForUrlRedirectActionParametersARM(gens map[
 func Test_UrlRewriteActionParametersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of UrlRewriteActionParametersARM via JSON returns original",
@@ -5379,7 +5451,8 @@ func AddIndependentPropertyGeneratorsForUrlRewriteActionParametersARM(gens map[s
 func Test_UrlSigningActionParametersARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of UrlSigningActionParametersARM via JSON returns original",
@@ -5454,7 +5527,8 @@ func AddRelatedPropertyGeneratorsForUrlSigningActionParametersARM(gens map[strin
 func Test_CacheConfigurationARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of CacheConfigurationARM via JSON returns original",
@@ -5522,7 +5596,8 @@ func AddIndependentPropertyGeneratorsForCacheConfigurationARM(gens map[string]go
 func Test_OriginGroupOverrideARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of OriginGroupOverrideARM via JSON returns original",
@@ -5596,7 +5671,8 @@ func AddRelatedPropertyGeneratorsForOriginGroupOverrideARM(gens map[string]gopte
 func Test_UrlSigningParamIdentifierARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of UrlSigningParamIdentifierARM via JSON returns original",

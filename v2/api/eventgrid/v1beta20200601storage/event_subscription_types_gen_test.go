@@ -20,7 +20,8 @@ import (
 func Test_EventSubscription_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of EventSubscription via JSON returns original",
@@ -80,7 +81,8 @@ func AddRelatedPropertyGeneratorsForEventSubscription(gens map[string]gopter.Gen
 func Test_EventSubscription_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of EventSubscription_Status via JSON returns original",
@@ -165,7 +167,8 @@ func AddRelatedPropertyGeneratorsForEventSubscriptionStatus(gens map[string]gopt
 func Test_EventSubscriptions_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of EventSubscriptions_Spec via JSON returns original",
@@ -248,7 +251,8 @@ func AddRelatedPropertyGeneratorsForEventSubscriptionsSpec(gens map[string]gopte
 func Test_DeadLetterDestination_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DeadLetterDestination_Status via JSON returns original",
@@ -308,7 +312,8 @@ func AddIndependentPropertyGeneratorsForDeadLetterDestinationStatus(gens map[str
 func Test_EventSubscriptionDestination_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of EventSubscriptionDestination via JSON returns original",
@@ -396,7 +401,8 @@ func AddRelatedPropertyGeneratorsForEventSubscriptionDestination(gens map[string
 func Test_EventSubscriptionDestination_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of EventSubscriptionDestination_Status via JSON returns original",
@@ -456,7 +462,8 @@ func AddIndependentPropertyGeneratorsForEventSubscriptionDestinationStatus(gens 
 func Test_EventSubscriptionFilter_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of EventSubscriptionFilter via JSON returns original",
@@ -533,7 +540,8 @@ func AddRelatedPropertyGeneratorsForEventSubscriptionFilter(gens map[string]gopt
 func Test_EventSubscriptionFilter_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of EventSubscriptionFilter_Status via JSON returns original",
@@ -610,7 +618,8 @@ func AddRelatedPropertyGeneratorsForEventSubscriptionFilterStatus(gens map[strin
 func Test_RetryPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RetryPolicy via JSON returns original",
@@ -670,7 +679,8 @@ func AddIndependentPropertyGeneratorsForRetryPolicy(gens map[string]gopter.Gen) 
 func Test_RetryPolicy_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RetryPolicy_Status via JSON returns original",
@@ -730,7 +740,8 @@ func AddIndependentPropertyGeneratorsForRetryPolicyStatus(gens map[string]gopter
 func Test_StorageBlobDeadLetterDestination_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of StorageBlobDeadLetterDestination via JSON returns original",
@@ -804,7 +815,8 @@ func AddRelatedPropertyGeneratorsForStorageBlobDeadLetterDestination(gens map[st
 func Test_AdvancedFilter_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AdvancedFilter via JSON returns original",
@@ -906,7 +918,8 @@ func AddRelatedPropertyGeneratorsForAdvancedFilter(gens map[string]gopter.Gen) {
 func Test_AdvancedFilter_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AdvancedFilter_Status via JSON returns original",
@@ -967,7 +980,8 @@ func AddIndependentPropertyGeneratorsForAdvancedFilterStatus(gens map[string]gop
 func Test_AzureFunctionEventSubscriptionDestination_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AzureFunctionEventSubscriptionDestination via JSON returns original",
@@ -1041,7 +1055,8 @@ func AddRelatedPropertyGeneratorsForAzureFunctionEventSubscriptionDestination(ge
 func Test_EventHubEventSubscriptionDestination_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of EventHubEventSubscriptionDestination via JSON returns original",
@@ -1115,7 +1130,8 @@ func AddRelatedPropertyGeneratorsForEventHubEventSubscriptionDestination(gens ma
 func Test_HybridConnectionEventSubscriptionDestination_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of HybridConnectionEventSubscriptionDestination via JSON returns original",
@@ -1189,7 +1205,8 @@ func AddRelatedPropertyGeneratorsForHybridConnectionEventSubscriptionDestination
 func Test_ServiceBusQueueEventSubscriptionDestination_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ServiceBusQueueEventSubscriptionDestination via JSON returns original",
@@ -1263,7 +1280,8 @@ func AddRelatedPropertyGeneratorsForServiceBusQueueEventSubscriptionDestination(
 func Test_ServiceBusTopicEventSubscriptionDestination_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ServiceBusTopicEventSubscriptionDestination via JSON returns original",
@@ -1337,7 +1355,8 @@ func AddRelatedPropertyGeneratorsForServiceBusTopicEventSubscriptionDestination(
 func Test_StorageBlobDeadLetterDestinationProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of StorageBlobDeadLetterDestinationProperties via JSON returns original",
@@ -1397,7 +1416,8 @@ func AddIndependentPropertyGeneratorsForStorageBlobDeadLetterDestinationProperti
 func Test_StorageQueueEventSubscriptionDestination_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of StorageQueueEventSubscriptionDestination via JSON returns original",
@@ -1471,7 +1491,8 @@ func AddRelatedPropertyGeneratorsForStorageQueueEventSubscriptionDestination(gen
 func Test_WebHookEventSubscriptionDestination_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of WebHookEventSubscriptionDestination via JSON returns original",
@@ -1545,7 +1566,8 @@ func AddRelatedPropertyGeneratorsForWebHookEventSubscriptionDestination(gens map
 func Test_AdvancedFilter_BoolEquals_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AdvancedFilter_BoolEquals via JSON returns original",
@@ -1607,7 +1629,8 @@ func AddIndependentPropertyGeneratorsForAdvancedFilterBoolEquals(gens map[string
 func Test_AdvancedFilter_NumberGreaterThan_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AdvancedFilter_NumberGreaterThan via JSON returns original",
@@ -1669,7 +1692,8 @@ func AddIndependentPropertyGeneratorsForAdvancedFilterNumberGreaterThan(gens map
 func Test_AdvancedFilter_NumberGreaterThanOrEquals_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AdvancedFilter_NumberGreaterThanOrEquals via JSON returns original",
@@ -1731,7 +1755,8 @@ func AddIndependentPropertyGeneratorsForAdvancedFilterNumberGreaterThanOrEquals(
 func Test_AdvancedFilter_NumberIn_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AdvancedFilter_NumberIn via JSON returns original",
@@ -1793,7 +1818,8 @@ func AddIndependentPropertyGeneratorsForAdvancedFilterNumberIn(gens map[string]g
 func Test_AdvancedFilter_NumberLessThan_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AdvancedFilter_NumberLessThan via JSON returns original",
@@ -1855,7 +1881,8 @@ func AddIndependentPropertyGeneratorsForAdvancedFilterNumberLessThan(gens map[st
 func Test_AdvancedFilter_NumberLessThanOrEquals_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AdvancedFilter_NumberLessThanOrEquals via JSON returns original",
@@ -1917,7 +1944,8 @@ func AddIndependentPropertyGeneratorsForAdvancedFilterNumberLessThanOrEquals(gen
 func Test_AdvancedFilter_NumberNotIn_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AdvancedFilter_NumberNotIn via JSON returns original",
@@ -1979,7 +2007,8 @@ func AddIndependentPropertyGeneratorsForAdvancedFilterNumberNotIn(gens map[strin
 func Test_AdvancedFilter_StringBeginsWith_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AdvancedFilter_StringBeginsWith via JSON returns original",
@@ -2041,7 +2070,8 @@ func AddIndependentPropertyGeneratorsForAdvancedFilterStringBeginsWith(gens map[
 func Test_AdvancedFilter_StringContains_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AdvancedFilter_StringContains via JSON returns original",
@@ -2103,7 +2133,8 @@ func AddIndependentPropertyGeneratorsForAdvancedFilterStringContains(gens map[st
 func Test_AdvancedFilter_StringEndsWith_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AdvancedFilter_StringEndsWith via JSON returns original",
@@ -2165,7 +2196,8 @@ func AddIndependentPropertyGeneratorsForAdvancedFilterStringEndsWith(gens map[st
 func Test_AdvancedFilter_StringIn_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AdvancedFilter_StringIn via JSON returns original",
@@ -2227,7 +2259,8 @@ func AddIndependentPropertyGeneratorsForAdvancedFilterStringIn(gens map[string]g
 func Test_AdvancedFilter_StringNotIn_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AdvancedFilter_StringNotIn via JSON returns original",
@@ -2289,7 +2322,8 @@ func AddIndependentPropertyGeneratorsForAdvancedFilterStringNotIn(gens map[strin
 func Test_AzureFunctionEventSubscriptionDestinationProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AzureFunctionEventSubscriptionDestinationProperties via JSON returns original",
@@ -2350,7 +2384,8 @@ func AddIndependentPropertyGeneratorsForAzureFunctionEventSubscriptionDestinatio
 func Test_EventHubEventSubscriptionDestinationProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of EventHubEventSubscriptionDestinationProperties via JSON returns original",
@@ -2404,7 +2439,8 @@ func EventHubEventSubscriptionDestinationPropertiesGenerator() gopter.Gen {
 func Test_HybridConnectionEventSubscriptionDestinationProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of HybridConnectionEventSubscriptionDestinationProperties via JSON returns original",
@@ -2458,7 +2494,8 @@ func HybridConnectionEventSubscriptionDestinationPropertiesGenerator() gopter.Ge
 func Test_ServiceBusQueueEventSubscriptionDestinationProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ServiceBusQueueEventSubscriptionDestinationProperties via JSON returns original",
@@ -2512,7 +2549,8 @@ func ServiceBusQueueEventSubscriptionDestinationPropertiesGenerator() gopter.Gen
 func Test_ServiceBusTopicEventSubscriptionDestinationProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ServiceBusTopicEventSubscriptionDestinationProperties via JSON returns original",
@@ -2566,7 +2604,8 @@ func ServiceBusTopicEventSubscriptionDestinationPropertiesGenerator() gopter.Gen
 func Test_StorageQueueEventSubscriptionDestinationProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of StorageQueueEventSubscriptionDestinationProperties via JSON returns original",
@@ -2626,7 +2665,8 @@ func AddIndependentPropertyGeneratorsForStorageQueueEventSubscriptionDestination
 func Test_WebHookEventSubscriptionDestinationProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of WebHookEventSubscriptionDestinationProperties via JSON returns original",

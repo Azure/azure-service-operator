@@ -106,7 +106,8 @@ func RunPropertyAssignmentTestForStorageAccountsBlobService(subject StorageAccou
 func Test_StorageAccountsBlobService_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of StorageAccountsBlobService via JSON returns original",
@@ -209,7 +210,8 @@ func RunPropertyAssignmentTestForBlobServicePropertiesStatus(subject BlobService
 func Test_BlobServiceProperties_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of BlobServiceProperties_Status via JSON returns original",
@@ -336,7 +338,8 @@ func RunPropertyAssignmentTestForStorageAccountsBlobServicesSpec(subject Storage
 func Test_StorageAccountsBlobServices_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of StorageAccountsBlobServices_Spec via JSON returns original",
@@ -461,7 +464,8 @@ func RunPropertyAssignmentTestForChangeFeed(subject ChangeFeed) string {
 func Test_ChangeFeed_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ChangeFeed via JSON returns original",
@@ -563,7 +567,8 @@ func RunPropertyAssignmentTestForChangeFeedStatus(subject ChangeFeed_Status) str
 func Test_ChangeFeed_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ChangeFeed_Status via JSON returns original",
@@ -665,7 +670,8 @@ func RunPropertyAssignmentTestForCorsRules(subject CorsRules) string {
 func Test_CorsRules_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of CorsRules via JSON returns original",
@@ -766,7 +772,8 @@ func RunPropertyAssignmentTestForCorsRulesStatus(subject CorsRules_Status) strin
 func Test_CorsRules_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of CorsRules_Status via JSON returns original",
@@ -867,7 +874,8 @@ func RunPropertyAssignmentTestForDeleteRetentionPolicy(subject DeleteRetentionPo
 func Test_DeleteRetentionPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DeleteRetentionPolicy via JSON returns original",
@@ -970,7 +978,8 @@ func RunPropertyAssignmentTestForDeleteRetentionPolicyStatus(subject DeleteReten
 func Test_DeleteRetentionPolicy_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DeleteRetentionPolicy_Status via JSON returns original",
@@ -1073,7 +1082,8 @@ func RunPropertyAssignmentTestForLastAccessTimeTrackingPolicy(subject LastAccess
 func Test_LastAccessTimeTrackingPolicy_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LastAccessTimeTrackingPolicy via JSON returns original",
@@ -1178,7 +1188,8 @@ func RunPropertyAssignmentTestForLastAccessTimeTrackingPolicyStatus(subject Last
 func Test_LastAccessTimeTrackingPolicy_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LastAccessTimeTrackingPolicy_Status via JSON returns original",
@@ -1283,7 +1294,8 @@ func RunPropertyAssignmentTestForRestorePolicyProperties(subject RestorePolicyPr
 func Test_RestorePolicyProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RestorePolicyProperties via JSON returns original",
@@ -1386,7 +1398,8 @@ func RunPropertyAssignmentTestForRestorePolicyPropertiesStatus(subject RestorePo
 func Test_RestorePolicyProperties_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RestorePolicyProperties_Status via JSON returns original",
@@ -1491,7 +1504,8 @@ func RunPropertyAssignmentTestForCorsRule(subject CorsRule) string {
 func Test_CorsRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of CorsRule via JSON returns original",
@@ -1603,7 +1617,8 @@ func RunPropertyAssignmentTestForCorsRuleStatus(subject CorsRule_Status) string 
 func Test_CorsRule_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of CorsRule_Status via JSON returns original",

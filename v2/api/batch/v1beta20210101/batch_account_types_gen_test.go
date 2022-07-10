@@ -105,7 +105,8 @@ func RunPropertyAssignmentTestForBatchAccount(subject BatchAccount) string {
 func Test_BatchAccount_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of BatchAccount via JSON returns original",
@@ -207,7 +208,8 @@ func RunPropertyAssignmentTestForBatchAccountStatus(subject BatchAccount_Status)
 func Test_BatchAccount_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of BatchAccount_Status via JSON returns original",
@@ -346,7 +348,8 @@ func RunPropertyAssignmentTestForBatchAccountsSpec(subject BatchAccounts_Spec) s
 func Test_BatchAccounts_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of BatchAccounts_Spec via JSON returns original",
@@ -468,7 +471,8 @@ func RunPropertyAssignmentTestForAutoStorageBaseProperties(subject AutoStorageBa
 func Test_AutoStorageBaseProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AutoStorageBaseProperties via JSON returns original",
@@ -564,7 +568,8 @@ func RunPropertyAssignmentTestForAutoStoragePropertiesStatus(subject AutoStorage
 func Test_AutoStorageProperties_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AutoStorageProperties_Status via JSON returns original",
@@ -667,7 +672,8 @@ func RunPropertyAssignmentTestForBatchAccountIdentity(subject BatchAccountIdenti
 func Test_BatchAccountIdentity_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of BatchAccountIdentity via JSON returns original",
@@ -769,7 +775,8 @@ func RunPropertyAssignmentTestForBatchAccountIdentityStatus(subject BatchAccount
 func Test_BatchAccountIdentity_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of BatchAccountIdentity_Status via JSON returns original",
@@ -887,7 +894,8 @@ func RunPropertyAssignmentTestForEncryptionProperties(subject EncryptionProperti
 func Test_EncryptionProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of EncryptionProperties via JSON returns original",
@@ -1003,7 +1011,8 @@ func RunPropertyAssignmentTestForEncryptionPropertiesStatus(subject EncryptionPr
 func Test_EncryptionProperties_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of EncryptionProperties_Status via JSON returns original",
@@ -1119,7 +1128,8 @@ func RunPropertyAssignmentTestForKeyVaultReference(subject KeyVaultReference) st
 func Test_KeyVaultReference_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of KeyVaultReference via JSON returns original",
@@ -1220,7 +1230,8 @@ func RunPropertyAssignmentTestForKeyVaultReferenceStatus(subject KeyVaultReferen
 func Test_KeyVaultReference_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of KeyVaultReference_Status via JSON returns original",
@@ -1323,7 +1334,8 @@ func RunPropertyAssignmentTestForPrivateEndpointConnectionStatus(subject Private
 func Test_PrivateEndpointConnection_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PrivateEndpointConnection_Status via JSON returns original",
@@ -1444,7 +1456,8 @@ func RunPropertyAssignmentTestForVirtualMachineFamilyCoreQuotaStatus(subject Vir
 func Test_VirtualMachineFamilyCoreQuota_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualMachineFamilyCoreQuota_Status via JSON returns original",
@@ -1547,7 +1560,8 @@ func RunPropertyAssignmentTestForBatchAccountIdentityStatusUserAssignedIdentitie
 func Test_BatchAccountIdentity_Status_UserAssignedIdentities_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of BatchAccountIdentity_Status_UserAssignedIdentities via JSON returns original",
@@ -1650,7 +1664,8 @@ func RunPropertyAssignmentTestForKeyVaultProperties(subject KeyVaultProperties) 
 func Test_KeyVaultProperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of KeyVaultProperties via JSON returns original",
@@ -1751,7 +1766,8 @@ func RunPropertyAssignmentTestForKeyVaultPropertiesStatus(subject KeyVaultProper
 func Test_KeyVaultProperties_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of KeyVaultProperties_Status via JSON returns original",
@@ -1853,7 +1869,8 @@ func RunPropertyAssignmentTestForPrivateEndpointStatus(subject PrivateEndpoint_S
 func Test_PrivateEndpoint_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PrivateEndpoint_Status via JSON returns original",
@@ -1955,7 +1972,8 @@ func RunPropertyAssignmentTestForPrivateLinkServiceConnectionStateStatus(subject
 func Test_PrivateLinkServiceConnectionState_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PrivateLinkServiceConnectionState_Status via JSON returns original",

@@ -20,7 +20,8 @@ import (
 func Test_SqlDatabaseContainerUserDefinedFunction_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SqlDatabaseContainerUserDefinedFunction via JSON returns original",
@@ -81,7 +82,8 @@ func AddRelatedPropertyGeneratorsForSqlDatabaseContainerUserDefinedFunction(gens
 func Test_DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DatabaseAccountsSqlDatabasesContainersUserDefinedFunctions_Spec via JSON returns original",
@@ -159,7 +161,8 @@ func AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersUserDe
 func Test_SqlUserDefinedFunctionGetResults_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SqlUserDefinedFunctionGetResults_Status via JSON returns original",
@@ -237,7 +240,8 @@ func AddRelatedPropertyGeneratorsForSqlUserDefinedFunctionGetResultsStatus(gens 
 func Test_SqlUserDefinedFunctionGetProperties_Status_Resource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SqlUserDefinedFunctionGetProperties_Status_Resource via JSON returns original",
@@ -301,7 +305,8 @@ func AddIndependentPropertyGeneratorsForSqlUserDefinedFunctionGetPropertiesStatu
 func Test_SqlUserDefinedFunctionResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SqlUserDefinedFunctionResource via JSON returns original",

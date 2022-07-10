@@ -20,7 +20,8 @@ import (
 func Test_MongoDBCollectionGetResults_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of MongoDBCollectionGetResults_StatusARM via JSON returns original",
@@ -98,7 +99,8 @@ func AddRelatedPropertyGeneratorsForMongoDBCollectionGetResultsStatusARM(gens ma
 func Test_MongoDBCollectionGetProperties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of MongoDBCollectionGetProperties_StatusARM via JSON returns original",
@@ -159,7 +161,8 @@ func AddRelatedPropertyGeneratorsForMongoDBCollectionGetPropertiesStatusARM(gens
 func Test_MongoDBCollectionGetProperties_Status_ResourceARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of MongoDBCollectionGetProperties_Status_ResourceARM via JSON returns original",
@@ -238,7 +241,8 @@ func AddRelatedPropertyGeneratorsForMongoDBCollectionGetPropertiesStatusResource
 func Test_OptionsResource_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of OptionsResource_StatusARM via JSON returns original",
@@ -312,7 +316,8 @@ func AddRelatedPropertyGeneratorsForOptionsResourceStatusARM(gens map[string]gop
 func Test_AutoscaleSettings_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of AutoscaleSettings_StatusARM via JSON returns original",
@@ -372,7 +377,8 @@ func AddIndependentPropertyGeneratorsForAutoscaleSettingsStatusARM(gens map[stri
 func Test_MongoIndex_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of MongoIndex_StatusARM via JSON returns original",
@@ -433,7 +439,8 @@ func AddRelatedPropertyGeneratorsForMongoIndexStatusARM(gens map[string]gopter.G
 func Test_MongoIndexKeys_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of MongoIndexKeys_StatusARM via JSON returns original",
@@ -493,7 +500,8 @@ func AddIndependentPropertyGeneratorsForMongoIndexKeysStatusARM(gens map[string]
 func Test_MongoIndexOptions_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of MongoIndexOptions_StatusARM via JSON returns original",

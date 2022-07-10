@@ -105,7 +105,8 @@ func RunPropertyAssignmentTestForNamespacesQueue(subject NamespacesQueue) string
 func Test_NamespacesQueue_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NamespacesQueue via JSON returns original",
@@ -207,7 +208,8 @@ func RunPropertyAssignmentTestForNamespacesQueuesSpec(subject NamespacesQueues_S
 func Test_NamespacesQueues_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NamespacesQueues_Spec via JSON returns original",
@@ -325,7 +327,8 @@ func RunPropertyAssignmentTestForSBQueueStatus(subject SBQueue_Status) string {
 func Test_SBQueue_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SBQueue_Status via JSON returns original",
@@ -472,7 +475,8 @@ func RunPropertyAssignmentTestForMessageCountDetailsStatus(subject MessageCountD
 func Test_MessageCountDetails_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of MessageCountDetails_Status via JSON returns original",

@@ -20,7 +20,8 @@ import (
 func Test_StorageAccountsBlobServicesContainer_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of StorageAccountsBlobServicesContainer via JSON returns original",
@@ -81,7 +82,8 @@ func AddRelatedPropertyGeneratorsForStorageAccountsBlobServicesContainer(gens ma
 func Test_BlobContainer_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of BlobContainer_Status via JSON returns original",
@@ -174,7 +176,8 @@ func AddRelatedPropertyGeneratorsForBlobContainerStatus(gens map[string]gopter.G
 func Test_StorageAccountsBlobServicesContainers_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of StorageAccountsBlobServicesContainers_Spec via JSON returns original",
@@ -255,7 +258,8 @@ func AddRelatedPropertyGeneratorsForStorageAccountsBlobServicesContainersSpec(ge
 func Test_ImmutabilityPolicyProperties_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ImmutabilityPolicyProperties_Status via JSON returns original",
@@ -332,7 +336,8 @@ func AddRelatedPropertyGeneratorsForImmutabilityPolicyPropertiesStatus(gens map[
 func Test_ImmutableStorageWithVersioning_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ImmutableStorageWithVersioning via JSON returns original",
@@ -392,7 +397,8 @@ func AddIndependentPropertyGeneratorsForImmutableStorageWithVersioning(gens map[
 func Test_ImmutableStorageWithVersioning_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ImmutableStorageWithVersioning_Status via JSON returns original",
@@ -454,7 +460,8 @@ func AddIndependentPropertyGeneratorsForImmutableStorageWithVersioningStatus(gen
 func Test_LegalHoldProperties_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LegalHoldProperties_Status via JSON returns original",
@@ -528,7 +535,8 @@ func AddRelatedPropertyGeneratorsForLegalHoldPropertiesStatus(gens map[string]go
 func Test_TagProperty_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of TagProperty_Status via JSON returns original",
@@ -591,7 +599,8 @@ func AddIndependentPropertyGeneratorsForTagPropertyStatus(gens map[string]gopter
 func Test_UpdateHistoryProperty_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of UpdateHistoryProperty_Status via JSON returns original",

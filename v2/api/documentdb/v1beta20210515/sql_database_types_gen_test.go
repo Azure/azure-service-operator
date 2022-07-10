@@ -105,7 +105,8 @@ func RunPropertyAssignmentTestForSqlDatabase(subject SqlDatabase) string {
 func Test_SqlDatabase_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SqlDatabase via JSON returns original",
@@ -207,7 +208,8 @@ func RunPropertyAssignmentTestForDatabaseAccountsSqlDatabasesSpec(subject Databa
 func Test_DatabaseAccountsSqlDatabases_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DatabaseAccountsSqlDatabases_Spec via JSON returns original",
@@ -326,7 +328,8 @@ func RunPropertyAssignmentTestForSqlDatabaseGetResultsStatus(subject SqlDatabase
 func Test_SqlDatabaseGetResults_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SqlDatabaseGetResults_Status via JSON returns original",
@@ -447,7 +450,8 @@ func RunPropertyAssignmentTestForSqlDatabaseGetPropertiesStatusResource(subject 
 func Test_SqlDatabaseGetProperties_Status_Resource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SqlDatabaseGetProperties_Status_Resource via JSON returns original",
@@ -554,7 +558,8 @@ func RunPropertyAssignmentTestForSqlDatabaseResource(subject SqlDatabaseResource
 func Test_SqlDatabaseResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SqlDatabaseResource via JSON returns original",
