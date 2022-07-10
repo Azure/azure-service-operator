@@ -66,7 +66,7 @@ func (schedule *RedisPatchSchedule) ConvertTo(hub conversion.Hub) error {
 	return schedule.AssignPropertiesToRedisPatchSchedule(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-cache-azure-com-v1beta20201201-redispatchschedule,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cache.azure.com,resources=redispatchschedules,verbs=create;update,versions=v1beta20201201,name=default.v1beta20201201.redispatchschedules.cache.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-cache-azure-com-v1beta20201201-redispatchschedule,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cache.azure.com,resources=redispatchschedules,verbs=create;update,versions=v1beta20201201,name=default.v1beta20201201.redispatchschedules.cache.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &RedisPatchSchedule{}
 
@@ -148,7 +148,7 @@ func (schedule *RedisPatchSchedule) SetStatus(status genruntime.ConvertibleStatu
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-cache-azure-com-v1beta20201201-redispatchschedule,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cache.azure.com,resources=redispatchschedules,verbs=create;update,versions=v1beta20201201,name=validate.v1beta20201201.redispatchschedules.cache.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-cache-azure-com-v1beta20201201-redispatchschedule,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cache.azure.com,resources=redispatchschedules,verbs=create;update,versions=v1beta20201201,name=validate.v1beta20201201.redispatchschedules.cache.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &RedisPatchSchedule{}
 

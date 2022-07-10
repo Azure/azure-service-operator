@@ -105,7 +105,8 @@ func RunPropertyAssignmentTestForRoleAssignment(subject RoleAssignment) string {
 func Test_RoleAssignment_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RoleAssignment via JSON returns original",
@@ -207,7 +208,8 @@ func RunPropertyAssignmentTestForRoleAssignmentStatus(subject RoleAssignment_Sta
 func Test_RoleAssignment_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RoleAssignment_Status via JSON returns original",
@@ -327,7 +329,8 @@ func RunPropertyAssignmentTestForRoleAssignmentsSpec(subject RoleAssignments_Spe
 func Test_RoleAssignments_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RoleAssignments_Spec via JSON returns original",

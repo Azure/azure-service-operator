@@ -20,7 +20,8 @@ import (
 func Test_PublicIPAddress_Status_PublicIPAddress_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PublicIPAddress_Status_PublicIPAddress_SubResourceEmbeddedARM via JSON returns original",
@@ -102,7 +103,8 @@ func AddRelatedPropertyGeneratorsForPublicIPAddressStatusPublicIPAddressSubResou
 func Test_PublicIPAddressPropertiesFormat_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PublicIPAddressPropertiesFormat_StatusARM via JSON returns original",
@@ -196,7 +198,8 @@ func AddRelatedPropertyGeneratorsForPublicIPAddressPropertiesFormatStatusARM(gen
 func Test_PublicIPAddressSku_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PublicIPAddressSku_StatusARM via JSON returns original",
@@ -257,7 +260,8 @@ func AddIndependentPropertyGeneratorsForPublicIPAddressSkuStatusARM(gens map[str
 func Test_DdosSettings_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DdosSettings_StatusARM via JSON returns original",
@@ -332,7 +336,8 @@ func AddRelatedPropertyGeneratorsForDdosSettingsStatusARM(gens map[string]gopter
 func Test_IPConfiguration_Status_PublicIPAddress_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of IPConfiguration_Status_PublicIPAddress_SubResourceEmbeddedARM via JSON returns original",
@@ -408,7 +413,8 @@ func AddRelatedPropertyGeneratorsForIPConfigurationStatusPublicIPAddressSubResou
 func Test_IpTag_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of IpTag_StatusARM via JSON returns original",
@@ -468,7 +474,8 @@ func AddIndependentPropertyGeneratorsForIpTagStatusARM(gens map[string]gopter.Ge
 func Test_NatGateway_Status_PublicIPAddress_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NatGateway_Status_PublicIPAddress_SubResourceEmbeddedARM via JSON returns original",
@@ -543,7 +550,8 @@ func AddRelatedPropertyGeneratorsForNatGatewayStatusPublicIPAddressSubResourceEm
 func Test_PublicIPAddressDnsSettings_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PublicIPAddressDnsSettings_StatusARM via JSON returns original",
@@ -605,7 +613,8 @@ func AddIndependentPropertyGeneratorsForPublicIPAddressDnsSettingsStatusARM(gens
 func Test_IPConfigurationPropertiesFormat_Status_PublicIPAddress_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of IPConfigurationPropertiesFormat_Status_PublicIPAddress_SubResourceEmbeddedARM via JSON returns original",
@@ -685,7 +694,8 @@ func AddRelatedPropertyGeneratorsForIPConfigurationPropertiesFormatStatusPublicI
 func Test_NatGatewaySku_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NatGatewaySku_StatusARM via JSON returns original",
@@ -745,7 +755,8 @@ func AddIndependentPropertyGeneratorsForNatGatewaySkuStatusARM(gens map[string]g
 func Test_Subnet_Status_PublicIPAddress_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Subnet_Status_PublicIPAddress_SubResourceEmbeddedARM via JSON returns original",

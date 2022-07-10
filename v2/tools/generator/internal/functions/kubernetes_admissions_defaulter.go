@@ -69,7 +69,7 @@ func (d *DefaulterBuilder) ToInterfaceImplementation() *astmodel.InterfaceImplem
 	annotation := fmt.Sprintf(
 		"+kubebuilder:webhook:path=%s,mutating=true,sideEffects=None,"+
 			"matchPolicy=Exact,failurePolicy=fail,groups=%s,resources=%s,"+
-			"verbs=create;update,versions=%s,name=%s,admissionReviewVersions=v1beta1",
+			"verbs=create;update,versions=%s,name=%s,admissionReviewVersions=v1",
 		path,
 		group,
 		resource,

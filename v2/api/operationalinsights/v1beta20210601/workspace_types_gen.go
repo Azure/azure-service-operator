@@ -67,7 +67,7 @@ func (workspace *Workspace) ConvertTo(hub conversion.Hub) error {
 	return workspace.AssignPropertiesToWorkspace(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-operationalinsights-azure-com-v1beta20210601-workspace,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=operationalinsights.azure.com,resources=workspaces,verbs=create;update,versions=v1beta20210601,name=default.v1beta20210601.workspaces.operationalinsights.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-operationalinsights-azure-com-v1beta20210601-workspace,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=operationalinsights.azure.com,resources=workspaces,verbs=create;update,versions=v1beta20210601,name=default.v1beta20210601.workspaces.operationalinsights.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &Workspace{}
 
@@ -156,7 +156,7 @@ func (workspace *Workspace) SetStatus(status genruntime.ConvertibleStatus) error
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-operationalinsights-azure-com-v1beta20210601-workspace,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=operationalinsights.azure.com,resources=workspaces,verbs=create;update,versions=v1beta20210601,name=validate.v1beta20210601.workspaces.operationalinsights.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-operationalinsights-azure-com-v1beta20210601-workspace,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=operationalinsights.azure.com,resources=workspaces,verbs=create;update,versions=v1beta20210601,name=validate.v1beta20210601.workspaces.operationalinsights.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &Workspace{}
 

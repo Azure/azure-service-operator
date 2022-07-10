@@ -66,7 +66,7 @@ func (redis *Redis) ConvertTo(hub conversion.Hub) error {
 	return redis.AssignPropertiesToRedis(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-cache-azure-com-v1beta20201201-redis,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cache.azure.com,resources=redis,verbs=create;update,versions=v1beta20201201,name=default.v1beta20201201.redis.cache.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-cache-azure-com-v1beta20201201-redis,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cache.azure.com,resources=redis,verbs=create;update,versions=v1beta20201201,name=default.v1beta20201201.redis.cache.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &Redis{}
 
@@ -155,7 +155,7 @@ func (redis *Redis) SetStatus(status genruntime.ConvertibleStatus) error {
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-cache-azure-com-v1beta20201201-redis,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cache.azure.com,resources=redis,verbs=create;update,versions=v1beta20201201,name=validate.v1beta20201201.redis.cache.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-cache-azure-com-v1beta20201201-redis,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cache.azure.com,resources=redis,verbs=create;update,versions=v1beta20201201,name=validate.v1beta20201201.redis.cache.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &Redis{}
 

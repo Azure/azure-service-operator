@@ -218,3 +218,13 @@ func (typeName TypeName) WriteDebugDescription(builder *strings.Builder, current
 func (typeName TypeName) IsEmpty() bool {
 	return typeName == EmptyTypeName
 }
+
+// IsSpec returns true if the type name specifies a spec
+func IsSpec(name TypeName) bool {
+	return strings.HasSuffix(name.Name(), "_Spec")
+}
+
+// IsStatus returns true if the type name specifies a status
+func IsStatus(name TypeName) bool {
+	return strings.HasSuffix(name.Name(), "_Status")
+}

@@ -80,7 +80,7 @@ func (queue *NamespacesQueue) ConvertTo(hub conversion.Hub) error {
 	return nil
 }
 
-// +kubebuilder:webhook:path=/mutate-servicebus-azure-com-v1alpha1api20210101preview-namespacesqueue,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=servicebus.azure.com,resources=namespacesqueues,verbs=create;update,versions=v1alpha1api20210101preview,name=default.v1alpha1api20210101preview.namespacesqueues.servicebus.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-servicebus-azure-com-v1alpha1api20210101preview-namespacesqueue,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=servicebus.azure.com,resources=namespacesqueues,verbs=create;update,versions=v1alpha1api20210101preview,name=default.v1alpha1api20210101preview.namespacesqueues.servicebus.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &NamespacesQueue{}
 
@@ -169,7 +169,7 @@ func (queue *NamespacesQueue) SetStatus(status genruntime.ConvertibleStatus) err
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-servicebus-azure-com-v1alpha1api20210101preview-namespacesqueue,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=servicebus.azure.com,resources=namespacesqueues,verbs=create;update,versions=v1alpha1api20210101preview,name=validate.v1alpha1api20210101preview.namespacesqueues.servicebus.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-servicebus-azure-com-v1alpha1api20210101preview-namespacesqueue,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=servicebus.azure.com,resources=namespacesqueues,verbs=create;update,versions=v1alpha1api20210101preview,name=validate.v1alpha1api20210101preview.namespacesqueues.servicebus.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &NamespacesQueue{}
 

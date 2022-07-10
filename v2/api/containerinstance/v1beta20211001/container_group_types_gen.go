@@ -67,7 +67,7 @@ func (group *ContainerGroup) ConvertTo(hub conversion.Hub) error {
 	return group.AssignPropertiesToContainerGroup(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-containerinstance-azure-com-v1beta20211001-containergroup,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerinstance.azure.com,resources=containergroups,verbs=create;update,versions=v1beta20211001,name=default.v1beta20211001.containergroups.containerinstance.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-containerinstance-azure-com-v1beta20211001-containergroup,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerinstance.azure.com,resources=containergroups,verbs=create;update,versions=v1beta20211001,name=default.v1beta20211001.containergroups.containerinstance.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &ContainerGroup{}
 
@@ -156,7 +156,7 @@ func (group *ContainerGroup) SetStatus(status genruntime.ConvertibleStatus) erro
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-containerinstance-azure-com-v1beta20211001-containergroup,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerinstance.azure.com,resources=containergroups,verbs=create;update,versions=v1beta20211001,name=validate.v1beta20211001.containergroups.containerinstance.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-containerinstance-azure-com-v1beta20211001-containergroup,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerinstance.azure.com,resources=containergroups,verbs=create;update,versions=v1beta20211001,name=validate.v1beta20211001.containergroups.containerinstance.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &ContainerGroup{}
 

@@ -106,7 +106,8 @@ func RunPropertyAssignmentTestForStorageAccountsQueueServicesQueue(subject Stora
 func Test_StorageAccountsQueueServicesQueue_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of StorageAccountsQueueServicesQueue via JSON returns original",
@@ -209,7 +210,8 @@ func RunPropertyAssignmentTestForStorageAccountsQueueServicesQueuesSpec(subject 
 func Test_StorageAccountsQueueServicesQueues_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of StorageAccountsQueueServicesQueues_Spec via JSON returns original",
@@ -314,7 +316,8 @@ func RunPropertyAssignmentTestForStorageQueueStatus(subject StorageQueue_Status)
 func Test_StorageQueue_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of StorageQueue_Status via JSON returns original",

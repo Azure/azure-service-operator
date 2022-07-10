@@ -80,7 +80,7 @@ func (server *RedisLinkedServer) ConvertTo(hub conversion.Hub) error {
 	return nil
 }
 
-// +kubebuilder:webhook:path=/mutate-cache-azure-com-v1alpha1api20201201-redislinkedserver,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cache.azure.com,resources=redislinkedservers,verbs=create;update,versions=v1alpha1api20201201,name=default.v1alpha1api20201201.redislinkedservers.cache.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-cache-azure-com-v1alpha1api20201201-redislinkedserver,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cache.azure.com,resources=redislinkedservers,verbs=create;update,versions=v1alpha1api20201201,name=default.v1alpha1api20201201.redislinkedservers.cache.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &RedisLinkedServer{}
 
@@ -169,7 +169,7 @@ func (server *RedisLinkedServer) SetStatus(status genruntime.ConvertibleStatus) 
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-cache-azure-com-v1alpha1api20201201-redislinkedserver,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cache.azure.com,resources=redislinkedservers,verbs=create;update,versions=v1alpha1api20201201,name=validate.v1alpha1api20201201.redislinkedservers.cache.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-cache-azure-com-v1alpha1api20201201-redislinkedserver,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cache.azure.com,resources=redislinkedservers,verbs=create;update,versions=v1alpha1api20201201,name=validate.v1alpha1api20201201.redislinkedservers.cache.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &RedisLinkedServer{}
 
