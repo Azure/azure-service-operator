@@ -3,10 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210501
 
-import (
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-)
+import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type FlexibleServers_SpecARM struct {
 	// Identity: Properties to configure Identity for Bring your Own Keys
@@ -49,9 +46,6 @@ func (servers *FlexibleServers_SpecARM) GetType() string {
 type IdentityARM struct {
 	// Type: Type of managed service identity.
 	Type *IdentityType `json:"type,omitempty"`
-
-	// UserAssignedIdentities: Metadata of user assigned identity.
-	UserAssignedIdentities map[string]v1.JSON `json:"userAssignedIdentities,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/ServerProperties

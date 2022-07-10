@@ -3,10 +3,7 @@
 // Licensed under the MIT license.
 package v1alpha1api20210501
 
-import (
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-)
+import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 // Deprecated version of FlexibleServers_Spec. Use v1beta20210501.FlexibleServers_Spec instead
 type FlexibleServers_SpecARM struct {
@@ -37,8 +34,7 @@ func (servers *FlexibleServers_SpecARM) GetType() string {
 
 // Deprecated version of Identity. Use v1beta20210501.Identity instead
 type IdentityARM struct {
-	Type                   *IdentityType      `json:"type,omitempty"`
-	UserAssignedIdentities map[string]v1.JSON `json:"userAssignedIdentities,omitempty"`
+	Type *IdentityType `json:"type,omitempty"`
 }
 
 // Deprecated version of ServerProperties. Use v1beta20210501.ServerProperties instead
