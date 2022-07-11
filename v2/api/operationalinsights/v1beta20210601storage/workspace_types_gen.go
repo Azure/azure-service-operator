@@ -188,7 +188,7 @@ type Workspaces_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName        string             `json:"azureName,omitempty"`
-	ETag             *string            `json:"eTag,omitempty"`
+	Etag             *string            `json:"etag,omitempty"`
 	Features         *WorkspaceFeatures `json:"features,omitempty"`
 	ForceCmkForQuery *bool              `json:"forceCmkForQuery,omitempty"`
 	Location         *string            `json:"location,omitempty"`

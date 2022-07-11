@@ -138,9 +138,6 @@ func RunJSONSerializationTestForProfilePropertiesARM(subject ProfilePropertiesAR
 var profilePropertiesARMGenerator gopter.Gen
 
 // ProfilePropertiesARMGenerator returns a generator of ProfilePropertiesARM instances for property testing.
-// We first initialize profilePropertiesARMGenerator with a simplified generator based on the
-// fields with primitive types then replacing it with a more complex one that also handles complex fields
-// to ensure any cycles in the object graph properly terminate.
 func ProfilePropertiesARMGenerator() gopter.Gen {
 	if profilePropertiesARMGenerator != nil {
 		return profilePropertiesARMGenerator
@@ -150,23 +147,12 @@ func ProfilePropertiesARMGenerator() gopter.Gen {
 	AddIndependentPropertyGeneratorsForProfilePropertiesARM(generators)
 	profilePropertiesARMGenerator = gen.Struct(reflect.TypeOf(ProfilePropertiesARM{}), generators)
 
-	// The above call to gen.Struct() captures the map, so create a new one
-	generators = make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForProfilePropertiesARM(generators)
-	AddRelatedPropertyGeneratorsForProfilePropertiesARM(generators)
-	profilePropertiesARMGenerator = gen.Struct(reflect.TypeOf(ProfilePropertiesARM{}), generators)
-
 	return profilePropertiesARMGenerator
 }
 
 // AddIndependentPropertyGeneratorsForProfilePropertiesARM is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForProfilePropertiesARM(gens map[string]gopter.Gen) {
 	gens["OriginResponseTimeoutSeconds"] = gen.PtrOf(gen.Int())
-}
-
-// AddRelatedPropertyGeneratorsForProfilePropertiesARM is a factory method for creating gopter generators
-func AddRelatedPropertyGeneratorsForProfilePropertiesARM(gens map[string]gopter.Gen) {
-	gens["Identity"] = gen.PtrOf(ManagedServiceIdentityARMGenerator())
 }
 
 func Test_SkuARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
@@ -240,69 +226,4 @@ func AddIndependentPropertyGeneratorsForSkuARM(gens map[string]gopter.Gen) {
 		SkuNameStandardPlusAvgBandWidthChinaCdn,
 		SkuNameStandardPlusChinaCdn,
 		SkuNameStandardVerizon))
-}
-
-func Test_ManagedServiceIdentityARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ManagedServiceIdentityARM via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForManagedServiceIdentityARM, ManagedServiceIdentityARMGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForManagedServiceIdentityARM runs a test to see if a specific instance of ManagedServiceIdentityARM round trips to JSON and back losslessly
-func RunJSONSerializationTestForManagedServiceIdentityARM(subject ManagedServiceIdentityARM) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ManagedServiceIdentityARM
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ManagedServiceIdentityARM instances for property testing - lazily instantiated by
-// ManagedServiceIdentityARMGenerator()
-var managedServiceIdentityARMGenerator gopter.Gen
-
-// ManagedServiceIdentityARMGenerator returns a generator of ManagedServiceIdentityARM instances for property testing.
-func ManagedServiceIdentityARMGenerator() gopter.Gen {
-	if managedServiceIdentityARMGenerator != nil {
-		return managedServiceIdentityARMGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForManagedServiceIdentityARM(generators)
-	managedServiceIdentityARMGenerator = gen.Struct(reflect.TypeOf(ManagedServiceIdentityARM{}), generators)
-
-	return managedServiceIdentityARMGenerator
-}
-
-// AddIndependentPropertyGeneratorsForManagedServiceIdentityARM is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForManagedServiceIdentityARM(gens map[string]gopter.Gen) {
-	gens["Type"] = gen.PtrOf(gen.OneConstOf(
-		ManagedServiceIdentityTypeNone,
-		ManagedServiceIdentityTypeSystemAssigned,
-		ManagedServiceIdentityTypeSystemAssignedUserAssigned,
-		ManagedServiceIdentityTypeUserAssigned))
 }
