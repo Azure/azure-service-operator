@@ -24,11 +24,18 @@ rm "$DIR"charts/azure-service-operator/templates/generated/*_namespace_* # remov
 grep -E $KUBE_RBAC_PROXY "$DIR"charts/azure-service-operator/templates/generated/*_deployment_* > /dev/null # Ensure that what we're about to try to replace actually exists (if it doesn't we want to fail)
 sed -i "s@$KUBE_RBAC_PROXY.*@{{.Values.image.kubeRBACProxy}}@g" "$DIR"charts/azure-service-operator/templates/generated/*_deployment_*
 sed -i "s@$LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE@{{.Values.image.repository}}@g" "$DIR"charts/azure-service-operator/templates/generated/*_deployment_* # Replace hardcoded ASO image
-sed -i '/metrics-addr/i \  \ {{if .Values.metrics.enable}}' "$DIR"charts/azure-service-operator/templates/generated/*_deployment_* # Add metrics flow control
-sed -i "1,/metrics-addr=.*/s/\(metrics-addr=\)\(.*\)/\1{{.Values.metrics.address | default \"127.0.0.1:8080\" }}/g" "$DIR"charts/azure-service-operator/templates/generated/*_deployment_*
-sed -i '/metrics-addr/a \  \ {{ end }}' "$DIR"charts/azure-service-operator/templates/generated/*_deployment_* # End metrics flow control
-sed -i ':a;$!{N;ba};s/\(metadata:\)/\1\n  \  \  annotations:\n  {{ toYaml .Values.podAnnotations | indent 6 }}/2' "$DIR"charts/azure-service-operator/templates/generated/*_deployment_* # Add pod annotations
+sed -i '/default-logs-container: manager/a \  \ {{ toYaml .Values.podAnnotations | indent 6 }}' "$DIR"charts/azure-service-operator/templates/generated/*_deployment_* # Add pod annotations
 sed -i "s/\(version: \)\(.*\)/\1$VERSION/g" "$DIR"charts/azure-service-operator/Chart.yaml  # find version key and update the value with the current version for both main and subchart
+
+# Metrics Configuration
+sed -i '/metrics-addr/i \  \ {{if .Values.metrics.enable}}' "$DIR"charts/azure-service-operator/templates/generated/*_deployment_* # Add metrics flow control
+sed -i "1,/metrics-addr=.*/s/\(metrics-addr=\)\(.*\)/\1{{ printf \":%s\" .Values.metrics.port | default \":8080\"}}/g" "$DIR"charts/azure-service-operator/templates/generated/*_deployment_*
+sed -i '/metrics-addr/a \  \ {{ end }}' "$DIR"charts/azure-service-operator/templates/generated/*_deployment_* # End metrics flow control
+sed -i 's/containerPort: 8080/containerPort: {{.Values.metrics.port | default 8080 }}/g' "$DIR"charts/azure-service-operator/templates/generated/*_deployment_*
+sed -i '1 i {{- if .Values.metrics.enable -}}' "$DIR"charts/azure-service-operator/templates/generated/*controller-manager-metrics-service*
+sed -i 's/port: 8080/port: {{.Values.metrics.port | default 8080 }}/g' "$DIR"charts/azure-service-operator/templates/generated/*controller-manager-metrics-service*
+sed -i -e '$a{{- end }}' "$DIR"charts/azure-service-operator/templates/generated/*controller-manager-metrics-service*
+
 
 # Azure-Service-Operator-crds actions
 # We had to split charts here here as with a single chart, we were running into the max size issue with helm

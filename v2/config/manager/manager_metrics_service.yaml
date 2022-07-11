@@ -3,12 +3,11 @@ kind: Service
 metadata:
   labels:
     control-plane: controller-manager
-  name: proxy-service
+  name: controller-manager-metrics-service
   namespace: system
 spec:
   ports:
-  - name: https
-    port: 8443
-    targetPort: https
+    - name: https
+      port: 8080
   selector:
     control-plane: controller-manager
