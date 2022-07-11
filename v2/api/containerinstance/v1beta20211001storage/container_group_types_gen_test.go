@@ -806,7 +806,8 @@ func AddRelatedPropertyGeneratorsForContainerGroupsSpecPropertiesContainers(gens
 func Test_ContainerGroups_Spec_Properties_ImageRegistryCredentials_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ContainerGroups_Spec_Properties_ImageRegistryCredentials via JSON returns original",
@@ -1275,70 +1276,6 @@ func AddIndependentPropertyGeneratorsForEncryptionPropertiesStatus(gens map[stri
 	gens["KeyName"] = gen.PtrOf(gen.AlphaString())
 	gens["KeyVersion"] = gen.PtrOf(gen.AlphaString())
 	gens["VaultBaseUrl"] = gen.PtrOf(gen.AlphaString())
-}
-
-func Test_ImageRegistryCredential_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
-	t.Parallel()
-	parameters := gopter.DefaultTestParameters()
-	parameters.MinSuccessfulTests = 100
-	parameters.MaxSize = 3
-	properties := gopter.NewProperties(parameters)
-	properties.Property(
-		"Round trip of ImageRegistryCredential via JSON returns original",
-		prop.ForAll(RunJSONSerializationTestForImageRegistryCredential, ImageRegistryCredentialGenerator()))
-	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
-}
-
-// RunJSONSerializationTestForImageRegistryCredential runs a test to see if a specific instance of ImageRegistryCredential round trips to JSON and back losslessly
-func RunJSONSerializationTestForImageRegistryCredential(subject ImageRegistryCredential) string {
-	// Serialize to JSON
-	bin, err := json.Marshal(subject)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Deserialize back into memory
-	var actual ImageRegistryCredential
-	err = json.Unmarshal(bin, &actual)
-	if err != nil {
-		return err.Error()
-	}
-
-	// Check for outcome
-	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
-	if !match {
-		actualFmt := pretty.Sprint(actual)
-		subjectFmt := pretty.Sprint(subject)
-		result := diff.Diff(subjectFmt, actualFmt)
-		return result
-	}
-
-	return ""
-}
-
-// Generator of ImageRegistryCredential instances for property testing - lazily instantiated by
-// ImageRegistryCredentialGenerator()
-var imageRegistryCredentialGenerator gopter.Gen
-
-// ImageRegistryCredentialGenerator returns a generator of ImageRegistryCredential instances for property testing.
-func ImageRegistryCredentialGenerator() gopter.Gen {
-	if imageRegistryCredentialGenerator != nil {
-		return imageRegistryCredentialGenerator
-	}
-
-	generators := make(map[string]gopter.Gen)
-	AddIndependentPropertyGeneratorsForImageRegistryCredential(generators)
-	imageRegistryCredentialGenerator = gen.Struct(reflect.TypeOf(ImageRegistryCredential{}), generators)
-
-	return imageRegistryCredentialGenerator
-}
-
-// AddIndependentPropertyGeneratorsForImageRegistryCredential is a factory method for creating gopter generators
-func AddIndependentPropertyGeneratorsForImageRegistryCredential(gens map[string]gopter.Gen) {
-	gens["Identity"] = gen.PtrOf(gen.AlphaString())
-	gens["IdentityUrl"] = gen.PtrOf(gen.AlphaString())
-	gens["Server"] = gen.PtrOf(gen.AlphaString())
-	gens["Username"] = gen.PtrOf(gen.AlphaString())
 }
 
 func Test_ImageRegistryCredential_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {

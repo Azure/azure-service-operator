@@ -99,7 +99,8 @@ func AddRelatedPropertyGeneratorsForFlexibleServersSpecARM(gens map[string]gopte
 func Test_IdentityARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of IdentityARM via JSON returns original",
@@ -371,7 +372,8 @@ func AddIndependentPropertyGeneratorsForBackupARM(gens map[string]gopter.Gen) {
 func Test_DataEncryptionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DataEncryptionARM via JSON returns original",
