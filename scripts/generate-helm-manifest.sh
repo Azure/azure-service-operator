@@ -29,11 +29,11 @@ sed -i "s/\(version: \)\(.*\)/\1$VERSION/g" "$DIR"charts/azure-service-operator/
 
 # Metrics Configuration
 sed -i '/metrics-addr/i \  \ {{if .Values.metrics.enable}}' "$DIR"charts/azure-service-operator/templates/generated/*_deployment_* # Add metrics flow control
-sed -i "1,/metrics-addr=.*/s/\(metrics-addr=\)\(.*\)/\1{{ printf \":%s\" .Values.metrics.port | default \":8080\"}}/g" "$DIR"charts/azure-service-operator/templates/generated/*_deployment_*
+sed -i "1,/metrics-addr=.*/s/\(metrics-addr=\)\(.*\)/\1{{ tpl .Values.metrics.address . }}/g" "$DIR"charts/azure-service-operator/templates/generated/*_deployment_*
 sed -i '/metrics-addr/a \  \ {{ end }}' "$DIR"charts/azure-service-operator/templates/generated/*_deployment_* # End metrics flow control
-sed -i 's/containerPort: 8080/containerPort: {{.Values.metrics.port | default 8080 }}/g' "$DIR"charts/azure-service-operator/templates/generated/*_deployment_*
+sed -i 's/containerPort: 8080/containerPort: {{ .Values.metrics.port | default 8080 }}/g' "$DIR"charts/azure-service-operator/templates/generated/*_deployment_*
 sed -i '1 i {{- if .Values.metrics.enable -}}' "$DIR"charts/azure-service-operator/templates/generated/*controller-manager-metrics-service*
-sed -i 's/port: 8080/port: {{.Values.metrics.port | default 8080 }}/g' "$DIR"charts/azure-service-operator/templates/generated/*controller-manager-metrics-service*
+sed -i 's/port: 8080/port: {{ .Values.metrics.port | default 8080 }}/g' "$DIR"charts/azure-service-operator/templates/generated/*controller-manager-metrics-service*
 sed -i -e '$a{{- end }}' "$DIR"charts/azure-service-operator/templates/generated/*controller-manager-metrics-service*
 
 # Azure-Service-Operator-crds actions
