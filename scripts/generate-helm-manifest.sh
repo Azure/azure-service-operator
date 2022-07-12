@@ -24,7 +24,7 @@ rm "$DIR"charts/azure-service-operator/templates/generated/*_namespace_* # remov
 grep -E $KUBE_RBAC_PROXY "$DIR"charts/azure-service-operator/templates/generated/*_deployment_* > /dev/null # Ensure that what we're about to try to replace actually exists (if it doesn't we want to fail)
 sed -i "s@$KUBE_RBAC_PROXY.*@{{.Values.image.kubeRBACProxy}}@g" "$DIR"charts/azure-service-operator/templates/generated/*_deployment_*
 sed -i "s@$LOCAL_REGISTRY_CONTROLLER_DOCKER_IMAGE@{{.Values.image.repository}}@g" "$DIR"charts/azure-service-operator/templates/generated/*_deployment_* # Replace hardcoded ASO image
-sed -i '/default-logs-container: manager/a \  \ {{ toYaml .Values.podAnnotations | indent 6 }}' "$DIR"charts/azure-service-operator/templates/generated/*_deployment_* # Add pod annotations
+sed -i '/default-logs-container: manager/a \  \ {{- if .Values.podAnnotations }}\n \  \ {{ toYaml .Values.podAnnotations | indent 6 }}\n \  \ {{- end }}' "$DIR"charts/azure-service-operator/templates/generated/*_deployment_* # Add pod annotations
 sed -i "s/\(version: \)\(.*\)/\1$VERSION/g" "$DIR"charts/azure-service-operator/Chart.yaml  # find version key and update the value with the current version for both main and subchart
 
 # Metrics Configuration
