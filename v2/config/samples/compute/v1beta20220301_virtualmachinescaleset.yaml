@@ -1,0 +1,46 @@
+apiVersion: compute.azure.com/v1beta20220301
+kind: VirtualMachineScaleSet
+metadata:
+  name: samplevmss
+  namespace: default
+spec:
+  location: westcentralus
+  owner:
+    name: aso-sample-rg
+  sku:
+    name: standard_d1_v2
+    capacity: 1
+  platformFaultDomainCount: 3
+  singlePlacementGroup: false
+  upgradePolicy:
+    mode: Automatic
+  virtualMachineProfile:
+    storageProfile:
+      imageReference:
+        publisher: Canonical
+        offer: UbuntuServer
+        sku: 18.04-lts
+        version: latest
+    osProfile:
+      computerNamePrefix: computer
+      adminUsername: adminUser
+      linuxConfiguration:
+        disablePasswordAuthentication: true
+        ssh:
+          publicKeys:
+            - keyData: ssh-rsa AAAAB  # Specify your SSH public key here
+              path: /home/adminUser/.ssh/authorized_keys
+    networkProfile:
+      networkInterfaceConfigurations:
+        - name: samplenicconfig
+          primary: true
+          ipConfigurations:
+            - name: sampleipconfiguration
+              subnet:
+                reference:
+                  group: network.azure.com
+                  kind: VirtualNetworksSubnet
+                  name: samplesubnet
+              loadBalancerInboundNatPools:
+                - reference:
+                    armId: /subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/aso-sample-rg/providers/Microsoft.Network/loadBalancers/sampleloadbalancer/inboundNatPools/samplenatpool
