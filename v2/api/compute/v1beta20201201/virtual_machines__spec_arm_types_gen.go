@@ -3,10 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20201201
 
-import (
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-)
+import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type VirtualMachines_SpecARM struct {
 	// ExtendedLocation: The complex type of the extended location.
@@ -60,11 +57,6 @@ type VirtualMachineIdentityARM struct {
 	// implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the
 	// virtual machine.
 	Type *VirtualMachineIdentityType `json:"type,omitempty"`
-
-	// UserAssignedIdentities: The list of user identities associated with the Virtual Machine. The user identity dictionary
-	// key references will be ARM resource ids in the form:
-	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-	UserAssignedIdentities map[string]v1.JSON `json:"userAssignedIdentities,omitempty"`
 }
 
 type VirtualMachines_Spec_PropertiesARM struct {

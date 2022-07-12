@@ -39,6 +39,8 @@ import (
 	compute_v20201201s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201storage"
 	compute_v20210701 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20210701"
 	compute_v20210701s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20210701storage"
+	compute_v20220301 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301"
+	compute_v20220301s "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20220301storage"
 	containerinstance_customizations "github.com/Azure/azure-service-operator/v2/api/containerinstance/customizations"
 	containerinstance_v20211001 "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1beta20211001"
 	containerinstance_v20211001s "github.com/Azure/azure-service-operator/v2/api/containerinstance/v1beta20211001storage"
@@ -174,7 +176,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Obj: new(compute_v20200930s.Snapshot),
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(compute_v20201201s.VirtualMachine),
+		Obj:     new(compute_v20220301s.Image),
+		Indexes: []registration.Index{},
+		Watches: []registration.Watch{},
+	})
+	result = append(result, &registration.StorageType{
+		Obj: new(compute_v20220301s.VirtualMachine),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.osProfile.adminPassword",
@@ -184,12 +191,12 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{
 			{
 				Src:              &source.Kind{Type: &v1.Secret{}},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.osProfile.adminPassword"}, &compute_v20201201s.VirtualMachineList{}),
+				MakeEventHandler: watchSecretsFactory([]string{".spec.osProfile.adminPassword"}, &compute_v20220301s.VirtualMachineList{}),
 			},
 		},
 	})
 	result = append(result, &registration.StorageType{
-		Obj: new(compute_v20201201s.VirtualMachineScaleSet),
+		Obj: new(compute_v20220301s.VirtualMachineScaleSet),
 		Indexes: []registration.Index{
 			{
 				Key:  ".spec.virtualMachineProfile.osProfile.adminPassword",
@@ -199,7 +206,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Watches: []registration.Watch{
 			{
 				Src:              &source.Kind{Type: &v1.Secret{}},
-				MakeEventHandler: watchSecretsFactory([]string{".spec.virtualMachineProfile.osProfile.adminPassword"}, &compute_v20201201s.VirtualMachineScaleSetList{}),
+				MakeEventHandler: watchSecretsFactory([]string{".spec.virtualMachineProfile.osProfile.adminPassword"}, &compute_v20220301s.VirtualMachineScaleSetList{}),
 			},
 		},
 	})
@@ -526,6 +533,12 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(compute_v20201201s.VirtualMachine), new(compute_v20201201s.VirtualMachineScaleSet))
 	result = append(result, new(compute_v20210701.Image))
 	result = append(result, new(compute_v20210701s.Image))
+	result = append(result, new(compute_v20220301.Image))
+	result = append(result, new(compute_v20220301.VirtualMachine))
+	result = append(result, new(compute_v20220301.VirtualMachineScaleSet))
+	result = append(result, new(compute_v20220301s.Image))
+	result = append(result, new(compute_v20220301s.VirtualMachine))
+	result = append(result, new(compute_v20220301s.VirtualMachineScaleSet))
 	result = append(result, new(containerinstance_v20211001.ContainerGroup))
 	result = append(result, new(containerinstance_v20211001s.ContainerGroup))
 	result = append(result, new(containerregistry_alpha20210901.Registry))
@@ -867,6 +880,8 @@ func createScheme() *runtime.Scheme {
 	_ = compute_v20201201s.AddToScheme(scheme)
 	_ = compute_v20210701.AddToScheme(scheme)
 	_ = compute_v20210701s.AddToScheme(scheme)
+	_ = compute_v20220301.AddToScheme(scheme)
+	_ = compute_v20220301s.AddToScheme(scheme)
 	_ = containerinstance_v20211001.AddToScheme(scheme)
 	_ = containerinstance_v20211001s.AddToScheme(scheme)
 	_ = containerregistry_alpha20210901.AddToScheme(scheme)
@@ -1023,9 +1038,9 @@ func getResourceExtensions() []genruntime.ResourceExtension {
 	return result
 }
 
-// indexComputeVirtualMachineAdminPassword an index function for compute_v20201201s.VirtualMachine .spec.osProfile.adminPassword
+// indexComputeVirtualMachineAdminPassword an index function for compute_v20220301s.VirtualMachine .spec.osProfile.adminPassword
 func indexComputeVirtualMachineAdminPassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*compute_v20201201s.VirtualMachine)
+	obj, ok := rawObj.(*compute_v20220301s.VirtualMachine)
 	if !ok {
 		return nil
 	}
@@ -1038,9 +1053,9 @@ func indexComputeVirtualMachineAdminPassword(rawObj client.Object) []string {
 	return []string{obj.Spec.OsProfile.AdminPassword.Name}
 }
 
-// indexComputeVirtualMachineScaleSetAdminPassword an index function for compute_v20201201s.VirtualMachineScaleSet .spec.virtualMachineProfile.osProfile.adminPassword
+// indexComputeVirtualMachineScaleSetAdminPassword an index function for compute_v20220301s.VirtualMachineScaleSet .spec.virtualMachineProfile.osProfile.adminPassword
 func indexComputeVirtualMachineScaleSetAdminPassword(rawObj client.Object) []string {
-	obj, ok := rawObj.(*compute_v20201201s.VirtualMachineScaleSet)
+	obj, ok := rawObj.(*compute_v20220301s.VirtualMachineScaleSet)
 	if !ok {
 		return nil
 	}
