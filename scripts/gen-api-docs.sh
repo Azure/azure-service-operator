@@ -40,5 +40,12 @@ do
                 "$@"
         $SCRIPTDIR/wrap-resource-urls.py "$OUTPUTDIR/$GROUPNAME/$PACKAGE_VERSION.md"
 
+        # Temporarily emit a header file so the subfolder is included in our website
+        # We'll replace this with some proper content (an index of types & versions in this group) later
+        INDEXFILE="$OUTPUTDIR/$GROUPNAME/_index.md"
+        echo "---" > $INDEXFILE
+        echo "title: $GROUPNAME" >> $INDEXFILE
+        echo "---" >> $INDEXFILE
+
     fi
 done
