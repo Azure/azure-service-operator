@@ -49,7 +49,8 @@ image:
 # 'address' field defines the metrics binding address on which metrics
 metrics:
   enable: true
-  address: 127.0.0.1:8080
+  address: 0.0.0.0:{{ .Values.metrics.port }}
+  port: 8080
 
 # installCRDs determines if the CRDs subchart should be installed.
 installCRDs: true
