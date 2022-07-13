@@ -7,7 +7,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime/schema"
 )
@@ -178,11 +177,10 @@ func (profile *Profile_Status) ConvertStatusTo(destination genruntime.Convertibl
 type Profiles_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName                    string                  `json:"azureName,omitempty"`
-	Identity                     *ManagedServiceIdentity `json:"identity,omitempty"`
-	Location                     *string                 `json:"location,omitempty"`
-	OriginResponseTimeoutSeconds *int                    `json:"originResponseTimeoutSeconds,omitempty"`
-	OriginalVersion              string                  `json:"originalVersion,omitempty"`
+	AzureName                    string  `json:"azureName,omitempty"`
+	Location                     *string `json:"location,omitempty"`
+	OriginResponseTimeoutSeconds *int    `json:"originResponseTimeoutSeconds,omitempty"`
+	OriginalVersion              string  `json:"originalVersion,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -212,14 +210,6 @@ func (profiles *Profiles_Spec) ConvertSpecTo(destination genruntime.ConvertibleS
 	}
 
 	return destination.ConvertSpecFrom(profiles)
-}
-
-// Storage version of v1beta20210601.ManagedServiceIdentity
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/ManagedServiceIdentity
-type ManagedServiceIdentity struct {
-	PropertyBag            genruntime.PropertyBag `json:"$propertyBag,omitempty"`
-	Type                   *string                `json:"type,omitempty"`
-	UserAssignedIdentities map[string]v1.JSON     `json:"userAssignedIdentities,omitempty"`
 }
 
 // Storage version of v1beta20210601.Sku

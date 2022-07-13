@@ -404,7 +404,7 @@ func WorkspacesSpecGenerator() gopter.Gen {
 // AddIndependentPropertyGeneratorsForWorkspacesSpec is a factory method for creating gopter generators
 func AddIndependentPropertyGeneratorsForWorkspacesSpec(gens map[string]gopter.Gen) {
 	gens["AzureName"] = gen.AlphaString()
-	gens["ETag"] = gen.PtrOf(gen.AlphaString())
+	gens["Etag"] = gen.PtrOf(gen.AlphaString())
 	gens["ForceCmkForQuery"] = gen.PtrOf(gen.Bool())
 	gens["Location"] = gen.PtrOf(gen.AlphaString())
 	gens["OriginalVersion"] = gen.AlphaString()

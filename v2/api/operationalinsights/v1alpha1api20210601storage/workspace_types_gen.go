@@ -530,7 +530,7 @@ type Workspaces_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
 	AzureName        string             `json:"azureName,omitempty"`
-	ETag             *string            `json:"eTag,omitempty"`
+	Etag             *string            `json:"etag,omitempty"`
 	Features         *WorkspaceFeatures `json:"features,omitempty"`
 	ForceCmkForQuery *bool              `json:"forceCmkForQuery,omitempty"`
 	Location         *string            `json:"location,omitempty"`
@@ -609,8 +609,8 @@ func (workspaces *Workspaces_Spec) AssignPropertiesFromWorkspacesSpec(source *v2
 	// AzureName
 	workspaces.AzureName = source.AzureName
 
-	// ETag
-	workspaces.ETag = genruntime.ClonePointerToString(source.ETag)
+	// Etag
+	workspaces.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// Features
 	if source.Features != nil {
@@ -704,8 +704,8 @@ func (workspaces *Workspaces_Spec) AssignPropertiesToWorkspacesSpec(destination 
 	// AzureName
 	destination.AzureName = workspaces.AzureName
 
-	// ETag
-	destination.ETag = genruntime.ClonePointerToString(workspaces.ETag)
+	// Etag
+	destination.Etag = genruntime.ClonePointerToString(workspaces.Etag)
 
 	// Features
 	if workspaces.Features != nil {

@@ -187,18 +187,18 @@ func (group *ContainerGroup_Status) ConvertStatusTo(destination genruntime.Conve
 type ContainerGroups_Spec struct {
 	// AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
 	// doesn't have to be.
-	AzureName                string                                           `json:"azureName,omitempty"`
-	Containers               []ContainerGroups_Spec_Properties_Containers     `json:"containers,omitempty"`
-	Diagnostics              *ContainerGroupDiagnostics                       `json:"diagnostics,omitempty"`
-	DnsConfig                *DnsConfiguration                                `json:"dnsConfig,omitempty"`
-	EncryptionProperties     *EncryptionProperties                            `json:"encryptionProperties,omitempty"`
-	Identity                 *ContainerGroupIdentity                          `json:"identity,omitempty"`
-	ImageRegistryCredentials []ImageRegistryCredential                        `json:"imageRegistryCredentials,omitempty"`
-	InitContainers           []ContainerGroups_Spec_Properties_InitContainers `json:"initContainers,omitempty"`
-	IpAddress                *IpAddress                                       `json:"ipAddress,omitempty"`
-	Location                 *string                                          `json:"location,omitempty"`
-	OriginalVersion          string                                           `json:"originalVersion,omitempty"`
-	OsType                   *string                                          `json:"osType,omitempty"`
+	AzureName                string                                                     `json:"azureName,omitempty"`
+	Containers               []ContainerGroups_Spec_Properties_Containers               `json:"containers,omitempty"`
+	Diagnostics              *ContainerGroupDiagnostics                                 `json:"diagnostics,omitempty"`
+	DnsConfig                *DnsConfiguration                                          `json:"dnsConfig,omitempty"`
+	EncryptionProperties     *EncryptionProperties                                      `json:"encryptionProperties,omitempty"`
+	Identity                 *ContainerGroupIdentity                                    `json:"identity,omitempty"`
+	ImageRegistryCredentials []ContainerGroups_Spec_Properties_ImageRegistryCredentials `json:"imageRegistryCredentials,omitempty"`
+	InitContainers           []ContainerGroups_Spec_Properties_InitContainers           `json:"initContainers,omitempty"`
+	IpAddress                *IpAddress                                                 `json:"ipAddress,omitempty"`
+	Location                 *string                                                    `json:"location,omitempty"`
+	OriginalVersion          string                                                     `json:"originalVersion,omitempty"`
+	OsType                   *string                                                    `json:"osType,omitempty"`
 
 	// +kubebuilder:validation:Required
 	// Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
@@ -302,6 +302,16 @@ type ContainerGroups_Spec_Properties_Containers struct {
 	VolumeMounts         []VolumeMount          `json:"volumeMounts,omitempty"`
 }
 
+// Storage version of v1beta20211001.ContainerGroups_Spec_Properties_ImageRegistryCredentials
+type ContainerGroups_Spec_Properties_ImageRegistryCredentials struct {
+	Identity    *string                     `json:"identity,omitempty"`
+	IdentityUrl *string                     `json:"identityUrl,omitempty"`
+	Password    *genruntime.SecretReference `json:"password,omitempty"`
+	PropertyBag genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
+	Server      *string                     `json:"server,omitempty"`
+	Username    *string                     `json:"username,omitempty"`
+}
+
 // Storage version of v1beta20211001.ContainerGroups_Spec_Properties_InitContainers
 type ContainerGroups_Spec_Properties_InitContainers struct {
 	Command              []string               `json:"command,omitempty"`
@@ -361,22 +371,10 @@ type EncryptionProperties_Status struct {
 	VaultBaseUrl *string                `json:"vaultBaseUrl,omitempty"`
 }
 
-// Storage version of v1beta20211001.ImageRegistryCredential
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ImageRegistryCredential
-type ImageRegistryCredential struct {
-	Identity    *string                     `json:"identity,omitempty"`
-	IdentityUrl *string                     `json:"identityUrl,omitempty"`
-	Password    *genruntime.SecretReference `json:"password,omitempty"`
-	PropertyBag genruntime.PropertyBag      `json:"$propertyBag,omitempty"`
-	Server      *string                     `json:"server,omitempty"`
-	Username    *string                     `json:"username,omitempty"`
-}
-
 // Storage version of v1beta20211001.ImageRegistryCredential_Status
 type ImageRegistryCredential_Status struct {
 	Identity    *string                `json:"identity,omitempty"`
 	IdentityUrl *string                `json:"identityUrl,omitempty"`
-	Password    *string                `json:"password,omitempty"`
 	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	Server      *string                `json:"server,omitempty"`
 	Username    *string                `json:"username,omitempty"`

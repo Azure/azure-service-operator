@@ -67,7 +67,7 @@ type ContainerGroups_Spec_PropertiesARM struct {
 	EncryptionProperties *EncryptionPropertiesARM `json:"encryptionProperties,omitempty"`
 
 	// ImageRegistryCredentials: The image registry credentials by which the container group is created from.
-	ImageRegistryCredentials []ImageRegistryCredentialARM `json:"imageRegistryCredentials,omitempty"`
+	ImageRegistryCredentials []ContainerGroups_Spec_Properties_ImageRegistryCredentialsARM `json:"imageRegistryCredentials,omitempty"`
 
 	// InitContainers: The init containers for a container group.
 	InitContainers []ContainerGroups_Spec_Properties_InitContainersARM `json:"initContainers,omitempty"`
@@ -127,6 +127,23 @@ type ContainerGroups_Spec_Properties_ContainersARM struct {
 	Properties *ContainerPropertiesARM `json:"properties,omitempty"`
 }
 
+type ContainerGroups_Spec_Properties_ImageRegistryCredentialsARM struct {
+	// Identity: The identity for the private registry.
+	Identity *string `json:"identity,omitempty"`
+
+	// IdentityUrl: The identity URL for the private registry.
+	IdentityUrl *string `json:"identityUrl,omitempty"`
+
+	// Password: The password for the private registry.
+	Password *string `json:"password,omitempty"`
+
+	// Server: The Docker image registry server without a protocol such as "http" and "https".
+	Server *string `json:"server,omitempty"`
+
+	// Username: The username for the private registry.
+	Username *string `json:"username,omitempty"`
+}
+
 type ContainerGroups_Spec_Properties_InitContainersARM struct {
 	// Name: The name for the init container.
 	Name *string `json:"name,omitempty"`
@@ -157,24 +174,6 @@ type EncryptionPropertiesARM struct {
 
 	// VaultBaseUrl: The keyvault base url.
 	VaultBaseUrl *string `json:"vaultBaseUrl,omitempty"`
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ImageRegistryCredential
-type ImageRegistryCredentialARM struct {
-	// Identity: The identity for the private registry.
-	Identity *string `json:"identity,omitempty"`
-
-	// IdentityUrl: The identity URL for the private registry.
-	IdentityUrl *string `json:"identityUrl,omitempty"`
-
-	// Password: The password for the private registry.
-	Password *string `json:"password,omitempty"`
-
-	// Server: The Docker image registry server without a protocol such as "http" and "https".
-	Server *string `json:"server,omitempty"`
-
-	// Username: The username for the private registry.
-	Username *string `json:"username,omitempty"`
 }
 
 // Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/IpAddress

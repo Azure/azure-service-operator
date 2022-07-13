@@ -124,8 +124,6 @@
 | KeyVaultSigningKeyParametersStatusTypeName                                       | v1beta20210601 |
 | KeyVaultSigningKeyParametersTypeName                                             | v1beta20210601 |
 | KeyVaultSigningKeyParameters_Status                                              | v1beta20210601 |
-| ManagedServiceIdentity                                                           | v1beta20210601 |
-| ManagedServiceIdentityType                                                       | v1beta20210601 |
 | OptimizationType_Status                                                          | v1beta20210601 |
 | OriginGroupOverride                                                              | v1beta20210601 |
 | OriginGroupOverrideAction                                                        | v1beta20210601 |

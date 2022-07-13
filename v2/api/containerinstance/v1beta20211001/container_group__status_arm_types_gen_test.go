@@ -786,7 +786,6 @@ func ImageRegistryCredentialStatusARMGenerator() gopter.Gen {
 func AddIndependentPropertyGeneratorsForImageRegistryCredentialStatusARM(gens map[string]gopter.Gen) {
 	gens["Identity"] = gen.PtrOf(gen.AlphaString())
 	gens["IdentityUrl"] = gen.PtrOf(gen.AlphaString())
-	gens["Password"] = gen.PtrOf(gen.AlphaString())
 	gens["Server"] = gen.PtrOf(gen.AlphaString())
 	gens["Username"] = gen.PtrOf(gen.AlphaString())
 }
