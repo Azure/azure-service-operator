@@ -38,16 +38,26 @@ func (l *PollerResponse) Resume(ctx context.Context, client *GenericClient, toke
 	// Suppressing it as it is a false positive.
 	// nolint:bodyclose
 	resp, err := poller.Poll(ctx)
-
 	if err != nil {
-		var typedError *azcore.ResponseError
-		if errors.As(err, &typedError) {
-			if typedError.RawResponse != nil {
-				return client.createOrUpdateByIDHandleError(typedError.RawResponse)
-			}
-		}
-		return err
+		return errors.Wrapf(err, "unable to resume poller")
 	}
+
+	if poller.Done() {
+		// TODO: In some cases this actually ends up issuing a GET on the resource, which we ignore the response of.
+		// TODO: Ideally we would have a way to use the response here to fill out the status without needing to issue
+		// TODO: a separate request, but for now not worrying about that
+		_, err = poller.Result(ctx)
+		if err != nil {
+			var typedError *azcore.ResponseError
+			if errors.As(err, &typedError) {
+				if typedError.RawResponse != nil {
+					return client.createOrUpdateByIDHandleError(typedError.RawResponse)
+				}
+			}
+			return err
+		}
+	}
+
 	l.Poller = poller
 	l.RawResponse = resp
 	return nil

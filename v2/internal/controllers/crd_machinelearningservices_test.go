@@ -6,6 +6,8 @@ package controllers_test
 import (
 	"testing"
 
+	"github.com/Azure/go-autorest/autorest/to"
+
 	"github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201"
 	"github.com/Azure/azure-service-operator/v2/api/keyvault/v1beta20210401preview"
 	machinelearningservices "github.com/Azure/azure-service-operator/v2/api/machinelearningservices/v1beta20210701"
@@ -14,7 +16,6 @@ import (
 	storage "github.com/Azure/azure-service-operator/v2/api/storage/v1beta20210401"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"github.com/Azure/go-autorest/autorest/to"
 )
 
 func Test_MachineLearning_Workspaces_CRUD(t *testing.T) {
