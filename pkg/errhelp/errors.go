@@ -22,6 +22,7 @@ const (
 	CannotParseError                               = "CannotParseError"
 	ConflictingServerOperation                     = "ConflictingServerOperation"
 	ContainerOperationFailure                      = "ContainerOperationFailure"
+	ConsumerGroupNotFound                          = "ConsumerGroupNotFound"
 	CreationPending                                = "CreationPending"
 	FailoverGroupBusy                              = "FailoverGroupBusy"
 	Forbidden                                      = "Forbidden"
