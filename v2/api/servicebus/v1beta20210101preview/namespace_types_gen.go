@@ -66,7 +66,7 @@ func (namespace *Namespace) ConvertTo(hub conversion.Hub) error {
 	return namespace.AssignPropertiesToNamespace(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-servicebus-azure-com-v1beta20210101preview-namespace,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=servicebus.azure.com,resources=namespaces,verbs=create;update,versions=v1beta20210101preview,name=default.v1beta20210101preview.namespaces.servicebus.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-servicebus-azure-com-v1beta20210101preview-namespace,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=servicebus.azure.com,resources=namespaces,verbs=create;update,versions=v1beta20210101preview,name=default.v1beta20210101preview.namespaces.servicebus.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &Namespace{}
 
@@ -155,7 +155,7 @@ func (namespace *Namespace) SetStatus(status genruntime.ConvertibleStatus) error
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-servicebus-azure-com-v1beta20210101preview-namespace,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=servicebus.azure.com,resources=namespaces,verbs=create;update,versions=v1beta20210101preview,name=validate.v1beta20210101preview.namespaces.servicebus.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-servicebus-azure-com-v1beta20210101preview-namespace,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=servicebus.azure.com,resources=namespaces,verbs=create;update,versions=v1beta20210101preview,name=validate.v1beta20210101preview.namespaces.servicebus.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &Namespace{}
 

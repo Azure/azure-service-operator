@@ -66,7 +66,7 @@ func (vault *Vault) ConvertTo(hub conversion.Hub) error {
 	return vault.AssignPropertiesToVault(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-keyvault-azure-com-v1beta20210401preview-vault,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=keyvault.azure.com,resources=vaults,verbs=create;update,versions=v1beta20210401preview,name=default.v1beta20210401preview.vaults.keyvault.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-keyvault-azure-com-v1beta20210401preview-vault,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=keyvault.azure.com,resources=vaults,verbs=create;update,versions=v1beta20210401preview,name=default.v1beta20210401preview.vaults.keyvault.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &Vault{}
 
@@ -155,7 +155,7 @@ func (vault *Vault) SetStatus(status genruntime.ConvertibleStatus) error {
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-keyvault-azure-com-v1beta20210401preview-vault,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=keyvault.azure.com,resources=vaults,verbs=create;update,versions=v1beta20210401preview,name=validate.v1beta20210401preview.vaults.keyvault.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-keyvault-azure-com-v1beta20210401preview-vault,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=keyvault.azure.com,resources=vaults,verbs=create;update,versions=v1beta20210401preview,name=validate.v1beta20210401preview.vaults.keyvault.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &Vault{}
 

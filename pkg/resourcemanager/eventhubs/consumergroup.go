@@ -9,15 +9,16 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/Azure/go-autorest/autorest"
+	"k8s.io/apimachinery/pkg/runtime"
+	"k8s.io/apimachinery/pkg/types"
+
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
 	"github.com/Azure/azure-service-operator/pkg/helpers"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
-	"github.com/Azure/go-autorest/autorest"
-	"k8s.io/apimachinery/pkg/runtime"
-	"k8s.io/apimachinery/pkg/types"
 
 	"github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
 )
@@ -180,9 +181,10 @@ func (cg *azureConsumerGroupManager) Delete(ctx context.Context, obj runtime.Obj
 		catch := []string{
 			errhelp.ResourceGroupNotFoundErrorCode,
 			errhelp.ParentNotFoundErrorCode,
+			errhelp.ConsumerGroupNotFound,
 			errhelp.NotFoundErrorCode,
 		}
-		if helpers.ContainsString(catch, azerr.Type) {
+		if helpers.ContainsString(catch, azerr.Type) || azerr.Code == http.StatusNotFound {
 			// these things mean the entity is already gone
 			return false, nil
 		}

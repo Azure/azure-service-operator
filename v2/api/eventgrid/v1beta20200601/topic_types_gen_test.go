@@ -105,7 +105,8 @@ func RunPropertyAssignmentTestForTopic(subject Topic) string {
 func Test_Topic_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Topic via JSON returns original",
@@ -207,7 +208,8 @@ func RunPropertyAssignmentTestForTopicStatus(subject Topic_Status) string {
 func Test_Topic_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Topic_Status via JSON returns original",
@@ -340,7 +342,8 @@ func RunPropertyAssignmentTestForTopicsSpec(subject Topics_Spec) string {
 func Test_Topics_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Topics_Spec via JSON returns original",
@@ -443,7 +446,8 @@ func RunPropertyAssignmentTestForPrivateEndpointConnectionStatusTopicSubResource
 func Test_PrivateEndpointConnection_Status_Topic_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PrivateEndpointConnection_Status_Topic_SubResourceEmbedded via JSON returns original",

@@ -23,7 +23,7 @@ func Test_DBForMySQL_FlexibleServer_CRUD(t *testing.T) {
 	tc := globalTestContext.ForTest(t)
 
 	//location := tc.AzureRegion Capacity crunch in West US 2 makes this not work when live
-	location := "eastus"
+	location := "westcentralus"
 
 	rg := tc.CreateTestResourceGroupAndWait()
 

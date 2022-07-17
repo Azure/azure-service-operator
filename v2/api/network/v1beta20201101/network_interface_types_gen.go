@@ -66,7 +66,7 @@ func (networkInterface *NetworkInterface) ConvertTo(hub conversion.Hub) error {
 	return networkInterface.AssignPropertiesToNetworkInterface(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-network-azure-com-v1beta20201101-networkinterface,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=networkinterfaces,verbs=create;update,versions=v1beta20201101,name=default.v1beta20201101.networkinterfaces.network.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-network-azure-com-v1beta20201101-networkinterface,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=networkinterfaces,verbs=create;update,versions=v1beta20201101,name=default.v1beta20201101.networkinterfaces.network.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &NetworkInterface{}
 
@@ -155,7 +155,7 @@ func (networkInterface *NetworkInterface) SetStatus(status genruntime.Convertibl
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-network-azure-com-v1beta20201101-networkinterface,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=networkinterfaces,verbs=create;update,versions=v1beta20201101,name=validate.v1beta20201101.networkinterfaces.network.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-network-azure-com-v1beta20201101-networkinterface,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=networkinterfaces,verbs=create;update,versions=v1beta20201101,name=validate.v1beta20201101.networkinterfaces.network.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &NetworkInterface{}
 

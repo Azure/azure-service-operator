@@ -20,7 +20,8 @@ import (
 func Test_SqlStoredProcedureGetResults_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SqlStoredProcedureGetResults_StatusARM via JSON returns original",
@@ -98,7 +99,8 @@ func AddRelatedPropertyGeneratorsForSqlStoredProcedureGetResultsStatusARM(gens m
 func Test_SqlStoredProcedureGetProperties_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SqlStoredProcedureGetProperties_StatusARM via JSON returns original",
@@ -158,7 +160,8 @@ func AddRelatedPropertyGeneratorsForSqlStoredProcedureGetPropertiesStatusARM(gen
 func Test_SqlStoredProcedureGetProperties_Status_ResourceARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SqlStoredProcedureGetProperties_Status_ResourceARM via JSON returns original",

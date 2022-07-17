@@ -105,7 +105,8 @@ func RunPropertyAssignmentTestForSqlDatabaseThroughputSetting(subject SqlDatabas
 func Test_SqlDatabaseThroughputSetting_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SqlDatabaseThroughputSetting via JSON returns original",
@@ -208,7 +209,8 @@ func RunPropertyAssignmentTestForDatabaseAccountsSqlDatabasesThroughputSettingsS
 func Test_DatabaseAccountsSqlDatabasesThroughputSettings_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DatabaseAccountsSqlDatabasesThroughputSettings_Spec via JSON returns original",

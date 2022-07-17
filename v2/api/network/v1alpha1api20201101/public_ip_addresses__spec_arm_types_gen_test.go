@@ -20,7 +20,8 @@ import (
 func Test_PublicIPAddresses_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PublicIPAddresses_SpecARM via JSON returns original",
@@ -99,7 +100,8 @@ func AddRelatedPropertyGeneratorsForPublicIPAddressesSpecARM(gens map[string]gop
 func Test_PublicIPAddressPropertiesFormatARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PublicIPAddressPropertiesFormatARM via JSON returns original",
@@ -179,7 +181,8 @@ func AddRelatedPropertyGeneratorsForPublicIPAddressPropertiesFormatARM(gens map[
 func Test_PublicIPAddressSkuARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PublicIPAddressSkuARM via JSON returns original",
@@ -240,7 +243,8 @@ func AddIndependentPropertyGeneratorsForPublicIPAddressSkuARM(gens map[string]go
 func Test_DdosSettingsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DdosSettingsARM via JSON returns original",
@@ -314,7 +318,8 @@ func AddRelatedPropertyGeneratorsForDdosSettingsARM(gens map[string]gopter.Gen) 
 func Test_IpTagARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of IpTagARM via JSON returns original",
@@ -374,7 +379,8 @@ func AddIndependentPropertyGeneratorsForIpTagARM(gens map[string]gopter.Gen) {
 func Test_PublicIPAddressDnsSettingsARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PublicIPAddressDnsSettingsARM via JSON returns original",

@@ -20,7 +20,8 @@ import (
 func Test_RedisPatchSchedule_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RedisPatchSchedule_StatusARM via JSON returns original",
@@ -97,7 +98,8 @@ func AddRelatedPropertyGeneratorsForRedisPatchScheduleStatusARM(gens map[string]
 func Test_ScheduleEntries_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ScheduleEntries_StatusARM via JSON returns original",
@@ -157,7 +159,8 @@ func AddRelatedPropertyGeneratorsForScheduleEntriesStatusARM(gens map[string]gop
 func Test_ScheduleEntry_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ScheduleEntry_StatusARM via JSON returns original",

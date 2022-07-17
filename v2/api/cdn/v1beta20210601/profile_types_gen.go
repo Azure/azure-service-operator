@@ -10,7 +10,6 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime/conditions"
 	"github.com/pkg/errors"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
@@ -67,7 +66,7 @@ func (profile *Profile) ConvertTo(hub conversion.Hub) error {
 	return profile.AssignPropertiesToProfile(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-cdn-azure-com-v1beta20210601-profile,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cdn.azure.com,resources=profiles,verbs=create;update,versions=v1beta20210601,name=default.v1beta20210601.profiles.cdn.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-cdn-azure-com-v1beta20210601-profile,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cdn.azure.com,resources=profiles,verbs=create;update,versions=v1beta20210601,name=default.v1beta20210601.profiles.cdn.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &Profile{}
 
@@ -156,7 +155,7 @@ func (profile *Profile) SetStatus(status genruntime.ConvertibleStatus) error {
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-cdn-azure-com-v1beta20210601-profile,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cdn.azure.com,resources=profiles,verbs=create;update,versions=v1beta20210601,name=validate.v1beta20210601.profiles.cdn.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-cdn-azure-com-v1beta20210601-profile,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=cdn.azure.com,resources=profiles,verbs=create;update,versions=v1beta20210601,name=validate.v1beta20210601.profiles.cdn.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &Profile{}
 
@@ -692,9 +691,6 @@ type Profiles_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	// Identity: Managed service identity.
-	Identity *ManagedServiceIdentity `json:"identity,omitempty"`
-
 	// Location: Location to deploy resource to
 	Location *string `json:"location,omitempty"`
 
@@ -753,16 +749,8 @@ func (profiles *Profiles_Spec) ConvertToARM(resolved genruntime.ConvertToARMReso
 	result.Name = resolved.Name
 
 	// Set property ‘Properties’:
-	if profiles.Identity != nil || profiles.OriginResponseTimeoutSeconds != nil {
+	if profiles.OriginResponseTimeoutSeconds != nil {
 		result.Properties = &ProfilePropertiesARM{}
-	}
-	if profiles.Identity != nil {
-		identityARM, err := (*profiles.Identity).ConvertToARM(resolved)
-		if err != nil {
-			return nil, err
-		}
-		identity := *identityARM.(*ManagedServiceIdentityARM)
-		result.Properties.Identity = &identity
 	}
 	if profiles.OriginResponseTimeoutSeconds != nil {
 		originResponseTimeoutSeconds := *profiles.OriginResponseTimeoutSeconds
@@ -803,20 +791,6 @@ func (profiles *Profiles_Spec) PopulateFromARM(owner genruntime.ArbitraryOwnerRe
 
 	// Set property ‘AzureName’:
 	profiles.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
-
-	// Set property ‘Identity’:
-	// copying flattened property:
-	if typedInput.Properties != nil {
-		if typedInput.Properties.Identity != nil {
-			var identity1 ManagedServiceIdentity
-			err := identity1.PopulateFromARM(owner, *typedInput.Properties.Identity)
-			if err != nil {
-				return err
-			}
-			identity := identity1
-			profiles.Identity = &identity
-		}
-	}
 
 	// Set property ‘Location’:
 	if typedInput.Location != nil {
@@ -917,18 +891,6 @@ func (profiles *Profiles_Spec) AssignPropertiesFromProfilesSpec(source *v2021060
 	// AzureName
 	profiles.AzureName = source.AzureName
 
-	// Identity
-	if source.Identity != nil {
-		var identity ManagedServiceIdentity
-		err := identity.AssignPropertiesFromManagedServiceIdentity(source.Identity)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesFromManagedServiceIdentity() to populate field Identity")
-		}
-		profiles.Identity = &identity
-	} else {
-		profiles.Identity = nil
-	}
-
 	// Location
 	profiles.Location = genruntime.ClonePointerToString(source.Location)
 
@@ -974,18 +936,6 @@ func (profiles *Profiles_Spec) AssignPropertiesToProfilesSpec(destination *v2021
 
 	// AzureName
 	destination.AzureName = profiles.AzureName
-
-	// Identity
-	if profiles.Identity != nil {
-		var identity v20210601s.ManagedServiceIdentity
-		err := profiles.Identity.AssignPropertiesToManagedServiceIdentity(&identity)
-		if err != nil {
-			return errors.Wrap(err, "calling AssignPropertiesToManagedServiceIdentity() to populate field Identity")
-		}
-		destination.Identity = &identity
-	} else {
-		destination.Identity = nil
-	}
 
 	// Location
 	destination.Location = genruntime.ClonePointerToString(profiles.Location)
@@ -1042,137 +992,6 @@ func (profiles *Profiles_Spec) OriginalVersion() string {
 
 // SetAzureName sets the Azure name of the resource
 func (profiles *Profiles_Spec) SetAzureName(azureName string) { profiles.AzureName = azureName }
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/ManagedServiceIdentity
-type ManagedServiceIdentity struct {
-	// Type: Type of managed service identity.
-	Type *ManagedServiceIdentityType `json:"type,omitempty"`
-
-	// UserAssignedIdentities: The list of user assigned identities associated with the resource. The user identity dictionary
-	// key references will be ARM resource ids in the form:
-	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}
-	UserAssignedIdentities map[string]v1.JSON `json:"userAssignedIdentities,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &ManagedServiceIdentity{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (identity *ManagedServiceIdentity) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if identity == nil {
-		return nil, nil
-	}
-	result := &ManagedServiceIdentityARM{}
-
-	// Set property ‘Type’:
-	if identity.Type != nil {
-		typeVar := *identity.Type
-		result.Type = &typeVar
-	}
-
-	// Set property ‘UserAssignedIdentities’:
-	if identity.UserAssignedIdentities != nil {
-		result.UserAssignedIdentities = make(map[string]v1.JSON, len(identity.UserAssignedIdentities))
-		for key, value := range identity.UserAssignedIdentities {
-			result.UserAssignedIdentities[key] = *value.DeepCopy()
-		}
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (identity *ManagedServiceIdentity) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ManagedServiceIdentityARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (identity *ManagedServiceIdentity) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ManagedServiceIdentityARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ManagedServiceIdentityARM, got %T", armInput)
-	}
-
-	// Set property ‘Type’:
-	if typedInput.Type != nil {
-		typeVar := *typedInput.Type
-		identity.Type = &typeVar
-	}
-
-	// Set property ‘UserAssignedIdentities’:
-	if typedInput.UserAssignedIdentities != nil {
-		identity.UserAssignedIdentities = make(map[string]v1.JSON, len(typedInput.UserAssignedIdentities))
-		for key, value := range typedInput.UserAssignedIdentities {
-			identity.UserAssignedIdentities[key] = *value.DeepCopy()
-		}
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromManagedServiceIdentity populates our ManagedServiceIdentity from the provided source ManagedServiceIdentity
-func (identity *ManagedServiceIdentity) AssignPropertiesFromManagedServiceIdentity(source *v20210601s.ManagedServiceIdentity) error {
-
-	// Type
-	if source.Type != nil {
-		typeVar := ManagedServiceIdentityType(*source.Type)
-		identity.Type = &typeVar
-	} else {
-		identity.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if source.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v1.JSON, len(source.UserAssignedIdentities))
-		for userAssignedIdentityKey, userAssignedIdentityValue := range source.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
-			userAssignedIdentityMap[userAssignedIdentityKey] = *userAssignedIdentityValue.DeepCopy()
-		}
-		identity.UserAssignedIdentities = userAssignedIdentityMap
-	} else {
-		identity.UserAssignedIdentities = nil
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToManagedServiceIdentity populates the provided destination ManagedServiceIdentity from our ManagedServiceIdentity
-func (identity *ManagedServiceIdentity) AssignPropertiesToManagedServiceIdentity(destination *v20210601s.ManagedServiceIdentity) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Type
-	if identity.Type != nil {
-		typeVar := string(*identity.Type)
-		destination.Type = &typeVar
-	} else {
-		destination.Type = nil
-	}
-
-	// UserAssignedIdentities
-	if identity.UserAssignedIdentities != nil {
-		userAssignedIdentityMap := make(map[string]v1.JSON, len(identity.UserAssignedIdentities))
-		for userAssignedIdentityKey, userAssignedIdentityValue := range identity.UserAssignedIdentities {
-			// Shadow the loop variable to avoid aliasing
-			userAssignedIdentityValue := userAssignedIdentityValue
-			userAssignedIdentityMap[userAssignedIdentityKey] = *userAssignedIdentityValue.DeepCopy()
-		}
-		destination.UserAssignedIdentities = userAssignedIdentityMap
-	} else {
-		destination.UserAssignedIdentities = nil
-	}
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
 
 type ProfilePropertiesStatusProvisioningState string
 
@@ -1497,16 +1316,6 @@ func (data *SystemData_Status) AssignPropertiesToSystemDataStatus(destination *v
 	// No error
 	return nil
 }
-
-// +kubebuilder:validation:Enum={"None","SystemAssigned","SystemAssigned, UserAssigned","UserAssigned"}
-type ManagedServiceIdentityType string
-
-const (
-	ManagedServiceIdentityTypeNone                       = ManagedServiceIdentityType("None")
-	ManagedServiceIdentityTypeSystemAssigned             = ManagedServiceIdentityType("SystemAssigned")
-	ManagedServiceIdentityTypeSystemAssignedUserAssigned = ManagedServiceIdentityType("SystemAssigned, UserAssigned")
-	ManagedServiceIdentityTypeUserAssigned               = ManagedServiceIdentityType("UserAssigned")
-)
 
 func init() {
 	SchemeBuilder.Register(&Profile{}, &ProfileList{})

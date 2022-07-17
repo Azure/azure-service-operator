@@ -20,7 +20,8 @@ import (
 func Test_SqlDatabaseContainerTrigger_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SqlDatabaseContainerTrigger via JSON returns original",
@@ -81,7 +82,8 @@ func AddRelatedPropertyGeneratorsForSqlDatabaseContainerTrigger(gens map[string]
 func Test_DatabaseAccountsSqlDatabasesContainersTriggers_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DatabaseAccountsSqlDatabasesContainersTriggers_Spec via JSON returns original",
@@ -159,7 +161,8 @@ func AddRelatedPropertyGeneratorsForDatabaseAccountsSqlDatabasesContainersTrigge
 func Test_SqlTriggerGetResults_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SqlTriggerGetResults_Status via JSON returns original",
@@ -237,7 +240,8 @@ func AddRelatedPropertyGeneratorsForSqlTriggerGetResultsStatus(gens map[string]g
 func Test_SqlTriggerGetProperties_Status_Resource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SqlTriggerGetProperties_Status_Resource via JSON returns original",
@@ -303,7 +307,8 @@ func AddIndependentPropertyGeneratorsForSqlTriggerGetPropertiesStatusResource(ge
 func Test_SqlTriggerResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SqlTriggerResource via JSON returns original",

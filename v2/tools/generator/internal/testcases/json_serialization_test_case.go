@@ -21,11 +21,12 @@ import (
 // JSONSerializationTestCase represents a test that the object can be losslessly serialized to
 // JSON and back again
 type JSONSerializationTestCase struct {
-	testName  string
-	subject   astmodel.TypeName
-	container astmodel.PropertyContainer
-	isOneOf   bool
-	idFactory astmodel.IdentifierFactory
+	testName           string
+	subject            astmodel.TypeName
+	container          astmodel.PropertyContainer
+	isOneOf            bool
+	idFactory          astmodel.IdentifierFactory
+	minSuccessfulTests int
 }
 
 var _ astmodel.TestCase = &JSONSerializationTestCase{}
@@ -39,11 +40,12 @@ func NewJSONSerializationTestCase(
 ) *JSONSerializationTestCase {
 	testName := fmt.Sprintf("%s_WhenSerializedToJson_DeserializesAsEqual", name.Name())
 	return &JSONSerializationTestCase{
-		testName:  testName,
-		subject:   name,
-		isOneOf:   isOneOf,
-		container: container,
-		idFactory: idFactory,
+		testName:           testName,
+		subject:            name,
+		isOneOf:            isOneOf,
+		container:          container,
+		idFactory:          idFactory,
+		minSuccessfulTests: 100,
 	}
 }
 
@@ -162,6 +164,11 @@ func (o *JSONSerializationTestCase) Equals(other astmodel.TestCase, overrides as
 		o.container == otherTC.container
 }
 
+// SetMinSuccessfulTests configures the minimum number of successful tests required for this test case
+func (o *JSONSerializationTestCase) SetMinSuccessfulTests(minSuccessfulTests int) {
+	o.minSuccessfulTests = minSuccessfulTests
+}
+
 // createTestRunner generates the AST for the test runner itself
 func (o *JSONSerializationTestCase) createTestRunner(codegenContext *astmodel.CodeGenerationContext) dst.Decl {
 	const (
@@ -191,7 +198,14 @@ func (o *JSONSerializationTestCase) createTestRunner(codegenContext *astmodel.Co
 		dst.NewIdent(parametersLocal),
 		"MaxSize",
 		token.ASSIGN,
-		astbuilder.IntLiteral(10))
+		astbuilder.IntLiteral(3))
+
+	// parameters.MinSuccessfulTests := n
+	configureMinSuccessfulTests := astbuilder.QualifiedAssignment(
+		dst.NewIdent(parametersLocal),
+		"MinSuccessfulTests",
+		token.ASSIGN,
+		astbuilder.IntLiteral(o.minSuccessfulTests))
 
 	// properties := gopter.NewProperties(parameters)
 	defineProperties := astbuilder.ShortDeclaration(
@@ -232,6 +246,7 @@ func (o *JSONSerializationTestCase) createTestRunner(codegenContext *astmodel.Co
 		o.testName,
 		declareParallel,
 		defineParameters,
+		configureMinSuccessfulTests,
 		configureMaxSize,
 		defineProperties,
 		defineTestCase,

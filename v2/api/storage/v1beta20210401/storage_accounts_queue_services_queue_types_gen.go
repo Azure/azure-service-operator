@@ -66,7 +66,7 @@ func (queue *StorageAccountsQueueServicesQueue) ConvertTo(hub conversion.Hub) er
 	return queue.AssignPropertiesToStorageAccountsQueueServicesQueue(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-storage-azure-com-v1beta20210401-storageaccountsqueueservicesqueue,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=storage.azure.com,resources=storageaccountsqueueservicesqueues,verbs=create;update,versions=v1beta20210401,name=default.v1beta20210401.storageaccountsqueueservicesqueues.storage.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-storage-azure-com-v1beta20210401-storageaccountsqueueservicesqueue,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=storage.azure.com,resources=storageaccountsqueueservicesqueues,verbs=create;update,versions=v1beta20210401,name=default.v1beta20210401.storageaccountsqueueservicesqueues.storage.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &StorageAccountsQueueServicesQueue{}
 
@@ -155,7 +155,7 @@ func (queue *StorageAccountsQueueServicesQueue) SetStatus(status genruntime.Conv
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-storage-azure-com-v1beta20210401-storageaccountsqueueservicesqueue,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=storage.azure.com,resources=storageaccountsqueueservicesqueues,verbs=create;update,versions=v1beta20210401,name=validate.v1beta20210401.storageaccountsqueueservicesqueues.storage.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-storage-azure-com-v1beta20210401-storageaccountsqueueservicesqueue,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=storage.azure.com,resources=storageaccountsqueueservicesqueues,verbs=create;update,versions=v1beta20210401,name=validate.v1beta20210401.storageaccountsqueueservicesqueues.storage.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &StorageAccountsQueueServicesQueue{}
 

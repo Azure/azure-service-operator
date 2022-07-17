@@ -106,7 +106,8 @@ func RunPropertyAssignmentTestForVirtualNetworksVirtualNetworkPeering(subject Vi
 func Test_VirtualNetworksVirtualNetworkPeering_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualNetworksVirtualNetworkPeering via JSON returns original",
@@ -209,7 +210,8 @@ func RunPropertyAssignmentTestForVirtualNetworkPeeringStatus(subject VirtualNetw
 func Test_VirtualNetworkPeering_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualNetworkPeering_Status via JSON returns original",
@@ -342,7 +344,8 @@ func RunPropertyAssignmentTestForVirtualNetworksVirtualNetworkPeeringsSpec(subje
 func Test_VirtualNetworksVirtualNetworkPeerings_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of VirtualNetworksVirtualNetworkPeerings_Spec via JSON returns original",

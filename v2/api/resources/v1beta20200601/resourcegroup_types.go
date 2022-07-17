@@ -38,7 +38,7 @@ type ResourceGroup struct {
 	Status            ResourceGroupStatus `json:"status,omitempty"`
 }
 
-// +kubebuilder:webhook:path=/mutate-resources-azure-com-v1beta20200601-resourcegroup,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=resources.azure.com,resources=resourcegroups,verbs=create;update,versions=v1beta20200601,name=default.v1beta20200601.resourcegroups.resources.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-resources-azure-com-v1beta20200601-resourcegroup,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=resources.azure.com,resources=resourcegroups,verbs=create;update,versions=v1beta20200601,name=default.v1beta20200601.resourcegroups.resources.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &ResourceGroup{}
 

@@ -20,7 +20,8 @@ import (
 func Test_DomainsTopic_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DomainsTopic via JSON returns original",
@@ -80,7 +81,8 @@ func AddRelatedPropertyGeneratorsForDomainsTopic(gens map[string]gopter.Gen) {
 func Test_DomainTopic_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DomainTopic_Status via JSON returns original",
@@ -156,7 +158,8 @@ func AddRelatedPropertyGeneratorsForDomainTopicStatus(gens map[string]gopter.Gen
 func Test_DomainsTopics_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DomainsTopics_Spec via JSON returns original",

@@ -106,7 +106,8 @@ func RunPropertyAssignmentTestForLoadBalancer(subject LoadBalancer) string {
 func Test_LoadBalancer_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LoadBalancer via JSON returns original",
@@ -208,7 +209,8 @@ func RunPropertyAssignmentTestForLoadBalancerStatus(subject LoadBalancer_Status)
 func Test_LoadBalancer_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LoadBalancer_Status via JSON returns original",
@@ -342,7 +344,8 @@ func RunPropertyAssignmentTestForLoadBalancersSpec(subject LoadBalancers_Spec) s
 func Test_LoadBalancers_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LoadBalancers_Spec via JSON returns original",
@@ -466,7 +469,8 @@ func RunPropertyAssignmentTestForBackendAddressPoolStatusLoadBalancerSubResource
 func Test_BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of BackendAddressPool_Status_LoadBalancer_SubResourceEmbedded via JSON returns original",
@@ -568,7 +572,8 @@ func RunPropertyAssignmentTestForExtendedLocation(subject ExtendedLocation) stri
 func Test_ExtendedLocation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ExtendedLocation via JSON returns original",
@@ -670,7 +675,8 @@ func RunPropertyAssignmentTestForExtendedLocationStatus(subject ExtendedLocation
 func Test_ExtendedLocation_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ExtendedLocation_Status via JSON returns original",
@@ -773,7 +779,8 @@ func RunPropertyAssignmentTestForFrontendIPConfigurationStatusLoadBalancerSubRes
 func Test_FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbedded via JSON returns original",
@@ -907,7 +914,8 @@ func RunPropertyAssignmentTestForInboundNatPoolStatus(subject InboundNatPool_Sta
 func Test_InboundNatPool_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of InboundNatPool_Status via JSON returns original",
@@ -1038,7 +1046,8 @@ func RunPropertyAssignmentTestForInboundNatRuleStatusLoadBalancerSubResourceEmbe
 func Test_InboundNatRule_Status_LoadBalancer_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of InboundNatRule_Status_LoadBalancer_SubResourceEmbedded via JSON returns original",
@@ -1140,7 +1149,8 @@ func RunPropertyAssignmentTestForLoadBalancerSku(subject LoadBalancerSku) string
 func Test_LoadBalancerSku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LoadBalancerSku via JSON returns original",
@@ -1242,7 +1252,8 @@ func RunPropertyAssignmentTestForLoadBalancerSkuStatus(subject LoadBalancerSku_S
 func Test_LoadBalancerSku_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LoadBalancerSku_Status via JSON returns original",
@@ -1345,7 +1356,8 @@ func RunPropertyAssignmentTestForLoadBalancersSpecPropertiesBackendAddressPools(
 func Test_LoadBalancers_Spec_Properties_BackendAddressPools_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LoadBalancers_Spec_Properties_BackendAddressPools via JSON returns original",
@@ -1462,7 +1474,8 @@ func RunPropertyAssignmentTestForLoadBalancersSpecPropertiesFrontendIPConfigurat
 func Test_LoadBalancers_Spec_Properties_FrontendIPConfigurations_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LoadBalancers_Spec_Properties_FrontendIPConfigurations via JSON returns original",
@@ -1584,7 +1597,8 @@ func RunPropertyAssignmentTestForLoadBalancersSpecPropertiesInboundNatPools(subj
 func Test_LoadBalancers_Spec_Properties_InboundNatPools_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LoadBalancers_Spec_Properties_InboundNatPools via JSON returns original",
@@ -1707,7 +1721,8 @@ func RunPropertyAssignmentTestForLoadBalancersSpecPropertiesLoadBalancingRules(s
 func Test_LoadBalancers_Spec_Properties_LoadBalancingRules_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LoadBalancers_Spec_Properties_LoadBalancingRules via JSON returns original",
@@ -1833,7 +1848,8 @@ func RunPropertyAssignmentTestForLoadBalancersSpecPropertiesOutboundRules(subjec
 func Test_LoadBalancers_Spec_Properties_OutboundRules_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LoadBalancers_Spec_Properties_OutboundRules via JSON returns original",
@@ -1954,7 +1970,8 @@ func RunPropertyAssignmentTestForLoadBalancersSpecPropertiesProbes(subject LoadB
 func Test_LoadBalancers_Spec_Properties_Probes_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LoadBalancers_Spec_Properties_Probes via JSON returns original",
@@ -2061,7 +2078,8 @@ func RunPropertyAssignmentTestForLoadBalancingRuleStatus(subject LoadBalancingRu
 func Test_LoadBalancingRule_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LoadBalancingRule_Status via JSON returns original",
@@ -2195,7 +2213,8 @@ func RunPropertyAssignmentTestForOutboundRuleStatus(subject OutboundRule_Status)
 func Test_OutboundRule_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of OutboundRule_Status via JSON returns original",
@@ -2323,7 +2342,8 @@ func RunPropertyAssignmentTestForProbeStatus(subject Probe_Status) string {
 func Test_Probe_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Probe_Status via JSON returns original",
@@ -2451,7 +2471,8 @@ func RunPropertyAssignmentTestForLoadBalancersSpecPropertiesBackendAddressPoolsP
 func Test_LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LoadBalancers_Spec_Properties_BackendAddressPools_Properties_LoadBalancerBackendAddresses via JSON returns original",
@@ -2571,7 +2592,8 @@ func RunPropertyAssignmentTestForPublicIPAddressStatusLoadBalancerSubResourceEmb
 func Test_PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PublicIPAddress_Status_LoadBalancer_SubResourceEmbedded via JSON returns original",
@@ -2689,7 +2711,8 @@ func RunPropertyAssignmentTestForSubnetStatusLoadBalancerSubResourceEmbedded(sub
 func Test_Subnet_Status_LoadBalancer_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Subnet_Status_LoadBalancer_SubResourceEmbedded via JSON returns original",

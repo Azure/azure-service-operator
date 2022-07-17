@@ -173,9 +173,6 @@ type ImageRegistryCredential_StatusARM struct {
 	// IdentityUrl: The identity URL for the private registry.
 	IdentityUrl *string `json:"identityUrl,omitempty"`
 
-	// Password: The password for the private registry.
-	Password *string `json:"password,omitempty"`
-
 	// Server: The Docker image registry server without a protocol such as "http" and "https".
 	Server *string `json:"server,omitempty"`
 

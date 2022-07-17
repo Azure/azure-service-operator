@@ -105,7 +105,8 @@ func RunPropertyAssignmentTestForNetworkSecurityGroupsSecurityRule(subject Netwo
 func Test_NetworkSecurityGroupsSecurityRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NetworkSecurityGroupsSecurityRule via JSON returns original",
@@ -208,7 +209,8 @@ func RunPropertyAssignmentTestForNetworkSecurityGroupsSecurityRulesSpec(subject 
 func Test_NetworkSecurityGroupsSecurityRules_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NetworkSecurityGroupsSecurityRules_Spec via JSON returns original",
@@ -341,7 +343,8 @@ func RunPropertyAssignmentTestForSecurityRuleStatusNetworkSecurityGroupsSecurity
 func Test_SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SecurityRule_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded via JSON returns original",
@@ -475,7 +478,8 @@ func RunPropertyAssignmentTestForApplicationSecurityGroupStatusNetworkSecurityGr
 func Test_ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ApplicationSecurityGroup_Status_NetworkSecurityGroupsSecurityRule_SubResourceEmbedded via JSON returns original",

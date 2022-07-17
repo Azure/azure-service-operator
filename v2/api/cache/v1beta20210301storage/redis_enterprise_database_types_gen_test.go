@@ -20,7 +20,8 @@ import (
 func Test_RedisEnterpriseDatabase_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RedisEnterpriseDatabase via JSON returns original",
@@ -81,7 +82,8 @@ func AddRelatedPropertyGeneratorsForRedisEnterpriseDatabase(gens map[string]gopt
 func Test_Database_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Database_Status via JSON returns original",
@@ -163,7 +165,8 @@ func AddRelatedPropertyGeneratorsForDatabaseStatus(gens map[string]gopter.Gen) {
 func Test_RedisEnterpriseDatabases_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RedisEnterpriseDatabases_Spec via JSON returns original",
@@ -245,7 +248,8 @@ func AddRelatedPropertyGeneratorsForRedisEnterpriseDatabasesSpec(gens map[string
 func Test_Module_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Module via JSON returns original",
@@ -305,7 +309,8 @@ func AddIndependentPropertyGeneratorsForModule(gens map[string]gopter.Gen) {
 func Test_Module_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Module_Status via JSON returns original",
@@ -366,7 +371,8 @@ func AddIndependentPropertyGeneratorsForModuleStatus(gens map[string]gopter.Gen)
 func Test_Persistence_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Persistence via JSON returns original",
@@ -428,7 +434,8 @@ func AddIndependentPropertyGeneratorsForPersistence(gens map[string]gopter.Gen) 
 func Test_Persistence_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Persistence_Status via JSON returns original",

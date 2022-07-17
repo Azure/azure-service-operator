@@ -67,7 +67,7 @@ func (group *ContainerGroup) ConvertTo(hub conversion.Hub) error {
 	return group.AssignPropertiesToContainerGroup(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-containerinstance-azure-com-v1beta20211001-containergroup,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerinstance.azure.com,resources=containergroups,verbs=create;update,versions=v1beta20211001,name=default.v1beta20211001.containergroups.containerinstance.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-containerinstance-azure-com-v1beta20211001-containergroup,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerinstance.azure.com,resources=containergroups,verbs=create;update,versions=v1beta20211001,name=default.v1beta20211001.containergroups.containerinstance.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &ContainerGroup{}
 
@@ -156,7 +156,7 @@ func (group *ContainerGroup) SetStatus(status genruntime.ConvertibleStatus) erro
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-containerinstance-azure-com-v1beta20211001-containergroup,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerinstance.azure.com,resources=containergroups,verbs=create;update,versions=v1beta20211001,name=validate.v1beta20211001.containergroups.containerinstance.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-containerinstance-azure-com-v1beta20211001-containergroup,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=containerinstance.azure.com,resources=containergroups,verbs=create;update,versions=v1beta20211001,name=validate.v1beta20211001.containergroups.containerinstance.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &ContainerGroup{}
 
@@ -1148,7 +1148,7 @@ type ContainerGroups_Spec struct {
 	Identity *ContainerGroupIdentity `json:"identity,omitempty"`
 
 	// ImageRegistryCredentials: The image registry credentials by which the container group is created from.
-	ImageRegistryCredentials []ImageRegistryCredential `json:"imageRegistryCredentials,omitempty"`
+	ImageRegistryCredentials []ContainerGroups_Spec_Properties_ImageRegistryCredentials `json:"imageRegistryCredentials,omitempty"`
 
 	// InitContainers: The init containers for a container group.
 	InitContainers []ContainerGroups_Spec_Properties_InitContainers `json:"initContainers,omitempty"`
@@ -1271,7 +1271,7 @@ func (groups *ContainerGroups_Spec) ConvertToARM(resolved genruntime.ConvertToAR
 		if err != nil {
 			return nil, err
 		}
-		result.Properties.ImageRegistryCredentials = append(result.Properties.ImageRegistryCredentials, *itemARM.(*ImageRegistryCredentialARM))
+		result.Properties.ImageRegistryCredentials = append(result.Properties.ImageRegistryCredentials, *itemARM.(*ContainerGroups_Spec_Properties_ImageRegistryCredentialsARM))
 	}
 	for _, item := range groups.InitContainers {
 		itemARM, err := item.ConvertToARM(resolved)
@@ -1415,7 +1415,7 @@ func (groups *ContainerGroups_Spec) PopulateFromARM(owner genruntime.ArbitraryOw
 	// copying flattened property:
 	if typedInput.Properties != nil {
 		for _, item := range typedInput.Properties.ImageRegistryCredentials {
-			var item1 ImageRegistryCredential
+			var item1 ContainerGroups_Spec_Properties_ImageRegistryCredentials
 			err := item1.PopulateFromARM(owner, item)
 			if err != nil {
 				return err
@@ -1656,14 +1656,14 @@ func (groups *ContainerGroups_Spec) AssignPropertiesFromContainerGroupsSpec(sour
 
 	// ImageRegistryCredentials
 	if source.ImageRegistryCredentials != nil {
-		imageRegistryCredentialList := make([]ImageRegistryCredential, len(source.ImageRegistryCredentials))
+		imageRegistryCredentialList := make([]ContainerGroups_Spec_Properties_ImageRegistryCredentials, len(source.ImageRegistryCredentials))
 		for imageRegistryCredentialIndex, imageRegistryCredentialItem := range source.ImageRegistryCredentials {
 			// Shadow the loop variable to avoid aliasing
 			imageRegistryCredentialItem := imageRegistryCredentialItem
-			var imageRegistryCredential ImageRegistryCredential
-			err := imageRegistryCredential.AssignPropertiesFromImageRegistryCredential(&imageRegistryCredentialItem)
+			var imageRegistryCredential ContainerGroups_Spec_Properties_ImageRegistryCredentials
+			err := imageRegistryCredential.AssignPropertiesFromContainerGroupsSpecPropertiesImageRegistryCredentials(&imageRegistryCredentialItem)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesFromImageRegistryCredential() to populate field ImageRegistryCredentials")
+				return errors.Wrap(err, "calling AssignPropertiesFromContainerGroupsSpecPropertiesImageRegistryCredentials() to populate field ImageRegistryCredentials")
 			}
 			imageRegistryCredentialList[imageRegistryCredentialIndex] = imageRegistryCredential
 		}
@@ -1859,14 +1859,14 @@ func (groups *ContainerGroups_Spec) AssignPropertiesToContainerGroupsSpec(destin
 
 	// ImageRegistryCredentials
 	if groups.ImageRegistryCredentials != nil {
-		imageRegistryCredentialList := make([]v20211001s.ImageRegistryCredential, len(groups.ImageRegistryCredentials))
+		imageRegistryCredentialList := make([]v20211001s.ContainerGroups_Spec_Properties_ImageRegistryCredentials, len(groups.ImageRegistryCredentials))
 		for imageRegistryCredentialIndex, imageRegistryCredentialItem := range groups.ImageRegistryCredentials {
 			// Shadow the loop variable to avoid aliasing
 			imageRegistryCredentialItem := imageRegistryCredentialItem
-			var imageRegistryCredential v20211001s.ImageRegistryCredential
-			err := imageRegistryCredentialItem.AssignPropertiesToImageRegistryCredential(&imageRegistryCredential)
+			var imageRegistryCredential v20211001s.ContainerGroups_Spec_Properties_ImageRegistryCredentials
+			err := imageRegistryCredentialItem.AssignPropertiesToContainerGroupsSpecPropertiesImageRegistryCredentials(&imageRegistryCredential)
 			if err != nil {
-				return errors.Wrap(err, "calling AssignPropertiesToImageRegistryCredential() to populate field ImageRegistryCredentials")
+				return errors.Wrap(err, "calling AssignPropertiesToContainerGroupsSpecPropertiesImageRegistryCredentials() to populate field ImageRegistryCredentials")
 			}
 			imageRegistryCredentialList[imageRegistryCredentialIndex] = imageRegistryCredential
 		}
@@ -3215,6 +3215,174 @@ func (containers *ContainerGroups_Spec_Properties_Containers) AssignPropertiesTo
 	return nil
 }
 
+type ContainerGroups_Spec_Properties_ImageRegistryCredentials struct {
+	// Identity: The identity for the private registry.
+	Identity *string `json:"identity,omitempty"`
+
+	// IdentityUrl: The identity URL for the private registry.
+	IdentityUrl *string `json:"identityUrl,omitempty"`
+
+	// Password: The password for the private registry.
+	Password *genruntime.SecretReference `json:"password,omitempty"`
+
+	// +kubebuilder:validation:Required
+	// Server: The Docker image registry server without a protocol such as "http" and "https".
+	Server *string `json:"server,omitempty"`
+
+	// Username: The username for the private registry.
+	Username *string `json:"username,omitempty"`
+}
+
+var _ genruntime.ARMTransformer = &ContainerGroups_Spec_Properties_ImageRegistryCredentials{}
+
+// ConvertToARM converts from a Kubernetes CRD object to an ARM object
+func (credentials *ContainerGroups_Spec_Properties_ImageRegistryCredentials) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
+	if credentials == nil {
+		return nil, nil
+	}
+	result := &ContainerGroups_Spec_Properties_ImageRegistryCredentialsARM{}
+
+	// Set property ‘Identity’:
+	if credentials.Identity != nil {
+		identity := *credentials.Identity
+		result.Identity = &identity
+	}
+
+	// Set property ‘IdentityUrl’:
+	if credentials.IdentityUrl != nil {
+		identityUrl := *credentials.IdentityUrl
+		result.IdentityUrl = &identityUrl
+	}
+
+	// Set property ‘Password’:
+	if credentials.Password != nil {
+		passwordSecret, err := resolved.ResolvedSecrets.LookupSecret(*credentials.Password)
+		if err != nil {
+			return nil, errors.Wrap(err, "looking up secret for property Password")
+		}
+		password := passwordSecret
+		result.Password = &password
+	}
+
+	// Set property ‘Server’:
+	if credentials.Server != nil {
+		server := *credentials.Server
+		result.Server = &server
+	}
+
+	// Set property ‘Username’:
+	if credentials.Username != nil {
+		username := *credentials.Username
+		result.Username = &username
+	}
+	return result, nil
+}
+
+// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
+func (credentials *ContainerGroups_Spec_Properties_ImageRegistryCredentials) NewEmptyARMValue() genruntime.ARMResourceStatus {
+	return &ContainerGroups_Spec_Properties_ImageRegistryCredentialsARM{}
+}
+
+// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
+func (credentials *ContainerGroups_Spec_Properties_ImageRegistryCredentials) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
+	typedInput, ok := armInput.(ContainerGroups_Spec_Properties_ImageRegistryCredentialsARM)
+	if !ok {
+		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ContainerGroups_Spec_Properties_ImageRegistryCredentialsARM, got %T", armInput)
+	}
+
+	// Set property ‘Identity’:
+	if typedInput.Identity != nil {
+		identity := *typedInput.Identity
+		credentials.Identity = &identity
+	}
+
+	// Set property ‘IdentityUrl’:
+	if typedInput.IdentityUrl != nil {
+		identityUrl := *typedInput.IdentityUrl
+		credentials.IdentityUrl = &identityUrl
+	}
+
+	// no assignment for property ‘Password’
+
+	// Set property ‘Server’:
+	if typedInput.Server != nil {
+		server := *typedInput.Server
+		credentials.Server = &server
+	}
+
+	// Set property ‘Username’:
+	if typedInput.Username != nil {
+		username := *typedInput.Username
+		credentials.Username = &username
+	}
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesFromContainerGroupsSpecPropertiesImageRegistryCredentials populates our ContainerGroups_Spec_Properties_ImageRegistryCredentials from the provided source ContainerGroups_Spec_Properties_ImageRegistryCredentials
+func (credentials *ContainerGroups_Spec_Properties_ImageRegistryCredentials) AssignPropertiesFromContainerGroupsSpecPropertiesImageRegistryCredentials(source *v20211001s.ContainerGroups_Spec_Properties_ImageRegistryCredentials) error {
+
+	// Identity
+	credentials.Identity = genruntime.ClonePointerToString(source.Identity)
+
+	// IdentityUrl
+	credentials.IdentityUrl = genruntime.ClonePointerToString(source.IdentityUrl)
+
+	// Password
+	if source.Password != nil {
+		password := source.Password.Copy()
+		credentials.Password = &password
+	} else {
+		credentials.Password = nil
+	}
+
+	// Server
+	credentials.Server = genruntime.ClonePointerToString(source.Server)
+
+	// Username
+	credentials.Username = genruntime.ClonePointerToString(source.Username)
+
+	// No error
+	return nil
+}
+
+// AssignPropertiesToContainerGroupsSpecPropertiesImageRegistryCredentials populates the provided destination ContainerGroups_Spec_Properties_ImageRegistryCredentials from our ContainerGroups_Spec_Properties_ImageRegistryCredentials
+func (credentials *ContainerGroups_Spec_Properties_ImageRegistryCredentials) AssignPropertiesToContainerGroupsSpecPropertiesImageRegistryCredentials(destination *v20211001s.ContainerGroups_Spec_Properties_ImageRegistryCredentials) error {
+	// Create a new property bag
+	propertyBag := genruntime.NewPropertyBag()
+
+	// Identity
+	destination.Identity = genruntime.ClonePointerToString(credentials.Identity)
+
+	// IdentityUrl
+	destination.IdentityUrl = genruntime.ClonePointerToString(credentials.IdentityUrl)
+
+	// Password
+	if credentials.Password != nil {
+		password := credentials.Password.Copy()
+		destination.Password = &password
+	} else {
+		destination.Password = nil
+	}
+
+	// Server
+	destination.Server = genruntime.ClonePointerToString(credentials.Server)
+
+	// Username
+	destination.Username = genruntime.ClonePointerToString(credentials.Username)
+
+	// Update the property bag
+	if len(propertyBag) > 0 {
+		destination.PropertyBag = propertyBag
+	} else {
+		destination.PropertyBag = nil
+	}
+
+	// No error
+	return nil
+}
+
 type ContainerGroups_Spec_Properties_InitContainers struct {
 	// Command: The command to execute within the init container in exec form.
 	Command []string `json:"command,omitempty"`
@@ -4279,185 +4447,12 @@ func (properties *EncryptionProperties_Status) AssignPropertiesToEncryptionPrope
 	return nil
 }
 
-// Generated from: https://schema.management.azure.com/schemas/2021-10-01/Microsoft.ContainerInstance.json#/definitions/ImageRegistryCredential
-type ImageRegistryCredential struct {
-	// Identity: The identity for the private registry.
-	Identity *string `json:"identity,omitempty"`
-
-	// IdentityUrl: The identity URL for the private registry.
-	IdentityUrl *string `json:"identityUrl,omitempty"`
-
-	// Password: The password for the private registry.
-	Password *genruntime.SecretReference `json:"password,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Server: The Docker image registry server without a protocol such as "http" and "https".
-	Server *string `json:"server,omitempty"`
-
-	// +kubebuilder:validation:Required
-	// Username: The username for the private registry.
-	Username *string `json:"username,omitempty"`
-}
-
-var _ genruntime.ARMTransformer = &ImageRegistryCredential{}
-
-// ConvertToARM converts from a Kubernetes CRD object to an ARM object
-func (credential *ImageRegistryCredential) ConvertToARM(resolved genruntime.ConvertToARMResolvedDetails) (interface{}, error) {
-	if credential == nil {
-		return nil, nil
-	}
-	result := &ImageRegistryCredentialARM{}
-
-	// Set property ‘Identity’:
-	if credential.Identity != nil {
-		identity := *credential.Identity
-		result.Identity = &identity
-	}
-
-	// Set property ‘IdentityUrl’:
-	if credential.IdentityUrl != nil {
-		identityUrl := *credential.IdentityUrl
-		result.IdentityUrl = &identityUrl
-	}
-
-	// Set property ‘Password’:
-	if credential.Password != nil {
-		passwordSecret, err := resolved.ResolvedSecrets.LookupSecret(*credential.Password)
-		if err != nil {
-			return nil, errors.Wrap(err, "looking up secret for property Password")
-		}
-		password := passwordSecret
-		result.Password = &password
-	}
-
-	// Set property ‘Server’:
-	if credential.Server != nil {
-		server := *credential.Server
-		result.Server = &server
-	}
-
-	// Set property ‘Username’:
-	if credential.Username != nil {
-		username := *credential.Username
-		result.Username = &username
-	}
-	return result, nil
-}
-
-// NewEmptyARMValue returns an empty ARM value suitable for deserializing into
-func (credential *ImageRegistryCredential) NewEmptyARMValue() genruntime.ARMResourceStatus {
-	return &ImageRegistryCredentialARM{}
-}
-
-// PopulateFromARM populates a Kubernetes CRD object from an Azure ARM object
-func (credential *ImageRegistryCredential) PopulateFromARM(owner genruntime.ArbitraryOwnerReference, armInput interface{}) error {
-	typedInput, ok := armInput.(ImageRegistryCredentialARM)
-	if !ok {
-		return fmt.Errorf("unexpected type supplied for PopulateFromARM() function. Expected ImageRegistryCredentialARM, got %T", armInput)
-	}
-
-	// Set property ‘Identity’:
-	if typedInput.Identity != nil {
-		identity := *typedInput.Identity
-		credential.Identity = &identity
-	}
-
-	// Set property ‘IdentityUrl’:
-	if typedInput.IdentityUrl != nil {
-		identityUrl := *typedInput.IdentityUrl
-		credential.IdentityUrl = &identityUrl
-	}
-
-	// no assignment for property ‘Password’
-
-	// Set property ‘Server’:
-	if typedInput.Server != nil {
-		server := *typedInput.Server
-		credential.Server = &server
-	}
-
-	// Set property ‘Username’:
-	if typedInput.Username != nil {
-		username := *typedInput.Username
-		credential.Username = &username
-	}
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesFromImageRegistryCredential populates our ImageRegistryCredential from the provided source ImageRegistryCredential
-func (credential *ImageRegistryCredential) AssignPropertiesFromImageRegistryCredential(source *v20211001s.ImageRegistryCredential) error {
-
-	// Identity
-	credential.Identity = genruntime.ClonePointerToString(source.Identity)
-
-	// IdentityUrl
-	credential.IdentityUrl = genruntime.ClonePointerToString(source.IdentityUrl)
-
-	// Password
-	if source.Password != nil {
-		password := source.Password.Copy()
-		credential.Password = &password
-	} else {
-		credential.Password = nil
-	}
-
-	// Server
-	credential.Server = genruntime.ClonePointerToString(source.Server)
-
-	// Username
-	credential.Username = genruntime.ClonePointerToString(source.Username)
-
-	// No error
-	return nil
-}
-
-// AssignPropertiesToImageRegistryCredential populates the provided destination ImageRegistryCredential from our ImageRegistryCredential
-func (credential *ImageRegistryCredential) AssignPropertiesToImageRegistryCredential(destination *v20211001s.ImageRegistryCredential) error {
-	// Create a new property bag
-	propertyBag := genruntime.NewPropertyBag()
-
-	// Identity
-	destination.Identity = genruntime.ClonePointerToString(credential.Identity)
-
-	// IdentityUrl
-	destination.IdentityUrl = genruntime.ClonePointerToString(credential.IdentityUrl)
-
-	// Password
-	if credential.Password != nil {
-		password := credential.Password.Copy()
-		destination.Password = &password
-	} else {
-		destination.Password = nil
-	}
-
-	// Server
-	destination.Server = genruntime.ClonePointerToString(credential.Server)
-
-	// Username
-	destination.Username = genruntime.ClonePointerToString(credential.Username)
-
-	// Update the property bag
-	if len(propertyBag) > 0 {
-		destination.PropertyBag = propertyBag
-	} else {
-		destination.PropertyBag = nil
-	}
-
-	// No error
-	return nil
-}
-
 type ImageRegistryCredential_Status struct {
 	// Identity: The identity for the private registry.
 	Identity *string `json:"identity,omitempty"`
 
 	// IdentityUrl: The identity URL for the private registry.
 	IdentityUrl *string `json:"identityUrl,omitempty"`
-
-	// Password: The password for the private registry.
-	Password *string `json:"password,omitempty"`
 
 	// Server: The Docker image registry server without a protocol such as "http" and "https".
 	Server *string `json:"server,omitempty"`
@@ -4492,12 +4487,6 @@ func (credential *ImageRegistryCredential_Status) PopulateFromARM(owner genrunti
 		credential.IdentityUrl = &identityUrl
 	}
 
-	// Set property ‘Password’:
-	if typedInput.Password != nil {
-		password := *typedInput.Password
-		credential.Password = &password
-	}
-
 	// Set property ‘Server’:
 	if typedInput.Server != nil {
 		server := *typedInput.Server
@@ -4523,9 +4512,6 @@ func (credential *ImageRegistryCredential_Status) AssignPropertiesFromImageRegis
 	// IdentityUrl
 	credential.IdentityUrl = genruntime.ClonePointerToString(source.IdentityUrl)
 
-	// Password
-	credential.Password = genruntime.ClonePointerToString(source.Password)
-
 	// Server
 	credential.Server = genruntime.ClonePointerToString(source.Server)
 
@@ -4546,9 +4532,6 @@ func (credential *ImageRegistryCredential_Status) AssignPropertiesToImageRegistr
 
 	// IdentityUrl
 	destination.IdentityUrl = genruntime.ClonePointerToString(credential.IdentityUrl)
-
-	// Password
-	destination.Password = genruntime.ClonePointerToString(credential.Password)
 
 	// Server
 	destination.Server = genruntime.ClonePointerToString(credential.Server)

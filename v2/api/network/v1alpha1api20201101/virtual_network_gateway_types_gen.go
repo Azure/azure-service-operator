@@ -80,7 +80,7 @@ func (gateway *VirtualNetworkGateway) ConvertTo(hub conversion.Hub) error {
 	return nil
 }
 
-// +kubebuilder:webhook:path=/mutate-network-azure-com-v1alpha1api20201101-virtualnetworkgateway,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=virtualnetworkgateways,verbs=create;update,versions=v1alpha1api20201101,name=default.v1alpha1api20201101.virtualnetworkgateways.network.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-network-azure-com-v1alpha1api20201101-virtualnetworkgateway,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=virtualnetworkgateways,verbs=create;update,versions=v1alpha1api20201101,name=default.v1alpha1api20201101.virtualnetworkgateways.network.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &VirtualNetworkGateway{}
 
@@ -169,7 +169,7 @@ func (gateway *VirtualNetworkGateway) SetStatus(status genruntime.ConvertibleSta
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-network-azure-com-v1alpha1api20201101-virtualnetworkgateway,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=virtualnetworkgateways,verbs=create;update,versions=v1alpha1api20201101,name=validate.v1alpha1api20201101.virtualnetworkgateways.network.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-network-azure-com-v1alpha1api20201101-virtualnetworkgateway,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=network.azure.com,resources=virtualnetworkgateways,verbs=create;update,versions=v1alpha1api20201101,name=validate.v1alpha1api20201101.virtualnetworkgateways.network.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &VirtualNetworkGateway{}
 

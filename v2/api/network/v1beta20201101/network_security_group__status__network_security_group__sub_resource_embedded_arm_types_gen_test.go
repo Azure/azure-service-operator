@@ -20,7 +20,8 @@ import (
 func Test_NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NetworkSecurityGroup_Status_NetworkSecurityGroup_SubResourceEmbeddedARM via JSON returns original",
@@ -99,7 +100,8 @@ func AddRelatedPropertyGeneratorsForNetworkSecurityGroupStatusNetworkSecurityGro
 func Test_NetworkSecurityGroupPropertiesFormat_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NetworkSecurityGroupPropertiesFormat_StatusARM via JSON returns original",
@@ -182,7 +184,8 @@ func AddRelatedPropertyGeneratorsForNetworkSecurityGroupPropertiesFormatStatusAR
 func Test_FlowLog_Status_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of FlowLog_Status_SubResourceEmbeddedARM via JSON returns original",
@@ -242,7 +245,8 @@ func AddIndependentPropertyGeneratorsForFlowLogStatusSubResourceEmbeddedARM(gens
 func Test_NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NetworkInterface_Status_NetworkSecurityGroup_SubResourceEmbeddedARM via JSON returns original",
@@ -316,7 +320,8 @@ func AddRelatedPropertyGeneratorsForNetworkInterfaceStatusNetworkSecurityGroupSu
 func Test_SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SecurityRule_Status_NetworkSecurityGroup_SubResourceEmbeddedARM via JSON returns original",
@@ -376,7 +381,8 @@ func AddIndependentPropertyGeneratorsForSecurityRuleStatusNetworkSecurityGroupSu
 func Test_Subnet_Status_NetworkSecurityGroup_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Subnet_Status_NetworkSecurityGroup_SubResourceEmbeddedARM via JSON returns original",

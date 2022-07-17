@@ -66,7 +66,7 @@ func (setting *SqlDatabaseContainerThroughputSetting) ConvertTo(hub conversion.H
 	return setting.AssignPropertiesToSqlDatabaseContainerThroughputSetting(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1beta20210515-sqldatabasecontainerthroughputsetting,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=sqldatabasecontainerthroughputsettings,verbs=create;update,versions=v1beta20210515,name=default.v1beta20210515.sqldatabasecontainerthroughputsettings.documentdb.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1beta20210515-sqldatabasecontainerthroughputsetting,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=sqldatabasecontainerthroughputsettings,verbs=create;update,versions=v1beta20210515,name=default.v1beta20210515.sqldatabasecontainerthroughputsettings.documentdb.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &SqlDatabaseContainerThroughputSetting{}
 
@@ -148,7 +148,7 @@ func (setting *SqlDatabaseContainerThroughputSetting) SetStatus(status genruntim
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-documentdb-azure-com-v1beta20210515-sqldatabasecontainerthroughputsetting,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=sqldatabasecontainerthroughputsettings,verbs=create;update,versions=v1beta20210515,name=validate.v1beta20210515.sqldatabasecontainerthroughputsettings.documentdb.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-documentdb-azure-com-v1beta20210515-sqldatabasecontainerthroughputsetting,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=sqldatabasecontainerthroughputsettings,verbs=create;update,versions=v1beta20210515,name=validate.v1beta20210515.sqldatabasecontainerthroughputsettings.documentdb.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &SqlDatabaseContainerThroughputSetting{}
 

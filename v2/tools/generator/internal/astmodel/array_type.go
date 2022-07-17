@@ -92,13 +92,13 @@ func (array *ArrayType) String() string {
 // WriteDebugDescription adds a description of the current array type to the passed builder
 // builder receives the full description, including nested types
 // definitions is a dictionary for resolving named types
-func (array *ArrayType) WriteDebugDescription(builder *strings.Builder, definitions TypeDefinitionSet) {
+func (array *ArrayType) WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference) {
 	if array == nil {
 		builder.WriteString("<nilArray>")
 		return
 	}
 
 	builder.WriteString("Array[")
-	array.element.WriteDebugDescription(builder, definitions)
+	array.element.WriteDebugDescription(builder, currentPackage)
 	builder.WriteString("]")
 }

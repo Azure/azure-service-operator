@@ -354,6 +354,7 @@ func (r *azureDeploymentReconcilerInstance) MonitorResourceCreation(ctx context.
 	if err != nil {
 		return ctrl.Result{}, r.handleCreatePollerFailed(err)
 	}
+
 	if poller.Poller.Done() {
 		return r.handleCreatePollerSuccess(ctx)
 	}
@@ -378,17 +379,17 @@ func (r *azureDeploymentReconcilerInstance) getStatus(ctx context.Context, id st
 
 	// Get the resource
 	retryAfter, err := r.ARMClient.GetByID(ctx, id, r.Obj.GetAPIVersion(), armStatus)
+	if err != nil {
+		return nil, retryAfter, errors.Wrapf(err, "getting resource with ID: %q", id)
+	}
+
 	if r.Log.V(Debug).Enabled() {
 		statusBytes, marshalErr := json.Marshal(armStatus)
 		if marshalErr != nil {
-			return nil, zeroDuration, errors.Wrapf(err, "serializing ARM status to JSON for debugging")
+			return nil, zeroDuration, errors.Wrapf(marshalErr, "serializing ARM status to JSON for debugging")
 		}
 
 		r.Log.V(Debug).Info("Got ARM status", "status", string(statusBytes))
-	}
-
-	if err != nil {
-		return nil, retryAfter, errors.Wrapf(err, "getting resource with ID: %q", id)
 	}
 
 	// Convert the ARM shape to the Kube shape
