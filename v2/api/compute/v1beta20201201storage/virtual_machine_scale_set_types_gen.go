@@ -458,6 +458,8 @@ func (scaleSet *VirtualMachineScaleSet_Status) AssignPropertiesFromVirtualMachin
 	// SpotRestorePolicy
 	if source.SpotRestorePolicy != nil {
 		propertyBag.Add("SpotRestorePolicy", *source.SpotRestorePolicy)
+	} else {
+		propertyBag.Remove("SpotRestorePolicy")
 	}
 
 	// Tags
@@ -466,6 +468,8 @@ func (scaleSet *VirtualMachineScaleSet_Status) AssignPropertiesFromVirtualMachin
 	// TimeCreated
 	if source.TimeCreated != nil {
 		propertyBag.Add("TimeCreated", *source.TimeCreated)
+	} else {
+		propertyBag.Remove("TimeCreated")
 	}
 
 	// Type
@@ -1038,6 +1042,8 @@ func (sets *VirtualMachineScaleSets_Spec) AssignPropertiesFromVirtualMachineScal
 	// SpotRestorePolicy
 	if source.SpotRestorePolicy != nil {
 		propertyBag.Add("SpotRestorePolicy", *source.SpotRestorePolicy)
+	} else {
+		propertyBag.Remove("SpotRestorePolicy")
 	}
 
 	// Tags
@@ -1353,6 +1359,8 @@ func (policy *AutomaticRepairsPolicy) AssignPropertiesFromAutomaticRepairsPolicy
 	// RepairAction
 	if source.RepairAction != nil {
 		propertyBag.Add("RepairAction", *source.RepairAction)
+	} else {
+		propertyBag.Remove("RepairAction")
 	}
 
 	// Update the property bag
@@ -1432,6 +1440,8 @@ func (policy *AutomaticRepairsPolicy_Status) AssignPropertiesFromAutomaticRepair
 	// RepairAction
 	if source.RepairAction != nil {
 		propertyBag.Add("RepairAction", *source.RepairAction)
+	} else {
+		propertyBag.Remove("RepairAction")
 	}
 
 	// Update the property bag
@@ -1500,6 +1510,8 @@ func (policy *ScaleInPolicy) AssignPropertiesFromScaleInPolicy(source *v20220301
 	// ForceDeletion
 	if source.ForceDeletion != nil {
 		propertyBag.Add("ForceDeletion", *source.ForceDeletion)
+	} else {
+		propertyBag.Remove("ForceDeletion")
 	}
 
 	// Rules
@@ -1562,6 +1574,8 @@ func (policy *ScaleInPolicy_Status) AssignPropertiesFromScaleInPolicyStatus(sour
 	// ForceDeletion
 	if source.ForceDeletion != nil {
 		propertyBag.Add("ForceDeletion", *source.ForceDeletion)
+	} else {
+		propertyBag.Remove("ForceDeletion")
 	}
 
 	// Rules
@@ -2043,6 +2057,8 @@ func (profile *VirtualMachineScaleSetVMProfile_Status) AssignPropertiesFromVirtu
 	// ApplicationProfile
 	if source.ApplicationProfile != nil {
 		propertyBag.Add("ApplicationProfile", *source.ApplicationProfile)
+	} else {
+		propertyBag.Remove("ApplicationProfile")
 	}
 
 	// BillingProfile
@@ -2060,6 +2076,8 @@ func (profile *VirtualMachineScaleSetVMProfile_Status) AssignPropertiesFromVirtu
 	// CapacityReservation
 	if source.CapacityReservation != nil {
 		propertyBag.Add("CapacityReservation", *source.CapacityReservation)
+	} else {
+		propertyBag.Remove("CapacityReservation")
 	}
 
 	// DiagnosticsProfile
@@ -2092,6 +2110,8 @@ func (profile *VirtualMachineScaleSetVMProfile_Status) AssignPropertiesFromVirtu
 	// HardwareProfile
 	if source.HardwareProfile != nil {
 		propertyBag.Add("HardwareProfile", *source.HardwareProfile)
+	} else {
+		propertyBag.Remove("HardwareProfile")
 	}
 
 	// LicenseType
@@ -2163,6 +2183,8 @@ func (profile *VirtualMachineScaleSetVMProfile_Status) AssignPropertiesFromVirtu
 	// UserData
 	if source.UserData != nil {
 		propertyBag.Add("UserData", *source.UserData)
+	} else {
+		propertyBag.Remove("UserData")
 	}
 
 	// Update the property bag
@@ -2373,6 +2395,8 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) As
 	// ApplicationProfile
 	if source.ApplicationProfile != nil {
 		propertyBag.Add("ApplicationProfile", *source.ApplicationProfile)
+	} else {
+		propertyBag.Remove("ApplicationProfile")
 	}
 
 	// BillingProfile
@@ -2390,6 +2414,8 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) As
 	// CapacityReservation
 	if source.CapacityReservation != nil {
 		propertyBag.Add("CapacityReservation", *source.CapacityReservation)
+	} else {
+		propertyBag.Remove("CapacityReservation")
 	}
 
 	// DiagnosticsProfile
@@ -2422,6 +2448,8 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) As
 	// HardwareProfile
 	if source.HardwareProfile != nil {
 		propertyBag.Add("HardwareProfile", *source.HardwareProfile)
+	} else {
+		propertyBag.Remove("HardwareProfile")
 	}
 
 	// LicenseType
@@ -2493,6 +2521,8 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile) As
 	// UserData
 	if source.UserData != nil {
 		propertyBag.Add("UserData", *source.UserData)
+	} else {
+		propertyBag.Remove("UserData")
 	}
 
 	// Update the property bag
@@ -2711,6 +2741,8 @@ func (policy *AutomaticOSUpgradePolicy) AssignPropertiesFromAutomaticOSUpgradePo
 	// UseRollingUpgradePolicy
 	if source.UseRollingUpgradePolicy != nil {
 		propertyBag.Add("UseRollingUpgradePolicy", *source.UseRollingUpgradePolicy)
+	} else {
+		propertyBag.Remove("UseRollingUpgradePolicy")
 	}
 
 	// Update the property bag
@@ -2800,6 +2832,8 @@ func (policy *AutomaticOSUpgradePolicy_Status) AssignPropertiesFromAutomaticOSUp
 	// UseRollingUpgradePolicy
 	if source.UseRollingUpgradePolicy != nil {
 		propertyBag.Add("UseRollingUpgradePolicy", *source.UseRollingUpgradePolicy)
+	} else {
+		propertyBag.Remove("UseRollingUpgradePolicy")
 	}
 
 	// Update the property bag
@@ -3290,6 +3324,8 @@ func (profile *VirtualMachineScaleSetNetworkProfile_Status) AssignPropertiesFrom
 	// NetworkApiVersion
 	if source.NetworkApiVersion != nil {
 		propertyBag.Add("NetworkApiVersion", *source.NetworkApiVersion)
+	} else {
+		propertyBag.Remove("NetworkApiVersion")
 	}
 
 	// NetworkInterfaceConfigurations
@@ -3402,6 +3438,8 @@ func (profile *VirtualMachineScaleSetOSProfile_Status) AssignPropertiesFromVirtu
 	// AllowExtensionOperations
 	if source.AllowExtensionOperations != nil {
 		propertyBag.Add("AllowExtensionOperations", *source.AllowExtensionOperations)
+	} else {
+		propertyBag.Remove("AllowExtensionOperations")
 	}
 
 	// ComputerNamePrefix
@@ -3900,6 +3938,8 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_Net
 	// NetworkApiVersion
 	if source.NetworkApiVersion != nil {
 		propertyBag.Add("NetworkApiVersion", *source.NetworkApiVersion)
+	} else {
+		propertyBag.Remove("NetworkApiVersion")
 	}
 
 	// NetworkInterfaceConfigurations
@@ -4021,6 +4061,8 @@ func (profile *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsP
 	// AllowExtensionOperations
 	if source.AllowExtensionOperations != nil {
 		propertyBag.Add("AllowExtensionOperations", *source.AllowExtensionOperations)
+	} else {
+		propertyBag.Remove("AllowExtensionOperations")
 	}
 
 	// ComputerNamePrefix
@@ -4423,6 +4465,8 @@ func (disk *VirtualMachineScaleSetDataDisk) AssignPropertiesFromVirtualMachineSc
 	// DeleteOption
 	if source.DeleteOption != nil {
 		propertyBag.Add("DeleteOption", *source.DeleteOption)
+	} else {
+		propertyBag.Remove("DeleteOption")
 	}
 
 	// DiskIOPSReadWrite
@@ -4569,6 +4613,8 @@ func (disk *VirtualMachineScaleSetDataDisk_Status) AssignPropertiesFromVirtualMa
 	// DeleteOption
 	if source.DeleteOption != nil {
 		propertyBag.Add("DeleteOption", *source.DeleteOption)
+	} else {
+		propertyBag.Remove("DeleteOption")
 	}
 
 	// DiskIOPSReadWrite
@@ -4752,7 +4798,11 @@ func (extension *VirtualMachineScaleSetExtension_Status) AssignPropertiesFromVir
 	}
 
 	// ProtectedSettingsFromKeyVault
-	propertyBag.Add("ProtectedSettingsFromKeyVault", source.ProtectedSettingsFromKeyVault)
+	if len(source.ProtectedSettingsFromKeyVault) > 0 {
+		propertyBag.Add("ProtectedSettingsFromKeyVault", source.ProtectedSettingsFromKeyVault)
+	} else {
+		propertyBag.Remove("ProtectedSettingsFromKeyVault")
+	}
 
 	// ProvisionAfterExtensions
 	extension.ProvisionAfterExtensions = genruntime.CloneSliceOfString(source.ProvisionAfterExtensions)
@@ -4779,6 +4829,8 @@ func (extension *VirtualMachineScaleSetExtension_Status) AssignPropertiesFromVir
 	// SuppressFailures
 	if source.SuppressFailures != nil {
 		propertyBag.Add("SuppressFailures", *source.SuppressFailures)
+	} else {
+		propertyBag.Remove("SuppressFailures")
 	}
 
 	// Type
@@ -4931,6 +4983,8 @@ func (configuration *VirtualMachineScaleSetNetworkConfiguration_Status) AssignPr
 	// DeleteOption
 	if source.DeleteOption != nil {
 		propertyBag.Add("DeleteOption", *source.DeleteOption)
+	} else {
+		propertyBag.Remove("DeleteOption")
 	}
 
 	// DnsSettings
@@ -5173,6 +5227,8 @@ func (disk *VirtualMachineScaleSetOSDisk) AssignPropertiesFromVirtualMachineScal
 	// DeleteOption
 	if source.DeleteOption != nil {
 		propertyBag.Add("DeleteOption", *source.DeleteOption)
+	} else {
+		propertyBag.Remove("DeleteOption")
 	}
 
 	// DiffDiskSettings
@@ -5362,6 +5418,8 @@ func (disk *VirtualMachineScaleSetOSDisk_Status) AssignPropertiesFromVirtualMach
 	// DeleteOption
 	if source.DeleteOption != nil {
 		propertyBag.Add("DeleteOption", *source.DeleteOption)
+	} else {
+		propertyBag.Remove("DeleteOption")
 	}
 
 	// DiffDiskSettings
@@ -5636,6 +5694,8 @@ func (configurations *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProf
 	// DeleteOption
 	if source.DeleteOption != nil {
 		propertyBag.Add("DeleteOption", *source.DeleteOption)
+	} else {
+		propertyBag.Remove("DeleteOption")
 	}
 
 	// DnsSettings
@@ -6194,6 +6254,8 @@ func (parameters *VirtualMachineScaleSetManagedDiskParameters) AssignPropertiesF
 	// SecurityProfile
 	if source.SecurityProfile != nil {
 		propertyBag.Add("SecurityProfile", *source.SecurityProfile)
+	} else {
+		propertyBag.Remove("SecurityProfile")
 	}
 
 	// StorageAccountType
@@ -6291,6 +6353,8 @@ func (parameters *VirtualMachineScaleSetManagedDiskParameters_Status) AssignProp
 	// SecurityProfile
 	if source.SecurityProfile != nil {
 		propertyBag.Add("SecurityProfile", *source.SecurityProfile)
+	} else {
+		propertyBag.Remove("SecurityProfile")
 	}
 
 	// StorageAccountType
@@ -6777,6 +6841,8 @@ func (configuration *VirtualMachineScaleSetPublicIPAddressConfiguration_Status) 
 	// DeleteOption
 	if source.DeleteOption != nil {
 		propertyBag.Add("DeleteOption", *source.DeleteOption)
+	} else {
+		propertyBag.Remove("DeleteOption")
 	}
 
 	// DnsSettings
@@ -6838,6 +6904,8 @@ func (configuration *VirtualMachineScaleSetPublicIPAddressConfiguration_Status) 
 	// Sku
 	if source.Sku != nil {
 		propertyBag.Add("Sku", *source.Sku)
+	} else {
+		propertyBag.Remove("Sku")
 	}
 
 	// Update the property bag
@@ -6968,6 +7036,8 @@ func (configuration *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfi
 	// DeleteOption
 	if source.DeleteOption != nil {
 		propertyBag.Add("DeleteOption", *source.DeleteOption)
+	} else {
+		propertyBag.Remove("DeleteOption")
 	}
 
 	// DnsSettings
@@ -7029,6 +7099,8 @@ func (configuration *VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfi
 	// Sku
 	if source.Sku != nil {
 		propertyBag.Add("Sku", *source.Sku)
+	} else {
+		propertyBag.Remove("Sku")
 	}
 
 	// Update the property bag

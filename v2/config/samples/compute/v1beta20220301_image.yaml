@@ -1,0 +1,30 @@
+apiVersion: compute.azure.com/v1beta20220301
+kind: Image
+metadata:
+  name: aso-sample-image
+  namespace: default
+spec:
+    azurename: asotest-image-hkobbe
+    extendedlocation: null
+    hypervgeneration: V2
+    location: westus2
+    owner:
+        name: asotest-rg-hitcxz
+    sourcevirtualmachine: null
+    storageprofile:
+        datadisks: []
+        osdisk:
+            bloburi: null
+            caching: null
+            diskencryptionset: null
+            disksizegb: 32
+            manageddisk: null
+            osstate: Generalized
+            ostype: Linux
+            snapshot:
+                reference:
+                    armid: /subscriptions/82acd5bb-4206-47d4-9c12-a65db028483d/resourceGroups/asotest-rg-hitcxz/providers/Microsoft.Compute/snapshots/asotest-snapshot-pcngac
+            storageaccounttype: null
+        zoneresilient: null
+    tags: {}
+

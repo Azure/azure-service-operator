@@ -1,0 +1,73 @@
+apiVersion: compute.azure.com/v1beta20220301
+kind: VirtualMachine
+metadata:
+  name: samplevm
+  namespace: default
+spec:
+    additionalcapabilities: null
+    applicationprofile: null
+    availabilityset: null
+    azurename: asotest-vm-ljhvpw
+    billingprofile: null
+    capacityreservation: null
+    diagnosticsprofile:
+        bootdiagnostics:
+            enabled: true
+            storageuri: null
+    evictionpolicy: null
+    extendedlocation: null
+    extensionstimebudget: null
+    hardwareprofile:
+        vmsize: Standard_A1_v2
+        vmsizeproperties: null
+    host: null
+    hostgroup: null
+    identity: null
+    licensetype: null
+    location: westus2
+    networkprofile:
+        networkapiversion: null
+        networkinterfaceconfigurations: []
+        networkinterfaces:
+            - deleteoption: null
+              primary: null
+              reference:
+                group: network.azure.com
+                kind: NetworkInterface
+                name: asotest-nic-dajxvb
+                armid: ""
+    osprofile:
+        adminpassword:
+            name: asotest-vmsecret-jnczcw
+            key: password
+        adminusername: bloom
+        allowextensionoperations: null
+        computername: poppy
+        customdata: null
+        linuxconfiguration: null
+        requireguestprovisionsignal: null
+        secrets: []
+        windowsconfiguration: null
+    owner:
+        name: asotest-rg-zlljte
+    plan: null
+    platformfaultdomain: null
+    priority: null
+    proximityplacementgroup: null
+    scheduledeventsprofile: null
+    securityprofile: null
+    storageprofile:
+        datadisks: []
+        imagereference:
+            communitygalleryimageid: null
+            offer: UbuntuServer
+            publisher: Canonical
+            reference: null
+            sharedgalleryimageid: null
+            sku: 18.04-LTS
+            version: latest
+        osdisk: null
+    tags: {}
+    userdata: null
+    virtualmachinescaleset: null
+    zones: []

@@ -176,9 +176,7 @@ func getKnownStorageTypes() []*registration.StorageType {
 		Obj: new(compute_v20200930s.Snapshot),
 	})
 	result = append(result, &registration.StorageType{
-		Obj:     new(compute_v20220301s.Image),
-		Indexes: []registration.Index{},
-		Watches: []registration.Watch{},
+		Obj: new(compute_v20220301s.Image),
 	})
 	result = append(result, &registration.StorageType{
 		Obj: new(compute_v20220301s.VirtualMachine),
@@ -209,9 +207,6 @@ func getKnownStorageTypes() []*registration.StorageType {
 				MakeEventHandler: watchSecretsFactory([]string{".spec.virtualMachineProfile.osProfile.adminPassword"}, &compute_v20220301s.VirtualMachineScaleSetList{}),
 			},
 		},
-	})
-	result = append(result, &registration.StorageType{
-		Obj: new(compute_v20210701s.Image),
 	})
 	result = append(result, &registration.StorageType{
 		Obj: new(containerinstance_v20211001s.ContainerGroup),
@@ -533,12 +528,16 @@ func getKnownTypes() []client.Object {
 	result = append(result, new(compute_v20201201s.VirtualMachine), new(compute_v20201201s.VirtualMachineScaleSet))
 	result = append(result, new(compute_v20210701.Image))
 	result = append(result, new(compute_v20210701s.Image))
-	result = append(result, new(compute_v20220301.Image))
-	result = append(result, new(compute_v20220301.VirtualMachine))
-	result = append(result, new(compute_v20220301.VirtualMachineScaleSet))
-	result = append(result, new(compute_v20220301s.Image))
-	result = append(result, new(compute_v20220301s.VirtualMachine))
-	result = append(result, new(compute_v20220301s.VirtualMachineScaleSet))
+	result = append(
+		result,
+		new(compute_v20220301.Image),
+		new(compute_v20220301.VirtualMachine),
+		new(compute_v20220301.VirtualMachineScaleSet))
+	result = append(
+		result,
+		new(compute_v20220301s.Image),
+		new(compute_v20220301s.VirtualMachine),
+		new(compute_v20220301s.VirtualMachineScaleSet))
 	result = append(result, new(containerinstance_v20211001.ContainerGroup))
 	result = append(result, new(containerinstance_v20211001s.ContainerGroup))
 	result = append(result, new(containerregistry_alpha20210901.Registry))
