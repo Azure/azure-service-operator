@@ -13,7 +13,7 @@ import (
 	. "github.com/onsi/gomega"
 	v1 "k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
 
-	compute "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201"
+	compute2020 "github.com/Azure/azure-service-operator/v2/api/compute/v1beta20201201"
 	network "github.com/Azure/azure-service-operator/v2/api/network/v1beta20201101"
 	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/genericarmclient"
@@ -113,16 +113,16 @@ func newLoadBalancerForVMSS(tc *testcommon.KubePerTestContext, rg *resources.Res
 	}
 }
 
-func newVMSS(
+func newVMSS20201201(
 	tc *testcommon.KubePerTestContext,
 	rg *resources.ResourceGroup,
 	loadBalancer *network.LoadBalancer,
 	subnet *network.VirtualNetworksSubnet,
-) *compute.VirtualMachineScaleSet {
+) *compute2020.VirtualMachineScaleSet {
 	sshPublicKey, err := tc.GenerateSSHKey(2048)
 	tc.Expect(err).ToNot(HaveOccurred())
 
-	upgradePolicyMode := compute.UpgradePolicyModeAutomatic
+	upgradePolicyMode := compute2020.UpgradePolicyModeAutomatic
 	adminUsername := "adminUser"
 
 	inboundNATPoolRef := genruntime.ResourceReference{
@@ -130,36 +130,36 @@ func newVMSS(
 		ARMID: *loadBalancer.Status.InboundNatPools[0].Id,
 	}
 
-	return &compute.VirtualMachineScaleSet{
+	return &compute2020.VirtualMachineScaleSet{
 		ObjectMeta: tc.MakeObjectMetaWithName(tc.Namer.GenerateName("vmss")),
-		Spec: compute.VirtualMachineScaleSets_Spec{
+		Spec: compute2020.VirtualMachineScaleSets_Spec{
 			Location: tc.AzureRegion,
 			Owner:    testcommon.AsOwner(rg),
-			Sku: &compute.Sku{
+			Sku: &compute2020.Sku{
 				Name:     to.StringPtr("STANDARD_D1_v2"),
 				Capacity: to.IntPtr(1),
 			},
 			PlatformFaultDomainCount: to.IntPtr(3),
 			SinglePlacementGroup:     to.BoolPtr(false),
-			UpgradePolicy: &compute.UpgradePolicy{
+			UpgradePolicy: &compute2020.UpgradePolicy{
 				Mode: &upgradePolicyMode,
 			},
-			VirtualMachineProfile: &compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile{
-				StorageProfile: &compute.VirtualMachineScaleSetStorageProfile{
-					ImageReference: &compute.ImageReference{
+			VirtualMachineProfile: &compute2020.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile{
+				StorageProfile: &compute2020.VirtualMachineScaleSetStorageProfile{
+					ImageReference: &compute2020.ImageReference{
 						Publisher: to.StringPtr("Canonical"),
 						Offer:     to.StringPtr("UbuntuServer"),
 						Sku:       to.StringPtr("18.04-lts"),
 						Version:   to.StringPtr("latest"),
 					},
 				},
-				OsProfile: &compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile{
+				OsProfile: &compute2020.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_OsProfile{
 					ComputerNamePrefix: to.StringPtr("computer"),
 					AdminUsername:      &adminUsername,
-					LinuxConfiguration: &compute.LinuxConfiguration{
+					LinuxConfiguration: &compute2020.LinuxConfiguration{
 						DisablePasswordAuthentication: to.BoolPtr(true),
-						Ssh: &compute.SshConfiguration{
-							PublicKeys: []compute.SshPublicKey{
+						Ssh: &compute2020.SshConfiguration{
+							PublicKeys: []compute2020.SshPublicKey{
 								{
 									KeyData: sshPublicKey,
 									Path:    to.StringPtr(fmt.Sprintf("/home/%s/.ssh/authorized_keys", adminUsername)),
@@ -168,18 +168,18 @@ func newVMSS(
 						},
 					},
 				},
-				NetworkProfile: &compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile{
-					NetworkInterfaceConfigurations: []compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations{
+				NetworkProfile: &compute2020.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile{
+					NetworkInterfaceConfigurations: []compute2020.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations{
 						{
 							Name:    to.StringPtr("mynicconfig"),
 							Primary: to.BoolPtr(true),
-							IpConfigurations: []compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations{
+							IpConfigurations: []compute2020.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_NetworkProfile_NetworkInterfaceConfigurations_Properties_IpConfigurations{
 								{
 									Name: to.StringPtr("myipconfiguration"),
-									Subnet: &compute.ApiEntityReference{
+									Subnet: &compute2020.ApiEntityReference{
 										Reference: tc.MakeReferenceFromResource(subnet),
 									},
-									LoadBalancerInboundNatPools: []compute.SubResource{
+									LoadBalancerInboundNatPools: []compute2020.SubResource{
 										{
 											Reference: &inboundNATPoolRef,
 										},
@@ -194,10 +194,13 @@ func newVMSS(
 	}
 }
 
-func Test_Compute_VMSS_CRUD(t *testing.T) {
+func Test_Compute_VMSS_20201201_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
+	// Move to a different reason where we have quota
+	tc.AzureRegion = to.StringPtr("westeurope")
+
 	rg := tc.CreateTestResourceGroupAndWait()
 
 	vnet := newVMVirtualNetwork(tc, testcommon.AsOwner(rg))
@@ -208,7 +211,7 @@ func Test_Compute_VMSS_CRUD(t *testing.T) {
 	// can change the body of the VNET PUT (because VNET PUT contains subnets)
 	tc.CreateResourceAndWait(vnet)
 	tc.CreateResourcesAndWait(subnet, loadBalancer, publicIPAddress)
-	vmss := newVMSS(tc, rg, loadBalancer, subnet)
+	vmss := newVMSS20201201(tc, rg, loadBalancer, subnet)
 
 	tc.CreateResourceAndWait(vmss)
 	tc.Expect(vmss.Status.Id).ToNot(BeNil())
@@ -217,8 +220,8 @@ func Test_Compute_VMSS_CRUD(t *testing.T) {
 	// Perform a simple patch to add a basic custom script extension
 	old := vmss.DeepCopy()
 	extensionName := "mycustomextension"
-	vmss.Spec.VirtualMachineProfile.ExtensionProfile = &compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile{
-		Extensions: []compute.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions{
+	vmss.Spec.VirtualMachineProfile.ExtensionProfile = &compute2020.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile{
+		Extensions: []compute2020.VirtualMachineScaleSets_Spec_Properties_VirtualMachineProfile_ExtensionProfile_Extensions{
 			{
 				Name:               &extensionName,
 				Publisher:          to.StringPtr("Microsoft.Azure.Extensions"),
@@ -250,7 +253,7 @@ func Test_Compute_VMSS_CRUD(t *testing.T) {
 	tc.DeleteResourceAndWait(vmss)
 
 	// Ensure that the resource was really deleted in Azure
-	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(compute.APIVersionValue))
+	exists, retryAfter, err := tc.AzureClient.HeadByID(tc.Ctx, armId, string(compute2020.APIVersionValue))
 	tc.Expect(err).ToNot(HaveOccurred())
 	tc.Expect(retryAfter).To(BeZero())
 	tc.Expect(exists).To(BeFalse())

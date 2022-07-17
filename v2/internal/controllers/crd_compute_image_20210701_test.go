@@ -17,7 +17,7 @@ import (
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
-func Test_Compute_Image_CRUD(t *testing.T) {
+func Test_Compute_Image_20210701_CRUD(t *testing.T) {
 	t.Parallel()
 
 	tc := globalTestContext.ForTest(t)
