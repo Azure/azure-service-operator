@@ -10,6 +10,8 @@ import (
 	"strings"
 
 	model "github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
+	"k8s.io/apimachinery/pkg/runtime"
+
 	"github.com/Azure/azure-service-operator/api/v1alpha1"
 	azurev1alpha1 "github.com/Azure/azure-service-operator/api/v1alpha1"
 	"github.com/Azure/azure-service-operator/pkg/errhelp"
@@ -18,7 +20,6 @@ import (
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/config"
 	"github.com/Azure/azure-service-operator/pkg/resourcemanager/iam"
 	"github.com/Azure/azure-service-operator/pkg/secrets"
-	"k8s.io/apimachinery/pkg/runtime"
 
 	"github.com/Azure/azure-sdk-for-go/services/eventhub/mgmt/2017-04-01/eventhub"
 	"github.com/Azure/go-autorest/autorest"
@@ -345,7 +346,7 @@ func (e *azureEventHubManager) Delete(ctx context.Context, obj runtime.Object, o
 		instance.Spec.SecretName = eventhubName
 	}
 
-	resp, err := e.DeleteHub(ctx, resourcegroup, namespaceName, eventhubName)
+	_, err = e.GetHub(ctx, resourcegroup, namespaceName, eventhubName)
 	if err != nil {
 		catch := []string{
 			errhelp.ResourceGroupNotFoundErrorCode,
@@ -353,17 +354,29 @@ func (e *azureEventHubManager) Delete(ctx context.Context, obj runtime.Object, o
 			errhelp.NotFoundErrorCode,
 		}
 		azerr := errhelp.NewAzureError(err)
-		if helpers.ContainsString(catch, azerr.Type) {
-			instance.Status.Message = err.Error()
+		if helpers.ContainsString(catch, azerr.Type) || azerr.Code == http.StatusNotFound {
+			//Delete the secrets as best effort before successful return after delete
+			e.deleteEventhubSecrets(ctx, secretClient, secretName, instance)
 			return false, nil
 		}
 		return false, err
 	}
 
-	if resp.StatusCode == http.StatusNoContent {
-		//Delete the secrets as best effort before successful return after delete
-		e.deleteEventhubSecrets(ctx, secretClient, secretName, instance)
-		return false, nil
+	_, err = e.DeleteHub(ctx, resourcegroup, namespaceName, eventhubName)
+	if err != nil {
+		catch := []string{
+			errhelp.ResourceGroupNotFoundErrorCode,
+			errhelp.ParentNotFoundErrorCode,
+			errhelp.NotFoundErrorCode,
+		}
+		azerr := errhelp.NewAzureError(err)
+		if helpers.ContainsString(catch, azerr.Type) || azerr.Code == http.StatusNotFound {
+			instance.Status.Message = err.Error()
+			//Delete the secrets as best effort before successful return after delete
+			e.deleteEventhubSecrets(ctx, secretClient, secretName, instance)
+			return false, nil
+		}
+		return false, err
 	}
 
 	return true, nil
