@@ -27,10 +27,12 @@ func TestSingular_GivesExpectedResults(t *testing.T) {
 		{"ImportServices", "ImportService"},
 		{"Exportservices", "Exportservice"},
 		{"AzureRedis", "AzureRedis"},
+		{"Aliases", "Alias"},
 	}
 
 	ref := makeTestLocalPackageReference("Demo", "v2010")
 
+	idFactory := NewIdentifierFactory()
 	for _, c := range cases {
 		c := c
 		t.Run(c.name, func(t *testing.T) {
@@ -38,7 +40,7 @@ func TestSingular_GivesExpectedResults(t *testing.T) {
 			g := NewGomegaWithT(t)
 
 			name := MakeTypeName(ref, c.name)
-			result := name.Singular()
+			result := name.Singular(idFactory)
 			g.Expect(result.name).To(Equal(c.expected))
 		})
 	}
