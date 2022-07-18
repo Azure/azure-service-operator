@@ -195,10 +195,20 @@ func NameOfPropertyAssignmentFunction(
 //
 // <propertyBag>.Add(<propertyName>, <source>)
 //
-// For optional sources, the value is only added if non-nil
+// For optional sources, the value is only added if non-nil; if nil, we remove any existing item
 //
 // if <source> != nil {
 //     <propertyBag>.Add(<propertyName>, *<source>)
+// } else {
+//    <propertyBag>.Remove(<propertyName>)
+// }
+//
+// For slice and slice sources, the value is only added if it is non-empty; if empty we remove any existing item
+//
+// if len(<source>) > 0 {
+//	   <propertyBag>.Add(<propertyName>, <source>)
+// } else {
+//	   <propertyBag>.Remove(<propertyName>)
 // }
 //
 func writeToBagItem(
@@ -229,6 +239,9 @@ func writeToBagItem(
 		return nil, nil
 	}
 
+	_, sourceIsMap := astmodel.AsMapType(actualSourceType)
+	_, sourceIsSlice := astmodel.AsArrayType(actualSourceType)
+
 	return func(reader dst.Expr, _ func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 		createAddToBag := func(expr dst.Expr) dst.Stmt {
 			addToBag := astbuilder.InvokeQualifiedFunc(
@@ -240,15 +253,31 @@ func writeToBagItem(
 			return addToBag
 		}
 
-		var writer dst.Stmt
+		removeFromBag := astbuilder.InvokeQualifiedFunc(
+			conversionContext.PropertyBagName(),
+			"Remove",
+			astbuilder.StringLiteralf(destinationEndpoint.Name()))
+
+		// If pointer to value, check for nil and only store if we have a value
 		if sourceIsOptional {
-			writer = astbuilder.IfNotNil(
-				reader,
-				createAddToBag(astbuilder.Dereference(reader)))
-		} else {
-			writer = createAddToBag(reader)
+			writer := astbuilder.SimpleIfElse(
+				astbuilder.NotNil(reader),
+				astbuilder.Statements(createAddToBag(astbuilder.Dereference(reader))),
+				astbuilder.Statements(removeFromBag))
+			return astbuilder.Statements(writer)
 		}
 
+		// If slice or map, check for non-empty and only store if we have a value
+		if sourceIsSlice || sourceIsMap {
+			writer := astbuilder.SimpleIfElse(
+				astbuilder.NotEmpty(reader),
+				astbuilder.Statements(createAddToBag(reader)),
+				astbuilder.Statements(removeFromBag))
+			return astbuilder.Statements(writer)
+		}
+
+		// Otherwise, just store the value
+		writer := createAddToBag(reader)
 		return astbuilder.Statements(writer)
 	}, nil
 }
