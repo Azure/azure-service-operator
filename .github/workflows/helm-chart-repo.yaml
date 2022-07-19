@@ -1,10 +1,19 @@
 name: Publish helm charts
 on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Git ref or full SHA of commit to generate Helm chart for'
+        required: true
+        default: 'main'
   # run when a release is published,
   # which creates a new tag
   push:
     tags:
       - v2*
+
+env:
+  ref: "${{ github.ref_name || github.event.inputs.ref }}"
 
 jobs:
   generate:
@@ -13,7 +22,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          ref: main
+          ref: ${{ env.ref }}
           fetch-depth: 0 # required to access tags
           submodules: 'true'
 
@@ -22,12 +31,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
         with:
-          branch: ${{ format('bot/update-helm-chart-{0}', github.ref_name) }}
+          branch: ${{ format('bot/update-helm-chart-{0}', env.ref) }}
 
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          ref: ${{ format('bot/update-helm-chart-{0}', github.ref_name) }}
+          ref: ${{ format('bot/update-helm-chart-{0}', env.ref) }}
           fetch-depth: 0 # required to access tags
           submodules: 'true'
 
@@ -80,7 +89,7 @@ jobs:
         uses: devops-infra/action-pull-request@v0.4.2
         with:
           github_token: ${{ secrets.GH_PAT }}
-          source_branch: ${{ format('bot/update-helm-chart-{0}', github.ref_name) }}
+          source_branch: ${{ format('bot/update-helm-chart-{0}', env.ref) }}
           target_branch: main
           title: "[Automated] Add Helm Chart"
           body: "Add new helm chart for latest release"
