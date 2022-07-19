@@ -43,6 +43,8 @@ func (person *Person) AssignPropertiesToPerson(destination *vnext.Person) error 
 	// Name
 	if person.Name != nil {
 		propertyBag.Add("Name", *person.Name)
+	} else {
+		propertyBag.Remove("Name")
 	}
 
 	// Update the property bag

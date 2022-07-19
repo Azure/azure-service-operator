@@ -92,3 +92,10 @@ func (bag PropertyBag) Pull(property string, destination interface{}) error {
 
 	return nil
 }
+
+// Remove ensures the property bag doesn't contain a value for the specified name
+// property is the name of the item to remove
+// It is not an error to try and remove an item that's not present
+func (bag PropertyBag) Remove(property string) {
+	delete(bag, property)
+}
