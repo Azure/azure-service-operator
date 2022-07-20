@@ -13,7 +13,7 @@ on:
       - v2*
 
 env:
-  ref: "${{ github.ref_name || github.event.inputs.ref }}"
+  ref: "${{ github.event.inputs.ref || github.ref_name }}"
 
 jobs:
   generate:
