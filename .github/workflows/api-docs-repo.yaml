@@ -17,12 +17,12 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_PAT }}
         with:
-          branch: 'bot/update-api-docs'
+          branch: ${{ format('bot/update-api-docs-{0}', github.run_number) }}
 
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          ref: bot/update-api-docs
+          ref: ${{ format('bot/update-api-docs-{0}', github.run_number) }}
           fetch-depth: 0 # required to access tags
           submodules: 'true'
 
@@ -75,7 +75,7 @@ jobs:
         uses: devops-infra/action-pull-request@v0.4.2
         with:
           github_token: ${{ secrets.GH_PAT }}
-          source_branch: bot/update-api-docs
+          source_branch: ${{ format('bot/update-api-docs-{0}', github.run_number) }}
           target_branch: main
           title: "[Automated] Add API Docs"
           body: "Add new API Docs for latest release"
