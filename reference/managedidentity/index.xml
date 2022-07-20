@@ -1,0 +1,1009 @@
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Azure Service Operator – managedidentity</title>
+    <link>https://azure.github.io/azure-service-operator/reference/managedidentity/</link>
+    <description>Recent content in managedidentity on Azure Service Operator</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    
+	  <atom:link href="https://azure.github.io/azure-service-operator/reference/managedidentity/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+      
+        
+      
+    
+    
+    <item>
+      <title>Reference: managedidentity.azure.com/v1alpha1api20181130</title>
+      <link>https://azure.github.io/azure-service-operator/reference/managedidentity/v1alpha1api20181130/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/reference/managedidentity/v1alpha1api20181130/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;managedidentity.azure.com/v1alpha1api20181130&#34;&gt;managedidentity.azure.com/v1alpha1api20181130&lt;/h2&gt;
+&lt;div&gt;
+&lt;p&gt;Package v1alpha1api20181130 contains API Schema definitions for the managedidentity v1alpha1api20181130 API group&lt;/p&gt;
+&lt;/div&gt;
+Resource Types:
+&lt;ul&gt;&lt;/ul&gt;
+&lt;h3 id=&#34;managedidentity.azure.com/v1alpha1api20181130.APIVersion&#34;&gt;APIVersion
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;div&gt;
+&lt;p&gt;Deprecated version of APIVersion. Use v1beta20181130.APIVersion instead&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;2018-11-30&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;managedidentity.azure.com/v1alpha1api20181130.Identity_Status&#34;&gt;Identity_Status
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#managedidentity.azure.com/v1alpha1api20181130.UserAssignedIdentity&#34;&gt;UserAssignedIdentity&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Deprecated version of Identity_Status. Use v1beta20181130.Identity_Status instead&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;clientId&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;conditions&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition&#34;&gt;
+[]genruntime/conditions.Condition
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Conditions: The observed state of the resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;id&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;principalId&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;tenantId&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;managedidentity.azure.com/v1alpha1api20181130.Identity_StatusARM&#34;&gt;Identity_StatusARM
+&lt;/h3&gt;
+&lt;div&gt;
+&lt;p&gt;Deprecated version of Identity_Status. Use v1beta20181130.Identity_Status instead&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;id&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;properties&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#managedidentity.azure.com/v1alpha1api20181130.UserAssignedIdentityProperties_StatusARM&#34;&gt;
+UserAssignedIdentityProperties_StatusARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;managedidentity.azure.com/v1alpha1api20181130.UserAssignedIdentities_Spec&#34;&gt;UserAssignedIdentities_Spec
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#managedidentity.azure.com/v1alpha1api20181130.UserAssignedIdentity&#34;&gt;UserAssignedIdentity&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;azureName&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&amp;rsquo;t have to be.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;owner&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference&#34;&gt;
+genruntime.KnownResourceReference
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;managedidentity.azure.com/v1alpha1api20181130.UserAssignedIdentities_SpecARM&#34;&gt;UserAssignedIdentities_SpecARM
+&lt;/h3&gt;
+&lt;div&gt;
+&lt;p&gt;Deprecated version of UserAssignedIdentities_Spec. Use v1beta20181130.UserAssignedIdentities_Spec instead&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;managedidentity.azure.com/v1alpha1api20181130.UserAssignedIdentity&#34;&gt;UserAssignedIdentity
+&lt;/h3&gt;
+&lt;div&gt;
+&lt;p&gt;Deprecated version of UserAssignedIdentity. Use v1beta20181130.UserAssignedIdentity instead&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;metadata&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta&#34;&gt;
+Kubernetes meta/v1.ObjectMeta
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+Refer to the Kubernetes API documentation for the fields of the
+&lt;code&gt;metadata&lt;/code&gt; field.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;spec&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#managedidentity.azure.com/v1alpha1api20181130.UserAssignedIdentities_Spec&#34;&gt;
+UserAssignedIdentities_Spec
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;br/&gt;
+&lt;br/&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;azureName&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&amp;rsquo;t have to be.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;owner&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference&#34;&gt;
+genruntime.KnownResourceReference
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#managedidentity.azure.com/v1alpha1api20181130.Identity_Status&#34;&gt;
+Identity_Status
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;managedidentity.azure.com/v1alpha1api20181130.UserAssignedIdentityProperties_StatusARM&#34;&gt;UserAssignedIdentityProperties_StatusARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#managedidentity.azure.com/v1alpha1api20181130.Identity_StatusARM&#34;&gt;Identity_StatusARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;p&gt;Deprecated version of UserAssignedIdentityProperties_Status. Use v1beta20181130.UserAssignedIdentityProperties_Status instead&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;clientId&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;principalId&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;tenantId&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr/&gt;
+
+      </description>
+    </item>
+    
+    <item>
+      <title>Reference: managedidentity.azure.com/v1beta20181130</title>
+      <link>https://azure.github.io/azure-service-operator/reference/managedidentity/v1beta20181130/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://azure.github.io/azure-service-operator/reference/managedidentity/v1beta20181130/</guid>
+      <description>
+        
+        
+        &lt;h2 id=&#34;managedidentity.azure.com/v1beta20181130&#34;&gt;managedidentity.azure.com/v1beta20181130&lt;/h2&gt;
+&lt;div&gt;
+&lt;p&gt;Package v1beta20181130 contains API Schema definitions for the managedidentity v1beta20181130 API group&lt;/p&gt;
+&lt;/div&gt;
+Resource Types:
+&lt;ul&gt;&lt;/ul&gt;
+&lt;h3 id=&#34;managedidentity.azure.com/v1beta20181130.APIVersion&#34;&gt;APIVersion
+(&lt;code&gt;string&lt;/code&gt; alias)&lt;/h3&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Value&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;p&gt;&amp;#34;2018-11-30&amp;#34;&lt;/p&gt;&lt;/td&gt;
+&lt;td&gt;&lt;/td&gt;
+&lt;/tr&gt;&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;managedidentity.azure.com/v1beta20181130.Identity_Status&#34;&gt;Identity_Status
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#managedidentity.azure.com/v1beta20181130.UserAssignedIdentity&#34;&gt;UserAssignedIdentity&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;clientId&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ClientId: The id of the app associated with the identity. This is a random generated UUID by MSI.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;conditions&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#Condition&#34;&gt;
+[]genruntime/conditions.Condition
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Conditions: The observed state of the resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;id&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Id: Fully qualified resource ID for the resource. Ex -
+/&amp;#x200b;subscriptions/&amp;#x200b;{subscriptionId}/&amp;#x200b;resourceGroups/&amp;#x200b;{resourceGroupName}/&amp;#x200b;providers/&amp;#x200b;{resourceProviderNamespace}/&amp;#x200b;{resourceType}/&amp;#x200b;{resourceName}&lt;/&amp;#x200b;p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Location: The geo-location where the resource lives&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Name: The name of the resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;principalId&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;PrincipalId: The id of the service principal object associated with the created identity.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Tags: Resource tags.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;tenantId&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;TenantId: The id of the tenant which the identity belongs to.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Type: The type of the resource. E.g. &amp;ldquo;Microsoft.Compute/virtualMachines&amp;rdquo; or &amp;ldquo;Microsoft.Storage/storageAccounts&amp;rdquo;&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;managedidentity.azure.com/v1beta20181130.Identity_StatusARM&#34;&gt;Identity_StatusARM
+&lt;/h3&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;id&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Id: Fully qualified resource ID for the resource. Ex -
+/&amp;#x200b;subscriptions/&amp;#x200b;{subscriptionId}/&amp;#x200b;resourceGroups/&amp;#x200b;{resourceGroupName}/&amp;#x200b;providers/&amp;#x200b;{resourceProviderNamespace}/&amp;#x200b;{resourceType}/&amp;#x200b;{resourceName}&lt;/&amp;#x200b;p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Location: The geo-location where the resource lives&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Name: The name of the resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;properties&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#managedidentity.azure.com/v1beta20181130.UserAssignedIdentityProperties_StatusARM&#34;&gt;
+UserAssignedIdentityProperties_StatusARM
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Properties: The properties associated with the identity.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Tags: Resource tags.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;type&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Type: The type of the resource. E.g. &amp;ldquo;Microsoft.Compute/virtualMachines&amp;rdquo; or &amp;ldquo;Microsoft.Storage/storageAccounts&amp;rdquo;&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;managedidentity.azure.com/v1beta20181130.UserAssignedIdentities_Spec&#34;&gt;UserAssignedIdentities_Spec
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#managedidentity.azure.com/v1beta20181130.UserAssignedIdentity&#34;&gt;UserAssignedIdentity&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;azureName&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&amp;rsquo;t have to be.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Location: The Azure region where the identity lives.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;owner&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference&#34;&gt;
+genruntime.KnownResourceReference
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Tags: Name-value pairs to add to the resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;managedidentity.azure.com/v1beta20181130.UserAssignedIdentities_SpecARM&#34;&gt;UserAssignedIdentities_SpecARM
+&lt;/h3&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Location: The Azure region where the identity lives.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;name&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Name: The name of the identity resource.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Tags: Name-value pairs to add to the resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;managedidentity.azure.com/v1beta20181130.UserAssignedIdentity&#34;&gt;UserAssignedIdentity
+&lt;/h3&gt;
+&lt;div&gt;
+&lt;p&gt;Generated from: &lt;a href=&#34;https://schema.management.azure.com/schemas/2018-11-30/Microsoft.ManagedIdentity.json#/resourceDefinitions/userAssignedIdentities&#34;&gt;https://schema.management.azure.com/schemas/2018-11-30/Microsoft.ManagedIdentity.json#/resourceDefinitions/userAssignedIdentities&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;metadata&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://v1-18.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#objectmeta-v1-meta&#34;&gt;
+Kubernetes meta/v1.ObjectMeta
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+Refer to the Kubernetes API documentation for the fields of the
+&lt;code&gt;metadata&lt;/code&gt; field.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;spec&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#managedidentity.azure.com/v1beta20181130.UserAssignedIdentities_Spec&#34;&gt;
+UserAssignedIdentities_Spec
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;br/&gt;
+&lt;br/&gt;
+&lt;table&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;azureName&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;AzureName: The name of the resource in Azure. This is often the same as the name of the resource in Kubernetes but it
+doesn&amp;rsquo;t have to be.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;location&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Location: The Azure region where the identity lives.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;owner&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;https://pkg.go.dev/github.com/Azure/azure-service-operator/v2/pkg/genruntime#KnownResourceReference&#34;&gt;
+genruntime.KnownResourceReference
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Owner: The owner of the resource. The owner controls where the resource goes when it is deployed. The owner also
+controls the resources lifecycle. When the owner is deleted the resource will also be deleted. Owner is expected to be a
+reference to a resources.azure.com/ResourceGroup resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;tags&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+map[string]string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;Tags: Name-value pairs to add to the resource&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;status&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+&lt;a href=&#34;#managedidentity.azure.com/v1beta20181130.Identity_Status&#34;&gt;
+Identity_Status
+&lt;/a&gt;
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;h3 id=&#34;managedidentity.azure.com/v1beta20181130.UserAssignedIdentityProperties_StatusARM&#34;&gt;UserAssignedIdentityProperties_StatusARM
+&lt;/h3&gt;
+&lt;p&gt;
+(&lt;em&gt;Appears on:&lt;/em&gt;&lt;a href=&#34;#managedidentity.azure.com/v1beta20181130.Identity_StatusARM&#34;&gt;Identity_StatusARM&lt;/a&gt;)
+&lt;/p&gt;
+&lt;div&gt;
+&lt;/div&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;Field&lt;/th&gt;
+&lt;th&gt;Description&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;clientId&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;ClientId: The id of the app associated with the identity. This is a random generated UUID by MSI.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;principalId&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;PrincipalId: The id of the service principal object associated with the created identity.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td&gt;
+&lt;code&gt;tenantId&lt;/code&gt;&lt;br/&gt;
+&lt;em&gt;
+string
+&lt;/em&gt;
+&lt;/td&gt;
+&lt;td&gt;
+&lt;p&gt;TenantId: The id of the tenant which the identity belongs to.&lt;/p&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;hr/&gt;
+
+      </description>
+    </item>
+    
+  </channel>
+</rss>
