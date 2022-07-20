@@ -67,7 +67,7 @@ func (workspace *Workspace) ConvertTo(hub conversion.Hub) error {
 	return workspace.AssignPropertiesToWorkspace(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-operationalinsights-azure-com-v1beta20210601-workspace,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=operationalinsights.azure.com,resources=workspaces,verbs=create;update,versions=v1beta20210601,name=default.v1beta20210601.workspaces.operationalinsights.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-operationalinsights-azure-com-v1beta20210601-workspace,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=operationalinsights.azure.com,resources=workspaces,verbs=create;update,versions=v1beta20210601,name=default.v1beta20210601.workspaces.operationalinsights.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &Workspace{}
 
@@ -156,7 +156,7 @@ func (workspace *Workspace) SetStatus(status genruntime.ConvertibleStatus) error
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-operationalinsights-azure-com-v1beta20210601-workspace,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=operationalinsights.azure.com,resources=workspaces,verbs=create;update,versions=v1beta20210601,name=validate.v1beta20210601.workspaces.operationalinsights.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-operationalinsights-azure-com-v1beta20210601-workspace,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=operationalinsights.azure.com,resources=workspaces,verbs=create;update,versions=v1beta20210601,name=validate.v1beta20210601.workspaces.operationalinsights.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &Workspace{}
 
@@ -888,8 +888,8 @@ type Workspaces_Spec struct {
 	// doesn't have to be.
 	AzureName string `json:"azureName,omitempty"`
 
-	// ETag: The ETag of the workspace.
-	ETag *string `json:"eTag,omitempty"`
+	// Etag: The etag of the workspace.
+	Etag *string `json:"etag,omitempty"`
 
 	// Features: Workspace features.
 	Features *WorkspaceFeatures `json:"features,omitempty"`
@@ -938,10 +938,10 @@ func (workspaces *Workspaces_Spec) ConvertToARM(resolved genruntime.ConvertToARM
 	}
 	result := &Workspaces_SpecARM{}
 
-	// Set property ‘ETag’:
-	if workspaces.ETag != nil {
-		eTag := *workspaces.ETag
-		result.ETag = &eTag
+	// Set property ‘Etag’:
+	if workspaces.Etag != nil {
+		etag := *workspaces.Etag
+		result.Etag = &etag
 	}
 
 	// Set property ‘Location’:
@@ -1034,10 +1034,10 @@ func (workspaces *Workspaces_Spec) PopulateFromARM(owner genruntime.ArbitraryOwn
 	// Set property ‘AzureName’:
 	workspaces.SetAzureName(genruntime.ExtractKubernetesResourceNameFromARMName(typedInput.Name))
 
-	// Set property ‘ETag’:
-	if typedInput.ETag != nil {
-		eTag := *typedInput.ETag
-		workspaces.ETag = &eTag
+	// Set property ‘Etag’:
+	if typedInput.Etag != nil {
+		etag := *typedInput.Etag
+		workspaces.Etag = &etag
 	}
 
 	// Set property ‘Features’:
@@ -1206,8 +1206,8 @@ func (workspaces *Workspaces_Spec) AssignPropertiesFromWorkspacesSpec(source *v2
 	// AzureName
 	workspaces.AzureName = source.AzureName
 
-	// ETag
-	workspaces.ETag = genruntime.ClonePointerToString(source.ETag)
+	// Etag
+	workspaces.Etag = genruntime.ClonePointerToString(source.Etag)
 
 	// Features
 	if source.Features != nil {
@@ -1306,8 +1306,8 @@ func (workspaces *Workspaces_Spec) AssignPropertiesToWorkspacesSpec(destination 
 	// AzureName
 	destination.AzureName = workspaces.AzureName
 
-	// ETag
-	destination.ETag = genruntime.ClonePointerToString(workspaces.ETag)
+	// Etag
+	destination.Etag = genruntime.ClonePointerToString(workspaces.Etag)
 
 	// Features
 	if workspaces.Features != nil {

@@ -105,7 +105,8 @@ func RunPropertyAssignmentTestForFlexibleServer(subject FlexibleServer) string {
 func Test_FlexibleServer_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of FlexibleServer via JSON returns original",
@@ -207,7 +208,8 @@ func RunPropertyAssignmentTestForFlexibleServersSpec(subject FlexibleServers_Spe
 func Test_FlexibleServers_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of FlexibleServers_Spec via JSON returns original",
@@ -286,7 +288,9 @@ func AddIndependentPropertyGeneratorsForFlexibleServersSpec(gens map[string]gopt
 // AddRelatedPropertyGeneratorsForFlexibleServersSpec is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForFlexibleServersSpec(gens map[string]gopter.Gen) {
 	gens["Backup"] = gen.PtrOf(BackupGenerator())
+	gens["DataEncryption"] = gen.PtrOf(DataEncryptionGenerator())
 	gens["HighAvailability"] = gen.PtrOf(HighAvailabilityGenerator())
+	gens["Identity"] = gen.PtrOf(IdentityGenerator())
 	gens["MaintenanceWindow"] = gen.PtrOf(MaintenanceWindowGenerator())
 	gens["Network"] = gen.PtrOf(NetworkGenerator())
 	gens["OperatorSpec"] = gen.PtrOf(FlexibleServerOperatorSpecGenerator())
@@ -339,7 +343,8 @@ func RunPropertyAssignmentTestForServerStatus(subject Server_Status) string {
 func Test_Server_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Server_Status via JSON returns original",
@@ -476,7 +481,8 @@ func RunPropertyAssignmentTestForBackup(subject Backup) string {
 func Test_Backup_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Backup via JSON returns original",
@@ -578,7 +584,8 @@ func RunPropertyAssignmentTestForBackupStatus(subject Backup_Status) string {
 func Test_Backup_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Backup_Status via JSON returns original",
@@ -636,6 +643,110 @@ func AddIndependentPropertyGeneratorsForBackupStatus(gens map[string]gopter.Gen)
 	gens["GeoRedundantBackup"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_DataEncryption_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from DataEncryption to DataEncryption via AssignPropertiesToDataEncryption & AssignPropertiesFromDataEncryption returns original",
+		prop.ForAll(RunPropertyAssignmentTestForDataEncryption, DataEncryptionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForDataEncryption tests if a specific instance of DataEncryption can be assigned to v1beta20210501storage and back losslessly
+func RunPropertyAssignmentTestForDataEncryption(subject DataEncryption) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20210501s.DataEncryption
+	err := copied.AssignPropertiesToDataEncryption(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual DataEncryption
+	err = actual.AssignPropertiesFromDataEncryption(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_DataEncryption_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DataEncryption via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDataEncryption, DataEncryptionGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDataEncryption runs a test to see if a specific instance of DataEncryption round trips to JSON and back losslessly
+func RunJSONSerializationTestForDataEncryption(subject DataEncryption) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DataEncryption
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DataEncryption instances for property testing - lazily instantiated by DataEncryptionGenerator()
+var dataEncryptionGenerator gopter.Gen
+
+// DataEncryptionGenerator returns a generator of DataEncryption instances for property testing.
+func DataEncryptionGenerator() gopter.Gen {
+	if dataEncryptionGenerator != nil {
+		return dataEncryptionGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDataEncryption(generators)
+	dataEncryptionGenerator = gen.Struct(reflect.TypeOf(DataEncryption{}), generators)
+
+	return dataEncryptionGenerator
+}
+
+// AddIndependentPropertyGeneratorsForDataEncryption is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDataEncryption(gens map[string]gopter.Gen) {
+	gens["GeoBackupKeyUri"] = gen.PtrOf(gen.AlphaString())
+	gens["PrimaryKeyUri"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
 func Test_DataEncryption_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -681,7 +792,8 @@ func RunPropertyAssignmentTestForDataEncryptionStatus(subject DataEncryption_Sta
 func Test_DataEncryption_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DataEncryption_Status via JSON returns original",
@@ -787,7 +899,8 @@ func RunPropertyAssignmentTestForFlexibleServerOperatorSpec(subject FlexibleServ
 func Test_FlexibleServerOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of FlexibleServerOperatorSpec via JSON returns original",
@@ -889,7 +1002,8 @@ func RunPropertyAssignmentTestForHighAvailability(subject HighAvailability) stri
 func Test_HighAvailability_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of HighAvailability via JSON returns original",
@@ -991,7 +1105,8 @@ func RunPropertyAssignmentTestForHighAvailabilityStatus(subject HighAvailability
 func Test_HighAvailability_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of HighAvailability_Status via JSON returns original",
@@ -1050,6 +1165,108 @@ func AddIndependentPropertyGeneratorsForHighAvailabilityStatus(gens map[string]g
 	gens["State"] = gen.PtrOf(gen.AlphaString())
 }
 
+func Test_Identity_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MaxSize = 10
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip from Identity to Identity via AssignPropertiesToIdentity & AssignPropertiesFromIdentity returns original",
+		prop.ForAll(RunPropertyAssignmentTestForIdentity, IdentityGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(false, 240, os.Stdout))
+}
+
+// RunPropertyAssignmentTestForIdentity tests if a specific instance of Identity can be assigned to v1beta20210501storage and back losslessly
+func RunPropertyAssignmentTestForIdentity(subject Identity) string {
+	// Copy subject to make sure assignment doesn't modify it
+	copied := subject.DeepCopy()
+
+	// Use AssignPropertiesTo() for the first stage of conversion
+	var other v20210501s.Identity
+	err := copied.AssignPropertiesToIdentity(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Use AssignPropertiesFrom() to convert back to our original type
+	var actual Identity
+	err = actual.AssignPropertiesFromIdentity(&other)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for a match
+	match := cmp.Equal(subject, actual)
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+func Test_Identity_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of Identity via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForIdentity, IdentityGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForIdentity runs a test to see if a specific instance of Identity round trips to JSON and back losslessly
+func RunJSONSerializationTestForIdentity(subject Identity) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual Identity
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of Identity instances for property testing - lazily instantiated by IdentityGenerator()
+var identityGenerator gopter.Gen
+
+// IdentityGenerator returns a generator of Identity instances for property testing.
+func IdentityGenerator() gopter.Gen {
+	if identityGenerator != nil {
+		return identityGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForIdentity(generators)
+	identityGenerator = gen.Struct(reflect.TypeOf(Identity{}), generators)
+
+	return identityGenerator
+}
+
+// AddIndependentPropertyGeneratorsForIdentity is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForIdentity(gens map[string]gopter.Gen) {
+	gens["Type"] = gen.PtrOf(gen.AlphaString())
+}
+
 func Test_Identity_Status_WhenPropertiesConverted_RoundTripsWithoutLoss(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
@@ -1095,7 +1312,8 @@ func RunPropertyAssignmentTestForIdentityStatus(subject Identity_Status) string 
 func Test_Identity_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Identity_Status via JSON returns original",
@@ -1198,7 +1416,8 @@ func RunPropertyAssignmentTestForMaintenanceWindow(subject MaintenanceWindow) st
 func Test_MaintenanceWindow_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of MaintenanceWindow via JSON returns original",
@@ -1302,7 +1521,8 @@ func RunPropertyAssignmentTestForMaintenanceWindowStatus(subject MaintenanceWind
 func Test_MaintenanceWindow_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of MaintenanceWindow_Status via JSON returns original",
@@ -1407,7 +1627,8 @@ func RunPropertyAssignmentTestForNetwork(subject Network) string {
 func Test_Network_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Network via JSON returns original",
@@ -1502,7 +1723,8 @@ func RunPropertyAssignmentTestForNetworkStatus(subject Network_Status) string {
 func Test_Network_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Network_Status via JSON returns original",
@@ -1605,7 +1827,8 @@ func RunPropertyAssignmentTestForSku(subject Sku) string {
 func Test_Sku_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Sku via JSON returns original",
@@ -1707,7 +1930,8 @@ func RunPropertyAssignmentTestForSkuStatus(subject Sku_Status) string {
 func Test_Sku_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Sku_Status via JSON returns original",
@@ -1809,7 +2033,8 @@ func RunPropertyAssignmentTestForStorage(subject Storage) string {
 func Test_Storage_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Storage via JSON returns original",
@@ -1912,7 +2137,8 @@ func RunPropertyAssignmentTestForStorageStatus(subject Storage_Status) string {
 func Test_Storage_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Storage_Status via JSON returns original",
@@ -2016,7 +2242,8 @@ func RunPropertyAssignmentTestForSystemDataStatus(subject SystemData_Status) str
 func Test_SystemData_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SystemData_Status via JSON returns original",
@@ -2122,7 +2349,8 @@ func RunPropertyAssignmentTestForFlexibleServerOperatorSecrets(subject FlexibleS
 func Test_FlexibleServerOperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of FlexibleServerOperatorSecrets via JSON returns original",

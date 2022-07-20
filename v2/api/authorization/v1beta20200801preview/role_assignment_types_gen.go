@@ -66,7 +66,7 @@ func (assignment *RoleAssignment) ConvertTo(hub conversion.Hub) error {
 	return assignment.AssignPropertiesToRoleAssignment(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-authorization-azure-com-v1beta20200801preview-roleassignment,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=authorization.azure.com,resources=roleassignments,verbs=create;update,versions=v1beta20200801preview,name=default.v1beta20200801preview.roleassignments.authorization.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-authorization-azure-com-v1beta20200801preview-roleassignment,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=authorization.azure.com,resources=roleassignments,verbs=create;update,versions=v1beta20200801preview,name=default.v1beta20200801preview.roleassignments.authorization.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &RoleAssignment{}
 
@@ -154,7 +154,7 @@ func (assignment *RoleAssignment) SetStatus(status genruntime.ConvertibleStatus)
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-authorization-azure-com-v1beta20200801preview-roleassignment,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=authorization.azure.com,resources=roleassignments,verbs=create;update,versions=v1beta20200801preview,name=validate.v1beta20200801preview.roleassignments.authorization.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-authorization-azure-com-v1beta20200801preview-roleassignment,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=authorization.azure.com,resources=roleassignments,verbs=create;update,versions=v1beta20200801preview,name=validate.v1beta20200801preview.roleassignments.authorization.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &RoleAssignment{}
 

@@ -20,7 +20,8 @@ import (
 func Test_LoadBalancer_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LoadBalancer_StatusARM via JSON returns original",
@@ -101,7 +102,8 @@ func AddRelatedPropertyGeneratorsForLoadBalancerStatusARM(gens map[string]gopter
 func Test_ExtendedLocation_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ExtendedLocation_StatusARM via JSON returns original",
@@ -162,7 +164,8 @@ func AddIndependentPropertyGeneratorsForExtendedLocationStatusARM(gens map[strin
 func Test_LoadBalancerPropertiesFormat_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LoadBalancerPropertiesFormat_StatusARM via JSON returns original",
@@ -247,7 +250,8 @@ func AddRelatedPropertyGeneratorsForLoadBalancerPropertiesFormatStatusARM(gens m
 func Test_LoadBalancerSku_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LoadBalancerSku_StatusARM via JSON returns original",
@@ -308,7 +312,8 @@ func AddIndependentPropertyGeneratorsForLoadBalancerSkuStatusARM(gens map[string
 func Test_BackendAddressPool_Status_LoadBalancer_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of BackendAddressPool_Status_LoadBalancer_SubResourceEmbeddedARM via JSON returns original",
@@ -368,7 +373,8 @@ func AddIndependentPropertyGeneratorsForBackendAddressPoolStatusLoadBalancerSubR
 func Test_FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of FrontendIPConfiguration_Status_LoadBalancer_SubResourceEmbeddedARM via JSON returns original",
@@ -446,7 +452,8 @@ func AddRelatedPropertyGeneratorsForFrontendIPConfigurationStatusLoadBalancerSub
 func Test_InboundNatPool_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of InboundNatPool_StatusARM via JSON returns original",
@@ -523,7 +530,8 @@ func AddRelatedPropertyGeneratorsForInboundNatPoolStatusARM(gens map[string]gopt
 func Test_InboundNatRule_Status_LoadBalancer_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of InboundNatRule_Status_LoadBalancer_SubResourceEmbeddedARM via JSON returns original",
@@ -583,7 +591,8 @@ func AddIndependentPropertyGeneratorsForInboundNatRuleStatusLoadBalancerSubResou
 func Test_LoadBalancingRule_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LoadBalancingRule_StatusARM via JSON returns original",
@@ -660,7 +669,8 @@ func AddRelatedPropertyGeneratorsForLoadBalancingRuleStatusARM(gens map[string]g
 func Test_OutboundRule_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of OutboundRule_StatusARM via JSON returns original",
@@ -737,7 +747,8 @@ func AddRelatedPropertyGeneratorsForOutboundRuleStatusARM(gens map[string]gopter
 func Test_Probe_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Probe_StatusARM via JSON returns original",
@@ -813,7 +824,8 @@ func AddRelatedPropertyGeneratorsForProbeStatusARM(gens map[string]gopter.Gen) {
 func Test_FrontendIPConfigurationPropertiesFormat_Status_LoadBalancer_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of FrontendIPConfigurationPropertiesFormat_Status_LoadBalancer_SubResourceEmbeddedARM via JSON returns original",
@@ -901,7 +913,8 @@ func AddRelatedPropertyGeneratorsForFrontendIPConfigurationPropertiesFormatStatu
 func Test_InboundNatPoolPropertiesFormat_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of InboundNatPoolPropertiesFormat_StatusARM via JSON returns original",
@@ -986,7 +999,8 @@ func AddRelatedPropertyGeneratorsForInboundNatPoolPropertiesFormatStatusARM(gens
 func Test_LoadBalancingRulePropertiesFormat_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of LoadBalancingRulePropertiesFormat_StatusARM via JSON returns original",
@@ -1074,7 +1088,8 @@ func AddRelatedPropertyGeneratorsForLoadBalancingRulePropertiesFormatStatusARM(g
 func Test_OutboundRulePropertiesFormat_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of OutboundRulePropertiesFormat_StatusARM via JSON returns original",
@@ -1157,7 +1172,8 @@ func AddRelatedPropertyGeneratorsForOutboundRulePropertiesFormatStatusARM(gens m
 func Test_ProbePropertiesFormat_StatusARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ProbePropertiesFormat_StatusARM via JSON returns original",
@@ -1240,7 +1256,8 @@ func AddRelatedPropertyGeneratorsForProbePropertiesFormatStatusARM(gens map[stri
 func Test_PublicIPAddress_Status_LoadBalancer_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PublicIPAddress_Status_LoadBalancer_SubResourceEmbeddedARM via JSON returns original",
@@ -1316,7 +1333,8 @@ func AddRelatedPropertyGeneratorsForPublicIPAddressStatusLoadBalancerSubResource
 func Test_Subnet_Status_LoadBalancer_SubResourceEmbeddedARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Subnet_Status_LoadBalancer_SubResourceEmbeddedARM via JSON returns original",

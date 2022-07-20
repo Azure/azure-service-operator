@@ -13,8 +13,6 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-      X-Ms-Date:
-      - Wed, 20 Oct 2021 17:58:46 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyksbk?api-version=2020-06-01
     method: PUT
   response:
@@ -45,8 +43,6 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-      X-Ms-Date:
-      - Wed, 20 Oct 2021 17:58:47 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyksbk?api-version=2020-06-01
     method: GET
   response:
@@ -81,15 +77,13 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-      X-Ms-Date:
-      - Wed, 20 Oct 2021 17:58:51 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyksbk/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-vbwrws?api-version=2020-11-01
     method: PUT
   response:
     body: "{\r\n  \"name\": \"asotest-publicip-vbwrws\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyksbk/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-vbwrws\",\r\n
-      \ \"etag\": \"W/\\\"670a0866-b036-4025-b9d3-945e3481d8d1\\\"\",\r\n  \"location\":
+      \ \"etag\": \"W/\\\"b91f6037-7902-4d5c-a8dc-b7d522417be7\\\"\",\r\n  \"location\":
       \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Updating\",\r\n
-      \   \"resourceGuid\": \"a22a5f89-72ef-4627-9b69-15de40a2333f\",\r\n    \"publicIPAddressVersion\":
+      \   \"resourceGuid\": \"983a5c56-3f57-4dde-83cf-509555cf60ae\",\r\n    \"publicIPAddressVersion\":
       \"IPv4\",\r\n    \"publicIPAllocationMethod\": \"Static\",\r\n    \"idleTimeoutInMinutes\":
       4,\r\n    \"ipTags\": []\r\n  },\r\n  \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n
       \ \"sku\": {\r\n    \"name\": \"Standard\",\r\n    \"tier\": \"Regional\"\r\n
@@ -98,7 +92,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/f1bb5b81-33bd-4832-bb27-a000118f7d50?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/3d846920-d18b-4263-b639-a6c74d5f4ce1?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -127,44 +121,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-      X-Ms-Date:
-      - Wed, 20 Oct 2021 17:58:53 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/f1bb5b81-33bd-4832-bb27-a000118f7d50?api-version=2020-11-01
-    method: GET
-  response:
-    body: "{\r\n  \"status\": \"InProgress\"\r\n}"
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Retry-After:
-      - "2"
-      Server:
-      - Microsoft-HTTPAPI/2.0
-      - Microsoft-HTTPAPI/2.0
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Test-Request-Attempt:
-      - "1"
-      X-Ms-Date:
-      - Wed, 20 Oct 2021 17:58:55 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/f1bb5b81-33bd-4832-bb27-a000118f7d50?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/3d846920-d18b-4263-b639-a6c74d5f4ce1?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
@@ -193,20 +150,16 @@ interactions:
     body: ""
     form: {}
     headers:
-      Accept:
-      - application/json
       Test-Request-Attempt:
       - "0"
-      X-Ms-Date:
-      - Wed, 20 Oct 2021 17:58:55 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyksbk/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-vbwrws?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-publicip-vbwrws\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyksbk/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-vbwrws\",\r\n
-      \ \"etag\": \"W/\\\"b178d3a6-411a-423e-a814-c1c4c48a9c16\\\"\",\r\n  \"location\":
+      \ \"etag\": \"W/\\\"230b5bd9-75e1-4d41-aa7a-47e2f47e0910\\\"\",\r\n  \"location\":
       \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n
-      \   \"resourceGuid\": \"a22a5f89-72ef-4627-9b69-15de40a2333f\",\r\n    \"ipAddress\":
-      \"20.114.3.154\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
+      \   \"resourceGuid\": \"983a5c56-3f57-4dde-83cf-509555cf60ae\",\r\n    \"ipAddress\":
+      \"20.125.58.248\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
       \"Static\",\r\n    \"idleTimeoutInMinutes\": 4,\r\n    \"ipTags\": []\r\n  },\r\n
       \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
       \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
@@ -216,7 +169,49 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"b178d3a6-411a-423e-a814-c1c4c48a9c16"
+      - W/"230b5bd9-75e1-4d41-aa7a-47e2f47e0910"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "1"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyksbk/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-vbwrws?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-publicip-vbwrws\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyksbk/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-vbwrws\",\r\n
+      \ \"etag\": \"W/\\\"230b5bd9-75e1-4d41-aa7a-47e2f47e0910\\\"\",\r\n  \"location\":
+      \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n
+      \   \"resourceGuid\": \"983a5c56-3f57-4dde-83cf-509555cf60ae\",\r\n    \"ipAddress\":
+      \"20.125.58.248\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
+      \"Static\",\r\n    \"idleTimeoutInMinutes\": 4,\r\n    \"ipTags\": []\r\n  },\r\n
+      \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
+      \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"230b5bd9-75e1-4d41-aa7a-47e2f47e0910"
       Expires:
       - "-1"
       Pragma:
@@ -245,16 +240,14 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-      X-Ms-Date:
-      - Wed, 20 Oct 2021 17:58:56 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyksbk/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-vbwrws?api-version=2020-11-01
     method: PUT
   response:
     body: "{\r\n  \"name\": \"asotest-publicip-vbwrws\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyksbk/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-vbwrws\",\r\n
-      \ \"etag\": \"W/\\\"ca37b695-c128-40b4-bff6-60f2409f23aa\\\"\",\r\n  \"location\":
+      \ \"etag\": \"W/\\\"a9143841-3539-4757-84f3-5a00bac60713\\\"\",\r\n  \"location\":
       \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Updating\",\r\n
-      \   \"resourceGuid\": \"a22a5f89-72ef-4627-9b69-15de40a2333f\",\r\n    \"ipAddress\":
-      \"20.114.3.154\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
+      \   \"resourceGuid\": \"983a5c56-3f57-4dde-83cf-509555cf60ae\",\r\n    \"ipAddress\":
+      \"20.125.58.248\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
       \"Static\",\r\n    \"idleTimeoutInMinutes\": 7,\r\n    \"ipTags\": []\r\n  },\r\n
       \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
       \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
@@ -262,7 +255,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/58b80e64-61f9-460a-8be4-93bb48e0c923?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/cb3d7b46-72f0-4167-af24-45f24c716ab9?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Type:
@@ -291,9 +284,7 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-      X-Ms-Date:
-      - Wed, 20 Oct 2021 17:58:57 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/58b80e64-61f9-460a-8be4-93bb48e0c923?api-version=2020-11-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/cb3d7b46-72f0-4167-af24-45f24c716ab9?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"status\": \"Succeeded\"\r\n}"
@@ -322,20 +313,16 @@ interactions:
     body: ""
     form: {}
     headers:
-      Accept:
-      - application/json
       Test-Request-Attempt:
-      - "1"
-      X-Ms-Date:
-      - Wed, 20 Oct 2021 17:58:57 GMT
+      - "2"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyksbk/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-vbwrws?api-version=2020-11-01
     method: GET
   response:
     body: "{\r\n  \"name\": \"asotest-publicip-vbwrws\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyksbk/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-vbwrws\",\r\n
-      \ \"etag\": \"W/\\\"eacc2a93-7e29-40ee-83f0-5900ff62d6cb\\\"\",\r\n  \"location\":
+      \ \"etag\": \"W/\\\"d309bc2a-3097-409b-96bb-02243e66c5c4\\\"\",\r\n  \"location\":
       \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n
-      \   \"resourceGuid\": \"a22a5f89-72ef-4627-9b69-15de40a2333f\",\r\n    \"ipAddress\":
-      \"20.114.3.154\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
+      \   \"resourceGuid\": \"983a5c56-3f57-4dde-83cf-509555cf60ae\",\r\n    \"ipAddress\":
+      \"20.125.58.248\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
       \"Static\",\r\n    \"idleTimeoutInMinutes\": 7,\r\n    \"ipTags\": []\r\n  },\r\n
       \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
       \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
@@ -345,7 +332,49 @@ interactions:
       Content-Type:
       - application/json; charset=utf-8
       Etag:
-      - W/"eacc2a93-7e29-40ee-83f0-5900ff62d6cb"
+      - W/"d309bc2a-3097-409b-96bb-02243e66c5c4"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "3"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyksbk/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-vbwrws?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-publicip-vbwrws\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyksbk/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-vbwrws\",\r\n
+      \ \"etag\": \"W/\\\"d309bc2a-3097-409b-96bb-02243e66c5c4\\\"\",\r\n  \"location\":
+      \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Succeeded\",\r\n
+      \   \"resourceGuid\": \"983a5c56-3f57-4dde-83cf-509555cf60ae\",\r\n    \"ipAddress\":
+      \"20.125.58.248\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
+      \"Static\",\r\n    \"idleTimeoutInMinutes\": 7,\r\n    \"ipTags\": []\r\n  },\r\n
+      \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
+      \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"d309bc2a-3097-409b-96bb-02243e66c5c4"
       Expires:
       - "-1"
       Pragma:
@@ -370,8 +399,6 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-      X-Ms-Date:
-      - Wed, 20 Oct 2021 17:59:01 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyksbk/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-vbwrws?api-version=2020-11-01
     method: DELETE
   response:
@@ -380,7 +407,7 @@ interactions:
       Azure-Asyncnotification:
       - Enabled
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/ed55d540-f4e9-40a6-9f5d-5ff2b1ebb481?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operations/c6280a36-18b4-440b-b80f-64dfffb58da3?api-version=2020-11-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -388,7 +415,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/ed55d540-f4e9-40a6-9f5d-5ff2b1ebb481?api-version=2020-11-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Network/locations/westus2/operationResults/c6280a36-18b4-440b-b80f-64dfffb58da3?api-version=2020-11-01
       Pragma:
       - no-cache
       Retry-After:
@@ -410,9 +437,49 @@ interactions:
       Accept:
       - application/json
       Test-Request-Attempt:
-      - "2"
-      X-Ms-Date:
-      - Wed, 20 Oct 2021 17:59:12 GMT
+      - "4"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyksbk/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-vbwrws?api-version=2020-11-01
+    method: GET
+  response:
+    body: "{\r\n  \"name\": \"asotest-publicip-vbwrws\",\r\n  \"id\": \"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyksbk/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-vbwrws\",\r\n
+      \ \"etag\": \"W/\\\"8978f51f-6b63-4d22-9ee0-b33761d5f5ea\\\"\",\r\n  \"location\":
+      \"westus2\",\r\n  \"properties\": {\r\n    \"provisioningState\": \"Deleting\",\r\n
+      \   \"resourceGuid\": \"983a5c56-3f57-4dde-83cf-509555cf60ae\",\r\n    \"ipAddress\":
+      \"20.125.58.248\",\r\n    \"publicIPAddressVersion\": \"IPv4\",\r\n    \"publicIPAllocationMethod\":
+      \"Static\",\r\n    \"idleTimeoutInMinutes\": 7,\r\n    \"ipTags\": []\r\n  },\r\n
+      \ \"type\": \"Microsoft.Network/publicIPAddresses\",\r\n  \"sku\": {\r\n    \"name\":
+      \"Standard\",\r\n    \"tier\": \"Regional\"\r\n  }\r\n}"
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Type:
+      - application/json; charset=utf-8
+      Etag:
+      - W/"8978f51f-6b63-4d22-9ee0-b33761d5f5ea"
+      Expires:
+      - "-1"
+      Pragma:
+      - no-cache
+      Server:
+      - Microsoft-HTTPAPI/2.0
+      - Microsoft-HTTPAPI/2.0
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding
+      X-Content-Type-Options:
+      - nosniff
+    status: 200 OK
+    code: 200
+    duration: ""
+- request:
+    body: ""
+    form: {}
+    headers:
+      Accept:
+      - application/json
+      Test-Request-Attempt:
+      - "5"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyksbk/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-vbwrws?api-version=2020-11-01
     method: GET
   response:
@@ -446,9 +513,7 @@ interactions:
       Accept:
       - application/json
       Test-Request-Attempt:
-      - "3"
-      X-Ms-Date:
-      - Wed, 20 Oct 2021 17:59:16 GMT
+      - "6"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyksbk/providers/Microsoft.Network/publicIPAddresses/asotest-publicip-vbwrws?api-version=2020-11-01
     method: GET
   response:
@@ -483,8 +548,6 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-      X-Ms-Date:
-      - Wed, 20 Oct 2021 17:59:16 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyksbk?api-version=2020-06-01
     method: DELETE
   response:
@@ -517,8 +580,6 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-      X-Ms-Date:
-      - Wed, 20 Oct 2021 17:59:32 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-cyksbk?api-version=2020-06-01
     method: GET
   response:

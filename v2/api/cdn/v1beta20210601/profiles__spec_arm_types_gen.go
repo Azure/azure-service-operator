@@ -3,10 +3,7 @@
 // Licensed under the MIT license.
 package v1beta20210601
 
-import (
-	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
-	"k8s.io/apiextensions-apiserver/pkg/apis/apiextensions/v1"
-)
+import "github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 
 type Profiles_SpecARM struct {
 	// Location: Location to deploy resource to
@@ -62,9 +59,6 @@ func (profiles *Profiles_SpecARM) GetType() string {
 
 // Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/ProfileProperties
 type ProfilePropertiesARM struct {
-	// Identity: Managed service identity.
-	Identity *ManagedServiceIdentityARM `json:"identity,omitempty"`
-
 	// OriginResponseTimeoutSeconds: Send and receive timeout on forwarding request to the origin. When timeout is reached, the
 	// request fails and returns.
 	OriginResponseTimeoutSeconds *int `json:"originResponseTimeoutSeconds,omitempty"`
@@ -74,17 +68,6 @@ type ProfilePropertiesARM struct {
 type SkuARM struct {
 	// Name: Name of the pricing tier.
 	Name *SkuName `json:"name,omitempty"`
-}
-
-// Generated from: https://schema.management.azure.com/schemas/2021-06-01/Microsoft.Cdn.json#/definitions/ManagedServiceIdentity
-type ManagedServiceIdentityARM struct {
-	// Type: Type of managed service identity.
-	Type *ManagedServiceIdentityType `json:"type,omitempty"`
-
-	// UserAssignedIdentities: The list of user assigned identities associated with the resource. The user identity dictionary
-	// key references will be ARM resource ids in the form:
-	// '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}
-	UserAssignedIdentities map[string]v1.JSON `json:"userAssignedIdentities,omitempty"`
 }
 
 // +kubebuilder:validation:Enum={"Custom_Verizon","Premium_AzureFrontDoor","Premium_Verizon","Standard_955BandWidth_ChinaCdn","Standard_Akamai","Standard_AvgBandWidth_ChinaCdn","Standard_AzureFrontDoor","Standard_ChinaCdn","Standard_Microsoft","StandardPlus_955BandWidth_ChinaCdn","StandardPlus_AvgBandWidth_ChinaCdn","StandardPlus_ChinaCdn","Standard_Verizon"}

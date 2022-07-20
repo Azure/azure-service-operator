@@ -105,7 +105,8 @@ func RunPropertyAssignmentTestForManagedCluster(subject ManagedCluster) string {
 func Test_ManagedCluster_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedCluster via JSON returns original",
@@ -207,7 +208,8 @@ func RunPropertyAssignmentTestForManagedClusterStatus(subject ManagedCluster_Sta
 func Test_ManagedCluster_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedCluster_Status via JSON returns original",
@@ -355,7 +357,8 @@ func RunPropertyAssignmentTestForManagedClustersSpec(subject ManagedClusters_Spe
 func Test_ManagedClusters_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusters_Spec via JSON returns original",
@@ -498,7 +501,8 @@ func RunPropertyAssignmentTestForComponentsqit0Etschemasmanagedclusterproperties
 func Test_Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Componentsqit0Etschemasmanagedclusterpropertiespropertiesidentityprofileadditionalproperties via JSON returns original",
@@ -602,7 +606,8 @@ func RunPropertyAssignmentTestForContainerServiceLinuxProfile(subject ContainerS
 func Test_ContainerServiceLinuxProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ContainerServiceLinuxProfile via JSON returns original",
@@ -718,7 +723,8 @@ func RunPropertyAssignmentTestForContainerServiceLinuxProfileStatus(subject Cont
 func Test_ContainerServiceLinuxProfile_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ContainerServiceLinuxProfile_Status via JSON returns original",
@@ -834,7 +840,8 @@ func RunPropertyAssignmentTestForContainerServiceNetworkProfile(subject Containe
 func Test_ContainerServiceNetworkProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ContainerServiceNetworkProfile via JSON returns original",
@@ -958,7 +965,8 @@ func RunPropertyAssignmentTestForContainerServiceNetworkProfileStatus(subject Co
 func Test_ContainerServiceNetworkProfile_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ContainerServiceNetworkProfile_Status via JSON returns original",
@@ -1082,7 +1090,8 @@ func RunPropertyAssignmentTestForExtendedLocation(subject ExtendedLocation) stri
 func Test_ExtendedLocation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ExtendedLocation via JSON returns original",
@@ -1184,7 +1193,8 @@ func RunPropertyAssignmentTestForExtendedLocationStatus(subject ExtendedLocation
 func Test_ExtendedLocation_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ExtendedLocation_Status via JSON returns original",
@@ -1287,7 +1297,8 @@ func RunPropertyAssignmentTestForManagedClusterAADProfile(subject ManagedCluster
 func Test_ManagedClusterAADProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterAADProfile via JSON returns original",
@@ -1395,7 +1406,8 @@ func RunPropertyAssignmentTestForManagedClusterAADProfileStatus(subject ManagedC
 func Test_ManagedClusterAADProfile_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterAADProfile_Status via JSON returns original",
@@ -1503,7 +1515,8 @@ func RunPropertyAssignmentTestForManagedClusterAPIServerAccessProfile(subject Ma
 func Test_ManagedClusterAPIServerAccessProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterAPIServerAccessProfile via JSON returns original",
@@ -1608,7 +1621,8 @@ func RunPropertyAssignmentTestForManagedClusterAPIServerAccessProfileStatus(subj
 func Test_ManagedClusterAPIServerAccessProfile_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterAPIServerAccessProfile_Status via JSON returns original",
@@ -1713,7 +1727,8 @@ func RunPropertyAssignmentTestForManagedClusterAddonProfile(subject ManagedClust
 func Test_ManagedClusterAddonProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterAddonProfile via JSON returns original",
@@ -1816,7 +1831,8 @@ func RunPropertyAssignmentTestForManagedClusterAgentPoolProfile(subject ManagedC
 func Test_ManagedClusterAgentPoolProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterAgentPoolProfile via JSON returns original",
@@ -1961,7 +1977,8 @@ func RunPropertyAssignmentTestForManagedClusterAgentPoolProfileStatus(subject Ma
 func Test_ManagedClusterAgentPoolProfile_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterAgentPoolProfile_Status via JSON returns original",
@@ -2112,7 +2129,8 @@ func RunPropertyAssignmentTestForManagedClusterAutoUpgradeProfile(subject Manage
 func Test_ManagedClusterAutoUpgradeProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterAutoUpgradeProfile via JSON returns original",
@@ -2214,7 +2232,8 @@ func RunPropertyAssignmentTestForManagedClusterAutoUpgradeProfileStatus(subject 
 func Test_ManagedClusterAutoUpgradeProfile_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterAutoUpgradeProfile_Status via JSON returns original",
@@ -2316,7 +2335,8 @@ func RunPropertyAssignmentTestForManagedClusterHTTPProxyConfig(subject ManagedCl
 func Test_ManagedClusterHTTPProxyConfig_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterHTTPProxyConfig via JSON returns original",
@@ -2421,7 +2441,8 @@ func RunPropertyAssignmentTestForManagedClusterHTTPProxyConfigStatus(subject Man
 func Test_ManagedClusterHTTPProxyConfig_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterHTTPProxyConfig_Status via JSON returns original",
@@ -2526,7 +2547,8 @@ func RunPropertyAssignmentTestForManagedClusterIdentity(subject ManagedClusterId
 func Test_ManagedClusterIdentity_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterIdentity via JSON returns original",
@@ -2628,7 +2650,8 @@ func RunPropertyAssignmentTestForManagedClusterIdentityStatus(subject ManagedClu
 func Test_ManagedClusterIdentity_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterIdentity_Status via JSON returns original",
@@ -2746,7 +2769,8 @@ func RunPropertyAssignmentTestForManagedClusterOperatorSpec(subject ManagedClust
 func Test_ManagedClusterOperatorSpec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterOperatorSpec via JSON returns original",
@@ -2848,7 +2872,8 @@ func RunPropertyAssignmentTestForManagedClusterPodIdentityProfile(subject Manage
 func Test_ManagedClusterPodIdentityProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterPodIdentityProfile via JSON returns original",
@@ -2966,7 +2991,8 @@ func RunPropertyAssignmentTestForManagedClusterPodIdentityProfileStatus(subject 
 func Test_ManagedClusterPodIdentityProfile_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterPodIdentityProfile_Status via JSON returns original",
@@ -3084,7 +3110,8 @@ func RunPropertyAssignmentTestForManagedClusterPropertiesAutoScalerProfile(subje
 func Test_ManagedClusterPropertiesAutoScalerProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterPropertiesAutoScalerProfile via JSON returns original",
@@ -3202,7 +3229,8 @@ func RunPropertyAssignmentTestForManagedClusterPropertiesStatusAutoScalerProfile
 func Test_ManagedClusterProperties_Status_AutoScalerProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterProperties_Status_AutoScalerProfile via JSON returns original",
@@ -3320,7 +3348,8 @@ func RunPropertyAssignmentTestForManagedClusterSKU(subject ManagedClusterSKU) st
 func Test_ManagedClusterSKU_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterSKU via JSON returns original",
@@ -3422,7 +3451,8 @@ func RunPropertyAssignmentTestForManagedClusterSKUStatus(subject ManagedClusterS
 func Test_ManagedClusterSKU_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterSKU_Status via JSON returns original",
@@ -3525,7 +3555,8 @@ func RunPropertyAssignmentTestForManagedClusterServicePrincipalProfile(subject M
 func Test_ManagedClusterServicePrincipalProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterServicePrincipalProfile via JSON returns original",
@@ -3628,7 +3659,8 @@ func RunPropertyAssignmentTestForManagedClusterServicePrincipalProfileStatus(sub
 func Test_ManagedClusterServicePrincipalProfile_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterServicePrincipalProfile_Status via JSON returns original",
@@ -3731,7 +3763,8 @@ func RunPropertyAssignmentTestForManagedClusterWindowsProfile(subject ManagedClu
 func Test_ManagedClusterWindowsProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterWindowsProfile via JSON returns original",
@@ -3836,7 +3869,8 @@ func RunPropertyAssignmentTestForManagedClusterWindowsProfileStatus(subject Mana
 func Test_ManagedClusterWindowsProfile_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterWindowsProfile_Status via JSON returns original",
@@ -3941,7 +3975,8 @@ func RunPropertyAssignmentTestForPowerStateStatus(subject PowerState_Status) str
 func Test_PowerState_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PowerState_Status via JSON returns original",
@@ -4042,7 +4077,8 @@ func RunPropertyAssignmentTestForPrivateLinkResource(subject PrivateLinkResource
 func Test_PrivateLinkResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PrivateLinkResource via JSON returns original",
@@ -4147,7 +4183,8 @@ func RunPropertyAssignmentTestForPrivateLinkResourceStatus(subject PrivateLinkRe
 func Test_PrivateLinkResource_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of PrivateLinkResource_Status via JSON returns original",
@@ -4254,7 +4291,8 @@ func RunPropertyAssignmentTestForContainerServiceSshConfiguration(subject Contai
 func Test_ContainerServiceSshConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ContainerServiceSshConfiguration via JSON returns original",
@@ -4356,7 +4394,8 @@ func RunPropertyAssignmentTestForContainerServiceSshConfigurationStatus(subject 
 func Test_ContainerServiceSshConfiguration_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ContainerServiceSshConfiguration_Status via JSON returns original",
@@ -4458,7 +4497,8 @@ func RunPropertyAssignmentTestForManagedClusterIdentityStatusUserAssignedIdentit
 func Test_ManagedClusterIdentity_Status_UserAssignedIdentities_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterIdentity_Status_UserAssignedIdentities via JSON returns original",
@@ -4561,7 +4601,8 @@ func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfile(subject Manag
 func Test_ManagedClusterLoadBalancerProfile_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterLoadBalancerProfile via JSON returns original",
@@ -4681,7 +4722,8 @@ func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfileStatus(subject
 func Test_ManagedClusterLoadBalancerProfile_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterLoadBalancerProfile_Status via JSON returns original",
@@ -4801,7 +4843,8 @@ func RunPropertyAssignmentTestForManagedClusterOperatorSecrets(subject ManagedCl
 func Test_ManagedClusterOperatorSecrets_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterOperatorSecrets via JSON returns original",
@@ -4897,7 +4940,8 @@ func RunPropertyAssignmentTestForManagedClusterPodIdentity(subject ManagedCluste
 func Test_ManagedClusterPodIdentity_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterPodIdentity via JSON returns original",
@@ -5015,7 +5059,8 @@ func RunPropertyAssignmentTestForManagedClusterPodIdentityException(subject Mana
 func Test_ManagedClusterPodIdentityException_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterPodIdentityException via JSON returns original",
@@ -5119,7 +5164,8 @@ func RunPropertyAssignmentTestForManagedClusterPodIdentityExceptionStatus(subjec
 func Test_ManagedClusterPodIdentityException_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterPodIdentityException_Status via JSON returns original",
@@ -5223,7 +5269,8 @@ func RunPropertyAssignmentTestForManagedClusterPodIdentityStatus(subject Managed
 func Test_ManagedClusterPodIdentity_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterPodIdentity_Status via JSON returns original",
@@ -5343,7 +5390,8 @@ func RunPropertyAssignmentTestForContainerServiceSshPublicKey(subject ContainerS
 func Test_ContainerServiceSshPublicKey_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ContainerServiceSshPublicKey via JSON returns original",
@@ -5445,7 +5493,8 @@ func RunPropertyAssignmentTestForContainerServiceSshPublicKeyStatus(subject Cont
 func Test_ContainerServiceSshPublicKey_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ContainerServiceSshPublicKey_Status via JSON returns original",
@@ -5547,7 +5596,8 @@ func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfileManagedOutboun
 func Test_ManagedClusterLoadBalancerProfileManagedOutboundIPs_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterLoadBalancerProfileManagedOutboundIPs via JSON returns original",
@@ -5649,7 +5699,8 @@ func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfileOutboundIPPref
 func Test_ManagedClusterLoadBalancerProfileOutboundIPPrefixes_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterLoadBalancerProfileOutboundIPPrefixes via JSON returns original",
@@ -5751,7 +5802,8 @@ func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfileOutboundIPs(su
 func Test_ManagedClusterLoadBalancerProfileOutboundIPs_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterLoadBalancerProfileOutboundIPs via JSON returns original",
@@ -5853,7 +5905,8 @@ func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfileStatusManagedO
 func Test_ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterLoadBalancerProfile_Status_ManagedOutboundIPs via JSON returns original",
@@ -5955,7 +6008,8 @@ func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfileStatusOutbound
 func Test_ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterLoadBalancerProfile_Status_OutboundIPPrefixes via JSON returns original",
@@ -6057,7 +6111,8 @@ func RunPropertyAssignmentTestForManagedClusterLoadBalancerProfileStatusOutbound
 func Test_ManagedClusterLoadBalancerProfile_Status_OutboundIPs_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterLoadBalancerProfile_Status_OutboundIPs via JSON returns original",
@@ -6159,7 +6214,8 @@ func RunPropertyAssignmentTestForManagedClusterPodIdentityStatusProvisioningInfo
 func Test_ManagedClusterPodIdentity_Status_ProvisioningInfo_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterPodIdentity_Status_ProvisioningInfo via JSON returns original",
@@ -6261,7 +6317,8 @@ func RunPropertyAssignmentTestForResourceReference(subject ResourceReference) st
 func Test_ResourceReference_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ResourceReference via JSON returns original",
@@ -6356,7 +6413,8 @@ func RunPropertyAssignmentTestForResourceReferenceStatus(subject ResourceReferen
 func Test_ResourceReference_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ResourceReference_Status via JSON returns original",
@@ -6458,7 +6516,8 @@ func RunPropertyAssignmentTestForUserAssignedIdentity(subject UserAssignedIdenti
 func Test_UserAssignedIdentity_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of UserAssignedIdentity via JSON returns original",
@@ -6561,7 +6620,8 @@ func RunPropertyAssignmentTestForUserAssignedIdentityStatus(subject UserAssigned
 func Test_UserAssignedIdentity_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of UserAssignedIdentity_Status via JSON returns original",
@@ -6665,7 +6725,8 @@ func RunPropertyAssignmentTestForManagedClusterPodIdentityProvisioningErrorStatu
 func Test_ManagedClusterPodIdentityProvisioningError_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterPodIdentityProvisioningError_Status via JSON returns original",
@@ -6767,7 +6828,8 @@ func RunPropertyAssignmentTestForManagedClusterPodIdentityProvisioningErrorBodyS
 func Test_ManagedClusterPodIdentityProvisioningErrorBody_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterPodIdentityProvisioningErrorBody_Status via JSON returns original",
@@ -6885,7 +6947,8 @@ func RunPropertyAssignmentTestForManagedClusterPodIdentityProvisioningErrorBodyS
 func Test_ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ManagedClusterPodIdentityProvisioningErrorBody_Status_Unrolled via JSON returns original",

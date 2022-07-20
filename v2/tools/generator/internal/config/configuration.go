@@ -139,7 +139,7 @@ func NewConfiguration() *Configuration {
 
 // LoadConfiguration loads a `Configuration` from the specified file
 func LoadConfiguration(configurationFile string) (*Configuration, error) {
-	data, err := os.ReadFile(configurationFile)
+	f, err := os.Open(configurationFile)
 	if err != nil {
 		return nil, err
 	}
@@ -148,7 +148,10 @@ func LoadConfiguration(configurationFile string) (*Configuration, error) {
 	// TODO: split Configuration struct so that domain model is not used for serialization!
 	result := NewConfiguration()
 
-	err = yaml.Unmarshal(data, result)
+	decoder := yaml.NewDecoder(f)
+	decoder.KnownFields(true) // Error on unknown fields
+
+	err = decoder.Decode(result)
 	if err != nil {
 		return nil, errors.Wrapf(err, "configuration file loaded from %q is not valid YAML", configurationFile)
 	}
@@ -429,4 +432,18 @@ type SchemaOverride struct {
 
 	// A suffix to add on to the group name
 	Suffix string `yaml:"suffix"`
+
+	// We don't use this now
+	ResourceConfig []ResourceConfig `yaml:"resourceConfig"`
+
+	// We don't use this now
+	PostProcessor string `yaml:"postProcessor"`
+}
+
+type ResourceConfig struct {
+	Type string `yaml:"type"`
+
+	// TODO: Not sure that this datatype should be string, but we don't use it right now so keeping it as
+	// TODO: string for simplicity
+	Scopes string `yaml:"scopes"`
 }

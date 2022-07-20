@@ -105,7 +105,8 @@ func RunPropertyAssignmentTestForNamespacesTopic(subject NamespacesTopic) string
 func Test_NamespacesTopic_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NamespacesTopic via JSON returns original",
@@ -207,7 +208,8 @@ func RunPropertyAssignmentTestForNamespacesTopicsSpec(subject NamespacesTopics_S
 func Test_NamespacesTopics_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NamespacesTopics_Spec via JSON returns original",
@@ -320,7 +322,8 @@ func RunPropertyAssignmentTestForSBTopicStatus(subject SBTopic_Status) string {
 func Test_SBTopic_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SBTopic_Status via JSON returns original",

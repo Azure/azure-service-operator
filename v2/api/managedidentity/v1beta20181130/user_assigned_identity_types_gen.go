@@ -66,7 +66,7 @@ func (identity *UserAssignedIdentity) ConvertTo(hub conversion.Hub) error {
 	return identity.AssignPropertiesToUserAssignedIdentity(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-managedidentity-azure-com-v1beta20181130-userassignedidentity,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=managedidentity.azure.com,resources=userassignedidentities,verbs=create;update,versions=v1beta20181130,name=default.v1beta20181130.userassignedidentities.managedidentity.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-managedidentity-azure-com-v1beta20181130-userassignedidentity,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=managedidentity.azure.com,resources=userassignedidentities,verbs=create;update,versions=v1beta20181130,name=default.v1beta20181130.userassignedidentities.managedidentity.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &UserAssignedIdentity{}
 
@@ -155,7 +155,7 @@ func (identity *UserAssignedIdentity) SetStatus(status genruntime.ConvertibleSta
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-managedidentity-azure-com-v1beta20181130-userassignedidentity,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=managedidentity.azure.com,resources=userassignedidentities,verbs=create;update,versions=v1beta20181130,name=validate.v1beta20181130.userassignedidentities.managedidentity.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-managedidentity-azure-com-v1beta20181130-userassignedidentity,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=managedidentity.azure.com,resources=userassignedidentities,verbs=create;update,versions=v1beta20181130,name=validate.v1beta20181130.userassignedidentities.managedidentity.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &UserAssignedIdentity{}
 

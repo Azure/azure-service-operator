@@ -193,10 +193,10 @@ func (e *ErroredType) Unwrap() Type {
 // WriteDebugDescription adds a description of the current errored type to the passed builder,
 // builder receives the full description, including the nested type, errors and warnings
 // definitions is for resolving named types
-func (e *ErroredType) WriteDebugDescription(builder *strings.Builder, definitions TypeDefinitionSet) {
+func (e *ErroredType) WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference) {
 	builder.WriteString("Error[")
 	if e.inner != nil {
-		e.inner.WriteDebugDescription(builder, definitions)
+		e.inner.WriteDebugDescription(builder, currentPackage)
 	} else {
 		builder.WriteString("<missing>")
 	}

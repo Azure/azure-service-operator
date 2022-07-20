@@ -66,7 +66,7 @@ func (account *DatabaseAccount) ConvertTo(hub conversion.Hub) error {
 	return account.AssignPropertiesToDatabaseAccount(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1beta20210515-databaseaccount,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=databaseaccounts,verbs=create;update,versions=v1beta20210515,name=default.v1beta20210515.databaseaccounts.documentdb.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1beta20210515-databaseaccount,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=databaseaccounts,verbs=create;update,versions=v1beta20210515,name=default.v1beta20210515.databaseaccounts.documentdb.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &DatabaseAccount{}
 
@@ -155,7 +155,7 @@ func (account *DatabaseAccount) SetStatus(status genruntime.ConvertibleStatus) e
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-documentdb-azure-com-v1beta20210515-databaseaccount,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=databaseaccounts,verbs=create;update,versions=v1beta20210515,name=validate.v1beta20210515.databaseaccounts.documentdb.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-documentdb-azure-com-v1beta20210515-databaseaccount,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=databaseaccounts,verbs=create;update,versions=v1beta20210515,name=validate.v1beta20210515.databaseaccounts.documentdb.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &DatabaseAccount{}
 

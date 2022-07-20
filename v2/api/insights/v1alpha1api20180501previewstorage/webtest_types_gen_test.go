@@ -105,7 +105,8 @@ func RunPropertyAssignmentTestForWebtest(subject Webtest) string {
 func Test_Webtest_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Webtest via JSON returns original",
@@ -207,7 +208,8 @@ func RunPropertyAssignmentTestForWebTestStatus(subject WebTest_Status) string {
 func Test_WebTest_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of WebTest_Status via JSON returns original",
@@ -337,7 +339,8 @@ func RunPropertyAssignmentTestForWebtestsSpec(subject Webtests_Spec) string {
 func Test_Webtests_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Webtests_Spec via JSON returns original",
@@ -466,7 +469,8 @@ func RunPropertyAssignmentTestForWebTestGeolocation(subject WebTestGeolocation) 
 func Test_WebTestGeolocation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of WebTestGeolocation via JSON returns original",
@@ -567,7 +571,8 @@ func RunPropertyAssignmentTestForWebTestGeolocationStatus(subject WebTestGeoloca
 func Test_WebTestGeolocation_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of WebTestGeolocation_Status via JSON returns original",
@@ -669,7 +674,8 @@ func RunPropertyAssignmentTestForWebTestPropertiesConfiguration(subject WebTestP
 func Test_WebTestPropertiesConfiguration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of WebTestPropertiesConfiguration via JSON returns original",
@@ -771,7 +777,8 @@ func RunPropertyAssignmentTestForWebTestPropertiesRequest(subject WebTestPropert
 func Test_WebTestPropertiesRequest_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of WebTestPropertiesRequest via JSON returns original",
@@ -891,7 +898,8 @@ func RunPropertyAssignmentTestForWebTestPropertiesValidationRules(subject WebTes
 func Test_WebTestPropertiesValidationRules_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of WebTestPropertiesValidationRules via JSON returns original",
@@ -1010,7 +1018,8 @@ func RunPropertyAssignmentTestForWebTestPropertiesStatusConfiguration(subject We
 func Test_WebTestProperties_Status_Configuration_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of WebTestProperties_Status_Configuration via JSON returns original",
@@ -1112,7 +1121,8 @@ func RunPropertyAssignmentTestForWebTestPropertiesStatusRequest(subject WebTestP
 func Test_WebTestProperties_Status_Request_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of WebTestProperties_Status_Request via JSON returns original",
@@ -1232,7 +1242,8 @@ func RunPropertyAssignmentTestForWebTestPropertiesStatusValidationRules(subject 
 func Test_WebTestProperties_Status_ValidationRules_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of WebTestProperties_Status_ValidationRules via JSON returns original",
@@ -1351,7 +1362,8 @@ func RunPropertyAssignmentTestForHeaderField(subject HeaderField) string {
 func Test_HeaderField_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of HeaderField via JSON returns original",
@@ -1453,7 +1465,8 @@ func RunPropertyAssignmentTestForHeaderFieldStatus(subject HeaderField_Status) s
 func Test_HeaderField_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of HeaderField_Status via JSON returns original",
@@ -1555,7 +1568,8 @@ func RunPropertyAssignmentTestForWebTestPropertiesValidationRulesContentValidati
 func Test_WebTestPropertiesValidationRulesContentValidation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of WebTestPropertiesValidationRulesContentValidation via JSON returns original",
@@ -1659,7 +1673,8 @@ func RunPropertyAssignmentTestForWebTestPropertiesStatusValidationRulesContentVa
 func Test_WebTestProperties_Status_ValidationRules_ContentValidation_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of WebTestProperties_Status_ValidationRules_ContentValidation via JSON returns original",

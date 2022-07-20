@@ -170,8 +170,8 @@ func CreateTypeConversion(
 
 	// No conversion found, we need to generate a useful error message, wrapping any existing error
 	msg := fmt.Sprintf("no conversion found to assign %q from %q",
-		astmodel.DebugDescription(destinationEndpoint.Type(), conversionContext.Types()),
-		astmodel.DebugDescription(sourceEndpoint.Type(), conversionContext.Types()))
+		astmodel.DebugDescription(destinationEndpoint.Type()),
+		astmodel.DebugDescription(sourceEndpoint.Type()))
 
 	if err != nil {
 		err = errors.Wrap(err, msg)
@@ -195,10 +195,20 @@ func NameOfPropertyAssignmentFunction(
 //
 // <propertyBag>.Add(<propertyName>, <source>)
 //
-// For optional sources, the value is only added if non-nil
+// For optional sources, the value is only added if non-nil; if nil, we remove any existing item
 //
 // if <source> != nil {
 //     <propertyBag>.Add(<propertyName>, *<source>)
+// } else {
+//    <propertyBag>.Remove(<propertyName>)
+// }
+//
+// For slice and slice sources, the value is only added if it is non-empty; if empty we remove any existing item
+//
+// if len(<source>) > 0 {
+//	   <propertyBag>.Add(<propertyName>, <source>)
+// } else {
+//	   <propertyBag>.Remove(<propertyName>)
 // }
 //
 func writeToBagItem(
@@ -229,6 +239,9 @@ func writeToBagItem(
 		return nil, nil
 	}
 
+	_, sourceIsMap := astmodel.AsMapType(actualSourceType)
+	_, sourceIsSlice := astmodel.AsArrayType(actualSourceType)
+
 	return func(reader dst.Expr, _ func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, generationContext *astmodel.CodeGenerationContext) []dst.Stmt {
 		createAddToBag := func(expr dst.Expr) dst.Stmt {
 			addToBag := astbuilder.InvokeQualifiedFunc(
@@ -240,15 +253,31 @@ func writeToBagItem(
 			return addToBag
 		}
 
-		var writer dst.Stmt
+		removeFromBag := astbuilder.InvokeQualifiedFunc(
+			conversionContext.PropertyBagName(),
+			"Remove",
+			astbuilder.StringLiteralf(destinationEndpoint.Name()))
+
+		// If pointer to value, check for nil and only store if we have a value
 		if sourceIsOptional {
-			writer = astbuilder.IfNotNil(
-				reader,
-				createAddToBag(astbuilder.Dereference(reader)))
-		} else {
-			writer = createAddToBag(reader)
+			writer := astbuilder.SimpleIfElse(
+				astbuilder.NotNil(reader),
+				astbuilder.Statements(createAddToBag(astbuilder.Dereference(reader))),
+				astbuilder.Statements(removeFromBag))
+			return astbuilder.Statements(writer)
 		}
 
+		// If slice or map, check for non-empty and only store if we have a value
+		if sourceIsSlice || sourceIsMap {
+			writer := astbuilder.SimpleIfElse(
+				astbuilder.NotEmpty(reader),
+				astbuilder.Statements(createAddToBag(reader)),
+				astbuilder.Statements(removeFromBag))
+			return astbuilder.Statements(writer)
+		}
+
+		// Otherwise, just store the value
+		writer := createAddToBag(reader)
 		return astbuilder.Statements(writer)
 	}, nil
 }
@@ -868,8 +897,8 @@ func assignArrayFromArray(
 		return nil, errors.Wrapf(
 			err,
 			"finding array conversion from %s to %s",
-			astmodel.DebugDescription(sourceEndpoint.Type(), conversionContext.Types()),
-			astmodel.DebugDescription(destinationEndpoint.Type(), conversionContext.Types()))
+			astmodel.DebugDescription(sourceEndpoint.Type()),
+			astmodel.DebugDescription(destinationEndpoint.Type()))
 	}
 	if conversion == nil {
 		return nil, nil
@@ -998,8 +1027,8 @@ func assignMapFromMap(
 		return nil, errors.Wrapf(
 			err,
 			"finding map conversion from %s to %s",
-			astmodel.DebugDescription(sourceEndpoint.Type(), conversionContext.Types()),
-			astmodel.DebugDescription(destinationEndpoint.Type(), conversionContext.Types()))
+			astmodel.DebugDescription(sourceEndpoint.Type()),
+			astmodel.DebugDescription(destinationEndpoint.Type()))
 	}
 	if conversion == nil {
 		return nil, nil
@@ -1124,8 +1153,8 @@ func assignEnumFromEnum(
 	if !astmodel.TypeEquals(sourceEnum.BaseType(), destinationEnum.BaseType()) {
 		return nil, errors.Errorf(
 			"no conversion from %s to %s",
-			astmodel.DebugDescription(sourceEnum.BaseType(), nil),
-			astmodel.DebugDescription(destinationEnum.BaseType(), nil))
+			astmodel.DebugDescription(sourceEnum.BaseType()),
+			astmodel.DebugDescription(destinationEnum.BaseType()))
 	}
 
 	return func(reader dst.Expr, writer func(dst.Expr) []dst.Stmt, knownLocals *astmodel.KnownLocalsSet, ctx *astmodel.CodeGenerationContext) []dst.Stmt {
@@ -1242,7 +1271,7 @@ func assignObjectDirectlyFromObject(
 		return nil, errors.Wrapf(
 			err,
 			"looking up next type for %s",
-			astmodel.DebugDescription(destinationEndpoint.Type(), conversionContext.Types()))
+			astmodel.DebugDescription(destinationEndpoint.Type()))
 	}
 
 	if !nextType.IsEmpty() && !astmodel.TypeEquals(nextType, sourceName) {
@@ -1354,7 +1383,7 @@ func assignObjectDirectlyToObject(
 		return nil, errors.Wrapf(
 			err,
 			"looking up next type for %s",
-			astmodel.DebugDescription(sourceEndpoint.Type(), conversionContext.Types()))
+			astmodel.DebugDescription(sourceEndpoint.Type()))
 	}
 
 	if !nextType.IsEmpty() && !astmodel.TypeEquals(nextType, destinationName) {
@@ -1473,7 +1502,7 @@ func assignObjectsViaIntermediateObject(
 		return nil, errors.Wrapf(
 			err,
 			"looking up next type for %s",
-			astmodel.DebugDescription(destinationEndpoint.Type(), conversionContext.Types()))
+			astmodel.DebugDescription(destinationEndpoint.Type()))
 	}
 
 	if intermediateName.IsEmpty() || astmodel.TypeEquals(intermediateName, sourceName) {
@@ -1492,8 +1521,8 @@ func assignObjectsViaIntermediateObject(
 		return nil, errors.Wrapf(
 			err,
 			"finding first intermediate conversion, from %s to %s",
-			astmodel.DebugDescription(sourceName, conversionContext.Types()),
-			astmodel.DebugDescription(intermediateName, conversionContext.Types()))
+			astmodel.DebugDescription(sourceName),
+			astmodel.DebugDescription(intermediateName))
 	}
 	if firstConversion == nil {
 		return nil, nil
@@ -1504,8 +1533,8 @@ func assignObjectsViaIntermediateObject(
 		return nil, errors.Wrapf(
 			err,
 			"finding second intermediate conversion, from %s to %s",
-			astmodel.DebugDescription(intermediateName, conversionContext.Types()),
-			astmodel.DebugDescription(destinationType, conversionContext.Types()))
+			astmodel.DebugDescription(intermediateName),
+			astmodel.DebugDescription(destinationType))
 	}
 
 	if secondConversion == nil {

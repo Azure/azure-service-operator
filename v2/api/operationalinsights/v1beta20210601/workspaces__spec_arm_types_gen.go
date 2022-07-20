@@ -9,8 +9,8 @@ import (
 )
 
 type Workspaces_SpecARM struct {
-	// ETag: The ETag of the workspace.
-	ETag *string `json:"eTag,omitempty"`
+	// Etag: The etag of the workspace.
+	Etag *string `json:"etag,omitempty"`
 
 	// Location: The geo-location where the resource lives
 	Location *string `json:"location,omitempty"`

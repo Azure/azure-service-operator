@@ -105,7 +105,8 @@ func RunPropertyAssignmentTestForMongodbDatabaseCollection(subject MongodbDataba
 func Test_MongodbDatabaseCollection_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of MongodbDatabaseCollection via JSON returns original",
@@ -208,7 +209,8 @@ func RunPropertyAssignmentTestForDatabaseAccountsMongodbDatabasesCollectionsSpec
 func Test_DatabaseAccountsMongodbDatabasesCollections_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DatabaseAccountsMongodbDatabasesCollections_Spec via JSON returns original",
@@ -328,7 +330,8 @@ func RunPropertyAssignmentTestForMongoDBCollectionGetResultsStatus(subject Mongo
 func Test_MongoDBCollectionGetResults_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of MongoDBCollectionGetResults_Status via JSON returns original",
@@ -449,7 +452,8 @@ func RunPropertyAssignmentTestForMongoDBCollectionGetPropertiesStatusResource(su
 func Test_MongoDBCollectionGetProperties_Status_Resource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of MongoDBCollectionGetProperties_Status_Resource via JSON returns original",
@@ -570,7 +574,8 @@ func RunPropertyAssignmentTestForMongoDBCollectionResource(subject MongoDBCollec
 func Test_MongoDBCollectionResource_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of MongoDBCollectionResource via JSON returns original",
@@ -688,7 +693,8 @@ func RunPropertyAssignmentTestForMongoIndex(subject MongoIndex) string {
 func Test_MongoIndex_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of MongoIndex via JSON returns original",
@@ -790,7 +796,8 @@ func RunPropertyAssignmentTestForMongoIndexStatus(subject MongoIndex_Status) str
 func Test_MongoIndex_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of MongoIndex_Status via JSON returns original",
@@ -892,7 +899,8 @@ func RunPropertyAssignmentTestForMongoIndexKeys(subject MongoIndexKeys) string {
 func Test_MongoIndexKeys_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of MongoIndexKeys via JSON returns original",
@@ -993,7 +1001,8 @@ func RunPropertyAssignmentTestForMongoIndexKeysStatus(subject MongoIndexKeys_Sta
 func Test_MongoIndexKeys_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of MongoIndexKeys_Status via JSON returns original",
@@ -1095,7 +1104,8 @@ func RunPropertyAssignmentTestForMongoIndexOptions(subject MongoIndexOptions) st
 func Test_MongoIndexOptions_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of MongoIndexOptions via JSON returns original",
@@ -1197,7 +1207,8 @@ func RunPropertyAssignmentTestForMongoIndexOptionsStatus(subject MongoIndexOptio
 func Test_MongoIndexOptions_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of MongoIndexOptions_Status via JSON returns original",

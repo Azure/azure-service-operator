@@ -713,6 +713,8 @@ func (sku *Sku) AssignPropertiesFromSku(source *v20201201s.Sku) error {
 	// Family
 	if source.Family != nil {
 		propertyBag.Add("Family", *source.Family)
+	} else {
+		propertyBag.Remove("Family")
 	}
 
 	// Name
@@ -783,6 +785,8 @@ func (sku *Sku_Status) AssignPropertiesFromSkuStatus(source *v20201201s.Sku_Stat
 	// Family
 	if source.Family != nil {
 		propertyBag.Add("Family", *source.Family)
+	} else {
+		propertyBag.Remove("Family")
 	}
 
 	// Name

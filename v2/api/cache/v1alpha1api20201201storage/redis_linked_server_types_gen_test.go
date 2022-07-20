@@ -105,7 +105,8 @@ func RunPropertyAssignmentTestForRedisLinkedServer(subject RedisLinkedServer) st
 func Test_RedisLinkedServer_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RedisLinkedServer via JSON returns original",
@@ -207,7 +208,8 @@ func RunPropertyAssignmentTestForRedisLinkedServerWithPropertiesStatus(subject R
 func Test_RedisLinkedServerWithProperties_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RedisLinkedServerWithProperties_Status via JSON returns original",
@@ -315,7 +317,8 @@ func RunPropertyAssignmentTestForRedisLinkedServersSpec(subject RedisLinkedServe
 func Test_RedisLinkedServers_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RedisLinkedServers_Spec via JSON returns original",

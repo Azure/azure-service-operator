@@ -66,7 +66,7 @@ func (server *Server) ConvertTo(hub conversion.Hub) error {
 	return server.AssignPropertiesToServer(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-dbformariadb-azure-com-v1beta20180601-server,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformariadb.azure.com,resources=servers,verbs=create;update,versions=v1beta20180601,name=default.v1beta20180601.servers.dbformariadb.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-dbformariadb-azure-com-v1beta20180601-server,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformariadb.azure.com,resources=servers,verbs=create;update,versions=v1beta20180601,name=default.v1beta20180601.servers.dbformariadb.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &Server{}
 
@@ -155,7 +155,7 @@ func (server *Server) SetStatus(status genruntime.ConvertibleStatus) error {
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-dbformariadb-azure-com-v1beta20180601-server,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformariadb.azure.com,resources=servers,verbs=create;update,versions=v1beta20180601,name=validate.v1beta20180601.servers.dbformariadb.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-dbformariadb-azure-com-v1beta20180601-server,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=dbformariadb.azure.com,resources=servers,verbs=create;update,versions=v1beta20180601,name=validate.v1beta20180601.servers.dbformariadb.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &Server{}
 

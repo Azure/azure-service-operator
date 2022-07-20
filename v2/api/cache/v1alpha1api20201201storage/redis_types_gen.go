@@ -1226,6 +1226,8 @@ func (sku *Sku) AssignPropertiesToSku(destination *alpha20210301s.Sku) error {
 	// Family
 	if sku.Family != nil {
 		propertyBag.Add("Family", *sku.Family)
+	} else {
+		propertyBag.Remove("Family")
 	}
 
 	// Name
@@ -1297,6 +1299,8 @@ func (sku *Sku_Status) AssignPropertiesToSkuStatus(destination *alpha20210301s.S
 	// Family
 	if sku.Family != nil {
 		propertyBag.Add("Family", *sku.Family)
+	} else {
+		propertyBag.Remove("Family")
 	}
 
 	// Name

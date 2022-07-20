@@ -20,7 +20,8 @@ import (
 func Test_FlexibleServers_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of FlexibleServers_SpecARM via JSON returns original",
@@ -90,14 +91,76 @@ func AddIndependentPropertyGeneratorsForFlexibleServersSpecARM(gens map[string]g
 
 // AddRelatedPropertyGeneratorsForFlexibleServersSpecARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForFlexibleServersSpecARM(gens map[string]gopter.Gen) {
+	gens["Identity"] = gen.PtrOf(IdentityARMGenerator())
 	gens["Properties"] = gen.PtrOf(ServerPropertiesARMGenerator())
 	gens["Sku"] = gen.PtrOf(SkuARMGenerator())
+}
+
+func Test_IdentityARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of IdentityARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForIdentityARM, IdentityARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForIdentityARM runs a test to see if a specific instance of IdentityARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForIdentityARM(subject IdentityARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual IdentityARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of IdentityARM instances for property testing - lazily instantiated by IdentityARMGenerator()
+var identityARMGenerator gopter.Gen
+
+// IdentityARMGenerator returns a generator of IdentityARM instances for property testing.
+func IdentityARMGenerator() gopter.Gen {
+	if identityARMGenerator != nil {
+		return identityARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForIdentityARM(generators)
+	identityARMGenerator = gen.Struct(reflect.TypeOf(IdentityARM{}), generators)
+
+	return identityARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForIdentityARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForIdentityARM(gens map[string]gopter.Gen) {
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(IdentityTypeUserAssigned))
 }
 
 func Test_ServerPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of ServerPropertiesARM via JSON returns original",
@@ -177,6 +240,7 @@ func AddIndependentPropertyGeneratorsForServerPropertiesARM(gens map[string]gopt
 // AddRelatedPropertyGeneratorsForServerPropertiesARM is a factory method for creating gopter generators
 func AddRelatedPropertyGeneratorsForServerPropertiesARM(gens map[string]gopter.Gen) {
 	gens["Backup"] = gen.PtrOf(BackupARMGenerator())
+	gens["DataEncryption"] = gen.PtrOf(DataEncryptionARMGenerator())
 	gens["HighAvailability"] = gen.PtrOf(HighAvailabilityARMGenerator())
 	gens["MaintenanceWindow"] = gen.PtrOf(MaintenanceWindowARMGenerator())
 	gens["Network"] = gen.PtrOf(NetworkARMGenerator())
@@ -186,7 +250,8 @@ func AddRelatedPropertyGeneratorsForServerPropertiesARM(gens map[string]gopter.G
 func Test_SkuARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of SkuARM via JSON returns original",
@@ -246,7 +311,8 @@ func AddIndependentPropertyGeneratorsForSkuARM(gens map[string]gopter.Gen) {
 func Test_BackupARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of BackupARM via JSON returns original",
@@ -303,10 +369,75 @@ func AddIndependentPropertyGeneratorsForBackupARM(gens map[string]gopter.Gen) {
 	gens["GeoRedundantBackup"] = gen.PtrOf(gen.OneConstOf(BackupGeoRedundantBackupDisabled, BackupGeoRedundantBackupEnabled))
 }
 
+func Test_DataEncryptionARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
+	t.Parallel()
+	parameters := gopter.DefaultTestParameters()
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
+	properties := gopter.NewProperties(parameters)
+	properties.Property(
+		"Round trip of DataEncryptionARM via JSON returns original",
+		prop.ForAll(RunJSONSerializationTestForDataEncryptionARM, DataEncryptionARMGenerator()))
+	properties.TestingRun(t, gopter.NewFormatedReporter(true, 240, os.Stdout))
+}
+
+// RunJSONSerializationTestForDataEncryptionARM runs a test to see if a specific instance of DataEncryptionARM round trips to JSON and back losslessly
+func RunJSONSerializationTestForDataEncryptionARM(subject DataEncryptionARM) string {
+	// Serialize to JSON
+	bin, err := json.Marshal(subject)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Deserialize back into memory
+	var actual DataEncryptionARM
+	err = json.Unmarshal(bin, &actual)
+	if err != nil {
+		return err.Error()
+	}
+
+	// Check for outcome
+	match := cmp.Equal(subject, actual, cmpopts.EquateEmpty())
+	if !match {
+		actualFmt := pretty.Sprint(actual)
+		subjectFmt := pretty.Sprint(subject)
+		result := diff.Diff(subjectFmt, actualFmt)
+		return result
+	}
+
+	return ""
+}
+
+// Generator of DataEncryptionARM instances for property testing - lazily instantiated by DataEncryptionARMGenerator()
+var dataEncryptionARMGenerator gopter.Gen
+
+// DataEncryptionARMGenerator returns a generator of DataEncryptionARM instances for property testing.
+func DataEncryptionARMGenerator() gopter.Gen {
+	if dataEncryptionARMGenerator != nil {
+		return dataEncryptionARMGenerator
+	}
+
+	generators := make(map[string]gopter.Gen)
+	AddIndependentPropertyGeneratorsForDataEncryptionARM(generators)
+	dataEncryptionARMGenerator = gen.Struct(reflect.TypeOf(DataEncryptionARM{}), generators)
+
+	return dataEncryptionARMGenerator
+}
+
+// AddIndependentPropertyGeneratorsForDataEncryptionARM is a factory method for creating gopter generators
+func AddIndependentPropertyGeneratorsForDataEncryptionARM(gens map[string]gopter.Gen) {
+	gens["GeoBackupKeyUri"] = gen.PtrOf(gen.AlphaString())
+	gens["GeoBackupUserAssignedIdentityId"] = gen.PtrOf(gen.AlphaString())
+	gens["PrimaryKeyUri"] = gen.PtrOf(gen.AlphaString())
+	gens["PrimaryUserAssignedIdentityId"] = gen.PtrOf(gen.AlphaString())
+	gens["Type"] = gen.PtrOf(gen.OneConstOf(DataEncryptionTypeAzureKeyVault, DataEncryptionTypeSystemManaged))
+}
+
 func Test_HighAvailabilityARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of HighAvailabilityARM via JSON returns original",
@@ -367,7 +498,8 @@ func AddIndependentPropertyGeneratorsForHighAvailabilityARM(gens map[string]gopt
 func Test_MaintenanceWindowARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of MaintenanceWindowARM via JSON returns original",
@@ -430,7 +562,8 @@ func AddIndependentPropertyGeneratorsForMaintenanceWindowARM(gens map[string]gop
 func Test_NetworkARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of NetworkARM via JSON returns original",
@@ -490,7 +623,8 @@ func AddIndependentPropertyGeneratorsForNetworkARM(gens map[string]gopter.Gen) {
 func Test_StorageARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of StorageARM via JSON returns original",

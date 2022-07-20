@@ -105,7 +105,8 @@ func RunPropertyAssignmentTestForRedisFirewallRule(subject RedisFirewallRule) st
 func Test_RedisFirewallRule_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 20
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RedisFirewallRule via JSON returns original",
@@ -207,7 +208,8 @@ func RunPropertyAssignmentTestForRedisFirewallRuleStatus(subject RedisFirewallRu
 func Test_RedisFirewallRule_Status_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RedisFirewallRule_Status via JSON returns original",
@@ -313,7 +315,8 @@ func RunPropertyAssignmentTestForRedisFirewallRulesSpec(subject RedisFirewallRul
 func Test_RedisFirewallRules_Spec_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 80
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RedisFirewallRules_Spec via JSON returns original",

@@ -66,7 +66,7 @@ func (collection *MongodbDatabaseCollection) ConvertTo(hub conversion.Hub) error
 	return collection.AssignPropertiesToMongodbDatabaseCollection(destination)
 }
 
-// +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1beta20210515-mongodbdatabasecollection,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=mongodbdatabasecollections,verbs=create;update,versions=v1beta20210515,name=default.v1beta20210515.mongodbdatabasecollections.documentdb.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/mutate-documentdb-azure-com-v1beta20210515-mongodbdatabasecollection,mutating=true,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=mongodbdatabasecollections,verbs=create;update,versions=v1beta20210515,name=default.v1beta20210515.mongodbdatabasecollections.documentdb.azure.com,admissionReviewVersions=v1
 
 var _ admission.Defaulter = &MongodbDatabaseCollection{}
 
@@ -155,7 +155,7 @@ func (collection *MongodbDatabaseCollection) SetStatus(status genruntime.Convert
 	return nil
 }
 
-// +kubebuilder:webhook:path=/validate-documentdb-azure-com-v1beta20210515-mongodbdatabasecollection,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=mongodbdatabasecollections,verbs=create;update,versions=v1beta20210515,name=validate.v1beta20210515.mongodbdatabasecollections.documentdb.azure.com,admissionReviewVersions=v1beta1
+// +kubebuilder:webhook:path=/validate-documentdb-azure-com-v1beta20210515-mongodbdatabasecollection,mutating=false,sideEffects=None,matchPolicy=Exact,failurePolicy=fail,groups=documentdb.azure.com,resources=mongodbdatabasecollections,verbs=create;update,versions=v1beta20210515,name=validate.v1beta20210515.mongodbdatabasecollections.documentdb.azure.com,admissionReviewVersions=v1
 
 var _ admission.Validator = &MongodbDatabaseCollection{}
 

@@ -20,7 +20,8 @@ import (
 func Test_Domains_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of Domains_SpecARM via JSON returns original",
@@ -95,7 +96,8 @@ func AddRelatedPropertyGeneratorsForDomainsSpecARM(gens map[string]gopter.Gen) {
 func Test_DomainPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of DomainPropertiesARM via JSON returns original",
@@ -171,7 +173,8 @@ func AddRelatedPropertyGeneratorsForDomainPropertiesARM(gens map[string]gopter.G
 func Test_InboundIpRuleARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of InboundIpRuleARM via JSON returns original",
@@ -231,7 +234,8 @@ func AddIndependentPropertyGeneratorsForInboundIpRuleARM(gens map[string]gopter.
 func Test_JsonInputSchemaMappingARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of JsonInputSchemaMappingARM via JSON returns original",
@@ -305,7 +309,8 @@ func AddRelatedPropertyGeneratorsForJsonInputSchemaMappingARM(gens map[string]go
 func Test_JsonInputSchemaMappingPropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of JsonInputSchemaMappingPropertiesARM via JSON returns original",
@@ -370,7 +375,8 @@ func AddRelatedPropertyGeneratorsForJsonInputSchemaMappingPropertiesARM(gens map
 func Test_JsonFieldARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of JsonFieldARM via JSON returns original",
@@ -429,7 +435,8 @@ func AddIndependentPropertyGeneratorsForJsonFieldARM(gens map[string]gopter.Gen)
 func Test_JsonFieldWithDefaultARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of JsonFieldWithDefaultARM via JSON returns original",

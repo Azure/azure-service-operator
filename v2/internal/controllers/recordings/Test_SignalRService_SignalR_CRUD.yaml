@@ -13,8 +13,6 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-      X-Ms-Date:
-      - Sun, 07 Nov 2021 23:02:52 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj?api-version=2020-06-01
     method: PUT
   response:
@@ -45,8 +43,6 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-      X-Ms-Date:
-      - Sun, 07 Nov 2021 23:02:56 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj?api-version=2020-06-01
     method: GET
   response:
@@ -81,15 +77,13 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-      X-Ms-Date:
-      - Sun, 07 Nov 2021 23:03:02 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/signalR/asotest-signalr-zijjug?api-version=2021-10-01
     method: PUT
   response:
-    body: '{"sku":{"name":"Standard_S1","tier":"Standard","size":"S1","capacity":1},"properties":{"provisioningState":"Creating","externalIP":null,"hostName":"asotest-signalr-zijjug.service.signalr.net","publicPort":443,"serverPort":443,"version":"1.0-preview","privateEndpointConnections":[],"sharedPrivateLinkResources":[],"tls":{"clientCertEnabled":false},"hostNamePrefix":"asotest-signalr-zijjug","features":[{"flag":"ServiceMode","value":"Classic","properties":{}},{"flag":"EnableConnectivityLogs","value":"True","properties":{}},{"flag":"EnableMessagingLogs","value":"True","properties":{}},{"flag":"EnableLiveTrace","value":"True","properties":{}}],"resourceLogConfiguration":null,"cors":{"allowedOrigins":["https://foo.com","https://bar.com"]},"upstream":{"templates":[{"hubPattern":"*","eventPattern":"connect,disconnect","categoryPattern":"*","urlTemplate":"https://example.com/chat/api/connect","auth":null}]},"networkACLs":{"defaultAction":"Deny","publicNetwork":{"allow":["ClientConnection"],"deny":null},"privateEndpoints":[]},"publicNetworkAccess":"Enabled","disableLocalAuth":false,"disableAadAuth":false},"kind":"SignalR","identity":{"type":"SystemAssigned","principalId":"2476c71f-c5dd-4cf4-a1b2-df804d7389e9","tenantId":"72f988bf-86f1-41af-91ab-2d7cd011db47"},"systemData":{"createdBy":"e1e79617-495f-498b-983e-19c4b5fc58f9","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"e1e79617-495f-498b-983e-19c4b5fc58f9","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"location":"westus2","tags":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug","name":"asotest-signalr-zijjug","type":"Microsoft.SignalRService/SignalR"}'
+    body: '{"sku":{"name":"Standard_S1","tier":"Standard","size":"S1","capacity":1},"properties":{"provisioningState":"Creating","externalIP":null,"hostName":"asotest-signalr-zijjug.service.signalr.net","publicPort":443,"serverPort":443,"version":"1.0-preview","privateEndpointConnections":[],"sharedPrivateLinkResources":[],"tls":{"clientCertEnabled":false},"hostNamePrefix":"asotest-signalr-zijjug","features":[{"flag":"ServiceMode","value":"Classic","properties":{}},{"flag":"EnableConnectivityLogs","value":"True","properties":{}},{"flag":"EnableMessagingLogs","value":"True","properties":{}},{"flag":"EnableLiveTrace","value":"True","properties":{}}],"resourceLogConfiguration":null,"cors":{"allowedOrigins":["https://foo.com","https://bar.com"]},"upstream":{"templates":[{"hubPattern":"*","eventPattern":"connect,disconnect","categoryPattern":"*","urlTemplate":"https://example.com/chat/api/connect","auth":null}]},"networkACLs":{"defaultAction":"Deny","publicNetwork":{"allow":["ClientConnection"],"deny":null},"privateEndpoints":[]},"publicNetworkAccess":"Enabled","disableLocalAuth":false,"disableAadAuth":false},"kind":"SignalR","identity":{"type":"SystemAssigned","principalId":"397bb8c7-bef7-4715-9bcb-ee93e4f47019","tenantId":"00000000-0000-0000-0000-000000000000"},"systemData":{"createdBy":"99de824c-b6d0-4769-af94-8819d4093b83","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"99de824c-b6d0-4769-af94-8819d4093b83","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"location":"westus2","tags":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug","name":"asotest-signalr-zijjug","type":"Microsoft.SignalRService/SignalR"}'
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/367c185e-ee16-4b04-bda7-5dbe76cf9ff8?api-version=2021-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/2789a276-6838-44e6-b0df-837b980be5aa?api-version=2021-10-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -99,7 +93,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationResults/367c185e-ee16-4b04-bda7-5dbe76cf9ff8?api-version=2021-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationResults/2789a276-6838-44e6-b0df-837b980be5aa?api-version=2021-10-01
       Pragma:
       - no-cache
       Server:
@@ -108,10 +102,8 @@ interactions:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Client-Request-Id:
-      - 28676b9d-1ed3-4030-8d48-a5ff486e4a8c
       X-Rp-Server-Mvid:
-      - 83348091-47ca-46e9-a8f8-34fbf8fbca6f
+      - a240317d-2594-4b08-9f0c-5f370ea616d7
     status: 201 Created
     code: 201
     duration: ""
@@ -121,12 +113,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-      X-Ms-Date:
-      - Sun, 07 Nov 2021 23:03:10 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/367c185e-ee16-4b04-bda7-5dbe76cf9ff8?api-version=2021-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/2789a276-6838-44e6-b0df-837b980be5aa?api-version=2021-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/367c185e-ee16-4b04-bda7-5dbe76cf9ff8","name":"367c185e-ee16-4b04-bda7-5dbe76cf9ff8","status":"Running","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/2789a276-6838-44e6-b0df-837b980be5aa","name":"2789a276-6838-44e6-b0df-837b980be5aa","status":"Running","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -144,10 +134,8 @@ interactions:
       - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Client-Request-Id:
-      - 9d392611-aba9-4a2c-b325-052df543eebc
       X-Rp-Server-Mvid:
-      - 83348091-47ca-46e9-a8f8-34fbf8fbca6f
+      - a240317d-2594-4b08-9f0c-5f370ea616d7
     status: 200 OK
     code: 200
     duration: ""
@@ -157,12 +145,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-      X-Ms-Date:
-      - Sun, 07 Nov 2021 23:03:16 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/367c185e-ee16-4b04-bda7-5dbe76cf9ff8?api-version=2021-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/2789a276-6838-44e6-b0df-837b980be5aa?api-version=2021-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/367c185e-ee16-4b04-bda7-5dbe76cf9ff8","name":"367c185e-ee16-4b04-bda7-5dbe76cf9ff8","status":"Running","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/2789a276-6838-44e6-b0df-837b980be5aa","name":"2789a276-6838-44e6-b0df-837b980be5aa","status":"Running","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -180,10 +166,8 @@ interactions:
       - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Client-Request-Id:
-      - 7913d390-271c-4b5e-90f0-7cdfe2131a31
       X-Rp-Server-Mvid:
-      - 83348091-47ca-46e9-a8f8-34fbf8fbca6f
+      - a240317d-2594-4b08-9f0c-5f370ea616d7
     status: 200 OK
     code: 200
     duration: ""
@@ -193,12 +177,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-      X-Ms-Date:
-      - Sun, 07 Nov 2021 23:03:27 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/367c185e-ee16-4b04-bda7-5dbe76cf9ff8?api-version=2021-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/2789a276-6838-44e6-b0df-837b980be5aa?api-version=2021-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/367c185e-ee16-4b04-bda7-5dbe76cf9ff8","name":"367c185e-ee16-4b04-bda7-5dbe76cf9ff8","status":"Running","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/2789a276-6838-44e6-b0df-837b980be5aa","name":"2789a276-6838-44e6-b0df-837b980be5aa","status":"Running","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -216,10 +198,8 @@ interactions:
       - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Client-Request-Id:
-      - 89d66114-7fc1-43c0-b082-0df897310743
       X-Rp-Server-Mvid:
-      - 83348091-47ca-46e9-a8f8-34fbf8fbca6f
+      - a240317d-2594-4b08-9f0c-5f370ea616d7
     status: 200 OK
     code: 200
     duration: ""
@@ -229,12 +209,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "3"
-      X-Ms-Date:
-      - Sun, 07 Nov 2021 23:03:48 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/367c185e-ee16-4b04-bda7-5dbe76cf9ff8?api-version=2021-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/2789a276-6838-44e6-b0df-837b980be5aa?api-version=2021-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/367c185e-ee16-4b04-bda7-5dbe76cf9ff8","name":"367c185e-ee16-4b04-bda7-5dbe76cf9ff8","status":"Running","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/2789a276-6838-44e6-b0df-837b980be5aa","name":"2789a276-6838-44e6-b0df-837b980be5aa","status":"Running","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -252,10 +230,8 @@ interactions:
       - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Client-Request-Id:
-      - ddf1cc51-fd77-48fd-b96b-6c278b0ecd96
       X-Rp-Server-Mvid:
-      - 83348091-47ca-46e9-a8f8-34fbf8fbca6f
+      - a240317d-2594-4b08-9f0c-5f370ea616d7
     status: 200 OK
     code: 200
     duration: ""
@@ -265,12 +241,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "4"
-      X-Ms-Date:
-      - Sun, 07 Nov 2021 23:04:29 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/367c185e-ee16-4b04-bda7-5dbe76cf9ff8?api-version=2021-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/2789a276-6838-44e6-b0df-837b980be5aa?api-version=2021-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/367c185e-ee16-4b04-bda7-5dbe76cf9ff8","name":"367c185e-ee16-4b04-bda7-5dbe76cf9ff8","status":"Running","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/2789a276-6838-44e6-b0df-837b980be5aa","name":"2789a276-6838-44e6-b0df-837b980be5aa","status":"Succeeded","startTime":"2001-02-03T04:05:06Z","endTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -288,10 +262,8 @@ interactions:
       - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Client-Request-Id:
-      - f4018d67-5a31-45a9-9342-c4bed8baf418
       X-Rp-Server-Mvid:
-      - 83348091-47ca-46e9-a8f8-34fbf8fbca6f
+      - a240317d-2594-4b08-9f0c-5f370ea616d7
     status: 200 OK
     code: 200
     duration: ""
@@ -300,13 +272,11 @@ interactions:
     form: {}
     headers:
       Test-Request-Attempt:
-      - "5"
-      X-Ms-Date:
-      - Sun, 07 Nov 2021 23:05:29 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/367c185e-ee16-4b04-bda7-5dbe76cf9ff8?api-version=2021-10-01
+      - "0"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/signalR/asotest-signalr-zijjug?api-version=2021-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/367c185e-ee16-4b04-bda7-5dbe76cf9ff8","name":"367c185e-ee16-4b04-bda7-5dbe76cf9ff8","status":"Succeeded","startTime":"2001-02-03T04:05:06Z","endTime":"2001-02-03T04:05:06Z"}'
+    body: '{"sku":{"name":"Standard_S1","tier":"Standard","size":"S1","capacity":1},"properties":{"provisioningState":"Succeeded","externalIP":"20.51.12.52","hostName":"asotest-signalr-zijjug.service.signalr.net","publicPort":443,"serverPort":443,"version":"1.0","privateEndpointConnections":[],"sharedPrivateLinkResources":[],"tls":{"clientCertEnabled":false},"hostNamePrefix":"asotest-signalr-zijjug","features":[{"flag":"ServiceMode","value":"Classic","properties":{}},{"flag":"EnableConnectivityLogs","value":"True","properties":{}},{"flag":"EnableMessagingLogs","value":"True","properties":{}},{"flag":"EnableLiveTrace","value":"True","properties":{}}],"resourceLogConfiguration":null,"cors":{"allowedOrigins":["https://foo.com","https://bar.com"]},"upstream":{"templates":[{"hubPattern":"*","eventPattern":"connect,disconnect","categoryPattern":"*","urlTemplate":"https://example.com/chat/api/connect","auth":null}]},"networkACLs":{"defaultAction":"Deny","publicNetwork":{"allow":["ClientConnection"],"deny":null},"privateEndpoints":[]},"publicNetworkAccess":"Enabled","disableLocalAuth":false,"disableAadAuth":false},"kind":"SignalR","identity":{"type":"SystemAssigned","principalId":"397bb8c7-bef7-4715-9bcb-ee93e4f47019","tenantId":"00000000-0000-0000-0000-000000000000"},"systemData":{"createdBy":"99de824c-b6d0-4769-af94-8819d4093b83","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"99de824c-b6d0-4769-af94-8819d4093b83","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"location":"westus2","tags":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug","name":"asotest-signalr-zijjug","type":"Microsoft.SignalRService/SignalR"}'
     headers:
       Cache-Control:
       - no-cache
@@ -324,10 +294,8 @@ interactions:
       - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Client-Request-Id:
-      - ec6f4331-922f-44d4-9950-ae0b1f55aeb4
       X-Rp-Server-Mvid:
-      - 83348091-47ca-46e9-a8f8-34fbf8fbca6f
+      - a240317d-2594-4b08-9f0c-5f370ea616d7
     status: 200 OK
     code: 200
     duration: ""
@@ -338,13 +306,11 @@ interactions:
       Accept:
       - application/json
       Test-Request-Attempt:
-      - "0"
-      X-Ms-Date:
-      - Sun, 07 Nov 2021 23:05:30 GMT
+      - "1"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/signalR/asotest-signalr-zijjug?api-version=2021-10-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_S1","tier":"Standard","size":"S1","capacity":1},"properties":{"provisioningState":"Succeeded","externalIP":"20.51.12.44","hostName":"asotest-signalr-zijjug.service.signalr.net","publicPort":443,"serverPort":443,"version":"1.0","privateEndpointConnections":[],"sharedPrivateLinkResources":[],"tls":{"clientCertEnabled":false},"hostNamePrefix":"asotest-signalr-zijjug","features":[{"flag":"ServiceMode","value":"Classic","properties":{}},{"flag":"EnableConnectivityLogs","value":"True","properties":{}},{"flag":"EnableMessagingLogs","value":"True","properties":{}},{"flag":"EnableLiveTrace","value":"True","properties":{}}],"resourceLogConfiguration":null,"cors":{"allowedOrigins":["https://foo.com","https://bar.com"]},"upstream":{"templates":[{"hubPattern":"*","eventPattern":"connect,disconnect","categoryPattern":"*","urlTemplate":"https://example.com/chat/api/connect","auth":null}]},"networkACLs":{"defaultAction":"Deny","publicNetwork":{"allow":["ClientConnection"],"deny":null},"privateEndpoints":[]},"publicNetworkAccess":"Enabled","disableLocalAuth":false,"disableAadAuth":false},"kind":"SignalR","identity":{"type":"SystemAssigned","principalId":"2476c71f-c5dd-4cf4-a1b2-df804d7389e9","tenantId":"72f988bf-86f1-41af-91ab-2d7cd011db47"},"systemData":{"createdBy":"e1e79617-495f-498b-983e-19c4b5fc58f9","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"e1e79617-495f-498b-983e-19c4b5fc58f9","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"location":"westus2","tags":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug","name":"asotest-signalr-zijjug","type":"Microsoft.SignalRService/SignalR"}'
+    body: '{"sku":{"name":"Standard_S1","tier":"Standard","size":"S1","capacity":1},"properties":{"provisioningState":"Succeeded","externalIP":"20.51.12.52","hostName":"asotest-signalr-zijjug.service.signalr.net","publicPort":443,"serverPort":443,"version":"1.0","privateEndpointConnections":[],"sharedPrivateLinkResources":[],"tls":{"clientCertEnabled":false},"hostNamePrefix":"asotest-signalr-zijjug","features":[{"flag":"ServiceMode","value":"Classic","properties":{}},{"flag":"EnableConnectivityLogs","value":"True","properties":{}},{"flag":"EnableMessagingLogs","value":"True","properties":{}},{"flag":"EnableLiveTrace","value":"True","properties":{}}],"resourceLogConfiguration":null,"cors":{"allowedOrigins":["https://foo.com","https://bar.com"]},"upstream":{"templates":[{"hubPattern":"*","eventPattern":"connect,disconnect","categoryPattern":"*","urlTemplate":"https://example.com/chat/api/connect","auth":null}]},"networkACLs":{"defaultAction":"Deny","publicNetwork":{"allow":["ClientConnection"],"deny":null},"privateEndpoints":[]},"publicNetworkAccess":"Enabled","disableLocalAuth":false,"disableAadAuth":false},"kind":"SignalR","identity":{"type":"SystemAssigned","principalId":"397bb8c7-bef7-4715-9bcb-ee93e4f47019","tenantId":"00000000-0000-0000-0000-000000000000"},"systemData":{"createdBy":"99de824c-b6d0-4769-af94-8819d4093b83","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"99de824c-b6d0-4769-af94-8819d4093b83","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"location":"westus2","tags":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug","name":"asotest-signalr-zijjug","type":"Microsoft.SignalRService/SignalR"}'
     headers:
       Cache-Control:
       - no-cache
@@ -362,10 +328,8 @@ interactions:
       - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Client-Request-Id:
-      - b2d29583-2097-48a4-be28-f9af712e819e
       X-Rp-Server-Mvid:
-      - 83348091-47ca-46e9-a8f8-34fbf8fbca6f
+      - a240317d-2594-4b08-9f0c-5f370ea616d7
     status: 200 OK
     code: 200
     duration: ""
@@ -381,15 +345,13 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-      X-Ms-Date:
-      - Sun, 07 Nov 2021 23:05:32 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/signalR/asotest-signalr-zijjug?api-version=2021-10-01
     method: PUT
   response:
     body: ""
     headers:
       Azure-Asyncoperation:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/23f38fd9-e017-4cdd-9aed-e0ecfcdc85df?api-version=2021-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/77d46e3a-2a51-41f9-9577-d8f8a1722a56?api-version=2021-10-01
       Cache-Control:
       - no-cache
       Content-Length:
@@ -397,7 +359,7 @@ interactions:
       Expires:
       - "-1"
       Location:
-      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationResults/23f38fd9-e017-4cdd-9aed-e0ecfcdc85df?api-version=2021-10-01
+      - https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationResults/77d46e3a-2a51-41f9-9577-d8f8a1722a56?api-version=2021-10-01
       Pragma:
       - no-cache
       Server:
@@ -406,10 +368,8 @@ interactions:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Client-Request-Id:
-      - 67a64011-9f0a-4516-bc98-d846cbd6b255
       X-Rp-Server-Mvid:
-      - 83348091-47ca-46e9-a8f8-34fbf8fbca6f
+      - a240317d-2594-4b08-9f0c-5f370ea616d7
     status: 202 Accepted
     code: 202
     duration: ""
@@ -419,12 +379,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "0"
-      X-Ms-Date:
-      - Sun, 07 Nov 2021 23:05:35 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/23f38fd9-e017-4cdd-9aed-e0ecfcdc85df?api-version=2021-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/77d46e3a-2a51-41f9-9577-d8f8a1722a56?api-version=2021-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/23f38fd9-e017-4cdd-9aed-e0ecfcdc85df","name":"23f38fd9-e017-4cdd-9aed-e0ecfcdc85df","status":"Running","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/77d46e3a-2a51-41f9-9577-d8f8a1722a56","name":"77d46e3a-2a51-41f9-9577-d8f8a1722a56","status":"Running","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -442,10 +400,8 @@ interactions:
       - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Client-Request-Id:
-      - b4591339-0c33-402d-8b31-a6353085bf0a
       X-Rp-Server-Mvid:
-      - 83348091-47ca-46e9-a8f8-34fbf8fbca6f
+      - a240317d-2594-4b08-9f0c-5f370ea616d7
     status: 200 OK
     code: 200
     duration: ""
@@ -455,12 +411,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "1"
-      X-Ms-Date:
-      - Sun, 07 Nov 2021 23:05:41 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/23f38fd9-e017-4cdd-9aed-e0ecfcdc85df?api-version=2021-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/77d46e3a-2a51-41f9-9577-d8f8a1722a56?api-version=2021-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/23f38fd9-e017-4cdd-9aed-e0ecfcdc85df","name":"23f38fd9-e017-4cdd-9aed-e0ecfcdc85df","status":"Running","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/77d46e3a-2a51-41f9-9577-d8f8a1722a56","name":"77d46e3a-2a51-41f9-9577-d8f8a1722a56","status":"Running","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -478,10 +432,8 @@ interactions:
       - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Client-Request-Id:
-      - 42c3ee36-5869-4204-8fab-7596a4a7ca67
       X-Rp-Server-Mvid:
-      - 83348091-47ca-46e9-a8f8-34fbf8fbca6f
+      - a240317d-2594-4b08-9f0c-5f370ea616d7
     status: 200 OK
     code: 200
     duration: ""
@@ -491,12 +443,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "2"
-      X-Ms-Date:
-      - Sun, 07 Nov 2021 23:05:51 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/23f38fd9-e017-4cdd-9aed-e0ecfcdc85df?api-version=2021-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/77d46e3a-2a51-41f9-9577-d8f8a1722a56?api-version=2021-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/23f38fd9-e017-4cdd-9aed-e0ecfcdc85df","name":"23f38fd9-e017-4cdd-9aed-e0ecfcdc85df","status":"Running","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/77d46e3a-2a51-41f9-9577-d8f8a1722a56","name":"77d46e3a-2a51-41f9-9577-d8f8a1722a56","status":"Running","startTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -514,10 +464,8 @@ interactions:
       - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Client-Request-Id:
-      - c8c4ac7d-81ac-44d8-ad21-1d55056f60e9
       X-Rp-Server-Mvid:
-      - 83348091-47ca-46e9-a8f8-34fbf8fbca6f
+      - a240317d-2594-4b08-9f0c-5f370ea616d7
     status: 200 OK
     code: 200
     duration: ""
@@ -527,12 +475,10 @@ interactions:
     headers:
       Test-Request-Attempt:
       - "3"
-      X-Ms-Date:
-      - Sun, 07 Nov 2021 23:06:12 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/23f38fd9-e017-4cdd-9aed-e0ecfcdc85df?api-version=2021-10-01
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/77d46e3a-2a51-41f9-9577-d8f8a1722a56?api-version=2021-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/23f38fd9-e017-4cdd-9aed-e0ecfcdc85df","name":"23f38fd9-e017-4cdd-9aed-e0ecfcdc85df","status":"Running","startTime":"2001-02-03T04:05:06Z"}'
+    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/77d46e3a-2a51-41f9-9577-d8f8a1722a56","name":"77d46e3a-2a51-41f9-9577-d8f8a1722a56","status":"Succeeded","startTime":"2001-02-03T04:05:06Z","endTime":"2001-02-03T04:05:06Z"}'
     headers:
       Cache-Control:
       - no-cache
@@ -550,10 +496,8 @@ interactions:
       - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Client-Request-Id:
-      - 0b26a160-6711-451e-81d1-8e64f429916c
       X-Rp-Server-Mvid:
-      - 83348091-47ca-46e9-a8f8-34fbf8fbca6f
+      - a240317d-2594-4b08-9f0c-5f370ea616d7
     status: 200 OK
     code: 200
     duration: ""
@@ -562,13 +506,11 @@ interactions:
     form: {}
     headers:
       Test-Request-Attempt:
-      - "4"
-      X-Ms-Date:
-      - Sun, 07 Nov 2021 23:06:53 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/23f38fd9-e017-4cdd-9aed-e0ecfcdc85df?api-version=2021-10-01
+      - "2"
+    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/signalR/asotest-signalr-zijjug?api-version=2021-10-01
     method: GET
   response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug/operationStatuses/23f38fd9-e017-4cdd-9aed-e0ecfcdc85df","name":"23f38fd9-e017-4cdd-9aed-e0ecfcdc85df","status":"Succeeded","startTime":"2001-02-03T04:05:06Z","endTime":"2001-02-03T04:05:06Z"}'
+    body: '{"sku":{"name":"Standard_S1","tier":"Standard","size":"S1","capacity":1},"properties":{"provisioningState":"Succeeded","externalIP":"20.51.12.52","hostName":"asotest-signalr-zijjug.service.signalr.net","publicPort":443,"serverPort":443,"version":"1.0","privateEndpointConnections":[],"sharedPrivateLinkResources":[],"tls":{"clientCertEnabled":false},"hostNamePrefix":"asotest-signalr-zijjug","features":[{"flag":"ServiceMode","value":"Classic","properties":{}},{"flag":"EnableConnectivityLogs","value":"True","properties":{}},{"flag":"EnableMessagingLogs","value":"True","properties":{}},{"flag":"EnableLiveTrace","value":"True","properties":{}}],"resourceLogConfiguration":null,"cors":{"allowedOrigins":["https://foo.com","https://bar.com","https://definitelymydomain.horse"]},"upstream":{"templates":[{"hubPattern":"*","eventPattern":"connect,disconnect","categoryPattern":"*","urlTemplate":"https://example.com/chat/api/connect","auth":null}]},"networkACLs":{"defaultAction":"Deny","publicNetwork":{"allow":["ClientConnection"],"deny":null},"privateEndpoints":[]},"publicNetworkAccess":"Enabled","disableLocalAuth":false,"disableAadAuth":false},"kind":"SignalR","identity":{"type":"SystemAssigned","principalId":"397bb8c7-bef7-4715-9bcb-ee93e4f47019","tenantId":"00000000-0000-0000-0000-000000000000"},"systemData":{"createdBy":"99de824c-b6d0-4769-af94-8819d4093b83","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"99de824c-b6d0-4769-af94-8819d4093b83","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"location":"westus2","tags":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug","name":"asotest-signalr-zijjug","type":"Microsoft.SignalRService/SignalR"}'
     headers:
       Cache-Control:
       - no-cache
@@ -586,10 +528,8 @@ interactions:
       - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Client-Request-Id:
-      - 0ab7d965-b538-487f-8a12-e99f2eb55fad
       X-Rp-Server-Mvid:
-      - 83348091-47ca-46e9-a8f8-34fbf8fbca6f
+      - a240317d-2594-4b08-9f0c-5f370ea616d7
     status: 200 OK
     code: 200
     duration: ""
@@ -600,13 +540,11 @@ interactions:
       Accept:
       - application/json
       Test-Request-Attempt:
-      - "1"
-      X-Ms-Date:
-      - Sun, 07 Nov 2021 23:06:54 GMT
+      - "3"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/signalR/asotest-signalr-zijjug?api-version=2021-10-01
     method: GET
   response:
-    body: '{"sku":{"name":"Standard_S1","tier":"Standard","size":"S1","capacity":1},"properties":{"provisioningState":"Succeeded","externalIP":"20.51.12.44","hostName":"asotest-signalr-zijjug.service.signalr.net","publicPort":443,"serverPort":443,"version":"1.0","privateEndpointConnections":[],"sharedPrivateLinkResources":[],"tls":{"clientCertEnabled":false},"hostNamePrefix":"asotest-signalr-zijjug","features":[{"flag":"ServiceMode","value":"Classic","properties":{}},{"flag":"EnableConnectivityLogs","value":"True","properties":{}},{"flag":"EnableMessagingLogs","value":"True","properties":{}},{"flag":"EnableLiveTrace","value":"True","properties":{}}],"resourceLogConfiguration":null,"cors":{"allowedOrigins":["https://foo.com","https://bar.com","https://definitelymydomain.horse"]},"upstream":{"templates":[{"hubPattern":"*","eventPattern":"connect,disconnect","categoryPattern":"*","urlTemplate":"https://example.com/chat/api/connect","auth":null}]},"networkACLs":{"defaultAction":"Deny","publicNetwork":{"allow":["ClientConnection"],"deny":null},"privateEndpoints":[]},"publicNetworkAccess":"Enabled","disableLocalAuth":false,"disableAadAuth":false},"kind":"SignalR","identity":{"type":"SystemAssigned","principalId":"2476c71f-c5dd-4cf4-a1b2-df804d7389e9","tenantId":"72f988bf-86f1-41af-91ab-2d7cd011db47"},"systemData":{"createdBy":"e1e79617-495f-498b-983e-19c4b5fc58f9","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"e1e79617-495f-498b-983e-19c4b5fc58f9","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"location":"westus2","tags":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug","name":"asotest-signalr-zijjug","type":"Microsoft.SignalRService/SignalR"}'
+    body: '{"sku":{"name":"Standard_S1","tier":"Standard","size":"S1","capacity":1},"properties":{"provisioningState":"Succeeded","externalIP":"20.51.12.52","hostName":"asotest-signalr-zijjug.service.signalr.net","publicPort":443,"serverPort":443,"version":"1.0","privateEndpointConnections":[],"sharedPrivateLinkResources":[],"tls":{"clientCertEnabled":false},"hostNamePrefix":"asotest-signalr-zijjug","features":[{"flag":"ServiceMode","value":"Classic","properties":{}},{"flag":"EnableConnectivityLogs","value":"True","properties":{}},{"flag":"EnableMessagingLogs","value":"True","properties":{}},{"flag":"EnableLiveTrace","value":"True","properties":{}}],"resourceLogConfiguration":null,"cors":{"allowedOrigins":["https://foo.com","https://bar.com","https://definitelymydomain.horse"]},"upstream":{"templates":[{"hubPattern":"*","eventPattern":"connect,disconnect","categoryPattern":"*","urlTemplate":"https://example.com/chat/api/connect","auth":null}]},"networkACLs":{"defaultAction":"Deny","publicNetwork":{"allow":["ClientConnection"],"deny":null},"privateEndpoints":[]},"publicNetworkAccess":"Enabled","disableLocalAuth":false,"disableAadAuth":false},"kind":"SignalR","identity":{"type":"SystemAssigned","principalId":"397bb8c7-bef7-4715-9bcb-ee93e4f47019","tenantId":"00000000-0000-0000-0000-000000000000"},"systemData":{"createdBy":"99de824c-b6d0-4769-af94-8819d4093b83","createdByType":"Application","createdAt":"2001-02-03T04:05:06Z","lastModifiedBy":"99de824c-b6d0-4769-af94-8819d4093b83","lastModifiedByType":"Application","lastModifiedAt":"2001-02-03T04:05:06Z"},"location":"westus2","tags":null,"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug","name":"asotest-signalr-zijjug","type":"Microsoft.SignalRService/SignalR"}'
     headers:
       Cache-Control:
       - no-cache
@@ -624,10 +562,8 @@ interactions:
       - Accept-Encoding
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Client-Request-Id:
-      - f166bfc6-c022-4572-a88e-fffb89ce89ec
       X-Rp-Server-Mvid:
-      - 83348091-47ca-46e9-a8f8-34fbf8fbca6f
+      - a240317d-2594-4b08-9f0c-5f370ea616d7
     status: 200 OK
     code: 200
     duration: ""
@@ -639,8 +575,6 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-      X-Ms-Date:
-      - Sun, 07 Nov 2021 23:06:57 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj?api-version=2020-06-01
     method: DELETE
   response:
@@ -673,8 +607,6 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-      X-Ms-Date:
-      - Sun, 07 Nov 2021 23:06:57 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/signalR/asotest-signalr-zijjug?api-version=2021-10-01
     method: DELETE
   response:
@@ -692,10 +624,8 @@ interactions:
       - max-age=31536000; includeSubDomains
       X-Content-Type-Options:
       - nosniff
-      X-Ms-Client-Request-Id:
-      - 031ca1ef-4408-4f37-baa2-a966c0e8bb93
       X-Rp-Server-Mvid:
-      - 83348091-47ca-46e9-a8f8-34fbf8fbca6f
+      - a240317d-2594-4b08-9f0c-5f370ea616d7
     status: 204 No Content
     code: 204
     duration: ""
@@ -706,9 +636,7 @@ interactions:
       Accept:
       - application/json
       Test-Request-Attempt:
-      - "2"
-      X-Ms-Date:
-      - Sun, 07 Nov 2021 23:07:07 GMT
+      - "4"
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/signalR/asotest-signalr-zijjug?api-version=2021-10-01
     method: GET
   response:
@@ -743,136 +671,6 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "1"
-      X-Ms-Date:
-      - Sun, 07 Nov 2021 23:07:15 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj?api-version=2020-06-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj","name":"asotest-rg-sscbpj","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "2"
-      X-Ms-Date:
-      - Sun, 07 Nov 2021 23:07:20 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj?api-version=2020-06-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj","name":"asotest-rg-sscbpj","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "3"
-      X-Ms-Date:
-      - Sun, 07 Nov 2021 23:07:30 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj?api-version=2020-06-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj","name":"asotest-rg-sscbpj","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "4"
-      X-Ms-Date:
-      - Sun, 07 Nov 2021 23:07:50 GMT
-    url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj?api-version=2020-06-01
-    method: GET
-  response:
-    body: '{"id":"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj","name":"asotest-rg-sscbpj","type":"Microsoft.Resources/resourceGroups","location":"westus2","tags":{"CreatedAt":"2001-02-03T04:05:06Z"},"properties":{"provisioningState":"Deleting"}}'
-    headers:
-      Cache-Control:
-      - no-cache
-      Content-Type:
-      - application/json; charset=utf-8
-      Expires:
-      - "-1"
-      Pragma:
-      - no-cache
-      Strict-Transport-Security:
-      - max-age=31536000; includeSubDomains
-      Vary:
-      - Accept-Encoding
-      X-Content-Type-Options:
-      - nosniff
-    status: 200 OK
-    code: 200
-    duration: ""
-- request:
-    body: ""
-    form: {}
-    headers:
-      Accept:
-      - application/json
-      Test-Request-Attempt:
-      - "5"
-      X-Ms-Date:
-      - Sun, 07 Nov 2021 23:08:30 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj?api-version=2020-06-01
     method: GET
   response:
@@ -906,18 +704,17 @@ interactions:
       - application/json
       Test-Request-Attempt:
       - "0"
-      X-Ms-Date:
-      - Sun, 07 Nov 2021 23:08:32 GMT
     url: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/asotest-rg-sscbpj/providers/Microsoft.SignalRService/SignalR/asotest-signalr-zijjug?api-version=2021-10-01
     method: GET
   response:
-    body: '{"error":{"code":"ResourceGroupNotFound","message":"Resource group ''asotest-rg-sscbpj''
-      could not be found."}}'
+    body: '{"error":{"code":"ResourceNotFound","message":"The Resource ''Microsoft.SignalRService/SignalR/asotest-signalr-zijjug''
+      under resource group ''asotest-rg-sscbpj'' was not found. For more details please
+      go to https://aka.ms/ARMResourceNotFoundFix"}}'
     headers:
       Cache-Control:
       - no-cache
       Content-Length:
-      - "109"
+      - "244"
       Content-Type:
       - application/json; charset=utf-8
       Expires:

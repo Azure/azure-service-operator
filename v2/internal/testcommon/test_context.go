@@ -49,6 +49,7 @@ type PerTestContext struct {
 	AzureClientRecorder *recorder.Recorder
 	AzureClient         *genericarmclient.GenericClient
 	AzureSubscription   string
+	AzureTenant         string
 	AzureMatch          *ARMMatcher
 	Namer               ResourceNamer
 	NoSpaceNamer        ResourceNamer
@@ -87,7 +88,7 @@ func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
 	logger := NewTestLogger(t)
 
 	cassetteName := "recordings/" + t.Name()
-	creds, subscriptionID, recorder, err := createRecorder(cassetteName, tc.RecordReplay)
+	creds, azureIDs, recorder, err := createRecorder(cassetteName, tc.RecordReplay)
 	if err != nil {
 		return PerTestContext{}, errors.Wrapf(err, "creating recorder")
 	}
@@ -100,7 +101,7 @@ func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
 		Transport: addCountHeader(translateErrors(recorder, cassetteName, t)),
 	}
 	var armClient *genericarmclient.GenericClient
-	armClient, err = genericarmclient.NewGenericClientFromHTTPClient(cloud.AzurePublic.Services[cloud.ResourceManager].Endpoint, creds, httpClient, subscriptionID, metrics.NewARMClientMetrics())
+	armClient, err = genericarmclient.NewGenericClientFromHTTPClient(cloud.AzurePublic.Services[cloud.ResourceManager].Endpoint, creds, httpClient, azureIDs.subscriptionID, metrics.NewARMClientMetrics())
 	if err != nil {
 		logger.Error(err, "failed to get new generic client")
 		t.Fail()
@@ -139,7 +140,8 @@ func (tc TestContext) ForTest(t *testing.T) (PerTestContext, error) {
 		Namer:               namer,
 		NoSpaceNamer:        namer.WithSeparator(""),
 		AzureClient:         armClient,
-		AzureSubscription:   subscriptionID,
+		AzureSubscription:   azureIDs.subscriptionID,
+		AzureTenant:         azureIDs.tenantID,
 		AzureMatch:          NewARMMatcher(armClient),
 		AzureClientRecorder: recorder,
 		TestName:            t.Name(),
@@ -183,7 +185,7 @@ func ensureCassetteFileExists(cassetteName string) error {
 	return nil
 }
 
-func createRecorder(cassetteName string, recordReplay bool) (azcore.TokenCredential, string, *recorder.Recorder, error) {
+func createRecorder(cassetteName string, recordReplay bool) (azcore.TokenCredential, AzureIDs, *recorder.Recorder, error) {
 	var err error
 	var r *recorder.Recorder
 	if recordReplay {
@@ -193,23 +195,24 @@ func createRecorder(cassetteName string, recordReplay bool) (azcore.TokenCredent
 	}
 
 	if err != nil {
-		return nil, "", nil, errors.Wrapf(err, "creating recorder")
+		return nil, AzureIDs{}, nil, errors.Wrapf(err, "creating recorder")
 	}
 
 	var creds azcore.TokenCredential
-	var subscriptionID string
+	var azureIDs AzureIDs
 	if r.Mode() == recorder.ModeRecording ||
 		r.Mode() == recorder.ModeDisabled {
 		// if we are recording, we need auth
-		creds, subscriptionID, err = getCreds()
+		creds, azureIDs, err = getCreds()
 		if err != nil {
-			return nil, "", nil, err
+			return nil, azureIDs, nil, err
 		}
 	} else {
 		// if we are replaying, we won't need auth
-		// and we use a dummy subscription ID
-		subscriptionID = uuid.Nil.String()
+		// and we use a dummy subscription ID/tenant ID
 		creds = mockTokenCred{}
+		azureIDs.tenantID = uuid.Nil.String()
+		azureIDs.subscriptionID = uuid.Nil.String()
 	}
 
 	// check body as well as URL/Method (copied from go-vcr documentation)
@@ -240,23 +243,29 @@ func createRecorder(cassetteName string, recordReplay bool) (azcore.TokenCredent
 		// rewrite all request/response fields to hide the real subscription ID
 		// this is *not* a security measure but intended to make the tests updateable from
 		// any subscription, so a contributor can update the tests against their own sub.
-		hideSubID := func(s string) string {
-			return strings.ReplaceAll(s, subscriptionID, uuid.Nil.String())
+		hideID := func(s string, id string) string {
+			return strings.ReplaceAll(s, id, uuid.Nil.String())
 		}
 
-		i.Request.Body = hideRecordingData(hideSubID(i.Request.Body))
-		i.Response.Body = hideRecordingData(hideSubID(i.Response.Body))
-		i.Request.URL = hideSubID(i.Request.URL)
+		i.Request.Body = hideRecordingData(hideID(i.Request.Body, azureIDs.subscriptionID))
+		i.Response.Body = hideRecordingData(hideID(i.Response.Body, azureIDs.subscriptionID))
+		i.Request.URL = hideID(i.Request.URL, azureIDs.subscriptionID)
+
+		i.Request.Body = hideRecordingData(hideID(i.Request.Body, azureIDs.tenantID))
+		i.Response.Body = hideRecordingData(hideID(i.Response.Body, azureIDs.tenantID))
+		i.Request.URL = hideID(i.Request.URL, azureIDs.tenantID)
 
 		for _, values := range i.Request.Headers {
 			for i := range values {
-				values[i] = hideSubID(values[i])
+				values[i] = hideID(values[i], azureIDs.subscriptionID)
+				values[i] = hideID(values[i], azureIDs.tenantID)
 			}
 		}
 
 		for _, values := range i.Response.Headers {
 			for i := range values {
-				values[i] = hideSubID(values[i])
+				values[i] = hideID(values[i], azureIDs.subscriptionID)
+				values[i] = hideID(values[i], azureIDs.tenantID)
 			}
 		}
 
@@ -271,7 +280,7 @@ func createRecorder(cassetteName string, recordReplay bool) (azcore.TokenCredent
 		return nil
 	})
 
-	return creds, subscriptionID, r, nil
+	return creds, azureIDs, r, nil
 }
 
 var requestHeadersToRemove = []string{

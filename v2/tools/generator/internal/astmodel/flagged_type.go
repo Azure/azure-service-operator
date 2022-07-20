@@ -166,13 +166,13 @@ func (ft *FlaggedType) Unwrap() Type {
 // WriteDebugDescription adds a description of the current type to the passed builder
 // builder receives the full description, including nested types.
 // definitions is a dictionary for resolving named types.
-func (ft *FlaggedType) WriteDebugDescription(builder *strings.Builder, definitions TypeDefinitionSet) {
+func (ft *FlaggedType) WriteDebugDescription(builder *strings.Builder, currentPackage PackageReference) {
 	if ft == nil {
 		builder.WriteString("<nilFlagged>")
 		return
 	}
 
-	ft.element.WriteDebugDescription(builder, definitions)
+	ft.element.WriteDebugDescription(builder, currentPackage)
 	for f := range ft.flags {
 		builder.WriteString("[Flag:")
 		builder.WriteString(f.String())

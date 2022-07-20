@@ -20,7 +20,8 @@ import (
 func Test_RouteTables_SpecARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RouteTables_SpecARM via JSON returns original",
@@ -95,7 +96,8 @@ func AddRelatedPropertyGeneratorsForRouteTablesSpecARM(gens map[string]gopter.Ge
 func Test_RouteTables_Spec_PropertiesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RouteTables_Spec_PropertiesARM via JSON returns original",
@@ -169,7 +171,8 @@ func AddRelatedPropertyGeneratorsForRouteTablesSpecPropertiesARM(gens map[string
 func Test_RouteTables_Spec_Properties_RoutesARM_WhenSerializedToJson_DeserializesAsEqual(t *testing.T) {
 	t.Parallel()
 	parameters := gopter.DefaultTestParameters()
-	parameters.MaxSize = 10
+	parameters.MinSuccessfulTests = 100
+	parameters.MaxSize = 3
 	properties := gopter.NewProperties(parameters)
 	properties.Property(
 		"Round trip of RouteTables_Spec_Properties_RoutesARM via JSON returns original",

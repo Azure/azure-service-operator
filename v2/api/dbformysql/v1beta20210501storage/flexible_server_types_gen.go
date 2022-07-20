@@ -147,7 +147,9 @@ type FlexibleServers_Spec struct {
 	AzureName         string                      `json:"azureName,omitempty"`
 	Backup            *Backup                     `json:"backup,omitempty"`
 	CreateMode        *string                     `json:"createMode,omitempty"`
+	DataEncryption    *DataEncryption             `json:"dataEncryption,omitempty"`
 	HighAvailability  *HighAvailability           `json:"highAvailability,omitempty"`
+	Identity          *Identity                   `json:"identity,omitempty"`
 	Location          *string                     `json:"location,omitempty"`
 	MaintenanceWindow *MaintenanceWindow          `json:"maintenanceWindow,omitempty"`
 	Network           *Network                    `json:"network,omitempty"`
@@ -255,6 +257,22 @@ type Backup_Status struct {
 	PropertyBag         genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 }
 
+// Storage version of v1beta20210501.DataEncryption
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/DataEncryption
+type DataEncryption struct {
+	GeoBackupKeyUri *string `json:"geoBackupKeyUri,omitempty"`
+
+	// GeoBackupUserAssignedIdentityReference: Geo backup user identity resource id as identity can't cross region, need
+	// identity in same region as geo backup
+	GeoBackupUserAssignedIdentityReference *genruntime.ResourceReference `armReference:"GeoBackupUserAssignedIdentityId" json:"geoBackupUserAssignedIdentityReference,omitempty"`
+	PrimaryKeyUri                          *string                       `json:"primaryKeyUri,omitempty"`
+
+	// PrimaryUserAssignedIdentityReference: Primary user identity resource id
+	PrimaryUserAssignedIdentityReference *genruntime.ResourceReference `armReference:"PrimaryUserAssignedIdentityId" json:"primaryUserAssignedIdentityReference,omitempty"`
+	PropertyBag                          genruntime.PropertyBag        `json:"$propertyBag,omitempty"`
+	Type                                 *string                       `json:"type,omitempty"`
+}
+
 // Storage version of v1beta20210501.DataEncryption_Status
 type DataEncryption_Status struct {
 	GeoBackupKeyUri                 *string                `json:"geoBackupKeyUri,omitempty"`
@@ -286,6 +304,13 @@ type HighAvailability_Status struct {
 	PropertyBag             genruntime.PropertyBag `json:"$propertyBag,omitempty"`
 	StandbyAvailabilityZone *string                `json:"standbyAvailabilityZone,omitempty"`
 	State                   *string                `json:"state,omitempty"`
+}
+
+// Storage version of v1beta20210501.Identity
+// Generated from: https://schema.management.azure.com/schemas/2021-05-01/Microsoft.DBforMySQL.json#/definitions/Identity
+type Identity struct {
+	PropertyBag genruntime.PropertyBag `json:"$propertyBag,omitempty"`
+	Type        *string                `json:"type,omitempty"`
 }
 
 // Storage version of v1beta20210501.Identity_Status

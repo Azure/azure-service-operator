@@ -2,11 +2,11 @@
 
 ## Resources Supported
 
-The Postgre SQL operator suite consists of the following operators.
+The PostgreSQL operator suite consists of the following operators.
 
-1. Postgre SQL server - Deploys an `Azure Database for PostgreSQL server` given the Location and Resource group
-2. Postgre SQL database - Deploys a database under the given `Azure Database for PostgreSQL server`
-3. Postgre SQL firewall rule - Deploys a firewall rule to allow access to the `Azure Database for PostgreSQL server` from the specified IP range
+1. PostgreSQL server - Deploys an `Azure Database for PostgreSQL server` given the Location and Resource group
+2. PostgreSQL database - Deploys a database under the given `Azure Database for PostgreSQL server`
+3. PostgreSQL firewall rule - Deploys a firewall rule to allow access to the `Azure Database for PostgreSQL server` from the specified IP range
 
 ### PostgreSQL server
 
