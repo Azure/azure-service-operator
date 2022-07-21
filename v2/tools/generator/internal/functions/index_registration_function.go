@@ -162,7 +162,7 @@ func (f *IndexRegistrationFunction) multipleValues(selector *dst.SelectorExpr) [
 
 func (f *IndexRegistrationFunction) makeStatements(result *dst.Ident, locals *astmodel.KnownLocalsSet, ident dst.Expr, remainingChain []*astmodel.PropertyDefinition, nilHandler dst.Stmt) []dst.Stmt {
 	if len(remainingChain) == 0 {
-		return astbuilder.Statements(astbuilder.AppendSlice(result, astbuilder.Selector(ident, "Name")))
+		return astbuilder.Statements(astbuilder.AppendItemToSlice(result, astbuilder.Selector(ident, "Name")))
 	}
 
 	p := remainingChain[0]
