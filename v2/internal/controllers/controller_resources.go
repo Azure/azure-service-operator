@@ -288,7 +288,7 @@ func watchSecrets(c client.Client, log logr.Logger, keys []string, objList clien
 				continue
 			}
 
-			err := c.List(ctx, matchingResources, client.MatchingFields{key: o.GetName()})
+			err := c.List(ctx, matchingResources, client.MatchingFields{key: o.GetName()}, client.InNamespace(o.GetNamespace()))
 			if err != nil {
 				// According to https://github.com/kubernetes/kubernetes/issues/51046, APIServer itself
 				// doesn't actually support this. In our envtest tests, since we use a real client that
