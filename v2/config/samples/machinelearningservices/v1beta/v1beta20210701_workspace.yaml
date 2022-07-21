@@ -20,7 +20,7 @@ spec:
   keyVaultReference:
     group: "keyvault.azure.com"
     kind:  "Vault"
-    name:  "samplevault"
+    name:  "samplevaul"
   # Optional: Save the keys for the storage account into a Kubernetes secret
   operatorSpec:
     secrets:

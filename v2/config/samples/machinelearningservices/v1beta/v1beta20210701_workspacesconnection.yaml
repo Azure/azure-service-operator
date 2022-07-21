@@ -6,7 +6,7 @@ metadata:
 spec:
   location: westcentralus
   owner:
-    name: aso-sample-rg
+    name: sampleworkspaces
   authType: PAT
   category: ACR
   target: www.sample.com

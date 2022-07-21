@@ -6,7 +6,7 @@ metadata:
 spec:
   location: westcentralus
   owner:
-    name: aso-sample-rg
+    name: sampleworkspaces
   sku:
     name: Standard_S1
     tier: Basic
@@ -15,11 +15,14 @@ spec:
       computeLocation: westcentralus
       computeType: VirtualMachine
       disableLocalAuth: true
-      ResourceId: ""
+      resourceReference:
+        group: compute.azure.com
+        kind: VirtualMachine
+        name: samplevm
       properties:
         sshPort: 22
         administratorAccount:
-          username: admin
+          username: adminUser
           password: # This is the name/key of a Kubernetes secret in the same namespace
             name: vm-admin-pw
             key: password
