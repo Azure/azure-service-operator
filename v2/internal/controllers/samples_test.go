@@ -6,167 +6,68 @@ Licensed under the MIT license.
 package controllers_test
 
 import (
+	"os"
+	"path/filepath"
+	"regexp"
 	"strings"
 	"testing"
-
-	"github.com/emirpasic/gods/maps/linkedhashmap"
-	. "github.com/onsi/gomega"
-	v1 "k8s.io/api/core/v1"
 
 	"github.com/Azure/azure-service-operator/v2/internal/reflecthelpers"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/internal/testcommon"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
+	. "github.com/onsi/gomega"
+	"k8s.io/api/core/v1"
 )
 
-var cases = []struct {
-	Group          string
-	testName       string
-	UseRandomName  bool
-	DeleteChildren bool
-}{
-	{
-		Group:         "authorization",
-		UseRandomName: false,
-	},
-	{
-		Group:         "batch",
-		UseRandomName: true,
-	},
-	{
-		Group:          "cache",
-		UseRandomName:  false,
-		DeleteChildren: true,
-	},
-	{
-		Group:         "cdn",
-		UseRandomName: true,
-	},
-	{
-		Group:         "containerinstance",
-		UseRandomName: true,
-	},
-	{
-		Group:         "containerregistry",
-		UseRandomName: true,
-	},
-	{
-		Group:          "containerservice",
-		UseRandomName:  false,
-		DeleteChildren: true,
-	},
-	{
-		Group:         "dbformariadb",
-		UseRandomName: true,
-	},
-	{
-		Group:          "documentdb/mongodb",
-		UseRandomName:  false,
-		DeleteChildren: false,
-	},
-	{
-		Group:          "documentdb/sqldatabase",
-		UseRandomName:  false,
-		DeleteChildren: false,
-	},
-	{
-		Group:         "eventgrid",
-		UseRandomName: true,
-	},
-	{
-		Group:         "eventhub",
-		UseRandomName: true,
-	},
-	{
-		Group:         "insights",
-		UseRandomName: true,
-	},
-	{
-		Group:         "keyvault",
-		UseRandomName: true,
-	},
-	{
-		Group:         "managedidentity",
-		UseRandomName: true,
-	},
-	{
-		Group:         "operationalinsights",
-		UseRandomName: true,
-	},
-	{
-		Group:         "servicebus",
-		UseRandomName: true,
-	},
-	{
-		Group:         "signalrservice",
-		UseRandomName: true,
-	},
-	{
-		Group:         "storage/blobservice",
-		UseRandomName: true,
-	},
-	{
-		Group:         "storage/queueservice",
-		UseRandomName: true,
-	},
+const samplesPath = "../../config/samples"
 
-	// TODO: These are the complex groups which have too many nested referenced objects and armID refs
-	// TODO: which we can't handle currently due to having no capability to figure out the order
-	// TODO: of installing the references
-	//{
-	//	Group: "compute",
-	//	UseRandomName: true,
-	//},
-	//{
-	//	Group: "network",
-	//	UseRandomName: true,
-	//},
+// skipTests slice contains the groups to skip from being tested.
+var skipTests = []string{
+	// TODO: Will re-record test .. as resource was having some issues in creation.
+	"cache",
+}
 
-	// TODO: FlexiblServer is not being able to be created. Hitting RESPONSE 404 as ARM is sending a success
-	// and still controller can't find the created resource.
-	//{
-	//	Group: "dbformysql",
-	//	UseRandomName: false,
-	//},
-	//{
-	//	Group: "dbforpostgresql",
-	//	UseRandomName: true,
-	//},
+// randomNameExclusions slice contains groups for which we don't want to use random names
+var randomNameExclusions = []string{
+	"authorization",
+	"cache",
+	"containerservice",
+	"documentdb",
 }
 
 func Test_Samples_CreationAndDeletion(t *testing.T) {
 	t.Parallel()
+	g := NewGomegaWithT(t)
 
-	for _, test := range cases {
-		test := test
-		test.testName = getTestName(test.Group)
-		t.Run(test.testName, func(t *testing.T) {
-			t.Parallel()
-			tc := globalTestContext.ForTest(t)
-			runGroupTest(
-				tc,
-				test.Group,
-				test.UseRandomName,
-				test.DeleteChildren,
-			)
+	regex, err := regexp.Compile("^v1(alpha|beta)[a-z0-9]*$")
+	g.Expect(err).To(BeNil())
+
+	_ = filepath.WalkDir(samplesPath,
+		func(filePath string, info os.DirEntry, err error) error {
+			if info.IsDir() && !testcommon.IsExclusion(filePath, skipTests) {
+				basePath := filepath.Base(filePath)
+				// proceed only if the base path is the matching versions.
+				if regex.MatchString(basePath) {
+
+					testName := getTestName(filepath.Base(filepath.Dir(filePath)), basePath)
+					t.Run(testName, func(t *testing.T) {
+						t.Parallel()
+						tc := globalTestContext.ForTest(t)
+						runGroupTest(tc, filePath)
+					})
+
+				}
+			}
+			return err
 		})
-	}
 
 }
 
-func getTestName(group string) string {
-	return strings.Join(
-		[]string{
-			"Test",
-			strings.Title(strings.ReplaceAll(group, "/", "_")),
-			"CreationAndDeletion",
-		}, "_")
-}
+func runGroupTest(tc *testcommon.KubePerTestContext, groupVersionPath string) {
 
-func runGroupTest(tc *testcommon.KubePerTestContext, group string, useRandomName bool, deleteChildren bool) {
-	rg := tc.NewTestResourceGroup()
-
-	samples, refs, err := testcommon.NewSamplesTester(tc.NoSpaceNamer, tc.GetScheme(), useRandomName).LoadSamples(rg, tc.Namespace, group)
+	useRandomName := !testcommon.IsExclusion(groupVersionPath, randomNameExclusions)
+	samples, refs, err := testcommon.NewSamplesTester(tc.NoSpaceNamer, tc.GetScheme(), groupVersionPath, tc.Namespace, useRandomName).LoadSamples()
 
 	tc.Expect(err).To(BeNil())
 	tc.Expect(samples).ToNot(BeNil())
@@ -174,29 +75,37 @@ func runGroupTest(tc *testcommon.KubePerTestContext, group string, useRandomName
 
 	tc.Expect(samples).ToNot(BeZero())
 
+	rg := tc.NewTestResourceGroup()
 	tc.CreateResourceAndWait(rg)
-	defer tc.DeleteResourceAndWait(rg)
 
-	for _, refTree := range refs.SamplesMap {
-		createAndDeleteResourceTree(tc, refTree, true, false, 0)
-	}
+	// Check if we have any references for the samples beforehand and Create them
+	createResourceTree(tc, refs.SamplesMap.Values(), true, rg.Name, 0)
+	createResourceTree(tc, samples.SamplesMap.Values(), false, rg.Name, 0)
 
-	for _, resourceTree := range samples.SamplesMap {
-		// Check if we have any references for the samples beforehand and Create them
-		createAndDeleteResourceTree(tc, resourceTree, false, deleteChildren, 0)
-	}
+	tc.DeleteResourceAndWait(rg)
 }
 
-func createAndDeleteResourceTree(tc *testcommon.KubePerTestContext, hashMap *linkedhashmap.Map, isRef bool, deleteChildren bool, index int) {
-	vals := hashMap.Values()
-	if index >= hashMap.Size() {
+func createResourceTree(tc *testcommon.KubePerTestContext, resourceChain []interface{}, isRef bool, rgName string, index int) {
+
+	if index >= len(resourceChain) {
 		return
 	}
 
-	resourceObj := vals[index].(genruntime.ARMMetaObject)
+	resourceObj := resourceChain[index].(genruntime.ARMMetaObject)
+	if resourceObj.Owner() != nil && resourceObj.Owner().Kind == resolver.ResourceGroupKind {
+		resourceObj = testcommon.SetOwnersName(resourceObj, rgName)
+	}
+
+	findRefsAndCreateSecrets(tc, resourceObj)
+	tc.CreateResourceAndWait(resourceObj)
+
+	//Using recursion here to maintain the order of creation and deletion of resources
+	createResourceTree(tc, resourceChain, isRef, rgName, index+1)
+}
+
+func findRefsAndCreateSecrets(tc *testcommon.KubePerTestContext, resourceObj genruntime.ARMMetaObject) {
 	refs, err := reflecthelpers.FindSecretReferences(resourceObj)
 	tc.Expect(err).To(BeNil())
-
 	secrets := make(map[string]*v1.Secret)
 	for ref := range refs {
 		password := tc.Namer.GeneratePasswordOfLength(40)
@@ -211,20 +120,14 @@ func createAndDeleteResourceTree(tc *testcommon.KubePerTestContext, hashMap *lin
 		tc.CreateResource(secret)
 		secrets[ref.Name] = secret
 	}
+}
 
-	tc.CreateResourceAndWait(resourceObj)
-
-	// Using recursion here to maintain the order of creation and deletion of resources
-	createAndDeleteResourceTree(tc, hashMap, isRef, deleteChildren, index+1)
-
-	for _, secret := range secrets {
-		tc.DeleteResource(secret)
-	}
-
-	if !isRef {
-		// No DELETE for child objects all, to delete them we must delete its parent or turn 'deleteChildren' to true
-		if resourceObj.Owner().Kind == resolver.ResourceGroupKind || deleteChildren {
-			tc.DeleteResourceAndWait(resourceObj)
-		}
-	}
+func getTestName(group string, version string) string {
+	return strings.Join(
+		[]string{
+			"Test",
+			strings.Title(group),
+			version,
+			"CreationAndDeletion",
+		}, "_")
 }

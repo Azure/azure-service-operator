@@ -10,7 +10,6 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
-	"path"
 	"path/filepath"
 	"reflect"
 	"strings"
@@ -21,77 +20,96 @@ import (
 	"k8s.io/apimachinery/pkg/runtime/serializer"
 	"k8s.io/apimachinery/pkg/util/yaml"
 
-	resources "github.com/Azure/azure-service-operator/v2/api/resources/v1beta20200601"
 	"github.com/Azure/azure-service-operator/v2/internal/resolver"
 	"github.com/Azure/azure-service-operator/v2/pkg/genruntime"
 )
 
 const refsPackage = "refs"
-const samplesPath = "../../config/samples"
 
-// exclusions slice contains resources to exclude from test
-var exclusions = [...]string{
-	// Excluding webtest as it contains hidden link references
+//TODO(super-harsh) Need a take on helper methods to perform reflection/parsing and write up a few
+// helper methods which can find and replace the distinct property values for the excluded resources below.
+
+// exclusions slice contains RESOURCES to exclude from test
+var exclusions = []string{
+	// Excluding webtest as it contains hidden link reference
 	"webtest",
+
+	// Below resources are excluded as they contain internal references or armIDs.
+	// Compute
+	"virtualmachine",
+	"virtualmachinescaleset",
+	// Network
+	"loadbalancer",
+	"networkinterface",
+	"virtualnetworkgateway",
+	"virtualnetworksubnet",
+	"virtualnetworksvirtualnetworkpeering",
+	"image",
+	// MachineLearningServices
+	"workspacescompute",
+
 	// Excluding dbformysql/user as is not an ARM resource
 	"user",
 }
 
 type SamplesTester struct {
-	noSpaceNamer  ResourceNamer
-	decoder       runtime.Decoder
-	scheme        *runtime.Scheme
-	UseRandomName bool
+	noSpaceNamer     ResourceNamer
+	decoder          runtime.Decoder
+	scheme           *runtime.Scheme
+	groupVersionPath string
+	namespace        string
+	useRandomName    bool
 }
 
 type SampleObject struct {
-	SamplesMap   map[string]*linkedhashmap.Map
+	// Using linkedhashmap.Map here to maintain the order(owner->children) of resources we put into the map
+	// to make sure we always have an owner resource before a child resource.
+	SamplesMap   *linkedhashmap.Map
 	childObjects map[string]genruntime.ARMMetaObject
 }
 
 func NewSampleObject() *SampleObject {
 	return &SampleObject{
-		SamplesMap:   make(map[string]*linkedhashmap.Map),
+		SamplesMap:   linkedhashmap.New(),
 		childObjects: make(map[string]genruntime.ARMMetaObject),
 	}
 }
 
-func NewSamplesTester(noSpaceNamer ResourceNamer, scheme *runtime.Scheme, useRandomName bool) *SamplesTester {
+func NewSamplesTester(noSpaceNamer ResourceNamer, scheme *runtime.Scheme, groupVersionPath string, namespace string, useRandomName bool) *SamplesTester {
 	return &SamplesTester{
-		noSpaceNamer:  noSpaceNamer,
-		decoder:       serializer.NewCodecFactory(scheme).UniversalDecoder(),
-		scheme:        scheme,
-		UseRandomName: useRandomName,
+		noSpaceNamer:     noSpaceNamer,
+		decoder:          serializer.NewCodecFactory(scheme).UniversalDecoder(),
+		scheme:           scheme,
+		groupVersionPath: groupVersionPath,
+		namespace:        namespace,
+		useRandomName:    useRandomName,
 	}
 }
 
-func (t *SamplesTester) LoadSamples(rg *resources.ResourceGroup, namespace string, group string) (*SampleObject, *SampleObject, error) {
-
+func (t *SamplesTester) LoadSamples() (*SampleObject, *SampleObject, error) {
 	samples := NewSampleObject()
-	depSamples := NewSampleObject()
+	refSamples := NewSampleObject()
 
-	groupPath := getGroupPath(group)
-
-	err := filepath.Walk(groupPath,
+	err := filepath.Walk(t.groupVersionPath,
 		func(filePath string, info os.FileInfo, err error) error {
 
-			if !info.IsDir() && !isExclusion(filePath) {
+			if !info.IsDir() && !IsExclusion(filePath, exclusions) {
 				sample, err := t.getObjectFromFile(filePath)
 				if err != nil {
 					return err
 				}
 
-				sample.SetNamespace(namespace)
+				sample.SetNamespace(t.namespace)
 
 				if filepath.Base(filepath.Dir(filePath)) == refsPackage {
 					// We don't change name for dependencies as they have fixed refs which we can't access inside the object
 					// need to make sure we have right names for the refs in samples
-					handleObject(sample, rg, depSamples)
+					t.handleObject(sample, refSamples, t.noSpaceNamer)
 				} else {
-					if t.UseRandomName {
+					if t.useRandomName {
 						sample.SetName(t.noSpaceNamer.GenerateName(""))
 					}
-					handleObject(sample, rg, samples)
+					t.handleObject(sample, samples, t.noSpaceNamer)
 				}
 			}
 
@@ -102,16 +120,16 @@ func (t *SamplesTester) LoadSamples(rg *resources.ResourceGroup, namespace strin
 		return nil, nil, err
 	}
 
-	// We process the child objects once we have all the parent objects in the tree already
-	err = handleChildObjects(t.scheme, samples)
+	// We process the child objects once we have all the parent objects in the linkedMap already
+	err = t.handleChildObjects(t.scheme, samples)
 	if err != nil {
 		return nil, nil, err
 	}
-	err = handleChildObjects(t.scheme, depSamples)
+	err = t.handleChildObjects(t.scheme, refSamples)
 	if err != nil {
 		return nil, nil, err
 	}
-	return samples, depSamples, nil
+	return samples, refSamples, nil
 }
 
 func (t *SamplesTester) getObjectFromFile(path string) (genruntime.ARMMetaObject, error) {
@@ -148,55 +166,49 @@ func (t *SamplesTester) getObjectFromFile(path string) (genruntime.ARMMetaObject
 	return obj.(genruntime.ARMMetaObject), nil
 }
 
-func handleObject(sample genruntime.ARMMetaObject, rg *resources.ResourceGroup, samples *SampleObject) {
-	if sample.Owner().Kind == resolver.ResourceGroupKind {
-		handleParentObject(sample, rg, samples.SamplesMap)
+func (t *SamplesTester) handleObject(sample genruntime.ARMMetaObject, samples *SampleObject, namer ResourceNamer) {
+	if sample.Owner() == nil || sample.Owner().Kind == resolver.ResourceGroupKind {
+		putIntoLinkedMap(sample, samples.SamplesMap, t.noSpaceNamer)
 	} else {
-		samples.childObjects[sample.GetObjectKind().GroupVersionKind().String()] = sample
+		gk := sample.GetObjectKind().GroupVersionKind().GroupKind().String()
+		_, found := samples.childObjects[gk]
+		if found {
+			gk = gk + namer.makeRandomStringOfLength(3, namer.runes)
+		}
+		samples.childObjects[gk] = sample
 	}
 }
 
-func handleChildObjects(scheme *runtime.Scheme, samples *SampleObject) error {
-	for gvk, sample := range samples.childObjects {
+func (t *SamplesTester) handleChildObjects(scheme *runtime.Scheme, samples *SampleObject) error {
+	for gk, sample := range samples.childObjects {
 
-		sampleGVKAware, ok := sample.(genruntime.GroupVersionKindAware)
-		if !ok {
-			//return error
-			return fmt.Errorf("error in casting '%s' to type '%s'", sample.GetObjectKind().GroupVersionKind().Kind, "genruntime.GroupVersionKindAware")
-		}
-
-		version := sampleGVKAware.OriginalGVK().Version
-		tree, ok := samples.SamplesMap[version]
-		// Parent version should always exist
-		if !ok {
-			return fmt.Errorf("found resource: %s, for which owner does not exist", gvk)
-		}
-
+		linkedMap := samples.SamplesMap
 		// get the parent object
-		val, ok := tree.Get(sample.Owner().Kind)
+		val, ok := linkedMap.Get(sample.Owner().Kind)
+
 		// If owner already does not exist, we check if its unvisited in 'childObjects' map.
-		// If it does, we wait until we visit the owner and add is to the tree or the test condition fails
+		// If it does, we wait until we visit the owner and add is to the linkedMap or the test condition fails
 		if !ok {
-			ownerGVK := constructGVK(sample.Owner().Group, version, sample.Owner().Kind)
-			_, ok = samples.childObjects[ownerGVK]
+			ownerGK := constructGroupKind(sample.Owner().Group, sample.Owner().Kind)
+			_, ok = samples.childObjects[ownerGK]
 			if !ok {
-				return fmt.Errorf("owner: %s, does not exist for resource '%s'", ownerGVK, gvk)
+				return fmt.Errorf("owner: %s, does not exist for resource '%s'", ownerGK, gk)
 			}
 			continue
 		}
 
 		owner := val.(genruntime.ARMMetaObject)
-		sample = setOwnersName(sample, owner.GetName())
-		tree.Put(sample.GetObjectKind().GroupVersionKind().Kind, sample)
+		sample = SetOwnersName(sample, owner.GetName())
+		putIntoLinkedMap(sample, linkedMap, t.noSpaceNamer)
 
 		// Delete after processing
-		delete(samples.childObjects, gvk)
+		delete(samples.childObjects, gk)
 	}
 
 	// We need to do recursion here, as per the logic in this block, we check if we've visited the owner
 	// for current resource or not. If not, then we keep trying until we visit all the members of childObjects map.
 	if len(samples.childObjects) > 0 {
-		err := handleChildObjects(scheme, samples)
+		err := t.handleChildObjects(scheme, samples)
 		if err != nil {
 			return err
 		}
@@ -204,23 +216,18 @@ func handleChildObjects(scheme *runtime.Scheme, samples *SampleObject) error {
 	return nil
 }
 
-func handleParentObject(sample genruntime.ARMMetaObject, rg *resources.ResourceGroup, samples map[string]*linkedhashmap.Map) {
-
-	version := sample.GetObjectKind().GroupVersionKind().GroupVersion().Version
-	sample = setOwnersName(sample, rg.Name)
-
+func putIntoLinkedMap(sample genruntime.ARMMetaObject, samplesMap *linkedhashmap.Map, namer ResourceNamer) {
 	kind := sample.GetObjectKind().GroupVersionKind().Kind
-	// TODO: If we have similar Kind in the same group and version, we need to put them in a new directory
-	if _, ok := samples[version]; ok {
-		samples[version].Put(kind, sample)
-	} else {
-		linkedHashMap := linkedhashmap.New()
-		linkedHashMap.Put(kind, sample)
-		samples[version] = linkedHashMap
+	_, found := samplesMap.Get(kind)
+	// if found the same kind in a samples directory, we just simply add some random chars in the end of the kind
+	// as to avoid overwriting and  to maintain the order.
+	if found {
+		kind = kind + namer.makeRandomStringOfLength(3, namer.runes)
 	}
+	samplesMap.Put(kind, sample)
 }
 
-func setOwnersName(sample genruntime.ARMMetaObject, ownerName string) genruntime.ARMMetaObject {
+func SetOwnersName(sample genruntime.ARMMetaObject, ownerName string) genruntime.ARMMetaObject {
 	specField := reflect.ValueOf(sample.GetSpec()).Elem()
 	ownerField := specField.FieldByName("Owner").Elem()
 	ownerField.FieldByName("Name").SetString(ownerName)
@@ -228,8 +235,9 @@ func setOwnersName(sample genruntime.ARMMetaObject, ownerName string) genruntime
 	return sample
 }
 
-func isExclusion(path string) bool {
+func IsExclusion(path string, exclusions []string) bool {
 	for _, exclusion := range exclusions {
+		filepath.Dir(path)
 		if strings.Contains(path, exclusion) {
 			return true
 		}
@@ -237,11 +245,7 @@ func isExclusion(path string) bool {
 	return false
 }
 
-func getGroupPath(group string) string {
-	return path.Join(samplesPath, group)
-}
-
-func constructGVK(group string, version string, kind string) string {
-	return group + "/" + version + ", Kind=" + kind
+func constructGroupKind(group string, kind string) string {
+	return kind + "." + group
 
 }
